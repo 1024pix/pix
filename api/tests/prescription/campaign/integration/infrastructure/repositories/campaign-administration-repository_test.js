@@ -605,4 +605,65 @@ describe('Integration | Repository | Campaign Administration', function () {
       expect(result).to.be.instanceOf(UnknownCampaignId);
     });
   });
+
+  describe('#updateByCampaignId', function () {
+    it('should update the campaign', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({
+        name: 'Bad campaign',
+        title: null,
+        customLandingPageText: null,
+        customResultPageText: null,
+        customResultPageButtonText: null,
+        customResultPageButtonUrl: null,
+        multipleSendings: false,
+      });
+      await databaseBuilder.commit();
+
+      const campaignAttributes = {
+        name: 'Amazing campaign',
+        title: 'Good title',
+        customLandingPageText: 'End page',
+        customResultPageText: 'Congrats you finished !',
+        customResultPageButtonText: 'Continue here',
+        customResultPageButtonUrl: 'www.next-step.net',
+        multipleSendings: true,
+      };
+      const expectedCampaign = databaseBuilder.factory.buildCampaign({ ...campaign, ...campaignAttributes });
+      // when
+      await campaignAdministrationRepository.updateByCampaignId({ campaignId: campaign.id, campaignAttributes });
+      const updatedCampaign = await knex('campaigns').where({ id: campaign.id }).first();
+
+      // then
+      expect(updatedCampaign).to.deep.equal(expectedCampaign);
+    });
+
+    it('should only update editable attributes', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({
+        code: 'SOMECODE',
+        name: 'some name',
+        multipleSendings: false,
+      });
+      await databaseBuilder.commit();
+
+      const campaignAttributes = {
+        code: 'NEWCODE',
+        name: 'new name',
+        multipleSendings: true,
+      };
+      const expectedCampaign = databaseBuilder.factory.buildCampaign({
+        ...campaign,
+        name: 'new name',
+        multipleSendings: true,
+      });
+
+      // when
+      await campaignAdministrationRepository.updateByCampaignId({ campaignId: campaign.id, campaignAttributes });
+      const updatedCampaign = await knex('campaigns').where({ id: campaign.id }).first();
+
+      // then
+      expect(updatedCampaign).to.deep.equal(expectedCampaign);
+    });
+  });
 });

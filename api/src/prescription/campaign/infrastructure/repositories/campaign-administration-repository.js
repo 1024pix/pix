@@ -26,6 +26,19 @@ const update = async function (campaign) {
   return new Campaign(editedCampaign);
 };
 
+const updateByCampaignId = function ({ campaignId, campaignAttributes }) {
+  const editableAttributes = _.pick(campaignAttributes, [
+    'name',
+    'title',
+    'customLandingPageText',
+    'customResultPageText',
+    'customResultPageButtonText',
+    'customResultPageButtonUrl',
+    'multipleSendings',
+  ]);
+  return knex('campaigns').where({ id: campaignId }).update(editableAttributes);
+};
+
 const save = async function (campaigns, dependencies = { skillRepository }) {
   const trx = await knex.transaction();
   const campaignsToCreate = _.isArray(campaigns) ? campaigns : [campaigns];
@@ -114,4 +127,4 @@ const isFromSameOrganization = async function ({ firstCampaignId, secondCampaign
   return firstCampaign.organizationId === secondCampaign.organizationId;
 };
 
-export { save, update, get, isCodeAvailable, swapCampaignCodes, isFromSameOrganization };
+export { save, update, updateByCampaignId, get, isCodeAvailable, swapCampaignCodes, isFromSameOrganization };

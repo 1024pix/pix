@@ -1,6 +1,6 @@
-import { EntityValidationError } from '../../../src/shared/domain/errors.js';
+import { EntityValidationError } from '../../../../shared/domain/errors.js';
 
-const updateCampaignDetailsManagement = async function ({
+const updateCampaignDetails = async function ({
   campaignId,
   name,
   title,
@@ -9,8 +9,9 @@ const updateCampaignDetailsManagement = async function ({
   customResultPageButtonText,
   customResultPageButtonUrl,
   multipleSendings,
+  campaignAdministrationRepository,
   campaignManagementRepository,
-  campaignValidator,
+  campaignUpdateValidator,
 }) {
   const campaign = await campaignManagementRepository.get(campaignId);
   campaign.name = name;
@@ -30,7 +31,8 @@ const updateCampaignDetailsManagement = async function ({
     campaign.multipleSendings = multipleSendings;
   }
 
-  campaignValidator.validate(campaign);
+  campaignUpdateValidator.validate(campaign);
+
   const campaignAttributes = {
     name,
     title,
@@ -40,7 +42,8 @@ const updateCampaignDetailsManagement = async function ({
     customResultPageButtonUrl,
     multipleSendings: campaign.multipleSendings,
   };
-  return campaignManagementRepository.update({ campaignId, campaignAttributes });
+
+  return campaignAdministrationRepository.updateByCampaignId({ campaignId, campaignAttributes });
 };
 
-export { updateCampaignDetailsManagement };
+export { updateCampaignDetails };
