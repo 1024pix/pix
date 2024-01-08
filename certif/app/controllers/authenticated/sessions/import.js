@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import delay from 'lodash/delay';
 import ENV from 'pix-certif/config/environment';
 
 export default class ImportController extends Controller {
@@ -26,6 +27,7 @@ export default class ImportController extends Controller {
   @tracked errorReports;
   @tracked importErrorMessage = null;
   @tracked isImportInError = false;
+  @tracked isLoading = false;
 
   get fileName() {
     return this.file.name;
@@ -55,7 +57,7 @@ export default class ImportController extends Controller {
   }
 
   @action
-  async validateSessions() {
+  async validateSessions(isValidationInStepOne) {
     const adapter = this.store.adapterFor('validate-sessions-for-mass-import');
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
     this.notifications.clearAll();
@@ -84,10 +86,15 @@ export default class ImportController extends Controller {
       this.importErrorMessage = this.intl.t(this._handleApiError(responseError));
       return;
     }
-    this.isImportStepOne = false;
+
+    if (isValidationInStepOne) {
+      this.isImportStepOne = false;
+    } else {
+      this.isLoading = true;
+      delay(() => (this.isLoading = false), 1000);
+    }
     this.removeImport();
   }
-
   @action
   async createSessions() {
     const sessionMassImportReport = this.store.createRecord('sessions-mass-import-report', {
