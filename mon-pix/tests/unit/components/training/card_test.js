@@ -86,7 +86,7 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.imageSrc;
 
       // then
-      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Formation-Webinaire-[1-3].svg/g).test(result));
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Webinaire-[1-3].svg/g).test(result));
       assert.true(getRandomImageNumberSpy.called);
     });
 
@@ -100,9 +100,7 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.imageSrc;
 
       // then
-      assert.ok(
-        new RegExp(/\/images\/illustrations\/trainings\/Formation-Parcours_autoformation-[1-3].svg/g).test(result),
-      );
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Autoformation-[1-3].svg/g).test(result));
       assert.true(getRandomImageNumberSpy.called);
     });
 
@@ -115,7 +113,7 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.imageSrc;
 
       // then
-      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Formation-E-learning-1.svg/g).test(result));
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/E-learning-1.svg/g).test(result));
     });
 
     test('should return appropriate image src for training type hybrid-training', function (assert) {
@@ -127,7 +125,7 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.imageSrc;
 
       // then
-      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Formation-Hybrid_training-1.svg/g).test(result));
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Hybrid-1.svg/g).test(result));
     });
 
     test('should return appropriate image src for training type in-person-training', function (assert) {
@@ -139,9 +137,7 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.imageSrc;
 
       // then
-      assert.ok(
-        new RegExp(/\/images\/illustrations\/trainings\/Formation-Instructor_lead_training-1.svg/g).test(result),
-      );
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/In-person-1.svg/g).test(result));
     });
   });
 
