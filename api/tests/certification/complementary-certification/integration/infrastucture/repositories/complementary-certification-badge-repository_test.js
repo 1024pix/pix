@@ -29,7 +29,9 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
 
         // when
         const complementaryCertificationBadgeIds =
-          await complementaryCertificationBadgeRepository.getAllIdsByTargetProfileId({ targetProfileId });
+          await complementaryCertificationBadgeRepository.getAllIdsByTargetProfileId({
+            targetProfileId,
+          });
 
         // then
         expect(complementaryCertificationBadgeIds).to.deep.equal([456]);
@@ -45,7 +47,9 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
 
         // when
         const complementaryCertificationBadgeIds =
-          await complementaryCertificationBadgeRepository.getAllIdsByTargetProfileId({ targetProfileId });
+          await complementaryCertificationBadgeRepository.getAllIdsByTargetProfileId({
+            targetProfileId,
+          });
 
         // then
         expect(complementaryCertificationBadgeIds).to.deep.equal([]);

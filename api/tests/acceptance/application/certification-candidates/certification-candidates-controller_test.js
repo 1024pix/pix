@@ -1,6 +1,6 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Acceptance | API | Certifications candidates', function () {
   describe('POST /api/certification-candidates/:id/authorize-to-start', function () {
@@ -165,11 +165,11 @@ describe('Acceptance | API | Certifications candidates', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        key: ComplementaryCertification.CLEA,
+        key: ComplementaryCertificationKeys.CLEA,
         label: 'CléA Numérique',
       });
       const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        key: ComplementaryCertification.PIX_PLUS_DROIT,
+        key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
         label: 'Pix+ Droit',
       });
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
@@ -213,7 +213,7 @@ describe('Acceptance | API | Certifications candidates', function () {
           'non-eligible-subscription': {
             id: cleaComplementaryCertification.id,
             label: 'CléA Numérique',
-            key: ComplementaryCertification.CLEA,
+            key: ComplementaryCertificationKeys.CLEA,
           },
         },
       });

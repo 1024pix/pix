@@ -1,4 +1,4 @@
-import { ComplementaryCertification } from '../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertificationKeys } from '../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { databaseBuffer } from '../database-buffer.js';
 
 function buildComplementaryCertification({
@@ -37,7 +37,7 @@ buildComplementaryCertification.clea = function ({
   return buildComplementaryCertification({
     id,
     label: 'CléA Numérique',
-    key: ComplementaryCertification.CLEA,
+    key: ComplementaryCertificationKeys.CLEA,
     createdAt: new Date('2020-01-01'),
     minimumReproducibilityRate,
     hasComplementaryReferential,
@@ -56,7 +56,7 @@ buildComplementaryCertification.droit = function ({
   return buildComplementaryCertification({
     id,
     label: 'Pix+ Droit',
-    key: ComplementaryCertification.PIX_PLUS_DROIT,
+    key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
     createdAt: new Date('2020-01-01'),
     minimumReproducibilityRate,
     hasComplementaryReferential,
@@ -75,7 +75,7 @@ buildComplementaryCertification.pixEdu1erDegre = function ({
   return buildComplementaryCertification({
     id,
     label: 'Pix+ Édu 1er degré',
-    key: ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
+    key: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
     createdAt: new Date('2020-01-01'),
     minimumReproducibilityRate,
     hasComplementaryReferential,
@@ -94,7 +94,7 @@ buildComplementaryCertification.pixEdu2ndDegre = function ({
   return buildComplementaryCertification({
     id,
     label: 'Pix+ Édu 2nd degré',
-    key: ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
+    key: ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
     createdAt: new Date('2020-01-01'),
     minimumReproducibilityRate,
     hasComplementaryReferential,

@@ -1,3 +1,6 @@
+/**
+ * @typedef {import ('../../domain/usecases/index.js').ComplementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
+ */
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import lodash from 'lodash';
 import { MissingAttributesError, NotFoundError } from '../../../../../lib/domain/errors.js';
@@ -6,6 +9,10 @@ import { BadgeToAttach } from '../models/BadgeToAttach.js';
 
 const { isNil, uniq } = lodash;
 
+/**
+ * @param {Object} params
+ * @param {ComplementaryCertificationBadgesRepository} params.complementaryCertificationBadgesRepository
+ */
 const attachBadges = async function ({
   complementaryCertification,
   userId,
@@ -67,17 +74,25 @@ function _isRequiredInformationMissing(complementaryCertificationBadgesToAttachD
   );
 }
 
+/**
+ * @param {Object} params
+ * @param {ComplementaryCertificationBadgesRepository} params.complementaryCertificationBadgesRepository
+ */
 async function _attachNewComplementaryCertificationBadges({
   complementaryCertificationBadgesRepository,
   complementaryCertificationBadges,
   domainTransaction,
 }) {
-  await complementaryCertificationBadgesRepository.attach({
+  return complementaryCertificationBadgesRepository.attach({
     complementaryCertificationBadges,
     domainTransaction,
   });
 }
 
+/**
+ * @param {Object} params
+ * @param {ComplementaryCertificationBadgesRepository} params.complementaryCertificationBadgesRepository
+ */
 async function _detachExistingComplementaryCertificationBadge({
   complementaryCertificationBadgesRepository,
   relatedComplementaryCertificationBadgesIds,
@@ -126,6 +141,10 @@ function _verifyThatLevelsAreConsistent({ complementaryCertificationBadgesToAtta
   }
 }
 
+/**
+ * @param {Object} params
+ * @param {ComplementaryCertificationBadgesRepository} params.complementaryCertificationBadgesRepository
+ */
 async function _verifyThatBadgesToAttachExist({
   complementaryCertificationBadgesToAttachDTO,
   complementaryCertificationBadgesRepository,

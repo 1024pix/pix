@@ -40,7 +40,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
             'result-recipient-email': certificationCandidate.resultRecipientEmail,
             'external-id': certificationCandidate.externalId,
             'extra-time-percentage': certificationCandidate.extraTimePercentage,
-            'is-linked': !_.isNil(certificationCandidate.userId),
+            'is-linked': true,
             'organization-learner-id': 1,
             sex: certificationCandidate.sex,
             'complementary-certification': {
@@ -57,6 +57,93 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
 
       // then
       expect(jsonApi).to.deep.equal(expectedJsonApiData);
+    });
+
+    context('when candidate has no complementary certification', function () {
+      it('should convert a CertificationCandidate model object into JSON API data', function () {
+        // given
+        const certificationCandidateWithoutComplementary = domainBuilder.buildCertificationCandidate({
+          organizationLearnerId: 1,
+          billingMode: 'PAID',
+          complementaryCertification: null,
+        });
+        const expectedJsonApiData = {
+          data: {
+            type: 'certification-candidates',
+            id: certificationCandidateWithoutComplementary.id.toString(),
+            attributes: {
+              'first-name': certificationCandidateWithoutComplementary.firstName,
+              'last-name': certificationCandidateWithoutComplementary.lastName,
+              'billing-mode': 'PAID',
+              'prepayment-code': null,
+              'birth-city': certificationCandidateWithoutComplementary.birthCity,
+              'birth-province-code': certificationCandidateWithoutComplementary.birthProvinceCode,
+              'birth-insee-code': certificationCandidateWithoutComplementary.birthINSEECode,
+              'birth-postal-code': certificationCandidateWithoutComplementary.birthPostalCode,
+              'birth-country': certificationCandidateWithoutComplementary.birthCountry,
+              birthdate: certificationCandidateWithoutComplementary.birthdate,
+              email: certificationCandidateWithoutComplementary.email,
+              'result-recipient-email': certificationCandidateWithoutComplementary.resultRecipientEmail,
+              'external-id': certificationCandidateWithoutComplementary.externalId,
+              'extra-time-percentage': certificationCandidateWithoutComplementary.extraTimePercentage,
+              'is-linked': true,
+              'organization-learner-id': 1,
+              sex: certificationCandidateWithoutComplementary.sex,
+              'complementary-certification': null,
+            },
+          },
+        };
+
+        // when
+        const jsonApi = serializer.serialize(certificationCandidateWithoutComplementary);
+
+        // then
+        expect(jsonApi).to.deep.equal(expectedJsonApiData);
+      });
+    });
+
+    context('when candidate is not linked to a user', function () {
+      it('should convert a CertificationCandidate model object into JSON API data', function () {
+        // given
+        const certificationCandidateNotLinkedToUser = domainBuilder.buildCertificationCandidate({
+          organizationLearnerId: 1,
+          billingMode: 'PAID',
+          complementaryCertification: null,
+          userId: null,
+        });
+        const expectedJsonApiData = {
+          data: {
+            type: 'certification-candidates',
+            id: certificationCandidateNotLinkedToUser.id.toString(),
+            attributes: {
+              'first-name': certificationCandidateNotLinkedToUser.firstName,
+              'last-name': certificationCandidateNotLinkedToUser.lastName,
+              'billing-mode': 'PAID',
+              'prepayment-code': null,
+              'birth-city': certificationCandidateNotLinkedToUser.birthCity,
+              'birth-province-code': certificationCandidateNotLinkedToUser.birthProvinceCode,
+              'birth-insee-code': certificationCandidateNotLinkedToUser.birthINSEECode,
+              'birth-postal-code': certificationCandidateNotLinkedToUser.birthPostalCode,
+              'birth-country': certificationCandidateNotLinkedToUser.birthCountry,
+              birthdate: certificationCandidateNotLinkedToUser.birthdate,
+              email: certificationCandidateNotLinkedToUser.email,
+              'result-recipient-email': certificationCandidateNotLinkedToUser.resultRecipientEmail,
+              'external-id': certificationCandidateNotLinkedToUser.externalId,
+              'extra-time-percentage': certificationCandidateNotLinkedToUser.extraTimePercentage,
+              'is-linked': false,
+              'organization-learner-id': 1,
+              sex: certificationCandidateNotLinkedToUser.sex,
+              'complementary-certification': null,
+            },
+          },
+        };
+
+        // when
+        const jsonApi = serializer.serialize(certificationCandidateNotLinkedToUser);
+
+        // then
+        expect(jsonApi).to.deep.equal(expectedJsonApiData);
+      });
     });
   });
 

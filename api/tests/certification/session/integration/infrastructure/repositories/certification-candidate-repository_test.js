@@ -5,7 +5,7 @@ import {
   NotFoundError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
 } from '../../../../../../lib/domain/errors.js';
-import { ComplementaryCertification } from '../../../../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../../../../src/certification/session/domain/models/ComplementaryCertification.js';
 import _ from 'lodash';
 
 describe('Integration | Repository | CertificationCandidate', function () {
@@ -89,9 +89,10 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
           const certificationCandidate = domainBuilder.buildCertificationCandidate.notPersisted({
             sessionId,
-            complementaryCertification: domainBuilder.buildComplementaryCertification({
-              id: complementaryCertificationId,
-            }),
+            complementaryCertification:
+              domainBuilder.certification.session.buildCertificationSessionComplementaryCertification({
+                id: complementaryCertificationId,
+              }),
           });
 
           // when
@@ -836,7 +837,10 @@ describe('Integration | Repository | CertificationCandidate', function () {
         expect(certificationCandidateWithComplementaryCertification).to.deep.equal(
           domainBuilder.buildCertificationCandidate({
             ...certificationCandidate,
-            complementaryCertification: domainBuilder.buildComplementaryCertification(complementaryCertification),
+            complementaryCertification:
+              domainBuilder.certification.session.buildCertificationSessionComplementaryCertification(
+                complementaryCertification,
+              ),
           }),
         );
       });
