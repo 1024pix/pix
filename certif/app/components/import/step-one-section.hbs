@@ -53,7 +53,7 @@
 
   <ul class="import-page__section--link-buttons">
     <li>
-      <PixButton @triggerAction={{@validateSessions}} @isDisabled={{@isImportDisabled}}>
+      <PixButton @triggerAction={{fn @validateSessions true}} @isDisabled={{@isImportDisabled}}>
         {{t "common.actions.continue"}}
       </PixButton>
     </li>

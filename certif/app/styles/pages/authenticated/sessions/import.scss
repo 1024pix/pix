@@ -1,8 +1,4 @@
 .import-page {
-  .panel {
-    border-radius: 8px;
-  }
-
   > p {
     color: $pix-neutral-60;
     margin-bottom: 8px;
@@ -56,10 +52,14 @@
         }
       }
     }
-  }
 
-  &__section--download:not(:first-child) {
-    margin-top: var(--pix-spacing-8x);
+    &:first-of-type {
+      min-height: 410px;
+    }
+
+    &:not(:first-of-type) {
+      margin-top: var(--pix-spacing-8x);
+    }
   }
 
   &__section--download-button {
@@ -151,6 +151,7 @@
 
   &__result-count-item {
     display: flex;
+    align-items: center;
     gap: var(--pix-spacing-2x);
 
     > img {
@@ -161,6 +162,15 @@
   &__information {
     color: $pix-neutral-70;
     font-weight: $font-medium;
+  }
+
+  &__app-loader {
+    margin: auto;
+
+    img {
+      width: 150px;
+      height: 150px;
+    }
   }
 }
 
