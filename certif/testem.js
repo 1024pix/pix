@@ -25,5 +25,6 @@ module.exports = process.env.CI
   ? {
       ...config,
       reporter: 'xunit',
+      report_file: `${process.env.RESULTS_PATH ?? '.'}/report.xml`,
     }
   : config;
