@@ -29,6 +29,11 @@ const isFinalized = async function (id) {
   return Boolean(session);
 };
 
+const isPublished = async function (id) {
+  const isPublished = await knex.select(1).from('sessions').where({ id }).whereNotNull('publishedAt').first();
+  return Boolean(isPublished);
+};
+
 const get = async function (sessionId) {
   const foundSession = await knex.select('*').from('sessions').where({ id: sessionId }).first();
   if (!foundSession) {
@@ -219,6 +224,7 @@ export {
   save,
   saveSessions,
   isFinalized,
+  isPublished,
   get,
   isSessionExisting,
   isSessionExistingBySessionAndCertificationCenterIds,

@@ -85,6 +85,36 @@ describe('Integration | Repository | Session', function () {
     });
   });
 
+  describe('#isPublished', function () {
+    context('when the session has a published date', function () {
+      it('should return true', async function () {
+        //given
+        databaseBuilder.factory.buildSession({ id: 40, publishedAt: new Date() });
+        await databaseBuilder.commit();
+
+        // when
+        const isPublished = await sessionRepository.isPublished(40);
+
+        // then
+        expect(isPublished).to.be.equal(true);
+      });
+    });
+
+    context('when the session has no published date', function () {
+      it('should return tre', async function () {
+        //given
+        databaseBuilder.factory.buildSession({ id: 40, publishedAt: null });
+        await databaseBuilder.commit();
+
+        // when
+        const isPublished = await sessionRepository.isPublished(40);
+
+        // then
+        expect(isPublished).to.be.equal(false);
+      });
+    });
+  });
+
   describe('#get', function () {
     let session;
     let expectedSessionValues;
