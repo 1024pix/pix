@@ -6,6 +6,7 @@ import { visit } from '@1024pix/ember-testing-library';
 import { statusToDisplayName } from 'pix-admin/models/session';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import dayjs from 'dayjs';
+import { FINALIZED } from 'pix-admin/models/session';
 
 module('Integration | Component | routes/authenticated/sessions/session | informations', function (hooks) {
   setupApplicationTest(hooks);
@@ -82,7 +83,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     test('it renders the unfinalize button', async function (assert) {
       // given
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-      const session = _buildSessionWithTwoJuryCertificationSummary({}, server);
+      const session = this.server.create('session', { status: FINALIZED, finalizedAt: new Date('2022-04-01') });
 
       // when
       const screen = await visit(`/sessions/${session.id}`);
@@ -208,7 +209,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         test('it does not render the buttons section', async function (assert) {
           // given
           await authenticateAdminMemberWithRole({ isMetier: true })(server);
-          const session = _buildSessionWithTwoJuryCertificationSummary({}, server);
+          const session = this.server.create('session', { status: FINALIZED, finalizedAt: new Date('2022-04-01') });
 
           // when
           const screen = await visit(`/sessions/${session.id}`);
@@ -226,7 +227,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       test('it renders the buttons section', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isCertif: true })(server);
-        const session = _buildSessionWithTwoJuryCertificationSummary({}, server);
+        const session = this.server.create('session', { status: FINALIZED, finalizedAt: new Date('2022-04-01') });
 
         // when
         const screen = await visit(`/sessions/${session.id}`);
