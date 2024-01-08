@@ -86,7 +86,7 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.imageSrc;
 
       // then
-      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Illu_Webinaire-[1-3].png/g).test(result));
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Webinaire-[1-3].svg/g).test(result));
       assert.true(getRandomImageNumberSpy.called);
     });
 
@@ -100,8 +100,44 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.imageSrc;
 
       // then
-      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Illu_Parcours_autoformation-[1-3].png/g).test(result));
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Autoformation-[1-3].svg/g).test(result));
       assert.true(getRandomImageNumberSpy.called);
+    });
+
+    test('should return appropriate image src for training type e-learning', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'e-learning' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.imageSrc;
+
+      // then
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/E-learning-1.svg/g).test(result));
+    });
+
+    test('should return appropriate image src for training type hybrid-training', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'hybrid-training' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.imageSrc;
+
+      // then
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Hybrid-1.svg/g).test(result));
+    });
+
+    test('should return appropriate image src for training type in-person-training', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'in-person-training' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.imageSrc;
+
+      // then
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/In-person-1.svg/g).test(result));
     });
   });
 
@@ -115,7 +151,7 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.tagColor;
 
       // then
-      assert.strictEqual(result, 'purple-light');
+      assert.strictEqual(result, 'tertiary');
     });
 
     test('should return appropriate tag color for given type autoformation', function (assert) {
@@ -127,7 +163,43 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.tagColor;
 
       // then
-      assert.strictEqual(result, 'blue-light');
+      assert.strictEqual(result, 'primary');
+    });
+
+    test('should return appropriate tag color for given type e-learning', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'e-learning' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.tagColor;
+
+      // then
+      assert.strictEqual(result, 'success');
+    });
+
+    test('should return appropriate tag color for given type hybrid-training', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'hybrid-training' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.tagColor;
+
+      // then
+      assert.strictEqual(result, 'error');
+    });
+
+    test('should return appropriate tag color for given type in-person-training', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'in-person-training' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.tagColor;
+
+      // then
+      assert.strictEqual(result, 'secondary');
     });
   });
 });
