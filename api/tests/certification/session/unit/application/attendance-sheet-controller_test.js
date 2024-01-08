@@ -12,29 +12,22 @@ describe('Unit | Controller | attendance-sheet-controller', function () {
       const userId = 1;
       const fileName = `feuille-emargement-session-${sessionId}.pdf`;
       const attendanceSheet = Buffer.alloc(5);
-      const accessToken = 'ABC123';
 
-      const tokenService = {
-        extractUserId: sinon.stub(),
-      };
       sinon.stub(usecases, 'getAttendanceSheet');
       const request = {
         i18n,
         params: { id: sessionId },
         payload: {},
-        query: {
-          accessToken,
-        },
+        auth: { credentials: { userId } },
       };
 
-      tokenService.extractUserId.withArgs(accessToken).returns(userId);
       usecases.getAttendanceSheet.withArgs({ sessionId, userId, i18n }).resolves({
         fileName,
         attendanceSheet,
       });
 
       // when
-      const response = await attendanceSheetController.getAttendanceSheet(request, hFake, { tokenService });
+      const response = await attendanceSheetController.getAttendanceSheet(request, hFake);
 
       // then
       const expectedHeaders = {

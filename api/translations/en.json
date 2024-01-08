@@ -92,7 +92,7 @@
     },
     "certification": "Additional",
     "complementary": "certification",
-    "filename": "session-candidate-list",
+    "filename": "session-candidate-list-",
     "headers": {
       "birth-date": "* Date of birth (DD/MM/YYYY format)",
       "birthcity": "Name of birth city",

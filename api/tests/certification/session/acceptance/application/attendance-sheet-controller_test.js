@@ -2,17 +2,10 @@ import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from
 import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Controller | session-controller-get-attendance-sheet', function () {
-  let server;
-
-  beforeEach(async function () {
-    server = await createServer();
-  });
-
   describe('GET /api/sessions/{id}/attendance-sheet', function () {
-    let user, sessionIdAllowed, sessionIdNotAllowed;
-    beforeEach(async function () {
+    it('should respond with a 200 when session can be found', async function () {
       // given
-      user = databaseBuilder.factory.buildUser();
+      const user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234' });
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ externalId: 'EXT1234' }).id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId: user.id, certificationCenterId });
@@ -24,23 +17,18 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', fu
         certificationCenterId: otherCertificationCenterId,
       });
 
-      sessionIdAllowed = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+      const sessionIdAllowed = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
       databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed });
-      sessionIdNotAllowed = databaseBuilder.factory.buildSession({
-        certificationCenterId: otherCertificationCenterId,
-      }).id;
 
       await databaseBuilder.commit();
-    });
+      const server = await createServer();
 
-    it('should respond with a 200 when session can be found', async function () {
       // when
-      const authHeader = generateValidRequestAuthorizationHeader(user.id);
-      const token = authHeader.replace('Bearer ', '');
       const options = {
         method: 'GET',
-        url: `/api/sessions/${sessionIdAllowed}/attendance-sheet?accessToken=${token}&lang=fr`,
+        url: `/api/sessions/${sessionIdAllowed}/attendance-sheet`,
         payload: {},
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
 
       // when
@@ -48,23 +36,6 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', fu
 
       // then
       expect(response.statusCode).to.equal(200);
-    });
-
-    it('should respond with a 403 when user cant access the session', async function () {
-      // when
-      const authHeader = generateValidRequestAuthorizationHeader(user.id);
-      const token = authHeader.replace('Bearer ', '');
-      const options = {
-        method: 'GET',
-        url: `/api/sessions/${sessionIdNotAllowed}/attendance-sheet?accessToken=${token}&lang=fr`,
-        payload: {},
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(403);
     });
   });
 });

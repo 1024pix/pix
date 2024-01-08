@@ -94,6 +94,31 @@ const register = async function (server) {
         tags: ['api', 'admin', 'campaigns'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/admin/campaigns/swap-codes',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
+          },
+        ],
+        validate: {
+          payload: Joi.object({
+            firstCampaignId: identifiersType.campaignId,
+            secondCampaignId: identifiersType.campaignId,
+          }),
+        },
+        handler: campaignAdministrationController.swapCampaignCodes,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés ayant pour rôle SUPER_ADMIN**\n' +
+            '- Échanger les codes de deux campagnes\n' +
+            '- Elle ne retourne aucune valeur',
+        ],
+        tags: ['api', 'admin', 'campaigns'],
+      },
+    },
   ]);
 };
 

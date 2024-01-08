@@ -32,7 +32,7 @@
               <td>{{organizationMembership.organizationName}}</td>
               <td>{{organizationMembership.organizationType}}</td>
               <td>{{organizationMembership.organizationExternalId}}</td>
-              <td>{{dayjs-format organizationMembership.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}</td>
+              <td>{{dayjs-format organizationMembership.updatedAt "DD/MM/YYYY [-] HH:mm"}}</td>
               <ActionsOnUsersRoleInOrganization @organizationMembership={{organizationMembership}} />
             </tr>
           {{/each}}

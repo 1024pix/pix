@@ -136,12 +136,17 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/sessions/{id}/candidates-import-sheet',
       config: {
-        auth: false,
         validate: {
           params: Joi.object({
             id: identifiersType.sessionId,
           }),
         },
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
         handler: sessionController.getCandidatesImportSheet,
         tags: ['api', 'sessions'],
         notes: [

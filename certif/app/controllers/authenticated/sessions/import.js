@@ -24,6 +24,7 @@ export default class ImportController extends Controller {
   @tracked candidatesCount;
 
   @tracked errorReports;
+  @tracked importErrorMessage = null;
   @tracked isImportInError = false;
 
   get fileName() {
@@ -39,9 +40,10 @@ export default class ImportController extends Controller {
       await this.fileSaver.save({ url, token });
     } catch (error) {
       if (error[0]?.code === 403) {
-        return this.notifications.error(this.intl.t('pages.sessions.import.step-one.errors.forbidden'));
+        this.importErrorMessage = this.intl.t('pages.sessions.import.step-one.errors.forbidden');
+        return;
       }
-      this.notifications.error(this.intl.t('pages.sessions.import.step-one.errors.download'));
+      this.importErrorMessage = this.intl.t('pages.sessions.import.step-one.errors.download');
     }
   }
 
@@ -49,6 +51,7 @@ export default class ImportController extends Controller {
   preImportSessions() {
     this.file = document.getElementById('file-upload').files[0];
     this.isImportDisabled = false;
+    this.importErrorMessage = null;
   }
 
   @action
@@ -80,9 +83,10 @@ export default class ImportController extends Controller {
       this.errorReports = errorReports;
     } catch (responseError) {
       if (responseError.errors[0].code === 403) {
-        return this.notifications.error(this.intl.t('pages.sessions.import.step-one.errors.forbidden'));
+        this.importErrorMessage = this.intl.t('pages.sessions.import.step-one.errors.forbidden');
+        return;
       }
-      this.notifications.error(this.intl.t(this._handleApiError(responseError)));
+      this.importErrorMessage = this.intl.t(this._handleApiError(responseError));
       return;
     }
     this.isImportStepOne = false;
@@ -114,6 +118,7 @@ export default class ImportController extends Controller {
   removeImport() {
     this.file = null;
     this.isImportDisabled = true;
+    this.importErrorMessage = null;
   }
 
   reset() {

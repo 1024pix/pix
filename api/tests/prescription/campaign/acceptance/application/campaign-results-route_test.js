@@ -8,7 +8,7 @@ import {
   generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | API | campaign-results-controller', function () {
+describe('Acceptance | API | campaign-results-route', function () {
   let server;
 
   beforeEach(async function () {
