@@ -223,9 +223,6 @@
     "certificability": {
       "placeholder-select": "Eligible / Non-eligible"
     },
-    "certificability-banner": {
-      "not-managing-students": "Participants' status is updated automatically to display eligibility for certification."
-    },
     "certificability-tooltip": {
       "aria-label": "How to know if a participant is eligible for certification and what does it mean?",
       "content": "To be eligible for certification, the participant must have achieved level 1 in at least 5 different competences.",
