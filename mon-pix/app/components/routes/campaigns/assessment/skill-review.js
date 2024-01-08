@@ -103,7 +103,7 @@ export default class SkillReview extends Component {
   }
 
   get displayTrainings() {
-    return Boolean(this.args.model.trainings) && (this.isShared || this.isAutonomousCourse);
+    return Boolean(Object.values(this.args.model.trainings).length) && (this.isShared || this.isAutonomousCourse);
   }
 
   get displayOrganizationCustomMessage() {
