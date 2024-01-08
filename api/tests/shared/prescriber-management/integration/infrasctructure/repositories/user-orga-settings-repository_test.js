@@ -32,6 +32,7 @@ describe('Integration | Repository | UserOrgaSettings', function () {
     'archivedAt',
     'archivedBy',
     'identityProviderForCampaigns',
+    'parentOrganizationId',
   ];
 
   let user;
