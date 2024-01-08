@@ -368,8 +368,14 @@ jobs:
           name: Lint
           command: npm run lint
       - run:
+          environment:
+            RESULTS_PATH: ../../test-results/mon_pix
           name: Test
           command: npm run test:ci
+      - store_test_results:
+          path: /home/circleci/test-results/mon_pix
+      - store_artifacts:
+          path: /home/circleci/test-results/mon_pix
 
   orga_build_and_test:
     executor:
@@ -392,8 +398,14 @@ jobs:
           name: Lint
           command: npm run lint
       - run:
+          environment:
+            RESULTS_PATH: ../../test-results/orga
           name: Test
           command: npm run test:ci
+      - store_test_results:
+          path: /home/circleci/test-results/orga
+      - store_artifacts:
+          path: /home/circleci/test-results/orga
 
   pix1d_build_and_test:
     executor:
@@ -416,8 +428,14 @@ jobs:
           name: Lint
           command: npm run lint
       - run:
+          environment:
+            RESULTS_PATH: ../../test-results/pix1d
           name: Test
           command: npm run test:ci
+      - store_test_results:
+          path: /home/circleci/test-results/pix1d
+      - store_artifacts:
+          path: /home/circleci/test-results/pix1d
 
   certif_build_and_test:
     executor:
@@ -440,8 +458,14 @@ jobs:
           name: Lint
           command: npm run lint
       - run:
+          environment:
+            RESULTS_PATH: ../../test-results/certif
           name: Test
           command: npm run test:ci
+      - store_test_results:
+          path: /home/circleci/test-results/certif
+      - store_artifacts:
+          path: /home/circleci/test-results/certif
 
   admin_build_and_test:
     executor:
@@ -464,8 +488,14 @@ jobs:
           name: Lint
           command: npm run lint
       - run:
+          environment:
+            RESULTS_PATH: ../../test-results/admin
           name: Test
           command: npm run test:ci
+      - store_test_results:
+          path: /home/circleci/test-results/admin
+      - store_artifacts:
+          path: /home/circleci/test-results/admin
 
   e2e_test_app:
     executor:
