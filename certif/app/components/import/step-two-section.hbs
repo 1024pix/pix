@@ -119,6 +119,10 @@
       @buttonLabel={{t "pages.sessions.import.step-two.actions.import-again.label"}}
     />
 
+    {{#if @importErrorMessage}}
+      <PixMessage @type="error" @withIcon={{true}}>{{@importErrorMessage}}</PixMessage>
+    {{/if}}
+
     <div>
       <PixButton
         @backgroundColor="transparent-light"
