@@ -20,7 +20,7 @@ describe('Acceptance | Controller | modules-controller-validateAnswer', function
             payload: {
               data: {
                 attributes: {
-                  'user-response': ['27244df5-7871-4096-b51d-8b1dbd65d2ad'],
+                  'user-response': ['1'],
                 },
               },
             },
@@ -30,9 +30,7 @@ describe('Acceptance | Controller | modules-controller-validateAnswer', function
 
           expect(response.statusCode).to.equal(200);
           expect(response.result.data.type).to.equal('element-answers');
-          expect(response.result.data.attributes['user-response-value']).to.equal(
-            '27244df5-7871-4096-b51d-8b1dbd65d2ad',
-          );
+          expect(response.result.data.attributes['user-response-value']).to.equal('1');
           expect(response.result.data.attributes['element-id']).to.equal('29195dde-b603-488f-a554-f391fbdf3b24');
           expect(response.result.included[0].attributes.status).to.equal('ok');
         });
@@ -48,7 +46,7 @@ describe('Acceptance | Controller | modules-controller-validateAnswer', function
             payload: {
               data: {
                 attributes: {
-                  'user-response': ['d2c27595-39ed-4af6-8401-1a082874d97e'],
+                  'user-response': ['3'],
                 },
               },
             },
