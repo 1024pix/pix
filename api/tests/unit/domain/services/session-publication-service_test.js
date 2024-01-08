@@ -2,11 +2,8 @@ import { domainBuilder, sinon, expect, catchErr } from '../../../test-helper.js'
 import { manageEmails, publishSession } from '../../../../lib/domain/services/session-publication-service.js';
 import { FinalizedSession, EmailingAttempt } from '../../../../lib/domain/models/index.js';
 
-import {
-  SendingEmailToResultRecipientError,
-  SessionAlreadyPublishedError,
-  SendingEmailToRefererError,
-} from '../../../../lib/domain/errors.js';
+import { SendingEmailToResultRecipientError, SendingEmailToRefererError } from '../../../../lib/domain/errors.js';
+import { SessionAlreadyPublishedError } from '../../../../src/certification/session/domain/errors.js';
 
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 

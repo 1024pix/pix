@@ -13,6 +13,12 @@ class SessionAlreadyFinalizedError extends DomainError {
   }
 }
 
+class SessionAlreadyPublishedError extends DomainError {
+  constructor(message = 'La session est déjà publiée.') {
+    super(message);
+  }
+}
+
 class SessionWithoutStartedCertificationError extends DomainError {
   constructor(message = "This session hasn't started, you can't finalise it. However, you can delete it.") {
     super(message);
@@ -49,5 +55,6 @@ export {
   SessionWithoutStartedCertificationError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionAlreadyFinalizedError,
+  SessionAlreadyPublishedError,
   CertificationCandidateForbiddenDeletionError,
 };
