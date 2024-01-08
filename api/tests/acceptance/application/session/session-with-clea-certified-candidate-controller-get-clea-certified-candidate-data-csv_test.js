@@ -1,6 +1,6 @@
 import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-import { ComplementaryCertification } from '../../../../lib/domain/models/index.js';
+import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Acceptance | Controller | session-with-clea-certified-candidate', function () {
   describe('GET /api/sessions/{id}/certified-clea-candidate-data', function () {
@@ -18,7 +18,7 @@ describe('Acceptance | Controller | session-with-clea-certified-candidate', func
       const certificationCourse = dbf.buildCertificationCourse({ sessionId, userId: user.id });
       dbf.buildComplementaryCertification({
         id: 1,
-        key: ComplementaryCertification.CLEA,
+        key: ComplementaryCertificationKeys.CLEA,
       });
       const badgeClea = databaseBuilder.factory.buildBadge({ id: 1, isCertifiable: true });
       const complementaryBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({

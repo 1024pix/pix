@@ -248,10 +248,10 @@ describe('Integration | Repository | Session', function () {
       // then
       const [firstCandidateFromSession, secondCandidateFromSession] = actualSession.certificationCandidates;
       expect(firstCandidateFromSession.complementaryCertification).to.deep.equal(
-        domainBuilder.buildComplementaryCertification(pixPlusRugby),
+        domainBuilder.certification.session.buildCertificationSessionComplementaryCertification(pixPlusRugby),
       );
       expect(secondCandidateFromSession.complementaryCertification).to.deep.equal(
-        domainBuilder.buildComplementaryCertification(pixPlusFoot),
+        domainBuilder.certification.session.buildCertificationSessionComplementaryCertification(pixPlusFoot),
       );
     });
 

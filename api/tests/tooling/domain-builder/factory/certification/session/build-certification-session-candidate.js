@@ -1,4 +1,4 @@
-import { Candidate } from '../../../../src/certification/session/domain/models/Candidate.js';
+import { Candidate } from '../../../../../../src/certification/session/domain/models/Candidate.js';
 
 const buildCertificationSessionCandidate = function ({
   id = 123,

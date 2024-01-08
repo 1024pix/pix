@@ -1,4 +1,4 @@
-import { ComplementaryCertification } from '../../../domain/models/index.js';
+import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 const IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS = [
   'headers.birthcity',
@@ -134,19 +134,19 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
     validator: 'val-prepayment-code',
   },
   {
-    placeholder: ComplementaryCertification.CLEA,
+    placeholder: ComplementaryCertificationKeys.CLEA,
     propertyName: 'cleaNumerique',
   },
   {
-    placeholder: ComplementaryCertification.PIX_PLUS_DROIT,
+    placeholder: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
     propertyName: 'pixPlusDroit',
   },
   {
-    placeholder: ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
+    placeholder: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
     propertyName: 'pixPlusEdu1erDegre',
   },
   {
-    placeholder: ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
+    placeholder: ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
     propertyName: 'pixPlusEdu2ndDegre',
   },
 ];

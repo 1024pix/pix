@@ -1,7 +1,7 @@
 import * as readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils.js';
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
 import { CertificationCandidate } from '../models/CertificationCandidate.js';
-import { ComplementaryCertification } from '../models/index.js';
+import { ComplementaryCertificationKeys } from '../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { CertificationCandidatesError } from '../errors.js';
 import _ from 'lodash';
 import bluebird from 'bluebird';
@@ -232,24 +232,24 @@ async function _buildComplementaryCertificationsForLine({
   const complementaryCertificationsInDB = await complementaryCertificationRepository.findAll();
   if (hasCleaNumerique) {
     return complementaryCertificationsInDB.find(
-      (complementaryCertification) => complementaryCertification.key === ComplementaryCertification.CLEA,
+      (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.CLEA,
     );
   }
   if (hasPixPlusDroit) {
     return complementaryCertificationsInDB.find(
-      (complementaryCertification) => complementaryCertification.key === ComplementaryCertification.PIX_PLUS_DROIT,
+      (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_DROIT,
     );
   }
   if (hasPixPlusEdu1erDegre) {
     return complementaryCertificationsInDB.find(
       (complementaryCertification) =>
-        complementaryCertification.key === ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
+        complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
     );
   }
   if (hasPixPlusEdu2ndDegre) {
     return complementaryCertificationsInDB.find(
       (complementaryCertification) =>
-        complementaryCertification.key === ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
+        complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
     );
   }
 }

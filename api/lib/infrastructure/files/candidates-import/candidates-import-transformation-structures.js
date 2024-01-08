@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { convertDateValue } from '../../../../src/shared/infrastructure/utils/date-utils.js';
-import { ComplementaryCertification } from '../../../domain/models/index.js';
+import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 // These are transformation structures. They provide all the necessary info
 // on how to transform cell values in an attendance sheet into a target JS object.
@@ -94,18 +94,18 @@ function getTransformationStructsForPixCertifCandidatesImport({ i18n, complement
 
 function _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct, translate }) {
   const containsClea = complementaryCertifications.some(
-    (complementaryCertification) => complementaryCertification.key === ComplementaryCertification.CLEA,
+    (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.CLEA,
   );
   const containsPixPlusDroit = complementaryCertifications.some(
-    (complementaryCertification) => complementaryCertification.key === ComplementaryCertification.PIX_PLUS_DROIT,
+    (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_DROIT,
   );
   const containsPixPlusEdu1erDegre = complementaryCertifications.some(
     (complementaryCertification) =>
-      complementaryCertification.key === ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
+      complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
   );
   const containsPixPlusEdu2ndDegre = complementaryCertifications.some(
     (complementaryCertification) =>
-      complementaryCertification.key === ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
+      complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
   );
 
   if (containsClea) {
