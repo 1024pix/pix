@@ -71,6 +71,10 @@
     </PixButtonUpload>
   </div>
 
+  {{#if @importErrorMessage}}
+    <PixMessage @type="error" @withIcon={{true}}>{{@importErrorMessage}}</PixMessage>
+  {{/if}}
+
   <ul class="import-page__section--link-buttons">
     <li>
       <PixButton @triggerAction={{@validateSessions}} @isDisabled={{@isImportDisabled}}>

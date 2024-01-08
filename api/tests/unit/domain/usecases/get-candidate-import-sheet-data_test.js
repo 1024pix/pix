@@ -1,6 +1,5 @@
-import { expect, catchErr, sinon, domainBuilder } from '../../../test-helper.js';
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { getCandidateImportSheetData } from '../../../../lib/domain/usecases/get-candidate-import-sheet-data.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | get-candidate-import-sheet-data', function () {
   let sessionRepository;
@@ -14,26 +13,6 @@ describe('Unit | UseCase | get-candidate-import-sheet-data', function () {
     certificationCenterRepository = {
       getBySessionId: sinon.stub(),
     };
-  });
-
-  context('When user is not a member of the certification center which has created the session', function () {
-    it('should throw a UserNotAuthorizedToAccessEntityError', async function () {
-      // given
-      const userId = 123;
-      const sessionId = 456;
-      sessionRepository.doesUserHaveCertificationCenterMembershipForSession.withArgs(userId, sessionId).resolves(false);
-
-      // when
-      const error = await catchErr(getCandidateImportSheetData)({
-        userId,
-        sessionId,
-        sessionRepository,
-        certificationCenterRepository,
-      });
-
-      // then
-      expect(error).to.be.an.instanceOf(UserNotAuthorizedToAccessEntityError);
-    });
   });
 
   it('should get a session with candidates and the certification center habilitations', async function () {

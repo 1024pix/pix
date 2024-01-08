@@ -2,6 +2,8 @@ import _ from 'lodash';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import * as skillRepository from '../../../../../lib/infrastructure/repositories/skill-repository.js';
 import { Campaign } from '../../domain/read-models/Campaign.js';
+import crypto from 'crypto';
+import { UnknownCampaignId } from '../../domain/errors.js';
 
 const get = async function (id) {
   const campaign = await knex('campaigns').where({ id }).first();
@@ -77,4 +79,39 @@ const isCodeAvailable = async function (code) {
   return !(await knex('campaigns').first('id').where({ code }));
 };
 
-export { save, update, get, isCodeAvailable };
+const swapCampaignCodes = async function ({ firstCampaignId, secondCampaignId }) {
+  const trx = await knex.transaction();
+  const temporaryCode = crypto.randomBytes(16).toString('base64');
+
+  try {
+    const [{ code: firstCode }, { code: secondCode }] = await Promise.all([
+      trx('campaigns').select('code').where({ id: firstCampaignId }).first(),
+      trx('campaigns').select('code').where({ id: secondCampaignId }).first(),
+    ]);
+
+    await trx('campaigns').where({ id: secondCampaignId }).update({ code: temporaryCode });
+
+    await trx('campaigns').where({ id: firstCampaignId }).update({ code: secondCode });
+    await trx('campaigns').where({ id: secondCampaignId }).update({ code: firstCode });
+
+    return trx.commit();
+  } catch (err) {
+    await trx.rollback();
+    throw err;
+  }
+};
+
+const isFromSameOrganization = async function ({ firstCampaignId, secondCampaignId }) {
+  const [firstCampaign, secondCampaign] = await Promise.all([
+    knex('campaigns').select('organizationId').where({ id: firstCampaignId }).first(),
+    knex('campaigns').select('organizationId').where({ id: secondCampaignId }).first(),
+  ]);
+
+  if (!firstCampaign || !secondCampaign) {
+    throw new UnknownCampaignId();
+  }
+
+  return firstCampaign.organizationId === secondCampaign.organizationId;
+};
+
+export { save, update, get, isCodeAvailable, swapCampaignCodes, isFromSameOrganization };

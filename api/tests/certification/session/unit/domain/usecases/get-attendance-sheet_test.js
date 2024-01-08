@@ -1,61 +1,42 @@
-import { catchErr, expect, sinon } from '../../../../../test-helper.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 import { getAttendanceSheet } from '../../../../../../src/certification/session/domain/usecases/get-attendance-sheet.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | get-attendance-sheet', function () {
   describe('getAttendanceSheet', function () {
-    context('user has access to the session', function () {
-      it('should return the attendance sheet in pdf format', async function () {
-        // given
-        const userId = 'dummyUserId';
-        const i18n = 'dummyi18n';
-        const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
-        const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
-        const session = _buildSessionWithCandidate('SUP', true);
+    it('should return the attendance sheet in pdf format', async function () {
+      // given
+      const userId = 'dummyUserId';
+      const i18n = 'dummyi18n';
+      const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
+      const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
+      const session = _buildSessionWithCandidate('SUP', true);
 
-        sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
-        sessionForAttendanceSheetRepository.getWithCertificationCandidates.withArgs(1).resolves(session);
+      sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
+      sessionForAttendanceSheetRepository.getWithCertificationCandidates.withArgs(1).resolves(session);
 
-        const pdfBuffer = Buffer.from('some pdf file');
-        const fileName = 'attendance-sheet-example.pdf';
+      const pdfBuffer = Buffer.from('some pdf file');
+      const fileName = 'attendance-sheet-example.pdf';
 
-        const attendanceSheetPdfUtilsStub = {
-          getAttendanceSheetPdfBuffer: sinon.stub(),
-        };
-        attendanceSheetPdfUtilsStub.getAttendanceSheetPdfBuffer
-          .withArgs({ session, i18n })
-          .resolves({ attendanceSheet: pdfBuffer, fileName });
+      const attendanceSheetPdfUtilsStub = {
+        getAttendanceSheetPdfBuffer: sinon.stub(),
+      };
+      attendanceSheetPdfUtilsStub.getAttendanceSheetPdfBuffer
+        .withArgs({ session, i18n })
+        .resolves({ attendanceSheet: pdfBuffer, fileName });
 
-        // when
-        const { attendanceSheet, fileName: expectedFileName } = await getAttendanceSheet({
-          userId,
-          sessionId: 1,
-          i18n,
-          sessionRepository,
-          sessionForAttendanceSheetRepository,
-          attendanceSheetPdfUtils: attendanceSheetPdfUtilsStub,
-        });
-
-        // then
-        expect(attendanceSheet).to.deep.equal(pdfBuffer);
-        expect(expectedFileName).to.equal('attendance-sheet-example.pdf');
+      // when
+      const { attendanceSheet, fileName: expectedFileName } = await getAttendanceSheet({
+        userId,
+        sessionId: 1,
+        i18n,
+        sessionRepository,
+        sessionForAttendanceSheetRepository,
+        attendanceSheetPdfUtils: attendanceSheetPdfUtilsStub,
       });
-    });
 
-    context('user does not have access to the session', function () {
-      it('should return an error', async function () {
-        // given
-        const userId = 'dummyUserId';
-        const sessionId = 'dummySessionId';
-        const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
-        sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(false);
-
-        // when
-        const result = await catchErr(getAttendanceSheet)({ userId, sessionId, sessionRepository });
-
-        // then
-        expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
-      });
+      // then
+      expect(attendanceSheet).to.deep.equal(pdfBuffer);
+      expect(expectedFileName).to.equal('attendance-sheet-example.pdf');
     });
   });
 });

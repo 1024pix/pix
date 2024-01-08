@@ -781,4 +781,35 @@ describe('Unit | Application | Sessions | Routes', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
+
+  describe('GET /api/sessions/{id}//candidates-import-sheet', function () {
+    it('should return 200', async function () {
+      // when
+      sinon.stub(authorization, 'verifySessionAuthorization').resolves(true);
+      sinon.stub(sessionController, 'getCandidatesImportSheet').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const auth = { credentials: { userId: 99 }, strategy: {} };
+
+      const response = await httpTestServer.request('GET', '/api/sessions/3/candidates-import-sheet', {}, auth);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return 404 if the user is not authorized on the session', async function () {
+      // given
+      sinon.stub(authorization, 'verifySessionAuthorization').throws(new NotFoundError());
+
+      const auth = { credentials: { userId: 99 }, strategy: {} };
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const response = await httpTestServer.request('GET', '/api/sessions/3/candidates-import-sheet', {}, auth);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+  });
 });

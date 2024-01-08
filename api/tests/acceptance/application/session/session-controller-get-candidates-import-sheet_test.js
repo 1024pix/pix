@@ -9,10 +9,9 @@ describe('Acceptance | Controller | session-controller-get-candidates-import-she
   });
 
   describe('GET /api/sessions/{id}/candidates-import-sheet', function () {
-    let user, sessionIdAllowed, sessionIdNotAllowed;
-    beforeEach(async function () {
+    it('should respond with a 200 when session can be found', async function () {
       // given
-      user = databaseBuilder.factory.buildUser();
+      const user = databaseBuilder.factory.buildUser();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId: user.id, certificationCenterId });
 
@@ -23,22 +22,16 @@ describe('Acceptance | Controller | session-controller-get-candidates-import-she
         certificationCenterId: otherCertificationCenterId,
       });
 
-      sessionIdAllowed = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-      sessionIdNotAllowed = databaseBuilder.factory.buildSession({
-        certificationCenterId: otherCertificationCenterId,
-      }).id;
+      const sessionIdAllowed = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
 
       await databaseBuilder.commit();
-    });
 
-    it('should respond with a 200 when session can be found', async function () {
       // when
-      const authHeader = generateValidRequestAuthorizationHeader(user.id);
-      const token = authHeader.replace('Bearer ', '');
       const options = {
         method: 'GET',
-        url: `/api/sessions/${sessionIdAllowed}/candidates-import-sheet?accessToken=${token}`,
+        url: `/api/sessions/${sessionIdAllowed}/candidates-import-sheet`,
         payload: {},
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
       // when
       const promise = server.inject(options);
@@ -46,24 +39,6 @@ describe('Acceptance | Controller | session-controller-get-candidates-import-she
       // then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
-      });
-    });
-
-    it('should respond with a 403 when user cant access the session', async function () {
-      // when
-      const authHeader = generateValidRequestAuthorizationHeader(user.id);
-      const token = authHeader.replace('Bearer ', '');
-      const options = {
-        method: 'GET',
-        url: `/api/sessions/${sessionIdNotAllowed}/candidates-import-sheet?accessToken=${token}`,
-        payload: {},
-      };
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(403);
       });
     });
   });
