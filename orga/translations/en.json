@@ -224,8 +224,7 @@
       "placeholder-select": "Eligible / Non-eligible"
     },
     "certificability-banner": {
-      "not-managing-students": "Participants' status is updated automatically to display eligibility for certification.",
-      "sco-managing-students": "Students' status is updated automatically to display eligibility for certification."
+      "not-managing-students": "Participants' status is updated automatically to display eligibility for certification."
     },
     "certificability-tooltip": {
       "aria-label": "How to know if a participant is eligible for certification and what does it mean?",

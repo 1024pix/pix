@@ -227,8 +227,7 @@
       "placeholder-select": "Certifiable / Non certifiable"
     },
     "certificability-banner": {
-      "not-managing-students": "Le statut Certificabilité des participants est actualisé automatiquement.",
-      "sco-managing-students": "Le statut Certificabilité des élèves est actualisé automatiquement."
+      "not-managing-students": "Le statut Certificabilité des participants est actualisé automatiquement."
     },
     "certificability-tooltip": {
       "aria-label": "Explication sur la certificabilité",
