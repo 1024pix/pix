@@ -91,10 +91,8 @@ const swapCampaignCodes = async function ({ firstCampaignId, secondCampaignId })
 
     await trx('campaigns').where({ id: secondCampaignId }).update({ code: temporaryCode });
 
-    await Promise.all([
-      trx('campaigns').where({ id: firstCampaignId }).update({ code: secondCode }),
-      trx('campaigns').where({ id: secondCampaignId }).update({ code: firstCode }),
-    ]);
+    await trx('campaigns').where({ id: firstCampaignId }).update({ code: secondCode });
+    await trx('campaigns').where({ id: secondCampaignId }).update({ code: firstCode });
 
     return trx.commit();
   } catch (err) {
