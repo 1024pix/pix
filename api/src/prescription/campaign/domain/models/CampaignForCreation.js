@@ -1,4 +1,4 @@
-import { validate } from '../validtors/campaign-creation-validator.js';
+import { validate } from '../validators/campaign-creation-validator.js';
 
 class CampaignForCreation {
   constructor({

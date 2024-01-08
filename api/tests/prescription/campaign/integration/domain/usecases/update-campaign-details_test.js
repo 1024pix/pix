@@ -1,14 +1,12 @@
-import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../test-helper.js';
+import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../../../test-helper.js';
 
-import * as campaignManagementRepository from '../../../../lib/infrastructure/repositories/campaign-management-repository.js';
-import * as campaignValidator from '../../../../lib/domain/validators/campaign-validator.js';
-import { updateCampaignDetailsManagement } from '../../../../lib/domain/usecases/update-campaign-details-management.js';
-import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
-import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
+import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
+import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
-describe('Integration | UseCases | update-campaign-details-management', function () {
+describe('Integration | UseCases | update-campaign-details', function () {
   let userId;
   let organizationId;
   let targetProfileId;
@@ -47,11 +45,9 @@ describe('Integration | UseCases | update-campaign-details-management', function
     };
     const expectedCampaign = { ...campaign, ...campaignAttributes };
 
-    await updateCampaignDetailsManagement({
+    await usecases.updateCampaignDetails({
       campaignId,
       ...campaignAttributes,
-      campaignManagementRepository,
-      campaignValidator,
     });
 
     const actualCampaign = await knex.select('*').from('campaigns').first();
@@ -82,11 +78,9 @@ describe('Integration | UseCases | update-campaign-details-management', function
       multipleSendings: true,
     };
 
-    const error = await catchErr(updateCampaignDetailsManagement)({
+    const error = await catchErr(usecases.updateCampaignDetails)({
       campaignId,
       ...campaignAttributes,
-      campaignManagementRepository,
-      campaignValidator,
     });
 
     //then
@@ -125,11 +119,9 @@ describe('Integration | UseCases | update-campaign-details-management', function
       multipleSendings: false,
     };
 
-    await updateCampaignDetailsManagement({
+    await usecases.updateCampaignDetails({
       campaignId,
       ...campaignAttributes,
-      campaignManagementRepository,
-      campaignValidator,
     });
 
     //then
@@ -152,11 +144,9 @@ describe('Integration | UseCases | update-campaign-details-management', function
     const expectedCampaign = { ...campaign, ...campaignAttributes };
 
     //when
-    await updateCampaignDetailsManagement({
+    await usecases.updateCampaignDetails({
       campaignId,
       ...campaignAttributes,
-      campaignManagementRepository,
-      campaignValidator,
     });
 
     //then

@@ -3,6 +3,8 @@ import { dirname, join } from 'node:path';
 
 import * as campaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
 import * as campaignCreatorRepository from '../../infrastructure/repositories/campaign-creator-repository.js';
+// TODO : clean with campaign administration ( similar get with a lot difference)
+import * as campaignManagementRepository from '../../infrastructure/repositories/campaign-management-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignParticipationInfoRepository from '../../infrastructure/repositories/campaign-participation-info-repository.js';
 import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
@@ -11,6 +13,7 @@ import * as campaignAssessmentParticipationResultListRepository from '../../infr
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 
 import * as campaignCsvExportService from '../services/campaign-csv-export-service.js';
+import * as campaignUpdateValidator from '../validators/campaign-update-validator.js';
 
 import * as badgeRepository from '../../../../shared/infrastructure/repositories/badge-repository.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
@@ -34,6 +37,7 @@ const dependencies = {
   badgeRepository,
   campaignRepository,
   campaignAdministrationRepository,
+  campaignManagementRepository,
   campaignCreatorRepository,
   campaignCsvExportService,
   campaignParticipationRepository,
@@ -42,6 +46,7 @@ const dependencies = {
   campaignReportRepository,
   campaignAssessmentParticipationResultListRepository,
   codeGenerator,
+  campaignUpdateValidator,
   competenceRepository,
   knowledgeElementRepository,
   learningContentRepository,
