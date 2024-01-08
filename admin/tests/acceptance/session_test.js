@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { FINALIZED } from 'pix-admin/models/session';
+import { FINALIZED, PROCESSED } from 'pix-admin/models/session';
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import sinon from 'sinon';
@@ -134,10 +134,10 @@ module('Acceptance | Session pages', function (hooks) {
         module('When the session has been published', function () {
           test('it shows the certificates download button', async function (assert) {
             // given
-            const juryCertificationSummary = this.server.create('jury-certification-summary', {
-              isPublished: true,
+            this.server.create('session', {
+              id: 2,
+              status: PROCESSED,
             });
-            this.server.create('session', { juryCertificationSummaries: [juryCertificationSummary] });
 
             // when
             const screen = await visit('/sessions/2');

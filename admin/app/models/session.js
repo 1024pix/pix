@@ -1,6 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
 import sumBy from 'lodash/sumBy';
-import some from 'lodash/some';
 import trim from 'lodash/trim';
 
 import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
@@ -67,12 +66,9 @@ export default class Session extends Model {
     return Boolean(this.hasIncident || this.hasJoiningIssue);
   }
 
-  @computed('juryCertificationSummaries.@each.isPublished')
+  @computed('status')
   get isPublished() {
-    return some(
-      this.juryCertificationSummaries.toArray(),
-      (juryCertificationSummary) => juryCertificationSummary.isPublished,
-    );
+    return this.status === PROCESSED;
   }
 
   @computed('juryCertificationSummaries.[]')

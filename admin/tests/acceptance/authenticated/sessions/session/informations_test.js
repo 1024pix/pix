@@ -43,6 +43,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
             id: '3',
             finalizedAt: new Date('2023-01-31'),
             examinerGlobalComment: 'Vraiment, super session!',
+            status: 'finalized',
           });
           const screen = await visit('/sessions/3');
 
@@ -51,6 +52,24 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
 
           // then
           assert.dom(screen.queryByText('Date de finalisation :')).doesNotExist();
+          assert.dom(screen.queryByRole('button', { name: 'Définaliser la session' })).doesNotExist();
+        });
+      });
+
+      module('When session is published', function () {
+        test('it should hide unfinalize button', async function (assert) {
+          // given
+          server.create('session', {
+            id: '3',
+            finalizedAt: null,
+            examinerGlobalComment: 'Vraiment, super session!',
+            status: 'processed',
+          });
+
+          // when
+          const screen = await visit('/sessions/3');
+
+          // then
           assert.dom(screen.queryByRole('button', { name: 'Définaliser la session' })).doesNotExist();
         });
       });
