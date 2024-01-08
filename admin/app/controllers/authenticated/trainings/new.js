@@ -24,7 +24,19 @@ export default class NewController extends Controller {
       this.notifications.success('Le contenu formatif a été créé avec succès.');
       this.goToTrainingDetails(id);
     } catch (error) {
-      this.notifications.error('Une erreur est survenue.');
+      this._handleResponseError(error);
     }
+  }
+
+  _handleResponseError({ errors }) {
+    if (!errors) {
+      return this.notifications.error('Une erreur est survenue.');
+    }
+    errors.forEach((error) => {
+      if (['400', '404', '412', '422'].includes(error.status)) {
+        return this.notifications.error(error.detail);
+      }
+      return this.notifications.error('Une erreur est survenue.');
+    });
   }
 }
