@@ -226,10 +226,6 @@
     "certificability": {
       "placeholder-select": "Certifiable / Non certifiable"
     },
-    "certificability-banner": {
-      "not-managing-students": "Le statut Certificabilité des participants est actualisé automatiquement.",
-      "sco-managing-students": "Le statut Certificabilité des élèves est actualisé automatiquement."
-    },
     "certificability-tooltip": {
       "aria-label": "Explication sur la certificabilité",
       "content": "La certificabilité signifie que le participant a atteint le niveau 1 dans au moins 5 compétences différentes.",
