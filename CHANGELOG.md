@@ -1,5 +1,42 @@
 # Pix Changelog
 
+## v4.85.0 (09/01/2024)
+
+
+### :rocket: Amélioration
+- [#7823](https://github.com/1024pix/pix/pull/7823) [FEATURE] Suppression de la bannière sur la certificabilité automatique pour les  SCO AEFE avec la feature activée (PIX-10346).
+- [#7781](https://github.com/1024pix/pix/pull/7781) [FEATURE] Afficher un message d'erreur explicite dans la création d'un contenu formatif (PIX-10567).
+- [#7806](https://github.com/1024pix/pix/pull/7806) [FEATURE] Ajouter des illustrations et couleurs personalisées pour 3 types de CFs (PIX-10418) (PIX-9959).
+- [#7812](https://github.com/1024pix/pix/pull/7812) [FEATURE] Afficher si le centre de certification est pilote V3 (PIX-10617).
+- [#7805](https://github.com/1024pix/pix/pull/7805) [FEATURE] Ajout de la colonne parentOrganizationId dans la table organizations (PIX-10044).
+- [#7796](https://github.com/1024pix/pix/pull/7796) [FEATURE] Clarifier le message d'erreur lors de l'import en masse des sessions sur Pix Certif (PIX-10154).
+- [#7791](https://github.com/1024pix/pix/pull/7791) [FEATURE] Remplacer le script de prod pour échanger de code campagne par une fonctionnalité dans Pix Admin (Pix-7500).
+- [#7790](https://github.com/1024pix/pix/pull/7790) [FEATURE] Ne pas afficher le tag de signalement pour la dernière question d'une session non terminée (PIX-10552).
+- [#7804](https://github.com/1024pix/pix/pull/7804) [FEATURE] Passer un grain (PIX-10296).
+
+### :building_construction: Tech
+- [#7815](https://github.com/1024pix/pix/pull/7815) [TECH] Vérifier le contenu de tous les modules (PIX-10244).
+- [#7752](https://github.com/1024pix/pix/pull/7752) [TECH] Remplacer bookshelf par knex sur des repositories du scope Accès (PIX-10522).
+- [#7701](https://github.com/1024pix/pix/pull/7701) [TECH] API interne pour le contexte des certifications complémentaires (PIX-10334).
+- [#7822](https://github.com/1024pix/pix/pull/7822) [TECH] Changement d'alias du codeowner (PIX-10598).
+- [#7814](https://github.com/1024pix/pix/pull/7814) [TECH] Améliorer l'organisation du code de validation des contenus (PIX-10646).
+- [#7797](https://github.com/1024pix/pix/pull/7797) [TECH] Fixer les versions de postgres et redis dans le fichier de configuration de Scalingo (PIX-9281).
+- [#7818](https://github.com/1024pix/pix/pull/7818) [TECH] Mise en place de codeowners pour le code API de DevComp (PIX-10598).
+- [#7689](https://github.com/1024pix/pix/pull/7689) [TECH] Correction de l'affichage des heures des invitations (PIX-10414).
+- [#7798](https://github.com/1024pix/pix/pull/7798) [TECH] Retirer le token de la route de telechargement de la feuille d'émargement (PIX-10575).
+- [#7799](https://github.com/1024pix/pix/pull/7799) [TECH] Retirer le token de la route de telechargement de la feuille d'import des candidats (PIX-10576).
+- [#7800](https://github.com/1024pix/pix/pull/7800) [TECH] Retirer le token de la route de telechargement du kit de surveillant (PIX-10577).
+- [#7809](https://github.com/1024pix/pix/pull/7809) [TECH] La locale d'une seed de CF ne fonctionne plus (PIX-10630).
+- [#7807](https://github.com/1024pix/pix/pull/7807) [TECH] Configurer Nodemon pour redémarrer quand on édite `module.json` (PIX-10621).
+
+### :bug: Correction
+- [#7829](https://github.com/1024pix/pix/pull/7829) [BUGFIX] Ajout d'un return pour enregistrer le model des places dans PixOrga (PIX-10521).
+- [#7819](https://github.com/1024pix/pix/pull/7819) [BUGFIX] Éviter une erreur de contrainte BDD lors de l'échange du code campagne (PIX-7500).
+- [#7691](https://github.com/1024pix/pix/pull/7691) [BUGFIX] Problème de hover sur le bouton de retour sur Certif. (PIX-10369).
+
+### :coffee: Autre
+- [#7821](https://github.com/1024pix/pix/pull/7821) [DOC] Passer le statut de l'ADR 28 en Accepté (PIX-10676).
+
 ## v4.84.0 (04/01/2024)
 
 
