@@ -1,6 +1,6 @@
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').CandidateRepository} CandidateRepository
- * @typedef {import('../../../shared/domain/usecases/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {import('./index.js').CandidateRepository} CandidateRepository
+ * @typedef {import('./index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {import('../../../../shared/domain/errors.js').NotFoundError} NotFoundError
  */
 import { EnrolledCandidate } from '../read-models/EnrolledCandidate.js';

@@ -2,6 +2,11 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import * as complementaryCertificationApi from '../../../complementary-certification/application/api/complementary-certification-api.js';
 import * as complementaryCertificationRepository from './complementary-certification-repository.js';
 
+/**
+ * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
+ *
+ * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
+ */
 const repositoriesWithoutInjectedDependencies = {
   complementaryCertificationRepository,
 };

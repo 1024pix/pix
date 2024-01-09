@@ -1,6 +1,6 @@
 import { SessionPublicationBatchError } from '../http-errors.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { usecases as certificationUsecases } from '../../../src/certification/shared/domain/usecases/index.js';
+import { usecases as sessionUsecases } from '../../../src/certification/session/domain/usecases/index.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
 import * as sessionValidator from '../../../src/certification/session/domain/validators/session-validator.js';
@@ -171,7 +171,7 @@ const enrolStudentsToSession = async function (
   const studentIds = request.deserializedPayload.organizationLearnerIds;
 
   await usecases.enrolStudentsToSession({ sessionId, referentId, studentIds });
-  const certificationCandidates = await certificationUsecases.getSessionCertificationCandidates({ sessionId });
+  const certificationCandidates = await sessionUsecases.getSessionCertificationCandidates({ sessionId });
   const certificationCandidatesSerialized =
     dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
   return h.response(certificationCandidatesSerialized).created();

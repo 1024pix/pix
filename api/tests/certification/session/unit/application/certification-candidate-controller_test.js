@@ -1,6 +1,7 @@
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 import { certificationCandidateController } from '../../../../../src/certification/session/application/certification-candidate-controller.js';
-import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { usecases as sharedUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { usecases } from '../../../../../src/certification/session/domain/usecases/index.js';
 
 describe('Unit | Controller | certification-candidate-controller', function () {
   describe('#add', function () {
@@ -20,8 +21,8 @@ describe('Unit | Controller | certification-candidate-controller', function () {
           },
         },
       };
-      sinon.stub(usecases, 'addCertificationCandidateToSession');
-      usecases.addCertificationCandidateToSession
+      sinon.stub(sharedUsecases, 'addCertificationCandidateToSession');
+      sharedUsecases.addCertificationCandidateToSession
         .withArgs({
           sessionId,
           certificationCandidate,
@@ -90,7 +91,10 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       request = {
         params: { id: sessionId, certificationCandidateId },
       };
-      sinon.stub(usecases, 'deleteUnlinkedCertificationCandidate').withArgs({ certificationCandidateId }).resolves();
+      sinon
+        .stub(sharedUsecases, 'deleteUnlinkedCertificationCandidate')
+        .withArgs({ certificationCandidateId })
+        .resolves();
     });
 
     it('should return 204 when deleting successfully the candidate', async function () {
