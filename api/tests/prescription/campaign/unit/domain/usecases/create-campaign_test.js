@@ -1,6 +1,6 @@
 import { expect, sinon } from '../../../../../test-helper.js';
 import { createCampaign } from '../../../../../../src/prescription/campaign/domain/usecases/create-campaign.js';
-import { CampaignTypes } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CampaignCreator } from '../../../../../../src/prescription/campaign/domain/models/CampaignCreator.js';
 
 describe('Unit | UseCase | create-campaign', function () {

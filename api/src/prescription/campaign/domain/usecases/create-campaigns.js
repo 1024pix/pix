@@ -1,4 +1,4 @@
-import { CampaignTypes } from '../read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../shared/domain/constants.js';
 
 const createCampaigns = async function ({
   campaignsToCreate,

@@ -3,7 +3,7 @@ import { catchErr, databaseBuilder, expect, knex, mockLearningContent, sinon } f
 
 import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/read-models/Campaign.js';
-import { CampaignTypes } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { UnknownCampaignId } from '../../../../../../src/prescription/campaign/domain/errors.js';
 
 describe('Integration | Repository | Campaign Administration', function () {

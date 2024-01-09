@@ -1,7 +1,7 @@
 import { expect, catchErr } from '../../../../../test-helper.js';
 
 import { CampaignCreator } from '../../../../../../src/prescription/campaign/domain/models/CampaignCreator.js';
-import { CampaignTypes } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { CampaignForCreation } from '../../../../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
 import {
   UserNotAuthorizedToCreateCampaignError,

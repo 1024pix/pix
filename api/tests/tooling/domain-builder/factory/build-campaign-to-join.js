@@ -1,4 +1,4 @@
-import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 import { CampaignToJoin } from '../../../../lib/domain/read-models/CampaignToJoin.js';
 import { types } from '../../../../lib/domain/models/Organization.js';
 

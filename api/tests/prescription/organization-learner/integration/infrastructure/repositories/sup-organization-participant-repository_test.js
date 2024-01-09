@@ -2,8 +2,10 @@ import _ from 'lodash';
 import { expect, databaseBuilder } from '../../../../../test-helper.js';
 import * as supOrganizationParticipantRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/sup-organization-participant-repository.js';
 import { SupOrganizationParticipant } from '../../../../../../src/prescription/organization-learner/domain/read-models/SupOrganizationParticipant.js';
-import { CampaignTypes } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
-import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import {
+  CampaignParticipationStatuses,
+  CampaignTypes,
+} from '../../../../../../src/prescription/shared/domain/constants.js';
 
 describe('Integration | Infrastructure | Repository | sup-organization-participant-repository', function () {
   describe('#findPaginatedFilteredSupParticipants', function () {

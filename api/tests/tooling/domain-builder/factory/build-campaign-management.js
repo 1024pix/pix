@@ -1,5 +1,5 @@
-import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
-import { CampaignManagement } from '../../../../lib/domain/read-models/CampaignManagement.js';
+import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignManagement } from '../../../../src/prescription/campaign/domain/models/CampaignManagement.js';
 
 const buildCampaignManagement = function ({
   id = 1,

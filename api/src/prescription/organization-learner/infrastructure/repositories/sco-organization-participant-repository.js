@@ -4,8 +4,10 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { ScoOrganizationParticipant } from '../../domain/read-models/ScoOrganizationParticipant.js';
-import { CampaignTypes } from '../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
-import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
+import {
+  CampaignTypes,
+  CampaignParticipationStatuses,
+} from '../../../../../src/prescription/shared/domain/constants.js';
 
 function _setFilters(qb, { search, divisions, connectionTypes, certificability } = {}) {
   if (search) {

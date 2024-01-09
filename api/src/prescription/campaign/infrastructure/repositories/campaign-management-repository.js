@@ -1,8 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CampaignManagement } from '../../../../../lib/domain/read-models/CampaignManagement.js';
+import { CampaignManagement } from '../../domain/models/CampaignManagement.js';
 import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
-import { CampaignTypes } from '../../domain/read-models/CampaignTypes.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
