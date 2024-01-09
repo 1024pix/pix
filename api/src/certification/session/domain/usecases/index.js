@@ -1,3 +1,4 @@
+// eslint-disable import/no-restricted-paths
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -5,6 +6,7 @@ import { importNamedExportsFromDirectory } from '../../../../shared/infrastructu
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 
 import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
+import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  **/
@@ -14,10 +16,12 @@ import { sessionRepositories } from '../../../session/infrastructure/repositorie
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
  * @typedef {candidateRepository} CandidateRepository
+ * @typedef {centerRepository} CenterRepository
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  **/
 const dependencies = {
   candidateRepository,
+  centerRepository,
   complementaryCertificationRepository: sessionRepositories.complementaryCertificationRepository,
 };
 

@@ -25,6 +25,7 @@ import { buildCampaignReport } from './build-campaign-report.js';
 import { buildCampaignToJoin } from './build-campaign-to-join.js';
 import { buildCampaignToStartParticipation } from './build-campaign-to-start-participation.js';
 import { buildCertifiableBadgeAcquisition } from './build-certifiable-badge-acquisition.js';
+import { buildCenter } from './certification/session/build-center.js';
 import { buildCertificationAssessment } from './build-certification-assessment.js';
 import { buildCertificationAssessmentScore } from './build-certification-assessment-score.js';
 import { buildCertificationAssessmentScoreV3 } from './build-certification-assessment-score-v3.js';
@@ -170,6 +171,7 @@ import { buildCertificationSessionComplementaryCertification } from './certifica
 
 const certification = {
   session: {
+    buildCenter,
     buildCertificationSessionCandidate: buildCertificationSessionCandidate,
     buildCertificationSessionEnrolledCandidate: buildCertificationSessionEnrolledCandidate,
     buildCertificationSessionComplementaryCertification: buildCertificationSessionComplementaryCertification,

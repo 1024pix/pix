@@ -11,6 +11,7 @@ import { ComplementaryCertification } from './models/ComplementaryCertification.
  * @param {object} params
  * @param {number} params.id mandatory
  *
+ * @returns {ComplementaryCertification}
  * @throws {NotFoundError} Complementary certification does not exist
  */
 export const getById = async ({ id }) => {
