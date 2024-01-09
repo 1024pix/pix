@@ -14,6 +14,9 @@ import { createServer } from '../../../../server.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+
+const { ROLES } = PIX_ADMIN;
 
 describe('Acceptance | Application | organization-controller', function () {
   let server;
@@ -1320,7 +1323,8 @@ describe('Acceptance | Application | organization-controller', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
-  describe('GET /api/organization/{organizationId}/divisions', function () {
+
+  describe('GET /api/organizations/{organizationId}/divisions', function () {
     it('should return the divisions', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1353,6 +1357,85 @@ describe('Acceptance | Application | organization-controller', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('GET /api/admin/organizations/{organizationId}/children', function () {
+    context('error cases', function () {
+      context('when organization does not exist', function () {
+        it('returns a 404 HTTP status code with an error message', async function () {
+          // given
+          const userId = databaseBuilder.factory.buildUser.withRole().id;
+
+          await databaseBuilder.commit();
+
+          const request = {
+            method: 'GET',
+            url: '/api/admin/organizations/986532/children',
+            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          };
+
+          // when
+          const response = await server.inject(request);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+          expect(response.result.errors[0].detail).to.equal('Organization with ID (986532) not found');
+        });
+      });
+
+      context('when the user does not have access to the resource', function () {
+        it('returns a 403 HTTP status code with an error message', async function () {
+          // given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+          await databaseBuilder.commit();
+
+          const request = {
+            method: 'GET',
+            url: `/api/admin/organizations/${organizationId}/children`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          };
+
+          // when
+          const response = await server.inject(request);
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+
+    context('success cases', function () {
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      Object.keys(ROLES).forEach((role) => {
+        context(`when user has role ${role}`, function () {
+          it('returns child organizations list with a 200 HTTP status code', async function () {
+            // given
+            const userId = databaseBuilder.factory.buildUser.withRole({ role }).id;
+            const parentOrganizationId = databaseBuilder.factory.buildOrganization().id;
+
+            const firstChildId = databaseBuilder.factory.buildOrganization({ parentOrganizationId }).id + '';
+            const secondChildId = databaseBuilder.factory.buildOrganization({ parentOrganizationId }).id + '';
+
+            await databaseBuilder.commit();
+
+            const request = {
+              method: 'GET',
+              url: `/api/admin/organizations/${parentOrganizationId}/children`,
+              headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+            };
+            // when
+            const response = await server.inject(request);
+
+            // then
+            expect(response.statusCode).to.equal(200);
+            expect(response.result.data).to.have.lengthOf(2);
+            expect(_map(response.result.data, 'id')).to.have.members([firstChildId, secondChildId]);
+          });
+        });
+      });
     });
   });
 });
