@@ -1,15 +1,12 @@
 import _ from 'lodash';
-import { BookshelfTargetProfile } from '../orm-models/TargetProfile.js';
-import * as targetProfileAdapter from '../adapters/target-profile-adapter.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { ObjectValidationError } from '../../domain/errors.js';
 import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { TargetProfile } from '../../domain/models/index.js';
+import { Badge } from '../../../src/shared/domain/models/Badge.js';
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
-
 const create = async function ({ targetProfileForCreation, domainTransaction }) {
   const knexConn = domainTransaction.knexTransaction;
   const targetProfileRawData = _.pick(targetProfileForCreation, [
@@ -35,26 +32,22 @@ const create = async function ({ targetProfileForCreation, domainTransaction }) 
 };
 
 const get = async function (id, domainTransaction = DomainTransaction.emptyTransaction()) {
-  const bookshelfTargetProfile = await BookshelfTargetProfile.where({ id }).fetch({
-    require: false,
-    transacting: domainTransaction.knexTransaction,
-  });
+  const knexConn = domainTransaction.knexTransaction || knex;
+  const targetProfile = await knexConn('target-profiles').where({ id }).first();
+  const badges = await knexConn('badges').where('targetProfileId', id);
 
-  if (!bookshelfTargetProfile) {
+  if (!targetProfile) {
     throw new NotFoundError(`Le profil cible avec l'id ${id} n'existe pas`);
   }
 
-  return targetProfileAdapter.fromDatasourceObjects({
-    bookshelfTargetProfile,
-  });
+  return new TargetProfile({ ...targetProfile, badges: badges.map((badge) => new Badge(badge)) });
 };
 
 const findByIds = async function (targetProfileIds) {
-  const targetProfilesBookshelf = await BookshelfTargetProfile.query((qb) => {
-    qb.whereIn('id', targetProfileIds);
-  }).fetchAll();
-
-  return bookshelfToDomainConverter.buildDomainObjects(BookshelfTargetProfile, targetProfilesBookshelf);
+  const targetProfiles = await knex('target-profiles').whereIn('id', targetProfileIds);
+  return targetProfiles.map((targetProfile) => {
+    return new TargetProfile(targetProfile);
+  });
 };
 
 const update = async function (targetProfile) {
