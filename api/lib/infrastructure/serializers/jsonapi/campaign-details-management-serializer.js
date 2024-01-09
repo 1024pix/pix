@@ -28,6 +28,7 @@ const serialize = function (campaignManagement, meta) {
       'isTypeProfilesCollection',
       'isTypeAssessment',
       'multipleSendings',
+      'isForAbsoluteNovice',
     ],
     meta,
   }).serialize(campaignManagement);

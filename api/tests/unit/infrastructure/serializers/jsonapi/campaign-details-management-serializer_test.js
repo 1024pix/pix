@@ -29,6 +29,7 @@ describe('Unit | Serializer | JSONAPI | campaign-details-management-serializer',
         isTypeProfilesCollection: false,
         isTypeAssessment: true,
         multipleSendings: false,
+        isForAbsoluteNovice: true,
       };
 
       // when
@@ -62,6 +63,7 @@ describe('Unit | Serializer | JSONAPI | campaign-details-management-serializer',
             'is-type-profiles-collection': false,
             'is-type-assessment': true,
             'multiple-sendings': campaignManagement.multipleSendings,
+            'is-for-absolute-novice': true,
           },
         },
       });
