@@ -2,7 +2,6 @@ import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
 import { isUniqConstraintViolated, fetchPage } from '../../../../lib/infrastructure/utils/knex-utils.js';
-import * as bookshelfToDomainConverter from '../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
 
 import {
   AlreadyExistingEntityError,
@@ -73,23 +72,9 @@ const getByUsernameOrEmailWithRolesAndPassword = async function (username) {
   return _toDomainFromDTO({ userDTO, membershipsDTO, certificationCenterMembershipsDTO, authenticationMethodsDTO });
 };
 
-const get = function (userId) {
-  return BookshelfUser.where({ id: userId })
-    .fetch()
-    .then((user) => bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user))
-    .catch((err) => {
-      if (err instanceof BookshelfUser.NotFoundError) {
-        throw new UserNotFoundError(`User not found for ID ${userId}`);
-      }
-      throw err;
-    });
-};
-
-const getById = async function (userId) {
-  const foundUser = await knex.from('users').where({ id: userId }).first();
-  if (!foundUser) {
-    throw new UserNotFoundError();
-  }
+const get = async function (userId) {
+  const foundUser = await knex('users').where('id', userId).first();
+  if (!foundUser) throw new UserNotFoundError(`User not found for ID ${userId}`);
   return new User(foundUser);
 };
 
@@ -181,21 +166,34 @@ const getWithMemberships = async function (userId) {
   return _toDomainFromDTO({ userDTO, membershipsDTO });
 };
 
-const getWithCertificationCenterMemberships = function (userId) {
-  return BookshelfUser.where({ id: userId })
-    .fetch({
-      withRelated: [
-        { certificationCenterMemberships: (qb) => qb.where({ disabledAt: null }) },
-        'certificationCenterMemberships.certificationCenter',
-      ],
-    })
-    .then(_toDomain)
-    .catch((err) => {
-      if (err instanceof BookshelfUser.NotFoundError) {
-        throw new UserNotFoundError(`User not found for ID ${userId}`);
-      }
-      throw err;
-    });
+const getWithCertificationCenterMemberships = async function (userId) {
+  const user = await knex('users').where({ id: userId }).first();
+  if (!user) throw new UserNotFoundError(`User not found for ID ${userId}`);
+
+  const certificationCenterMemberships = await knex('certification-center-memberships')
+    .where({ userId })
+    .whereNull('disabledAt');
+  const certificationCenters = await knex('certification-centers').whereIn(
+    'id',
+    certificationCenterMemberships.map(
+      (certificationCenterMembership) => certificationCenterMembership.certificationCenterId,
+    ),
+  );
+
+  return new User({
+    ...user,
+    certificationCenterMemberships: certificationCenterMemberships.map(
+      (certificationCenterMembership) =>
+        new CertificationCenterMembership({
+          ...certificationCenterMembership,
+          certificationCenter: new CertificationCenter(
+            certificationCenters.find(
+              (certificationCenter) => certificationCenter.id === certificationCenterMembership.certificationCenterId,
+            ),
+          ),
+        }),
+    ),
+  });
 };
 
 const getBySamlId = async function (samlId) {
@@ -206,6 +204,7 @@ const getBySamlId = async function (samlId) {
         .andOnVal('authentication-methods.externalIdentifier', samlId);
     });
   }).fetch({ require: false, withRelated: 'authenticationMethods' });
+
   return bookshelfUser ? _toDomain(bookshelfUser) : null;
 };
 
@@ -220,42 +219,31 @@ const updateWithEmailConfirmed = function ({
   userAttributes,
   domainTransaction: { knexTransaction } = DomainTransaction.emptyTransaction(),
 }) {
-  const query = knex('users').where({ id }).update(userAttributes);
+  const query = knex('users')
+    .where({ id })
+    .update({ ...userAttributes, updatedAt: new Date() });
   if (knexTransaction) query.transacting(knexTransaction);
   return query;
 };
 
-const checkIfEmailIsAvailable = function (email) {
-  return BookshelfUser.query((qb) => qb.whereRaw('LOWER("email") = ?', email.toLowerCase()))
-    .fetch({ require: false })
-    .then((user) => {
-      if (user) {
-        return Promise.reject(new AlreadyRegisteredEmailError());
-      }
+const checkIfEmailIsAvailable = async function (email) {
+  const existingUserEmail = await knex('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
 
-      return Promise.resolve(email);
-    });
+  if (existingUserEmail) throw new AlreadyRegisteredEmailError();
+
+  return email;
 };
 
-const isUserExistingByEmail = function (email) {
-  return BookshelfUser.where({ email: email.toLowerCase() })
-    .fetch()
-    .then(() => true)
-    .catch(() => {
-      throw new UserNotFoundError();
-    });
+const isUserExistingByEmail = async function (email) {
+  const existingUser = await knex('users').where('email', email.toLowerCase()).first();
+  if (!existingUser) throw new UserNotFoundError();
+  return true;
 };
 
-const updateEmail = function ({ id, email }) {
-  return BookshelfUser.where({ id })
-    .save({ email }, { patch: true, method: 'update' })
-    .then((bookshelfUser) => _toDomain(bookshelfUser))
-    .catch((err) => {
-      if (err instanceof BookshelfUser.NoRowsUpdatedError) {
-        throw new UserNotFoundError(`User not found for ID ${id}`);
-      }
-      throw err;
-    });
+const updateEmail = async function ({ id, email }) {
+  const [updatedUserEmail] = await knex('users').where({ id }).update({ email, updatedAt: new Date() }).returning('*');
+  if (!updatedUserEmail) throw new UserNotFoundError(`User not found for ID ${id}`);
+  return new User(updatedUserEmail);
 };
 
 const updateUserDetailsForAdministration = async function ({
@@ -265,7 +253,10 @@ const updateUserDetailsForAdministration = async function ({
 }) {
   try {
     const knexConn = domainTransaction.knexTransaction ?? knex;
-    const [userDTO] = await knexConn('users').where({ id }).update(userAttributes).returning('*');
+    const [userDTO] = await knexConn('users')
+      .where({ id })
+      .update({ ...userAttributes, updatedAt: new Date() })
+      .returning('*');
 
     if (!userDTO) {
       throw new UserNotFoundError(`User not found for ID ${id}`);
@@ -279,9 +270,12 @@ const updateUserDetailsForAdministration = async function ({
 };
 
 const updateHasSeenAssessmentInstructionsToTrue = async function (id) {
-  const user = await BookshelfUser.where({ id }).fetch({ require: false });
-  await user.save({ hasSeenAssessmentInstructions: true }, { patch: true, method: 'update' });
-  return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
+  const [user] = await knex('users')
+    .where({ id })
+    .update({ hasSeenAssessmentInstructions: true, updatedAt: new Date() })
+    .returning('*');
+
+  return new User(user);
 };
 
 const updateHasSeenLevelSevenInfoToTrue = async function (id) {
@@ -295,32 +289,38 @@ const updateHasSeenLevelSevenInfoToTrue = async function (id) {
 };
 
 const updateHasSeenNewDashboardInfoToTrue = async function (id) {
-  const user = await BookshelfUser.where({ id }).fetch({ require: false });
-  await user.save({ hasSeenNewDashboardInfo: true }, { patch: true, method: 'update' });
-  return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
+  const [user] = await knex('users')
+    .where({ id })
+    .update({ hasSeenNewDashboardInfo: true, updatedAt: new Date() })
+    .returning('*');
+
+  return new User(user);
 };
 
 const updateHasSeenChallengeTooltip = async function ({ userId, challengeType }) {
-  const user = await BookshelfUser.where({ id: userId }).fetch({ require: false });
+  let user;
   if (challengeType === 'focused') {
-    await user.save({ hasSeenFocusedChallengeTooltip: true }, { patch: true, method: 'update' });
+    [user] = await knex('users')
+      .where({ id: userId })
+      .update({ hasSeenFocusedChallengeTooltip: true, updatedAt: new Date() })
+      .returning('*');
   }
   if (challengeType === 'other') {
-    await user.save({ hasSeenOtherChallengesTooltip: true }, { patch: true, method: 'update' });
+    [user] = await knex('users')
+      .where({ id: userId })
+      .update({ hasSeenOtherChallengesTooltip: true, updatedAt: new Date() })
+      .returning('*');
   }
-  return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
+  return new User(user);
 };
 
 const acceptPixLastTermsOfService = async function (id) {
-  const user = await BookshelfUser.where({ id }).fetch({ require: false });
-  await user.save(
-    {
-      lastTermsOfServiceValidatedAt: new Date(),
-      mustValidateTermsOfService: false,
-    },
-    { patch: true, method: 'update' },
-  );
-  return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
+  const [user] = await knex('users')
+    .where({ id })
+    .update({ lastTermsOfServiceValidatedAt: new Date(), mustValidateTermsOfService: false, updatedAt: new Date() })
+    .returning('*');
+
+  return new User(user);
 };
 
 const updatePixOrgaTermsOfServiceAcceptedToTrue = async function (id) {
@@ -346,42 +346,21 @@ const updatePixCertifTermsOfServiceAcceptedToTrue = async function (id) {
 };
 
 const isUsernameAvailable = async function (username) {
-  const foundUser = await BookshelfUser.where({ username }).fetch({ require: false });
-  if (foundUser) {
-    throw new AlreadyRegisteredUsernameError();
-  }
+  const foundUser = await knex('users').where({ username }).first();
+
+  if (foundUser) throw new AlreadyRegisteredUsernameError();
+
   return username;
 };
 
-const updateUsername = function ({ id, username, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  return BookshelfUser.where({ id })
-    .save(
-      { username },
-      {
-        transacting: domainTransaction.knexTransaction,
-        patch: true,
-        method: 'update',
-      },
-    )
-    .then((bookshelfUser) => _toDomain(bookshelfUser))
-    .catch((err) => {
-      if (err instanceof BookshelfUser.NoRowsUpdatedError) {
-        throw new UserNotFoundError(`User not found for ID ${id}`);
-      }
-      throw err;
-    });
-};
-
-const addUsername = function (id, username) {
-  return BookshelfUser.where({ id })
-    .save({ username }, { patch: true, method: 'update' })
-    .then((bookshelfUser) => _toDomain(bookshelfUser))
-    .catch((err) => {
-      if (err instanceof BookshelfUser.NoRowsUpdatedError) {
-        throw new UserNotFoundError(`User not found for ID ${id}`);
-      }
-      throw err;
-    });
+const updateUsername = async function ({ id, username, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction.knexTransaction || knex;
+  const [updatedUsername] = await knexConn('users')
+    .where({ id })
+    .update({ username, updatedAt: new Date() })
+    .returning('*');
+  if (!updatedUsername) throw new UserNotFoundError(`User not found for ID ${id}`);
+  return new User(updatedUsername);
 };
 
 const findByExternalIdentifier = async function ({ externalIdentityId, identityProvider }) {
@@ -396,17 +375,15 @@ const findByExternalIdentifier = async function ({ externalIdentityId, identityP
 };
 
 const findAnotherUserByEmail = async function (userId, email) {
-  return BookshelfUser.where('id', '!=', userId)
-    .where({ email: email.toLowerCase() })
-    .fetchAll()
-    .then((users) => bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, users));
+  const anotherUsers = await knex('users').whereNot('id', userId).where({ email: email.toLowerCase() });
+
+  return anotherUsers.map((anotherUser) => new User(anotherUser));
 };
 
 const findAnotherUserByUsername = async function (userId, username) {
-  return BookshelfUser.where('id', '!=', userId)
-    .where({ username })
-    .fetchAll()
-    .then((users) => bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, users));
+  const anotherUsers = await knex('users').whereNot('id', userId).where({ username });
+
+  return anotherUsers.map((anotherUser) => new User(anotherUser));
 };
 
 const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
@@ -414,7 +391,7 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
 
   const [user] = await knex('users')
     .where({ id: userId })
-    .update({ lastDataProtectionPolicySeenAt: now })
+    .update({ lastDataProtectionPolicySeenAt: now, updatedAt: new Date() })
     .returning('*');
 
   return new User(user);
@@ -422,7 +399,6 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
 
 export {
   acceptPixLastTermsOfService,
-  addUsername,
   checkIfEmailIsAvailable,
   findAnotherUserByEmail,
   findAnotherUserByUsername,
@@ -430,7 +406,6 @@ export {
   findPaginatedFiltered,
   get,
   getByEmail,
-  getById,
   getByIds,
   getBySamlId,
   getByUsernameOrEmailWithRolesAndPassword,

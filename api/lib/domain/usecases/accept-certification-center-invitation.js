@@ -36,7 +36,7 @@ const acceptCertificationCenterInvitation = async function ({
   }
 
   if (localeFromCookie) {
-    const user = await userRepository.getById(userId);
+    const user = await userRepository.get(userId);
     user.setLocaleIfNotAlreadySet(localeFromCookie);
     if (user.hasBeenModified) {
       await userRepository.update({ id: user.id, locale: user.locale });

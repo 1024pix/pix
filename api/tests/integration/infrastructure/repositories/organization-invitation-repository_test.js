@@ -1,10 +1,9 @@
 import _ from 'lodash';
-import { expect, databaseBuilder, catchErr, sinon } from '../../../test-helper.js';
+import { expect, databaseBuilder, catchErr, sinon, knex } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import * as organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository.js';
-import { BookshelfOrganizationInvitation } from '../../../../lib/infrastructure/orm-models/OrganizationInvitation.js';
 
 describe('Integration | Repository | OrganizationInvitationRepository', function () {
   describe('#create', function () {
@@ -126,13 +125,13 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
 
     it('should not add row in table organization-invitations', async function () {
       // given
-      const nbOrganizationInvitationsBeforeUpdate = await BookshelfOrganizationInvitation.count();
+      const { count: nbOrganizationInvitationsBeforeUpdate } = await knex('organization-invitations').count().first();
 
       // when
       await organizationInvitationRepository.markAsAccepted(organizationInvitation.id);
 
       // then
-      const nbOrganizationInvitationsAfterUpdate = await BookshelfOrganizationInvitation.count();
+      const { count: nbOrganizationInvitationsAfterUpdate } = await knex('organization-invitations').count().first();
       expect(nbOrganizationInvitationsAfterUpdate).to.equal(nbOrganizationInvitationsBeforeUpdate);
     });
 

@@ -1,7 +1,4 @@
-import { BookshelfOrganizationTag } from '../orm-models/OrganizationTag.js';
-import { Bookshelf } from '../bookshelf.js';
 import * as knexUtils from '../utils/knex-utils.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import lodash from 'lodash';
 
@@ -10,12 +7,13 @@ const { omit } = lodash;
 import { DomainTransaction } from '../DomainTransaction.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { Tag } from '../../domain/models/Tag.js';
+import { OrganizationTag } from '../../domain/models/index.js';
 
 const create = async function (organizationTag) {
   try {
     const organizationTagToCreate = omit(organizationTag, 'id');
-    const bookshelfOrganizationTag = await new BookshelfOrganizationTag(organizationTagToCreate).save();
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationTag, bookshelfOrganizationTag);
+    const [organizationTagCreated] = await knex('organization-tags').insert(organizationTagToCreate).returning('*');
+    return new OrganizationTag(organizationTagCreated);
   } catch (err) {
     if (knexUtils.isUniqConstraintViolated(err)) {
       throw new AlreadyExistingEntityError(
@@ -27,15 +25,14 @@ const create = async function (organizationTag) {
 };
 
 const batchCreate = async function (organizationsTags, domainTransaction = DomainTransaction.emptyTransaction()) {
-  return Bookshelf.knex
-    .batchInsert('organization-tags', organizationsTags)
-    .transacting(domainTransaction.knexTransaction);
+  const knexConn = domainTransaction.knexTransaction || knex;
+
+  return knexConn.batchInsert('organization-tags', organizationsTags);
 };
 
 const isExistingByOrganizationIdAndTagId = async function ({ organizationId, tagId }) {
-  const organizationTag = await BookshelfOrganizationTag.where({ organizationId, tagId }).fetch({ require: false });
-
-  return !!organizationTag;
+  const organizationTag = await knex('organization-tags').where({ organizationId, tagId }).first();
+  return Boolean(organizationTag);
 };
 
 const getRecentlyUsedTags = async function ({ tagId, numberOfRecentTags }) {
