@@ -1,4 +1,4 @@
-import { sessionUnfinalizeController } from './session-unfinalize-controller.js';
+import { unfinalizeController } from './unfinalize-controller.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import Joi from 'joi';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
@@ -20,7 +20,7 @@ const register = async function (server) {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
-        handler: sessionUnfinalizeController.unfinalizeSession,
+        handler: unfinalizeController.unfinalizeSession,
         validate: {
           params: Joi.object({ id: identifiersType.sessionId }),
         },

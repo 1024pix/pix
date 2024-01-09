@@ -7,8 +7,8 @@ export const unfinalizeSession = async function (request, h) {
   return h.response().code(204);
 };
 
-const sessionUnfinalizeController = {
+const unfinalizeController = {
   unfinalizeSession,
 };
 
-export { sessionUnfinalizeController };
+export { unfinalizeController };

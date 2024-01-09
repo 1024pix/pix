@@ -1,5 +1,5 @@
 import { expect, hFake, sinon } from '../../../../test-helper.js';
-import { unfinalizeSession } from '../../../../../src/certification/session/application/session-unfinalize-controller.js';
+import { unfinalizeSession } from '../../../../../src/certification/session/application/unfinalize-controller.js';
 import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 
 describe('Unit | Controller | unfinalize-controller', function () {
