@@ -12,12 +12,7 @@
 
 .campaign-title {
   display: flex;
-
-  & h2 {
-    margin-right: 8px;
-  }
-
-  &__tag {
-    margin-right: 8px;
-  }
+  gap: var(--pix-spacing-2x);
+  align-items: center;
+  margin-bottom: var(--pix-spacing-4x);
 }
