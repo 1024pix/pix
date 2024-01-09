@@ -972,7 +972,6 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
     test('should return false if there are no trainings', function (assert) {
       // given
       component.args.model.trainings = {};
-      delete component.args.model.trainings;
       sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
       component.args.model.campaign.organizationId = 777;
 

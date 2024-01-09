@@ -32,6 +32,7 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
         competenceResults,
         campaignParticipationBadges: [],
       }),
+      trainings: {},
     };
   });
 
@@ -264,6 +265,42 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
 
     assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.stage.title')));
     assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.details.title')));
+  });
+
+  module('#displayTrainings', () => {
+    test('should not display trainings when none are associated', async function (assert) {
+      // given
+      model.campaignParticipationResult.set('isShared', true);
+      this.set('model', model);
+
+      // when
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+
+      assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.trainings.title')));
+      assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.trainings.description')));
+    });
+
+    test('should display trainings', async function (assert) {
+      // given
+      model.trainings = {
+        title: 'Mon super training',
+        link: 'https://training.net/',
+        type: 'webinaire',
+        locale: 'fr-fr',
+        duration: { hours: 6 },
+        editorName: "Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité",
+        editorLogoUrl:
+          'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
+      };
+      model.campaignParticipationResult.set('isShared', true);
+      this.set('model', model);
+
+      // when
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+
+      assert.ok(screen.queryByText(this.intl.t('pages.skill-review.trainings.title')));
+      assert.ok(screen.queryByText(this.intl.t('pages.skill-review.trainings.description')));
+    });
   });
 
   module('when the campaign is an autonomous course', () => {
