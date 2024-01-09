@@ -249,6 +249,16 @@ const findTargetProfileSummariesForAdmin = async function (request) {
   return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
 };
 
+const findChildrenOrganizationsForAdmin = async function (
+  request,
+  h,
+  dependencies = { organizationForAdminSerializer },
+) {
+  const parentOrganizationId = request.params.organizationId;
+  const childOrganizations = await usecases.findChildrenOrganizationsForAdmin({ parentOrganizationId });
+  return dependencies.organizationForAdminSerializer.serialize(childOrganizations);
+};
+
 const organizationController = {
   archiveOrganization,
   attachTargetProfiles,
@@ -256,6 +266,7 @@ const organizationController = {
   create,
   createInBatch,
   downloadCertificationResults,
+  findChildrenOrganizationsForAdmin,
   findPaginatedCampaignManagements,
   findPaginatedFilteredMemberships,
   findPaginatedFilteredMembershipsForAdmin,
