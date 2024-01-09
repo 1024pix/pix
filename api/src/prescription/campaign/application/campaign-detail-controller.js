@@ -2,9 +2,12 @@ import stream from 'stream';
 
 import { usecases } from '../domain/usecases/index.js';
 import * as campaignReportSerializer from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
+
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
 import { escapeFileName } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as campaignParticipantsActivitySerializer from '../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
+import { extractParameters } from '../../../../lib/infrastructure/utils/query-params-utils.js';
 
 const { PassThrough } = stream;
 
@@ -95,9 +98,35 @@ const getCsvProfilesCollectionResults = async function (request, h) {
       .header('content-disposition', `attachment; filename="${escapedFileName}"`)
   );
 };
+const findParticipantsActivity = async function (
+  request,
+  h,
+  dependencies = { campaignParticipantsActivitySerializer },
+) {
+  const campaignId = request.params.id;
+
+  const { page, filter: filters } = extractParameters(request.query);
+  if (filters.divisions && !Array.isArray(filters.divisions)) {
+    filters.divisions = [filters.divisions];
+  }
+  if (filters.groups && !Array.isArray(filters.groups)) {
+    filters.groups = [filters.groups];
+  }
+
+  const { userId } = request.auth.credentials;
+  const paginatedParticipations = await usecases.findPaginatedCampaignParticipantsActivities({
+    userId,
+    campaignId,
+    page,
+    filters,
+  });
+
+  return dependencies.campaignParticipantsActivitySerializer.serialize(paginatedParticipations);
+};
 
 const campaignDetailController = {
   getById,
+  findParticipantsActivity,
   findPaginatedFilteredCampaigns,
   getCsvAssessmentResults,
   getCsvProfilesCollectionResults,
