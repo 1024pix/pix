@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import { expect, databaseBuilder } from '../../../../../test-helper.js';
-import { CampaignTypes } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-participation-repository.js';
-import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import {
+  CampaignParticipationStatuses,
+  CampaignTypes,
+} from '../../../../../../src/prescription/shared/domain/constants.js';
 const { STARTED } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Participation', function () {

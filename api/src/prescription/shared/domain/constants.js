@@ -4,4 +4,9 @@ const CampaignParticipationStatuses = {
   SHARED: 'SHARED',
 };
 
-export { CampaignParticipationStatuses };
+const CampaignTypes = {
+  ASSESSMENT: 'ASSESSMENT',
+  PROFILES_COLLECTION: 'PROFILES_COLLECTION',
+};
+
+export { CampaignParticipationStatuses, CampaignTypes };

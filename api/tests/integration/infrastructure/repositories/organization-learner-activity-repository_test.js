@@ -1,7 +1,6 @@
 import { expect, databaseBuilder } from '../../../test-helper.js';
 import * as organizationLearnerActivityRepository from '../../../../lib/infrastructure/repositories/organization-learner-activity-repository.js';
-import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
-import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 const { SHARED } = CampaignParticipationStatuses;
 
 describe('Integration | Infrastructure | Repository | organization-learner-activity', function () {

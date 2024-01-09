@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
-import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 import { prepareCampaigns, checkData } from '../../../../scripts/prod/create-profiles-collection-campaigns.js';
 
 describe('Integration | Scripts | create-profile-collection-campaigns', function () {
