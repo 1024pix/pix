@@ -82,9 +82,19 @@ export {
 };
 
 async function commonBuilder({ databaseBuilder }) {
+  // admin account
   _createSuperAdmin(databaseBuilder);
+  _createCertifAdmin(databaseBuilder);
+  _createSupportAdmin(databaseBuilder);
+  _createMetierAdmin(databaseBuilder);
+
+  // common tag
   _createTags(databaseBuilder);
+
+  // complementary certifications
   _createComplementaryCertifications(databaseBuilder);
+
+  // cities & countries
   _createCountries(databaseBuilder);
   _createCities(databaseBuilder);
   await _createPublicTargetProfile(databaseBuilder);
@@ -94,12 +104,45 @@ async function commonBuilder({ databaseBuilder }) {
 function _createSuperAdmin(databaseBuilder) {
   databaseBuilder.factory.buildUser.withRawPassword({
     id: REAL_PIX_SUPER_ADMIN_ID,
-    firstName: 'NextSuper',
-    lastName: 'NextAdmin',
+    firstName: 'Admin',
+    lastName: 'Admin',
     email: 'superadmin@example.net',
     rawPassword: DEFAULT_PASSWORD,
   });
   databaseBuilder.factory.buildPixAdminRole({ userId: REAL_PIX_SUPER_ADMIN_ID, role: ROLES.SUPER_ADMIN });
+}
+
+function _createMetierAdmin(databaseBuilder) {
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: REAL_PIX_SUPER_ADMIN_ID + 1,
+    firstName: 'Admin',
+    lastName: 'Metier',
+    email: 'metieradmin@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+  });
+  databaseBuilder.factory.buildPixAdminRole({ userId: REAL_PIX_SUPER_ADMIN_ID + 1, role: ROLES.METIER });
+}
+
+function _createSupportAdmin(databaseBuilder) {
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: REAL_PIX_SUPER_ADMIN_ID + 2,
+    firstName: 'Admin',
+    lastName: 'Support',
+    email: 'supportadmin@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+  });
+  databaseBuilder.factory.buildPixAdminRole({ userId: REAL_PIX_SUPER_ADMIN_ID + 2, role: ROLES.SUPPORT });
+}
+
+function _createCertifAdmin(databaseBuilder) {
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: REAL_PIX_SUPER_ADMIN_ID + 3,
+    firstName: 'Admin',
+    lastName: 'Certif',
+    email: 'certifadmin@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+  });
+  databaseBuilder.factory.buildPixAdminRole({ userId: REAL_PIX_SUPER_ADMIN_ID + 3, role: ROLES.CERTIF });
 }
 
 function _createTags(databaseBuilder) {
