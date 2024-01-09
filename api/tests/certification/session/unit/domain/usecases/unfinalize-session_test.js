@@ -17,7 +17,7 @@ describe('Unit | UseCase | unfinalize-session', function () {
         isPublished: sinon.stub().resolves(false),
       };
       finalizedSessionRepository = {
-        delete: sinon.stub(),
+        remove: sinon.stub(),
       };
 
       // when
@@ -31,7 +31,7 @@ describe('Unit | UseCase | unfinalize-session', function () {
 
       expect(sessionRepository.isPublished).to.have.been.calledWithMatch(99);
 
-      expect(finalizedSessionRepository.delete).to.have.been.calledWithMatch({
+      expect(finalizedSessionRepository.remove).to.have.been.calledWithMatch({
         sessionId: 99,
         domainTransaction: sinon.match.object,
       });

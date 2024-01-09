@@ -17,7 +17,7 @@ const unfinalizeSession = async function ({ sessionId, sessionRepository, finali
   }
 
   return DomainTransaction.execute(async (domainTransaction) => {
-    await finalizedSessionRepository.delete({ sessionId, domainTransaction });
+    await finalizedSessionRepository.remove({ sessionId, domainTransaction });
     await sessionRepository.unfinalize({ sessionId, domainTransaction });
   });
 };
