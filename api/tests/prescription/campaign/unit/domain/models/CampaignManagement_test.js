@@ -1,7 +1,7 @@
-import { expect } from '../../../../test-helper.js';
-import { CampaignManagement } from '../../../../../lib/domain/read-models/CampaignManagement.js';
+import { expect } from '../../../../../test-helper.js';
+import { CampaignManagement } from '../../../../../../src/prescription/campaign/domain/models/CampaignManagement.js';
 
-describe('campaignManagement', function () {
+describe('CampaignManagement', function () {
   describe('#totalParticipationsCount', function () {
     it('returns total participations count', function () {
       const campaignManagement = new CampaignManagement({

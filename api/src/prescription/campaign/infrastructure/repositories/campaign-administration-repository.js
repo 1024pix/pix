@@ -35,6 +35,7 @@ const updateByCampaignId = function ({ campaignId, campaignAttributes }) {
     'customResultPageButtonText',
     'customResultPageButtonUrl',
     'multipleSendings',
+    'isForAbsoluteNovice',
   ]);
   return knex('campaigns').where({ id: campaignId }).update(editableAttributes);
 };

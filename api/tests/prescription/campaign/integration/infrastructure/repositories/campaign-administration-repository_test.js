@@ -617,6 +617,7 @@ describe('Integration | Repository | Campaign Administration', function () {
         customResultPageButtonText: null,
         customResultPageButtonUrl: null,
         multipleSendings: false,
+        isForAbsoluteNovice: false,
       });
       await databaseBuilder.commit();
 
@@ -628,6 +629,7 @@ describe('Integration | Repository | Campaign Administration', function () {
         customResultPageButtonText: 'Continue here',
         customResultPageButtonUrl: 'www.next-step.net',
         multipleSendings: true,
+        isForAbsoluteNovice: true,
       };
       const expectedCampaign = databaseBuilder.factory.buildCampaign({ ...campaign, ...campaignAttributes });
       // when
@@ -643,27 +645,21 @@ describe('Integration | Repository | Campaign Administration', function () {
       const campaign = databaseBuilder.factory.buildCampaign({
         code: 'SOMECODE',
         name: 'some name',
-        multipleSendings: false,
       });
       await databaseBuilder.commit();
 
       const campaignAttributes = {
         code: 'NEWCODE',
         name: 'new name',
-        multipleSendings: true,
       };
-      const expectedCampaign = databaseBuilder.factory.buildCampaign({
-        ...campaign,
-        name: 'new name',
-        multipleSendings: true,
-      });
 
       // when
       await campaignAdministrationRepository.updateByCampaignId({ campaignId: campaign.id, campaignAttributes });
-      const updatedCampaign = await knex('campaigns').where({ id: campaign.id }).first();
+      const { name: updatedName, code: sameCode } = await knex('campaigns').where({ id: campaign.id }).first();
 
       // then
-      expect(updatedCampaign).to.deep.equal(expectedCampaign);
+      expect(updatedName).to.be.equal('new name');
+      expect(sameCode).to.be.equal('SOMECODE');
     });
   });
 });

@@ -21,6 +21,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         ownerId: owner.id,
         targetProfileId: targetProfile.id,
         organizationId: organization.id,
+        isForAbsoluteNovice: true,
       });
       await databaseBuilder.commit();
 
@@ -47,6 +48,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         targetProfileId: targetProfile.id,
         targetProfileName: targetProfile.name,
         title: campaign.title,
+        isForAbsoluteNovice: true,
         customLandingPageText: campaign.customLandingPageText,
         customResultPageText: null,
         customResultPageButtonText: null,
@@ -67,6 +69,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         creatorId: user.id,
         ownerId: owner.id,
         organizationId: organization.id,
+        isForAbsoluteNovice: false,
       });
       await databaseBuilder.commit();
 
@@ -94,6 +97,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         targetProfileName: null,
         title: campaign.title,
         customLandingPageText: campaign.customLandingPageText,
+        isForAbsoluteNovice: false,
         customResultPageText: null,
         customResultPageButtonText: null,
         customResultPageButtonUrl: null,

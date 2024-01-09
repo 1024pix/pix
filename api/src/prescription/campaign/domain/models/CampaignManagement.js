@@ -19,6 +19,7 @@ class CampaignManagement {
     customResultPageText,
     customResultPageButtonText,
     customResultPageButtonUrl,
+    isForAbsoluteNovice,
     ownerLastName,
     ownerFirstName,
     ownerId,
@@ -41,6 +42,7 @@ class CampaignManagement {
     this.organizationName = organizationName;
     this.targetProfileId = targetProfileId;
     this.targetProfileName = targetProfileName;
+    this.isForAbsoluteNovice = isForAbsoluteNovice;
     this.title = title;
     this.customLandingPageText = customLandingPageText;
     this.customResultPageText = customResultPageText;
