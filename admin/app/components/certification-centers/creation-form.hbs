@@ -55,6 +55,12 @@
       class="form-field"
     />
 
+    <div class="form-field">
+      <PixCheckbox @id="isV3Pilot" @labelSize="small" onChange={{this.handleIsV3PilotChange}}>
+        {{t "components.certification-centers.is-v3-pilot-label"}}
+      </PixCheckbox>
+    </div>
+
     <section>
       <h2 class="habilitations-title">Habilitations aux certifications complémentaires</h2>
       <ul class="form-field habilitations-checkbox-list">

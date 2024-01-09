@@ -65,6 +65,7 @@
       }
     },
     "certification-centers": {
+      "is-v3-pilot-label": "Pilote Certification V3 (ce centre de certification ne pourra organiser que des sessions V3)",
       "membership-item": {
         "actions": {
           "edit-role": "Modifier le rôle"

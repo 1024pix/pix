@@ -1,13 +1,13 @@
 import { module, test } from 'qunit';
 import { render, fillByLabel } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
 import { click } from '@ember/test-helpers';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | certification-centers/information-edit', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function () {
     const certificationCenter = EmberObject.create('certification-center', {
@@ -18,6 +18,7 @@ module('Integration | Component | certification-centers/information-edit', funct
       dataProtectionOfficerLastName: 'Ptipeu',
       dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
       habilitations: [],
+      isV3Pilot: true,
     });
 
     this.set('certificationCenter', certificationCenter);
@@ -26,6 +27,22 @@ module('Integration | Component | certification-centers/information-edit', funct
   });
 
   module('certification center edit form validation', function () {
+    test('it should display a checkbox to edit the isV3Pilot certification center status ', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`<CertificationCenters::InformationEdit @certificationCenter={{this.certificationCenter}} />`,
+      );
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('checkbox', {
+            name: 'Pilote Certification V3 (ce centre de certification ne pourra organiser que des sessions V3)',
+          }),
+        )
+        .exists();
+    });
+
     test("it should show an error message if certification center's name is empty", async function (assert) {
       // given
       const screen = await render(
