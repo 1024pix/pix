@@ -36,7 +36,7 @@
 
   & > * + *::before {
     margin: 0 1ch;
-    content: '-';
+    content: '•';
   }
 }
 
@@ -44,6 +44,7 @@
   max-width: 100%;
   overflow: hidden;
   white-space: nowrap;
+  text-transform: lowercase;
   text-overflow: ellipsis;
 }
 
