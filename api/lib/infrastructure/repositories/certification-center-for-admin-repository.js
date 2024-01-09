@@ -55,13 +55,13 @@ const get = async function (id) {
 };
 
 const save = async function (certificationCenter) {
-  const data = _.pick(certificationCenter, ['name', 'type', 'externalId']);
+  const data = _toDTO(certificationCenter);
   const [certificationCenterCreated] = await knex(CERTIFICATION_CENTERS_TABLE_NAME).returning('*').insert(data);
   return _toDomain(certificationCenterCreated);
 };
 
 const update = async function (certificationCenter) {
-  const data = _.pick(certificationCenter, ['name', 'type', 'externalId']);
+  const data = _toDTO(certificationCenter);
 
   const [certificationCenterRow] = await knex(CERTIFICATION_CENTERS_TABLE_NAME)
     .update(data)
@@ -87,4 +87,8 @@ function _toDomain(certificationCenterDTO) {
     updatedAt: certificationCenterDTO.updatedAt,
     isV3Pilot: certificationCenterDTO.isV3Pilot,
   });
+}
+
+function _toDTO(certificationCenter) {
+  return _.pick(certificationCenter, ['name', 'type', 'externalId', 'isV3Pilot']);
 }

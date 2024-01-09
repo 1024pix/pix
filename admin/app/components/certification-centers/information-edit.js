@@ -24,6 +24,11 @@ export default class InformationEdit extends Component {
   }
 
   @action
+  updateIsV3Pilot(event) {
+    this.form.set('isV3Pilot', event.target.checked);
+  }
+
+  @action
   updateGrantedHabilitation(habilitation) {
     const habilitations = this.form.habilitations;
     if (habilitations.includes(habilitation)) {
@@ -49,6 +54,7 @@ export default class InformationEdit extends Component {
     this.args.certificationCenter.set('dataProtectionOfficerFirstName', this.form.dataProtectionOfficerFirstName);
     this.args.certificationCenter.set('dataProtectionOfficerLastName', this.form.dataProtectionOfficerLastName);
     this.args.certificationCenter.set('dataProtectionOfficerEmail', this.form.dataProtectionOfficerEmail);
+    this.args.certificationCenter.set('isV3Pilot', this.form.isV3Pilot);
 
     this.args.toggleEditMode();
     return this.args.onSubmit();
@@ -63,6 +69,7 @@ export default class InformationEdit extends Component {
       'dataProtectionOfficerFirstName',
       'dataProtectionOfficerLastName',
       'dataProtectionOfficerEmail',
+      'isV3Pilot',
     );
     this.form.setProperties(properties);
   }
