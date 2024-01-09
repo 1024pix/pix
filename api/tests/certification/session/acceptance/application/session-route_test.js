@@ -5,13 +5,13 @@ import {
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
-} from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+} from '../../../../test-helper.js';
+import { createServer } from '../../../../../server.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
-import { AnswerStatus, CertificationResult } from '../../../../lib/domain/models/index.js';
+} from '../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { AnswerStatus, CertificationResult } from '../../../../../lib/domain/models/index.js';
 
 describe('Acceptance | Controller | Session | session-route', function () {
   let server;
