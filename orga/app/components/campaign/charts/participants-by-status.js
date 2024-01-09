@@ -94,7 +94,7 @@ const LABELS_ASSESSMENT = {
     legend: 'charts.participants-by-status.labels-legend.started',
     legendTooltip: 'charts.participants-by-status.labels-legend.started-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.started',
-    color: '#da7601',
+    color: '#ffcb33',
     shape: 'diamond-box',
   },
   completed: {
@@ -102,7 +102,7 @@ const LABELS_ASSESSMENT = {
     legend: 'charts.participants-by-status.labels-legend.completed-assessment',
     legendTooltip: 'charts.participants-by-status.labels-legend.completed-assessment-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.completed',
-    color: '#8a49ff',
+    color: '#3D68FF',
     shape: 'zigzag',
   },
   shared: {
@@ -110,7 +110,7 @@ const LABELS_ASSESSMENT = {
     legend: 'charts.participants-by-status.labels-legend.shared',
     legendTooltip: 'charts.participants-by-status.labels-legend.shared-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.shared',
-    color: '#038a25',
+    color: '#1c825d',
     shape: 'weave',
   },
 };
@@ -121,7 +121,7 @@ const LABELS_PROFILE_COLLECTIONS = {
     legend: 'charts.participants-by-status.labels-legend.started',
     legendTooltip: 'charts.participants-by-status.labels-legend.started-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.started',
-    color: '#da7601',
+    color: '#ffcb33',
     shape: 'diamond-box',
   },
   completed: {
@@ -129,7 +129,7 @@ const LABELS_PROFILE_COLLECTIONS = {
     legend: 'charts.participants-by-status.labels-legend.completed-profile',
     legendTooltip: 'charts.participants-by-status.labels-legend.completed-profile-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.completed',
-    color: '#8a49ff',
+    color: '#613fdd',
     shape: 'zigzag',
   },
   shared: {
@@ -137,7 +137,7 @@ const LABELS_PROFILE_COLLECTIONS = {
     legend: 'charts.participants-by-status.labels-legend.shared-profile',
     legendTooltip: 'charts.participants-by-status.labels-legend.shared-profile-tooltip',
     a11y: 'charts.participants-by-status.labels-a11y.shared-profile',
-    color: '#038a25',
+    color: '#1c825d',
     shape: 'weave',
   },
 };
