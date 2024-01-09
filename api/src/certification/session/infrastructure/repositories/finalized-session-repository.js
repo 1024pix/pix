@@ -9,7 +9,7 @@ const save = async function (finalizedSession) {
   return finalizedSession;
 };
 
-const _delete = async function ({ sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+const remove = async function ({ sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction ?? knex;
   return knexConn('finalized-sessions').where({ sessionId }).delete();
 };
@@ -55,7 +55,7 @@ const findFinalizedSessionsWithRequiredAction = async function ({ version } = {}
   return publishableFinalizedSessions.map(_toDomainObject);
 };
 
-export { save, get, _delete as delete, findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction };
+export { save, get, remove, findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction };
 
 function _toDomainObject({ date, time, ...finalizedSession }) {
   return new FinalizedSession({

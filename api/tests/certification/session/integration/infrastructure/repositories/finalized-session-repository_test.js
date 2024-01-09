@@ -124,14 +124,14 @@ describe('Integration | Repository | Finalized-session', function () {
     });
   });
 
-  describe('#delete', function () {
-    it('deletes the record', async function () {
+  describe('#remove', function () {
+    it('removes the record', async function () {
       // given
       databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
       await databaseBuilder.commit();
 
       // when
-      await finalizedSessionRepository.delete({ sessionId: 1234 });
+      await finalizedSessionRepository.remove({ sessionId: 1234 });
 
       /// then
       const records = await knex('finalized-sessions').select(1);
@@ -147,7 +147,7 @@ describe('Integration | Repository | Finalized-session', function () {
 
         // when
         await DomainTransaction.execute(async (domainTransaction) => {
-          await finalizedSessionRepository.delete({ sessionId: 1234, domainTransaction });
+          await finalizedSessionRepository.remove({ sessionId: 1234, domainTransaction });
           return domainTransaction.knexTransaction.rollback();
         });
 
