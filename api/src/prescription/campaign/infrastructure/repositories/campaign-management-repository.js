@@ -1,7 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CampaignManagement } from '../../domain/models/CampaignManagement.js';
 import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
-import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -12,6 +12,7 @@ const get = async function (campaignId) {
       code: 'campaigns.code',
       name: 'campaigns.name',
       idPixLabel: 'campaigns.idPixLabel',
+      isForAbsoluteNovice: 'campaigns.isForAbsoluteNovice',
       createdAt: 'campaigns.createdAt',
       archivedAt: 'campaigns.archivedAt',
       type: 'campaigns.type',
