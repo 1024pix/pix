@@ -4,9 +4,6 @@ import { campaignManagementController } from './campaign-management-controller.j
 import { campaignStatsController } from './campaign-stats-controller.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
-import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
-
-const campaignParticipationStatuses = Object.values(CampaignParticipationStatuses);
 
 const register = async function (server) {
   server.route([
@@ -149,33 +146,6 @@ const register = async function (server) {
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             "- Désarchivage d'une campagne par son id",
         ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/campaigns/{id}/participants-activity',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.campaignId,
-          }),
-          query: Joi.object({
-            'page[number]': Joi.number().integer().empty(''),
-            'page[size]': Joi.number().integer().empty(''),
-            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[status]': Joi.string()
-              .valid(...campaignParticipationStatuses)
-              .empty(''),
-            'filter[groups][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[search]': Joi.string().empty(''),
-          }),
-        },
-        handler: campaignController.findParticipantsActivity,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Récupération des participations d'une campagne par son id",
-        ],
-        tags: ['api', 'campaign'],
       },
     },
     {
