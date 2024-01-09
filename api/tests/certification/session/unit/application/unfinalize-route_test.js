@@ -1,5 +1,5 @@
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
-import * as moduleUnderTest from '../../../../../src/certification/session/application/session-unfinalize-route.js';
+import * as moduleUnderTest from '../../../../../src/certification/session/application/unfinalize-route.js';
 import { expect, sinon } from '../../../../test-helper.js';
 import { unfinalizeController } from '../../../../../src/certification/session/application/unfinalize-controller.js';
 import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
