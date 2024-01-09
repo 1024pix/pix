@@ -14,7 +14,7 @@ export default class AuthenticatedPlacesRoute extends Route {
 
   async model() {
     try {
-      await this.store.queryRecord('organization-place-statistic', {
+      return await this.store.queryRecord('organization-place-statistic', {
         organizationId: this.currentUser.organization.id,
       });
     } catch (_) {
