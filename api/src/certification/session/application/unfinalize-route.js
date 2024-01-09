@@ -34,5 +34,5 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'session-unfinalize-api';
+const name = 'unfinalize-api';
 export { register, name };
