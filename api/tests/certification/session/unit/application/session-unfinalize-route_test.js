@@ -1,7 +1,7 @@
 import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 import * as moduleUnderTest from '../../../../../src/certification/session/application/session-unfinalize-route.js';
 import { expect, sinon } from '../../../../test-helper.js';
-import { sessionUnfinalizeController } from '../../../../../src/certification/session/application/session-unfinalize-controller.js';
+import { unfinalizeController } from '../../../../../src/certification/session/application/unfinalize-controller.js';
 import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
 
 describe('Unit | Router | session-unfinalize', function () {
@@ -35,7 +35,7 @@ describe('Unit | Router | session-unfinalize', function () {
     describe(`when user has no role`, function () {
       it(`should return 403`, async function () {
         // given
-        sinon.stub(sessionUnfinalizeController, 'unfinalizeSession').callsFake((_, h) => h.response().code(204));
+        sinon.stub(unfinalizeController, 'unfinalizeSession').callsFake((_, h) => h.response().code(204));
         sinon
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((_, h) => h.response({ errors: new Error('forbidden') }).code(403));
@@ -58,7 +58,7 @@ describe('Unit | Router | session-unfinalize', function () {
 
     it('should exist', async function () {
       // given
-      sinon.stub(sessionUnfinalizeController, 'unfinalizeSession').callsFake((_, h) => h.response().code(204));
+      sinon.stub(unfinalizeController, 'unfinalizeSession').callsFake((_, h) => h.response().code(204));
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((_, h) => h.response(true));
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((_, h) => h.response(true));
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((_, h) => h.response(true));
