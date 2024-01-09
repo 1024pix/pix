@@ -14,40 +14,80 @@
     text-align: center;
   }
 
-  &__title {
-    @include leftElement;
+  @mixin coloriseElements($color) {
+    > table > thead > tr > th:first-child {
+      color: $color;
+    }
 
-    padding-left: 16px;
-    font-weight: normal;
-    font-size: 0.9rem;
-    font-family: $font-roboto;
-    line-height: 1rem;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    > table > tbody > tr {
+      &--level {
+        color: $color;
+      }
 
-    &--level {
-      @include rightElement;
-
-      color: $pix-neutral-60;
+      &::before {
+        background-color: $color;
+      }
     }
   }
 
-  &__competence {
-    @include leftElement;
+  &__list {
+    width: 100%;
 
-    height: 100%;
-    margin: 0;
-    padding: 20px 0 20px 36px;
-    color: $pix-neutral-80;
-    font-size: 1rem;
-    font-family: $font-open-sans;
-
-    &--level {
-      @include rightElement;
-
-      font-weight: bold;
-      font-size: 1.5rem;
+    thead,
+    tbody {
+      display: block;
     }
+  }
+
+  &--jaffa {
+    @include coloriseElements($pix-information-light);
+  }
+
+  &--emerald {
+    @include coloriseElements($pix-content-light);
+  }
+
+  &--cerulean {
+    @include coloriseElements($pix-communication-light);
+  }
+
+  &--wild-strawberry {
+    @include coloriseElements($pix-security-light);
+  }
+
+  &--butterfly-bush {
+    @include coloriseElements($pix-environment-light);
+  }
+}
+
+.user-certifications-detail-competence-list {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: inherit;
+    padding: $pix-spacing-m 0 $pix-spacing-m $pix-spacing-s;
+    font-weight: normal;
+    text-transform: uppercase;
+
+    > th {
+      font-weight: normal;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+
+      &:last-child {
+        min-width: 90px;
+        padding-right: $pix-spacing-l;
+        color: $pix-neutral-60;
+      }
+    }
+  }
+
+  &__row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     &::before {
       position: absolute;
@@ -58,85 +98,29 @@
       border-radius: 1.5px;
       content: '';
     }
-
-    &--disabled {
-      opacity: 0.4;
-
-      span {
-        display: none;
-      }
-    }
-  }
-
-  > * {
-    height: 75px;
-    min-height: 60px;
-    border-bottom: 1.5px $pix-neutral-10 solid;
-  }
-
-  > :last-child {
-    border: none;
   }
 }
 
-@mixin coloriseElements($color) {
-  .user-certifications-detail-competence__title {
-    color: $color;
+.user-certifications-detail-competence-list-row {
+  &__name {
+    padding: 20px 0 20px 36px;
+    color: $pix-neutral-80;
+    font-family: $font-open-sans;
   }
 
-  .user-certifications-detail-competence__competence {
-    &--level {
-      color: $color;
-    }
-
-    &::before {
-      background-color: $color;
-    }
+  &__level {
+    min-width: 90px;
+    padding-right: $pix-spacing-l;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
   }
-}
 
-.user-certifications-detail-competence--jaffa {
-  @include coloriseElements($pix-information-light);
-}
+  &--disabled {
+    opacity: 0.4;
+  }
 
-.user-certifications-detail-competence--emerald {
-  @include coloriseElements($pix-content-light);
-}
-
-.user-certifications-detail-competence--cerulean {
-  @include coloriseElements($pix-communication-light);
-}
-
-.user-certifications-detail-competence--wild-strawberry {
-  @include coloriseElements($pix-security-light);
-}
-
-.user-certifications-detail-competence--butterfly-bush {
-  @include coloriseElements($pix-environment-light);
-}
-
-@include device-is('mobile') {
-  .user-certifications-detail-competence {
-    &__title {
-      font-weight: $font-normal;
-      font-size: 0.875rem;
-
-      &--level {
-        padding-right: 0;
-      }
-    }
-
-    &__competence {
-      &--level {
-        padding-right: 0;
-      }
-
-      &--disabled {
-        span {
-          display: block;
-          opacity: 0;
-        }
-      }
-    }
+  &__level--disabled {
+    display: none;
   }
 }

@@ -1,22 +1,28 @@
 <PixBlock class="user-certifications-detail-competence user-certifications-detail-competence--{{@area.color}}">
-  <h3 class="user-certifications-detail-competence__title">
-    {{@area.title}}
-    <span class="user-certifications-detail-competence__title--level">{{t "common.level"}}</span>
-  </h3>
-
-  {{#each this.sortedCompetences as |competence|}}
-    <div>
-      <p
-        class="user-certifications-detail-competence__competence
-          {{if (lt competence.level 0) 'user-certifications-detail-competence__competence--disabled'}}"
-      >
-        {{competence.name}}
-        {{#if (eq competence.level 0)}}
-          <span class="user-certifications-detail-competence__competence--level">-</span>
-        {{else}}
-          <span class="user-certifications-detail-competence__competence--level">{{competence.level}}</span>
-        {{/if}}
-      </p>
-    </div>
-  {{/each}}
+  <table class="user-certifications-detail-competence__list user-certifications-detail-competence-list">
+    <thead>
+      <tr class="user-certifications-detail-competence-list__header">
+        <th>{{@area.title}}</th>
+        <th>{{t "common.level"}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this.sortedCompetences as |competence|}}
+        <tr
+          class="user-certifications-detail-competence-list__row user-certifications-detail-competence-list-row
+            {{if (lt competence.level 0) 'user-certifications-detail-competence-list-row--disabled'}}"
+        >
+          <td class="user-certifications-detail-competence-list-row__name">
+            {{competence.name}}
+          </td>
+          <td
+            class="user-certifications-detail-competence-list-row__level
+              {{if (lt competence.level 0) 'user-certifications-detail-competence-list-row__level--disabled'}}"
+          >
+            {{if (lt competence.level 1) "-" competence.level}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </PixBlock>
