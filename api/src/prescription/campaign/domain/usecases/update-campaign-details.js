@@ -1,5 +1,3 @@
-import { EntityValidationError } from '../../../../shared/domain/errors.js';
-
 const updateCampaignDetails = async function ({
   campaignId,
   name,
@@ -9,38 +7,39 @@ const updateCampaignDetails = async function ({
   customResultPageButtonText,
   customResultPageButtonUrl,
   multipleSendings,
+  isForAbsoluteNovice,
+  isAuthorizedToUpdateIsForAbsoluteNovice,
   campaignAdministrationRepository,
   campaignManagementRepository,
   campaignUpdateValidator,
 }) {
   const campaign = await campaignManagementRepository.get(campaignId);
-  campaign.name = name;
-  campaign.title = title;
-  campaign.customLandingPageText = customLandingPageText;
-  campaign.customResultPageText = customResultPageText;
-  campaign.customResultPageButtonText = customResultPageButtonText;
-  campaign.customResultPageButtonUrl = customResultPageButtonUrl;
 
-  if (multipleSendings !== campaign.multipleSendings && campaign.totalParticipationsCount > 0) {
-    throw new EntityValidationError({
-      invalidAttributes: [
-        { attribute: 'multipleSendings', message: 'CANT_UPDATE_ATTRIBUTE_WHEN_CAMPAIGN_HAS_PARTICIPATIONS' },
-      ],
-    });
-  } else {
-    campaign.multipleSendings = multipleSendings;
-  }
+  campaign.updateFields(
+    {
+      name,
+      title,
+      customLandingPageText,
+      customResultPageText,
+      customResultPageButtonText,
+      customResultPageButtonUrl,
+      multipleSendings,
+      isForAbsoluteNovice,
+    },
+    isAuthorizedToUpdateIsForAbsoluteNovice,
+  );
 
   campaignUpdateValidator.validate(campaign);
 
   const campaignAttributes = {
-    name,
-    title,
-    customLandingPageText,
-    customResultPageText,
-    customResultPageButtonText,
-    customResultPageButtonUrl,
+    name: campaign.name,
+    title: campaign.title,
+    customLandingPageText: campaign.customLandingPageText,
+    customResultPageText: campaign.customResultPageText,
+    customResultPageButtonText: campaign.customResultPageButtonText,
+    customResultPageButtonUrl: campaign.customResultPageButtonUrl,
     multipleSendings: campaign.multipleSendings,
+    isForAbsoluteNovice: campaign.isForAbsoluteNovice,
   };
 
   return campaignAdministrationRepository.updateByCampaignId({ campaignId, campaignAttributes });

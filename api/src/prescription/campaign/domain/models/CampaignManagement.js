@@ -1,3 +1,5 @@
+import { MultipleSendingsUpdateError, IsForAbsoluteNoviceUpdateError } from '../errors.js';
+import { CampaignTypes } from '../../../shared/domain/constants.js';
 class CampaignManagement {
   constructor({
     id,
@@ -52,16 +54,46 @@ class CampaignManagement {
     this.ownerFirstName = ownerFirstName;
     this.ownerId = ownerId;
     this.sharedParticipationsCount = shared;
-    this.totalParticipationsCount = this.sharedParticipationsCount + (started || 0) + completed;
+    this.totalParticipationsCount = this.#computeTotalParticipation(this.sharedParticipationsCount, started, completed);
     this.multipleSendings = multipleSendings;
   }
 
   get isTypeProfilesCollection() {
-    return this.type === 'PROFILES_COLLECTION';
+    return this.type === CampaignTypes.PROFILES_COLLECTION;
   }
 
   get isTypeAssessment() {
-    return this.type === 'ASSESSMENT';
+    return this.type === CampaignTypes.ASSESSMENT;
+  }
+
+  #computeTotalParticipation(sharedParticipationsCount, started, completed) {
+    return sharedParticipationsCount + (started || 0) + completed;
+  }
+
+  updateFields(fields, isAuthorizedToUpdateIsForAbsoluteNovice) {
+    if (
+      fields.multipleSendings !== undefined &&
+      fields.multipleSendings !== this.multipleSendings &&
+      this.totalParticipationsCount > 0
+    ) {
+      throw new MultipleSendingsUpdateError();
+    }
+
+    if (
+      !isAuthorizedToUpdateIsForAbsoluteNovice &&
+      fields.isForAbsoluteNovice !== undefined &&
+      fields.isForAbsoluteNovice !== this.isForAbsoluteNovice
+    ) {
+      throw new IsForAbsoluteNoviceUpdateError();
+    }
+
+    Object.entries(fields).forEach((entry) => {
+      const [key, value] = entry;
+
+      if (this[key] !== undefined && value !== undefined) {
+        this[key] = value;
+      }
+    });
   }
 }
 
