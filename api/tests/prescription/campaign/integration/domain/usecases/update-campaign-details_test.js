@@ -2,7 +2,10 @@ import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '..
 
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import {
+  MultipleSendingsUpdateError,
+  IsForAbsoluteNoviceUpdateError,
+} from '../../../../../../src/prescription/campaign/domain/errors.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -17,13 +20,23 @@ describe('Integration | UseCases | update-campaign-details', function () {
     userId = databaseBuilder.factory.buildUser().id;
     targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
     databaseBuilder.factory.buildMembership({ organizationId, userId });
+
     campaign = databaseBuilder.factory.buildCampaign({
+      name: 'old Name',
+      title: 'old title',
+      customLandingPageText: 'old landing text',
+      customResultPageText: 'old result text',
+      customResultPageButtonText: 'old result button text',
+      customResultPageButtonUrl: 'http://some.url.com',
       targetProfileId,
       creatorId: userId,
       organizationId,
       multipleSendings: false,
+      isForAbsoluteNovice: false,
     });
+
     campaignId = campaign.id;
+
     await databaseBuilder.commit();
 
     const learningContent = {
@@ -41,7 +54,6 @@ describe('Integration | UseCases | update-campaign-details', function () {
       customResultPageText: 'new result text',
       customResultPageButtonText: 'new result button text',
       customResultPageButtonUrl: 'http://some.url.com',
-      multipleSendings: true,
     };
     const expectedCampaign = { ...campaign, ...campaignAttributes };
 
@@ -54,106 +66,92 @@ describe('Integration | UseCases | update-campaign-details', function () {
     expect(actualCampaign).to.deep.equal(expectedCampaign);
   });
 
-  it('should not update multipleSendings attribute when campaign has participations', async function () {
-    //given
-    const campaignId = databaseBuilder.factory.buildCampaign({
-      multipleSendings: false,
-    }).id;
+  describe('#multipleSendings', function () {
+    it('should update multipleSendings', async function () {
+      const campaignAttributes = {
+        multipleSendings: true,
+      };
 
-    databaseBuilder.factory.buildCampaignParticipation({
-      campaignId,
-      status: SHARED,
+      await usecases.updateCampaignDetails({
+        campaignId,
+        ...campaignAttributes,
+      });
+
+      const { multipleSendings } = await knex.select('*').from('campaigns').first();
+      expect(multipleSendings).to.be.true;
     });
 
+    it('should throw an error on updating multipleSendings whereas campaign has participations', async function () {
+      //given
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        status: SHARED,
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      const campaignAttributes = {
+        multipleSendings: true,
+      };
+
+      const error = await catchErr(usecases.updateCampaignDetails)({
+        campaignId,
+        ...campaignAttributes,
+      });
+
+      //then
+      const { multipleSendings: actualMultipleSendings } = await knex
+        .select('multipleSendings')
+        .from('campaigns')
+        .where({ id: campaignId })
+        .first();
+
+      expect(error).to.be.an.instanceOf(MultipleSendingsUpdateError);
+      expect(actualMultipleSendings).to.be.false;
+    });
+  });
+
+  describe('#isForAbsoluteNovice', function () {
+    it('should update isForAbsoluteNovice', async function () {
+      const campaignAttributes = {
+        isForAbsoluteNovice: true,
+      };
+
+      await usecases.updateCampaignDetails({
+        campaignId,
+        isAuthorizedToUpdateIsForAbsoluteNovice: true,
+        ...campaignAttributes,
+      });
+
+      const { isForAbsoluteNovice } = await knex.select('*').from('campaigns').first();
+      expect(isForAbsoluteNovice).to.be.true;
+    });
+  });
+
+  it('should throw an error on updating isAbsoluteNovice when user not super admin', async function () {
+    //given
     await databaseBuilder.commit();
 
     //when
     const campaignAttributes = {
-      name: 'new Name',
-      title: 'new title',
-      customLandingPageText: 'new landing text',
-      customResultPageText: 'new result text',
-      customResultPageButtonText: 'new result button text',
-      customResultPageButtonUrl: 'http://some.url.com',
-      multipleSendings: true,
+      isForAbsoluteNovice: true,
     };
 
     const error = await catchErr(usecases.updateCampaignDetails)({
       campaignId,
+      isAuthorizedToUpdateIsForAbsoluteNovice: false,
       ...campaignAttributes,
     });
 
     //then
-    const { multipleSendings: actualMultipleSendings } = await knex
-      .select('multipleSendings')
+    const { isForAbsoluteNovice: actualIsForAbsoluteNovice } = await knex
+      .select('isForAbsoluteNovice')
       .from('campaigns')
       .where({ id: campaignId })
       .first();
 
-    expect(error).to.be.an.instanceOf(EntityValidationError);
-    expect(actualMultipleSendings).to.be.false;
-  });
-
-  it('should update other attribut when campaign has participations', async function () {
-    //given
-    const campaignId = databaseBuilder.factory.buildCampaign({
-      name: 'mapetitelicorne',
-      multipleSendings: false,
-    }).id;
-
-    databaseBuilder.factory.buildCampaignParticipation({
-      campaignId,
-      status: SHARED,
-    });
-
-    await databaseBuilder.commit();
-
-    //when
-    const campaignAttributes = {
-      name: 'Daddy cool',
-      title: 'new title',
-      customLandingPageText: 'new landing text',
-      customResultPageText: 'new result text',
-      customResultPageButtonText: 'new result button text',
-      customResultPageButtonUrl: 'http://some.url.com',
-      multipleSendings: false,
-    };
-
-    await usecases.updateCampaignDetails({
-      campaignId,
-      ...campaignAttributes,
-    });
-
-    //then
-    const { name: actualName } = await knex.select('name').from('campaigns').where({ id: campaignId }).first();
-
-    expect(actualName).to.equal('Daddy cool');
-  });
-
-  it('should update multipleSendings attribute when campaign has no participations', async function () {
-    //given
-    const campaignAttributes = {
-      name: 'new Name',
-      title: 'new title',
-      customLandingPageText: 'new landing text',
-      customResultPageText: 'new result text',
-      customResultPageButtonText: 'new result button text',
-      customResultPageButtonUrl: 'http://some.url.com',
-      multipleSendings: true,
-    };
-    const expectedCampaign = { ...campaign, ...campaignAttributes };
-
-    //when
-    await usecases.updateCampaignDetails({
-      campaignId,
-      ...campaignAttributes,
-    });
-
-    //then
-    const { multipleSendings: actualMultipleSendings } = await knex
-      .select('multipleSendings')
-      .from('campaigns')
-      .first();
-    expect(actualMultipleSendings).to.equal(expectedCampaign.multipleSendings);
+    expect(error).to.be.an.instanceOf(IsForAbsoluteNoviceUpdateError);
+    expect(actualIsForAbsoluteNovice).to.be.false;
   });
 });

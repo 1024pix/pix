@@ -13,4 +13,23 @@ class SwapCampaignMismatchOrganizationError extends DomainError {
   }
 }
 
-export { UnknownCampaignId, SwapCampaignMismatchOrganizationError };
+class IsForAbsoluteNoviceUpdateError extends DomainError {
+  constructor(message = 'Update isForAbsoluteNovice campaign unauthorized') {
+    super(message);
+    this.code = 'IS_FOR_ABSOLUTE_NOVICE_UPDATE_FORBIDDEN';
+  }
+}
+
+class MultipleSendingsUpdateError extends DomainError {
+  constructor(message = 'Update multipleSending campaign unauthorized, has already participations') {
+    super(message);
+    this.code = 'CANT_UPDATE_ATTRIBUTE_WHEN_CAMPAIGN_HAS_PARTICIPATIONS';
+  }
+}
+
+export {
+  UnknownCampaignId,
+  SwapCampaignMismatchOrganizationError,
+  IsForAbsoluteNoviceUpdateError,
+  MultipleSendingsUpdateError,
+};

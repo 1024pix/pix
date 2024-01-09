@@ -1,6 +1,7 @@
 import { expect, catchErr, domainBuilder, sinon } from '../../../../../test-helper.js';
 import { updateCampaignDetails } from '../../../../../../src/prescription/campaign/domain/usecases/update-campaign-details.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { CampaignManagement } from '../../../../../../src/prescription/campaign/domain/models/CampaignManagement.js';
 
 describe('Unit | UseCase | update-campaign-details', function () {
   let campaignAdministrationRepository, campaignManagementRepository;
@@ -8,7 +9,7 @@ describe('Unit | UseCase | update-campaign-details', function () {
   let campaignUpdateValidator;
 
   beforeEach(function () {
-    campaign = domainBuilder.buildCampaign();
+    campaign = new CampaignManagement({ ...domainBuilder.buildCampaign() });
 
     campaignAdministrationRepository = {
       updateByCampaignId: sinon.stub(),
@@ -32,6 +33,7 @@ describe('Unit | UseCase | update-campaign-details', function () {
       customResultPageButtonText: 'new result button text',
       customResultPageButtonUrl: 'new result button url',
       multipleSendings: false,
+      isForAbsoluteNovice: false,
     };
 
     await updateCampaignDetails({

@@ -27,4 +27,25 @@ describe('CampaignManagement', function () {
       expect(campaignManagement.totalParticipationsCount).to.equal(7);
     });
   });
+
+  describe('#updateFields', function () {
+    it('update only field existing on model', function () {
+      const campaignManagement = new CampaignManagement({
+        id: 1,
+        name: 'Assessment101',
+        title: 'Minus One',
+        shared: 5,
+        started: undefined,
+        completed: 2,
+        multipleSendings: true,
+      });
+
+      campaignManagement.updateFields({ name: 'GodZilla', toto: 'toto', multipleSendings: undefined });
+
+      expect(campaignManagement.name).to.be.equal('GodZilla');
+      expect(campaignManagement.title).to.be.equal('Minus One');
+      expect(campaignManagement.multipleSendings).to.be.true;
+      expect(campaignManagement.toto).to.be.undefined;
+    });
+  });
 });
