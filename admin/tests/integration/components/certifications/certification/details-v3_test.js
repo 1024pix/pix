@@ -158,23 +158,49 @@ module('Integration | Component | Certifications | certification > details v3', 
       assert.deepEqual(expected, result);
     });
 
-    test('displays the modal with the candidate answer on icon click', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      this.model = store.createRecord('v3-certification-course-details-for-administration', {
-        certificationChallengesForAdministration: createChallengesForAdministration(['ok', 'ko'], store),
+    module('when the candidate answers several questions', function () {
+      module('when the candidate gives an answer to the question', function () {
+        test('displays the modal with the candidate answer on icon click', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          this.model = store.createRecord('v3-certification-course-details-for-administration', {
+            certificationChallengesForAdministration: createChallengesForAdministration(['ok', 'ko'], store),
+          });
+
+          // when
+          const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+
+          const modalButtons = screen.getAllByRole('button', { name: 'Afficher la réponse du candidat' });
+          await click(modalButtons[0]);
+
+          // then
+          const modal = within(await screen.findByRole('dialog'));
+          assert.dom(modal.getByRole('heading', { name: 'Réponse question 1' })).exists();
+          assert.dom(screen.getByText('Réponse 1')).exists();
+        });
       });
 
-      // when
-      const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+      module('when the candidate skips the question', function () {
+        test('does not display the answer icon', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          this.model = store.createRecord('v3-certification-course-details-for-administration', {
+            certificationChallengesForAdministration: [
+              store.createRecord('certification-challenges-for-administration', {
+                id: 1,
+                questionNumber: 1,
+                answerStatus: 'aband',
+              }),
+            ],
+          });
 
-      const modalButtons = screen.getAllByRole('button', { name: 'Afficher la réponse du candidat' });
-      await click(modalButtons[0]);
+          // when
+          const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
 
-      // then
-      const modal = within(await screen.findByRole('dialog'));
-      assert.dom(modal.getByRole('heading', { name: 'Réponse question 1' })).exists();
-      assert.dom(screen.getByText('Réponse 1')).exists();
+          // then
+          assert.dom(screen.queryByRole('button', { name: 'Afficher la réponse du candidat' })).doesNotExist();
+        });
+      });
     });
 
     test('should not display the issue report button', async function (assert) {
@@ -234,7 +260,7 @@ module('Integration | Component | Certifications | certification > details v3', 
     });
 
     module('when the candidate does not finish the session', function () {
-      test('should not display a tag', async function (assert) {
+      test('should not display a tag and a response icon in the last question line', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         this.model = store.createRecord('v3-certification-course-details-for-administration', {
@@ -242,6 +268,7 @@ module('Integration | Component | Certifications | certification > details v3', 
             store.createRecord('certification-challenges-for-administration', {
               validatedLiveAlert: false,
               answeredAt: null,
+              answerStatus: null,
             }),
           ],
         });
@@ -255,6 +282,7 @@ module('Integration | Component | Certifications | certification > details v3', 
         const lastQuestionDetail = within(detailTable).getAllByRole('row').at(-1);
         const lastQuestionStatus = within(lastQuestionDetail).getAllByRole('cell')[statusCellIndex - 1].innerText;
         assert.strictEqual(lastQuestionStatus, '-');
+        assert.dom(screen.queryByRole('button', { name: 'Afficher la réponse du candidat' })).doesNotExist();
       });
     });
   });
