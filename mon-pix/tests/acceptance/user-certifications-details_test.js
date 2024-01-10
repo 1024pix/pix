@@ -4,8 +4,7 @@ import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { within } from '@1024pix/ember-testing-library/addon';
-import zipObject from 'lodash/zipObject';
+import { getTableData } from '../helpers/get-table-data';
 
 module('Acceptance | User certification detail page', function (hooks) {
   setupApplicationTest(hooks);
@@ -64,7 +63,7 @@ module('Acceptance | User certification detail page', function (hooks) {
 
       const table = screen.getByRole('table');
 
-      const tableData = await _getTableData(table);
+      const tableData = await getTableData(table);
 
       // then
       assert.strictEqual(currentURL(), `/mes-certifications/${validatedCertificate.id}`);
@@ -77,14 +76,3 @@ module('Acceptance | User certification detail page', function (hooks) {
     });
   });
 });
-
-async function _getTableData(table) {
-  const header = await within(table).findAllByRole('columnheader');
-  const headerTitles = header.map((th) => th.innerText);
-  const rows = await within(table).findAllByRole('row');
-  const rowsAndCells = (await Promise.all(rows.map(async (row) => await within(row).queryAllByRole('cell'))))
-    .filter((row) => row.length !== 0)
-    .map((row) => row.map((cell) => cell.innerText));
-
-  return rowsAndCells.map((rowValues) => zipObject(headerTitles, rowValues));
-}

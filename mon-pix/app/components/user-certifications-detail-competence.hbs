@@ -15,11 +15,8 @@
           <td class="user-certifications-detail-competence-list-row__name">
             {{competence.name}}
           </td>
-          <td
-            class="user-certifications-detail-competence-list-row__level
-              {{if (lt competence.level 0) 'user-certifications-detail-competence-list-row__level--disabled'}}"
-          >
-            {{if (lt competence.level 1) "-" competence.level}}
+          <td class="user-certifications-detail-competence-list-row__level">
+            {{if (lt competence.level 1) "" competence.level}}
           </td>
         </tr>
       {{/each}}
