@@ -1,6 +1,6 @@
 import { databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 import * as flashAlgorithmConfigurationRepository from '../../../../../../../api/src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
-import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmConfiguration.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 
 describe('Integration | Infrastructure | Repository | FlashAlgorithmConfigurationRepository', function () {
   describe('#save', function () {

@@ -1,6 +1,6 @@
 import { expect, domainBuilder, sinon } from '../../../../../test-helper.js';
 import { Answer, AnswerStatus } from '../../../../../../lib/domain/models/index.js';
-import { AssessmentSimulatorSingleMeasureStrategy } from '../../../../../../src/certification/flash-certification/domain/model/AssessmentSimulatorSingleMeasureStrategy.js';
+import { AssessmentSimulatorSingleMeasureStrategy } from '../../../../../../src/certification/flash-certification/domain/models/AssessmentSimulatorSingleMeasureStrategy.js';
 
 describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', function () {
   describe('#run', function () {
