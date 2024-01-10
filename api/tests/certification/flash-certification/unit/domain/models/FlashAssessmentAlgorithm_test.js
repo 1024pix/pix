@@ -1,9 +1,9 @@
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { AssessmentEndedError } from '../../../../../../lib/domain/errors.js';
 import { config } from '../../../../../../lib/config.js';
-import { FlashAssessmentSuccessRateHandler } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentSuccessRateHandler.js';
-import { FlashAssessmentAlgorithm } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
-import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmConfiguration.js';
+import { FlashAssessmentSuccessRateHandler } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentSuccessRateHandler.js';
+import { FlashAssessmentAlgorithm } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 
 const baseFlashAssessmentAlgorithmConfig = {
   warmUpLength: 0,

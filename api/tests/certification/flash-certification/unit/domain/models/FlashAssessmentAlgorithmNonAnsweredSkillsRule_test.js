@@ -1,4 +1,4 @@
-import { FlashAssessmentAlgorithmNonAnsweredSkillsRule } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmNonAnsweredSkillsRule.js';
+import { FlashAssessmentAlgorithmNonAnsweredSkillsRule } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithmNonAnsweredSkillsRule.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithmNonAnsweredSkillsRule', function () {

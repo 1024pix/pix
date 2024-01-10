@@ -8,7 +8,7 @@ import { HttpErrors } from '../../../../lib/application/http-errors.js';
 import _ from 'lodash';
 import { pickChallengeService } from '../../../../lib/domain/services/pick-challenge-service.js';
 import { Readable } from 'stream';
-import { FlashAssessmentSuccessRateHandler } from '../domain/model/FlashAssessmentSuccessRateHandler.js';
+import { FlashAssessmentSuccessRateHandler } from '../domain/models/FlashAssessmentSuccessRateHandler.js';
 
 async function simulateFlashAssessmentScenario(
   request,

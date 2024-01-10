@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { FlashAssessmentAlgorithmConfiguration } from '../../domain/model/FlashAssessmentAlgorithmConfiguration.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../domain/models/FlashAssessmentAlgorithmConfiguration.js';
 
 const TABLE_NAME = 'flash-algorithm-configurations';
 

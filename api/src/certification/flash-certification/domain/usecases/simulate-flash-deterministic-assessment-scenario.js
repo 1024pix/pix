@@ -1,8 +1,8 @@
-import { FlashAssessmentAlgorithm } from '../model/FlashAssessmentAlgorithm.js';
-import { AssessmentSimulator } from '../model/AssessmentSimulator.js';
-import { AssessmentSimulatorSingleMeasureStrategy } from '../model/AssessmentSimulatorSingleMeasureStrategy.js';
-import { AssessmentSimulatorDoubleMeasureStrategy } from '../model/AssessmentSimulatorDoubleMeasureStrategy.js';
-import { FlashAssessmentAlgorithmConfiguration } from '../model/FlashAssessmentAlgorithmConfiguration.js';
+import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js';
+import { AssessmentSimulator } from '../models/AssessmentSimulator.js';
+import { AssessmentSimulatorSingleMeasureStrategy } from '../models/AssessmentSimulatorSingleMeasureStrategy.js';
+import { AssessmentSimulatorDoubleMeasureStrategy } from '../models/AssessmentSimulatorDoubleMeasureStrategy.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../models/FlashAssessmentAlgorithmConfiguration.js';
 
 export async function simulateFlashDeterministicAssessmentScenario({
   challengeRepository,
