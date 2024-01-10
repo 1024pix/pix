@@ -107,6 +107,14 @@
     "organizations": {
       "all-tags": {
         "recently-used-tags": "Liste de tags récemment utilisés avec {tagName}"
+      },
+      "children-list": {
+        "table-headers": {
+          "external-id": "Identifiant externe",
+          "id": "ID",
+          "name": "Nom"
+        },
+        "table-name": "Liste des organisations enfants"
       }
     },
     "users": {
