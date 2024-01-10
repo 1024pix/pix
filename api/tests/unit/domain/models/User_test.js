@@ -19,28 +19,30 @@ describe('Unit | Domain | Models | User', function () {
   });
 
   describe('constructor', function () {
-    it('accepts no locale', function () {
-      // given
-      const users = [
-        new User({ locale: '' }, dependencies),
-        new User({ locale: null }, dependencies),
-        new User({ locale: undefined }, dependencies),
-      ];
+    context('locale', function () {
+      it('accepts no locale', function () {
+        // given
+        const users = [
+          new User({ locale: '' }, dependencies),
+          new User({ locale: null }, dependencies),
+          new User({ locale: undefined }, dependencies),
+        ];
 
-      //then
-      expect(users.length).to.equal(3);
-    });
+        //then
+        expect(users.length).to.equal(3);
+      });
 
-    it('validates and canonicalizes the locale', function () {
-      // given
-      localeService.getCanonicalLocale.returns('fr-BE');
+      it('validates and canonicalizes the locale', function () {
+        // given
+        localeService.getCanonicalLocale.returns('fr-BE');
 
-      // when
-      const user = new User({ locale: 'fr-be' }, dependencies);
+        // when
+        const user = new User({ locale: 'fr-be' }, dependencies);
 
-      // then
-      expect(localeService.getCanonicalLocale).to.have.been.calledWithExactly('fr-be');
-      expect(user.locale).to.equal('fr-BE');
+        // then
+        expect(localeService.getCanonicalLocale).to.have.been.calledWithExactly('fr-be');
+        expect(user.locale).to.equal('fr-BE');
+      });
     });
   });
 
