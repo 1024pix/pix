@@ -99,6 +99,14 @@
     "organizations": {
       "all-tags": {
         "recently-used-tags": "List of tags recently used with {tagName}"
+      },
+      "children-list": {
+        "table-headers": {
+          "external-id": "External Identifier",
+          "id": "ID",
+          "name": "Name"
+        },
+        "table-name": "List of children organisations"
       }
     },
     "users": {
