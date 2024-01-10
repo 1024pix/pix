@@ -13,7 +13,7 @@ import * as certificationChallengeLiveAlertRepository from '../../../session/inf
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
-import { sessionRepositories } from '../../../session/infrastructure/repositories/index.js';
+import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
 import * as certificateRepository from '../../../course/infrastructure/repositories/certificate-repository.js';
 import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as certificationCpfCountryRepository from '../../../shared/infrastructure/repositories/certification-cpf-country-repository.js';
@@ -62,7 +62,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {competenceRepository} CompetenceRepository
- * @typedef {import('../../../session/infrastructure/repositories/complementary-certification-repository.js')} ComplementaryCertificationRepository
+ * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {cpfExportRepository} CpfExportRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {flashAlgorithmService} FlashAlgorithmService
@@ -99,7 +99,7 @@ const dependencies = {
   certificationCpfCountryRepository,
   competenceMarkRepository,
   competenceRepository,
-  complementaryCertificationRepository: sessionRepositories.complementaryCertificationRepository,
+  complementaryCertificationRepository,
   finalizedSessionRepository,
   flashAlgorithmService,
   issueReportCategoryRepository,
@@ -122,10 +122,14 @@ const dependencies = {
 
 const path = dirname(fileURLToPath(import.meta.url));
 
+/**
+ * TODO: move sub-domains usecases to their own index.js because it is currently crossing domains concerns
+ * This file should inject usecases from the shared sub-domain only.
+ */
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({
     path: join(path, '../../../session/domain/usecases/'),
-    ignoredFileNames: ['index.js'],
+    ignoredFileNames: ['index.js', 'get-session-certification-candidates.js'],
   })),
   ...(await importNamedExportsFromDirectory({
     path: join(path, '../../../flash-certification/domain/usecases/'),
