@@ -2,6 +2,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { CampaignParticipantActivity } from '../../domain/read-models/CampaignParticipantActivity.js';
 import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 
 const campaignParticipantActivityRepository = {
   async findPaginatedByCampaignId({ page = { size: 25 }, campaignId, filters = {} }) {
@@ -36,6 +37,14 @@ function _buildCampaignParticipationByParticipant(queryBuilder, campaignId, filt
       'campaign-participations.sharedAt',
       'campaign-participations.status',
       'campaigns.type AS campaignType',
+      knex('campaign-participations')
+        .select('id')
+        .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+        .and.where('status', CampaignParticipationStatuses.SHARED)
+        .and.whereNull('campaign-participations.deletedAt')
+        .orderBy('sharedAt', 'desc')
+        .limit(1)
+        .as('lastSharedCampaignParticipationId'),
     )
     .from('campaign-participations')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
