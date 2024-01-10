@@ -73,7 +73,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         expect(campaignParticipantsActivities[0].participantExternalId).to.equal('The good');
       });
 
-      it('Returns the last shared shared participation', async function () {
+      it('Returns the most recent participation with the shared participation Id', async function () {
         // given
         const campaign = databaseBuilder.factory.buildCampaign();
         const user = databaseBuilder.factory.buildUser();
@@ -113,15 +113,6 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         const campaign = databaseBuilder.factory.buildCampaign();
         const user = databaseBuilder.factory.buildUser();
         const learner = databaseBuilder.factory.buildOrganizationLearner({ userId: user.id });
-
-        databaseBuilder.factory.buildCampaignParticipation({
-          participantExternalId: 'The bad',
-          campaignId: campaign.id,
-          status: STARTED,
-          userId: user.id,
-          organizationLearnerId: learner.id,
-          isImproved: true,
-        });
 
         const lastParticipation = databaseBuilder.factory.buildCampaignParticipation({
           participantExternalId: 'The good',
