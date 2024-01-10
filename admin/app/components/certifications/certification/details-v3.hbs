@@ -1,5 +1,40 @@
 <div class="certification-details-v3__container">
-  <section class="page-section"></section>
+  <section class="page-section">
+    <div class="certification-details-v3-header">
+      <h2 class="certification-details-v3__title">Certification N°{{@details.certificationCourseId}}</h2>
+      <PixTag @color={{this.detailStatusColor}}>{{this.detailStatusLabel}}</PixTag>
+    </div>
+    <dl class="certification-details-v3__list">
+      <dt>Créée le :</dt>
+      <dd>{{dayjs-format @details.createdAt "DD/MM/YYYY HH:mm:ss"}}</dd>
+      {{#if @details.completedAt}}
+        <dt>Terminée le :</dt>
+        <dd>
+          <span class="certification-details-v3-list__completion-date">{{dayjs-format @details.completedAt "DD/MM/YYYY HH:mm:ss"}}</span>
+          {{#if (lt @details.duration this.twentyFourHoursInMs)}}
+            <PixTag @color={{this.durationTagColor}}>{{dayjs-format-duration @details.duration "H[h]mm"}}</PixTag>
+          {{else}}
+            <PixTag @color={{this.durationTagColor}}> > 24h</PixTag>
+          {{/if}}
+        </dd>
+      {{/if}}
+
+      {{#if @details.shouldDisplayEndedByBlock}}
+        <dt>Certification terminée par :</dt>
+        <dd>
+          <PixTag @color={{this.certificationEndedByTagColor}}>{{this.endedByLabel}}</PixTag>
+        </dd>
+      {{/if}}
+
+      {{#if @details.abortReason}}
+        <dt>Raison de l'abandon :</dt>
+        <dd>{{this.abortReasonLabel}}</dd>
+      {{/if}}
+
+      <dt>Score (en pix) :</dt>
+      <dd>{{@details.pixScore}}</dd>
+    </dl>
+  </section>
   <section class="page-section">
     <h2 class="certification-details-v3__title">Informations complémentaires</h2>
 
@@ -58,45 +93,24 @@
               <td>{{certificationChallenge.competenceIndex}} {{certificationChallenge.competenceName}}</td>
               <td>{{certificationChallenge.skillName}}</td>
               <td>
-                <a
-                  href={{this.externalUrlForPixEditor certificationChallenge.id}}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Lien vers les informations de la question (Ouverture dans une nouvelle fenêtre)"
-                >
+                <a href={{this.externalUrlForPixEditor certificationChallenge.id}} target="_blank" rel="noopener noreferrer" aria-label="Lien vers les informations de la question (Ouverture dans une nouvelle fenêtre)">
                   {{certificationChallenge.id}}
                   <FaIcon @icon="external-link" />
                 </a>
               </td>
               <td class="certification-details-v3-table__challenge-action-cell">
-                <a
-                  href={{this.externalUrlForPreviewChallenge certificationChallenge.id}}
-                  target="_blank"
-                  title="Lien vers l'aperçu de l'épreuve"
-                  aria-label="Lien vers l'aperçu de l'épreuve (Ouverture dans une nouvelle fenêtre)"
-                  rel="noopener noreferrer"
-                >
+                <a href={{this.externalUrlForPreviewChallenge certificationChallenge.id}} target="_blank" title="Lien vers l'aperçu de l'épreuve" aria-label="Lien vers l'aperçu de l'épreuve (Ouverture dans une nouvelle fenêtre)" rel="noopener noreferrer">
                   <FaIcon @icon="eye" />
                 </a>
 
                 {{#if certificationChallenge.validatedLiveAlert}}
-                  <button
-                    title="Afficher le signalement de la question"
-                    aria-label="Afficher le signalement de la question"
-                    type="button"
-                    {{on "click" (fn this.openModal certificationChallenge)}}
-                  >
+                  <button title="Afficher le signalement de la question" aria-label="Afficher le signalement de la question" type="button" {{on "click" (fn this.openModal certificationChallenge)}}>
                     <FaIcon @icon="warning" />
                   </button>
                 {{/if}}
 
                 {{#if (this.shouldDisplayAnswerValueIcon certificationChallenge)}}
-                  <button
-                    title="Afficher la réponse du candidat"
-                    aria-label="Afficher la réponse du candidat"
-                    type="button"
-                    {{on "click" (fn this.openModal certificationChallenge)}}
-                  >
+                  <button title="Afficher la réponse du candidat" aria-label="Afficher la réponse du candidat" type="button" {{on "click" (fn this.openModal certificationChallenge)}}>
                     <FaIcon @icon="message" />
                   </button>
                 {{/if}}
@@ -109,11 +123,7 @@
   </div>
 </section>
 
-<PixModal
-  @title="{{this.modalTitle}} question {{this.certificationChallenge.questionNumber}}"
-  @showModal={{this.showModal}}
-  @onCloseButtonClick={{this.closeModal}}
->
+<PixModal @title="{{this.modalTitle}} question {{this.certificationChallenge.questionNumber}}" @showModal={{this.showModal}} @onCloseButtonClick={{this.closeModal}}>
   <:content>
     {{#if this.certificationChallenge.validatedLiveAlert}}
       <span class="certification-details-v3-modal__live-alert-subcategory">{{this.subCategory}}</span>
