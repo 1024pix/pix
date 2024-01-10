@@ -8,10 +8,10 @@ function serialize(elementAnswer) {
     transform(elementAnswer) {
       return {
         ...elementAnswer,
-        id: randomUUID(),
+        id: elementAnswer.id ?? randomUUID(),
         correction: {
           ...elementAnswer.correction,
-          id: randomUUID(),
+          id: elementAnswer.id ?? randomUUID(),
           status: elementAnswer.correction.status.status,
         },
       };
