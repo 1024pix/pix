@@ -232,6 +232,22 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           {
             assessment: {
               userId: johnUserId,
+              competenceId: 'competenceId1',
+              courseId: 'do-not-use-courseId',
+              createdAt: dateAssessmentBefore1,
+              state: Assessment.states.COMPLETED,
+              type: 'COMPETENCE_EVALUATION',
+              method: Assessment.methods.SMART_RANDOM,
+            },
+            assessmentResult: {
+              createdAt: dateAssessmentResultBefore1,
+              emitter: 'PIX',
+              status: AssessmentResult.status.VALIDATED,
+            },
+          },
+          {
+            assessment: {
+              userId: johnUserId,
               competenceId: 'competenceId2',
               createdAt: dateAssessmentBefore2,
               state: Assessment.states.COMPLETED,
