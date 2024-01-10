@@ -19,7 +19,7 @@ module('Integration | Component | Language Switcher', function (hooks) {
   });
 
   module('when component is clicked', function () {
-    test('displays a list of available languages', async function (assert) {
+    test('displays a list of available languages with french language first', async function (assert) {
       // given
       const screen = await render(hbs`<LanguageSwitcher @selectedLanguage="en" />`);
 
@@ -28,8 +28,12 @@ module('Integration | Component | Language Switcher', function (hooks) {
       await screen.findByRole('listbox');
 
       // then
-      assert.dom(screen.getByRole('option', { name: 'Français' })).exists();
-      assert.dom(screen.getByRole('option', { name: 'English' })).exists();
+      const options = await screen.findAllByRole('option');
+      const optionsInnerText = options.map((option) => {
+        return option.innerText;
+      });
+
+      assert.deepEqual(optionsInnerText, ['Français', 'English']);
     });
   });
 
