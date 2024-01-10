@@ -363,7 +363,7 @@ const configuration = (function () {
       defaultCandidateCapacity: -3,
       challengesBetweenSameCompetence: 2,
       scoring: {
-        minimumAnswersRequiredToValidateACertification: 10,
+        minimumAnswersRequiredToValidateACertification: 20,
       },
     },
     version: process.env.CONTAINER_VERSION || 'development',
