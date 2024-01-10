@@ -1,7 +1,5 @@
-import { BookshelfAssessment } from '../../../../lib/infrastructure/orm-models/Assessment.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { Assessment } from '../../domain/models/Assessment.js';
-import * as bookshelfToDomainConverter from '../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
 import lodash from 'lodash';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { knex } from '../../../../db/knex-database-connection.js';
@@ -32,36 +30,25 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
   return new Assessment(assessment);
 };
 
-const findLastCompletedAssessmentsForEachCompetenceByUser = function (userId, limitDate) {
-  return BookshelfAssessment.collection()
-    .query((qb) => {
-      qb.join('assessment-results', 'assessment-results.assessmentId', 'assessments.id');
-      qb.where({ userId })
-        .where(function () {
-          this.where({ type: 'PLACEMENT' });
-        })
-        .where('assessments.createdAt', '<', limitDate)
-        .where('assessment-results.createdAt', '<', limitDate)
-        .where('assessments.state', '=', 'completed')
-        .orderBy('assessments.createdAt', 'desc');
-    })
-    .fetch({ require: false })
-    .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
-    .then(_selectLastAssessmentForEachCompetence)
-    .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
+const findLastCompletedAssessmentsForEachCompetenceByUser = async function (userId, limitDate) {
+  const lastCompletedAssessments = await knex('assessments')
+    .select('assessments.*')
+    .join('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
+    .where({ 'assessments.userId': userId })
+    .where({ 'assessments.type': 'PLACEMENT' })
+    .where('assessments.createdAt', '<', limitDate)
+    .where('assessment-results.createdAt', '<', limitDate)
+    .where('assessments.state', '=', 'completed')
+    .orderBy('assessments.createdAt', 'desc');
+  return _selectLastAssessmentForEachCompetence(lastCompletedAssessments).map(
+    (assessment) => new Assessment(assessment),
+  );
 };
 
-const getByAssessmentIdAndUserId = function (assessmentId, userId) {
-  return BookshelfAssessment.query({ where: { id: assessmentId }, andWhere: { userId } })
-    .fetch()
-    .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment))
-    .catch((error) => {
-      if (error instanceof BookshelfAssessment.NotFoundError) {
-        throw new NotFoundError();
-      }
-
-      throw error;
-    });
+const getByAssessmentIdAndUserId = async function (assessmentId, userId) {
+  const assessment = await knex('assessments').where({ id: assessmentId, userId }).first();
+  if (!assessment) throw new NotFoundError();
+  return new Assessment(assessment);
 };
 
 const save = async function ({ assessment, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -71,11 +58,11 @@ const save = async function ({ assessment, domainTransaction = DomainTransaction
   return new Assessment(assessmentCreated);
 };
 
-const findNotAbortedCampaignAssessmentsByUserId = function (userId) {
-  return BookshelfAssessment.where({ userId, type: 'CAMPAIGN' })
-    .where('state', '!=', 'aborted')
-    .fetchAll()
-    .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
+const findNotAbortedCampaignAssessmentsByUserId = async function (userId) {
+  const assessments = await knex('assessments').where({ userId, type: 'CAMPAIGN' }).andWhere('state', '!=', 'aborted');
+  return assessments.map((assessment) => {
+    return new Assessment(assessment);
+  });
 };
 
 const abortByAssessmentId = function (assessmentId) {
@@ -119,53 +106,28 @@ const ownedByUser = async function ({ id, userId = null }) {
 };
 
 const _updateStateById = async function ({ id, state }, knexTransaction) {
-  const assessment = await BookshelfAssessment.where({ id }).save(
-    { state },
-    { require: true, patch: true, transacting: knexTransaction },
-  );
-  return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment);
+  const knexConn = knexTransaction || knex;
+  const [assessment] = await knexConn('assessments').where({ id }).update({ state }).returning('*');
+  return new Assessment(assessment);
 };
 
 const updateLastQuestionDate = async function ({ id, lastQuestionDate }) {
-  try {
-    await BookshelfAssessment.where({ id }).save(
-      { lastQuestionDate },
-      { require: true, patch: true, method: 'update' },
-    );
-  } catch (err) {
-    if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
-      return null;
-    }
-    throw err;
-  }
+  const [assessmentUpdated] = await knex('assessments').where({ id }).update({ lastQuestionDate }).returning('*');
+  if (!assessmentUpdated) return null;
 };
 
 const updateWhenNewChallengeIsAsked = async function ({ id, lastChallengeId }) {
-  try {
-    await BookshelfAssessment.where({ id }).save(
-      { lastChallengeId, lastQuestionState: Assessment.statesOfLastQuestion.ASKED },
-      { require: true, patch: true, method: 'update' },
-    );
-  } catch (err) {
-    if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
-      return null;
-    }
-    throw err;
-  }
+  const [assessmentUpdated] = await knex('assessments')
+    .where({ id })
+    .update({ lastChallengeId, lastQuestionState: Assessment.statesOfLastQuestion.ASKED })
+    .returning('*');
+  if (!assessmentUpdated) return null;
 };
 
 const updateLastQuestionState = async function ({ id, lastQuestionState, domainTransaction }) {
-  try {
-    await BookshelfAssessment.where({ id }).save(
-      { lastQuestionState },
-      { require: true, patch: true, method: 'update', transacting: domainTransaction.knexTransaction },
-    );
-  } catch (err) {
-    if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
-      return null;
-    }
-    throw err;
-  }
+  const knexConn = domainTransaction.knexTransaction || knex;
+  const [assessmentUpdated] = await knexConn('assessments').where({ id }).update({ lastQuestionState }).returning('*');
+  if (!assessmentUpdated) return null;
 };
 
 const setAssessmentsAsStarted = async function ({
@@ -195,10 +157,8 @@ export {
   setAssessmentsAsStarted,
 };
 
-function _selectLastAssessmentForEachCompetence(bookshelfAssessments) {
-  const assessmentsGroupedByCompetence = groupBy(bookshelfAssessments, (bookshelfAssessment) =>
-    bookshelfAssessment.get('competenceId'),
-  );
+function _selectLastAssessmentForEachCompetence(assessments) {
+  const assessmentsGroupedByCompetence = groupBy(assessments, (assessment) => assessment.competenceId);
   return map(assessmentsGroupedByCompetence, head);
 }
 
