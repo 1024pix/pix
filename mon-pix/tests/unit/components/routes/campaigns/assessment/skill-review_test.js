@@ -4,11 +4,12 @@ import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import createGlimmerComponent from '../../../../../helpers/create-glimmer-component';
 import Service from '@ember/service';
+import ENV from '../../../../../../config/environment';
 
 module('Unit | component | Campaigns | Evaluation | Skill Review', function (hooks) {
   setupTest(hooks);
 
-  let component, adapter, possibleBadgesCombinations;
+  let component, adapter, possibleBadgesCombinations, store;
 
   hooks.beforeEach(function () {
     possibleBadgesCombinations = [
@@ -144,14 +145,14 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
 
     const model = {
       campaign: EmberObject.create(),
-      campaignParticipationResult: EmberObject.create({ id: 12345 }),
+      campaignParticipationResult: EmberObject.create({ id: 12345, hasReachedStage: false }),
     };
 
     component = createGlimmerComponent('routes/campaigns/assessment/skill-review', {
       model,
     });
 
-    const store = this.owner.lookup('service:store');
+    store = this.owner.lookup('service:store');
     adapter = store.adapterFor('campaign-participation-result');
     sinon.stub(adapter, 'share').resolves();
     sinon.stub(adapter, 'beginImprovement').resolves();
@@ -244,6 +245,30 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       // then
       sinon.assert.calledWith(component.router.transitionTo, 'campaigns.entry-point');
       assert.ok(true);
+    });
+  });
+
+  module('#showStages', function () {
+    test('should showStages when have a reachedStage', function (assert) {
+      // given
+      component.args.model.campaignParticipationResult.hasReachedStage = true;
+
+      // when
+      const showStages = component.showStages;
+
+      // then
+      assert.true(showStages);
+    });
+
+    test('should not show showStages when have not a reachedStage', function (assert) {
+      // given
+      component.args.model.campaignParticipationResult.hasReachedStage = false;
+
+      // when
+      const showStages = component.showStages;
+
+      // then
+      assert.false(showStages);
     });
   });
 
@@ -386,7 +411,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
   });
 
   module('#notCertifiableBadges', function () {
-    test('should only return acquired and not certifiable badges', function (assert) {
+    test('should only return not certifiable badges', function (assert) {
       // given
       component.args.model.campaignParticipationResult.campaignParticipationBadges = possibleBadgesCombinations;
 
@@ -585,226 +610,229 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
     });
   });
 
-  module('#showOrganizationMessage', function () {
-    test('should return true when the campaign has a customResultPageText', function (assert) {
-      // given
-      component.args.model.campaign.customResultPageText =
-        'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.';
-
-      // when
-      const result = component.showOrganizationMessage;
-
-      // then
-      assert.true(result);
-    });
-
-    test('should return false when the campaign has no customResultPageText ', function (assert) {
-      // given
-      component.args.model.campaign.customResultPageText = null;
-
-      // when
-      const result = component.showOrganizationMessage;
-
-      // then
-      assert.false(result);
-    });
-  });
-
-  module('#showOrganizationButton', function () {
-    test('should return true when the organization has a customResultPageButtonText and a customResultPageButtonUrl', async function (assert) {
-      // given
-      component.args.model.campaign.customResultPageButtonText = 'Go to the next step';
-      component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
-
-      // when
-      const result = await component.showOrganizationButton;
-
-      // then
-      assert.true(result);
-    });
-
-    test('should return false when the organization has no a customResultPageButtonText ', function (assert) {
-      // given
-      component.args.model.campaign.customResultPageButtonText = null;
-      component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
-
-      // when
-      const result = component.showOrganizationButton;
-
-      // then
-      assert.false(result);
-    });
-
-    test('should return false when the organization has noa customResultPageButtonUrl', function (assert) {
-      // given
-      component.args.model.campaign.customResultPageButtonText = 'Next step';
-      component.args.model.campaign.customResultPageButtonUrl = null;
-
-      // when
-      const result = component.showOrganizationButton;
-
-      // then
-      assert.false(result);
-    });
-  });
-
-  module('#customButtonUrl', function () {
-    module('when there is a customResultPageButtonUrl', function () {
-      module('when the participant has finished a campaign with stages', function () {
-        test('should add the stage to the url ', function (assert) {
-          // given
-          const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
-          reachedStage.get.withArgs('threshold').returns(6);
-          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
-          component.args.model.campaignParticipationResult.reachedStage = reachedStage;
-
-          // when
-          const url = component.customButtonUrl;
-
-          // then
-          assert.strictEqual(url, 'http://www.my-url.net/resultats?stage=6');
-        });
-      });
-
-      module('when the participant has a mastery percentage', function () {
-        test('should add the masteryPercentage to the url', function (assert) {
-          // given
-          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
-          component.args.model.campaignParticipationResult.masteryRate = '0.56';
-
-          // when
-          const url = component.customButtonUrl;
-
-          // then
-          assert.strictEqual(url, 'http://www.my-url.net/resultats?masteryPercentage=56');
-        });
-      });
-
-      module('when the participant has a mastery percentage equals to 0', function () {
-        test('should add the masteryPercentage to the url', function (assert) {
-          // given
-          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
-          component.args.model.campaignParticipationResult.masteryRate = '0.0';
-
-          // when
-          const url = component.customButtonUrl;
-
-          // then
-          assert.strictEqual(url, 'http://www.my-url.net/resultats?masteryPercentage=0');
-        });
-      });
-
-      module('when the participant has a participantExternalId', function () {
-        test('should add the externalId to the url', function (assert) {
-          // given
-          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
-          component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
-
-          // when
-          const url = component.customButtonUrl;
-
-          // then
-          assert.strictEqual(url, 'http://www.my-url.net/resultats?externalId=1234F56');
-        });
-      });
-
-      module('when the participant has a participantExternalId, a mastery percentage and stages ', function () {
-        test('should add all params to the url', function (assert) {
-          // given
-          const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
-          reachedStage.get.withArgs('threshold').returns(6);
-          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
-          component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
-          component.args.model.campaignParticipationResult.masteryRate = '0.56';
-          component.args.model.campaignParticipationResult.reachedStage = reachedStage;
-
-          // when
-          const url = component.customButtonUrl;
-
-          // then
-          assert.strictEqual(url, 'http://www.my-url.net/resultats?masteryPercentage=56&externalId=1234F56&stage=6');
-        });
-      });
-
-      module('when the url already has query params', function () {
-        test('should add the new parameters to the other query params', function (assert) {
-          // given
-          const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
-          reachedStage.get.withArgs('threshold').returns(6);
-          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats?foo=bar';
-          component.args.model.campaignParticipationResult.reachedStage = reachedStage;
-          component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
-          component.args.model.campaignParticipationResult.masteryRate = '0.56';
-
-          // when
-          const url = component.customButtonUrl;
-
-          // then
-          assert.strictEqual(
-            url,
-            'http://www.my-url.net/resultats?foo=bar&masteryPercentage=56&externalId=1234F56&stage=6',
-          );
-        });
-      });
-
-      module('when the url has an ancor', function () {
-        test('should add the new parameters before the ancor', function (assert) {
-          // given
-          const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
-          reachedStage.get.withArgs('threshold').returns(6);
-          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/#page1';
-          component.args.model.campaignParticipationResult.reachedStage = reachedStage;
-          component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
-          component.args.model.campaignParticipationResult.masteryRate = '0.56';
-
-          // when
-          const url = component.customButtonUrl;
-
-          // then
-          assert.strictEqual(url, 'http://www.my-url.net/?masteryPercentage=56&externalId=1234F56&stage=6#page1');
-        });
-      });
-
-      module('when there is no params', function () {
-        test('should return the url of the custom button', function (assert) {
-          // given
-          component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
-          component.args.model.campaignParticipationResult.reachedStage = null;
-
-          // when
-          const url = component.customButtonUrl;
-
-          // then
-          assert.strictEqual(url, 'http://www.my-url.net/');
-        });
-      });
-    });
-
-    module('when there is no customResultPageButtonUrl', function () {
-      test('should return nothing', function (assert) {
+  module('display custom result block', function () {
+    module('#showOrganizationMessage', function () {
+      test('should return true when the campaign has a customResultPageText', function (assert) {
         // given
-        component.args.model.campaign.customResultPageButtonUrl = null;
-        component.args.model.campaignParticipationResult.reachedStage = 80;
+        component.args.model.campaign.customResultPageText =
+          'Afin de vous faire progresser, nous vous proposons des documents pour aller plus loin dans les compétences que vous venez de tester.';
 
         // when
-        const url = component.customButtonUrl;
+        const result = component.showOrganizationMessage;
 
         // then
-        assert.strictEqual(url, null);
+        assert.true(result);
+      });
+
+      test('should return false when the campaign has no customResultPageText ', function (assert) {
+        // given
+        component.args.model.campaign.customResultPageText = null;
+
+        // when
+        const result = component.showOrganizationMessage;
+
+        // then
+        assert.false(result);
       });
     });
-  });
 
-  module('#customButtonText', function () {
-    test('should return the text of the custom button', function (assert) {
-      // given
-      component.args.model.campaign.customResultPageButtonText = 'Next step';
+    module('#showOrganizationButton', function () {
+      test('should return true when the organization has a customResultPageButtonText and a customResultPageButtonUrl', async function (assert) {
+        // given
+        component.args.model.campaign.customResultPageButtonText = 'Go to the next step';
+        component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
 
-      // when
-      const result = component.customButtonText;
+        // when
+        const result = await component.showOrganizationButton;
 
-      // then
-      assert.strictEqual(result, 'Next step');
+        // then
+        assert.true(result);
+      });
+
+      test('should return false when the organization has no a customResultPageButtonText ', function (assert) {
+        // given
+        component.args.model.campaign.customResultPageButtonText = null;
+        component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
+
+        // when
+        const result = component.showOrganizationButton;
+
+        // then
+        assert.false(result);
+      });
+
+      test('should return false when the organization has noa customResultPageButtonUrl', function (assert) {
+        // given
+        component.args.model.campaign.customResultPageButtonText = 'Next step';
+        component.args.model.campaign.customResultPageButtonUrl = null;
+
+        // when
+        const result = component.showOrganizationButton;
+
+        // then
+        assert.false(result);
+      });
+    });
+
+    module('#customButtonUrl', function () {
+      module('when there is a customResultPageButtonUrl', function () {
+        module('when the participant has finished a campaign with stages', function () {
+          test('should add the stage to the url ', function (assert) {
+            // given
+            const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+            reachedStage.get.withArgs('threshold').returns(6);
+            component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+            component.args.model.campaignParticipationResult.reachedStage = reachedStage;
+
+            // when
+            const url = component.customButtonUrl;
+
+            // then
+            assert.strictEqual(url, 'http://www.my-url.net/resultats?stage=6');
+          });
+        });
+
+        module('when the participant has a mastery percentage', function () {
+          test('should add the masteryPercentage to the url', function (assert) {
+            // given
+            component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+            component.args.model.campaignParticipationResult.masteryRate = '0.56';
+
+            // when
+            const url = component.customButtonUrl;
+
+            // then
+            assert.strictEqual(url, 'http://www.my-url.net/resultats?masteryPercentage=56');
+          });
+        });
+
+        module('when the participant has a mastery percentage equals to 0', function () {
+          test('should add the masteryPercentage to the url', function (assert) {
+            // given
+            component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+            component.args.model.campaignParticipationResult.masteryRate = '0.0';
+
+            // when
+            const url = component.customButtonUrl;
+
+            // then
+            assert.strictEqual(url, 'http://www.my-url.net/resultats?masteryPercentage=0');
+          });
+        });
+
+        module('when the participant has a participantExternalId', function () {
+          test('should add the externalId to the url', function (assert) {
+            // given
+            component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+            component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
+
+            // when
+            const url = component.customButtonUrl;
+
+            // then
+            assert.strictEqual(url, 'http://www.my-url.net/resultats?externalId=1234F56');
+          });
+        });
+
+        module('when the participant has a participantExternalId, a mastery percentage and stages ', function () {
+          test('should add all params to the url', function (assert) {
+            // given
+            const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+            reachedStage.get.withArgs('threshold').returns(6);
+            component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
+            component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
+            component.args.model.campaignParticipationResult.masteryRate = '0.56';
+            component.args.model.campaignParticipationResult.reachedStage = reachedStage;
+
+            // when
+            const url = component.customButtonUrl;
+
+            // then
+            assert.strictEqual(url, 'http://www.my-url.net/resultats?masteryPercentage=56&externalId=1234F56&stage=6');
+          });
+        });
+
+        module('when the url already has query params', function () {
+          test('should add the new parameters to the other query params', function (assert) {
+            // given
+            const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+            reachedStage.get.withArgs('threshold').returns(6);
+            component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats?foo=bar';
+            component.args.model.campaignParticipationResult.reachedStage = reachedStage;
+            component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
+            component.args.model.campaignParticipationResult.masteryRate = '0.56';
+
+            // when
+            const url = component.customButtonUrl;
+
+            // then
+            assert.strictEqual(
+              url,
+              'http://www.my-url.net/resultats?foo=bar&masteryPercentage=56&externalId=1234F56&stage=6',
+            );
+          });
+        });
+
+        module('when the url has an anchor', function () {
+          test('should add the new parameters before the anchor', function (assert) {
+            // given
+            const reachedStage = { id: 123, threshold: 6, get: sinon.stub() };
+            reachedStage.get.withArgs('threshold').returns(6);
+            component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/#page1';
+            component.args.model.campaignParticipationResult.reachedStage = reachedStage;
+            component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
+            component.args.model.campaignParticipationResult.masteryRate = '0.56';
+
+            // when
+            const url = component.customButtonUrl;
+
+            // then
+
+            assert.strictEqual(url, 'http://www.my-url.net/?masteryPercentage=56&externalId=1234F56&stage=6#page1');
+          });
+        });
+
+        module('when there is no params', function () {
+          test('should return the url of the custom button', function (assert) {
+            // given
+            component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net';
+            component.args.model.campaignParticipationResult.reachedStage = null;
+
+            // when
+            const url = component.customButtonUrl;
+
+            // then
+            assert.strictEqual(url, 'http://www.my-url.net/');
+          });
+        });
+      });
+
+      module('when there is no customResultPageButtonUrl', function () {
+        test('should return nothing', function (assert) {
+          // given
+          component.args.model.campaign.customResultPageButtonUrl = null;
+          component.args.model.campaignParticipationResult.reachedStage = 80;
+
+          // when
+          const url = component.customButtonUrl;
+
+          // then
+          assert.strictEqual(url, null);
+        });
+      });
+    });
+
+    module('#customButtonText', function () {
+      test('should return the text of the custom button', function (assert) {
+        // given
+        component.args.model.campaign.customResultPageButtonText = 'Next step';
+
+        // when
+        const result = component.customButtonText;
+
+        // then
+        assert.strictEqual(result, 'Next step');
+      });
     });
   });
 
@@ -818,6 +846,141 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
 
       // then
       assert.true(result);
+    });
+  });
+
+  module('#isAutonomousCourse', function () {
+    test("should return true if it's an autonomous course", function (assert) {
+      // given
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 777;
+
+      // when
+      const result = component.isAutonomousCourse;
+
+      // then
+      assert.true(result);
+    });
+
+    test("should return false if it's not an autonomous course", function (assert) {
+      // given
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 123;
+
+      // when
+      const result = component.isAutonomousCourse;
+
+      // then
+      assert.false(result);
+    });
+  });
+
+  module('#displayContinueToPixLink', function () {
+    test("should return true if it's an autonomous course OR the campaign is for absolute novice", function (assert) {
+      // given
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 777;
+      component.args.model.campaign.isForAbsoluteNovice = true;
+
+      // when
+      const result = component.displayContinueToPixLink;
+
+      // then
+      assert.true(result);
+    });
+
+    test("should return true if it's an autonomous course", function (assert) {
+      // given
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 777;
+
+      // when
+      const result = component.displayContinueToPixLink;
+
+      // then
+      assert.true(result);
+    });
+
+    test('should return true if the campaign is for absolute novice', function (assert) {
+      // given
+      component.args.model.campaign.isForAbsoluteNovice = true;
+
+      // when
+      const result = component.displayContinueToPixLink;
+
+      // then
+      assert.true(result);
+    });
+
+    test("should return false if it's not an autonomous course nor is the campaign for absolute novice", function (assert) {
+      // given
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 123;
+      component.args.model.campaign.isForAbsoluteNovice = false;
+
+      // when
+      const result = component.displayContinueToPixLink;
+
+      // then
+      assert.false(result);
+    });
+  });
+
+  module('#displayTrainings', function () {
+    test('should return true if the campaign participation result is shared AND there are trainings', function (assert) {
+      // given
+      component.args.model.campaignParticipationResult.isShared = true;
+      component.args.model.trainings = {
+        title: 'Mon super training',
+        link: 'https://training.net/',
+        type: 'webinaire',
+        locale: 'fr-fr',
+        duration: { hours: 6 },
+        editorName: "Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité",
+        editorLogoUrl:
+          'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
+      };
+
+      // when
+      const result = component.displayTrainings;
+
+      // then
+      assert.true(result);
+    });
+
+    test("should return true if it's an autonomous course and there are trainings", function (assert) {
+      // given
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 777;
+      component.args.model.trainings = {
+        title: 'Mon super training',
+        link: 'https://training.net/',
+        type: 'webinaire',
+        locale: 'fr-fr',
+        duration: { hours: 6 },
+        editorName: "Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité",
+        editorLogoUrl:
+          'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
+      };
+
+      // when
+      const result = component.displayTrainings;
+
+      // then
+      assert.true(result);
+    });
+
+    test('should return false if there are no trainings', function (assert) {
+      // given
+      component.args.model.trainings = {};
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 777;
+
+      // when
+      const result = component.displayTrainings;
+
+      // then
+      assert.false(result);
     });
   });
 
