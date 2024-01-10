@@ -1,5 +1,5 @@
 import { expect, domainBuilder, sinon } from '../../../../../test-helper.js';
-import { AssessmentSimulatorDoubleMeasureStrategy } from '../../../../../../src/certification/flash-certification/domain/model/AssessmentSimulatorDoubleMeasureStrategy.js';
+import { AssessmentSimulatorDoubleMeasureStrategy } from '../../../../../../src/certification/flash-certification/domain/models/AssessmentSimulatorDoubleMeasureStrategy.js';
 import { Answer, AnswerStatus } from '../../../../../../lib/domain/models/index.js';
 
 describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', function () {
