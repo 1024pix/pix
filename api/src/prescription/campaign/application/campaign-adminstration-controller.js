@@ -3,6 +3,7 @@ import { usecases } from '../../../../src/prescription/campaign/domain/usecases/
 import * as campaignReportSerializer from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
+import * as checkAdminMemberHasRoleSuperAdminUseCase from '../../../../lib/application/usecases/checkAdminMemberHasRoleSuperAdmin.js';
 
 const createCampaigns = async function (request, h, dependencies = { csvSerializer }) {
   const campaignsToCreate = await dependencies.csvSerializer.deserializeForCampaignsImport(request.payload.path);
@@ -59,11 +60,27 @@ const swapCampaignCodes = async function (request, h) {
   return h.response(null).code(204);
 };
 
+const updateCampaignDetails = async function (request, h) {
+  const campaignId = request.params.id;
+  const authenticatedUserId = request.auth.credentials.userId;
+
+  const campaignDetails = request.deserializedPayload;
+  const isSuperAdmin = await checkAdminMemberHasRoleSuperAdminUseCase.execute(authenticatedUserId);
+
+  await usecases.updateCampaignDetails({
+    isAuthorizedToUpdateIsForAbsoluteNovice: isSuperAdmin,
+    campaignId,
+    ...campaignDetails,
+  });
+  return h.response({}).code(204);
+};
+
 const campaignAdministrationController = {
   save,
   update,
   createCampaigns,
   swapCampaignCodes,
+  updateCampaignDetails,
 };
 
 export { campaignAdministrationController };

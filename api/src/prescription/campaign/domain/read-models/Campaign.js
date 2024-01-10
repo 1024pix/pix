@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { CampaignTypes } from './CampaignTypes.js';
+import { CampaignTypes } from '../../../shared/domain/constants.js';
 
 class Campaign {
   constructor({

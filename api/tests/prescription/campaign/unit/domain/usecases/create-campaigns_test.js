@@ -1,6 +1,6 @@
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { createCampaigns } from '../../../../../../src/prescription/campaign/domain/usecases/create-campaigns.js';
-import { CampaignTypes } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 
 describe('Unit | UseCase | campaign-administration | create-campaigns', function () {
   it('should create campaigns', async function () {

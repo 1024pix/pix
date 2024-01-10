@@ -1,10 +1,19 @@
 import Joi from 'joi';
 import lodash from 'lodash';
-import { EntityValidationError } from '../../../../shared/domain/errors.js';
-import { CampaignTypes } from '../read-models/CampaignTypes.js';
 
 const { first } = lodash;
-const schema = Joi.object({
+
+import { EntityValidationError } from '../../../../shared/domain/errors.js';
+import { CampaignTypes } from '../../../shared/domain/constants.js';
+
+const validationConfiguration = { abortEarly: false, allowUnknown: true };
+
+const campaignValidationJoiSchema = Joi.object({
+  name: Joi.string().required().messages({
+    'string.base': 'CAMPAIGN_NAME_IS_REQUIRED',
+    'string.empty': 'CAMPAIGN_NAME_IS_REQUIRED',
+  }),
+
   type: Joi.string()
     .valid(CampaignTypes.ASSESSMENT, CampaignTypes.PROFILES_COLLECTION)
     .required()
@@ -15,23 +24,52 @@ const schema = Joi.object({
       'any.only': 'CAMPAIGN_PURPOSE_IS_REQUIRED',
     }),
 
-  name: Joi.string().required().messages({
-    'string.base': 'CAMPAIGN_NAME_IS_REQUIRED',
-    'string.empty': 'CAMPAIGN_NAME_IS_REQUIRED',
-  }),
-
   creatorId: Joi.number().integer().required().messages({
     'any.required': 'MISSING_CREATOR',
     'number.base': 'MISSING_CREATOR',
   }),
 
-  customLandingPageText: Joi.string().empty('').allow(null).default(null).max(5000).messages({
+  organizationId: Joi.number().integer().required().messages({
+    'any.required': 'MISSING_ORGANIZATION',
+    'number.base': 'MISSING_ORGANIZATION',
+  }),
+
+  idPixLabel: Joi.string().allow(null).default(null).min(3).messages({
+    'string.empty': 'EXTERNAL_USER_ID_IS_REQUIRED',
+    'string.min': 'EXTERNAL_USER_ID_IS_REQUIRED',
+  }),
+
+  title: Joi.string()
+    .allow(null)
+    .default(null)
+    .max(50)
+    .when('type', {
+      is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
+      then: Joi.valid(null),
+      otherwise: Joi.optional(),
+    })
+    .messages({
+      'any.only': 'TITLE_OF_PERSONALISED_TEST_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
+      'string.max': 'CAMPAIGN_TITLE_IS_TOO_LONG',
+    }),
+
+  customLandingPageText: Joi.string().allow(null).default(null).max(5000).messages({
     'string.max': 'CUSTOM_LANDING_PAGE_TEXT_IS_TOO_LONG',
   }),
 
-  customResultPageText: Joi.string().empty('').allow(null).default(null).max(5000).messages({
-    'string.max': 'CUSTOM_RESULT_PAGE_TEXT_IS_TOO_LONG',
-  }),
+  customResultPageText: Joi.string()
+    .allow(null)
+    .default(null)
+    .max(5000)
+    .when('type', {
+      is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
+      then: Joi.valid(null),
+      otherwise: Joi.optional(),
+    })
+    .messages({
+      'any.only': 'CUSTOM_RESULT_PAGE_TEXT_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
+      'string.max': 'CUSTOM_RESULT_PAGE_TEXT_IS_TOO_LONG',
+    }),
 
   customResultPageButtonText: Joi.when('type', {
     is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
@@ -62,56 +100,18 @@ const schema = Joi.object({
     'any.required': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
   }),
 
-  ownerId: Joi.number().integer().required().messages({
-    'any.required': 'MISSING_OWNER',
-    'number.base': 'MISSING_OWNER',
+  multipleSendings: Joi.boolean().required().messages({
+    'any.required': 'MULTIPLE_SENDINGS_CHOICE_IS_REQUIRED',
+    'boolean.base': 'MULTIPLE_SENDINGS_CHOICE_IS_REQUIRED',
   }),
-
-  organizationId: Joi.number().integer().required().messages({
-    'any.required': 'MISSING_ORGANIZATION',
-    'number.base': 'MISSING_ORGANIZATION',
-  }),
-
-  targetProfileId: Joi.number()
-    .when('type', {
-      switch: [
-        {
-          is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
-          then: Joi.valid(null).optional(),
-        },
-        {
-          is: Joi.string().required().valid(CampaignTypes.ASSESSMENT),
-          then: Joi.required(),
-        },
-      ],
-    })
-    .integer()
-    .messages({
-      'any.required': 'TARGET_PROFILE_IS_REQUIRED',
-      'number.base': 'TARGET_PROFILE_IS_REQUIRED',
-      'any.only': 'TARGET_PROFILE_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
-    }),
-
-  title: Joi.string()
-    .empty('')
-    .allow(null)
-    .default(null)
-    .when('type', {
-      is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
-      then: Joi.valid(null),
-      otherwise: Joi.optional(),
-    })
-    .messages({
-      'any.only': 'TITLE_OF_PERSONALISED_TEST_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
-    }),
 });
 
-function validate(campaign) {
-  const { error } = schema.validate(campaign, { abortEarly: false, allowUnknown: true });
+const validate = function (campaign) {
+  const { error } = campaignValidationJoiSchema.validate(campaign, validationConfiguration);
   if (error) {
     throw EntityValidationError.fromJoiErrors(error.details);
   }
   return true;
-}
+};
 
 export { validate };

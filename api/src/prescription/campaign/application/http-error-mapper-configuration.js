@@ -1,5 +1,10 @@
 import { HttpErrors } from '../../../shared/application/http-errors.js';
-import { UnknownCampaignId, SwapCampaignMismatchOrganizationError } from '../../campaign/domain/errors.js';
+import {
+  UnknownCampaignId,
+  SwapCampaignMismatchOrganizationError,
+  IsForAbsoluteNoviceUpdateError,
+  MultipleSendingsUpdateError,
+} from '../../campaign/domain/errors.js';
 
 const campaignDomainErrorMappingConfiguration = [
   {
@@ -10,6 +15,14 @@ const campaignDomainErrorMappingConfiguration = [
   },
   {
     name: SwapCampaignMismatchOrganizationError.name,
+    httpErrorFn: (error) => new HttpErrors.ForbiddenError(error.message, error.code, error.meta),
+  },
+  {
+    name: IsForAbsoluteNoviceUpdateError.name,
+    httpErrorFn: (error) => new HttpErrors.ForbiddenError(error.message, error.code, error.meta),
+  },
+  {
+    name: MultipleSendingsUpdateError.name,
     httpErrorFn: (error) => new HttpErrors.ForbiddenError(error.message, error.code, error.meta),
   },
 ];

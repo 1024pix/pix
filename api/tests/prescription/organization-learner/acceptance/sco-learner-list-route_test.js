@@ -5,7 +5,7 @@ import {
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
 
-import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 
 import { createServer } from '../../../../server.js';
 

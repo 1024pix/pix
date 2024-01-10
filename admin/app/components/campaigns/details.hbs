@@ -1,13 +1,13 @@
 <section class="page-section">
-  <div class="campaign-title">
+  <header class="campaign-title">
     <h2>{{@campaign.name}}</h2>
-    <PixTag @color={{"blue"}} @compact="true" class="campaign-title__tag">{{@campaign.totalParticipationsCount}}
+    <PixTag @color="primary">{{@campaign.totalParticipationsCount}}
       participants</PixTag>
-    <PixTag @color={{"green"}} @compact="true">
+    <PixTag @color="success">
       {{@campaign.sharedParticipationsCount}}
       {{if @campaign.isTypeAssessment "résultats" "profils"}}
       reçus</PixTag>
-  </div>
+  </header>
   <p class="campaign__subtitle">
     Créée le
     {{dayjs-format @campaign.createdAt "DD/MM/YYYY"}}
@@ -57,6 +57,7 @@
       <li>URL du bouton de la page de fin de parcours : {{@campaign.customResultPageButtonUrl}}</li>
     {{/if}}
     <li>Envoi multiple : {{if @campaign.multipleSendings "Oui" "Non"}}</li>
+    <li>Pour les novices (isForAbsoluteNovice): {{if @campaign.isForAbsoluteNovice "Oui" "Non"}}</li>
   </ul>
 
   {{#if this.accessControl.hasAccessToOrganizationActionsScope}}

@@ -1,9 +1,7 @@
-import _ from 'lodash';
-import { knex } from '../../../db/knex-database-connection.js';
-import { CampaignManagement } from '../../domain/read-models/CampaignManagement.js';
-import { fetchPage } from '../utils/knex-utils.js';
-import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
-import { CampaignTypes } from '../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { CampaignManagement } from '../../domain/models/CampaignManagement.js';
+import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -14,6 +12,7 @@ const get = async function (campaignId) {
       code: 'campaigns.code',
       name: 'campaigns.name',
       idPixLabel: 'campaigns.idPixLabel',
+      isForAbsoluteNovice: 'campaigns.isForAbsoluteNovice',
       createdAt: 'campaigns.createdAt',
       archivedAt: 'campaigns.archivedAt',
       type: 'campaigns.type',
@@ -78,20 +77,7 @@ const findPaginatedCampaignManagements = async function ({ organizationId, page 
   return { models: campaignManagement, meta: { ...pagination } };
 };
 
-const update = function ({ campaignId, campaignAttributes }) {
-  const editableAttributes = _.pick(campaignAttributes, [
-    'name',
-    'title',
-    'customLandingPageText',
-    'customResultPageText',
-    'customResultPageButtonText',
-    'customResultPageButtonUrl',
-    'multipleSendings',
-  ]);
-  return knex('campaigns').where({ id: campaignId }).update(editableAttributes);
-};
-
-export { get, findPaginatedCampaignManagements, update };
+export { get, findPaginatedCampaignManagements };
 
 async function _countParticipationsByStatus(campaignId, campaignType) {
   const row = await knex('campaign-participations')

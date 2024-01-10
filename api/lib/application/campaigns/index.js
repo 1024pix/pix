@@ -83,51 +83,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'PATCH',
-      path: '/api/admin/campaigns/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.campaignId,
-          }),
-          payload: Joi.object({
-            data: {
-              type: 'campaigns',
-              attributes: {
-                name: Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                title: Joi.string().allow(null).required(),
-                'custom-landing-page-text': Joi.string().allow(null).required(),
-                'custom-result-page-text': Joi.string().allow(null).required(),
-                'custom-result-page-button-text': Joi.string().allow(null).required(),
-                'custom-result-page-button-url': Joi.string().allow(null).required(),
-                'multiple-sendings': Joi.boolean().required(),
-              },
-            },
-          }),
-          options: {
-            allowUnknown: true,
-          },
-        },
-        handler: campaignManagementController.updateCampaignDetailsManagement,
-        tags: ['api', 'campaign', 'admin'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Elle permet de modifier certaines informations d'une campagne.",
-        ],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/campaigns/{id}/collective-results',
       config: {

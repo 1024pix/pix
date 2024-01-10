@@ -31,9 +31,8 @@ import * as campaignAssessmentParticipationRepository from '../../infrastructure
 import * as campaignAssessmentParticipationResultRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-repository.js';
 import * as codeGenerator from '../services/code-generator.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
-import * as campaignCreatorRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-creator-repository.js';
 import * as campaignForArchivingRepository from '../../infrastructure/repositories/campaign/campaign-for-archiving-repository.js';
-import * as campaignManagementRepository from '../../infrastructure/repositories/campaign-management-repository.js';
+import * as campaignManagementRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
 import * as campaignParticipantRepository from '../../infrastructure/repositories/campaign-participant-repository.js';
 import * as campaignParticipationOverviewRepository from '../../infrastructure/repositories/campaign-participation-overview-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
@@ -41,7 +40,6 @@ import * as campaignProfileRepository from '../../infrastructure/repositories/ca
 import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
 import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
 import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
-import * as campaignValidator from '../validators/campaign-validator.js';
 import * as certifiableProfileForLearningContentRepository from '../../infrastructure/repositories/certifiable-profile-for-learning-content-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as certificationAssessmentRepository from '../../infrastructure/repositories/certification-assessment-repository.js';
@@ -231,7 +229,6 @@ const dependencies = {
   campaignAssessmentParticipationRepository,
   campaignAssessmentParticipationResultRepository,
   campaignCollectiveResultRepository,
-  campaignCreatorRepository,
   campaignForArchivingRepository,
   campaignManagementRepository,
   campaignParticipantActivityRepository,
@@ -244,7 +241,6 @@ const dependencies = {
   campaignReportRepository,
   campaignRepository,
   campaignToJoinRepository,
-  campaignValidator,
   certifiableProfileForLearningContentRepository,
   certificateRepository,
   certificationAssessmentRepository,
