@@ -188,13 +188,14 @@ describe('Acceptance | Route | certification-course', function () {
   describe('POST /api/admin/certification-courses-v3/{id}/details', function () {
     let certificationCourse;
     let certificationChallenges;
+    let assessmentResult;
     let options;
     let server;
 
     beforeEach(async function () {
       certificationCourse = databaseBuilder.factory.buildCertificationCourse({ version: 3 });
       const user = await insertUserWithRoleSuperAdmin();
-      ({ certificationChallenges } = await createSuccessfulCertificationCourse({
+      ({ certificationChallenges, assessmentResult } = await createSuccessfulCertificationCourse({
         userId: user.id,
         certificationCourse,
       }));
@@ -228,7 +229,15 @@ describe('Acceptance | Route | certification-course', function () {
       const expectedResponse = {
         type: 'v3-certification-course-details-for-administrations',
         attributes: {
+          'abort-reason': null,
           'certification-course-id': certificationCourse.id,
+          'completed-at': certificationCourse.completedAt,
+          'created-at': certificationCourse.createdAt,
+          'is-rejected-for-fraud': false,
+          'is-cancelled': false,
+          'pix-score': assessmentResult.pixScore,
+          'assessment-state': 'completed',
+          'assessment-result-status': 'validated',
         },
         id: certificationCourse.id.toString(),
         relationships: {

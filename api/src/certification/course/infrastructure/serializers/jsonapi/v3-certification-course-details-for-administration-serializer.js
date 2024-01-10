@@ -3,7 +3,18 @@ import jsonapiSerializer from 'jsonapi-serializer';
 const { Serializer } = jsonapiSerializer;
 
 const serialize = function ({ certificationDetails }) {
-  const attributes = ['certificationCourseId', 'certificationChallengesForAdministration'];
+  const attributes = [
+    'certificationCourseId',
+    'certificationChallengesForAdministration',
+    'isRejectedForFraud',
+    'isCancelled',
+    'createdAt',
+    'completedAt',
+    'assessmentState',
+    'assessmentResultStatus',
+    'abortReason',
+    'pixScore',
+  ];
 
   return new Serializer('v3-certification-course-details-for-administration', {
     id: 'certificationCourseId',
