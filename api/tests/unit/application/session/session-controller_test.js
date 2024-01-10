@@ -1,7 +1,7 @@
 import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
 import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { usecases as certificationUsecases } from '../../../../src/certification/shared/domain/usecases/index.js';
+import { usecases as sessionUsecases } from '../../../../src/certification/session/domain/usecases/index.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
 import { SessionPublicationBatchResult } from '../../../../lib/domain/models/index.js';
@@ -266,7 +266,7 @@ describe('Unit | Controller | sessionController', function () {
       };
       const requestResponseUtils = { extractUserIdFromRequest: sinon.stub() };
       sinon.stub(usecases, 'enrolStudentsToSession');
-      sinon.stub(certificationUsecases, 'getSessionCertificationCandidates');
+      sinon.stub(sessionUsecases, 'getSessionCertificationCandidates');
       const certificationCandidateSerializer = { serialize: sinon.stub() };
       dependencies = {
         requestResponseUtils,
@@ -278,7 +278,7 @@ describe('Unit | Controller | sessionController', function () {
       beforeEach(function () {
         dependencies.requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
         usecases.enrolStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
-        certificationUsecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
+        sessionUsecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
         dependencies.certificationCandidateSerializer.serialize
           .withArgs(studentList)
           .returns(serializedCertificationCandidate);
