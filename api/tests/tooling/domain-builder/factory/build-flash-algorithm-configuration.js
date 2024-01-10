@@ -1,5 +1,5 @@
-import { FlashAssessmentSuccessRateHandler } from '../../../../src/certification/flash-certification/domain/model/FlashAssessmentSuccessRateHandler.js';
-import { FlashAssessmentAlgorithmConfiguration } from '../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmConfiguration.js';
+import { FlashAssessmentSuccessRateHandler } from '../../../../src/certification/flash-certification/domain/models/FlashAssessmentSuccessRateHandler.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithmConfiguration.js';
 
 export const buildFlashAlgorithmConfiguration = ({
   warmUpLength,

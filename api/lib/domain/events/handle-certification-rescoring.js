@@ -11,7 +11,7 @@ import { checkEventTypes } from './check-event-types.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { CertificationAssessmentScoreV3 } from '../models/CertificationAssessmentScoreV3.js';
 import { ABORT_REASONS } from '../models/CertificationCourse.js';
-import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
+import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
 import { config } from '../../../src/shared/config.js';
 import { CertificationCourseRejected } from './CertificationCourseRejected.js';
 import { CertificationCourseUnrejected } from './CertificationCourseUnrejected.js';

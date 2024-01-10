@@ -1,4 +1,4 @@
-import { FlashAssessmentAlgorithmChallengesBetweenCompetencesRule } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmChallengesBetweenCompetencesRule.js';
+import { FlashAssessmentAlgorithmChallengesBetweenCompetencesRule } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithmChallengesBetweenCompetencesRule.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithmChallengesBetweenCompetencesRule', function () {

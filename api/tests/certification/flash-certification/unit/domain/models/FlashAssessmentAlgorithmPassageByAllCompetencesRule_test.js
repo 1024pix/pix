@@ -1,4 +1,4 @@
-import { FlashAssessmentAlgorithmPassageByAllCompetencesRule } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmPassageByAllCompetencesRule.js';
+import { FlashAssessmentAlgorithmPassageByAllCompetencesRule } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithmPassageByAllCompetencesRule.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithmPassageByAllCompetencesRule', function () {
