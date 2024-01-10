@@ -6,7 +6,7 @@ import * as campaignCreatorRepository from '../../../../../../src/prescription/c
 
 import { createCampaign } from '../../../../../../src/prescription/campaign/domain/usecases/create-campaign.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/read-models/Campaign.js';
-import { CampaignTypes } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 
 import * as codeGenerator from '../../../../../../lib/domain/services/code-generator.js';
 

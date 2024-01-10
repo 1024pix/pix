@@ -3,7 +3,7 @@ import { catchErr, databaseBuilder, expect, knex, mockLearningContent, sinon } f
 
 import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/read-models/Campaign.js';
-import { CampaignTypes } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { UnknownCampaignId } from '../../../../../../src/prescription/campaign/domain/errors.js';
 
 describe('Integration | Repository | Campaign Administration', function () {
@@ -603,6 +603,63 @@ describe('Integration | Repository | Campaign Administration', function () {
       });
 
       expect(result).to.be.instanceOf(UnknownCampaignId);
+    });
+  });
+
+  describe('#updateByCampaignId', function () {
+    it('should update the campaign', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({
+        name: 'Bad campaign',
+        title: null,
+        customLandingPageText: null,
+        customResultPageText: null,
+        customResultPageButtonText: null,
+        customResultPageButtonUrl: null,
+        multipleSendings: false,
+        isForAbsoluteNovice: false,
+      });
+      await databaseBuilder.commit();
+
+      const campaignAttributes = {
+        name: 'Amazing campaign',
+        title: 'Good title',
+        customLandingPageText: 'End page',
+        customResultPageText: 'Congrats you finished !',
+        customResultPageButtonText: 'Continue here',
+        customResultPageButtonUrl: 'www.next-step.net',
+        multipleSendings: true,
+        isForAbsoluteNovice: true,
+      };
+      const expectedCampaign = databaseBuilder.factory.buildCampaign({ ...campaign, ...campaignAttributes });
+      // when
+      await campaignAdministrationRepository.updateByCampaignId({ campaignId: campaign.id, campaignAttributes });
+      const updatedCampaign = await knex('campaigns').where({ id: campaign.id }).first();
+
+      // then
+      expect(updatedCampaign).to.deep.equal(expectedCampaign);
+    });
+
+    it('should only update editable attributes', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign({
+        code: 'SOMECODE',
+        name: 'some name',
+      });
+      await databaseBuilder.commit();
+
+      const campaignAttributes = {
+        code: 'NEWCODE',
+        name: 'new name',
+      };
+
+      // when
+      await campaignAdministrationRepository.updateByCampaignId({ campaignId: campaign.id, campaignAttributes });
+      const { name: updatedName, code: sameCode } = await knex('campaigns').where({ id: campaign.id }).first();
+
+      // then
+      expect(updatedName).to.be.equal('new name');
+      expect(sameCode).to.be.equal('SOMECODE');
     });
   });
 });

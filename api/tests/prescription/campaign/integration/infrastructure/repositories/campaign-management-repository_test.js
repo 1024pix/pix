@@ -1,9 +1,10 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
-import * as campaignManagementRepository from '../../../../lib/infrastructure/repositories/campaign-management-repository.js';
+import { expect, databaseBuilder } from '../../../../../test-helper.js';
+import * as campaignManagementRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
 import _ from 'lodash';
-import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
-import { knex } from '../../../../lib/infrastructure/bookshelf.js';
-import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import {
+  CampaignTypes,
+  CampaignParticipationStatuses,
+} from '../../../../../../src/prescription/shared/domain/constants.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -20,6 +21,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         ownerId: owner.id,
         targetProfileId: targetProfile.id,
         organizationId: organization.id,
+        isForAbsoluteNovice: true,
       });
       await databaseBuilder.commit();
 
@@ -46,6 +48,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         targetProfileId: targetProfile.id,
         targetProfileName: targetProfile.name,
         title: campaign.title,
+        isForAbsoluteNovice: true,
         customLandingPageText: campaign.customLandingPageText,
         customResultPageText: null,
         customResultPageButtonText: null,
@@ -66,6 +69,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         creatorId: user.id,
         ownerId: owner.id,
         organizationId: organization.id,
+        isForAbsoluteNovice: false,
       });
       await databaseBuilder.commit();
 
@@ -93,6 +97,7 @@ describe('Integration | Repository | Campaign-Management', function () {
         targetProfileName: null,
         title: campaign.title,
         customLandingPageText: campaign.customLandingPageText,
+        isForAbsoluteNovice: false,
         customResultPageText: null,
         customResultPageButtonText: null,
         customResultPageButtonUrl: null,
@@ -210,67 +215,6 @@ describe('Integration | Repository | Campaign-Management', function () {
           expect(result.sharedParticipationsCount).to.equal(0);
         });
       });
-    });
-  });
-
-  describe('#update', function () {
-    it('should update the campaign', async function () {
-      // given
-      const campaign = databaseBuilder.factory.buildCampaign({
-        name: 'Bad campaign',
-        title: null,
-        customLandingPageText: null,
-        customResultPageText: null,
-        customResultPageButtonText: null,
-        customResultPageButtonUrl: null,
-        multipleSendings: false,
-      });
-      await databaseBuilder.commit();
-
-      const campaignAttributes = {
-        name: 'Amazing campaign',
-        title: 'Good title',
-        customLandingPageText: 'End page',
-        customResultPageText: 'Congrats you finished !',
-        customResultPageButtonText: 'Continue here',
-        customResultPageButtonUrl: 'www.next-step.net',
-        multipleSendings: true,
-      };
-      const expectedCampaign = databaseBuilder.factory.buildCampaign({ ...campaign, ...campaignAttributes });
-      // when
-      await campaignManagementRepository.update({ campaignId: campaign.id, campaignAttributes });
-      const updatedCampaign = await knex('campaigns').where({ id: campaign.id }).first();
-
-      // then
-      expect(updatedCampaign).to.deep.equal(expectedCampaign);
-    });
-
-    it('should only update editable attributes', async function () {
-      // given
-      const campaign = databaseBuilder.factory.buildCampaign({
-        code: 'SOMECODE',
-        name: 'some name',
-        multipleSendings: false,
-      });
-      await databaseBuilder.commit();
-
-      const campaignAttributes = {
-        code: 'NEWCODE',
-        name: 'new name',
-        multipleSendings: true,
-      };
-      const expectedCampaign = databaseBuilder.factory.buildCampaign({
-        ...campaign,
-        name: 'new name',
-        multipleSendings: true,
-      });
-
-      // when
-      await campaignManagementRepository.update({ campaignId: campaign.id, campaignAttributes });
-      const updatedCampaign = await knex('campaigns').where({ id: campaign.id }).first();
-
-      // then
-      expect(updatedCampaign).to.deep.equal(expectedCampaign);
     });
   });
 

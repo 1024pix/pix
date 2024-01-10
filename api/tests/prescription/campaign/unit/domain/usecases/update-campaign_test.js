@@ -1,5 +1,5 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../../../test-helper.js';
-import { updateCampaign } from '../../../../../../src/prescription/campaign/domain/usecases/update-campaign.js';
+import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | update-campaign', function () {
@@ -58,7 +58,7 @@ describe('Unit | UseCase | update-campaign', function () {
       });
 
       // when
-      const resultCampaign = await updateCampaign({
+      const resultCampaign = await usecases.updateCampaign({
         userId: userWithMembership.id,
         campaignId: updatedCampaign.id,
         title: updatedCampaign.title,
@@ -81,7 +81,7 @@ describe('Unit | UseCase | update-campaign', function () {
       });
 
       // when
-      const resultCampaign = await updateCampaign({
+      const resultCampaign = await usecases.updateCampaign({
         userId: userWithMembership.id,
         campaignId: updatedCampaign.id,
         ownerId,
@@ -101,7 +101,7 @@ describe('Unit | UseCase | update-campaign', function () {
       const updatedCampaign = domainBuilder.buildCampaign({ ...originalCampaign });
 
       // when
-      const resultCampaign = await updateCampaign({
+      const resultCampaign = await usecases.updateCampaign({
         userId: userWithMembership.id,
         campaignId: updatedCampaign.id,
         ownerId,
@@ -123,7 +123,7 @@ describe('Unit | UseCase | update-campaign', function () {
       });
 
       // when
-      const resultCampaign = await updateCampaign({
+      const resultCampaign = await usecases.updateCampaign({
         userId: userWithMembership.id,
         campaignId: updatedCampaign.id,
         name: updatedCampaign.name,
@@ -154,7 +154,7 @@ describe('Unit | UseCase | update-campaign', function () {
       membershipRepository.findByUserIdAndOrganizationId.resolves([newOwnerWithMembership]);
 
       // when
-      const resultCampaign = await updateCampaign({
+      const resultCampaign = await usecases.updateCampaign({
         userId: userWithMembership.id,
         campaignId: updatedCampaign.id,
         name: originalCampaign.name,
@@ -174,7 +174,7 @@ describe('Unit | UseCase | update-campaign', function () {
       const updatedCampaign = domainBuilder.buildCampaign({ ...originalCampaign });
 
       // when
-      const resultCampaign = await updateCampaign({
+      const resultCampaign = await usecases.updateCampaign({
         userId: userWithMembership.id,
         campaignId: updatedCampaign.id,
         name: undefined,
@@ -209,7 +209,7 @@ describe('Unit | UseCase | update-campaign', function () {
         .resolves([]);
 
       // when
-      const error = await catchErr(updateCampaign)({
+      const error = await catchErr(usecases.updateCampaign)({
         userId: userWithMembership.id,
         campaignId: originalCampaign.id,
         ownerId: ownerWithoutMembership.id,

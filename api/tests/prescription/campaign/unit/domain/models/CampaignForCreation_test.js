@@ -1,6 +1,6 @@
 import { expect, catchErr } from '../../../../../test-helper.js';
 import { CampaignForCreation } from '../../../../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
-import { CampaignTypes } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 
 describe('Unit | Domain | Models | CampaignForCreation', function () {
   describe('#create', function () {

@@ -1,5 +1,5 @@
 import { CampaignForCreation } from './CampaignForCreation.js';
-import { CampaignTypes } from '../read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../shared/domain/constants.js';
 
 import {
   UserNotAuthorizedToCreateCampaignError,

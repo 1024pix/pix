@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
-import * as campaignValidator from '../../../../../lib/domain/validators/campaign-validator.js';
 
 const updateCampaign = async function ({
   campaignId,
@@ -10,6 +9,7 @@ const updateCampaign = async function ({
   ownerId,
   campaignAdministrationRepository,
   membershipRepository,
+  campaignUpdateValidator,
 }) {
   const campaign = await campaignAdministrationRepository.get(campaignId);
 
@@ -40,7 +40,7 @@ const updateCampaign = async function ({
     targetProfileId: _.get(campaign, 'targetProfile.id'),
   };
 
-  campaignValidator.validate(rawCampaign);
+  campaignUpdateValidator.validate(rawCampaign);
 
   return campaignAdministrationRepository.update(campaign);
 };

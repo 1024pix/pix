@@ -1,6 +1,6 @@
-import { expect } from '../../../test-helper.js';
-import * as campaignValidator from '../../../../lib/domain/validators/campaign-validator.js';
-import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { expect } from '../../../../../test-helper.js';
+import * as campaignUpdateValidator from '../../../../../../src/prescription/campaign/domain/validators/campaign-update-validator.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 
 const MISSING_VALUE = null;
 const EMPTY_VALUE = '';
@@ -49,13 +49,13 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
       context(`when campaign is of type ${campaign.type}`, function () {
         context('when validation is successful', function () {
           it('should not throw any error', function () {
-            expect(campaignValidator.validate(campaign)).to.not.throw;
+            expect(campaignUpdateValidator.validate(campaign)).to.not.throw;
           });
 
           it('should resolve when idPixLabel is null', function () {
             // when/then
             expect(
-              campaignValidator.validate({
+              campaignUpdateValidator.validate({
                 ...campaign,
                 idPixLabel: MISSING_VALUE,
               }),
@@ -66,7 +66,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should resolve when is null', function () {
               // when/then
               expect(
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   title: MISSING_VALUE,
                 }),
@@ -76,7 +76,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should resolve when is not provided', function () {
               // when/then
               expect(
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   title: UNDEFINED_VALUE,
                 }),
@@ -88,7 +88,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should resolve when is null', function () {
               // when/then
               expect(
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   customResultPageText: MISSING_VALUE,
                 }),
@@ -100,7 +100,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should resolve when both are null', function () {
               // when/then
               expect(
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   customResultPageButtonText: MISSING_VALUE,
                   customResultPageButtonUrl: MISSING_VALUE,
@@ -119,7 +119,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
               try {
                 // when
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   customLandingPageText: 'Gozilla vs Kong'.repeat(335),
                 });
@@ -143,7 +143,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should reject with error when name is missing', function () {
               try {
                 // when
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   name: MISSING_VALUE,
                 });
@@ -157,7 +157,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should reject with error when name is empty', function () {
               try {
                 // when
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   name: EMPTY_VALUE,
                 });
@@ -179,7 +179,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should reject with error when creatorId is missing', function () {
               try {
                 // when
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   creatorId: MISSING_VALUE,
                 });
@@ -193,7 +193,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should reject with error when creatorId is undefined', function () {
               try {
                 // when
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   creatorId: UNDEFINED_VALUE,
                 });
@@ -215,7 +215,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should reject with error when organizationId is missing', function () {
               try {
                 // when
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   organizationId: MISSING_VALUE,
                 });
@@ -229,7 +229,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should reject with error when organizationId is undefined', function () {
               try {
                 // when
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   organizationId: UNDEFINED_VALUE,
                 });
@@ -251,7 +251,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
               try {
                 // when
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   idPixLabel: EMPTY_VALUE,
                 });
@@ -271,7 +271,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
               try {
                 // when
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   idPixLabel: 'AZ',
                 });
@@ -293,7 +293,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should reject with error when type is a wrong type', function () {
               try {
                 // when
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   type: 'WRONG_TYPE',
                 });
@@ -307,7 +307,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should reject with error when type is undefined', function () {
               try {
                 // when
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   type: UNDEFINED_VALUE,
                 });
@@ -329,7 +329,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should reject with error when multipleSendings not a boolean', function () {
               try {
                 // when
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   multipleSendings: NOT_BOOLEAN_VALUE,
                 });
@@ -343,7 +343,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             it('should reject with error when multipleSendings is undefined', function () {
               try {
                 // when
-                campaignValidator.validate({
+                campaignUpdateValidator.validate({
                   ...campaign,
                   multipleSendings: UNDEFINED_VALUE,
                 });
@@ -358,7 +358,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
           it('should reject with errors on all fields (but only once by field) when all fields are missing', function () {
             try {
               // when
-              campaignValidator.validate({
+              campaignUpdateValidator.validate({
                 ...campaign,
                 name: MISSING_VALUE,
                 creatorId: MISSING_VALUE,
@@ -387,7 +387,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
               try {
                 // when
-                campaignValidator.validate(campaign);
+                campaignUpdateValidator.validate(campaign);
                 expect.fail('should have thrown an error');
               } catch (entityValidationErrors) {
                 // then
@@ -409,7 +409,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
         try {
           // when
-          campaignValidator.validate({
+          campaignUpdateValidator.validate({
             ...campaignOfTypeProfilesCollection,
             title: 'Titre du parcours',
           });
@@ -428,7 +428,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
         };
 
         // when/then
-        expect(campaignValidator.validate(campaign)).to.not.throw;
+        expect(campaignUpdateValidator.validate(campaign)).to.not.throw;
       });
 
       it('should reject with error campaign type is ASSESSMENT and title has more than 50 char', function () {
@@ -440,7 +440,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
         try {
           // when
-          campaignValidator.validate({
+          campaignUpdateValidator.validate({
             ...campaignOfTypeAssessment,
             title: 'Karam'.repeat(50),
           });
@@ -462,7 +462,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
         try {
           // when
-          campaignValidator.validate({
+          campaignUpdateValidator.validate({
             ...campaignOfTypeAssessment,
             customResultPageText: 'Gozilla vs Kong'.repeat(335),
           });
@@ -482,7 +482,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
         try {
           // when
-          campaignValidator.validate({
+          campaignUpdateValidator.validate({
             ...campaignOfTypeProfilesCollection,
             customResultPageText: 'some text',
           });
@@ -501,7 +501,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
         };
 
         // when/then
-        expect(campaignValidator.validate(campaign)).to.not.throw;
+        expect(campaignUpdateValidator.validate(campaign)).to.not.throw;
       });
     });
 
@@ -515,7 +515,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
         try {
           // when
-          campaignValidator.validate({
+          campaignUpdateValidator.validate({
             ...campaignOfTypeProfilesCollection,
             customResultPageButtonText: 'some text',
           });
@@ -535,7 +535,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
         };
 
         // when/then
-        expect(campaignValidator.validate(campaign)).to.not.throw;
+        expect(campaignUpdateValidator.validate(campaign)).to.not.throw;
       });
 
       it('should reject with error when customResultPageButtonText is not filled but customResultPageButtonUrl is', function () {
@@ -547,7 +547,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
         try {
           // when
-          campaignValidator.validate({
+          campaignUpdateValidator.validate({
             ...campaignOfTypeAssessment,
             customResultPageButtonUrl: 'https://www.url.com',
             customResultPageButtonText: EMPTY_VALUE,
@@ -568,7 +568,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
         try {
           // when
-          campaignValidator.validate({
+          campaignUpdateValidator.validate({
             ...campaignOfTypeAssessment,
             customResultPageButtonUrl: 'https://www.url.com',
             customResultPageButtonText: MISSING_VALUE,
@@ -591,7 +591,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
         try {
           // when
-          campaignValidator.validate({
+          campaignUpdateValidator.validate({
             ...campaignOfTypeProfilesCollection,
             customResultPageButtonUrl: 'https://www.url.com',
           });
@@ -611,7 +611,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
         };
 
         // when/then
-        expect(campaignValidator.validate(campaign)).to.not.throw;
+        expect(campaignUpdateValidator.validate(campaign)).to.not.throw;
       });
 
       it('should reject with error when it is not a url', function () {
@@ -623,7 +623,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
         try {
           // when
-          campaignValidator.validate({
+          campaignUpdateValidator.validate({
             ...campaignOfTypeAssessment,
             customResultPageButtonText: 'some text',
             customResultPageButtonUrl: 'some text',
@@ -644,7 +644,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
         try {
           // when
-          campaignValidator.validate({
+          campaignUpdateValidator.validate({
             ...campaignOfTypeAssessment,
             customResultPageButtonUrl: EMPTY_VALUE,
             customResultPageButtonText: 'some text',
@@ -665,7 +665,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
 
         try {
           // when
-          campaignValidator.validate({
+          campaignUpdateValidator.validate({
             ...campaignOfTypeAssessment,
             customResultPageButtonUrl: MISSING_VALUE,
             customResultPageButtonText: 'some text',

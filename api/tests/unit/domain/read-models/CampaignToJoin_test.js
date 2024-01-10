@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 
 describe('Unit | Domain | Models | CampaignToJoin', function () {
   describe('#isAssessment', function () {

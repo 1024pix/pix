@@ -1,4 +1,4 @@
-import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 import { CampaignToStartParticipation } from '../../../../lib/domain/models/CampaignToStartParticipation.js';
 
 const buildCampaignToStartParticipation = function ({

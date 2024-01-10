@@ -1,132 +1,133 @@
 <section class="page-section">
-  <h2>{{@campaign.name}}</h2>
-  <br />
+  <h1>{{@campaign.name}}</h1>
 
-  <form class="form" {{on "submit" this.update}}>
-    <div class="form-field">
-      <label for="name" class="form-field__label">
-        <abbr title="obligatoire" class="mandatory-mark">*</abbr>
-        Nom de la campagne
-      </label>
-      <Input
-        id="name"
-        @type="text"
-        class="form-control {{if (v-get this.form 'name' 'isInvalid') 'is-invalid'}}"
+  <p class="admin-form__mandatory-text">
+    Les champs marqués de
+    <span class="mandatory-mark">*</span>
+    sont obligatoires.
+  </p>
+
+  <form class="admin-form" {{on "submit" this.update}}>
+    <div class="admin-form__content">
+      <PixInput
+        @id="name"
+        @label="Nom de la campagne"
+        @requiredLabel="Champ obligatoire"
+        @errorMessage={{this.nameError.message}}
+        @validationStatus={{this.nameError.state}}
         @value={{this.form.name}}
+        {{on "change" (fn this.updateFormValue "name")}}
       />
-      {{#if (v-get this.form "name" "isInvalid")}}
-        <div class="form-field__error">
-          {{v-get this.form "name" "message"}}
-        </div>
-      {{/if}}
-      <br />
 
       {{#if @campaign.isTypeAssessment}}
-        <label for="title" class="form-field__label">
-          Titre du parcours
-        </label>
-        <Input
-          id="title"
-          @type="text"
-          class="form-control {{if (v-get this.form 'title' 'isInvalid') 'is-invalid'}}"
+        <PixInput
+          @id="title"
+          @label="Titre du parcours"
+          @errorMessage={{this.titleError.message}}
+          @validationStatus={{this.titleError.state}}
           @value={{this.form.title}}
           maxlength="50"
+          {{on "change" (fn this.updateFormValue "title")}}
         />
-        {{#if (v-get this.form "title" "isInvalid")}}
-          <div class="form-field__error">
-            {{v-get this.form "title" "message"}}
-          </div>
-        {{/if}}
-        <br />
       {{/if}}
 
-      <label for="customLandingPageText" class="form-field__label">
-        Texte de la page d'accueil
-      </label>
       <PixTextarea
-        id="customLandingPageText"
-        rows="8"
-        @maxlength="5000"
+        @id="customLandingPageText"
+        @label="Texte de la page d'accueil"
         @value={{this.form.customLandingPageText}}
+        @errorMessage={{this.customLandingPageTextError.message}}
+        @validationStatus={{this.customLandingPageTextError.state}}
+        @maxlength="5000"
+        rows="8"
         {{on "change" (fn this.updateFormValue "customLandingPageText")}}
-        class="form-control {{if (v-get this.form 'customLandingPageText' 'isInvalid') 'is-invalid'}}"
       />
 
-      {{#if (v-get this.form "customLandingPageText" "isInvalid")}}
-        <div class="form-field__error">
-          {{v-get this.form "customLandingPageText" "message"}}
-        </div>
-      {{/if}}
-      <br />
-
       {{#if @campaign.isTypeAssessment}}
-        <label for="customResultPageText" class="form-field__label">
-          Texte de la page de fin de parcours
-        </label>
         <PixTextarea
-          id="customResultPageText"
-          rows="8"
-          @maxlength="5000"
+          @id="customResultPageText"
+          @label="Texte de la page de fin de parcours"
           @value={{this.form.customResultPageText}}
+          @errorMessage={{this.customResultPageTextError.message}}
+          @validationStatus={{this.customResultPageTextError.state}}
+          @maxlength="5000"
+          rows="8"
           {{on "change" (fn this.updateFormValue "customResultPageText")}}
-          class="form-control {{if (v-get this.form 'customResultPageText' 'isInvalid') 'is-invalid'}}"
         />
-        {{#if (v-get this.form "customResultPageText" "isInvalid")}}
-          <div class="form-field__error">
-            {{v-get this.form "customResultPageText" "message"}}
-          </div>
-        {{/if}}
-        <br />
 
-        <label for="customResultPageButtonText" class="form-field__label">
-          Texte du bouton de la page de fin de parcours
-        </label>
-        <Input
-          id="customResultPageButtonText"
-          @type="text"
-          class="form-control {{if (v-get this.form 'customResultPageButtonText' 'isInvalid') 'is-invalid'}}"
+        <PixInput
+          @id="customResultPageButtonText"
+          @label="Texte du bouton de la page de fin de parcours"
+          @information="Si un texte pour le bouton est saisi, une URL est également requise."
           @value={{this.form.customResultPageButtonText}}
+          @errorMessage={{this.customResultPageButtonTextError.message}}
+          @validationStatus={{this.customResultPageButtonTextError.state}}
+          {{on "change" (fn this.updateFormValue "customResultPageButtonText")}}
         />
-        {{#if (v-get this.form "customResultPageButtonText" "isInvalid")}}
-          <div class="form-field__error">
-            {{v-get this.form "customResultPageButtonText" "message"}}
-          </div>
-        {{/if}}
-        <p class="form__instructions">Si un texte pour le bouton est saisi, une URL est également requise.</p>
-        <br />
 
-        <label for="customResultPageButtonUrl" class="form-field__label">
-          URL du bouton de la page de fin de parcours
-        </label>
-        <Input
-          id="customResultPageButtonUrl"
-          @type="text"
-          class="form-control {{if (v-get this.form 'customResultPageButtonUrl' 'isInvalid') 'is-invalid'}}"
+        <PixInput
+          @id="customResultPageButtonUrl"
+          @label="URL du bouton de la page de fin de parcours"
+          @information="Si une URL pour le bouton est saisie, le texte est également requis."
           @value={{this.form.customResultPageButtonUrl}}
+          @errorMessage={{this.customResultPageButtonUrlError.message}}
+          @validationStatus={{this.customResultPageButtonUrlError.state}}
+          {{on "change" (fn this.updateFormValue "customResultPageButtonUrl")}}
         />
-        {{#if (v-get this.form "customResultPageButtonUrl" "isInvalid")}}
-          <div class="form-field__error">
-            {{v-get this.form "customResultPageButtonUrl" "message"}}
-          </div>
-        {{/if}}
-        <p class="form__instructions">Si une URL pour le bouton est saisie, le texte est également requis.</p>
       {{/if}}
 
       {{#unless @campaign.totalParticipationsCount}}
-        <div class="form-field campaign-edit-form__checkbox">
-          <label for="multipleSendings" class="form-field__label">Envoi multiple</label>
-          <Input
-            id="multipleSendings"
-            @type="checkbox"
-            class={{if (v-get this.form "multipleSendings" "isInvalid") "form-control is-invalid" "form-control"}}
-            @checked={{this.form.multipleSendings}}
-          />
-        </div>
+        <PixCheckbox
+          @id="multipleSendings"
+          @checked={{this.form.multipleSendings}}
+          {{on "change" (fn this.updateFormCheckBoxValue "multipleSendings")}}
+        >
+          Envoi multiple
+        </PixCheckbox>
       {{/unless}}
 
+      {{#if this.displayIsForAbsoluteNoviceChoice}}
+        <Ui::PixFieldset role="radiogroup">
+          <:title>Voulez-vous passer cette campagne en <i>isForAbsoluteNovice</i></:title>
+          <:content>
+            <PixRadioButton
+              name="isForAbsoluteNovice"
+              @value={{true}}
+              {{on "change" (fn this.updateFormValue "isForAbsoluteNovice")}}
+              checked={{this.form.isForAbsoluteNovice}}
+            >
+              Oui
+            </PixRadioButton>
+
+            <PixRadioButton
+              name="isForAbsoluteNovice"
+              @value={{false}}
+              {{on "change" (fn this.updateFormValue "isForAbsoluteNovice")}}
+              checked={{(not this.form.isForAbsoluteNovice)}}
+            >
+              Non
+            </PixRadioButton>
+          </:content>
+        </Ui::PixFieldset>
+
+        {{#if this.displayIsForAbsoluteNoviceWarning}}
+          <PixBanner @type="warning">
+            <div class="is-for-absolute-novice-warning">
+              <p>Les campagnes
+                <strong><i>isForAbsoluteNovice</i></strong>
+                sont uniquement à destination des grand débutants et supprimant de ce fait les éléments suivant :</p>
+
+              <ul class="is-for-absolute-novice-warning__list">
+                <li>Didacticiel</li>
+                <li>Page d'accueil de la campagne</li>
+                <li>Envoi de résultats</li>
+              </ul>
+            </div>
+          </PixBanner>
+        {{/if}}
+      {{/if}}
     </div>
 
-    <div class="form-actions">
+    <div class="admin-form__actions">
       <PixButton
         @triggerAction={{@onExit}}
         @backgroundColor="transparent-light"
