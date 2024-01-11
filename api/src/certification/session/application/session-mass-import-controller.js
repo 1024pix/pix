@@ -1,7 +1,7 @@
 import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
-import { usecases } from '../../../../src/certification/shared/domain/usecases/index.js';
+import { usecases } from '../../shared/domain/usecases/index.js';
 
-import * as csvHelpers from '../../../../lib/application/certification-centers/csvHelpers.js';
+import * as csvHelpers from '../../shared/application/helpers/csvHelpers.js';
 import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
 
 const createSessions = async function (request, h) {
