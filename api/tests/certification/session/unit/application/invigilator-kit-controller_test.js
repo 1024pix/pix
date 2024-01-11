@@ -2,15 +2,15 @@ import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js'
 import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 import { invigilatorKitController } from '../../../../../src/certification/session/application/invigilator-kit-controller.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
-import { LANG } from '../../../../../src/shared/domain/constants.js';
+import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
 
 describe('Unit | Controller | invigilator-kit-controller', function () {
   describe('#getInvigilatorKitPdf', function () {
     // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     /* eslint-disable mocha/no-setup-in-describe */
     [
-      { lang: LANG.ENGLISH, filename: 'invigilator-kit-1.pdf' },
-      { lang: LANG.FRENCH, filename: 'kit-surveillant-1.pdf' },
+      { lang: LANGUAGES_CODE.ENGLISH, filename: 'invigilator-kit-1.pdf' },
+      { lang: LANGUAGES_CODE.FRENCH, filename: 'kit-surveillant-1.pdf' },
     ].forEach(function ({ lang, filename }) {
       /* eslint-enable mocha/no-setup-in-describe */
       it(`should return invigilator kit in ${lang}`, async function () {
