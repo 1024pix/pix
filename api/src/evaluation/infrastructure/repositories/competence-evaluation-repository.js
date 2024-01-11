@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { knex } from '../../../../db/knex-database-connection.js';
 import { CompetenceEvaluation } from '../../domain/models/CompetenceEvaluation.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';

@@ -5,6 +5,7 @@ import {
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionAlreadyFinalizedError,
   CertificationCandidateForbiddenDeletionError,
+  SessionAlreadyPublishedError,
 } from '../../../../../src/certification/session/domain/errors.js';
 import { sessionDomainErrorMappingConfiguration } from '../../../../../src/certification/session/application/http-error-mapper-configuration.js';
 import { DomainErrorMappingConfiguration } from '../../../../../src/shared/application/models/domain-error-mapping-configuration.js';
@@ -75,6 +76,23 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
       expect(error).to.be.instanceOf(HttpErrors.ConflictError);
       expect(error.message).to.equal(message);
       expect(error.code).to.equal(code);
+    });
+  });
+
+  context('when mapping "SessionAlreadyPublishedError"', function () {
+    it('returns an BadRequest Http Error', function () {
+      //given
+      const httpErrorMapper = sessionDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === SessionAlreadyPublishedError.name,
+      );
+      const message = 'Test message error';
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new SessionAlreadyPublishedError(message));
+
+      //then
+      expect(error).to.be.instanceOf(HttpErrors.BadRequestError);
+      expect(error.message).to.equal(message);
     });
   });
 

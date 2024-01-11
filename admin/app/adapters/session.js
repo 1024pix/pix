@@ -42,6 +42,10 @@ export default class SessionAdapter extends ApplicationAdapter {
       const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/certification-officer-assignment';
       return this.ajax(url, 'PATCH');
     }
+    if (snapshot.adapterOptions.unfinalize) {
+      const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/unfinalize';
+      return this.ajax(url, 'PATCH');
+    }
 
     return super.updateRecord(...arguments);
   }

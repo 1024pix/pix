@@ -129,72 +129,33 @@ module('Unit | Model | session', function (hooks) {
   });
 
   module('#isPublished', function () {
-    module('when there is no certification', function () {
-      let sessionWithoutCertifications;
-
+    module('when status is not PROCESSED', function () {
       test('isPublished should be false', function (assert) {
         // given
-        sessionWithoutCertifications = run(() => {
-          return store.createRecord('session', { juryCertificationSummaries: [] });
+        const unprocessedSession = run(() => {
+          return store.createRecord('session', { status: 'created' });
         });
 
         // when
-        const isPublished = sessionWithoutCertifications.get('isPublished');
+        const isPublished = unprocessedSession.get('isPublished');
 
         // then
         assert.false(isPublished);
       });
     });
 
-    module('when there are multiple certifications', function () {
-      module('when all certifications are published', function (hooks) {
-        let sessionWithAllCertificationsPublished;
-
-        hooks.beforeEach(async function () {
-          sessionWithAllCertificationsPublished = run(() => {
-            const certif1 = store.createRecord('jury-certification-summary', { isPublished: true });
-            const certif2 = store.createRecord('jury-certification-summary', { isPublished: true });
-            return store.createRecord('session', { juryCertificationSummaries: [certif1, certif2] });
-          });
+    module('when status is PROCESSED', function () {
+      test('isPublished should be true', function (assert) {
+        // given
+        const processedSession = run(() => {
+          return store.createRecord('session', { status: 'processed' });
         });
 
-        test('isPublished should be true', function (assert) {
-          const isPublished = sessionWithAllCertificationsPublished.get('isPublished');
-          assert.true(isPublished);
-        });
-      });
+        // when
+        const isPublished = processedSession.get('isPublished');
 
-      module('when not all certifications are published', function (hooks) {
-        let sessionWithoutAllCertificationsPublished;
-
-        hooks.beforeEach(async function () {
-          sessionWithoutAllCertificationsPublished = run(() => {
-            const certif1 = store.createRecord('jury-certification-summary', { isPublished: true });
-            const certif2 = store.createRecord('jury-certification-summary', { isPublished: false });
-            return store.createRecord('session', { juryCertificationSummaries: [certif1, certif2] });
-          });
-        });
-
-        test('isPublished from session should be true', function (assert) {
-          const isPublished = sessionWithoutAllCertificationsPublished.get('isPublished');
-          assert.true(isPublished);
-        });
-      });
-      module('when all certifications are not published', function (hooks) {
-        let sessionWithoutAllCertificationsPublished;
-
-        hooks.beforeEach(async function () {
-          sessionWithoutAllCertificationsPublished = run(() => {
-            const certif1 = store.createRecord('jury-certification-summary', { isPublished: false });
-            const certif2 = store.createRecord('jury-certification-summary', { isPublished: false });
-            return store.createRecord('session', { juryCertificationSummaries: [certif1, certif2] });
-          });
-        });
-
-        test('isPublished from session should be false', function (assert) {
-          const isPublished = sessionWithoutAllCertificationsPublished.get('isPublished');
-          assert.false(isPublished);
-        });
+        // then
+        assert.true(isPublished);
       });
     });
   });

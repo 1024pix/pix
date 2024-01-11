@@ -2,7 +2,7 @@ import { Training } from '../../domain/models/Training.js';
 import { TrainingSummary } from '../../domain/read-models/TrainingSummary.js';
 import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { UserRecommendedTraining } from '../../domain/read-models/UserRecommendedTraining.js';
 import { fetchPage } from '../../../../lib/infrastructure/utils/knex-utils.js';
 import lodash from 'lodash';

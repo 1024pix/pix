@@ -7,7 +7,7 @@ import { CertificationCenter } from '../../../../../lib/domain/models/Certificat
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { ComplementaryCertification } from '../../../session/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 const save = async function (sessionData, { knexTransaction } = DomainTransaction.emptyTransaction()) {
   const knexConn = knexTransaction ?? knex;
@@ -27,6 +27,11 @@ const saveSessions = async function (sessionsData) {
 const isFinalized = async function (id) {
   const session = await knex.select('id').from('sessions').where({ id }).whereNotNull('finalizedAt').first();
   return Boolean(session);
+};
+
+const isPublished = async function (id) {
+  const isPublished = await knex.select(1).from('sessions').where({ id }).whereNotNull('publishedAt').first();
+  return Boolean(isPublished);
 };
 
 const get = async function (sessionId) {
@@ -120,6 +125,16 @@ const finalize = async function ({ id, examinerGlobalComment, hasIncident, hasJo
   return new Session(finalizedSession);
 };
 
+const unfinalize = async function ({ sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction.knexTransaction ?? knex;
+  const updates = await knexConn('sessions')
+    .where({ id: sessionId })
+    .update({ finalizedAt: null, assignedCertificationOfficerId: null });
+  if (updates === 0) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+};
+
 const flagResultsAsSentToPrescriber = async function ({ id, resultsSentToPrescriberAt }) {
   const [flaggedSession] = await knex('sessions').where({ id }).update({ resultsSentToPrescriberAt }).returning('*');
   return new Session(flaggedSession);
@@ -209,6 +224,7 @@ export {
   save,
   saveSessions,
   isFinalized,
+  isPublished,
   get,
   isSessionExisting,
   isSessionExistingBySessionAndCertificationCenterIds,
@@ -216,6 +232,7 @@ export {
   updateSessionInfo,
   doesUserHaveCertificationCenterMembershipForSession,
   finalize,
+  unfinalize,
   flagResultsAsSentToPrescriber,
   updatePublishedAt,
   isSco,

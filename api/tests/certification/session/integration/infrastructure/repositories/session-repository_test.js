@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { Session, statuses } from '../../../../../../src/certification/session/domain/models/Session.js';
 import * as sessionRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-repository.js';
+import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Integration | Repository | Session', function () {
   describe('#save', function () {
@@ -81,6 +82,36 @@ describe('Integration | Repository | Session', function () {
 
       // then
       expect(isFinalized).to.be.equal(false);
+    });
+  });
+
+  describe('#isPublished', function () {
+    context('when the session has a published date', function () {
+      it('should return true', async function () {
+        //given
+        databaseBuilder.factory.buildSession({ id: 40, publishedAt: new Date() });
+        await databaseBuilder.commit();
+
+        // when
+        const isPublished = await sessionRepository.isPublished(40);
+
+        // then
+        expect(isPublished).to.be.equal(true);
+      });
+    });
+
+    context('when the session has no published date', function () {
+      it('should return tre', async function () {
+        //given
+        databaseBuilder.factory.buildSession({ id: 40, publishedAt: null });
+        await databaseBuilder.commit();
+
+        // when
+        const isPublished = await sessionRepository.isPublished(40);
+
+        // then
+        expect(isPublished).to.be.equal(false);
+      });
     });
   });
 
@@ -442,6 +473,61 @@ describe('Integration | Repository | Session', function () {
       expect(sessionSaved.hasIncident).to.deep.equal(hasIncident);
       expect(sessionSaved.hasJoiningIssue).to.deep.equal(hasJoiningIssue);
       expect(sessionSaved.status).to.deep.equal(statuses.FINALIZED);
+    });
+  });
+
+  describe('#unfinalize', function () {
+    it('should update the session', async function () {
+      // given
+      const { id: userId } = databaseBuilder.factory.buildUser();
+      const session = databaseBuilder.factory.buildSession({
+        id: 99,
+        finalizedAt: new Date(),
+        assignedCertificationOfficerId: userId,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      await sessionRepository.unfinalize({ sessionId: 99 });
+
+      // then
+      const dbSession = await knex('sessions').select('*').where({ id: 99 }).first();
+      expect(dbSession).to.deep.equal({ ...session, finalizedAt: null, assignedCertificationOfficerId: null });
+    });
+
+    context('when there is a transaction', function () {
+      it('allows to rollback', async function () {
+        // given
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const session = databaseBuilder.factory.buildSession({
+          id: 99,
+          finalizedAt: new Date(),
+          assignedCertificationOfficerId: userId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await sessionRepository.unfinalize({ sessionId: 99, domainTransaction });
+          return domainTransaction.knexTransaction.rollback();
+        });
+
+        /// then
+        const dbSession = await knex('sessions').select('*').where({ id: 99 }).first();
+        expect(dbSession).to.deep.equal(session);
+      });
+    });
+
+    context('when the session does not exists', function () {
+      it('should throw a not found error', async function () {
+        // given
+        // when
+        const error = await catchErr(sessionRepository.unfinalize)({ sessionId: 99 });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
     });
   });
 

@@ -534,14 +534,6 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal('Format de date invalide.');
     });
 
-    it('responds Bad Request when a SessionAlreadyPublishedError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.SessionAlreadyPublishedError());
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
-      expect(responseDetail(response)).to.equal('La session est déjà publiée.');
-    });
-
     it('responds Bad Request when a UserOrgaSettingsCreationError error occurs', async function () {
       routeHandler.throws(
         new DomainErrors.UserOrgaSettingsCreationError(

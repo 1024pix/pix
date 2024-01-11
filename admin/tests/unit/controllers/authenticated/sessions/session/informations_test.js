@@ -15,6 +15,39 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     controller.notifications = { success, error };
   });
 
+  module('#unfinalizeSession', function () {
+    test('it should call the unfinalize route', async function (assert) {
+      // given
+      controller.model = { save: sinon.stub(), reload: sinon.stub() };
+      controller.model.save.withArgs({ adapterOptions: { unfinalize: true } }).resolves();
+      controller.model.reload.resolves();
+
+      // when
+      await controller.actions.unfinalizeSession.call(controller);
+
+      // then
+      assert.ok(controller.model.save.calledWithExactly({ adapterOptions: { unfinalize: true } }));
+      assert.ok(controller.model.reload.calledOnce);
+      assert.ok(controller.notifications.success.calledWithExactly('La session a bien été définalisée'));
+    });
+
+    module('when save failed', function () {
+      test('it should show a notification error', async function (assert) {
+        // given
+        controller.model = { save: sinon.stub(), reload: sinon.stub() };
+        controller.model.save.withArgs({ adapterOptions: { unfinalize: true } }).rejects();
+
+        // when
+        await controller.actions.unfinalizeSession.call(controller);
+
+        // then
+        assert.ok(controller.model.save.calledOnce);
+        assert.ok(controller.model.reload.notCalled);
+        assert.ok(controller.notifications.error.calledWithExactly('Erreur lors de la définalisation de la session'));
+      });
+    });
+  });
+
   module('#checkForAssignment', function (hooks) {
     hooks.beforeEach(function () {
       const save = sinon.stub();

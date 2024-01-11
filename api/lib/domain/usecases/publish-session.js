@@ -3,6 +3,7 @@
  * @typedef {import ('../../../lib/domain/usecases/index.js').FinalizedSessionRepository} FinalizedSessionRepository
  * @typedef {import ('../../../lib/domain/usecases/index.js').SessionRepository} SessionRepository
  * @typedef {import ('../../../lib/domain/usecases/index.js').MailService} MailService
+ * @typedef {import ('../../../lib/domain/usecases/index.js').SessionPublicationService} SessionPublicationService
  */
 
 /**

@@ -4,11 +4,8 @@
  * @typedef {import('../../../lib/domain/usecases/index.js').SessionRepository} SessionRepository
  * @typedef {import('../../../lib/domain/usecases/index.js').MailService} MailService
  */
-import {
-  SendingEmailToResultRecipientError,
-  SessionAlreadyPublishedError,
-  SendingEmailToRefererError,
-} from '../../domain/errors.js';
+import { SendingEmailToResultRecipientError, SendingEmailToRefererError } from '../../domain/errors.js';
+import { SessionAlreadyPublishedError } from '../../../src/certification/session/domain/errors.js';
 import * as mailService from '../../domain/services/mail-service.js';
 import lodash from 'lodash';
 
