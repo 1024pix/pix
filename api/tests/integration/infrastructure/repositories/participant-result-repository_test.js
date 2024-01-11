@@ -1094,6 +1094,56 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
       });
     });
   });
+  describe('#getCampaignParticipationStatus', function () {
+    let campaign;
+    let user;
+    let learner;
+
+    beforeEach(async function () {
+      campaign = databaseBuilder.factory.buildCampaign();
+      user = databaseBuilder.factory.buildUser();
+      learner = databaseBuilder.factory.buildOrganizationLearner({
+        userId: user.id,
+        organization: campaign.organizationId,
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('should return status of an existing campaign participation', async function () {
+      // given
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        organizationLearnerId: learner.id,
+        userId: user.id,
+        status: STARTED,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const status = await participantResultRepository.getCampaignParticipationStatus({
+        userId: user.id,
+        campaignId: campaign.id,
+      });
+
+      // then
+      expect(status).to.equals(STARTED);
+    });
+    it('should throws if there no user as no participation for a givent campaign and user', async function () {
+      // given
+      databaseBuilder.factory.buildCampaignParticipation();
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(participantResultRepository.getCampaignParticipationStatus)({
+        userId: user.id,
+        campaignId: campaign.id,
+      });
+
+      // then
+      expect(error).to.be.an.instanceof(NotFoundError);
+    });
+  });
 });
 
 function _buildCampaignSkills(campaignId) {
