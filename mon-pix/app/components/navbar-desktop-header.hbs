@@ -40,21 +40,16 @@
             </li>
           {{/if}}
         </ul>
-        <!-- Right -->
-        <div class="navbar-desktop-header-right">
-          <ul class="navbar-desktop-header-menu__list">
-            <li class="navbar-desktop-header-menu__item">
-              <LinkTo
-                @route="fill-in-campaign-code"
-                class="button button--extra-thin button--link navbar-desktop-header-campaign-menu__button"
-              >
-                {{t "navigation.main.code"}}
-              </LinkTo>
-            </li>
-          </ul>
-          <UserLoggedMenu />
-
-        </div>
+        <ul class="navbar-desktop-header-right">
+          <li>
+            <PixButtonLink @route="fill-in-campaign-code">
+              {{t "navigation.main.code"}}
+            </PixButtonLink>
+          </li>
+          <li>
+            <UserLoggedMenu />
+          </li>
+        </ul>
       </nav>
 
     {{else}}
