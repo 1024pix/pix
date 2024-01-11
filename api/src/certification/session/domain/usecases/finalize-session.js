@@ -1,3 +1,11 @@
+/**
+ * @typedef {import('../../../shared/domain/usecases/index.js').SessionRepository} SessionRepository
+ *
+ * @typedef {import('../../../shared/domain/usecases/index.js').CertificationCourseRepository} CertificationCourseRepository
+ *
+ * @typedef {import('../../../shared/domain/usecases/index.js').CertificationReportRepository} CertificationReportRepository
+ */
+
 import {
   SessionAlreadyFinalizedError,
   SessionWithoutStartedCertificationError,
@@ -8,6 +16,12 @@ import {
 import { SessionFinalized } from '../../../../../lib/domain/events/SessionFinalized.js';
 import bluebird from 'bluebird';
 
+/**
+ * @param {Object} params
+ * @param {SessionRepository} params.sessionRepository
+ * @param {CertificationCourseRepository} params.certificationCourseRepository
+ * @param {CertificationReportRepository} params.certificationReportRepository
+ */
 const finalizeSession = async function ({
   sessionId,
   examinerGlobalComment,

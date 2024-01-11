@@ -744,12 +744,6 @@ class SessionWithIdAndInformationOnMassImportError extends DomainError {
   }
 }
 
-class SessionAlreadyPublishedError extends DomainError {
-  constructor(message = 'La session est déjà publiée.') {
-    super(message);
-  }
-}
-
 class SessionNotAccessible extends DomainError {
   constructor(message = "La session de certification n'est plus accessible.") {
     super(message);
@@ -1230,7 +1224,6 @@ export {
   SendingEmailToInvalidEmailAddressError,
   SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
-  SessionAlreadyPublishedError,
   SessionNotAccessible,
   SessionWithIdAndInformationOnMassImportError,
   SIECLE_ERRORS,

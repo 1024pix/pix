@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { TrainingTriggerForAdmin } from '../../domain/read-models/TrainingTriggerForAdmin.js';
 import { TrainingTriggerTube } from '../../domain/models/TrainingTriggerTube.js';
 import * as areaRepository from '../../../../lib/infrastructure/repositories/area-repository.js';

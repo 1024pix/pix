@@ -1,4 +1,4 @@
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Assessment } from '../../domain/models/Assessment.js';
 import lodash from 'lodash';
 import { NotFoundError } from '../../../../lib/domain/errors.js';

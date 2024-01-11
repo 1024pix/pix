@@ -114,6 +114,12 @@ function routes() {
   this.post('/admin/sessions/publish-in-batch', () => {
     return new Response(200);
   });
+  this.patch('/admin/sessions/:id/unfinalize', (schema, request) => {
+    const sessionId = request.params.id;
+    const session = schema.sessions.findBy({ id: sessionId });
+    session.update({ finalizedAt: null, assignedCertificationOfficerId: null });
+    return new Response(204);
+  });
   this.get('/admin/sessions/:id/generate-results-download-link', {
     sessionResultsLink: 'http://link-to-results.fr?lang=fr',
   });

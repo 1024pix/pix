@@ -1,4 +1,4 @@
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import {
   AcquiredBadgeForbiddenDeletionError,
   CertificationBadgeForbiddenDeletionError,

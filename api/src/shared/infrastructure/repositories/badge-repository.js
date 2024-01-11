@@ -2,7 +2,7 @@ import { knex } from '../../../../db/knex-database-connection.js';
 import { Badge } from '../../../../src/shared/domain/models/Badge.js';
 import * as knexUtils from '../../../../lib/infrastructure/utils/knex-utils.js';
 import { AlreadyExistingEntityError, NotFoundError } from '../../domain/errors.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import omit from 'lodash/omit.js';
 
 const TABLE_NAME = 'badges';
