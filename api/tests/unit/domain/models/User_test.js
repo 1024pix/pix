@@ -3,6 +3,7 @@ import { User } from '../../../../lib/domain/models/User.js';
 
 describe('Unit | Domain | Models | User', function () {
   let config;
+  let languageService;
   let localeService;
   let dependencies;
 
@@ -12,10 +13,14 @@ describe('Unit | Domain | Models | User', function () {
         updateDate: '2020-01-01',
       },
     };
+    languageService = {
+      assertLanguageAvailability: sinon.stub(),
+      LANGUAGES_CODE: { FRENCH: 'fr' },
+    };
     localeService = {
       getCanonicalLocale: sinon.stub(),
     };
-    dependencies = { config, localeService };
+    dependencies = { config, localeService, languageService };
   });
 
   describe('constructor', function () {
@@ -42,6 +47,25 @@ describe('Unit | Domain | Models | User', function () {
         // then
         expect(localeService.getCanonicalLocale).to.have.been.calledWithExactly('fr-be');
         expect(user.locale).to.equal('fr-BE');
+      });
+    });
+
+    context('language', function () {
+      it('returns user given language', function () {
+        // when
+        const user = new User({ lang: 'nl' }, dependencies);
+
+        // then
+        expect(user.lang).to.equal('nl');
+      });
+
+      context('when there is no language given', function () {
+        it('returns default language', function () {
+          // when
+          const user = new User({}, dependencies);
+          // then
+          expect(user.lang).to.equal('fr');
+        });
       });
     });
   });

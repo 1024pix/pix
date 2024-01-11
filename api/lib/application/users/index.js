@@ -10,6 +10,7 @@ import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
+import { AVAILABLE_LANGUAGES } from '../../../src/shared/domain/services/language-service.js';
 
 const reassignAuthenticationMethodJoiSchema = Joi.object({
   data: {
@@ -238,7 +239,7 @@ const register = async function (server) {
                 'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 email: Joi.string().email().allow(null).optional(),
                 username: Joi.string().allow(null).optional(),
-                lang: Joi.string().valid('fr', 'en'),
+                lang: Joi.string().valid(...AVAILABLE_LANGUAGES),
                 locale: Joi.string().allow(null).optional().valid('en', 'fr', 'fr-BE', 'fr-FR'),
               },
             },
@@ -734,7 +735,7 @@ const register = async function (server) {
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
-            lang: Joi.string().valid('fr', 'en'),
+            lang: Joi.string().valid(...AVAILABLE_LANGUAGES),
           }),
         },
         pre: [
