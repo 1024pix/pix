@@ -17,4 +17,8 @@ describe('Certification | session | Unit | Domain | Errors', function () {
   it('should export a SessionWithMissingAbortReasonError', function () {
     expect(errors.SessionWithMissingAbortReasonError).to.exist;
   });
+
+  it('should export a CsvWithNoSessionDataError', function () {
+    expect(errors.CsvWithNoSessionDataError).to.exist;
+  });
 });

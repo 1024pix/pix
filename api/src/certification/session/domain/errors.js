@@ -49,12 +49,20 @@ class CertificationCandidateForbiddenDeletionError extends DomainError {
   }
 }
 
+class CsvWithNoSessionDataError extends DomainError {
+  constructor(message = 'No session data in csv') {
+    super(message);
+    this.code = 'CSV_DATA_REQUIRED';
+  }
+}
+
 export {
-  SessionStartedDeletionError,
-  SessionWithMissingAbortReasonError,
-  SessionWithoutStartedCertificationError,
-  SessionWithAbortReasonOnCompletedCertificationCourseError,
+  CertificationCandidateForbiddenDeletionError,
+  CsvWithNoSessionDataError,
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
-  CertificationCandidateForbiddenDeletionError,
+  SessionStartedDeletionError,
+  SessionWithAbortReasonOnCompletedCertificationCourseError,
+  SessionWithMissingAbortReasonError,
+  SessionWithoutStartedCertificationError,
 };
