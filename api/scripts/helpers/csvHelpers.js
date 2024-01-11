@@ -10,7 +10,6 @@ import lodash from 'lodash';
 import papa from 'papaparse';
 
 import { NotFoundError, FileValidationError } from '../../lib/domain/errors.js';
-import { UnprocessableEntityError } from '../../lib/application/http-errors.js';
 
 const ERRORS = {
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
@@ -26,7 +25,7 @@ const optionsWithHeader = {
     if (typeof value === 'string') {
       value = value.trim();
     }
-    if (columnName === 'uai' || columnName === '* Sexe (M ou F)') {
+    if (columnName === 'uai') {
       value = value.toUpperCase();
     }
     if (columnName === 'createdBy') {
@@ -87,12 +86,7 @@ async function parseCsvData(cleanedData, options) {
 }
 
 async function parseCsvWithHeader(filePath, options = optionsWithHeader) {
-  const parsedCsvData = await parseCsv(filePath, options);
-  if (parsedCsvData.length === 0) {
-    throw new UnprocessableEntityError('No session data in csv', 'CSV_DATA_REQUIRED');
-  }
-
-  return parsedCsvData;
+  return await parseCsv(filePath, options);
 }
 
 async function parseCsvWithHeaderAndRequiredFields({ filePath, requiredFieldNames }) {

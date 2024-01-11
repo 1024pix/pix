@@ -10,7 +10,6 @@ import {
 } from '../../../../scripts/helpers/csvHelpers.js';
 
 import { batchOrganizationOptionsWithHeader } from '../../../../scripts/create-organizations-with-tags-and-target-profiles.js';
-import { UnprocessableEntityError } from '../../../../lib/application/http-errors.js';
 
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -23,7 +22,6 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
   const utf8FilePath = `${__dirname}/files/utf8_excel-test.csv`;
   const withHeaderFilePath = `${__dirname}/files/withHeader-test.csv`;
   const withValidHeaderFilePath = `${__dirname}/files/withValidHeaderFilePath.csv`;
-  const sessionsForMassImportFilePath = `${__dirname}/files/import-sessions-with-sex-value-in-lowercase-test.csv`;
 
   describe('#readCsvFile', function () {
     it('should throw a NotFoundError when file does not exist', async function () {
@@ -169,27 +167,6 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
 
         // then
         expect(data[0].type).to.equal('PRO');
-      });
-
-      it('should convert sex to uppercase', async function () {
-        // given & when
-        const result = await parseCsvWithHeader(sessionsForMassImportFilePath);
-
-        // then
-        const data = result[0];
-        expect(data['* Sexe (M ou F)']).to.equal('F');
-      });
-    });
-
-    context('when csv file is empty or contains only the header line', function () {
-      it(' should return an unprocessable entity error', async function () {
-        // given & when
-        const error = await catchErr(parseCsvWithHeader)(emptyFilePath);
-
-        // then
-        expect(error).to.be.instanceOf(UnprocessableEntityError);
-        expect(error.message).to.equal('No session data in csv');
-        expect(error.code).to.equal('CSV_DATA_REQUIRED');
       });
     });
   });
