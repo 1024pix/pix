@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v4.86.0 (11/01/2024)
+
+
+### :rocket: Amélioration
+- [#7817](https://github.com/1024pix/pix/pull/7817) [FEATURE] Ajouter le choix de définir un campagne isForAbsoluteNovice sur PixAdmin (PIX-10511).
+- [#7811](https://github.com/1024pix/pix/pull/7811) [FEATURE] Calcul du niveau par compétence pour une certif V3 (PIX-10463).
+- [#7830](https://github.com/1024pix/pix/pull/7830) [FEATURE] MAJ du nombre de réponses nécessaires à la validation d'une certification V3 (PIX-10698).
+- [#7828](https://github.com/1024pix/pix/pull/7828) [FEATURE] Suppression de la contrainte sur la langue dans la table users (PIX-10681).
+- [#7813](https://github.com/1024pix/pix/pull/7813) [FEATURE] Ajout de la propriété isV3Pilot à la création et l'édition d'un centre de certification (PIX-10618).
+
+### :building_construction: Tech
+- [#7803](https://github.com/1024pix/pix/pull/7803) [TECH] Fusionner les deux fichiers de tests pour la page de fin de parcours sur Pix-App (PIX-10624).
+- [#7824](https://github.com/1024pix/pix/pull/7824) [TECH] Ajout de tests sur la page de détails des certifications d'un utilisateur.
+- [#7748](https://github.com/1024pix/pix/pull/7748) [TECH] Remplace bookshelf par knex sur des repositories du scope XP Eval (PIX-10513).
+- [#7750](https://github.com/1024pix/pix/pull/7750) [TECH] Remplace bookshelf par knex sur des repositories du scope prescription (PIX-10514).
+
+### :bug: Correction
+- [#7837](https://github.com/1024pix/pix/pull/7837) [BUGFIX] Réparation de l'injection de dépendance pour les certifications complémentaires.
+- [#7826](https://github.com/1024pix/pix/pull/7826) [BUGFIX] Afficher le nombre de jours d'une formation (PIX-10626).
+- [#7827](https://github.com/1024pix/pix/pull/7827) [BUGFIX] Corriger l'affichage du bloc des contenus formatifs en fin de parcours (PIX-10696).
+
 ## v4.85.0 (09/01/2024)
 
 
