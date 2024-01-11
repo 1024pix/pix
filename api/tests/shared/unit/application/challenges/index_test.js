@@ -1,6 +1,6 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { challengeController } from '../../../../lib/application/challenges/challenge-controller.js';
-import * as moduleUnderTest from '../../../../lib/application/challenges/index.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
+import { challengeController } from '../../../../../src/shared/application/challenges/challenge-controller.js';
+import * as moduleUnderTest from '../../../../../src/shared/application/challenges/index.js';
 
 describe('Unit | Router | challenge-router', function () {
   describe('GET /api/challenges/{id}', function () {

@@ -17,7 +17,6 @@ import * as certificationLivretScolaire from './application/certification-livret
 import * as certificationReports from './application/certification-reports/index.js';
 import * as certificationIssueReports from './application/certification-issue-reports/index.js';
 import * as certifications from './application/certifications/index.js';
-import * as challenges from './application/challenges/index.js';
 import * as complementaryCertifications from './application/complementary-certifications/index.js';
 import * as complementaryCertificationCourseResults from './application/complementary-certification-course-results/index.js';
 import * as countries from './application/countries/index.js';
@@ -66,7 +65,6 @@ const routes = [
   certificationReports,
   certificationIssueReports,
   certifications,
-  challenges,
   complementaryCertifications,
   complementaryCertificationCourseResults,
   countries,

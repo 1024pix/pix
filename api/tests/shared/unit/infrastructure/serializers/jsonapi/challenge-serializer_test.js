@@ -1,6 +1,6 @@
-import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer.js';
-import { Challenge } from '../../../../../src/shared/domain/models/Challenge.js';
+import { expect } from '../../../../../test-helper.js';
+import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/challenge-serializer.js';
+import { Challenge } from '../../../../../../src/shared/domain/models/Challenge.js';
 
 describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
   describe('#serialize()', function () {
