@@ -8,7 +8,7 @@ import { logger } from '../../../../lib/infrastructure/logger.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
 import * as activitySerializer from '../../../../lib/infrastructure/serializers/jsonapi/activity-serializer.js';
-import * as challengeSerializer from '../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer.js';
+import * as challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer.js';
 import * as competenceEvaluationSerializer from '../../../evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 import {
   extractLocaleFromRequest,
