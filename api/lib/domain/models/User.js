@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { config } from '../../config.js';
 import * as localeService from '../services/locale-service.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
+import * as languageService from '../../../src/shared/domain/services/language-service.js';
 
 class User {
   constructor(
@@ -43,11 +44,13 @@ class User {
       hasBeenAnonymised,
       hasBeenAnonymisedBy,
     } = {},
-    dependencies = { config, localeService },
+    dependencies = { config, localeService, languageService },
   ) {
     if (locale) {
       locale = dependencies.localeService.getCanonicalLocale(locale);
     }
+
+    dependencies.languageService.assertLanguageAvailability(lang);
 
     this.id = id;
     this.firstName = firstName;
@@ -69,7 +72,7 @@ class User {
     this.hasSeenLevelSevenInfo = hasSeenLevelSevenInfo;
     this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;
     this.knowledgeElements = knowledgeElements;
-    this.lang = lang;
+    this.lang = lang ?? dependencies.languageService.LANGUAGES_CODE.FRENCH;
     this.locale = locale;
     this.isAnonymous = isAnonymous;
     this.pixScore = pixScore;
