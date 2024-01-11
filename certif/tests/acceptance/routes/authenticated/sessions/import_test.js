@@ -247,6 +247,66 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
               });
             });
 
+            module('when there is errors (non-blocking and/or blocking errors)', function () {
+              test('it should possible to re-import sessions in step two', async function (assert) {
+                // given
+                const blob = new Blob(['foo']);
+                const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
+                this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
+                  return new Response(
+                    200,
+                    {},
+                    {
+                      sessionsCount: 2,
+                      sessionsWithoutCandidatesCount: 1,
+                      candidatesCount: 3,
+                      errorReports: [{ code: 'EMPTY_SESSION', line: 1, blocking: false }],
+                    },
+                  );
+                });
+                const screen = await visit('/sessions/import');
+                const inputInStepOne = screen.getByLabelText('Importer le modèle complété');
+                await triggerEvent(inputInStepOne, 'change', { files: [file] });
+                const importInStepOne = screen.getByRole('button', { name: 'Continuer' });
+
+                // when
+                await click(importInStepOne);
+                await settled();
+
+                // then
+                assert.dom(screen.getByText('1 point d’attention non bloquant')).exists();
+                assert.dom(screen.getByRole('heading', { name: 'Importer à nouveau' })).exists();
+
+                //given
+                const importInStepTwo = screen.getByRole('button', { name: 'Continuer' });
+                const inputInStepTwo = screen.getByLabelText('Importer le modèle complété');
+                await triggerEvent(inputInStepTwo, 'change', { files: [file] });
+                this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
+                  return new Response(
+                    200,
+                    {},
+                    {
+                      sessionsCount: 2,
+                      sessionsWithoutCandidatesCount: 1,
+                      candidatesCount: 5,
+                      errorReports: [
+                        { code: 'EMPTY_SESSION', line: 1, blocking: false },
+                        { code: 'CANDIDATE_FIRST_NAME_REQUIRED', line: 1, blocking: false },
+                      ],
+                    },
+                  );
+                });
+
+                //when
+                await click(importInStepTwo);
+                await settled();
+
+                // then
+                await screen.findByRole('heading', { name: 'Récapitulatif' });
+                assert.dom(screen.getByText('2 points d’attention non bloquants')).exists();
+              });
+            });
+
             module('when the user has confirmed the import', function () {
               test("it should redirect to the session's list", async function (assert) {
                 // given
