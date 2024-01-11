@@ -10,15 +10,12 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: var(--pix-spacing-3x);
 }
 
 .session-details-header {
 
   &__title {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     min-width: 300px;
   }
 

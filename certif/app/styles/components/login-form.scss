@@ -19,14 +19,6 @@
 }
 
 .login-header {
-  &__title {
-    @extend %pix-title-m;
-
-    margin-top: var(--pix-spacing-8x);
-    margin-bottom: var(--pix-spacing-4x);
-    color: $pix-neutral-80;
-  }
-
   &__information {
     @extend %pix-body-s;
 
