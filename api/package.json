@@ -101,7 +101,7 @@
     "eslint-plugin-mocha": "^10.0.5",
     "eslint-plugin-n": "^16.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "eslint-plugin-unicorn": "^49.0.0",
+    "eslint-plugin-unicorn": "^50.0.0",
     "form-data": "^4.0.0",
     "inquirer": "^9.0.0",
     "jsdoc-to-markdown": "^8.0.0",
