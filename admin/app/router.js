@@ -36,6 +36,7 @@ Router.map(function () {
           this.route('new');
         });
         this.route('invitations');
+        this.route('children');
       });
     });
 

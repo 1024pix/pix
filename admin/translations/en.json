@@ -163,6 +163,10 @@
         "children": "Children organisations"
       }
     },
+    "organization-children": {
+      "title": "Children organisations",
+      "empty-table": "No child organisation"
+    },
     "target-profiles": {
       "resettable-checkbox": {
         "label": "Allow resetting for evaluation-type campaigns when multiple submissions are enabled for the organisation"

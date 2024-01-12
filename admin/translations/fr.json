@@ -173,6 +173,10 @@
         "children": "Organisations enfants"
       }
     },
+    "organization-children": {
+      "title": "Organisations enfants",
+      "empty-table": "Aucune organisation enfant"
+    },
     "organizations": {
       "notifications": {
         "errors": {
