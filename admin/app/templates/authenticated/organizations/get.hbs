@@ -43,6 +43,9 @@
         Tags
       </LinkTo>
     {{/if}}
+    <LinkTo @route="authenticated.organizations.get.children" @model={{@model}} class="navbar-item">
+      {{t "pages.organization.navbar.children"}}
+    </LinkTo>
   </nav>
 
   {{outlet}}

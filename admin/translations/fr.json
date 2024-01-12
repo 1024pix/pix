@@ -168,6 +168,11 @@
         "login-no-permission": "Vous n'avez pas les droits pour vous connecter."
       }
     },
+    "organization": {
+      "navbar": {
+        "children": "Organisations enfants"
+      }
+    },
     "organizations": {
       "notifications": {
         "errors": {
