@@ -127,7 +127,6 @@ describe('Unit | Controller | mass-import-controller', function () {
       sinon
         .stub(usecases, 'getMassImportTemplate')
         .resolves({ id: request.params.certificationCenterId, hasBillingMode: true });
-      sinon.stub(libUsecases, 'getImportSessionComplementaryCertificationHabilitationsLabels').resolves();
 
       // when
       await sessionMassImportController.getTemplate(request, hFake);
@@ -135,9 +134,6 @@ describe('Unit | Controller | mass-import-controller', function () {
       // then
       expect(usecases.getMassImportTemplate).to.have.been.calledWithExactly({
         certificationCenterId: request.params.certificationCenterId,
-      });
-      expect(libUsecases.getImportSessionComplementaryCertificationHabilitationsLabels).to.have.been.calledWithExactly({
-        certificationCenterId: 123,
       });
     });
   });
