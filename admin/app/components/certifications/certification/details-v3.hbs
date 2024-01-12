@@ -90,7 +90,7 @@
                   </button>
                 {{/if}}
 
-                {{#if certificationChallenge.answerValue}}
+                {{#if (this.shouldDisplayAnswerValueIcon certificationChallenge)}}
                   <button
                     title="Afficher la réponse du candidat"
                     aria-label="Afficher la réponse du candidat"
