@@ -28,33 +28,27 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
 
       participant = databaseBuilder.factory.buildUser();
       const createdAt = new Date('2019-02-25T10:00:00Z');
-      databaseBuilder.factory.buildKnowledgeElement({
+      const sharedAt = new Date('2019-03-01T23:04:05Z');
+      const ke1 = databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         skillId: 'recSkillWeb1',
         competenceId: 'recCompetence1',
         userId: participant.id,
         createdAt,
       });
-      databaseBuilder.factory.buildKnowledgeElement({
+      const ke2 = databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         skillId: 'recSkillWeb2',
         competenceId: 'recCompetence1',
         userId: participant.id,
         createdAt,
       });
-      databaseBuilder.factory.buildKnowledgeElement({
+      const ke3 = databaseBuilder.factory.buildKnowledgeElement({
         status: 'invalidated',
         skillId: 'recSkillWeb3',
         competenceId: 'recCompetence1',
         userId: participant.id,
         createdAt,
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        status: 'validated',
-        skillId: 'recSkillWeb3',
-        competenceId: 'recCompetence1',
-        userId: participant.id,
-        createdAt: new Date('2019-03-25T10:00:00Z'),
       });
 
       targetProfile = databaseBuilder.factory.buildTargetProfile({ name: '+Profile 1' });
@@ -79,7 +73,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         organizationLearner,
         {
           createdAt,
-          sharedAt: new Date('2019-03-01T23:04:05Z'),
+          sharedAt,
           participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
           userId: participant.id,
@@ -95,6 +89,13 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
       databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 0 });
       databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 1 });
       databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id });
+
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        userId: participant.id,
+        snappedAt: sharedAt,
+        snapshot: JSON.stringify([ke1, ke2, ke3]),
+      });
+
       await databaseBuilder.commit();
 
       const learningContent = {
