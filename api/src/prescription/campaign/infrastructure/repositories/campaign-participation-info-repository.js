@@ -22,10 +22,13 @@ const findByCampaignId = async function (campaignId) {
           'view-active-organization-learners.id',
           'campaign-participations.organizationLearnerId',
         )
-        .where({ campaignId, isImproved: false, 'campaign-participations.deletedAt': null });
+        .where({ campaignId, 'campaign-participations.deletedAt': null });
     })
     .from('campaignParticipationWithUserAndRankedAssessment')
-    .where({ rank: 1 });
+    .where({ rank: 1 })
+    .orderBy('lastName', 'ASC')
+    .orderBy('firstName', 'ASC')
+    .orderBy('createdAt', 'DESC');
 
   return results.map(_rowToCampaignParticipationInfo);
 };

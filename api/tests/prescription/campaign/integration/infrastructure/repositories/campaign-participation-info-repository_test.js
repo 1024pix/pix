@@ -155,27 +155,9 @@ describe('Integration | Repository | Campaign Participation Info', function () {
       it('should return all non deleted campaign-participation', async function () {
         // when
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
-        const campaignParticipationInfosOrdered = campaignParticipationInfos.sort((a, b) => a.lastName < b.lastName);
         // then
-        expect(campaignParticipationInfosOrdered.length).to.equal(2);
-        expect(campaignParticipationInfosOrdered[0]).to.deep.equal({
-          sharedAt: campaignParticipation1.sharedAt,
-          createdAt: campaignParticipation1.createdAt,
-          participantExternalId: campaignParticipation1.participantExternalId,
-          userId: campaignParticipation1.userId,
-          campaignParticipationId: campaignParticipation1.id,
-          isCompleted: false,
-          masteryRate: null,
-          participantFirstName: 'The',
-          participantLastName: 'Narrator',
-          studentNumber: null,
-          division: null,
-          group: null,
-          validatedSkillsCount: null,
-        });
-        expect(campaignParticipationInfosOrdered[0].isShared).to.equal(true);
-
-        expect(campaignParticipationInfosOrdered[1]).to.deep.equal({
+        expect(campaignParticipationInfos).to.lengthOf(2);
+        expect(campaignParticipationInfos[0]).to.deep.equal({
           sharedAt: campaignParticipation2.sharedAt,
           createdAt: campaignParticipation2.createdAt,
           participantExternalId: campaignParticipation2.participantExternalId,
@@ -190,7 +172,24 @@ describe('Integration | Repository | Campaign Participation Info', function () {
           group: null,
           validatedSkillsCount: null,
         });
-        expect(campaignParticipationInfosOrdered[1].isShared).to.equal(false);
+        expect(campaignParticipationInfos[0].isShared).to.be.false;
+
+        expect(campaignParticipationInfos[1]).to.deep.equal({
+          sharedAt: campaignParticipation1.sharedAt,
+          createdAt: campaignParticipation1.createdAt,
+          participantExternalId: campaignParticipation1.participantExternalId,
+          userId: campaignParticipation1.userId,
+          campaignParticipationId: campaignParticipation1.id,
+          isCompleted: false,
+          masteryRate: null,
+          participantFirstName: 'The',
+          participantLastName: 'Narrator',
+          studentNumber: null,
+          division: null,
+          group: null,
+          validatedSkillsCount: null,
+        });
+        expect(campaignParticipationInfos[1].isShared).to.be.true;
       });
     });
 
@@ -255,8 +254,8 @@ describe('Integration | Repository | Campaign Participation Info', function () {
 
     context('when a participant has several campaign participation', function () {
       let campaign;
-      let campaignParticipation1;
-      let campaignParticipation2;
+      let firstCampaignParticipation;
+      let secondCampaignParticipation;
 
       beforeEach(async function () {
         campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT });
@@ -269,50 +268,68 @@ describe('Integration | Repository | Campaign Participation Info', function () {
           group: null,
         }).id;
 
-        campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
+        firstCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           userId,
+          createdAt: new Date('2020-01-02'),
           organizationLearnerId,
           sharedAt: new Date(),
           isImproved: true,
         });
 
-        campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({
+        secondCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
+          createdAt: new Date('2020-06-02'),
           userId,
           organizationLearnerId,
-          sharedAt: new Date(),
+          sharedAt: null,
           isImproved: false,
         });
 
         databaseBuilder.factory.buildAssessment({
-          campaignParticipationId: campaignParticipation1.id,
+          campaignParticipationId: firstCampaignParticipation.id,
           userId,
           state: 'completed',
           createdAt: '2020-01-02',
         });
 
         databaseBuilder.factory.buildAssessment({
-          campaignParticipationId: campaignParticipation2.id,
+          campaignParticipationId: secondCampaignParticipation.id,
           userId,
-          state: 'completed',
+          state: 'started',
           createdAt: '2020-01-01',
         });
 
         await databaseBuilder.commit();
       });
 
-      it('should return information with last campaign participation', async function () {
+      it('should return information all campaign participation', async function () {
         // when
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
         // then
-        expect(campaignParticipationInfos).to.deep.equal([
+        expect(campaignParticipationInfos).to.lengthOf(2);
+        expect(campaignParticipationInfos).to.have.deep.members([
           {
-            sharedAt: campaignParticipation2.sharedAt,
-            createdAt: campaignParticipation2.createdAt,
-            participantExternalId: campaignParticipation2.participantExternalId,
-            userId: campaignParticipation2.userId,
-            campaignParticipationId: campaignParticipation2.id,
+            sharedAt: secondCampaignParticipation.sharedAt,
+            createdAt: secondCampaignParticipation.createdAt,
+            participantExternalId: secondCampaignParticipation.participantExternalId,
+            userId: secondCampaignParticipation.userId,
+            campaignParticipationId: secondCampaignParticipation.id,
+            isCompleted: false,
+            masteryRate: null,
+            participantFirstName: 'The',
+            participantLastName: 'Narrator',
+            studentNumber: null,
+            division: null,
+            group: null,
+            validatedSkillsCount: null,
+          },
+          {
+            sharedAt: firstCampaignParticipation.sharedAt,
+            createdAt: firstCampaignParticipation.createdAt,
+            participantExternalId: firstCampaignParticipation.participantExternalId,
+            userId: firstCampaignParticipation.userId,
+            campaignParticipationId: firstCampaignParticipation.id,
             isCompleted: true,
             masteryRate: null,
             participantFirstName: 'The',
