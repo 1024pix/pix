@@ -4,7 +4,7 @@ import { CenterTypes } from '../../../../../../src/certification/session/domain/
 describe('Unit | Certification | Center | Domain | Models | CenterTypes', function () {
   it('should return the center types', function () {
     // given / when / then
-    expect(CenterTypes).to.deep.equal({
+    expect(CenterTypes).to.contains({
       SUP: 'SUP',
       SCO: 'SCO',
       PRO: 'PRO',

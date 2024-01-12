@@ -18,23 +18,33 @@ describe('Integration | Certification |  Center | Repository | center-repository
 
     it('should return the certification center by its id', async function () {
       // given
-      const centerId = 1;
+      const certificationCenterId = 1;
       databaseBuilder.factory.buildCertificationCenter({
-        id: centerId,
+        id: certificationCenterId,
         type: 'SCO',
       });
-
+      const cleaId = databaseBuilder.factory.buildComplementaryCertification.clea({}).id;
+      const droitId = databaseBuilder.factory.buildComplementaryCertification.droit({}).id;
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId,
+        complementaryCertificationId: cleaId,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId,
+        complementaryCertificationId: droitId,
+      });
       await databaseBuilder.commit();
 
       // when
       const result = await centerRepository.getById({
-        id: centerId,
+        id: certificationCenterId,
       });
 
       // then
       const expectedCenter = domainBuilder.certification.session.buildCenter({
-        id: centerId,
+        id: certificationCenterId,
         type: 'SCO',
+        habilitations: [cleaId, droitId],
       });
       expect(result).to.deep.equal(expectedCenter);
     });

@@ -4,7 +4,7 @@ import { databaseBuffer } from '../database-buffer.js';
 function buildComplementaryCertification({
   id = databaseBuffer.getNextId(),
   label = 'UneSuperCertifComplémentaire',
-  key = 'SUPERCERTIF',
+  key = ComplementaryCertificationKeys.PIX_PLUS_DROIT,
   createdAt = new Date('2020-01-01'),
   minimumReproducibilityRate = 70.0,
   hasComplementaryReferential = false,

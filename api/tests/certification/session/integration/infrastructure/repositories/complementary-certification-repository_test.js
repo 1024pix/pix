@@ -2,12 +2,17 @@ import { expect, databaseBuilder, catchErr } from '../../../../../test-helper.js
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { sessionRepositories } from '../../../../../../src/certification/session/infrastructure/repositories/index.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Integration | Certification | Session | Repository | Complementary certification', function () {
   describe('#getById', function () {
     it('should fetch the complementary certification', async function () {
       // given
-      const { id } = databaseBuilder.factory.buildComplementaryCertification();
+      const { id } = databaseBuilder.factory.buildComplementaryCertification({
+        id: 1,
+        label: 'UneSuperCertifComplémentaire',
+        key: ComplementaryCertificationKeys.CLEA,
+      });
       await databaseBuilder.commit();
 
       // when
@@ -18,9 +23,9 @@ describe('Integration | Certification | Session | Repository | Complementary cer
       // then
       expect(complementaryCertification).to.deepEqualInstance(
         new ComplementaryCertification({
-          id,
+          id: 1,
           label: 'UneSuperCertifComplémentaire',
-          key: 'SUPERCERTIF',
+          key: ComplementaryCertificationKeys.CLEA,
         }),
       );
     });

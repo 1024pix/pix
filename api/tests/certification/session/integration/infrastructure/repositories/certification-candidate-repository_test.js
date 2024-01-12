@@ -7,6 +7,7 @@ import {
 } from '../../../../../../lib/domain/errors.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session/domain/models/ComplementaryCertification.js';
 import _ from 'lodash';
+import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Integration | Repository | CertificationCandidate', function () {
   describe('#saveInSession', function () {
@@ -296,7 +297,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
         const sessionId = databaseBuilder.factory.buildSession().id;
         const rockCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+Rock',
-          key: 'ROCK',
+          key: ComplementaryCertificationKeys.CLEA,
         });
         const matthieuChedid = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Chedid',
@@ -337,12 +338,20 @@ describe('Integration | Repository | CertificationCandidate', function () {
         expect(firstCandidate.firstName).to.equal('Louis');
         expect(firstCandidate.lastName).to.equal('Chedid');
         expect(firstCandidate.complementaryCertification).to.deepEqualInstance(
-          new ComplementaryCertification({ id: rockCertification.id, label: 'Pix+Rock', key: 'ROCK' }),
+          new ComplementaryCertification({
+            id: rockCertification.id,
+            label: 'Pix+Rock',
+            key: ComplementaryCertificationKeys.CLEA,
+          }),
         );
         expect(secondCandidate.firstName).to.equal('Matthieu');
         expect(secondCandidate.lastName).to.equal('Chedid');
         expect(secondCandidate.complementaryCertification).to.deepEqualInstance(
-          new ComplementaryCertification({ id: rockCertification.id, label: 'Pix+Rock', key: 'ROCK' }),
+          new ComplementaryCertification({
+            id: rockCertification.id,
+            label: 'Pix+Rock',
+            key: ComplementaryCertificationKeys.CLEA,
+          }),
         );
 
         expect(thirdCandidate.firstName).to.equal('Hancock');
