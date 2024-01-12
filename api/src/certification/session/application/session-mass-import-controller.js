@@ -42,15 +42,12 @@ const validateSessions = async function (request, h, dependencies = { csvHelpers
 };
 
 const getTemplate = async function (request, h) {
-  const { id: certificationCenterId, hasBillingMode } = await usecases.getMassImportTemplate({
+  const { habilitationLabels, shouldDisplayBillingModeColumns } = await usecases.getMassImportTemplate({
     certificationCenterId: request.params.certificationCenterId,
-  });
-  const habilitationLabels = await libUsecases.getImportSessionComplementaryCertificationHabilitationsLabels({
-    certificationCenterId,
   });
   const csvTemplateFileContent = getCsvHeaders({
     habilitationLabels,
-    shouldDisplayBillingModeColumns: hasBillingMode,
+    shouldDisplayBillingModeColumns,
   });
   return h
     .response(csvTemplateFileContent)
