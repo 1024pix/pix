@@ -28,6 +28,14 @@ export default class DetailsV3 extends Component {
     return certificationChallenge.validatedLiveAlert || certificationChallenge.answeredAt;
   }
 
+  shouldDisplayAnswerValueIcon(certificationChallenge) {
+    return (
+      certificationChallenge.answerStatus !== 'aband' &&
+      certificationChallenge.answerStatus !== null &&
+      !certificationChallenge.validatedLiveAlert
+    );
+  }
+
   externalUrlForPreviewChallenge(challengeId) {
     return `https://app.pix.fr/challenges/${challengeId}/preview`;
   }

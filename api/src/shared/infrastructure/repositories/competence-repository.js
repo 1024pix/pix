@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { LearningContentResourceNotFound } from '../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
 import { Competence } from '../../domain/models/Competence.js';
 import { competenceDatasource } from '../../../../lib/infrastructure/datasources/learning-content/competence-datasource.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
