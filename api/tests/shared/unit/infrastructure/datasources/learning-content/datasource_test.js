@@ -1,8 +1,8 @@
-import { expect, sinon } from '../../../../test-helper.js';
-import * as dataSource from '../../../../../lib/infrastructure/datasources/learning-content/datasource.js';
-import { lcms } from '../../../../../lib/infrastructure/lcms.js';
-import { LearningContentResourceNotFound } from '../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
-import { learningContentCache } from '../../../../../lib/infrastructure/caches/learning-content-cache.js';
+import { expect, sinon } from '../../../../../test-helper.js';
+import * as dataSource from '../../../../../../lib/infrastructure/datasources/learning-content/datasource.js';
+import { lcms } from '../../../../../../lib/infrastructure/lcms.js';
+import { LearningContentResourceNotFound } from '../../../../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { learningContentCache } from '../../../../../../lib/infrastructure/caches/learning-content-cache.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | datasource', function () {
   let someDatasource;

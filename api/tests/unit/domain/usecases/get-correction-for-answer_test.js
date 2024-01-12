@@ -3,7 +3,7 @@ import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
 import { AssessmentNotCompletedError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { LearningContentResourceNotFound } from '../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { LearningContentResourceNotFound } from '../../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { InternalServerError } from '../../../../lib/application/http-errors.js';
 
 describe('Unit | UseCase | getCorrectionForAnswer', function () {
