@@ -61,4 +61,33 @@ const findByUserIdsAndSnappedAtDates = async function (userIdsAndSnappedAtDates 
   return knowledgeElementsByUserId;
 };
 
-export { save, findByUserIdsAndSnappedAtDates };
+const findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId = async function (
+  userIdsAndSnappedAtDates,
+  campaignLearningContent,
+) {
+  const results = await knex
+    .select(
+      'knowledge-element-snapshots.userId as userId',
+      'snapshot',
+      'campaign-participations.id as campaignParticipationId',
+    )
+    .from('knowledge-element-snapshots')
+    .join('campaign-participations', function () {
+      this.on('campaign-participations.userId', 'knowledge-element-snapshots.userId').on(
+        'campaign-participations.sharedAt',
+        'knowledge-element-snapshots.snappedAt',
+      );
+    })
+    .whereIn(['knowledge-element-snapshots.userId', 'snappedAt'], userIdsAndSnappedAtDates);
+
+  return results.map((result) => {
+    const mappedKnowledgeElements = _toKnowledgeElementCollection({ snapshot: result.snapshot });
+    return {
+      userId: result.userId,
+      campaignParticipationId: result.campaignParticipationId,
+      knowledgeElements: campaignLearningContent.getKnowledgeElementsGroupedByCompetence(mappedKnowledgeElements),
+    };
+  });
+};
+
+export { save, findByUserIdsAndSnappedAtDates, findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId };
