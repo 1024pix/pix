@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Thematic } from '../../domain/models/Thematic.js';
-import { thematicDatasource } from '../datasources/learning-content/thematic-datasource.js';
+import { thematicDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/thematic-datasource.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { LOCALE } from '../../../src/shared/domain/constants.js';
 
