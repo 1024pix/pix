@@ -30,7 +30,7 @@ describe('Unit | UseCase | get-session-certification-candidates', function () {
     const expectedCandidate = domainBuilder.certification.session.buildCertificationSessionEnrolledCandidate({
       complementaryCertificationId: candidate.complementaryCertificationId,
       complementaryCertificationLabel: 'JACKSON',
-      complementaryCertificationKey: 'FIVE',
+      complementaryCertificationKey: 'CLEA',
       isLinked: false,
     });
 

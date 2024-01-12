@@ -40,7 +40,7 @@ describe('Integration | Certification | Complementary | UseCase | get-by-id', fu
       const expectedComplementaryCertification = domainBuilder.buildComplementaryCertification({
         id: complementaryCertificationId,
         label: 'UneSuperCertifComplémentaire',
-        key: 'SUPERCERTIF',
+        key: 'DROIT',
       });
       expect(complementaryCertification).to.deep.equal(expectedComplementaryCertification);
     });

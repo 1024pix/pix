@@ -5,6 +5,7 @@
  */
 import { EnrolledCandidate } from '../read-models/EnrolledCandidate.js';
 import bluebird from 'bluebird';
+import { constants as infraConstants } from '../../../../../lib/infrastructure/constants.js';
 
 /**
  * @function
@@ -50,7 +51,9 @@ const getUniqComplementaryCertifications = async ({ candidates, complementaryCer
   return bluebird
     .filter(candidates, _isRegisteredForAComplementaryCertification)
     .reduce(_addComplementaryCertificationIdFromCandidate, new Set())
-    .map(async (complementaryCertificationId) =>
-      complementaryCertificationRepository.getById({ complementaryCertificationId }),
+    .map(
+      async (complementaryCertificationId) =>
+        complementaryCertificationRepository.getById({ complementaryCertificationId }),
+      { concurrency: infraConstants.CONCURRENCY_HEAVY_OPERATIONS },
     );
 };
