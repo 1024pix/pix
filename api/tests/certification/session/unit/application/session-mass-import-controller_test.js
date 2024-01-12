@@ -126,7 +126,7 @@ describe('Unit | Controller | mass-import-controller', function () {
 
       sinon
         .stub(usecases, 'getMassImportTemplate')
-        .resolves({ id: request.params.certificationCenterId, hasBillingMode: true });
+        .resolves({ habilitationLabels: [], shouldDisplayBillingModeColumns: true });
 
       // when
       await sessionMassImportController.getTemplate(request, hFake);
