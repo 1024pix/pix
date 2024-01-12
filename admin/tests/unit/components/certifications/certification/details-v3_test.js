@@ -12,10 +12,14 @@ module('Unit | Component | certifications/certification/details-v3', function (h
   });
 
   const answerStatusOptions = [
-    { value: 'ok', label: 'OK', color: 'success' },
-    { value: 'ko', label: 'KO', color: 'neutral' },
-    { value: null, label: 'Signalement validé', color: 'error' },
-    { value: 'aband', label: 'Abandonnée', color: 'tertiary' },
+    { value: 'ok', label: 'pages.certifications.certification.details.v3.answer-status.ok', color: 'success' },
+    { value: 'ko', label: 'pages.certifications.certification.details.v3.answer-status.ko', color: 'neutral' },
+    {
+      value: null,
+      label: 'pages.certifications.certification.details.v3.answer-status.validated-live-alert',
+      color: 'error',
+    },
+    { value: 'aband', label: 'pages.certifications.certification.details.v3.answer-status.aband', color: 'tertiary' },
   ];
 
   module('answerStatusLabel', function () {
@@ -50,7 +54,7 @@ module('Unit | Component | certifications/certification/details-v3', function (h
           isCancelled: false,
           assessmentResultStatus: 'validated',
         },
-        expectedValue: 'Validée',
+        expectedValue: 'pages.certifications.certification.details.v3.assessment-result-status.validated',
       },
       {
         details: {
@@ -58,7 +62,7 @@ module('Unit | Component | certifications/certification/details-v3', function (h
           isCancelled: false,
           assessmentResultStatus: 'rejected',
         },
-        expectedValue: 'Rejetée',
+        expectedValue: 'pages.certifications.certification.details.v3.assessment-result-status.rejected',
       },
       {
         details: {
@@ -66,7 +70,7 @@ module('Unit | Component | certifications/certification/details-v3', function (h
           isCancelled: false,
           assessmentResultStatus: 'error',
         },
-        expectedValue: 'Erreur',
+        expectedValue: 'pages.certifications.certification.details.v3.assessment-result-status.error',
       },
       {
         details: {
@@ -74,7 +78,7 @@ module('Unit | Component | certifications/certification/details-v3', function (h
           isCancelled: true,
           assessmentResultStatus: 'validated',
         },
-        expectedValue: 'Annulée',
+        expectedValue: 'pages.certifications.certification.details.v3.assessment-result-status.cancelled',
       },
       {
         details: {
@@ -82,7 +86,7 @@ module('Unit | Component | certifications/certification/details-v3', function (h
           isCancelled: false,
           assessmentResultStatus: 'validated',
         },
-        expectedValue: 'Rejetée pour fraude',
+        expectedValue: 'pages.certifications.certification.details.v3.assessment-result-status.fraud',
       },
     ];
     detailsStatusOptions.forEach(({ expectedValue, details }) => {

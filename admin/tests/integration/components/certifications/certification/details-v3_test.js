@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { render, within } from '@1024pix/ember-testing-library';
+// import { setupRenderingTest } from 'ember-qunit';
+import { render, waitFor, within } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { click } from '@ember/test-helpers';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 const answers = [
   {
@@ -52,24 +53,27 @@ const answers = [
 ];
 
 module('Integration | Component | Certifications | certification > details v3', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
+  let store;
+
+  hooks.beforeEach(function () {
+    store = this.owner.lookup('service:store');
+  });
 
   module('#display', function () {
     test('displays the certification complementary info section with the right info', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      this.model = store.createRecord('v3-certification-course-details-for-administration', {
-        certificationChallengesForAdministration: createChallengesForAdministration(
-          ['ok', 'ok', 'ok', 'ok', 'ko', 'ko', 'ko', 'aband', 'aband', null],
-          store,
-        ),
-      });
+      const certificationChallengesForAdministration = createChallengesForAdministration(
+        ['ok', 'ok', 'ok', 'ok', 'ko', 'ko', 'ko', 'aband', 'aband', null],
+        store,
+      );
+      this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
       // when
       const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
       const expected = [
         {
-          term: 'Nombre de question répondues  / Nombre total de questions',
+          term: 'Nombre de question répondues\n/ Nombre total de questions',
           definition: '9/32',
         },
         {
@@ -90,9 +94,12 @@ module('Integration | Component | Certifications | certification > details v3', 
         },
       ];
 
-      const terms = screen.getAllByRole('term');
-      const definitions = screen.getAllByRole('definition');
-      const result = terms.map((term, i) => ({ term: term.textContent, definition: definitions[i].textContent }));
+      const list = screen.getByRole('list', {
+        name: this.intl.t('pages.certifications.certification.details.v3.more-informations.title'),
+      });
+      const terms = within(list).getAllByRole('term');
+      const definitions = within(list).getAllByRole('definition');
+      const result = terms.map((term, i) => ({ term: term.innerText, definition: definitions[i].innerText }));
 
       // then
       assert.deepEqual(expected, result);
@@ -100,16 +107,14 @@ module('Integration | Component | Certifications | certification > details v3', 
 
     test('displays links to challenge info', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      this.model = store.createRecord('v3-certification-course-details-for-administration', {
-        certificationChallengesForAdministration: [
-          store.createRecord('certification-challenges-for-administration', {
-            id: 'rec1234',
-            answerStatus: 'ok',
-            validatedLiveAlert: null,
-          }),
-        ],
-      });
+      const certificationChallengesForAdministration = [
+        store.createRecord('certification-challenges-for-administration', {
+          id: 'rec1234',
+          answerStatus: 'ok',
+          validatedLiveAlert: null,
+        }),
+      ];
+      this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
       // when
       const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
@@ -126,10 +131,8 @@ module('Integration | Component | Certifications | certification > details v3', 
 
     test('displays the table with every questions asked during certification', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      this.model = store.createRecord('v3-certification-course-details-for-administration', {
-        certificationChallengesForAdministration: createDetailedAnswers(answers, store),
-      });
+      const certificationChallengesForAdministration = createDetailedAnswers(answers, store);
+      this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
       // when
       const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
@@ -205,10 +208,8 @@ module('Integration | Component | Certifications | certification > details v3', 
 
     test('should not display the issue report button', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      this.model = store.createRecord('v3-certification-course-details-for-administration', {
-        certificationChallengesForAdministration: createChallengesForAdministration(['ok'], store),
-      });
+      const certificationChallengesForAdministration = createChallengesForAdministration(['ok'], store);
+      this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
       // when
       const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
@@ -220,10 +221,8 @@ module('Integration | Component | Certifications | certification > details v3', 
     module('when there is a reported question (question without an answer)', function () {
       test('should not display the response button', async function (assert) {
         // given
-        const store = this.owner.lookup('service:store');
-        this.model = store.createRecord('v3-certification-course-details-for-administration', {
-          certificationChallengesForAdministration: createChallengesForAdministration([null], store),
-        });
+        const certificationChallengesForAdministration = createChallengesForAdministration([null], store);
+        this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
         // when
         const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
@@ -234,10 +233,8 @@ module('Integration | Component | Certifications | certification > details v3', 
 
       test('displays the modal with the issue report subcategory', async function (assert) {
         // given
-        const store = this.owner.lookup('service:store');
-        this.model = store.createRecord('v3-certification-course-details-for-administration', {
-          certificationChallengesForAdministration: createChallengesForAdministration(['ok', null], store),
-        });
+        const certificationChallengesForAdministration = createChallengesForAdministration(['ok', null], store);
+        this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
         // when
         const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
@@ -262,16 +259,14 @@ module('Integration | Component | Certifications | certification > details v3', 
     module('when the candidate does not finish the session', function () {
       test('should not display a tag and a response icon in the last question line', async function (assert) {
         // given
-        const store = this.owner.lookup('service:store');
-        this.model = store.createRecord('v3-certification-course-details-for-administration', {
-          certificationChallengesForAdministration: [
-            store.createRecord('certification-challenges-for-administration', {
-              validatedLiveAlert: false,
-              answeredAt: null,
-              answerStatus: null,
-            }),
-          ],
-        });
+        const certificationChallengesForAdministration = [
+          store.createRecord('certification-challenges-for-administration', {
+            validatedLiveAlert: false,
+            answeredAt: null,
+            answerStatus: null,
+          }),
+        ];
+        this.model = createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store });
 
         // when
         const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
@@ -285,8 +280,52 @@ module('Integration | Component | Certifications | certification > details v3', 
         assert.dom(screen.queryByRole('button', { name: 'Afficher la réponse du candidat' })).doesNotExist();
       });
     });
+
+    module('certification general information', function () {
+      test('should display compulsory information', async function (assert) {
+        // given
+        const certificationChallengesForAdministration = [
+          store.createRecord('certification-challenges-for-administration', {
+            validatedLiveAlert: false,
+            answeredAt: null,
+          }),
+        ];
+        this.model = createCertificationCourseDetailsRecord({
+          certificationChallengesForAdministration,
+          store,
+          params: {
+            certificationCourseId: 123456,
+            // eslint-disable-next-line no-restricted-syntax
+            createdAt: new Date('2023-01-13T08:00:00'),
+            assessmentResultStatus: 'validated',
+          },
+        });
+
+        // when
+        const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+
+        let creationDate;
+        await waitFor(async () => {
+          creationDate = await screen.getByLabelText('Créée le :').innerText;
+        });
+
+        // then
+        assert.dom(screen.getByRole('heading', { name: 'Certification N°123456', level: 2 })).exists();
+        assert.strictEqual(creationDate, '13/01/2023 08:00:00');
+      });
+    });
   });
 });
+
+function createCertificationCourseDetailsRecord({ certificationChallengesForAdministration, store, params }) {
+  return store.createRecord('v3-certification-course-details-for-administration', {
+    assessmentState: 'completed',
+    completedAt: new Date(),
+    assessmentResultStatus: 'validated',
+    certificationChallengesForAdministration,
+    ...params,
+  });
+}
 
 function createChallengesForAdministration(answerStatuses, store) {
   return answerStatuses.map((answerStatus, index) =>
