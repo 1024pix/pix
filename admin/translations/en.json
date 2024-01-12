@@ -158,6 +158,11 @@
         "login-no-permission": "You don't have the permission to connect."
       }
     },
+    "organization": {
+      "navbar": {
+        "children": "Children organisations"
+      }
+    },
     "target-profiles": {
       "resettable-checkbox": {
         "label": "Allow resetting for evaluation-type campaigns when multiple submissions are enabled for the organisation"
