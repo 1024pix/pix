@@ -1,6 +1,6 @@
 import { CenterTypes } from './CenterTypes.js';
 
-class Center {
+export class Center {
   /**
    * @param {Object} props
    * @param {number} props.id
@@ -25,5 +25,3 @@ class Center {
     }
   }
 }
-
-export { Center };
