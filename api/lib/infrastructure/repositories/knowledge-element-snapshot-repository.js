@@ -4,6 +4,7 @@ import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import * as knexUtils from '../utils/knex-utils.js';
 import { DomainTransaction } from '../DomainTransaction.js';
+import { CampaignParticipationKnowledgeElementSnapshots } from '../../../src/prescription/shared/domain/read-models/CampaignParticipationKnowledgeElementSnapshots.js';
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
   if (!snapshot) return null;
@@ -61,4 +62,49 @@ const findByUserIdsAndSnappedAtDates = async function (userIdsAndSnappedAtDates 
   return knowledgeElementsByUserId;
 };
 
-export { save, findByUserIdsAndSnappedAtDates };
+/**
+ * @typedef FindMultipleSnapshotsPayload
+ * @type {object}
+ * @property {number} userId
+ * @property {date} sharedAt
+ */
+
+/**
+ * @function
+ * @name findMultipleUsersFromUserIdsAndSnappedAtDates
+ *
+ * @param {Array<FindMultipleSnapshotsPayload>} userIdsAndSnappedAtDates
+ * @returns {Promise<Array<CampaignParticipationKnowledgeElementSnapshots>>}
+ */
+const findMultipleUsersFromUserIdsAndSnappedAtDates = async function (userIdsAndSnappedAtDates) {
+  const params = userIdsAndSnappedAtDates.map((userIdAndDate) => {
+    return [userIdAndDate.userId, userIdAndDate.sharedAt];
+  });
+
+  const results = await knex
+    .select(
+      'knowledge-element-snapshots.userId as userId',
+      'snapshot',
+      'campaign-participations.id as campaignParticipationId',
+    )
+    .from('knowledge-element-snapshots')
+    .join('campaign-participations', function () {
+      this.on('campaign-participations.userId', 'knowledge-element-snapshots.userId').on(
+        'campaign-participations.sharedAt',
+        'knowledge-element-snapshots.snappedAt',
+      );
+    })
+    .whereIn(['knowledge-element-snapshots.userId', 'snappedAt'], params);
+
+  return results.map((result) => {
+    const mappedKnowledgeElements = _toKnowledgeElementCollection({ snapshot: result.snapshot });
+
+    return new CampaignParticipationKnowledgeElementSnapshots({
+      userId: result.userId,
+      campaignParticipationId: result.campaignParticipationId,
+      knowledgeElements: mappedKnowledgeElements,
+    });
+  });
+};
+
+export { save, findByUserIdsAndSnappedAtDates, findMultipleUsersFromUserIdsAndSnappedAtDates };
