@@ -1,5 +1,5 @@
 import { ComplementaryCertification } from '../../../../src/certification/complementary-certification/domain/models/ComplementaryCertification.js';
-import {ComplementaryCertificationKeys} from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 const buildComplementaryCertification = function ({
   id = 1,
