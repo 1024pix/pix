@@ -54,7 +54,7 @@ buildComplementaryCertification.droit = function ({
   id = databaseBuffer.getNextId(),
   minimumReproducibilityRate = 75,
   minimumReproducibilityRateLowerLevel = 60,
-  hasComplementaryReferential = false,
+  hasComplementaryReferential = true,
   hasExternalJury = false,
   certificationExtraTime = 45,
 }) {
@@ -75,7 +75,7 @@ buildComplementaryCertification.pixEdu1erDegre = function ({
   id = databaseBuffer.getNextId(),
   minimumReproducibilityRate = 70,
   minimumReproducibilityRateLowerLevel = 60,
-  hasComplementaryReferential = false,
+  hasComplementaryReferential = true,
   hasExternalJury = true,
   certificationExtraTime = 45,
 }) {
@@ -96,7 +96,7 @@ buildComplementaryCertification.pixEdu2ndDegre = function ({
   id = databaseBuffer.getNextId(),
   minimumReproducibilityRate = 70,
   minimumReproducibilityRateLowerLevel = 60,
-  hasComplementaryReferential = false,
+  hasComplementaryReferential = true,
   hasExternalJury = true,
   certificationExtraTime = 45,
 }) {
