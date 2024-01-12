@@ -1,4 +1,4 @@
-{{page-title "Certif " @model.id " Détails | Pix Admin" replace=true}}
+{{page-title this.pageTitle replace=true}}
 {{#if (eq @model.version 3)}}
   <Certifications::Certification::DetailsV3 @details={{@model}} />
 {{else}}
