@@ -249,27 +249,38 @@ const findTargetProfileSummariesForAdmin = async function (request) {
   return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
 };
 
+const findChildrenOrganizationsForAdmin = async function (
+  request,
+  h,
+  dependencies = { organizationForAdminSerializer },
+) {
+  const parentOrganizationId = request.params.organizationId;
+  const childOrganizations = await usecases.findChildrenOrganizationsForAdmin({ parentOrganizationId });
+  return dependencies.organizationForAdminSerializer.serialize(childOrganizations);
+};
+
 const organizationController = {
+  archiveOrganization,
+  attachTargetProfiles,
+  cancelOrganizationInvitation,
   create,
   createInBatch,
-  findPaginatedFilteredOrganizations,
-  findPaginatedCampaignManagements,
-  findPaginatedFilteredMembershipsForAdmin,
-  findPaginatedFilteredMemberships,
-  getOrganizationMemberIdentities,
   downloadCertificationResults,
-  attachTargetProfiles,
+  findChildrenOrganizationsForAdmin,
+  findPaginatedCampaignManagements,
+  findPaginatedFilteredMemberships,
+  findPaginatedFilteredMembershipsForAdmin,
+  findPaginatedFilteredOrganizations,
+  findPendingInvitations,
+  findTargetProfileSummariesForAdmin,
   getDivisions,
   getGroups,
-  importOrganizationLearnersFromSIECLE,
-  sendInvitations,
-  resendInvitation,
-  cancelOrganizationInvitation,
-  sendInvitationByLangAndRole,
-  findPendingInvitations,
   getOrganizationLearnersCsvTemplate,
-  archiveOrganization,
-  findTargetProfileSummariesForAdmin,
+  getOrganizationMemberIdentities,
+  importOrganizationLearnersFromSIECLE,
+  resendInvitation,
+  sendInvitationByLangAndRole,
+  sendInvitations,
 };
 
 export { organizationController };
