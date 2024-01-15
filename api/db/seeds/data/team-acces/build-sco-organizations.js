@@ -22,6 +22,18 @@ function _buildCollegeHouseOfTheDragonOrganization(databaseBuilder) {
     identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
     createdBy: REAL_PIX_SUPER_ADMIN_ID,
   });
+  databaseBuilder.factory.buildOrganization({
+    type: 'SCO',
+    name: 'Child of "Collège House of The Dragon"',
+    isManagingStudents: true,
+    email: 'dragon.house.child@example.net',
+    externalId: 'ACCESS_SCO',
+    documentationUrl: 'https://pix.fr/',
+    provinceCode: '12',
+    identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+    createdBy: REAL_PIX_SUPER_ADMIN_ID,
+    parentOrganizationId: SCO_ORGANIZATION_ID,
+  });
 
   [
     {
