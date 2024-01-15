@@ -1,9 +1,9 @@
 import { expect, sinon, domainBuilder, hFake } from '../../../../test-helper.js';
 import { certificationAttestationController } from '../../../../../src/certification/course/application/certification-attestation-controller.js';
 import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
-import { LANG } from '../../../../../src/shared/domain/constants.js';
+import { LANGUAGES_CODE } from '../../../../../src/shared/domain/services/language-service.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
-const { FRENCH } = LANG;
+const { FRENCH } = LANGUAGES_CODE;
 describe('Unit | Controller | certification-attestation-controller', function () {
   describe('#getPDFAttestation', function () {
     it('should return attestation in PDF binary format', async function () {

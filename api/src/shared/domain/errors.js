@@ -111,6 +111,14 @@ class MissingAssessmentId extends DomainError {
   }
 }
 
+class LanguageNotSupportedError extends DomainError {
+  constructor(languageCode) {
+    super(`Given language is not supported : "${languageCode}"`);
+    this.code = 'LANGUAGE_NOT_SUPPORTED';
+    this.meta = { languageCode };
+  }
+}
+
 class LocaleFormatError extends DomainError {
   constructor(locale) {
     super(`Given locale is in invalid format: "${locale}"`);
@@ -181,6 +189,7 @@ export {
   NotFoundError,
   UserNotAuthorizedToAccessEntityError,
   NoCertificationAttestationForDivisionError,
+  LanguageNotSupportedError,
   LocaleFormatError,
   LocaleNotSupportedError,
   MissingBadgeCriterionError,
