@@ -1,6 +1,7 @@
 import { CampaignParticipationOverview } from '../../../../lib/domain/read-models/CampaignParticipationOverview.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
+import { config } from '../../../../lib/config.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -31,6 +32,19 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
       expect(campaignParticipationOverview.campaignCode).to.equal('campaignCode');
       expect(campaignParticipationOverview.campaignTitle).to.equal('campaignTitle');
       expect(campaignParticipationOverview.masteryRate).to.equal(0.5);
+    });
+
+    describe('when the campaign is an autonomous course', function () {
+      it('should return Pix as organization name', function () {
+        // given
+        const campaignParticipationOverview = new CampaignParticipationOverview({
+          organizationName: 'Other organization name',
+          organizationId: config.autonomousCourse.autonomousCoursesOrganizationId,
+        });
+
+        // when / then
+        expect(campaignParticipationOverview.organizationName).to.equal('Pix');
+      });
     });
 
     describe('masteryRate', function () {
