@@ -15,19 +15,19 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
           const givenCorrectionResponse = new QcuCorrectionResponse({
             status: AnswerStatus.OK,
             feedback: 'Good job!',
-            solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+            solution: '1',
           });
 
           const elementAnswer = new ElementAnswer({
             elementId: '123',
-            userResponseValue: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+            userResponseValue: '1',
             correction: givenCorrectionResponse,
           });
           const expectedResult = {
             data: {
               attributes: {
                 'element-id': '123',
-                'user-response-value': 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+                'user-response-value': '1',
               },
               relationships: {
                 correction: {
@@ -66,13 +66,13 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
           const givenCorrectionResponse = new QcuCorrectionResponse({
             status: AnswerStatus.OK,
             feedback: 'Good job!',
-            solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+            solution: '1',
           });
 
           const elementAnswer = new ElementAnswer({
             id: 233,
             elementId: '123',
-            userResponseValue: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+            userResponseValue: '1',
             correction: givenCorrectionResponse,
           });
 
@@ -80,7 +80,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
             data: {
               attributes: {
                 'element-id': '123',
-                'user-response-value': 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+                'user-response-value': '1',
               },
               relationships: {
                 correction: {
