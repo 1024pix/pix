@@ -5,6 +5,7 @@ import * as defaultStageRepository from '../../../src/evaluation/infrastructure/
 import * as defaultStageAcquisitionRepository from '../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
 import * as defaultParticipantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
 import * as defaultCompareStageAndAcquiredStagesService from '../../../src/evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
+import { CampaignParticipationStatuses } from '../models/index.js';
 
 const getUserCampaignAssessmentResult = async function ({
   userId,
@@ -18,6 +19,15 @@ const getUserCampaignAssessmentResult = async function ({
   participantResultRepository = defaultParticipantResultRepository,
   compareStagesAndAcquiredStages = defaultCompareStageAndAcquiredStagesService,
 }) {
+  const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
+  const campaignParticipationStatus = await participantResultRepository.getCampaignParticipationStatus({
+    userId,
+    campaignId,
+  });
+
+  if (![TO_SHARE, SHARED].includes(campaignParticipationStatus)) {
+    throw new NoCampaignParticipationForUserAndCampaign();
+  }
   try {
     const [badges, knowledgeElements] = await Promise.all([
       badgeRepository.findByCampaignId(campaignId),

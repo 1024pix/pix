@@ -1,6 +1,7 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
 import { getUserCampaignAssessmentResult } from '../../../../lib/domain/usecases/get-user-campaign-assessment-result.js';
 import { NotFoundError, NoCampaignParticipationForUserAndCampaign } from '../../../../lib/domain/errors.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/index.js';
 
 describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
   const locale = 'locale',
@@ -15,7 +16,10 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
     badgeForCalculationRepository = { findByCampaignId: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
     badgeRepository = { findByCampaignId: sinon.stub() };
-    participantResultRepository = { getByUserIdAndCampaignId: sinon.stub() };
+    participantResultRepository = {
+      getByUserIdAndCampaignId: sinon.stub(),
+      getCampaignParticipationStatus: sinon.stub(),
+    };
     stageRepository = { getByCampaignId: sinon.stub() };
     stageAcquisitionRepository = { getByCampaignIdAndUserId: sinon.stub() };
     compareStagesAndAcquiredStages = { compare: sinon.stub() };
@@ -39,8 +43,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       badgeRepository.findByCampaignId.rejects(new NotFoundError());
       knowledgeElementRepository.findUniqByUserId.rejects('I should not be called');
       badgeForCalculationRepository.findByCampaignId.rejects('I should not be called');
-      participantResultRepository.getByUserIdAndCampaignId.rejects('I should not be called');
-
+      participantResultRepository.getCampaignParticipationStatus.returns(CampaignParticipationStatuses.STARTED);
       // when
       const error = await catchErr(getUserCampaignAssessmentResult)(args);
 
@@ -108,7 +111,12 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
           },
         })
         .resolves(expectedCampaignAssessmentResult);
-
+      participantResultRepository.getCampaignParticipationStatus
+        .withArgs({
+          userId,
+          campaignId,
+        })
+        .resolves(CampaignParticipationStatuses.SHARED);
       // when
       const campaignAssessmentResult = await getUserCampaignAssessmentResult(args);
 
