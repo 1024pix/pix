@@ -49,7 +49,7 @@ export { configuredKnex as knex, disconnect, emptyAllTables };
 async function _listAllTableNames(): Promise<string[]> {
   const bindings = [databaseName];
   const resultSet = await configuredKnex.raw(dbSpecificQueries.listTablesQuery, bindings);
-  const rows = resultSet.rows;
+  const rows: any[] = resultSet.rows;
 
   return _.map(rows, 'table_name');
 }
