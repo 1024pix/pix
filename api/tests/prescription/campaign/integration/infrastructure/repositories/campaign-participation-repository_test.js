@@ -148,33 +148,33 @@ describe('Integration | Repository | Campaign Participation', function () {
     });
 
     context('When the participant has improved its participation', function () {
-      let campaignId, improvedCampaignParticipation;
-
-      beforeEach(async function () {
-        campaignId = databaseBuilder.factory.buildCampaign({
+      it('should return all campaign-participation', async function () {
+        // given
+        const campaignId = databaseBuilder.factory.buildCampaign({
           type: CampaignTypes.PROFILES_COLLECTION,
           multipleSendings: true,
         }).id;
 
-        databaseBuilder.factory.buildCampaignParticipation({
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaignId,
-          createdAt: new Date('2016-01-15T14:59:35Z'),
+          createdAt: new Date('2016-01-15T14:50:35Z'),
           isImproved: true,
         });
-        improvedCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        const improvedCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaignId,
           createdAt: new Date('2016-07-15T14:59:35Z'),
           isImproved: false,
         });
         await databaseBuilder.commit();
-      });
 
-      it('should return the non improved campaign-participation', async function () {
+        // when
         const participationResultDatas =
           await campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaignId);
 
-        expect(participationResultDatas.length).to.eq(1);
+        // then
+        expect(participationResultDatas).to.lengthOf(2);
         expect(participationResultDatas[0].id).to.eq(improvedCampaignParticipation.id);
+        expect(participationResultDatas[1].id).to.eq(campaignParticipation.id);
       });
     });
 

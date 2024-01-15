@@ -16,7 +16,10 @@ const findProfilesCollectionResultDataByCampaignId = async function (campaignId)
       'view-active-organization-learners.id',
       'campaign-participations.organizationLearnerId',
     )
-    .where({ campaignId, isImproved: false, 'campaign-participations.deletedAt': null });
+    .where({ campaignId, 'campaign-participations.deletedAt': null })
+    .orderBy('lastName', 'ASC')
+    .orderBy('firstName', 'ASC')
+    .orderBy('createdAt', 'DESC');
 
   return results.map(_rowToResult);
 };
