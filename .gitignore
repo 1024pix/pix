@@ -5,6 +5,7 @@
 **/tmp
 **/coverage
 **/pix.log.*
+**/test-results
 
 # dependencies
 **/node_modules

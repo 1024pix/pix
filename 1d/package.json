@@ -29,7 +29,7 @@
     "lint:scss:fix": "npm run lint:scss -- --fix",
     "preinstall": "npx check-engine",
     "start": "ember serve --proxy http://localhost:3000",
-    "test": "ember test --reporter dot",
+    "test": "ember test",
     "test:ci": "npm run test",
     "test:lint": "run-p --continue-on-error test lint"
   },
