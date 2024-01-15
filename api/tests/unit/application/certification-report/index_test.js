@@ -22,6 +22,35 @@ describe('Unit | Application | Certifications Report | Route', function () {
       // then
       expect(response.statusCode).to.equal(200);
     });
+
+    context(
+      'when the prehandler checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId respond a 403',
+      function () {
+        it('should return a 403', async function () {
+          // given
+          sinon
+            .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId')
+            .callsFake((request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover(),
+            );
+
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/certification-reports/1/certification-issue-reports',
+          );
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      },
+    );
   });
 
   describe('POST /api/certification-reports/{id}/abort', function () {

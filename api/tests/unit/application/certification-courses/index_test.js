@@ -117,7 +117,6 @@ describe('Unit | Application | Certifications Course | Route', function () {
       sinon
         .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
         .withArgs([
-          securityPreHandlers.checkUserOwnsCertificationCourse,
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,
           securityPreHandlers.checkAdminMemberHasRoleSupport,

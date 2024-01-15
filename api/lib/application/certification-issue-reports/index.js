@@ -11,15 +11,8 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
+            method: securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
+            assign: 'hasAuthorizationToAccessSessionsOfCertificationCenters',
           },
         ],
         validate: {
@@ -30,8 +23,7 @@ const register = async function (server) {
         handler: certificationIssueReportController.deleteCertificationIssueReport,
         tags: ['api', 'certification-issue-reports'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs qui sont membres de la session du centre de certification**\n',
-          "ou à ceux avec un rôle sur l'application Pix Admin\n",
+          '- **Cette route est restreinte aux utilisateurs qui sont membres du centre de certification**\n',
           '- Elle permet de supprimer un signalement',
         ],
       },

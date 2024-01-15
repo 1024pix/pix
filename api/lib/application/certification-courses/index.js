@@ -105,7 +105,6 @@ const register = async function (server) {
           {
             method: (request, h) =>
               securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserOwnsCertificationCourse,
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
@@ -150,15 +149,8 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserOwnsCertificationCourse,
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
+            method: securityPreHandlers.checkUserOwnsCertificationCourse,
+            assign: 'hasAuthorizationToAccessOwnCertificationCourse',
           },
         ],
         validate: {
