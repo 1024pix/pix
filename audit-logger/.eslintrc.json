@@ -47,6 +47,7 @@
         "selector": "default"
       }
     ],
+    "@typescript-eslint/non-nullable-type-assertion-style": "off",
     "@typescript-eslint/quotes": [
       "error",
       "single",
