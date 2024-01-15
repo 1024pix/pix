@@ -14,7 +14,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
   const campaignParticipationInfoRepository = { findByCampaignId: () => undefined };
   const organizationRepository = { get: () => undefined };
   const knowledgeElementSnapshotRepository = {
-    findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId: () => undefined,
+    findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment: () => undefined,
   };
   const badgeAcquisitionRepository = { getAcquiredBadgesByCampaignParticipations: () => undefined };
   const stageCollectionRepository = { findStageCollection: () => undefined };
@@ -78,7 +78,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       .resolves(new StageCollection({ campaignId: campaign.id, stages: [] }));
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon
-      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId')
+      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment')
       .rejects();
 
     const csvExpected =
@@ -146,7 +146,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       .resolves(new StageCollection({ campaignId: campaign.id, stages: [] }));
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon
-      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId')
+      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment')
       .rejects();
 
     const csvExpected =
@@ -210,7 +210,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       .resolves(new StageCollection({ campaignId: campaign.id, stages: [] }));
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon
-      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId')
+      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment')
       .rejects();
 
     const csvExpected =
@@ -273,7 +273,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       .resolves(new StageCollection({ campaignId: campaign.id, stages: [] }));
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon
-      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId')
+      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment')
       .rejects();
 
     const csvExpected =
@@ -345,7 +345,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       .resolves(new StageCollection({ campaignId: campaign.id, stages: [] }));
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon
-      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId')
+      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment')
       .rejects();
 
     const csvExpected =
@@ -417,7 +417,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       .resolves(new StageCollection({ campaignId: campaign.id, stages }));
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon
-      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId')
+      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment')
       .rejects();
 
     const csvExpected =
@@ -482,7 +482,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
         .resolves(new StageCollection({ campaignId: campaign.id, stages: [] }));
       sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
       sinon
-        .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId')
+        .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment')
         .rejects();
 
       const csvExpected =
@@ -548,7 +548,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
         .resolves(new StageCollection({ campaignId: campaign.id, stages: [] }));
       sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
       sinon
-        .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId')
+        .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment')
         .rejects();
 
       const csvExpected =
@@ -627,7 +627,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       .withArgs(campaign.id)
       .resolves([participantInfo]);
     sinon
-      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId')
+      .stub(knowledgeElementSnapshotRepository, 'findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment')
       .resolves([
         {
           userId: participantInfo.userId,

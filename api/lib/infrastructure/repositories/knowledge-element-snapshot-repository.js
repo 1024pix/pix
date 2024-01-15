@@ -61,11 +61,8 @@ const findByUserIdsAndSnappedAtDates = async function (userIdsAndSnappedAtDates 
   return knowledgeElementsByUserId;
 };
 
-const findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId = async function (
-  userIdsAndSnappedAtDates,
-  campaignLearningContent,
-) {
-  const results = await knex
+const _findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId = function (userIdsAndSnappedAtDates) {
+  return knex
     .select(
       'knowledge-element-snapshots.userId as userId',
       'snapshot',
@@ -79,6 +76,13 @@ const findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId = async function
       );
     })
     .whereIn(['knowledge-element-snapshots.userId', 'snappedAt'], userIdsAndSnappedAtDates);
+};
+
+const findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment = async function (
+  userIdsAndSnappedAtDates,
+  campaignLearningContent,
+) {
+  const results = await _findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId(userIdsAndSnappedAtDates);
 
   return results.map((result) => {
     const mappedKnowledgeElements = _toKnowledgeElementCollection({ snapshot: result.snapshot });
@@ -90,4 +94,4 @@ const findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId = async function
   });
 };
 
-export { save, findByUserIdsAndSnappedAtDates, findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId };
+export { save, findByUserIdsAndSnappedAtDates, findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment, findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId };

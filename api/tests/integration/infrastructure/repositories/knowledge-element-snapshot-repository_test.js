@@ -161,7 +161,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
     });
   });
 
-  describe('#findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId', function () {
+  describe('#findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment', function () {
     let userId1, userId2;
     let campaignParticipationId1, campaignParticipationId2, campaignParticipationId3;
     let snappedAt1, snappedAt2, snappedAt3;
@@ -241,7 +241,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
     it('should find knowledge elements snapshoted grouped by campaign participation id for given userIds and their respective dates', async function () {
       // when
       const knowledgeElementsByUserId =
-        await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId(
+        await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment(
           [
             [userId1, snappedAt1],
             [userId2, snappedAt2],
@@ -285,7 +285,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
       // when
       const snappedAt = new Date('2023-02-01');
       const knowledgeElementsByUserId =
-        await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId(
+        await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment(
           [[userId1, snappedAt]],
           learningContent,
         );
@@ -300,7 +300,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
       await databaseBuilder.commit();
       // when
       const knowledgeElementsByUserId =
-        await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId(
+        await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment(
           [[userId, snappedAt1]],
           learningContent,
         );

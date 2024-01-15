@@ -74,7 +74,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
           campaignParticipationInfo.sharedAt,
         ]);
         const knowledgeElementsByUserIdAndCompetenceId =
-          await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId(
+          await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment(
             userIdsAndDates,
             campaignLearningContent,
           );
