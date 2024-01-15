@@ -105,7 +105,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
             'first-name': 'Luke',
             'last-name': 'Skywalker',
             email: 'lskywalker@deathstar.empire',
-            lang: 'jp',
+            lang: 'en',
             password: '',
           },
           relationships: {},
@@ -122,7 +122,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
       expect(user.firstName).to.equal('Luke');
       expect(user.lastName).to.equal('Skywalker');
       expect(user.email).to.equal('lskywalker@deathstar.empire');
-      expect(user.lang).to.equal('jp');
+      expect(user.lang).to.equal('en');
     });
 
     it('should contain an ID attribute', function () {

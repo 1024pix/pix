@@ -101,6 +101,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.LocaleFormatError) {
     return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
   }
+  if (error instanceof DomainErrors.LanguageNotSupportedError) {
+    return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
+  }
   if (error instanceof DomainErrors.LocaleNotSupportedError) {
     return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
   }

@@ -11,8 +11,8 @@ import * as url from 'url';
 import { AttestationViewModel } from './AttestationViewModel.js';
 import { CertificationAttestationGenerationError } from '../../../../../shared/domain/errors.js';
 import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
-import { LANG } from '../../../../../shared/domain/constants.js';
-const { ENGLISH } = LANG;
+import { LANGUAGES_CODE } from '../../../../../shared/domain/services/language-service.js';
+const { ENGLISH } = LANGUAGES_CODE;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const fonts = {
