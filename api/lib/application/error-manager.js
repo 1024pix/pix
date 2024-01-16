@@ -6,6 +6,9 @@ function _mapToHttpError(error) {
   if (error instanceof HttpErrors.BaseHttpError) {
     return error;
   }
+  if (error instanceof DomainErrors.UnableToAttachChildOrganizationToParentOrganizationError) {
+    return new HttpErrors.ConflictError(error.message, error.code, error.meta);
+  }
   if (error instanceof DomainErrors.AccountRecoveryDemandExpired) {
     return new HttpErrors.UnauthorizedError(error.message);
   }
