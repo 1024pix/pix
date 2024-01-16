@@ -16,7 +16,7 @@
 
 .login-page__header {
   height: 129px;
-  margin-top: 48px;
+  margin-top: var(--pix-spacing-12x);
   text-align: center;
 
   &__title {
@@ -25,15 +25,15 @@
 }
 
 .login-page__section--login-form {
-  margin: 48px 0;
+  margin: var(--pix-spacing-12x) 0;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: var(--pix-spacing-8x);
-  padding: 48px;
+  align-items: center;
+  padding: var(--pix-spacing-12x);
   background: var(--pix-neutral-0);
   border-radius: 10px;
   box-shadow: 0 10px 10px rgb(0 0 0 / 10%);
@@ -42,11 +42,41 @@
     color: var(--pix-color-neutral-0);
     font-size: 0.875rem;
   }
+
+  &__oidc-connect-link {
+    @extend %pix-body-s;
+
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    font-weight: $font-medium;
+    background-color: var(--pix-neutral-0);
+    border: 1px solid var(--pix-neutral-800);
+    border-radius: 100px;
+
+      &__logo {
+        width: $pix-spacing-m;
+        margin: var(--pix-spacing-2x) var(--pix-spacing-3x);
+      }
+
+      &__label {
+      padding: var(--pix-spacing-3x);
+      color: var(--pix-neutral-800);
+
+      &:focus,
+      &:hover,
+      &:focus-within {
+        color: var(--pix-neutral-0);
+        background-color: var(--pix-primary-500);
+        border-radius: 0 100px 100px 0;
+      }
+    }
+  }
 }
 
 .login-form__error {
-  font-size: 0.875rem;
   color: var(--pix-error-500);
+  font-size: 0.875rem;
 }
 
 .login-form__email-field {
@@ -54,12 +84,12 @@
 }
 
 .login-form__fields {
+  width: 100%;
   padding: 8px;
   font-size: 14px;
   line-height: 22px;
   border: 1px solid var(--pix-neutral-100);
   border-radius: 3px;
-  width: 100%;
 }
 
 .login-form__button {
