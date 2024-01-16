@@ -1,5 +1,6 @@
 /* stylelint-disable selector-class-pattern */
 #organizations-get-page {
+
   .organization__information {
     display: flex;
 
@@ -36,6 +37,10 @@
       }
     }
 
+    .organization__network-label{
+      margin-bottom: var(--pix-spacing-6x);
+    }
+
     .organization__data {
       max-width: 100%;
       overflow: hidden;
@@ -49,7 +54,7 @@
       .organization-tags-list {
         display: flex;
         flex-wrap: wrap;
-        margin-bottom: $pix-spacing-m;
+        margin-bottom: var(--pix-spacing-6x);
         padding: 0;
         list-style: none;
 
