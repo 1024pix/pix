@@ -101,7 +101,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
-      await clickByName('Modifier les informations');
+      await clickByName('Modifier');
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
@@ -117,7 +117,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         type: 'SCO',
       });
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-      await clickByName('Modifier les informations');
+      await clickByName('Modifier');
       this.server.patch(`/admin/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
@@ -155,7 +155,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       server.create('complementary-certification', { key: 'A', label: 'Pix+Autre' });
 
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-      await clickByName('Modifier les informations');
+      await clickByName('Modifier');
       this.server.patch(`/admin/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
@@ -181,7 +181,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       });
       this.server.patch(`/admin/certification-centers/${certificationCenter.id}`, () => new Response({}), 422);
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-      await clickByName('Modifier les informations');
+      await clickByName('Modifier');
 
       // when
       await clickByName('Enregistrer');
