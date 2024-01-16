@@ -32,6 +32,7 @@ const swaggerOptionsIn = {
   basePath: '/api',
   grouping: 'tags',
   routeTag: 'api',
+  OAS: 'v3.0',
   info: {
     title: 'Welcome to the Pix api catalog',
     version: packageJSON.version,
