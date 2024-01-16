@@ -333,7 +333,7 @@ const configuration = (function () {
       accessTokenLifespanMs: ms(configLoader.get('POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN') || '7d'),
       pushEnabled: isFeatureEnabled(configLoader.get('PUSH_DATA_TO_POLE_EMPLOI_ENABLED')),
     },
-    port: parseInt(configLoader.get('PORT'), 10) || 3000,
+    port: _getNumber(configLoader.get('PORT'), 3000),
     rootPath: path.normalize(__dirname + '/..'),
     saml: {
       spConfig: parseJSONEnv('SAML_SP_CONFIG'),
@@ -382,14 +382,6 @@ const configuration = (function () {
   };
 
   if (process.env.NODE_ENV === 'test') {
-    config.auditLogger.baseUrl = 'http://audit-logger.local';
-    config.auditLogger.clientSecret = 'client-super-secret';
-
-    config.port = 0;
-
-    config.lcms.apiKey = 'test-api-key';
-    config.lcms.url = 'https://lcms-test.pix.fr/api';
-
     config.domain.tldFr = '.fr';
     config.domain.tldOrg = '.org';
     config.domain.pix = 'https://pix';
