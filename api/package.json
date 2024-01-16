@@ -144,6 +144,7 @@
     "lint:js": "eslint . --ext js --cache --cache-strategy content",
     "lint:js:fix": "npm run lint:js -- --fix",
     "lint:js:uncached": "eslint . --ext js",
+    "lint:staged:api-lib": "eslint --config .eslint-new-files-in-lib-config.cjs --no-eslintrc $(git log --name-only --format='' --diff-filter=A dev..HEAD | grep 'api/lib/domain/usecases/' | sed -e 's|api/||g')",
     "lint:translations": "eslint --ext .json  --format node_modules/eslint-plugin-i18n-json/formatter.js translations",
     "lint:translations:fix": "npm run lint:translations -- --fix",
     "postdeploy": "DEBUG=knex:* npm run db:migrate",
