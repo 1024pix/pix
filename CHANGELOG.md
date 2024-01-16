@@ -1,5 +1,39 @@
 # Pix Changelog
 
+## v4.87.0 (16/01/2024)
+
+
+### :rocket: Amélioration
+- [#7825](https://github.com/1024pix/pix/pull/7825) [FEATURE] Enregistrer les réponses faites durant un passage de module (PIX-10582).
+- [#7856](https://github.com/1024pix/pix/pull/7856) [FEATURE][ADMIN] Afficher la liste des organisations enfants d'une organisation parente (PIX-10048).
+- [#7838](https://github.com/1024pix/pix/pull/7838) [FEATURE] Ajout du néerlandais dans les langues disponibles côté API (PIX-10683).
+- [#7831](https://github.com/1024pix/pix/pull/7831) [FEATURE][API] Ajouter un endpoint pour récupérer les organisations enfants d'une organisation parente.
+- [#7835](https://github.com/1024pix/pix/pull/7835) [FEATURE] Utiliser un fichier de langues pour lister les languages disponibles sur Pix App (PIX-10684).
+- [#7832](https://github.com/1024pix/pix/pull/7832) [FEATURE] Ne pas afficher l'icone de réponse si un candidat passe une question dans la page de détails (PIX-10682).
+- [#7739](https://github.com/1024pix/pix/pull/7739) [FEATURE] Permettre de définaliser une session depuis Pix Admin (PIX-10316).
+
+### :building_construction: Tech
+- [#7820](https://github.com/1024pix/pix/pull/7820) [TECH] Generer des rapports de tests sur les front-ends pour circle-ci (PIX-10673).
+- [#7802](https://github.com/1024pix/pix/pull/7802) [TECH] Migration de l'import en masse de sessions dans src (PIX-10188).
+- [#7834](https://github.com/1024pix/pix/pull/7834) [TECH] Ajout d'un script pour créer une configuration d'algo de certification V3 (PIX-10713).
+- [#7801](https://github.com/1024pix/pix/pull/7801) [TECH] :recycle: migration API LearningContentResourceNotFound (PIX-10619).
+- [#7816](https://github.com/1024pix/pix/pull/7816) [TECH] Migrer Challenge vers la nouvelle arbo API (PIX-9930).
+
+### :bug: Correction
+- [#7840](https://github.com/1024pix/pix/pull/7840) [BUGFIX] limite l'accès aux résultats tant que le parcours n'est pas terminé (PIX-10705).
+- [#7844](https://github.com/1024pix/pix/pull/7844) [BUGFIX] Corriger des typo sur le texte d'informations des campagnes en isForAbsoluteNovice dans PixAdmin (PIX-10738).
+
+### :arrow_up: Montée de version
+- [#7753](https://github.com/1024pix/pix/pull/7753) [BUMP] Update dependency eslint-config-standard-with-typescript to v43 (audit-logger).
+- [#7708](https://github.com/1024pix/pix/pull/7708) [BUMP] Update dependency eslint-config-standard-with-typescript to v42 (audit-logger).
+- [#7706](https://github.com/1024pix/pix/pull/7706) [BUMP] Update dependency eslint-config-standard-with-typescript to v41 (audit-logger).
+- [#7846](https://github.com/1024pix/pix/pull/7846) [BUMP] Update dependency postgres to v14.10.
+- [#7845](https://github.com/1024pix/pix/pull/7845) [BUMP] Update Node.js to v20.11.0.
+- [#7764](https://github.com/1024pix/pix/pull/7764) [BUMP] Update dependency eslint-plugin-unicorn to v50 (api).
+
+### :coffee: Autre
+- [#7795](https://github.com/1024pix/pix/pull/7795) [REFACTOR] Améliorer le style de la barre de navigation principale desktop de PixApp (PIX-10557).
+
 ## v4.86.0 (11/01/2024)
 
 
