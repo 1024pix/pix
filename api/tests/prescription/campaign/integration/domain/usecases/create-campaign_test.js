@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import * as campaignCreatorRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-creator-repository.js';
+import * as userRepository from '../../../../../../src/shared/infrastructure/repositories/user-repository.js';
 
 import { createCampaign } from '../../../../../../src/prescription/campaign/domain/usecases/create-campaign.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/read-models/Campaign.js';
@@ -54,6 +55,7 @@ describe('Integration | UseCases | create-campaign', function () {
     // when
     const result = await createCampaign({
       campaign,
+      userRepository,
       campaignAdministrationRepository,
       campaignCreatorRepository,
       codeGenerator,
@@ -82,6 +84,7 @@ describe('Integration | UseCases | create-campaign', function () {
     // when
     const result = await createCampaign({
       campaign,
+      userRepository,
       campaignAdministrationRepository,
       campaignCreatorRepository,
       codeGenerator,
