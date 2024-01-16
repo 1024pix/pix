@@ -10,7 +10,7 @@ import { fetchPage } from '../utils/knex-utils.js';
 import { ORGANIZATION_FEATURE } from '../../domain/constants.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../constants.js';
 
-const ORGANIZATION_TABLE_NAME = 'organizations';
+const ORGANIZATIONS_TABLE_NAME = 'organizations';
 
 function _toDomain(rawOrganization) {
   const organization = new Organization({
@@ -70,7 +70,7 @@ const create = function (organization) {
     'documentationUrl',
   ]);
 
-  return knex(ORGANIZATION_TABLE_NAME)
+  return knex(ORGANIZATIONS_TABLE_NAME)
     .insert(organizationRawData)
     .returning('*')
     .then(([organization]) => _toDomain(organization));
@@ -88,7 +88,7 @@ const batchCreateOrganizations = async function (
   return bluebird.map(
     organizations,
     async (organization) => {
-      const [createdOrganization] = await knexConn(ORGANIZATION_TABLE_NAME)
+      const [createdOrganization] = await knexConn(ORGANIZATIONS_TABLE_NAME)
         .insert(
           _.pick(organization, [
             'name',
@@ -132,7 +132,7 @@ const update = async function (organization) {
     'showSkills',
   ]);
 
-  const [organizationDB] = await knex(ORGANIZATION_TABLE_NAME)
+  const [organizationDB] = await knex(ORGANIZATIONS_TABLE_NAME)
     .update(organizationRawData)
     .where({ id: organization.id })
     .returning('*');
@@ -148,7 +148,7 @@ const update = async function (organization) {
 };
 
 const get = async function (id) {
-  const organizationDB = await knex(ORGANIZATION_TABLE_NAME).where({ id }).first();
+  const organizationDB = await knex(ORGANIZATIONS_TABLE_NAME).where({ id }).first();
   if (!organizationDB) {
     throw new NotFoundError(`Not found organization for ID ${id}`);
   }
@@ -165,7 +165,7 @@ const get = async function (id) {
 const getIdByCertificationCenterId = async function (certificationCenterId) {
   const organizationIds = await knex
     .pluck('organizations.id')
-    .from(ORGANIZATION_TABLE_NAME)
+    .from(ORGANIZATIONS_TABLE_NAME)
     .innerJoin('certification-centers', function () {
       this.on('certification-centers.externalId', 'organizations.externalId').andOn(
         'certification-centers.type',
@@ -180,7 +180,7 @@ const getIdByCertificationCenterId = async function (certificationCenterId) {
 };
 
 const getScoOrganizationByExternalId = async function (externalId) {
-  const organizationDB = await knex(ORGANIZATION_TABLE_NAME)
+  const organizationDB = await knex(ORGANIZATIONS_TABLE_NAME)
     .where({ type: Organization.types.SCO })
     .whereRaw('LOWER("externalId") = ?', externalId.toLowerCase())
     .first();
@@ -192,7 +192,7 @@ const getScoOrganizationByExternalId = async function (externalId) {
 };
 
 const findByExternalIdsFetchingIdsOnly = async function (externalIds) {
-  const organizationsDB = await knex(ORGANIZATION_TABLE_NAME)
+  const organizationsDB = await knex(ORGANIZATIONS_TABLE_NAME)
     .whereInArray('externalId', externalIds)
     .select(['id', 'externalId']);
 
@@ -200,7 +200,7 @@ const findByExternalIdsFetchingIdsOnly = async function (externalIds) {
 };
 
 const findScoOrganizationsByUai = async function ({ uai }) {
-  const organizationsDB = await knex(ORGANIZATION_TABLE_NAME)
+  const organizationsDB = await knex(ORGANIZATIONS_TABLE_NAME)
     .where({ type: Organization.types.SCO })
     .whereRaw('LOWER("externalId") = ? ', `${uai.toLowerCase()}`);
 
@@ -208,7 +208,7 @@ const findScoOrganizationsByUai = async function ({ uai }) {
 };
 
 const findPaginatedFiltered = async function ({ filter, page }) {
-  const query = knex(ORGANIZATION_TABLE_NAME).modify(_setSearchFiltersForQueryBuilder, filter).orderBy('name', 'ASC');
+  const query = knex(ORGANIZATIONS_TABLE_NAME).modify(_setSearchFiltersForQueryBuilder, filter).orderBy('name', 'ASC');
 
   const { results, pagination } = await fetchPage(query, page);
   const organizations = results.map((model) => _toDomain(model));
@@ -216,7 +216,7 @@ const findPaginatedFiltered = async function ({ filter, page }) {
 };
 
 const findPaginatedFilteredByTargetProfile = async function ({ targetProfileId, filter, page }) {
-  const query = knex(ORGANIZATION_TABLE_NAME)
+  const query = knex(ORGANIZATIONS_TABLE_NAME)
     .select('organizations.*')
     .innerJoin('target-profile-shares', 'organizations.id', 'target-profile-shares.organizationId')
     .where({ 'target-profile-shares.targetProfileId': targetProfileId })
