@@ -54,20 +54,20 @@ module('Integration | Component | AutonomousCourses::Details', function (hooks) 
 
   test('it should display update form when requested', async function (assert) {
     // when
-    const button = screen.getByText('Éditer');
+    const button = screen.getByText('Modifier');
     await click(button);
 
     // then
     assert.dom(screen.getByLabelText(/Nom interne/)).exists();
     assert.dom(screen.getByLabelText(/Nom public/)).exists();
     assert.dom(screen.getByLabelText(/Texte de la page d'accueil/)).exists();
-    assert.dom(screen.queryByText('Éditer')).doesNotExist();
+    assert.dom(screen.queryByText('Modifier')).doesNotExist();
     assert.dom(screen.getByText('Sauvegarder les modifications')).exists();
   });
 
   test('it should call reset argument function on reset', async function (assert) {
     // when
-    const editButton = screen.getByText('Éditer');
+    const editButton = screen.getByText('Modifier');
     await click(editButton);
 
     await fillByLabel(/Nom interne/, 'Une erreur de frappe');
@@ -81,7 +81,7 @@ module('Integration | Component | AutonomousCourses::Details', function (hooks) 
 
   test('it should call update argument function on update', async function (assert) {
     // when
-    const button = screen.getByText('Éditer');
+    const button = screen.getByText('Modifier');
     await click(button);
 
     await fillByLabel(/Nom interne/, 'Parcours professionnel');

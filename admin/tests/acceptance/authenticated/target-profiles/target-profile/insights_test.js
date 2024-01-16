@@ -184,7 +184,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         const screen = await visit('/target-profiles/1');
         await clickByName('Clés de lecture');
         await clickByName('Voir le détail du palier 100');
-        await clickByName('Éditer');
+        await clickByName('Modifier');
         await fillByLabel('Titre', 'titre modifié');
         await clickByName('Annuler');
 
@@ -287,7 +287,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           const screen = await visit('/target-profiles/1');
           await clickByName('Clés de lecture');
           await clickByName('Voir le détail du palier 100');
-          await clickByName('Éditer');
+          await clickByName('Modifier');
           await click(screen.getByRole('button', { name: 'Niveau' }));
           await screen.findByRole('listbox');
           await click(screen.getByRole('option', { name: '1' }));
@@ -388,7 +388,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           const screen = await visit('/target-profiles/1');
           await clickByName('Clés de lecture');
           await clickByName('Voir le détail du palier 100');
-          await clickByName('Éditer');
+          await clickByName('Modifier');
           await fillByLabel('Seuil', 20);
           await fillByLabel('Titre', 'nouveau titre');
           await fillByLabel('Message', 'nouveau message');
@@ -493,7 +493,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         const screen = await visit('/target-profiles/1');
         await clickByName('Clés de lecture');
         await clickByName('Détails du badge ancien titre');
-        await clickByName('Éditer');
+        await clickByName('Modifier');
         await fillByLabel('* Titre :', 'nouveau titre');
         await fillByLabel('* Clé :', 'NEW_KEY');
         await fillByLabel('Message :', 'nouveau message');
@@ -525,7 +525,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         const screen = await visit('/target-profiles/1');
         await clickByName('Clés de lecture');
         await clickByName('Détails du badge tagada');
-        await clickByName('Éditer');
+        await clickByName('Modifier');
         await fillByLabel('* Titre :', 'tsouintsouin');
         await clickByName('Annuler');
 

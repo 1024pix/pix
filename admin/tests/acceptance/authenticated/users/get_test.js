@@ -113,7 +113,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'Anglais' }));
 
-      await clickByName('Editer');
+      await clickByName('Modifier');
 
       // then
       assert.dom(screen.getByText('Prénom : john')).exists();
