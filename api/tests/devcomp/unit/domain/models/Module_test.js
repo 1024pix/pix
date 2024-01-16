@@ -105,6 +105,41 @@ describe('Unit | Devcomp | Domain | Models | Module', function () {
       });
     });
 
+    describe('#getGrainByElementId', function () {
+      it('should return the parent grain of the element with given id', function () {
+        // given
+        const elementId = 'elementId';
+        const id = 1;
+        const slug = 'les-adresses-email';
+        const title = 'Les adresses email';
+        const element = { id: elementId };
+        const expectedGrain = { elements: [element] };
+
+        // when
+        const foundGrain = new Module({ id, slug, title, grains: [expectedGrain] }).getGrainByElementId(elementId);
+
+        // then
+        expect(foundGrain).to.deep.equal(expectedGrain);
+      });
+
+      it('should throw an error if grain does not exist', function () {
+        // given
+        const elementId = 'elementId';
+        const id = 1;
+        const slug = 'les-adresses-email';
+        const title = 'Les adresses email';
+        const element = { id: elementId };
+        const grain = { elements: [element] };
+        const module = new Module({ id, slug, title, grains: [grain] });
+
+        // when
+        const error = catchErrSync(module.getGrainByElementId, module)('another-grain-id');
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+
     // eslint-disable-next-line mocha/no-skipped-tests
     describe.skip('Skip those tests, we keep them in order to discuss with business', function () {
       describe('given a module being created', function () {

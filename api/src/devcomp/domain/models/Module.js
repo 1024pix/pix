@@ -32,6 +32,20 @@ class Module {
     }
   }
 
+  getGrainByElementId(elementId) {
+    const foundGrain = this.grains.find((grain) => {
+      const isElementFound = grain.elements.some((element) => element.id === elementId);
+
+      return isElementFound;
+    });
+
+    if (foundGrain === undefined) {
+      throw new NotFoundError();
+    }
+
+    return foundGrain;
+  }
+
   getElementById(elementId) {
     const foundElement = this.#getAllElements().find(({ id }) => id === elementId);
 

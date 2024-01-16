@@ -2,6 +2,7 @@ import { expect, sinon } from '../../../../../test-helper.js';
 import { QROCMForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QROCM-for-answer-verification.js';
 import { ElementAnswer } from '../../../../../../src/devcomp/domain/models/ElementAnswer.js';
 import { QrocmCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QrocmCorrectionResponse.js';
+import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerification', function () {
   describe('#constructor', function () {
@@ -168,8 +169,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
       const result = qrocm.assess(userResponse);
 
       // then
-      expect(result).to.deep.equal(expectedResult);
-      expect(result).to.be.instanceOf(ElementAnswer);
+      expect(result).to.deepEqualInstanceOmitting(new ElementAnswer(expectedResult), ['id']);
       expect(result.correction).to.be.instanceOf(QrocmCorrectionResponse);
     });
 
@@ -251,9 +251,193 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
       const result = qrocm.assess(userResponse);
 
       // then
-      expect(result).to.deep.equal(expectedResult);
-      expect(result).to.be.instanceOf(ElementAnswer);
+      expect(result).to.deepEqualInstanceOmitting(new ElementAnswer(expectedResult), ['id']);
       expect(result.correction).to.be.instanceOf(QrocmCorrectionResponse);
+    });
+  });
+
+  describe('#validateUserResponseFormat', function () {
+    describe('if userResponse is valid', function () {
+      it('should not throw error', function () {
+        // given
+        const userResponse = [
+          { input: 'emailSeparatorCharacter', answer: '@' },
+          { input: 'emailFirstPartSelect', answer: '1' },
+          { input: 'emailSecondPartSelect', answer: '2' },
+        ];
+
+        const qrocm = new QROCMForAnswerVerification({
+          id: 'qrocm-id',
+          instruction: '<p>Complétez le texte ci-dessous.</p>',
+          proposals: [
+            {
+              input: 'emailSeparatorCharacter',
+              type: 'input',
+              inputType: 'text',
+              size: 1,
+              display: 'inline',
+              placeholder: '',
+              ariaLabel: 'Réponse 1',
+              defaultValue: '',
+              tolerances: [],
+              solutions: ['@'],
+            },
+            {
+              input: 'emailFirstPartSelect',
+              type: 'select',
+              display: 'inline',
+              placeholder: '',
+              ariaLabel: 'Réponse 3',
+              defaultValue: '',
+              tolerances: [],
+              options: [
+                {
+                  id: '1',
+                  content: "l'identifiant",
+                },
+                {
+                  id: '2',
+                  content: "le fournisseur d'adresse mail",
+                },
+              ],
+              solutions: ['1'],
+            },
+            {
+              input: 'emailSecondPartSelect',
+              type: 'select',
+              display: 'inline',
+              placeholder: '',
+              ariaLabel: 'Réponse 4',
+              defaultValue: '',
+              tolerances: [],
+              options: [
+                {
+                  id: '1',
+                  content: "l'identifiant",
+                },
+                {
+                  id: '2',
+                  content: "le fournisseur d'adresse mail",
+                },
+              ],
+              solutions: ['2'],
+            },
+          ],
+          feedbacks: {
+            valid: 'OK',
+            invalid: 'KO',
+          },
+        });
+
+        // when/then
+        expect(() => qrocm.validateUserResponseFormat(userResponse)).not.to.throw();
+      });
+    });
+
+    describe('if userResponse is not valid', function () {
+      const cases = [
+        {
+          case: 'When an input field name is not valid',
+          userResponse: [
+            { input: 'inputBlock', answer: '@' },
+            { invalidField: 'selectBlock', answer: '2' },
+          ],
+        },
+        {
+          case: 'When an answer field name is not valid',
+          userResponse: [
+            { input: 'inputBlock', answer: '@' },
+            { input: 'selectBlock', invalidAnswerField: '2' },
+          ],
+        },
+        {
+          case: 'When an input value is not valid',
+          userResponse: [
+            { input: 'inputBlock', answer: '@' },
+            { input: 12, answer: '2' },
+          ],
+        },
+        {
+          case: 'When an answer value is not valid',
+          userResponse: [
+            { input: 'inputBlock', answer: '@' },
+            { input: 'selectBlock', answers: 2 },
+          ],
+        },
+        {
+          case: 'When a field is missing',
+          userResponse: [{ input: 'inputBlock' }],
+        },
+        {
+          case: 'When there are more fields than expected',
+          userResponse: [{ input: 'inputBlock', answer: '@', extraField: true }],
+        },
+        {
+          case: 'When the userResponse is not an array',
+          userResponse: 'invalid userResponse',
+        },
+        {
+          case: 'When the userResponse does not contain valid item',
+          userResponse: ['invalid array content'],
+        },
+        {
+          case: 'When the userResponse is undefined',
+          userResponse: undefined,
+        },
+      ];
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      cases.forEach((testCase) => {
+        it(`${testCase.case}, should throw error`, function () {
+          // given
+          const userResponse = testCase.userResponse;
+
+          const qrocm = new QROCMForAnswerVerification({
+            id: 'qrocm-id',
+            instruction: '<p>Complétez le texte ci-dessous.</p>',
+            proposals: [
+              {
+                input: 'inputBlock',
+                type: 'input',
+                inputType: 'text',
+                size: 1,
+                display: 'inline',
+                placeholder: '',
+                ariaLabel: 'Réponse 1',
+                defaultValue: '',
+                tolerances: [],
+                solutions: ['@'],
+              },
+              {
+                input: 'selectBlock',
+                type: 'select',
+                display: 'inline',
+                placeholder: '',
+                ariaLabel: 'Réponse 3',
+                defaultValue: '',
+                tolerances: [],
+                options: [
+                  {
+                    id: '1',
+                    content: "l'identifiant",
+                  },
+                  {
+                    id: '2',
+                    content: "le fournisseur d'adresse mail",
+                  },
+                ],
+                solutions: ['2'],
+              },
+            ],
+            feedbacks: {
+              valid: 'OK',
+              invalid: 'KO',
+            },
+          });
+
+          // when/then
+          expect(() => qrocm.validateUserResponseFormat(userResponse)).to.throw(EntityValidationError);
+        });
+      });
     });
   });
 });

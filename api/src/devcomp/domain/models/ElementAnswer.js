@@ -1,7 +1,7 @@
 import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
 
 class ElementAnswer {
-  constructor({ elementId, userResponseValue, correction }) {
+  constructor({ id, elementId, userResponseValue, correction }) {
     assertNotNullOrUndefined(elementId, "L'id de l'élément est obligatoire pour une réponse d'élément");
     assertNotNullOrUndefined(
       userResponseValue,
@@ -9,6 +9,7 @@ class ElementAnswer {
     );
     assertNotNullOrUndefined(correction, "La correction est obligatoire pour une réponse d'élément");
 
+    this.id = id;
     this.elementId = elementId;
     this.userResponseValue = userResponseValue;
     this.correction = correction;

@@ -4,6 +4,8 @@ import { QrocmCorrectionResponse } from '../QrocmCorrectionResponse.js';
 import { ElementAnswer } from '../ElementAnswer.js';
 import { ValidatorQROCMInd } from '../validator/ValidatorQROCMInd.js';
 import { QrocmSolutions } from '../QrocmSolutions.js';
+import Joi from 'joi';
+import { EntityValidationError } from '../../../../shared/domain/errors.js';
 
 class QROCMForAnswerVerification extends QROCM {
   #solution;
@@ -23,6 +25,20 @@ class QROCMForAnswerVerification extends QROCM {
       this.validator = validator;
     } else {
       this.validator = new ValidatorQROCMInd({ solution: { value: this.solutions } });
+    }
+  }
+
+  validateUserResponseFormat(userResponse) {
+    const qrocmResponseSchema = Joi.object({
+      input: Joi.string().required(),
+      answer: Joi.string().required(),
+    }).required();
+
+    const validUserResponseSchema = Joi.array().items(qrocmResponseSchema).required();
+
+    const { error } = validUserResponseSchema.validate(userResponse);
+    if (error) {
+      throw EntityValidationError.fromJoiErrors(error.details);
     }
   }
 

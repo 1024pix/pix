@@ -4,6 +4,8 @@ import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asser
 import { ValidatorQCU } from '../validator/ValidatorQCU.js';
 import { QcuCorrectionResponse } from '../QcuCorrectionResponse.js';
 import { ElementAnswer } from '../ElementAnswer.js';
+import Joi from 'joi';
+import { EntityValidationError } from '../../../../shared/domain/errors.js';
 
 class QCUForAnswerVerification extends QCU {
   constructor({ id, instruction, locales, proposals, solution, feedbacks, validator }) {
@@ -21,6 +23,19 @@ class QCUForAnswerVerification extends QCU {
       this.validator = validator;
     } else {
       this.validator = new ValidatorQCU({ solution: { value: this.solution } });
+    }
+  }
+
+  validateUserResponseFormat(userResponse) {
+    const qcuResponseSchema = Joi.string()
+      .pattern(/^[0-9]+$/)
+      .required();
+
+    const validUserResponseSchema = Joi.array().items(qcuResponseSchema).min(1).max(1).required();
+
+    const { error } = validUserResponseSchema.validate(userResponse);
+    if (error) {
+      throw EntityValidationError.fromJoiErrors(error.details);
     }
   }
 
