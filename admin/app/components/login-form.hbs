@@ -1,35 +1,40 @@
 <header class="login-page__header">
   <h1 class="login-page__header__title">Pix Admin</h1>
-  <p class="login-form__information">L'accès à Pix Admin est limité aux administrateurs de la plateforme.</p>
+  <p class="login-form__information">{{t "pages.login.title"}}</p>
 </header>
 
 <section class="login-page__section--login-form">
   <form class="login-form" {{on "submit" this.authenticateUser}}>
+    {{#if this.isGoogleIdentityProviderEnabled}}
+      <LinkTo @route="authentication.login-oidc" @model="google" class="login-form__oidc-connect-link">
+        <img src="/google-logo.svg" alt="" class="login-form__oidc-connect-link__logo" />
+        <span class="login-form__oidc-connect-link__label">{{t "pages.login.google.label"}}</span>
+      </LinkTo>
+    {{else}}
+      <Input
+        class="login-form__fields login-form__email-field"
+        placeholder={{t "pages.login.fields.email.label"}}
+        aria-label={{t "pages.login.fields.email.label"}}
+        required="true"
+        @value={{this.email}}
+        autocomplete="true"
+      />
 
-    <Input
-      class="login-form__fields login-form__email-field"
-      placeholder="Adresse e-mail"
-      aria-label="Adresse e-mail"
-      required="true"
-      @value={{this.email}}
-      autocomplete="true"
-    />
+      <Input
+        class="login-form__fields"
+        placeholder={{t "pages.login.fields.password.label"}}
+        aria-label={{t "pages.login.fields.password.label"}}
+        required="true"
+        @type="password"
+        @value={{this.password}}
+        autocomplete="true"
+      />
 
-    <Input
-      class="login-form__fields"
-      placeholder="Mot de passe"
-      aria-label="Mot de passe"
-      required="true"
-      @type="password"
-      @value={{this.password}}
-      autocomplete="true"
-    />
+      {{#if this.errorMessage}}
+        <p class="login-form__error">{{this.errorMessage}}</p>
+      {{/if}}
 
-    {{#if this.errorMessage}}
-      <p class="login-form__error">{{this.errorMessage}}</p>
+      <PixButton @type="submit" class="login-form__button">{{t "pages.login.button"}}</PixButton>
     {{/if}}
-
-
-    <PixButton @type="submit" class="login-form__button">Je me connecte</PixButton>
   </form>
 </section>
