@@ -34,6 +34,7 @@ class OrganizationForAdmin {
     tagIds = [],
     features = {},
     code,
+    parentOrganizationId,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -74,6 +75,7 @@ class OrganizationForAdmin {
     this.tagsToAdd = [];
     this.tagsToRemove = [];
     this.code = code;
+    this.parentOrganizationId = parentOrganizationId;
   }
 
   get archivistFullName() {

@@ -482,6 +482,22 @@ describe('Integration | Repository | Organization-for-admin', function () {
   });
 
   describe('#update', function () {
+    it('updates organization detail', async function () {
+      // given
+      const parentOrganizationId = databaseBuilder.factory.buildOrganization({ name: 'Parent Organization' }).id;
+      const childOrganization = databaseBuilder.factory.buildOrganization({ name: 'Child Organization' });
+      await databaseBuilder.commit();
+      const childOrganizationForAdmin = new OrganizationForAdmin(childOrganization);
+
+      // when
+      childOrganizationForAdmin.parentOrganizationId = parentOrganizationId;
+      await organizationForAdminRepository.update(childOrganizationForAdmin);
+
+      // then
+      const updatedOrganization = await knex('organizations').where({ id: childOrganization.id }).first();
+      expect(updatedOrganization.parentOrganizationId).to.equal(parentOrganizationId);
+    });
+
     it('should enable feature', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser({ firstName: 'Anne', lastName: 'Héantie' }).id;
