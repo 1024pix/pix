@@ -121,17 +121,20 @@ const save = async function (organization) {
 const update = async function (organization, domainTransaction = DomainTransaction.emptyTransaction()) {
   const knexConn = domainTransaction.transaction ?? knex;
   const organizationRawData = _.pick(organization, [
+    'credit',
+    'documentationUrl',
+    'email',
+    'externalId',
+    'identityProviderForCampaigns',
+    'isManagingStudents',
+    'logoUrl',
     'name',
     'type',
     'logoUrl',
     'externalId',
     'provinceCode',
-    'isManagingStudents',
-    'email',
-    'credit',
-    'documentationUrl',
     'showSkills',
-    'identityProviderForCampaigns',
+    'type',
   ]);
 
   await _enableFeatures(knexConn, organization.features, organization.id);
