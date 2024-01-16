@@ -11,6 +11,7 @@ const buildFlashAlgorithmConfiguration = function ({
   doubleMeasuresUntil = null,
   variationPercent = null,
   variationPercentUntil = null,
+  createdAt = new Date(),
 } = {}) {
   const values = {
     warmUpLength,
@@ -23,6 +24,7 @@ const buildFlashAlgorithmConfiguration = function ({
     doubleMeasuresUntil,
     variationPercent,
     variationPercentUntil,
+    createdAt,
   };
 
   return databaseBuffer.pushInsertable({

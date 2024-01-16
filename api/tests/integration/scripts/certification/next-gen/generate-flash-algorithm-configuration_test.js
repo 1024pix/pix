@@ -23,6 +23,6 @@ describe('Integration | Scripts | Certification | generate-flash-algorithm-confi
       variationPercentUntil: null,
     };
     const flashAlgorithmConfiguration = await knex(TABLE_NAME).first();
-    expect(_.omit(flashAlgorithmConfiguration, 'id')).to.deep.equal(expectedFlashAlgorithmConfiguration);
+    expect(_.omit(flashAlgorithmConfiguration, ['id', 'createdAt'])).to.deep.equal(expectedFlashAlgorithmConfiguration);
   });
 });
