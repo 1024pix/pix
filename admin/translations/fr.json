@@ -116,6 +116,9 @@
           "name": "Nom"
         },
         "table-name": "Liste des organisations enfants"
+      },
+      "information-section-view": {
+        "parent-organization": "Organisation parente"
       }
     },
     "users": {
