@@ -125,7 +125,7 @@ module('Acceptance | Autonomous courses', function (hooks) {
         // when
         const screen = await visit('/autonomous-courses/1');
 
-        const button = screen.getByText('Éditer');
+        const button = screen.getByText('Modifier');
         await click(button);
 
         // then
@@ -139,7 +139,7 @@ module('Acceptance | Autonomous courses', function (hooks) {
         // when
         const screen = await visit('/autonomous-courses/1');
 
-        const editButton = screen.getByText('Éditer');
+        const editButton = screen.getByText('Modifier');
         await click(editButton);
 
         await fillByLabel(/Nom interne/, 'Une erreur de frappe');
@@ -154,7 +154,7 @@ module('Acceptance | Autonomous courses', function (hooks) {
         // when
         const screen = await visit('/autonomous-courses/1');
 
-        const button = screen.getByText('Éditer');
+        const button = screen.getByText('Modifier');
         await click(button);
 
         await fillByLabel(/Nom interne/, 'Parcours professionnalisant de Guillaume');

@@ -116,7 +116,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
 
       // when
       const screen = await visit('/target-profiles/1');
-      await clickByName('Éditer');
+      await clickByName('Modifier');
       assert
         .dom(screen.getByRole('checkbox', { name: this.intl.t('pages.target-profiles.resettable-checkbox.label') }))
         .isChecked();
@@ -138,7 +138,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
       assert
         .dom(_findByNestedText(screen, `${this.intl.t('pages.target-profiles.resettable-checkbox.label')} : Non`))
         .exists();
-      await clickByName('Éditer');
+      await clickByName('Modifier');
       assert.dom(screen.getByDisplayValue('description modifiée')).exists();
       assert.dom(screen.getByDisplayValue('commentaire modifié')).exists();
       assert.dom(screen.getByRole('button', { name: 'Catégorie :' })).containsText('Thématiques');
@@ -154,7 +154,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
 
       // when
       const screen = await visit('/target-profiles/1');
-      await clickByName('Éditer');
+      await clickByName('Modifier');
       await fillByLabel('* Nom', 'nom modifié');
       await clickByName('Annuler');
 
