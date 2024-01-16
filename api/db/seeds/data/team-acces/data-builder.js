@@ -7,11 +7,13 @@ import { buildOrganizationUsers } from './build-organization-users.js';
 import { buildArchivedOrganizations } from './build-archived-organizations.js';
 import { buildScoOrganizationLearners } from './build-sco-organization-learners.js';
 import { buildCertificationCenters } from './build-certification-centers.js';
+import { buildResetPasswordUsers } from './build-reset-password-users.js';
 
 async function teamAccesDataBuilder(databaseBuilder) {
   buildPixAdminRoles(databaseBuilder);
   buildUsers(databaseBuilder);
   buildBlockedUsers(databaseBuilder);
+  buildResetPasswordUsers(databaseBuilder);
   buildTemporaryBlockedUsers(databaseBuilder);
   buildOrganizationUsers(databaseBuilder);
   buildScoOrganizations(databaseBuilder);
