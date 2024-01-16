@@ -29,39 +29,37 @@
 }
 
 .login-form {
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pix-spacing-8x);
   padding: 48px;
   background: var(--pix-neutral-0);
-  border-radius: 3px;
+  border-radius: 10px;
   box-shadow: 0 10px 10px rgb(0 0 0 / 10%);
+
+  &__information {
+    color: var(--pix-color-neutral-0);
+    font-size: 0.875rem;
+  }
 }
 
 .login-form__error {
-  padding: 8px;
-  color: var(--pix-neutral-0);
-  background-color: var(--pix-error-500);
-  border-radius: 3px;
+  font-size: 0.875rem;
+  color: var(--pix-error-500);
 }
 
-.login-form__control {
-  box-sizing: border-box;
-  width: 100%;
-  margin-top: 24px;
-  cursor: pointer;
-}
-
-.login-form__control:first-child {
+.login-form__email-field {
   margin-top: 0;
 }
 
-.login-form__field {
-  box-sizing: border-box;
-  width: 100%;
+.login-form__fields {
   padding: 8px;
   font-size: 14px;
   line-height: 22px;
   border: 1px solid var(--pix-neutral-100);
   border-radius: 3px;
+  width: 100%;
 }
 
 .login-form__button {
