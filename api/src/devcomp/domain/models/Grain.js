@@ -1,4 +1,5 @@
 import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
 
 class Grain {
   constructor({ id, title, type, elements }) {
@@ -11,6 +12,16 @@ class Grain {
     this.title = title;
     this.type = type;
     this.elements = elements;
+  }
+
+  getElementById(elementId) {
+    const foundElement = this.elements.find(({ id }) => id === elementId);
+
+    if (foundElement === undefined) {
+      throw new NotFoundError();
+    }
+
+    return foundElement;
   }
 
   #assertElementsIsAnArray(elements) {

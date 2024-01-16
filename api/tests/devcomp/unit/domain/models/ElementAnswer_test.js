@@ -5,14 +5,16 @@ describe('Unit | Devcomp | Domain | Models | ElementAnswer', function () {
   describe('#constructor', function () {
     it('should create an element answer and keep attributes', function () {
       // given
+      const id = 12;
       const elementId = 1;
       const userResponseValue = 'foo';
       const correction = Symbol('correction');
 
       // when
-      const answer = new ElementAnswer({ elementId, userResponseValue: 'foo', correction });
+      const answer = new ElementAnswer({ id, elementId, userResponseValue: 'foo', correction });
 
       // then
+      expect(answer.id).to.equal(id);
       expect(answer.elementId).to.equal(elementId);
       expect(answer.userResponseValue).to.equal(userResponseValue);
       expect(answer.correction).to.equal(correction);
@@ -23,6 +25,7 @@ describe('Unit | Devcomp | Domain | Models | ElementAnswer', function () {
         expect(() => new ElementAnswer({})).to.throw("L'id de l'élément est obligatoire pour une réponse d'élément");
       });
     });
+
     describe('An element answer without user response value', function () {
       it('should throw an error', function () {
         expect(() => new ElementAnswer({ elementId: 'elementId' })).to.throw(
@@ -30,6 +33,7 @@ describe('Unit | Devcomp | Domain | Models | ElementAnswer', function () {
         );
       });
     });
+
     describe('An element answer without correction', function () {
       it('should throw an error', function () {
         expect(() => new ElementAnswer({ elementId: 'elementId', userResponseValue: 'userResponseValue' })).to.throw(

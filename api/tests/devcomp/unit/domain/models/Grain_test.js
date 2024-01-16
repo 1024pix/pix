@@ -1,5 +1,6 @@
 import { Grain } from '../../../../../src/devcomp/domain/models/Grain.js';
-import { expect } from '../../../../test-helper.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Devcomp | Domain | Models | Grain', function () {
   describe('#constructor', function () {
@@ -51,6 +52,34 @@ describe('Unit | Devcomp | Domain | Models | Grain', function () {
           ).to.throw(`Un Grain doit forcément posséder une liste d'éléments`);
         });
       });
+    });
+  });
+
+  describe('#getElementById', function () {
+    it('should return the element by Id if it exists', function () {
+      // given
+      const elementId = 'elementId';
+      const expectedElement = { id: elementId };
+
+      // when
+      const grain = new Grain({ id: 1, title: '', elements: [expectedElement] });
+
+      // then
+      expect(grain.getElementById(elementId)).to.deep.equal(expectedElement);
+    });
+
+    it('should throw an error if element does not exist', function () {
+      // given
+      const elementId = 'elementId';
+      const expectedElement = { id: elementId };
+
+      const grain = new Grain({ id: 1, title: '', elements: [expectedElement] });
+
+      // when
+      const error = catchErrSync(grain.getElementById, grain)('another-element-id');
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 });

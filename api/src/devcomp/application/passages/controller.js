@@ -6,6 +6,14 @@ const create = async function (request, h, { usecases, passageSerializer }) {
   return h.response(serializedPassage).created();
 };
 
-const passageController = { create };
+const verifyAndSaveAnswer = async function (request, h, { usecases, elementAnswerSerializer }) {
+  const { passageId } = request.params;
+  const { 'element-id': elementId, 'user-response': userResponse } = request.payload.data.attributes;
+  const elementAnswer = await usecases.verifyAndSaveAnswer({ passageId, elementId, userResponse });
+  const serializedElementAnswer = elementAnswerSerializer.serialize(elementAnswer);
+  return h.response(serializedElementAnswer).created();
+};
+
+const passageController = { create, verifyAndSaveAnswer };
 
 export { passageController };

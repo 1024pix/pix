@@ -3,6 +3,7 @@ import { QCUForAnswerVerification } from '../../../../../../src/devcomp/domain/m
 import { ElementAnswer } from '../../../../../../src/devcomp/domain/models/ElementAnswer.js';
 import { QcuCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcuCorrectionResponse.js';
 import { Feedbacks } from '../../../../../../src/devcomp/domain/models/Feedbacks.js';
+import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification', function () {
   describe('#constructor', function () {
@@ -87,8 +88,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
       const result = qcu.assess(userResponse);
 
       // then
-      expect(result).to.deep.equal(expectedResult);
-      expect(result).to.be.instanceOf(ElementAnswer);
+      expect(result).to.deepEqualInstanceOmitting(new ElementAnswer(expectedResult), ['id']);
       expect(result.correction).to.be.instanceOf(QcuCorrectionResponse);
     });
 
@@ -132,9 +132,79 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
       const result = qcu.assess(userResponse);
 
       // then
-      expect(result).to.deep.equal(expectedResult);
-      expect(result).to.be.instanceOf(ElementAnswer);
+      expect(result).to.deepEqualInstanceOmitting(new ElementAnswer(expectedResult), ['id']);
       expect(result.correction).to.be.instanceOf(QcuCorrectionResponse);
+    });
+  });
+
+  describe('#validateUserResponseFormat', function () {
+    describe('if userResponse is valid', function () {
+      it('should not throw error', function () {
+        // given
+        const qcuSolution = '12';
+        const userResponse = [qcuSolution];
+
+        const qcu = new QCUForAnswerVerification({
+          id: 'qcu-id',
+          instruction: '',
+          proposals: [{}],
+          feedbacks: { valid: 'OK', invalid: 'KO' },
+          solution: qcuSolution,
+        });
+
+        // when/then
+        expect(() => qcu.validateUserResponseFormat(userResponse)).not.to.throw();
+      });
+    });
+
+    describe('if userResponse is not valid', function () {
+      const cases = [
+        {
+          case: 'When the response number is not a string',
+          userResponse: [1],
+        },
+        {
+          case: 'When the response is not a stringified number',
+          userResponse: ['not a number'],
+        },
+        {
+          case: 'When there are more than one response',
+          userResponse: ['1', '2'],
+        },
+        {
+          case: 'When list of responses is empty',
+          userResponse: [],
+        },
+        {
+          case: 'When response is not an array',
+          userResponse: {},
+        },
+        {
+          case: 'When the list of responses is undefined',
+          userResponse: undefined,
+        },
+      ];
+
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      cases.forEach((testCase) => {
+        it(`${testCase.case}, should throw error`, function () {
+          // given
+          const userResponse = testCase.userResponse;
+          const qcuSolution = '1';
+
+          const qcu = new QCUForAnswerVerification({
+            id: 'qcu-id',
+            instruction: '',
+            proposals: [{}],
+            feedbacks: { valid: 'OK', invalid: 'KO' },
+            solution: qcuSolution,
+          });
+
+          // when/then
+          expect(() => qcu.validateUserResponseFormat(userResponse)).to.throw(EntityValidationError);
+        });
+      });
     });
   });
 });
