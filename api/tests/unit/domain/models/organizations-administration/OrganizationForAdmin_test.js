@@ -579,6 +579,20 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
     });
   });
 
+  context('#updateParentOrganizationId', function () {
+    it('updates parentOrganizationId attribute', function () {
+      // given
+      const newParentOrganizationId = 1234;
+      const givenOrganization = new OrganizationForAdmin();
+
+      // when
+      givenOrganization.updateParentOrganizationId(newParentOrganizationId);
+
+      // then
+      expect(givenOrganization.parentOrganizationId).to.equal(newParentOrganizationId);
+    });
+  });
+
   context('#updateProvinceCode', function () {
     it('should update ProvinceCode', function () {
       // given

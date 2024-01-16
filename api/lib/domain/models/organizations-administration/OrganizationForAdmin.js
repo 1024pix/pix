@@ -88,6 +88,10 @@ class OrganizationForAdmin {
     return this.creatorFirstName && this.creatorLastName ? `${this.creatorFirstName} ${this.creatorLastName}` : null;
   }
 
+  updateParentOrganizationId(parentOrganizationId) {
+    this.parentOrganizationId = parentOrganizationId;
+  }
+
   updateProvinceCode(provinceCode) {
     this.provinceCode = provinceCode;
   }
