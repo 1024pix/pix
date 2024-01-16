@@ -1,7 +1,9 @@
+import _ from 'lodash';
+
 import { catchErr, expect, domainBuilder, databaseBuilder, sinon, knex } from '../../../test-helper.js';
 import { NotFoundError, MissingAttributesError } from '../../../../lib/domain/errors.js';
 import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/index.js';
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
@@ -166,6 +168,80 @@ describe('Integration | Repository | Organization-for-admin', function () {
 
         // then
         expect(error).to.be.instanceOf(MissingAttributesError);
+      });
+    });
+  });
+
+  describe('#exist', function () {
+    context('when organization exists', function () {
+      it('returns true', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await organizationForAdminRepository.exist(organizationId);
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    context('when organization does not exist', function () {
+      it('returns false', async function () {
+        // given
+        const organizationId = 1234;
+
+        // when
+        const result = await organizationForAdminRepository.exist(organizationId);
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
+
+  describe('#findChildrenByParentOrganizationId', function () {
+    let parentOrganizationId;
+
+    beforeEach(function () {
+      parentOrganizationId = databaseBuilder.factory.buildOrganization({
+        name: 'name_ok_1',
+        type: 'SCO',
+        externalId: '1234567A',
+      }).id;
+    });
+
+    context('when there is no child organization', function () {
+      it('returns an empty array', async function () {
+        //given
+        //when
+        const children = await organizationForAdminRepository.findChildrenByParentOrganizationId(parentOrganizationId);
+
+        //then
+        expect(children).to.have.lengthOf(0);
+      });
+    });
+
+    context('when there is at least one child organization', function () {
+      it('returns an array of organizations', async function () {
+        // given
+        databaseBuilder.factory.buildOrganization({
+          name: 'First Child',
+          type: 'SCO',
+          parentOrganizationId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const children = await organizationForAdminRepository.findChildrenByParentOrganizationId(parentOrganizationId);
+
+        // then
+        expect(children.length).to.be.greaterThanOrEqual(1);
+        expect(children[0]).to.be.instanceOf(OrganizationForAdmin);
+        expect(_.map(children, 'name')).to.have.members(['First Child']);
       });
     });
   });

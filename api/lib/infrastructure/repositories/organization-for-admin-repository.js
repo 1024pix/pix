@@ -29,6 +29,16 @@ const archive = async function ({ id, archivedBy }) {
     .update({ archivedBy: archivedBy, archivedAt: archiveDate });
 };
 
+const exist = async function (organizationId) {
+  const organization = await knex(ORGANIZATIONS_TABLE_NAME).where({ id: organizationId }).first();
+  return Boolean(organization);
+};
+
+const findChildrenByParentOrganizationId = async function (parentOrganizationId) {
+  const children = await knex(ORGANIZATIONS_TABLE_NAME).where({ parentOrganizationId }).orderBy('name', 'ASC');
+  return children.map(_toDomain);
+};
+
 const get = async function (id, domainTransaction = DomainTransaction.emptyTransaction()) {
   const knexConn = domainTransaction.transaction ?? knex;
   const organization = await knexConn(ORGANIZATIONS_TABLE_NAME)
@@ -135,7 +145,7 @@ const update = async function (organization, domainTransaction = DomainTransacti
   await knexConn(ORGANIZATIONS_TABLE_NAME).update(organizationRawData).where({ id: organization.id }).returning('*');
 };
 
-export { archive, get, save, update };
+export { archive, exist, findChildrenByParentOrganizationId, get, save, update };
 
 async function _addOrUpdateDataProtectionOfficer(knexConn, dataProtectionOfficer) {
   await knexConn('data-protection-officers').insert(dataProtectionOfficer).onConflict('organizationId').merge();
