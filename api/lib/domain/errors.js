@@ -929,6 +929,18 @@ class TooManyRows extends DomainError {
   }
 }
 
+class UnableToAttachChildOrganizationToParentOrganizationError extends DomainError {
+  constructor({
+    code = 'UNABLE_TO_ATTACH_CHILD_ORGANIZATION_TO_PARENT_ORGANIZATION',
+    message = 'Unable to attach child organization to parent organization',
+    meta,
+  } = {}) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
 class UnexpectedOidcStateError extends DomainError {
   constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
     super(message);
@@ -1233,6 +1245,7 @@ export {
   TargetProfileCannotBeCreated,
   TargetProfileInvalidError,
   TooManyRows,
+  UnableToAttachChildOrganizationToParentOrganizationError,
   UncancellableCertificationCenterInvitationError,
   UncancellableOrganizationInvitationError,
   UnexpectedOidcStateError,

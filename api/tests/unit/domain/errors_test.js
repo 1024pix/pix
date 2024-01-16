@@ -420,4 +420,11 @@ describe('Unit | Domain | Errors', function () {
   it('should export a ForbiddenAccess', function () {
     expect(ForbiddenAccess).to.exist;
   });
+
+  describe('#UnableToAttachChildOrganizationToParentOrganizationError', function () {
+    it('exports UnableToAttachChildOrganizationToParentOrganizationError', function () {
+      // then
+      expect(errors.UnableToAttachChildOrganizationToParentOrganizationError).to.exist;
+    });
+  });
 });
