@@ -10,6 +10,11 @@
   background-color: #C3D0FF;
   border-radius: 16px 16px 16px 0;
 
+  ul, ol {
+    padding: revert;
+    list-style: auto;
+  }
+
   a {
     color: #3d68ff;
     text-decoration: underline;
