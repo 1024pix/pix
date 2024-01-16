@@ -107,7 +107,7 @@ export default class DetailsV3 extends Component {
   }
 
   get shouldDisplayEndedByBlock() {
-    return this.hasNotBeenCompletedByCandidate;
+    return this.args.details.hasNotBeenCompletedByCandidate;
   }
 
   get endedByLabel() {
