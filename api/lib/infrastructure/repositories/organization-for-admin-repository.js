@@ -67,6 +67,7 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
       creatorFirstName: 'creators.firstName',
       creatorLastName: 'creators.lastName',
       identityProviderForCampaigns: 'organizations.identityProviderForCampaigns',
+      parentOrganizationId: 'organizations.parentOrganizationId',
     })
     .leftJoin('users AS archivists', 'archivists.id', 'organizations.archivedBy')
     .leftJoin('users AS creators', 'creators.id', 'organizations.createdBy')
@@ -220,6 +221,7 @@ function _toDomain(rawOrganization) {
     identityProviderForCampaigns: rawOrganization.identityProviderForCampaigns,
     features: rawOrganization.features,
     tags: rawOrganization.tags || [],
+    parentOrganizationId: rawOrganization.parentOrganizationId,
   });
 
   return organization;
