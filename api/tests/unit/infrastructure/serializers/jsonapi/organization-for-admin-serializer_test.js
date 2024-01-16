@@ -6,7 +6,7 @@ import * as apps from '../../../../../lib/domain/constants.js';
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {
   describe('#serialize', function () {
-    it('should return a JSON API serialized organization', function () {
+    it('returns a JSON API serialized organization', function () {
       // given
       const tags = [
         domainBuilder.buildTag({ id: 7, name: 'AEFE' }),
@@ -72,6 +72,11 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'target-profile-summaries': {
               links: {
                 related: `/api/admin/organizations/${organization.id}/target-profile-summaries`,
+              },
+            },
+            children: {
+              links: {
+                related: `/api/admin/organizations/${organization.id}/children`,
               },
             },
             tags: {

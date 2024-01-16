@@ -1,0 +1,16 @@
+{{page-title "Children"}}
+<section class="page-section">
+  <header class="page-section__header">
+    <h2 class="page-section__title">{{t "pages.organization-children.title"}}</h2>
+  </header>
+  <div class="content-text content-text--small">
+    <div class="table-admin">
+      <Organizations::Children::List @organizations={{@model.organizations}} />
+
+      {{#unless @model.organizations}}
+        <p class="table__empty">{{t "pages.organization-children.empty-table"}}</p>
+      {{/unless}}
+    </div>
+  </div>
+
+</section>

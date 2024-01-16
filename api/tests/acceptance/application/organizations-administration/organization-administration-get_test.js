@@ -100,6 +100,11 @@ describe('Acceptance | Routes | organization-administration-controller', functio
             },
             id: organization.id.toString(),
             relationships: {
+              children: {
+                links: {
+                  related: `/api/admin/organizations/${organization.id}/children`,
+                },
+              },
               'organization-memberships': {
                 links: {
                   related: `/api/organizations/${organization.id}/memberships`,

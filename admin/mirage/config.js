@@ -591,4 +591,23 @@ function routes() {
       ],
     };
   });
+
+  _configureOrganizationsRoutes(this);
+}
+
+function _configureOrganizationsRoutes(context) {
+  context.get('/admin/organizations/:organizationId/children', () => {
+    return {
+      data: [
+        {
+          type: 'organization',
+          id: '1234',
+          attributes: {
+            name: 'UA',
+            'external-id': 'UA123456',
+          },
+        },
+      ],
+    };
+  });
 }
