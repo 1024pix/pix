@@ -7,7 +7,9 @@
           certificationCourseId=@details.certificationCourseId
         }}
       </h2>
-      <PixTag @color={{this.detailStatusColor}}>{{t this.detailStatusLabel}}</PixTag>
+      {{#if @details.assessmentResultStatus}}
+        <PixTag @color={{this.detailStatusColor}}>{{t this.detailStatusLabel}}</PixTag>
+      {{/if}}
     </div>
     <dl class="certification-details-v3__list" aria-labelledby="general-informations">
       <dt id="creation-date">
@@ -33,7 +35,7 @@
         </dd>
       {{/if}}
 
-      {{#if @details.shouldDisplayEndedByBlock}}
+      {{#if this.shouldDisplayEndedByBlock}}
         <dt id="ended-by">
           {{t "pages.certifications.certification.details.v3.general-informations.labels.ended-by"}}
           :

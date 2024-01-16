@@ -160,6 +160,35 @@ module('Unit | Component | certifications/certification/details-v3', function (h
     });
   });
 
+  module('durationTagColor', function () {
+    const durationTagColorOptions = [
+      {
+        details: {
+          hasExceededTimeLimit: false,
+        },
+        expectedValue: 'success',
+      },
+      {
+        details: {
+          hasExceededTimeLimit: true,
+        },
+        expectedValue: 'error',
+      },
+    ];
+    durationTagColorOptions.forEach(({ expectedValue, details }) => {
+      test(`should return the detail status ${expectedValue} when the assessmentResult is validated`, function (assert) {
+        //given
+        component.args.details = details;
+
+        // when
+        const label = component.durationTagColor;
+
+        // then
+        assert.strictEqual(label, expectedValue);
+      });
+    });
+  });
+
   module('shouldDisplayAnswerStatus', function () {
     const certificationChallengeOptions = [
       {
@@ -203,32 +232,79 @@ module('Unit | Component | certifications/certification/details-v3', function (h
     });
   });
 
-  module('durationTagColor', function () {
-    const durationTagColorOptions = [
-      {
-        details: {
-          hasExceededTimeLimit: false,
-        },
-        expectedValue: 'success',
-      },
-      {
-        details: {
-          hasExceededTimeLimit: true,
-        },
-        expectedValue: 'error',
-      },
-    ];
-    durationTagColorOptions.forEach(({ expectedValue, details }) => {
-      test(`should return the detail status ${expectedValue} when the assessmentResult is validated`, function (assert) {
-        //given
-        component.args.details = details;
+  module('shouldDisplayAnswerValueIcon', function () {
+    let certificationChallenge;
 
-        // when
-        const label = component.durationTagColor;
+    test('should display the answer icon when there is an answer status AND no live alert', function (assert) {
+      certificationChallenge = {
+        answerStatus: 'ok',
+        validatedLiveAlert: null,
+      };
+      // when
+      const displayAnswerIcon = component.shouldDisplayAnswerValueIcon(certificationChallenge);
 
-        // then
-        assert.strictEqual(label, expectedValue);
-      });
+      //then
+      assert.true(displayAnswerIcon);
+    });
+
+    test('should NOT display the answer icon when there is NO answer status', function (assert) {
+      certificationChallenge = {
+        answerStatus: null,
+        validatedLiveAlert: null,
+      };
+      // when
+      const displayAnswerIcon = component.shouldDisplayAnswerValueIcon(certificationChallenge);
+
+      //then
+      assert.false(displayAnswerIcon);
+    });
+
+    test('should NOT display the answer icon when there answer status is aband', function (assert) {
+      certificationChallenge = {
+        answerStatus: 'aband',
+        validatedLiveAlert: null,
+      };
+      // when
+      const displayAnswerIcon = component.shouldDisplayAnswerValueIcon(certificationChallenge);
+
+      //then
+      assert.false(displayAnswerIcon);
+    });
+
+    test('should NOT display the answer icon when there is a live alert', function (assert) {
+      certificationChallenge = {
+        answerStatus: null,
+        validatedLiveAlert: { id: 123 },
+      };
+      // when
+      const displayAnswerIcon = component.shouldDisplayAnswerValueIcon(certificationChallenge);
+
+      //then
+      assert.false(displayAnswerIcon);
+    });
+  });
+
+  module('shouldDisplayEndedByBlock', function () {
+    test('should display the endedBy block when the certification has NOT been ended by the candidate', function (assert) {
+      component.args.details = {
+        hasNotBeenCompletedByCandidate: true,
+      };
+      // when
+      const displayEndedByBlock = component.shouldDisplayEndedByBlock;
+
+      //then
+      assert.true(displayEndedByBlock);
+    });
+
+    test('should NOT display the endedBy block when the certification has been ended by the candidate', function (assert) {
+      component.args.details = {
+        hasNotBeenCompletedByCandidate: false,
+      };
+      // when
+      const displayEndedByBlock = component.shouldDisplayEndedByBlock;
+
+      //then
+      assert.false(displayEndedByBlock);
     });
   });
 });
