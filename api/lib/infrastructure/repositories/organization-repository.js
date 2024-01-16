@@ -227,22 +227,10 @@ const findPaginatedFilteredByTargetProfile = async function ({ targetProfileId, 
   return { models: organizations, pagination };
 };
 
-const findChildrenByParentOrganizationId = async function (parentOrganizationId) {
-  const children = await knex(ORGANIZATION_TABLE_NAME).where({ parentOrganizationId }).orderBy('name', 'ASC');
-  return children.map(_toDomain);
-};
-
-const exist = async function (organizationId) {
-  const organization = await knex(ORGANIZATION_TABLE_NAME).where({ id: organizationId }).first();
-  return Boolean(organization);
-};
-
 export {
   batchCreateOrganizations,
   create,
-  exist,
   findByExternalIdsFetchingIdsOnly,
-  findChildrenByParentOrganizationId,
   findPaginatedFiltered,
   findPaginatedFilteredByTargetProfile,
   findScoOrganizationsByUai,
