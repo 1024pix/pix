@@ -99,6 +99,14 @@
     "organizations": {
       "all-tags": {
         "recently-used-tags": "List of tags recently used with {tagName}"
+      },
+      "children-list": {
+        "table-headers": {
+          "external-id": "External Identifier",
+          "id": "ID",
+          "name": "Name"
+        },
+        "table-name": "List of children organisations"
       }
     },
     "users": {
@@ -149,6 +157,15 @@
       "api-error-messages": {
         "login-no-permission": "You don't have the permission to connect."
       }
+    },
+    "organization": {
+      "navbar": {
+        "children": "Children organisations"
+      }
+    },
+    "organization-children": {
+      "title": "Children organisations",
+      "empty-table": "No child organisation"
     },
     "target-profiles": {
       "resettable-checkbox": {

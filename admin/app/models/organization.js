@@ -35,6 +35,7 @@ export default class Organization extends Model {
   @hasMany('organizationMembership') organizationMemberships;
   @hasMany('targetProfileSummary') targetProfileSummaries;
   @hasMany('tag') tags;
+  @hasMany('organization', { inverse: null }) children;
 
   static get featureList() {
     return {

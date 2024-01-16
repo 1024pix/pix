@@ -39,6 +39,7 @@ const serialize = function (organizations, meta) {
       'tags',
       'organizationMemberships',
       'targetProfileSummaries',
+      'children',
       'identityProviderForCampaigns',
       'features',
     ],
@@ -59,6 +60,16 @@ const serialize = function (organizations, meta) {
       relationshipLinks: {
         related(record, current, parent) {
           return `/api/admin/organizations/${parent.id}/target-profile-summaries`;
+        },
+      },
+    },
+    children: {
+      ref: 'id',
+      ignoreRelationshipData: true,
+      nullIfMissing: true,
+      relationshipLinks: {
+        related: function (record, current, parent) {
+          return `/api/admin/organizations/${parent.id}/children`;
         },
       },
     },
