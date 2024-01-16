@@ -472,60 +472,39 @@ describe('Integration | Service | Placement Profile Service', function () {
       },
     ];
 
-    it('should assign 0 pixScore and level of 0 to user competence when not assessed', async function () {
+    it('should return empty to user competence when not assessed', async function () {
       // when
       const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
-        userIdsAndDates: { [userId]: new Date() },
+        userIdsAndDates: [[userId, new Date()]],
         competences,
       });
 
       // then
-      expect(actualPlacementProfiles[0].userCompetences).to.deep.equal([
-        {
-          id: 'competenceRecordIdOne',
-          index: '1.1',
-          areaId: 'areaOne',
-          name: 'Construire un flipper',
-          skills: [],
-          pixScore: 0,
-          estimatedLevel: 0,
-        },
-        {
-          id: 'competenceRecordIdTwo',
-          index: '1.2',
-          areaId: 'areaOne',
-          name: 'Adopter un dauphin',
-          skills: [],
-          pixScore: 0,
-          estimatedLevel: 0,
-        },
-        {
-          id: 'competenceRecordIdThree',
-          index: '1.3',
-          areaId: 'areaOne',
-          name: 'Se faire manger par un requin',
-          skills: [],
-          pixScore: 0,
-          estimatedLevel: 0,
-        },
-      ]);
+      expect(actualPlacementProfiles).to.deep.equal([]);
     });
 
     describe('PixScore by competences', function () {
       it('should assign pixScore and level to user competence based on knowledge elements', async function () {
         // given
-        databaseBuilder.factory.buildKnowledgeElement({
+        const sharedAt = new Date('2020-01-02');
+        const keDataForSnapshot = databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
           skillId: 'recRemplir2',
           earnedPix: 23,
           userId,
           assessmentId,
         });
+        databaseBuilder.factory.buildCampaignParticipation({ sharedAt, userId });
+        databaseBuilder.factory.buildKnowledgeElementSnapshot({
+          userId,
+          snappedAt: sharedAt,
+          snapshot: JSON.stringify([keDataForSnapshot]),
+        });
         await databaseBuilder.commit();
 
         // when
         const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
-          userIdsAndDates: { [userId]: new Date() },
+          userIdsAndDates: [[userId]],
           competences,
         });
 
@@ -544,7 +523,9 @@ describe('Integration | Service | Placement Profile Service', function () {
 
       it('should include both inferred and direct KnowlegdeElements to compute PixScore', async function () {
         // given
-        databaseBuilder.factory.buildKnowledgeElement({
+        const sharedAt = new Date('2020-01-02');
+
+        const keDataForSnapshot1 = databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
           skillId: 'recRemplir2',
           earnedPix: 8,
@@ -552,8 +533,14 @@ describe('Integration | Service | Placement Profile Service', function () {
           userId,
           assessmentId,
         });
+        databaseBuilder.factory.buildCampaignParticipation({ sharedAt, userId });
+        databaseBuilder.factory.buildKnowledgeElementSnapshot({
+          userId,
+          snappedAt: sharedAt,
+          snapshot: JSON.stringify([keDataForSnapshot1]),
+        });
 
-        databaseBuilder.factory.buildKnowledgeElement({
+        const keDataForSnapshot2 = databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
           skillId: 'recRemplir4',
           earnedPix: 9,
@@ -561,11 +548,18 @@ describe('Integration | Service | Placement Profile Service', function () {
           userId,
           assessmentId,
         });
+        databaseBuilder.factory.buildCampaignParticipation({ sharedAt, userId });
+        databaseBuilder.factory.buildKnowledgeElementSnapshot({
+          userId,
+          snappedAt: sharedAt,
+          snapshot: JSON.stringify([keDataForSnapshot2]),
+        });
+
         await databaseBuilder.commit();
 
         // when
         const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
-          userIdsAndDates: { [userId]: new Date() },
+          userIdsAndDates: [[userId, sharedAt]],
           competences,
         });
 
@@ -575,17 +569,25 @@ describe('Integration | Service | Placement Profile Service', function () {
 
       context('when we dont want to limit pix score', function () {
         it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async function () {
-          databaseBuilder.factory.buildKnowledgeElement({
+          const sharedAt = new Date('2020-01-02');
+
+          const keDataForSnapshot1 = databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
             earnedPix: 64,
             userId,
             assessmentId,
           });
+          databaseBuilder.factory.buildCampaignParticipation({ sharedAt, userId });
+          databaseBuilder.factory.buildKnowledgeElementSnapshot({
+            userId,
+            snappedAt: sharedAt,
+            snapshot: JSON.stringify([keDataForSnapshot1]),
+          });
           await databaseBuilder.commit();
 
           // when
           const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
-            userIdsAndDates: { [userId]: new Date() },
+            userIdsAndDates: [[userId, sharedAt]],
             competences,
             allowExcessPixAndLevels: true,
           });
@@ -601,17 +603,25 @@ describe('Integration | Service | Placement Profile Service', function () {
 
       context('when we want to limit pix score', function () {
         it('should limit pixScore to 40 and level to 5', async function () {
-          databaseBuilder.factory.buildKnowledgeElement({
+          const sharedAt = new Date('2020-01-02');
+
+          const keDataForSnapshot1 = databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
             earnedPix: 64,
             userId,
             assessmentId,
           });
+          databaseBuilder.factory.buildCampaignParticipation({ sharedAt, userId });
+          databaseBuilder.factory.buildKnowledgeElementSnapshot({
+            userId,
+            snappedAt: sharedAt,
+            snapshot: JSON.stringify([keDataForSnapshot1]),
+          });
           await databaseBuilder.commit();
 
           // when
           const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
-            userIdsAndDates: { [userId]: new Date() },
+            userIdsAndDates: [[userId, sharedAt]],
             competences,
             allowExcessPixAndLevels: false,
           });

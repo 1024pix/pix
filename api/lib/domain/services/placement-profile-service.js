@@ -7,6 +7,7 @@ import * as assessmentRepository from '../../../src/shared/infrastructure/reposi
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as scoringService from './scoring/scoring-service.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
@@ -130,14 +131,15 @@ async function _generatePlacementProfile({ userId, profileDate, competences, all
 
 async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competences, allowExcessPixAndLevels = true }) {
   const knowledgeElementsByUserIdAndCompetenceId =
-    await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers(userIdsAndDates);
+    await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForProfileCollection(
+      userIdsAndDates,
+    );
 
   const placementProfilesList = [];
-  for (const [strUserId, knowledgeElementsByCompetence] of Object.entries(knowledgeElementsByUserIdAndCompetenceId)) {
-    const userId = parseInt(strUserId);
 
+  knowledgeElementsByUserIdAndCompetenceId.forEach(({ userId, knowledgeElements }) => {
     const userCompetences = _createUserCompetencesV2({
-      knowledgeElementsByCompetence,
+      knowledgeElementsByCompetence: knowledgeElements,
       competences,
       allowExcessPixAndLevels,
     });
@@ -148,7 +150,7 @@ async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competenc
     });
 
     placementProfilesList.push(placementProfile);
-  }
+  });
 
   return placementProfilesList;
 }
