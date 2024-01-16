@@ -1,45 +1,33 @@
+import _ from 'lodash';
+
 import { NotFoundError, MissingAttributesError } from '../../domain/errors.js';
 import { OrganizationForAdmin } from '../../domain/models/organizations-administration/OrganizationForAdmin.js';
+import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
 import { Tag } from '../../domain/models/Tag.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
-import _ from 'lodash';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
 
-function _toDomain(rawOrganization) {
-  const organization = new OrganizationForAdmin({
-    id: rawOrganization.id,
-    name: rawOrganization.name,
-    type: rawOrganization.type,
-    logoUrl: rawOrganization.logoUrl,
-    externalId: rawOrganization.externalId,
-    provinceCode: rawOrganization.provinceCode,
-    isManagingStudents: Boolean(rawOrganization.isManagingStudents),
-    credit: rawOrganization.credit,
-    email: rawOrganization.email,
-    documentationUrl: rawOrganization.documentationUrl,
-    createdBy: rawOrganization.createdBy,
-    createdAt: rawOrganization.createdAt,
-    showNPS: rawOrganization.showNPS,
-    formNPSUrl: rawOrganization.formNPSUrl,
-    showSkills: rawOrganization.showSkills,
-    archivedAt: rawOrganization.archivedAt,
-    archivistFirstName: rawOrganization.archivistFirstName,
-    archivistLastName: rawOrganization.archivistLastName,
-    dataProtectionOfficerFirstName: rawOrganization.dataProtectionOfficerFirstName,
-    dataProtectionOfficerLastName: rawOrganization.dataProtectionOfficerLastName,
-    dataProtectionOfficerEmail: rawOrganization.dataProtectionOfficerEmail,
-    creatorFirstName: rawOrganization.creatorFirstName,
-    creatorLastName: rawOrganization.creatorLastName,
-    identityProviderForCampaigns: rawOrganization.identityProviderForCampaigns,
-    features: rawOrganization.features,
-    tags: rawOrganization.tags || [],
-  });
+const archive = async function ({ id, archivedBy }) {
+  if (!archivedBy) {
+    throw new MissingAttributesError();
+  }
 
-  return organization;
-}
+  const archiveDate = new Date();
+
+  await knex('organization-invitations')
+    .where({ organizationId: id, status: OrganizationInvitation.StatusType.PENDING })
+    .update({ status: OrganizationInvitation.StatusType.CANCELLED, updatedAt: archiveDate });
+
+  await knex('campaigns').where({ organizationId: id, archivedAt: null }).update({ archivedAt: archiveDate });
+
+  await knex('memberships').where({ organizationId: id, disabledAt: null }).update({ disabledAt: archiveDate });
+
+  await knex(ORGANIZATIONS_TABLE_NAME)
+    .where({ id: id, archivedBy: null })
+    .update({ archivedBy: archivedBy, archivedAt: archiveDate });
+};
 
 const get = async function (id, domainTransaction = DomainTransaction.emptyTransaction()) {
   const knexConn = domainTransaction.transaction ?? knex;
@@ -110,49 +98,15 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
   return _toDomain(organization);
 };
 
-async function _enableFeatures(knexConn, featuresToEnable, organizationId) {
-  const features = await knexConn('features');
-
-  await knexConn('organization-features')
-    .insert(
-      _.keys(featuresToEnable)
-        .filter((key) => featuresToEnable[key])
-        .map((key) => ({
-          organizationId,
-          featureId: features.find((feature) => feature.key === key).id,
-        })),
-    )
-    .onConflict()
-    .ignore();
-}
-
-async function _disableFeatures(knexConn, features, organizationId) {
-  await knexConn('organization-features')
-    .join('features', 'organization-features.featureId', 'features.id')
-    .where('organization-features.organizationId', organizationId)
-    .whereIn(
-      'features.key',
-      _.keys(features).filter((key) => features[key] === false),
-    )
-    .delete();
-}
-
-async function _addTags(knexConn, organizationTags) {
-  await knexConn('organization-tags').insert(organizationTags).onConflict(['tagId', 'organizationId']).ignore();
-}
-
-async function _removeTags(knexConn, organizationTags) {
-  await knexConn('organization-tags')
-    .whereIn(
-      ['organizationId', 'tagId'],
-      organizationTags.map((organizationTag) => [organizationTag.organizationId, organizationTag.tagId]),
-    )
-    .delete();
-}
-
-async function _addOrUpdateDataProtectionOfficer(knexConn, dataProtectionOfficer) {
-  await knexConn('data-protection-officers').insert(dataProtectionOfficer).onConflict('organizationId').merge();
-}
+const save = async function (organization) {
+  const data = _.pick(organization, ['name', 'type', 'documentationUrl', 'credit', 'createdBy']);
+  const [organizationCreated] = await knex(ORGANIZATIONS_TABLE_NAME).returning('*').insert(data);
+  const savedOrganization = _toDomain(organizationCreated);
+  if (!_.isEmpty(savedOrganization.features)) {
+    await _enableFeatures(knex, savedOrganization.features, savedOrganization.id);
+  }
+  return savedOrganization;
+};
 
 const update = async function (organization, domainTransaction = DomainTransaction.emptyTransaction()) {
   const knexConn = domainTransaction.transaction ?? knex;
@@ -181,34 +135,81 @@ const update = async function (organization, domainTransaction = DomainTransacti
   await knexConn(ORGANIZATIONS_TABLE_NAME).update(organizationRawData).where({ id: organization.id }).returning('*');
 };
 
-const archive = async function ({ id, archivedBy }) {
-  if (!archivedBy) {
-    throw new MissingAttributesError();
-  }
+export { archive, get, save, update };
 
-  const archiveDate = new Date();
+async function _addOrUpdateDataProtectionOfficer(knexConn, dataProtectionOfficer) {
+  await knexConn('data-protection-officers').insert(dataProtectionOfficer).onConflict('organizationId').merge();
+}
 
-  await knex('organization-invitations')
-    .where({ organizationId: id, status: OrganizationInvitation.StatusType.PENDING })
-    .update({ status: OrganizationInvitation.StatusType.CANCELLED, updatedAt: archiveDate });
+async function _addTags(knexConn, organizationTags) {
+  await knexConn('organization-tags').insert(organizationTags).onConflict(['tagId', 'organizationId']).ignore();
+}
 
-  await knex('campaigns').where({ organizationId: id, archivedAt: null }).update({ archivedAt: archiveDate });
+async function _disableFeatures(knexConn, features, organizationId) {
+  await knexConn('organization-features')
+    .join('features', 'organization-features.featureId', 'features.id')
+    .where('organization-features.organizationId', organizationId)
+    .whereIn(
+      'features.key',
+      _.keys(features).filter((key) => features[key] === false),
+    )
+    .delete();
+}
 
-  await knex('memberships').where({ organizationId: id, disabledAt: null }).update({ disabledAt: archiveDate });
+async function _enableFeatures(knexConn, featuresToEnable, organizationId) {
+  const features = await knexConn('features');
 
-  await knex(ORGANIZATIONS_TABLE_NAME)
-    .where({ id: id, archivedBy: null })
-    .update({ archivedBy: archivedBy, archivedAt: archiveDate });
-};
+  await knexConn('organization-features')
+    .insert(
+      _.keys(featuresToEnable)
+        .filter((key) => featuresToEnable[key])
+        .map((key) => ({
+          organizationId,
+          featureId: features.find((feature) => feature.key === key).id,
+        })),
+    )
+    .onConflict()
+    .ignore();
+}
 
-const save = async function (organization) {
-  const data = _.pick(organization, ['name', 'type', 'documentationUrl', 'credit', 'createdBy']);
-  const [organizationCreated] = await knex(ORGANIZATIONS_TABLE_NAME).returning('*').insert(data);
-  const savedOrganization = _toDomain(organizationCreated);
-  if (!_.isEmpty(savedOrganization.features)) {
-    await _enableFeatures(knex, savedOrganization.features, savedOrganization.id);
-  }
-  return savedOrganization;
-};
+async function _removeTags(knexConn, organizationTags) {
+  await knexConn('organization-tags')
+    .whereIn(
+      ['organizationId', 'tagId'],
+      organizationTags.map((organizationTag) => [organizationTag.organizationId, organizationTag.tagId]),
+    )
+    .delete();
+}
 
-export { get, update, archive, save };
+function _toDomain(rawOrganization) {
+  const organization = new OrganizationForAdmin({
+    id: rawOrganization.id,
+    name: rawOrganization.name,
+    type: rawOrganization.type,
+    logoUrl: rawOrganization.logoUrl,
+    externalId: rawOrganization.externalId,
+    provinceCode: rawOrganization.provinceCode,
+    isManagingStudents: Boolean(rawOrganization.isManagingStudents),
+    credit: rawOrganization.credit,
+    email: rawOrganization.email,
+    documentationUrl: rawOrganization.documentationUrl,
+    createdBy: rawOrganization.createdBy,
+    createdAt: rawOrganization.createdAt,
+    showNPS: rawOrganization.showNPS,
+    formNPSUrl: rawOrganization.formNPSUrl,
+    showSkills: rawOrganization.showSkills,
+    archivedAt: rawOrganization.archivedAt,
+    archivistFirstName: rawOrganization.archivistFirstName,
+    archivistLastName: rawOrganization.archivistLastName,
+    dataProtectionOfficerFirstName: rawOrganization.dataProtectionOfficerFirstName,
+    dataProtectionOfficerLastName: rawOrganization.dataProtectionOfficerLastName,
+    dataProtectionOfficerEmail: rawOrganization.dataProtectionOfficerEmail,
+    creatorFirstName: rawOrganization.creatorFirstName,
+    creatorLastName: rawOrganization.creatorLastName,
+    identityProviderForCampaigns: rawOrganization.identityProviderForCampaigns,
+    features: rawOrganization.features,
+    tags: rawOrganization.tags || [],
+  });
+
+  return organization;
+}
