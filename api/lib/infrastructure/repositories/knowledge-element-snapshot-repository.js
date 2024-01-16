@@ -65,6 +65,7 @@ const _findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId = function (use
   return knex
     .select(
       'knowledge-element-snapshots.userId as userId',
+      'knowledge-element-snapshots.snappedAt as snappedAt',
       'snapshot',
       'campaign-participations.id as campaignParticipationId',
     )
@@ -76,6 +77,22 @@ const _findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId = function (use
       );
     })
     .whereIn(['knowledge-element-snapshots.userId', 'snappedAt'], userIdsAndSnappedAtDates);
+};
+
+const findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForProfileCollection = async function (
+  userIdsAndSnappedAtDates,
+) {
+  const results = await _findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId(userIdsAndSnappedAtDates);
+
+  return results.map((result) => {
+    const mappedKnowledgeElements = _toKnowledgeElementCollection({ snapshot: result.snapshot });
+    return {
+      userId: result.userId,
+      snappedAt: result.snappedAt,
+      campaignParticipationId: result.campaignParticipationId,
+      knowledgeElements: _.groupBy(mappedKnowledgeElements, 'competenceId'),
+    };
+  });
 };
 
 const findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment = async function (
@@ -94,4 +111,9 @@ const findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment = a
   });
 };
 
-export { save, findByUserIdsAndSnappedAtDates, findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment, findByUserIdsAndSnappedAtDatesSyncCampaignParticipationId };
+export {
+  save,
+  findByUserIdsAndSnappedAtDates,
+  findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForAssessment,
+  findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForProfileCollection,
+};

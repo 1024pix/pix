@@ -309,4 +309,133 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
       expect(knowledgeElementsByUserId).lengthOf(0);
     });
   });
+
+  describe('#findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForProfileCollection', function () {
+    let userId1, userId2;
+    let campaignParticipationId1, campaignParticipationId2, campaignParticipationId3;
+    let snappedAt1, snappedAt2, snappedAt3;
+    let knowledgeElement1, knowledgeElement2, knowledgeElement3;
+    let learningContent;
+
+    before(async function () {
+      userId1 = databaseBuilder.factory.buildUser().id;
+      userId2 = databaseBuilder.factory.buildUser().id;
+
+      snappedAt1 = new Date('2020-01-02');
+      campaignParticipationId1 = databaseBuilder.factory.buildCampaignParticipation({
+        userId: userId1,
+        sharedAt: snappedAt1,
+      }).id;
+      knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({
+        userId: userId1,
+        competenceId: 'competence1',
+        skillId: 'skill1',
+      });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        userId: userId1,
+        snappedAt: snappedAt1,
+        snapshot: JSON.stringify([knowledgeElement1]),
+      });
+
+      snappedAt2 = new Date('2020-02-02');
+      campaignParticipationId2 = databaseBuilder.factory.buildCampaignParticipation({
+        userId: userId2,
+        sharedAt: snappedAt2,
+      }).id;
+      knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({
+        userId: userId2,
+        competenceId: 'competence1',
+        skillId: 'skill2',
+      });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        userId: userId2,
+        snappedAt: snappedAt2,
+        snapshot: JSON.stringify([knowledgeElement2]),
+      });
+
+      snappedAt3 = new Date('2022-02-02');
+      campaignParticipationId3 = databaseBuilder.factory.buildCampaignParticipation({
+        userId: userId2,
+        sharedAt: snappedAt3,
+      }).id;
+      knowledgeElement3 = databaseBuilder.factory.buildKnowledgeElement({
+        userId: userId2,
+        competenceId: 'competence2',
+        skillId: 'skill3',
+      });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        userId: userId2,
+        snappedAt: snappedAt3,
+        snapshot: JSON.stringify([knowledgeElement3]),
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    it('should find knowledge elements snapshoted grouped by campaign participation id for given userIds and their respective dates', async function () {
+      // when
+      const knowledgeElementsByUserId =
+        await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForProfileCollection(
+          [
+            [userId1, snappedAt1],
+            [userId2, snappedAt2],
+            [userId2, snappedAt3],
+          ],
+          learningContent,
+        );
+
+      // then
+      expect(knowledgeElementsByUserId).lengthOf(3);
+
+      const firstCampaignParticipationResult = knowledgeElementsByUserId.find(
+        (knowledgeElementByUserId) => knowledgeElementByUserId.campaignParticipationId === campaignParticipationId1,
+      );
+      expect(firstCampaignParticipationResult.knowledgeElements).to.deep.equal({
+        competence1: [knowledgeElement1],
+      });
+      expect(firstCampaignParticipationResult.userId).to.deep.equal(userId1);
+
+      const secondCampaignParticipationResult = knowledgeElementsByUserId.find(
+        (knowledgeElementByUserId) => knowledgeElementByUserId.campaignParticipationId === campaignParticipationId2,
+      );
+      expect(secondCampaignParticipationResult.knowledgeElements).to.deep.equal({
+        competence1: [knowledgeElement2]
+      });
+      expect(secondCampaignParticipationResult.userId).to.deep.equal(userId2);
+
+      const thirdCampaignParticipationResult = knowledgeElementsByUserId.find(
+        (knowledgeElementByUserId) => knowledgeElementByUserId.campaignParticipationId === campaignParticipationId3,
+      );
+      expect(thirdCampaignParticipationResult.knowledgeElements).to.deep.equal({
+        competence2: [knowledgeElement3],
+      });
+      expect(thirdCampaignParticipationResult.userId).to.deep.equal(userId2);
+    });
+
+    it('should return empty list of snapshoted knowledge elements given unmatching dates', async function () {
+      // when
+      const snappedAt = new Date('2023-02-01');
+      const knowledgeElementsByUserId =
+        await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForProfileCollection(
+          [[userId1, snappedAt]],
+        );
+
+      // then
+      expect(knowledgeElementsByUserId).lengthOf(0);
+    });
+
+    it('should return empty list of snapshoted knowledge elements given unmatching userId', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      await databaseBuilder.commit();
+      // when
+      const knowledgeElementsByUserId =
+        await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDatesSyncCampaignParticipationIdForProfileCollection(
+          [[userId, snappedAt1]],
+        );
+
+      // then
+      expect(knowledgeElementsByUserId).lengthOf(0);
+    });
+  });
 });
