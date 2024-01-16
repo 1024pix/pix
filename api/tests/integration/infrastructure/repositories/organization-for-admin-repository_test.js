@@ -319,6 +319,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
           [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
           [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
         },
+        parentOrganizationId: null,
       });
       expect(foundOrganizationForAdmin).to.deep.equal(expectedOrganizationForAdmin);
     });
@@ -427,6 +428,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
           features: {
             [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
           },
+          parentOrganizationId: null,
         });
         expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
       });
