@@ -3,10 +3,6 @@
   flex-direction: column;
   flex-grow: 1;
   width: 100%;
-
-  &__return-to {
-    width: fit-content;
-  }
 }
 
 .session-details__header {
@@ -14,15 +10,12 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: var(--pix-spacing-3x);
 }
 
 .session-details-header {
 
   &__title {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     min-width: 300px;
   }
 

@@ -4,12 +4,12 @@
   <PixReturnTo
     @route="authenticated.sessions.details.certification-candidates"
     @model={{@model.session.id}}
-    class="add-student__return-to"
+    class="previous-button"
   >
     {{t "common.sessions.actions.return-to"}}
   </PixReturnTo>
 
-  <h1 class="add-student__title">{{t "pages.sco.enrol-candidates-in-session.title"}}</h1>
+  <h1 class="page-title">{{t "pages.sco.enrol-candidates-in-session.title"}}</h1>
   <PixMessage @type="info" @withIcon={{true}} class="add-student__info-message">
     {{t "pages.sco.enrol-candidates-in-session.information" htmlSafe=true}}
     <a href={{this.supportUrl}} target="_blank" rel="noopener noreferrer">
