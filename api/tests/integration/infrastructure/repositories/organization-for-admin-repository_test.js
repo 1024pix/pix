@@ -6,7 +6,6 @@ import * as organizationForAdminRepository from '../../../../lib/infrastructure/
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 import * as apps from '../../../../lib/domain/constants.js';
-
 describe('Integration | Repository | Organization-for-admin', function () {
   let clock;
   const now = new Date('2022-02-02');
@@ -627,6 +626,31 @@ describe('Integration | Repository | Organization-for-admin', function () {
       expect(savedOrganization.name).to.equal('Organization SCO');
       expect(savedOrganization.type).to.equal('SCO');
       expect(savedOrganization.createdBy).to.equal(superAdminUserId);
+    });
+
+    context('when the organization type is SCO-1D', function () {
+      it('adds mission_management feature to the organization', async function () {
+        const superAdminUserId = databaseBuilder.factory.buildUser().id;
+        const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT).id;
+
+        await databaseBuilder.commit();
+
+        const organization = new OrganizationForAdmin({
+          name: "École de l'avenir",
+          type: 'SCO-1D',
+          createdBy: superAdminUserId,
+        });
+
+        // when
+        const savedOrganization = await organizationForAdminRepository.save(organization);
+
+        const savedOrganizationFeature = await knex('organization-features').where({
+          organizationId: savedOrganization.id,
+        });
+
+        expect(savedOrganizationFeature.length).to.equal(1);
+        expect(savedOrganizationFeature[0].featureId).to.equal(featureId);
+      });
     });
   });
 });

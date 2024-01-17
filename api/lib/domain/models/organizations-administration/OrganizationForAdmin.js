@@ -68,6 +68,9 @@ class OrganizationForAdmin {
     if (this.type === 'SCO' && this.isManagingStudents) {
       this.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key] = true;
     }
+    if (this.type === 'SCO-1D') {
+      this.features[ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key] = true;
+    }
     this.tagsToAdd = [];
     this.tagsToRemove = [];
     this.code = code;
