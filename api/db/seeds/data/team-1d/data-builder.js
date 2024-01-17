@@ -1,5 +1,5 @@
 import * as tooling from '../common/tooling/index.js';
-import { ALL_ORGANIZATION_USER_ID } from '../common/constants.js';
+import { ALL_ORGANIZATION_USER_ID, FEATURE_MISSIONS_MANAGEMENT_ID } from '../common/constants.js';
 
 const TEAM_1D_OFFSET_ID = 9000;
 
@@ -44,6 +44,7 @@ async function _createSco1dOrganizations(databaseBuilder) {
     tagIds: [],
     adminIds: [TEAM_1D_USER_ID],
     memberIds: [ALL_ORGANIZATION_USER_ID],
+    featureIds: [FEATURE_MISSIONS_MANAGEMENT_ID],
   });
 
   await databaseBuilder.factory.buildSchool({ organizationId: TEAM_1D_ORGANIZATION_1_ID, code: 'MINIPIXOU' });
@@ -92,6 +93,7 @@ async function _createSco1dOrganizations(databaseBuilder) {
     externalId: 'PIX1D_2',
     tagIds: [],
     adminIds: [TEAM_1D_USER_ID],
+    featureIds: [FEATURE_MISSIONS_MANAGEMENT_ID],
   });
 
   await databaseBuilder.factory.buildSchool({ organizationId: TEAM_1D_ORGANIZATION_2_ID, code: 'MAXIPIXOU' });
