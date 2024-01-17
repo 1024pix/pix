@@ -1,6 +1,6 @@
 /**
- * @typedef {import('../../domain/usecases/index.js').CenterRepository} CenterRepository
- * @typedef {import('../../domain/usecases/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {import('./index.js').CenterRepository} CenterRepository
+ * @typedef {import('./index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {import('../models/Center.js').Center} Center
  * @typedef {import('../../../../shared/domain/errors.js').NotFoundError} NotFoundError
  */
@@ -16,7 +16,7 @@ import bluebird from 'bluebird';
  * @returns {Center} related certification center
  * @throws {NotFoundError} a candidate is linked to an unexisting certification center
  */
-const getMassImportTemplate = async ({
+const getMassImportTemplateInformation = async ({
   certificationCenterId,
   centerRepository,
   complementaryCertificationRepository,
@@ -29,7 +29,7 @@ const getMassImportTemplate = async ({
   };
 };
 
-export { getMassImportTemplate };
+export { getMassImportTemplateInformation };
 
 /**
  * @param {Object} params

@@ -125,14 +125,14 @@ describe('Unit | Controller | mass-import-controller', function () {
       };
 
       sinon
-        .stub(usecases, 'getMassImportTemplate')
+        .stub(usecases, 'getMassImportTemplateInformation')
         .resolves({ habilitationLabels: [], shouldDisplayBillingModeColumns: true });
 
       // when
       await sessionMassImportController.getTemplate(request, hFake);
 
       // then
-      expect(usecases.getMassImportTemplate).to.have.been.calledWithExactly({
+      expect(usecases.getMassImportTemplateInformation).to.have.been.calledWithExactly({
         certificationCenterId: request.params.certificationCenterId,
       });
     });
