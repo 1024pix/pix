@@ -1207,6 +1207,9 @@
       "qcu": {
         "direction": "Choisissez une seule réponse."
       },
+      "qrocm": {
+        "direction": "Remplissez les champs vides."
+      },
       "verification-precondition-failed-alert": {
         "qcu": "Pour valider, sélectionnez une réponse.",
         "qrocm": "Pour valider, veuillez remplir tous les champs réponse."

@@ -1,7 +1,13 @@
 <form class="element-qrocm" {{on "submit" this.submitAnswer}}>
   <fieldset disabled={{this.disableInput}}>
-    <div class="element-qrocm__instruction">
-      {{html-unsafe @qrocm.instruction}}
+    <div class="element-qrocm__header">
+      <div class="element-qrocm-header__instruction">
+        {{html-unsafe @qrocm.instruction}}
+      </div>
+
+      <legend class="element-qrocm-header__direction">
+        {{t "pages.modulix.qrocm.direction"}}
+      </legend>
     </div>
 
     <div class="element-qrocm__proposals">
@@ -40,9 +46,11 @@
   </fieldset>
 
   {{#if this.requiredMessage}}
-    <PixMessage role="alert" @type="error" @withIcon={{true}}>
-      {{t "pages.modulix.verification-precondition-failed-alert.qrocm"}}
-    </PixMessage>
+    <div class="element-qrocm__required-field-missing">
+      <PixMessage role="alert" @type="error" @withIcon={{true}}>
+        {{t "pages.modulix.verification-precondition-failed-alert.qrocm"}}
+      </PixMessage>
+    </div>
   {{/if}}
 
   {{#unless this.qrocm.lastCorrection}}

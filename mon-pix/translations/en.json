@@ -1207,6 +1207,9 @@
       "qcu": {
         "direction": "Select one answer."
       },
+      "qrocm": {
+        "direction": "Fill in the empty fields."
+      },
       "verification-precondition-failed-alert": {
         "qcu": "To validate, select an answer.",
         "qrocm": "To validate, please complete all response fields."
