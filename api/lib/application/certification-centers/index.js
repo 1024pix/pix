@@ -301,6 +301,12 @@ const register = async function (server) {
             certificationCenterId: identifiersType.certificationCenterId,
           }),
         },
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            assign: 'isMemberOfCertificationCenter',
+          },
+        ],
         handler: certificationCenterController.getDivisions,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
