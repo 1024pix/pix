@@ -14,7 +14,7 @@ export default class GetController extends Controller {
         element: answerData.element,
       })
       .save({
-        adapterOptions: { elementId: answerData.element.id, moduleSlug: this.model.module.id },
+        adapterOptions: { passageId: this.model.passage.id },
       });
 
     this.metrics.add({
