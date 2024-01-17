@@ -5,14 +5,14 @@
   &__title {
     @extend %pix-title-m;
 
-    margin: 1rem;
+    margin: var(--pix-spacing-12x) var(--pix-spacing-2x);
     text-align: center;
   }
 
   &__content {
     display: flex;
     flex-direction: column;
-    gap: $pix-spacing-s;
+    gap: var(--pix-spacing-12x);
     align-items: center;
     justify-content: center;
   }
