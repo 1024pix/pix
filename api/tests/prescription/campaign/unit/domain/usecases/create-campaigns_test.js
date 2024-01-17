@@ -74,22 +74,8 @@ describe('Unit | UseCase | campaign-administration | create-campaigns', function
       get: sinon.stub(),
     };
 
-    campaignCreatorRepositoryStub.get
-      .withArgs({
-        userId: campaignsToCreate[0].creatorId,
-        organizationId: campaignsToCreate[0].organizationId,
-        shouldOwnerBeFromOrganization: false,
-        shouldCreatorBeFromOrganization: false,
-      })
-      .resolves(campaignCreatorPOJO);
-    campaignCreatorRepositoryStub.get
-      .withArgs({
-        userId: campaignsToCreate[1].creatorId,
-        organizationId: campaignsToCreate[1].organizationId,
-        shouldOwnerBeFromOrganization: false,
-        shouldCreatorBeFromOrganization: false,
-      })
-      .resolves(campaignCreatorPOJO);
+    campaignCreatorRepositoryStub.get.withArgs(campaignsToCreate[0].organizationId).resolves(campaignCreatorPOJO);
+    campaignCreatorRepositoryStub.get.withArgs(campaignsToCreate[1].organizationId).resolves(campaignCreatorPOJO);
 
     const createdCampaignsSymbol = Symbol('');
     campaignAdministrationRepository.save.withArgs(campaignsWithAllData).resolves(createdCampaignsSymbol);
