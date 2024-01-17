@@ -30,8 +30,7 @@ function _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organiza
   });
 }
 
-async function _areNewYearOrganizationLearnersImportedForPrescriber(prescriber) {
-  const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
+async function _areNewYearOrganizationLearnersImportedForPrescriber(currentOrganizationId) {
   const atLeastOneOrganizationLearner = await knex('organizations')
     .select('organizations.id')
     .join('view-active-organization-learners', 'view-active-organization-learners.organizationId', 'organizations.id')
@@ -47,12 +46,10 @@ async function _areNewYearOrganizationLearnersImportedForPrescriber(prescriber) 
     })
     .first();
 
-  prescriber.areNewYearOrganizationLearnersImported = Boolean(atLeastOneOrganizationLearner);
+  return Boolean(atLeastOneOrganizationLearner);
 }
 
-async function _getParticipantCount(prescriber) {
-  const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
-
+async function _getParticipantCount(currentOrganizationId) {
   const { count: allCounts } = await knex('view-active-organization-learners')
     .count('view-active-organization-learners.id')
     .leftJoin('users', 'users.id', 'view-active-organization-learners.userId')
@@ -61,11 +58,10 @@ async function _getParticipantCount(prescriber) {
     .where('isDisabled', false)
     .first();
 
-  prescriber.participantCount = allCounts;
+  return allCounts;
 }
 
-async function _organizationFeatures(prescriber) {
-  const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
+async function _organizationFeatures(currentOrganizationId) {
   const availableFeatures = await _availableFeaturesQueryBuilder(currentOrganizationId);
   const allFeatures = await _allFeatures();
 
@@ -73,7 +69,7 @@ async function _organizationFeatures(prescriber) {
     return { ...accumulator, [feature]: availableFeatures.includes(feature) };
   }, {});
 
-  prescriber.features = organizationFeatures;
+  return organizationFeatures;
 }
 
 function _allFeatures() {
@@ -119,9 +115,11 @@ const getPrescriber = async function (userId) {
 
   const prescriber = _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organizations);
 
-  await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
-  await _getParticipantCount(prescriber);
-  await _organizationFeatures(prescriber);
+  const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
+  prescriber.areNewYearOrganizationLearnersImported =
+    await _areNewYearOrganizationLearnersImportedForPrescriber(currentOrganizationId);
+  prescriber.participantCount = await _getParticipantCount(currentOrganizationId);
+  prescriber.features = await _organizationFeatures(currentOrganizationId);
 
   return prescriber;
 };
