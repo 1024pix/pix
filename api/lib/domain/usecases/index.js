@@ -173,7 +173,6 @@ import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.j
 import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';
 import * as stageAndStageAcquisitionComparisonService from '../../../src/evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
 import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRepository } from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
-import { campaignParticipantActivityRepository } from '../../infrastructure/repositories/campaign-participant-activity-repository.js';
 import { campaignParticipationResultRepository } from '../../infrastructure/repositories/campaign-participation-result-repository.js';
 import { getCompetenceLevel } from '../../../src/evaluation/domain/services/get-competence-level.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
@@ -231,7 +230,6 @@ const dependencies = {
   campaignCollectiveResultRepository,
   campaignForArchivingRepository,
   campaignManagementRepository,
-  campaignParticipantActivityRepository,
   campaignParticipantRepository,
   campaignParticipationOverviewRepository,
   campaignParticipationRepository,
