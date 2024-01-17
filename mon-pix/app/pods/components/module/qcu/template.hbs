@@ -20,9 +20,11 @@
   </fieldset>
 
   {{#if this.requiredMessage}}
-    <PixMessage role="alert" @type="error" @withIcon={{true}}>
-      {{t "pages.modulix.verification-precondition-failed-alert.qcu"}}
-    </PixMessage>
+    <div class="element-qcu__required-field-missing">
+      <PixMessage role="alert" @type="error" @withIcon={{true}}>
+        {{t "pages.modulix.verification-precondition-failed-alert.qcu"}}
+      </PixMessage>
+    </div>
   {{/if}}
 
   {{#unless this.qcu.lastCorrection}}
