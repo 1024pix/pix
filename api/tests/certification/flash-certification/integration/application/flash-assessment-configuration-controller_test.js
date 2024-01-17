@@ -19,4 +19,24 @@ describe('Integration | Application | FlashAssessmentConfigurationController', f
       expect(response.source).to.deep.equal(expectedConfiguration);
     });
   });
+
+  describe('#updateActiveFlashAssessmentConfiguration', function () {
+    it('should update the active flash assessment configuration', async function () {
+      sinon.stub(usecases, 'updateActiveFlashAssessmentConfiguration');
+
+      const payload = {
+        warmUpLength: 12,
+      };
+
+      const response = await flashAssessmentConfigurationController.updateActiveFlashAssessmentConfiguration(
+        { payload },
+        hFake,
+      );
+
+      expect(response.statusCode).to.equal(204);
+      expect(usecases.updateActiveFlashAssessmentConfiguration).to.have.been.calledWith({
+        configuration: payload,
+      });
+    });
+  });
 });
