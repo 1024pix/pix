@@ -12,6 +12,7 @@ module('Unit | Module | Controller | get', function (hooks) {
       const expectedCorrection = 'correction';
       const userResponse = 'userResponse';
       const elementId = 'elementId';
+      const passageId = 'passageId';
       const element = 'element';
       const moduleSlug = 'moduleSlug';
 
@@ -36,6 +37,9 @@ module('Unit | Module | Controller | get', function (hooks) {
         module: {
           id: moduleSlug,
         },
+        passage: {
+          id: passageId,
+        },
       };
 
       controller.store = {
@@ -55,8 +59,7 @@ module('Unit | Module | Controller | get', function (hooks) {
       saveStub
         .withArgs({
           adapterOptions: {
-            elementId: answerData.elementId,
-            moduleSlug: moduleSlug,
+            passageId,
           },
         })
         .resolves({ correction: expectedCorrection });
