@@ -14,7 +14,7 @@ body {
   // Simuler l'affichage d'une tablette
   max-width: 1194px;
   margin: auto;
-  color: #07142E;
+  color: var(--pix-neutral-900);
   font-weight: 600;
   font-family: $font-nunito;
   text-align: center;

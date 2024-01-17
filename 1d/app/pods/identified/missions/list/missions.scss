@@ -12,7 +12,7 @@
   border: none;
 
   &--loading {
-    background-color: #989CAA;
+    background-color: var(--pix-neutral-300);
     opacity: 0.2;
   }
 }

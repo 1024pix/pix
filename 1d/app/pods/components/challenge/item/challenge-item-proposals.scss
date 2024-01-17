@@ -20,9 +20,9 @@
     }
 
     &.pix-input__input--default {
-      background-color: #F4F5F7;
+      background-color: var(--pix-neutral-20);
       border: none;
-      border-bottom: 1px solid var(--pix-color-primary);
+      border-bottom: 1px solid var(--pix-primary-500);
       border-radius: 4px 4px 0 0;
     }
   }
@@ -36,7 +36,7 @@
 
 .pix-checkbox.pix1d-checkbox {
   width: 100%;
-  border: 1px solid var(--pix-color-primary);
+  border: 1px solid var(--pix-primary-500);
   border-radius: 8px;
 }
 
@@ -45,7 +45,7 @@
   height: 100%;
   padding-top: 20px;
   padding-bottom: 20px;
-  color: var(--pix-color-primary-90);
+  color: var(--pix-primary-900);
   font-weight: 400;
   text-align: left;
 }
@@ -54,17 +54,17 @@
   width: 18px;
   height: 18px;
   margin-left:20px;
-  border: 1.5px solid var(--pix-color-primary);
+  border: 1.5px solid var(--pix-primary-500);
   border-radius: 5px;
 
   &:checked {
-    background-color: var(--pix-color-primary);
+    background-color: var(--pix-primary-500);
   }
 }
 
 .pix-radio-button.pix1d-radio {
   width: 100%;
-  border: 1px solid var(--pix-color-primary);
+  border: 1px solid var(--pix-primary-500);
   border-radius: 8px;
 }
 
@@ -72,11 +72,11 @@
   width: 18px;
   height: 18px;
   margin-left: 20px;
-  border: 1.5px solid var(--pix-color-primary);
+  border: 1.5px solid var(--pix-primary-500);
   border-radius: 10px;
 
   &:checked::after {
-    background-color: var(--pix-color-primary);
+    background-color: var(--pix-primary-500);
   }
 }
 
@@ -85,7 +85,7 @@
   height: 100%;
   padding-top: 20px;
   padding-bottom: 20px;
-  color: var(--pix-color-primary-90);
+  color: var(--pix-primary-900);
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
