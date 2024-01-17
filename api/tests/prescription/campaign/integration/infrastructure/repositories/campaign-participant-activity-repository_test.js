@@ -1,6 +1,6 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
-import { campaignParticipantActivityRepository } from '../../../../lib/infrastructure/repositories/campaign-participant-activity-repository.js';
-import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { expect, databaseBuilder } from '../../../../../test-helper.js';
+import { campaignParticipantActivityRepository } from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-participant-activity-repository.js';
+import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
@@ -71,6 +71,67 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         //then
         expect(campaignParticipantsActivities).to.have.lengthOf(1);
         expect(campaignParticipantsActivities[0].participantExternalId).to.equal('The good');
+      });
+
+      it('Returns the most recent participation with the shared participation Id', async function () {
+        // given
+        const campaign = databaseBuilder.factory.buildCampaign();
+        const user = databaseBuilder.factory.buildUser();
+        const learner = databaseBuilder.factory.buildOrganizationLearner({ userId: user.id });
+
+        const firstParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          participantExternalId: 'The bad',
+          campaignId: campaign.id,
+          status: SHARED,
+          userId: user.id,
+          organizationLearnerId: learner.id,
+          isImproved: true,
+        });
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          participantExternalId: 'The good',
+          campaignId: campaign.id,
+          status: STARTED,
+          userId: user.id,
+          organizationLearnerId: learner.id,
+          isImproved: false,
+        });
+
+        await databaseBuilder.commit();
+
+        //when
+        const { campaignParticipantsActivities } =
+          await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
+        //then
+        expect(campaignParticipantsActivities[0].lastSharedOrCurrentCampaignParticipationId).to.equal(
+          firstParticipation.id,
+        );
+      });
+
+      it('Returns the last participation if no shared participation', async function () {
+        // given
+        const campaign = databaseBuilder.factory.buildCampaign();
+        const user = databaseBuilder.factory.buildUser();
+        const learner = databaseBuilder.factory.buildOrganizationLearner({ userId: user.id });
+
+        const lastParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          participantExternalId: 'The good',
+          campaignId: campaign.id,
+          status: STARTED,
+          userId: user.id,
+          organizationLearnerId: learner.id,
+          isImproved: false,
+        });
+
+        await databaseBuilder.commit();
+
+        //when
+        const { campaignParticipantsActivities } =
+          await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
+        //then
+        expect(campaignParticipantsActivities[0].lastSharedOrCurrentCampaignParticipationId).to.equal(
+          lastParticipation.id,
+        );
       });
     });
 

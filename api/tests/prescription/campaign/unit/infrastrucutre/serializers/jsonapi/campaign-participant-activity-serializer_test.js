@@ -1,7 +1,7 @@
-import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
-import { CampaignParticipantActivity } from '../../../../../lib/domain/read-models/CampaignParticipantActivity.js';
-import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
+import { expect } from '../../../../../../test-helper.js';
+import * as serializer from './../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
+import { CampaignParticipantActivity } from '../../../../../../../src/prescription/campaign/domain/read-models/CampaignParticipantActivity.js';
+import { CampaignParticipationStatuses } from '../../../../../../../src/prescription/shared/domain/constants.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
@@ -47,6 +47,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer
               'last-name': 'Habibi',
               'participant-external-id': 'Dev',
               status: SHARED,
+              'last-shared-or-current-campaign-participation-id': '1',
             },
           },
           {
@@ -57,6 +58,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer
               'last-name': 'Payet',
               'participant-external-id': 'Footballer',
               status: STARTED,
+              'last-shared-or-current-campaign-participation-id': '2',
             },
           },
         ],

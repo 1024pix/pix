@@ -5,7 +5,6 @@ import * as campaignToJoinSerializer from '../../infrastructure/serializers/json
 import * as campaignAnalysisSerializer from '../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
 import * as campaignReportSerializer from '../../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 import * as campaignCollectiveResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
-import * as campaignParticipantsActivitySerializer from '../../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
 import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
 import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group-serializer.js';
 
@@ -52,32 +51,6 @@ const getAnalysis = async function (request, h, dependencies = { campaignAnalysi
   return dependencies.campaignAnalysisSerializer.serialize(campaignAnalysis);
 };
 
-const findParticipantsActivity = async function (
-  request,
-  h,
-  dependencies = { campaignParticipantsActivitySerializer },
-) {
-  const campaignId = request.params.id;
-
-  const { page, filter: filters } = extractParameters(request.query);
-  if (filters.divisions && !Array.isArray(filters.divisions)) {
-    filters.divisions = [filters.divisions];
-  }
-  if (filters.groups && !Array.isArray(filters.groups)) {
-    filters.groups = [filters.groups];
-  }
-
-  const { userId } = request.auth.credentials;
-  const paginatedParticipations = await usecases.findPaginatedCampaignParticipantsActivities({
-    userId,
-    campaignId,
-    page,
-    filters,
-  });
-
-  return dependencies.campaignParticipantsActivitySerializer.serialize(paginatedParticipations);
-};
-
 const division = async function (request) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
@@ -100,7 +73,6 @@ const campaignController = {
   unarchiveCampaign,
   getCollectiveResult,
   getAnalysis,
-  findParticipantsActivity,
   division,
   getGroups,
 };

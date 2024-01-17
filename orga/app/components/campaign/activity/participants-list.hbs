@@ -49,7 +49,10 @@
           {{#each @participations as |participation|}}
             <tr
               aria-label={{t "pages.campaign-activity.table.row-title"}}
-              {{on "click" (fn @onClickParticipant @campaign.id participation.id)}}
+              {{on
+                "click"
+                (fn @onClickParticipant @campaign.id participation.lastSharedOrCurrentCampaignParticipationId)
+              }}
               class="tr--clickable"
             >
               <td>
@@ -59,7 +62,7 @@
                     "authenticated.campaigns.participant-assessment"
                     "authenticated.campaigns.participant-profile"
                   }}
-                  @models={{array @campaign.id participation.id}}
+                  @models={{array @campaign.id participation.lastSharedOrCurrentCampaignParticipationId}}
                 >
                   <span
                     aria-label="{{t

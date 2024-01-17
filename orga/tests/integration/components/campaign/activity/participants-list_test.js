@@ -5,13 +5,15 @@ import EmberObject from '@ember/object';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import { click } from '@ember/test-helpers';
 
 module('Integration | Component | Campaign::Activity::ParticipantsList', function (hooks) {
   setupIntlRenderingTest(hooks);
-
   hooks.beforeEach(function () {
+    this.set('clickSpy', sinon.stub());
     this.set('noop', sinon.stub());
     this.owner.lookup('service:store');
+    this.owner.setupRouter();
   });
 
   test('it should display participations details', async function (assert) {
@@ -44,6 +46,39 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
     assert.contains('La frite');
     assert.contains('patate');
     assert.contains("En attente d'envoi");
+  });
+
+  test('it should link to the last shared or current campaign participation details', async function (assert) {
+    class CurrentUserStub extends Service {
+      isAdminInOrganization = true;
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
+
+    this.set('campaign', { id: '100', idPixLabel: 'id', type: 'ASSESSMENT' });
+
+    this.set('participations', [
+      {
+        id: '123',
+        firstName: 'Joe',
+        lastName: 'La frite',
+        status: 'TO_SHARE',
+        participantExternalId: 'patate',
+        lastSharedOrCurrentCampaignParticipationId: '456',
+      },
+    ]);
+
+    const screen = await render(
+      hbs`<Campaign::Activity::ParticipantsList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.clickSpy}}
+  @onFilter={{this.noop}}
+/>`,
+    );
+    const row = screen.getByText('La frite').closest('tr');
+    await click(row);
+    sinon.assert.calledOnceWithMatch(this.clickSpy, '100', '456');
+    assert.dom(screen.getByRole('link', /la frite/i)).hasAttribute('href', '/campagnes/100/profils/456');
   });
 
   test('[A11Y] it should have an aria label', async function (assert) {

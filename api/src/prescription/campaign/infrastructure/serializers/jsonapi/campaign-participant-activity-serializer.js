@@ -5,7 +5,14 @@ const { Serializer } = jsonapiSerializer;
 const serialize = function ({ campaignParticipantsActivities, pagination }) {
   return new Serializer('campaign-participant-activity', {
     id: 'campaignParticipationId',
-    attributes: ['firstName', 'lastName', 'participantExternalId', 'status', 'progression'],
+    attributes: [
+      'firstName',
+      'lastName',
+      'participantExternalId',
+      'status',
+      'progression',
+      'lastSharedOrCurrentCampaignParticipationId',
+    ],
     meta: pagination,
   }).serialize(campaignParticipantsActivities);
 };

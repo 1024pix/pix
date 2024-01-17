@@ -11,6 +11,7 @@ import * as campaignReportRepository from '../../infrastructure/repositories/cam
 import * as campaignProfilesCollectionParticipationSummaryRepository from '../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
+import { campaignParticipantActivityRepository } from '../../infrastructure/repositories/campaign-participant-activity-repository.js';
 
 import * as campaignCsvExportService from '../services/campaign-csv-export-service.js';
 import * as campaignUpdateValidator from '../validators/campaign-update-validator.js';
@@ -40,6 +41,7 @@ const dependencies = {
   campaignManagementRepository,
   campaignCreatorRepository,
   campaignCsvExportService,
+  campaignParticipantActivityRepository,
   campaignParticipationRepository,
   campaignProfilesCollectionParticipationSummaryRepository,
   campaignParticipationInfoRepository,

@@ -30,7 +30,12 @@ module('Acceptance | Campaign Activity', function (hooks) {
       campaignAssessmentParticipationResult,
       lastName: 'Bacri',
     });
-    server.create('campaign-participant-activity', { id: 1, lastName: 'Bacri', status: 'SHARED' });
+    server.create('campaign-participant-activity', {
+      id: 1,
+      lastName: 'Bacri',
+      status: 'SHARED',
+      lastSharedOrCurrentCampaignParticipationId: 1,
+    });
 
     await authenticateSession(user.id);
   });
@@ -53,7 +58,11 @@ module('Acceptance | Campaign Activity', function (hooks) {
         campaignId = 2;
         server.create('campaign', 'ofTypeProfilesCollection', { id: campaignId, participationsCount: 1 });
         server.create('campaign-profile', { id: 1, campaignId, lastName: 'Bacri' });
-        server.create('campaign-participant-activity', { id: 1, lastName: 'Bacri' });
+        server.create('campaign-participant-activity', {
+          id: 1,
+          lastName: 'Bacri',
+          lastSharedOrCurrentCampaignParticipationId: 1,
+        });
       });
 
       test('it could click on profile to go to details', async function (assert) {
