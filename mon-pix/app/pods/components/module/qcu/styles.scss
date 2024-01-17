@@ -1,13 +1,6 @@
 .element-qcu {
   &__proposals {
     margin-bottom: var(--pix-spacing-4x);
-
-    .pix-radio-button {
-      padding: var(--pix-spacing-2x);
-      background: var(--pix-neutral-0);
-      border: 1px solid var(--pix-neutral-100);
-      border-radius: var(--pix-spacing-2x);
-    }
   }
 
   &__required-field-missing {
@@ -26,5 +19,14 @@
 
     margin-bottom: var(--pix-spacing-4x);
     color: var(--pix-neutral-500);
+  }
+}
+
+.element-qcu-proposals {
+  &__proposal {
+    padding: var(--pix-spacing-2x);
+    background: var(--pix-neutral-0);
+    border: 1px solid var(--pix-neutral-100);
+    border-radius: var(--pix-spacing-2x);
   }
 }
