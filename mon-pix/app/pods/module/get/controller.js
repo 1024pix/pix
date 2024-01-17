@@ -14,13 +14,13 @@ export default class GetController extends Controller {
         element: answerData.element,
       })
       .save({
-        adapterOptions: { elementId: answerData.element.id, moduleSlug: this.model.id },
+        adapterOptions: { elementId: answerData.element.id, moduleSlug: this.model.module.id },
       });
 
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
-      'pix-event-action': `Passage du module : ${this.model.id}`,
+      'pix-event-action': `Passage du module : ${this.model.module.id}`,
       'pix-event-name': `Click sur le bouton vérifier de l'élément : ${answerData.elementId}`,
     });
   }

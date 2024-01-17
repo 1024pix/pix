@@ -33,8 +33,11 @@ module('Unit | Module | Controller | get', function (hooks) {
 
       const controller = this.owner.lookup('controller:module/get');
       controller.model = {
-        id: moduleSlug,
+        module: {
+          id: moduleSlug,
+        },
       };
+
       controller.store = {
         createRecord: sinon.stub(),
       };
