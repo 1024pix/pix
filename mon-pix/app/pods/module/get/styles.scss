@@ -1,5 +1,8 @@
 .modulix {
+  @extend %pix-body-l;
+
   flex-grow: 1;
+  color: var(--pix-neutral-900);
   background: $pix-primary-5;
 
   p.pix-list-inline {
