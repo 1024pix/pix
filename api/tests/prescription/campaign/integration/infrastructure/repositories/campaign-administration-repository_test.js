@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { catchErr, databaseBuilder, expect, knex, mockLearningContent, sinon } from '../../../../../test-helper.js';
 
 import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
-import { Campaign } from '../../../../../../src/prescription/campaign/domain/read-models/Campaign.js';
+import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { UnknownCampaignId } from '../../../../../../src/prescription/campaign/domain/errors.js';
 
@@ -475,7 +475,10 @@ describe('Integration | Repository | Campaign Administration', function () {
 
     it('should return a Campaign domain object', async function () {
       // when
-      const campaignSaved = await campaignAdministrationRepository.update({ id: campaign.id, title: 'Title' });
+      const campaignSaved = await campaignAdministrationRepository.update({
+        campaignId: campaign.id,
+        campaignAttributes: { title: 'Title' },
+      });
 
       // then
       expect(campaignSaved).to.be.an.instanceof(Campaign);
@@ -487,7 +490,10 @@ describe('Integration | Repository | Campaign Administration', function () {
       await databaseBuilder.commit();
 
       // when
-      await campaignAdministrationRepository.update({ id: campaign.id, title: 'Title' });
+      await campaignAdministrationRepository.update({
+        campaignId: campaign.id,
+        campaignAttributes: { title: 'Title' },
+      });
       const row = await knex.from('campaigns').where({ id: campaignId }).first();
 
       // then
@@ -498,7 +504,10 @@ describe('Integration | Repository | Campaign Administration', function () {
       // given
       const rowsCountBeforeUpdate = await knex.select('id').from('campaigns');
       // when
-      await campaignAdministrationRepository.update({ id: campaign.id, title: 'Title' });
+      await campaignAdministrationRepository.update({
+        campaignId: campaign.id,
+        campaignAttributes: { title: 'Title' },
+      });
 
       // then
       const rowCountAfterUpdate = await knex.select('id').from('campaigns');
@@ -507,19 +516,18 @@ describe('Integration | Repository | Campaign Administration', function () {
 
     it('should only update model in database', async function () {
       // given
-      const archivedBy = databaseBuilder.factory.buildUser().id;
       const newOwnerId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
 
       // when
       const campaignSaved = await campaignAdministrationRepository.update({
-        id: campaign.id,
-        title: 'New title',
-        name: 'New name',
-        customLandingPageText: 'New text',
-        archivedAt: new Date('2020-12-12T06:07:08Z'),
-        archivedBy,
-        ownerId: newOwnerId,
+        campaignId: campaign.id,
+        campaignAttributes: {
+          title: 'New title',
+          name: 'New name',
+          customLandingPageText: 'New text',
+          ownerId: newOwnerId,
+        },
       });
 
       // then
@@ -528,8 +536,6 @@ describe('Integration | Repository | Campaign Administration', function () {
       expect(campaignSaved.title).to.equal('New title');
       expect(campaignSaved.customLandingPageText).to.equal('New text');
       expect(campaignSaved.ownerId).to.equal(newOwnerId);
-      expect(campaignSaved.archivedAt).to.be.null;
-      expect(campaignSaved.archivedBy).to.be.null;
     });
   });
 
@@ -603,63 +609,6 @@ describe('Integration | Repository | Campaign Administration', function () {
       });
 
       expect(result).to.be.instanceOf(UnknownCampaignId);
-    });
-  });
-
-  describe('#updateByCampaignId', function () {
-    it('should update the campaign', async function () {
-      // given
-      const campaign = databaseBuilder.factory.buildCampaign({
-        name: 'Bad campaign',
-        title: null,
-        customLandingPageText: null,
-        customResultPageText: null,
-        customResultPageButtonText: null,
-        customResultPageButtonUrl: null,
-        multipleSendings: false,
-        isForAbsoluteNovice: false,
-      });
-      await databaseBuilder.commit();
-
-      const campaignAttributes = {
-        name: 'Amazing campaign',
-        title: 'Good title',
-        customLandingPageText: 'End page',
-        customResultPageText: 'Congrats you finished !',
-        customResultPageButtonText: 'Continue here',
-        customResultPageButtonUrl: 'www.next-step.net',
-        multipleSendings: true,
-        isForAbsoluteNovice: true,
-      };
-      const expectedCampaign = databaseBuilder.factory.buildCampaign({ ...campaign, ...campaignAttributes });
-      // when
-      await campaignAdministrationRepository.updateByCampaignId({ campaignId: campaign.id, campaignAttributes });
-      const updatedCampaign = await knex('campaigns').where({ id: campaign.id }).first();
-
-      // then
-      expect(updatedCampaign).to.deep.equal(expectedCampaign);
-    });
-
-    it('should only update editable attributes', async function () {
-      // given
-      const campaign = databaseBuilder.factory.buildCampaign({
-        code: 'SOMECODE',
-        name: 'some name',
-      });
-      await databaseBuilder.commit();
-
-      const campaignAttributes = {
-        code: 'NEWCODE',
-        name: 'new name',
-      };
-
-      // when
-      await campaignAdministrationRepository.updateByCampaignId({ campaignId: campaign.id, campaignAttributes });
-      const { name: updatedName, code: sameCode } = await knex('campaigns').where({ id: campaign.id }).first();
-
-      // then
-      expect(updatedName).to.be.equal('new name');
-      expect(sameCode).to.be.equal('SOMECODE');
     });
   });
 });

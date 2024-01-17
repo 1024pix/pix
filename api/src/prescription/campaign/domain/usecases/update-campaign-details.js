@@ -10,10 +10,9 @@ const updateCampaignDetails = async function ({
   isForAbsoluteNovice,
   isAuthorizedToUpdateIsForAbsoluteNovice,
   campaignAdministrationRepository,
-  campaignManagementRepository,
   campaignUpdateValidator,
 }) {
-  const campaign = await campaignManagementRepository.get(campaignId);
+  const campaign = await campaignAdministrationRepository.get(campaignId);
 
   campaign.updateFields(
     {
@@ -42,7 +41,7 @@ const updateCampaignDetails = async function ({
     isForAbsoluteNovice: campaign.isForAbsoluteNovice,
   };
 
-  return campaignAdministrationRepository.updateByCampaignId({ campaignId, campaignAttributes });
+  return campaignAdministrationRepository.update({ campaignId, campaignAttributes });
 };
 
 export { updateCampaignDetails };
