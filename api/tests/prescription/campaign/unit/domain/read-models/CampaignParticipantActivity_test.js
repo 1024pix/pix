@@ -2,16 +2,18 @@ import { expect } from '../../../../../test-helper.js';
 import { CampaignParticipantActivity } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignParticipantActivity.js';
 import { CampaignParticipationStatuses } from '../../../../../../lib/domain/models/index.js';
 
-describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentParticipationResultMinimal', function () {
+describe('Unit | Domain | Read-Models | CampaignResults | CampaignParticipantActivity', function () {
   describe('constructor', function () {
     it('should correctly initialize the information about campaign participant activity', function () {
+      const sharedAt = new Date();
+
       const campaignParticipantActivity = new CampaignParticipantActivity({
         campaignParticipationId: 45,
         firstName: 'Lidia',
         lastName: 'Aguilar',
         userId: 123,
         participantExternalId: 'Alba67',
-        sharedAt: new Date(),
+        sharedAt,
         status: CampaignParticipationStatuses.SHARED,
         lastSharedCampaignParticipationId: null,
       });
@@ -22,7 +24,7 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentPart
         lastName: 'Aguilar',
         userId: 123,
         participantExternalId: 'Alba67',
-        sharedAt: new Date(),
+        sharedAt,
         status: CampaignParticipationStatuses.SHARED,
         lastSharedOrCurrentCampaignParticipationId: 45,
       });
