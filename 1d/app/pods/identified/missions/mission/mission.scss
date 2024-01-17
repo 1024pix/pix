@@ -33,7 +33,7 @@
 
     .details-go-back {
       margin-bottom: 21px;
-      color: $pix-primary;
+      color: var(--pix-primary-500);
       text-decoration: underline;
     }
 
@@ -60,7 +60,7 @@
         }
 
         .icon {
-          color: $pix-primary;
+          color: var(--pix-primary-500);
         }
       }
     }

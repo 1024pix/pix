@@ -14,7 +14,7 @@
     }
 
     &--purple {
-      stop-color: #F4F0FE;
+      stop-color: var(--pix-tertiary-50);
     }
   }
 
@@ -28,7 +28,7 @@
     }
 
     &--purple {
-      stop-color: #694BAA;
+      stop-color: var(--pix-tertiary-700);
     }
   }
 }
