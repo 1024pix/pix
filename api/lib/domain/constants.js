@@ -81,6 +81,10 @@ const CERTIFICATION_CENTER_TYPES = {
 };
 
 const ORGANIZATION_FEATURE = {
+  MISSIONS_MANAGEMENT: {
+    key: 'MISSIONS_MANAGEMENT',
+    description: "Permet l'affichage de la page des missions sur PixOrga",
+  },
   PLACES_MANAGEMENT: {
     key: 'PLACES_MANAGEMENT',
     description: "Permet l'affichage de la page de gestion des places sur PixOrga",
