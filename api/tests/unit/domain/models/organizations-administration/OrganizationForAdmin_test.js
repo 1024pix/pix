@@ -3,35 +3,56 @@ import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizat
 import { ORGANIZATION_FEATURE } from '../../../../../lib/domain/constants.js';
 
 describe('Unit | Domain | Models | OrganizationForAdmin', function () {
-  context('for sco organizations', function () {
-    context('when organization isManagingStudent is true', function () {
-      it('should build an OrganizationForAdmin with compute organization learner certificability enabled', function () {
-        // given
-        const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ type: 'SCO', isManagingStudents: true });
+  describe('features', function () {
+    context('for sco organizations', function () {
+      context('when organization isManagingStudent is true', function () {
+        it('should build an OrganizationForAdmin with compute organization learner certificability enabled', function () {
+          // given
+          const expectedOrganization = domainBuilder.buildOrganizationForAdmin({
+            type: 'SCO',
+            isManagingStudents: true,
+          });
 
-        // when
-        const organization = new OrganizationForAdmin(expectedOrganization);
+          // when
+          const organization = new OrganizationForAdmin(expectedOrganization);
 
-        // then
-        expect(organization.features).to.includes({
-          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+          // then
+          expect(organization.features).to.includes({
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+          });
+        });
+      });
+
+      context('when organization isManagingStudent is false', function () {
+        it('should build an OrganizationForAdmin without compute organization learner certificability feature', function () {
+          // given
+          const expectedOrganization = domainBuilder.buildOrganizationForAdmin({
+            type: 'SCO',
+            isManagingStudents: false,
+          });
+
+          // when
+          const organization = new OrganizationForAdmin(expectedOrganization);
+
+          // then
+          expect(organization.features).to.deep.equal({});
         });
       });
     });
-
-    context('when organization isManagingStudent is false', function () {
-      it('should build an OrganizationForAdmin without compute organization learner certificability feature', function () {
+    context('for SCO-1D organizations', function () {
+      it('should build an OrganizationForAdmin with MISSIONS_MANAGEMENT feature', function () {
         // given
         const expectedOrganization = domainBuilder.buildOrganizationForAdmin({
-          type: 'SCO',
-          isManagingStudents: false,
+          type: 'SCO-1D',
         });
 
         // when
         const organization = new OrganizationForAdmin(expectedOrganization);
 
         // then
-        expect(organization.features).to.deep.equal({});
+        expect(organization.features).to.deep.equal({
+          [ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key]: true,
+        });
       });
     });
   });
