@@ -1,26 +1,24 @@
 .element-qrocm {
-  @extend %pix-body-l;
-
-  padding: $pix-spacing-s;
-
-  // revert the reset
-  ul:not([class]),
-  ol {
-    margin: revert;
-    padding: revert;
-    list-style: revert;
+  &__proposals {
+    margin-bottom: var(--pix-spacing-4x);
   }
 
-  &__verify_button {
-    margin: $pix-spacing-s $pix-spacing-s $pix-spacing-s 0;
+  &__required-field-missing {
+    margin-bottom: var(--pix-spacing-4x);
   }
+}
 
+.element-qrocm-header {
   &__instruction {
-    margin-bottom: $pix-spacing-xs;
+    margin-bottom: var(--pix-spacing-3x);
+    font-weight: var(--pix-font-medium);
   }
 
-  &__feedback {
-    margin: $pix-spacing-s 0 $pix-spacing-s 0;
+  &__direction {
+    @extend %pix-body-s;
+
+    margin-bottom: var(--pix-spacing-4x);
+    color: var(--pix-neutral-500);
   }
 }
 
