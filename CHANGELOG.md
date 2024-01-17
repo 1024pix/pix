@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v4.89.0 (17/01/2024)
+
+
+### :rocket: Amélioration
+- [#7853](https://github.com/1024pix/pix/pull/7853) [FEATURE] Création d'un script pour la suppression des données personnelles (PIX-10766).
+- [#7833](https://github.com/1024pix/pix/pull/7833) [FEATURE] permet de voir la dernière participation partagée (PIX-10449).
+
+### :building_construction: Tech
+- [#7858](https://github.com/1024pix/pix/pull/7858) [TECH] Nettoyer les pre-handlers des routes certification-issue-reports, certification-reports et certification-courses (PIX-10774).
+- [#7873](https://github.com/1024pix/pix/pull/7873) [TECH] Corriger le Flaky sur CampaignParticipantActivity (PIX-10810).
+- [#7863](https://github.com/1024pix/pix/pull/7863) [TECH] Retire les vérifications métier du campaign-creator-repository (PIX-10802).
+- [#7862](https://github.com/1024pix/pix/pull/7862) [TECH] Retire les effets de bords dans le repository Prescriber (PIX-10801).
+
+### :bug: Correction
+- [#7870](https://github.com/1024pix/pix/pull/7870) [BUGFIX] [Pix Admin] Corriger et uniformiser la traduction française pour l’action « Modifier » (PIX-10805).
+
+### :arrow_up: Montée de version
+- [#7847](https://github.com/1024pix/pix/pull/7847) [BUMP] Update dependency redis to v7.2.3.
+- [#7877](https://github.com/1024pix/pix/pull/7877) [BUMP] Update dependency node to v20.11.0.
+
 ## v4.88.0 (17/01/2024)
 
 
