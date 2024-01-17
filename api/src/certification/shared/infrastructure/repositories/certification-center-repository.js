@@ -37,6 +37,10 @@ function _setSearchFiltersForQueryBuilder(filters, qb) {
   }
 }
 
+/**
+ *@deprecated implemented without bookshelf in {@link file://./../../../session/infrastructure/repositories/center-repository.js}
+ * note that the new implementations does not provide the lazy loading on habilitations
+ */
 const get = async function (id) {
   const certificationCenterBookshelf = await BookshelfCertificationCenter.query((q) => q.orderBy('id', 'desc'))
     .where({ id })
