@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v4.90.0 (17/01/2024)
+
+
+### :bug: Correction
+- [#7880](https://github.com/1024pix/pix/pull/7880) [BUGFIX] Revert "[BUMP] Update dependency node to v20.11.0".
+
 ## v4.89.0 (17/01/2024)
 
 
