@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v4.88.0 (17/01/2024)
+
+
+### :rocket: Amélioration
+- [#7843](https://github.com/1024pix/pix/pull/7843) [FEATURE] Afficher les boutons de retour à la page précédente plus petit sur Pix Certif (PIX-10152).
+- [#7794](https://github.com/1024pix/pix/pull/7794) [FEATURE] Créer et utiliser les design token Pix 1d (Pix-10447).
+
+### :bug: Correction
+- [#7859](https://github.com/1024pix/pix/pull/7859) [BUGFIX] Afficher le style pour des liste à puces (PIX-10791).
+
 ## v4.87.0 (16/01/2024)
 
 
