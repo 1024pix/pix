@@ -10,7 +10,7 @@ services:
 
   redis:
     container_name: pix-e2e-redis
-    image: redis:7.0.12-alpine
+    image: redis:7.2.3-alpine
 
   cypress:
     container_name: pix-e2e-cypress
