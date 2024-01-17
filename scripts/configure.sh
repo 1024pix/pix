@@ -60,9 +60,9 @@ function verify_prerequesite_programs() {
 function generate_environment_config_file() {
   echo "Generating environment config file for Pix API (api/.env)…"
 
-  cp api/sample.env api/.env
+  cp api/sample.env api/development.env
 
-  echo "✅ api/.env file copied from api/sample.env."
+  echo "✅ api/development.env file copied from api/sample.env."
   echo ""
 }
 
