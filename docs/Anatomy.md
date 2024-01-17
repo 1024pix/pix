@@ -99,6 +99,6 @@ api                                 → Sources de l'application Pix API
  └ package.json                     → Fichier de définition généré de la plateforme
  └ package-lock.json                → Listing des dépendances
  └ Procfile                         → Fichier de démarrage du conteneur Scalingo 
- └ sample.env                       → Template du fichier .env
+ └ sample.env                       → Template des fichiers <NODE_ENV>.env
  └ server.js                        → Instance du Web server Hapi.js
 ```

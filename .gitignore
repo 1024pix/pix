@@ -29,7 +29,7 @@
 # system
 .DS_Store
 
-**/.env
+**/*.env
 
 # CircleCI
 *.circle-cache-key

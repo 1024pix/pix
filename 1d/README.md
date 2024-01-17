@@ -16,7 +16,7 @@ You will need the following things properly installed on your computer.
 
 * `git clone <repository-url>` this repository
 * `cd 1d`
-* `cp sample.env .env`
+* `cp sample.env development.env`
 * `npm install`
 
 ## Running / Development

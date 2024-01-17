@@ -1,7 +1,6 @@
 import * as fs from 'fs/promises';
 import * as dotenv from 'dotenv';
 import path from 'path';
-import { logger } from './utils/logger.js';
 
 class ConfigLoader {
   #configDirectoryPath;
@@ -18,7 +17,8 @@ class ConfigLoader {
       this.#configuration = dotenv.parse(buffer);
     } catch (error) {
       this.#configuration = {};
-      logger.info('Could not load the configuration file');
+      // eslint-disable-next-line no-console
+      console.log('Could not load the configuration file');
     }
   }
 
