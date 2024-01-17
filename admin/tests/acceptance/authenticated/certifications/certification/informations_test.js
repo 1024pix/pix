@@ -580,7 +580,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             await clickByName('Enregistrer');
 
             // then
-            assert.dom(screen.queryByText('Éditer les informations du candidat')).doesNotExist();
+            assert.dom(screen.queryByText('Modifier les informations du candidat')).doesNotExist();
           });
         });
 
@@ -628,7 +628,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             await clickByName('Enregistrer');
 
             // then
-            assert.dom(screen.getByRole('heading', { name: 'Éditer les informations du candidat' })).exists();
+            assert.dom(screen.getByRole('heading', { name: 'Modifier les informations du candidat' })).exists();
           });
 
           test('should leave candidate information untouched when aborting the edition', async function (assert) {

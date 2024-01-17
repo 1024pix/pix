@@ -38,7 +38,7 @@ module('Integration | Component | organizations/information-section', function (
       const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
-      await clickByName('Éditer');
+      await clickByName('Modifier');
 
       // then
       assert.dom(screen.getByRole('textbox', { name: 'Nom' })).exists();
@@ -50,14 +50,14 @@ module('Integration | Component | organizations/information-section', function (
     test('it should toggle display mode on click to cancel button', async function (assert) {
       // given
       const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
-      await clickByName('Éditer');
+      await clickByName('Modifier');
 
       // when
       await clickByName('Annuler');
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Organization SCO' })).exists();
-      assert.dom(screen.getByRole('button', { name: 'Éditer' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
       assert.dom(screen.getByRole('button', { name: "Archiver l'organisation" })).exists();
     });
 
@@ -65,7 +65,7 @@ module('Integration | Component | organizations/information-section', function (
       // given
       const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
-      await clickByName('Éditer');
+      await clickByName('Modifier');
 
       await fillByLabel('* Nom', 'new name');
       await fillByLabel('Identifiant externe', 'new externalId');
@@ -112,7 +112,7 @@ module('Integration | Component | organizations/information-section', function (
       const screen = await render(
         hbs`<Organizations::InformationSection @organization={{this.organization}} @onSubmit={{this.onSubmit}} />`,
       );
-      await clickByName('Éditer');
+      await clickByName('Modifier');
 
       await fillByLabel('* Nom', 'new name');
       await fillByLabel('Identifiant externe', 'new externalId');
