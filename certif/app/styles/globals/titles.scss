@@ -1,7 +1,6 @@
 .page-title {
+  @extend %pix-title-m;
+
   margin: 24px 0;
-  color: $pix-neutral-90;
-  font-weight: 500;
-  font-size: 2.25rem;
-  font-family: $font-open-sans;
+  color: var(--pix-neutral-800);
 }
