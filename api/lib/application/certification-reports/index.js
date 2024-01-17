@@ -12,15 +12,8 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
+            method: securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
+            assign: 'hasAuthorizationToAccessSessionsOfCertificationCenters',
           },
         ],
         validate: {
@@ -31,8 +24,7 @@ const register = async function (server) {
         handler: certificationReportController.saveCertificationIssueReport,
         tags: ['api', 'certification-reports'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs qui sont membres de la session du centre de certification**\n',
-          "ou à ceux avec un rôle sur l'application Pix Admin\n",
+          '- **Cette route est restreinte aux utilisateurs qui sont membres du centre de certification**\n',
           "- Elle permet d'enregistrer un signalement relevé par un surveillant sur la certification d'un candidat",
         ],
       },
