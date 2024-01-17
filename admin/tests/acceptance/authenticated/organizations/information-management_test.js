@@ -18,7 +18,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       // given
       const organization = this.server.create('organization', { name: 'oldOrganizationName' });
       const screen = await visit(`/organizations/${organization.id}`);
-      await clickByName('Éditer');
+      await clickByName('Modifier');
 
       // when
       await fillByLabel('* Nom', 'newOrganizationName');

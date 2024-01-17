@@ -269,7 +269,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         await clickByName('Modifier');
 
         // then
-        assert.dom(screen.getByRole('button', { name: 'Editer' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
         assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
       });
 

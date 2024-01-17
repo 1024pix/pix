@@ -29,7 +29,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       );
 
       // then
-      assert.dom(screen.getByRole('heading', { name: 'Éditer les informations du candidat' })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Modifier les informations du candidat' })).exists();
     });
   });
 

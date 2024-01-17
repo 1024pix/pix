@@ -154,7 +154,7 @@ module('Integration | Component | organizations/information-section-view', funct
       const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
       // then
-      assert.dom(screen.getByRole('button', { name: 'Éditer' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
       assert.dom(screen.getByRole('button', { name: "Archiver l'organisation" })).exists();
     });
 
@@ -283,7 +283,7 @@ module('Integration | Component | organizations/information-section-view', funct
       const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
       // then
-      assert.dom(screen.queryByRole('button', { name: 'Éditer' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Modifier' })).doesNotExist();
       assert.dom(screen.queryByRole('button', { name: "Archiver l'organisation" })).doesNotExist();
     });
   });

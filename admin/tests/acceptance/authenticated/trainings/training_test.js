@@ -161,7 +161,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
         await visit(`/trainings/${trainingId}`);
 
         // when
-        await click(screen.getByRole('button', { name: 'Editer' }));
+        await click(screen.getByRole('button', { name: 'Modifier' }));
         await fillByLabel('Titre', 'Nouveau contenu formatif modifié');
         await click(screen.getByRole('button', { name: 'Modifier le contenu formatif' }));
 
@@ -179,7 +179,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
         await visit(`/trainings/${trainingId}`);
 
         // then
-        assert.notOk(screen.queryByRole('button', { name: 'Editer' }));
+        assert.notOk(screen.queryByRole('button', { name: 'Modifier' }));
       });
     });
   });

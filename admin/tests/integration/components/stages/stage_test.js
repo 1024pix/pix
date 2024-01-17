@@ -40,7 +40,7 @@ module('Integration | Component | Stages::Stage', function (hooks) {
       );
 
       //then
-      assert.dom(screen.getByRole('button', { name: 'Éditer' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
       assert.dom(screen.getByText('ID : 34', { exact: false })).exists();
       assert.dom(screen.getByText('1er acquis', { exact: false })).exists();
       assert.dom(screen.getByText('Titre : palier premier acquis', { exact: false })).exists();
@@ -101,7 +101,7 @@ module('Integration | Component | Stages::Stage', function (hooks) {
       );
 
       //then
-      assert.dom(screen.getByRole('button', { name: 'Éditer' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
       assert.dom(screen.getByText('ID : 34', { exact: false })).exists();
       assert.dom(screen.getByText('Seuil : 60', { exact: false })).exists();
       assert.dom(screen.getByText('Titre : palier 3', { exact: false })).exists();
@@ -174,7 +174,7 @@ module('Integration | Component | Stages::Stage', function (hooks) {
         hbs`<Stages::Stage @stage={{this.stage}} @toggleEditMode={{this.toggleEditMode}} @isEditMode={{this.isEditMode}} />`,
       );
       // then
-      assert.dom(screen.queryByText('Éditer')).exists();
+      assert.dom(screen.queryByText('Modifier')).exists();
     });
   });
 

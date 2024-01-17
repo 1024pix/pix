@@ -109,7 +109,7 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
     //when
     await render(hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`);
-    await clickByName('Éditer');
+    await clickByName('Modifier');
 
     //then
     assert.ok(this.toggleEditMode.called);
@@ -176,7 +176,7 @@ module('Integration | Component | Campaigns | details', function (hooks) {
       const screen = await render(hbs`<Campaigns::Details @campaign={{this.campaign}} />`);
 
       // expect
-      assert.dom(screen.queryByRole('button', { name: 'Éditer' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Modifier' })).doesNotExist();
     });
   });
 });
