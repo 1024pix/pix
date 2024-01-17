@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import * as skillRepository from '../../../../../lib/infrastructure/repositories/skill-repository.js';
-import { Campaign } from '../../domain/read-models/Campaign.js';
+import { Campaign } from '../../domain/models/Campaign.js';
 import crypto from 'crypto';
 import { UnknownCampaignId } from '../../domain/errors.js';
 
@@ -10,34 +10,21 @@ const get = async function (id) {
 
   if (!campaign) return null;
 
+  const { count: participationCount } = await knex('campaign-participations')
+    .count('id')
+    .where({ campaignId: id })
+    .first();
+
   return new Campaign({
     ...campaign,
-    organization: { id: campaign.organizationId },
-    targetProfile: { id: campaign.targetProfileId },
-    creator: { id: campaign.creatorId },
+    participationCount,
   });
 };
 
-const update = async function (campaign) {
-  const editedAttributes = _.pick(campaign, ['name', 'title', 'customLandingPageText', 'ownerId']);
-
-  const [editedCampaign] = await knex('campaigns').update(editedAttributes).where({ id: campaign.id }).returning('*');
+const update = async function ({ campaignId, campaignAttributes }) {
+  const [editedCampaign] = await knex('campaigns').where({ id: campaignId }).update(campaignAttributes).returning('*');
 
   return new Campaign(editedCampaign);
-};
-
-const updateByCampaignId = function ({ campaignId, campaignAttributes }) {
-  const editableAttributes = _.pick(campaignAttributes, [
-    'name',
-    'title',
-    'customLandingPageText',
-    'customResultPageText',
-    'customResultPageButtonText',
-    'customResultPageButtonUrl',
-    'multipleSendings',
-    'isForAbsoluteNovice',
-  ]);
-  return knex('campaigns').where({ id: campaignId }).update(editableAttributes);
 };
 
 const save = async function (campaigns, dependencies = { skillRepository }) {
@@ -128,4 +115,4 @@ const isFromSameOrganization = async function ({ firstCampaignId, secondCampaign
   return firstCampaign.organizationId === secondCampaign.organizationId;
 };
 
-export { save, update, updateByCampaignId, get, isCodeAvailable, swapCampaignCodes, isFromSameOrganization };
+export { save, update, get, isCodeAvailable, swapCampaignCodes, isFromSameOrganization };

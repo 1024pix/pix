@@ -22,16 +22,15 @@ describe('Unit | UseCase | update-campaign', function () {
 
   context('when campaign exists', function () {
     beforeEach(function () {
-      originalCampaign = domainBuilder.buildCampaign({
+      originalCampaign = domainBuilder.prescription.campaign.buildCampaign({
         id: 1,
         name: 'Old name',
         title: 'Old title',
         type: 'ASSESSMENT',
         customLandingPageText: 'Old text',
-        targetProfile: { id: 1 },
-        creator: { id: creatorId },
-        ownerId: domainBuilder.buildUser({ id: ownerId }).id,
-        organization: { id: organizationId },
+        creatorId,
+        ownerId,
+        organizationId,
       });
       userWithMembership = {
         id: 1,
@@ -43,7 +42,6 @@ describe('Unit | UseCase | update-campaign', function () {
         organization: { id: organizationId },
       });
       campaignAdministrationRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
-      campaignAdministrationRepository.update.callsFake((updatedCampaign) => updatedCampaign);
       userWithMembership.hasAccessToOrganization.withArgs(organizationId).returns(true);
       membershipRepository.findByUserIdAndOrganizationId
         .withArgs({ userId: ownerId, organizationId })
@@ -52,10 +50,11 @@ describe('Unit | UseCase | update-campaign', function () {
 
     it('should update the campaign title only', async function () {
       // given
-      const updatedCampaign = domainBuilder.buildCampaign.ofTypeAssessment({
+      const updatedCampaign = domainBuilder.prescription.campaign.buildCampaign.ofTypeAssessment({
         ...originalCampaign,
         title: 'New title',
       });
+      campaignAdministrationRepository.update.resolves(updatedCampaign);
 
       // when
       const resultCampaign = await usecases.updateCampaign({
@@ -68,17 +67,26 @@ describe('Unit | UseCase | update-campaign', function () {
       });
 
       // then
-      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly({
+        campaignId: updatedCampaign.id,
+        campaignAttributes: {
+          name: updatedCampaign.name,
+          title: updatedCampaign.title,
+          customLandingPageText: updatedCampaign.customLandingPageText,
+          ownerId: updatedCampaign.ownerId,
+        },
+      });
       expect(resultCampaign.title).to.equal(updatedCampaign.title);
       expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
     });
 
     it('should update the campaign page text only', async function () {
       // given
-      const updatedCampaign = domainBuilder.buildCampaign({
+      const updatedCampaign = domainBuilder.prescription.campaign.buildCampaign({
         ...originalCampaign,
         customLandingPageText: 'New text',
       });
+      campaignAdministrationRepository.update.resolves(updatedCampaign);
 
       // when
       const resultCampaign = await usecases.updateCampaign({
@@ -91,14 +99,23 @@ describe('Unit | UseCase | update-campaign', function () {
       });
 
       // then
-      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly({
+        campaignId: updatedCampaign.id,
+        campaignAttributes: {
+          name: updatedCampaign.name,
+          title: updatedCampaign.title,
+          customLandingPageText: updatedCampaign.customLandingPageText,
+          ownerId: updatedCampaign.ownerId,
+        },
+      });
       expect(resultCampaign.title).to.equal(originalCampaign.title);
       expect(resultCampaign.customLandingPageText).to.equal(updatedCampaign.customLandingPageText);
     });
 
     it('should update the campaign archive date only', async function () {
       // given
-      const updatedCampaign = domainBuilder.buildCampaign({ ...originalCampaign });
+      const updatedCampaign = domainBuilder.prescription.campaign.buildCampaign({ ...originalCampaign });
+      campaignAdministrationRepository.update.resolves(updatedCampaign);
 
       // when
       const resultCampaign = await usecases.updateCampaign({
@@ -110,17 +127,26 @@ describe('Unit | UseCase | update-campaign', function () {
       });
 
       // then
-      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly({
+        campaignId: updatedCampaign.id,
+        campaignAttributes: {
+          name: updatedCampaign.name,
+          title: updatedCampaign.title,
+          customLandingPageText: updatedCampaign.customLandingPageText,
+          ownerId: updatedCampaign.ownerId,
+        },
+      });
       expect(resultCampaign.title).to.equal(originalCampaign.title);
       expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
     });
 
     it('should update the campaign name only', async function () {
       // given
-      const updatedCampaign = domainBuilder.buildCampaign({
+      const updatedCampaign = domainBuilder.prescription.campaign.buildCampaign({
         ...originalCampaign,
         name: 'New Name',
       });
+      campaignAdministrationRepository.update.resolves(updatedCampaign);
 
       // when
       const resultCampaign = await usecases.updateCampaign({
@@ -134,7 +160,15 @@ describe('Unit | UseCase | update-campaign', function () {
       });
 
       // then
-      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly({
+        campaignId: updatedCampaign.id,
+        campaignAttributes: {
+          name: updatedCampaign.name,
+          title: updatedCampaign.title,
+          customLandingPageText: updatedCampaign.customLandingPageText,
+          ownerId: updatedCampaign.ownerId,
+        },
+      });
       expect(resultCampaign.name).to.equal(updatedCampaign.name);
       expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
     });
@@ -146,11 +180,11 @@ describe('Unit | UseCase | update-campaign', function () {
         user: newOwner,
         organization: { id: organizationId },
       });
-      const updatedCampaign = domainBuilder.buildCampaign({
+      const updatedCampaign = domainBuilder.prescription.campaign.buildCampaign({
         ...originalCampaign,
         ownerId: newOwner.id,
       });
-
+      campaignAdministrationRepository.update.resolves(updatedCampaign);
       membershipRepository.findByUserIdAndOrganizationId.resolves([newOwnerWithMembership]);
 
       // when
@@ -171,7 +205,8 @@ describe('Unit | UseCase | update-campaign', function () {
 
     it('should not update the campaign name if campaign name is undefined', async function () {
       // given
-      const updatedCampaign = domainBuilder.buildCampaign({ ...originalCampaign });
+      const updatedCampaign = domainBuilder.prescription.campaign.buildCampaign({ ...originalCampaign });
+      campaignAdministrationRepository.update.resolves(updatedCampaign);
 
       // when
       const resultCampaign = await usecases.updateCampaign({
@@ -185,7 +220,15 @@ describe('Unit | UseCase | update-campaign', function () {
       });
 
       // then
-      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly({
+        campaignId: updatedCampaign.id,
+        campaignAttributes: {
+          name: updatedCampaign.name,
+          title: updatedCampaign.title,
+          customLandingPageText: updatedCampaign.customLandingPageText,
+          ownerId: updatedCampaign.ownerId,
+        },
+      });
       expect(resultCampaign.name).to.equal(originalCampaign.name);
       expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
     });
@@ -200,7 +243,7 @@ describe('Unit | UseCase | update-campaign', function () {
         memberships: [{ organization: { id: organizationId } }],
         hasAccessToOrganization: sinon.stub(),
       };
-      originalCampaign = domainBuilder.buildCampaign({ organization: { id: organizationId } });
+      originalCampaign = domainBuilder.prescription.campaign.buildCampaign({ organizationId });
 
       campaignAdministrationRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
       userWithMembership.hasAccessToOrganization.withArgs(organizationId).returns(true);
@@ -221,6 +264,7 @@ describe('Unit | UseCase | update-campaign', function () {
       // then
       expect(error).to.be.instanceOf(EntityValidationError);
       expect(error.invalidAttributes).to.deep.equal([{ attribute: 'ownerId', message: 'OWNER_NOT_IN_ORGANIZATION' }]);
+      expect(campaignAdministrationRepository.update).to.not.have.been.called;
     });
   });
 });
