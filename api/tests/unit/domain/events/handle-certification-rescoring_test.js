@@ -218,7 +218,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
               emitter: 'PIX-ALGO',
               pixScore: scoreForEstimatedLevel,
               reproducibilityRate: 100,
-              status: 'validated',
+              status: 'rejected',
               competenceMarks: [],
               assessmentId: 123,
               commentForCandidate:

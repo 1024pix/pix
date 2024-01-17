@@ -165,7 +165,7 @@ const _shouldDowngradeScore = ({ maximumAssessmentLength, answers, abortReason }
 };
 
 const _isCertificationRejected = ({ answers, abortReason }) => {
-  return !_hasCandidateAnsweredEnoughQuestions({ answers }) && abortReason === ABORT_REASONS.CANDIDATE;
+  return !_hasCandidateAnsweredEnoughQuestions({ answers }) && abortReason;
 };
 
 const _hasCandidateCompletedTheCertification = ({ answers, maximumAssessmentLength }) => {
