@@ -1,21 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CampaignCreator } from '../../domain/models/CampaignCreator.js';
-import { UserNotAuthorizedToCreateCampaignError } from '../../../../../lib/domain/errors.js';
 
-async function get({
-  userId,
-  organizationId,
-  ownerId,
-  shouldOwnerBeFromOrganization = true,
-  shouldCreatorBeFromOrganization = true,
-}) {
-  if (shouldCreatorBeFromOrganization) {
-    await _checkUserIsAMemberOfOrganization({ organizationId, userId });
-  }
-  if (shouldOwnerBeFromOrganization) {
-    await _checkOwnerIsAMemberOfOrganization({ organizationId, ownerId });
-  }
-
+async function get(organizationId) {
   const availableTargetProfileIds = await knex('target-profiles')
     .leftJoin('target-profile-shares', 'targetProfileId', 'target-profiles.id')
     .where({ outdated: false })
@@ -45,21 +31,3 @@ async function get({
 }
 
 export { get };
-
-async function _checkUserIsAMemberOfOrganization({ organizationId, userId }) {
-  const membership = await knex('memberships').where({ organizationId, userId }).first();
-  if (!membership) {
-    throw new UserNotAuthorizedToCreateCampaignError(
-      `User does not have an access to the organization ${organizationId}`,
-    );
-  }
-}
-
-async function _checkOwnerIsAMemberOfOrganization({ organizationId, ownerId }) {
-  const membership = await knex('memberships').where({ organizationId, userId: ownerId }).first();
-  if (!membership) {
-    throw new UserNotAuthorizedToCreateCampaignError(
-      `Owner does not have an access to the organization ${organizationId}`,
-    );
-  }
-}

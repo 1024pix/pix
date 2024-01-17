@@ -20,12 +20,7 @@ const createCampaigns = async function ({
       }
 
       const generatedCampaignCode = await codeGenerator.generate(campaignAdministrationRepository);
-      const campaignCreator = await campaignCreatorRepository.get({
-        userId: campaign.creatorId,
-        organizationId: campaign.organizationId,
-        shouldOwnerBeFromOrganization: false,
-        shouldCreatorBeFromOrganization: false,
-      });
+      const campaignCreator = await campaignCreatorRepository.get(campaign.organizationId);
 
       return campaignCreator.createCampaign({
         ...campaign,
