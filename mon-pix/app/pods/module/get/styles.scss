@@ -5,6 +5,24 @@
   color: var(--pix-neutral-900);
   background: var(--pix-neutral-0);
 
+  h3,
+  h4,
+  p {
+    margin: var(--pix-spacing-1x) 0;
+  }
+
+  h3,
+  h4 {
+    font-weight: var(--pix-font-medium);
+  }
+
+  ul:not([class]),
+  ol {
+    margin: var(--pix-spacing-1x) 0;
+    padding: revert;
+    list-style: revert;
+  }
+
   p.pix-list-inline {
     display: inline;
 
