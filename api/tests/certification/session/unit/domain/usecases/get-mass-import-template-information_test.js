@@ -1,9 +1,9 @@
 import { expect, sinon, domainBuilder } from '../../../../../test-helper.js';
-import { getMassImportTemplate } from '../../../../../../src/certification/session/domain/usecases/get-mass-import-template.js';
+import { getMassImportTemplateInformation } from '../../../../../../src/certification/session/domain/usecases/get-mass-import-template-information.js';
 import { CenterTypes } from '../../../../../../src/certification/session/domain/models/CenterTypes.js';
 
-describe('Unit | Certification | Session | UseCase | get-mass-import-template ', function () {
-  context('#getMassImportTemplate', function () {
+describe('Unit | Certification | Session | UseCase | get-mass-import-template-information', function () {
+  context('#getMassImportTemplateInformation', function () {
     let centerRepository, complementaryCertificationRepository;
 
     beforeEach(function () {
@@ -28,7 +28,7 @@ describe('Unit | Certification | Session | UseCase | get-mass-import-template ',
           .resolves(complementary);
 
         // when
-        const result = await getMassImportTemplate({
+        const result = await getMassImportTemplateInformation({
           certificationCenterId: 1,
           centerRepository,
           complementaryCertificationRepository,
@@ -59,7 +59,7 @@ describe('Unit | Certification | Session | UseCase | get-mass-import-template ',
           .resolves(complementary);
 
         // when
-        const result = await getMassImportTemplate({
+        const result = await getMassImportTemplateInformation({
           certificationCenterId: 1,
           centerRepository,
           complementaryCertificationRepository,

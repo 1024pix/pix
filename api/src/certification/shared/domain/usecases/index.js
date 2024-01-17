@@ -131,7 +131,11 @@ const path = dirname(fileURLToPath(import.meta.url));
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({
     path: join(path, '../../../session/domain/usecases/'),
-    ignoredFileNames: ['index.js', 'get-session-certification-candidates.js', 'get-mass-import-template.js'],
+    ignoredFileNames: [
+      'index.js',
+      'get-session-certification-candidates.js',
+      'get-mass-import-template-information.js',
+    ],
   })),
   ...(await importNamedExportsFromDirectory({
     path: join(path, '../../../flash-certification/domain/usecases/'),
