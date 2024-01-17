@@ -1,37 +1,30 @@
 .element-qcu {
-  @extend %pix-body-l;
+  &__proposals {
+    margin-bottom: var(--pix-spacing-4x);
 
-  margin: $pix-spacing-s;
-  color: $pix-neutral-90;
-
-  &__verify_button {
-    margin: $pix-spacing-s $pix-spacing-s $pix-spacing-s 0;
+    .pix-radio-button {
+      padding: var(--pix-spacing-2x);
+      background: var(--pix-neutral-0);
+      border: 1px solid var(--pix-neutral-100);
+      border-radius: var(--pix-spacing-2x);
+    }
   }
 
-  &__feedback {
-    margin: $pix-spacing-s 0 $pix-spacing-s 0;
-  }
-
-  // revert the reset
-  ul,
-  ol {
-    margin: revert;
-    padding: revert;
-    list-style: revert;
+  &__required-field-missing {
+    margin-bottom: var(--pix-spacing-4x);
   }
 }
 
 .element-qcu-header {
   &__instruction {
-    @extend %pix-body-m;
-
-    margin-bottom: $pix-spacing-xs;
+    margin-bottom: var(--pix-spacing-2x);
+    font-weight: var(--pix-font-medium);
   }
 
   &__direction {
     @extend %pix-body-s;
 
-    margin-bottom: $pix-spacing-s;
-    color: $pix-neutral-60;
+    margin-bottom: var(--pix-spacing-4x);
+    color: var(--pix-neutral-500);
   }
 }
