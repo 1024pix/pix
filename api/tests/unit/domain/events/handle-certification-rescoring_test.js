@@ -136,7 +136,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
-              commentForJury: 'Computed',
               emitter: 'PIX-ALGO',
               pixScore: scoreForEstimatedLevel,
               reproducibilityRate: 100,
@@ -214,7 +213,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
-              commentForJury: 'Computed',
               emitter: 'PIX-ALGO',
               pixScore: scoreForEstimatedLevel,
               reproducibilityRate: 100,
@@ -308,7 +306,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
-              commentForJury: 'Computed',
               emitter: 'PIX-ALGO',
               pixScore: rawScore,
               reproducibilityRate: 100,
@@ -388,7 +385,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
-              commentForJury: 'Computed',
               emitter: 'PIX-ALGO',
               pixScore: degradedScore,
               reproducibilityRate: 100,
@@ -469,7 +465,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         const expectedResult = {
           certificationCourseId,
           assessmentResult: new AssessmentResult({
-            commentForJury: 'Computed',
             emitter: 'PIX-ALGO',
             pixScore: scoreForEstimatedLevel,
             reproducibilityRate: 100,
@@ -547,7 +542,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
-              commentForJury: 'Computed',
               emitter: 'PIX-ALGO',
               pixScore: scoreForEstimatedLevel,
               reproducibilityRate: 100,
@@ -616,7 +610,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
-              commentForJury: 'Computed',
               emitter: 'PIX-ALGO',
               pixScore: cappedScoreForEstimatedLevel,
               reproducibilityRate: 100,
@@ -694,7 +687,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
       const assessmentResultToBeSaved = new AssessmentResult({
         id: undefined,
-        commentForJury: 'Computed',
         emitter: 'PIX-ALGO-NEUTRALIZATION',
         pixScore: 9,
         reproducibilityRate: 80,
@@ -1184,7 +1176,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
           const assessmentResultToBeSaved = new AssessmentResult({
             id: undefined,
-            commentForJury: 'Computed',
             emitter,
             pixScore: 9,
             reproducibilityRate: 80,
