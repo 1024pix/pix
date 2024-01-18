@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | assessment-result-serializer', function 
       const expectedAssessmentResult = new AssessmentResult({
         assessmentId: 1,
         emitter: 'Jury Pix',
-        commentForJury: 'comment',
+        commentByJury: 'comment',
         commentForCandidate: null,
         commentForOrganization: 'another comment',
         pixScore: 0,
