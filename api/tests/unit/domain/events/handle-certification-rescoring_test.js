@@ -27,8 +27,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
   describe('when handling a v3 certification', function () {
     let assessmentResultRepository,
       certificationAssessmentRepository,
+      certificationChallengeForScoringRepository,
       answerRepository,
-      challengeRepository,
       certificationCourseRepository,
       flashAlgorithmConfigurationRepository,
       flashAlgorithmService;
@@ -44,30 +44,27 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       certificationAssessmentRepository = {
         getByCertificationCourseId: sinon.stub(),
       };
+      certificationChallengeForScoringRepository = {
+        getByCertificationCourseId: sinon.stub(),
+      };
       answerRepository = {
         findByAssessment: sinon.stub(),
       };
-      challengeRepository = {
-        getManyFlashParameters: sinon.stub(),
-      };
-
       certificationCourseRepository = {
         get: sinon.stub(),
         update: sinon.stub().resolves(),
       };
-
       flashAlgorithmConfigurationRepository = {
         get: sinon.stub(),
       };
-
       flashAlgorithmService = {
         getEstimatedLevelAndErrorRate: sinon.stub(),
       };
 
       dependencies = {
         certificationAssessmentRepository,
+        certificationChallengeForScoringRepository,
         answerRepository,
-        challengeRepository,
         assessmentResultRepository,
         certificationCourseRepository,
         flashAlgorithmConfigurationRepository,
@@ -91,13 +88,18 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           });
 
           const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification - 1 });
-          const challengeIds = challenges.map(({ id }) => id);
-
+          const certificationChallengesForScoring = challenges.map((challenge) =>
+            domainBuilder.buildCertificationChallengeForScoring(challenge),
+          );
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 2;
           const scoreForEstimatedLevel = 592;
           const { certificationCourseId } = certificationAssessment;
+
+          certificationChallengeForScoringRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId })
+            .resolves(certificationChallengesForScoring);
 
           certificationAssessmentRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId })
@@ -105,15 +107,13 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
           answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
 
-          challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
-
           certificationCourseRepository.get
             .withArgs(certificationAssessment.certificationCourseId)
             .resolves(abortedCertificationCourse);
 
           flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
-              challenges,
+              challenges: certificationChallengesForScoring,
               allAnswers: answers,
               estimatedLevel: sinon.match.number,
               variationPercent: undefined,
@@ -169,13 +169,18 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           });
 
           const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification - 1 });
-          const challengeIds = challenges.map(({ id }) => id);
-
+          const certificationChallengesForScoring = challenges.map((challenge) =>
+            domainBuilder.buildCertificationChallengeForScoring(challenge),
+          );
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 2;
           const scoreForEstimatedLevel = 592;
           const { certificationCourseId } = certificationAssessment;
+
+          certificationChallengeForScoringRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId })
+            .resolves(certificationChallengesForScoring);
 
           certificationAssessmentRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId })
@@ -183,15 +188,13 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
           answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
 
-          challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
-
           certificationCourseRepository.get
             .withArgs(certificationAssessment.certificationCourseId)
             .resolves(abortedCertificationCourse);
 
           flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
-              challenges,
+              challenges: certificationChallengesForScoring,
               allAnswers: answers,
               estimatedLevel: sinon.match.number,
               variationPercent: undefined,
@@ -261,21 +264,24 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           });
 
           const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification });
-          const challengeIds = challenges.map(({ id }) => id);
-
+          const certificationChallengesForScoring = challenges.map((challenge) =>
+            domainBuilder.buildCertificationChallengeForScoring(challenge),
+          );
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 2;
           const rawScore = 592;
           const { certificationCourseId } = certificationAssessment;
 
+          certificationChallengeForScoringRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId })
+            .resolves(certificationChallengesForScoring);
+
           certificationAssessmentRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId })
             .resolves(certificationAssessment);
 
           answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
-
-          challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
 
           certificationCourseRepository.get
             .withArgs(certificationAssessment.certificationCourseId)
@@ -285,7 +291,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
           flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
-              challenges,
+              challenges: certificationChallengesForScoring,
               allAnswers: answers,
               estimatedLevel: sinon.match.number,
               variationPercent: undefined,
@@ -341,21 +347,24 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           });
 
           const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification });
-          const challengeIds = challenges.map(({ id }) => id);
-
+          const certificationChallengesForScoring = challenges.map((challenge) =>
+            domainBuilder.buildCertificationChallengeForScoring(challenge),
+          );
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 2;
           const degradedScore = 474;
           const { certificationCourseId } = certificationAssessment;
 
+          certificationChallengeForScoringRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId })
+            .resolves(certificationChallengesForScoring);
+
           certificationAssessmentRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId })
             .resolves(certificationAssessment);
 
           answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
-
-          challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
 
           certificationCourseRepository.get
             .withArgs(certificationAssessment.certificationCourseId)
@@ -365,7 +374,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
           flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
-              challenges,
+              challenges: certificationChallengesForScoring,
               allAnswers: answers,
               estimatedLevel: sinon.match.number,
               variationPercent: undefined,
@@ -422,13 +431,18 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         });
 
         const challenges = generateChallengeList({ length: maximumAssessmentLength });
-        const challengeIds = challenges.map(({ id }) => id);
-
+        const certificationChallengesForScoring = challenges.map((challenge) =>
+          domainBuilder.buildCertificationChallengeForScoring(challenge),
+        );
         const answers = generateAnswersForChallenges({ challenges });
 
         const expectedEstimatedLevel = 2;
         const scoreForEstimatedLevel = 592;
         const { certificationCourseId } = certificationAssessment;
+
+        certificationChallengeForScoringRepository.getByCertificationCourseId
+          .withArgs({ certificationCourseId })
+          .resolves(certificationChallengesForScoring);
 
         certificationAssessmentRepository.getByCertificationCourseId
           .withArgs({ certificationCourseId })
@@ -438,15 +452,13 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
         answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
 
-        challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
-
         certificationCourseRepository.get
           .withArgs(certificationAssessment.certificationCourseId)
           .resolves(abortedCertificationCourse);
 
         flashAlgorithmService.getEstimatedLevelAndErrorRate
           .withArgs({
-            challenges,
+            challenges: certificationChallengesForScoring,
             allAnswers: answers,
             estimatedLevel: sinon.match.number,
             variationPercent: undefined,
@@ -489,6 +501,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
         expect(result).to.deep.equal(expectedEvent);
       });
+
       describe('when certification is rejected for fraud', function () {
         it('should save the score with rejected status', async function () {
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
@@ -500,13 +513,18 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           });
 
           const challenges = generateChallengeList({ length: maximumAssessmentLength });
-          const challengeIds = challenges.map(({ id }) => id);
-
+          const certificationChallengesForScoring = challenges.map((challenge) =>
+            domainBuilder.buildCertificationChallengeForScoring(challenge),
+          );
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 2;
           const scoreForEstimatedLevel = 592;
           const { certificationCourseId } = certificationAssessment;
+
+          certificationChallengeForScoringRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId })
+            .resolves(certificationChallengesForScoring);
 
           certificationAssessmentRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId })
@@ -516,15 +534,13 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
           answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
 
-          challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
-
           certificationCourseRepository.get
             .withArgs(certificationAssessment.certificationCourseId)
             .resolves(abortedCertificationCourse);
 
           flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
-              challenges,
+              challenges: certificationChallengesForScoring,
               allAnswers: answers,
               estimatedLevel: sinon.match.number,
               variationPercent: undefined,
@@ -578,13 +594,19 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const abortedCertificationCourse = domainBuilder.buildCertificationCourse({});
 
           const challenges = generateChallengeList({ length: maximumAssessmentLength });
-          const challengeIds = challenges.map(({ id }) => id);
+          const certificationChallengesForScoring = challenges.map((challenge) =>
+            domainBuilder.buildCertificationChallengeForScoring(challenge),
+          );
 
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 8;
           const cappedScoreForEstimatedLevel = 896;
           const { certificationCourseId } = certificationAssessment;
+
+          certificationChallengeForScoringRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId })
+            .resolves(certificationChallengesForScoring);
 
           certificationAssessmentRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId })
@@ -594,15 +616,13 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
           answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
 
-          challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
-
           certificationCourseRepository.get
             .withArgs(certificationAssessment.certificationCourseId)
             .resolves(abortedCertificationCourse);
 
           flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
-              challenges,
+              challenges: certificationChallengesForScoring,
               allAnswers: answers,
               estimatedLevel: sinon.match.number,
               variationPercent: undefined,
