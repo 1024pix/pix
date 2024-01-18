@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class ModuleDetails extends Component {
-  @tracked grainsToDisplay = [this.args.module.grains.at(0)];
+  @tracked grainsToDisplay = [this.args.module.grains[0]];
 
   get hasNextGrain() {
     return this.grainsToDisplay.length < this.args.module.grains.length;
@@ -19,7 +19,7 @@ export default class ModuleDetails extends Component {
       return;
     }
 
-    const nextGrain = this.args.module.grains.at(this.lastIndex + 1);
+    const nextGrain = this.args.module.grains[this.lastIndex + 1];
     this.grainsToDisplay = [...this.grainsToDisplay, nextGrain];
   }
 
