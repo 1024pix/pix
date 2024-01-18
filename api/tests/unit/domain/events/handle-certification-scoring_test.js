@@ -241,7 +241,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             status: certificationAssessmentScore.status,
             assessmentId: certificationAssessment.id,
             emitter: 'PIX-ALGO',
-            commentForJury: 'Computed',
           });
 
           expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
@@ -380,7 +379,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               status: status.REJECTED,
               assessmentId: certificationAssessment.id,
               emitter: 'PIX-ALGO',
-              commentForJury: 'Computed',
             });
 
             expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
@@ -458,7 +456,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               status: status.REJECTED,
               assessmentId: certificationAssessment.id,
               emitter: 'PIX-ALGO',
-              commentForJury: 'Computed',
             });
 
             expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
@@ -538,7 +535,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               status: status.VALIDATED,
               assessmentId: certificationAssessment.id,
               emitter: 'PIX-ALGO',
-              commentForJury: 'Computed',
             });
             expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
               certificationCourseId: 1234,
@@ -604,7 +600,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 status: status.VALIDATED,
                 assessmentId: certificationAssessment.id,
                 emitter: 'PIX-ALGO',
-                commentForJury: 'Computed',
               });
               expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
                 certificationCourseId: 1234,
@@ -673,7 +668,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 status: status.VALIDATED,
                 assessmentId: certificationAssessment.id,
                 emitter: 'PIX-ALGO',
-                commentForJury: 'Computed',
               });
               expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
                 certificationCourseId: 1234,
@@ -747,7 +741,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 status: status.VALIDATED,
                 assessmentId: certificationAssessment.id,
                 emitter: 'PIX-ALGO',
-                commentForJury: 'Computed',
               });
               expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
                 certificationCourseId: 1234,
