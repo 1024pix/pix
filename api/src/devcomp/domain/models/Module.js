@@ -45,20 +45,6 @@ class Module {
 
     return foundGrain;
   }
-
-  getElementById(elementId) {
-    const foundElement = this.#getAllElements().find(({ id }) => id === elementId);
-
-    if (foundElement === undefined) {
-      throw new NotFoundError();
-    }
-
-    return foundElement;
-  }
-
-  #getAllElements() {
-    return this.grains.flatMap(({ elements }) => elements);
-  }
 }
 
 export { Module };
