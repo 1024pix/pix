@@ -11,6 +11,11 @@
     padding: var(--pix-spacing-6x);
     border-top-left-radius: var(--pix-spacing-4x);
     border-top-right-radius: var(--pix-spacing-4x);
+
+    &:last-child {
+      border-bottom-right-radius: var(--pix-spacing-4x);
+      border-bottom-left-radius: var(--pix-spacing-4x);
+    }
   }
 
   &__footer {
