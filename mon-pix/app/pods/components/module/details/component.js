@@ -32,4 +32,13 @@ export default class ModuleDetails extends Component {
   grainTransition(grainId) {
     return this.args.module.transitionTexts.find((transition) => transition.grainId === grainId);
   }
+
+  @action
+  hasGrainJustAppeared(index) {
+    if (this.grainsToDisplay.length === 1) {
+      return false;
+    }
+
+    return this.grainsToDisplay.length - 1 === index;
+  }
 }

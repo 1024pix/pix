@@ -17,6 +17,10 @@ export default class ModuleGrain extends Component {
     return this.args.grain.allElementsAreAnswered;
   }
 
+  get ariaLiveGrainValue() {
+    return this.args.hasJustAppeared ? 'assertive' : null;
+  }
+
   @action
   async continueAction() {
     await this.args.continueAction();
