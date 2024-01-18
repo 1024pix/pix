@@ -23,6 +23,7 @@ import * as competenceMarkRepository from '../../../../../lib/infrastructure/rep
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import * as finalizedSessionRepository from '../../../session/infrastructure/repositories/finalized-session-repository.js';
 import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
+import * as flashAlgorithmConfigurationRepository from '../../../flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as issueReportCategoryRepository from '../../../shared/infrastructure/repositories/issue-report-category-repository.js';
 import * as jurySessionRepository from '../../../session/infrastructure/repositories/jury-session-repository.js';
 import * as mailService from '../services/mail-service.js';
@@ -102,6 +103,7 @@ const dependencies = {
   complementaryCertificationRepository,
   finalizedSessionRepository,
   flashAlgorithmService,
+  flashAlgorithmConfigurationRepository,
   issueReportCategoryRepository,
   jurySessionRepository,
   mailService,

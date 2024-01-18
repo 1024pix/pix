@@ -8,7 +8,7 @@ const save = async function (flashAlgorithmConfiguration) {
 };
 
 const get = async function () {
-  const flashAlgorithmConfiguration = await knex(TABLE_NAME).first();
+  const flashAlgorithmConfiguration = await knex(TABLE_NAME).orderBy('createdAt', 'desc').first();
 
   if (!flashAlgorithmConfiguration) {
     return new FlashAssessmentAlgorithmConfiguration();
