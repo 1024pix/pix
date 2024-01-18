@@ -1,14 +1,22 @@
+import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 import {
   buildLearners,
   buildSchoolOrganization,
   showSchools,
 } from '../../../../src/school/scripts/create-school-learners.js';
-import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
+import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 
 describe('Integration | Script | create school learners', function () {
   describe('#buildSchool', function () {
+    let featureId;
+
+    beforeEach(async function () {
+      featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT).id;
+      await databaseBuilder.commit();
+    });
+
     it('should create a school with a code', async function () {
       const organization = await buildSchoolOrganization({ name: 'Bambino' });
       const school = await knex('schools').where({ organizationId: organization.id }).first();
@@ -16,6 +24,15 @@ describe('Integration | Script | create school learners', function () {
       expect(organization).to.be.instanceOf(Organization);
       expect(organization.type).to.equal('SCO-1D');
       expect(school).to.exist;
+    });
+
+    it('should create a feature for the created organization', async function () {
+      const organization = await buildSchoolOrganization({ name: 'Panpan' });
+      const organizationFeature = await knex('organization-features')
+        .where({ organizationId: organization.id, featureId })
+        .first();
+
+      expect(organizationFeature).to.exist;
     });
   });
 

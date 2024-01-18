@@ -204,7 +204,11 @@ const archive = async function ({ id, archivedBy }) {
 const save = async function (organization) {
   const data = _.pick(organization, ['name', 'type', 'documentationUrl', 'credit', 'createdBy']);
   const [organizationCreated] = await knex(ORGANIZATIONS_TABLE_NAME).returning('*').insert(data);
-  return _toDomain(organizationCreated);
+  const savedOrganization = _toDomain(organizationCreated);
+  if (!_.isEmpty(savedOrganization.features)) {
+    await _enableFeatures(knex, savedOrganization.features, savedOrganization.id);
+  }
+  return savedOrganization;
 };
 
 export { get, update, archive, save };

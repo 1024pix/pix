@@ -8,6 +8,8 @@ import { logger } from '../../shared/infrastructure/utils/logger.js';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import bluebird from 'bluebird';
+import * as url from 'url';
+import { ORGANIZATION_FEATURE } from '../../../lib/domain/constants.js';
 
 const STUDENT_NAMES = [
   { firstName: 'Ichigo', lastName: 'Hara-Masuda' },
@@ -52,6 +54,14 @@ async function buildSchoolOrganization({ name }) {
   const savedOrganization = await organizationRepository.create(
     new Organization({ name, type: Organization.types.SCO1D, isManagingStudents: true }),
   );
+
+  logger.info(`Add link with Missions feature`);
+  const { id: featureId } = await knex('features')
+    .select('id')
+    .where({ key: ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key })
+    .first();
+  await knex('organization-features').insert({ organizationId: savedOrganization.id, featureId }).onConflict().ignore();
+
   logger.info(`Create school related to organization with id: ${savedOrganization.id}`);
   const code = await codeGenerator.generate(schoolRepository);
   await schoolRepository.save({ organizationId: savedOrganization.id, code });
@@ -93,6 +103,9 @@ function _validateArgs({ generate, name, quantity }) {
   return { generate, name, quantity };
 }
 
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+
 async function main() {
   const commandLineArgs = yargs(hideBin(process.argv))
     .option('generate', {
@@ -117,13 +130,15 @@ async function main() {
 }
 
 (async () => {
-  try {
-    await main();
-  } catch (error) {
-    logger.error('\x1b[31mErreur : %s\x1b[0m', error.message);
-    process.exitCode = 1;
-  } finally {
-    await disconnect();
+  if (isLaunchedFromCommandLine) {
+    try {
+      await main();
+    } catch (error) {
+      logger.error('\x1b[31mErreur : %s\x1b[0m', error.message);
+      process.exitCode = 1;
+    } finally {
+      disconnect();
+    }
   }
 })();
 
