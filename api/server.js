@@ -21,7 +21,7 @@ import {
   attachTargetProfileRoutes,
   complementaryCertificationRoutes,
 } from './src/certification/complementary-certification/routes.js';
-import { scenarioSimulatorRoutes } from './src/certification/flash-certification/routes.js';
+import { flashCertificationRoutes } from './src/certification/flash-certification/routes.js';
 import { certificationCourseRoutes } from './src/certification/course/routes.js';
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
 
@@ -145,7 +145,7 @@ const setupRoutesAndPlugins = async function (server) {
     authenticationRoutes,
     sharedRoutes,
     evaluationRoutes,
-    scenarioSimulatorRoutes,
+    flashCertificationRoutes,
     devcompRoutes,
     schoolRoutes,
     ...certificationRoutes,
