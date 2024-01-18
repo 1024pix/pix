@@ -50,6 +50,7 @@ export function createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServic
     pixOrgaTermsOfServiceAccepted,
     memberships: [membership],
     userOrgaSettings: userOrgaSettings,
+    features: { MISSIONS_MANAGEMENT: false },
   });
 }
 
@@ -247,6 +248,7 @@ export function createMember() {
     pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
     memberships: user.memberships,
     userOrgaSettings: user.userOrgaSettings,
+    features: { MISSIONS_MANAGEMENT: false },
   });
 
   return { user, organization, membership, userOrgaSettings, prescriber };

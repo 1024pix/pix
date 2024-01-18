@@ -270,6 +270,7 @@
       "campaigns": "Campagnes",
       "certifications": "Certifications",
       "documentation": "Documentation",
+      "missions": "Missions",
       "organization-participants": "Participants",
       "places": "Places",
       "sco-organization-participants": "Élèves",
@@ -753,6 +754,9 @@
           }
         }
       }
+    },
+    "missions": {
+      "title": "Missions"
     },
     "organization-learner": {
       "activity": {
