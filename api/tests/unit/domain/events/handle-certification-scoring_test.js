@@ -398,7 +398,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         });
 
         describe('when the candidate did not finish due to technical difficulties', function () {
-          it('should cancel the certification', async function () {
+          it('should cancel the certification and reject the assessment result', async function () {
             // given
             const abortReason = ABORT_REASONS.TECHNICAL;
             const expectedEstimatedLevel = 2;
@@ -450,12 +450,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             // then
             const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
               nbPix: scoreForEstimatedLevel,
-              status: status.VALIDATED,
+              status: status.REJECTED,
             });
             const expectedAssessmentResult = new AssessmentResult({
               pixScore: scoreForEstimatedLevel,
               reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-              status: status.VALIDATED,
+              status: status.REJECTED,
               assessmentId: certificationAssessment.id,
               emitter: 'PIX-ALGO',
               commentForJury: 'Computed',
