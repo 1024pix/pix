@@ -83,7 +83,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           status: 'validated',
           commentForOrganization: 'Un commentaire orga',
           commentForCandidate: 'Un commentaire candidat',
-          commentForJury: 'Un commentaire jury',
+          commentByJury: 'Un commentaire jury',
           juryId: 22,
         }).id;
         databaseBuilder.factory.buildCompetenceMark({

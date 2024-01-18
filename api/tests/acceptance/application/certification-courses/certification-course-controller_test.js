@@ -267,7 +267,7 @@ describe('Acceptance | API | Certification Course', function () {
         juryId: 66,
         commentForCandidate: 'comment candidate',
         commentForOrganization: 'comment organization',
-        commentForJury: 'comment jury',
+        commentByJury: 'comment jury',
         status: 'rejected',
       });
       databaseBuilder.factory.buildCompetenceMark({
