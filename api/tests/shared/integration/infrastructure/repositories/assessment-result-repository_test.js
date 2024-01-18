@@ -326,7 +326,20 @@ describe('Integration | Repository | AssessmentResult', function () {
           assessmentId: 2,
           competenceMarks: [competenceMark1, competenceMark2],
         });
-        databaseBuilder.factory.buildAssessmentResult(expectedAssessmentResult);
+        databaseBuilder.factory.buildAssessmentResult({
+          id: expectedAssessmentResult.id,
+          pixScore: expectedAssessmentResult.pixScore,
+          reproducibilityRate: expectedAssessmentResult.reproducibilityRate,
+          status: expectedAssessmentResult.status,
+          emitter: expectedAssessmentResult.emitter,
+          commentForCandidate: expectedAssessmentResult.commentForCandidate,
+          commentByJury: expectedAssessmentResult.commentForJury,
+          commentForOrganization: expectedAssessmentResult.commentForOrganization,
+          createdAt: expectedAssessmentResult.createdAt,
+          juryId: expectedAssessmentResult.juryId,
+          assessmentId: expectedAssessmentResult.assessmentId,
+          competenceMarks: [competenceMark1, competenceMark2],
+        });
         databaseBuilder.factory.buildCompetenceMark(competenceMark1);
         databaseBuilder.factory.buildCompetenceMark(competenceMark2);
         await databaseBuilder.commit();
@@ -387,7 +400,20 @@ describe('Integration | Repository | AssessmentResult', function () {
           assessmentId: 2,
           competenceMarks: [competenceMark1, competenceMark3],
         });
-        databaseBuilder.factory.buildAssessmentResult(expectedAssessmentResult);
+        databaseBuilder.factory.buildAssessmentResult({
+          id: expectedAssessmentResult.id,
+          pixScore: expectedAssessmentResult.pixScore,
+          reproducibilityRate: expectedAssessmentResult.reproducibilityRate,
+          status: expectedAssessmentResult.status,
+          emitter: expectedAssessmentResult.emitter,
+          commentForCandidate: expectedAssessmentResult.commentForCandidate,
+          commentByJury: expectedAssessmentResult.commentForJury,
+          commentForOrganization: expectedAssessmentResult.commentForOrganization,
+          createdAt: expectedAssessmentResult.createdAt,
+          juryId: expectedAssessmentResult.juryId,
+          assessmentId: expectedAssessmentResult.assessmentId,
+          competenceMarks: [competenceMark1, competenceMark3],
+        });
         databaseBuilder.factory.buildAssessmentResult({
           id: 5,
           pixScore: 66,
