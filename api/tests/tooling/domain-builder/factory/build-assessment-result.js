@@ -11,7 +11,7 @@ const buildAssessmentResult = function ({
   status = assessmentResultStatuses.VALIDATED,
   emitter = 'PIX-ALGO',
   commentByAutoJury = 'Some comment by auto jury',
-  commentForJury = 'Comment for Jury',
+  commentForJury,
   commentForCandidate = 'Comment for Candidate',
   commentForOrganization = 'Comment for Organization',
   createdAt = new Date('2018-01-12T01:02:03Z'),
