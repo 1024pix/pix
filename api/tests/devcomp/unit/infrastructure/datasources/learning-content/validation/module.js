@@ -1,9 +1,9 @@
 import Joi from 'joi';
 import {
-  textElementSchema,
   imageElementSchema,
   qcuElementSchema,
   qrocmElementSchema,
+  textElementSchema,
   videoElementSchema,
 } from './element/index.js';
 import { uuidSchema } from './utils.js';
@@ -19,6 +19,13 @@ const moduleSchema = Joi.object({
     .regex(/^[a-z0-9-]+$/)
     .required(),
   title: Joi.string().required(),
+  details: Joi.object({
+    image: Joi.string().uri().required(),
+    description: Joi.string().required(),
+    duration: Joi.number().integer().min(0).max(120).required(),
+    level: Joi.string().valid('Débutant', 'Intermédiaire', 'Avancé', 'Expert').required(),
+    objectives: Joi.array().items(Joi.string()).min(1).required(),
+  }).required(),
   transitionTexts: Joi.array().items(transitionTextSchema),
   grains: Joi.array()
     .items(

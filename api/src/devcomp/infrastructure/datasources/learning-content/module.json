@@ -4,6 +4,17 @@
       "id": "f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d",
       "slug": "bien-ecrire-son-adresse-mail",
       "title": "Bien écrire son adresse mail",
+      "details": {
+        "image": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg",
+        "description": "Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.",
+        "duration": 12,
+        "level": "Débutant",
+        "objectives": [
+          "Écrire une adresse mail correctement, en évitant les erreurs courantes",
+          "Connaître les parties d’une adresse mail et les identifier sur des exemples",
+          "Comprendre les fonctions des parties d’une adresse mail"
+        ]
+      },
       "transitionTexts": [
         {
           "content": "<p>Naomi a perdu l’adresse mail de son ami Mickaël. Elle n’arrive pas à retrouver cette adresse <span aria-hidden='true'>🤷‍♀</span>️. Elle a besoin de l’adresse mail de Mickaël pour lui envoyer un document. Elle demande donc à Mickaël par SMS. <br> Lancez la vidéo pour voir leur discussion <span aria-hidden='true'>▶️</span></p>",
