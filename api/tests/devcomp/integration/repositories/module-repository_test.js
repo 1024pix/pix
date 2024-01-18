@@ -1,7 +1,7 @@
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as moduleRepository from '../../../../src/devcomp/infrastructure/repositories/module-repository.js';
-import { Module } from '../../../../src/devcomp/domain/models/Module.js';
+import { Module } from '../../../../src/devcomp/domain/models/module/Module.js';
 import { Grain } from '../../../../src/devcomp/domain/models/Grain.js';
 import { Text } from '../../../../src/devcomp/domain/models/element/Text.js';
 import { QCU } from '../../../../src/devcomp/domain/models/element/QCU.js';
