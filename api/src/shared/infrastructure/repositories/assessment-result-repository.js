@@ -15,7 +15,7 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
     status: assessmentResultDTO.status,
     commentForCandidate: assessmentResultDTO.commentForCandidate,
     commentForOrganization: assessmentResultDTO.commentForOrganization,
-    commentForJury: assessmentResultDTO.commentForJury,
+    commentForJury: assessmentResultDTO.commentByJury,
     createdAt: assessmentResultDTO.createdAt,
     emitter: assessmentResultDTO.emitter,
     juryId: assessmentResultDTO.juryId,
@@ -54,7 +54,7 @@ const save = async function ({
         reproducibilityRate,
         status,
         emitter,
-        commentForJury,
+        commentByJury: commentForJury,
         commentForCandidate,
         commentForOrganization,
         id,
@@ -69,8 +69,19 @@ const save = async function ({
       .merge(['lastAssessmentResultId']);
 
     const savedAssessmentResult = new AssessmentResult({
-      ...savedAssessmentResultData,
+      id: savedAssessmentResultData.id,
+      createdAt: savedAssessmentResultData.createdAt,
+      level: savedAssessmentResultData.level,
+      pixScore: savedAssessmentResultData.pixScore,
+      emitter: savedAssessmentResultData.emitter,
+      commentForJury: savedAssessmentResultData.commentByJury,
+      commentForOrganization: savedAssessmentResultData.commentForOrganization,
+      commentForCandidate: savedAssessmentResultData.commentForCandidate,
+      status: savedAssessmentResultData.status,
+      juryId: savedAssessmentResultData.juryId,
+      assessmentId: savedAssessmentResultData.assessmentId,
       reproducibilityRate: _.toNumber(savedAssessmentResultData.reproducibilityRate) ?? null,
+      commentByAutoJury: savedAssessmentResultData.commentByAutoJury,
     });
     return savedAssessmentResult;
   } catch (error) {
