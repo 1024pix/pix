@@ -1,6 +1,5 @@
 import { expect, sinon } from '../../../../../test-helper.js';
 import { QROCMForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QROCM-for-answer-verification.js';
-import { ElementAnswer } from '../../../../../../src/devcomp/domain/models/ElementAnswer.js';
 import { QrocmCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QrocmCorrectionResponse.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 
@@ -91,7 +90,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
   });
 
   describe('#assess', function () {
-    it('should return a QrocmCorrectionResponse for a valid answer', function () {
+    it('should return a QrocmCorrectionResponse and a user response for a valid answer', function () {
       // given
       const stubedIsOk = sinon.stub().returns(true);
       const assessResult = { result: { isOK: stubedIsOk } };
@@ -156,7 +155,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
       });
 
       const expectedResult = {
-        elementId: 'qrocm-id',
         userResponseValue: { inputBlock: '@', selectBlock: '2' },
         correction: {
           status: assessResult.result,
@@ -169,8 +167,8 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
       const result = qrocm.assess(userResponse);
 
       // then
-      expect(result).to.deepEqualInstanceOmitting(new ElementAnswer(expectedResult), ['id']);
-      expect(result.correction).to.be.instanceOf(QrocmCorrectionResponse);
+      expect(result).to.deep.equal(expectedResult);
+      expect(result.correction).to.deepEqualInstance(new QrocmCorrectionResponse(expectedResult.correction));
     });
 
     it('should return a QrocmCorrectionResponse for an invalid answer', function () {
@@ -238,7 +236,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
       });
 
       const expectedResult = {
-        elementId: 'qrocm-id',
         userResponseValue: { inputBlock: '#', selectBlock: '1' },
         correction: {
           status: assessResult.result,
@@ -251,8 +248,8 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
       const result = qrocm.assess(userResponse);
 
       // then
-      expect(result).to.deepEqualInstanceOmitting(new ElementAnswer(expectedResult), ['id']);
-      expect(result.correction).to.be.instanceOf(QrocmCorrectionResponse);
+      expect(result).to.deep.equal(expectedResult);
+      expect(result.correction).to.deepEqualInstance(new QrocmCorrectionResponse(expectedResult.correction));
     });
   });
 
