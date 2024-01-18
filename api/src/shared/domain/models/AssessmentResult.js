@@ -10,7 +10,7 @@ class AssessmentResult {
   constructor({
     id,
     commentForCandidate,
-    commentForJury,
+    commentByJury,
     commentForOrganization,
     createdAt,
     emitter,
@@ -23,7 +23,7 @@ class AssessmentResult {
   } = {}) {
     this.id = id;
     this.commentForCandidate = commentForCandidate;
-    this.commentForJury = commentForJury;
+    this.commentByJury = commentByJury;
     this.commentForOrganization = commentForOrganization;
     this.createdAt = createdAt;
     this.emitter = emitter;
@@ -38,7 +38,7 @@ class AssessmentResult {
   static buildAlgoErrorResult({ error, assessmentId, juryId, emitter }) {
     return new AssessmentResult({
       emitter,
-      commentForJury: error.message,
+      commentByJury: error.message,
       pixScore: 0,
       reproducibilityRate: 0,
       status: status.ERROR,
@@ -94,7 +94,7 @@ class AssessmentResult {
   clone() {
     return new AssessmentResult({
       commentForCandidate: this.commentForCandidate,
-      commentForJury: this.commentForJury,
+      commentByJury: this.commentByJury,
       commentForOrganization: this.commentForOrganization,
       emitter: this.emitter,
       pixScore: this.pixScore,

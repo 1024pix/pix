@@ -23,7 +23,7 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
         assessmentId: 123,
         juryId: 456,
         emitter: 'Moi',
-        commentForJury: 'message for jury',
+        commentByJury: 'message for jury',
         status: AssessmentResult.status.ERROR,
         pixScore: 0,
         reproducibilityRate: 0,
@@ -54,7 +54,6 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
         assessmentId: 123,
         juryId: 456,
         emitter: 'Moi',
-        commentForJury: undefined,
         status: AssessmentResult.status.VALIDATED,
         pixScore: 55,
         reproducibilityRate: 90,
@@ -85,7 +84,6 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
         assessmentId: 123,
         juryId: 456,
         emitter: 'Moi',
-        commentForJury: undefined,
         status: AssessmentResult.status.VALIDATED,
         pixScore: 55,
         reproducibilityRate: 50.25,
@@ -122,7 +120,7 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
       expectedAssessmentResult.id = undefined;
       expectedAssessmentResult.commentForCandidate = undefined;
       expectedAssessmentResult.commentForOrganization = undefined;
-      expectedAssessmentResult.commentForJury = undefined;
+      expectedAssessmentResult.commentByJury = undefined;
       expectedAssessmentResult.createdAt = undefined;
       expectedAssessmentResult.emitter = undefined;
       expectedAssessmentResult.juryId = undefined;

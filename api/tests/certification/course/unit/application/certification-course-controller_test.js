@@ -95,7 +95,7 @@ describe('Unit | Controller | certification-course-controller', function () {
       const assessmentResult = new AssessmentResult({
         assessmentId: 1,
         emitter: 'Jury Pix',
-        commentForJury: 'Tell',
+        commentByJury: 'Tell',
         commentForCandidate: 'Me',
         commentForOrganization: 'Why',
         pixScore: 300,

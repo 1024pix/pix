@@ -1069,7 +1069,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       const assessmentResultToBeSaved = new AssessmentResult({
         id: undefined,
         emitter: 'PIX-ALGO-NEUTRALIZATION',
-        commentForJury: 'Oopsie',
+        commentByJury: 'Oopsie',
         pixScore: 0,
         reproducibilityRate: 0,
         status: 'error',

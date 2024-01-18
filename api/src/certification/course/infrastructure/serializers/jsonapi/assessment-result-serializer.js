@@ -10,7 +10,7 @@ const deserialize = async function (payload) {
   return new AssessmentResult({
     assessmentId: assessmentResult.assessmentId,
     emitter: assessmentResult.emitter,
-    commentForJury: assessmentResult.commentForJury,
+    commentByJury: assessmentResult.commentForJury,
     commentForCandidate: assessmentResult.commentForCandidate,
     commentForOrganization: assessmentResult.commentForOrganization,
     pixScore: assessmentResult.pixScore,

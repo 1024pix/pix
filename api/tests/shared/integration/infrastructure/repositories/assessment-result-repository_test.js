@@ -19,7 +19,7 @@ describe('Integration | Repository | AssessmentResult', function () {
           status: AssessmentResult.status.VALIDATED,
           emitter: 'some-emitter',
           commentForCandidate: 'candidate',
-          commentForJury: 'jury',
+          commentByJury: 'jury',
           commentForOrganization: 'orga',
           createdAt: new Date('2021-10-29T03:06:00Z'),
           juryId: 100,
@@ -50,7 +50,7 @@ describe('Integration | Repository | AssessmentResult', function () {
           status: AssessmentResult.status.VALIDATED,
           emitter: 'some-emitter',
           commentForCandidate: 'candidate',
-          commentForJury: 'jury',
+          commentByJury: 'jury',
           commentForOrganization: 'orga',
           createdAt: new Date('2021-10-29T03:06:00Z'),
           juryId: 100,
@@ -84,7 +84,7 @@ describe('Integration | Repository | AssessmentResult', function () {
             status: AssessmentResult.status.VALIDATED,
             emitter: 'some-emitter',
             commentForCandidate: 'candidate',
-            commentForJury: 'jury',
+            commentByJury: 'jury',
             commentForOrganization: 'orga',
             createdAt: new Date('2021-10-29T03:06:00Z'),
             juryId: 100,
@@ -123,7 +123,7 @@ describe('Integration | Repository | AssessmentResult', function () {
             status: AssessmentResult.status.VALIDATED,
             emitter: 'some-emitter',
             commentForCandidate: 'candidate',
-            commentForJury: 'jury',
+            commentByJury: 'jury',
             commentForOrganization: 'orga',
             createdAt: new Date('2021-10-29T03:06:00Z'),
             juryId: 100,
@@ -158,7 +158,7 @@ describe('Integration | Repository | AssessmentResult', function () {
           status: AssessmentResult.status.VALIDATED,
           emitter: 'some-emitter',
           commentForCandidate: 'candidate',
-          commentForJury: 'jury',
+          commentByJury: 'jury',
           commentForOrganization: 'orga',
           createdAt: new Date('2021-10-29T03:06:00Z'),
           juryId: 100,
@@ -189,7 +189,7 @@ describe('Integration | Repository | AssessmentResult', function () {
           level: 5,
           pixScore: 9000,
         });
-        databaseBuilder.factory.buildAssessmentResult({ level: 4, pixScore: 55, commentForJury: 'comment for jury' });
+        databaseBuilder.factory.buildAssessmentResult({ level: 4, pixScore: 55 });
         await databaseBuilder.commit();
 
         // when
@@ -287,6 +287,7 @@ describe('Integration | Repository | AssessmentResult', function () {
       });
     });
   });
+
   describe('#getByCertificationCourseId', function () {
     context('when certification course has one assessment result', function () {
       it('should return the assessment result', async function () {
@@ -319,7 +320,7 @@ describe('Integration | Repository | AssessmentResult', function () {
           status: AssessmentResult.status.VALIDATED,
           emitter: 'some-emitter',
           commentForCandidate: 'candidate',
-          commentForJury: 'jury',
+          commentByJury: 'jury',
           commentForOrganization: 'orga',
           createdAt: new Date('2021-10-29T03:06:00Z'),
           juryId: 100,
@@ -333,7 +334,7 @@ describe('Integration | Repository | AssessmentResult', function () {
           status: expectedAssessmentResult.status,
           emitter: expectedAssessmentResult.emitter,
           commentForCandidate: expectedAssessmentResult.commentForCandidate,
-          commentByJury: expectedAssessmentResult.commentForJury,
+          commentByJury: expectedAssessmentResult.commentByJury,
           commentForOrganization: expectedAssessmentResult.commentForOrganization,
           createdAt: expectedAssessmentResult.createdAt,
           juryId: expectedAssessmentResult.juryId,
@@ -353,6 +354,7 @@ describe('Integration | Repository | AssessmentResult', function () {
         expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
       });
     });
+
     context('when certification course has several assessment results', function () {
       it('should return the latest assessment result', async function () {
         // given
@@ -393,7 +395,7 @@ describe('Integration | Repository | AssessmentResult', function () {
           status: AssessmentResult.status.VALIDATED,
           emitter: 'some-emitter',
           commentForCandidate: 'candidate',
-          commentForJury: 'jury',
+          commentByJury: 'jury',
           commentForOrganization: 'orga',
           createdAt: new Date('2021-10-29T03:06:00Z'),
           juryId: 100,
@@ -407,7 +409,7 @@ describe('Integration | Repository | AssessmentResult', function () {
           status: expectedAssessmentResult.status,
           emitter: expectedAssessmentResult.emitter,
           commentForCandidate: expectedAssessmentResult.commentForCandidate,
-          commentByJury: expectedAssessmentResult.commentForJury,
+          commentByJury: expectedAssessmentResult.commentByJury,
           commentForOrganization: expectedAssessmentResult.commentForOrganization,
           createdAt: expectedAssessmentResult.createdAt,
           juryId: expectedAssessmentResult.juryId,
@@ -421,7 +423,6 @@ describe('Integration | Repository | AssessmentResult', function () {
           status: AssessmentResult.status.REJECTED,
           emitter: 'some-other-emitter',
           commentForCandidate: 'candidates',
-          commentForJury: 'jurys',
           commentForOrganization: 'orgas',
           createdAt: new Date('1990-01-01T22:06:00Z'),
           juryId: 100,
@@ -442,6 +443,7 @@ describe('Integration | Repository | AssessmentResult', function () {
         expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
       });
     });
+
     context('when certification course has an assessment but no assessment result', function () {
       it('should return a started assessment result with assessmentId set', async function () {
         // given
@@ -463,7 +465,7 @@ describe('Integration | Repository | AssessmentResult', function () {
         });
         expectedAssessmentResult.id = undefined;
         expectedAssessmentResult.commentForCandidate = undefined;
-        expectedAssessmentResult.commentForJury = undefined;
+        expectedAssessmentResult.commentByJury = undefined;
         expectedAssessmentResult.commentForOrganization = undefined;
         expectedAssessmentResult.createdAt = undefined;
         expectedAssessmentResult.emitter = undefined;
@@ -473,6 +475,7 @@ describe('Integration | Repository | AssessmentResult', function () {
         expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
       });
     });
+
     context('when certification course has no assessment at all', function () {
       it('should return a started assessment result with no assessmentId set', async function () {
         // given
@@ -493,7 +496,7 @@ describe('Integration | Repository | AssessmentResult', function () {
         });
         expectedAssessmentResult.id = undefined;
         expectedAssessmentResult.commentForCandidate = undefined;
-        expectedAssessmentResult.commentForJury = undefined;
+        expectedAssessmentResult.commentByJury = undefined;
         expectedAssessmentResult.commentForOrganization = undefined;
         expectedAssessmentResult.createdAt = undefined;
         expectedAssessmentResult.emitter = undefined;
