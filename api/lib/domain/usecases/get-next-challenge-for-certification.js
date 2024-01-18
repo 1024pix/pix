@@ -65,7 +65,7 @@ const getNextChallengeForCertification = async function ({
       challenges: challengesWithoutSkillsWithAValidatedLiveAlert,
     });
 
-    const challenge = pickChallengeService.chooseNextChallenge(assessment.id)({ possibleChallenges });
+    const challenge = pickChallengeService.chooseNextChallenge()({ possibleChallenges });
 
     const certificationChallenge = new CertificationChallenge({
       associatedSkillName: challenge.skill.name,
