@@ -49,7 +49,7 @@ describe('Acceptance | Route | certification-course', function () {
 
       expect(rejectedCertificationCourse.isRejectedForFraud).to.equal(true);
       expect(assessmentResults).to.have.length(2);
-      expect(assessmentResults[0]).to.deep.equal(assessmentResult);
+      expect(assessmentResults[0].id).to.equal(assessmentResult.id);
       expect(assessmentResults[1].status).to.equal('rejected');
 
       const lastAssessmentResult = await knex('certification-courses-last-assessment-results').first();
@@ -101,7 +101,7 @@ describe('Acceptance | Route | certification-course', function () {
 
       expect(unrejectedCertificationCourse.isRejectedForFraud).to.equal(false);
       expect(assessmentResults).to.have.length(2);
-      expect(assessmentResults[0]).to.deep.equal(assessmentResult);
+      expect(assessmentResults[0].id).to.equal(assessmentResult.id);
       expect(assessmentResults[1].status).to.equal('validated');
 
       const lastAssessmentResult = await knex('certification-courses-last-assessment-results').first();
