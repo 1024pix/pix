@@ -17,32 +17,6 @@ const register = async function (server) {
         tags: ['api', 'modules'],
       },
     },
-    {
-      method: 'POST',
-      path: '/api/modules/{moduleSlug}/elements/{elementId}/answers',
-      config: {
-        auth: false,
-        handler: handlerWithDependencies(modulesController.verifyAnswer),
-        validate: {
-          params: Joi.object({
-            moduleSlug: Joi.string().required(),
-            elementId: Joi.string().required(),
-          }).required(),
-          payload: Joi.object({
-            data: Joi.object({
-              attributes: Joi.object({
-                'user-response': Joi.array().required(),
-              }).required(),
-            }).required(),
-          }).required(),
-          options: {
-            allowUnknown: true,
-          },
-        },
-        notes: ['- Permet de valider la réponse à une activité soumise par un apprenant'],
-        tags: ['api', 'modules', 'answers'],
-      },
-    },
   ]);
 };
 
