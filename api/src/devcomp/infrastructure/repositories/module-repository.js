@@ -1,5 +1,5 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { Module } from '../../domain/models/Module.js';
+import { Module } from '../../domain/models/module/Module.js';
 import { Text } from '../../domain/models/element/Text.js';
 import { Image } from '../../domain/models/element/Image.js';
 import { QCU } from '../../domain/models/element/QCU.js';

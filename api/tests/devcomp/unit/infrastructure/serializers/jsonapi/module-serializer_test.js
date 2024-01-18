@@ -1,5 +1,5 @@
 import { expect } from '../../../../../test-helper.js';
-import { Module } from '../../../../../../src/devcomp/domain/models/Module.js';
+import { Module } from '../../../../../../src/devcomp/domain/models/module/Module.js';
 import * as moduleSerializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/module-serializer.js';
 import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.js';
 import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
