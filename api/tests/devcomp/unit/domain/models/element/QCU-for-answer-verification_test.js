@@ -1,6 +1,5 @@
 import { expect, sinon } from '../../../../../test-helper.js';
 import { QCUForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QCU-for-answer-verification.js';
-import { ElementAnswer } from '../../../../../../src/devcomp/domain/models/ElementAnswer.js';
 import { QcuCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcuCorrectionResponse.js';
 import { Feedbacks } from '../../../../../../src/devcomp/domain/models/Feedbacks.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
@@ -48,7 +47,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
   });
 
   describe('#assess', function () {
-    it('should return a QcuCorrectionResponse for a valid answer', function () {
+    it('should return a QcuCorrectionResponse and the user response for a valid answer', function () {
       // given
       const stubedIsOk = sinon.stub().returns(true);
       const assessResult = { result: { isOK: stubedIsOk } };
@@ -75,7 +74,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
       });
 
       const expectedResult = {
-        elementId: 'qcu-id',
         userResponseValue: userResponse[0],
         correction: {
           status: assessResult.result,
@@ -88,11 +86,11 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
       const result = qcu.assess(userResponse);
 
       // then
-      expect(result).to.deepEqualInstanceOmitting(new ElementAnswer(expectedResult), ['id']);
-      expect(result.correction).to.be.instanceOf(QcuCorrectionResponse);
+      expect(result).to.deep.equal(expectedResult);
+      expect(result.correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedResult.correction));
     });
 
-    it('should return a QcuCorrectionResponse for a invalid answer', function () {
+    it('should return a QcuCorrectionResponse and the user response for a invalid answer', function () {
       // given
       const stubedIsOk = sinon.stub().returns(false);
       const assessResult = { result: { isOK: stubedIsOk } };
@@ -119,7 +117,6 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
       });
 
       const expectedResult = {
-        elementId: 'qcu-id',
         userResponseValue: userResponse[0],
         correction: {
           status: assessResult.result,
@@ -132,8 +129,8 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
       const result = qcu.assess(userResponse);
 
       // then
-      expect(result).to.deepEqualInstanceOmitting(new ElementAnswer(expectedResult), ['id']);
-      expect(result.correction).to.be.instanceOf(QcuCorrectionResponse);
+      expect(result).to.deep.equal(expectedResult);
+      expect(result.correction).to.deepEqualInstance(new QcuCorrectionResponse(expectedResult.correction));
     });
   });
 
