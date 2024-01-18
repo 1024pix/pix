@@ -12,7 +12,7 @@ import _ from 'lodash';
 import * as translations from '../../../translations/index.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
 import { domainErrorMapper } from './domain-error-mapper.js';
-import { SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
+import { CsvWithNoSessionDataError, SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
 import { OrganizationCantGetPlacesStatisticsError } from '../../prescription/organization-place/domain/errors.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
@@ -126,6 +126,10 @@ function _mapToHttpError(error) {
 
   if (error instanceof TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization) {
     return new HttpErrors.BadRequestError(error.message);
+  }
+
+  if (error instanceof CsvWithNoSessionDataError) {
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code);
   }
 
   return new HttpErrors.BaseHttpError(error.message);

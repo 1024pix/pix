@@ -14,7 +14,10 @@ import { HttpErrors, UnauthorizedError } from '../../../../src/shared/applicatio
 import { handle } from '../../../../src/shared/application/error-manager.js';
 import { AdminMemberError } from '../../../../src/authorization/domain/errors.js';
 
-import { SessionStartedDeletionError } from '../../../../src/certification/session/domain/errors.js';
+import {
+  SessionStartedDeletionError,
+  CsvWithNoSessionDataError,
+} from '../../../../src/certification/session/domain/errors.js';
 import { domainErrorMapper } from '../../../../src/shared/application/domain-error-mapper.js';
 import { authenticationDomainErrorMappingConfiguration } from '../../../../src/authentication/application/http-error-mapper-configuration.js';
 
@@ -270,6 +273,19 @@ describe('Shared | Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate UnprocessableEntityError when CsvWithNoSessionDataError', async function () {
+      // given
+      const error = new CsvWithNoSessionDataError();
+      sinon.stub(HttpErrors, 'UnprocessableEntityError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message, error.code);
     });
   });
 });
