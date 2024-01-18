@@ -32,8 +32,6 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         resultCreatedAt: new Date('2020-01-03'),
         pixScore: 123,
         emitter: CERTIFICATION_RESULT_EMITTER_PIXALGO,
-        commentForCandidate: 'Un commentaire candidat 1',
-        commentForJury: 'Un commentaire jury 1',
         commentForOrganization: 'Un commentaire orga 1',
         juryId: 159,
         competenceMarks: [
@@ -83,8 +81,6 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         pixScore: 123,
         status: CERTIFICATION_RESULT_STATUS_VALIDATED,
         emitter: CERTIFICATION_RESULT_EMITTER_PIXALGO,
-        commentForCandidate: 'Un commentaire candidat 1',
-        commentForJury: 'Un commentaire jury 1',
         commentForOrganization: 'Un commentaire orga 1',
         juryId: 159,
         competencesWithMark: [
