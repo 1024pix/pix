@@ -161,4 +161,32 @@ module('Unit | Model | prescriber', function (hooks) {
       assert.false(placesManagement);
     });
   });
+
+  module('#missionsManagement', function () {
+    test('it returns true when feature is enabled', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('prescriber', {
+        features: { ['MISSIONS_MANAGEMENT']: true },
+      });
+      // when
+      const missionsManagement = model.missionsManagement;
+
+      // then
+      assert.true(missionsManagement);
+    });
+
+    test('it returns false when feature is disabled', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('prescriber', {
+        features: { ['MISSIONS_MANAGEMENT']: false },
+      });
+      // when
+      const missionsManagement = model.missionsManagement;
+
+      // then
+      assert.false(missionsManagement);
+    });
+  });
 });

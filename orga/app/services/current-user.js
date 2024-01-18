@@ -60,4 +60,13 @@ export default class CurrentUserService extends Service {
   get shouldAccessPlacesPage() {
     return this.isAdminInOrganization && this.prescriber.placesManagement;
   }
+  get shouldAccessMissionsPage() {
+    return this.prescriber.missionsManagement;
+  }
+  get shouldAccessCampaignsPage() {
+    return !this.prescriber.missionsManagement;
+  }
+  get shouldAccessParticipantsPage() {
+    return !this.prescriber.missionsManagement;
+  }
 }
