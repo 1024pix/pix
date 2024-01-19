@@ -40,7 +40,7 @@ export default class Certification extends Model {
   @attr() juryId;
   @attr('string') commentForCandidate;
   @attr('string') commentForOrganization;
-  @attr('string') commentForJury;
+  @attr('string') commentByJury;
   @attr() pixScore;
   @attr() competencesWithMark;
   @attr('boolean', { defaultValue: false }) isPublished;
