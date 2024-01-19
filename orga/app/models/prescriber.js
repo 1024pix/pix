@@ -16,6 +16,7 @@ export default class Prescriber extends Model {
       MULTIPLE_SENDING_ASSESSMENT: 'MULTIPLE_SENDING_ASSESSMENT',
       COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: 'COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY',
       PLACES_MANAGEMENT: 'PLACES_MANAGEMENT',
+      MISSIONS_MANAGEMENT: 'MISSIONS_MANAGEMENT',
     };
   }
   get fullName() {
@@ -36,6 +37,10 @@ export default class Prescriber extends Model {
 
   get placesManagement() {
     return this.features[Prescriber.featureList.PLACES_MANAGEMENT];
+  }
+
+  get missionsManagement() {
+    return this.features[Prescriber.featureList.MISSIONS_MANAGEMENT];
   }
 
   get isAdminOfTheCurrentOrganization() {

@@ -33,10 +33,12 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     });
   });
 
-  module('Commun menu', function () {
+  module('Common menu', function () {
     test('should display Campagne and Équipe menu for all organisation members', async function (assert) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1 });
+        shouldAccessCampaignsPage = true;
+        shouldAccessParticipantsPage = true;
       }
       this.owner.register('service:current-user', CurrentUserStub);
       const intl = this.owner.lookup('service:intl');
@@ -91,6 +93,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       // given
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1, type: 'PRO' });
+        shouldAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -111,6 +114,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1, type: 'SUP' });
         isSUPManagingStudents = true;
+        shouldAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -129,6 +133,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1, type: 'SUP' });
         isSUPManagingStudents = false;
+        shouldAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -149,6 +154,8 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1, type: 'SCO' });
         isSCOManagingStudents = true;
+        shouldAccessMissionsPage = false;
+        shouldAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -167,6 +174,7 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1, type: 'SCO' });
         isSCOManagingStudents = false;
+        shouldAccessParticipantsPage = true;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -216,6 +224,39 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
 
       // then
       assert.dom(screen.queryByLabelText('Certifications')).isNotVisible();
+    });
+  });
+
+  module('When the user has the mission-management feature', function () {
+    test('should display Mission menu', async function (assert) {
+      class CurrentUserStub extends Service {
+        organization = Object.create({ id: 5 });
+        shouldAccessMissionsPage = true;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const intl = this.owner.lookup('service:intl');
+      intl.setLocale(['fr', 'fr']);
+
+      const screen = await render(hbs`<Layout::Sidebar />`);
+
+      assert.dom(screen.getByText('Missions')).exists();
+    });
+
+    test('should not display Campagne and Participants menus', async function (assert) {
+      class CurrentUserStub extends Service {
+        organization = Object.create({ id: 5 });
+        shouldAccessMissionsPage = true;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const intl = this.owner.lookup('service:intl');
+      intl.setLocale(['fr', 'fr']);
+
+      const screen = await render(hbs`<Layout::Sidebar />`);
+
+      assert.dom(screen.queryByText('Campagnes')).doesNotExist();
+      assert.dom(screen.queryByText('Participants')).doesNotExist();
+      assert.dom(screen.queryByText('Étudiants')).doesNotExist();
+      assert.dom(screen.queryByText('Élèves')).doesNotExist();
     });
   });
 

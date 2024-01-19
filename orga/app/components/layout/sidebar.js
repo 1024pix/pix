@@ -16,6 +16,15 @@ export default class SidebarMenu extends Component {
   get shouldDisplayPlacesEntry() {
     return this.currentUser.shouldAccessPlacesPage;
   }
+  get shouldDisplayMissionsEntry() {
+    return this.currentUser.shouldAccessMissionsPage;
+  }
+  get shouldDisplayCampaignsEntry() {
+    return this.currentUser.shouldAccessCampaignsPage;
+  }
+  get shouldDisplayParticipantsEntry() {
+    return this.currentUser.shouldAccessParticipantsPage;
+  }
 
   get organizationLearnersList() {
     if (this.currentUser.isSCOManagingStudents) {
