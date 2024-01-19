@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v4.91.0 (19/01/2024)
+
+
+### :rocket: Amélioration
+- [#7890](https://github.com/1024pix/pix/pull/7890) [FEATURE] Ajouter la page mission dans Pix Orga (Pix-10747).
+- [#7872](https://github.com/1024pix/pix/pull/7872) [FEATURE] Brancher les passages dans Pix App pour enregistrer les réponses (PIX-10700).
+- [#7839](https://github.com/1024pix/pix/pull/7839) [FEATURE] Ajout du bloc "N° de certif" sur l'onglet détail d'une certif v3 (PIX-10287).
+- [#7861](https://github.com/1024pix/pix/pull/7861) [FEATURE] Ajout de endpoints de gestion de la configuration de la certif nextgen (PIX-10794).
+- [#7879](https://github.com/1024pix/pix/pull/7879) [FEATURE] Rejeter une certif avec moins de V questions annulée pour problème technique (PIX-10752).
+
+### :building_construction: Tech
+- [#7882](https://github.com/1024pix/pix/pull/7882) [TECH] Ajouter et utiliser la feature mission management(PIX-10807).
+- [#7883](https://github.com/1024pix/pix/pull/7883) [TECH] Vérifier que la version de node est disponible sur Scalingo avant de la mettre à jour.
+
+### :bug: Correction
+- [#7888](https://github.com/1024pix/pix/pull/7888) [BUGFIX] Réactive le fonctionnement de l'aléatoire dans la certif v3 (PIX-10852).
+- [#7860](https://github.com/1024pix/pix/pull/7860) [BUGFIX] Corriger la page de réinitialisation de mot de passe non accessible sur les vieux navigateurs côté Pix App (PIX-10722).
+- [#7841](https://github.com/1024pix/pix/pull/7841) [BUGFIX] Permettre de nouveau l'affichage du message d'erreur en cas de fichier vide pour l'import en masse de sessions sur Pix Certif (PIX-10637).
+
+### :coffee: Autre
+- [#7854](https://github.com/1024pix/pix/pull/7854) [FEAT] Remplacer le nom de l'organisation par Pix sur les scorecards de parcours autonomes (PIX-10675).
+- [#7857](https://github.com/1024pix/pix/pull/7857) [FIX] Adapter les couleurs des graphiques à celles du design system (PIX-10703).
+
 ## v4.90.0 (17/01/2024)
 
 
