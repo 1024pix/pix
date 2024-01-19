@@ -1,4 +1,9 @@
-<article class="grain grain--lesson" aria-live={{this.ariaLiveGrainValue}}>
+<article
+  class="grain grain--lesson"
+  aria-live={{this.ariaLiveGrainValue}}
+  tabindex="-1"
+  {{did-insert this.focusAndScroll}}
+>
   <h2 class="screen-reader-only">{{@grain.title}}</h2>
 
   {{#if @transition}}
