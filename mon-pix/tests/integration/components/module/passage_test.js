@@ -4,7 +4,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { findAll } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Module | Details', function (hooks) {
+module('Integration | Component | Module | Passage', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('should display given module with one grain', async function (assert) {
@@ -24,7 +24,7 @@ module('Integration | Component | Module | Details', function (hooks) {
     this.set('module', module);
 
     // when
-    const screen = await render(hbs`<Module::Details @module={{this.module}} />`);
+    const screen = await render(hbs`<Module::Passage @module={{this.module}} />`);
 
     // then
     assert.ok(screen.getByRole('heading', { name: module.title, level: 1 }));
@@ -51,7 +51,7 @@ module('Integration | Component | Module | Details', function (hooks) {
     this.set('module', module);
 
     // when
-    const screen = await render(hbs`<Module::Details @module={{this.module}} />`);
+    const screen = await render(hbs`<Module::Passage @module={{this.module}} />`);
 
     // then
     assert.ok(screen.getByRole('heading', { name: module.title, level: 1 }));
@@ -78,7 +78,7 @@ module('Integration | Component | Module | Details', function (hooks) {
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);
 
-      await render(hbs`<Module::Details @module={{this.module}} />`);
+      await render(hbs`<Module::Passage @module={{this.module}} />`);
       assert.strictEqual(findAll('.element-text').length, 0);
 
       // when
