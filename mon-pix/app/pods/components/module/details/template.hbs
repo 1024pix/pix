@@ -1,0 +1,60 @@
+{{page-title @module.title}}
+
+<main class="module-details">
+  <div class="module-details__image">
+    <img alt="" class="module-details-image__illustration" src={{@module.details.image}} />
+  </div>
+
+  <div class="module-details__content">
+    <div class="module-details-content__layout">
+      <div class="module-details-content__title">
+        <h1>{{@module.title}}</h1>
+      </div>
+
+      <div class="module-details-content__description">
+        <p>{{@module.details.description}}</p>
+      </div>
+
+      <PixButtonLink
+        class="module-details-content__link"
+        @route="module.get"
+        @model={{@module.id}}
+        @shape="rounded"
+        @size="big"
+      >{{t "pages.modulix.details.startModule"}}</PixButtonLink>
+    </div>
+  </div>
+
+  <div class="module-details__infos">
+    <div class="module-details-infos__indications">
+      <div class="module-details-infos-indications__category module-details-infos-indications__duration">
+        <div class="infos__title"><FaIcon @icon="stopwatch" class="infos-title__icon" />&nbsp;{{t
+            "pages.modulix.details.duration"
+          }}</div>
+        <p>{{@module.details.duration}} {{t "pages.modulix.details.timeUnit"}}</p>
+      </div>
+      <div class="module-details-infos-indications__category">
+        <div class="infos__title"><FaIcon @icon="signal" class="infos-title__icon" />&nbsp;{{t
+            "pages.modulix.details.level"
+          }}</div>
+        <p>{{@module.details.level}}</p>
+      </div>
+    </div>
+
+    <div class="module-details-infos__objectives">
+      <h2 class="module-details-objectives__title">{{t "pages.modulix.details.objectives"}}</h2>
+      <ol>
+        {{#each @module.details.objectives as |objective|}}
+          <li><p>{{objective}}</p></li>
+        {{/each}}
+      </ol>
+    </div>
+
+    <div class="module-details-infos__explanation">
+      <div class="module-details-explanation__title">
+        <h2>{{t "pages.modulix.details.explanationTitle"}}</h2>
+      </div>
+      <p class="module-details-explanation__text">{{t "pages.modulix.details.explanationText" htmlSafe=true}}</p>
+    </div>
+  </div>
+</main>

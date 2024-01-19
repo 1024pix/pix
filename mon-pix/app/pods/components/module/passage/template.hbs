@@ -1,11 +1,11 @@
 {{page-title @module.title}}
 
-<main class="module">
-  <div class="module__title">
+<main class="module-passage">
+  <div class="module-passage__title">
     <h1>{{@module.title}}</h1>
   </div>
 
-  <div class="module__content" {{did-insert this.setGrainScrollOffsetCssProperty}}>
+  <div class="module-passage__content" {{did-insert this.setGrainScrollOffsetCssProperty}}>
     {{#each this.grainsToDisplay as |grain index|}}
       <Module::Grain
         @grain={{grain}}

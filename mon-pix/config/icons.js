@@ -17,6 +17,7 @@ module.exports = function () {
       'circle-question',
       'circle-user',
       'circle-xmark',
+      'clock',
       'copy',
       'earth-europe',
       'eye',
@@ -34,6 +35,8 @@ module.exports = function () {
       'right-from-bracket',
       'right-long',
       'rotate-right',
+      'signal',
+      'stopwatch',
       'times-circle',
       'thumbs-up',
       'triangle-exclamation',
@@ -41,6 +44,6 @@ module.exports = function () {
       'user',
       'xmark',
     ],
-    'free-regular-svg-icons': ['bookmark', 'clock', 'copy', 'thumbs-up'],
+    'free-regular-svg-icons': ['bookmark', 'copy', 'thumbs-up'],
   };
 };

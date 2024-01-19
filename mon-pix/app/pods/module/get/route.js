@@ -4,9 +4,9 @@ import { service } from '@ember/service';
 export default class ModuleGetRoute extends Route {
   @service store;
 
-  async model(params) {
-    const module = await this.store.findRecord('module', params.slug);
-    const passage = await this.store.createRecord('passage', { moduleId: params.slug }).save();
+  async model() {
+    const module = this.modelFor('module');
+    const passage = await this.store.createRecord('passage', { moduleId: module.id }).save();
 
     return { module, passage };
   }
