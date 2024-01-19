@@ -1,5 +1,6 @@
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
+import { config } from '../../config.js';
 
 class CampaignToJoin {
   constructor({
@@ -43,7 +44,8 @@ class CampaignToJoin {
     this.isSimplifiedAccess = targetProfileIsSimplifiedAccess;
     this.isForAbsoluteNovice = isForAbsoluteNovice;
     this.organizationId = organizationId;
-    this.organizationName = organizationName;
+    this.organizationName =
+      organizationId === config.autonomousCourse.autonomousCoursesOrganizationId ? 'Pix' : organizationName;
     this.organizationType = organizationType;
     this.organizationLogoUrl = organizationLogoUrl;
     this.identityProvider = identityProvider;
