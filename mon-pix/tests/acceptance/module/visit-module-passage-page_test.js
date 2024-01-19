@@ -28,12 +28,12 @@ module('Acceptance | Module | Routes | get', function (hooks) {
 
   test('should include the module title inside the page title', async function (assert) {
     // given
-    const grain = server.create('grain', {
-      id: 'grain1',
-    });
     const module = {
       title: 'Bien écrire son adresse mail',
     };
+    const grain = server.create('grain', {
+      id: 'grain1',
+    });
 
     server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',

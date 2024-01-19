@@ -10,6 +10,9 @@ module('Acceptance | Module | Routes | get', function (hooks) {
 
   test('can visit /modules/:slug/details', async function (assert) {
     // given
+    const grain = server.create('grain', {
+      id: 'grain1',
+    });
     server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       title: 'Bien écrire son adresse mail',
@@ -17,11 +20,11 @@ module('Acceptance | Module | Routes | get', function (hooks) {
         image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
         description:
           'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
-        duration: '12 min',
+        duration: 12,
         level: 'Débutant',
         objectives: ['Écrire une adresse mail correctement, en évitant les erreurs courantes'],
       },
-      grains: [],
+      grains: [grain],
     });
 
     // when
@@ -40,7 +43,7 @@ module('Acceptance | Module | Routes | get', function (hooks) {
         image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
         description:
           'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
-        duration: '12 min',
+        duration: 12,
         level: 'Débutant',
         objectives: ['Écrire une adresse mail correctement, en évitant les erreurs courantes'],
       },
@@ -52,5 +55,31 @@ module('Acceptance | Module | Routes | get', function (hooks) {
 
     // then
     assert.ok(document.title.includes(module.title));
+  });
+
+  test('should redirect /modules/:slug to /modules/:slug/details', async function (assert) {
+    // given
+    const grain = server.create('grain', {
+      id: 'grain1',
+    });
+    server.create('module', {
+      id: 'bien-ecrire-son-adresse-mail',
+      title: 'Bien écrire son adresse mail',
+      details: {
+        image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+        description:
+          'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
+        duration: 12,
+        level: 'Débutant',
+        objectives: ['Écrire une adresse mail correctement, en évitant les erreurs courantes'],
+      },
+      grains: [grain],
+    });
+
+    // when
+    await visit('/modules/bien-ecrire-son-adresse-mail');
+
+    // then
+    assert.strictEqual(currentURL(), '/modules/bien-ecrire-son-adresse-mail/details');
   });
 });
