@@ -101,7 +101,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             'pix-score': 555,
             'competences-with-mark': juryCertification.competenceMarks,
             'comment-for-candidate': 'coucou',
-            'comment-for-jury': 'ça va',
+            'comment-by-jury': 'ça va',
             'comment-for-organization': 'comment',
             version: 2,
           },
