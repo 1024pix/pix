@@ -1098,7 +1098,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           // then
           assert.dom(screen.getByRole('textbox', { name: 'Pour le candidat :' })).exists();
           assert.dom(screen.getByRole('textbox', { name: "Pour l'organisation :" })).exists();
-          assert.dom(screen.getByRole('textbox', { name: 'Pour le jury :' })).exists();
+          assert.dom(screen.getByRole('textbox', { name: 'Notes internes Jury Pix :' })).exists();
           assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
           assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
         });
