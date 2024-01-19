@@ -2,14 +2,12 @@ import { CertificationVersion } from '../../../src/shared/domain/models/Certific
 import { CertificationChallenge, FlashAssessmentAlgorithm } from '../models/index.js';
 
 const getNextChallengeForCertification = async function ({
-  algorithmDataFetcherService,
   answerRepository,
   assessment,
   certificationChallengeRepository,
   certificationChallengeLiveAlertRepository,
   certificationCourseRepository,
   challengeRepository,
-  flashAssessmentResultRepository,
   locale,
   pickChallengeService,
   flashAlgorithmService,
@@ -40,13 +38,10 @@ const getNextChallengeForCertification = async function ({
       return challengeRepository.get(lastNonAnsweredCertificationChallenge.challengeId);
     }
 
-    const { allAnswers, challenges } = await algorithmDataFetcherService.fetchForFlashCampaigns({
-      assessmentId: assessment.id,
-      answerRepository,
-      challengeRepository,
-      flashAssessmentResultRepository,
-      locale,
-    });
+    const [allAnswers, challenges] = await Promise.all([
+      answerRepository.findByAssessment(assessment.id),
+      challengeRepository.findActiveFlashCompatible({ locale }),
+    ]);
 
     const algorithmConfiguration = await flashAlgorithmConfigurationRepository.get();
 
