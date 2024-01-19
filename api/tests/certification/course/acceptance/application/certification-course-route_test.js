@@ -143,7 +143,7 @@ describe('Acceptance | Route | certification-course', function () {
               'pix-score': 27,
               status: 'validated',
               emitter: 'Jury',
-              'comment-for-jury': 'Parce que',
+              'comment-by-jury': 'Parce que',
               'comment-for-candidate': 'Voilà',
               'comment-for-organization': 'Je suis sûr que vous etes ok avec nous',
             },
