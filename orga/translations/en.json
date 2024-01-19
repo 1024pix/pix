@@ -267,6 +267,7 @@
       "campaigns": "Campaigns",
       "certifications": "Certifications",
       "documentation": "Documentation",
+      "missions": "Missions",
       "organization-participants": "Participants",
       "places": "Seats",
       "sco-organization-participants": "Students",
@@ -750,6 +751,9 @@
           }
         }
       }
+    },
+    "missions": {
+      "title": "Missions"
     },
     "organization-learner": {
       "activity": {

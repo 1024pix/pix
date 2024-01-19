@@ -279,6 +279,59 @@ module('Unit | Service | current-user', function (hooks) {
         assert.false(currentUserService.shouldAccessPlacesPage);
       });
     });
+
+    module('#shouldAccessMissionsPage', function () {
+      test('should return true if user has feature activated', function (assert) {
+        currentUserService.prescriber = {
+          missionsManagement: true,
+        };
+
+        assert.true(currentUserService.shouldAccessMissionsPage);
+      });
+
+      test('should return false if user does not have feature activated', function (assert) {
+        currentUserService.prescriber = {
+          missionsManagement: false,
+        };
+
+        assert.false(currentUserService.shouldAccessMissionsPage);
+      });
+    });
+
+    module('#shouldAccessCampaignsPage', function () {
+      test('should return false if user has mission feature activated', function (assert) {
+        currentUserService.prescriber = {
+          missionsManagement: true,
+        };
+
+        assert.false(currentUserService.shouldAccessCampaignsPage);
+      });
+
+      test('should return true if user does not have missions feature activated', function (assert) {
+        currentUserService.prescriber = {
+          missionsManagement: false,
+        };
+
+        assert.true(currentUserService.shouldAccessCampaignsPage);
+      });
+    });
+    module('#shouldAccessParticipantsPage', function () {
+      test('should return false if user has mission feature activated', function (assert) {
+        currentUserService.prescriber = {
+          missionsManagement: true,
+        };
+
+        assert.false(currentUserService.shouldAccessParticipantsPage);
+      });
+
+      test('should return true if user does not have missions feature activated', function (assert) {
+        currentUserService.prescriber = {
+          missionsManagement: false,
+        };
+
+        assert.true(currentUserService.shouldAccessParticipantsPage);
+      });
+    });
   });
 
   module('user is not authenticated', function () {

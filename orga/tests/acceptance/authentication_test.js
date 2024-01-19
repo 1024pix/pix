@@ -135,20 +135,32 @@ module('Acceptance | authentication', function (hooks) {
     });
 
     module('When prescriber has accepted terms of service', function (hooks) {
+      let prescriber;
       hooks.beforeEach(async () => {
         const user = createUserWithMembershipAndTermsOfServiceAccepted();
-        createPrescriberByUser(user);
+        prescriber = createPrescriberByUser(user);
 
         await authenticateSession(user.id);
       });
 
+      module('When the prescriber has the missions management feature', function () {
+        test('it should redirect prescriber to missions page', async function (assert) {
+          prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
+          // when
+          await visit('/connexion');
+
+          // then
+          assert.strictEqual(currentURL(), '/missions');
+          assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+        });
+      });
       test('it should redirect prescriber to campaign list page', async function (assert) {
         // when
         await visit('/connexion');
 
         // then
         assert.strictEqual(currentURL(), '/campagnes/les-miennes');
-        assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+        assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
       });
 
       test('it should let prescriber access requested page', async function (assert) {

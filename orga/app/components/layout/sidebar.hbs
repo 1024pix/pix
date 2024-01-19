@@ -6,12 +6,15 @@
   </header>
 
   <nav class="sidebar-nav" aria-label={{t "navigation.main.aria-label"}}>
-    <LinkTo @route="authenticated.campaigns" class="sidebar-nav__item">
-      <span class="sidebar-nav__item-icon">
-        <img src="{{this.rootURL}}/icons/chevron-square-right.svg" alt="" role="none" />
-      </span>
-      {{t "navigation.main.campaigns"}}
-    </LinkTo>
+    {{#if this.shouldDisplayCampaignsEntry}}
+      <LinkTo @route="authenticated.campaigns" class="sidebar-nav__item">
+        <span class="sidebar-nav__item-icon">
+          <img src="{{this.rootURL}}/icons/chevron-square-right.svg" alt="" role="none" />
+        </span>
+        {{t "navigation.main.campaigns"}}
+      </LinkTo>
+    {{/if}}
+
     {{#if this.shouldDisplayCertificationsEntry}}
       <LinkTo @route="authenticated.certifications" class="sidebar-nav__item">
         <span class="sidebar-nav__item-icon">
@@ -20,12 +23,22 @@
         {{t "navigation.main.certifications"}}
       </LinkTo>
     {{/if}}
-    <LinkTo @route={{this.organizationLearnersList.route}} class="sidebar-nav__item">
-      <span class="sidebar-nav__item-icon">
-        <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
-      </span>
-      {{t this.organizationLearnersList.label}}
-    </LinkTo>
+    {{#if this.shouldDisplayParticipantsEntry}}
+      <LinkTo @route={{this.organizationLearnersList.route}} class="sidebar-nav__item">
+        <span class="sidebar-nav__item-icon">
+          <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
+        </span>
+        {{t this.organizationLearnersList.label}}
+      </LinkTo>
+    {{/if}}
+    {{#if this.shouldDisplayMissionsEntry}}
+      <LinkTo @route="authenticated.missions" class="sidebar-nav__item">
+        <span class="sidebar-nav__item-icon">
+          <img src="{{this.rootURL}}/icons/chevron-square-right.svg" alt="" role="none" />
+        </span>
+        {{t "navigation.main.missions"}}
+      </LinkTo>
+    {{/if}}
     <LinkTo @route="authenticated.team" class="sidebar-nav__item">
       <span class="sidebar-nav__item-icon">
         <img src="{{this.rootURL}}/icons/users-light.svg" alt="" role="none" />
