@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
+import { config } from '../../config.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -9,6 +10,7 @@ class CampaignParticipationOverview {
     createdAt,
     sharedAt,
     organizationName,
+    organizationId,
     status,
     campaignId,
     targetProfileId,
@@ -26,7 +28,8 @@ class CampaignParticipationOverview {
     this.targetProfileId = targetProfileId;
     this.isShared = status === SHARED;
     this.sharedAt = sharedAt;
-    this.organizationName = organizationName;
+    this.organizationName =
+      organizationId === config.autonomousCourse.autonomousCoursesOrganizationId ? 'Pix' : organizationName;
     this.status = status;
     this.campaignId = campaignId;
     this.campaignCode = campaignCode;
