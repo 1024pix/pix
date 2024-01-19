@@ -1,7 +1,9 @@
 .element-video {
   &-container {
-    aspect-ratio: auto 16 / 9;
     margin: 0 auto var(--pix-spacing-3x) auto;
+    overflow: clip;
+    border-radius: var(--pix-spacing-2x);
+    aspect-ratio: auto 16 / 9;
 
     video {
       display: block;
