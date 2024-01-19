@@ -1,36 +1,118 @@
 <div class="certification-details-v3__container">
-  <section class="page-section"></section>
   <section class="page-section">
-    <h2 class="certification-details-v3__title">Informations complémentaires</h2>
+    <div class="certification-details-v3-header" id="general-informations">
+      <h2 class="certification-details-v3__title">
+        {{t
+          "pages.certifications.certification.details.v3.general-informations.title"
+          certificationCourseId=@details.certificationCourseId
+        }}
+      </h2>
+      {{#if @details.assessmentResultStatus}}
+        <PixTag @color={{this.detailStatusColor}}>{{t this.detailStatusLabel}}</PixTag>
+      {{/if}}
+    </div>
+    <dl class="certification-details-v3__list" aria-labelledby="general-informations">
+      <dt id="creation-date">
+        {{t "pages.certifications.certification.details.v3.general-informations.labels.created-at"}}
+        :
+      </dt>
+      <dd aria-labelledby="creation-date">{{dayjs-format @details.createdAt "DD/MM/YYYY HH:mm:ss"}}</dd>
+      {{#if @details.completedAt}}
+        <dt id="completion-date">
+          {{t "pages.certifications.certification.details.v3.general-informations.labels.ended-at"}}
+          :
+        </dt>
+        <dd aria-labelledby="completion-date">
+          <span class="certification-details-v3-list__completion-date">{{dayjs-format
+              @details.completedAt
+              "DD/MM/YYYY HH:mm:ss"
+            }}</span>
+          {{#if (lt @details.duration this.twentyFourHoursInMs)}}
+            <PixTag @color={{this.durationTagColor}}>{{dayjs-format-duration @details.duration "H[h]mm"}}</PixTag>
+          {{else}}
+            <PixTag @color={{this.durationTagColor}}> > 24h</PixTag>
+          {{/if}}
+        </dd>
+      {{/if}}
 
-    <dl class="certification-details-v3__list">
-      <dt>Nombre de question répondues <br /> / Nombre total de questions</dt>
+      {{#if this.shouldDisplayEndedByBlock}}
+        <dt id="ended-by">
+          {{t "pages.certifications.certification.details.v3.general-informations.labels.ended-by"}}
+          :
+        </dt>
+        <dd aria-labelledby="ended-by">
+          <PixTag @color={{this.certificationEndedByTagColor}}>{{t this.endedByLabel}}</PixTag>
+        </dd>
+      {{/if}}
+
+      {{#if @details.abortReason}}
+        <dt id="abort-reason">
+          {{t "pages.certifications.certification.details.v3.general-informations.labels.abort-reason"}}
+          :
+        </dt>
+        <dd aria-labelledby="abort-reason">{{t this.abortReasonLabel}}</dd>
+      {{/if}}
+
+      <dt id="pix-score">
+        {{t "pages.certifications.certification.details.v3.general-informations.labels.pix-score"}}
+        :
+      </dt>
+      <dd aria-labelledby="pix-score">{{@details.pixScore}}</dd>
+    </dl>
+  </section>
+  <section class="page-section">
+    <h2 class="certification-details-v3__title" id="more-informations">
+      {{t "pages.certifications.certification.details.v3.more-informations.title"}}
+    </h2>
+
+    <dl class="certification-details-v3__list" aria-labelledby="more-informations" role="list">
+      <dt>
+        {{t "pages.certifications.certification.details.v3.more-informations.labels.numberof-answered-questions"}}
+        <br />
+        /
+        {{t "pages.certifications.certification.details.v3.more-informations.labels.total-numberof-questions"}}
+      </dt>
       <dd>{{@details.numberOfAnsweredQuestions}}/{{@details.totalNumberOfQuestions}}</dd>
-      <dt>Nombre de question OK :</dt>
+      <dt>{{t "pages.certifications.certification.details.v3.more-informations.labels.numberof-ok-questions"}} :</dt>
       <dd>{{@details.numberOfOkAnswers}}</dd>
-      <dt>Nombre de question KO :</dt>
+      <dt>{{t "pages.certifications.certification.details.v3.more-informations.labels.numberof-ko-questions"}} :</dt>
       <dd>{{@details.numberOfKoAnswers}}</dd>
-      <dt>Nombre de question abandonnées :</dt>
+      <dt>{{t "pages.certifications.certification.details.v3.more-informations.labels.numberof-aband-answers"}} :</dt>
       <dd>{{@details.numberOfAbandAnswers}}</dd>
-      <dt>Nombre de problèmes techniques validés :</dt>
+      <dt>{{t "pages.certifications.certification.details.v3.more-informations.labels.numberof-validated-live-alerts"}}
+        :</dt>
       <dd>{{@details.numberOfValidatedLiveAlerts}}</dd>
     </dl>
   </section>
 </div>
 <section class="page-section">
-  <h2 class="certification-details-v3__title">Liste des questions</h2>
+  <h2 class="certification-details-v3__title">
+    {{t "pages.certifications.certification.details.v3.questions-list.title"}}
+  </h2>
   <div class="content-text content-text--small">
     <div class="table-admin">
       <table>
         <thead>
           <tr>
-            <th class="table__column--small">N°</th>
-            <th class="certification-details-v3-table__answered-at-column">Heure de réponse</th>
-            <th class="certification-details-v3-table__answer-status-column">Statut</th>
-            <th class="certification-details-v3-table__competence-column">Compétence concernée</th>
-            <th class="certification-details-v3-table__skill-column">Nom de l'acquis</th>
-            <th class="certification-details-v3-table__challenge-id-column">RecID (voir dans Pix Editor)</th>
-            <th>Actions</th>
+            <th class="table__column--small">
+              {{t "pages.certifications.certification.details.v3.questions-list.labels.number"}}
+            </th>
+            <th class="certification-details-v3-table__answered-at-column">
+              {{t "pages.certifications.certification.details.v3.questions-list.labels.answered-at"}}
+            </th>
+            <th class="certification-details-v3-table__answer-status-column">
+              {{t "pages.certifications.certification.details.v3.questions-list.labels.answer-status"}}
+            </th>
+            <th class="certification-details-v3-table__competence-column">
+              {{t "pages.certifications.certification.details.v3.questions-list.labels.competence"}}
+            </th>
+            <th class="certification-details-v3-table__skill-column">
+              {{t "pages.certifications.certification.details.v3.questions-list.labels.skill"}}
+            </th>
+            <th class="certification-details-v3-table__challenge-id-column">
+              {{t "pages.certifications.certification.details.v3.questions-list.labels.challenge-id"}}
+            </th>
+            <th>{{t "pages.certifications.certification.details.v3.questions-list.labels.actions"}}</th>
           </tr>
         </thead>
         <tbody>
@@ -49,7 +131,7 @@
               <td>
                 {{#if (this.shouldDisplayAnswerStatus certificationChallenge)}}
                   <PixTag @color={{this.answerStatusColor certificationChallenge.answerStatus}}>
-                    {{this.answerStatusLabel certificationChallenge.answerStatus}}
+                    {{t (this.answerStatusLabel certificationChallenge.answerStatus)}}
                   </PixTag>
                 {{else}}
                   -
@@ -62,7 +144,9 @@
                   href={{this.externalUrlForPixEditor certificationChallenge.id}}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Lien vers les informations de la question (Ouverture dans une nouvelle fenêtre)"
+                  aria-label={{t
+                    "pages.certifications.certification.details.v3.questions-list.actions.informations.extra-information"
+                  }}
                 >
                   {{certificationChallenge.id}}
                   <FaIcon @icon="external-link" />
@@ -72,8 +156,12 @@
                 <a
                   href={{this.externalUrlForPreviewChallenge certificationChallenge.id}}
                   target="_blank"
-                  title="Lien vers l'aperçu de l'épreuve"
-                  aria-label="Lien vers l'aperçu de l'épreuve (Ouverture dans une nouvelle fenêtre)"
+                  title={{t
+                    "pages.certifications.certification.details.v3.questions-list.actions.challenge-preview.label"
+                  }}
+                  aria-label={{t
+                    "pages.certifications.certification.details.v3.questions-list.actions.challenge-preview.extra-information"
+                  }}
                   rel="noopener noreferrer"
                 >
                   <FaIcon @icon="eye" />
@@ -81,8 +169,12 @@
 
                 {{#if certificationChallenge.validatedLiveAlert}}
                   <button
-                    title="Afficher le signalement de la question"
-                    aria-label="Afficher le signalement de la question"
+                    title={{t
+                      "pages.certifications.certification.details.v3.questions-list.actions.display-live-alert.label"
+                    }}
+                    aria-label={{t
+                      "pages.certifications.certification.details.v3.questions-list.actions.display-live-alert.extra-information"
+                    }}
                     type="button"
                     {{on "click" (fn this.openModal certificationChallenge)}}
                   >
@@ -92,8 +184,12 @@
 
                 {{#if (this.shouldDisplayAnswerValueIcon certificationChallenge)}}
                   <button
-                    title="Afficher la réponse du candidat"
-                    aria-label="Afficher la réponse du candidat"
+                    title={{t
+                      "pages.certifications.certification.details.v3.questions-list.actions.display-answer.label"
+                    }}
+                    aria-label={{t
+                      "pages.certifications.certification.details.v3.questions-list.actions.display-answer.extra-information"
+                    }}
                     type="button"
                     {{on "click" (fn this.openModal certificationChallenge)}}
                   >
@@ -110,7 +206,7 @@
 </section>
 
 <PixModal
-  @title="{{this.modalTitle}} question {{this.certificationChallenge.questionNumber}}"
+  @title="{{t this.modalTitle}} question {{this.certificationChallenge.questionNumber}}"
   @showModal={{this.showModal}}
   @onCloseButtonClick={{this.closeModal}}
 >
@@ -124,7 +220,7 @@
   </:content>
   <:footer>
     <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{this.closeModal}}>
-      Fermer
+      {{t "common.actions.close"}}
     </PixButton>
   </:footer>
 </PixModal>

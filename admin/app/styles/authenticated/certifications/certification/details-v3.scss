@@ -8,7 +8,6 @@
   &__title {
     @extend %pix-title-xs;
 
-    padding-bottom: var(--pix-spacing-6x);
     color : var(--pix-neutral-800);
   }
 
@@ -17,6 +16,8 @@
     grid-template-columns: 1fr 1fr;
 
     dd, dt {
+      display: flex;
+      align-items: center;
       padding: var(--pix-spacing-2x) 0;
       border-bottom: var(--pix-neutral-100) 1px solid;
     }
@@ -26,10 +27,21 @@
     }
 
     dd {
-      display: flex;
-      align-items: center;
       color: var(--pix-neutral-900);
     }
+  }
+}
+
+.certification-details-v3-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--pix-spacing-6x);
+}
+
+.certification-details-v3-list {
+  &__completion-date {
+    margin-right: $pix-spacing-s;
   }
 }
 

@@ -24,6 +24,26 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
     .where({ 'assessments.certificationCourseId': certificationCourseId })
     .orderBy('validated-live-alerts.createdAt', 'ASC');
 
+  const certificationCourseDTO = await knex
+    .select({
+      isRejectedForFraud: 'certification-courses.isRejectedForFraud',
+      certificationCourseId: 'certification-courses.id',
+      createdAt: 'certification-courses.createdAt',
+      completedAt: 'certification-courses.completedAt',
+      abortReason: 'certification-courses.abortReason',
+      assessmentState: 'assessments.state',
+      isCancelled: 'certification-courses.isCancelled',
+      assessmentResultStatus: 'assessment-results.status',
+      pixScore: 'assessment-results.pixScore',
+    })
+    .from('certification-courses')
+    .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
+    .leftJoin('assessment-results', 'assessments.id', 'assessment-results.assessmentId')
+    .where({
+      'certification-courses.id': certificationCourseId,
+    })
+    .first();
+
   const certificationChallengesDetailsDTO = await knex
     .select({
       challengeId: 'certification-challenges.challengeId',
@@ -45,10 +65,10 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
     })
     .orderBy('certification-challenges.createdAt', 'asc');
 
-  return _toDomain({ certificationChallengesDetailsDTO, certificationCourseId, liveAlertsDTO });
+  return _toDomain({ certificationChallengesDetailsDTO, liveAlertsDTO, certificationCourseDTO });
 };
 
-function _toDomain({ certificationChallengesDetailsDTO, certificationCourseId, liveAlertsDTO }) {
+function _toDomain({ certificationChallengesDetailsDTO, liveAlertsDTO, certificationCourseDTO }) {
   const certificationChallengesForAdministration = certificationChallengesDetailsDTO.map(
     (certificationChallengeDetailsDTO) =>
       new V3CertificationChallengeForAdministration({
@@ -64,7 +84,7 @@ function _toDomain({ certificationChallengesDetailsDTO, certificationCourseId, l
   );
 
   return new V3CertificationCourseDetailsForAdministration({
-    certificationCourseId,
+    ...certificationCourseDTO,
     certificationChallengesForAdministration,
   });
 }
