@@ -10,9 +10,11 @@
   }
 
   &__content {
+    --modulix-grains-gap: 56px;
+
     display: flex;
     flex-direction: column;
-    gap: var(--pix-spacing-12x);
+    gap: var(--modulix-grains-gap);
     align-items: center;
     justify-content: center;
   }
