@@ -5,14 +5,16 @@
   &__title {
     @extend %pix-title-m;
 
-    margin: 1rem;
+    margin: var(--pix-spacing-12x) var(--pix-spacing-2x);
     text-align: center;
   }
 
   &__content {
+    --modulix-grains-gap: 56px;
+
     display: flex;
     flex-direction: column;
-    gap: $pix-spacing-s;
+    gap: var(--modulix-grains-gap);
     align-items: center;
     justify-content: center;
   }

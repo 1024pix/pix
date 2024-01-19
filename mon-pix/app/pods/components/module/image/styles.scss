@@ -1,24 +1,11 @@
 .element-image {
-  margin: $pix-spacing-s;
-
   &-container {
     aspect-ratio: auto 16 / 9;
-    margin: 0 auto $pix-spacing-xxs auto;
+    margin: 0 auto var(--pix-spacing-3x) auto;
 
     img {
       display: block;
       height: 100%;
     }
-  }
-
-}
-
-.image__modal-instruction {
-  // revert the reset
-  ul,
-  ol {
-    margin: revert;
-    padding: revert;
-    list-style: revert;
   }
 }

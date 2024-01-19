@@ -1,23 +1,29 @@
-<article class="grain">
+<article class="grain grain--lesson">
   <h2 class="screen-reader-only">{{@grain.title}}</h2>
+
   {{#if @transition}}
     <header class="grain__header">
       {{html-unsafe @transition.content}}
     </header>
   {{/if}}
-  {{#each @grain.elements as |element|}}
-    {{#if element.isText}}
-      <Module::Text @text={{element}} />
-    {{else if element.isImage}}
-      <Module::Image @image={{element}} />
-    {{else if element.isVideo}}
-      <Module::Video @video={{element}} />
-    {{else if element.isQcu}}
-      <Module::Qcu @qcu={{element}} @submitAnswer={{@submitAnswer}} />
-    {{else if element.isQrocm}}
-      <Module::Qrocm @qrocm={{element}} @submitAnswer={{@submitAnswer}} />
-    {{/if}}
-  {{/each}}
+
+  <div class="grain__content">
+    {{#each @grain.elements as |element|}}
+      <div class="grain-content__element">
+        {{#if element.isText}}
+          <Module::Text @text={{element}} />
+        {{else if element.isImage}}
+          <Module::Image @image={{element}} />
+        {{else if element.isVideo}}
+          <Module::Video @video={{element}} />
+        {{else if element.isQcu}}
+          <Module::Qcu @qcu={{element}} @submitAnswer={{@submitAnswer}} />
+        {{else if element.isQrocm}}
+          <Module::Qrocm @qrocm={{element}} @submitAnswer={{@submitAnswer}} />
+        {{/if}}
+      </div>
+    {{/each}}
+  </div>
 
   {{#if this.shouldDisplaySkipButton}}
     <footer class="grain__footer">
