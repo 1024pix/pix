@@ -132,7 +132,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           pixScore: 123,
           commentForOrganization: 'Un commentaire orga',
           commentForCandidate: 'Un commentaire candidat',
-          commentForJury: 'Un commentaire jury',
+          commentByJury: 'Un commentaire jury',
           competenceMarks: [expectedCompetenceMark],
           certificationIssueReports: [],
           version: 2,

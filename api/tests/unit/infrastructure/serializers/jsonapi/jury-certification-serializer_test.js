@@ -37,7 +37,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
         pixScore: 555,
         commentForCandidate: 'coucou',
         commentForOrganization: 'comment',
-        commentForJury: 'ça va',
+        commentByJury: 'ça va',
         competenceMarks,
         version: 2,
         certificationIssueReports,
