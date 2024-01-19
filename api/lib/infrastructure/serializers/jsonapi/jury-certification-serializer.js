@@ -8,7 +8,6 @@ const serialize = function (juryCertification) {
       return {
         id: juryCertification.certificationCourseId,
         ...juryCertification,
-        commentForJury: juryCertification.commentByJury,
         competencesWithMark: juryCertification.competenceMarks,
       };
     },
@@ -35,7 +34,7 @@ const serialize = function (juryCertification) {
       'competencesWithMark',
       'commentForCandidate',
       'commentForOrganization',
-      'commentForJury',
+      'commentByJury',
       'commonComplementaryCertificationCourseResult',
       'complementaryCertificationCourseResultWithExternal',
       'certificationIssueReports',

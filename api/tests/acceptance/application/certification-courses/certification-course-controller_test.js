@@ -318,7 +318,7 @@ describe('Acceptance | API | Certification Course', function () {
           'pix-score': 55,
           'jury-id': 66,
           'comment-for-candidate': 'comment candidate',
-          'comment-for-jury': 'comment jury',
+          'comment-by-jury': 'comment jury',
           'comment-for-organization': 'comment organization',
           version: 2,
           'competences-with-mark': [
