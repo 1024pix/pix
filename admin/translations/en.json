@@ -2,6 +2,7 @@
   "common": {
     "actions": {
       "cancel": "Cancel",
+      "close": "Close",
       "deactivate": "Deactivate",
       "save": "Save"
     },
@@ -150,6 +151,99 @@
         },
         "success": {
           "update-certification-center-membership-role": "The member's role has been modified."
+        }
+      }
+    },
+    "certifications": {
+      "title": "Certifications",
+      "actions": {
+        "load": {
+          "label": "Charger"
+        }
+      },
+      "certification": {
+        "title": "Certif",
+        "details": {
+          "title": "Détails",
+          "v3": {
+            "abort-reason": {
+              "candidate": "Abandon : Manque de temps ou départ prématuré",
+              "technical": "Problème technique"
+            },
+            "answer-status": {
+              "aband": "Abandonnée",
+              "ko": "KO",
+              "ok": "OK",
+              "validated-live-alert": "Signalement validé"
+            },
+            "assessment-result-status": {
+              "cancelled": "Annulée",
+              "error": "Erreur",
+              "fraud": "Rejetée pour fraude",
+              "rejected": "Rejetée",
+              "validated": "Validée"
+            },
+            "assessment-state": {
+              "ended-by-supervisor": "Le surveillant",
+              "ended-due-to-finalization": "Finalisation session"
+            },
+            "general-informations": {
+              "title": "Certification N°{certificationCourseId}",
+              "labels": {
+                "abort-reason": "Raison de l'abandon",
+                "created-at": "Créée le",
+                "ended-at": "Terminée le",
+                "ended-by": "Certification terminée par",
+                "pix-score": "Score (en pix)"
+              }
+            },
+            "live-alert-modal": {
+              "title": {
+                "answer": "Réponse",
+                "report": "Signalement"
+              }
+            },
+            "more-informations": {
+              "title": "Informations complémentaires",
+              "labels": {
+                "numberof-aband-answers": "Nombre de question abandonnées",
+                "numberof-answered-questions": "Nombre de question répondues",
+                "numberof-ko-questions": "Nombre de question KO",
+                "numberof-ok-questions": "Nombre de question OK",
+                "numberof-validated-live-alerts": "Nombre de problèmes techniques validés",
+                "total-numberof-questions": "Nombre total de questions"
+              }
+            },
+            "questions-list": {
+              "title": "Liste des questions",
+              "actions": {
+                "challenge-preview": {
+                  "extra-information": "Lien vers l'aperçu de l'épreuve (Ouverture dans une nouvelle fenêtre)",
+                  "label": "Lien vers l'aperçu de l'épreuve"
+                },
+                "display-answer": {
+                  "extra-information": "Afficher la réponse du candidat",
+                  "label": "Afficher la réponse du candidat"
+                },
+                "display-live-alert": {
+                  "extra-information": "Afficher le signalement de la question",
+                  "label": "Afficher le signalement de la question"
+                },
+                "informations": {
+                  "extra-information": "Lien vers les informations de la question (Ouverture dans une nouvelle fenêtre)"
+                }
+              },
+              "labels": {
+                "actions": "Actions",
+                "answer-status": "Statut",
+                "answered-at": "Heure de réponse",
+                "challenge-id": "RecID (voir dans Pix Editor)",
+                "competence": "Compétence concernée",
+                "number": "N°",
+                "skill": "Nom de l'acquis"
+              }
+            }
+          }
         }
       }
     },

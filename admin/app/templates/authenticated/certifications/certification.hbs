@@ -1,4 +1,4 @@
-{{page-title "Certif " @model.id " | Pix Admin" replace=true}}
+{{page-title this.pageTitle replace=true}}
 <nav class="navbar">
   <LinkTo @route="authenticated.certifications.certification.informations" @model={{@model.id}} class="navbar-item">
     Informations
@@ -9,7 +9,7 @@
     </LinkTo>
   {{/unless}}
   <LinkTo @route="authenticated.certifications.certification.details" @model={{@model.id}} class="navbar-item">
-    Détails
+    {{t "pages.certifications.certification.details.title"}}
   </LinkTo>
   {{#unless @model.isV3}}
     <LinkTo @route="authenticated.certifications.certification.profile" @model={{@model.id}} class="navbar-item">

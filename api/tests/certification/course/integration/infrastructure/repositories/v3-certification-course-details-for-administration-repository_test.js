@@ -5,6 +5,9 @@ import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { ABORT_REASONS } from '../../../../../../lib/domain/models/CertificationCourse.js';
+import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 
 describe('Integration | Infrastructure | Repository | v3-certification-course-details-for-administration', function () {
   describe('#getV3DetailsByCertificationCourseId', function () {
@@ -13,8 +16,23 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
       const certificationCourseId = 123;
       const challengeId = 'recCHAL456';
       const assessmentId = 78;
+      const isRejectedForFraud = true;
+      const createdAt = new Date('2022-02-02');
+      const completedAt = new Date('2022-02-03');
+      const assessmentState = Assessment.states.ENDED_DUE_TO_FINALIZATION;
+      const assessmentResultStatus = AssessmentResult.status.VALIDATED;
+      const abortReason = ABORT_REASONS.CANDIDATE;
+      const pixScore = 60;
+      const isCancelled = false;
 
-      databaseBuilder.factory.buildCertificationCourse({ id: certificationCourseId });
+      databaseBuilder.factory.buildCertificationCourse({
+        id: certificationCourseId,
+        isRejectedForFraud,
+        createdAt,
+        completedAt,
+        abortReason,
+        isCancelled,
+      });
       databaseBuilder.factory.buildCertificationChallenge({
         courseId: certificationCourseId,
         challengeId,
@@ -22,6 +40,13 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
       databaseBuilder.factory.buildAssessment({
         id: assessmentId,
         certificationCourseId,
+        state: assessmentState,
+      });
+      databaseBuilder.factory.buildAssessmentResult({
+        pixScore,
+        certificationCourseId,
+        assessmentId,
+        assessmentResultStatus,
       });
 
       const answer = databaseBuilder.factory.buildAnswer({
@@ -50,6 +75,14 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
 
       const expectedCertificationCourseDetails = domainBuilder.buildV3CertificationCourseDetailsForAdministration({
         certificationCourseId,
+        isRejectedForFraud,
+        createdAt,
+        completedAt,
+        assessmentState,
+        assessmentResultStatus,
+        abortReason,
+        pixScore,
+        isCancelled,
         certificationChallengesForAdministration: [certificationChallengeForAdministration],
       });
 
@@ -189,15 +222,14 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
         },
       );
 
-      const expectedCertificationCourseDetails = domainBuilder.buildV3CertificationCourseDetailsForAdministration({
-        certificationCourseId,
-        certificationChallengesForAdministration: [
-          firstCertificationChallengeForAdministration,
-          secondCertificationChallengeForAdministration,
-          thirdCertificationChallengeForAdministration,
-        ],
-      });
-      expect(certificationChallenges).to.deep.equal(expectedCertificationCourseDetails);
+      const expectedCertificationChallengesForAdministration = [
+        firstCertificationChallengeForAdministration,
+        secondCertificationChallengeForAdministration,
+        thirdCertificationChallengeForAdministration,
+      ];
+      expect(certificationChallenges.certificationChallengesForAdministration).to.deep.equal(
+        expectedCertificationChallengesForAdministration,
+      );
     });
   });
 });
