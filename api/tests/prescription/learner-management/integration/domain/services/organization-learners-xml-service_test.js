@@ -1,9 +1,10 @@
 import * as url from 'url';
-import { expect, catchErr } from '../../../test-helper.js';
-import { SiecleXmlImportError, SIECLE_ERRORS } from '../../../../lib/domain/errors.js';
-import * as organizationLearnersXmlService from '../../../../lib/domain/services/organization-learners-xml-service.js';
+import { expect, catchErr } from '../../../../../test-helper.js';
+import { SIECLE_ERRORS } from '../../../../../../lib/domain/errors.js';
+import * as organizationLearnersXmlService from '../../../../../../src/prescription/learner-management/domain/services/organization-learners-xml-service.js';
+import { SiecleXmlImportError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
 
-const fixturesDirPath = `${url.fileURLToPath(new URL('../../../', import.meta.url))}tooling/fixtures/`;
+const fixturesDirPath = `${url.fileURLToPath(new URL('../../../../../', import.meta.url))}tooling/fixtures/`;
 
 describe('Integration | Services | organization-learners-xml-service', function () {
   describe('extractOrganizationLearnersInformationFromSIECLE', function () {

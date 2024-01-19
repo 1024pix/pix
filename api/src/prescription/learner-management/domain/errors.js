@@ -12,4 +12,12 @@ class OrganizationDoesNotHaveFeatureEnabledError extends DomainError {
   }
 }
 
-export { OrganizationLearnersCouldNotBeSavedError, OrganizationDoesNotHaveFeatureEnabledError };
+class SiecleXmlImportError extends DomainError {
+  constructor(code, meta) {
+    super('An error occurred during Siecle XML import');
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
+export { OrganizationLearnersCouldNotBeSavedError, OrganizationDoesNotHaveFeatureEnabledError, SiecleXmlImportError };

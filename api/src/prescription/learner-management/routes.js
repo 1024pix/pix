@@ -1,6 +1,7 @@
 import * as supOrganizationManangement from './application/sup-organization-management-route.js';
+import * as scoOrganizationManangement from './application/sco-organization-management-route.js';
 import * as organizationLearners from './application/organization-learners-route.js';
 
-const learnerManagementRoutes = [supOrganizationManangement, organizationLearners];
+const learnerManagementRoutes = [supOrganizationManangement, scoOrganizationManangement, organizationLearners];
 
 export { learnerManagementRoutes };
