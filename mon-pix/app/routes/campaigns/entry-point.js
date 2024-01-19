@@ -24,8 +24,9 @@ export default class EntryPoint extends Route {
     this.campaignStorage.clear(campaign.code);
 
     const queryParams = transition.to.queryParams;
-    if (queryParams.participantExternalId) {
-      this.campaignStorage.set(campaign.code, 'participantExternalId', transition.to.queryParams.participantExternalId);
+    if (queryParams.participantExternalId || queryParams.externalId) {
+      const participantExternalId = queryParams.participantExternalId || queryParams.externalId;
+      this.campaignStorage.set(campaign.code, 'participantExternalId', participantExternalId);
     }
     if (queryParams.retry) {
       this.metrics.add({
