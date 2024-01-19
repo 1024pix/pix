@@ -1,4 +1,4 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
+import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 import { config } from '../../../../lib/config.js';
 
@@ -59,6 +59,7 @@ describe('Unit | Domain | Models | CampaignToJoin', function () {
 
   describe('#organizationName', function () {
     it('should return organization name', function () {
+      // given
       const campaignToJoin = domainBuilder.buildCampaignToJoin({ organizationName: 'My organization' });
 
       // when / then
@@ -66,9 +67,11 @@ describe('Unit | Domain | Models | CampaignToJoin', function () {
     });
 
     it('should return Pix as organization name if the organization is the autonomous course organization', function () {
+      // given
+      sinon.stub(config.autonomousCourse, 'autonomousCoursesOrganizationId').value(777);
       const campaignToJoin = domainBuilder.buildCampaignToJoin({
         organizationName: 'Not displayed organization name',
-        organizationId: config.autonomousCourse.autonomousCoursesOrganizationId,
+        organizationId: 777,
       });
 
       // when / then

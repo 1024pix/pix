@@ -1,6 +1,6 @@
 import { CampaignParticipationOverview } from '../../../../lib/domain/read-models/CampaignParticipationOverview.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
-import { expect, domainBuilder } from '../../../test-helper.js';
+import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 import { config } from '../../../../lib/config.js';
 
 const { SHARED } = CampaignParticipationStatuses;
@@ -37,9 +37,10 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
     describe('when the campaign is an autonomous course', function () {
       it('should return Pix as organization name', function () {
         // given
+        sinon.stub(config.autonomousCourse, 'autonomousCoursesOrganizationId').value(777);
         const campaignParticipationOverview = new CampaignParticipationOverview({
           organizationName: 'Other organization name',
-          organizationId: config.autonomousCourse.autonomousCoursesOrganizationId,
+          organizationId: 777,
         });
 
         // when / then
