@@ -5,6 +5,8 @@ import { inject as service } from '@ember/service';
 export default class ModuleGrain extends Component {
   @service metrics;
 
+  static SCROLL_OFFSET_PX = 70;
+
   get shouldDisplayContinueButton() {
     return this.args.canDisplayContinueButton && this.allElementsAreAnswered;
   }
@@ -19,6 +21,21 @@ export default class ModuleGrain extends Component {
 
   get ariaLiveGrainValue() {
     return this.args.hasJustAppeared ? 'assertive' : null;
+  }
+
+  @action
+  focusAndScroll(element) {
+    if (!this.args.hasJustAppeared) {
+      return;
+    }
+
+    element.focus({ preventScroll: true });
+
+    const newGrainY = element.getBoundingClientRect().top + window.scrollY;
+    window.scroll({
+      top: newGrainY - ModuleGrain.SCROLL_OFFSET_PX,
+      behavior: 'smooth',
+    });
   }
 
   @action
