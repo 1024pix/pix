@@ -60,8 +60,8 @@ export default class ParticipantsByDay extends Component {
         {
           label: this.intl.t(this.labels.started.legend),
           data: this.startedDatasets,
-          borderColor: '#3d68ff',
-          backgroundColor: '#3d68ff',
+          borderColor: '#613fdd',
+          backgroundColor: '#613fdd',
           tension: 0.2,
           pointStyle: 'circle',
           order: 2,
@@ -69,8 +69,8 @@ export default class ParticipantsByDay extends Component {
         {
           label: this.intl.t(this.labels.shared.legend),
           data: this.sharedDatasets,
-          borderColor: '#613fdd',
-          backgroundColor: '#613fdd',
+          borderColor: '#038a25',
+          backgroundColor: '#038a25',
           tension: 0.2,
           pointStyle: 'rect',
           order: 1,
