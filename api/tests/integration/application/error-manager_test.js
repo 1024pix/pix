@@ -126,13 +126,6 @@ describe('Integration | API | Controller Error', function () {
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
     });
 
-    it('responds Precondition Failed when a SiecleXmlImportError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.SiecleXmlImportError());
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
-    });
-
     it('responds Precondition Failed when a TargetProfileInvalidError error occurs', async function () {
       routeHandler.throws(new DomainErrors.TargetProfileInvalidError());
       const response = await server.requestObject(request);

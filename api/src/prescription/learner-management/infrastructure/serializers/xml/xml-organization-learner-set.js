@@ -5,7 +5,8 @@ dayjs.extend(customParseFormat);
 import lodash from 'lodash';
 const { isEmpty, isNil, each } = lodash;
 
-import { SiecleXmlImportError, SIECLE_ERRORS } from '../../../domain/errors.js';
+import { SIECLE_ERRORS } from '../../../../../../lib/domain/errors.js';
+import { SiecleXmlImportError } from '../../../domain/errors.js';
 
 const DIVISION = 'D';
 

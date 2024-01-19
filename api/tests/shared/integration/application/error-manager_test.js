@@ -4,6 +4,7 @@ import {
   SessionAlreadyFinalizedError,
   SessionWithoutStartedCertificationError,
 } from '../../../../src/certification/session/domain/errors.js';
+import { SiecleXmlImportError } from '../../../../src/prescription/learner-management/domain/errors.js';
 
 describe('Integration | API | Controller Error', function () {
   let server;
@@ -42,6 +43,16 @@ describe('Integration | API | Controller Error', function () {
     };
     server = new HttpTestServer({ mustThrowOn5XXError: false });
     await server.register(moduleUnderTest);
+  });
+
+  context('412 Precondition Failed', function () {
+    const PRECONDITION_FAILED = 412;
+    it('responds Precondition Failed when a SiecleXmlImportError error occurs', async function () {
+      routeHandler.throws(new SiecleXmlImportError());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(PRECONDITION_FAILED);
+    });
   });
 
   context('409 Conflict', function () {

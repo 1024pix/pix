@@ -72,10 +72,6 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.UserNotAuthorizedToUpdateCampaignError).to.exist;
   });
 
-  it('should export a SiecleXmlImportError', function () {
-    expect(errors.SiecleXmlImportError).to.exist;
-  });
-
   it('should export a AuthenticationMethodNotFoundError', function () {
     expect(errors.AuthenticationMethodNotFoundError).to.exist;
   });

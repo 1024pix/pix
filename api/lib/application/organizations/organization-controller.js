@@ -161,20 +161,6 @@ const getGroups = async function (request) {
   return groupSerializer.serialize(groups);
 };
 
-const importOrganizationLearnersFromSIECLE = async function (request, h) {
-  const organizationId = request.params.id;
-  const { format } = request.query;
-
-  await usecases.importOrganizationLearnersFromSIECLEFormat({
-    organizationId,
-    payload: request.payload,
-    format,
-    i18n: request.i18n,
-  });
-
-  return h.response(null).code(204);
-};
-
 const sendInvitations = async function (request, h) {
   const organizationId = request.params.id;
   const emails = request.payload.data.attributes.email.split(',');
@@ -287,7 +273,6 @@ const organizationController = {
   getGroups,
   getOrganizationLearnersCsvTemplate,
   getOrganizationMemberIdentities,
-  importOrganizationLearnersFromSIECLE,
   resendInvitation,
   sendInvitationByLangAndRole,
   sendInvitations,
