@@ -1,6 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable import/no-restricted-paths */
-
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -13,7 +10,7 @@ import * as activityAnswerRepository from '../../../src/school/infrastructure/re
 import * as activityRepository from '../../../src/school/infrastructure/repositories/activity-repository.js';
 import * as adminMemberRepository from '../../../src/shared/infrastructure/repositories/admin-member-repository.js';
 import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
-import * as answerRepository from '../../../src/evaluation/infrastructure/repositories/answer-repository.js';
+import * as answerRepository from '../../../src/shared/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
