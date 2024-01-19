@@ -247,6 +247,23 @@ module('Unit | Route | Entry Point', function (hooks) {
           sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'participantExternalId', 'externalId');
           assert.ok(true);
         });
+
+        test('allow externalId as alias', async function (assert) {
+          //given
+          transition = { to: { queryParams: { externalId: 'externalId' } } };
+          route.currentUser = {
+            user: {
+              id: 12,
+            },
+          };
+
+          //when
+          await route.afterModel(campaign, transition);
+
+          //then
+          sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'participantExternalId', 'externalId');
+          assert.ok(true);
+        });
       });
 
       module('when there is no participantExternalId', function () {
