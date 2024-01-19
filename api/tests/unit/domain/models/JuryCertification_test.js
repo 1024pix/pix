@@ -29,7 +29,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         pixScore: 555,
         commentForCandidate: 'coucou',
         commentForOrganization: 'comment',
-        commentForJury: 'ça va',
+        commentByJury: 'ça va',
         version: 2,
       };
     });
@@ -109,7 +109,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         pixScore: 555,
         commentForCandidate: 'coucou',
         commentForOrganization: 'comment',
-        commentForJury: 'ça va',
+        commentByJury: 'ça va',
         version: 2,
         competenceMarks: [expectedCompetenceMark],
         certificationIssueReports,

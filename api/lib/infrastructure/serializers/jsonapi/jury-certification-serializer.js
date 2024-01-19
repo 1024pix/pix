@@ -8,6 +8,7 @@ const serialize = function (juryCertification) {
       return {
         id: juryCertification.certificationCourseId,
         ...juryCertification,
+        commentForJury: juryCertification.commentByJury,
         competencesWithMark: juryCertification.competenceMarks,
       };
     },
