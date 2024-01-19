@@ -10,7 +10,7 @@ import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/u
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CertificationCourse, ComplementaryCertificationCourse } from '../../../../../lib/domain/models/index.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import * as certificationChallengeRepository from '../../../../../lib/infrastructure/repositories/certification-challenge-repository.js';
+import * as certificationChallengeRepository from './certification-challenge-repository.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 import { Bookshelf } from '../../../../../lib/infrastructure/bookshelf.js';
 

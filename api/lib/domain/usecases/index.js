@@ -1,3 +1,6 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable import/no-restricted-paths */
+
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -51,7 +54,7 @@ import * as certificationCenterInvitedUserRepository from '../../infrastructure/
 import * as certificationCenterMembershipRepository from '../../infrastructure/repositories/certification-center-membership-repository.js';
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../src/certification/session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
-import * as certificationChallengeRepository from '../../infrastructure/repositories/certification-challenge-repository.js';
+import * as certificationChallengeRepository from '../../../src/certification/shared/infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
 import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationCpfCityRepository from '../../../src/certification/shared/infrastructure/repositories/certification-cpf-city-repository.js';
@@ -171,7 +174,7 @@ import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRep
 import { campaignParticipationResultRepository } from '../../infrastructure/repositories/campaign-participation-result-repository.js';
 import { getCompetenceLevel } from '../../../src/evaluation/domain/services/get-competence-level.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
-import { pickChallengeService } from '../services/pick-challenge-service.js';
+import { pickChallengeService } from '../../../src/certification/flash-certification/domain/services/pick-challenge-service.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 
 import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.js';

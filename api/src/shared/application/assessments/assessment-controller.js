@@ -14,7 +14,7 @@ import {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
 } from '../../../../lib/infrastructure/utils/request-response-utils.js';
-import * as certificationChallengeRepository from '../../../../lib/infrastructure/repositories/certification-challenge-repository.js';
+import * as certificationChallengeRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-repository.js';
 
 import { Examiner } from '../../../../lib/domain/models/Examiner.js';
 import { ValidatorAlwaysOK } from '../../../../lib/domain/models/ValidatorAlwaysOK.js';
