@@ -75,7 +75,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
         certificationCourseRepository,
         certificationChallengeLiveAlertRepository,
         certificationChallengeRepository,
-        algorithmDataFetcherService,
         pickChallengeService,
         flashAlgorithmService,
         flashAlgorithmConfigurationRepository;
@@ -90,6 +89,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
         flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
         challengeRepository = {
           get: sinon.stub(),
+          findActiveFlashCompatible: sinon.stub(),
         };
         certificationCourseRepository = {
           get: sinon.stub(),
@@ -100,9 +100,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
         certificationChallengeRepository = {
           save: sinon.stub(),
           getNextChallengeByCourseIdForV3: sinon.stub(),
-        };
-        algorithmDataFetcherService = {
-          fetchForFlashCampaigns: sinon.stub(),
         };
         pickChallengeService = {
           chooseNextChallenge: sinon.stub(),
@@ -134,19 +131,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             .withArgs(assessment.certificationCourseId, [])
             .resolves(null);
           challengeRepository.get.resolves();
-          algorithmDataFetcherService.fetchForFlashCampaigns
-            .withArgs({
-              answerRepository,
-              challengeRepository,
-              flashAssessmentResultRepository,
-              assessmentId: assessment.id,
-              locale,
-            })
-            .resolves({
-              allAnswers: [],
-              challenges: [nextChallengeToAnswer],
-              estimatedLevel: 0,
-            });
+
+          answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
+          challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallengeToAnswer]);
 
           flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
@@ -177,7 +164,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           // when
           const challenge = await getNextChallengeForCertification({
-            algorithmDataFetcherService,
             assessment,
             answerRepository,
             challengeRepository,
@@ -228,7 +214,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
             // when
             const challenge = await getNextChallengeForCertification({
-              algorithmDataFetcherService,
               assessment,
               answerRepository,
               challengeRepository,
@@ -272,19 +257,10 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             id: nonAnsweredCertificationChallenge.challengeId,
           });
 
-          algorithmDataFetcherService.fetchForFlashCampaigns
-            .withArgs({
-              answerRepository,
-              challengeRepository,
-              flashAssessmentResultRepository,
-              assessmentId: assessment.id,
-              locale,
-            })
-            .resolves({
-              allAnswers: [],
-              challenges: [nextChallenge, lastSeenChallenge],
-              estimatedLevel: 0,
-            });
+          answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
+          challengeRepository.findActiveFlashCompatible
+            .withArgs({ locale })
+            .resolves([nextChallenge, lastSeenChallenge]);
 
           flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
@@ -325,7 +301,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           // when
           const challenge = await getNextChallengeForCertification({
-            algorithmDataFetcherService,
             assessment,
             answerRepository,
             challengeRepository,
@@ -374,19 +349,10 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             skill: firstSkill,
           });
 
-          algorithmDataFetcherService.fetchForFlashCampaigns
-            .withArgs({
-              answerRepository,
-              challengeRepository,
-              flashAssessmentResultRepository,
-              assessmentId: assessment.id,
-              locale,
-            })
-            .resolves({
-              allAnswers: [],
-              challenges: [challengeWithLiveAlert, challengeWithOtherSkill, challengeWithLiveAlertedSkill],
-              estimatedLevel: 0,
-            });
+          answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
+          challengeRepository.findActiveFlashCompatible
+            .withArgs()
+            .resolves([challengeWithLiveAlert, challengeWithOtherSkill, challengeWithLiveAlertedSkill]);
 
           flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
@@ -427,7 +393,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           // when
           const challenge = await getNextChallengeForCertification({
-            algorithmDataFetcherService,
             assessment,
             answerRepository,
             challengeRepository,
@@ -473,19 +438,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             .withArgs(assessment.certificationCourseId, [answeredChallenge.id])
             .resolves(null);
           challengeRepository.get.resolves();
-          algorithmDataFetcherService.fetchForFlashCampaigns
-            .withArgs({
-              answerRepository,
-              challengeRepository,
-              flashAssessmentResultRepository,
-              assessmentId: assessment.id,
-              locale,
-            })
-            .resolves({
-              allAnswers: [answer],
-              challenges: [answeredChallenge],
-              estimatedLevel: 0,
-            });
+
+          answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
+          challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([answeredChallenge]);
 
           flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
@@ -513,7 +468,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           // when
           const error = await catchErr(getNextChallengeForCertification)({
-            algorithmDataFetcherService,
             assessment,
             answerRepository,
             challengeRepository,
@@ -580,19 +534,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
                 .withArgs(assessment.certificationCourseId, [])
                 .resolves(null);
               challengeRepository.get.resolves();
-              algorithmDataFetcherService.fetchForFlashCampaigns
-                .withArgs({
-                  answerRepository,
-                  challengeRepository,
-                  flashAssessmentResultRepository,
-                  assessmentId: assessment.id,
-                  locale,
-                })
-                .resolves({
-                  allAnswers: [],
-                  challenges: [nextChallengeToAnswer],
-                  estimatedLevel: 0,
-                });
+
+              answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
+              challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallengeToAnswer]);
 
               flashAlgorithmService.getEstimatedLevelAndErrorRate
                 .withArgs({
@@ -623,7 +567,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
               // when
               const challenge = await getNextChallengeForCertification({
-                algorithmDataFetcherService,
                 assessment,
                 answerRepository,
                 challengeRepository,
