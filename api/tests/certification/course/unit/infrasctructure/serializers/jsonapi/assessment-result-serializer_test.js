@@ -9,7 +9,7 @@ describe('Unit | Serializer | JSONAPI | assessment-result-serializer', function 
         data: {
           attributes: {
             'assessment-id': 1,
-            'comment-for-jury': 'comment',
+            'comment-by-jury': 'comment',
             'comment-for-candidate': null,
             'comment-for-organization': 'another comment',
             emitter: 'Jury Pix',
