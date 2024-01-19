@@ -6,7 +6,7 @@ import { parseCsv } from '../../../../scripts/helpers/csvHelpers.js';
 import { pickAnswerStatusService } from '../../../../lib/domain/services/pick-answer-status-service.js';
 import { HttpErrors } from '../../../../lib/application/http-errors.js';
 import _ from 'lodash';
-import { pickChallengeService } from '../../../../lib/domain/services/pick-challenge-service.js';
+import { pickChallengeService } from '../domain/services/pick-challenge-service.js';
 import { Readable } from 'stream';
 import { FlashAssessmentSuccessRateHandler } from '../domain/models/FlashAssessmentSuccessRateHandler.js';
 
