@@ -18,6 +18,10 @@ module('Acceptance | Module | Routes | navigateIntoTheModule', function (hooks) 
         grains,
       });
 
+      server.create('passage', {
+        moduleId: 'bien-ecrire-son-adresse-mail',
+      });
+
       // when
       const screen = await visit('/modules/bien-ecrire-son-adresse-mail');
 
