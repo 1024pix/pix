@@ -127,7 +127,7 @@ describe('Unit | Controller | certification-course-controller', function () {
         juryId: 66,
         commentForCandidate: 'comment candidate',
         commentForOrganization: 'comment organization',
-        commentForJury: 'comment jury',
+        commentByJury: 'comment jury',
         competenceMarks: [],
         certificationIssueReports: [],
         commonComplementaryCertificationCourseResult: null,
@@ -135,7 +135,7 @@ describe('Unit | Controller | certification-course-controller', function () {
       });
       const stubbedUsecase = sinon.stub(usecases, 'getJuryCertification');
       stubbedUsecase.withArgs({ certificationCourseId }).resolves(juryCertification);
-      juryCertificationSerializer.serialize.returns('ok');
+      juryCertificationSerializer.serialize.withArgs(juryCertification).returns('ok');
 
       // when
       const response = await certificationCourseController.getJuryCertification(request, hFake, {
