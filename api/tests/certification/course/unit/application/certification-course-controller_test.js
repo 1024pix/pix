@@ -85,7 +85,7 @@ describe('Unit | Controller | certification-course-controller', function () {
               'pix-score': 300,
               status: 'validated',
               emitter: 'Jury Pix',
-              'comment-for-jury': 'Tell',
+              'comment-by-jury': 'Tell',
               'comment-for-candidate': 'Me',
               'comment-for-organization': 'Why',
             },
