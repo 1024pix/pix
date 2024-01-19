@@ -1,19 +1,54 @@
 .grain {
   width: 100%;
-  background: $pix-neutral-0;
-  border: 1px solid $pix-neutral-22;
-  border-radius: $pix-spacing-s;
 
   &__header {
-    margin: $pix-spacing-m $pix-spacing-s $pix-spacing-s;
-    padding: $pix-spacing-xs $pix-spacing-m;
-    background: $pix-tertiary-5;
-    border-radius: $pix-spacing-xs;
+    margin-bottom: var(--pix-spacing-6x);
+    padding: 0 var(--pix-spacing-4x);
+    font-weight: var(--pix-font-medium);
+  }
+
+  &__content {
+    padding: var(--pix-spacing-6x);
+    border-top-left-radius: var(--pix-spacing-4x);
+    border-top-right-radius: var(--pix-spacing-4x);
+
+    &:last-child {
+      border-bottom-right-radius: var(--pix-spacing-4x);
+      border-bottom-left-radius: var(--pix-spacing-4x);
+    }
   }
 
   &__footer {
-    padding: $pix-spacing-s;
-    background: $pix-tertiary-5;
-    border-radius: 0 0 $pix-spacing-s $pix-spacing-s;
+    padding: var(--pix-spacing-6x);
+    border-bottom-right-radius: var(--pix-spacing-4x);
+    border-bottom-left-radius: var(--pix-spacing-4x);
+  }
+}
+
+.grain-content {
+  &__element:not(:last-child) {
+    margin-bottom: var(--pix-spacing-8x);
+  }
+}
+
+.grain--lesson {
+  .grain__content {
+    background: var(--pix-info-50);
+  }
+
+  .grain__footer {
+    background: var(--pix-info-100);
+    border-top: 1px solid var(--pix-neutral-500);
+  }
+}
+
+.grain--activity {
+  .grain__content {
+    background: var(--pix-neutral-20);
+  }
+
+  .grain__footer {
+    background: var(--pix-neutral-100);
+    border-top: 1px solid var(--pix-neutral-500);
   }
 }
