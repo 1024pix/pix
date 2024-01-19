@@ -173,7 +173,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               possibleChallenges: [nextChallengeToAnswer],
             })
             .returns(nextChallengeToAnswer);
-          pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
+          pickChallengeService.chooseNextChallenge.withArgs().returns(chooseNextChallengeImpl);
 
           // when
           const challenge = await getNextChallengeForCertification({
@@ -321,7 +321,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               possibleChallenges: [nextChallenge],
             })
             .returns(nextChallenge);
-          pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
+          pickChallengeService.chooseNextChallenge.withArgs().returns(chooseNextChallengeImpl);
 
           // when
           const challenge = await getNextChallengeForCertification({
@@ -423,7 +423,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               possibleChallenges: [challengeWithOtherSkill],
             })
             .returns(challengeWithOtherSkill);
-          pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
+          pickChallengeService.chooseNextChallenge.withArgs().returns(chooseNextChallengeImpl);
 
           // when
           const challenge = await getNextChallengeForCertification({
@@ -619,7 +619,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
                   possibleChallenges: [nextChallengeToAnswer],
                 })
                 .returns(nextChallengeToAnswer);
-              pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
+              pickChallengeService.chooseNextChallenge.withArgs().returns(chooseNextChallengeImpl);
 
               // when
               const challenge = await getNextChallengeForCertification({
