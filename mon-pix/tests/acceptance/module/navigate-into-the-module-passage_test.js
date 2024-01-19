@@ -3,11 +3,11 @@ import { setupApplicationTest } from 'ember-qunit';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-module('Acceptance | Module | Routes | navigateIntoTheModule', function (hooks) {
+module('Acceptance | Module | Routes | navigateIntoTheModulePassage', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('when user arrive on the module page', function () {
+  module('when user arrive on the module passage page', function () {
     test('should display only the first lesson grain', async function (assert) {
       // given
       const grains = _createGrains(server);
@@ -23,7 +23,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModule', function (hooks) 
       });
 
       // when
-      const screen = await visit('/modules/bien-ecrire-son-adresse-mail');
+      const screen = await visit('/modules/bien-ecrire-son-adresse-mail/passage');
 
       // then
       assert.dom(screen.getByRole('heading', { name: grains[0].title, level: 2 })).exists();
@@ -46,7 +46,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModule', function (hooks) 
         });
 
         // when
-        const screen = await visit('/modules/bien-ecrire-son-adresse-mail');
+        const screen = await visit('/modules/bien-ecrire-son-adresse-mail/passage');
 
         // then
         assert.dom(screen.getByRole('button', { name: 'Continuer' })).exists({ count: 1 });
@@ -73,7 +73,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModule', function (hooks) 
         });
 
         // when
-        const screen = await visit('/modules/bien-ecrire-son-adresse-mail');
+        const screen = await visit('/modules/bien-ecrire-son-adresse-mail/passage');
 
         // then
         assert.dom(screen.getByRole('button', { name: 'Continuer' })).exists({ count: 1 });

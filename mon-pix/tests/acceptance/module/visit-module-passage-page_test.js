@@ -8,7 +8,7 @@ module('Acceptance | Module | Routes | get', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  test('can visit /modules/:slug', async function (assert) {
+  test('can visit /modules/:slug/passage', async function (assert) {
     // given
     const grain = server.create('grain', {
       id: 'grain1',
@@ -20,10 +20,10 @@ module('Acceptance | Module | Routes | get', function (hooks) {
     });
 
     // when
-    await visit('/modules/bien-ecrire-son-adresse-mail');
+    await visit('/modules/bien-ecrire-son-adresse-mail/passage');
 
     // then
-    assert.strictEqual(currentURL(), '/modules/bien-ecrire-son-adresse-mail');
+    assert.strictEqual(currentURL(), '/modules/bien-ecrire-son-adresse-mail/passage');
   });
 
   test('should include the module title inside the page title', async function (assert) {
@@ -42,7 +42,7 @@ module('Acceptance | Module | Routes | get', function (hooks) {
     });
 
     // when
-    await visit('/modules/bien-ecrire-son-adresse-mail');
+    await visit('/modules/bien-ecrire-son-adresse-mail/passage');
 
     // then
     assert.ok(document.title.includes(module.title));

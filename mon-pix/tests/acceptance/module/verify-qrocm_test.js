@@ -70,7 +70,7 @@ module('Acceptance | Module | Routes | verifyQrocm', function (hooks) {
     });
 
     // when
-    const screen = await visit('/modules/bien-ecrire-son-adresse-mail');
+    const screen = await visit('/modules/bien-ecrire-son-adresse-mail/passage');
 
     const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
