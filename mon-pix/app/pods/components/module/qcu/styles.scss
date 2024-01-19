@@ -28,5 +28,9 @@
     background: var(--pix-neutral-0);
     border: 1px solid var(--pix-neutral-100);
     border-radius: var(--pix-spacing-2x);
+
+    &:not(:last-child) {
+      margin-bottom: var(--pix-spacing-2x);
+    }
   }
 }
