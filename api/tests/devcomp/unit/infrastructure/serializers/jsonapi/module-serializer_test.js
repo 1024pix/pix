@@ -18,7 +18,19 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
       const id = 'id';
       const slug = 'bien-ecrire-son-adresse-mail';
       const title = 'Bien écrire son adresse mail';
-      const moduleFromDomain = new Module({ id, slug, title, grains: [] });
+      const details = {
+        image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+        description:
+          'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
+        duration: 12,
+        level: 'Débutant',
+        objectives: [
+          'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+          'Connaître les parties d’une adresse mail et les identifier sur des exemples',
+          'Comprendre les fonctions des parties d’une adresse mail',
+        ],
+      };
+      const moduleFromDomain = new Module({ id, details, slug, title, grains: [] });
       const expectedJson = {
         data: {
           type: 'modules',
@@ -26,6 +38,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
           attributes: {
             title,
             'transition-texts': [],
+            details,
           },
           relationships: {
             grains: {
@@ -47,6 +60,18 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
       const id = 'id';
       const slug = 'bien-ecrire-son-adresse-mail';
       const title = 'Bien écrire son adresse mail';
+      const details = {
+        image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+        description:
+          'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
+        duration: 12,
+        level: 'Débutant',
+        objectives: [
+          'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+          'Connaître les parties d’une adresse mail et les identifier sur des exemples',
+          'Comprendre les fonctions des parties d’une adresse mail',
+        ],
+      };
       const transitionTexts = [
         {
           content: '<p>content</p>',
@@ -57,6 +82,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
         id,
         slug,
         title,
+        details,
         transitionTexts,
         grains: [
           {
@@ -134,6 +160,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
           attributes: {
             title: 'Bien écrire son adresse mail',
             'transition-texts': transitionTexts,
+            details,
           },
           id: 'bien-ecrire-son-adresse-mail',
           relationships: {
