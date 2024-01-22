@@ -1,13 +1,13 @@
 import { NotFoundError } from '../errors.js';
 
-async function findChildrenOrganizationsForAdmin({ parentOrganizationId, organizationRepository }) {
-  const parentOrganizationExist = await organizationRepository.exist(parentOrganizationId);
+async function findChildrenOrganizationsForAdmin({ parentOrganizationId, organizationForAdminRepository }) {
+  const parentOrganizationExist = await organizationForAdminRepository.exist(parentOrganizationId);
 
   if (!parentOrganizationExist) {
     throw new NotFoundError(`Organization with ID (${parentOrganizationId}) not found`);
   }
 
-  const children = await organizationRepository.findChildrenByParentOrganizationId(parentOrganizationId);
+  const children = await organizationForAdminRepository.findChildrenByParentOrganizationId(parentOrganizationId);
 
   return children;
 }

@@ -34,6 +34,7 @@ class OrganizationForAdmin {
     tagIds = [],
     features = {},
     code,
+    parentOrganizationId,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -74,6 +75,7 @@ class OrganizationForAdmin {
     this.tagsToAdd = [];
     this.tagsToRemove = [];
     this.code = code;
+    this.parentOrganizationId = parentOrganizationId;
   }
 
   get archivistFullName() {
@@ -84,6 +86,10 @@ class OrganizationForAdmin {
 
   get creatorFullName() {
     return this.creatorFirstName && this.creatorLastName ? `${this.creatorFirstName} ${this.creatorLastName}` : null;
+  }
+
+  updateParentOrganizationId(parentOrganizationId) {
+    this.parentOrganizationId = parentOrganizationId;
   }
 
   updateProvinceCode(provinceCode) {
