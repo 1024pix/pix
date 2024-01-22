@@ -1143,7 +1143,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             // given
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
-            server.post('/admin/certification-courses/:id/assessment-results/', () => {
+            server.post('/admin/certification-courses/:id/assessment-results', () => {
               return new Response(400);
             });
 
