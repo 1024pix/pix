@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v4.93.0 (22/01/2024)
+
+
+### :rocket: Amélioration
+- [#7874](https://github.com/1024pix/pix/pull/7874) [FEATURE] Revue du design de Modulix (PIX-9812).
+- [#7894](https://github.com/1024pix/pix/pull/7894) [FEATURE] Accepte externalId comme alias pour participantExternalId (PIX-10819).
+
+### :building_construction: Tech
+- [#7787](https://github.com/1024pix/pix/pull/7787) [TECH] Activer la redirection automatique HTTPS sur Caddy (PIX-10578).
+- [#7884](https://github.com/1024pix/pix/pull/7884) [TECH] Supprimer les ancienne routes de Verify Answer sur modulix (Pix-10701).
+
+### :bug: Correction
+- [#7892](https://github.com/1024pix/pix/pull/7892) [BUGFIX] Adapter les couleurs du graphique des status par jour à celui des status par type (PIX-10864).
+
 ## v4.91.0 (19/01/2024)
 
 
