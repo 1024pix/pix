@@ -1,13 +1,16 @@
 {
 	local_certs
-	auto_https disable_redirects
 }
 
-app.dev.pix.fr app.dev.pix.org:443, :80 {
+http://app.dev.pix.fr,
+https://app.dev.pix.fr,
+http://app.dev.pix.org,
+https://app.dev.pix.org {
 	reverse_proxy host.docker.internal:4200
 }
 
-orga.dev.pix.fr orga.dev.pix.org {
+orga.dev.pix.fr,
+orga.dev.pix.org {
 	reverse_proxy host.docker.internal:4201
 }
 
@@ -15,10 +18,12 @@ admin.dev.pix.fr {
 	reverse_proxy host.docker.internal:4202
 }
 
-certif.dev.pix.fr certif.dev.pix.org {
+certif.dev.pix.fr,
+certif.dev.pix.org {
 	reverse_proxy host.docker.internal:4203
 }
 
-1d.dev.pix.fr 1d.dev.pix.org {
+1d.dev.pix.fr,
+1d.dev.pix.org {
 	reverse_proxy host.docker.internal:4205
 }
