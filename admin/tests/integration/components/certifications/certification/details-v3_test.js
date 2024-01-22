@@ -49,6 +49,50 @@ const answers = [
     competenceIndex: '1.3',
     skillName: '@rec124',
   },
+  {
+    id: 5,
+    questionNumber: '4',
+    answerStatus: 'timedout',
+    answerStatusName: 'Temps écoulé',
+    validatedLiveAlert: false,
+    answeredAt: new Date('2020-01-01T17:13:00Z'),
+    competenceName: 'Réparer les couteaux',
+    competenceIndex: '1.3',
+    skillName: '@rec124',
+  },
+  {
+    id: 6,
+    questionNumber: '5',
+    answerStatus: 'focusedOut',
+    answerStatusName: 'Focus out',
+    validatedLiveAlert: false,
+    answeredAt: new Date('2020-01-01T17:13:00Z'),
+    competenceName: 'Concevoir les couteaux',
+    competenceIndex: '1.3',
+    skillName: '@rec124',
+  },
+  {
+    id: 7,
+    questionNumber: '6',
+    answerStatus: 'partially',
+    answerStatusName: 'Partiellement OK',
+    validatedLiveAlert: false,
+    answeredAt: new Date('2020-01-01T17:13:00Z'),
+    competenceName: 'Aiguiser les couteaux',
+    competenceIndex: '1.3',
+    skillName: '@rec124',
+  },
+  {
+    id: 8,
+    questionNumber: '7',
+    answerStatus: 'unimplemented',
+    answerStatusName: 'Non implémentée',
+    validatedLiveAlert: false,
+    answeredAt: new Date('2020-01-01T17:13:00Z'),
+    competenceName: 'Aiguiser les couteaux',
+    competenceIndex: '1.3',
+    skillName: '@rec124',
+  },
 ];
 
 module('Integration | Component | Certifications | certification > details v3', function (hooks) {
@@ -312,7 +356,7 @@ module('Integration | Component | Certifications | certification > details v3', 
         assert.dom(screen.getByRole('heading', { name: 'Liste des questions' })).exists();
 
         const linesWithResults = screen.getAllByRole('row').slice(1);
-        assert.strictEqual(linesWithResults.length, 4);
+        assert.strictEqual(linesWithResults.length, answers.length);
 
         const result = [];
 

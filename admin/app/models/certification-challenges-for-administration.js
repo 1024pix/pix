@@ -1,4 +1,14 @@
 import Model, { attr } from '@ember-data/model';
+
+export const AnswerStatus = {
+  OK: 'ok',
+  KO: 'ko',
+  ABAND: 'aband',
+  TIMEDOUT: 'timedout',
+  FOCUSEDOUT: 'focusedOut',
+  PARTIALLY: 'partially',
+  UNIMPLEMENTED: 'unimplemented',
+};
 export default class CertificationChallengesForAdministration extends Model {
   @attr() answerStatus;
   @attr() answeredAt;
