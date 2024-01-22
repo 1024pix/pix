@@ -1,5 +1,5 @@
-import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
-import { CertificationChallenge, FlashAssessmentAlgorithm } from '../models/index.js';
+import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
+import { CertificationChallenge, FlashAssessmentAlgorithm } from '../../../../../lib/domain/models/index.js';
 
 const getNextChallengeForCertification = async function ({
   answerRepository,
