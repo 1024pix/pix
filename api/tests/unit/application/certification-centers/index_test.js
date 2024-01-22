@@ -195,7 +195,7 @@ describe('Unit | Router | certification-center-router', function () {
 
     it('should exist', async function () {
       //given
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(certificationCenterController, 'findCertificationCenterMembershipsByCertificationCenter')
         .returns('ok');
@@ -232,7 +232,7 @@ describe('Unit | Router | certification-center-router', function () {
 
     it('should return CREATED (200) when everything does as expected', async function () {
       //given
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(certificationCenterController, 'createCertificationCenterMembershipByEmail').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

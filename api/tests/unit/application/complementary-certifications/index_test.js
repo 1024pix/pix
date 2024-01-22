@@ -9,7 +9,7 @@ describe('Unit | Application | Router | complementary-certifications-router', fu
       it('should return 403 HTTP status code', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
           .returns((request, h) => h.response().code(403).takeover());
         sinon.stub(complementaryCertificationController, 'findComplementaryCertifications').returns('ok');
         const httpTestServer = new HttpTestServer();
@@ -54,7 +54,7 @@ describe('Unit | Application | Router | complementary-certifications-router', fu
       it('should return 403 HTTP status code', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
           .returns((request, h) => h.response().code(403).takeover());
         sinon
           .stub(complementaryCertificationController, 'searchAttachableTargetProfilesForComplementaryCertifications')

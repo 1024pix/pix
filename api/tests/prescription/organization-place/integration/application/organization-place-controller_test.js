@@ -18,7 +18,7 @@ describe('Integration | Application | organization-place-controller', function (
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToSupOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents');
-    sandbox.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf');
+    sandbox.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganization');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
@@ -42,7 +42,7 @@ describe('Integration | Application | organization-place-controller', function (
           category: 'T2',
         });
         usecases.findOrganizationPlacesLot.resolves([place]);
-        securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
+        securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
 
         // when
         const response = await httpTestServer.request('GET', `/api/admin/organizations/${organizationId}/places`);

@@ -127,7 +127,7 @@ describe('Unit | Application | Router | assessment-router', function () {
 
     it('should return a response with an HTTP status code 403 if user does not have the rights', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns((request, h) =>
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns((request, h) =>
         h
           .response({ errors: new Error('Unauthorized') })
           .code(403)
@@ -144,7 +144,7 @@ describe('Unit | Application | Router | assessment-router', function () {
       );
 
       // then
-      expect(securityPreHandlers.adminMemberHasAtLeastOneAccessOf).to.have.be.called;
+      expect(securityPreHandlers.hasAtLeastOneAccessOf).to.have.be.called;
       expect(statusCode).to.equal(403);
     });
   });

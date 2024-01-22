@@ -10,7 +10,7 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'POST';
       const url = '/api/admin/organizations';
 
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'create').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -29,7 +29,7 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'GET';
       const url = '/api/admin/organizations';
 
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -49,7 +49,7 @@ describe('Integration | Application | Organizations | Routes', function () {
           const url = '/api/admin/organizations';
 
           sinon
-            .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+            .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
             .returns((request, h) => h.response().code(403).takeover());
           sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
           const httpTestServer = new HttpTestServer();
@@ -71,7 +71,7 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'POST';
       const url = '/api/admin/organizations/1/archive';
 
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'archiveOrganization').callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -91,7 +91,7 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'GET';
       const url = '/api/admin/organizations/1/invitations';
 
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -111,7 +111,7 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'DELETE';
       const url = '/api/admin/organizations/1/invitations/1';
 
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(organizationController, 'cancelOrganizationInvitation')
         .returns((request, h) => h.response().code(204));

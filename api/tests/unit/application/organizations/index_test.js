@@ -11,7 +11,7 @@ describe('Unit | Router | organization-router', function () {
 
     it('should return OK (200) when request is valid', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -529,7 +529,7 @@ describe('Unit | Router | organization-router', function () {
 
     it('should return HTTP code 201', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(organizationController, 'sendInvitationByLangAndRole')
         .callsFake((request, h) => h.response().created());
