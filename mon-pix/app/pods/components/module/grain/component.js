@@ -31,9 +31,10 @@ export default class ModuleGrain extends Component {
     element.focus({ preventScroll: true });
 
     const newGrainY = element.getBoundingClientRect().top + window.scrollY;
+    const userPrefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     window.scroll({
       top: newGrainY - ModuleDetails.SCROLL_OFFSET_PX,
-      behavior: 'smooth',
+      behavior: userPrefersReducedMotion.matches ? 'instant' : 'smooth',
     });
   }
 
