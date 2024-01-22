@@ -14,15 +14,19 @@ export default class Certification extends ApplicationAdapter {
   }
 
   updateRecord(store, type, snapshot) {
-    const data = {};
-    const serializer = store.serializerFor(type.modelName);
     if (snapshot.adapterOptions.updateComments) {
-      serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
-      data.data.type = 'results';
-      data.data.attributes['jury-id'] = null;
-      data.data.attributes['emitter'] = 'Jury Pix';
-      return this.ajax(this.urlForUpdateComments(snapshot.id), 'POST', { data: data });
+      const payload = this.serialize(snapshot);
+      payload.data.attributes = {
+        'assessment-id': payload.data.attributes['assessment-id'],
+        'comment-for-organization': payload.data.attributes['comment-for-organization'],
+        'comment-for-candidate': payload.data.attributes['comment-for-candidate'],
+        'comment-by-jury': payload.data.attributes['comment-by-jury'],
+      };
+      delete payload.data.relationships;
+      return this.ajax(this.urlForUpdateComments(snapshot.id), 'POST', { data: payload });
     } else {
+      const data = {};
+      const serializer = store.serializerFor(type.modelName);
       serializer.serializeIntoHash(data, type, snapshot, { includeId: true, onlyInformation: true });
       return this.ajax(this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord'), 'PATCH', { data: data });
     }

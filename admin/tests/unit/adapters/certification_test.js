@@ -55,39 +55,48 @@ module('Unit | Adapter | certification', function (hooks) {
     module('when updateComments adapter option passed', function () {
       test('it should trigger an ajax call with the updateComments url, data and method', async function (assert) {
         // given
-        adapter.ajax.resolves();
-        store.serializerFor.returns(serializer);
-        serializer.serializeIntoHash.callsFake((data) => {
-          data.data = {};
-          data.data.attributes = {};
-        });
+        sinon
+          .stub(adapter, 'urlForUpdateComments')
+          .returns('https://example.net/api/admin/certification-courses/123/assessment-results');
+        const store = Symbol();
+        const attributes = {
+          'assessment-id': 567,
+          'comment-for-organization': 'comment organization',
+          'comment-for-candidate': 'comment candidate',
+          'comment-by-jury': 'comment by jury',
+        };
 
         // when
         await adapter.updateRecord(
           store,
           { modelName: 'someModelName' },
-          { id: 123, adapterOptions: { updateComments: true } },
+          {
+            id: 123,
+            adapterOptions: { updateComments: true },
+            serialize: sinon.stub().returns({ data: { attributes } }),
+          },
         );
 
         // then
-        const expectedData = {
+        const expectedPayload = {
           data: {
             data: {
-              type: 'results',
               attributes: {
-                'jury-id': null,
-                emitter: 'Jury Pix',
+                'assessment-id': 567,
+                'comment-for-organization': 'comment organization',
+                'comment-for-candidate': 'comment candidate',
+                'comment-by-jury': 'comment by jury',
               },
             },
           },
         };
-        sinon.assert.calledWith(
-          adapter.ajax,
-          'http://localhost:3000/api/admin/certification-courses/123/assessment-results',
-          'POST',
-          expectedData,
+        assert.ok(
+          adapter.ajax.calledWith(
+            'https://example.net/api/admin/certification-courses/123/assessment-results',
+            'POST',
+            expectedPayload,
+          ),
         );
-        assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
       });
     });
 
