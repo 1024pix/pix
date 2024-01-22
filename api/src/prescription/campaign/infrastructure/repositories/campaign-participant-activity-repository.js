@@ -42,6 +42,7 @@ function _buildCampaignParticipationByParticipant(queryBuilder, campaignId, filt
         .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
         .and.where('status', CampaignParticipationStatuses.SHARED)
         .and.whereNull('campaign-participations.deletedAt')
+        .and.where('campaignId', campaignId)
         .orderBy('sharedAt', 'desc')
         .limit(1)
         .as('lastSharedCampaignParticipationId'),
