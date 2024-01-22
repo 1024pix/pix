@@ -3,7 +3,6 @@ import { Feedbacks } from '../Feedbacks.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 import { ValidatorQCU } from '../validator/ValidatorQCU.js';
 import { QcuCorrectionResponse } from '../QcuCorrectionResponse.js';
-import { ElementAnswer } from '../ElementAnswer.js';
 import Joi from 'joi';
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
 
@@ -49,11 +48,10 @@ class QCUForAnswerVerification extends QCU {
       solution: this.solution,
     });
 
-    return new ElementAnswer({
-      elementId: this.id,
+    return {
       userResponseValue: selectedQcuProposalId,
       correction,
-    });
+    };
   }
 }
 

@@ -1,5 +1,4 @@
 import jsonapiSerializer from 'jsonapi-serializer';
-import { randomUUID } from 'crypto';
 
 const { Serializer } = jsonapiSerializer;
 
@@ -8,10 +7,10 @@ function serialize(elementAnswer) {
     transform(elementAnswer) {
       return {
         ...elementAnswer,
-        id: elementAnswer.id ?? randomUUID(),
+        id: elementAnswer.id,
         correction: {
           ...elementAnswer.correction,
-          id: elementAnswer.id ?? randomUUID(),
+          id: elementAnswer.id,
           status: elementAnswer.correction.status.status,
         },
       };
