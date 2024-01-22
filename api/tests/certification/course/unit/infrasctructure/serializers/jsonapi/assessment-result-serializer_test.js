@@ -1,6 +1,5 @@
 import { expect } from '../../../../../../test-helper.js';
 import * as serializer from '../../../../../../../src/certification/course/infrastructure/serializers/jsonapi/assessment-result-serializer.js';
-import { AssessmentResult } from '../../../../../../../src/shared/domain/models/AssessmentResult.js';
 
 describe('Unit | Serializer | JSONAPI | assessment-result-serializer', function () {
   describe('#deserialize()', function () {
@@ -12,9 +11,6 @@ describe('Unit | Serializer | JSONAPI | assessment-result-serializer', function 
             'comment-by-jury': 'comment',
             'comment-for-candidate': null,
             'comment-for-organization': 'another comment',
-            emitter: 'Jury Pix',
-            status: 'rejected',
-            'pix-score': 0,
           },
         },
       };
@@ -23,16 +19,14 @@ describe('Unit | Serializer | JSONAPI | assessment-result-serializer', function 
       const deserializedAssessmentResult = await serializer.deserialize(payload);
 
       // then
-      const expectedAssessmentResult = new AssessmentResult({
+      const expectedPayload = {
         assessmentId: 1,
         emitter: 'Jury Pix',
         commentByJury: 'comment',
         commentForCandidate: null,
         commentForOrganization: 'another comment',
-        pixScore: 0,
-        status: 'rejected',
-      });
-      expect(deserializedAssessmentResult).to.deep.equal(expectedAssessmentResult);
+      };
+      expect(deserializedAssessmentResult).to.deep.equal(expectedPayload);
     });
   });
 });
