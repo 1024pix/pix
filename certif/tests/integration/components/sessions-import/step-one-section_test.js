@@ -11,7 +11,7 @@ module('Integration | Component | Import::StepOneSection', function (hooks) {
     this.set('downloadSessionImportTemplate', () => {});
     this.set('preImportSessions', () => {});
     this.set('file', null);
-    this.set('fileName', () => null);
+    this.set('filename', () => null);
     this.set('removeImport', () => {});
     this.set('validateSessions', () => {});
     this.set('isImportDisabled', true);
@@ -22,7 +22,7 @@ module('Integration | Component | Import::StepOneSection', function (hooks) {
         @downloadSessionImportTemplate={{this.downloadSessionImportTemplate}}
         @preImportSessions={{this.preImportSessions}}
         @file={{this.file}}
-        @fileName={{this.fileName}}
+        @filename={{this.filename}}
         @removeImport={{this.removeImport}}
         @validateSessions={{this.validateSessions}}
         @isImportDisabled={{this.isImportDisabled}}
