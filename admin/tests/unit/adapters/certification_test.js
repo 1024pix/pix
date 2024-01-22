@@ -31,10 +31,10 @@ module('Unit | Adapter | certification', function (hooks) {
     });
   });
 
-  module('#urlForUpdateMarks', function () {
-    test('should build update marks url from certification id', function (assert) {
+  module('#urlForUpdateComments', function () {
+    test('should build update comments url from certification course id', function (assert) {
       // when
-      const url = adapter.urlForUpdateMarks(1001);
+      const url = adapter.urlForUpdateComments(1001);
 
       // then
       assert.ok(url.endsWith('/admin/certification-courses/1001/assessment-results'));
@@ -52,8 +52,8 @@ module('Unit | Adapter | certification', function (hooks) {
   });
 
   module('#updateRecord', function () {
-    module('when updateMarks adapter option passed', function () {
-      test('it should trigger an ajax call with the updateMarks url, data and method', async function (assert) {
+    module('when updateComments adapter option passed', function () {
+      test('it should trigger an ajax call with the updateComments url, data and method', async function (assert) {
         // given
         adapter.ajax.resolves();
         store.serializerFor.returns(serializer);
@@ -66,7 +66,7 @@ module('Unit | Adapter | certification', function (hooks) {
         await adapter.updateRecord(
           store,
           { modelName: 'someModelName' },
-          { id: 123, adapterOptions: { updateMarks: true } },
+          { id: 123, adapterOptions: { updateComments: true } },
         );
 
         // then

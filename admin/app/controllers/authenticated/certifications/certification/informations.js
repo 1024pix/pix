@@ -98,11 +98,11 @@ export default class CertificationInformationsController extends Controller {
   }
 
   saveAssessmentResult() {
-    return this.certification.save({ adapterOptions: { updateMarks: true } });
+    return this.certification.save({ adapterOptions: { updateComments: true } });
   }
 
   saveCertificationCourse() {
-    return this.certification.save({ adapterOptions: { updateMarks: false } });
+    return this.certification.save({ adapterOptions: { updateComments: false } });
   }
 
   @action
