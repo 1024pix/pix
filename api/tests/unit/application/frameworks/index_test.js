@@ -11,7 +11,7 @@ describe('Unit | Application | Frameworks | Routes', function () {
     it('should return a response with an HTTP status code 200 when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleSupport,
@@ -32,7 +32,7 @@ describe('Unit | Application | Frameworks | Routes', function () {
     it('should return a response with an HTTP status code 403 when user has role "CERTIF"', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleSupport,
@@ -63,7 +63,7 @@ describe('Unit | Application | Frameworks | Routes', function () {
     it('should return a response with an HTTP status code 200 when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleSupport,
@@ -84,7 +84,7 @@ describe('Unit | Application | Frameworks | Routes', function () {
     it('should return a response with an HTTP status code 403 when user has role "CERTIF"', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleSupport,

@@ -29,7 +29,7 @@ describe('Integration | Application | SecurityPreHandlers', function () {
                 pre: [
                   {
                     method: (request, h) =>
-                      securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                      securityPreHandlers.hasAtLeastOneAccessOf([
                         securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                         securityPreHandlers.checkAdminMemberHasRoleCertif,
                       ])(request, h),

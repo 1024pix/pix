@@ -9,7 +9,7 @@ describe('Integration | Application | Route | Certifications', function () {
   beforeEach(async function () {
     sinon.stub(certificationController, 'findUserCertifications').returns('ok');
     sinon.stub(certificationController, 'getCertification').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+    sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);

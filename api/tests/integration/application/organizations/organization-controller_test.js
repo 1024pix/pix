@@ -24,7 +24,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToSupOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents');
-    sandbox.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf');
+    sandbox.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganization');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
@@ -37,7 +37,7 @@ describe('Integration | Application | Organizations | organization-controller', 
   describe('#findPaginatedFilteredOrganizationMembershipsForAdmin', function () {
     context('Success cases', function () {
       beforeEach(function () {
-        securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
+        securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
       });
 
       it('should return an HTTP response with status code 200', async function () {

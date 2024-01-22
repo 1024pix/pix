@@ -9,7 +9,7 @@ describe('Unit | Application | Badges | Routes', function () {
       it('should return an HTTP status code 200', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleSupport,
@@ -31,7 +31,7 @@ describe('Unit | Application | Badges | Routes', function () {
         it('should return a response with an HTTP status code 403', async function () {
           // given
           sinon
-            .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+            .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
             .withArgs([
               securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
               securityPreHandlers.checkAdminMemberHasRoleSupport,

@@ -11,7 +11,7 @@ describe('Unit | Application | Certification | ComplementaryCertification | comp
         sinon
           .stub(complementaryCertificationController, 'getComplementaryCertificationTargetProfileHistory')
           .returns('ok');
-        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -32,7 +32,7 @@ describe('Unit | Application | Certification | ComplementaryCertification | comp
         sinon
           .stub(complementaryCertificationController, 'getComplementaryCertificationTargetProfileHistory')
           .returns('ok');
-        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns((request, h) =>
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns((request, h) =>
           h
             .response({ errors: new Error('') })
             .code(403)

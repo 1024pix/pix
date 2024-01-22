@@ -10,7 +10,7 @@ describe('Integration | Application | Users | Routes', function () {
   let httpTestServer;
 
   beforeEach(async function () {
-    sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf');
+    sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
     sinon
       .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
       .callsFake((request, h) => h.response(true));
@@ -124,7 +124,7 @@ describe('Integration | Application | Users | Routes', function () {
     describe('GET /api/admin/users/{id}', function () {
       it('should exist', async function () {
         // given
-        securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
+        securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
         const url = '/api/admin/users/123';
 
         // when
@@ -160,7 +160,7 @@ describe('Integration | Application | Users | Routes', function () {
     describe('PATCH /api/admin/users/{id}', function () {
       it('should update user when payload is valid', async function () {
         // given
-        securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
+        securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
         const url = '/api/admin/users/123';
 
         const payload = {
@@ -183,7 +183,7 @@ describe('Integration | Application | Users | Routes', function () {
 
       it('should return bad request when firstName is missing', async function () {
         // given
-        securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
+        securityPreHandlers.hasAtLeastOneAccessOf.returns(() => true);
         const url = '/api/admin/users/123';
 
         const payload = {
@@ -207,7 +207,7 @@ describe('Integration | Application | Users | Routes', function () {
 
       it('should return bad request when lastName is missing', async function () {
         // given
-        securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
+        securityPreHandlers.hasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
         const url = '/api/admin/users/123';
         const payload = {
           data: {
