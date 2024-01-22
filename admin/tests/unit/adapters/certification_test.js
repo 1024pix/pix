@@ -37,7 +37,7 @@ module('Unit | Adapter | certification', function (hooks) {
       const url = adapter.urlForUpdateMarks(1001);
 
       // then
-      assert.ok(url.endsWith('/admin/certification-courses/1001/assessment-results/'));
+      assert.ok(url.endsWith('/admin/certification-courses/1001/assessment-results'));
     });
   });
 
@@ -83,7 +83,7 @@ module('Unit | Adapter | certification', function (hooks) {
         };
         sinon.assert.calledWith(
           adapter.ajax,
-          'http://localhost:3000/api/admin/certification-courses/123/assessment-results/',
+          'http://localhost:3000/api/admin/certification-courses/123/assessment-results',
           'POST',
           expectedData,
         );

@@ -6,7 +6,7 @@ export default class Certification extends ApplicationAdapter {
   }
 
   urlForUpdateMarks(id) {
-    return `${this.host}/${this.namespace}/admin/certification-courses/${id}/assessment-results/`;
+    return `${this.host}/${this.namespace}/admin/certification-courses/${id}/assessment-results`;
   }
 
   urlForUpdateRecord(id) {
