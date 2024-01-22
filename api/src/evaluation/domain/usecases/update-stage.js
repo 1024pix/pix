@@ -28,10 +28,11 @@ const updateStage = async function ({ payloadStage, stageRepository, targetProfi
 
   const targetProfile = await targetProfileForAdminRepository.get({ id: payloadStage.targetProfileId });
 
-  const isLevelUpdated = payloadStage.attributesToUpdate.level && payloadStage.attributesToUpdate.level !== stage.level;
+  const isLevelUpdated =
+    payloadStage.attributesToUpdate.level >= 0 && payloadStage.attributesToUpdate.level !== stage.level;
 
   const isThresholdUpdated =
-    payloadStage.attributesToUpdate.threshold && payloadStage.attributesToUpdate.threshold !== stage.threshold;
+    payloadStage.attributesToUpdate.threshold >= 0 && payloadStage.attributesToUpdate.threshold !== stage.threshold;
 
   const payloadWithLevelOrThreshold = isLevelUpdated || isThresholdUpdated;
 
