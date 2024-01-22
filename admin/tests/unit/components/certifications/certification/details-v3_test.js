@@ -20,6 +20,26 @@ module('Unit | Component | certifications/certification/details-v3', function (h
       color: 'error',
     },
     { value: 'aband', label: 'pages.certifications.certification.details.v3.answer-status.aband', color: 'tertiary' },
+    {
+      value: 'timedout',
+      label: 'pages.certifications.certification.details.v3.answer-status.timedout',
+      color: 'secondary',
+    },
+    {
+      value: 'focusedOut',
+      label: 'pages.certifications.certification.details.v3.answer-status.focused-out',
+      color: 'secondary',
+    },
+    {
+      value: 'partially',
+      label: 'pages.certifications.certification.details.v3.answer-status.partially-ok',
+      color: 'secondary',
+    },
+    {
+      value: 'unimplemented',
+      label: 'pages.certifications.certification.details.v3.answer-status.unimplemented',
+      color: 'secondary',
+    },
   ];
 
   module('answerStatusLabel', function () {
