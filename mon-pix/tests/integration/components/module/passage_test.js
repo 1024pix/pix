@@ -106,7 +106,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);
 
-      const screen = await render(hbs`<Module::Details @module={{this.module}} />`);
+      const screen = await render(hbs`<Module::Passage @module={{this.module}} />`);
 
       const grainsBeforeAnyAction = screen.getAllByRole('article');
       assert.strictEqual(grainsBeforeAnyAction.length, 1);
@@ -132,7 +132,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2, grain3] });
       this.set('module', module);
 
-      const screen = await render(hbs`<Module::Details @module={{this.module}} />`);
+      const screen = await render(hbs`<Module::Passage @module={{this.module}} />`);
 
       const grainsBeforeAnyAction = screen.getAllByRole('article');
       assert.strictEqual(grainsBeforeAnyAction.length, 1);
@@ -173,7 +173,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2, grain3] });
       this.set('module', module);
 
-      const screen = await render(hbs`<Module::Details @module={{this.module}} />`);
+      const screen = await render(hbs`<Module::Passage @module={{this.module}} />`);
 
       const grainsBeforeAnyAction = screen.getAllByRole('article');
       assert.strictEqual(grainsBeforeAnyAction.length, 1);
