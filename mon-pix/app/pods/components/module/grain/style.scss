@@ -1,6 +1,18 @@
 .grain {
   width: 100%;
 
+  &--active {
+    min-height: calc(100vh - var(--grain-scroll-offset));
+
+    @supports (min-height: 100dvh) {
+      min-height: calc(100dvh - var(--grain-scroll-offset));
+    }
+  }
+
+  &:last-child {
+    padding-bottom: var(--pix-spacing-12x);
+  }
+
   &__header {
     margin-bottom: var(--pix-spacing-6x);
     padding: 0 var(--pix-spacing-4x);

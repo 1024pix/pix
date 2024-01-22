@@ -1,11 +1,10 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import ModuleDetails from '../details/component';
 
 export default class ModuleGrain extends Component {
   @service metrics;
-
-  static SCROLL_OFFSET_PX = 70;
 
   get shouldDisplayContinueButton() {
     return this.args.canDisplayContinueButton && this.allElementsAreAnswered;
@@ -33,7 +32,7 @@ export default class ModuleGrain extends Component {
 
     const newGrainY = element.getBoundingClientRect().top + window.scrollY;
     window.scroll({
-      top: newGrainY - ModuleGrain.SCROLL_OFFSET_PX,
+      top: newGrainY - ModuleDetails.SCROLL_OFFSET_PX,
       behavior: 'smooth',
     });
   }

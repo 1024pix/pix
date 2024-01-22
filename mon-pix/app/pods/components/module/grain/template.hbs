@@ -1,5 +1,5 @@
 <article
-  class="grain grain--lesson"
+  class="grain grain--lesson {{if @hasJustAppeared 'grain--active'}}"
   aria-live={{this.ariaLiveGrainValue}}
   tabindex="-1"
   {{did-insert this.focusAndScroll}}
