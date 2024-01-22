@@ -183,6 +183,7 @@ import { importNamedExportsFromDirectory } from '../../../src/shared/infrastruct
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
 import { getCampaignManagement as getCampaignDetailsManagement } from './get-campaign-details-management.js';
+import { getNextChallengeForCertification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-certification.js';
 
 function requirePoleEmploiNotifier() {
   if (config.poleEmploi.pushEnabled) {
@@ -394,6 +395,7 @@ const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './target-profile-management') })),
   findPaginatedFilteredTargetProfileOrganizations,
   getCampaignDetailsManagement,
+  getNextChallengeForCertification,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
