@@ -5,6 +5,13 @@ import { tracked } from '@glimmer/tracking';
 export default class ModuleDetails extends Component {
   @tracked grainsToDisplay = [this.args.module.grains[0]];
 
+  static SCROLL_OFFSET_PX = 70;
+
+  @action
+  setGrainScrollOffsetCssProperty(element) {
+    element.style.setProperty('--grain-scroll-offset', `${ModuleDetails.SCROLL_OFFSET_PX}px`);
+  }
+
   get hasNextGrain() {
     return this.grainsToDisplay.length < this.args.module.grains.length;
   }
@@ -31,5 +38,14 @@ export default class ModuleDetails extends Component {
   @action
   grainTransition(grainId) {
     return this.args.module.transitionTexts.find((transition) => transition.grainId === grainId);
+  }
+
+  @action
+  hasGrainJustAppeared(index) {
+    if (this.grainsToDisplay.length === 1) {
+      return false;
+    }
+
+    return this.grainsToDisplay.length - 1 === index;
   }
 }

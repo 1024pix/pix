@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import ModuleDetails from '../details/component';
 
 export default class ModuleGrain extends Component {
   @service metrics;
@@ -15,6 +16,26 @@ export default class ModuleGrain extends Component {
 
   get allElementsAreAnswered() {
     return this.args.grain.allElementsAreAnswered;
+  }
+
+  get ariaLiveGrainValue() {
+    return this.args.hasJustAppeared ? 'assertive' : null;
+  }
+
+  @action
+  focusAndScroll(element) {
+    if (!this.args.hasJustAppeared) {
+      return;
+    }
+
+    element.focus({ preventScroll: true });
+
+    const newGrainY = element.getBoundingClientRect().top + window.scrollY;
+    const userPrefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    window.scroll({
+      top: newGrainY - ModuleDetails.SCROLL_OFFSET_PX,
+      behavior: userPrefersReducedMotion.matches ? 'instant' : 'smooth',
+    });
   }
 
   @action

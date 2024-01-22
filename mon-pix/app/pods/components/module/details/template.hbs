@@ -5,7 +5,7 @@
     <h1>{{@module.title}}</h1>
   </div>
 
-  <div class="module__content">
+  <div class="module__content" {{did-insert this.setGrainScrollOffsetCssProperty}}>
     {{#each this.grainsToDisplay as |grain index|}}
       <Module::Grain
         @grain={{grain}}
@@ -14,6 +14,7 @@
         @canDisplayContinueButton={{this.grainCanDisplayContinueButton index}}
         @continueAction={{this.addNextGrainToDisplay}}
         @skipAction={{this.addNextGrainToDisplay}}
+        @hasJustAppeared={{this.hasGrainJustAppeared index}}
       />
     {{/each}}
   </div>
