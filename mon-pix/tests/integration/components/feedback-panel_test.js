@@ -219,21 +219,10 @@ module('Integration | Component | feedback-panel', function (hooks) {
         // when
         await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
-        await click(
-          screen.getByRole('option', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.picture'),
-          }),
-        );
-        await click(
-          screen.getByRole('option', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
-          }),
-        );
-        await click(
-          screen.getByRole('button', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
-          }),
-        );
+        await click(screen.getByRole('option', { name: "L'image" }));
+        await click(screen.getByRole('button', { name: 'Sélectionner une option pour préciser votre problème' }));
+        await click(screen.getByRole('option', { name: 'L’accessibilité de l’épreuve' }));
+        await click(screen.getByRole('button', { name: 'Ajouter un commentaire' }));
 
         // then
         assert.dom(screen.queryByText('Votre connexion internet est peut-être trop faible.')).doesNotExist();
