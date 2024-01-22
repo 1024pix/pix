@@ -30,7 +30,7 @@ module('Unit | Adapter | session', function (hooks) {
     });
   });
 
-  module('#urlForUpdateMarks', function () {
+  module('#urlForUpdateComments', function () {
     test('should add /admin inside the default update record url', function (assert) {
       // when
       const url = adapter.urlForUpdateRecord(123);
