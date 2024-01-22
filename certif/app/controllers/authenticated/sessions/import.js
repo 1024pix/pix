@@ -29,7 +29,7 @@ export default class ImportController extends Controller {
   @tracked isImportInError = false;
   @tracked isLoading = false;
 
-  get fileName() {
+  get filename() {
     return this.file.name;
   }
 

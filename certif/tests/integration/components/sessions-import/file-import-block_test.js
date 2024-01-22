@@ -10,7 +10,7 @@ module('Integration | Component | Import::FileImportBlock', function (hooks) {
     // given
     this.set('preImportSessions', () => {});
     this.set('file', null);
-    this.set('fileName', null);
+    this.set('filename', null);
     this.set('removeImport', () => {});
 
     // when
@@ -18,7 +18,7 @@ module('Integration | Component | Import::FileImportBlock', function (hooks) {
       hbs`<Import::FileImportBlock
         @preImportSessions={{this.preImportSessions}}
         @file={{this.file}}
-        @fileName={{this.fileName}}
+        @filename={{this.filename}}
         @removeImport={{this.removeImport}}
         @buttonLabel="Importer (.csv)"
       />`,
