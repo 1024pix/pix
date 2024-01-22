@@ -70,41 +70,6 @@ describe('Unit | Devcomp | Domain | Models | Module', function () {
       });
     });
 
-    describe('#getElementById', function () {
-      it('should return the element by Id if it exists', function () {
-        // given
-        const elementId = 'elementId';
-        const id = 1;
-        const slug = 'les-adresses-email';
-        const title = 'Les adresses email';
-        const expectedElement = { id: elementId };
-        const grains = [{ elements: [expectedElement] }];
-
-        // when
-        const foundElement = new Module({ id, slug, title, grains }).getElementById(elementId);
-
-        // then
-        expect(foundElement).to.deep.equal(expectedElement);
-      });
-
-      it('should throw an error if element does not exist', function () {
-        // given
-        const id = 1;
-        const slug = 'les-adresses-email';
-        const title = 'Les adresses email';
-        const expectedElement = { id: 'elementId' };
-        const grains = [{ elements: expectedElement }];
-
-        const module = new Module({ id, slug, title, grains });
-
-        // when
-        const error = catchErrSync(module.getElementById, module)('another-element-id');
-
-        // then
-        expect(error).to.be.instanceOf(NotFoundError);
-      });
-    });
-
     describe('#getGrainByElementId', function () {
       it('should return the parent grain of the element with given id', function () {
         // given
