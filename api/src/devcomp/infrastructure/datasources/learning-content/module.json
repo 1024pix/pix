@@ -18,7 +18,7 @@
           "grainId": "edd7fec3-a649-425b-b8e3-65b13c6c47ea"
         },
         {
-          "content": "<p>Maintenant, à vous de jouer pour trouvez l'adresse mail de Naomi.</p>",
+          "content": "<p>Maintenant, à vous de jouer pour trouver l'adresse mail de Naomi.</p>",
           "grainId": "b7ea7630-824a-4a49-83d1-abb9b8d0d120"
         }
       ],
@@ -158,7 +158,7 @@
             {
               "id": "29195dde-b603-488f-a554-f391fbdf3b24",
               "type": "qcu",
-              "instruction": "<p>On peut avoir des chiffres dans l’identifiant de son adresse mail</p>",
+              "instruction": "<p>On peut avoir des chiffres dans l’identifiant de son adresse mail.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -178,7 +178,7 @@
             {
               "id": "ba78dead-a806-4954-b408-e8ef28d28fab",
               "type": "qcu",
-              "instruction": "<p>L’adresse mail M3g4Cool1415@gmail.com est correctement écrite ?</p>",
+              "instruction": "<p>L’adresse mail M3g4Cool1415@gmail.com est correctement écrite.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -198,7 +198,7 @@
             {
               "id": "4231af7b-dca5-4d79-acfe-b485e0127ae1",
               "type": "qcu",
-              "instruction": "<p>Il faut toujours un symbole @ dans une adresse mail ?</p>",
+              "instruction": "<p>Il faut toujours un symbole @ dans une adresse mail.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -218,7 +218,7 @@
             {
               "id": "9bd65c37-ea5d-49a9-a59c-4e07ab3f1049",
               "type": "qcu",
-              "instruction": "<p>Toutes les adresses mails se terminent par gmail.com ?</p>",
+              "instruction": "<p>Toutes les adresses mails se terminent par gmail.com. </p>",
               "proposals": [
                 {
                   "id": "1",
@@ -277,7 +277,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Bravo ! <span aria-hidden='true'>🎉</span> Tout est en ordre : identifiant, arobase, fournisseur d'adresse mail</p>",
+                "valid": "<p>Correct ! <span aria-hidden='true'>🎉</span> Tout est en ordre : identifiant, arobase, fournisseur d'adresse mail</p>",
                 "invalid": "<p class='pix-list-inline'>Et non, essaie à nouveau <span aria-hidden='true'>⏮️</span> ! Voici de l'aide pour réussir :</p><ul><li>L'ordre à suivre est : identifiant, arobase, fournisseur d'adresse mail</li></ul><p>Les adresses mail fournies par Yahoo se terminent par yahoo.com</p>"
               }
             }
