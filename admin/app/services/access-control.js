@@ -59,4 +59,8 @@ export default class AccessControlService extends Service {
   get hasAccessToCampaignIsForAbsoluteNoviceEditionScope() {
     return !!this.currentUser.adminMember.isSuperAdmin;
   }
+
+  get hasAccessToAttachChildOrganizationActionsScope() {
+    return !!this.currentUser.adminMember.isSuperAdmin;
+  }
 }

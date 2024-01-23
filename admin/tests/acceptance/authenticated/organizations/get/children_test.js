@@ -55,4 +55,37 @@ module('Acceptance | Organizations | Children', function (hooks) {
       assert.dom(screen.getByRole('table', { name: 'Liste des organisations filles' })).exists();
     });
   });
+
+  module('when user has role "SUPER_ADMIN"', function () {
+    test('displays attach child organization form', async function (assert) {
+      // given
+      const parentOrganizationId = this.server.create('organization').id;
+
+      // when
+      const screen = await visit(`/organizations/${parentOrganizationId}/children`);
+
+      // then
+      assert.dom(screen.getByRole('form', { name: `Formulaire d'ajout d'une organisation fille` })).exists();
+    });
+  });
+
+  [
+    { name: 'CERTIF', authData: { isCertif: true } },
+    { name: 'METIER', authData: { isMetier: true } },
+    { name: 'SUPPORT', authData: { isSupport: true } },
+  ].forEach((role) => {
+    module(`when user has role "${role.name}"`, function () {
+      test('hides attach child organization form', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole(role.authData)(server);
+        const parentOrganizationId = this.server.create('organization').id;
+
+        // when
+        const screen = await visit(`/organizations/${parentOrganizationId}/children`);
+
+        // then
+        assert.dom(screen.queryByRole('form', { name: `Formulaire d'ajout d'une organisation fille` })).doesNotExist();
+      });
+    });
+  });
 });
