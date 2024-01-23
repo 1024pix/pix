@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v4.94.0 (23/01/2024)
+
+
+### :rocket: Amélioration
+- [#7893](https://github.com/1024pix/pix/pull/7893) [FEATURE] Utiliser les certification-challenges plutôt que les challenges pour le rescoring (PIX-10751).
+- [#7875](https://github.com/1024pix/pix/pull/7875) [FEATURE][ADMIN] Ajouter un label "organisation parente" sur la page d'une organisation parente (PIX-10049).
+- [#7869](https://github.com/1024pix/pix/pull/7869) [FEATURE][API] Ajouter un endpoint pour attacher une organisation enfant à une organisation (PIX-10045).
+- [#7889](https://github.com/1024pix/pix/pull/7889) [FEATURE] Automatiquement scroller vers le grain suivant (PIX-10072).
+
+### :building_construction: Tech
+- [#7876](https://github.com/1024pix/pix/pull/7876) [TECH] Migrate sco import to src (PIX-10757).
+- [#7871](https://github.com/1024pix/pix/pull/7871) [TECH] Mutualiser les usages du campaign administration repository (PIX-10808).
+- [#7849](https://github.com/1024pix/pix/pull/7849) [TECH] Migration de l'import de session en masse vers src (PIX-10188).
+- [#7904](https://github.com/1024pix/pix/pull/7904) [TECH] Améliore la configuration Phrase.
+
+### :bug: Correction
+- [#7897](https://github.com/1024pix/pix/pull/7897) [BUGFIX] Corrige le crash de l'affichage des détails d'une certif v3 lorsqu'une réponse est dans certains status (PIX-10876).
+- [#7898](https://github.com/1024pix/pix/pull/7898) [BUGFIX] La dernière participation partagée affichée devrait être celle de la campagne en question (PIX-10880).
+
 ## v4.93.0 (22/01/2024)
 
 
