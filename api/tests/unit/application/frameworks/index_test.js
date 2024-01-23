@@ -1,5 +1,5 @@
 import { expect, HttpTestServer, sinon, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { frameworksController } from '../../../../lib/application/frameworks/frameworks-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/frameworks/index.js';
 

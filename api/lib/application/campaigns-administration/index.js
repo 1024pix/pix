@@ -1,6 +1,6 @@
 import { sendJsonApiError, PayloadTooLargeError } from '../http-errors.js';
 import { campaignController } from './campaign-controller.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 const TWENTY_MEGABYTES = 1048576 * 20;
 
 const ERRORS = {

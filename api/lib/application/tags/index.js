@@ -1,4 +1,4 @@
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { tagController } from './tag-controller.js';
 import Joi from 'joi';
 import { identifiersType } from '../../domain/types/identifiers-type.js';

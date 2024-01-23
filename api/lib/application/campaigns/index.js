@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { campaignController } from './campaign-controller.js';
 import { campaignManagementController } from './campaign-management-controller.js';
 import { campaignStatsController } from './campaign-stats-controller.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 
 const register = async function (server) {

@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { sendJsonApiError, PayloadTooLargeError } from '../http-errors.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { organizationAdministrationController as organizationController } from './organization-administration-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 

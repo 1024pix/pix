@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { complementaryCertificationCourseResultsController } from './complementary-certification-course-results-controller.js';
 import { juryOptions } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 

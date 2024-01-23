@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
 import { certificationAttestationController } from './certification-attestation-controller.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 const { FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 
 const register = async function (server) {
