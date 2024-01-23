@@ -1,7 +1,6 @@
 import { expect, catchErr, domainBuilder, sinon } from '../../../../../test-helper.js';
 import { updateCampaignDetails } from '../../../../../../src/prescription/campaign/domain/usecases/update-campaign-details.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { CampaignManagement } from '../../../../../../src/prescription/campaign/domain/models/CampaignManagement.js';
 
 describe('Unit | UseCase | update-campaign-details', function () {
   let campaignAdministrationRepository, campaignManagementRepository;
@@ -9,17 +8,12 @@ describe('Unit | UseCase | update-campaign-details', function () {
   let campaignUpdateValidator;
 
   beforeEach(function () {
-    campaign = new CampaignManagement({ ...domainBuilder.buildCampaign() });
+    campaign = domainBuilder.prescription.campaign.buildCampaign();
 
     campaignAdministrationRepository = {
-      updateByCampaignId: sinon.stub(),
+      update: sinon.stub(),
       get: sinon.stub().resolves(campaign),
     };
-
-    campaignManagementRepository = {
-      get: sinon.stub().resolves(campaign),
-    };
-
     campaignUpdateValidator = { validate: sinon.stub() };
   });
 
@@ -44,7 +38,7 @@ describe('Unit | UseCase | update-campaign-details', function () {
       campaignUpdateValidator,
     });
 
-    expect(campaignAdministrationRepository.updateByCampaignId).to.have.been.calledOnceWith({
+    expect(campaignAdministrationRepository.update).to.have.been.calledOnceWith({
       campaignId,
       campaignAttributes,
     });

@@ -1,4 +1,3 @@
-import { MultipleSendingsUpdateError, IsForAbsoluteNoviceUpdateError } from '../errors.js';
 import { CampaignTypes } from '../../../shared/domain/constants.js';
 class CampaignManagement {
   constructor({
@@ -68,32 +67,6 @@ class CampaignManagement {
 
   #computeTotalParticipation(sharedParticipationsCount, started, completed) {
     return sharedParticipationsCount + (started || 0) + completed;
-  }
-
-  updateFields(fields, isAuthorizedToUpdateIsForAbsoluteNovice) {
-    if (
-      fields.multipleSendings !== undefined &&
-      fields.multipleSendings !== this.multipleSendings &&
-      this.totalParticipationsCount > 0
-    ) {
-      throw new MultipleSendingsUpdateError();
-    }
-
-    if (
-      !isAuthorizedToUpdateIsForAbsoluteNovice &&
-      fields.isForAbsoluteNovice !== undefined &&
-      fields.isForAbsoluteNovice !== this.isForAbsoluteNovice
-    ) {
-      throw new IsForAbsoluteNoviceUpdateError();
-    }
-
-    Object.entries(fields).forEach((entry) => {
-      const [key, value] = entry;
-
-      if (this[key] !== undefined && value !== undefined) {
-        this[key] = value;
-      }
-    });
   }
 }
 

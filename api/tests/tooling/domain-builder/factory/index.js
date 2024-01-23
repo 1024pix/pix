@@ -166,9 +166,12 @@ import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-c
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
 import { buildFeedback } from './build-feedback.js';
+
 import { buildCertificationSessionCandidate } from './certification/session/build-certification-session-candidate.js';
 import { buildCertificationSessionEnrolledCandidate } from './certification/session/build-certification-session-enrolled-candidate.js';
 import { buildCertificationSessionComplementaryCertification } from './certification/session/build-certification-session-complementary-certification.js';
+
+import { buildCampaign as boundedContextCampaignBuildCampaign } from './prescription/campaign/build-campaign.js';
 
 const certification = {
   session: {
@@ -179,8 +182,15 @@ const certification = {
   },
 };
 
+const prescription = {
+  campaign: {
+    buildCampaign: boundedContextCampaignBuildCampaign,
+  },
+};
+
 export {
   certification,
+  prescription,
   buildAccountRecoveryDemand,
   buildAdminMember,
   buildAllowedCertificationCenterAccess,

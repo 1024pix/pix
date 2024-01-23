@@ -28,21 +28,23 @@ const updateCampaign = async function ({
     }
   }
 
-  if (name !== undefined) campaign.name = name;
-  if (title !== undefined) campaign.title = title;
-  if (customLandingPageText !== undefined) campaign.customLandingPageText = customLandingPageText;
-  if (ownerId !== undefined) campaign.ownerId = ownerId;
+  campaign.updateFields({
+    name,
+    title,
+    customLandingPageText,
+    ownerId,
+  });
 
-  const rawCampaign = {
-    ...campaign,
-    creatorId: campaign.creator.id,
-    organizationId,
-    targetProfileId: _.get(campaign, 'targetProfile.id'),
+  campaignUpdateValidator.validate(campaign);
+
+  const campaignAttributes = {
+    name: campaign.name,
+    title: campaign.title,
+    customLandingPageText: campaign.customLandingPageText,
+    ownerId: campaign.ownerId,
   };
 
-  campaignUpdateValidator.validate(rawCampaign);
-
-  return campaignAdministrationRepository.update(campaign);
+  return campaignAdministrationRepository.update({ campaignId: campaign.id, campaignAttributes });
 };
 
 export { updateCampaign };
