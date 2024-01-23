@@ -185,8 +185,12 @@
             },
             "answer-status": {
               "aband": "Abandonnée",
+              "focused-out": "Focus out",
               "ko": "KO",
               "ok": "OK",
+              "partially-ok": "Partiellement OK",
+              "timedout": "Temps écoulé",
+              "unimplemented": "Non implémentée",
               "validated-live-alert": "Signalement validé"
             },
             "assessment-result-status": {

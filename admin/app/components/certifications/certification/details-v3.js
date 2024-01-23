@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { subcategoryToCode, subcategoryToLabel } from '../../../models/certification-issue-report';
 import { abortReasons, assessmentStates } from '../../../models/v3-certification-course-details-for-administration';
+import { AnswerStatus } from '../../../models/certification-challenges-for-administration';
 
 const successColor = 'success';
 const errorColor = 'error';
@@ -16,14 +17,46 @@ const abortReasonMap = {
 };
 
 const answerStatusMap = [
-  { value: 'ok', label: 'pages.certifications.certification.details.v3.answer-status.ok', color: successColor },
-  { value: 'ko', label: 'pages.certifications.certification.details.v3.answer-status.ko', color: neutralColor },
+  {
+    value: AnswerStatus.OK,
+    label: 'pages.certifications.certification.details.v3.answer-status.ok',
+    color: successColor,
+  },
+  {
+    value: AnswerStatus.KO,
+    label: 'pages.certifications.certification.details.v3.answer-status.ko',
+    color: neutralColor,
+  },
   {
     value: null,
     label: 'pages.certifications.certification.details.v3.answer-status.validated-live-alert',
     color: errorColor,
   },
-  { value: 'aband', label: 'pages.certifications.certification.details.v3.answer-status.aband', color: tertiaryColor },
+  {
+    value: AnswerStatus.ABAND,
+    label: 'pages.certifications.certification.details.v3.answer-status.aband',
+    color: tertiaryColor,
+  },
+  {
+    value: AnswerStatus.TIMEDOUT,
+    label: 'pages.certifications.certification.details.v3.answer-status.timedout',
+    color: secondaryColor,
+  },
+  {
+    value: AnswerStatus.FOCUSEDOUT,
+    label: 'pages.certifications.certification.details.v3.answer-status.focused-out',
+    color: secondaryColor,
+  },
+  {
+    value: AnswerStatus.PARTIALLY,
+    label: 'pages.certifications.certification.details.v3.answer-status.partially-ok',
+    color: secondaryColor,
+  },
+  {
+    value: AnswerStatus.UNIMPLEMENTED,
+    label: 'pages.certifications.certification.details.v3.answer-status.unimplemented',
+    color: secondaryColor,
+  },
 ];
 
 const assessmentResultStatusLabelAndColor = (status) => ({
