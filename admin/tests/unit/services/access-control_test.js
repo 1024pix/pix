@@ -256,4 +256,36 @@ module('Unit | Service | access-control', function (hooks) {
       assert.false(service.hasAccessToCampaignIsForAbsoluteNoviceEditionScope);
     });
   });
+
+  module('#hasAccessToAttachChildOrganizationActionsScope', function () {
+    module(`when user has role "SUPER_ADMIN"`, function () {
+      test(`returns "true"`, function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        const service = this.owner.lookup('service:access-control');
+        currentUser.adminMember = { isSuperAdmin: true };
+
+        // then
+        assert.true(service.hasAccessToAttachChildOrganizationActionsScope);
+      });
+    });
+
+    [
+      { role: 'METIER', roleKey: 'isMetier', hasAccess: false },
+      { role: 'CERTIF', roleKey: 'isCertif', hasAccess: false },
+      { role: 'SUPPORT', roleKey: 'isSupport', hasAccess: false },
+    ].forEach(({ role, roleKey, hasAccess }) => {
+      module(`when user has role "${role}"`, function () {
+        test(`returns "${hasAccess}"`, function (assert) {
+          // given
+          const currentUser = this.owner.lookup('service:currentUser');
+          const service = this.owner.lookup('service:access-control');
+          currentUser.adminMember = { [roleKey]: hasAccess };
+
+          // then
+          assert.false(service.hasAccessToAttachChildOrganizationActionsScope);
+        });
+      });
+    });
+  });
 });
