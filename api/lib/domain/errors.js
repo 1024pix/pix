@@ -903,14 +903,6 @@ const SIECLE_ERRORS = {
   BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT: 'BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT',
 };
 
-class SiecleXmlImportError extends DomainError {
-  constructor(code, meta) {
-    super('An error occurred during Siecle XML import');
-    this.code = code;
-    this.meta = meta;
-  }
-}
-
 class NotImplementedError extends Error {
   constructor(message = 'Not implemented error.') {
     super(message);
@@ -1239,7 +1231,6 @@ export {
   SessionNotAccessible,
   SessionWithIdAndInformationOnMassImportError,
   SIECLE_ERRORS,
-  SiecleXmlImportError,
   StageModificationForbiddenForLinkedTargetProfileError,
   SupervisorAccessNotAuthorizedError,
   TargetProfileCannotBeCreated,

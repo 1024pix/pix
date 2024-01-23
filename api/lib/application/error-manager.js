@@ -272,9 +272,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserCouldNotBeReconciledError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
-  if (error instanceof DomainErrors.SiecleXmlImportError) {
-    return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
-  }
   if (error instanceof DomainErrors.TargetProfileInvalidError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }

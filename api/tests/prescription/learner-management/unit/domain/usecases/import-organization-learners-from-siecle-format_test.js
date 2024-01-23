@@ -1,11 +1,12 @@
-import { expect, sinon, catchErr } from '../../../test-helper.js';
-import { importOrganizationLearnersFromSIECLEFormat } from '../../../../lib/domain/usecases/import-organization-learners-from-siecle.js';
-import { FileValidationError, SiecleXmlImportError } from '../../../../lib/domain/errors.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
-import fs from 'fs/promises';
+import { expect, sinon, catchErr } from '../../../../../test-helper.js';
+import { importOrganizationLearnersFromSIECLEFormat } from '../../../../../../src/prescription/learner-management/domain/usecases/import-organization-learners-from-siecle-format.js';
+import { FileValidationError } from '../../../../../../lib/domain/errors.js';
+import { SiecleXmlImportError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
+import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
+import { OrganizationLearner } from '../../../../../../lib/domain/models/OrganizationLearner.js';
 
-import { getI18n } from '../../../tooling/i18n/i18n.js';
+import fs from 'fs/promises';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
 describe('Unit | UseCase | import-organization-learners-from-siecle', function () {
