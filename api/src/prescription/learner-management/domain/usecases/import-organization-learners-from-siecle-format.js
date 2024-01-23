@@ -1,12 +1,14 @@
-import { FileValidationError, SiecleXmlImportError } from '../errors.js';
+import { FileValidationError } from '../../../../../lib/domain/errors.js';
+import { SiecleXmlImportError } from '../errors.js';
+
 import * as fs from 'fs/promises';
 
 const { isEmpty, chunk } = lodash;
 
 import bluebird from 'bluebird';
-import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../infrastructure/constants.js';
 import lodash from 'lodash';
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../shared/infrastructure/constants.js';
 
 const ERRORS = {
   EMPTY: 'EMPTY',

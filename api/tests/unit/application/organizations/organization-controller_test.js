@@ -309,44 +309,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#importorganizationLearnersFromSIECLE', function () {
-    const connectedUserId = 1;
-    const organizationId = 145;
-    const payload = { path: 'path-to-file' };
-    const format = 'xml';
-
-    const request = {
-      auth: { credentials: { userId: connectedUserId } },
-      params: { id: organizationId },
-      query: { format },
-      payload,
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'importOrganizationLearnersFromSIECLEFormat');
-      usecases.importOrganizationLearnersFromSIECLEFormat.resolves();
-    });
-
-    it('should call the usecase to import organizationLearners', async function () {
-      // given
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/145/sco-organization-learners/import-siecle',
-      };
-
-      // when
-      await organizationController.importOrganizationLearnersFromSIECLE(request, hFake);
-
-      // then
-      expect(usecases.importOrganizationLearnersFromSIECLEFormat).to.have.been.calledWithExactly({
-        organizationId,
-        payload,
-        format,
-        i18n: request.i18n,
-      });
-    });
-  });
-
   describe('#sendInvitations', function () {
     const userId = 1;
     let invitation;

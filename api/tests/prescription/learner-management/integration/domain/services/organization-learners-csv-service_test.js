@@ -1,12 +1,12 @@
 import * as url from 'url';
 import _ from 'lodash';
-import { expect, catchErr } from '../../../test-helper.js';
-import { CsvImportError } from '../../../../src/shared/domain/errors.js';
-import { extractOrganizationLearnersInformation } from '../../../../lib/domain/services/organization-learners-csv-service.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
+import { expect, catchErr } from '../../../../../test-helper.js';
+import { CsvImportError } from '../../../../../../src/shared/domain/errors.js';
+import { extractOrganizationLearnersInformation } from '../../../../../../src/prescription/learner-management/domain/services/organization-learners-csv-service.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
-const fixturesDirPath = `${url.fileURLToPath(new URL('../../../', import.meta.url))}tooling/fixtures/`;
+const fixturesDirPath = `${url.fileURLToPath(new URL('../../../../../', import.meta.url))}tooling/fixtures/`;
 
 describe('Integration | Services | organization-learners-csv-service', function () {
   describe('extractOrganizationLearnersInformation', function () {

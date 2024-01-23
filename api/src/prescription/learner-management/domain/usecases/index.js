@@ -5,6 +5,11 @@ import * as supOrganizationLearnerRepository from '../../infrastructure/reposito
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 
+import * as organizationRepository from '../../../../../lib/infrastructure/repositories/organization-repository.js';
+
+import * as organizationLearnersXmlService from '../services/organization-learners-xml-service.js';
+import * as organizationLearnersCsvService from '../services/organization-learners-csv-service.js';
+
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 
@@ -12,6 +17,9 @@ const dependencies = {
   supOrganizationLearnerRepository,
   organizationLearnerRepository,
   campaignParticipationRepository,
+  organizationRepository,
+  organizationLearnersXmlService,
+  organizationLearnersCsvService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

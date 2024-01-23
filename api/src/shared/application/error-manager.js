@@ -14,6 +14,7 @@ import { AdminMemberError } from '../../authorization/domain/errors.js';
 import { domainErrorMapper } from './domain-error-mapper.js';
 import { CsvWithNoSessionDataError, SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
 import { OrganizationCantGetPlacesStatisticsError } from '../../prescription/organization-place/domain/errors.js';
+import { SiecleXmlImportError } from '../../prescription/learner-management/domain/errors.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
@@ -126,6 +127,9 @@ function _mapToHttpError(error) {
 
   if (error instanceof TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization) {
     return new HttpErrors.BadRequestError(error.message);
+  }
+  if (error instanceof SiecleXmlImportError) {
+    return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
   }
 
   if (error instanceof CsvWithNoSessionDataError) {

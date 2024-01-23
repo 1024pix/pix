@@ -1,9 +1,6 @@
-import _ from 'lodash';
-
 import {
   NotFoundError,
   OrganizationLearnerNotFound,
-  OrganizationLearnersCouldNotBeSavedError,
   UserCouldNotBeReconciledError,
   UserNotFoundError,
   OrganizationLearnerCertificabilityNotUpdatedError,
@@ -101,54 +98,6 @@ const isOrganizationLearnerIdLinkedToUserAndSCOOrganization = async function ({ 
     .first();
 
   return Boolean(exist);
-};
-
-const disableAllOrganizationLearnersInOrganization = async function ({
-  domainTransaction,
-  organizationId,
-  nationalStudentIds,
-}) {
-  const knexConn = domainTransaction.knexTransaction;
-  await knexConn('organization-learners')
-    .where({ organizationId, isDisabled: false })
-    .whereNotIn('nationalStudentId', nationalStudentIds)
-    .update({ isDisabled: true, updatedAt: knexConn.raw('CURRENT_TIMESTAMP') });
-};
-
-const addOrUpdateOrganizationOfOrganizationLearners = async function (
-  organizationLearnerDatas,
-  organizationId,
-  domainTransaction,
-) {
-  const knexConn = domainTransaction.knexTransaction;
-  const organizationLearnersFromFile = organizationLearnerDatas.map(
-    (organizationLearnerData) =>
-      new OrganizationLearner({
-        ...organizationLearnerData,
-        organizationId,
-      }),
-  );
-  const existingOrganizationLearners = await this.findByOrganizationId({ organizationId }, domainTransaction);
-
-  const reconciledOrganizationLearnersToImport = await this._reconcileOrganizationLearners(
-    organizationLearnersFromFile,
-    existingOrganizationLearners,
-    domainTransaction,
-  );
-
-  try {
-    const organizationLearnersToSave = reconciledOrganizationLearnersToImport.map((organizationLearner) => ({
-      ..._.omit(organizationLearner, ['id', 'createdAt', 'isCertifiable', 'certifiableAt']),
-      updatedAt: knexConn.raw('CURRENT_TIMESTAMP'),
-      isDisabled: false,
-    }));
-    await knexConn('organization-learners')
-      .insert(organizationLearnersToSave)
-      .onConflict(['organizationId', 'nationalStudentId'])
-      .merge();
-  } catch (err) {
-    throw new OrganizationLearnersCouldNotBeSavedError();
-  }
 };
 
 const _reconcileOrganizationLearners = async function (
@@ -478,8 +427,6 @@ export {
   findByOrganizationIdAndUpdatedAtOrderByDivision,
   findByUserId,
   isOrganizationLearnerIdLinkedToUserAndSCOOrganization,
-  disableAllOrganizationLearnersInOrganization,
-  addOrUpdateOrganizationOfOrganizationLearners,
   _reconcileOrganizationLearners,
   findByOrganizationIdAndBirthdate,
   reconcileUserToOrganizationLearner,
