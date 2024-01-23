@@ -1,4 +1,4 @@
-<form class="element-qcu" {{on "submit" this.submitAnswer}}>
+<form class="element-qcu">
   <fieldset disabled={{this.disableInput}}>
     <div class="element-qcu__header">
       <div class="element-qcu-header__instruction">
@@ -30,7 +30,13 @@
   {{/if}}
 
   {{#unless this.qcu.lastCorrection}}
-    <PixButton @backgroundColor="green" @shape="rounded" @type="submit" class="element-qcu__verify_button">
+    <PixButton
+      @backgroundColor="green"
+      @shape="rounded"
+      @type="submit"
+      class="element-qcu__verify_button"
+      @triggerAction={{this.submitAnswer}}
+    >
       {{t "pages.modulix.buttons.activity.verify"}}
     </PixButton>
   {{/unless}}
