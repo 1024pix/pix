@@ -87,7 +87,7 @@ const register = async function (server) {
         handler: sessionMassImportController.getTemplate,
         tags: ['api', 'sessions'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés membres d'un espace Pix Certif  hors SCO et ne gérant pas d'élèves**\n" +
             '- Elle permet de récupérer le fichier de création de sessions de certification',
         ],
       },

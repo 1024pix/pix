@@ -3,7 +3,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Center } from '../../domain/models/Center.js';
 
 const getById = async ({ id }) => {
-  const certificationCenter = await knex
+  const center = await knex
     .select({
       id: 'certification-centers.id',
       type: 'certification-centers.type',
@@ -20,10 +20,12 @@ const getById = async ({ id }) => {
     .where('certification-centers.id', '=', id)
     .groupBy('certification-centers.id')
     .first();
-  if (!certificationCenter) {
-    throw new NotFoundError(`Certification center not found`);
+
+  if (!center) {
+    throw new NotFoundError('Center not found');
   }
-  return _toDomain(certificationCenter);
+
+  return _toDomain(center);
 };
 
 export { getById };

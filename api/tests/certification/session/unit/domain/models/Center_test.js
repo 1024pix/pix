@@ -4,22 +4,22 @@ import { CenterTypes } from '../../../../../../src/certification/session/domain/
 
 describe('Unit | Certification | Session | Domain | Models | Center', function () {
   describe('#hasBillingMode', function () {
-    it('should return false when certification center is of type SCO', function () {
+    it('should return false when center is of type SCO', function () {
       // given
-      const certificationCenter = domainBuilder.certification.session.buildCenter({ type: CenterTypes.SCO });
+      const center = domainBuilder.certification.session.buildCenter({ type: CenterTypes.SCO });
 
       // when / then
-      expect(certificationCenter).to.be.an.instanceOf(Center);
-      expect(certificationCenter.hasBillingMode).is.false;
+      expect(center).to.be.an.instanceOf(Center);
+      expect(center.hasBillingMode).is.false;
     });
 
-    it('should return true when certification center is not of type SCO', function () {
+    it('should return true when center is not of type SCO', function () {
       // given
-      const certificationCenter = domainBuilder.certification.session.buildCenter({ type: CenterTypes.SUP });
+      const center = domainBuilder.certification.session.buildCenter({ type: CenterTypes.SUP });
 
       // when / then
-      expect(certificationCenter).to.be.an.instanceOf(Center);
-      expect(certificationCenter.hasBillingMode).is.true;
+      expect(center).to.be.an.instanceOf(Center);
+      expect(center.hasBillingMode).is.true;
     });
 
     context('should verify center type', function () {
