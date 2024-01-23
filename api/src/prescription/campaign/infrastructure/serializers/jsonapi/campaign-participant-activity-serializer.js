@@ -12,6 +12,7 @@ const serialize = function ({ campaignParticipantsActivities, pagination }) {
       'status',
       'progression',
       'lastSharedOrCurrentCampaignParticipationId',
+      'participationCount',
     ],
     meta: pagination,
   }).serialize(campaignParticipantsActivities);
