@@ -1,0 +1,16 @@
+<form
+  aria-label={{t "components.organizations.children.attach-child-form.name"}}
+  class="organization__attach-child-form"
+  {{on "submit" this.submitForm}}
+>
+  <div class="organization__attach-child-form__content">
+    <PixInput
+      @id="child-organization"
+      @label={{t "components.organizations.children.attach-child-form.input-label"}}
+      @information={{t "components.organizations.children.attach-child-form.input-information"}}
+      value={{this.childOrganization}}
+      {{on "change" this.childOrganizationInputValueChanged}}
+    />
+    <PixButton @size="small" @type="submit">{{t "common.actions.add"}}</PixButton>
+  </div>
+</form>
