@@ -6,4 +6,5 @@ export default class CampaignParticipantActivity extends Model {
   @attr('string') participantExternalId;
   @attr('string') status;
   @attr('string') lastSharedOrCurrentCampaignParticipationId;
+  @attr('number') participationCount;
 }

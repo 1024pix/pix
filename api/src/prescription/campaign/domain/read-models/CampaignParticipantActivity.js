@@ -8,6 +8,7 @@ class CampaignParticipantActivity {
     sharedAt,
     status,
     lastSharedCampaignParticipationId,
+    participationCount,
   } = {}) {
     this.campaignParticipationId = campaignParticipationId;
     this.userId = userId;
@@ -17,6 +18,7 @@ class CampaignParticipantActivity {
     this.sharedAt = sharedAt;
     this.status = status;
     this.lastSharedOrCurrentCampaignParticipationId = lastSharedCampaignParticipationId || campaignParticipationId;
+    this.participationCount = participationCount || 0;
   }
 }
 
