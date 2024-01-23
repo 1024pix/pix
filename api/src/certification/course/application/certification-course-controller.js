@@ -45,7 +45,7 @@ const getCertificationV3Details = async function (
   h,
   dependencies = { v3CertificationDetailsForAdministrationSerializer },
 ) {
-  const certificationCourseId = request.params.id;
+  const { certificationCourseId } = request.params;
   const certificationDetails = await usecases.getV3CertificationCourseDetailsForAdministration({
     certificationCourseId,
   });

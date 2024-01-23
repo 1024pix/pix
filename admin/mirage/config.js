@@ -369,9 +369,9 @@ function routes() {
     const id = request.params.id;
     return schema.certificationDetails.find(id);
   });
-  this.get('/admin/certification-courses-v3/:id/details', (schema, request) => {
-    const id = request.params.id;
-    return schema.v3CertificationCourseDetailsForAdministrations.find(id);
+  this.get('/admin/certification-courses-v3/:certificationCourseId/details', (schema, request) => {
+    const certificationCourseId = request.params.certificationCourseId;
+    return schema.v3CertificationCourseDetailsForAdministrations.find(certificationCourseId);
   });
   this.post('/admin/certification/neutralize-challenge', () => {
     return new Response(204);

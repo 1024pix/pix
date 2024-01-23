@@ -58,7 +58,7 @@ describe('Unit | Route | certification-course-route', function () {
     });
   });
 
-  describe('GET /api/admin/certification-courses-v3/{id}/details', function () {
+  describe('GET /api/admin/certification-courses-v3/{certificationCourseId}/details', function () {
     it('returns a 200', async function () {
       // given
       sinon
