@@ -1,11 +1,12 @@
 import Service, { inject as service } from '@ember/service';
 import config from 'pix-orga/config/environment';
+import languages from 'pix-orga/languages';
 
 export const FRENCH_INTERNATIONAL_LOCALE = 'fr';
 export const ENGLISH_INTERNATIONAL_LOCALE = 'en';
 export const FRENCH_FRANCE_LOCALE = 'fr-FR';
 export const DEFAULT_LOCALE = FRENCH_INTERNATIONAL_LOCALE;
-const SUPPORTED_LANGUAGES = [FRENCH_INTERNATIONAL_LOCALE, ENGLISH_INTERNATIONAL_LOCALE];
+const SUPPORTED_LANGUAGES = Object.keys(languages);
 
 const { COOKIE_LOCALE_LIFESPAN_IN_SECONDS } = config.APP;
 
