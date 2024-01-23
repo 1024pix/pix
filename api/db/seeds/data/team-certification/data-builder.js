@@ -638,8 +638,8 @@ async function _createIssueReportCategories({ databaseBuilder }) {
 }
 
 async function _createAPublishedV3CertificationSession({ databaseBuilder }) {
-  const answers = ['ok', 'ko'];
-  const scores = [640, 29];
+  const answers = ['ok', 'ko', 'focusedOut'];
+  const scores = [640, 29, 0];
   const numberOfChallengesPerCourse = 32;
 
   const { certificationCandidates } = await _createPublishedV3Session({
