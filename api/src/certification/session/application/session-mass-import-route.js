@@ -67,6 +67,31 @@ const register = async function (server) {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/certification-centers/{certificationCenterId}/import',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            assign: 'isMemberOfCertificationCenter',
+          },
+          {
+            method: securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents,
+            assign: 'isCertificationCenterNotScoManagingStudents',
+          },
+        ],
+        validate: {
+          params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
+        },
+        handler: sessionMassImportController.getTemplate,
+        tags: ['api', 'sessions'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés membres d'un espace Pix Certif  hors SCO et ne gérant pas d'élèves**\n" +
+            '- Elle permet de récupérer le fichier de création de sessions de certification',
+        ],
+      },
+    },
   ]);
 };
 
