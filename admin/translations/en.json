@@ -1,6 +1,7 @@
 {
   "common": {
     "actions": {
+      "add": "Add",
       "cancel": "Cancel",
       "close": "Close",
       "deactivate": "Deactivate",
@@ -100,6 +101,13 @@
     "organizations": {
       "all-tags": {
         "recently-used-tags": "List of tags recently used with {tagName}"
+      },
+      "children": {
+        "attach-child-form": {
+          "input-information": "ID of organisation to add",
+          "input-label": "Add a child organisation",
+          "name": "Add a child organisation form"
+        }
       },
       "children-list": {
         "table-headers": {
