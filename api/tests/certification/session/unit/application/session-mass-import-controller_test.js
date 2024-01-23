@@ -133,7 +133,7 @@ describe('Unit | Controller | mass-import-controller', function () {
 
       // then
       expect(usecases.getMassImportTemplateInformation).to.have.been.calledWithExactly({
-        certificationCenterId: request.params.certificationCenterId,
+        centerId: request.params.certificationCenterId,
       });
     });
   });

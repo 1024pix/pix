@@ -29,7 +29,7 @@ describe('Unit | Certification | Session | UseCase | get-mass-import-template-in
 
         // when
         const result = await getMassImportTemplateInformation({
-          certificationCenterId: 1,
+          centerId: 1,
           centerRepository,
           complementaryCertificationRepository,
         });
@@ -60,7 +60,7 @@ describe('Unit | Certification | Session | UseCase | get-mass-import-template-in
 
         // when
         const result = await getMassImportTemplateInformation({
-          certificationCenterId: 1,
+          centerId: 1,
           centerRepository,
           complementaryCertificationRepository,
         });

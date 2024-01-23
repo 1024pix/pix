@@ -7,20 +7,20 @@ describe('Integration | Certification | Session | UseCase | get-mass-import-temp
   describe('#getMassImportTemplateInformation', function () {
     it('should return a certification center habilitations and billingMode', async function () {
       // given
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+      const centerId = databaseBuilder.factory.buildCertificationCenter({
         type: CenterTypes.SUP,
         externalId: '1234AB',
         isV3Pilot: false,
       }).id;
       const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification.clea({}).id;
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
-        certificationCenterId,
+        certificationCenterId: centerId,
         complementaryCertificationId,
       });
       await databaseBuilder.commit();
 
       // when
-      const result = await usecases.getMassImportTemplateInformation({ certificationCenterId });
+      const result = await usecases.getMassImportTemplateInformation({ centerId });
 
       // then
       expect(result).to.deep.equal({
@@ -32,16 +32,16 @@ describe('Integration | Certification | Session | UseCase | get-mass-import-temp
     context('when certification center does not exist', function () {
       it('should throw NotFoundError', async function () {
         // given
-        const unknownCertificationCenterId = 999999;
+        const unknownCenterId = 999999;
 
         // when
         const error = await catchErr(usecases.getMassImportTemplateInformation)({
-          certificationCenterId: unknownCertificationCenterId,
+          centerId: unknownCenterId,
         });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
-        expect(error.message).to.equal(`Certification center not found`);
+        expect(error.message).to.equal('Center not found');
       });
     });
   });

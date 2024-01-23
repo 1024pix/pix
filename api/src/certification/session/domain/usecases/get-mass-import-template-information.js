@@ -9,7 +9,7 @@ import bluebird from 'bluebird';
 
 /**
  * @param {Object} params
- * @param {number} params.certificationCenterId
+ * @param {number} params.centerId
  * @param {CenterRepository} params.centerRepository
  * @param {ComplementaryCertificationRepository} params.complementaryCertificationRepository
  *
@@ -17,11 +17,11 @@ import bluebird from 'bluebird';
  * @throws {NotFoundError} a candidate is linked to an unexisting certification center
  */
 const getMassImportTemplateInformation = async ({
-  certificationCenterId,
+  centerId,
   centerRepository,
   complementaryCertificationRepository,
 }) => {
-  const center = await centerRepository.getById({ id: certificationCenterId });
+  const center = await centerRepository.getById({ id: centerId });
   const habilitationLabels = await _getCenterHabilitationsLabels({ center, complementaryCertificationRepository });
   return {
     habilitationLabels,
