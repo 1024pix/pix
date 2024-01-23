@@ -17,6 +17,7 @@ import * as campaignParticipationRepository from '../../infrastructure/repositor
 import * as campaignParticipationResultRepository from '../../infrastructure/repositories/campaign-participation-result-repository.js';
 import * as certificationAssessmentRepository from '../../infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
+import * as certificationChallengeForScoringRepository from '../../../src/certification/scoring/infrastructure/repositories/certification-challenge-for-scoring-repository.js';
 import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
@@ -68,6 +69,7 @@ const dependencies = {
   campaignParticipationResultRepository,
   certificationAssessmentRepository,
   certificationCenterRepository,
+  certificationChallengeForScoringRepository,
   certificationCourseRepository,
   certificationIssueReportRepository,
   challengeRepository,
