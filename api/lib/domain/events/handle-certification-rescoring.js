@@ -32,7 +32,7 @@ async function handleCertificationRescoring({
   competenceMarkRepository,
   scoringCertificationService,
   certificationCourseRepository,
-  challengeRepository,
+  certificationChallengeForScoringRepository,
   answerRepository,
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
@@ -46,12 +46,12 @@ async function handleCertificationRescoring({
   try {
     if (certificationAssessment.version === CertificationVersion.V3) {
       return _handleV3Certification({
-        challengeRepository,
         answerRepository,
         event,
         certificationAssessment,
         assessmentResultRepository,
         certificationCourseRepository,
+        certificationChallengeForScoringRepository,
         flashAlgorithmConfigurationRepository,
         flashAlgorithmService,
       });
@@ -81,18 +81,19 @@ async function handleCertificationRescoring({
 }
 
 async function _handleV3Certification({
-  challengeRepository,
   answerRepository,
   certificationAssessment,
   event,
   assessmentResultRepository,
   certificationCourseRepository,
+  certificationChallengeForScoringRepository,
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
 }) {
   const allAnswers = await answerRepository.findByAssessment(certificationAssessment.id);
-  const challengeIds = allAnswers.map(({ challengeId }) => challengeId);
-  const challenges = await challengeRepository.getManyFlashParameters(challengeIds);
+  const certificationChallengesForScoring = await certificationChallengeForScoringRepository.getByCertificationCourseId(
+    { certificationCourseId: certificationAssessment.certificationCourseId },
+  );
 
   const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
 
@@ -109,7 +110,7 @@ async function _handleV3Certification({
 
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     algorithm,
-    challenges,
+    challenges: certificationChallengesForScoring,
     allAnswers,
     abortReason,
     maxReachableLevelOnCertificationDate: certificationCourse.getMaxReachableLevelOnCertificationDate(),

@@ -112,15 +112,6 @@ export async function getManyTypes(ids) {
   return Object.fromEntries(challenges.map(({ id, type }) => [id, type]));
 }
 
-export async function getManyFlashParameters(ids) {
-  const challenges = await challengeDatasource.getMany(ids);
-  return challenges.map(({ id, alpha, delta }) => ({
-    id,
-    discriminant: alpha,
-    difficulty: delta,
-  }));
-}
-
 export {
   get,
   getMany,
