@@ -17,7 +17,10 @@ module('Acceptance | Organizations | Information management', function (hooks) {
     test('should be able to edit organization information', async function (assert) {
       // given
       const organization = this.server.create('organization', { name: 'oldOrganizationName' });
+      this.server.create('organization', { id: '1234' });
+
       const screen = await visit(`/organizations/${organization.id}`);
+
       await clickByName('Modifier');
 
       // when
@@ -25,6 +28,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       await fillByLabel('Prénom du DPO', 'Bru');
       await fillByLabel('Nom du DPO', 'No');
       await fillByLabel('Adresse e-mail du DPO', 'bru.no@example.net');
+
       await clickByName('Enregistrer', { exact: true });
 
       // then

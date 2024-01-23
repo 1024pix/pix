@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | organizations/information-section-view', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('when user has access', function (hooks) {
     hooks.beforeEach(function () {
@@ -221,6 +221,45 @@ module('Integration | Component | organizations/information-section-view', funct
 
         // then
         assert.dom(screen.getByText('Archivée le 22/02/2022 par Rob Lochon.')).exists();
+      });
+    });
+
+    module('when organization is parent', function () {
+      test('it should display parent label', async function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
+        const child = store.createRecord('organization', { type: 'SCO', isManagingStudents: true });
+        const organization = store.createRecord('organization', {
+          type: 'SCO',
+          isManagingStudents: true,
+          children: [child],
+        });
+        this.set('organization', organization);
+
+        // when
+        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+
+        // then
+        assert.dom(screen.getByText('Organisation parente')).exists();
+      });
+    });
+
+    module('when organization is not parent', function () {
+      test('it should not display parent label', async function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
+        const organization = store.createRecord('organization', {
+          type: 'SCO',
+          name: 'notParent',
+          isManagingStudents: true,
+        });
+        this.set('organization', organization);
+
+        // when
+        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+
+        // then
+        assert.dom(screen.queryByText('Organisation parente')).doesNotExist();
       });
     });
 
