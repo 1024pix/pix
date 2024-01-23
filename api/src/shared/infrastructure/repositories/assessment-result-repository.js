@@ -69,19 +69,8 @@ const save = async function ({
       .merge(['lastAssessmentResultId']);
 
     const savedAssessmentResult = new AssessmentResult({
-      id: savedAssessmentResultData.id,
-      createdAt: savedAssessmentResultData.createdAt,
-      level: savedAssessmentResultData.level,
-      pixScore: savedAssessmentResultData.pixScore,
-      emitter: savedAssessmentResultData.emitter,
-      commentByJury: savedAssessmentResultData.commentByJury,
-      commentForOrganization: savedAssessmentResultData.commentForOrganization,
-      commentForCandidate: savedAssessmentResultData.commentForCandidate,
-      status: savedAssessmentResultData.status,
-      juryId: savedAssessmentResultData.juryId,
-      assessmentId: savedAssessmentResultData.assessmentId,
+      ...savedAssessmentResultData,
       reproducibilityRate: _.toNumber(savedAssessmentResultData.reproducibilityRate) ?? null,
-      commentByAutoJury: savedAssessmentResultData.commentByAutoJury,
     });
     return savedAssessmentResult;
   } catch (error) {
