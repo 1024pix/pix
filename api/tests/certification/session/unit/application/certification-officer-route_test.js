@@ -1,5 +1,5 @@
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { certificationOfficerController } from '../../../../../src/certification/session/application/certification-officer-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/session/application/certification-officer-route.js';
 

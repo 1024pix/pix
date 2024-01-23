@@ -1,7 +1,7 @@
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 import { campaignAdministrationController } from '../../../../../src/prescription/campaign/application/campaign-adminstration-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-administration-route.js';
-import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import {
   SwapCampaignMismatchOrganizationError,
   UnknownCampaignId,

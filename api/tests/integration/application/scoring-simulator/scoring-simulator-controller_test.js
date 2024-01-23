@@ -4,7 +4,7 @@ import { ScoringSimulation } from '../../../../lib/domain/models/ScoringSimulati
 import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
 import { ScoringSimulationContext } from '../../../../lib/domain/models/ScoringSimulationContext.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import * as moduleUnderTest from '../../../../lib/application/scoring-simulator/index.js';
 
 describe('Integration | Application | Scoring-simulator | scoring-simulator-controller', function () {

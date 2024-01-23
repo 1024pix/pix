@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../lib/domain/errors.js';
 import { AssessmentResult } from '../../../../lib/domain/read-models/participant-results/AssessmentResult.js';

@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { certificationController } from './certification-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([

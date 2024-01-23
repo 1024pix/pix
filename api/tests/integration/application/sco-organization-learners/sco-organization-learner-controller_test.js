@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
 import * as moduleUnderTest from '../../../../lib/application/sco-organization-learners/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 
 import {
   NotFoundError,

@@ -1,5 +1,5 @@
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { targetProfileController } from '../../../../../src/prescription/target-profile/application/admin-target-profile-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/target-profile/application/admin-target-profile-route.js';
 

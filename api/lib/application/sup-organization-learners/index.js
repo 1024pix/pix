@@ -4,7 +4,7 @@ const Joi = BaseJoi.extend(JoiDate);
 
 import { sendJsonApiError, UnprocessableEntityError, NotFoundError } from '../http-errors.js';
 import { supOrganizationLearnerController } from './sup-organization-learner-controller.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 
 const register = async function (server) {

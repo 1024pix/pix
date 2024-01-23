@@ -1,6 +1,6 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { missionController } from '../../../../src/school/application/mission-controller.js';
 import * as moduleUnderTest from '../../../../src/school/application/mission-route.js';
 
