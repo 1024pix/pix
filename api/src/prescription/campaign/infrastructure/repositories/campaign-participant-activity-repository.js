@@ -46,6 +46,12 @@ function _buildCampaignParticipationByParticipant(queryBuilder, campaignId, filt
         .orderBy('sharedAt', 'desc')
         .limit(1)
         .as('lastSharedCampaignParticipationId'),
+      knex('campaign-participations')
+        .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+        .and.whereNull('campaign-participations.deletedAt')
+        .and.where('campaignId', campaignId)
+        .count('id')
+        .as('participationCount'),
     )
     .from('campaign-participations')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')

@@ -16,6 +16,7 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignParticipantAct
         sharedAt,
         status: CampaignParticipationStatuses.SHARED,
         lastSharedCampaignParticipationId: null,
+        participationCount: null,
       });
 
       expect(campaignParticipantActivity).to.deep.equal({
@@ -27,9 +28,10 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignParticipantAct
         sharedAt,
         status: CampaignParticipationStatuses.SHARED,
         lastSharedOrCurrentCampaignParticipationId: 45,
+        participationCount: 0,
       });
     });
-    it('should lastSharedCampaignParticipationId if provided', function () {
+    it('should use lastSharedCampaignParticipationId if provided', function () {
       const lastSharedCampaignParticipationId = 42;
 
       const campaignParticipantActivity = new CampaignParticipantActivity({

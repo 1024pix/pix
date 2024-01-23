@@ -22,6 +22,9 @@
           <col class="table__column--wide" />
         {{/if}}
         <col class="table__column--wide" />
+        {{#if @showParticipationCount}}
+          <col class="table__column--wide" />
+        {{/if}}
         {{#if this.canDeleteParticipation}}
           <col class="table__column--small table__column--right hide-on-mobile" />
         {{/if}}
@@ -34,6 +37,11 @@
             <Table::Header>{{@campaign.idPixLabel}}</Table::Header>
           {{/if}}
           <Table::Header>{{t "pages.campaign-activity.table.column.status"}}</Table::Header>
+          {{#if @showParticipationCount}}
+            <Table::Header @size="wide">
+              {{t "pages.campaign-activity.table.column.participationCount"}}
+            </Table::Header>
+          {{/if}}
           {{#if this.canDeleteParticipation}}
             <Table::Header class="hide-on-mobile">
               <span class="screen-reader-only">
@@ -81,6 +89,11 @@
               <td>
                 <Ui::ParticipationStatus @status={{participation.status}} @campaignType={{@campaign.type}} />
               </td>
+              {{#if @showParticipationCount}}
+                <td>
+                  {{participation.participationCount}}
+                </td>
+              {{/if}}
               {{#if this.canDeleteParticipation}}
                 <td class="hide-on-mobile">
                   <PixIconButton
