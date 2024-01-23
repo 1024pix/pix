@@ -377,6 +377,7 @@
           "delete": "Supprimer la participation",
           "first-name": "Prénom",
           "last-name": "Nom",
+          "participationCount": "Nombre de participations",
           "status": "Statut"
         },
         "delete-button-label": "Supprimer la participation",

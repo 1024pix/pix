@@ -81,6 +81,68 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
     assert.dom(screen.getByRole('link', /la frite/i)).hasAttribute('href', '/campagnes/100/profils/456');
   });
 
+  test('it should display participation column when showParticipationCount is true', async function (assert) {
+    class CurrentUserStub extends Service {
+      isAdminInOrganization = true;
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
+    this.set('campaign', { id: '100', idPixLabel: 'id', type: 'ASSESSMENT' });
+
+    this.set('participations', [
+      {
+        id: '123',
+        firstName: 'Joe',
+        lastName: 'La frite',
+        status: 'TO_SHARE',
+        participantExternalId: 'patate',
+        lastSharedOrCurrentCampaignParticipationId: '456',
+        participationCount: 2,
+      },
+    ]);
+    const screen = await render(
+      hbs`<Campaign::Activity::ParticipantsList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.clickSpy}}
+  @onFilter={{this.noop}}
+  @showParticipationCount={{true}}
+/>`,
+    );
+
+    assert.dom(screen.getByText(this.intl.t('pages.campaign-activity.table.column.participationCount'))).exists();
+    assert.dom(screen.getByText('2')).exists();
+  });
+
+  test('it should hide participation column when showParticipationCount is false', async function (assert) {
+    class CurrentUserStub extends Service {
+      isAdminInOrganization = true;
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
+    this.set('campaign', { id: '100', idPixLabel: 'id', type: 'ASSESSMENT' });
+
+    this.set('participations', [
+      {
+        id: '123',
+        firstName: 'Joe',
+        lastName: 'La frite',
+        status: 'TO_SHARE',
+        participantExternalId: 'patate',
+        lastSharedOrCurrentCampaignParticipationId: '456',
+        participationCount: 1,
+      },
+    ]);
+    const screen = await render(
+      hbs`<Campaign::Activity::ParticipantsList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.clickSpy}}
+  @onFilter={{this.noop}}
+/>`,
+    );
+
+    assert.notOk(screen.queryByText('Participations'));
+  });
+
   test('[A11Y] it should have an aria label', async function (assert) {
     this.set('campaign', { idPixLabel: 'id', type: 'ASSESSMENT' });
 
