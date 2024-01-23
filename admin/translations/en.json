@@ -108,6 +108,9 @@
           "name": "Name"
         },
         "table-name": "List of children organisations"
+      },
+      "information-section-view": {
+        "parent-organization": "Parent organization"
       }
     },
     "users": {
