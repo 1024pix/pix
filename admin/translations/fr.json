@@ -1,6 +1,7 @@
 {
   "common": {
     "actions": {
+      "add": "Ajouter",
       "cancel": "Annuler",
       "close": "Fermer",
       "deactivate": "Désactiver",
@@ -108,6 +109,13 @@
     "organizations": {
       "all-tags": {
         "recently-used-tags": "Liste de tags récemment utilisés avec {tagName}"
+      },
+      "children": {
+        "attach-child-form": {
+          "input-information": "ID de l'organisation à ajouter",
+          "input-label": "Ajouter une organisation fille",
+          "name": "Formulaire d'ajout d'une organisation fille"
+        }
       },
       "children-list": {
         "table-headers": {
