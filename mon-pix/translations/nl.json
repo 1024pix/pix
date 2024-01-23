@@ -234,7 +234,7 @@
               "birth-month": "geboortemaand",
               "birth-year": "geboortejaar"
             },
-            "last-name": "Naam",
+            "last-name": "Achternaam",
             "placeholder": {
               "birth-day": "JJ",
               "birth-month": "MM",
@@ -293,6 +293,20 @@
       },
       "title": "Einde test"
     },
+    "autonomous-course": {
+      "landing-page": {
+        "actions": {
+          "sign-in": "Ik heb al een account, ik log in",
+          "start-anonymously": "Ik begin zonder Pix-account",
+          "start-connected": "Ik begin"
+        },
+        "texts": {
+          "first-course": "Is dit je eerste Pix-test?",
+          "legal-informations": "Of je nu een Pix account hebt of niet, de gegevens over je voortgang worden naar ons verstuurd.'<br>'Deze informatie wordt door Pix gebruikt om de service te verbeteren.",
+          "title": "Start de test:"
+        }
+      }
+    },
     "campaign-landing": {
       "assessment": {
         "action": "Ik begin",
@@ -328,7 +342,7 @@
     "campaign-participation-overview": {
       "card": {
         "finished-at": "Voltooid op {date}",
-        "results": "{result, number, ::percent} van succes",
+        "results": "{result, number, ::percent} succes",
         "resume": {
           "extra-information": "Hervat de {campaignTitle} route",
           "information": "Overnemen"
@@ -341,14 +355,14 @@
           "completed": "Om te sturen",
           "disabled": "Inactief",
           "finished": "Afgewerkt",
-          "started": "Lopend"
+          "started": "Actief"
         },
         "text-disabled": "Cursus gedeactiveerd door uw organisatie.'<br> 'U kunt uw resultaten niet langer verzenden."
       },
-      "title": "Parken"
+      "title": "Test"
     },
     "campaign-participation": {
-      "title": "Parken"
+      "title": "Test"
     },
     "campaign": {
       "errors": {
@@ -585,7 +599,7 @@
             "category-selection": {
               "label": "Ik heb een probleem met",
               "options": {
-                "other": "Andere",
+                "other": "Overig",
                 "accessibility": "Toegankelijkheid van de test",
                 "answer": "Het antwoord",
                 "download": "Het te downloaden bestand",
@@ -746,7 +760,7 @@
       "title": {
         "default": "Vrije modus - Vraag {stepNumber} op {totalChallengeNumber}.",
         "focused": "Focusmodus - Vraag {stepNumber} op {totalChallengeNumber}.",
-        "focused-out": "Mislukt - Focusmodus - Vraag {stepNumber} op {totalChallengeNumber}.",
+        "focused-out": "Niet geslaagd - Focusmodus - Vraag {stepNumber} op {totalChallengeNumber}.",
         "timed-out": "Verstreken tijd - Vraag {stepNumber} van {totalChallengeNumber}"
       }
     },
@@ -839,7 +853,7 @@
     "competence-details": {
       "actions": {
         "continue": {
-          "extra-information": "CV-vaardigheid {competenceName}",
+          "extra-information": "De competentie hervatten {competenceName}",
           "label": "Overnemen"
         },
         "improve": {
@@ -854,7 +868,7 @@
           "description": "Reset beschikbaar in { daysBeforeReset, plural, =0 {0 dag.} =1 {1 dag.} other {# dagen.} }",
           "label": "Op nul zetten",
           "modal": {
-            "important-message": "Uw { earnedPix } Pix wordt verwijderd uit de vaardigheid: { scoreCardName }.",
+            "important-message": "Jouw { earnedPix } Pix wordt verwijderd uit de vaardigheid: { scoreCardName }.",
             "important-message-above-level-one": "Je { level } en { earnedPix } Pix worden verwijderd uit de vaardigheid: { scoreCardName }.",
             "title": "Vaardigheden resetten",
             "warning": {
@@ -869,7 +883,7 @@
           "label": "Start"
         }
       },
-      "for-competence": "competentie  {competence}",
+      "for-competence": "de vaardigheid  {competence}",
       "next-level-info": "{ remainingPixToNextLevel } pix before level { level }",
       "title": "Bevoegdheid",
       "tutorials": {
@@ -902,7 +916,7 @@
         },
         "subtitle": "Ga door met uw huidige tests of stuur uw resultaten op",
         "tests-link": "Al mijn carrièrepaden",
-        "title": "Parken"
+        "title": "Test"
       },
       "empty-dashboard": {
         "link-to-competences": "Bekijk mijn vaardigheden",
@@ -919,7 +933,7 @@
           "text": "Om er meer over te weten",
           "url": "https://pix.fr/actualites/decouvrez-votre-nouveau-tableau-de-bord"
         },
-        "message": "<h2>Hallo { firstname }, ontdek uw dashboard.</h2><p>Snel en eenvoudig toegang tot uw cursussen en vaardigheidstests die al zijn gestart.<br/>Ontdek hoe uw Pix-score zich ontwikkelt en controleer of uw profiel klaar is voor Pix-certificering.</p>"
+        "message": "<h2>Hallo { firstname }, ontdek je dashboard.</h2><p>Snel en eenvoudig toegang tot jouw cursussen en vaardigheidstests die al zijn gestart.<br/>Ontdek hoe jouw Pix-score zich ontwikkelt en controleer of jouw profiel klaar is voor Pix-certificering.</p>"
       },
       "recommended-competences": {
         "extra-information": "Toegang tot alle aanbevolen vaardigheden",
@@ -1022,7 +1036,7 @@
         },
         "lastname": {
           "error": "Je naam is niet ingevuld.",
-          "label": "Naam"
+          "label": "Achternaam"
         }
       },
       "rgpd-legal-notice": "Als u wilt weten hoe uw gegevens worden verwerkt en wat uw rechten zijn, kunt u het volgende lezen",
@@ -1032,7 +1046,7 @@
         "associate": "Geassocieerd",
         "continue-with-pix": "Doorgaan met mijn Pix-account",
         "error-not-found": "Ben je student? '<br>' Controleer je gegevens (voornaam, achternaam en geboortedatum) of neem contact op met een docent.'<br><br>' Ben je docent? '<br>' Toegang tot een cursus is momenteel niet beschikbaar.",
-        "first-title": "Word lid van de organisatie { organizationName }",
+        "first-title": "Sluit je aan bij de organisatie { organizationName }",
         "invalid-reconciliation-error": "Er is een fout opgetreden. Neem contact op met ondersteuning.",
         "login-information-message": "Het Pix-account '<b>'{ connectionMethod }'</b>' wordt gekoppeld aan de leerling: '<b>'{ firstName } { lastName }'</b>'.'<br><br>'Als jij dit bent, klik je op \"Koppelen\", anders log je uit.",
         "login-information-title": "Verbindingsinformatie",
@@ -1058,7 +1072,7 @@
       "title": "Voor meer informatie"
     },
     "levelup-notif": {
-      "obtained-level": "Level {level} gewonnen!"
+      "obtained-level": "Niveau {level} gewonnen!"
     },
     "login-or-register-oidc": {
       "error": {
@@ -1088,7 +1102,7 @@
       "title": "Maak je Pix-account aan"
     },
     "login-or-register": {
-      "invitation": "{ organizationName } nodigt u uit om lid te worden van Pix",
+      "invitation": "{ organizationName } nodigt je uit om je aan te sluiten bij Pix",
       "login-form": {
         "button": "Inloggen",
         "error": "Het e-mailadres of de ingevoerde gebruikersnaam en/of wachtwoord zijn onjuist",
@@ -1143,7 +1157,7 @@
           },
           "lastname": {
             "error": "Je naam is niet ingevuld.",
-            "label": "Naam"
+            "label": "Achternaam"
           },
           "password": {
             "error": "Je wachtwoord moet minstens 8 tekens lang zijn en minstens één hoofdletter, één kleine letter en één cijfer bevatten.",
@@ -1241,7 +1255,7 @@
       "first-title": "Niet alles gaat volgens plan",
       "retry": {
         "button": "Mijn profiel opnieuw verzenden",
-        "message": "{organization} nodigt je uit om je profiel terug te sturen om je vooruitgang te meten."
+        "message": "{organization} nodigt je uit om je profiel nog eens te sturen om je vooruitgang te meten."
       },
       "title": "Profiel al verzonden"
     },
@@ -1368,7 +1382,7 @@
         "link": "Een account aanmaken",
         "text": "Heb je nog geen Pix-account?"
       },
-      "title": "Aansluiting"
+      "title": "Verbinding"
     },
     "sign-up": {
       "actions": {
@@ -1390,7 +1404,7 @@
         },
         "lastname": {
           "error": "Je naam is niet ingevuld.",
-          "label": "Naam"
+          "label": "Achternaam"
         },
         "legend": "Vereiste informatie voor registratie.",
         "password": {
@@ -1475,7 +1489,7 @@
       },
       "retry": {
         "button": "Mijn reis naspelen",
-        "message": "{organizationName} nodigt je uit om deze cursus opnieuw te volgen om je resultaat te verbeteren en vooruitgang te blijven boeken."
+        "message": "{organizationName} nodigt je uit om deze test opnieuw te doen om je resultaat te verbeteren en vooruitgang te blijven boeken."
       },
       "send-results": "Vergeet niet je resultaten naar de cursusorganisator te sturen.",
       "send-status": {
@@ -1484,8 +1498,8 @@
       "send-title": "Stuur ons uw resultaten",
       "stage": {
         "caption": "Details van je resultaten in de vorm van percentages en sterren volgens vaardigheden",
-        "masteryPercentage": "{rate, number, ::percent} van succes",
-        "starsAcquired": "{acquired, plural, =0 {geen sterren verworven} other {# sterren verworven}} uit {total}",
+        "masteryPercentage": "{rate, number, ::percent} succes",
+        "starsAcquired": "{acquired, plural, =0 {geen sterren verworven} other {# sterren verworven}} op {total}",
         "title": "Vaardigheden"
       },
       "title": "Resultaten",
@@ -1648,7 +1662,7 @@
       },
       "personal-information": {
         "first-name": "Voornaam",
-        "last-name": "Naam",
+        "last-name": "Achternaam",
         "menu-link-title": "Mijn persoonlijke gegevens"
       },
       "title": "Mijn account"
