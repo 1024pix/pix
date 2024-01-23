@@ -17,6 +17,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer
           lastName: 'Habibi',
           participantExternalId: 'Dev',
           status: SHARED,
+          participationCount: 1,
         }),
         new CampaignParticipantActivity({
           userId: 2,
@@ -48,6 +49,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer
               'participant-external-id': 'Dev',
               status: SHARED,
               'last-shared-or-current-campaign-participation-id': '1',
+              'participation-count': 1,
             },
           },
           {
@@ -59,6 +61,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer
               'participant-external-id': 'Footballer',
               status: STARTED,
               'last-shared-or-current-campaign-participation-id': '2',
+              'participation-count': 0,
             },
           },
         ],
