@@ -70,6 +70,9 @@
 - [#7843](https://github.com/1024pix/pix/pull/7843) [FEATURE] Afficher les boutons de retour à la page précédente plus petit sur Pix Certif (PIX-10152).
 - [#7794](https://github.com/1024pix/pix/pull/7794) [FEATURE] Créer et utiliser les design token Pix 1d (Pix-10447).
 
+### :building_construction: Tech
+- [GHSA-5gvp-w3xj-52w9](https://github.com/1024pix/pix-ghsa-5gvp-w3xj-52w9/pull/1) [TECH] Protéger la route de récupération des classes depuis pix-certif (PIX-10773)
+
 ### :bug: Correction
 - [#7859](https://github.com/1024pix/pix/pull/7859) [BUGFIX] Afficher le style pour des liste à puces (PIX-10791).
 
@@ -87,7 +90,6 @@
 
 ### :building_construction: Tech
 - [#7820](https://github.com/1024pix/pix/pull/7820) [TECH] Generer des rapports de tests sur les front-ends pour circle-ci (PIX-10673).
-- [#7802](https://github.com/1024pix/pix/pull/7802) [TECH] Migration de l'import en masse de sessions dans src (PIX-10188).
 - [#7834](https://github.com/1024pix/pix/pull/7834) [TECH] Ajout d'un script pour créer une configuration d'algo de certification V3 (PIX-10713).
 - [#7801](https://github.com/1024pix/pix/pull/7801) [TECH] :recycle: migration API LearningContentResourceNotFound (PIX-10619).
 - [#7816](https://github.com/1024pix/pix/pull/7816) [TECH] Migrer Challenge vers la nouvelle arbo API (PIX-9930).

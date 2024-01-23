@@ -1,6 +1,7 @@
 import { expect, domainBuilder } from '../../../../../test-helper.js';
 import * as serializer from '../../../../../../src/certification/session/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import { EnrolledCandidate } from '../../../../../../src/certification/session/domain/read-models/EnrolledCandidate.js';
+import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', function () {
   let certificationCandidate, complementaryCertification;
@@ -10,7 +11,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
       domainBuilder.certification.session.buildCertificationSessionComplementaryCertification({
         id: 2,
         label: 'Pix+Patisserie',
-        key: 'PATISSERIE',
+        key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
       });
     certificationCandidate = domainBuilder.buildCertificationCandidate({
       organizationLearnerId: 1,
@@ -51,7 +52,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
             'complementary-certification': {
               id: 2,
               label: 'Pix+Patisserie',
-              key: 'PATISSERIE',
+              key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
             },
           },
         },

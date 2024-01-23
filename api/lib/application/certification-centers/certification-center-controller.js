@@ -10,7 +10,6 @@ import * as certificationCenterInvitationSerializer from '../../infrastructure/s
 
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import lodash from 'lodash';
-import { getHeaders } from '../../infrastructure/files/sessions-import.js';
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 const { map } = lodash;
@@ -177,23 +176,6 @@ const sendInvitationForAdmin = async function (request, h, dependencies = { cert
   return h.response(serializedCertificationCenterInvitation);
 };
 
-const getSessionsImportTemplate = async function (request, h) {
-  const certificationCenterId = request.params.certificationCenterId;
-  const habilitationLabels = await usecases.getImportSessionComplementaryCertificationHabilitationsLabels({
-    certificationCenterId,
-  });
-  const certificationCenter = await usecases.getCertificationCenter({ id: certificationCenterId });
-  const headers = getHeaders({
-    habilitationLabels,
-    shouldDisplayBillingModeColumns: certificationCenter.hasBillingMode,
-  });
-  return h
-    .response(headers)
-    .header('Content-Type', 'text/csv; charset=utf-8')
-    .header('content-disposition', 'filename=import-sessions')
-    .code(200);
-};
-
 const sendInvitations = async function (request, h) {
   const certificationCenterId = request.params.certificationCenterId;
   const emails = request.payload.data.attributes.emails;
@@ -214,7 +196,6 @@ const certificationCenterController = {
   findPendingInvitations,
   getCertificationCenterDetails,
   getDivisions,
-  getSessionsImportTemplate,
   getStudents,
   sendInvitationForAdmin,
   sendInvitations,

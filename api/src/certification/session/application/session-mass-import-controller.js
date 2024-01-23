@@ -1,5 +1,7 @@
 import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
-import { usecases } from '../../shared/domain/usecases/index.js';
+import { usecases as sharedUsecases } from '../../shared/domain/usecases/index.js';
+import { usecases } from '../../../../src/certification/session/domain/usecases/index.js';
+import { getCsvHeaders } from '../infrastructure/files/sessions-import.js';
 
 import * as csvHelpers from '../../shared/application/helpers/csvHelpers.js';
 import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
@@ -10,7 +12,7 @@ const createSessions = async function (request, h) {
 
   const { cachedValidatedSessionsKey } = request.payload.data.attributes;
 
-  await usecases.createSessions({
+  await sharedUsecases.createSessions({
     cachedValidatedSessionsKey,
     certificationCenterId,
     userId: authenticatedUserId,
@@ -30,7 +32,7 @@ const validateSessions = async function (request, h, dependencies = { csvHelpers
     parsedCsvData,
     hasBillingMode: certificationCenter.hasBillingMode,
   });
-  const sessionMassImportReport = await usecases.validateSessions({
+  const sessionMassImportReport = await sharedUsecases.validateSessions({
     sessions,
     certificationCenterId,
     userId: authenticatedUserId,
@@ -39,9 +41,25 @@ const validateSessions = async function (request, h, dependencies = { csvHelpers
   return h.response(sessionMassImportReport).code(200);
 };
 
+const getTemplate = async function (request, h) {
+  const { habilitationLabels, shouldDisplayBillingModeColumns } = await usecases.getMassImportTemplateInformation({
+    centerId: request.params.certificationCenterId,
+  });
+  const csvTemplateFileContent = getCsvHeaders({
+    habilitationLabels,
+    shouldDisplayBillingModeColumns,
+  });
+  return h
+    .response(csvTemplateFileContent)
+    .header('Content-Type', 'text/csv; charset=utf-8')
+    .header('content-disposition', 'filename=import-sessions')
+    .code(200);
+};
+
 const sessionMassImportController = {
   createSessions,
   validateSessions,
+  getTemplate,
 };
 
 export { sessionMassImportController };

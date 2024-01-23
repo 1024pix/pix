@@ -107,7 +107,7 @@ describe('Integration | Repository | Certification Center', function () {
       });
     });
 
-    context('the certification center could not be found', function () {
+    context('when the certification center could not be found', function () {
       it('should throw a NotFound error', async function () {
         // when
         const nonExistentId = 1;

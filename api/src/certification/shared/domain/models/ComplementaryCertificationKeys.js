@@ -1,3 +1,8 @@
+/**
+ * Complementary certification key identifiers
+ * @readonly
+ * @enum {string}
+ */
 export const ComplementaryCertificationKeys = Object.freeze({
   PIX_PLUS_DROIT: 'DROIT',
   CLEA: 'CLEA',

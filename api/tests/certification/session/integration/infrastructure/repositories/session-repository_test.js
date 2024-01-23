@@ -4,6 +4,7 @@ import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { Session, statuses } from '../../../../../../src/certification/session/domain/models/Session.js';
 import * as sessionRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-repository.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
+import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Integration | Repository | Session', function () {
   describe('#save', function () {
@@ -245,10 +246,13 @@ describe('Integration | Repository | Session', function () {
       // given
       const session = databaseBuilder.factory.buildSession();
 
-      const pixPlusFoot = databaseBuilder.factory.buildComplementaryCertification({ label: 'Pix+ Foot', key: 'FOOT' });
+      const pixPlusFoot = databaseBuilder.factory.buildComplementaryCertification({
+        label: 'Pix+ Foot',
+        key: ComplementaryCertificationKeys.CLEA,
+      });
       const pixPlusRugby = databaseBuilder.factory.buildComplementaryCertification({
         label: 'Pix+ Rugby',
-        key: 'RUGBY',
+        key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
       });
 
       const firstCandidate = databaseBuilder.factory.buildCertificationCandidate({
