@@ -71,7 +71,7 @@ import { DataProtectionOfficer } from './DataProtectionOfficer.js';
 import { Division } from './Division.js';
 import { EmailModificationDemand } from './EmailModificationDemand.js';
 import { EmailingAttempt } from './EmailingAttempt.js';
-import { Examiner } from './Examiner.js';
+import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
 import { FinalizedSession } from './FinalizedSession.js';
 import { Framework } from './Framework.js';
 import { Group } from './Group.js';

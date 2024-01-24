@@ -5,7 +5,7 @@ import {
   AnswerEvaluationError,
 } from '../errors.js';
 
-import { Examiner } from '../models/Examiner.js';
+import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
 import { KnowledgeElement } from '../models/KnowledgeElement.js';
 import { logger } from '../../infrastructure/logger.js';
 import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';

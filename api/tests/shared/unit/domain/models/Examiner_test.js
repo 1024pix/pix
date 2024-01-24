@@ -1,7 +1,7 @@
-import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
-import { Examiner } from '../../../../lib/domain/models/Examiner.js';
-import { expect, domainBuilder, sinon } from '../../../test-helper.js';
+import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
+import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
+import { Examiner } from '../../../../../src/shared/domain/models/Examiner.js';
+import { expect, domainBuilder, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Examiner', function () {
   const challengeFormat = 'nombre';
