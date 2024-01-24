@@ -2,7 +2,7 @@ import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../..
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 import { ChallengeAlreadyAnsweredError, NotFoundError } from '../../../../../lib/domain/errors.js';
-import * as answerRepository from '../../../../../src/evaluation/infrastructure/repositories/answer-repository.js';
+import * as answerRepository from '../../../../../src/shared/infrastructure/repositories/answer-repository.js';
 
 describe('Integration | Repository | answerRepository', function () {
   describe('#get', function () {

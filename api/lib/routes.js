@@ -32,7 +32,6 @@ import * as organizationLearners from './application/organization-learners/index
 import * as passwords from './application/passwords/index.js';
 import * as poleEmploi from './application/pole-emploi/index.js';
 import * as saml from './application/saml/index.js';
-import * as scoringSimulator from './application/scoring-simulator/index.js';
 import * as scoOrganizationLearners from './application/sco-organization-learners/index.js';
 import * as supOrganizationLearners from './application/sup-organization-learners/index.js';
 import * as sessions from './application/sessions/index.js';
@@ -79,7 +78,6 @@ const routes = [
   passwords,
   poleEmploi,
   saml,
-  scoringSimulator,
   organizationInvitations,
   scoOrganizationLearners,
   supOrganizationLearners,
