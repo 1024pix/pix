@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { BadRequestError, sendJsonApiError } from '../http-errors.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { targetProfileController } from './target-profile-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 

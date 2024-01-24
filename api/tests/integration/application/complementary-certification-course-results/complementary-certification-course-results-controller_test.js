@@ -1,5 +1,5 @@
 import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { InvalidJuryLevelError } from '../../../../lib/domain/errors.js';
 import * as moduleUnderTest from '../../../../lib/application/complementary-certification-course-results/index.js';

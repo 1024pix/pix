@@ -1,5 +1,5 @@
 import { certificationCenterController } from './certification-center-controller.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import Joi from 'joi';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 

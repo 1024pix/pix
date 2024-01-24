@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { organizationLearnerController } from './organization-learner-controller.js';
-import { securityPreHandlers } from '../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../lib/domain/types/identifiers-type.js';
 
 const register = async function (server) {

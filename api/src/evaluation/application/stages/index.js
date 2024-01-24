@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { stageController } from './stage-controller.js';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
 

@@ -1,5 +1,5 @@
 import { attachTargetProfileController } from './attach-target-profile-controller.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import Joi from 'joi';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
 import { erreurDoc } from '../../../../lib/infrastructure/open-api-doc/pole-emploi/erreur-doc.js';
