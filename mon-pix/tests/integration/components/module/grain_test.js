@@ -238,23 +238,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
   });
 
   module('when at least one element has not been answered', function () {
-    test('should display skip button', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const element = store.createRecord('element', { type: 'qcus', isAnswerable: true });
-      const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
-      this.set('grain', grain);
-
-      assert.false(grain.allElementsAreAnswered);
-
-      // when
-      const screen = await render(hbs`
-            <Module::Grain @grain={{this.grain}} @canDisplayActionsButton={{true}} />`);
-
-      // then
-      assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') })).exists();
-    });
-
     module('when canDisplayActionsButton is true', function () {
       test('should not display continue button', async function (assert) {
         // given
@@ -271,6 +254,23 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
         // then
         assert.dom(screen.queryByRole('button', { name: 'Continuer' })).doesNotExist();
+      });
+
+      test('should display skip button', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const element = store.createRecord('element', { type: 'qcus', isAnswerable: true });
+        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+        this.set('grain', grain);
+
+        assert.false(grain.allElementsAreAnswered);
+
+        // when
+        const screen = await render(hbs`
+              <Module::Grain @grain={{this.grain}} @canDisplayActionsButton={{true}} />`);
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') })).exists();
       });
     });
 
@@ -290,6 +290,25 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
         // then
         assert.dom(screen.queryByRole('button', { name: 'Continuer' })).doesNotExist();
+      });
+
+      test('should not display skip button', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const element = store.createRecord('element', { type: 'qcus', isAnswerable: true });
+        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+        this.set('grain', grain);
+
+        assert.false(grain.allElementsAreAnswered);
+
+        // when
+        const screen = await render(hbs`
+              <Module::Grain @grain={{this.grain}} @canDisplayActionsButton={{false}} />`);
+
+        // then
+        assert
+          .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') }))
+          .doesNotExist();
       });
     });
   });
