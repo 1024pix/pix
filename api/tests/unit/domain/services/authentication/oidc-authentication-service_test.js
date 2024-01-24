@@ -123,7 +123,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
             // then
             expect(logger.error).to.have.been.calledWithExactly(
-              'Invalid config for OIDC Provider "Example OP code": the following required properties are missing: clientId, clientSecret, authenticationUrl, userInfoUrl, tokenUrl, exampleProperty',
+              'OIDC Provider "Example OP code" has been DISABLED because of INVALID config. The following required properties are missing: clientId, clientSecret, authenticationUrl, userInfoUrl, tokenUrl, exampleProperty',
             );
             expect(result).to.be.false;
           });
