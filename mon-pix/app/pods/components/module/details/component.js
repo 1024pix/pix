@@ -31,7 +31,7 @@ export default class ModuleDetails extends Component {
   }
 
   @action
-  grainCanDisplayContinueButton(index) {
+  grainCanDisplayActionsButton(index) {
     return this.lastIndex === index && this.hasNextGrain;
   }
 
