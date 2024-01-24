@@ -240,7 +240,7 @@ describe('Acceptance | Route | certification-course', function () {
     });
   });
 
-  describe('POST /api/admin/certification-courses-v3/{id}/details', function () {
+  describe('POST /api/admin/certification-courses-v3/{certificationCourseId}/details', function () {
     let certificationCourse;
     let certificationChallenges;
     let assessmentResult;
