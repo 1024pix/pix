@@ -28,19 +28,23 @@ const updateStage = async function ({ payloadStage, stageRepository, targetProfi
 
   const targetProfile = await targetProfileForAdminRepository.get({ id: payloadStage.targetProfileId });
 
-  const isLevelUpdated =
-    payloadStage.attributesToUpdate.level >= 0 && payloadStage.attributesToUpdate.level !== stage.level;
-
-  const isThresholdUpdated =
-    payloadStage.attributesToUpdate.threshold >= 0 && payloadStage.attributesToUpdate.threshold !== stage.threshold;
-
-  const payloadWithLevelOrThreshold = isLevelUpdated || isThresholdUpdated;
-
-  if (targetProfile.hasLinkedCampaign && payloadWithLevelOrThreshold) {
+  if (isStageNotUpdatable({ payloadStage, stage, targetProfile })) {
     throw new StageWithLinkedCampaignError();
   }
 
   return stageRepository.update(payloadStage);
 };
 
-export { updateStage };
+function isStageNotUpdatable({ payloadStage, stage, targetProfile }) {
+  const isLevelUpdated =
+    payloadStage.attributesToUpdate.level >= 0 && payloadStage.attributesToUpdate.level !== stage.level;
+
+  const isThresholdUpdated =
+    payloadStage.attributesToUpdate.threshold >= 0 && payloadStage.attributesToUpdate.threshold !== stage.threshold;
+
+  const isLevelOrTresholdUpdated = isLevelUpdated || isThresholdUpdated;
+
+  return targetProfile.hasLinkedCampaign && isLevelOrTresholdUpdated;
+}
+
+export { updateStage, isStageNotUpdatable };
