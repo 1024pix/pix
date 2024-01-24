@@ -11,7 +11,7 @@ export default class ModuleGrain extends Component {
   }
 
   get shouldDisplaySkipButton() {
-    return this.args.grain.hasAnswerableElements && !this.allElementsAreAnswered;
+    return this.args.canDisplayActionsButton && this.args.grain.hasAnswerableElements && !this.allElementsAreAnswered;
   }
 
   get allElementsAreAnswered() {
