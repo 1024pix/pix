@@ -695,8 +695,8 @@
               "label": "Créer/éditer les sessions"
             },
             "import-again": {
-              "extra-information": "Revenir à l'étape précédente pour importer le fichier à nouveau",
-              "label": "Importer à nouveau"
+              "title": "Importer à nouveau",
+              "label": "Importer un nouveau fichier (.csv)"
             }
           },
           "blocking-errors": {

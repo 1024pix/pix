@@ -11,7 +11,7 @@ module('Integration | Component | Import::StepOneSection', function (hooks) {
     this.set('downloadSessionImportTemplate', () => {});
     this.set('preImportSessions', () => {});
     this.set('file', null);
-    this.set('fileName', () => null);
+    this.set('filename', () => null);
     this.set('removeImport', () => {});
     this.set('validateSessions', () => {});
     this.set('isImportDisabled', true);
@@ -22,7 +22,7 @@ module('Integration | Component | Import::StepOneSection', function (hooks) {
         @downloadSessionImportTemplate={{this.downloadSessionImportTemplate}}
         @preImportSessions={{this.preImportSessions}}
         @file={{this.file}}
-        @fileName={{this.fileName}}
+        @filename={{this.filename}}
         @removeImport={{this.removeImport}}
         @validateSessions={{this.validateSessions}}
         @isImportDisabled={{this.isImportDisabled}}
@@ -48,7 +48,6 @@ module('Integration | Component | Import::StepOneSection', function (hooks) {
       )
       .exists();
     assert.dom(getByText('Importer le modèle complété')).exists();
-    assert.dom(getByText('Importer (.csv)')).exists();
 
     const createSessionsFirstList = getByRole('list', { name: 'Vous pouvez créer des sessions :' });
     const createSessionsSecondList = getByRole('list', {
@@ -66,13 +65,6 @@ module('Integration | Component | Import::StepOneSection', function (hooks) {
       'Pour remplacer une liste pré-existante dans le fichier modèle,',
     );
     assert.strictEqual(secondListItems[1].textContent, 'Pour inscrire des candidats dans une session vide.');
-
-    assert
-      .dom(getByText('Sélectionnez le modèle préalablement rempli. Seul un fichier .csv pourra être importé.'))
-      .exists();
-    assert
-      .dom(getByText('Sélectionnez le modèle préalablement rempli. Seul un fichier .csv pourra être importé.'))
-      .exists();
     assert.ok(
       getByTextWithHtml(
         'Attention à ne modifier ni les noms des colonnes ni leur ordre afin de ne pas altérer le modèle. <br> Vous pouvez ouvrir le fichier .csv téléchargé soit dans un logiciel tableur soit dans un éditeur de code (valeurs séparées par des points virgules).',

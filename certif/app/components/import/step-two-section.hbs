@@ -1,118 +1,137 @@
-<section class="import-page__section--download panel import-page__resume-section">
-  <div class="import-page__title">
-    <FaIcon @icon="clipboard-list" class="fa-lg" />
-    <h2>{{t "pages.sessions.import.step-two.title"}}</h2>
-  </div>
+<section class="import-page__section--download panel">
+  {{#if @isLoading}}
+    <div class="import-page-section__app-loader">
+      <img src="/images/interwind.gif" alt="" />
+    </div>
+  {{else}}
+    <div class="import-page__title">
+      <FaIcon @icon="clipboard-list" class="fa-lg" />
+      <h2>{{t "pages.sessions.import.step-two.title"}}</h2>
+    </div>
 
-  <ul class="import-page-section__result-count-list">
-    <li class="import-page-section__result-count-item">
-      {{! template-lint-disable no-redundant-role }}
-      <img src="{{this.rootURL}}/icons/solid-square-chevron-right.svg" alt="" role="presentation" />
-      <p>
+    <ul class="import-page-section__result-count-list">
+      <li class="import-page-section__result-count-item">
+        {{! template-lint-disable no-redundant-role }}
+        <img src="{{this.rootURL}}/icons/solid-square-chevron-right.svg" alt="" role="presentation" />
+        <p>
+          {{t
+            "pages.sessions.import.step-two.sessions-and-empty-sessions-count"
+            sessionsCount=@sessionsCount
+            sessionsWithoutCandidatesCount=@sessionsWithoutCandidatesCount
+          }}
+        </p>
+      </li>
+      <li class="import-page-section__result-count-item">
+        <FaIcon @icon="user" />
+        <p>
+          {{t "pages.sessions.import.step-two.candidates-count" candidatesCount=@candidatesCount}}
+        </p>
+      </li>
+    </ul>
+    {{#if (gt this.nonBlockingErrorReportsCount 0)}}
+      <span class="import-page-section__information">
         {{t
-          "pages.sessions.import.step-two.sessions-and-empty-sessions-count"
-          sessionsCount=@sessionsCount
-          sessionsWithoutCandidatesCount=@sessionsWithoutCandidatesCount
-        }}
-      </p>
-    </li>
-    <li class="import-page-section__result-count-item">
-      <FaIcon @icon="user" />
-      <p>
-        {{t "pages.sessions.import.step-two.candidates-count" candidatesCount=@candidatesCount}}
-      </p>
-    </li>
-  </ul>
-  {{#if (gt this.nonBlockingErrorReportsCount 0)}}
-    <span class="import-page-section__information">
-      {{t
-        "pages.sessions.import.step-two.non-blocking-errors.information"
-        nonBlockingErrorReportsCount=this.nonBlockingErrorReportsCount
-      }}
-    </span>
-    <div>
-      <PixCollapsible
-        @titleIcon="triangle-exclamation"
-        @title={{t
-          "pages.sessions.import.step-two.non-blocking-errors.title"
+          "pages.sessions.import.step-two.non-blocking-errors.information"
           nonBlockingErrorReportsCount=this.nonBlockingErrorReportsCount
         }}
-        @iconTitle="plus"
-        class="collapsible-header collapsible-header--non-blocking"
-      >
-        <ul class="collapsible-header__list">
-          {{#each this.translatedNonBlockingErrorReport as |report|}}
-            <li>
-              <PixMessage @type="warning">
-                {{t "pages.sessions.import.step-two.non-blocking-errors.line"}}
-                {{report.line}}
-                :
-                {{report.message}}
-              </PixMessage>
-            </li>
-          {{/each}}
-        </ul>
-      </PixCollapsible>
-    </div>
-  {{/if}}
-  {{#if (gt this.blockingErrorReportsCount 0)}}
-    <span class="import-page-section__information">
-      {{t "pages.sessions.import.step-two.blocking-errors.information"}}
-    </span>
-    <div>
-      <PixCollapsible
-        @titleIcon="circle-exclamation"
-        @title={{t
-          "pages.sessions.import.step-two.blocking-errors.title"
-          blockingErrorReportsCount=this.blockingErrorReportsCount
-        }}
-        @iconTitle="plus"
-        class="collapsible-header collapsible-header--blocking"
-      >
-        <ul class="collapsible-header__list">
-          {{#each this.translatedBlockingErrorReport as |report|}}
-            <li>
-              <PixMessage @type="error">
-                {{t "pages.sessions.import.step-two.blocking-errors.line"}}
-                {{report.line}}
-                :
-                {{report.message}}
-              </PixMessage>
-            </li>
-          {{/each}}
-        </ul>
-      </PixCollapsible>
-    </div>
-  {{/if}}
-
-  <div class="import-page__section--link-buttons">
-    {{#if this.hasOnlyNonBlockingErrorReports}}
-      <PixButton class="import-page__section--confirm-button--non-blocking" @triggerAction={{@createSessions}}>
-        {{t "pages.sessions.import.step-two.actions.confirm-with-warning.label"}}
-      </PixButton>
-      <PixButton
-        @backgroundColor="transparent-light"
-        @isBorderVisible="true"
-        @triggerAction={{@toggleStepOne}}
-        aria-label={{t "pages.sessions.import.step-two.actions.import-again.extra-information"}}
-      >
-
-        {{t "pages.sessions.import.step-two.actions.import-again.label"}}
-      </PixButton>
+      </span>
+      <div>
+        <PixCollapsible
+          @titleIcon="triangle-exclamation"
+          @title={{t
+            "pages.sessions.import.step-two.non-blocking-errors.title"
+            nonBlockingErrorReportsCount=this.nonBlockingErrorReportsCount
+          }}
+          @iconTitle="plus"
+          class="collapsible-header collapsible-header--non-blocking"
+        >
+          <ul class="collapsible-header__list">
+            {{#each this.translatedNonBlockingErrorReport as |report|}}
+              <li>
+                <PixMessage @type="warning">
+                  {{t "pages.sessions.import.step-two.non-blocking-errors.line"}}
+                  {{report.line}}
+                  :
+                  {{report.message}}
+                </PixMessage>
+              </li>
+            {{/each}}
+          </ul>
+        </PixCollapsible>
+      </div>
     {{/if}}
     {{#if (gt this.blockingErrorReportsCount 0)}}
-      <PixButton
-        class="import-page__section--confirm-button"
-        aria-label={{t "pages.sessions.import.step-two.actions.import-again.extra-information"}}
-        @triggerAction={{@toggleStepOne}}
-      >
-        {{t "pages.sessions.import.step-two.actions.import-again.label"}}
-      </PixButton>
+      <span class="import-page-section__information">
+        {{t "pages.sessions.import.step-two.blocking-errors.information"}}
+      </span>
+      <div>
+        <PixCollapsible
+          @titleIcon="circle-exclamation"
+          @title={{t
+            "pages.sessions.import.step-two.blocking-errors.title"
+            blockingErrorReportsCount=this.blockingErrorReportsCount
+          }}
+          @iconTitle="plus"
+          class="collapsible-header collapsible-header--blocking"
+        >
+          <ul class="collapsible-header__list">
+            {{#each this.translatedBlockingErrorReport as |report|}}
+              <li>
+                <PixMessage @type="error">
+                  {{t "pages.sessions.import.step-two.blocking-errors.line"}}
+                  {{report.line}}
+                  :
+                  {{report.message}}
+                </PixMessage>
+              </li>
+            {{/each}}
+          </ul>
+        </PixCollapsible>
+      </div>
     {{/if}}
-    {{#if this.noError}}
-      <PixButton class="import-page__section--confirm-button" @triggerAction={{@createSessions}}>
-        {{t "pages.sessions.import.step-two.actions.confirm.label"}}
-      </PixButton>
-    {{/if}}
-  </div>
+
+    <div>
+      {{#if this.hasOnlyNonBlockingErrorReports}}
+        <PixButton class="import-page__section--confirm-button--non-blocking" @triggerAction={{@createSessions}}>
+          {{t "pages.sessions.import.step-two.actions.confirm-with-warning.label"}}
+        </PixButton>
+      {{/if}}
+      {{#if this.noError}}
+        <PixButton class="import-page__section--confirm-button" @triggerAction={{@createSessions}}>
+          {{t "pages.sessions.import.step-two.actions.confirm.label"}}
+        </PixButton>
+      {{/if}}
+    </div>
+  {{/if}}
 </section>
+
+{{#unless this.noError}}
+  <section class="import-page__section--download panel">
+    <div class="import-page__title">
+      <FaIcon @icon="cloud-arrow-up" class="fa-lg" />
+      <h2>{{t "pages.sessions.import.step-two.actions.import-again.title"}}</h2>
+    </div>
+    <Import::FileImportBlock
+      @file={{@file}}
+      @filename={{@filename}}
+      @removeImport={{@removeImport}}
+      @preImportSessions={{@preImportSessions}}
+      @buttonLabel={{t "pages.sessions.import.step-two.actions.import-again.label"}}
+    />
+
+    {{#if @importErrorMessage}}
+      <PixMessage @type="error" @withIcon={{true}}>{{@importErrorMessage}}</PixMessage>
+    {{/if}}
+
+    <div>
+      <PixButton
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{fn @validateSessions false}}
+        @isDisabled={{@isImportDisabled}}
+      >
+        {{t "common.actions.continue"}}
+      </PixButton>
+    </div>
+  </section>
+{{/unless}}

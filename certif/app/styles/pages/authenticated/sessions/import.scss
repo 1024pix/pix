@@ -1,8 +1,4 @@
 .import-page {
-  .panel {
-    border-radius: 8px;
-  }
-
   > p {
     color: $pix-neutral-60;
     margin-bottom: 8px;
@@ -56,70 +52,23 @@
         }
       }
     }
-  }
 
-  &__section--download-button {
-    align-items: center;
-    background-color: var(--pix-neutral-20);
-    border: 1px solid var(--pix-neutral-100);
-    border-radius: 8px;
-    color: var(--pix-neutral-800);
-    display: grid;
-    font-size: 0.875rem;
-    grid-template-columns: 1fr 10fr 2fr;
-    padding: var(--pix-spacing-6x) var(--pix-spacing-4x);
-
-    p {
-      line-height: 21px;
-      padding-top: var(--pix-spacing-1x);
+    &:first-of-type {
+      min-height: 410px;
     }
 
-    & .download-buttons, & .pix-button-upload {
-      width: 164px;
+    &:not(:first-of-type) {
+      margin-top: var(--pix-spacing-8x);
     }
-  }
-
-  &__section--download-button .download-icon,
-  &__section--download-button .import-icon, {
-    color: var(--pix-neutral-500);
-    height: auto;
-  }
-
-  &__section--download-button .download-icon {
-    padding: 0 var(--pix-spacing-8x);
-    width: 30px;
-  }
-
-  &__section--download-button .import-icon {
-    padding: 0 var(--pix-spacing-6x);
-    width: 50px;
-  }
-
-  &__section--download-button .download-title {
-    font-size: 1rem;
-    font-weight: 500;
   }
 
   &__section--link-buttons {
     display: flex;
     gap: $pix-spacing-s;
   }
-
-  &__file-name {
-    align-items: center;
-    background-color: var(--pix-neutral-0);
-    border: 1px solid var(--pix-neutral-100);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px 0 rgba($pix-neutral-110, 8%);
-    color: var(--pix-neutral-500);
-    display: inline-flex;
-    font-size: 1rem;
-    margin-top: var(--pix-spacing-2x);
-    padding: var(--pix-spacing-2x) var(--pix-spacing-1x) var(--pix-spacing-2x) var(--pix-spacing-4x);
-  }
 }
 
-.import-page-file-name {
+.import-page-filename {
   &__cancel {
     margin-left: 8px;
   }
@@ -127,10 +76,6 @@
 
 .import-page__section--confirm-button {
   width: fit-content;
-}
-
-.import-page__resume-section {
-  gap: $pix-spacing-m;
 }
 
 .import-page-section {
@@ -147,6 +92,7 @@
 
   &__result-count-item {
     display: flex;
+    align-items: center;
     gap: var(--pix-spacing-2x);
 
     > img {
@@ -157,6 +103,98 @@
   &__information {
     color: $pix-neutral-70;
     font-weight: $font-medium;
+  }
+
+  &__app-loader {
+    margin: auto;
+
+    img {
+      width: 150px;
+      height: 150px;
+    }
+  }
+}
+
+.file-import-block {
+
+  &__icon {
+    color: var(--pix-neutral-500);
+    height: auto;
+    padding: 0 var(--pix-spacing-6x);
+    width: 50px;
+  }
+}
+
+.file-import-section {
+
+  &__filename {
+    align-items: center;
+    background-color: var(--pix-neutral-0);
+    border: 1px solid var(--pix-neutral-100);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba($pix-neutral-110, 8%);
+    color: var(--pix-neutral-500);
+    display: inline-flex;
+    font-size: 1rem;
+    margin-top: var(--pix-spacing-2x);
+    padding: var(--pix-spacing-2x) var(--pix-spacing-1x) var(--pix-spacing-2x) var(--pix-spacing-4x);
+  }
+
+  &__button {
+    margin: auto 0;
+
+    label {
+      min-width: 164px;
+    }
+  }
+}
+
+.import-download-block {
+
+  &__icon {
+    color: var(--pix-neutral-500);
+    height: auto;
+    padding: 0 var(--pix-spacing-8x);
+    width: 30px;
+  }
+}
+
+.import-download-section {
+  &__button {
+    margin: auto 0;
+
+    button {
+      max-width: 164px;
+    }
+  }
+}
+
+.file-import-block,
+.import-download-block {
+  align-items: center;
+  background-color: var(--pix-neutral-20);
+  border: 1px solid var(--pix-neutral-100);
+  border-radius: 8px;
+  color: var(--pix-neutral-800);
+  display: flex;
+  font-size: 0.875rem;
+  padding: var(--pix-spacing-6x) var(--pix-spacing-4x);
+
+  p {
+    line-height: 21px;
+    padding-top: var(--pix-spacing-1x);
+  }
+
+  span {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  & .import-download-section,
+  & .file-import-section {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
   }
 }
 

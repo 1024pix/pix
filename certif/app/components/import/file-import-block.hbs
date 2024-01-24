@@ -1,0 +1,33 @@
+<div tabindex="0" class="file-import-block">
+  <FaIcon @icon="cloud-arrow-up" class="file-import-block__icon" />
+  <div class="file-import-section">
+    <div>
+      <span>{{t "pages.sessions.import.step-one.actions.session-import-upload.extra-information"}}</span>
+      <p>{{t "pages.sessions.import.step-one.actions.session-import-upload.information"}}</p>
+
+      {{#if @file}}
+        <div class="file-import-section__filename" aria-label={{@filename}}>
+          {{@filename}}
+          <PixIconButton
+            @ariaLabel={{t "pages.sessions.import.step-one.actions.cancel.label"}}
+            @icon="circle-xmark"
+            @triggerAction={{@removeImport}}
+            class="import-page-filename__cancel"
+          />
+        </div>
+      {{/if}}
+    </div>
+    <div class="file-import-section__button">
+      <PixButtonUpload
+        @backgroundColor="transparent-light"
+        @isBorderVisible="{{true}}"
+        @id="file-upload"
+        @onChange={{@preImportSessions}}
+        aria-label={{t "pages.sessions.import.step-one.actions.session-import-upload.extra-information"}}
+        accept=".csv"
+      >
+        {{@buttonLabel}}
+      </PixButtonUpload>
+    </div>
+  </div>
+</div>
