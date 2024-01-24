@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { targetProfileController } from './admin-target-profile-controller.js';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
 

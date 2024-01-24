@@ -1,5 +1,5 @@
 import { adminMemberController } from './admin-member-controller.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import Joi from 'joi';
 

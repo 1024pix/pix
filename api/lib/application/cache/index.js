@@ -1,4 +1,4 @@
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { cacheController } from './cache-controller.js';
 
 const register = async function (server) {

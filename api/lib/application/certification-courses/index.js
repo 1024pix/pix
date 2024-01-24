@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { certificationCourseController } from './certification-course-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 

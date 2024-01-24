@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { scoringSimulatorController } from './scoring-simulator-controller.js';
 
 const register = async function (server) {

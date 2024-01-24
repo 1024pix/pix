@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { userOrgaSettingsController } from './user-orga-settings-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 

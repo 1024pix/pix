@@ -2,39 +2,39 @@ import bluebird from 'bluebird';
 import jsonapiSerializer from 'jsonapi-serializer';
 import lodash from 'lodash';
 
-import * as checkIfUserIsBlockedUseCase from './usecases/checkIfUserIsBlocked.js';
-import * as checkAdminMemberHasRoleSuperAdminUseCase from './usecases/checkAdminMemberHasRoleSuperAdmin.js';
-import * as checkAdminMemberHasRoleCertifUseCase from './usecases/checkAdminMemberHasRoleCertif.js';
-import * as checkAdminMemberHasRoleSupportUseCase from './usecases/checkAdminMemberHasRoleSupport.js';
-import * as checkAdminMemberHasRoleMetierUseCase from './usecases/checkAdminMemberHasRoleMetier.js';
-import * as checkUserIsAdminInOrganizationUseCase from './usecases/checkUserIsAdminInOrganization.js';
-import * as checkUserBelongsToOrganizationManagingStudentsUseCase from './usecases/checkUserBelongsToOrganizationManagingStudents.js';
-import * as checkUserBelongsToLearnersOrganizationUseCase from './usecases/checkUserBelongsToLearnersOrganization.js';
-import * as checkUserBelongsToScoOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToScoOrganizationAndManagesStudents.js';
-import * as checkUserBelongsToSupOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToSupOrganizationAndManagesStudents.js';
-import * as checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOwnsCertificationCourse.js';
-import * as checkUserBelongsToOrganizationUseCase from './usecases/checkUserBelongsToOrganization.js';
-import * as checkUserCanDisableHisOrganizationMembershipUseCase from './usecases/checkUserCanDisableHisOrganizationMembership.js';
-import * as checkUserIsAdminAndManagingStudentsForOrganization from './usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
-import * as checkUserIsAdminOfCertificationCenterUsecase from './usecases/checkUserIsAdminOfCertificationCenter.js';
-import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase from './usecases/check-user-is-admin-of-certification-center-with-certification-center-invitation-id.js';
-import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipIdUseCase from './usecases/check-user-is-admin-of-certification-center-with-certification-center-membership-id.js';
-import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
-import * as checkUserIsMemberOfCertificationCenterSessionUsecase from './usecases/checkUserIsMemberOfCertificationCenterSession.js';
-import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
-import * as checkAuthorizationToAccessCampaignUsecase from './usecases/checkAuthorizationToAccessCampaign.js';
-import * as checkOrganizationIsScoAndManagingStudentUsecase from './usecases/checkOrganizationIsScoAndManagingStudent.js';
-import * as checkPix1dEnabled from './usecases/checkPix1dEnabled.js';
-import * as certificationIssueReportRepository from '../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
-import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
+import * as checkIfUserIsBlockedUseCase from '../../../lib/application/usecases/checkIfUserIsBlocked.js';
+import * as checkAdminMemberHasRoleSuperAdminUseCase from '../../../lib/application/usecases/checkAdminMemberHasRoleSuperAdmin.js';
+import * as checkAdminMemberHasRoleCertifUseCase from '../../../lib/application/usecases/checkAdminMemberHasRoleCertif.js';
+import * as checkAdminMemberHasRoleSupportUseCase from '../../../lib/application/usecases/checkAdminMemberHasRoleSupport.js';
+import * as checkAdminMemberHasRoleMetierUseCase from '../../../lib/application/usecases/checkAdminMemberHasRoleMetier.js';
+import * as checkUserIsAdminInOrganizationUseCase from '../../../lib/application/usecases/checkUserIsAdminInOrganization.js';
+import * as checkUserBelongsToOrganizationManagingStudentsUseCase from '../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents.js';
+import * as checkUserBelongsToLearnersOrganizationUseCase from '../../../lib/application/usecases/checkUserBelongsToLearnersOrganization.js';
+import * as checkUserBelongsToScoOrganizationAndManagesStudentsUseCase from '../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents.js';
+import * as checkUserBelongsToSupOrganizationAndManagesStudentsUseCase from '../../../lib/application/usecases/checkUserBelongsToSupOrganizationAndManagesStudents.js';
+import * as checkUserOwnsCertificationCourseUseCase from '../../../lib/application/usecases/checkUserOwnsCertificationCourse.js';
+import * as checkUserBelongsToOrganizationUseCase from '../../../lib/application/usecases/checkUserBelongsToOrganization.js';
+import * as checkUserCanDisableHisOrganizationMembershipUseCase from '../../../lib/application/usecases/checkUserCanDisableHisOrganizationMembership.js';
+import * as checkUserIsAdminAndManagingStudentsForOrganization from '../../../lib/application/usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
+import * as checkUserIsAdminOfCertificationCenterUsecase from '../../../lib/application/usecases/checkUserIsAdminOfCertificationCenter.js';
+import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase from '../../../lib/application/usecases/check-user-is-admin-of-certification-center-with-certification-center-invitation-id.js';
+import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipIdUseCase from '../../../lib/application/usecases/check-user-is-admin-of-certification-center-with-certification-center-membership-id.js';
+import * as checkUserIsMemberOfCertificationCenterUsecase from '../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter.js';
+import * as checkUserIsMemberOfCertificationCenterSessionUsecase from '../../../lib/application/usecases/checkUserIsMemberOfCertificationCenterSession.js';
+import * as checkAuthorizationToManageCampaignUsecase from '../../../lib/application/usecases/checkAuthorizationToManageCampaign.js';
+import * as checkAuthorizationToAccessCampaignUsecase from '../../../lib/application/usecases/checkAuthorizationToAccessCampaign.js';
+import * as checkOrganizationIsScoAndManagingStudentUsecase from '../../../lib/application/usecases/checkOrganizationIsScoAndManagingStudent.js';
+import * as checkPix1dEnabled from '../../../lib/application/usecases/checkPix1dEnabled.js';
+import * as certificationIssueReportRepository from '../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
+import * as organizationRepository from '../../../lib/infrastructure/repositories/organization-repository.js';
 
-import * as checkUserIsMemberOfAnOrganizationUseCase from '../../src/shared/application/validator/checkUserIsMemberOfAnOrganization.js';
-import * as checkOrganizationHasFeatureUseCase from '../../src/shared/application/usecases/checkOrganizationHasFeature.js';
+import * as checkUserIsMemberOfAnOrganizationUseCase from './validator/checkUserIsMemberOfAnOrganization.js';
+import * as checkOrganizationHasFeatureUseCase from './usecases/checkOrganizationHasFeature.js';
 
-import { Organization } from '../domain/models/index.js';
-import { NotFoundError } from '../domain/errors.js';
-import { ForbiddenAccess } from '../../src/shared/domain/errors.js';
-import { PIX_ADMIN } from '../../src/authorization/domain/constants.js';
+import { Organization } from '../../../lib/domain/models/index.js';
+import { NotFoundError } from '../../../lib/domain/errors.js';
+import { ForbiddenAccess } from '../domain/errors.js';
+import { PIX_ADMIN } from '../../authorization/domain/constants.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const { has } = lodash;
@@ -153,7 +153,7 @@ function checkRequestedUserIsAuthenticatedUser(request, h) {
   const authenticatedUserId = request.auth.credentials.userId;
 
   // We cannot guarantee that callers will enforce the type to be an integer upstream
-  // eslint-disable-next-line no-restricted-syntax
+
   const requestedUserId = request.params.userId || parseInt(request.params.id);
 
   return authenticatedUserId === requestedUserId ? h.response(true) : _replyForbiddenError(h);

@@ -1,5 +1,5 @@
 import { flashAssessmentConfigurationController } from './flash-assessment-configuration-controller.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import Joi from 'joi';
 
 const register = async (server) => {

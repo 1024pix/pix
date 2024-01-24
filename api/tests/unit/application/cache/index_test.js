@@ -1,5 +1,5 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { cacheController } from '../../../../lib/application/cache/cache-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/cache/index.js';
 
