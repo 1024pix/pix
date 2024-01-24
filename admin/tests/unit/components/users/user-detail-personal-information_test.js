@@ -87,7 +87,7 @@ module('Unit | Component | users | user-detail-personal-information', function (
         component.authenticationMethodType = 'POLE_EMPLOI';
 
         // when & then
-        assert.strictEqual(component.translatedType, 'Pôle Emploi');
+        assert.strictEqual(component.translatedType, 'France Travail');
       });
     });
 

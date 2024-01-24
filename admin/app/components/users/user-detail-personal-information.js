@@ -9,7 +9,7 @@ const DISSOCIATE_SUCCESS_NOTIFICATION_MESSAGE = 'La dissociation a bien été ef
 const typesLabel = {
   EMAIL: 'Adresse e-mail',
   USERNAME: 'Identifiant',
-  POLE_EMPLOI: 'Pôle Emploi',
+  POLE_EMPLOI: 'France Travail',
   GAR: 'Médiacentre',
   CNAV: 'CNAV',
   FWB: 'Fédération Wallonie-Bruxelles',

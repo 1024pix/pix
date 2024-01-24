@@ -9,7 +9,7 @@ export default class UserInformationController extends Controller {
   ERROR_MESSAGES = {
     DEFAULT: 'Une erreur est survenue.',
     STATUS_422: {
-      POLE_EMPLOI: "L'utilisateur a déjà une méthode de connexion Pôle Emploi.",
+      POLE_EMPLOI: "L'utilisateur a déjà une méthode de connexion France Travail.",
       GAR: "L'utilisateur a déjà une méthode de connexion Médiacentre.",
       CNAV: "L'utilisateur a déjà une méthode de connexion CNAV.",
       FWB: "L'utilisateur a déjà une méthode de connexion Fédération Wallonie-Bruxelles.",
