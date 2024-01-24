@@ -60,6 +60,7 @@ class KnowledgeElement {
       status: statuses.RESET,
       earnedPix: 0,
       id: undefined,
+      createdAt: undefined,
     });
   }
 

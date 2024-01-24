@@ -367,15 +367,26 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
   describe('#reset', function () {
     it('should set status to RESET', function () {
       // given
+      const now = new Date('2024-06-01');
       const knowledgeElement = domainBuilder.buildKnowledgeElement({
+        id: 1,
         status: KnowledgeElement.StatusType.VALIDATED,
+        createdAt: new Date('2023-12-01'),
       });
 
       // when
       const resetKe = KnowledgeElement.reset(knowledgeElement);
 
       // then
-      expect(resetKe.status).to.be.equal(KnowledgeElement.StatusType.RESET);
+      expect(resetKe).to.deepEqualInstance(
+        new KnowledgeElement({
+          ...knowledgeElement,
+          id: undefined,
+          createdAt: undefined,
+          status: KnowledgeElement.StatusType.RESET,
+          earnedPix: 0,
+        }),
+      );
     });
 
     it('should set earnedPix to 0', function () {
