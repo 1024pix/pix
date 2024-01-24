@@ -46,4 +46,24 @@ module('Unit | Adapters | organization', function (hooks) {
       assert.ok(adapter.ajax.calledWith(`${ENV.APP.API_HOST}/api/organizations/1/target-profiles`, 'GET'));
     });
   });
+
+  module('#attachChildOrganization', function () {
+    test('sends an HTTP POST request', async function (assert) {
+      // given
+      const childOrganizationId = 123;
+      const parentOrganizationId = 2;
+
+      // when
+      await adapter.attachChildOrganization({ childOrganizationId, parentOrganizationId });
+
+      // then
+      assert.true(
+        adapter.ajax.calledOnceWithExactly(
+          'http://localhost:3000/api/admin/organizations/2/attach-child-organization',
+          'POST',
+          { data: { childOrganizationId } },
+        ),
+      );
+    });
+  });
 });

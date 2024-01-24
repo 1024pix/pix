@@ -32,4 +32,9 @@ export default class OrganizationAdapter extends ApplicationAdapter {
 
     return super.updateRecord(...arguments);
   }
+
+  attachChildOrganization({ childOrganizationId, parentOrganizationId }) {
+    const url = `${this.host}/${this.namespace}/organizations/${parentOrganizationId}/attach-child-organization`;
+    return this.ajax(url, 'POST', { data: { childOrganizationId } });
+  }
 }
