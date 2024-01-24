@@ -100,9 +100,8 @@ class OidcAuthenticationService {
     const isConfigValid = missingRequiredProperties.length == 0;
     if (!isConfigValid) {
       logger.error(
-        `Invalid config for OIDC Provider "${
-          this.identityProvider
-        }": the following required properties are missing: ${missingRequiredProperties.join(', ')}`,
+        `OIDC Provider "${this.identityProvider}" has been DISABLED because of INVALID config. ` +
+          `The following required properties are missing: ${missingRequiredProperties.join(', ')}`,
       );
       return;
     }
