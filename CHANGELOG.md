@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v4.95.0 (24/01/2024)
+
+
+### :rocket: Amélioration
+- [#7850](https://github.com/1024pix/pix/pull/7850) [FEATURE] Ajouter la traduction néerlandaise sur Pix App (PIX-10687).
+- [#7810](https://github.com/1024pix/pix/pull/7810) [FEATURE] Permettre l'import à nouveau sans perdre le récapitulatif des erreurs à corriger sur Pix Certif (PIX-10157).
+- [#7911](https://github.com/1024pix/pix/pull/7911) [FEATURE] Correction de quelques coquilles de contenu Modulix.
+- [#7905](https://github.com/1024pix/pix/pull/7905) [FEATURE] Affiche le nombre de participation à une campagne (PIX-10446).
+
+### :building_construction: Tech
+- [#7895](https://github.com/1024pix/pix/pull/7895) [TECH] Migration des dépendances de getNextChallengeForCertification (pix-10872).
+- [#7907](https://github.com/1024pix/pix/pull/7907) [TECH] Déplacement du fichier des sécurity pre handlers (PIX-10890).
+
+### :arrow_up: Montée de version
+- [#7848](https://github.com/1024pix/pix/pull/7848) [BUMP] Update dependency @1024pix/pix-ui to v42 (1d).
+
+### :coffee: Autre
+- [#7896](https://github.com/1024pix/pix/pull/7896) [REFACTOR] Améliorer des conditions de mise à jour d'un palier (PIX-10844).
+- [#7910](https://github.com/1024pix/pix/pull/7910) [TECH ] Audit routes API pour next-gen (pix-10654).
+- [#7909](https://github.com/1024pix/pix/pull/7909) Updated translations from Phrase.
+
 ## v4.94.0 (23/01/2024)
 
 
