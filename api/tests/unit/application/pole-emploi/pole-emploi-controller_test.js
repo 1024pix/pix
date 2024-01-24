@@ -1,13 +1,15 @@
-import { expect, sinon, hFake } from '../../../test-helper.js';
+import { expect, sinon, hFake, catchErr } from '../../../test-helper.js';
 import { poleEmploiController } from '../../../../lib/application/pole-emploi/pole-emploi-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { UnprocessableEntityError } from '../../../../lib/application/http-errors.js';
 
 describe('Unit | Controller | pole-emploi-controller', function () {
   describe('#getSendings', function () {
-    let curseur, decodedCurseur, sending, poleEmploiService;
+    let curseur, decodedCurseur, badCurseur, sending, poleEmploiService;
     beforeEach(function () {
       curseur = Symbol('curseur');
       decodedCurseur = Symbol('decoded curseur');
+      badCurseur = Symbol('badCurseur');
       sending = [{ idEnvoi: 1 }];
       poleEmploiService = { decodeCursor: sinon.stub() };
     });
@@ -28,6 +30,35 @@ describe('Unit | Controller | pole-emploi-controller', function () {
           cursorData: decodedCurseur,
           filters: {},
         });
+      });
+
+      it('should throw UnprocessableEntityError if curseur is not valid', async function () {
+        // given
+        const request = { query: { curseur: badCurseur } };
+
+        poleEmploiService.decodeCursor.withArgs(badCurseur).rejects(new SyntaxError());
+        // when
+        const error = await catchErr(poleEmploiController.getSendings)(request, hFake, { poleEmploiService });
+
+        //then
+        expect(error).to.be.an.instanceof(UnprocessableEntityError);
+        expect(error.message).to.equal('The provided cursor is unreadable');
+        expect(error.status).to.equal(422);
+      });
+
+      it('should throw Error if an other error is catched', async function () {
+        // given
+        const curseur = Symbol('curseur');
+        const request = { query: { curseur } };
+
+        poleEmploiService.decodeCursor.withArgs(curseur).resolves();
+        sinon.stub(usecases, 'getPoleEmploiSendings').rejects();
+
+        // when
+        const error = await catchErr(poleEmploiController.getSendings)(request, hFake, { poleEmploiService });
+
+        //then
+        expect(error).to.throw;
       });
     });
     context('when there are filters', function () {
