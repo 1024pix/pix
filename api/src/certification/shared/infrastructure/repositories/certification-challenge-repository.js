@@ -1,8 +1,8 @@
-import { DomainTransaction } from '../DomainTransaction.js';
-import { logger } from '../../infrastructure/logger.js';
-import { AssessmentEndedError } from '../../domain/errors.js';
-import { knex } from '../../../db/knex-database-connection.js';
-import { CertificationChallenge } from '../../domain/models/CertificationChallenge.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { logger } from '../../../../../lib/infrastructure/logger.js';
+import { AssessmentEndedError } from '../../../../../lib/domain/errors.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { CertificationChallenge } from '../../../../../lib/domain/models/CertificationChallenge.js';
 
 const logContext = {
   zone: 'certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId',
