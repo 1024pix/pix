@@ -69,15 +69,13 @@ async function _countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDate
 }
 
 const save = async function (knowledgeElement) {
-  const knowledgeElementToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
-  const [savedKnowledgeElement] = await knex(tableName).insert(knowledgeElementToSave).returning('*');
+  const [savedKnowledgeElement] = await knex(tableName).insert(knowledgeElement).returning('*');
   return new KnowledgeElement(savedKnowledgeElement);
 };
 
 const batchSave = async function ({ knowledgeElements, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction || knex;
-  const knowledgeElementsToSave = knowledgeElements.map((ke) => _.omit(ke, ['id', 'createdAt']));
-  await knexConn.batchInsert(tableName, knowledgeElementsToSave);
+  await knexConn.batchInsert(tableName, knowledgeElements);
 };
 
 const findUniqByUserId = function ({ userId, limitDate, domainTransaction }) {
