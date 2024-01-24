@@ -2,7 +2,7 @@ import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { organizationLearnerController } from './organization-learner-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 

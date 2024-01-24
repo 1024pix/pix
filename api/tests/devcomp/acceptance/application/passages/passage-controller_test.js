@@ -59,7 +59,7 @@ describe('Acceptance | Controller | passage-controller', function () {
           userResponse: [{ input: 'email', answer: 'naomizao@yahoo.com' }],
           expectedUserResponseValue: { email: 'naomizao@yahoo.com' },
           expectedFeedback:
-            "<p>Bravo ! <span aria-hidden='true'>🎉</span> Tout est en ordre : identifiant, arobase, fournisseur d'adresse mail</p>",
+            "<p>Correct ! <span aria-hidden='true'>🎉</span> Tout est en ordre : identifiant, arobase, fournisseur d'adresse mail</p>",
           expectedSolution: {
             email: ['naomizao@yahoo.com', 'naomizao@yahoo.fr'],
           },

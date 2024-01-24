@@ -1,5 +1,5 @@
 import { expect, sinon, HttpTestServer } from '../../../../test-helper.js';
-import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import * as moduleUnderTest from '../../../../../src/certification/course/application/certification-course-route.js';
 describe('Unit | Route | certification-course-route', function () {
   describe('POST /api/admin/certification-courses/{id}/reject', function () {

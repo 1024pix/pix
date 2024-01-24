@@ -1,5 +1,5 @@
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 import { certificationOfficerController } from './certification-officer-controller.js';

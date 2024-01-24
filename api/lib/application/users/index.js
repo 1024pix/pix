@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import XRegExp from 'xregexp';
 
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { userController } from './user-controller.js';
 import { sendJsonApiError, BadRequestError } from '../http-errors.js';
 import { userVerification } from '../preHandlers/user-existence-verification.js';

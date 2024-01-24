@@ -5,7 +5,7 @@ const Joi = BaseJoi.extend(JoiDate);
 import { sendJsonApiError, UnprocessableEntityError, BadRequestError } from '../http-errors.js';
 import { scoOrganizationLearnerController } from './sco-organization-learner-controller.js';
 import XRegExp from 'xregexp';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { config } from '../../config.js';
 

@@ -3,7 +3,7 @@ import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
 
 import { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError } from '../http-errors.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { organizationController } from './organization-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 

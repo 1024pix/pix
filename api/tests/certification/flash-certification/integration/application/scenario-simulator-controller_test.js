@@ -2,7 +2,7 @@ import { expect, sinon, HttpTestServer, domainBuilder, parseJsonStream } from '.
 import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 import * as moduleUnderTest from '../../../../../src/certification/flash-certification/application/scenario-simulator-route.js';
 import { random } from '../../../../../lib/infrastructure/utils/random.js';
-import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { pickAnswerStatusService } from '../../../../../lib/domain/services/pick-answer-status-service.js';
 import { pickChallengeService } from '../../../../../lib/domain/services/pick-challenge-service.js';
 

@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { complementaryCertificationController } from './complementary-certification-controller.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([

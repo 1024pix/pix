@@ -1,5 +1,5 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { campaignController } from '../../../../lib/application/campaigns/campaign-controller.js';
 import { campaignStatsController } from '../../../../lib/application/campaigns/campaign-stats-controller.js';

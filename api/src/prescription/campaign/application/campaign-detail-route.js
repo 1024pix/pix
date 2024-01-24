@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { campaignDetailController } from './campaign-detail-controller.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
 
 import { CampaignParticipationStatuses } from '../../shared/domain/constants.js';

@@ -1,5 +1,5 @@
 import { complementaryCertificationController } from './complementary-certification-controller.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([
