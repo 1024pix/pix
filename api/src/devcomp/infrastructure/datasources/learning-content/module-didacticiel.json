@@ -1,31 +1,31 @@
 {
   "modules": [
     {
-      "id": "ID1",
+      "id": "791d61bb-0447-4a51-b423-0521ab0b9478",
       "slug": "didacticiel-modulix",
       "title": "Didacticiel Modulix",
       "transitionTexts": [
         {
           "content": "<p>Bonjour et bienvenue dans ce didacticiel Modulix. Vous allez pouvoir facilement découvrir comment fonctionne ce nouveau produit Pix. <br> C'est partix !</p>",
-          "grainId": "ID1"
+          "grainId": "db479859-8eb1-41ac-bf42-59ade21267d8"
         
         {
           "content": "<p> Vous savez désormais ce qu'est une leçon. Dans un module, il y a aussi des activités. Elles permettent de vérifier que vous avez bien compris les leçons ! Voici les différentes activités de Modulix : </p>",
-          "grainId": "ID2"
+          "grainId": "0b08eae6-cbaa-4bc5-a3a7-3ae81e55c16a"
         }
       ],
       "grains": [
         {
-          "id": "ID1",
+          "id": "db479859-8eb1-41ac-bf42-59ade21267d8",
           "type": "lesson",
           "title": "Voici une leçon",
           "elements": [
             {
-              "id": "ID2",
+              "id": "84726001-1665-457d-8f13-4a74dc4768ea",
               "type": "text",
-               "content": "<h4>Les leçons sont des textes, des images ou des vidéos. Ils sont là pour expliquer des notions.</h4>"
+               "content": "<h4>Les leçons sont des textes, des images ou des vidéos. Ils sont là pour vous expliquer des notions.</h4>"
             },
-            { "id": "ID3",
+            { "id": "a2372bf4-86a4-4ecc-a188-b51f4f98bca2",
               "type": "text",
                "content": "Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture <span aria-hidden='true'>📚</span>️. <br> Et là, voici une image !"
             }
@@ -38,14 +38,14 @@
             },
         },
         {
-          "id": "ID2",
+          "id": "0b08eae6-cbaa-4bc5-a3a7-3ae81e55c16a",
           "type": "activity",
-          "title": "Voici une vrai-faux",
+          "title": "Voici un vrai-faux",
           "elements": [
              {
-              "id": "29195dde-b603-488f-a554-f391fbdf3b24",
+              "id": "71de6394-ff88-4de3-8834-a40057a50ff4",
               "type": "qcu",
-              "instruction": "<p>La France se trouve en Europe.</p>",
+              "instruction": "<p>Zinédine Zidane est français.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -57,9 +57,11 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p class='pix-list-inline'>Correct ! Vous êtes un pro de la géographie",
+                "valid": "<p class='pix-list-inline'>Correct ! Allez les Bleus <span aria-hidden='true'>🇫🇷</span>️!",
                 "invalid": "<p class='pix-list-inline'>Incorrect. Un peu de révision s'impose !"
               },
               "solution": "1"
             },
+            {
+              
 }
