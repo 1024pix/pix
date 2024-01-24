@@ -12,14 +12,14 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
   describe('instanciate', function () {
     it('has speficic properties related to this identity provider', async function () {
       // when
-      const fwbOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+      const oidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
 
       // then
-      expect(fwbOidcAuthenticationService.source).to.equal('pole_emploi_connect');
-      expect(fwbOidcAuthenticationService.identityProvider).to.equal('POLE_EMPLOI');
-      expect(fwbOidcAuthenticationService.slug).to.equal('pole-emploi');
-      expect(fwbOidcAuthenticationService.organizationName).to.equal('Pôle Emploi');
-      expect(fwbOidcAuthenticationService.hasLogoutUrl).to.be.true;
+      expect(oidcAuthenticationService.source).to.equal('pole_emploi_connect');
+      expect(oidcAuthenticationService.identityProvider).to.equal('POLE_EMPLOI');
+      expect(oidcAuthenticationService.slug).to.equal('pole-emploi');
+      expect(oidcAuthenticationService.organizationName).to.equal('France Travail');
+      expect(oidcAuthenticationService.hasLogoutUrl).to.be.true;
     });
   });
 
