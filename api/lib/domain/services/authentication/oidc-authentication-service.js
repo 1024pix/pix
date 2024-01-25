@@ -47,10 +47,12 @@ class OidcAuthenticationService {
       jwtOptions,
       organizationName,
       postLogoutRedirectUri,
+      redirectUri,
       slug,
       source,
       tokenUrl,
       userInfoUrl,
+      openidConfigurationUrl,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
@@ -65,10 +67,12 @@ class OidcAuthenticationService {
     this.jwtOptions = jwtOptions;
     this.organizationName = organizationName;
     this.postLogoutRedirectUri = postLogoutRedirectUri;
+    this.redirectUri = redirectUri;
     this.slug = slug;
     this.source = source;
     this.tokenUrl = tokenUrl;
     this.userInfoUrl = userInfoUrl;
+    this.openidConfigurationUrl = openidConfigurationUrl;
 
     if (!lodash.isEmpty(claimsToStore)) {
       this.claimsToStore = claimsToStore;

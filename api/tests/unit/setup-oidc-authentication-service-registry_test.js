@@ -50,7 +50,7 @@ describe('Unit | Config | setup-oidc-authentication-service-registry', function 
           source: 'oidcexamplenet',
           tokenUrl: 'https://oidc.example.net/token',
           userInfoUrl: 'https://oidc.example.net/userinfo',
-          wellKnownUrl: 'https://oidc.example.net/.well-known/openid-configuration',
+          openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
         }),
       ];
 
