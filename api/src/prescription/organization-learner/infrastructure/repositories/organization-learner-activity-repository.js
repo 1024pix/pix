@@ -1,4 +1,4 @@
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { OrganizationLearnerParticipation } from '../../domain/read-models/OrganizationLearnerParticipation.js';
 import { OrganizationLearnerActivity } from '../../domain/read-models/OrganizationLearnerActivity.js';
 

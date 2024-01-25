@@ -1,7 +1,7 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { getOrganizationLearnerActivity } from '../../../../lib/domain/usecases/get-organization-learner-activity.js';
-import { OrganizationLearnerParticipation } from '../../../../lib/domain/read-models/OrganizationLearnerParticipation.js';
-import { OrganizationLearnerActivity } from '../../../../lib/domain/read-models/OrganizationLearnerActivity.js';
+import { expect, sinon } from '../../../../../test-helper.js';
+import { getOrganizationLearnerActivity } from '../../../../../../src/prescription/organization-learner/domain/usecases/get-organization-learner-activity.js';
+import { OrganizationLearnerParticipation } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerParticipation.js';
+import { OrganizationLearnerActivity } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerActivity.js';
 
 describe('Unit | UseCase | get-organisation-learner-activity', function () {
   it('should return activity for the organization learner matching the given organizationLearnerId', async function () {
