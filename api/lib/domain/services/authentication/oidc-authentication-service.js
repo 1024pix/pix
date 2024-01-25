@@ -20,8 +20,16 @@ import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../constants.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 
-const DEFAULT_REQUIRED_PROPERTIES = ['clientId', 'clientSecret', 'authenticationUrl', 'userInfoUrl', 'tokenUrl'];
-
+const DEFAULT_REQUIRED_PROPERTIES = [
+  'clientId',
+  'clientSecret',
+  'redirectUri',
+  'openidConfigurationUrl',
+  'authenticationUrl',
+  'userInfoUrl',
+  'tokenUrl',
+];
+const DEFAULT_SCOPE = 'openid profile';
 const DEFAULT_REQUIRED_CLAIMS = ['sub', 'family_name', 'given_name'];
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
@@ -47,10 +55,12 @@ class OidcAuthenticationService {
       jwtOptions,
       organizationName,
       postLogoutRedirectUri,
+      redirectUri,
       slug,
       source,
       tokenUrl,
       userInfoUrl,
+      openidConfigurationUrl,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
@@ -65,10 +75,12 @@ class OidcAuthenticationService {
     this.jwtOptions = jwtOptions;
     this.organizationName = organizationName;
     this.postLogoutRedirectUri = postLogoutRedirectUri;
+    this.redirectUri = redirectUri;
     this.slug = slug;
     this.source = source;
     this.tokenUrl = tokenUrl;
     this.userInfoUrl = userInfoUrl;
+    this.openidConfigurationUrl = openidConfigurationUrl;
 
     if (!lodash.isEmpty(claimsToStore)) {
       this.claimsToStore = claimsToStore;

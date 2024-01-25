@@ -86,6 +86,8 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
               isEnabled: true,
               clientId: 'anId',
               clientSecret: 'aSecret',
+              redirectUri: 'https://example.net/connexion/redirect',
+              openidConfigurationUrl: 'https://example.net/.well-known/openid-configuration',
               authenticationUrl: 'https://example.net',
               userInfoUrl: 'https://example.net',
               tokenUrl: 'https://example.net',
@@ -123,7 +125,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
             // then
             expect(logger.error).to.have.been.calledWithExactly(
-              'OIDC Provider "Example OP code" has been DISABLED because of INVALID config. The following required properties are missing: clientId, clientSecret, authenticationUrl, userInfoUrl, tokenUrl, exampleProperty',
+              'OIDC Provider "Example OP code" has been DISABLED because of INVALID config. The following required properties are missing: clientId, clientSecret, redirectUri, openidConfigurationUrl, authenticationUrl, userInfoUrl, tokenUrl, exampleProperty',
             );
             expect(result).to.be.false;
           });
@@ -292,8 +294,10 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     it('should return id token', async function () {
       // given
       const clientId = 'OIDC_CLIENT_ID';
-      const tokenUrl = 'http://oidc.net/api/token';
+      const tokenUrl = 'https://oidc.net/api/token';
       const clientSecret = 'OIDC_CLIENT_SECRET';
+      const redirectUri = 'https://oidc.net/connexion/redirect';
+      const openidConfigurationUrl = 'https://oidc.net/.well-known/openid-configuration';
       const accessToken = Symbol('access token');
       const expiresIn = Symbol(60);
       const idToken = Symbol('idToken');
@@ -317,7 +321,13 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         },
       });
 
-      const oidcAuthenticationService = new OidcAuthenticationService({ clientSecret, clientId, tokenUrl });
+      const oidcAuthenticationService = new OidcAuthenticationService({
+        clientSecret,
+        clientId,
+        redirectUri,
+        openidConfigurationUrl,
+        tokenUrl,
+      });
 
       // when
       const result = await oidcAuthenticationService.exchangeCodeForTokens({

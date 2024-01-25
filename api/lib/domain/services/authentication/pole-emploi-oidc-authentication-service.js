@@ -34,10 +34,12 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       identityProvider: POLE_EMPLOI.code,
       jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       organizationName: 'France Travail',
+      redirectUri: config[configKey].redirectUri,
       slug: 'pole-emploi',
       source: 'pole_emploi_connect',
       tokenUrl: config[configKey].tokenUrl,
       userInfoUrl: config[configKey].userInfoUrl,
+      openidConfigurationUrl: config[configKey].openidConfigurationUrl,
     });
 
     this.logoutUrl = config[configKey].logoutUrl;
