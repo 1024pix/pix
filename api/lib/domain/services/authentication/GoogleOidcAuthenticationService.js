@@ -7,17 +7,17 @@ const configKey = GOOGLE.configKey;
 class GoogleOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
-      identityProvider: GOOGLE.code,
-      configKey,
-      source: 'google',
-      slug: 'google',
-      organizationName: 'Google',
-      jwtOptions: { expiresIn: config.google.accessTokenLifespanMs / 1000 },
-      clientSecret: config.google.clientSecret,
-      clientId: config.google.clientId,
-      tokenUrl: config.google.tokenUrl,
       authenticationUrl: config.google.authenticationUrl,
       authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
+      clientId: config.google.clientId,
+      clientSecret: config.google.clientSecret,
+      configKey,
+      identityProvider: GOOGLE.code,
+      jwtOptions: { expiresIn: config.google.accessTokenLifespanMs / 1000 },
+      organizationName: 'Google',
+      slug: 'google',
+      source: 'google',
+      tokenUrl: config.google.tokenUrl,
       userInfoUrl: config.google.userInfoUrl,
     });
 
