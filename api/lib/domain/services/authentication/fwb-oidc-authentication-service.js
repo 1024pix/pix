@@ -21,10 +21,12 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
       identityProvider: FWB.code,
       jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       organizationName: 'Fédération Wallonie-Bruxelles',
+      redirectUri: config[configKey].redirectUri,
       slug: 'fwb',
       source: 'fwb',
       tokenUrl: config[configKey].tokenUrl,
       userInfoUrl: config[configKey].userInfoUrl,
+      openidConfigurationUrl: config[configKey].openidConfigurationUrl,
     });
 
     this.logoutUrl = config[configKey].logoutUrl;

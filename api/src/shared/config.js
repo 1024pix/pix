@@ -126,8 +126,10 @@ const configuration = (function () {
       clientSecret: process.env.CNAV_CLIENT_SECRET,
       isEnabled: isFeatureEnabled(process.env.CNAV_ENABLED),
       isEnabledForPixAdmin: false,
+      redirectUri: process.env.CNAV_REDIRECT_URI,
       tokenUrl: process.env.CNAV_TOKEN_URL,
       userInfoUrl: process.env.CNAV_OIDC_USER_INFO_URL,
+      openidConfigurationUrl: process.env.CNAV_OPENID_CONFIGURATION_URL,
     },
     cpf: {
       idClient: '03VML243',
@@ -214,11 +216,13 @@ const configuration = (function () {
       isEnabled: isFeatureEnabled(process.env.FWB_ENABLED),
       isEnabledForPixAdmin: false,
       logoutUrl: process.env.FWB_OIDC_LOGOUT_URL,
+      redirectUri: process.env.FWB_REDIRECT_URI,
       temporaryStorage: {
         idTokenLifespanMs: ms(process.env.FWB_ID_TOKEN_LIFESPAN || '7d'),
       },
       tokenUrl: process.env.FWB_TOKEN_URL,
       userInfoUrl: process.env.FWB_USER_INFO_URL,
+      openidConfigurationUrl: process.env.FWB_OPENID_CONFIGURATION_URL,
     },
     google: {
       accessTokenLifespanMs: ms(process.env.GOOGLE_ACCESS_TOKEN_LIFESPAN || '7d'),
@@ -306,11 +310,13 @@ const configuration = (function () {
       isEnabled: isFeatureEnabled(process.env.PAYSDELALOIRE_ENABLED),
       isEnabledForPixAdmin: false,
       postLogoutRedirectUri: process.env.PAYSDELALOIRE_POST_LOGOUT_REDIRECT_URI,
+      redirectUri: process.env.PAYSDELALOIRE_REDIRECT_URI,
       temporaryStorage: {
         idTokenLifespanMs: ms(process.env.PAYSDELALOIRE_ID_TOKEN_LIFESPAN || '7d'),
       },
       tokenUrl: process.env.PAYSDELALOIRE_TOKEN_URL,
       userInfoUrl: process.env.PAYSDELALOIRE_USER_INFO_URL,
+      openidConfigurationUrl: process.env.PAYSDELALOIRE_OPENID_CONFIGURATION_URL,
     },
     pgBoss: {
       connexionPoolMaxSize: _getNumber(process.env.PGBOSS_CONNECTION_POOL_MAX_SIZE, 2),
@@ -330,11 +336,13 @@ const configuration = (function () {
       poleEmploiSendingsLimit: _getNumber(process.env.POLE_EMPLOI_SENDING_LIMIT, 100),
       pushEnabled: isFeatureEnabled(process.env.PUSH_DATA_TO_POLE_EMPLOI_ENABLED),
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
+      redirectUri: process.env.POLE_EMPLOI_REDIRECT_URI,
       temporaryStorage: {
         idTokenLifespanMs: ms(process.env.POLE_EMPLOI_ID_TOKEN_LIFESPAN || '7d'),
       },
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
       userInfoUrl: process.env.POLE_EMPLOI_OIDC_USER_INFO_URL,
+      openidConfigurationUrl: process.env.POLE_EMPLOI_OPENID_CONFIGURATION_URL,
     },
     port: parseInt(process.env.PORT, 10) || 3000,
     rootPath: path.normalize(__dirname + '/..'),
