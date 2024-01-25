@@ -34,41 +34,41 @@ class OidcAuthenticationService {
 
   constructor(
     {
-      identityProvider,
-      configKey,
-      source,
-      slug,
-      organizationName,
-      hasLogoutUrl = false,
-      jwtOptions,
-      clientSecret,
-      clientId,
-      tokenUrl,
+      additionalRequiredProperties,
       authenticationUrl,
       authenticationUrlParameters,
-      userInfoUrl,
-      endSessionUrl,
-      postLogoutRedirectUri,
-      additionalRequiredProperties,
       claimsToStore,
+      clientId,
+      clientSecret,
+      configKey,
+      endSessionUrl,
+      hasLogoutUrl = false,
+      identityProvider,
+      jwtOptions,
+      organizationName,
+      postLogoutRedirectUri,
+      slug,
+      source,
+      tokenUrl,
+      userInfoUrl,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
-    this.identityProvider = identityProvider;
-    this.configKey = configKey;
-    this.source = source;
-    this.slug = slug;
-    this.organizationName = organizationName;
-    this.hasLogoutUrl = hasLogoutUrl;
-    this.jwtOptions = jwtOptions;
-    this.clientSecret = clientSecret;
-    this.clientId = clientId;
-    this.tokenUrl = tokenUrl;
     this.authenticationUrl = authenticationUrl;
     this.authenticationUrlParameters = authenticationUrlParameters;
-    this.userInfoUrl = userInfoUrl;
+    this.clientId = clientId;
+    this.clientSecret = clientSecret;
+    this.configKey = configKey;
     this.endSessionUrl = endSessionUrl;
+    this.hasLogoutUrl = hasLogoutUrl;
+    this.identityProvider = identityProvider;
+    this.jwtOptions = jwtOptions;
+    this.organizationName = organizationName;
     this.postLogoutRedirectUri = postLogoutRedirectUri;
+    this.slug = slug;
+    this.source = source;
+    this.tokenUrl = tokenUrl;
+    this.userInfoUrl = userInfoUrl;
 
     if (!lodash.isEmpty(claimsToStore)) {
       this.claimsToStore = claimsToStore;
