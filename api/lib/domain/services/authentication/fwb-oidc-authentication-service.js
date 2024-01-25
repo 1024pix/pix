@@ -11,24 +11,24 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
       additionalRequiredProperties: ['logoutUrl'],
-      authenticationUrl: config.fwb.authenticationUrl,
+      authenticationUrl: config[configKey].authenticationUrl,
       authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
-      claimsToStore: config.fwb.claimsToStore,
-      clientId: config.fwb.clientId,
-      clientSecret: config.fwb.clientSecret,
+      claimsToStore: config[configKey].claimsToStore,
+      clientId: config[configKey].clientId,
+      clientSecret: config[configKey].clientSecret,
       configKey,
       hasLogoutUrl: true,
       identityProvider: FWB.code,
-      jwtOptions: { expiresIn: config.fwb.accessTokenLifespanMs / 1000 },
+      jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       organizationName: 'Fédération Wallonie-Bruxelles',
       slug: 'fwb',
       source: 'fwb',
-      tokenUrl: config.fwb.tokenUrl,
-      userInfoUrl: config.fwb.userInfoUrl,
+      tokenUrl: config[configKey].tokenUrl,
+      userInfoUrl: config[configKey].userInfoUrl,
     });
 
-    this.logoutUrl = config.fwb.logoutUrl;
-    this.temporaryStorageConfig = config.fwb.temporaryStorage;
+    this.logoutUrl = config[configKey].logoutUrl;
+    this.temporaryStorageConfig = config[configKey].temporaryStorage;
   }
 
   async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
