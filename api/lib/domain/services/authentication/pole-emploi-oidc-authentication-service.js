@@ -1,9 +1,10 @@
+import dayjs from 'dayjs';
+import { randomUUID } from 'crypto';
+
 import { config } from '../../../config.js';
 import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
-import dayjs from 'dayjs';
-import { randomUUID } from 'crypto';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 import { POLE_EMPLOI } from '../../constants/oidc-identity-providers.js';
 
