@@ -8,21 +8,21 @@ const configKey = PAYSDELALOIRE.configKey;
 class PaysdelaloireOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
-      authenticationUrl: config.paysdelaloire.authenticationUrl,
+      authenticationUrl: config[configKey].authenticationUrl,
       authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
-      clientId: config.paysdelaloire.clientId,
-      clientSecret: config.paysdelaloire.clientSecret,
+      clientId: config[configKey].clientId,
+      clientSecret: config[configKey].clientSecret,
       configKey,
-      endSessionUrl: config.paysdelaloire.endSessionUrl,
+      endSessionUrl: config[configKey].endSessionUrl,
       hasLogoutUrl: false,
       identityProvider: PAYSDELALOIRE.code,
-      jwtOptions: { expiresIn: config.paysdelaloire.accessTokenLifespanMs / 1000 },
+      jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       organizationName: 'Pays de la Loire',
-      postLogoutRedirectUri: config.paysdelaloire.postLogoutRedirectUri,
+      postLogoutRedirectUri: config[configKey].postLogoutRedirectUri,
       slug: 'pays-de-la-loire',
       source: 'paysdelaloire',
-      tokenUrl: config.paysdelaloire.tokenUrl,
-      userInfoUrl: config.paysdelaloire.userInfoUrl,
+      tokenUrl: config[configKey].tokenUrl,
+      userInfoUrl: config[configKey].userInfoUrl,
     });
   }
 }
