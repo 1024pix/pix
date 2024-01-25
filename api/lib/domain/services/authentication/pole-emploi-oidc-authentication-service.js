@@ -23,19 +23,19 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
     ];
 
     super({
-      identityProvider: POLE_EMPLOI.code,
-      configKey,
-      source: 'pole_emploi_connect',
-      slug: 'pole-emploi',
-      organizationName: 'Pôle Emploi',
       additionalRequiredProperties: ['logoutUrl', 'afterLogoutUrl', 'sendingUrl'],
-      hasLogoutUrl: true,
-      jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
-      clientSecret: config[configKey].clientSecret,
-      clientId: clientId,
-      tokenUrl: config[configKey].tokenUrl,
       authenticationUrl: config[configKey].authenticationUrl,
       authenticationUrlParameters,
+      clientId: clientId,
+      clientSecret: config[configKey].clientSecret,
+      configKey,
+      hasLogoutUrl: true,
+      identityProvider: POLE_EMPLOI.code,
+      jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
+      organizationName: 'Pôle Emploi',
+      slug: 'pole-emploi',
+      source: 'pole_emploi_connect',
+      tokenUrl: config[configKey].tokenUrl,
       userInfoUrl: config[configKey].userInfoUrl,
     });
 
