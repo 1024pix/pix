@@ -19,10 +19,12 @@ class PaysdelaloireOidcAuthenticationService extends OidcAuthenticationService {
       jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       organizationName: 'Pays de la Loire',
       postLogoutRedirectUri: config[configKey].postLogoutRedirectUri,
+      redirectUri: config[configKey].redirectUri,
       slug: 'pays-de-la-loire',
       source: 'paysdelaloire',
       tokenUrl: config[configKey].tokenUrl,
       userInfoUrl: config[configKey].userInfoUrl,
+      openidConfigurationUrl: config[configKey].openidConfigurationUrl,
     });
   }
 }
