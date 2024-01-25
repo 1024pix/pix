@@ -1,7 +1,7 @@
-import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-learner-activity-serializer.js';
-import { OrganizationLearnerParticipation } from '../../../../../lib/domain/read-models/OrganizationLearnerParticipation.js';
-import { OrganizationLearnerActivity } from '../../../../../lib/domain/read-models/OrganizationLearnerActivity.js';
+import { expect } from '../../../../../../test-helper.js';
+import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/organization-learner-activity-serializer.js';
+import { OrganizationLearnerParticipation } from '../../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerParticipation.js';
+import { OrganizationLearnerActivity } from '../../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearnerActivity.js';
 
 describe('Unit | Serializer | JSONAPI | organization-learner-participation-serialize', function () {
   describe('#serialize', function () {
