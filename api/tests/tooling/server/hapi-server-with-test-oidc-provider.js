@@ -58,7 +58,7 @@ async function createServerWithTestOidcProvider() {
       source: 'oidcexamplenet',
       tokenUrl: 'https://oidc.example.net/ea5ac20c-5076-4806-860a-b0aeb01645d4/oauth2/v2.0/token',
       userInfoUrl: 'https://oidc.example.net/userinfo',
-      wellKnownUrl: 'https://oidc.example.net/.well-known/openid-configuration',
+      openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
     }),
   ];
 
