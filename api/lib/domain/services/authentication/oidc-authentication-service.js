@@ -22,7 +22,7 @@ import { OIDC_ERRORS } from '../../constants.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 
 const DEFAULT_REQUIRED_PROPERTIES = ['clientId', 'clientSecret', 'authenticationUrl', 'userInfoUrl', 'tokenUrl'];
-
+const DEFAULT_SCOPE = 'openid profile';
 const DEFAULT_REQUIRED_CLAIMS = ['sub', 'family_name', 'given_name'];
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
@@ -30,7 +30,6 @@ const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session
 class OidcAuthenticationService {
   #isReady = false;
   #isReadyForPixAdmin = false;
-
   #requiredClaims = Array.from(DEFAULT_REQUIRED_CLAIMS);
 
   constructor(
@@ -49,6 +48,7 @@ class OidcAuthenticationService {
       organizationName,
       postLogoutRedirectUri,
       redirectUri,
+      scope = DEFAULT_SCOPE,
       slug,
       source,
       tokenUrl,
@@ -69,6 +69,7 @@ class OidcAuthenticationService {
     this.organizationName = organizationName;
     this.postLogoutRedirectUri = postLogoutRedirectUri;
     this.redirectUri = redirectUri;
+    this.scope = scope;
     this.slug = slug;
     this.source = source;
     this.tokenUrl = tokenUrl;
