@@ -35,6 +35,7 @@ class OrganizationForAdmin {
     features = {},
     code,
     parentOrganizationId,
+    parentOrganizationName,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -54,6 +55,8 @@ class OrganizationForAdmin {
     this.archivedAt = archivedAt;
     this.archivistFirstName = archivistFirstName;
     this.archivistLastName = archivistLastName;
+    this.parentOrganizationId = parentOrganizationId;
+    this.parentOrganizationName = parentOrganizationName;
     this.dataProtectionOfficer = new DataProtectionOfficer({
       organizationId: id,
       firstName: dataProtectionOfficerFirstName,
@@ -75,7 +78,6 @@ class OrganizationForAdmin {
     this.tagsToAdd = [];
     this.tagsToRemove = [];
     this.code = code;
-    this.parentOrganizationId = parentOrganizationId;
   }
 
   get archivistFullName() {

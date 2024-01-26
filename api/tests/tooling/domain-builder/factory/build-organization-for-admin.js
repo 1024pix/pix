@@ -28,6 +28,7 @@ function buildOrganizationForAdmin({
   identityProviderForCampaigns = null,
   features = {},
   parentOrganizationId = null,
+  parentOrganizationName = null,
 } = {}) {
   return new OrganizationForAdmin({
     id,
@@ -57,6 +58,7 @@ function buildOrganizationForAdmin({
     identityProviderForCampaigns,
     features,
     parentOrganizationId,
+    parentOrganizationName,
   });
 }
 

@@ -74,6 +74,8 @@ describe('Acceptance | Routes | organization-administration-controller', functio
               type: organization.type,
               'logo-url': organization.logoUrl,
               'external-id': organization.externalId,
+              'parent-organization-id': organization.parentOrganizationId,
+              'parent-organization-name': null,
               'province-code': organization.provinceCode,
               'is-managing-students': organization.isManagingStudents,
               credit: organization.credit,
