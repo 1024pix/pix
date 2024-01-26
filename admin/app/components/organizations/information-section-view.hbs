@@ -1,5 +1,6 @@
 <div class="organization__data">
   <h2 class="organization__name">{{@organization.name}}</h2>
+
   {{#if @organization.tags}}
     <ul class="organization-tags-list">
       {{#each @organization.tags as |tag|}}
@@ -17,8 +18,23 @@
     {{#if @organization.children}}
       <PixTag @color="success">{{t "components.organizations.information-section-view.parent-organization"}}</PixTag>
     {{/if}}
+    {{#if @organization.parentOrganizationId}}
+      <ul>
+        <li>
+          <PixTag class="organization__child-tag" @color="success">{{t
+              "components.organizations.information-section-view.child-organization"
+            }}</PixTag>
+        </li>
+        <li>
+          {{t "components.organizations.information-section-view.parent-organization"}}
+          :
+          <LinkTo @route="authenticated.organizations.get" @model={{@organization.parentOrganizationId}}>
+            {{@organization.parentOrganizationName}}
+          </LinkTo>
+        </li>
+      </ul>
+    {{/if}}
   </div>
-
   {{#if @organization.isArchived}}
     <PixMessage class="organization-information-section__archived-message" @type="warning">
       Archivée le
