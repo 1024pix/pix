@@ -415,7 +415,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#getAuthenticationUrl', function () {
-    it('should return authentication url', async function () {
+    it('returns oidc provider authentication url', async function () {
       // given
       const authenticationUrl = 'http://authenticationurl.net';
       const clientId = 'OIDC_CLIENT_ID';
@@ -450,7 +450,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
 
     describe('when config is missing', function () {
-      it('should throw an error', async function () {
+      it('throws an error', async function () {
         // given
         const redirectUri = 'https://example.org/please-redirect-to-me';
 
