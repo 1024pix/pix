@@ -1,4 +1,4 @@
-import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 import * as schoolRepository from '../../../../../src/school/infrastructure/repositories/school-repository.js';
 import { School } from '../../../../../src/school/domain/models/School.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
@@ -12,10 +12,12 @@ describe('Integration | Repository | School', function () {
       await databaseBuilder.commit();
 
       // when
-      const result = await schoolRepository.save({ organizationId: organization.id, code: 'HAPPYY123' });
+      await schoolRepository.save({ organizationId: organization.id, code: 'HAPPYY123' });
 
       // then
-      expect(result).to.equal('HAPPYY123');
+      const savedSchool = await knex('schools').first();
+      expect(savedSchool.organizationId).to.equal(organization.id);
+      expect(savedSchool.code).to.equal('HAPPYY123');
     });
   });
   describe('#getByCode', function () {

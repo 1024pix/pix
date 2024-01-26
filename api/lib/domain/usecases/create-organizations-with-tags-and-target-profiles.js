@@ -1,8 +1,5 @@
 import bluebird from 'bluebird';
 import lodash from 'lodash';
-
-const { isEmpty, uniqBy } = lodash;
-
 import { Organization } from '../models/Organization.js';
 import { OrganizationTag } from '../models/OrganizationTag.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
@@ -10,11 +7,15 @@ import { OrganizationForAdmin } from '../models/index.js';
 
 import {
   ManyOrganizationsFoundError,
+  ObjectValidationError,
   OrganizationAlreadyExistError,
   OrganizationTagNotFound,
-  ObjectValidationError,
   TargetProfileInvalidError,
 } from '../errors.js';
+import * as codeGenerator from '../services/code-generator.js';
+import { CONCURRENCY_HEAVY_OPERATIONS } from '../../infrastructure/constants.js';
+
+const { isEmpty, uniqBy } = lodash;
 
 const SEPARATOR = '_';
 
@@ -29,6 +30,7 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
   dataProtectionOfficerRepository,
   organizationValidator,
   organizationInvitationService,
+  schoolRepository,
 }) {
   if (isEmpty(organizations)) {
     throw new ObjectValidationError('Les organisations ne sont pas renseignées.');
@@ -82,6 +84,19 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
     });
 
     await organizationTagRepository.batchCreate(organizationsTags, domainTransaction);
+
+    const pendingCodes = [];
+    await bluebird.map(
+      createdOrganizations.filter((organization) => organization.type === 'SCO-1D'),
+      async (organization) => {
+        const code = await codeGenerator.generate(schoolRepository, pendingCodes);
+        await schoolRepository.save({ organizationId: organization.id, code, domainTransaction });
+        pendingCodes.push(code);
+      },
+      {
+        concurrency: CONCURRENCY_HEAVY_OPERATIONS,
+      },
+    );
 
     const organizationsTargetProfiles = createdOrganizations.flatMap(({ id, externalId }) => {
       return organizationsData
@@ -170,7 +185,9 @@ function _mapOrganizationsData(organizations) {
       },
       emailInvitations: organization.emailInvitations,
       tags: organization.tags.split(SEPARATOR),
-      targetProfiles: organization.targetProfiles.split(SEPARATOR).filter((targetProfile) => !!targetProfile.trim()),
+      targetProfiles: isEmpty(organization.targetProfiles)
+        ? []
+        : organization.targetProfiles.split(SEPARATOR).filter((targetProfile) => !!targetProfile.trim()),
       role: organization.organizationInvitationRole,
       locale: organization.locale,
     });
