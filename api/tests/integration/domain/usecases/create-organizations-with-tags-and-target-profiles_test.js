@@ -1,8 +1,5 @@
-import { catchErr, expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 import lodash from 'lodash';
-
-const { omit } = lodash;
-
 import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
@@ -12,12 +9,13 @@ import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure
 import * as tagRepository from '../../../../lib/infrastructure/repositories/tag-repository.js';
 import * as organizationValidator from '../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
 import * as organizationInvitationService from '../../../../lib/domain/services/organization-invitation-service.js';
+import * as schoolRepository from '../../../../src/school/infrastructure/repositories/school-repository.js';
 
 import {
-  OrganizationTagNotFound,
   ManyOrganizationsFoundError,
-  OrganizationAlreadyExistError,
   ObjectValidationError,
+  OrganizationAlreadyExistError,
+  OrganizationTagNotFound,
   TargetProfileInvalidError,
 } from '../../../../lib/domain/errors.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
@@ -26,11 +24,15 @@ import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/do
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 
+const { omit } = lodash;
+
 describe('Integration | UseCases | create-organizations-with-tags-and-target-profiles', function () {
+  let missionFeature;
   let userId;
 
   beforeEach(async function () {
     databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
+    missionFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT);
     userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
   });
@@ -837,6 +839,109 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         .where({ email: organizationsWithInvitationRole[1].emailInvitations })
         .first();
       expect(secondOrganizationInvitation.role).to.be.equal(Membership.roles.MEMBER);
+    });
+  });
+
+  describe('when organization type id SCO-1D', function () {
+    it('should add mission management feature to organization', async function () {
+      // given
+      databaseBuilder.factory.buildTag({ name: 'TAG1' });
+      await databaseBuilder.commit();
+
+      const organizations = [
+        {
+          type: 'SCO-1D',
+          externalId: 'b200',
+          name: 'Youness et Fils',
+          provinceCode: '123',
+          tags: 'TAG1',
+          credit: 0,
+          emailInvitations: 'youness@example.net',
+          organizationInvitationRole: Membership.roles.ADMIN,
+          locale: 'fr-fr',
+          createdBy: userId,
+          documentationUrl: 'http://www.pix.fr',
+        },
+      ];
+
+      // when
+      await createOrganizationsWithTagsAndTargetProfiles({
+        domainTransaction,
+        organizations,
+        organizationRepository,
+        tagRepository,
+        targetProfileShareRepository,
+        organizationTagRepository,
+        organizationInvitationRepository,
+        dataProtectionOfficerRepository,
+        organizationValidator,
+        organizationInvitationService,
+        schoolRepository,
+      });
+
+      // then
+      const savedOrganizationFeatures = await knex('organization-features');
+      expect(savedOrganizationFeatures.length).to.equal(1);
+      expect(savedOrganizationFeatures[0].featureId).to.equal(missionFeature.id);
+    });
+
+    it('should create schools associated to organizations', async function () {
+      // given
+      databaseBuilder.factory.buildTag({ name: 'TAG1' });
+      await databaseBuilder.commit();
+
+      const organizations = [
+        {
+          type: 'SCO-1D',
+          externalId: 'b200',
+          name: 'Youness et Fils',
+          provinceCode: '123',
+          tags: 'TAG1',
+          credit: 0,
+          emailInvitations: 'youness@example.net',
+          organizationInvitationRole: Membership.roles.ADMIN,
+          locale: 'fr-fr',
+          createdBy: userId,
+          documentationUrl: 'http://www.pix.fr',
+        },
+        {
+          type: 'PRO',
+          externalId: 'b201',
+          name: 'Youness et Fils',
+          provinceCode: '123',
+          tags: 'TAG1',
+          credit: 0,
+          emailInvitations: 'youness@example.net',
+          organizationInvitationRole: Membership.roles.ADMIN,
+          locale: 'fr-fr',
+          createdBy: userId,
+          documentationUrl: 'http://www.pix.fr',
+        },
+      ];
+
+      // when
+      await createOrganizationsWithTagsAndTargetProfiles({
+        domainTransaction,
+        organizations,
+        organizationRepository,
+        tagRepository,
+        targetProfileShareRepository,
+        organizationTagRepository,
+        organizationInvitationRepository,
+        dataProtectionOfficerRepository,
+        organizationValidator,
+        organizationInvitationService,
+        schoolRepository,
+      });
+
+      // then
+      const savedSchools = await knex('schools');
+      expect(savedSchools.length).to.equal(1);
+
+      const savedSco1dOrganizations = await knex('organizations').where({ type: 'SCO-1D' });
+      expect(savedSco1dOrganizations.length).to.equal(1);
+
+      expect(savedSchools[0].organizationId).to.equal(savedSco1dOrganizations[0].id);
     });
   });
 });
