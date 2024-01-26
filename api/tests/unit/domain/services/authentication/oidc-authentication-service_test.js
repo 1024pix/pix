@@ -25,6 +25,20 @@ import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('constructor', function () {
+    context('when no parameter provided', function () {
+      it('creates an instance with default values', function () {
+        // given
+        const args = {};
+
+        // when
+        const oidcAuthenticationService = new OidcAuthenticationService(args);
+
+        // then
+        expect(oidcAuthenticationService.hasLogoutUrl).to.be.false;
+        expect(oidcAuthenticationService.scope).to.equal('openid profile');
+      });
+    });
+
     context('when claimsToStore is undefined', function () {
       it('does not set claimsToStore', async function () {
         // given
