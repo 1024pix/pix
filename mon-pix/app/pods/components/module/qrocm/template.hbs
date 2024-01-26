@@ -1,4 +1,11 @@
-<form class="element-qrocm" {{on "submit" this.submitAnswer}}>
+<form
+  class="element-qrocm"
+  autocapitalize="off"
+  autocomplete="nope"
+  autocorrect="off"
+  spellcheck="false"
+  {{on "submit" this.submitAnswer}}
+>
   <fieldset disabled={{this.disableInput}}>
     <div class="element-qrocm__header">
       <div class="element-qrocm-header__instruction">
@@ -22,7 +29,6 @@
                 @type="text"
                 @value={{get this.selectedValues block.input}}
                 @id={{block.input}}
-                autocomplete="nope"
                 placeholder={{block.placeholder}}
                 @ariaLabel={{block.ariaLabel}}
                 {{on "change" (fn this.onInputChanged block)}}
