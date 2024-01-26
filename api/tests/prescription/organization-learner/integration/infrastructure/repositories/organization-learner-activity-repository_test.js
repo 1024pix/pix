@@ -7,14 +7,21 @@ import {
 const { SHARED } = CampaignParticipationStatuses;
 
 describe('Integration | Infrastructure | Repository | organization-learner-activity', function () {
+  let organizationLearnerId, organizationId;
+
+  beforeEach(async function () {
+    organizationId = databaseBuilder.factory.buildOrganization().id;
+    organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+    await databaseBuilder.commit();
+  });
   describe('#get', function () {
     it('Should return an activity with an empty participation list when no participations were found ', async function () {
       //given
-      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();
       await databaseBuilder.commit();
 
       //when
-      const organizationLearnerActivity = await organizationLearnerActivityRepository.get(organizationLearner.id);
+      const organizationLearnerActivity = await organizationLearnerActivityRepository.get(organizationLearnerId);
       //then
       expect(organizationLearnerActivity.participations.length).to.equal(0);
     });
@@ -33,7 +40,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       const sharedAt = new Date('2000-01-02T10:00:00Z');
       const campaignName = 'Aurelies super campaign';
       const campaignType = CampaignTypes.PROFILES_COLLECTION;
-      const { id: organizationLearnerId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
 
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({
         organizationId,
@@ -70,8 +76,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
 
     it('Should not return an activity with participations of another organization learner', async function () {
       //given
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
       const { id: otherOrganizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
 
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({
@@ -103,9 +107,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
 
     it('Should not return an activity with deleted participations', async function () {
       //given
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
-
       databaseBuilder.factory.buildCampaignParticipation({
         id: 1,
         organizationLearnerId,
@@ -126,11 +127,9 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       expect(participations.length).to.equal(1);
       expect(participations[0].id).to.equal(1);
     });
+
     it('Should not return an activity with improved participations', async function () {
       //given
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
-
       databaseBuilder.factory.buildCampaignParticipation({
         id: 1,
         organizationLearnerId,
@@ -154,8 +153,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
 
     it('Should return an activity with the participations in anti-chronological order', async function () {
       //given
-      const { id: organizationLearnerId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
-
       const { id: firstCampaignId } = databaseBuilder.factory.buildCampaign({
         organizationId,
         name: 'Aurelies super campaign',
