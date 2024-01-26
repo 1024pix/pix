@@ -284,6 +284,79 @@
           ]
         }
       ]
+    },
+    {
+      "id": "6282925d-4775-4bca-b513-4c3009ec5886",
+      "slug": "didacticiel-modulix",
+      "title": "Didacticiel Modulix",
+      "transitionTexts": [
+        {
+          "content": "<p>Bonjour et bienvenue dans ce didacticiel Modulix. Vous allez pouvoir facilement découvrir comment fonctionne ce nouveau produit Pix.<br> C'est partix !</p>",
+          "grainId": "f312c33d-e7c9-4a69-9ba0-913957b8f7dd"
+        },
+        {
+          "content": "<p>Vous savez désormais ce qu'est une leçon.</p><p>Dans un module, il y a aussi des activités. Elles permettent de vérifier que vous avez bien compris les leçons !</p><p>Voici les différentes activités de Modulix :</p>",
+          "grainId": "533c69b8-a836-41be-8ffc-8d4636e31224"
+        }
+      ],
+      "grains": [
+        {
+          "id": "f312c33d-e7c9-4a69-9ba0-913957b8f7dd",
+          "type": "lesson",
+          "title": "Voici une leçon",
+          "elements": [
+            {
+              "id": "84726001-1665-457d-8f13-4a74dc4768ea",
+              "type": "text",
+              "content": "<h4>Les leçons sont des textes, des images ou des vidéos. Ils sont là pour vous expliquer des notions.</h4>"
+            },
+            {
+              "id": "a2372bf4-86a4-4ecc-a188-b51f4f98bca2",
+              "type": "text",
+              "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture <span aria-hidden='true'>📚</span>️.<br> Et là, voici une image !</p>"
+            },
+            {
+              "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
+              "type": "image",
+              "url": "https://images.pix.fr/modulix/didacticiel-chaton.jpg",
+              "alt": "",
+              "alternativeText": "Photo d'un chaton mignon"
+            }
+          ]
+        },
+        {
+          "id": "533c69b8-a836-41be-8ffc-8d4636e31224",
+          "type": "activity",
+          "title": "Voici des activités",
+          "elements": [
+            {
+              "id": "47995d78-d0d5-48ae-b5fb-a6bea002ec3a",
+              "type": "text",
+              "content": "<h4>Ceci est un QCU à deux propositions aussi appelé \"vrai-faux\".</h4>"
+            },
+            {
+              "id": "71de6394-ff88-4de3-8834-a40057a50ff4",
+              "type": "qcu",
+              "instruction": "<p>Zinédine Zidane est un joueur de football.</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "Vrai"
+                },
+                {
+                  "id": "2",
+                  "content": "Faux"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct ! Allez les Bleus <span aria-hidden='true'>🇫🇷</span>️!",
+                "invalid": "<p>Incorrect. Un peu de révision s'impose !"
+              },
+              "solution": "1"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
