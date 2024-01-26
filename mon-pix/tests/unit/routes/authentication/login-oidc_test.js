@@ -187,24 +187,21 @@ module('Unit | Route | login-oidc', function (hooks) {
   module('#model', function () {
     test('should request to authenticate user with identity provider', async function (assert) {
       // given
-      const authenticateStub = sinon.stub().resolves();
-      const sessionStub = Service.create({
-        authenticate: authenticateStub,
-        data: {},
-      });
+      const session = this.owner.lookup('service:session');
+      sinon.stub(session, 'authenticate').resolves();
       const route = this.owner.lookup('route:authentication/login-oidc');
-      route.set('session', sessionStub);
 
       // when
       await route.model({ identity_provider_slug: 'oidc-partner' }, { to: { queryParams: { code: 'test' } } });
 
       // then
-      sinon.assert.calledWithMatch(authenticateStub, 'authenticator:oidc', {
-        code: 'test',
-        state: undefined,
-      });
-      assert.ok(authenticateStub.getCall(0).args[1].redirectUri.includes('connexion/oidc'));
-      assert.deepEqual(sessionStub.data, { state: undefined, nonce: undefined });
+      assert.true(
+        session.authenticate.calledWithMatch('authenticator:oidc', {
+          code: 'test',
+          state: undefined,
+        }),
+      );
+      assert.deepEqual(session.data, { authenticated: {}, nonce: undefined, state: undefined });
     });
 
     test('should return values to be received by after model to validate CGUs', async function (assert) {

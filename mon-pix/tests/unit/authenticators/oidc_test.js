@@ -16,8 +16,8 @@ module('Unit | Authenticator | oidc', function (hooks) {
     const identityProviderCode = 'OIDC_PARTNER';
     const identityProviderSlug = 'oidc-partner';
     const code = 'code';
-    const redirectUri = 'redirectUri';
     const state = 'state';
+    const nonce = 'nonce';
     const request = {
       method: 'POST',
       headers: {
@@ -28,11 +28,10 @@ module('Unit | Authenticator | oidc', function (hooks) {
     const body = JSON.stringify({
       data: {
         attributes: {
-          identity_provider: identityProviderCode,
           code: code,
-          redirect_uri: redirectUri,
-          state_sent: undefined,
-          state_received: state,
+          identity_provider: identityProviderCode,
+          nonce,
+          state,
         },
       },
     });
@@ -46,6 +45,8 @@ module('Unit | Authenticator | oidc', function (hooks) {
         "exp": 4702193958
       }`) +
       '.bbb';
+
+    let session;
 
     hooks.beforeEach(function () {
       sinon.stub(fetch, 'default').resolves({
@@ -65,13 +66,16 @@ module('Unit | Authenticator | oidc', function (hooks) {
         list = [oidcPartner];
       }
       this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersStub);
+      session = this.owner.lookup('service:session');
+
+      sinon.stub(session, 'get').returns();
     });
 
     hooks.afterEach(function () {
       sinon.restore();
     });
 
-    test('should fetch token with authentication key', async function (assert) {
+    test('fetches token with authentication key', async function (assert) {
       // given
       const authenticator = this.owner.lookup('authenticator:oidc');
 
@@ -103,22 +107,24 @@ module('Unit | Authenticator | oidc', function (hooks) {
       });
     });
 
-    test('should fetch token with code, redirectUri, and state in body', async function (assert) {
+    test('fetches token with code, redirectUri, and state in body', async function (assert) {
       // given
       const authenticator = this.owner.lookup('authenticator:oidc');
+
+      session.get.returns('nonce');
 
       // when
       const token = await authenticator.authenticate({
         code,
-        redirectUri,
-        state,
-        identityProviderSlug,
         hostSlug: 'token',
+        identityProviderSlug,
+        state,
       });
 
       // then
       request.body = body;
-      sinon.assert.calledWith(fetch.default, 'http://localhost:3000/api/oidc/token', request);
+      assert.true(session.get.calledOnceWithExactly('data.nonce'));
+      assert.true(fetch.default.calledWith('http://localhost:3000/api/oidc/token', request));
       assert.deepEqual(token, {
         access_token: accessToken,
         logoutUrlUuid,
@@ -131,30 +137,21 @@ module('Unit | Authenticator | oidc', function (hooks) {
     });
 
     module('when user is authenticated', function () {
-      test('should invalidate session', async function (assert) {
+      test('invalidates current session', async function (assert) {
         // given
-        const sessionStub = Service.create({
-          isAuthenticated: true,
-          invalidate: sinon.stub(),
-          data: {
-            authenticated: {
-              logoutUrlUuid,
-              access_token: accessToken,
-            },
-          },
-        });
+        sinon.stub(session, 'isAuthenticated').value(true);
+        sinon.stub(session, 'invalidate').resolves();
+        session.get.returns('nonce');
 
         const authenticator = this.owner.lookup('authenticator:oidc');
-        authenticator.session = sessionStub;
 
         // when
-        await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug, hostSlug: 'token' });
+        await authenticator.authenticate({ code, state, identityProviderSlug, hostSlug: 'token' });
 
         // then
         request.body = body;
-        sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/oidc/token`, request);
-        sinon.assert.calledOnce(sessionStub.invalidate);
-        assert.ok(true);
+        assert.true(fetch.default.calledWith(`http://localhost:3000/api/oidc/token`, request));
+        assert.true(session.invalidate.calledOnce);
       });
     });
   });

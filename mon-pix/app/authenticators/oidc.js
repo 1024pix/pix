@@ -13,7 +13,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
   @service location;
   @service oidcIdentityProviders;
 
-  async authenticate({ code, redirectUri, state, identityProviderSlug, authenticationKey, hostSlug }) {
+  async authenticate({ authenticationKey, code, hostSlug, identityProviderSlug, state }) {
     const request = {
       method: 'POST',
       headers: {
@@ -32,11 +32,10 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       };
     } else {
       body = {
-        identity_provider: identityProvider.code,
         code,
-        redirect_uri: redirectUri,
-        state_sent: this.session.data.state,
-        state_received: state,
+        identity_provider: identityProvider.code,
+        nonce: this.session.get('data.nonce'),
+        state,
       };
 
       if (this.session.isAuthenticated) {
