@@ -1,23 +1,14 @@
-import { UnexpectedOidcStateError } from '../../errors.js';
-import { logger } from '../../../infrastructure/logger.js';
-
 const authenticateOidcUser = async function ({
-  stateReceived,
-  stateSent,
   code,
-  redirectUri,
-  oidcAuthenticationService,
-  authenticationSessionService,
+  nonce,
+  state,
   authenticationMethodRepository,
-  userRepository,
+  authenticationSessionService,
+  oidcAuthenticationService,
   userLoginRepository,
+  userRepository,
 }) {
-  if (stateSent !== stateReceived) {
-    logger.error(`State sent ${stateSent} did not match the state received ${stateReceived}`);
-    throw new UnexpectedOidcStateError();
-  }
-
-  const sessionContent = await oidcAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
+  const sessionContent = await oidcAuthenticationService.exchangeCodeForTokens({ code, nonce, state });
   const userInfo = await oidcAuthenticationService.getUserInfo({
     idToken: sessionContent.idToken,
     accessToken: sessionContent.accessToken,

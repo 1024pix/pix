@@ -95,13 +95,12 @@ const register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
+                code: Joi.string().required(),
                 identity_provider: Joi.string()
                   .required()
                   .valid(...validOidcProviderCodes),
-                code: Joi.string().required(),
-                redirect_uri: Joi.string().required(),
-                state_sent: Joi.string().required(),
-                state_received: Joi.string().required(),
+                nonce: Joi.string().required(),
+                state: Joi.string().required(),
               },
             },
           }),

@@ -93,16 +93,15 @@ const authenticateUser = async function (
     authenticationServiceRegistry,
   },
 ) {
-  const { code, identityProvider, redirectUri, stateSent, stateReceived } = request.deserializedPayload;
+  const { code, identityProvider, nonce, state } = request.deserializedPayload;
 
   const oidcAuthenticationService =
     dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
 
   const result = await usecases.authenticateOidcUser({
     code,
-    redirectUri,
-    stateReceived,
-    stateSent,
+    nonce,
+    state,
     oidcAuthenticationService,
   });
 

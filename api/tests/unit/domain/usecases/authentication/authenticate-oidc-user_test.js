@@ -42,48 +42,30 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       };
     });
 
-    context('when the request state does not match the response state', function () {
-      it('throws an UnexpectedOidcStateError', async function () {
-        // given
-        const stateSent = 'stateSent';
-        const stateReceived = 'stateReceived';
-        sinon.stub(logger, 'error');
-
-        // when
-        const error = await catchErr(authenticateOidcUser)({
-          stateReceived,
-          stateSent,
-        });
-
-        // then
-        expect(error).to.be.an.instanceOf(UnexpectedOidcStateError);
-        expect(logger.error).to.have.been.calledWithExactly(
-          `State sent ${stateSent} did not match the state received ${stateReceived}`,
-        );
-      });
-    });
-
     it('retrieves authentication token', async function () {
       // given
       _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+      const code = Symbol('code');
+      const nonce = Symbol('nonce');
+      const state = Symbol('state');
 
       // when
       await authenticateOidcUser({
-        code: 'code',
-        redirectUri: 'redirectUri',
-        stateReceived: 'state',
-        stateSent: 'state',
-        oidcAuthenticationService,
-        authenticationSessionService,
+        code,
+        nonce,
+        state,
         authenticationMethodRepository,
-        userRepository,
+        authenticationSessionService,
+        oidcAuthenticationService,
         userLoginRepository,
+        userRepository,
       });
 
       // then
       expect(oidcAuthenticationService.exchangeCodeForTokens).to.have.been.calledOnceWithExactly({
-        code: 'code',
-        redirectUri: 'redirectUri',
+        code,
+        nonce,
+        state,
       });
     });
 

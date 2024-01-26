@@ -165,9 +165,8 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
 
   describe('#authenticateUser', function () {
     const code = 'ABCD';
-    const redirectUri = 'http://redirectUri.fr';
-    const stateSent = 'state';
-    const stateReceived = 'state';
+    const state = 'state';
+    const nonce = 'nonce';
 
     const pixAccessToken = 'pixAccessToken';
 
@@ -177,11 +176,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       request = {
         auth: { credentials: { userId: 123 } },
         deserializedPayload: {
-          identityProvider,
           code,
-          redirectUri,
-          stateSent,
-          stateReceived,
+          identityProvider,
+          nonce,
+          state,
         },
       };
 
@@ -215,9 +213,8 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       // then
       expect(usecases.authenticateOidcUser).to.have.been.calledWithExactly({
         code,
-        redirectUri,
-        stateReceived,
-        stateSent,
+        nonce,
+        state,
         oidcAuthenticationService,
       });
     });
