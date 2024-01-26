@@ -15,7 +15,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     const clientId = config[configKey].clientId;
     // Attention, les scopes serviceDigitauxExposition api_peconnect-servicesdigitauxv1 ne sont pas présents dans la documentation de Pole Emploi mais ils sont nécessaires à l'envoi des résultats
-    const authenticationUrlParameters = [
+    const extraAuthorizationUrlParameters = [
       { key: 'realm', value: '/individu' },
       {
         key: 'scope',
@@ -26,7 +26,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
     super({
       additionalRequiredProperties: ['logoutUrl', 'afterLogoutUrl', 'sendingUrl'],
       authenticationUrl: config[configKey].authenticationUrl,
-      authenticationUrlParameters,
+      extraAuthorizationUrlParameters,
       clientId: clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,

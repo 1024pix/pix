@@ -36,7 +36,7 @@ class OidcAuthenticationService {
     {
       additionalRequiredProperties,
       authenticationUrl,
-      authenticationUrlParameters,
+      extraAuthorizationUrlParameters,
       claimsToStore,
       clientId,
       clientSecret,
@@ -58,7 +58,7 @@ class OidcAuthenticationService {
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
     this.authenticationUrl = authenticationUrl;
-    this.authenticationUrlParameters = authenticationUrlParameters;
+    this.extraAuthorizationUrlParameters = extraAuthorizationUrlParameters;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.configKey = configKey;
@@ -207,7 +207,7 @@ class OidcAuthenticationService {
       { key: 'client_id', value: this.clientId },
       { key: 'redirect_uri', value: redirectUri },
       { key: 'response_type', value: 'code' },
-      ...this.authenticationUrlParameters,
+      ...this.extraAuthorizationUrlParameters,
     ];
 
     params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));

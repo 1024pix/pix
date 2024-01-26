@@ -423,7 +423,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       // given
       const authenticationUrl = 'http://authenticationurl.net';
       const clientId = 'OIDC_CLIENT_ID';
-      const authenticationUrlParameters = [
+      const extraAuthorizationUrlParameters = [
         { key: 'realm', value: '/individu' },
         { key: 'scope', value: `openid profile` },
       ];
@@ -432,7 +432,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const oidcAuthenticationService = new OidcAuthenticationService({
         authenticationUrl,
         clientId,
-        authenticationUrlParameters,
+        extraAuthorizationUrlParameters,
       });
 
       // when
