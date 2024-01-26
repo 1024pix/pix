@@ -62,8 +62,13 @@ import { PIX_ADMIN } from '../src/authorization/domain/constants.js';
 const { ROLES } = PIX_ADMIN;
 import { createTempFile, removeTempFile } from './tooling/temporary-file.js';
 import { increaseCurrentTestTimeout } from './tooling/mocha-tools.js';
+import { oidcAuthenticationServiceRegistry } from '../lib/domain/services/authentication/authentication-service-registry.js';
 
 /* eslint-disable mocha/no-top-level-hooks */
+beforeEach(function () {
+  sinon.stub(oidcAuthenticationServiceRegistry, 'configureReadyOidcProviderServices').resolves();
+});
+
 afterEach(function () {
   restore();
   LearningContentCache.instance.flushAll();

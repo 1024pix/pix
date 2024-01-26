@@ -4,6 +4,7 @@ import { FwbOidcAuthenticationService } from '../lib/domain/services/authenticat
 import { GoogleOidcAuthenticationService } from '../lib/domain/services/authentication/GoogleOidcAuthenticationService.js';
 import { PaysdelaloireOidcAuthenticationService } from '../lib/domain/services/authentication/paysdelaloire-oidc-authentication-service.js';
 import { PoleEmploiOidcAuthenticationService } from '../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
+import { logger } from '../src/shared/infrastructure/utils/logger.js';
 
 async function setupOidcAuthenticationServiceRegistry() {
   const oidcProviderServices = [
@@ -15,6 +16,9 @@ async function setupOidcAuthenticationServiceRegistry() {
   ];
 
   oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+  await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServices();
+
+  logger.info('OIDC provider services loaded and configured properly');
 }
 
 export { setupOidcAuthenticationServiceRegistry };

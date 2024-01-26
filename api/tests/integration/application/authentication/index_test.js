@@ -3,11 +3,13 @@ import querystring from 'querystring';
 import { expect, sinon } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
 import { authenticationController } from '../../../../lib/application/authentication/authentication-controller.js';
+import { oidcAuthenticationServiceRegistry } from '../../../../lib/domain/services/authentication/authentication-service-registry.js';
 
 describe('Integration | Application | Route | AuthenticationRouter', function () {
   let server;
 
   beforeEach(async function () {
+    sinon.stub(oidcAuthenticationServiceRegistry, 'loadOidcProviderServices').returns();
     sinon
       .stub(authenticationController, 'authenticateAnonymousUser')
       .callsFake((request, h) => h.response('ok').code(200));
