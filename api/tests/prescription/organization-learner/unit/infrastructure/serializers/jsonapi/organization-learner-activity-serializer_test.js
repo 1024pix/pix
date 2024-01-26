@@ -18,6 +18,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
             createdAt: '2000-01-01T10:00:00Z',
             sharedAt: '2000-02-01T10:00:00Z',
             status: 'SHARED',
+            participationCount: '1',
           }),
           new OrganizationLearnerParticipation({
             id: '100000',
@@ -27,6 +28,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
             createdAt: '2000-03-01T10:00:00Z',
             sharedAt: '2000-04-01T10:00:00Z',
             status: 'STARTED',
+            participationCount: '2',
           }),
         ],
         statistics: [
@@ -92,6 +94,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
               'created-at': '2000-01-01T10:00:00Z',
               'shared-at': '2000-02-01T10:00:00Z',
               status: 'SHARED',
+              'participation-count': '1',
             },
           },
           {
@@ -104,6 +107,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
               'created-at': '2000-03-01T10:00:00Z',
               'shared-at': '2000-04-01T10:00:00Z',
               status: 'STARTED',
+              'participation-count': '2',
             },
           },
           {

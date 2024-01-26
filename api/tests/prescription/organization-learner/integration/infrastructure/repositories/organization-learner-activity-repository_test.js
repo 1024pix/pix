@@ -189,5 +189,92 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       expect(secondOrganizationLearnerParticipation.createdAt).to.deep.equal(new Date('2000-01-03T10:00:00Z'));
       expect(firstOrganizationLearnerParticipation.createdAt).to.deep.equal(new Date('2000-01-01T10:00:00Z'));
     });
+
+    it('Should return total count of participations for each campaign for given organization learner', async function () {
+      //given
+      const { id: firstCampaignId } = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        name: 'Iron man',
+        type: CampaignTypes.PROFILES_COLLECTION,
+      });
+
+      const { id: secondCampaignId } = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        name: 'Hulk',
+        type: CampaignTypes.ASSESSMENT,
+        multipleSendings: true,
+      });
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: firstCampaignId,
+        organizationLearnerId,
+        createdAt: new Date('2000-01-01'),
+        sharedAt: new Date('2000-01-02'),
+      });
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: secondCampaignId,
+        organizationLearnerId,
+        createdAt: new Date('2000-01-03'),
+        sharedAt: new Date('2000-12-12'),
+        isImproved: true,
+      });
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: secondCampaignId,
+        organizationLearnerId,
+        createdAt: new Date('2010-01-03'),
+        sharedAt: new Date('2010-12-12'),
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      const { participations } = await organizationLearnerActivityRepository.get(organizationLearnerId);
+
+      const firstCampaignParticipations = participations.find((participation) => participation.campaignName === 'Hulk');
+      const secondCampaignParticipations = participations.find(
+        (participation) => participation.campaignName === 'Iron man',
+      );
+      //then
+      expect(firstCampaignParticipations.participationCount).to.equal(2);
+      expect(secondCampaignParticipations.participationCount).to.equal(1);
+    });
+
+    it('Should not return count of deleted participations for given organization learner', async function () {
+      //given
+
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        name: 'Hulk',
+        type: CampaignTypes.ASSESSMENT,
+        multipleSendings: true,
+      });
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2000-01-01'),
+        sharedAt: new Date('2000-01-02'),
+        deletedAt: new Date('2023-01-01'),
+      });
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2022-01-03'),
+        sharedAt: new Date('2022-12-12'),
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      const {
+        participations: [undeletedParticipation],
+      } = await organizationLearnerActivityRepository.get(organizationLearnerId);
+
+      //then
+      expect(undeletedParticipation.participationCount).to.equal(1);
+    });
   });
 });
