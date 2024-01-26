@@ -304,7 +304,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#exchangeCodeForTokens', function () {
-    it('should return id token', async function () {
+    it('returns an AuthenticationSessionContent instance', async function () {
       // given
       const clientId = 'OIDC_CLIENT_ID';
       const tokenUrl = 'http://oidc.net/api/token';
@@ -313,107 +313,39 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const expiresIn = Symbol(60);
       const idToken = Symbol('idToken');
       const refreshToken = Symbol('refreshToken');
-
+      const code = Symbol('AUTHORIZATION_CODE');
+      const state = Symbol('STATE');
+      const nonce = Symbol('NONCE');
       const oidcAuthenticationSessionContent = new AuthenticationSessionContent({
         idToken,
         accessToken,
         expiresIn,
         refreshToken,
       });
+      const tokenSet = {
+        access_token: accessToken,
+        expires_in: expiresIn,
+        id_token: idToken,
+        refresh_token: refreshToken,
+      };
+      const clientInstance = { callback: sinon.stub().resolves(tokenSet) };
+      const Client = sinon.stub().returns(clientInstance);
 
-      sinon.stub(httpAgent, 'post');
-      httpAgent.post.resolves({
-        isSuccessful: true,
-        data: {
-          id_token: oidcAuthenticationSessionContent.idToken,
-          access_token: oidcAuthenticationSessionContent.accessToken,
-          refresh_token: oidcAuthenticationSessionContent.refreshToken,
-          expires_in: oidcAuthenticationSessionContent.expiresIn,
-        },
-      });
+      sinon.stub(Issuer, 'discover').resolves({ Client });
 
       const oidcAuthenticationService = new OidcAuthenticationService({ clientSecret, clientId, tokenUrl });
+      await oidcAuthenticationService.createClient();
 
       // when
       const result = await oidcAuthenticationService.exchangeCodeForTokens({
-        code: 'AUTH_CODE',
-        redirectUri: 'pix.net/connexion/oidc',
+        code,
+        nonce,
+        state,
       });
 
       // then
-      const expectedData = `client_secret=OIDC_CLIENT_SECRET&grant_type=authorization_code&code=AUTH_CODE&client_id=OIDC_CLIENT_ID&redirect_uri=pix.net%2Fconnexion%2Foidc`;
-      const expectedHeaders = { 'content-type': 'application/x-www-form-urlencoded' };
-
-      expect(httpAgent.post).to.have.been.calledWithExactly({
-        url: 'http://oidc.net/api/token',
-        payload: expectedData,
-        headers: expectedHeaders,
-        timeout: settings.partner.fetchTimeOut,
-      });
       expect(result).to.be.an.instanceOf(AuthenticationSessionContent);
       expect(result).to.deep.equal(oidcAuthenticationSessionContent);
-    });
-
-    context('when tokens retrieval fails', function () {
-      it('should log error and throw InvalidExternalAPIResponseError', async function () {
-        // given
-        const clientId = 'OIDC_CLIENT_ID';
-        const tokenUrl = 'http://oidc.net/api/token';
-        const clientSecret = 'OIDC_CLIENT_SECRET';
-        const errorResponse = {
-          isSuccessful: false,
-          code: 400,
-          data: {
-            error: 'invalid_client',
-            error_description: 'Invalid authentication method for accessing this endpoint.',
-          },
-        };
-        const identityProvider = 'IDENTITY_PROVIDER_TEST';
-
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-        sinon.stub(httpAgent, 'post');
-        httpAgent.post.resolves(errorResponse);
-
-        const oidcAuthenticationService = new OidcAuthenticationService({
-          clientSecret,
-          clientId,
-          identityProvider,
-          tokenUrl,
-        });
-
-        // when
-        const payload = {
-          code: 'AUTH_CODE',
-          redirectUri: 'pix.net/connexion/oidc',
-        };
-        const error = await catchErr(
-          oidcAuthenticationService.exchangeCodeForTokens,
-          oidcAuthenticationService,
-        )(payload);
-
-        // then
-        const expectedPayload = {
-          code: payload.code,
-          redirect_uri: payload.redirectUri,
-          client_id: 'OIDC_CLIENT_ID',
-          client_secret: 'OIDC_CLIENT_SECRET',
-          grant_type: 'authorization_code',
-        };
-
-        const expectedLogOptions = {
-          message: {
-            code: 'EXCHANGE_CODE_FOR_TOKEN',
-            customMessage: 'Erreur lors de la récupération des tokens du partenaire.',
-            errorDetails: JSON.stringify(errorResponse.data),
-            identityProvider,
-            requestPayload: expectedPayload,
-          },
-        };
-
-        expect(error).to.be.an.instanceOf(OidcInvokingTokenEndpointError);
-        expect(error.message).to.equal('Erreur lors de la récupération des tokens du partenaire.');
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith(expectedLogOptions);
-      });
     });
   });
 
