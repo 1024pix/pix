@@ -13,21 +13,11 @@ const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
-    const clientId = config[configKey].clientId;
-    // Attention, les scopes serviceDigitauxExposition api_peconnect-servicesdigitauxv1 ne sont pas présents dans la documentation de Pole Emploi mais ils sont nécessaires à l'envoi des résultats
-    const extraAuthorizationUrlParameters = [
-      { key: 'realm', value: '/individu' },
-      {
-        key: 'scope',
-        value: `application_${clientId} api_peconnect-individuv1 openid profile serviceDigitauxExposition api_peconnect-servicesdigitauxv1`,
-      },
-    ];
-
     super({
       additionalRequiredProperties: ['logoutUrl', 'afterLogoutUrl', 'sendingUrl'],
       authenticationUrl: config[configKey].authenticationUrl,
-      extraAuthorizationUrlParameters,
-      clientId: clientId,
+      extraAuthorizationUrlParameters: { realm: '/individu' },
+      clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
       hasLogoutUrl: true,
@@ -35,6 +25,8 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       organizationName: 'Pôle Emploi',
       redirectUri: config[configKey].redirectUri,
+      // Attention, les scopes serviceDigitauxExposition api_peconnect-servicesdigitauxv1 ne sont pas présents dans la documentation de Pole Emploi mais ils sont nécessaires à l'envoi des résultats
+      scope: `application_${config[configKey].clientId} api_peconnect-individuv1 openid profile serviceDigitauxExposition api_peconnect-servicesdigitauxv1`,
       slug: 'pole-emploi',
       source: 'pole_emploi_connect',
       tokenUrl: config[configKey].tokenUrl,

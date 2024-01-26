@@ -78,7 +78,7 @@ const register = async function (server) {
             redirect_uri: Joi.string().required(),
           }),
         },
-        handler: oidcController.getAuthenticationUrl,
+        handler: oidcController.getAuthorizationUrl,
         notes: [
           "- Cette route permet de récupérer l'url d'authentification du partenaire.\n" +
             '- Elle retournera également les valeurs state et nonce.',

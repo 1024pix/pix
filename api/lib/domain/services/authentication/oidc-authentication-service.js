@@ -196,23 +196,23 @@ class OidcAuthenticationService {
     });
   }
 
-  getAuthenticationUrl({ redirectUri }) {
-    const redirectTarget = new URL(this.authenticationUrl);
+  getAuthorizationUrl() {
     const state = randomUUID();
     const nonce = randomUUID();
+    const authorizationParameters = {
+      nonce,
+      redirect_uri: this.redirectUri,
+      scope: this.scope,
+      state,
+    };
 
-    const params = [
-      { key: 'state', value: state },
-      { key: 'nonce', value: nonce },
-      { key: 'client_id', value: this.clientId },
-      { key: 'redirect_uri', value: redirectUri },
-      { key: 'response_type', value: 'code' },
-      ...this.extraAuthorizationUrlParameters,
-    ];
+    if (this.extraAuthorizationUrlParameters) {
+      Object.assign(authorizationParameters, this.extraAuthorizationUrlParameters);
+    }
 
-    params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
+    const redirectTarget = this.client.authorizationUrl(authorizationParameters);
 
-    return { redirectTarget: redirectTarget.toString(), state, nonce };
+    return { redirectTarget, state, nonce };
   }
 
   async getUserInfo({ idToken, accessToken }) {
