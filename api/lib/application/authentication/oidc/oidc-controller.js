@@ -103,10 +103,9 @@ const authenticateUser = async function (
     authenticationServiceRegistry,
   },
 ) {
-  const { code, identityProvider, redirectUri, state: stateReceived, audience } = request.deserializedPayload;
+  const { code, identityProvider, redirectUri, state, audience } = request.deserializedPayload;
 
-  const stateSent = request.yar.get('state', true);
-  // eslint-disable-next-line no-unused-vars
+  const sessionState = request.yar.get('state', true);
   const nonce = request.yar.get('nonce', true);
 
   const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
@@ -117,8 +116,9 @@ const authenticateUser = async function (
   const result = await usecases.authenticateOidcUser({
     code,
     redirectUri,
-    stateReceived,
-    stateSent,
+    state,
+    sessionState,
+    nonce,
     oidcAuthenticationService,
   });
 
