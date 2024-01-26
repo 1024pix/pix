@@ -4,8 +4,8 @@ export default class Element extends Model {
   @attr('string') type;
   @attr('boolean') isAnswerable;
 
-  @belongsTo('grain', { async: true, inverse: 'elements' }) grain;
-  @hasMany('element-answer', { async: true, inverse: 'element' }) elementAnswers;
+  @belongsTo('grain', { async: true, inverse: 'elements', as: 'element' }) grain;
+  @hasMany('element-answer', { async: true, inverse: 'element', as: 'element' }) elementAnswers;
 
   get isText() {
     return this.type === 'texts';
@@ -22,6 +22,7 @@ export default class Element extends Model {
   get isQrocm() {
     return this.type === 'qrocms';
   }
+
   get isVideo() {
     return this.type === 'videos';
   }
