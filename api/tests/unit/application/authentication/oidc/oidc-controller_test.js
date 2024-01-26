@@ -263,8 +263,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       expect(usecases.authenticateOidcUser).to.have.been.calledWithExactly({
         code,
         redirectUri,
-        stateReceived: identityProviderState,
-        stateSent: state,
+        state: identityProviderState,
+        sessionState: state,
+        nonce: 'nonce',
         oidcAuthenticationService,
       });
     });

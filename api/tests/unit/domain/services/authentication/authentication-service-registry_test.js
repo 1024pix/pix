@@ -1,4 +1,4 @@
-import { catchErrSync, expect } from '../../../../test-helper.js';
+import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
 
