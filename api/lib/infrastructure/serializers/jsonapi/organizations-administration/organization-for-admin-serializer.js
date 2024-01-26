@@ -42,6 +42,8 @@ const serialize = function (organizations, meta) {
       'children',
       'identityProviderForCampaigns',
       'features',
+      'parentOrganizationId',
+      'parentOrganizationName',
     ],
     organizationMemberships: {
       ref: 'id',

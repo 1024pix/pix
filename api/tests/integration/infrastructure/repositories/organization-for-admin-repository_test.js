@@ -247,11 +247,22 @@ describe('Integration | Repository | Organization-for-admin', function () {
   });
 
   describe('#get', function () {
-    it('should return a organization for admin by provided id', async function () {
+    it('returns an organization for admin by provided id', async function () {
       // given
       const superAdminUser = databaseBuilder.factory.buildUser({ firstName: 'Cécile', lastName: 'Encieux' });
-
-      const insertedOrganization = databaseBuilder.factory.buildOrganization({
+      const parentOrganization = databaseBuilder.factory.buildOrganization({
+        type: 'SCO',
+        name: 'Mother Of Dark Side',
+        logoUrl: 'another logo url',
+        externalId: 'DEF456',
+        provinceCode: '45',
+        isManagingStudents: true,
+        credit: 666,
+        email: 'sco.generic.account@example.net',
+        createdBy: superAdminUser.id,
+        documentationUrl: 'https://pix.fr/',
+      });
+      const organization = databaseBuilder.factory.buildOrganization({
         type: 'SCO',
         name: 'Organization of the dark side',
         logoUrl: 'some logo url',
@@ -267,27 +278,28 @@ describe('Integration | Repository | Organization-for-admin', function () {
         formNPSUrl: 'https://pix.fr/',
         showSkills: false,
         identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
+        parentOrganizationId: parentOrganization.id,
       });
 
       databaseBuilder.factory.buildDataProtectionOfficer.withOrganizationId({
         firstName: 'Justin',
         lastName: 'Ptipeu',
         email: 'justin.ptipeu@example.net',
-        organizationId: insertedOrganization.id,
+        organizationId: organization.id,
       });
 
       const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
       databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY).id;
-      databaseBuilder.factory.buildOrganizationFeature({ organizationId: insertedOrganization.id, featureId });
+      databaseBuilder.factory.buildOrganizationFeature({ organizationId: organization.id, featureId });
 
       await databaseBuilder.commit();
 
       // when
-      const foundOrganizationForAdmin = await organizationForAdminRepository.get(insertedOrganization.id);
+      const foundOrganizationForAdmin = await organizationForAdminRepository.get(organization.id);
 
       // then
       const expectedOrganizationForAdmin = new OrganizationForAdmin({
-        id: insertedOrganization.id,
+        id: organization.id,
         type: 'SCO',
         name: 'Organization of the dark side',
         logoUrl: 'some logo url',
@@ -301,7 +313,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         organizationInvitations: [],
         tags: [],
         documentationUrl: 'https://pix.fr/',
-        createdBy: insertedOrganization.createdBy,
+        createdBy: organization.createdBy,
         createdAt: now,
         showNPS: true,
         formNPSUrl: 'https://pix.fr/',
@@ -319,7 +331,8 @@ describe('Integration | Repository | Organization-for-admin', function () {
           [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
           [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
         },
-        parentOrganizationId: null,
+        parentOrganizationId: parentOrganization.id,
+        parentOrganizationName: 'Mother Of Dark Side',
       });
       expect(foundOrganizationForAdmin).to.deep.equal(expectedOrganizationForAdmin);
     });
@@ -429,6 +442,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
             [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
           },
           parentOrganizationId: null,
+          parentOrganizationName: null,
         });
         expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
       });
