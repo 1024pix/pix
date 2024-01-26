@@ -158,39 +158,21 @@ class OidcAuthenticationService {
     return uuid;
   }
 
-  async exchangeCodeForTokens({ code, redirectUri }) {
-    const data = {
-      client_secret: this.clientSecret,
-      grant_type: 'authorization_code',
-      code,
-      client_id: this.clientId,
-      redirect_uri: redirectUri,
-    };
+  async exchangeCodeForTokens({ code, nonce, state, sessionState }) {
+    const tokenSet = await this.client.callback(this.redirectUri, { code, state }, { nonce, state: sessionState });
 
-    const httpResponse = await httpAgent.post({
-      url: this.tokenUrl,
-      payload: querystring.stringify(data),
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      timeout: config.partner.fetchTimeOut,
-    });
-
-    if (!httpResponse.isSuccessful) {
-      const message = 'Erreur lors de la récupération des tokens du partenaire.';
-      const dataToLog = {
-        ...httpErrorsHelper.serializeHttpErrorResponse(httpResponse, message),
-        code: 'EXCHANGE_CODE_FOR_TOKEN',
-        requestPayload: data,
-        identityProvider: this.identityProvider,
-      };
-      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
-      throw new OidcInvokingTokenEndpointError(message);
-    }
+    const {
+      access_token: accessToken,
+      expires_in: expiresIn,
+      id_token: idToken,
+      refresh_token: refreshToken,
+    } = tokenSet;
 
     return new AuthenticationSessionContent({
-      idToken: httpResponse.data['id_token'],
-      accessToken: httpResponse.data['access_token'],
-      expiresIn: httpResponse.data['expires_in'],
-      refreshToken: httpResponse.data['refresh_token'],
+      accessToken,
+      expiresIn,
+      idToken,
+      refreshToken,
     });
   }
 
