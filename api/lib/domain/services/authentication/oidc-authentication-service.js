@@ -38,7 +38,6 @@ const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session
 class OidcAuthenticationService {
   #isReady = false;
   #isReadyForPixAdmin = false;
-
   #requiredClaims = Array.from(DEFAULT_REQUIRED_CLAIMS);
 
   constructor(
@@ -57,6 +56,7 @@ class OidcAuthenticationService {
       organizationName,
       postLogoutRedirectUri,
       redirectUri,
+      scope = DEFAULT_SCOPE,
       slug,
       source,
       tokenUrl,
@@ -77,6 +77,7 @@ class OidcAuthenticationService {
     this.organizationName = organizationName;
     this.postLogoutRedirectUri = postLogoutRedirectUri;
     this.redirectUri = redirectUri;
+    this.scope = scope;
     this.slug = slug;
     this.source = source;
     this.tokenUrl = tokenUrl;
