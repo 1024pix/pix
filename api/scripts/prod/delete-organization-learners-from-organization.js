@@ -81,7 +81,7 @@ async function _anonymizeOrganizationLearners({ knexConn, organizationId }) {
 
 function _anonymizeCampaignParticipations({ knexConn, organizationId }) {
   return knexConn('campaign-participations')
-    .update({ participantExternalId: '', userId: null })
+    .update({ participantExternalId: null, userId: null })
     .whereRaw('id IN (?)', [
       knexConn('campaign-participations')
         .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')

@@ -167,6 +167,7 @@ describe('Script | Prod | Delete Organization Learners From Organization', funct
       databaseBuilder.factory.buildCampaignParticipation({
         userId,
         organizationLearnerId,
+        participantExternalId: 'coucou',
       });
       await databaseBuilder.commit();
 
@@ -175,7 +176,7 @@ describe('Script | Prod | Delete Organization Learners From Organization', funct
       const participationResult = await knex('campaign-participations').where({ organizationLearnerId }).first();
       expect(organizationLearnerResult.firstName).to.equal('');
       expect(organizationLearnerResult.lastName).to.equal('');
-      expect(participationResult.participantExternalId).to.equal('');
+      expect(participationResult.participantExternalId).to.be.null;
     });
 
     it('anonymize organization learners personal info even if learner is already deleted', async function () {
@@ -384,7 +385,7 @@ describe('Script | Prod | Delete Organization Learners From Organization', funct
 
         expect(campaignParticipationToKeep.deletedAt).to.be.null;
         expect(campaignParticipationToDelete.deletedAt).not.to.be.null;
-        expect(campaignParticipationToDelete.participantExternalId).to.equal('');
+        expect(campaignParticipationToDelete.participantExternalId).to.be.null;
         expect(campaignParticipationToKeep.participantExternalId).to.equal('Ninja');
       });
     });
