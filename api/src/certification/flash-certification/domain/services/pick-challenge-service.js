@@ -13,7 +13,22 @@ const pickChallenge = function ({ skills, randomSeed, locale }) {
   const keyForChallenge = Math.abs(hashInt(randomSeed + 1));
   const chosenSkill = skills[keyForSkill % skills.length];
 
-  return _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, keyForChallenge);
+  console.info('Acquis choisi plus ou moins au hasard: ', chosenSkill.name);
+
+  console.info(
+    'Cet acquis contient les challenges: ',
+    chosenSkill.challenges.map((challenge) => ({
+      id: challenge.id,
+      status: challenge.status,
+      locales: challenge.locales,
+    })),
+  );
+
+  const result = _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, keyForChallenge);
+
+  console.info('Challenge choisi plus ou moins au hasard: ', result);
+
+  return result;
 };
 
 const chooseNextChallenge = function (

@@ -43,7 +43,7 @@ function findMaxRewardingSkills(...args) {
 }
 
 function _getMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements }) {
-  return _.reduce(
+  const result = _.reduce(
     availableSkills,
     (acc, skill) => {
       const skillReward = _computeReward({ skill, predictedLevel, tubes, knowledgeElements });
@@ -56,7 +56,13 @@ function _getMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowle
       return acc;
     },
     { maxRewardingSkills: [], maxReward: -Infinity },
-  ).maxRewardingSkills;
+  );
+
+  console.info('Acquis les plus intéressants pour le prochain challenge');
+
+  console.info(result);
+
+  return result.maxRewardingSkills;
 }
 
 // Skills that won't bring anymore information on the user is a termination condition of the CAT algorithm

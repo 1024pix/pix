@@ -38,11 +38,21 @@ function getFilteredSkillsForNextChallenge({
 }
 
 function _getUntestedSkills(knowledgeElements, skills) {
-  return _.filter(skills, _skillNotAlreadyTested(knowledgeElements));
+  console.info(`On élimine les acquis déjà testés`);
+  const result = _.filter(skills, _skillNotAlreadyTested(knowledgeElements));
+  console.info(`Il reste ${result.length} acquis`);
+  console.info(result);
+  return result;
 }
 
 function _getPlayableSkill(skills) {
-  return _.filter(skills, (skill) => skill.isPlayable);
+  console.info(`On a ${skills.length} acquis`);
+  console.info(skills);
+  const result = _.filter(skills, (skill) => skill.isPlayable);
+  console.info('On élimine les acquis non jouables (qui ne contiennent pas au moins un challenge)');
+  console.info(`Il reste ${result.length} acquis`);
+  console.info(result);
+  return result;
 }
 
 function _getPrioritySkills(tubes) {
@@ -50,11 +60,17 @@ function _getPrioritySkills(tubes) {
 }
 
 function _keepSkillsFromEasyTubes(tubes, targetSkills) {
+  console.info('On garde si possible les acquis de sujets faciles (niveau <= 3)');
   const skillsFromEasyTubes = _getPrioritySkills(tubes);
   const availableSkillsFromEasyTubes = _.intersectionBy(targetSkills, skillsFromEasyTubes, 'id');
   if (!_.isEmpty(availableSkillsFromEasyTubes)) {
+    console.info(
+      `Des skills de sujets faciles on été trouvés, on retourne ${availableSkillsFromEasyTubes.length} acquis`,
+    );
+    console.info(availableSkillsFromEasyTubes);
     return availableSkillsFromEasyTubes;
   }
+  console.info('Aucun sujet facile trouvé, on retourne tous les acquis');
   return targetSkills;
 }
 
@@ -75,13 +91,19 @@ function _skillNotAlreadyTested(knowledgeElements) {
 
 function _removeTimedSkillsIfNeeded(isLastChallengeTimed, targetSkills) {
   if (isLastChallengeTimed) {
+    console.info('On supprime les acquis dont le prochain challenge est timé');
     const skillsWithoutTimedChallenges = _.filter(targetSkills, (skill) => !skill.timed);
-    return skillsWithoutTimedChallenges.length > 0 ? skillsWithoutTimedChallenges : targetSkills;
+    const result = skillsWithoutTimedChallenges.length > 0 ? skillsWithoutTimedChallenges : targetSkills;
+    console.info(`Il reste ${result.length} acquis`);
+    console.info(result);
+    return result;
   }
   return targetSkills;
 }
 
 function _focusOnDefaultLevel(targetSkills) {
+  console.info('On se concentre sur les acquis de plus petit niveau');
+
   if (_.isEmpty(targetSkills)) {
     return targetSkills;
   }
@@ -93,11 +115,22 @@ function _focusOnDefaultLevel(targetSkills) {
     .entries()
     .minBy(([difficulty, _targetSkills]) => remapDifficulty(parseFloat(difficulty)));
 
+  console.info(`Il reste ${potentialFirstSkills.length} acquis`);
+
+  console.info(potentialFirstSkills.map((skill) => ({ name: skill.name, difficulty: skill.difficulty })));
   return potentialFirstSkills;
 }
 
 function _removeTooDifficultSkills(predictedLevel, targetSkills) {
-  return _.filter(targetSkills, (skill) => !_isSkillTooHard(skill, predictedLevel));
+  console.info(`On supprime les acquis trop difficiles pour l'utilisateur (différence de niveau > 2)`);
+
+  const result = _.filter(targetSkills, (skill) => !_isSkillTooHard(skill, predictedLevel));
+
+  console.info(`Il reste ${result.length} acquis`);
+
+  console.info(result);
+
+  return result;
 }
 
 function _isSkillTooHard(skill, predictedLevel) {

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as catAlgorithm from './cat-algorithm.js';
-import { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } from './skills-filter.js';
+import { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge } from './skills-filter.js';
 import { computeTubesFromSkills } from './../tube-service.js';
 
 export { getPossibleSkillsForNextChallenge };
@@ -13,14 +13,53 @@ function getPossibleSkillsForNextChallenge({
   allAnswers,
   locale,
 } = {}) {
+  console.info('=============== Début ===============');
+
+  console.info('Skills visés');
+
+  console.info(targetSkills);
+
+  console.info('Challenges');
+
+  console.info(challenges);
+
+  console.info("Réponses de l'utilisateur");
+
+  console.info(allAnswers);
+
   const isUserStartingTheTest = !lastAnswer;
+
+  console.info(`L'utilisateur vient de commencer? ${isUserStartingTheTest ? 'oui' : 'non'}`);
+
   const isLastChallengeTimed = _wasLastChallengeTimed(lastAnswer);
+
+  console.info(`Le dernier challenge était timé ? ${isLastChallengeTimed ? 'oui' : 'non'}`);
+
   const tubes = _findTubes(targetSkills, challenges);
+
+  console.info('Sujets de la compétence ou campagne:');
+
+  console.info(tubes);
+
   const knowledgeElementsOfTargetSkills = knowledgeElements.filter((ke) => {
     return targetSkills.find((skill) => skill.id === ke.skillId);
   });
+
+  console.info(`ke de l'utilisateur sur ces acquis`);
+
+  console.info(knowledgeElementsOfTargetSkills);
+
   const filteredChallenges = _removeChallengesWithAnswer({ challenges, allAnswers });
+
+  console.info("Challenges filtrés sans les réponses de l'utilisateur");
+
+  console.info(filteredChallenges);
+
   targetSkills = _getSkillsWithAddedInformations({ targetSkills, filteredChallenges, locale });
+
+  console.info('Acquis avec données enrichies');
+
+  console.info(targetSkills);
 
   // First challenge has specific rules
   const { possibleSkillsForNextChallenge, levelEstimated } = isUserStartingTheTest
@@ -48,14 +87,16 @@ function _findTubes(skills, challenges) {
 }
 
 function _filterSkillsByChallenges(skills, challenges) {
-  const skillsWithChallenges = skills.filter((skill) => {
+  return skills.filter((skill) => {
     return challenges.find((challenge) => challenge.skill.name === skill.name);
   });
-  return skillsWithChallenges;
 }
 
 function _findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed }) {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
+
+  console.info(`Niveau estimé de l'utilisateur: ${predictedLevel}`);
+
   const availableSkills = getFilteredSkillsForNextChallenge({
     knowledgeElements,
     tubes,
@@ -63,12 +104,22 @@ function _findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChall
     isLastChallengeTimed,
     targetSkills,
   });
+
+  console.info('Acquis filtrés pour le prochain challenge');
+
+  console.info(availableSkills);
+
   const maxRewardingSkills = catAlgorithm.findMaxRewardingSkills({
     availableSkills,
     predictedLevel,
     tubes,
     knowledgeElements,
   });
+
+  console.info('Acquis les plus intéressants pour le prochain challenge');
+
+  console.info(maxRewardingSkills);
+
   return { possibleSkillsForNextChallenge: maxRewardingSkills, levelEstimated: predictedLevel };
 }
 

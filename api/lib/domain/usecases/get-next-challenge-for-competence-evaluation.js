@@ -11,6 +11,16 @@ const getNextChallengeForCompetenceEvaluation = async function ({
   _checkIfAssessmentBelongsToUser(assessment, userId);
   const inputValues = await algorithmDataFetcherService.fetchForCompetenceEvaluations(...arguments);
 
+  console.info(`L'utilisateur ${userId} a ${inputValues.knowledgeElements.length} ke`);
+
+  console.info(`Tous les ${inputValues.targetSkills.length} acquis de la compétence: `);
+
+  console.info(inputValues.targetSkills.map(({ name, difficulty }) => ({ name, difficulty })));
+
+  console.info(`Tous les ${inputValues.challenges.length} challenges de la compétence: `);
+
+  console.info(inputValues.challenges.map(({ id, skill }) => ({ id, skill: skill.name })));
+
   const { possibleSkillsForNextChallenge, hasAssessmentEnded } = smartRandom.getPossibleSkillsForNextChallenge({
     ...inputValues,
     locale,
