@@ -130,6 +130,12 @@ async function _resetCampaignAssessment({
   campaignParticipationRepository,
   campaignRepository,
 }) {
+  // assessment.campaignParticipation can be null for organization that ask for
+  // remove its data and users participations
+  // @see pr 7853
+  if (!assessment.campaignParticipationId) {
+    return null;
+  }
   const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
   const skillIds = await campaignRepository.findSkillIdsByCampaignParticipationId({
     campaignParticipationId: assessment.campaignParticipationId,
