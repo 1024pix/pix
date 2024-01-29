@@ -13,13 +13,11 @@ module('Unit | Module | Controller | get', function (hooks) {
       const userResponse = 'userResponse';
       const elementId = 'elementId';
       const passageId = 'passageId';
-      const element = 'element';
+      const element = { id: elementId };
       const moduleSlug = 'moduleSlug';
 
       const answerData = {
         userResponse,
-        elementId,
-        moduleSlug,
         element,
       };
 

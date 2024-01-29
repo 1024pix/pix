@@ -21,7 +21,7 @@ export default class GetController extends Controller {
       event: 'custom-event',
       'pix-event-category': 'Modulix',
       'pix-event-action': `Passage du module : ${this.model.module.id}`,
-      'pix-event-name': `Click sur le bouton vérifier de l'élément : ${answerData.elementId}`,
+      'pix-event-name': `Click sur le bouton vérifier de l'élément : ${answerData.element.id}`,
     });
   }
 }
