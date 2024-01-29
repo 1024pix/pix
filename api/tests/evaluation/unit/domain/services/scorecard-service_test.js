@@ -316,6 +316,33 @@ describe('Unit | Service | ScorecardService', function () {
           .withArgs({ userId, competenceId })
           .resolves(knowledgeElements);
       });
+      it('should not throws when a campaign assessment has been unlink with its participation', async function () {
+        const anonymizedAssessment = domainBuilder.buildAssessment.ofTypeCampaign({
+          id: 98765,
+          state: 'started',
+          userId,
+        });
+        anonymizedAssessment.campaignParticipationId = null;
+
+        assessmentRepository.findNotAbortedCampaignAssessmentsByUserId
+          .withArgs(userId)
+          .resolves([anonymizedAssessment]);
+
+        // when
+        const call = async () => {
+          await scorecardService.resetScorecard({
+            userId,
+            competenceId,
+            shouldResetCompetenceEvaluation,
+            assessmentRepository,
+            knowledgeElementRepository,
+            campaignParticipationRepository,
+            competenceEvaluationRepository,
+            campaignRepository,
+          });
+        };
+        expect(await call()).not.to.throw;
+      });
 
       // then
       it('should reset each knowledge Element', async function () {
