@@ -7,7 +7,7 @@ import range from 'lodash/range.js';
 
 const { handleComplementaryCertificationsScoring } = _forTestOnly.handlers;
 
-describe('Unit | Domain | Events | handle-complementary-certification-certifications-scoring', function () {
+describe('Unit | Domain | Events | Handle Complementary Certifications Scoring', function () {
   const certificationAssessmentRepository = {};
   const complementaryCertificationCourseResultRepository = {};
   const assessmentResultRepository = {};

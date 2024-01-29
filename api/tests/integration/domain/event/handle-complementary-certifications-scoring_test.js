@@ -14,17 +14,13 @@ import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.
 
 describe('Integration | Event | Handle Complementary Certifications Scoring', function () {
   describe('#handleComplementaryCertificationsScoring', function () {
-    beforeEach(async function () {
-      return databaseBuilder.commit();
-    });
-
     afterEach(async function () {
       await knex('complementary-certification-course-results').delete();
     });
 
     describe('when the candidate has not taken a complementary certification', function () {
       it('should save nothing', async function () {
-        // when
+        // given
         databaseBuilder.factory.buildUser({ id: 51 });
         databaseBuilder.factory.buildCertificationCourse({ id: 21, userId: 51 });
         const event = new CertificationScoringCompleted({
@@ -33,6 +29,9 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
           reproducibilityRate: 99,
         });
 
+        await databaseBuilder.commit();
+
+        // when
         await handleComplementaryCertificationsScoring({
           event,
           assessmentResultRepository,
@@ -53,7 +52,7 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
     describe('when the candidate has taken a complementary certification', function () {
       describe('when it is acquired', function () {
         it('should save a result', async function () {
-          // when
+          // given
           const complementaryCertificationCourseId = 99;
 
           _buildComplementaryCertificationBadge({
@@ -74,12 +73,12 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
           });
 
           await databaseBuilder.commit();
-
           const event = new CertificationScoringCompleted({
             certificationCourseId: 900,
             userId: 401,
           });
 
+          // when
           await handleComplementaryCertificationsScoring({
             event,
             assessmentResultRepository,
@@ -88,6 +87,7 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
             complementaryCertificationScoringCriteriaRepository,
             certificationCourseRepository,
           });
+
           // then
           const complementaryCertificationCourseResults = await knex('complementary-certification-course-results')
             .select()
@@ -103,7 +103,7 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
 
         describe('when it has been rejected for fraud', function () {
           it('should save a complementary certification not acquired', async function () {
-            // when
+            // given
             const complementaryCertificationCourseId = 99;
 
             _buildComplementaryCertificationBadge({
@@ -131,6 +131,7 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
               userId: 401,
             });
 
+            // when
             await handleComplementaryCertificationsScoring({
               event,
               assessmentResultRepository,
@@ -179,7 +180,7 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
 
         describe('when the lower level is acquired', function () {
           it('should save a result', async function () {
-            // when
+            // given
             const complementaryCertificationCourseId = 99;
             const assessmentId = 123;
 
@@ -247,6 +248,7 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
               userId: 401,
             });
 
+            // when
             await handleComplementaryCertificationsScoring({
               event,
               assessmentResultRepository,
@@ -256,6 +258,7 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
               complementaryCertificationBadgesRepository,
               certificationCourseRepository,
             });
+
             // then
             const complementaryCertificationCourseResults = await knex('complementary-certification-course-results')
               .select()
