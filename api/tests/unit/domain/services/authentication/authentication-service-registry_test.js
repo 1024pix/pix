@@ -147,6 +147,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       expect(error.message).to.equal(`Identity provider ${identityProviderCode} is not supported.`);
     });
   });
+
   describe('#loadOidcProviderServices', function () {
     it('loads all given oidc provider services and filters them', function () {
       // given
@@ -178,12 +179,30 @@ describe('Unit | Domain | Services | authentication registry', function () {
   describe('#configureReadyOidcProviderServices', function () {
     it('configures openid client for ready oidc provider services', async function () {
       // given
-      sinon.restore();
       const createClient = sinon.stub().resolves();
       const oidcProviderServices = [
         {
           code: 'OIDC',
           isReady: true,
+          createClient,
+        },
+      ];
+      oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+
+      // when
+      await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServices();
+
+      // then
+      expect(createClient).to.have.been.calledOnce;
+    });
+
+    it('configures openid client for ready oidc provider services for Pix Admin', async function () {
+      // given
+      const createClient = sinon.stub().resolves();
+      const oidcProviderServices = [
+        {
+          code: 'OIDC',
+          isReadyForPixAdmin: true,
           createClient,
         },
       ];

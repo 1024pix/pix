@@ -2,6 +2,7 @@ import { oidcController } from '../../../../../lib/application/authentication/oi
 import { UnauthorizedError } from '../../../../../lib/application/http-errors.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { catchErr, domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
+import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 
 describe('Unit | Application | Controller | Authentication | OIDC', function () {
   const identityProvider = 'OIDC';
@@ -175,7 +176,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           query: {
             identity_provider: identityProvider,
             redirect_uri: 'http:/exemple.net/',
-            audience: 'admin',
+            audience: PIX_ADMIN.AUDIENCE,
           },
           yar: { set: sinon.stub(), commit: sinon.stub() },
         };
@@ -199,7 +200,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         // then
         expect(authenticationServiceRegistryStub.getOidcProviderServiceByCode).to.have.been.calledWith({
           identityProviderCode: identityProvider,
-          audience: 'admin',
+          audience: PIX_ADMIN.AUDIENCE,
         });
       });
     });
@@ -277,7 +278,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           ...request,
           deserializedPayload: {
             ...request.deserializedPayload,
-            audience: 'admin',
+            audience: PIX_ADMIN.AUDIENCE,
           },
         };
         const oidcAuthenticationService = {};
@@ -308,7 +309,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         // then
         expect(authenticationServiceRegistryStub.getOidcProviderServiceByCode).to.have.been.calledWithExactly({
           identityProviderCode: identityProvider,
-          audience: 'admin',
+          audience: PIX_ADMIN.AUDIENCE,
         });
       });
     });
@@ -490,6 +491,33 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
 
       // then
       expect(result.source).to.deep.equal({ access_token: 'accessToken', logout_url_uuid: 'logoutUrlUUID' });
+    });
+  });
+
+  describe('#reconcileUserForAdmin', function () {
+    it('should call use case and return the result', async function () {
+      // given
+      const request = {
+        deserializedPayload: {
+          identityProvider: 'OIDC',
+          authenticationKey: '123abc',
+          email: 'user@example.net',
+        },
+      };
+      const authenticationServiceRegistryStub = {
+        getOidcProviderServiceByCode: sinon.stub(),
+      };
+
+      const dependencies = {
+        authenticationServiceRegistry: authenticationServiceRegistryStub,
+      };
+      sinon.stub(usecases, 'reconcileOidcUserForAdmin').resolves('accessToken');
+
+      // when
+      const result = await oidcController.reconcileUserForAdmin(request, hFake, dependencies);
+
+      // then
+      expect(result.source).to.deep.equal({ access_token: 'accessToken' });
     });
   });
 });
