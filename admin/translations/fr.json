@@ -265,8 +265,21 @@
       }
     },
     "login": {
+      "title": "L'accès à Pix Admin est limité aux administrateurs de la plateforme",
       "api-error-messages": {
         "login-no-permission": "Vous n'avez pas les droits pour vous connecter."
+      },
+      "button": "Je me connecte",
+      "fields": {
+        "email": {
+          "label": "Adresse e-mail"
+        },
+        "password": {
+          "label": "Mot de passe"
+        }
+      },
+      "google": {
+        "label": "Se connecter avec Google"
       }
     },
     "organization": {

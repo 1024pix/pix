@@ -255,8 +255,21 @@
       }
     },
     "login": {
+      "title": "Access to this Pix Admin space is limited to administrators.",
       "api-error-messages": {
         "login-no-permission": "You don't have the permission to connect."
+      },
+      "button": "Log in",
+      "fields": {
+        "email": {
+          "label": "Email address"
+        },
+        "password": {
+          "label": "Password"
+        }
+      },
+      "google": {
+        "label": "Log in via Google"
       }
     },
     "organization": {

@@ -13,6 +13,11 @@ export default class LoginForm extends Component {
   @tracked email;
   @tracked password;
   @tracked errorMessage;
+  @service oidcIdentityProviders;
+
+  get isGoogleIdentityProviderEnabled() {
+    return this.oidcIdentityProviders.isProviderEnabled('google');
+  }
 
   @action
   async authenticateUser(event) {
