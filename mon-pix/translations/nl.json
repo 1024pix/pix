@@ -1196,6 +1196,15 @@
           "skip": "Ga naar"
         }
       },
+      "details": {
+        "duration": "Duur",
+        "explanationText": "De Pix trainingsmodules bestaan uit lessen en activiteiten waarmee je je digitale vaardigheden kunt trainen en ontwikkelen. De lessen zijn in de vorm van video's, audio, afbeeldingen en teksten. Tijdens een activiteit wordt je reactie direct gecontroleerd en kun je het opnieuw proberen! Indien nodig kun je altijd terug naar vorige lessen. Een module duurt ongeveer 10 minuten, over een specifiek onderwerp met een moeilijkheidsgraad van beginner tot expert.<br/>Dit is eigenlijk een betafase product, je kunt ons al je suggesties voor verbetering sturen.",
+        "explanationTitle": "Wat is een module?",
+        "level": "Niveau",
+        "objectives": "Doelstellingen",
+        "startModule": "Start de module",
+        "timeUnit": "min"
+      },
       "modals": {
         "alternativeText": {
           "title": "Tekst alternatief"
