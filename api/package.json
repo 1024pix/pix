@@ -25,6 +25,7 @@
     "@hapi/hapi": "^21.0.0",
     "@hapi/inert": "^7.0.0",
     "@hapi/vision": "^7.0.0",
+    "@hapi/yar": "^11.0.1",
     "@joi/date": "^2.1.0",
     "@json2csv/node": "^7.0.2",
     "@json2csv/plainjs": "^7.0.2",
