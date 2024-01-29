@@ -47,6 +47,27 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
       .exists();
   });
 
+  test('it displays the participation count', async function (assert) {
+    // given
+    this.participation = {
+      id: '123',
+      campaignType: 'ASSESSMENT',
+      campaignName: 'Allez l OM',
+      createdAt: new Date('2023-02-01'),
+      sharedAt: new Date('2023-03-01'),
+      status: 'SHARED',
+      participationCount: 3,
+    };
+
+    // when
+    const screen = await render(
+      hbs`<OrganizationLearner::Activity::ParticipationRow @participation={{this.participation}} />`,
+    );
+
+    // then
+    assert.dom(screen.getByRole('cell', { name: '3' })).exists();
+  });
+
   test('it should transition to assessment detail when campaignType is ASSESSMENT', async function (assert) {
     // given
     this.participation = {
