@@ -7,7 +7,6 @@ import { ComplementaryCertificationScoringWithComplementaryReferential } from '.
 import { ComplementaryCertificationScoringWithoutComplementaryReferential } from '../models/ComplementaryCertificationScoringWithoutComplementaryReferential.js';
 import { ComplementaryCertificationCourseResult } from '../models/ComplementaryCertificationCourseResult.js';
 import { config } from '../../config.js';
-import { status } from '../../../src/shared/domain/models/AssessmentResult.js';
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
 
@@ -23,118 +22,168 @@ async function handleComplementaryCertificationsScoring({
   checkEventTypes(event, eventTypes);
   const certificationCourseId = event.certificationCourseId;
 
-  const complementaryCertificationScoringCriteria =
+  const [complementaryCertificationScoringCriteria] =
     await complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId({ certificationCourseId });
 
-  if (!complementaryCertificationScoringCriteria.length) {
+  if (!complementaryCertificationScoringCriteria) {
     return;
   }
 
   const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
   const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
 
-  // FIXME: this loop is irrelevant, there can only be one complementary certification taken on one certificationCourse
-  for (const complementaryCertificationScoringCriterion of complementaryCertificationScoringCriteria) {
-    const {
-      minimumReproducibilityRate,
-      minimumReproducibilityRateLowerLevel,
-      complementaryCertificationCourseId,
-      complementaryCertificationBadgeId,
-      complementaryCertificationBadgeKey,
-      hasComplementaryReferential,
-      minimumEarnedPix,
-    } = complementaryCertificationScoringCriterion;
-    let complementaryCertificationScoring;
+  const {
+    minimumReproducibilityRate,
+    minimumReproducibilityRateLowerLevel,
+    complementaryCertificationCourseId,
+    complementaryCertificationBadgeId,
+    complementaryCertificationBadgeKey,
+    hasComplementaryReferential,
+    minimumEarnedPix,
+  } = complementaryCertificationScoringCriteria;
 
-    if (hasComplementaryReferential) {
-      const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
-        certificationCourseId,
-      });
-      const { certificationChallenges: pixPlusChallenges, certificationAnswers: pixPlusAnswers } =
-        certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey(complementaryCertificationBadgeKey);
-      complementaryCertificationScoring = _buildComplementaryCertificationScoringWithReferential({
-        minimumReproducibilityRate,
-        complementaryCertificationCourseId,
-        complementaryCertificationBadgeId,
-        challenges: pixPlusChallenges,
-        answers: pixPlusAnswers,
-        complementaryCertificationBadgeKey,
-        assessmentResult,
-        certificationCourse,
-        minimumEarnedPix,
-        pixScore: assessmentResult.pixScore,
-      });
-    } else {
-      complementaryCertificationScoring = new ComplementaryCertificationScoringWithoutComplementaryReferential({
-        complementaryCertificationCourseId,
-        complementaryCertificationBadgeId,
-        complementaryCertificationBadgeKey,
-        reproducibilityRate: assessmentResult.reproducibilityRate,
-        pixScore: assessmentResult.pixScore,
-        hasAcquiredPixCertification: assessmentResult.isValidated(),
-        minimumEarnedPix,
-        minimumReproducibilityRate,
-        isRejectedForFraud: certificationCourse.isRejectedForFraud(),
-      });
-    }
+  const complementaryCertificationScoring = await _buildComplementaryCertificationScoring({
+    hasComplementaryReferential,
+    certificationAssessmentRepository,
+    certificationCourseId,
+    complementaryCertificationBadgeKey,
+    minimumReproducibilityRate,
+    complementaryCertificationCourseId,
+    complementaryCertificationBadgeId,
+    assessmentResult,
+    certificationCourse,
+    minimumEarnedPix,
+  });
 
-    if (config.featureToggles.isPixPlusLowerLeverEnabled && hasComplementaryReferential) {
-      const complementaryCertificationBadges =
-        await complementaryCertificationBadgesRepository.getAllWithSameTargetProfile(complementaryCertificationBadgeId);
-      const { level: currentBadgeLevel } = complementaryCertificationBadges.find(
-        ({ id }) => complementaryCertificationBadgeId === id,
-      );
-      const badgeNextLowerLevel = complementaryCertificationBadges.find(_isNextLowerLevel(currentBadgeLevel));
+  const { computedComplementaryCertificationBadgeId, isAcquired } = await _getComplementaryCertificationResultInfo({
+    complementaryCertificationScoring,
+    hasComplementaryReferential,
+    complementaryCertificationBadgesRepository,
+    assessmentResult,
+    minimumReproducibilityRateLowerLevel,
+  });
 
-      if (
-        assessmentResult.status === status.VALIDATED &&
-        !!badgeNextLowerLevel &&
-        _hasAcquiredLowerLevel({
-          pixScore: assessmentResult.pixScore,
-          reproducibilityRate: complementaryCertificationScoring.reproducibilityRate.value,
-          minimumEarnedPixForCurrentLevel: minimumEarnedPix,
-          minimumEarnedPixForLowerLevel: badgeNextLowerLevel.minimumEarnedPix,
-          complementaryCertificationScoring,
-          minimumReproducibilityRateLowerLevel,
-        })
-      ) {
-        return await _saveLowerLevel({ complementaryCertificationScoring, badgeNextLowerLevel });
-      }
-      return await _saveCurrentLevel(
-        complementaryCertificationCourseResultRepository,
-        complementaryCertificationScoring,
-      );
-    } else {
-      return await _saveCurrentLevel(
-        complementaryCertificationCourseResultRepository,
-        complementaryCertificationScoring,
-      );
-    }
-  }
-
-  async function _saveLowerLevel({ complementaryCertificationScoring, badgeNextLowerLevel }) {
-    await complementaryCertificationCourseResultRepository.save(
-      ComplementaryCertificationCourseResult.from({
-        ...complementaryCertificationScoring,
-        complementaryCertificationBadgeId: badgeNextLowerLevel.id,
-        source: ComplementaryCertificationCourseResult.sources.PIX,
-        acquired: true,
-      }),
-    );
-  }
+  return _saveResult({
+    complementaryCertificationCourseResultRepository,
+    complementaryCertificationScoring,
+    complementaryCertificationBadgeId: computedComplementaryCertificationBadgeId,
+    acquired: isAcquired,
+  });
 }
 
-async function _saveCurrentLevel(complementaryCertificationCourseResultRepository, complementaryCertificationScoring) {
+async function _getComplementaryCertificationResultInfo({
+  complementaryCertificationScoring,
+  hasComplementaryReferential,
+  complementaryCertificationBadgesRepository,
+  assessmentResult,
+  minimumReproducibilityRateLowerLevel,
+}) {
+  if (
+    config.featureToggles.isPixPlusLowerLeverEnabled &&
+    hasComplementaryReferential &&
+    assessmentResult.isValidated()
+  ) {
+    const lowerLevelComplementaryCertificationBadge = await _getNextLowerLevelBadge(
+      complementaryCertificationBadgesRepository,
+      complementaryCertificationScoring.complementaryCertificationBadgeId,
+    );
+
+    if (
+      !!lowerLevelComplementaryCertificationBadge &&
+      _hasAcquiredLowerLevelBadge({
+        pixScore: assessmentResult.pixScore,
+        reproducibilityRate: complementaryCertificationScoring.reproducibilityRate.value,
+        minimumEarnedPixForCurrentLevel: complementaryCertificationScoring.minimumEarnedPix,
+        minimumEarnedPixForLowerLevel: lowerLevelComplementaryCertificationBadge.minimumEarnedPix,
+        complementaryCertificationScoring,
+        minimumReproducibilityRateLowerLevel,
+      })
+    ) {
+      return {
+        isAcquired: true,
+        computedComplementaryCertificationBadgeId: lowerLevelComplementaryCertificationBadge.id,
+      };
+    }
+  }
+  return {
+    isAcquired: complementaryCertificationScoring.isAcquired(),
+    computedComplementaryCertificationBadgeId: complementaryCertificationScoring.complementaryCertificationBadgeId,
+  };
+}
+
+async function _saveResult({
+  complementaryCertificationCourseResultRepository,
+  complementaryCertificationScoring,
+  acquired,
+  complementaryCertificationBadgeId,
+}) {
   await complementaryCertificationCourseResultRepository.save(
     ComplementaryCertificationCourseResult.from({
-      ...complementaryCertificationScoring,
+      complementaryCertificationCourseId: complementaryCertificationScoring.complementaryCertificationCourseId,
+      label: complementaryCertificationScoring.label,
+      complementaryCertificationBadgeId,
       source: ComplementaryCertificationCourseResult.sources.PIX,
-      acquired: complementaryCertificationScoring.isAcquired(),
+      acquired,
     }),
   );
 }
 
-function _hasAcquiredLowerLevel({
+async function _getNextLowerLevelBadge(complementaryCertificationBadgesRepository, complementaryCertificationBadgeId) {
+  const complementaryCertificationBadges = await complementaryCertificationBadgesRepository.getAllWithSameTargetProfile(
+    complementaryCertificationBadgeId,
+  );
+  const { level: currentBadgeLevel } = complementaryCertificationBadges.find(
+    ({ id }) => complementaryCertificationBadgeId === id,
+  );
+  const badgeNextLowerLevel = complementaryCertificationBadges.find(_isNextLowerLevel(currentBadgeLevel));
+  return badgeNextLowerLevel;
+}
+
+async function _buildComplementaryCertificationScoring({
+  hasComplementaryReferential,
+  certificationAssessmentRepository,
+  certificationCourseId,
+  complementaryCertificationBadgeKey,
+  minimumReproducibilityRate,
+  complementaryCertificationCourseId,
+  complementaryCertificationBadgeId,
+  assessmentResult,
+  certificationCourse,
+  minimumEarnedPix,
+}) {
+  if (hasComplementaryReferential) {
+    const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
+      certificationCourseId,
+    });
+    const { certificationChallenges: pixPlusChallenges, certificationAnswers: pixPlusAnswers } =
+      certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey(complementaryCertificationBadgeKey);
+    return _buildComplementaryCertificationScoringWithReferential({
+      minimumReproducibilityRate,
+      complementaryCertificationCourseId,
+      complementaryCertificationBadgeId,
+      challenges: pixPlusChallenges,
+      answers: pixPlusAnswers,
+      complementaryCertificationBadgeKey,
+      assessmentResult,
+      certificationCourse,
+      minimumEarnedPix,
+      pixScore: assessmentResult.pixScore,
+    });
+  }
+  return new ComplementaryCertificationScoringWithoutComplementaryReferential({
+    complementaryCertificationCourseId,
+    complementaryCertificationBadgeId,
+    complementaryCertificationBadgeKey,
+    reproducibilityRate: assessmentResult.reproducibilityRate,
+    pixScore: assessmentResult.pixScore,
+    hasAcquiredPixCertification: assessmentResult.isValidated(),
+    minimumEarnedPix,
+    minimumReproducibilityRate,
+    isRejectedForFraud: certificationCourse.isRejectedForFraud(),
+  });
+}
+
+function _hasAcquiredLowerLevelBadge({
   pixScore,
   reproducibilityRate,
   minimumEarnedPixForCurrentLevel,
@@ -190,7 +239,6 @@ function _buildComplementaryCertificationScoringWithReferential({
   complementaryCertificationBadgeKey,
   assessmentResult,
   certificationCourse,
-  pixScore,
   minimumEarnedPix,
 }) {
   const answerCollection = AnswerCollectionForScoring.from({ answers, challenges });
@@ -207,7 +255,7 @@ function _buildComplementaryCertificationScoringWithReferential({
     complementaryCertificationBadgeKey,
     hasAcquiredPixCertification: assessmentResult.isValidated(),
     isRejectedForFraud: certificationCourse.isRejectedForFraud(),
-    pixScore,
+    pixScore: assessmentResult.pixScore,
     minimumEarnedPix,
   });
 }
