@@ -76,25 +76,49 @@ const findByUserIdsAndSnappedAtDates = async function (userIdsAndSnappedAtDates 
  * @param {Array<FindMultipleSnapshotsPayload>} userIdsAndSnappedAtDates
  * @returns {Promise<Array<CampaignParticipationKnowledgeElementSnapshots>>}
  */
-const findMultipleUsersFromUserIdsAndSnappedAtDates = async function (userIdsAndSnappedAtDates) {
+const findMultipleUsersFromUserIdsAndSnappedAtDates = async function (userIdsAndSnappedAtDates, campaignSkillIds) {
   const params = userIdsAndSnappedAtDates.map((userIdAndDate) => {
     return [userIdAndDate.userId, userIdAndDate.sharedAt];
   });
-
   const results = await knex
-    .select(
-      'knowledge-element-snapshots.userId as userId',
+    .with(
+      'ke-snapshot-filtered',
+      knex
+        .select(['userId', 'snappedAt', knex.raw('coalesce(jsonb_agg(obj), \'[]\') as "snapshot"')])
+        .fromRaw('"knowledge-element-snapshots", jsonb_array_elements("snapshot") obj')
+        // eslint-disable-next-line knex/avoid-injections
+        .whereRaw(`obj->>'skillId' in ('${campaignSkillIds.join("','")}')`)
+        .whereRaw(`obj->>'status' = 'validated'`)
+        .whereIn(['userId', 'snappedAt'], params)
+        .groupBy('userId', 'snappedAt'),
+    )
+    .select([
+      'ke-snapshot-filtered.userId as userId',
       'snapshot',
       'campaign-participations.id as campaignParticipationId',
-    )
-    .from('knowledge-element-snapshots')
+    ])
+    .from('ke-snapshot-filtered')
     .join('campaign-participations', function () {
-      this.on('campaign-participations.userId', 'knowledge-element-snapshots.userId').on(
+      this.on('campaign-participations.userId', 'ke-snapshot-filtered.userId').on(
         'campaign-participations.sharedAt',
-        'knowledge-element-snapshots.snappedAt',
+        'ke-snapshot-filtered.snappedAt',
       );
-    })
-    .whereIn(['knowledge-element-snapshots.userId', 'snappedAt'], params);
+    });
+
+  // const results = await knex
+  //   .select(
+  //     'knowledge-element-snapshots.userId as userId',
+  //     'snapshot',
+  //     'campaign-participations.id as campaignParticipationId',
+  //   )
+  //   .from('knowledge-element-snapshots')
+  //   .join('campaign-participations', function () {
+  //     this.on('campaign-participations.userId', 'knowledge-element-snapshots.userId').on(
+  //       'campaign-participations.sharedAt',
+  //       'knowledge-element-snapshots.snappedAt',
+  //     );
+  //   })
+  //   .whereIn(['knowledge-element-snapshots.userId', 'snappedAt'], params);
 
   return results.map((result) => {
     const mappedKnowledgeElements = _toKnowledgeElementCollection({ snapshot: result.snapshot });

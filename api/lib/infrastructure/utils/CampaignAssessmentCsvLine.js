@@ -161,9 +161,11 @@ class CampaignAssessmentCsvLine {
   }
 
   _countValidatedKnowledgeElementsForCompetence(competenceId) {
-    return this.targetedKnowledgeElementsByCompetence[competenceId].filter(
-      (knowledgeElement) => knowledgeElement.isValidated,
-    ).length;
+    return (
+      this.targetedKnowledgeElementsByCompetence[competenceId]?.filter(
+        (knowledgeElement) => knowledgeElement.isValidated,
+      ).length || 0
+    );
   }
 
   _getReachedStage() {

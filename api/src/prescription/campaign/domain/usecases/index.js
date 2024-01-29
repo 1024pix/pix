@@ -29,6 +29,7 @@ import * as membershipRepository from '../../../../../lib/infrastructure/reposit
 import * as organizationRepository from '../../../../../lib/infrastructure/repositories/organization-repository.js';
 import * as placementProfileService from '../../../../../lib/domain/services/placement-profile-service.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
+import * as campaignSkillRepository from '../../../../../lib/infrastructure/repositories/campaign-skill-repository.js';
 
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
@@ -58,6 +59,7 @@ const dependencies = {
   stageCollectionRepository,
   targetProfileRepository, // TODO
   userRepository,
+  campaignSkillRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

@@ -27,6 +27,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   targetProfileRepository,
   learningContentRepository,
   stageCollectionRepository,
+  campaignSkillRepository,
 }) {
   const campaign = await campaignRepository.get(campaignId);
   const translate = i18n.__;
@@ -39,7 +40,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   const learningContent = await learningContentRepository.findByCampaignId(campaign.id, i18n.getLocale());
   const stageCollection = await stageCollectionRepository.findStageCollection({ campaignId });
   const campaignLearningContent = new CampaignLearningContent(learningContent);
-
+  const campaignSkills = await campaignSkillRepository.getSkillIdsByCampaignId(campaign.id);
   const organization = await organizationRepository.get(campaign.organizationId);
   const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
@@ -73,7 +74,10 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
           return { userId, sharedAt };
         });
         const knowledgeElementsByUserIdAndCompetenceId =
-          await knowledgeElementSnapshotRepository.findMultipleUsersFromUserIdsAndSnappedAtDates(userIdsAndDates);
+          await knowledgeElementSnapshotRepository.findMultipleUsersFromUserIdsAndSnappedAtDates(
+            userIdsAndDates,
+            campaignSkills,
+          );
 
         let acquiredBadgesByCampaignParticipations;
         if (targetProfile.hasBadges) {
@@ -91,7 +95,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
               knowledElementForSharedParticipation.campaignParticipationId,
           );
 
-          let participantKnowledgeElementsByCompetenceId = null;
+          let participantKnowledgeElementsByCompetenceId = {};
 
           if (sharedResultInfo) {
             participantKnowledgeElementsByCompetenceId =
