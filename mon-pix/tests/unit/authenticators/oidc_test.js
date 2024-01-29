@@ -17,7 +17,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
     const identityProviderSlug = 'oidc-partner';
     const code = 'code';
     const state = 'state';
-    const nonce = 'nonce';
     const request = {
       method: 'POST',
       headers: {
@@ -30,7 +29,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
         attributes: {
           code: code,
           identity_provider: identityProviderCode,
-          nonce,
           state,
         },
       },
@@ -111,8 +109,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
       // given
       const authenticator = this.owner.lookup('authenticator:oidc');
 
-      session.get.returns('nonce');
-
       // when
       const token = await authenticator.authenticate({
         code,
@@ -123,7 +119,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
 
       // then
       request.body = body;
-      assert.true(session.get.calledOnceWithExactly('data.nonce'));
       assert.true(fetch.default.calledWith('http://localhost:3000/api/oidc/token', request));
       assert.deepEqual(token, {
         access_token: accessToken,
@@ -141,7 +136,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
         // given
         sinon.stub(session, 'isAuthenticated').value(true);
         sinon.stub(session, 'invalidate').resolves();
-        session.get.returns('nonce');
 
         const authenticator = this.owner.lookup('authenticator:oidc');
 

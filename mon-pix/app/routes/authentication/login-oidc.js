@@ -14,12 +14,6 @@ export default class LoginOidcRoute extends Route {
   @service oidcIdentityProviders;
   @service intl;
 
-  _unsetOidcProperties() {
-    this.session.set('data.nextURL', undefined);
-    this.session.set('data.nonce', undefined);
-    this.session.set('data.state', undefined);
-  }
-
   beforeModel(transition) {
     const queryParams = transition.to.queryParams;
     if (queryParams.error) {
@@ -32,7 +26,7 @@ export default class LoginOidcRoute extends Route {
     }
 
     if (!queryParams.code) {
-      this._unsetOidcProperties();
+      this._cleanSession();
 
       const identityProviderSlug = transition.to.params.identity_provider_slug.toString();
       const isSupportedIdentityProvider = this.oidcIdentityProviders[identityProviderSlug] ?? null;
@@ -84,9 +78,6 @@ export default class LoginOidcRoute extends Route {
       }
 
       throw error;
-    } finally {
-      this.session.set('data.state', undefined);
-      this.session.set('data.nonce', undefined);
     }
   }
 
@@ -124,9 +115,11 @@ export default class LoginOidcRoute extends Route {
         redirectUri,
       )}`,
     );
-    const { redirectTarget, state, nonce } = await response.json();
-    this.session.set('data.state', state);
-    this.session.set('data.nonce', nonce);
+    const { redirectTarget } = await response.json();
     this.location.replace(redirectTarget);
+  }
+
+  _cleanSession() {
+    this.session.set('data.nextURL', undefined);
   }
 }

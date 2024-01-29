@@ -34,7 +34,6 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       body = {
         code,
         identity_provider: identityProvider.code,
-        nonce: this.session.get('data.nonce'),
         state,
       };
 
