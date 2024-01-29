@@ -6,10 +6,15 @@ import { CertificationAssessmentScoreV3 } from '../../../../lib/domain/models/Ce
 import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { config } from '../../../../src/shared/config.js';
 import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
+import { buildCompetenceForScoring } from '../../../tooling/domain-builder/factory/index.js';
 
 describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function () {
   const assessmentId = 1234;
   const maxReachableLevelOnCertificationDate = 7;
+
+  const competenceId = 'recComp1';
+  const areaCode = '1';
+  const competenceCode = '1.1';
 
   let answerRepository;
   let challengeRepository;
@@ -18,6 +23,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   let baseChallenges;
   let baseAnswers;
   let challenge4;
+  let competencesForScoring;
 
   beforeEach(function () {
     answerRepository = {
@@ -71,6 +77,14 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
     baseChallenges = [challenge1, challenge2, challenge3, challenge4];
     baseAnswers = [answer1, answer3, answer2];
+
+    competencesForScoring = [
+      buildCompetenceForScoring({
+        competenceId,
+        competenceCode,
+        areaCode,
+      }),
+    ];
   });
 
   describe('when the candidate finished the test', function () {
@@ -105,13 +119,15 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         allAnswers,
         algorithm,
         maxReachableLevelOnCertificationDate,
+        competencesForScoring,
       });
 
       expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
     });
 
-    it('should return a level for all competences', function () {
+    it('should return the competence marks', async function () {
       const expectedEstimatedLevel = 2;
+
       const numberOfQuestions = 32;
 
       const challenges = _buildChallenges(0, numberOfQuestions);
@@ -134,35 +150,23 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         }),
       );
 
-      const expectedCompetenceLevels = {
-        1.1: 4,
-        1.2: 3,
-        1.3: 4,
-        2.1: 4,
-        2.2: 5,
-        2.3: 3,
-        2.4: 4,
-        3.1: 4,
-        3.2: 4,
-        3.3: 3,
-        3.4: 0,
-        4.1: 3,
-        4.2: 3,
-        4.3: 3,
-        5.1: 4,
-        5.2: 4,
-      };
-
-      // when
       const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
         challenges,
         allAnswers,
         algorithm,
         maxReachableLevelOnCertificationDate,
+        competencesForScoring,
       });
 
-      // then
-      expect(score.competenceLevels).to.deep.equal(expectedCompetenceLevels);
+      expect(score.competenceMarks).to.deep.equal([
+        domainBuilder.buildCompetenceMark({
+          competenceId,
+          area_code: areaCode,
+          competence_code: competenceCode,
+          level: 2,
+          score: 0,
+        }),
+      ]);
     });
   });
 
@@ -202,9 +206,57 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           algorithm,
           abortReason,
           maxReachableLevelOnCertificationDate,
+          competencesForScoring,
         });
 
         expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
+      });
+
+      it('should return the competence marks', async function () {
+        const expectedEstimatedLevel = 2;
+
+        const numberOfAnsweredQuestions = 20;
+        const numberCertificationQuestions = 32;
+
+        const challenges = _buildChallenges(0, numberOfAnsweredQuestions);
+        const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
+        const abortReason = ABORT_REASONS.TECHNICAL;
+
+        answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
+        challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
+        algorithm.getEstimatedLevelAndErrorRate
+          .withArgs({
+            challenges,
+            allAnswers,
+          })
+          .returns({
+            estimatedLevel: expectedEstimatedLevel,
+          });
+
+        algorithm.getConfiguration.returns(
+          domainBuilder.buildFlashAlgorithmConfiguration({
+            maximumAssessmentLength: numberCertificationQuestions,
+          }),
+        );
+
+        const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+          challenges,
+          allAnswers,
+          algorithm,
+          abortReason,
+          maxReachableLevelOnCertificationDate,
+          competencesForScoring,
+        });
+
+        expect(score.competenceMarks).to.deep.equal([
+          domainBuilder.buildCompetenceMark({
+            competenceId,
+            area_code: areaCode,
+            competence_code: competenceCode,
+            level: 2,
+            score: 0,
+          }),
+        ]);
       });
     });
 
@@ -243,9 +295,57 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           algorithm,
           abortReason,
           maxReachableLevelOnCertificationDate,
+          competencesForScoring,
         });
 
         expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
+      });
+
+      it('should return the competence marks', async function () {
+        const expectedEstimatedLevel = 2;
+
+        const numberOfAnsweredQuestions = 20;
+        const numberCertificationQuestions = 32;
+
+        const challenges = _buildChallenges(0, numberOfAnsweredQuestions);
+        const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
+        const abortReason = ABORT_REASONS.CANDIDATE;
+
+        answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
+        challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
+        algorithm.getEstimatedLevelAndErrorRate
+          .withArgs({
+            challenges,
+            allAnswers,
+          })
+          .returns({
+            estimatedLevel: expectedEstimatedLevel,
+          });
+
+        algorithm.getConfiguration.returns(
+          domainBuilder.buildFlashAlgorithmConfiguration({
+            maximumAssessmentLength: numberCertificationQuestions,
+          }),
+        );
+
+        const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+          challenges,
+          allAnswers,
+          algorithm,
+          abortReason,
+          maxReachableLevelOnCertificationDate,
+          competencesForScoring,
+        });
+
+        expect(score.competenceMarks).to.deep.equal([
+          domainBuilder.buildCompetenceMark({
+            competenceId,
+            area_code: areaCode,
+            competence_code: competenceCode,
+            level: 2,
+            score: 0,
+          }),
+        ]);
       });
     });
   });
@@ -275,13 +375,14 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         allAnswers,
         algorithm,
         maxReachableLevelOnCertificationDate,
+        competencesForScoring,
       });
 
       // then
       expect(score.nbPix).to.equal(0);
     });
 
-    it('should return the minimum level for all competences', function () {
+    it('should return the competence marks', function () {
       // given
       const veryLowEstimatedLevel = -9;
       const veryEasyDifficulty = -8;
@@ -299,35 +400,25 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
-      const expectedCompetenceLevels = {
-        1.1: 0,
-        1.2: 0,
-        1.3: 0,
-        2.1: 0,
-        2.2: 0,
-        2.3: 0,
-        2.4: 0,
-        3.1: 0,
-        3.2: 0,
-        3.3: 0,
-        3.4: 0,
-        4.1: 0,
-        4.2: 0,
-        4.3: 0,
-        5.1: 0,
-        5.2: 0,
-      };
-
       // when
       const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
         challenges,
         allAnswers,
         algorithm,
         maxReachableLevelOnCertificationDate,
+        competencesForScoring,
       });
 
       // then
-      expect(score.competenceLevels).to.deep.equal(expectedCompetenceLevels);
+      expect(score.competenceMarks).to.deep.equal([
+        domainBuilder.buildCompetenceMark({
+          competenceId,
+          area_code: areaCode,
+          competence_code: competenceCode,
+          level: 0,
+          score: 0,
+        }),
+      ]);
     });
   });
 
@@ -356,13 +447,14 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         allAnswers,
         algorithm,
         maxReachableLevelOnCertificationDate,
+        competencesForScoring,
       });
 
       // then
       expect(score.nbPix).to.equal(896);
     });
 
-    it('return the maximum level for all competences', function () {
+    it('should return the competence marks', function () {
       // given
       const veryHighEstimatedLevel = 1200;
       const veryHardDifficulty = 8;
@@ -380,35 +472,25 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
-      const expectedCompetenceLevels = {
-        1.1: 7,
-        1.2: 7,
-        1.3: 7,
-        2.1: 7,
-        2.2: 6,
-        2.3: 6,
-        2.4: 6,
-        3.1: 6,
-        3.2: 6,
-        3.3: 6,
-        3.4: 7,
-        4.1: 6,
-        4.2: 7,
-        4.3: 6,
-        5.1: 7,
-        5.2: 7,
-      };
-
       // when
       const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
         challenges,
         allAnswers,
         algorithm,
         maxReachableLevelOnCertificationDate,
+        competencesForScoring,
       });
 
       // then
-      expect(score.competenceLevels).to.deep.equal(expectedCompetenceLevels);
+      expect(score.competenceMarks).to.deep.equal([
+        domainBuilder.buildCompetenceMark({
+          competenceId,
+          area_code: areaCode,
+          competence_code: competenceCode,
+          level: 2,
+          score: 0,
+        }),
+      ]);
     });
   });
 
@@ -436,6 +518,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
           algorithm,
           maxReachableLevelOnCertificationDate,
+          competencesForScoring,
         });
 
         expect(score.status).to.equal(status.VALIDATED);
@@ -466,6 +549,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
             algorithm,
             abortReason: 'candidate',
             maxReachableLevelOnCertificationDate,
+            competencesForScoring,
           });
 
           expect(score.status).to.equal(status.REJECTED);
@@ -495,6 +579,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
             algorithm,
             abortReason: 'candidate',
             maxReachableLevelOnCertificationDate,
+            competencesForScoring,
           });
 
           expect(score.status).to.equal(status.REJECTED);
@@ -526,6 +611,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           algorithm,
           certificationCourseAbortReason,
           maxReachableLevelOnCertificationDate,
+          competencesForScoring,
         });
 
         expect(score.status).to.equal(status.VALIDATED);

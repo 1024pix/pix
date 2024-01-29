@@ -1,8 +1,6 @@
 import { status as CertificationStatus } from '../../../src/shared/domain/models/AssessmentResult.js';
 import { config } from '../../../src/shared/config.js';
 import { ABORT_REASONS } from './CertificationCourse.js';
-import { competenceLevelIntervals } from '../../../src/certification/flash-certification/domain/constants/competence-level-intervals.js';
-import clamp from 'lodash/clamp.js';
 
 const MINIMUM_ESTIMATED_LEVEL = -8;
 const MAXIMUM_ESTIMATED_LEVEL = 8;
@@ -52,11 +50,11 @@ const NUMBER_OF_COMPETENCES = 16;
 const PIX_PER_LEVEL = 8;
 
 class CertificationAssessmentScoreV3 {
-  constructor({ nbPix, percentageCorrectAnswers = 100, status = CertificationStatus.VALIDATED, competenceLevels }) {
+  constructor({ nbPix, percentageCorrectAnswers = 100, status = CertificationStatus.VALIDATED, competenceMarks }) {
     this.nbPix = nbPix;
     this.percentageCorrectAnswers = percentageCorrectAnswers;
     this._status = status;
-    this.competenceLevels = competenceLevels;
+    this._competenceMarks = competenceMarks;
   }
 
   static fromChallengesAndAnswers({
@@ -65,6 +63,7 @@ class CertificationAssessmentScoreV3 {
     allAnswers,
     abortReason,
     maxReachableLevelOnCertificationDate,
+    competencesForScoring = [],
   }) {
     const { estimatedLevel } = algorithm.getEstimatedLevelAndErrorRate({
       challenges,
@@ -75,7 +74,9 @@ class CertificationAssessmentScoreV3 {
 
     const rawScore = _computeScore(estimatedLevel, maxReachableLevelOnCertificationDate);
 
-    const competenceLevels = _computeLevelByCompetence(estimatedLevel);
+    const competenceMarks = competencesForScoring.map((competenceForScoring) =>
+      competenceForScoring.getCompetenceMark(estimatedLevel),
+    );
 
     const nbPix = _shouldDowngradeScore({ maximumAssessmentLength, answers: allAnswers, abortReason })
       ? _downgradeScore(rawScore)
@@ -88,7 +89,7 @@ class CertificationAssessmentScoreV3 {
     return new CertificationAssessmentScoreV3({
       nbPix,
       status,
-      competenceLevels,
+      competenceMarks,
     });
   }
 
@@ -97,7 +98,7 @@ class CertificationAssessmentScoreV3 {
   }
 
   get competenceMarks() {
-    return [];
+    return this._competenceMarks;
   }
 
   getPercentageCorrectAnswers() {
@@ -107,27 +108,6 @@ class CertificationAssessmentScoreV3 {
 
 const _findIntervalIndex = (estimatedLevel) =>
   scoreIntervals.findIndex(({ start, end }) => estimatedLevel <= end && estimatedLevel >= start);
-
-const allLevelsBoundaries = competenceLevelIntervals.flatMap(({ values }) =>
-  values.flatMap(({ bounds }) => [bounds.min, bounds.max]),
-);
-const maximumReachableLevel = Math.max(...allLevelsBoundaries);
-const minimumReachableLevel = Math.min(...allLevelsBoundaries);
-
-const _computeLevelByCompetence = (estimatedLevel) => {
-  const normalizedCandidateLevel = clamp(estimatedLevel, minimumReachableLevel, maximumReachableLevel);
-
-  return competenceLevelIntervals.reduce((collection, competence) => {
-    const level = competence.values.find(
-      (value) => value.bounds.min <= normalizedCandidateLevel && normalizedCandidateLevel <= value.bounds.max,
-    ).competenceLevel;
-
-    return {
-      ...collection,
-      [competence.competence]: level,
-    };
-  }, {});
-};
 
 const _computeScore = (estimatedLevel, maxReachableLevelOnCertificationDate) => {
   let normalizedEstimatedLevel = estimatedLevel;
