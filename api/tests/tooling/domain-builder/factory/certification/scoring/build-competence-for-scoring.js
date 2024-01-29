@@ -22,7 +22,7 @@ export const buildCompetenceForScoring = ({
     {
       bounds: {
         max: Number.MAX_SAFE_INTEGER,
-        min: -1,
+        min: 1,
       },
       competenceLevel: 2,
     },

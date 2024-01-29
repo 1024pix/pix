@@ -13,6 +13,7 @@ import * as certificationChallengeLiveAlertRepository from '../../../session/inf
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
+import * as competenceForScoringRepository from '../../../../../src/certification/scoring/infrastructure/repositories/competence-for-scoring-repository.js';
 import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
 import * as certificateRepository from '../../../course/infrastructure/repositories/certificate-repository.js';
 import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
@@ -63,6 +64,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {competenceRepository} CompetenceRepository
+ * @typedef {competenceForScoringRepository} CompetenceForScoringRepository
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {cpfExportRepository} CpfExportRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
@@ -91,6 +93,7 @@ const dependencies = {
   certificationChallengeLiveAlertRepository,
   certificationCourseRepository,
   certificationCpfService,
+  competenceForScoringRepository,
   certificationIssueReportRepository,
   certificationOfficerRepository,
   certificationReportRepository,
