@@ -12,6 +12,7 @@ class AssessmentResult {
     commentForCandidate,
     commentByJury,
     commentForOrganization,
+    commentAutoByJury,
     createdAt,
     emitter,
     pixScore,
@@ -25,6 +26,7 @@ class AssessmentResult {
     this.commentForCandidate = commentForCandidate;
     this.commentByJury = commentByJury;
     this.commentForOrganization = commentForOrganization;
+    this.commentAutoByJury = commentAutoByJury;
     this.createdAt = createdAt;
     this.emitter = emitter;
     this.pixScore = pixScore;
