@@ -1,11 +1,4 @@
-<form
-  class="element-qrocm"
-  autocapitalize="off"
-  autocomplete="nope"
-  autocorrect="off"
-  spellcheck="false"
-  {{on "submit" this.submitAnswer}}
->
+<form class="element-qrocm" autocapitalize="off" autocomplete="nope" autocorrect="off" spellcheck="false">
   <fieldset disabled={{this.disableInput}}>
     <div class="element-qrocm__header">
       <div class="element-qrocm-header__instruction">
@@ -60,7 +53,13 @@
   {{/if}}
 
   {{#unless this.qrocm.lastCorrection}}
-    <PixButton @backgroundColor="green" @shape="rounded" @type="submit" class="element-qrocm__verify_button">
+    <PixButton
+      @backgroundColor="green"
+      @shape="rounded"
+      @type="submit"
+      class="element-qrocm__verify_button"
+      @triggerAction={{this.submitAnswer}}
+    >
       {{t "pages.modulix.buttons.activity.verify"}}
     </PixButton>
   {{/unless}}
