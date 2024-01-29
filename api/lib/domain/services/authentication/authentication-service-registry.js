@@ -9,6 +9,9 @@ class OidcAuthenticationServiceRegistry {
     await Promise.allSettled(
       this.#readyOidcProviderServices.map((oidcProviderService) => oidcProviderService.createClient()),
     );
+    await Promise.allSettled(
+      this.#readyOidcProviderServicesForPixAdmin.map((oidcProviderService) => oidcProviderService.createClient()),
+    );
   }
 
   getAllOidcProviderServices() {
