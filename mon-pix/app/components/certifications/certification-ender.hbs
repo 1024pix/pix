@@ -20,7 +20,11 @@
           {{t "pages.certification-ender.candidate.ended-due-to-finalization"}}
         </div>
       {{/if}}
-      <PixButtonLink @route="logout" @backgroundColor="blue" class="certification-ender__candidate-action-disconnect">
+      <PixButtonLink
+        @route="logout"
+        @backgroundColor="primary"
+        class="certification-ender__candidate-action-disconnect"
+      >
         {{t "pages.certification-ender.candidate.disconnect"}}
       </PixButtonLink>
       <div class="certification-ender__candidate-disconnect-tip">
