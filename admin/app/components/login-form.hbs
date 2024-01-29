@@ -10,6 +10,25 @@
         <img src="/google-logo.svg" alt="" class="login-form__oidc-connect-link__logo" />
         <span class="login-form__oidc-connect-link__label">{{t "pages.login.google.label"}}</span>
       </LinkTo>
+
+      {{#if @userShouldCreateAnAccount}}
+        <PixMessage @type="alert">
+          Vous n'avez pas de compte Pix.
+        </PixMessage>
+      {{/if}}
+
+      {{#if @unknownErrorHasOccured}}
+        <PixMessage @type="alert">
+          Une erreur est survenue. Veuillez recommencer ou contacter les administrateurs de la plateforme.
+        </PixMessage>
+      {{/if}}
+
+      {{#if @userShouldRequestAccess}}
+        <PixMessage @type="alert">
+          Vous n'avez pas les droits pour vous connecter. Veuillez demander un accès aux administrateurs de la
+          plateforme.
+        </PixMessage>
+      {{/if}}
     {{else}}
       <Input
         class="login-form__fields login-form__email-field"
