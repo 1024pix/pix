@@ -1,10 +1,5 @@
-import { expect, sinon, catchErr } from '../../../../test-helper.js';
-
+import { expect, sinon } from '../../../../test-helper.js';
 import { PAYSDELALOIRE, POLE_EMPLOI } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
-
-import { logger } from '../../../../../lib/infrastructure/logger.js';
-
-import { UnexpectedOidcStateError } from '../../../../../lib/domain/errors.js';
 import { authenticateOidcUser } from '../../../../../lib/domain/usecases/authentication/authenticate-oidc-user.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
@@ -48,12 +43,14 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       const code = Symbol('code');
       const nonce = Symbol('nonce');
       const state = Symbol('state');
+      const sessionState = Symbol('state');
 
       // when
       await authenticateOidcUser({
         code,
         nonce,
         state,
+        sessionState,
         authenticationMethodRepository,
         authenticationSessionService,
         oidcAuthenticationService,
@@ -66,6 +63,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         code,
         nonce,
         state,
+        sessionState,
       });
     });
 

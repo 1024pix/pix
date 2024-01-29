@@ -1,16 +1,10 @@
 import lodash from 'lodash';
 import jsonwebtoken from 'jsonwebtoken';
-import querystring from 'querystring';
 import { randomUUID } from 'crypto';
 import { Issuer } from 'openid-client';
 
 import { logger } from '../../../infrastructure/logger.js';
-import {
-  InvalidExternalAPIResponseError,
-  OidcInvokingTokenEndpointError,
-  OidcMissingFieldsError,
-  OidcUserInfoFormatError,
-} from '../../errors.js';
+import { InvalidExternalAPIResponseError, OidcMissingFieldsError, OidcUserInfoFormatError } from '../../errors.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';
 import { config } from '../../../../src/shared/config.js';
@@ -160,8 +154,8 @@ class OidcAuthenticationService {
     return uuid;
   }
 
-  async exchangeCodeForTokens({ code, nonce, state }) {
-    const tokenSet = await this.client.callback(this.redirectUri, { code, state }, { nonce, state });
+  async exchangeCodeForTokens({ code, nonce, state, sessionState }) {
+    const tokenSet = await this.client.callback(this.redirectUri, { code, state }, { nonce, state: sessionState });
 
     const {
       access_token: accessToken,

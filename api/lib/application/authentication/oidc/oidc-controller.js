@@ -82,8 +82,10 @@ const getAuthorizationUrl = async function (
   const { identity_provider: identityProvider } = request.query;
   const oidcAuthenticationService =
     dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
-  const result = oidcAuthenticationService.getAuthorizationUrl();
-  return h.response(result).code(200);
+  const { state, nonce, ...payload } = oidcAuthenticationService.getAuthorizationUrl();
+  request.yar.set('state', state);
+  request.yar.set('nonce', nonce);
+  return h.response(payload).code(200);
 };
 
 const authenticateUser = async function (
@@ -93,15 +95,18 @@ const authenticateUser = async function (
     authenticationServiceRegistry,
   },
 ) {
-  const { code, identityProvider, nonce, state } = request.deserializedPayload;
+  const { code, identityProvider, state } = request.deserializedPayload;
+  const sessionState = request.yar.get('state', true);
+  const nonce = request.yar.get('nonce', true);
 
   const oidcAuthenticationService =
     dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
 
   const result = await usecases.authenticateOidcUser({
     code,
-    nonce,
     state,
+    sessionState,
+    nonce,
     oidcAuthenticationService,
   });
 

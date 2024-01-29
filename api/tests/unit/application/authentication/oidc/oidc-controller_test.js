@@ -135,9 +135,14 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
   });
 
   describe('#getAuthorizationUrl', function () {
-    it('should call oidc authentication service to generate url', async function () {
+    it('calls oidc authentication service to generate url', async function () {
       // given
-      const request = { query: { identity_provider: identityProvider, redirect_uri: 'http:/exemple.net/' } };
+      const request = {
+        query: { identity_provider: identityProvider, redirect_uri: 'http://example.net/' },
+        yar: {
+          set: sinon.stub(),
+        },
+      };
       const getAuthorizationUrlStub = sinon.stub();
       const oidcAuthenticationService = {
         getAuthorizationUrl: getAuthorizationUrlStub,
@@ -160,12 +165,14 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
 
       //then
       expect(oidcAuthenticationService.getAuthorizationUrl).to.have.been.calledOnce;
+      expect(request.yar.set).to.have.been.calledTwice;
     });
   });
 
   describe('#authenticateUser', function () {
     const code = 'ABCD';
     const state = 'state';
+    const sessionState = 'sessionState';
     const nonce = 'nonce';
 
     const pixAccessToken = 'pixAccessToken';
@@ -180,6 +187,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           identityProvider,
           nonce,
           state,
+        },
+        yar: {
+          get: sinon.stub(),
         },
       };
 
@@ -201,6 +211,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         authenticationServiceRegistry: authenticationServiceRegistryStub,
       };
 
+      request.yar.get.onCall(0).returns(sessionState);
+      request.yar.get.onCall(1).returns(nonce);
+
       usecases.authenticateOidcUser.resolves({
         pixAccessToken,
         logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
@@ -215,6 +228,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         code,
         nonce,
         state,
+        sessionState,
         oidcAuthenticationService,
       });
     });

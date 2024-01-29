@@ -11,7 +11,6 @@ import { AuthenticationSessionContent } from '../../../../../lib/domain/models/A
 
 import {
   InvalidExternalAPIResponseError,
-  OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
 } from '../../../../../lib/domain/errors.js';
@@ -309,6 +308,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       // given
       const clientId = 'OIDC_CLIENT_ID';
       const tokenUrl = 'http://oidc.net/api/token';
+      const redirectUri = 'http://oidc.net/';
       const clientSecret = 'OIDC_CLIENT_SECRET';
       const accessToken = Symbol('access token');
       const expiresIn = Symbol(60);
@@ -316,6 +316,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const refreshToken = Symbol('refreshToken');
       const code = Symbol('AUTHORIZATION_CODE');
       const state = Symbol('STATE');
+      const sessionState = Symbol('SESSION_STATE');
       const nonce = Symbol('NONCE');
       const oidcAuthenticationSessionContent = new AuthenticationSessionContent({
         idToken,
@@ -334,7 +335,12 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
       sinon.stub(Issuer, 'discover').resolves({ Client });
 
-      const oidcAuthenticationService = new OidcAuthenticationService({ clientSecret, clientId, tokenUrl });
+      const oidcAuthenticationService = new OidcAuthenticationService({
+        clientSecret,
+        clientId,
+        redirectUri,
+        tokenUrl,
+      });
       await oidcAuthenticationService.createClient();
 
       // when
@@ -342,9 +348,15 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         code,
         nonce,
         state,
+        sessionState,
       });
 
       // then
+      expect(clientInstance.callback).to.have.been.calledOnceWithExactly(
+        redirectUri,
+        { code, state },
+        { nonce, state: sessionState },
+      );
       expect(result).to.be.an.instanceOf(AuthenticationSessionContent);
       expect(result).to.deep.equal(oidcAuthenticationSessionContent);
     });

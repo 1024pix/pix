@@ -18,7 +18,7 @@ dayjs.extend(localizedFormat);
 
 import chai from 'chai';
 const expect = chai.expect;
-import sinon, { restore } from 'sinon';
+import sinon, { restore, stub } from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
 import chaiSorted from 'chai-sorted';
 import sinonChai from 'sinon-chai';
@@ -66,7 +66,7 @@ import { oidcAuthenticationServiceRegistry } from '../lib/domain/services/authen
 
 /* eslint-disable mocha/no-top-level-hooks */
 beforeEach(function () {
-  sinon.stub(oidcAuthenticationServiceRegistry, 'configureReadyOidcProviderServices').resolves();
+  stub(oidcAuthenticationServiceRegistry, 'configureReadyOidcProviderServices').resolves();
 });
 
 afterEach(function () {

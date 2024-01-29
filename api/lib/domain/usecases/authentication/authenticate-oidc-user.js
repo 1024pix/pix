@@ -1,14 +1,15 @@
 const authenticateOidcUser = async function ({
   code,
-  nonce,
   state,
+  sessionState,
+  nonce,
   authenticationMethodRepository,
   authenticationSessionService,
   oidcAuthenticationService,
   userLoginRepository,
   userRepository,
 }) {
-  const sessionContent = await oidcAuthenticationService.exchangeCodeForTokens({ code, nonce, state });
+  const sessionContent = await oidcAuthenticationService.exchangeCodeForTokens({ code, nonce, state, sessionState });
   const userInfo = await oidcAuthenticationService.getUserInfo({
     idToken: sessionContent.idToken,
     accessToken: sessionContent.accessToken,

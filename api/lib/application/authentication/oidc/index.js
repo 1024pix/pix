@@ -99,7 +99,6 @@ const register = async function (server) {
                 identity_provider: Joi.string()
                   .required()
                   .valid(...validOidcProviderCodes),
-                nonce: Joi.string().required(),
                 state: Joi.string().required(),
               },
             },
