@@ -1,8 +1,6 @@
 import Joi from 'joi';
-import * as OidcIdentityProviders from '../../../domain/constants/oidc-identity-providers.js';
-import { oidcController } from './oidc-controller.js';
 
-const validOidcProviderCodes = OidcIdentityProviders.getValidOidcProviderCodes();
+import { oidcController } from './oidc-controller.js';
 
 const register = async function (server) {
   const adminRoutes = [
@@ -45,13 +43,7 @@ const register = async function (server) {
       config: {
         validate: {
           query: Joi.object({
-            identity_provider: Joi.string()
-              .required()
-              .valid(
-                OidcIdentityProviders.POLE_EMPLOI.code,
-                OidcIdentityProviders.FWB.code,
-                OidcIdentityProviders.PAYSDELALOIRE.code,
-              ),
+            identity_provider: Joi.string().required(),
             logout_url_uuid: Joi.string()
               .regex(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)
               .required(),
@@ -72,9 +64,7 @@ const register = async function (server) {
         auth: false,
         validate: {
           query: Joi.object({
-            identity_provider: Joi.string()
-              .required()
-              .valid(...validOidcProviderCodes),
+            identity_provider: Joi.string().required(),
             redirect_uri: Joi.string().required(),
           }),
         },
@@ -96,9 +86,7 @@ const register = async function (server) {
             data: {
               attributes: {
                 code: Joi.string().required(),
-                identity_provider: Joi.string()
-                  .required()
-                  .valid(...validOidcProviderCodes),
+                identity_provider: Joi.string().required(),
                 state: Joi.string().required(),
               },
             },
@@ -121,9 +109,7 @@ const register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                identity_provider: Joi.string()
-                  .required()
-                  .valid(...validOidcProviderCodes),
+                identity_provider: Joi.string().required(),
                 authentication_key: Joi.string().required(),
               },
             },
@@ -148,9 +134,7 @@ const register = async function (server) {
               attributes: Joi.object({
                 email: Joi.string().email().required(),
                 password: Joi.string().required(),
-                'identity-provider': Joi.string()
-                  .required()
-                  .valid(...validOidcProviderCodes),
+                'identity-provider': Joi.string().required(),
                 'authentication-key': Joi.string().required(),
               }),
               type: Joi.string(),
@@ -174,9 +158,7 @@ const register = async function (server) {
           payload: Joi.object({
             data: Joi.object({
               attributes: Joi.object({
-                identity_provider: Joi.string()
-                  .required()
-                  .valid(...validOidcProviderCodes),
+                identity_provider: Joi.string().required(),
                 authentication_key: Joi.string().required(),
               }),
               type: Joi.string(),
