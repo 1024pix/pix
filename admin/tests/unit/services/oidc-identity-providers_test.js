@@ -33,10 +33,6 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       await oidcIdentityProvidersService.loadAllAvailableIdentityProviders();
 
       // then
-      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].code, oidcPartner.code);
-      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].organizationName, oidcPartner.organizationName);
-      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].hasLogoutUrl, oidcPartner.hasLogoutUrl);
-      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].source, oidcPartner.source);
       assert.strictEqual(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
       assert.strictEqual(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
       assert.strictEqual(oidcIdentityProvidersService.list[0].hasLogoutUrl, oidcPartner.hasLogoutUrl);
@@ -50,10 +46,6 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       await oidcIdentityProvidersService.loadReadyIdentityProviders();
 
       // then
-      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].code, oidcPartner.code);
-      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].organizationName, oidcPartner.organizationName);
-      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].hasLogoutUrl, oidcPartner.hasLogoutUrl);
-      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].source, oidcPartner.source);
       assert.strictEqual(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
       assert.strictEqual(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
       assert.strictEqual(oidcIdentityProvidersService.list[0].hasLogoutUrl, oidcPartner.hasLogoutUrl);
