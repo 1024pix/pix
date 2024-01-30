@@ -1198,12 +1198,13 @@
       },
       "details": {
         "duration": "Duration",
-        "explanationText": "The Pix training modules are comprised of lessons and activities for you to train and develop your digital skills. The lessons take the form of videos, audios, images and texts. During an activity, your response is directly verified and you can retry! If needed you can always go back to previous lessons. A module would take around 10 minutes, on a specific subject with a level of difficulty from beginner to expert.<br/>This is actually a beta phase product, you can send us all of your suggestions for improvement.",
+        "durationValue": "≈{duration} min",
+        "explanationText1": "The Pix training modules are comprised of lessons and activities for you to train and develop your digital skills. The lessons take the form of videos, audios, images and texts. During an activity, your response is directly verified and you can retry! If needed you can always go back to previous lessons. A module would take around 10 minutes, on a specific subject with a level of difficulty from beginner to expert.",
+        "explanationText2": "This is actually a beta phase product, you can send us all of your suggestions for improvement.",
         "explanationTitle": "What is a module?",
         "level": "Level",
         "objectives": "Objectives",
-        "startModule": "Start module",
-        "timeUnit": "min"
+        "startModule": "Start module"
       },
       "modals": {
         "alternativeText": {
