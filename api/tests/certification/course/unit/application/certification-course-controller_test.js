@@ -3,7 +3,6 @@ import { certificationCourseController } from '../../../../../src/certification/
 import { sinon, hFake, expect } from '../../../../test-helper.js';
 import { CertificationCourseRejected } from '../../../../../lib/domain/events/CertificationCourseRejected.js';
 import { CertificationCourseUnrejected } from '../../../../../lib/domain/events/CertificationCourseUnrejected.js';
-import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
   describe('reject', function () {
@@ -65,9 +64,6 @@ describe('Unit | Controller | certification-course-controller', function () {
   describe('#updateJuryComments', function () {
     it('should updateJuryComments usecase', async function () {
       // given
-      const assessmentResultSerializer = {
-        deserialize: sinon.stub(),
-      };
       sinon.stub(usecases, 'updateJuryComments');
       const request = {
         auth: {
@@ -92,16 +88,6 @@ describe('Unit | Controller | certification-course-controller', function () {
           },
         },
       };
-      const assessmentResult = new AssessmentResult({
-        assessmentId: 1,
-        emitter: 'Jury Pix',
-        commentByJury: 'Tell',
-        commentForCandidate: 'Me',
-        commentForOrganization: 'Why',
-        pixScore: 300,
-        status: 'validated',
-      });
-      assessmentResultSerializer.deserialize.withArgs(request.payload).resolves(assessmentResult);
       usecases.updateJuryComments.resolves();
 
       // when
@@ -110,7 +96,13 @@ describe('Unit | Controller | certification-course-controller', function () {
       // then
       expect(usecases.updateJuryComments).to.have.been.calledWithExactly({
         certificationCourseId: 123,
-        assessmentResult: { ...assessmentResult, juryId: 789 },
+        assessmentResultComments: {
+          assessmentId: 1,
+          commentByJury: 'Tell',
+          commentForCandidate: 'Me',
+          commentForOrganization: 'Why',
+        },
+        juryId: request.auth.credentials.userId,
       });
     });
   });
