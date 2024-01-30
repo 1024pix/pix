@@ -58,7 +58,7 @@ const prescriptionSharedRoutes = [prescriberManagementRoutes];
 monitoringTools.installHapiHook();
 
 const { logOpsMetrics, port, logging } = config;
-const createServer = async () => {
+const createServer = async (serverOptions = {}) => {
   const server = createBareServer();
 
   if (logOpsMetrics) await enableOpsMetrics(server);
@@ -73,7 +73,7 @@ const createServer = async () => {
 
   setupDeserialization(server);
 
-  await setupOidcAuthenticationServiceRegistry();
+  await setupOidcAuthenticationServiceRegistry(serverOptions.oidcProviderServices);
 
   return server;
 };

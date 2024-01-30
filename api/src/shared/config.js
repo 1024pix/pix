@@ -381,6 +381,15 @@ const configuration = (function () {
   };
 
   if (process.env.NODE_ENV === 'test') {
+    config.oidcExampleNet = {
+      isEnabled: true,
+      clientId: 'client',
+      clientSecret: 'secret',
+      authenticationUrl: 'https://oidc.example.net/authentication',
+      userInfoUrl: 'https://oidc.example.net/userinfo',
+      tokenUrl: 'https://oidc.example.net/token',
+    };
+
     config.auditLogger.baseUrl = 'http://audit-logger.local';
     config.auditLogger.clientSecret = 'client-super-secret';
 

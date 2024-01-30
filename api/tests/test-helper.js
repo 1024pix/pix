@@ -18,7 +18,7 @@ dayjs.extend(localizedFormat);
 
 import chai from 'chai';
 const expect = chai.expect;
-import sinon, { restore, stub } from 'sinon';
+import sinon, { restore } from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
 import chaiSorted from 'chai-sorted';
 import sinonChai from 'sinon-chai';
@@ -62,12 +62,8 @@ import { PIX_ADMIN } from '../src/authorization/domain/constants.js';
 const { ROLES } = PIX_ADMIN;
 import { createTempFile, removeTempFile } from './tooling/temporary-file.js';
 import { increaseCurrentTestTimeout } from './tooling/mocha-tools.js';
-import { oidcAuthenticationServiceRegistry } from '../lib/domain/services/authentication/authentication-service-registry.js';
 
 /* eslint-disable mocha/no-top-level-hooks */
-beforeEach(function () {
-  stub(oidcAuthenticationServiceRegistry, 'configureReadyOidcProviderServices').resolves();
-});
 
 afterEach(function () {
   restore();

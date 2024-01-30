@@ -6,16 +6,17 @@ import { PaysdelaloireOidcAuthenticationService } from '../lib/domain/services/a
 import { PoleEmploiOidcAuthenticationService } from '../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
 
-async function setupOidcAuthenticationServiceRegistry() {
-  const oidcProviderServices = [
+async function setupOidcAuthenticationServiceRegistry(oidcProviderServices) {
+  const defaultOidcProviderServices = [
     new CnavOidcAuthenticationService(),
     new FwbOidcAuthenticationService(),
     new GoogleOidcAuthenticationService(),
     new PaysdelaloireOidcAuthenticationService(),
     new PoleEmploiOidcAuthenticationService(),
   ];
+  const availableOidcProviderServices = oidcProviderServices ?? defaultOidcProviderServices;
 
-  oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+  oidcAuthenticationServiceRegistry.loadOidcProviderServices(availableOidcProviderServices);
   await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServices();
 
   logger.info('OIDC provider services loaded and configured properly');
