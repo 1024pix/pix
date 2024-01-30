@@ -14,6 +14,7 @@ module('Integration | Component | OrganizationLearner::Activity::ParticipationLi
         createdAt: '2022-12-12',
         sharedAt: '2022-12-25',
         status: 'SHARED',
+        participationCount: '2',
       },
     ]);
 
@@ -26,6 +27,7 @@ module('Integration | Component | OrganizationLearner::Activity::ParticipationLi
     assert.ok(screen.getByText('12/12/2022'));
     assert.ok(screen.getByText('25/12/2022'));
     assert.ok(screen.getByText('Résultats reçus'));
+    assert.ok(screen.getByText('2'));
   });
 
   test('it should display participations details of Profiles collection', async function (assert) {
@@ -36,6 +38,7 @@ module('Integration | Component | OrganizationLearner::Activity::ParticipationLi
         createdAt: '2022-12-12',
         sharedAt: '2022-12-25',
         status: 'SHARED',
+        participationCount: '1',
       },
     ]);
 
@@ -48,5 +51,6 @@ module('Integration | Component | OrganizationLearner::Activity::ParticipationLi
     assert.ok(screen.getByText('12/12/2022'));
     assert.ok(screen.getByText('25/12/2022'));
     assert.ok(screen.getByText('Profil reçu'));
+    assert.ok(screen.getByText('1'));
   });
 });

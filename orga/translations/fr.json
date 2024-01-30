@@ -779,6 +779,7 @@
               "campaign-name": "Campagne",
               "campaign-type": "Type",
               "created-at": "Date de début",
+              "participation-count": "Nombre de participations",
               "shared-at": "Date d'envoi",
               "status": "Statut"
             },

@@ -14,7 +14,15 @@ const serialize = function (organizationLearnerActivity) {
     organizationLearnerParticipations: {
       ref: 'id',
       includes: true,
-      attributes: ['campaignType', 'campaignName', 'createdAt', 'sharedAt', 'status', 'campaignId'],
+      attributes: [
+        'campaignType',
+        'campaignName',
+        'createdAt',
+        'sharedAt',
+        'status',
+        'campaignId',
+        'participationCount',
+      ],
     },
     organizationLearnerStatistics: {
       ref: 'campaignType',
