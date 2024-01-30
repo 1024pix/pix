@@ -3,12 +3,12 @@ import * as serializer from '../../../../../../../src/certification/course/infra
 
 describe('Unit | Serializer | JSONAPI | assessment-result-serializer', function () {
   describe('#deserialize()', function () {
-    it('should convert a JSON API data into an AssessmentResult', async function () {
+    it('should convert a JSON API data', async function () {
       const payload = {
         data: {
           attributes: {
             'assessment-id': 1,
-            'comment-by-jury': 'comment',
+            'comment-by-jury': '',
             'comment-for-candidate': null,
             'comment-for-organization': 'another comment',
           },
@@ -21,9 +21,8 @@ describe('Unit | Serializer | JSONAPI | assessment-result-serializer', function 
       // then
       const expectedPayload = {
         assessmentId: 1,
-        emitter: 'Jury Pix',
-        commentByJury: 'comment',
-        commentForCandidate: null,
+        commentByJury: undefined,
+        commentForCandidate: undefined,
         commentForOrganization: 'another comment',
       };
       expect(deserializedAssessmentResult).to.deep.equal(expectedPayload);
