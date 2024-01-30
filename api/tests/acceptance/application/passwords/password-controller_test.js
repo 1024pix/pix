@@ -1,9 +1,8 @@
-import { databaseBuilder, expect } from '../../../test-helper.js';
+import { createServerWithTestOidcProvider, databaseBuilder, expect } from '../../../test-helper.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
 
 import { config } from '../../../../lib/config.js';
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | password-controller', function () {
   const email = 'user@example.net';
@@ -11,7 +10,7 @@ describe('Acceptance | Controller | password-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /api/password-reset-demands', function () {

@@ -1,5 +1,9 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | session-controller-get-attendance-sheet', function () {
   describe('GET /api/sessions/{id}/attendance-sheet', function () {
@@ -21,7 +25,7 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', fu
       databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed });
 
       await databaseBuilder.commit();
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       // when
       const options = {

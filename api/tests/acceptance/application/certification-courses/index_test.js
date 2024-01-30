@@ -1,4 +1,5 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
@@ -7,13 +8,11 @@ import {
   mockLearningContent,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
-
 describe('Acceptance | Route | Certification Courses', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /api/certification-courses', function () {

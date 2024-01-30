@@ -1,11 +1,15 @@
-import { learningContentBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  expect,
+  learningContentBuilder,
+  mockLearningContent,
+} from '../../../../test-helper.js';
 
 describe('Acceptance | API | ChallengeController', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/challenges/:challenge_id', function () {

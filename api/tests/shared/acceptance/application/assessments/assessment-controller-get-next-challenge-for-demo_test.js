@@ -1,11 +1,16 @@
-import { expect, databaseBuilder, mockLearningContent, learningContentBuilder } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  learningContentBuilder,
+  mockLearningContent,
+} from '../../../../test-helper.js';
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     const learningContent = [
       {
         id: '1. Information et données',

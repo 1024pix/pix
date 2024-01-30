@@ -1,5 +1,9 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../test-helper.js';
-import { createServer } from '../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../test-helper.js';
 import { Membership } from '../../../lib/domain/models/Membership.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../lib/domain/constants.js';
@@ -18,7 +22,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {

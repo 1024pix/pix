@@ -1,12 +1,12 @@
 import {
-  learningContentBuilder,
-  mockLearningContent,
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../../test-helper.js';
 
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 
@@ -61,7 +61,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/assessments/:assessment_id/next', function () {

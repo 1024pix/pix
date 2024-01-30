@@ -1,6 +1,5 @@
 import lodash from 'lodash';
-import { expect, knex, databaseBuilder } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import { createServerWithTestOidcProvider, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 const { cloneDeep } = lodash;
@@ -9,7 +8,7 @@ describe('Acceptance | Controller | feedback-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /api/feedbacks', function () {

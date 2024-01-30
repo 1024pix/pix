@@ -1,12 +1,16 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 import _ from 'lodash';
 
 describe('Acceptance | Controller | session-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /sessions/{id}/certification-candidates', function () {

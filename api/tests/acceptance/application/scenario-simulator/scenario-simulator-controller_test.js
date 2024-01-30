@@ -1,6 +1,7 @@
 import { expect } from 'chai';
-import { createServer } from '../../../../server.js';
+
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
@@ -22,7 +23,7 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
   const answerStatusArray = ['ok', 'ko', 'aband'];
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     const { id: adminId } = databaseBuilder.factory.buildUser.withRole({
       role: SUPER_ADMIN,

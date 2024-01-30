@@ -1,17 +1,16 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
-
 describe('Acceptance | Route | Users', function () {
   describe('POST /api/users/{id}/add-pix-authentication-method', function () {
     it('should return 201 HTTP status code and updated user', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
       const superAdmin = await insertUserWithRoleSuperAdmin();
       const user = databaseBuilder.factory.buildUser({ email: null });
       await databaseBuilder.commit();

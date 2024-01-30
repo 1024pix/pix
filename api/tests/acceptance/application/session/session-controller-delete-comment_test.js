@@ -1,17 +1,16 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | sessions-controller', function () {
   describe('DELETE /sessions/{id}/comment', function () {
     it('should respond with 204', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
       await insertUserWithRoleSuperAdmin();
       const session = databaseBuilder.factory.buildSession();
       await databaseBuilder.commit();

@@ -1,8 +1,13 @@
-import { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  knex,
+} from '../../../../test-helper.js';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import { SupOrganizationLearnerImportHeader } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
-import { createServer } from '../../../../../server.js';
 
 const i18n = getI18n();
 const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeader(i18n).columns
@@ -13,7 +18,7 @@ let server;
 
 describe('Acceptance | Application | organization-controller-replace-sup-organization-learners', function () {
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST organizations/:id/sup-organization-learners/replace-csv', function () {

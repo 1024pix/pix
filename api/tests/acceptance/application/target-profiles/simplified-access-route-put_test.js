@@ -1,17 +1,16 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
-  insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | Target-profiles', function () {
   describe('PUT /api/admin/target-profiles/{id}/simplified-access', function () {
     it('should return 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const superAdmin = await insertUserWithRoleSuperAdmin();
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ isSimplifiedAccess: false });

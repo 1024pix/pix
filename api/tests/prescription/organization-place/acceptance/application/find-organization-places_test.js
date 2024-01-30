@@ -1,18 +1,18 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
 
-import { createServer } from '../../../../../server.js';
 import * as organizationPlacesLotCategories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 
 describe('Acceptance | Route | Find Organization Places', function () {
   describe('GET /api/admin/organizations/{id}/places', function () {
     it('should return 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const adminUser = await insertUserWithRoleSuperAdmin();
       const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -45,7 +45,7 @@ describe('Acceptance | Route | Find Organization Places', function () {
 
     it('should return list of places', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const adminUser = await insertUserWithRoleSuperAdmin();
       const organizationId = databaseBuilder.factory.buildOrganization().id;

@@ -1,5 +1,10 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
+
 import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Acceptance | API | Certifications candidates', function () {
@@ -8,7 +13,7 @@ describe('Acceptance | API | Certifications candidates', function () {
       context('when the user is the supervisor of the session', function () {
         it('should return a 204 status code', async function () {
           // given
-          const server = await createServer();
+          const server = await createServerWithTestOidcProvider();
           const candidateUserId = databaseBuilder.factory.buildUser({}).id;
           const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
           const sessionId = databaseBuilder.factory.buildSession({
@@ -61,7 +66,7 @@ describe('Acceptance | API | Certifications candidates', function () {
       context('when the user is the supervisor of the session', function () {
         it('should return a 204 status code', async function () {
           // given
-          const server = await createServer();
+          const server = await createServerWithTestOidcProvider();
           const candidateUserId = databaseBuilder.factory.buildUser().id;
           const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
           const sessionId = databaseBuilder.factory.buildSession({
@@ -113,7 +118,7 @@ describe('Acceptance | API | Certifications candidates', function () {
       context('when the user is the supervisor of the session', function () {
         it('should return a 204 status code', async function () {
           // given
-          const server = await createServer();
+          const server = await createServerWithTestOidcProvider();
           const candidateUserId = databaseBuilder.factory.buildUser({}).id;
           const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
           const sessionId = databaseBuilder.factory.buildSession({
@@ -161,7 +166,7 @@ describe('Acceptance | API | Certifications candidates', function () {
   describe('GET /api/certification-candidates/:id/subscriptions', function () {
     it('should return the certification candidate subscriptions', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({

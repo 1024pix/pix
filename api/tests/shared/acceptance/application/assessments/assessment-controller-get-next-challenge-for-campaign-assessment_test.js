@@ -1,14 +1,14 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
-  learningContentBuilder,
   knex,
+  learningContentBuilder,
+  mockLearningContent,
   sinon,
 } from '../../../../test-helper.js';
 
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 const competenceId = 'recCompetence';
@@ -69,7 +69,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-campai
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
   });

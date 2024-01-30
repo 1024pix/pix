@@ -3,16 +3,16 @@ import {
   databaseBuilder,
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
+  createServerWithTestOidcProvider,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
 import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Acceptance | API | complementary-certification-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/admin/complementary-certifications/', function () {

@@ -24,14 +24,13 @@ const reconcileOidcUser = async function ({
     userInfo,
     sessionContent,
   });
-  await authenticationMethodRepository.create({
-    authenticationMethod: new AuthenticationMethod({
-      identityProvider: oidcAuthenticationService.identityProvider,
-      userId,
-      externalIdentifier: externalIdentityId,
-      authenticationComplement,
-    }),
+  const authenticationMethod = new AuthenticationMethod({
+    identityProvider: oidcAuthenticationService.identityProvider,
+    userId,
+    externalIdentifier: externalIdentityId,
+    authenticationComplement,
   });
+  await authenticationMethodRepository.create({ authenticationMethod });
 
   const accessToken = await oidcAuthenticationService.createAccessToken(userId);
   const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({

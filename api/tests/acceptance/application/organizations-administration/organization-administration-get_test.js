@@ -1,4 +1,5 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
@@ -6,13 +7,11 @@ import {
 } from '../../../test-helper.js';
 import * as apps from '../../../../lib/domain/constants.js';
 
-import { createServer } from '../../../../server.js';
-
 describe('Acceptance | Routes | organization-administration-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     await insertUserWithRoleSuperAdmin();
   });
 

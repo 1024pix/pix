@@ -1,11 +1,10 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | session-controller-generate-session-results-download-link', function () {
   let server;
@@ -18,7 +17,7 @@ describe('Acceptance | Controller | session-controller-generate-session-results-
   };
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     await insertUserWithRoleSuperAdmin();
   });
 

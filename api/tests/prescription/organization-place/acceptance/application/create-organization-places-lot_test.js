@@ -1,18 +1,17 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
-
-import { createServer } from '../../../../../server.js';
 import * as organizationPlacesCategories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 
 describe('Acceptance | Route | Create Organization Places Lot', function () {
   describe('POST /api/admin/organizations/{id}/places', function () {
     it('should return 201 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const adminUser = await insertUserWithRoleSuperAdmin();
       const organizationId = databaseBuilder.factory.buildOrganization().id;

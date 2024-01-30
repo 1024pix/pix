@@ -1,12 +1,11 @@
-import { databaseBuilder, expect, knex } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import { createServerWithTestOidcProvider, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Acceptance | Route | Account-recovery', function () {
   describe('PATCH /api/account-recovery', function () {
     context('when user has pix authentication method', function () {
       it("should proceed to the account recover by changing user's password and email", async function () {
         // given
-        const server = await createServer();
+        const server = await createServerWithTestOidcProvider();
         const userId = databaseBuilder.factory.buildUser.withRawPassword({
           email: 'old-email@example.net',
           rawPassword: 'oldPassword',
@@ -53,7 +52,7 @@ describe('Acceptance | Route | Account-recovery', function () {
     context('when user has no pix authentication method', function () {
       it('should proceed to the account recover by create pix authentication method', async function () {
         // given
-        const server = await createServer();
+        const server = await createServerWithTestOidcProvider();
         const userWithGarAuthenticationMethod = databaseBuilder.factory.buildUser.withoutPixAuthenticationMethod({
           cgu: false,
         });

@@ -1,5 +1,9 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Controller | users-controller-get-current-user', function () {
   let options;
@@ -8,7 +12,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
   let expectedCode;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     user = databaseBuilder.factory.buildUser();
     const campaign = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION', code: 'SOMECODE' });

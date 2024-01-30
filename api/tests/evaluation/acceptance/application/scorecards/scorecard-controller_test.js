@@ -1,4 +1,5 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
@@ -9,8 +10,6 @@ import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElem
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
-
-import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Controller | scorecard-controller', function () {
   let options;
@@ -102,7 +101,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
   };
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     databaseBuilder.factory.buildUser({ id: userId });
     await databaseBuilder.commit();
     mockLearningContent(learningContent);

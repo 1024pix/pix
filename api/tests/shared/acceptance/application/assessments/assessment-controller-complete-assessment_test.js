@@ -1,15 +1,15 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
-  mockLearningContent,
   learningContentBuilder,
+  mockLearningContent,
 } from '../../../../test-helper.js';
 
 import { Assessment, TrainingTrigger } from '../../../../../lib/domain/models/index.js';
 import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
-import { createServer } from '../../../../../server.js';
 import _ from 'lodash';
 
 describe('Acceptance | Controller | assessment-controller-complete-assessment', function () {
@@ -170,7 +170,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
 
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     user = databaseBuilder.factory.buildUser({});
     assessment = databaseBuilder.factory.buildAssessment({

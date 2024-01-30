@@ -1,15 +1,15 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
-  knex,
-  mockLearningContent,
-  learningContentBuilder,
-  insertUserWithRoleSuperAdmin,
+  expect,
   generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
+  knex,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../../test-helper.js';
 
 import { config as settings } from '../../../../../lib/config.js';
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 const lastChallengeAnswer = 'last challenge answer';
@@ -55,7 +55,7 @@ describe('Acceptance | API | assessment-controller-auto-validate-next-challenge'
     originalEnvValue = settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled;
     settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = true;
 
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
   });

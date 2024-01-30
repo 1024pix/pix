@@ -1,12 +1,16 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 import { BookshelfAssessment } from '../../../../../lib/infrastructure/orm-models/Assessment.js';
 
 describe('Acceptance | API | Assessments POST', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /api/assessments', function () {

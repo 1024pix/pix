@@ -1,11 +1,10 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | frameworks-controller', function () {
   let server;
@@ -184,7 +183,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
   };
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/frameworks/pix/areas-for-user', function () {

@@ -1,11 +1,10 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -17,7 +16,7 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
       databaseBuilder.factory.buildUser.withRole();
       const admin = await insertUserWithRoleSuperAdmin();
       await databaseBuilder.commit();
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       // when
       const response = await server.inject({
@@ -35,7 +34,7 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
       // given
       const user = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       // when
       const response = await server.inject({
@@ -65,7 +64,7 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
       });
 
       await databaseBuilder.commit();
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       // when
       const response = await server.inject({
@@ -91,7 +90,7 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
         role: ROLES.SUPPORT,
       });
       await databaseBuilder.commit();
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       // when
       const response = await server.inject({
@@ -125,7 +124,7 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
       });
 
       await databaseBuilder.commit();
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       // when
       const response = await server.inject({
@@ -159,7 +158,7 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
           email: '11.01@example.net',
         });
         await databaseBuilder.commit();
-        const server = await createServer();
+        const server = await createServerWithTestOidcProvider();
 
         // when
         const { statusCode, result } = await server.inject({

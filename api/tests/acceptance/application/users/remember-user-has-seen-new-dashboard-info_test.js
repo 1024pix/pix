@@ -1,5 +1,9 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Controller | users-controller-has-seen-new-dashboard-info', function () {
   let server;
@@ -7,7 +11,7 @@ describe('Acceptance | Controller | users-controller-has-seen-new-dashboard-info
   let options;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     user = databaseBuilder.factory.buildUser({ hasSeenNewDashboardInfo: false });
 

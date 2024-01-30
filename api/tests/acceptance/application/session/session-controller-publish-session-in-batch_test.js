@@ -1,5 +1,9 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('POST /api/admin/sessions/publish-in-batch', function () {
   let server;
@@ -10,7 +14,7 @@ describe('POST /api/admin/sessions/publish-in-batch', function () {
   let userId;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     // given
     userId = databaseBuilder.factory.buildUser.withRole().id;
     options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };

@@ -1,11 +1,10 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 describe('Acceptance | Route | Users', function () {
@@ -14,7 +13,7 @@ describe('Acceptance | Route | Users', function () {
     let superAdmin;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
       superAdmin = await insertUserWithRoleSuperAdmin();
     });
 

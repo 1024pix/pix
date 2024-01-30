@@ -1,5 +1,3 @@
-import { createServer } from '../../../../../server.js';
-
 import {
   expect,
   generateValidRequestAuthorizationHeader,
@@ -9,6 +7,7 @@ import {
   knex,
   learningContentBuilder,
   insertUserWithRoleSuperAdmin,
+  createServerWithTestOidcProvider,
 } from '../../../../test-helper.js';
 import { constants } from '../../../../../lib/domain/constants.js';
 
@@ -21,7 +20,7 @@ describe('Acceptance | API | Autonomous Course', function () {
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser.withRole().id;
     await databaseBuilder.commit();
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     const learningContent = [
       {

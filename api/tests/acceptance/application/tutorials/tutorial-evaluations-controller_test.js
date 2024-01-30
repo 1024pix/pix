@@ -1,11 +1,10 @@
 import {
-  mockLearningContent,
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
+  mockLearningContent,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
 
 describe('Acceptance | Controller | tutorial-evaluations-controller', function () {
@@ -26,7 +25,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
   };
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     await databaseBuilder.factory.buildUser({
       id: 4444,
       firstName: 'Classic',

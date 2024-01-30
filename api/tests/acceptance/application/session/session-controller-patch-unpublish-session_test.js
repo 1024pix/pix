@@ -1,5 +1,10 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  knex,
+} from '../../../test-helper.js';
 import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 
 describe('PATCH /api/admin/sessions/:id/unpublish', function () {
@@ -8,7 +13,7 @@ describe('PATCH /api/admin/sessions/:id/unpublish', function () {
   let userId;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   context('when user does not have the role Super Admin', function () {

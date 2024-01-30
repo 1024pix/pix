@@ -1,18 +1,17 @@
 import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
-  mockLearningContent,
   learningContentBuilder,
+  mockLearningContent,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | users-controller-get-campaign-participation-overviews', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /users/1/campaign-participation-overviews', function () {

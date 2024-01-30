@@ -1,5 +1,9 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('PUT /api/admin/sessions/:id/results-sent-to-prescriber', function () {
   let server;
@@ -7,7 +11,7 @@ describe('PUT /api/admin/sessions/:id/results-sent-to-prescriber', function () {
   let userId;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   context('when user does not have the role Super Admin', function () {

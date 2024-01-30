@@ -25,6 +25,7 @@
 !.idea/runConfigurations/*.xml
 *.iml
 *.code-workspace
+conventionalcommit.coauthors
 
 # system
 .DS_Store

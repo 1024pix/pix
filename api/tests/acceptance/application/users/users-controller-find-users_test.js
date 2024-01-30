@@ -1,12 +1,16 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | users-controller-find-users', function () {
   let server;
   let options;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     const userSuperAdminId = databaseBuilder.factory.buildUser.withRole({
       firstName: 'SuperAdmin_firstName',

@@ -1,16 +1,14 @@
 import querystring from 'querystring';
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { expect, databaseBuilder, knex, createServerWithTestOidcProvider } from '../../../test-helper.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | authentication-controller', function () {
   describe('POST /api/token-from-external-user', function () {
     let server;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
     });
 
     describe('when user has a reconciled Pix account, then connect to Pix from GAR', function () {
@@ -109,7 +107,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
     let options;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
     });
 
     context('When is not simplified Access Campaign', function () {
@@ -202,7 +200,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
     const SCOPE = 'organizations-certifications-result';
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
       options = {
         method: 'POST',
         url: '/api/application/token',

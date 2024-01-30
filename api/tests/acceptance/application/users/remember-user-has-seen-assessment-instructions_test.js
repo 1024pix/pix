@@ -1,5 +1,9 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Controller | users-controller-remember-user-has-seen-assessment-instructions', function () {
   let server;
@@ -7,7 +11,7 @@ describe('Acceptance | Controller | users-controller-remember-user-has-seen-asse
   let options;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     user = databaseBuilder.factory.buildUser({ hasSeenAssessmentInstructions: false });
 

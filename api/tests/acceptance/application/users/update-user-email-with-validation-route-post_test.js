@@ -1,12 +1,16 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 import * as userEmailRepository from '../../../../lib/infrastructure/repositories/user-email-repository.js';
 
 describe('Acceptance | Route | Users', function () {
   describe('POST /api/users/{id}/update-email', function () {
     it('should return 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const code = '999999';
       const newEmail = 'judy.new_email@example.net';

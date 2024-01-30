@@ -1,8 +1,7 @@
-import { createServer } from '../../../../../server.js';
-
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
@@ -11,7 +10,7 @@ describe('Acceptance | API | Badges', function () {
   let server, options, userId, badge;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     userId = (await insertUserWithRoleSuperAdmin()).id;
   });
 

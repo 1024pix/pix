@@ -1,5 +1,9 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | answer-controller-update', function () {
   describe('PATCH /api/answers/:id', function () {
@@ -7,7 +11,7 @@ describe('Acceptance | Controller | answer-controller-update', function () {
     let options;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
       const userId = databaseBuilder.factory.buildUser().id;
       const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
       const answer = databaseBuilder.factory.buildAnswer({

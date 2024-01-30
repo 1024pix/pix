@@ -1,11 +1,11 @@
 import {
-  expect,
-  knex,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
+  knex,
   sinon,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
 import * as temporarySessionsStorageForMassImportService from '../../../../../src/certification/session/domain/services/temporary-sessions-storage-for-mass-import-service.js';
 
 import lodash from 'lodash';
@@ -16,7 +16,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /api/certification-centers/{certificationCenterId}/sessions/validate-for-mass-import', function () {
@@ -179,7 +179,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
             userId,
           });
           await databaseBuilder.commit();
-          const server = await createServer();
+          const server = await createServerWithTestOidcProvider();
 
           const options = {
             method: 'POST',
@@ -238,7 +238,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
             userId,
           });
           await databaseBuilder.commit();
-          const server = await createServer();
+          const server = await createServerWithTestOidcProvider();
 
           const options = {
             method: 'POST',
@@ -285,7 +285,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
         certificationCenterId,
       });
       await databaseBuilder.commit();
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const options = {
         method: 'GET',

@@ -3,15 +3,14 @@ import {
   databaseBuilder,
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
+  createServerWithTestOidcProvider,
 } from '../../../../test-helper.js';
-
-import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | API | complementary-certification-controller', function () {
   describe('GET /api/admin/complementary-certifications/{id}/target-profiles', function () {
     it('should return 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
       const complementaryCertificationId = 1;
       const superAdmin = await insertUserWithRoleSuperAdmin();
       const options = {

@@ -1,13 +1,18 @@
 import _ from 'lodash';
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  expect,
+  databaseBuilder,
+  generateValidRequestAuthorizationHeader,
+  createServerWithTestOidcProvider,
+} from '../../../test-helper.js';
+
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 describe('Acceptance | Controller | membership-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /api/admin/memberships', function () {

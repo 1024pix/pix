@@ -6,9 +6,9 @@ import {
   mockLearningContent,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
+  createServerWithTestOidcProvider,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
 import { CertificationIssueReportCategory } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
@@ -20,7 +20,7 @@ describe('Acceptance | API | Certification Course', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/admin/certifications/{id}/details', function () {

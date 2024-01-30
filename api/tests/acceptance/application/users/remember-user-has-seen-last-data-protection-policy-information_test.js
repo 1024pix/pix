@@ -1,5 +1,10 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder, sinon } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  sinon,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Route | remember-user-has-seen-last-data-protection-policy-information', function () {
   describe('Success case', function () {
@@ -13,7 +18,7 @@ describe('Acceptance | Route | remember-user-has-seen-last-data-protection-polic
         toFake: ['Date'],
       });
 
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
     });
 
     afterEach(function () {

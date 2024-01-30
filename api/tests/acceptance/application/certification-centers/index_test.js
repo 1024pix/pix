@@ -1,4 +1,5 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
@@ -6,14 +7,13 @@ import {
   sinon,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 
 describe('Acceptance | Route | Certification Centers', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('PATCH /api/admin/certification-centers/{id}', function () {

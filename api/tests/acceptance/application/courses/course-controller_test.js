@@ -1,19 +1,18 @@
 import {
+  createServerWithTestOidcProvider,
   expect,
-  nock,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
   learningContentBuilder,
+  mockLearningContent,
+  nock,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Courses', function () {
   let server;
   const userId = 42;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/courses/:course_id', function () {

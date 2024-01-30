@@ -1,16 +1,15 @@
 import _ from 'lodash';
 
 import {
-  knex,
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  sinon,
-  mockLearningContent,
+  knex,
   learningContentBuilder,
+  mockLearningContent,
+  sinon,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 
 const { STARTED } = CampaignParticipationStatuses;
@@ -103,7 +102,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
 
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /users/{id}/competences/{id}/reset', function () {

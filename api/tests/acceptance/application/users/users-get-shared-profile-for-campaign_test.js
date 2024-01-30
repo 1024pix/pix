@@ -2,13 +2,12 @@ import _ from 'lodash';
 import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_SCORE } from '../../../../lib/domain/constants.js';
 
 import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profile', function () {
   const userId = 100;
@@ -48,7 +47,7 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
   };
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /users/{userId}/campaigns/{campaignId}/profile', function () {

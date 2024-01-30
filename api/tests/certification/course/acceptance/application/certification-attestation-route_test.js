@@ -1,13 +1,13 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
   learningContentBuilder,
   mockLearningContent,
-  insertUserWithRoleSuperAdmin,
   nock,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { generateCertificateVerificationCode } from '../../../../../lib/domain/services/verify-certificate-code-service.js';
 import { AssessmentResult, Membership } from '../../../../../lib/domain/models/index.js';
@@ -117,7 +117,7 @@ describe('Acceptance | Route | certification-attestation', function () {
         await _buildDatabaseForV2Certification({ userId, certificationCourseId: 1234 });
         await databaseBuilder.commit();
 
-        const server = await createServer();
+        const server = await createServerWithTestOidcProvider();
 
         // when
         const response = await server.inject({
@@ -142,7 +142,7 @@ describe('Acceptance | Route | certification-attestation', function () {
       await _buildDatabaseForV2Certification({ userId: superAdmin.id, sessionId: 4567 });
       await databaseBuilder.commit();
 
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       // when
       const response = await server.inject({
@@ -215,7 +215,7 @@ describe('Acceptance | Route | certification-attestation', function () {
 
       await databaseBuilder.commit();
 
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const options = {
         method: 'GET',

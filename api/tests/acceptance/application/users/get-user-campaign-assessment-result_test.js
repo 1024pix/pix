@@ -1,12 +1,12 @@
-import { createServer } from '../../../../server.js';
 import _ from 'lodash';
 import { SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
-  mockLearningContent,
-  learningContentBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../test-helper.js';
 
 describe('Acceptance | API | Campaign Assessment Result', function () {
@@ -19,7 +19,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
   let server, badge1, badge2, stage;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     const oldDate = new Date('2018-02-03');
     const recentDate = new Date('2018-05-06');

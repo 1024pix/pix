@@ -1,5 +1,3 @@
-import { createServer } from '../../../../../server.js';
-
 import {
   expect,
   generateValidRequestAuthorizationHeader,
@@ -7,6 +5,7 @@ import {
   knex,
   learningContentBuilder,
   mockLearningContent,
+  createServerWithTestOidcProvider,
 } from '../../../../test-helper.js';
 
 describe('Acceptance | API | Stages', function () {
@@ -15,7 +14,7 @@ describe('Acceptance | API | Stages', function () {
 
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser.withRole().id;
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     const learningContent = [
       {

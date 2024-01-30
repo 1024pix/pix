@@ -1,6 +1,10 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 
-import { createServer } from '../../../../../server.js';
 import * as categories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import { Membership } from '../../../../../lib/domain/models/index.js';
 import { ORGANIZATION_FEATURE } from '../../../../../lib/domain/constants.js';
@@ -9,7 +13,7 @@ describe('Acceptance | Route | Get Organizations Places Statistics', function ()
   describe('GET /api/organizations/{id}/places-statistics', function () {
     it('should return statistics of organization places and http code 200', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const { userId, organizationId } = databaseBuilder.factory.buildMembership({
         organizationRole: Membership.roles.ADMIN,
@@ -48,7 +52,7 @@ describe('Acceptance | Route | Get Organizations Places Statistics', function ()
     });
     it('should return 412 http code if organisation have unlimited places', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const { userId, organizationId } = databaseBuilder.factory.buildMembership({
         organizationRole: Membership.roles.ADMIN,

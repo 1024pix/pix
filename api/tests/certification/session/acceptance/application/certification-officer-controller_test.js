@@ -1,12 +1,16 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | certification-officer-controller', function () {
   describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', function () {
     let server;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
     });
 
     context('when user does not have the role Super Admin', function () {

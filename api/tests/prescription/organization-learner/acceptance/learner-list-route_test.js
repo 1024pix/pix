@@ -1,19 +1,18 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
 
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 
-import { createServer } from '../../../../server.js';
-
 describe('Acceptance | Application | learner-list-route', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     await insertUserWithRoleSuperAdmin();
   });
 

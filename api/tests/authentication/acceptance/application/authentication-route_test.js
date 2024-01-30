@@ -1,10 +1,8 @@
 import querystring from 'querystring';
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { createServerWithTestOidcProvider, databaseBuilder, expect, knex } from '../../../test-helper.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Authentication | Application | Controller', function () {
   afterEach(async function () {
@@ -29,7 +27,7 @@ describe('Acceptance | Authentication | Application | Controller', function () {
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildMembership({ userId, organizationId, organizationRoleId: orgaRoleInDB.id });
       await databaseBuilder.commit();
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
     });
 
     it('should return a 200 with an access token and a refresh token when authentication is ok', async function () {

@@ -1,13 +1,19 @@
 import _ from 'lodash';
 import iconv from 'iconv-lite';
-import { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  knex,
+} from '../../../../test-helper.js';
 import { EventEmitter } from 'events';
-EventEmitter.defaultMaxListeners = 60;
-
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import { OrganizationLearnerImportHeader } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-import-header.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
+
+EventEmitter.defaultMaxListeners = 60;
+
 const i18n = getI18n();
 
 const organizationLearnerCsvColumns = new OrganizationLearnerImportHeader(i18n).columns
@@ -18,7 +24,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /api/organizations/{id}/sco-organization-learners/import-siecle', function () {

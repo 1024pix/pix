@@ -2,12 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import * as url from 'url';
 import {
+  createServerWithTestOidcProvider,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   nock,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -15,7 +15,7 @@ describe('Acceptance | Controller | Session | update-cpf-import-status-controlle
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     nock('http://cpf-receipts.fake.endpoint.example.net:80')
       .get('/cpfReceipts.bucket/?list-type=2')

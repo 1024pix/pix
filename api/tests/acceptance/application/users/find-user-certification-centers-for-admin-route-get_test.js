@@ -1,11 +1,15 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Route | Users', function () {
   describe('GET /api/admin/users/{id}/certification-center-memberships', function () {
     it('should return 200 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
       const adminUser = databaseBuilder.factory.buildUser.withRole();
       const userId = databaseBuilder.factory.buildUser().id;
 

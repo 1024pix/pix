@@ -1,14 +1,14 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
-  learningContentBuilder,
   knex,
+  learningContentBuilder,
+  mockLearningContent,
   sinon,
 } from '../../../../test-helper.js';
 
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { CertificationVersion } from '../../../../../src/shared/domain/models/CertificationVersion.js';
 
@@ -70,7 +70,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
   });

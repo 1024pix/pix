@@ -1,17 +1,15 @@
 import lodash from 'lodash';
-const { pick } = lodash;
-
-import { domainBuilder, expect, nock } from '../../../test-helper.js';
+import { createServerWithTestOidcProvider, domainBuilder, expect, nock } from '../../../test-helper.js';
 
 import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 
-import { createServer } from '../../../../server.js';
+const { pick } = lodash;
 
 describe('Acceptance | Controller | users-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('save', function () {

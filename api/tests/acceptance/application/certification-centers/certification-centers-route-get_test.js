@@ -1,5 +1,9 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  expect,
+  databaseBuilder,
+  generateValidRequestAuthorizationHeader,
+  createServerWithTestOidcProvider,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Application | Certification-centers | Routes', function () {
   describe('GET /api/certification-centers/{certificationCenterId}/members', function () {
@@ -17,7 +21,7 @@ describe('Acceptance | Application | Certification-centers | Routes', function (
         userId: user2.id,
       });
       await databaseBuilder.commit();
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const options = {
         headers: {

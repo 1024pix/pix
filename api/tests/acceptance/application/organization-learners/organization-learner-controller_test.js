@@ -1,18 +1,17 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
-  insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 describe('Acceptance | Controller | organization-learner', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('DELETE /api/admin/organization-learners/{id}/association', function () {

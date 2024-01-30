@@ -1,12 +1,11 @@
-import { createServer } from '../../../../../server.js';
-
 import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
   knex,
-  mockLearningContent,
   learningContentBuilder,
+  mockLearningContent,
 } from '../../../../test-helper.js';
 
 import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../lib/domain/constants.js';
@@ -18,7 +17,7 @@ describe('Acceptance | API | Competence Evaluations', function () {
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /api/competence-evaluations/start-or-resume', function () {

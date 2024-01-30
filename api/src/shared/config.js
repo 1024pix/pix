@@ -382,12 +382,15 @@ const configuration = (function () {
 
   if (process.env.NODE_ENV === 'test') {
     config.oidcExampleNet = {
-      isEnabled: true,
+      authenticationUrl: 'https://oidc.example.net/authentication',
       clientId: 'client',
       clientSecret: 'secret',
-      authenticationUrl: 'https://oidc.example.net/authentication',
-      userInfoUrl: 'https://oidc.example.net/userinfo',
+      isEnabled: true,
+      temporaryStorage: {
+        idTokenLifespanMs: ms('1d'),
+      },
       tokenUrl: 'https://oidc.example.net/token',
+      userInfoUrl: 'https://oidc.example.net/userinfo',
     };
 
     config.auditLogger.baseUrl = 'http://audit-logger.local';

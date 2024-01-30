@@ -1,11 +1,10 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import { createServerWithTestOidcProvider, databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Acceptance | Application | Account-Recovery | Routes', function () {
   describe('GET /api/account-recovery/{temporaryKey}', function () {
     it('should return 200 http status code when account recovery demand found', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
       const temporaryKey = 'FfgpFXgyuO062nPUPwcb8Wy3KcgkqR2p2GyEuGVaNI4=';
       const userId = 1234;
       const newEmail = 'newEmail@example.net';

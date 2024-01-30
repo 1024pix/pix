@@ -1,18 +1,17 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 
 describe('Acceptance | API | Certifications', function () {
   describe('POST /api/admin/complementary-certification-course-results', function () {
     it('should return 201 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
       databaseBuilder.factory.buildTargetProfile({ id: 99 });
       const badge = databaseBuilder.factory.buildBadge({
         key: 'BADGE_KEY',

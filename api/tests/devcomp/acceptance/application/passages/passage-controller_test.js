@@ -1,12 +1,10 @@
-import { databaseBuilder, expect } from '../../../../test-helper.js';
-
-import { createServer } from '../../../../../server.js';
+import { createServerWithTestOidcProvider, databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | passage-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /api/passages', function () {

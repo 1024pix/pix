@@ -3,11 +3,11 @@ import {
   databaseBuilder,
   generateValidRequestAuthorizationHeaderForApplication,
   generateValidRequestAuthorizationHeader,
+  createServerWithTestOidcProvider,
 } from '../../../test-helper.js';
 
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
-import { createServer } from '../../../../server.js';
 import { config as settings } from '../../../../lib/config.js';
 
 describe('Acceptance | API | Pole Emploi envois', function () {
@@ -18,7 +18,7 @@ describe('Acceptance | API | Pole Emploi envois', function () {
   const POLE_EMPLOI_SOURCE = 'poleEmploi';
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/pole-emploi/envois', function () {

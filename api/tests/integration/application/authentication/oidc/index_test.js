@@ -1,11 +1,11 @@
-import { expect, sinon, HttpTestServer, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
+import { expect, generateValidRequestAuthorizationHeader, HttpTestServer, sinon } from '../../../../test-helper.js';
 import { oidcController } from '../../../../../lib/application/authentication/oidc/oidc-controller.js';
 import * as moduleUnderTest from '../../../../../lib/application/authentication/oidc/index.js';
 
 import {
-  UserNotFoundError,
   AuthenticationKeyExpired,
   DifferentExternalIdentifierError,
+  UserNotFoundError,
 } from '../../../../../lib/domain/errors.js';
 
 describe('Integration | Application | Route | OidcRouter', function () {
@@ -72,20 +72,6 @@ describe('Integration | Application | Route | OidcRouter', function () {
           // then
           expect(statusCode).to.equal(400);
         });
-      });
-    });
-
-    context('when identity_provider parameter is not POLE_EMPLOI', function () {
-      it('should return a response with HTTP status code 400', async function () {
-        // given & when
-        const { statusCode } = await server.requestObject({
-          method: 'GET',
-          url: '/api/oidc/redirect-logout-url?identity_provider=MY_IDP&logout_url_uuid=b45cb781-4e9a-49b6-8c7e-ff5f02e07720',
-          headers: { authorization: generateValidRequestAuthorizationHeader() },
-        });
-
-        // then
-        expect(statusCode).to.equal(400);
       });
     });
   });

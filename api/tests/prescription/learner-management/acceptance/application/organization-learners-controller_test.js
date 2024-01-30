@@ -1,11 +1,15 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  expect,
+  databaseBuilder,
+  generateValidRequestAuthorizationHeader,
+  createServerWithTestOidcProvider,
+} from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | organization-learners-management', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('DELETE /organizations/{id}/organization-learners', function () {

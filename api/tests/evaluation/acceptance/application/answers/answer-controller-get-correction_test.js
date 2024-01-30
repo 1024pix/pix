@@ -1,11 +1,10 @@
 import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
-
-import { createServer } from '../../../../../server.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;
@@ -157,7 +156,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/answers/{id}/correction', function () {

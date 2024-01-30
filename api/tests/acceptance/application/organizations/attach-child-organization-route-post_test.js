@@ -1,6 +1,11 @@
-import { createServer } from '../../../../server.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  knex,
+} from '../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 
@@ -8,7 +13,7 @@ describe('Acceptance | Application | Organizations | POST /api/admin/organizatio
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   context('success cases', function () {

@@ -1,19 +1,18 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
+  generateIdTokenForExternalUser,
   generateValidRequestAuthorizationHeader,
   knex,
-  generateIdTokenForExternalUser,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 describe('Acceptance | Controller | sco-organization-learners', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /api/sco-organization-learners/association', function () {

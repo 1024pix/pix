@@ -5,15 +5,14 @@ import {
   MockDate,
   mockLearningContent,
   learningContentBuilder,
+  createServerWithTestOidcProvider,
 } from '../../../../test-helper.js';
-
-import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Route | admin-target-profile', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/admin/target-profiles/{id}/content-json', function () {

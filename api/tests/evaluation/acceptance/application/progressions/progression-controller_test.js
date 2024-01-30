@@ -1,18 +1,17 @@
 import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
-  mockLearningContent,
   learningContentBuilder,
+  mockLearningContent,
 } from '../../../../test-helper.js';
-
-import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | API | Progressions', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/progressions/:id', function () {

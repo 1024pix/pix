@@ -1,5 +1,9 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Controller | users-controller-find-paginated-user-recommended-trainings', function () {
   let options;
@@ -17,7 +21,7 @@ describe('Acceptance | Controller | users-controller-find-paginated-user-recomme
       payload: {},
       headers: { authorization },
     };
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /users/:id/trainings', function () {

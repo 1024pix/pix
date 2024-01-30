@@ -1,10 +1,13 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
-
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 describe('Acceptance | API | assessment-controller-get', function () {
   let server;
@@ -12,7 +15,7 @@ describe('Acceptance | API | assessment-controller-get', function () {
   const courseId = 'courseId';
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     userId = databaseBuilder.factory.buildUser({}).id;
     await databaseBuilder.commit();
   });

@@ -1,12 +1,15 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Route | target-profiles-management', function () {
   describe('DELETE /api/admin/target-profiles/{id}/detach-organizations', function () {
     it('should return 200 after successfully detaching organizations from target profile', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const user = databaseBuilder.factory.buildUser.withRole();
       const organization1Id = databaseBuilder.factory.buildOrganization().id;

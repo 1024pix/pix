@@ -3,15 +3,14 @@ import {
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
   insertUserWithRoleSuperAdmin,
+  createServerWithTestOidcProvider,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | finalized-session-controller-find-finalized-sessions-to-publish', function () {
   let server, options;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     await insertUserWithRoleSuperAdmin();
   });
 

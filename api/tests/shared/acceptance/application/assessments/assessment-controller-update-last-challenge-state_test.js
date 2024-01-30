@@ -1,13 +1,13 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
-  learningContentBuilder,
   knex,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../../test-helper.js';
 
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 const competenceId = 'recCompetence';
@@ -56,7 +56,7 @@ describe('Acceptance | API | assessment-controller-update-last-challenge-state',
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
   });
@@ -71,7 +71,7 @@ describe('Acceptance | API | assessment-controller-update-last-challenge-state',
 
     context('Resource access management', function () {
       beforeEach(async function () {
-        server = await createServer();
+        server = await createServerWithTestOidcProvider();
 
         user = databaseBuilder.factory.buildUser();
         assessment = databaseBuilder.factory.buildAssessment({

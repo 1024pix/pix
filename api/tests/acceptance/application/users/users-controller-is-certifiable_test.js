@@ -1,4 +1,5 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
@@ -6,15 +7,13 @@ import {
   mockLearningContent,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
-
 describe('Acceptance | users-controller-is-certifiable', function () {
   let server;
   let options;
   let user;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     user = databaseBuilder.factory.buildUser();
 

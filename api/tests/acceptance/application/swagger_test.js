@@ -1,11 +1,10 @@
-import { expect } from '../../test-helper.js';
-import { createServer } from '../../../server.js';
+import { createServerWithTestOidcProvider, expect } from '../../test-helper.js';
 
 describe('Acceptance | Controller | swagger', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/swagger.json', function () {

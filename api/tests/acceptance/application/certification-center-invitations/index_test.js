@@ -1,13 +1,13 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
-  knex,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
+  knex,
 } from '../../../test-helper.js';
 
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
-import { createServer } from '../../../../server.js';
 
 const CERTIFICATION_CENTER_INVITATIONS_TABLE_NAME = 'certification-center-invitations';
 
@@ -15,7 +15,7 @@ describe('Acceptance | API | Certification center invitations', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   context('global routes', function () {

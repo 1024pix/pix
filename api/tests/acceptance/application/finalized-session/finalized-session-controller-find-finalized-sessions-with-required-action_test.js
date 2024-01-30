@@ -3,9 +3,8 @@ import {
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
   insertUserWithRoleSuperAdmin,
+  createServerWithTestOidcProvider,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | finalized-session-controller-find-finalized-sessions-with-required-action', function () {
   describe('GET /api/admin/sessions/with-required-action', function () {
@@ -29,7 +28,7 @@ describe('Acceptance | Controller | finalized-session-controller-find-finalized-
 
         await databaseBuilder.commit();
 
-        const server = await createServer();
+        const server = await createServerWithTestOidcProvider();
         const options = {
           method: 'GET',
           url: '/api/admin/sessions/with-required-action',
@@ -65,7 +64,7 @@ describe('Acceptance | Controller | finalized-session-controller-find-finalized-
 
           await databaseBuilder.commit();
 
-          const server = await createServer();
+          const server = await createServerWithTestOidcProvider();
           const options = {
             method: 'GET',
             url: '/api/admin/sessions/with-required-action?filter[version]=3',

@@ -5,8 +5,9 @@ import {
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
+  createServerWithTestOidcProvider,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
@@ -17,7 +18,7 @@ describe('Acceptance | Controller | Session | session-route', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /certification-centers/{certificationCenterId}/session', function () {
@@ -629,7 +630,7 @@ describe('Acceptance | Controller | Session | session-route', function () {
   describe('DELETE /sessions/{id}', function () {
     it('should respond with 204', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
       const userId = databaseBuilder.factory.buildUser().id;
 
       const { id: certificationCenterId, name: certificationCenter } =

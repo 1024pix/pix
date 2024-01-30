@@ -1,17 +1,16 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
 
-import { createServer } from '../../../../../server.js';
-
 describe('Acceptance | Route | Delete Organizations Places Lot', function () {
   describe('DELETE /api/admin/organizations/{id}/places/{placeId}', function () {
     it('should return 204 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const adminUser = await insertUserWithRoleSuperAdmin();
       const organizationPlace = databaseBuilder.factory.buildOrganizationPlace();
@@ -34,7 +33,7 @@ describe('Acceptance | Route | Delete Organizations Places Lot', function () {
 
     it('should return 404 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const adminUser = await insertUserWithRoleSuperAdmin();
       const organizationPlace = databaseBuilder.factory.buildOrganizationPlace();
@@ -57,7 +56,7 @@ describe('Acceptance | Route | Delete Organizations Places Lot', function () {
 
     it('should return 409 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const adminUser = await insertUserWithRoleSuperAdmin();
       const organizationPlace = databaseBuilder.factory.buildOrganizationPlace({

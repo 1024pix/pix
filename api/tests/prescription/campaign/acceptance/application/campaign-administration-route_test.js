@@ -5,6 +5,7 @@ import {
   learningContentBuilder,
   mockLearningContent,
   knex,
+  createServerWithTestOidcProvider,
 } from '../../../../test-helper.js';
 
 import { ORGANIZATION_FEATURE } from '../../../../../lib/domain/constants.js';
@@ -13,14 +14,12 @@ import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js'
 
 const { ROLES } = PIX_ADMIN;
 
-import { createServer } from '../../../../../server.js';
-
 describe('Acceptance | API | campaign-administration-route', function () {
   let organization;
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /api/campaigns', function () {

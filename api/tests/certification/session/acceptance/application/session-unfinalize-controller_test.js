@@ -1,5 +1,9 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | Session | unfinalize-session', function () {
   describe('PATCH /api/admin/sessions/{id}/unfinalize', function () {
@@ -10,7 +14,7 @@ describe('Acceptance | Controller | Session | unfinalize-session', function () {
       databaseBuilder.factory.buildFinalizedSession({ sessionId: 123 });
       await databaseBuilder.commit();
 
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
       const options = {
         method: 'PATCH',
         url: '/api/admin/sessions/123/unfinalize',

@@ -1,9 +1,8 @@
 import _ from 'lodash';
 
-import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
+import { createServerWithTestOidcProvider, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 import samlify from 'samlify';
-import { createServer } from '../../../../server.js';
 import { config as settings } from '../../../../lib/config.js';
 
 const testCertificate = `MIICCzCCAXQCCQD2MlHh/QmGmjANBgkqhkiG9w0BAQsFADBKMQswCQYDVQQGEwJG
@@ -98,7 +97,7 @@ describe('Acceptance | Controller | saml-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     sinon.stub(settings.saml, 'spConfig').value(spConfig);
     sinon.stub(settings.saml, 'idpConfig').value(idpConfig);

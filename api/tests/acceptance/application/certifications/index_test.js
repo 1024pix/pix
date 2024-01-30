@@ -5,9 +5,9 @@ import {
   mockLearningContent,
   learningContentBuilder,
   insertUserWithRoleSuperAdmin,
+  createServerWithTestOidcProvider,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { generateCertificateVerificationCode } from '../../../../lib/domain/services/verify-certificate-code-service.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
@@ -18,7 +18,7 @@ describe('Acceptance | API | Certifications', function () {
   let session, certificationCourse, assessment, assessmentResult, badge;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     const learningContent = [
       {

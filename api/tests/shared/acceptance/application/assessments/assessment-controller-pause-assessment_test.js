@@ -1,11 +1,11 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   knex,
   mockLearningContent,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 describe('Acceptance | API | assessment-controller-pause-assessment', function () {
@@ -37,7 +37,7 @@ describe('Acceptance | API | assessment-controller-pause-assessment', function (
         ],
       };
 
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
       user = databaseBuilder.factory.buildUser();
       assessment = databaseBuilder.factory.buildAssessment({
         state: Assessment.states.STARTED,

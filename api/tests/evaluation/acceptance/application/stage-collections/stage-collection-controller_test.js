@@ -1,4 +1,5 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   domainBuilder,
   expect,
@@ -6,13 +7,12 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Controller | stage-collection', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('PATCH api/admin/stage-collections/{id}', function () {

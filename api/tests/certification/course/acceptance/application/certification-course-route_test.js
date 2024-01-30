@@ -4,8 +4,9 @@ import {
   knex,
   insertUserWithRoleSuperAdmin,
   databaseBuilder,
+  createServerWithTestOidcProvider,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+
 import { createSuccessfulCertificationCourse } from '../../../shared/fixtures/certification-course.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
@@ -30,7 +31,7 @@ describe('Acceptance | Route | certification-course', function () {
           certificationCourse,
         });
 
-        const server = await createServer();
+        const server = await createServerWithTestOidcProvider();
 
         // when
         const response = await server.inject({
@@ -83,7 +84,7 @@ describe('Acceptance | Route | certification-course', function () {
           certificationCourse,
         });
 
-        const server = await createServer();
+        const server = await createServerWithTestOidcProvider();
 
         // when
         const response = await server.inject({
@@ -136,7 +137,7 @@ describe('Acceptance | Route | certification-course', function () {
         certificationCourse,
       });
 
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       // when
       const response = await server.inject({
@@ -184,7 +185,7 @@ describe('Acceptance | Route | certification-course', function () {
       }).id;
       databaseBuilder.factory.buildCompetenceMark({ assessmentResultId });
 
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
 
       options = {
         method: 'POST',
@@ -256,7 +257,7 @@ describe('Acceptance | Route | certification-course', function () {
       }));
       await databaseBuilder.commit();
 
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
 
       options = {
         method: 'GET',

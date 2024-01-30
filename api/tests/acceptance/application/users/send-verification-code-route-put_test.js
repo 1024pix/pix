@@ -1,11 +1,15 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Route | Users', function () {
   describe('PUT /api/users/{id}/email/verification-code', function () {
     it('should return 204 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const newEmail = 'new_email@example.net';
       const locale = 'fr-fr';
@@ -46,7 +50,7 @@ describe('Acceptance | Route | Users', function () {
 
     it('should return 400 if email already exists', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const locale = 'fr-fr';
       const rawPassword = 'Password123';
@@ -87,7 +91,7 @@ describe('Acceptance | Route | Users', function () {
 
     it('should return 403 if requested user is not the same as authenticated user', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const locale = 'fr-fr';
       const rawPassword = 'Password123';
@@ -129,7 +133,7 @@ describe('Acceptance | Route | Users', function () {
 
     it('should return 400 if password is not valid', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const locale = 'fr-fr';
       const newEmail = 'new_email@example.net';

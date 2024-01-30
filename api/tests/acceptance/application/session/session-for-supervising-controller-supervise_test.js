@@ -1,18 +1,17 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
   domainBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   knex,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | session-for-supervising-controller-supervise', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   it('should return a HTTP 204 No Content', async function () {

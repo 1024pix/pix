@@ -1,5 +1,10 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  expect,
+  databaseBuilder,
+  generateValidRequestAuthorizationHeader,
+  createServerWithTestOidcProvider,
+} from '../../../../test-helper.js';
+
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
@@ -9,7 +14,7 @@ describe('Acceptance | Controller | Session | certification-candidate-route', fu
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/sessions/{id}/certification-candidates', function () {

@@ -1,19 +1,20 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
 import lodash from 'lodash';
+
 const { omit } = lodash;
 
 describe('Acceptance | Controller | Complementary certification | attach-target-profile-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('PUT /admin/complementary-certifications/{complementaryCertificationId}/badges/', function () {

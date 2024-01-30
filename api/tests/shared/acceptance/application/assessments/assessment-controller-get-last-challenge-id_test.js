@@ -1,18 +1,18 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
-  insertUserWithRoleSuperAdmin,
+  expect,
   generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
 
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 describe('Acceptance | API | assessment-controller-get-last-challenge-id', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/assessments/:id/last-challenge-id', function () {

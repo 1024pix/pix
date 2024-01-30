@@ -1,4 +1,5 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
@@ -7,7 +8,6 @@ import {
 } from '../../../test-helper.js';
 
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Campaign Controller', function () {
   let campaign;
@@ -15,7 +15,7 @@ describe('Acceptance | API | Campaign Controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/campaigns', function () {

@@ -1,4 +1,5 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
@@ -6,7 +7,6 @@ import {
   knex,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
 describe('Acceptance | Route | users', function () {
   describe('POST /admin/users/:id/anonymize', function () {
     let server;
@@ -17,7 +17,7 @@ describe('Acceptance | Route | users', function () {
     let organizationId;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
       superAdmin = await insertUserWithRoleSuperAdmin();
       const user = databaseBuilder.factory.buildUser.withRawPassword();
       userId = user.id;
@@ -84,7 +84,7 @@ describe('Acceptance | Route | users', function () {
   describe('PUT /admin/users/:id/unblock', function () {
     it('should unblock user how has tried to many wrong password', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
       const userId = databaseBuilder.factory.buildUser.withRawPassword().id;
       const userLoginId = databaseBuilder.factory.buildUserLogin({ userId }).id;
       const superAdmin = await insertUserWithRoleSuperAdmin();

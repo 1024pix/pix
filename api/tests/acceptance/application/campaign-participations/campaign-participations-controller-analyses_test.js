@@ -1,4 +1,3 @@
-import { createServer } from '../../../../server.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 import {
@@ -7,13 +6,14 @@ import {
   mockLearningContent,
   learningContentBuilder,
   generateValidRequestAuthorizationHeader,
+  createServerWithTestOidcProvider,
 } from '../../../test-helper.js';
 
 describe('Acceptance | API | Campaign Participations | Analyses', function () {
   let server, options, userId, organization, campaign, campaignParticipation;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/campaign-participations/{id}/analyses', function () {

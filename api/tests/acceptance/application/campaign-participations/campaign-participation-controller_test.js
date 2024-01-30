@@ -1,9 +1,9 @@
-import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 import { buildLearningContent } from '../../../tooling/learning-content-builder/build-learning-content.js';
 
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   domainBuilder,
   expect,
@@ -21,7 +21,7 @@ describe('Acceptance | API | Campaign Participations', function () {
   let server, options, user;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     user = databaseBuilder.factory.buildUser();
   });
 

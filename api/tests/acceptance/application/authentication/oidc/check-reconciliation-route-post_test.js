@@ -1,5 +1,4 @@
-import { expect, databaseBuilder } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import { expect, databaseBuilder, createServerWithTestOidcProvider } from '../../../../test-helper.js';
 import jsonwebtoken from 'jsonwebtoken';
 import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
 
@@ -8,7 +7,7 @@ describe('Acceptance | Application | Oidc | Routes', function () {
     context('when user has no oidc authentication method', function () {
       it('should return 200 HTTP status', async function () {
         // given
-        const server = await createServer();
+        const server = await createServerWithTestOidcProvider();
         databaseBuilder.factory.buildUser.withRawPassword({ email: 'eva.poree@example.net', rawPassword: 'pix123' });
         await databaseBuilder.commit();
 

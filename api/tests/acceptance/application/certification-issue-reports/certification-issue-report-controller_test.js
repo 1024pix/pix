@@ -4,15 +4,14 @@ import {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
+  createServerWithTestOidcProvider,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | certification-issue-report-controller', function () {
   describe('DELETE /api/certification-issue-reports/{id}', function () {
     it('should return 204 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
@@ -40,7 +39,7 @@ describe('Acceptance | Controller | certification-issue-report-controller', func
   describe('PATCH /api/certification-issue-reports/{id}', function () {
     it('should resolve report and return 204 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const superAdmin = await insertUserWithRoleSuperAdmin();
       const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;

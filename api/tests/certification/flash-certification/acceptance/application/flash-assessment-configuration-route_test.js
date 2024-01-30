@@ -1,11 +1,16 @@
-import { createServer } from '../../../../../server.js';
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../../test-helper.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  knex,
+} from '../../../../test-helper.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 
 describe('Acceptance | Application | flash-assessment-configuration-route', function () {
   let server;
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /api/flash-assessment-configuration', function () {

@@ -1,4 +1,5 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
@@ -6,14 +7,13 @@ import {
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 
 describe('Acceptance | Route | Organizations', function () {
   describe('DELETE /api/organizations/{id}/invitations/{invitationId}', function () {
     it('should return 204 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const { adminUser, organization } = await insertOrganizationUserWithRoleAdmin();
       const invitation = databaseBuilder.factory.buildOrganizationInvitation({
@@ -42,7 +42,7 @@ describe('Acceptance | Route | Organizations', function () {
   describe('DELETE /api/admin/organizations/{organizationId}/invitations/{invitationId}', function () {
     it('should return 204 HTTP status code', async function () {
       // given
-      const server = await createServer();
+      const server = await createServerWithTestOidcProvider();
 
       const adminMember = await insertUserWithRoleSuperAdmin();
       const { organization } = await insertOrganizationUserWithRoleAdmin();

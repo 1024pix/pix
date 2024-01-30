@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   domainBuilder,
   expect,
@@ -10,21 +11,19 @@ import {
 } from '../../../../test-helper.js';
 import { clearResolveMx, setResolveMx } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
 
-import { createServer } from '../../../../../server.js';
-
 describe('Acceptance | Controller | session-controller-post-certification-candidate', function () {
   let server;
   let resolveMx;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     resolveMx = sinon.stub();
     resolveMx.resolves();
     setResolveMx(resolveMx);
   });
 
   afterEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     clearResolveMx();
   });
 

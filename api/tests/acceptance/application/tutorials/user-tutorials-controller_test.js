@@ -4,9 +4,9 @@ import {
   mockLearningContent,
   learningContentBuilder,
   databaseBuilder,
+  createServerWithTestOidcProvider,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 
 describe('Acceptance | Controller | user-tutorial-controller', function () {
@@ -14,7 +14,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
 
     databaseBuilder.factory.buildUser({
       id: userId,

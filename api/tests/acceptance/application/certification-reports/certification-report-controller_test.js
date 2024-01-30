@@ -1,11 +1,15 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Controller | certification-report-controller', function () {
   let server, certificationCourseId, userId, sessionId, certificationCenterId;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildIssueReportCategory({ name: 'FRAUD' });
     ({ id: sessionId, certificationCenterId } = databaseBuilder.factory.buildSession());

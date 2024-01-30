@@ -1,5 +1,9 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServerWithTestOidcProvider,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participations', function () {
   let userId;
@@ -9,7 +13,7 @@ describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participation
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('GET /users/:id/campaigns/:id/campaign-participations', function () {

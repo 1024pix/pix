@@ -1,5 +1,4 @@
-import { databaseBuilder, expect } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import { createServerWithTestOidcProvider, databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Acceptance | Route | Account-recovery', function () {
   describe('POST /api/account-recovery', function () {
@@ -7,7 +6,7 @@ describe('Acceptance | Route | Account-recovery', function () {
 
     beforeEach(async function () {
       //given
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
     });
 
     const studentInformation = {

@@ -1,12 +1,11 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
   insertUserWithRoleSuperAdmin,
+  mockLearningContent,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { constants } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Controller | users-controller-get-user-profile-for-admin', function () {
@@ -64,7 +63,7 @@ describe('Acceptance | Controller | users-controller-get-user-profile-for-admin'
       payload: {},
       headers: {},
     };
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   let knowledgeElement;

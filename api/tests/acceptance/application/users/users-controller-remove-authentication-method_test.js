@@ -1,12 +1,11 @@
 import {
+  createServerWithTestOidcProvider,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 describe('Acceptance | Controller | users-controller-remove-authentication-method', function () {
@@ -15,7 +14,7 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
   let options;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     user = databaseBuilder.factory.buildUser({ username: 'jhn.doe0101', email: null });
     databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
       userId: user.id,

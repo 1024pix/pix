@@ -1,12 +1,11 @@
 import {
-  expect,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | users-controller-update-user-details-for-administration', function () {
   let server;
@@ -14,7 +13,7 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
   let options;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     user = await insertUserWithRoleSuperAdmin();
   });
 

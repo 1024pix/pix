@@ -1,20 +1,19 @@
 import lodash from 'lodash';
-const { map: _map, omit: _omit } = lodash;
-
 import {
-  expect,
-  knex,
+  createServerWithTestOidcProvider,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
+  knex,
   sinon,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+
+const { map: _map, omit: _omit } = lodash;
 
 const { ROLES } = PIX_ADMIN;
 
@@ -22,7 +21,7 @@ describe('Acceptance | Application | organization-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
     await insertUserWithRoleSuperAdmin();
   });
 
@@ -216,7 +215,7 @@ describe('Acceptance | Application | organization-controller', function () {
     let options;
 
     beforeEach(async function () {
-      server = await createServer();
+      server = await createServerWithTestOidcProvider();
 
       const userSuperAdmin = databaseBuilder.factory.buildUser.withRole();
 

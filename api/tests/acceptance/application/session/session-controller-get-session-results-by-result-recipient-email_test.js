@@ -1,5 +1,4 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import { createServerWithTestOidcProvider, databaseBuilder, expect } from '../../../test-helper.js';
 import jsonwebtoken from 'jsonwebtoken';
 import { config as settings } from '../../../../lib/config.js';
 
@@ -8,7 +7,7 @@ describe('Acceptance | Controller | session-controller-get-session-results-by-re
     context('when a valid token is given', function () {
       it('should return 200 HTTP status code', async function () {
         // given
-        const server = await createServer();
+        const server = await createServerWithTestOidcProvider();
 
         const dbf = databaseBuilder.factory;
 

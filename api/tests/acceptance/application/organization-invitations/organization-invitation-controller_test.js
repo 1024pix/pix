@@ -1,13 +1,12 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
+import { createServerWithTestOidcProvider, databaseBuilder, expect } from '../../../test-helper.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Application | organization-invitation-controller', function () {
   let server;
 
   beforeEach(async function () {
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /api/organization-invitations/{id}/response', function () {

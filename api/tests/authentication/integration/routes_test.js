@@ -1,15 +1,12 @@
 import querystring from 'querystring';
 
-import { expect, sinon } from '../../test-helper.js';
-import { createServer } from '../../../server.js';
+import { createServerWithTestOidcProvider, expect, sinon } from '../../test-helper.js';
 import { authenticationController } from '../../../src/authentication/application/authentication-controller.js';
-import { oidcAuthenticationServiceRegistry } from '../../../lib/domain/services/authentication/authentication-service-registry.js';
 
 describe('Integration | Authentication | Application | Router', function () {
   let server;
 
   beforeEach(async function () {
-    sinon.stub(oidcAuthenticationServiceRegistry, 'loadOidcProviderServices').returns();
     sinon.stub(authenticationController, 'createToken').callsFake((request, h) =>
       h.response({
         token_type: 'bearer',
@@ -17,7 +14,7 @@ describe('Integration | Authentication | Application | Router', function () {
         user_id: 'the-user-id',
       }),
     );
-    server = await createServer();
+    server = await createServerWithTestOidcProvider();
   });
 
   describe('POST /api/token', function () {
