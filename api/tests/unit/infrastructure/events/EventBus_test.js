@@ -76,7 +76,7 @@ describe('Unit | Infrastructure | Events | EventBus', function () {
         eventBus.subscribe(Event, subscriber2);
         try {
           await eventBus.publish(new Event());
-          // eslint-disable-next-line no-empty
+          // biome-ignore lint: no empty
         } catch (error) {}
 
         expect(subscriber2.handle).to.not.have.been.called;

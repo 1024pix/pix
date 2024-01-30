@@ -7,7 +7,7 @@ async function removeTempFile(filePath) {
     fs
       .access(filePath)
       .then(() => fs.unlink(filePath))
-      // eslint-disable-next-line no-empty-function
+      // biome-ignore lint: no empty block
       .catch(() => {})
   );
 }

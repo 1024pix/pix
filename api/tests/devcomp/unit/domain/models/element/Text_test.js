@@ -31,7 +31,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Text', function () {
     describe('a text in construction', function () {
       describe('A text with empty introduction', function () {
         // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-        // eslint-disable-next-line no-empty-function
+        // biome-ignore lint: no empty block
         it('should not throw an error', function () {});
       });
     });
@@ -39,37 +39,37 @@ describe('Unit | Devcomp | Domain | Models | Element | Text', function () {
     describe('a text published', function () {
       describe('A text with empty introduction', function () {
         // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-        // eslint-disable-next-line no-empty-function
+        // biome-ignore lint: no empty block
         it('should throw an error', function () {});
       });
     });
 
     describe('A text with a introduction length greater than 3000 characters', function () {
       // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-      // eslint-disable-next-line no-empty-function
+      // biome-ignore lint: no empty block
       it('should throw error', function () {});
     });
     describe('A text with special characters in the introduction', function () {
       // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-      // eslint-disable-next-line no-empty-function
+      // biome-ignore lint: no empty block
       it('should not throw error', function () {});
     });
 
     describe('A text with a duplicate introduction', function () {
       // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-      // eslint-disable-next-line no-empty-function
+      // biome-ignore lint: no empty block
       it('should not throw error', function () {});
     });
 
     describe('A text with introductive text', function () {
       // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-      // eslint-disable-next-line no-empty-function
+      // biome-ignore lint: no empty block
       it('should ', function () {});
     });
 
     describe('A text', function () {
       // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-      // eslint-disable-next-line no-empty-function
+      // biome-ignore lint: no empty block
       it('should be able to be traced back to an assessment de referentiel', function () {});
     });
   });

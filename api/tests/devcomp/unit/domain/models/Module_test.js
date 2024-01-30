@@ -110,19 +110,19 @@ describe('Unit | Devcomp | Domain | Models | Module', function () {
       describe('given a module being created', function () {
         describe('given a module with less than two grains', function () {
           // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-          // eslint-disable-next-line no-empty-function
+          // biome-ignore lint: no empty block
           it('should throw error', function () {});
         });
 
         describe('given a module with two grains which are the same', function () {
           // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-          // eslint-disable-next-line no-empty-function
+          // biome-ignore lint: no empty block
           it('should throw an error', function () {});
         });
 
         describe('a grain already associated to another module', function () {
           // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-          // eslint-disable-next-line no-empty-function
+          // biome-ignore lint: no empty block
           it('will not throw an error', function () {});
         });
       });
@@ -130,19 +130,19 @@ describe('Unit | Devcomp | Domain | Models | Module', function () {
       describe('given a published module', function () {
         describe('given a module with less than two grains', function () {
           // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-          // eslint-disable-next-line no-empty-function
+          // biome-ignore lint: no empty block
           it('should throw error', function () {});
         });
 
         describe('if a module does not have a description', function () {
           // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-          // eslint-disable-next-line no-empty-function
+          // biome-ignore lint: no empty block
           it('should throw an error', function () {});
         });
 
         describe('given a module with two grains which are the same', function () {
           // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
-          // eslint-disable-next-line no-empty-function
+          // biome-ignore lint: no empty block
           it('should throw an error', function () {});
         });
       });

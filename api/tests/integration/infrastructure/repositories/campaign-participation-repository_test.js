@@ -576,7 +576,7 @@ describe('Integration | Repository | Campaign Participation', function () {
             await campaignParticipationRepository.updateWithSnapshot(campaignParticipation, domainTransaction);
             throw new Error();
           });
-          // eslint-disable-next-line no-empty
+          // biome-ignore lint: no empty
         } catch (error) {}
 
         const snapshotInDB = await knex.select('id').from('knowledge-element-snapshots');

@@ -103,7 +103,7 @@ describe('Integration | Repository | Target-profile', function () {
           });
           throw new Error();
         });
-        // eslint-disable-next-line no-empty
+        // biome-ignore lint: no empty
       } catch (error) {}
 
       // then

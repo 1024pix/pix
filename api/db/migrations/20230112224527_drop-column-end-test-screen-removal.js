@@ -7,6 +7,6 @@ const up = async function (knex) {
   });
 };
 
-// eslint-disable-next-line no-empty-function
+// biome-ignore lint: no empty block
 const down = async function () {};
 export { up, down };

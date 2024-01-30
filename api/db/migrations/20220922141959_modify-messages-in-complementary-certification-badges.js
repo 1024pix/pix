@@ -60,6 +60,6 @@ const up = async function (knex) {
       .where({ id });
   });
 };
-// eslint-disable-next-line no-empty-function
+// biome-ignore lint: no empty block
 const down = function () {};
 export { up, down };

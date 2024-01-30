@@ -14,7 +14,7 @@ const up = async function (knex) {
   await knex(TABLE_NAME).update({ level: 1 }).where({ complementaryCertificationId });
 };
 
-// eslint-disable-next-line no-empty-function
+// biome-ignore lint: no empty block
 const down = async () => {};
 
 export { up, down };

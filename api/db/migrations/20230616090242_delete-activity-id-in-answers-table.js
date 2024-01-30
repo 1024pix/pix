@@ -10,7 +10,7 @@ const up = function (knex) {
  * @param { import('knex').Knex } knex
  * @returns { Promise<void> }
  */
-// eslint-disable-next-line no-empty-function
+// biome-ignore lint: no empty block
 const down = async function () {};
 
 export { up, down };

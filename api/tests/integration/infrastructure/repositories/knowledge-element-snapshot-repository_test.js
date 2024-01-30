@@ -103,7 +103,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
             await knowledgeElementSnapshotRepository.save({ userId, snappedAt, knowledgeElements, domainTransaction });
             throw new Error();
           });
-          // eslint-disable-next-line no-empty
+          // biome-ignore lint: no empty
         } catch (error) {}
 
         const snapshots = await knex.select('*').from('knowledge-element-snapshots');

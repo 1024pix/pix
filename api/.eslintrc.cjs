@@ -31,7 +31,6 @@ module.exports = {
     'mocha/no-pending-tests': 'error',
     'mocha/no-skipped-tests': 'error',
     'mocha/no-top-level-hooks': 'error',
-    'no-empty-function': 'error',
     'n/no-process-exit': 'error',
     'unicorn/no-empty-file': 'error',
     'n/no-unpublished-import': [

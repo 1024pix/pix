@@ -36,6 +36,9 @@
         "useOptionalChain": "off",
         "useRegexLiterals": "off"
       },
+      "nursery": {
+        "noEmptyBlockStatements": "error"
+      },
       "performance": {
         "noAccumulatingSpread": "off",
         "noDelete": "off"
