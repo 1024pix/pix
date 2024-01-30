@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v4.96.0 (30/01/2024)
+
+
+### :rocket: Amélioration
+- [#7931](https://github.com/1024pix/pix/pull/7931) [FEATURE] Mise à jour du contenu du module "Bien écrire son adresse mail".
+- [#7920](https://github.com/1024pix/pix/pull/7920) [FEATURE] Afficher le nombre de participations du prescrit à une campagne sur la page d'activité du prescrit (PIX-10451).
+- [#7902](https://github.com/1024pix/pix/pull/7902) [FEATURE][CERTIF | ORGA] Utiliser un fichier de langues pour lister les langues disponibles (PIX-10686).
+- [#7868](https://github.com/1024pix/pix/pull/7868) [FEATURE] Conditionner l’affichage du bouton de connexion Google dans Pix Admin (PIX-10799).
+- [#7912](https://github.com/1024pix/pix/pull/7912) [FEATURE] Cacher le bouton "Passer" une fois cliqué (PIX-10891).
+- [#7919](https://github.com/1024pix/pix/pull/7919) [FEATURE] Ajout d'un module "Didacticiel Modulix".
+
+### :building_construction: Tech
+- [#7927](https://github.com/1024pix/pix/pull/7927) [TECH] Montée de version de Pix UI en v42.0.4 sur PixApp (PIX-10947).
+- [#7906](https://github.com/1024pix/pix/pull/7906) [TECH] déplacement de fichiers autour de `ActivityAnswer` (PIX-10887).
+- [#7918](https://github.com/1024pix/pix/pull/7918) [TECH] Prendre en compte les dépréciations d'ember-data (PIX-10903).
+
+### :bug: Correction
+- [#7928](https://github.com/1024pix/pix/pull/7928) [BUGFIX] Ajouter une migration pour remplacer les participantExternalId empty par null (PIX-10897).
+- [#7924](https://github.com/1024pix/pix/pull/7924) [BUGFIX] Permettre la remise à zero d'une compétence (PIX-10892).
+- [#7923](https://github.com/1024pix/pix/pull/7923) [BUGFIX] Corriger le tracking du bouton "Vérifier" sur Modulix (PIX-10938).
+- [#7908](https://github.com/1024pix/pix/pull/7908) [BUGFIX] Bloquer le bouton de vérification d'un élément après soumission (PIX-10869).
+- [#7921](https://github.com/1024pix/pix/pull/7921) [BUGFIX] Ne pas formater la réponse des QROCM-ind (PIX-10924).
+
 ## v4.95.0 (24/01/2024)
 
 
