@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
 module('Unit | Controller | authenticated/sessions/session/informations', function (hooks) {
-  setupTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   let controller;
 
@@ -57,14 +57,21 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     module('when a user is already assigned to session', function () {
       test('it should show the modal', async function (assert) {
         //given
-        const getId = sinon.stub().returns(true);
-        controller.model.assignedCertificationOfficer = { get: getId };
+        const fullName = 'Helmut Fritz';
+        const getFullName = sinon.stub().returns(fullName);
+        controller.model.assignedCertificationOfficer = { get: getFullName };
 
         // when
         await controller.actions.checkForAssignment.call(controller);
 
         // then
-        assert.true(controller.isShowingAssignmentModal);
+        assert.true(controller.isShowingModal);
+        assert.strictEqual(controller.modalConfirmAction, controller.confirmAssignment);
+        assert.deepEqual(
+          controller.modalMessage,
+          this.intl.t('pages.sessions.informations.assignment-confirmation-modal', { fullName, htmlSafe: true }),
+        );
+        assert.strictEqual(controller.modalTitle, 'Assignation de la session');
         assert.true(controller.model.save.notCalled);
       });
     });
@@ -84,7 +91,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
           controller.model.save.calledWithExactly({ adapterOptions: { certificationOfficerAssignment: true } }),
         );
         assert.ok(controller.notifications.success.calledWithExactly('La session vous a correctement été assignée'));
-        assert.false(controller.isShowingAssignmentModal);
+        assert.false(controller.isShowingModal);
       });
 
       test('it should show a notification error when save failed', async function (assert) {
@@ -99,7 +106,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
         // then
         assert.ok(controller.model.save.calledOnce);
         assert.ok(controller.notifications.error.calledWithExactly("Erreur lors de l'assignation à la session"));
-        assert.false(controller.isShowingAssignmentModal);
+        assert.false(controller.isShowingModal);
       });
     });
   });
@@ -107,10 +114,10 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
   module('#cancelAssignment', function () {
     test('it should close the modal', async function (assert) {
       // when
-      await controller.actions.cancelAssignment.call(controller);
+      await controller.actions.cancelModal.call(controller);
 
       // then
-      assert.false(controller.isShowingAssignmentModal);
+      assert.false(controller.isShowingModal);
     });
   });
 
@@ -131,7 +138,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       // then
       assert.ok(controller.model.save.calledWithExactly({ adapterOptions: { certificationOfficerAssignment: true } }));
       assert.ok(controller.notifications.success.calledWithExactly('La session vous a correctement été assignée'));
-      assert.false(controller.isShowingAssignmentModal);
+      assert.false(controller.isShowingModal);
     });
 
     test('it should show a notification error when save failed too', async function (assert) {
@@ -146,7 +153,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       // then
       assert.ok(controller.model.save.calledOnce);
       assert.ok(controller.notifications.error.calledWithExactly("Erreur lors de l'assignation à la session"));
-      assert.false(controller.isShowingAssignmentModal);
+      assert.false(controller.isShowingModal);
     });
   });
 

@@ -16,7 +16,10 @@ export default class IndexController extends Controller {
 
   @alias('model') sessionModel;
 
-  @tracked isShowingAssignmentModal = false;
+  @tracked modalTitle = '';
+  @tracked modalMessage = '';
+  @tracked modalConfirmAction = this.cancelModal;
+  @tracked isShowingModal = false;
 
   @tracked isCopyButtonClicked = false;
   @tracked copyButtonText = 'Copié';
@@ -54,20 +57,28 @@ export default class IndexController extends Controller {
   @action
   async checkForAssignment() {
     if (this.isAssigned) {
-      this.isShowingAssignmentModal = true;
+      this.modalTitle = 'Assignation de la session';
+      this.modalMessage = this.intl.t('pages.sessions.informations.assignment-confirmation-modal', {
+        fullName: this.sessionModel.assignedCertificationOfficer.get('fullName'),
+        htmlSafe: true,
+      });
+      this.modalConfirmAction = this.confirmAssignment;
+      this.isShowingModal = true;
       return;
     }
     await this._assignSessionToCurrentUser();
   }
 
   @action
-  cancelAssignment() {
-    this.isShowingAssignmentModal = false;
+  cancelModal() {
+    this.isShowingModal = false;
+    this.modalConfirmAction = this.cancelModal;
   }
 
   @action
   async confirmAssignment() {
     await this._assignSessionToCurrentUser();
+    this.cancelModal();
   }
 
   @action
@@ -135,6 +146,5 @@ export default class IndexController extends Controller {
     } catch (err) {
       this.notifications.error("Erreur lors de l'assignation à la session");
     }
-    this.isShowingAssignmentModal = false;
   }
 }
