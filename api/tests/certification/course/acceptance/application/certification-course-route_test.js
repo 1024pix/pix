@@ -177,6 +177,7 @@ describe('Acceptance | Route | certification-course', function () {
     beforeEach(async function () {
       certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
       const assessmentId = databaseBuilder.factory.buildAssessment({
+        id: 567,
         certificationCourseId: certificationCourseId,
         type: Assessment.types.CERTIFICATION,
       }).id;
@@ -184,6 +185,10 @@ describe('Acceptance | Route | certification-course', function () {
         assessmentId,
       }).id;
       databaseBuilder.factory.buildCompetenceMark({ assessmentResultId });
+      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+        certificationCourseId,
+        lastAssessmentResultId: assessmentResultId,
+      });
 
       server = await createServer();
 
@@ -196,9 +201,6 @@ describe('Acceptance | Route | certification-course', function () {
             type: 'assessment-results',
             attributes: {
               'assessment-id': assessmentId,
-              'pix-score': 27,
-              status: 'validated',
-              emitter: 'Jury',
               'comment-by-jury': 'Parce que',
               'comment-for-candidate': 'Voilà',
               'comment-for-organization': 'Je suis sûr que vous etes ok avec nous',
