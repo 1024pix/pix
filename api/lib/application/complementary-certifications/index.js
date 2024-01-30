@@ -11,7 +11,7 @@ const register = async function (server) {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+              securityPreHandlers.hasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
@@ -40,7 +40,7 @@ const register = async function (server) {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+              securityPreHandlers.hasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,

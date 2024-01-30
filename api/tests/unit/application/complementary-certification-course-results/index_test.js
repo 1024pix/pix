@@ -8,8 +8,8 @@ describe('Unit | Application | Complementary Certification Course Results | Rout
   describe('POST /api/admin/complementary-certification-course-results', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf');
-      securityPreHandlers.adminMemberHasAtLeastOneAccessOf
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
+      securityPreHandlers.hasAtLeastOneAccessOf
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,
@@ -46,8 +46,8 @@ describe('Unit | Application | Complementary Certification Course Results | Rout
         // given
         sinon.stub(complementaryCertificationCourseResultsController, 'saveJuryComplementaryCertificationCourseResult');
         complementaryCertificationCourseResultsController.saveJuryComplementaryCertificationCourseResult.resolves();
-        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf');
-        securityPreHandlers.adminMemberHasAtLeastOneAccessOf
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
+        securityPreHandlers.hasAtLeastOneAccessOf
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleCertif,
@@ -85,8 +85,8 @@ describe('Unit | Application | Complementary Certification Course Results | Rout
         // given
         sinon.stub(complementaryCertificationCourseResultsController, 'saveJuryComplementaryCertificationCourseResult');
         complementaryCertificationCourseResultsController.saveJuryComplementaryCertificationCourseResult.resolves();
-        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf');
-        securityPreHandlers.adminMemberHasAtLeastOneAccessOf
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf');
+        securityPreHandlers.hasAtLeastOneAccessOf
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleCertif,

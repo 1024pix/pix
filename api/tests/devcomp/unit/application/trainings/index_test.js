@@ -868,7 +868,7 @@ describe('Unit | Devcomp | Application | Trainings | Router | training-router', 
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleSupport,
@@ -895,7 +895,7 @@ describe('Unit | Devcomp | Application | Trainings | Router | training-router', 
     context('when there is no pagination', function () {
       it('should resolve with HTTP code 200', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
         sinon
           .stub(trainingController, 'findPaginatedTrainingSummaries')
           .callsFake((request, h) => h.response('ok').code(200));
@@ -913,7 +913,7 @@ describe('Unit | Devcomp | Application | Trainings | Router | training-router', 
     context('when there are pagination', function () {
       it('should resolve with HTTP code 200', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
         sinon
           .stub(trainingController, 'findPaginatedTrainingSummaries')
           .callsFake((request, h) => h.response('ok').code(200));

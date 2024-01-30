@@ -617,7 +617,7 @@ async function checkAuthorizationToAccessCampaign(
   return _replyForbiddenError(h);
 }
 
-function adminMemberHasAtLeastOneAccessOf(securityChecks) {
+function hasAtLeastOneAccessOf(securityChecks) {
   return async (request, h) => {
     const responses = await bluebird.map(securityChecks, (securityCheck) => securityCheck(request, h));
     const hasAccess = responses.some((response) => !response.source?.errors);
@@ -704,7 +704,7 @@ function _noOrganizationFound(error) {
 }
 
 const securityPreHandlers = {
-  adminMemberHasAtLeastOneAccessOf,
+  hasAtLeastOneAccessOf,
   checkAdminMemberHasRoleCertif,
   checkAdminMemberHasRoleMetier,
   checkAdminMemberHasRoleSuperAdmin,

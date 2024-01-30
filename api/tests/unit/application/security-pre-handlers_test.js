@@ -877,7 +877,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
   });
 
-  describe('#adminMemberHasAtLeastOneAccessOf', function () {
+  describe('#hasAtLeastOneAccessOf', function () {
     let belongsToOrganizationStub;
     let hasRoleSuperAdminStub;
     let request;
@@ -903,7 +903,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         hasRoleSuperAdminStub.callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
         // when
-        const response = await securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+        const response = await securityPreHandlers.hasAtLeastOneAccessOf([
           belongsToOrganizationStub,
           hasRoleSuperAdminStub,
         ])(request, hFake);
@@ -918,7 +918,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         hasRoleSuperAdminStub.callsFake((request, h) => h.response(true));
 
         // when
-        const response = await securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+        const response = await securityPreHandlers.hasAtLeastOneAccessOf([
           belongsToOrganizationStub,
           hasRoleSuperAdminStub,
         ])(request, hFake);
@@ -933,7 +933,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         hasRoleSuperAdminStub.callsFake((request, h) => h.response(true));
 
         // when
-        const response = await securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+        const response = await securityPreHandlers.hasAtLeastOneAccessOf([
           belongsToOrganizationStub,
           hasRoleSuperAdminStub,
         ])(request, hFake);
@@ -950,7 +950,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         hasRoleSuperAdminStub.callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
         // when
-        const response = await securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+        const response = await securityPreHandlers.hasAtLeastOneAccessOf([
           belongsToOrganizationStub,
           hasRoleSuperAdminStub,
         ])(request, hFake);

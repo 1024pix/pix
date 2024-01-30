@@ -293,7 +293,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
     });
   });
 
-  describe('#adminMemberHasAtLeastOneAccessOf', function () {
+  describe('#hasAtLeastOneAccessOf', function () {
     let userId;
     let organizationId;
     let options;

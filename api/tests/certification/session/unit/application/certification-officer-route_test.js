@@ -7,7 +7,7 @@ describe('Unit | Router | certification-officer-route', function () {
   describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(certificationOfficerController, 'assignCertificationOfficer').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -22,7 +22,7 @@ describe('Unit | Router | certification-officer-route', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,
