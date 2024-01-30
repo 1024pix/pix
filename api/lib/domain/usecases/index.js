@@ -1,6 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable import/no-restricted-paths */
-
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -178,6 +175,7 @@ import { getCompetenceLevel } from '../../../src/evaluation/domain/services/get-
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import { pickChallengeService } from '../services/pick-challenge-service.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
+import { importStorage } from '../../infrastructure/storage/import-storage.js';
 
 import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.js';
 
@@ -206,6 +204,7 @@ function requirePoleEmploiNotifier() {
  */
 
 const dependencies = {
+  importStorage,
   accountRecoveryDemandRepository,
   activityAnswerRepository,
   activityRepository,

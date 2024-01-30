@@ -1,5 +1,8 @@
 import { FileValidationError, SiecleXmlImportError } from '../errors.js';
-import * as fs from 'fs/promises';
+import * as fs from 'fs';
+const fsPromises = fs.promises;
+
+import path from 'path';
 
 const { isEmpty, chunk } = lodash;
 
@@ -22,20 +25,28 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
   organizationLearnerRepository,
   organizationRepository,
   i18n,
+  importStorage,
 }) {
   let organizationLearnerData = [];
 
   const organization = await organizationRepository.get(organizationId);
-  const path = payload.path;
+  const filePath = payload.path;
+
+  // Try to upload on bucket
+  const readableStream = fs.createReadStream(filePath);
+  const filename = path.basename(filePath);
+
+  await importStorage.sendFile({ filename, readableStream });
 
   if (format === 'xml') {
     organizationLearnerData = await organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE(
-      path,
+      filePath,
       organization,
+      importStorage,
     );
   } else if (format === 'csv') {
     organizationLearnerData = await organizationLearnersCsvService.extractOrganizationLearnersInformation(
-      path,
+      filePath,
       organization,
       i18n,
     );
@@ -43,7 +54,7 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
     throw new FileValidationError(ERRORS.INVALID_FILE_EXTENSION, { fileExtension: format });
   }
 
-  fs.unlink(payload.path);
+  fsPromises.unlink(payload.path);
 
   if (isEmpty(organizationLearnerData)) {
     throw new SiecleXmlImportError(ERRORS.EMPTY);

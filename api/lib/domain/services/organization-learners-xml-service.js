@@ -2,8 +2,8 @@ import { SiecleParser } from '../../infrastructure/serializers/xml/siecle-parser
 
 export { extractOrganizationLearnersInformationFromSIECLE };
 
-async function extractOrganizationLearnersInformationFromSIECLE(path, organization) {
-  const parser = new SiecleParser(organization, path);
+async function extractOrganizationLearnersInformationFromSIECLE(path, organization, importStorage) {
+  const parser = new SiecleParser(organization, path, importStorage);
 
   return parser.parse();
 }

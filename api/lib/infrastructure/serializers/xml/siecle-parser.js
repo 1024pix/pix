@@ -18,14 +18,15 @@ const ELEVE_ELEMENT = '<ELEVE';
 const STRUCTURE_ELEVE_ELEMENT = '<STRUCTURES_ELEVE';
 
 class SiecleParser {
-  constructor(organization, path) {
+  constructor(organization, path, importStorage) {
     this.organization = organization;
     this.path = path;
+    this.importStorage = importStorage;
     this.organizationLearnersSet = new XMLOrganizationLearnersSet();
   }
 
   async parse() {
-    this.siecleFileStreamer = await SiecleFileStreamer.create(this.path);
+    this.siecleFileStreamer = await SiecleFileStreamer.create(this.path, this.importStorage);
 
     await this._parseUAI();
 

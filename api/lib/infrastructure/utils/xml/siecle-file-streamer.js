@@ -4,9 +4,9 @@ const { isObject, values } = _;
 import { FileValidationError, SiecleXmlImportError } from '../../../domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../monitoring-tools.js';
 import fs from 'fs';
+import Path from 'path';
 
 const fsPromises = fs.promises;
-import Path from 'path';
 import os from 'os';
 import buffer from 'buffer';
 
@@ -35,7 +35,7 @@ const DEFAULT_FILE_ENCODING = 'UTF-8';
 const ZIP = 'application/zip';
 
 class SiecleFileStreamer {
-  static async create(path, logError = logErrorWithCorrelationIds) {
+  static async create(path, importStorage, logError = logErrorWithCorrelationIds) {
     let filePath = path;
     let directory = undefined;
     if (await _isFileZipped(path)) {
@@ -43,14 +43,15 @@ class SiecleFileStreamer {
       filePath = await _unzipFile(directory, path);
     }
     const encoding = await _detectEncoding(filePath);
-    const stream = new SiecleFileStreamer(filePath, encoding, directory, logError);
+    const stream = new SiecleFileStreamer(filePath, encoding, directory, importStorage, logError);
     return stream;
   }
 
-  constructor(path, encoding, directory, logError) {
+  constructor(path, encoding, directory, importStorage, logError) {
     this.path = path;
     this.encoding = encoding;
     this.directory = directory;
+    this.importStorage = importStorage;
     this.logError = logError;
   }
 
@@ -60,8 +61,9 @@ class SiecleFileStreamer {
 
   async _callbackAsPromise(callback) {
     return new Promise((resolve, reject) => {
-      const saxStream = _getSaxStream(this.path, this.encoding, reject, this.logError);
-      callback(saxStream, resolve, reject);
+      _getSaxStream(this.path, this.encoding, reject, this.importStorage, this.logError).then((saxStream) => {
+        callback(saxStream, resolve, reject);
+      });
     });
   }
 
@@ -128,10 +130,10 @@ async function _readFirstLine(path) {
   return buffer;
 }
 
-function _getSaxStream(path, encoding, reject, logError) {
+async function _getSaxStream(path, encoding, reject, importStorage, logError) {
   let inputStream;
   try {
-    inputStream = fs.createReadStream(path);
+    inputStream = await importStorage.getFileReadableStream({ filename: Path.basename(path) });
   } catch (error) {
     reject(new FileValidationError(ERRORS.INVALID_FILE));
   }

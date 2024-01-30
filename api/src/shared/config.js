@@ -55,6 +55,17 @@ function _getLogForHumans() {
 
 const configuration = (function () {
   const config = {
+    import: {
+      storage: {
+        client: {
+          accessKeyId: process.env.IMPORT_STORAGE_ACCESS_KEY_ID,
+          secretAccessKey: process.env.IMPORT_STORAGE_SECRET_ACCESS_KEY,
+          endpoint: process.env.IMPORT_STORAGE_ENDPOINT,
+          region: process.env.IMPORT_STORAGE_REGION,
+          bucket: process.env.IMPORT_STORAGE_BUCKET_NAME,
+        },
+      },
+    },
     account: {
       passwordValidationPattern: '^(?=.*\\p{Lu})(?=.*\\p{Ll})(?=.*\\d).{8,}$',
     },
