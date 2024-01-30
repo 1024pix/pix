@@ -8,15 +8,13 @@ export default class OidcIdentityProviders extends Service {
   }
 
   async loadAllAvailableIdentityProviders() {
-    const oidcIdentityProviders = await this.store.findAll('oidc-identity-provider');
-    oidcIdentityProviders.map((oidcIdentityProvider) => (this[oidcIdentityProvider.id] = oidcIdentityProvider));
+    await this.store.findAll('oidc-identity-provider');
   }
 
   async loadReadyIdentityProviders() {
-    const oidcIdentityProviders = await this.store.findAll('oidc-identity-provider', {
+    await this.store.findAll('oidc-identity-provider', {
       adapterOptions: { readyIdentityProviders: true },
     });
-    oidcIdentityProviders.map((oidcIdentityProvider) => (this[oidcIdentityProvider.id] = oidcIdentityProvider));
   }
 
   isProviderEnabled(identityProviderSlug) {
