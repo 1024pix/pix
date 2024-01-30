@@ -62,6 +62,7 @@ import { PIX_ADMIN } from '../src/authorization/domain/constants.js';
 const { ROLES } = PIX_ADMIN;
 import { createTempFile, removeTempFile } from './tooling/temporary-file.js';
 import { increaseCurrentTestTimeout } from './tooling/mocha-tools.js';
+import { createServerWithTestOidcProvider } from "./tooling/server/hapi-server-with-test-oidc-provider.js";
 
 /* eslint-disable mocha/no-top-level-hooks */
 
@@ -288,6 +289,7 @@ const testErr = new Error('Fake Error');
 export {
   catchErr,
   catchErrSync,
+  createServerWithTestOidcProvider,
   createTempFile,
   databaseBuilder,
   domainBuilder,
