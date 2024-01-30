@@ -81,9 +81,10 @@ const getAuthenticationUrl = async function (
     authenticationServiceRegistry,
   },
 ) {
-  const { identity_provider: identityProvider } = request.query;
+  const { identity_provider: identityProvider, audience } = request.query;
   const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
+    audience,
   });
   const { nonce, state, ...payload } = oidcAuthenticationService.getAuthenticationUrl({
     redirectUri: request.query['redirect_uri'],
