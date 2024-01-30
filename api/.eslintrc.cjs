@@ -24,7 +24,6 @@ module.exports = {
   },
   plugins: ['knex', 'unicorn'],
   rules: {
-    'no-console': 'error',
     'mocha/no-hooks-for-single-case': 'off',
     'no-sync': 'error',
     'knex/avoid-injections': 'error',

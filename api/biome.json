@@ -6,6 +6,18 @@
   "files": {
     "ignore": ["*.json", "**/logo-3mb.js"]
   },
+  "overrides": [
+    {
+      "include": ["scripts/*.js", "db/migrations/*.js"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsoleLog": "off"
+          }
+        }
+      }
+    }
+  ],
   "linter": {
     "enabled": true,
     "rules": {
@@ -41,6 +53,7 @@
       },
       "suspicious": {
         "noAssignInExpressions": "off",
+        "noConsoleLog": "error",
         "noDoubleEquals": "off",
         "noGlobalIsNan": "off",
         "noShadowRestrictedNames": "off"
