@@ -167,6 +167,43 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       });
       expect(request.yar.set).to.have.been.calledTwice;
     });
+
+    context('when an audience is specified', function () {
+      it('calls oidc authentication service with audience as a parameter', async function () {
+        // given
+        const request = {
+          query: {
+            identity_provider: identityProvider,
+            redirect_uri: 'http:/exemple.net/',
+            audience: 'admin',
+          },
+          yar: { set: sinon.stub() },
+        };
+        const getAuthenticationUrlStub = sinon.stub();
+        const oidcAuthenticationService = {
+          getAuthenticationUrl: getAuthenticationUrlStub,
+        };
+        const authenticationServiceRegistryStub = {
+          getOidcProviderServiceByCode: sinon.stub(),
+        };
+
+        authenticationServiceRegistryStub.getOidcProviderServiceByCode.returns(oidcAuthenticationService);
+
+        const dependencies = {
+          authenticationServiceRegistry: authenticationServiceRegistryStub,
+        };
+        getAuthenticationUrlStub.returns('an authentication url');
+
+        // when
+        await oidcController.getAuthenticationUrl(request, hFake, dependencies);
+
+        // then
+        expect(authenticationServiceRegistryStub.getOidcProviderServiceByCode).to.have.been.calledWith({
+          identityProviderCode: identityProvider,
+          audience: 'admin',
+        });
+      });
+    });
   });
 
   describe('#authenticateUser', function () {
