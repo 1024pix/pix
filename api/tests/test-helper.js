@@ -29,6 +29,7 @@ import { Membership } from '../lib/domain/models/index.js';
 import { PIX_ADMIN } from '../src/authorization/domain/constants.js';
 import { createTempFile, removeTempFile } from './tooling/temporary-file.js';
 import { increaseCurrentTestTimeout } from './tooling/mocha-tools.js';
+import { createServerWithTestOidcProvider } from './tooling/server/hapi-server-with-test-oidc-provider.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -284,6 +285,7 @@ const testErr = new Error('Fake Error');
 export {
   catchErr,
   catchErrSync,
+  createServerWithTestOidcProvider as createServer,
   createTempFile,
   databaseBuilder,
   domainBuilder,
