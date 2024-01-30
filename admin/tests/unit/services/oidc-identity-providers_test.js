@@ -8,6 +8,7 @@ import Service from '@ember/service';
 module('Unit | Service | oidc-identity-providers', function (hooks) {
   setupTest(hooks);
   let oidcIdentityProvidersService, oidcPartner;
+  let storeStub;
 
   hooks.beforeEach(function () {
     // given
@@ -19,7 +20,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       source: 'oidc-externe',
     };
     const oidcPartnerObject = Object.create(oidcPartner);
-    const storeStub = Service.create({
+    storeStub = Service.create({
       findAll: sinon.stub().resolves([oidcPartnerObject]),
       peekAll: sinon.stub().returns([oidcPartnerObject]),
     });
@@ -33,6 +34,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       await oidcIdentityProvidersService.loadAllAvailableIdentityProviders();
 
       // then
+      assert.ok(storeStub.findAll.calledWith('oidc-identity-provider'));
       assert.strictEqual(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
       assert.strictEqual(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
       assert.strictEqual(oidcIdentityProvidersService.list[0].hasLogoutUrl, oidcPartner.hasLogoutUrl);
@@ -46,6 +48,11 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       await oidcIdentityProvidersService.loadReadyIdentityProviders();
 
       // then
+      assert.ok(
+        storeStub.findAll.calledWith('oidc-identity-provider', {
+          adapterOptions: { readyIdentityProviders: true },
+        }),
+      );
       assert.strictEqual(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
       assert.strictEqual(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
       assert.strictEqual(oidcIdentityProvidersService.list[0].hasLogoutUrl, oidcPartner.hasLogoutUrl);
