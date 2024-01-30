@@ -1,5 +1,5 @@
 .module-passage {
-  max-width: 960px;
+  max-width: var(--modulix-max-content-width);
   margin: 0 auto;
 
   h3,
