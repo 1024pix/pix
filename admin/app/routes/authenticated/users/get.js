@@ -4,6 +4,11 @@ import { service } from '@ember/service';
 
 export default class AuthenticatedUsersGetRoute extends Route {
   @service store;
+  @service oidcIdentityProviders;
+
+  async beforeModel() {
+    await this.oidcIdentityProviders.loadAllAvailableIdentityProviders();
+  }
 
   model(params) {
     return this.store.findRecord('user', params.user_id);
