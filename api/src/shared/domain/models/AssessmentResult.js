@@ -6,6 +6,11 @@ const status = {
   ERROR: 'error',
 };
 
+const emitters = {
+  PIX_ALGO: 'PIX-ALGO',
+  PIX_JURY: 'Jury Pix',
+};
+
 class AssessmentResult {
   constructor({
     id,
@@ -98,6 +103,7 @@ class AssessmentResult {
       commentForCandidate: this.commentForCandidate,
       commentByJury: this.commentByJury,
       commentForOrganization: this.commentForOrganization,
+      commentByAutoJury: this.commentByAutoJury,
       emitter: this.emitter,
       pixScore: this.pixScore,
       reproducibilityRate: this.reproducibilityRate,
@@ -114,4 +120,5 @@ class AssessmentResult {
 }
 
 AssessmentResult.status = status;
+AssessmentResult.emitters = emitters;
 export { AssessmentResult, status };

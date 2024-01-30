@@ -29,12 +29,15 @@ const unreject = async function (request, h, dependencies = { events }) {
 
 const updateJuryComments = async function (request, h, dependencies = { assessmentResultSerializer }) {
   const certificationCourseId = request.params.id;
-  const deserializedAssessmentResult = await dependencies.assessmentResultSerializer.deserialize(request.payload);
+  const deserializedAssessmentResultComments = await dependencies.assessmentResultSerializer.deserialize(
+    request.payload,
+  );
   const juryId = request.auth.credentials.userId;
 
   await usecases.updateJuryComments({
     certificationCourseId,
-    assessmentResult: { ...deserializedAssessmentResult, juryId },
+    assessmentResultComments: deserializedAssessmentResultComments,
+    juryId,
   });
 
   return null;
