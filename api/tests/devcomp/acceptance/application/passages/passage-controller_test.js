@@ -56,12 +56,12 @@ describe('Acceptance | Controller | passage-controller', function () {
         {
           case: 'QROCM-ind',
           elementId: '8709ad92-093e-447a-a7b6-3223e6171196',
-          userResponse: [{ input: 'email', answer: 'naomizao@yahoo.com' }],
-          expectedUserResponseValue: { email: 'naomizao@yahoo.com' },
+          userResponse: [{ input: 'email', answer: 'naomizao457@yahoo.com' }],
+          expectedUserResponseValue: { email: 'naomizao457@yahoo.com' },
           expectedFeedback:
             "<p>Correct ! <span aria-hidden='true'>🎉</span> Tout est en ordre : identifiant, arobase, fournisseur d'adresse mail</p>",
           expectedSolution: {
-            email: ['naomizao@yahoo.com', 'naomizao@yahoo.fr'],
+            email: ['naomizao457@yahoo.com', 'naomizao457@yahoo.fr'],
           },
         },
       ];
