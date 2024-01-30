@@ -26,7 +26,7 @@ describe('Unit | Router | organization-place-route', function () {
 
     it('should return an empty list when no places is found', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(usecases, 'findOrganizationPlacesLot').returns([]);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

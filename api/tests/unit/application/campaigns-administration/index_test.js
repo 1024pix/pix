@@ -8,7 +8,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
     it('returns 200 when admin member has rights', async function () {
       // given
       sinon.stub(campaignController, 'archiveCampaigns').returns(null);
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -16,7 +16,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       await httpTestServer.request('POST', '/api/admin/campaigns/archive-campaigns', {});
 
       // then
-      expect(securityPreHandlers.adminMemberHasAtLeastOneAccessOf).to.have.been.calledWithExactly([
+      expect(securityPreHandlers.hasAtLeastOneAccessOf).to.have.been.calledWithExactly([
         securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
         securityPreHandlers.checkAdminMemberHasRoleMetier,
       ]);

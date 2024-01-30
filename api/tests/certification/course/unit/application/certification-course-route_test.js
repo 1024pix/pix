@@ -6,7 +6,7 @@ describe('Unit | Route | certification-course-route', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,
@@ -34,7 +34,7 @@ describe('Unit | Route | certification-course-route', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,
@@ -62,7 +62,7 @@ describe('Unit | Route | certification-course-route', function () {
     it('returns a 200', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,
