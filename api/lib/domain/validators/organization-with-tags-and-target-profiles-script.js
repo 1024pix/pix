@@ -2,8 +2,6 @@ import Joi from 'joi';
 import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { Organization } from '../models/Organization.js';
 import { Membership } from '../models/Membership.js';
-import { getValidOidcProviderCodes } from '../constants/oidc-identity-providers.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 
 const schema = Joi.object({
   type: Joi.string()
@@ -26,12 +24,7 @@ const schema = Joi.object({
     'string.empty': "La locale n'est pas renseignée.",
     'any.only': "La locale doit avoir l'une des valeurs suivantes : fr-fr, fr ou en",
   }),
-  identityProviderForCampaigns: Joi.string()
-    .allow(null)
-    .valid(NON_OIDC_IDENTITY_PROVIDERS.GAR.code, ...getValidOidcProviderCodes())
-    .messages({
-      'any.only': `L'organisme fourni doit avoir l'une des valeurs suivantes : GAR,${getValidOidcProviderCodes()}`,
-    }),
+  identityProviderForCampaigns: Joi.string().allow(null),
   provinceCode: Joi.string().required().allow('', null),
   credit: Joi.number().required().messages({
     'number.base': 'Le crédit doit être un entier.',

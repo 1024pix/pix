@@ -74,20 +74,6 @@ describe('Integration | Application | Route | OidcRouter', function () {
         });
       });
     });
-
-    context('when identity_provider parameter is not POLE_EMPLOI', function () {
-      it('should return a response with HTTP status code 400', async function () {
-        // given & when
-        const { statusCode } = await server.requestObject({
-          method: 'GET',
-          url: '/api/oidc/redirect-logout-url?identity_provider=MY_IDP&logout_url_uuid=b45cb781-4e9a-49b6-8c7e-ff5f02e07720',
-          headers: { authorization: generateValidRequestAuthorizationHeader() },
-        });
-
-        // then
-        expect(statusCode).to.equal(400);
-      });
-    });
   });
 
   describe('POST /api/oidc/user/check-reconciliation', function () {
