@@ -51,6 +51,7 @@ async function _updateCampaignParticipations(campaign) {
   );
 
   if (!_.isEmpty(participationResultsWithIsCertifiable)) {
+    // biome-ignore format: better on 3 lines
     // eslint-disable-next-line knex/avoid-injections
     await knex.raw(`UPDATE "campaign-participations"
     SET "validatedSkillsCount" = "participationSkillCounts"."validatedSkillsCount", "masteryRate" = "participationSkillCounts"."masteryRate", "pixScore" = "participationSkillCounts"."pixScore", "isCertifiable" = "participationSkillCounts"."isCertifiable"
@@ -65,6 +66,7 @@ async function _updateCampaignParticipations(campaign) {
     participationResultsWithIsCertifiable,
   );
   if (!_.isEmpty(participationResultsWithIsCertifiableAsNull)) {
+    // biome-ignore format: better on 3 lines
     // eslint-disable-next-line knex/avoid-injections
     await knex.raw(`UPDATE "campaign-participations"
     SET "validatedSkillsCount" = "participationSkillCounts"."validatedSkillsCount", "masteryRate" = "participationSkillCounts"."masteryRate", "pixScore" = "participationSkillCounts"."pixScore"

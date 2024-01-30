@@ -13,6 +13,7 @@ const schemaVersion = '1.0.0';
 const { cpf } = config;
 
 // prettier-ignore
+// biome-ignore format: do not split calls
 async function buildXmlExport({ cpfCertificationResults, writableStream, opts = {}, uuidService }) {
   const overrideOpts = { allowEmptyTags: true };
   const PLACEHOLDER = 'PLACEHOLDER';

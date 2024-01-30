@@ -8,7 +8,7 @@ const simulateOldScoring = async function ({ challengeRepository, simulations, l
   const challenges = await challengeRepository.findOperative(locale);
   const challengesById = new Map(challenges.map((challenge) => [challenge.id, challenge]));
 
-  // prettier-ignore
+  // biome-ignore format: more readable this way
   const skillsByTubeId = fp.flow(
     fp.map('skill'),
     fp.uniqBy('id'),

@@ -211,6 +211,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
           if (dryRun) report.push(`${targetProfile.id} - ${targetProfile.name} : ${e.message}`);
           throw e;
         } finally {
+          // biome-ignore lint/correctness/noUnsafeFinally: same as eslint disable
           if (dryRun && !hasError) throw new Error('dryrun'); // eslint-disable-line no-unsafe-finally
         }
       });

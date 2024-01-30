@@ -184,7 +184,7 @@ function _computeCorrectedErrorRate(latestEstimatedLevel, normalizedPosteriori) 
     samples.map((sample, index) => normalizedPosteriori[index] * (sample - latestEstimatedLevel) ** 2),
   );
 
-  return Math.sqrt(rawErrorRate - (ERROR_RATE_CLASS_INTERVAL ** 2) / 12.0); // prettier-ignore
+  return Math.sqrt(rawErrorRate - ERROR_RATE_CLASS_INTERVAL ** 2 / 12.0);
 }
 
 function getChallengesForNonAnsweredSkills({ allAnswers, challenges }) {
