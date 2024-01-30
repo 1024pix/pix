@@ -7,54 +7,53 @@
 
   <div class="module-details__content">
     <div class="module-details-content__layout">
-      <div class="module-details-content__title">
-        <h1>{{@module.title}}</h1>
-      </div>
+      <h1 class="module-details-content-layout__title">{{@module.title}}</h1>
 
-      <div class="module-details-content__description">
-        <p>{{@module.details.description}}</p>
-      </div>
+      <p class="module-details-content-layout__description">{{@module.details.description}}</p>
 
-      <PixButtonLink
-        class="module-details-content__link"
-        @route="module.get"
-        @model={{@module.id}}
-        @shape="rounded"
-        @size="big"
-      >{{t "pages.modulix.details.startModule"}}</PixButtonLink>
+      <div class="module-details-content-layout__link">
+        <PixButtonLink @route="module.get" @model={{@module.id}} @shape="rounded" @size="big">{{t
+            "pages.modulix.details.startModule"
+          }}</PixButtonLink>
+      </div>
     </div>
   </div>
 
   <div class="module-details__infos">
     <div class="module-details-infos__indications">
-      <div class="module-details-infos-indications__category module-details-infos-indications__duration">
-        <div class="infos__title"><FaIcon @icon="stopwatch" class="infos-title__icon" />&nbsp;{{t
+      <div class="module-details-infos-indications__category">
+        <div class="module-details-infos-indications-category__title">
+          <FaIcon @icon="stopwatch" class="module-details-infos-indications-category-title__icon" />{{t
             "pages.modulix.details.duration"
-          }}</div>
-        <p>{{@module.details.duration}} {{t "pages.modulix.details.timeUnit"}}</p>
+          }}
+        </div>
+        <p>{{t "pages.modulix.details.durationValue" duration=@module.details.duration}}</p>
       </div>
       <div class="module-details-infos-indications__category">
-        <div class="infos__title"><FaIcon @icon="signal" class="infos-title__icon" />&nbsp;{{t
+        <div class="module-details-infos-indications-category__title">
+          <FaIcon @icon="signal" class="module-details-infos-indications-category-title__icon" />{{t
             "pages.modulix.details.level"
-          }}</div>
+          }}
+        </div>
         <p>{{@module.details.level}}</p>
       </div>
     </div>
 
     <div class="module-details-infos__objectives">
-      <h2 class="module-details-objectives__title">{{t "pages.modulix.details.objectives"}}</h2>
-      <ol>
+      <h2 class="module-details-infos-objectives__title">{{t "pages.modulix.details.objectives"}}</h2>
+      <ol class="module-details-infos-objectives__list">
         {{#each @module.details.objectives as |objective|}}
-          <li><p>{{objective}}</p></li>
+          <li class="module-details-infos-objectives-list__item">{{objective}}</li>
         {{/each}}
       </ol>
     </div>
 
     <div class="module-details-infos__explanation">
-      <div class="module-details-explanation__title">
+      <div class="module-details-infos-explanation__title">
         <h2>{{t "pages.modulix.details.explanationTitle"}}</h2>
       </div>
-      <p class="module-details-explanation__text">{{t "pages.modulix.details.explanationText" htmlSafe=true}}</p>
+      <p class="module-details-infos-explanation__text">{{t "pages.modulix.details.explanationText1"}}</p>
+      <p class="module-details-infos-explanation__text">{{t "pages.modulix.details.explanationText2"}}</p>
     </div>
   </div>
 </main>
