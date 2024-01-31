@@ -24,6 +24,10 @@ class SiecleParser {
     this.organizationLearnersSet = new XMLOrganizationLearnersSet();
   }
 
+  static create(organization, path) {
+    return new SiecleParser(organization, path);
+  }
+
   async parse() {
     this.siecleFileStreamer = await SiecleFileStreamer.create(this.path);
 

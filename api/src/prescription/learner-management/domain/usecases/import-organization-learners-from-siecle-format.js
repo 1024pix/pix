@@ -9,6 +9,7 @@ import bluebird from 'bluebird';
 import lodash from 'lodash';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../shared/infrastructure/constants.js';
+import { SiecleParser } from '../../infrastructure/serializers/xml/siecle-parser.js';
 
 const ERRORS = {
   EMPTY: 'EMPTY',
@@ -20,7 +21,6 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
   payload,
   format,
   organizationLearnersCsvService,
-  organizationLearnersXmlService,
   organizationLearnerRepository,
   organizationRepository,
   i18n,
@@ -31,10 +31,9 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
   const path = payload.path;
 
   if (format === 'xml') {
-    organizationLearnerData = await organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE(
-      path,
-      organization,
-    );
+    const parser = SiecleParser.create(organization, path);
+
+    organizationLearnerData = await parser.parse();
   } else if (format === 'csv') {
     organizationLearnerData = await organizationLearnersCsvService.extractOrganizationLearnersInformation(
       path,
