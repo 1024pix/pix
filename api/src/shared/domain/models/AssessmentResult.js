@@ -10,7 +10,7 @@ class AssessmentResult {
   constructor({
     id,
     commentForCandidate,
-    commentForJury,
+    commentByJury,
     commentForOrganization,
     createdAt,
     emitter,
@@ -23,7 +23,7 @@ class AssessmentResult {
   } = {}) {
     this.id = id;
     this.commentForCandidate = commentForCandidate;
-    this.commentForJury = commentForJury;
+    this.commentByJury = commentByJury;
     this.commentForOrganization = commentForOrganization;
     this.createdAt = createdAt;
     this.emitter = emitter;
@@ -38,7 +38,7 @@ class AssessmentResult {
   static buildAlgoErrorResult({ error, assessmentId, juryId, emitter }) {
     return new AssessmentResult({
       emitter,
-      commentForJury: error.message,
+      commentByJury: error.message,
       pixScore: 0,
       reproducibilityRate: 0,
       status: status.ERROR,
@@ -50,7 +50,6 @@ class AssessmentResult {
   static buildStandardAssessmentResult({ pixScore, reproducibilityRate, status, assessmentId, juryId, emitter }) {
     return new AssessmentResult({
       emitter,
-      commentForJury: 'Computed',
       pixScore,
       reproducibilityRate,
       status,
@@ -80,7 +79,6 @@ class AssessmentResult {
         'de la session de certification, a/ont affecté le bon déroulement du test de certification. Nous sommes dans ' +
         "l'incapacité de le/la certifier, sa certification est donc annulée. Cette information est à prendre en compte " +
         'et peut vous conduire à proposer une nouvelle session de certification pour ce(cette) candidat(e).',
-      commentForJury: 'Computed',
       pixScore,
       reproducibilityRate,
       status,
@@ -96,7 +94,7 @@ class AssessmentResult {
   clone() {
     return new AssessmentResult({
       commentForCandidate: this.commentForCandidate,
-      commentForJury: this.commentForJury,
+      commentByJury: this.commentByJury,
       commentForOrganization: this.commentForOrganization,
       emitter: this.emitter,
       pixScore: this.pixScore,
