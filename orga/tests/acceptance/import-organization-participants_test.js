@@ -7,7 +7,7 @@ import { createUserManagingStudents, createPrescriberByUser } from '../helpers/t
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Sup Student Import', function (hooks) {
+module('Acceptance | Student Import', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -29,7 +29,7 @@ module('Acceptance | Sup Student Import', function (hooks) {
     module('And uploads a file', function () {
       test('it should display success message and reload students', async function (assert) {
         // given
-        await visit('/etudiants/import');
+        await visit('/import-participants');
 
         const file = new Blob(['foo'], { type: 'valid-file' });
 
@@ -48,7 +48,7 @@ module('Acceptance | Sup Student Import', function (hooks) {
 
       test('it should display warnings message and reload students', async function (assert) {
         // given
-        await visit('/etudiants/import');
+        await visit('/import-participants');
 
         const file = new Blob(['foo'], { type: 'valid-file-with-warnings' });
 
@@ -69,7 +69,7 @@ module('Acceptance | Sup Student Import', function (hooks) {
 
       test('it should display an error message when import failed', async function (assert) {
         // given
-        await visit('/etudiants/import');
+        await visit('/import-participants');
 
         const file = new Blob(['foo'], { type: 'invalid-file' });
 
@@ -93,7 +93,7 @@ module('Acceptance | Sup Student Import', function (hooks) {
 
     test('it should redirect to default page', async function (assert) {
       // when
-      await visit('/etudiants/import');
+      await visit('/import-participants');
 
       // then
       assert.strictEqual(currentURL(), '/campagnes/les-miennes');

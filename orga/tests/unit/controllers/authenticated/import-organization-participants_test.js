@@ -12,7 +12,7 @@ module('Unit | Controller | authenticated/sup-organization-participants/import',
 
   hooks.beforeEach(function () {
     this.owner.lookup('service:intl').setLocale('fr');
-    controller = this.owner.lookup('controller:authenticated/sup-organization-participants/import');
+    controller = this.owner.lookup('controller:authenticated/import-organization-participants');
     controller.send = sinon.stub();
     controller.router.transitionTo = sinon.stub();
     controller.currentUser = currentUser;
