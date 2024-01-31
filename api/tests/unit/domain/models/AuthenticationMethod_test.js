@@ -93,7 +93,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       expect(
         () =>
           new AuthenticationMethod({
-            identityProvider: 'not_valid',
+            identityProvider: 15,
             externalIdentifier: 'externalIdentifier',
             userId: 1,
           }),
