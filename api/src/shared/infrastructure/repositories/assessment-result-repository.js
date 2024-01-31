@@ -66,7 +66,7 @@ const save = async function ({
       })
       .returning('*');
 
-    await knex('certification-courses-last-assessment-results')
+    await knexConn('certification-courses-last-assessment-results')
       .insert({ certificationCourseId, lastAssessmentResultId: savedAssessmentResultData.id })
       .onConflict('certificationCourseId')
       .merge(['lastAssessmentResultId']);
