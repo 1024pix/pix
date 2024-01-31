@@ -1,5 +1,5 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { Module } from '../../domain/models/Module.js';
+import { Module } from '../../domain/models/module/Module.js';
 import { Text } from '../../domain/models/element/Text.js';
 import { Image } from '../../domain/models/element/Image.js';
 import { QCU } from '../../domain/models/element/QCU.js';
@@ -16,6 +16,7 @@ import { QROCM } from '../../domain/models/element/QROCM.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { QROCMForAnswerVerification } from '../../domain/models/element/QROCM-for-answer-verification.js';
 import { Video } from '../../domain/models/element/Video.js';
+import { Details } from '../../domain/models/module/Details.js';
 
 async function getBySlug({ slug, moduleDatasource }) {
   try {
@@ -49,6 +50,7 @@ function _toDomain(moduleData) {
     slug: moduleData.slug,
     title: moduleData.title,
     transitionTexts: moduleData.transitionTexts?.map((transitionText) => new TransitionText(transitionText)) ?? [],
+    details: new Details(moduleData.details),
     grains: moduleData.grains.map((grain) => {
       return new Grain({
         id: grain.id,
@@ -86,6 +88,7 @@ function _toDomainForVerification(moduleData) {
     id: moduleData.id,
     slug: moduleData.slug,
     title: moduleData.title,
+    details: new Details(moduleData.details),
     grains: moduleData.grains.map((grain) => {
       return new Grain({
         id: grain.id,

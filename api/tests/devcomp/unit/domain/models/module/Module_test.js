@@ -1,8 +1,8 @@
-import { Module } from '../../../../../src/devcomp/domain/models/Module.js';
-import { catchErrSync, expect } from '../../../../test-helper.js';
-import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { Module } from '../../../../../../src/devcomp/domain/models/module/Module.js';
+import { catchErrSync, expect } from '../../../../../test-helper.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 
-describe('Unit | Devcomp | Domain | Models | Module', function () {
+describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
   describe('#constructor', function () {
     it('should create a module and keep attributes', function () {
       // given
@@ -11,9 +11,10 @@ describe('Unit | Devcomp | Domain | Models | Module', function () {
       const title = 'Les adresses email';
       const grains = [Symbol('text')];
       const transitionTexts = [];
+      const details = Symbol('details');
 
       // when
-      const module = new Module({ id, slug, title, grains, transitionTexts });
+      const module = new Module({ id, slug, title, grains, details, transitionTexts });
 
       // then
       expect(module.id).to.equal(id);
@@ -21,6 +22,7 @@ describe('Unit | Devcomp | Domain | Models | Module', function () {
       expect(module.title).to.equal(title);
       expect(module.transitionTexts).to.equal(transitionTexts);
       expect(module.grains).to.have.length(grains.length);
+      expect(module.details).to.deep.equal(details);
     });
 
     describe('if a module does not have an id', function () {
@@ -41,32 +43,44 @@ describe('Unit | Devcomp | Domain | Models | Module', function () {
       });
     });
 
-    describe('if a module does not have an element', function () {
-      describe('given no grain param', function () {
-        it('should throw an error', function () {
-          expect(
-            () =>
-              new Module({
-                id: 'id_module_1',
-                slug: 'bien-ecrire-son-adresse-mail',
-                title: 'Bien écrire son adresse mail',
-              }),
-          ).to.throw('Une liste de grains est obligatoire pour un module');
-        });
+    describe('if a module does not have grains', function () {
+      it('should throw an error', function () {
+        expect(
+          () =>
+            new Module({
+              id: 'id_module_1',
+              slug: 'bien-ecrire-son-adresse-mail',
+              title: 'Bien écrire son adresse mail',
+            }),
+        ).to.throw('Une liste de grains est obligatoire pour un module');
       });
+    });
 
-      describe('given a wrong typed grain in param', function () {
-        it('should throw an error', function () {
-          expect(
-            () =>
-              new Module({
-                id: 'id_module_1',
-                slug: 'bien-ecrire-son-adresse-mail',
-                title: 'Bien écrire son adresse mail',
-                grains: 'elements',
-              }),
-          ).to.throw(`Un Module doit forcément posséder une liste de grains`);
-        });
+    describe('if a module has grains with the wrong type', function () {
+      it('should throw an error', function () {
+        expect(
+          () =>
+            new Module({
+              id: 'id_module_1',
+              slug: 'bien-ecrire-son-adresse-mail',
+              title: 'Bien écrire son adresse mail',
+              grains: 'elements',
+            }),
+        ).to.throw(`Un Module doit forcément posséder une liste de grains`);
+      });
+    });
+
+    describe('if a module does not have details', function () {
+      it('should throw an error', function () {
+        expect(
+          () =>
+            new Module({
+              id: 'id_module_1',
+              slug: 'bien-ecrire-son-adresse-mail',
+              title: 'Bien écrire son adresse mail',
+              grains: [],
+            }),
+        ).to.throw('The details are required for a module');
       });
     });
 
@@ -79,9 +93,12 @@ describe('Unit | Devcomp | Domain | Models | Module', function () {
         const title = 'Les adresses email';
         const element = { id: elementId };
         const expectedGrain = { elements: [element] };
+        const details = Symbol('details');
 
         // when
-        const foundGrain = new Module({ id, slug, title, grains: [expectedGrain] }).getGrainByElementId(elementId);
+        const foundGrain = new Module({ id, slug, title, grains: [expectedGrain], details }).getGrainByElementId(
+          elementId,
+        );
 
         // then
         expect(foundGrain).to.deep.equal(expectedGrain);
@@ -95,7 +112,8 @@ describe('Unit | Devcomp | Domain | Models | Module', function () {
         const title = 'Les adresses email';
         const element = { id: elementId };
         const grain = { elements: [element] };
-        const module = new Module({ id, slug, title, grains: [grain] });
+        const details = Symbol('details');
+        const module = new Module({ id, slug, title, grains: [grain], details });
 
         // when
         const error = catchErrSync(module.getGrainByElementId, module)('another-grain-id');

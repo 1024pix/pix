@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import ModuleDetails from '../details/component';
+import ModulePassage from '../passage/component';
 
 export default class ModuleGrain extends Component {
   @service metrics;
@@ -33,7 +33,7 @@ export default class ModuleGrain extends Component {
     const newGrainY = element.getBoundingClientRect().top + window.scrollY;
     const userPrefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     window.scroll({
-      top: newGrainY - ModuleDetails.SCROLL_OFFSET_PX,
+      top: newGrainY - ModulePassage.SCROLL_OFFSET_PX,
       behavior: userPrefersReducedMotion.matches ? 'instant' : 'smooth',
     });
   }

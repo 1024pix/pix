@@ -1,7 +1,7 @@
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as moduleRepository from '../../../../src/devcomp/infrastructure/repositories/module-repository.js';
-import { Module } from '../../../../src/devcomp/domain/models/Module.js';
+import { Module } from '../../../../src/devcomp/domain/models/module/Module.js';
 import { Grain } from '../../../../src/devcomp/domain/models/Grain.js';
 import { Text } from '../../../../src/devcomp/domain/models/element/Text.js';
 import { QCU } from '../../../../src/devcomp/domain/models/element/QCU.js';
@@ -88,6 +88,18 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
         id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
         slug: 'bien-ecrire-son-adresse-mail',
         title: 'Bien écrire son adresse mail',
+        details: {
+          image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+          description:
+            'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
+          duration: 12,
+          level: 'Débutant',
+          objectives: [
+            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+            'Connaître les parties d’une adresse mail et les identifier sur des exemples',
+            'Comprendre les fonctions des parties d’une adresse mail',
+          ],
+        },
         grains: [
           {
             id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
@@ -132,6 +144,18 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
         id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
         slug: 'bien-ecrire-son-adresse-mail',
         title: 'Bien écrire son adresse mail',
+        details: {
+          image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+          description:
+            'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
+          duration: 12,
+          level: 'Débutant',
+          objectives: [
+            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+            'Connaître les parties d’une adresse mail et les identifier sur des exemples',
+            'Comprendre les fonctions des parties d’une adresse mail',
+          ],
+        },
         grains: [
           {
             id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
@@ -208,6 +232,18 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
         id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
         slug: 'bien-ecrire-son-adresse-mail',
         title: 'Bien écrire son adresse mail',
+        details: {
+          image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+          description:
+            'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
+          duration: 12,
+          level: 'Débutant',
+          objectives: [
+            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+            'Connaître les parties d’une adresse mail et les identifier sur des exemples',
+            'Comprendre les fonctions des parties d’une adresse mail',
+          ],
+        },
         grains: [
           {
             id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
@@ -247,6 +283,18 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
         id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
         slug: 'bien-ecrire-son-adresse-mail',
         title: 'Bien écrire son adresse mail',
+        details: {
+          image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+          description:
+            'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
+          duration: 12,
+          level: 'Débutant',
+          objectives: [
+            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+            'Connaître les parties d’une adresse mail et les identifier sur des exemples',
+            'Comprendre les fonctions des parties d’une adresse mail',
+          ],
+        },
         grains: [
           {
             id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
@@ -288,6 +336,18 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
         id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
         slug: 'bien-ecrire-son-adresse-mail',
         title: 'Bien écrire son adresse mail',
+        details: {
+          image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+          description:
+            'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
+          duration: 12,
+          level: 'Débutant',
+          objectives: [
+            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+            'Connaître les parties d’une adresse mail et les identifier sur des exemples',
+            'Comprendre les fonctions des parties d’une adresse mail',
+          ],
+        },
         grains: [
           {
             id: 'b7ea7630-824a-4a49-83d1-abb9b8d0d120',
@@ -375,6 +435,18 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
         id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
         slug: 'bien-ecrire-son-adresse-mail',
         title: 'Bien écrire son adresse mail',
+        details: {
+          image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+          description:
+            'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
+          duration: 12,
+          level: 'Débutant',
+          objectives: [
+            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+            'Connaître les parties d’une adresse mail et les identifier sur des exemples',
+            'Comprendre les fonctions des parties d’une adresse mail',
+          ],
+        },
         grains: [
           {
             id: 'b7ea7630-824a-4a49-83d1-abb9b8d0d120',
@@ -482,6 +554,18 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
         id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
         slug: 'bien-ecrire-son-adresse-mail',
         title: 'Bien écrire son adresse mail',
+        details: {
+          image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+          description:
+            'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
+          duration: 12,
+          level: 'Débutant',
+          objectives: [
+            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+            'Connaître les parties d’une adresse mail et les identifier sur des exemples',
+            'Comprendre les fonctions des parties d’une adresse mail',
+          ],
+        },
         grains: [
           {
             id: 'b7ea7630-824a-4a49-83d1-abb9b8d0d120',

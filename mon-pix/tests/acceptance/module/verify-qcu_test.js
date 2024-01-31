@@ -56,7 +56,7 @@ module('Acceptance | Module | Routes | verifyQcu', function (hooks) {
     });
 
     // when
-    const screen = await visit('/modules/bien-ecrire-son-adresse-mail');
+    const screen = await visit('/modules/bien-ecrire-son-adresse-mail/passage');
     const allVerifyButtons = screen.getAllByRole('button', { name: 'Vérifier' });
     const [firstQcuVerifyButton, nextQcuVerifyButton] = allVerifyButtons;
 
