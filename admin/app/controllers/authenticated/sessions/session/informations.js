@@ -52,6 +52,15 @@ export default class IndexController extends Controller {
     } catch (err) {
       this.notifications.error('Erreur lors de la définalisation de la session');
     }
+    this.cancelModal();
+  }
+
+  @action
+  async onUnfinalizeSessionButtonClick() {
+    this.modalTitle = '';
+    this.modalMessage = this.intl.t('pages.sessions.informations.unfinalization-confirmation-modal');
+    this.modalConfirmAction = this.unfinalizeSession;
+    this.isShowingModal = true;
   }
 
   @action

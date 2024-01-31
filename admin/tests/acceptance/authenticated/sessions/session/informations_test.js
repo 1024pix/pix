@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit, within } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
+import { waitForDialogClose } from '../../../../helpers/wait-for';
 
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
@@ -49,6 +50,9 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
 
           // when
           await clickByName('Définaliser la session');
+          const modal = await screen.findByRole('dialog');
+          await within(modal).queryByRole('button', { name: 'Confirmer' }).click();
+          await waitForDialogClose();
 
           // then
           assert.dom(screen.queryByText('Date de finalisation :')).doesNotExist();
