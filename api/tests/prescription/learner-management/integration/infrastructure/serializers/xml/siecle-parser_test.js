@@ -3,6 +3,7 @@ import { expect, catchErr } from '../../../../../../test-helper.js';
 import { SIECLE_ERRORS } from '../../../../../../../lib/domain/errors.js';
 import { SiecleXmlImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
 import { SiecleParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/xml/siecle-parser.js';
+import { SiecleFileStreamer } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
 
 const fixturesDirPath = `${url.fileURLToPath(new URL('../../../../../../', import.meta.url))}tooling/fixtures/`;
 
@@ -51,7 +52,8 @@ describe('Integration | Serializers | siecle-parser', function () {
       ];
 
       // when
-      const parser = SiecleParser.create(organization, path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const parser = SiecleParser.create(organization, siecleFileStreamer);
       const result = await parser.parse();
 
       //then
@@ -66,7 +68,8 @@ describe('Integration | Serializers | siecle-parser', function () {
       const expectedOrganizationLearners = [];
 
       // when
-      const parser = SiecleParser.create(organization, path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const parser = SiecleParser.create(organization, siecleFileStreamer);
       const result = await parser.parse();
 
       //then
@@ -79,7 +82,8 @@ describe('Integration | Serializers | siecle-parser', function () {
       const organization = { externalId: wrongUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-wrong-uai.xml`;
       // when
-      const parser = SiecleParser.create(organization, path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const parser = SiecleParser.create(organization, siecleFileStreamer);
       const error = await catchErr(() => parser.parse())();
 
       //then
@@ -94,7 +98,8 @@ describe('Integration | Serializers | siecle-parser', function () {
       const path = `${fixturesDirPath}/siecle-file/siecle-with-no-uai.xml`;
 
       // when
-      const parser = SiecleParser.create(organization, path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const parser = SiecleParser.create(organization, siecleFileStreamer);
       const error = await catchErr(() => parser.parse())();
 
       //then
@@ -109,7 +114,8 @@ describe('Integration | Serializers | siecle-parser', function () {
       const path = `${fixturesDirPath}/siecle-file/siecle-with-duplicate-national-student-id.xml`;
 
       // when
-      const parser = SiecleParser.create(organization, path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const parser = SiecleParser.create(organization, siecleFileStreamer);
       const error = await catchErr(() => parser.parse())();
 
       //then
@@ -125,7 +131,8 @@ describe('Integration | Serializers | siecle-parser', function () {
       const path = `${fixturesDirPath}/siecle-file/siecle-with-duplicate-national-student-id-and-unclosed-tag.xml`;
 
       // when
-      const parser = SiecleParser.create(organization, path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const parser = SiecleParser.create(organization, siecleFileStreamer);
       const error = await catchErr(() => parser.parse())();
 
       //then
@@ -141,7 +148,8 @@ describe('Integration | Serializers | siecle-parser', function () {
       const path = `${fixturesDirPath}/siecle-file/siecle-with-no-national-student-id.xml`;
 
       // when
-      const parser = SiecleParser.create(organization, path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const parser = SiecleParser.create(organization, siecleFileStreamer);
       const error = await catchErr(() => parser.parse())();
 
       //then
@@ -157,7 +165,8 @@ describe('Integration | Serializers | siecle-parser', function () {
       const path = `${fixturesDirPath}/siecle-file/siecle-student-with-no-sex.xml`;
 
       // when
-      const parser = SiecleParser.create(organization, path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const parser = SiecleParser.create(organization, siecleFileStreamer);
       const error = await catchErr(() => parser.parse())();
 
       //then
@@ -174,7 +183,8 @@ describe('Integration | Serializers | siecle-parser', function () {
         const path = `${fixturesDirPath}/siecle-file/siecle-french-student-with-no-birth-city-code.xml`;
 
         // when
-        const parser = SiecleParser.create(organization, path);
+        const siecleFileStreamer = await SiecleFileStreamer.create(path);
+        const parser = SiecleParser.create(organization, siecleFileStreamer);
         const error = await catchErr(() => parser.parse())();
 
         //then
