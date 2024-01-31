@@ -1,19 +1,14 @@
 import { Issuer } from 'openid-client';
 
-import { expect, sinon, catchErr } from '../../../../test-helper.js';
+import { catchErr, catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
 import { config as settings } from '../../../../../lib/config.js';
 import { OidcAuthenticationService } from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
 import jsonwebtoken from 'jsonwebtoken';
-import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
 
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 
-import {
-  InvalidExternalAPIResponseError,
-  OidcMissingFieldsError,
-  OidcUserInfoFormatError,
-} from '../../../../../lib/domain/errors.js';
+import { OidcError, OidcMissingFieldsError } from '../../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
@@ -304,6 +299,37 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#exchangeCodeForTokens', function () {
+    context('when OpenId Client callback fails', function () {
+      it('throws an error', async function () {
+        const clientId = Symbol('clientId');
+        const clientSecret = Symbol('clientSecret');
+        const configKey = 'identityProviderConfigKey';
+        const identityProvider = Symbol('identityProvider');
+        const redirectUri = Symbol('redirectUri');
+        const wellKnownUrl = Symbol('wellKnownUrl');
+        sinon.stub(settings, 'identityProviderConfigKey').value({});
+        const Client = sinon.stub().returns({ callback: sinon.stub().rejects(new Error('Fails to get tokens')) });
+        sinon.stub(Issuer, 'discover').resolves({ Client });
+
+        const oidcAuthenticationService = new OidcAuthenticationService({
+          clientId,
+          clientSecret,
+          configKey,
+          identityProvider,
+          redirectUri,
+          wellKnownUrl,
+        });
+        await oidcAuthenticationService.createClient();
+
+        // when
+        const error = await catchErr(oidcAuthenticationService.exchangeCodeForTokens, oidcAuthenticationService)({});
+
+        // then
+        expect(error).to.be.instanceOf(OidcError);
+        expect(error.message).to.be.equal('Fails to get tokens');
+      });
+    });
+
     it('returns an AuthenticationSessionContent instance', async function () {
       // given
       const clientId = 'OIDC_CLIENT_ID';
@@ -401,6 +427,40 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         realm: '/individu',
       });
     });
+
+    context('call to authorization endpoint fails', function () {
+      it('throws an error', async function () {
+        // given
+        const clientId = Symbol('clientId');
+        const clientSecret = Symbol('clientSecret');
+        const configKey = 'identityProviderConfigKey';
+        const identityProvider = Symbol('identityProvider');
+        const redirectUri = Symbol('redirectUri');
+        const wellKnownUrl = Symbol('wellKnownUrl');
+        sinon.stub(settings, 'identityProviderConfigKey').value({});
+        const Client = sinon
+          .stub()
+          .returns({ authorizationUrl: sinon.stub().throws(new Error('Fails to generate authorization url')) });
+        sinon.stub(Issuer, 'discover').resolves({ Client });
+
+        const oidcAuthenticationService = new OidcAuthenticationService({
+          clientId,
+          clientSecret,
+          configKey,
+          identityProvider,
+          redirectUri,
+          wellKnownUrl,
+        });
+        await oidcAuthenticationService.createClient();
+
+        // when
+        const error = catchErrSync(oidcAuthenticationService.getAuthorizationUrl, oidcAuthenticationService)();
+
+        // then
+        expect(error).to.be.instanceOf(OidcError);
+        expect(error.message).to.be.equal('Fails to generate authorization url');
+      });
+    });
   });
 
   describe('#getUserInfo', function () {
@@ -475,115 +535,79 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#_getUserInfoFromEndpoint', function () {
-    // given
-    const userInfoUrl = 'userInfoUrl';
-    const accessToken = 'accessToken';
-
-    it('should return nonce, firstName, lastName and external identity id', async function () {
+    it('returns firstName, lastName and external identity id', async function () {
       // given
-      sinon
-        .stub(httpAgent, 'get')
-        .withArgs({
-          url: userInfoUrl,
-          headers: { Authorization: `Bearer ${accessToken}` },
-          timeout: settings.partner.fetchTimeOut,
-        })
-        .resolves({
-          isSuccessful: true,
-          data: {
-            given_name: 'givenName',
-            family_name: 'familyName',
-            nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
-            sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-          },
-        });
+      const authenticationUrl = 'http://authenticationurl.net';
+      const clientId = 'OIDC_CLIENT_ID';
+      const clientSecret = 'OIDC_CLIENT_SECRET';
+      const redirectUri = 'https://example.org/please-redirect-to-me';
 
       const oidcAuthenticationService = new OidcAuthenticationService({
-        userInfoUrl,
-        accessToken,
+        authenticationUrl,
+        clientId,
+        clientSecret,
+        redirectUri,
       });
+
+      const clientInstance = {
+        userinfo: sinon.stub().resolves({
+          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+          given_name: 'givenName',
+          family_name: 'familyName',
+        }),
+      };
+      const Client = sinon.stub().returns(clientInstance);
+
+      sinon.stub(Issuer, 'discover').resolves({ Client });
+      await oidcAuthenticationService.createClient();
+
+      const accessToken = 'thisIsSerializedInformation';
 
       // when
-      const result = await oidcAuthenticationService._getUserInfoFromEndpoint({
-        accessToken: 'accessToken',
-        userInfoUrl: 'userInfoUrl',
-      });
+      const pickedUserInfo = await oidcAuthenticationService._getUserInfoFromEndpoint({ accessToken });
 
       // then
-      expect(result).to.deep.equal({
+      expect(clientInstance.userinfo).to.have.been.calledOnceWithExactly(accessToken);
+      expect(pickedUserInfo).to.deep.equal({
+        sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
         given_name: 'givenName',
         family_name: 'familyName',
-        sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-        nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
       });
     });
 
-    describe('when call to external API fails with no data details', function () {
+    context('when required properties are not returned by external API', function () {
       it('should throw error', async function () {
         // given
         sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-        const axiosError = {
-          response: {
-            data: '',
-            status: 400,
-          },
-        };
-        sinon
-          .stub(httpAgent, 'get')
-          .withArgs({
-            url: userInfoUrl,
-            headers: { Authorization: `Bearer ${accessToken}` },
-            timeout: settings.partner.fetchTimeOut,
-          })
-          .resolves({ isSuccessful: false, code: axiosError.response.status, data: axiosError.response.data });
-        // See api/lib/infrastructure/http/http-agent.js to understand, axios can throw an error but httpAgent.get map it into an http response
-        const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl, accessToken });
 
-        // when
-        let errorResponse;
-        try {
-          await oidcAuthenticationService._getUserInfoFromEndpoint({
-            accessToken: 'accessToken',
-            userInfoUrl: 'userInfoUrl',
-          });
-        } catch (error) {
-          errorResponse = error;
-        }
+        const authenticationUrl = 'http://authenticationurl.net';
+        const clientId = 'OIDC_CLIENT_ID';
+        const clientSecret = 'OIDC_CLIENT_SECRET';
+        const redirectUri = 'https://example.org/please-redirect-to-me';
+        const organizationName = 'Example';
 
-        // then
-        expect(errorResponse).to.be.instanceOf(InvalidExternalAPIResponseError);
-        expect(errorResponse.message).to.be.equal(
-          'Une erreur est survenue en récupérant les informations des utilisateurs.',
-        );
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
-          message: {
-            customMessage: 'Une erreur est survenue en récupérant les informations des utilisateurs.',
-            errorDetails: 'Pas de détails disponibles',
-          },
-        });
-      });
-    });
-
-    describe('when returned value by external API is not a json object', function () {
-      it('should throw error', async function () {
-        // given
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-        sinon
-          .stub(httpAgent, 'get')
-          .withArgs({
-            url: userInfoUrl,
-            headers: { Authorization: `Bearer ${accessToken}` },
-            timeout: settings.partner.fetchTimeOut,
-          })
-          .resolves({
-            isSuccessful: true,
-            data: '',
-          });
-        const organizationName = 'Organization Name';
         const oidcAuthenticationService = new OidcAuthenticationService({
-          userInfoUrl: 'userInfoUrl',
+          authenticationUrl,
+          clientId,
+          clientSecret,
+          redirectUri,
           organizationName,
         });
+
+        const clientInstance = {
+          userinfo: sinon.stub().resolves({
+            sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+            given_name: 'givenName',
+            family_name: undefined,
+          }),
+        };
+        const Client = sinon.stub().returns(clientInstance);
+
+        sinon.stub(Issuer, 'discover').resolves({ Client });
+        await oidcAuthenticationService.createClient();
+
+        const accessToken = 'thisIsSerializedInformation';
+        const errorMessage = `Un ou des champs obligatoires (family_name) n'ont pas été renvoyés par votre fournisseur d'identité Example.`;
 
         // when
         const error = await catchErr(
@@ -591,56 +615,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           oidcAuthenticationService,
         )({
           accessToken,
-          userInfoUrl,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(OidcUserInfoFormatError);
-        expect(error.message).to.be.equal(
-          `Les informations utilisateur renvoyées par votre fournisseur d'identité ${organizationName} ne sont pas au format attendu.`,
-        );
-        expect(error.code).to.be.equal(OIDC_ERRORS.USER_INFO.badResponseFormat.code);
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
-          message: {
-            message: `Les informations utilisateur renvoyées par votre fournisseur d'identité ${organizationName} ne sont pas au format attendu.`,
-            typeOfUserInfo: 'string',
-            userInfo: '',
-          },
-        });
-      });
-    });
-
-    describe('when required properties are not returned by external API', function () {
-      it('should throw error', async function () {
-        // given
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-        sinon
-          .stub(httpAgent, 'get')
-          .withArgs({
-            url: userInfoUrl,
-            headers: { Authorization: `Bearer ${accessToken}` },
-            timeout: settings.partner.fetchTimeOut,
-          })
-          .resolves({
-            isSuccessful: true,
-            data: {
-              given_name: 'givenName',
-              family_name: undefined,
-              nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
-              sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-            },
-          });
-        const organizationName = 'Organization Name';
-        const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl, accessToken, organizationName });
-        const errorMessage = `Un ou des champs obligatoires (family_name) n'ont pas été renvoyés par votre fournisseur d'identité ${organizationName}.`;
-
-        // when
-        const error = await catchErr(
-          oidcAuthenticationService._getUserInfoFromEndpoint,
-          oidcAuthenticationService,
-        )({
-          accessToken: 'accessToken',
-          userInfoUrl: 'userInfoUrl',
         });
 
         // then
@@ -653,10 +627,40 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           userInfo: {
             given_name: 'givenName',
             family_name: undefined,
-            nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
             sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
           },
         });
+      });
+    });
+
+    context('when OpenId Client userinfo fails', function () {
+      it('throws an error', async function () {
+        const clientId = Symbol('clientId');
+        const clientSecret = Symbol('clientSecret');
+        const configKey = 'identityProviderConfigKey';
+        const identityProvider = Symbol('identityProvider');
+        const redirectUri = Symbol('redirectUri');
+        const wellKnownUrl = Symbol('wellKnownUrl');
+        sinon.stub(settings, 'identityProviderConfigKey').value({});
+        const Client = sinon.stub().returns({ userinfo: sinon.stub().rejects(new Error('Fails to get user info')) });
+        sinon.stub(Issuer, 'discover').resolves({ Client });
+
+        const oidcAuthenticationService = new OidcAuthenticationService({
+          clientId,
+          clientSecret,
+          configKey,
+          identityProvider,
+          redirectUri,
+          wellKnownUrl,
+        });
+        await oidcAuthenticationService.createClient();
+
+        // when
+        const error = await catchErr(oidcAuthenticationService._getUserInfoFromEndpoint, oidcAuthenticationService)({});
+
+        // then
+        expect(error).to.be.instanceOf(OidcError);
+        expect(error.message).to.be.equal('Fails to get user info');
       });
     });
   });
@@ -826,6 +830,69 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         client_id: clientId,
         client_secret: clientSecret,
         redirect_uris: [redirectUri],
+      });
+    });
+
+    context('when discover fails', function () {
+      it('throws an error', async function () {
+        // given
+        const clientId = Symbol('clientId');
+        const clientSecret = Symbol('clientSecret');
+        const configKey = 'identityProviderConfigKey';
+        const identityProvider = Symbol('identityProvider');
+        const redirectUri = Symbol('redirectUri');
+        const wellKnownUrl = Symbol('wellKnownUrl');
+        sinon.stub(settings, 'identityProviderConfigKey').value({});
+
+        sinon.stub(Issuer, 'discover').rejects(new Error('Some network error'));
+
+        const oidcAuthenticationService = new OidcAuthenticationService({
+          clientId,
+          clientSecret,
+          configKey,
+          identityProvider,
+          redirectUri,
+          wellKnownUrl,
+        });
+
+        // when
+        const error = await catchErr(oidcAuthenticationService.createClient, oidcAuthenticationService)();
+
+        // then
+        expect(error).to.be.instanceOf(OidcError);
+        expect(error.message).to.be.equal('Some network error');
+      });
+    });
+
+    context('when issuer.Client fails', function () {
+      it('throws an error', async function () {
+        // given
+        const clientId = Symbol('clientId');
+        const clientSecret = Symbol('clientSecret');
+        const configKey = 'identityProviderConfigKey';
+        const identityProvider = Symbol('identityProvider');
+        const redirectUri = Symbol('redirectUri');
+        const wellKnownUrl = Symbol('wellKnownUrl');
+        sinon.stub(settings, 'identityProviderConfigKey').value({});
+
+        const Client = sinon.stub().throws(new Error('For example some crypto error'));
+        sinon.stub(Issuer, 'discover').resolves({ Client });
+
+        const oidcAuthenticationService = new OidcAuthenticationService({
+          clientId,
+          clientSecret,
+          configKey,
+          identityProvider,
+          redirectUri,
+          wellKnownUrl,
+        });
+
+        // when
+        const error = await catchErr(oidcAuthenticationService.createClient, oidcAuthenticationService)();
+
+        // then
+        expect(error).to.be.instanceOf(OidcError);
+        expect(error.message).to.be.equal('For example some crypto error');
       });
     });
   });

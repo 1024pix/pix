@@ -933,6 +933,14 @@ class UnableToAttachChildOrganizationToParentOrganizationError extends DomainErr
   }
 }
 
+class OidcError extends DomainError {
+  constructor({ message, code, meta }) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
 class OidcMissingFieldsError extends DomainError {
   constructor(
     message = 'Mandatory information returned by the identify provider about the user is missing.',
@@ -1199,6 +1207,7 @@ export {
   NotFoundError,
   NotImplementedError,
   ObjectValidationError,
+  OidcError,
   OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,

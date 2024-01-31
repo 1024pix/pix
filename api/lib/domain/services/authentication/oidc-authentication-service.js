@@ -4,12 +4,10 @@ import { randomUUID } from 'crypto';
 import { Issuer } from 'openid-client';
 
 import { logger } from '../../../infrastructure/logger.js';
-import { InvalidExternalAPIResponseError, OidcMissingFieldsError, OidcUserInfoFormatError } from '../../errors.js';
+import { OidcError, OidcMissingFieldsError } from '../../errors.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';
 import { config } from '../../../../src/shared/config.js';
-import { httpAgent } from '../../../infrastructure/http/http-agent.js';
-import * as httpErrorsHelper from '../../../infrastructure/http/errors-helper.js';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
 import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../constants.js';
@@ -124,12 +122,17 @@ class OidcAuthenticationService {
   }
 
   async createClient() {
-    const issuer = await Issuer.discover(this.wellKnownUrl);
-    this.client = new issuer.Client({
-      client_id: this.clientId,
-      client_secret: this.clientSecret,
-      redirect_uris: [this.redirectUri],
-    });
+    try {
+      const issuer = await Issuer.discover(this.wellKnownUrl);
+
+      this.client = new issuer.Client({
+        client_id: this.clientId,
+        client_secret: this.clientSecret,
+        redirect_uris: [this.redirectUri],
+      });
+    } catch (error) {
+      throw new OidcError({ message: error.message });
+    }
   }
 
   createAccessToken(userId) {
@@ -155,7 +158,13 @@ class OidcAuthenticationService {
   }
 
   async exchangeCodeForTokens({ code, nonce, state, sessionState }) {
-    const tokenSet = await this.client.callback(this.redirectUri, { code, state }, { nonce, state: sessionState });
+    let tokenSet;
+
+    try {
+      tokenSet = await this.client.callback(this.redirectUri, { code, state }, { nonce, state: sessionState });
+    } catch (error) {
+      throw new OidcError({ message: error.message });
+    }
 
     const {
       access_token: accessToken,
@@ -186,8 +195,12 @@ class OidcAuthenticationService {
       Object.assign(authorizationParameters, this.extraAuthorizationUrlParameters);
     }
 
-    const redirectTarget = this.client.authorizationUrl(authorizationParameters);
-
+    let redirectTarget;
+    try {
+      redirectTarget = this.client.authorizationUrl(authorizationParameters);
+    } catch (error) {
+      throw new OidcError({ message: error.message });
+    }
     return { redirectTarget, state, nonce };
   }
 
@@ -271,34 +284,12 @@ class OidcAuthenticationService {
   }
 
   async _getUserInfoFromEndpoint({ accessToken }) {
-    const httpResponse = await httpAgent.get({
-      url: this.userInfoUrl,
-      headers: { Authorization: `Bearer ${accessToken}` },
-      timeout: config.partner.fetchTimeOut,
-    });
+    let userInfo;
 
-    if (!httpResponse.isSuccessful) {
-      const message = 'Une erreur est survenue en récupérant les informations des utilisateurs.';
-      const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(httpResponse, message);
-      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
-      throw new InvalidExternalAPIResponseError(message);
-    }
-
-    const userInfo = httpResponse.data;
-
-    if (!userInfo || typeof userInfo !== 'object') {
-      const message = `Les informations utilisateur renvoyées par votre fournisseur d'identité ${this.organizationName} ne sont pas au format attendu.`;
-      const dataToLog = {
-        message,
-        typeOfUserInfo: typeof userInfo,
-        userInfo,
-      };
-      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
-      const error = OIDC_ERRORS.USER_INFO.badResponseFormat;
-      const meta = {
-        shortCode: error.shortCode,
-      };
-      throw new OidcUserInfoFormatError(message, error.code, meta);
+    try {
+      userInfo = await this.client.userinfo(accessToken);
+    } catch (error) {
+      throw new OidcError({ message: error.message });
     }
 
     const missingRequiredClaims = this.#findMissingRequiredClaims(userInfo);
@@ -319,10 +310,9 @@ class OidcAuthenticationService {
     }
 
     const pickedUserInfo = {
+      sub: userInfo.sub,
       given_name: userInfo.given_name,
       family_name: userInfo.family_name,
-      sub: userInfo.sub,
-      nonce: userInfo.nonce,
     };
 
     if (this.claimsToStore) {
