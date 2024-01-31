@@ -24,7 +24,9 @@
     {{#each @competences as |competence|}}
       <li class="competence-list-details__item" aria-label="Informations de la compétence {{competence.index}}">
         <span aria-hidden="true">{{competence.index}}</span>
-        <span>{{competence.score}} Pix</span>
+        {{#if @shouldDisplayPixScore}}
+          <span>{{competence.score}} Pix</span>
+        {{/if}}
         <span>Niveau: {{competence.level}}</span>
       </li>
     {{/each}}

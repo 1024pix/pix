@@ -77,6 +77,10 @@ export default class CertificationInformationsController extends Controller {
     ];
   }
 
+  get shouldDisplayPixScore() {
+    return this.certification.version === 2;
+  }
+
   @action
   async resolveIssueReport(issueReport, resolutionLabel) {
     try {
