@@ -34,7 +34,7 @@ const serialize = function (juryCertification) {
       'competencesWithMark',
       'commentForCandidate',
       'commentForOrganization',
-      'commentForJury',
+      'commentByJury',
       'commonComplementaryCertificationCourseResult',
       'complementaryCertificationCourseResultWithExternal',
       'certificationIssueReports',

@@ -1163,7 +1163,6 @@ function _makeCandidatesPassCertification({
       reproducibilityRate: 100,
       status: 'validated',
       emitter: 'PIX-ALGO',
-      commentForJury: '',
       commentForCandidate: '',
       commentForOrganization: '',
       juryId: null,
