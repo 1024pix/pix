@@ -4,6 +4,7 @@ import { FileValidationError } from '../../../../../../lib/domain/errors.js';
 import { SiecleXmlImportError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { OrganizationLearner } from '../../../../../../lib/domain/models/OrganizationLearner.js';
+import { SiecleParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/xml/siecle-parser.js';
 
 import fs from 'fs/promises';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
@@ -13,7 +14,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
   const organizationUAI = '123ABC';
   const organizationId = 1234;
   let format;
-  let organizationLearnersXmlServiceStub;
+  let parseStub;
   let organizationLearnersCsvServiceStub;
   let organizationLearnerRepositoryStub;
   let organizationRepositoryStub;
@@ -27,8 +28,12 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
     sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
       return callback(domainTransaction);
     });
+
+    sinon.stub(SiecleParser, 'create');
+    parseStub = sinon.stub();
+    SiecleParser.create.returns({ parse: parseStub });
+
     format = 'xml';
-    organizationLearnersXmlServiceStub = { extractOrganizationLearnersInformationFromSIECLE: sinon.stub() };
     organizationLearnersCsvServiceStub = { extractOrganizationLearnersInformation: sinon.stub() };
     organizationLearnerRepositoryStub = {
       addOrUpdateOrganizationOfOrganizationLearners: sinon.stub(),
@@ -96,7 +101,6 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           format,
           organizationRepository: organizationRepositoryStub,
           organizationLearnersCsvService: organizationLearnersCsvServiceStub,
-          organizationLearnersXmlService: organizationLearnersXmlServiceStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
           i18n,
         });
@@ -120,9 +124,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
         ];
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
-        organizationLearnersXmlServiceStub.extractOrganizationLearnersInformationFromSIECLE.returns(
-          extractedOrganizationLearnersInformations,
-        );
+        parseStub.resolves(extractedOrganizationLearnersInformations);
 
         const organizationLearnersToUpdate = [
           { lastName: 'Student1', nationalStudentId: 'INE1' },
@@ -136,7 +138,6 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           payload,
           format,
           organizationRepository: organizationRepositoryStub,
-          organizationLearnersXmlService: organizationLearnersXmlServiceStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
         });
 
@@ -147,9 +148,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
         ];
 
-        expect(
-          organizationLearnersXmlServiceStub.extractOrganizationLearnersInformationFromSIECLE,
-        ).to.have.been.calledWithExactly(payload.path, { externalId: organizationUAI });
+        expect(SiecleParser.create).to.have.been.calledWithExactly({ externalId: organizationUAI }, payload.path);
         expect(
           organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners,
         ).to.have.been.calledWithExactly(organizationLearners, organizationId, domainTransaction);
@@ -164,9 +163,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
 
       const extractedOrganizationLearnersInformations = [{ nationalStudentId: 'INE1' }];
       organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
-      organizationLearnersXmlServiceStub.extractOrganizationLearnersInformationFromSIECLE.returns(
-        extractedOrganizationLearnersInformations,
-      );
+      parseStub.resolves(extractedOrganizationLearnersInformations);
 
       organizationLearnerRepositoryStub.findByOrganizationId.resolves();
 
@@ -176,7 +173,6 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
         payload,
         format,
         organizationRepository: organizationRepositoryStub,
-        organizationLearnersXmlService: organizationLearnersXmlServiceStub,
         organizationLearnerRepository: organizationLearnerRepositoryStub,
       });
 
@@ -194,7 +190,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
       beforeEach(function () {
         // given
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
-        organizationLearnersXmlServiceStub.extractOrganizationLearnersInformationFromSIECLE.returns([]);
+        parseStub.resolves([]);
       });
 
       it('should throw a SiecleXmlImportError', async function () {
@@ -203,7 +199,6 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           payload,
           format,
           organizationRepository: organizationRepositoryStub,
-          organizationLearnersXmlService: organizationLearnersXmlServiceStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
         });
 
@@ -226,7 +221,6 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           organizationId,
           payload,
           format,
-          organizationLearnersXmlService: organizationLearnersXmlServiceStub,
           organizationRepository: organizationRepositoryStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
         });

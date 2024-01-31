@@ -1,13 +1,13 @@
 import * as url from 'url';
-import { expect, catchErr } from '../../../../../test-helper.js';
-import { SIECLE_ERRORS } from '../../../../../../lib/domain/errors.js';
-import * as organizationLearnersXmlService from '../../../../../../src/prescription/learner-management/domain/services/organization-learners-xml-service.js';
-import { SiecleXmlImportError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
+import { expect, catchErr } from '../../../../../../test-helper.js';
+import { SIECLE_ERRORS } from '../../../../../../../lib/domain/errors.js';
+import { SiecleXmlImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
+import { SiecleParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/xml/siecle-parser.js';
 
-const fixturesDirPath = `${url.fileURLToPath(new URL('../../../../../', import.meta.url))}tooling/fixtures/`;
+const fixturesDirPath = `${url.fileURLToPath(new URL('../../../../../../', import.meta.url))}tooling/fixtures/`;
 
-describe('Integration | Services | organization-learners-xml-service', function () {
-  describe('extractOrganizationLearnersInformationFromSIECLE', function () {
+describe('Integration | Serializers | siecle-parser', function () {
+  describe('parse', function () {
     it('should parse two organizationLearners information', async function () {
       // given
       const validUAIFromSIECLE = '123ABC';
@@ -51,10 +51,8 @@ describe('Integration | Services | organization-learners-xml-service', function 
       ];
 
       // when
-      const result = await organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE(
-        path,
-        organization,
-      );
+      const parser = SiecleParser.create(organization, path);
+      const result = await parser.parse();
 
       //then
       expect(result).to.deep.equal(expectedOrganizationLearners);
@@ -68,10 +66,8 @@ describe('Integration | Services | organization-learners-xml-service', function 
       const expectedOrganizationLearners = [];
 
       // when
-      const result = await organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE(
-        path,
-        organization,
-      );
+      const parser = SiecleParser.create(organization, path);
+      const result = await parser.parse();
 
       //then
       expect(result).to.deep.equal(expectedOrganizationLearners);
@@ -83,10 +79,8 @@ describe('Integration | Services | organization-learners-xml-service', function 
       const organization = { externalId: wrongUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-wrong-uai.xml`;
       // when
-      const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
-        path,
-        organization,
-      );
+      const parser = SiecleParser.create(organization, path);
+      const error = await catchErr(() => parser.parse())();
 
       //then
       expect(error).to.be.instanceof(SiecleXmlImportError);
@@ -98,11 +92,10 @@ describe('Integration | Services | organization-learners-xml-service', function 
       const wrongUAIFromSIECLE = '123ABC';
       const organization = { externalId: wrongUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-no-uai.xml`;
+
       // when
-      const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
-        path,
-        organization,
-      );
+      const parser = SiecleParser.create(organization, path);
+      const error = await catchErr(() => parser.parse())();
 
       //then
       expect(error).to.be.instanceof(SiecleXmlImportError);
@@ -114,11 +107,10 @@ describe('Integration | Services | organization-learners-xml-service', function 
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-duplicate-national-student-id.xml`;
+
       // when
-      const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
-        path,
-        organization,
-      );
+      const parser = SiecleParser.create(organization, path);
+      const error = await catchErr(() => parser.parse())();
 
       //then
       expect(error).to.be.instanceof(SiecleXmlImportError);
@@ -131,11 +123,10 @@ describe('Integration | Services | organization-learners-xml-service', function 
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-duplicate-national-student-id-and-unclosed-tag.xml`;
+
       // when
-      const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
-        path,
-        organization,
-      );
+      const parser = SiecleParser.create(organization, path);
+      const error = await catchErr(() => parser.parse())();
 
       //then
       expect(error).to.be.instanceof(SiecleXmlImportError);
@@ -148,11 +139,10 @@ describe('Integration | Services | organization-learners-xml-service', function 
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-no-national-student-id.xml`;
+
       // when
-      const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
-        path,
-        organization,
-      );
+      const parser = SiecleParser.create(organization, path);
+      const error = await catchErr(() => parser.parse())();
 
       //then
       expect(error).to.be.instanceof(SiecleXmlImportError);
@@ -165,11 +155,10 @@ describe('Integration | Services | organization-learners-xml-service', function 
       const nationalStudentIdFromFile = '12345';
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-student-with-no-sex.xml`;
+
       // when
-      const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
-        path,
-        organization,
-      );
+      const parser = SiecleParser.create(organization, path);
+      const error = await catchErr(() => parser.parse())();
 
       //then
       expect(error).to.be.instanceof(SiecleXmlImportError);
@@ -183,11 +172,10 @@ describe('Integration | Services | organization-learners-xml-service', function 
         const nationalStudentIdFromFile = '1234';
         const organization = { externalId: validUAIFromSIECLE };
         const path = `${fixturesDirPath}/siecle-file/siecle-french-student-with-no-birth-city-code.xml`;
+
         // when
-        const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
-          path,
-          organization,
-        );
+        const parser = SiecleParser.create(organization, path);
+        const error = await catchErr(() => parser.parse())();
 
         //then
         expect(error).to.be.instanceof(SiecleXmlImportError);
