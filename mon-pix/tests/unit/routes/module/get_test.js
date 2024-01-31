@@ -7,7 +7,7 @@ module('Unit | Route | modules | get', function (hooks) {
 
   test('should exist', function (assert) {
     // when
-    const route = this.owner.lookup('route:module/get');
+    const route = this.owner.lookup('route:module.get');
 
     // then
     assert.ok(route);
@@ -15,13 +15,12 @@ module('Unit | Route | modules | get', function (hooks) {
 
   test('should find the corresponding module', async function (assert) {
     // given
-    const route = this.owner.lookup('route:module/get');
+    const route = this.owner.lookup('route:module.get');
     const store = this.owner.lookup('service:store');
-
     const module = Symbol('the module');
+    route.modelFor = sinon.stub();
+    route.modelFor.withArgs('module').returns(module);
 
-    store.findRecord = sinon.stub();
-    store.findRecord.withArgs('module', 'the-module').resolves(module);
     store.createRecord = sinon.stub();
     store.createRecord.returns({ save: () => {} });
 
@@ -36,10 +35,12 @@ module('Unit | Route | modules | get', function (hooks) {
     // given
     const passage = Symbol('passage');
 
-    const route = this.owner.lookup('route:module/get');
+    const route = this.owner.lookup('route:module.get');
     const store = this.owner.lookup('service:store');
+    const module = { id: 'my-module' };
 
-    store.findRecord = sinon.stub();
+    route.modelFor = sinon.stub();
+    route.modelFor.withArgs('module').returns(module);
     store.createRecord = sinon.stub();
     const save = sinon.stub();
     save.resolves(passage);

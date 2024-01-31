@@ -2,14 +2,14 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-export default class ModuleDetails extends Component {
+export default class ModulePassage extends Component {
   @tracked grainsToDisplay = [this.args.module.grains[0]];
 
   static SCROLL_OFFSET_PX = 70;
 
   @action
   setGrainScrollOffsetCssProperty(element) {
-    element.style.setProperty('--grain-scroll-offset', `${ModuleDetails.SCROLL_OFFSET_PX}px`);
+    element.style.setProperty('--grain-scroll-offset', `${ModulePassage.SCROLL_OFFSET_PX}px`);
   }
 
   get hasNextGrain() {

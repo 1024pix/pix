@@ -1,0 +1,21 @@
+{{page-title @module.title}}
+
+<main class="module-passage">
+  <div class="module-passage__title">
+    <h1>{{@module.title}}</h1>
+  </div>
+
+  <div class="module-passage__content" {{did-insert this.setGrainScrollOffsetCssProperty}}>
+    {{#each this.grainsToDisplay as |grain index|}}
+      <Module::Grain
+        @grain={{grain}}
+        @transition={{this.grainTransition grain.id}}
+        @submitAnswer={{@submitAnswer}}
+        @canDisplayActionsButton={{this.grainCanDisplayActionsButton index}}
+        @continueAction={{this.addNextGrainToDisplay}}
+        @skipAction={{this.addNextGrainToDisplay}}
+        @hasJustAppeared={{this.hasGrainJustAppeared index}}
+      />
+    {{/each}}
+  </div>
+</main>

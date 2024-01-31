@@ -1,13 +1,14 @@
-import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
-import { NotFoundError } from '../../../shared/domain/errors.js';
+import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 
 class Module {
-  constructor({ id, slug, title, grains, transitionTexts = [] }) {
+  constructor({ id, slug, title, grains, details, transitionTexts = [] }) {
     assertNotNullOrUndefined(id, "L'id est obligatoire pour un module");
     assertNotNullOrUndefined(title, 'Le titre est obligatoire pour un module');
     assertNotNullOrUndefined(slug, 'Le slug est obligatoire pour un module');
     assertNotNullOrUndefined(grains, 'Une liste de grains est obligatoire pour un module');
     this.#assertGrainsIsAnArray(grains);
+    assertNotNullOrUndefined(details, 'The details are required for a module');
     this.#assertTransitionTextsLinkedToGrain(transitionTexts, grains);
 
     this.id = id;
@@ -15,6 +16,7 @@ class Module {
     this.title = title;
     this.grains = grains;
     this.transitionTexts = transitionTexts;
+    this.details = details;
   }
 
   #assertTransitionTextsLinkedToGrain(transitionTexts, grains) {

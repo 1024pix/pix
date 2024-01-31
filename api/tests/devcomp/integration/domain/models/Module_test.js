@@ -1,4 +1,4 @@
-import { Module } from '../../../../../src/devcomp/domain/models/Module.js';
+import { Module } from '../../../../../src/devcomp/domain/models/module/Module.js';
 import { expect } from '../../../../test-helper.js';
 import { Grain } from '../../../../../src/devcomp/domain/models/Grain.js';
 import { Text } from '../../../../../src/devcomp/domain/models/element/Text.js';
@@ -26,8 +26,9 @@ describe('Integration | Devcomp | Domain | Models | Module', function () {
           content: 'content grain 2',
         },
       ];
+      const details = Symbol('details');
 
-      expect(() => new Module({ id, slug, title, grains, transitionTexts })).to.throw(
+      expect(() => new Module({ id, slug, title, grains, transitionTexts, details })).to.throw(
         'Tous les textes de transition doivent être lié à un grain présent dans le module',
       );
     });

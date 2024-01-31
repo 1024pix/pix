@@ -7,17 +7,17 @@ module('Unit | Model | Module | Module', function (hooks) {
   test('Module model should exist with the right properties', function (assert) {
     // given
     const title = 'Bien écrire son adresse mail';
+    const details = Symbol('details');
     const store = this.owner.lookup('service:store');
-    const elementText = store.createRecord('text', { content: '' });
-    const elementQCU = store.createRecord('qcu', { instruction: '', proposals: [''] });
-    const elements = [elementText, elementQCU];
+    const grain = store.createRecord('grain', { elements: [] });
 
     // when
-    const module = store.createRecord('module', { title, elements });
+    const module = store.createRecord('module', { title, details, grains: [grain] });
 
     // then
     assert.ok(module);
     assert.strictEqual(module.title, title);
-    assert.strictEqual(module.elements.length, elements.length);
+    assert.strictEqual(module.details, details);
+    assert.strictEqual(module.grains[0], grain);
   });
 });

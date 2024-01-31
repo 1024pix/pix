@@ -1,21 +1,59 @@
 {{page-title @module.title}}
 
-<main class="module">
-  <div class="module__title">
-    <h1>{{@module.title}}</h1>
+<main class="module-details">
+  <div class="module-details__image">
+    <img alt="" class="module-details-image__illustration" src={{@module.details.image}} />
   </div>
 
-  <div class="module__content" {{did-insert this.setGrainScrollOffsetCssProperty}}>
-    {{#each this.grainsToDisplay as |grain index|}}
-      <Module::Grain
-        @grain={{grain}}
-        @transition={{this.grainTransition grain.id}}
-        @submitAnswer={{@submitAnswer}}
-        @canDisplayActionsButton={{this.grainCanDisplayActionsButton index}}
-        @continueAction={{this.addNextGrainToDisplay}}
-        @skipAction={{this.addNextGrainToDisplay}}
-        @hasJustAppeared={{this.hasGrainJustAppeared index}}
-      />
-    {{/each}}
+  <div class="module-details__content">
+    <div class="module-details-content__layout">
+      <h1 class="module-details-content-layout__title">{{@module.title}}</h1>
+
+      <p class="module-details-content-layout__description">{{@module.details.description}}</p>
+
+      <div class="module-details-content-layout__link">
+        <PixButtonLink @route="module.get" @model={{@module.id}} @shape="rounded" @size="big">{{t
+            "pages.modulix.details.startModule"
+          }}</PixButtonLink>
+      </div>
+    </div>
+  </div>
+
+  <div class="module-details__infos">
+    <div class="module-details-infos__indications">
+      <div class="module-details-infos-indications__category">
+        <div class="module-details-infos-indications-category__title">
+          <FaIcon @icon="stopwatch" class="module-details-infos-indications-category-title__icon" />{{t
+            "pages.modulix.details.duration"
+          }}
+        </div>
+        <p>{{t "pages.modulix.details.durationValue" duration=@module.details.duration}}</p>
+      </div>
+      <div class="module-details-infos-indications__category">
+        <div class="module-details-infos-indications-category__title">
+          <FaIcon @icon="signal" class="module-details-infos-indications-category-title__icon" />{{t
+            "pages.modulix.details.level"
+          }}
+        </div>
+        <p>{{@module.details.level}}</p>
+      </div>
+    </div>
+
+    <div class="module-details-infos__objectives">
+      <h2 class="module-details-infos-objectives__title">{{t "pages.modulix.details.objectives"}}</h2>
+      <ol class="module-details-infos-objectives__list">
+        {{#each @module.details.objectives as |objective|}}
+          <li class="module-details-infos-objectives-list__item">{{objective}}</li>
+        {{/each}}
+      </ol>
+    </div>
+
+    <div class="module-details-infos__explanation">
+      <div class="module-details-infos-explanation__title">
+        <h2>{{t "pages.modulix.details.explanationTitle"}}</h2>
+      </div>
+      <p class="module-details-infos-explanation__text">{{t "pages.modulix.details.explanationText1"}}</p>
+      <p class="module-details-infos-explanation__text">{{t "pages.modulix.details.explanationText2"}}</p>
+    </div>
   </div>
 </main>
