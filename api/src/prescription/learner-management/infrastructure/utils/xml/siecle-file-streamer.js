@@ -44,12 +44,24 @@ class SiecleFileStreamer {
       filePath = await _unzipFile(directory, path);
     }
     const encoding = await _detectEncoding(filePath);
-    const stream = new SiecleFileStreamer(filePath, encoding, directory, logError);
+
+    let readableStream;
+    try {
+      readableStream = fs.createReadStream(filePath);
+    } catch (error) {
+      logError(error);
+      throw new FileValidationError(ERRORS.INVALID_FILE);
+    }
+    readableStream.on('error', (err) => {
+      logError(err);
+      throw new FileValidationError(ERRORS.INVALID_FILE);
+    });
+    const stream = new SiecleFileStreamer(readableStream, encoding, directory, logError);
     return stream;
   }
 
-  constructor(path, encoding, directory, logError) {
-    this.path = path;
+  constructor(readableStream, encoding, directory, logError) {
+    this.readableStream = readableStream;
     this.encoding = encoding;
     this.directory = directory;
     this.logError = logError;
@@ -61,7 +73,7 @@ class SiecleFileStreamer {
 
   async _callbackAsPromise(callback) {
     return new Promise((resolve, reject) => {
-      const saxStream = _getSaxStream(this.path, this.encoding, reject, this.logError);
+      const saxStream = _getSaxStream(this.readableStream, this.encoding, reject, this.logError);
       callback(saxStream, resolve, reject);
     });
   }
@@ -129,19 +141,7 @@ async function _readFirstLine(path) {
   return buffer;
 }
 
-function _getSaxStream(path, encoding, reject, logError) {
-  let inputStream;
-  try {
-    inputStream = fs.createReadStream(path);
-  } catch (error) {
-    reject(new FileValidationError(ERRORS.INVALID_FILE));
-  }
-
-  inputStream.on('error', (err) => {
-    logError(err);
-    return reject(new FileValidationError(ERRORS.INVALID_FILE));
-  });
-
+function _getSaxStream(inputStream, encoding, reject, logError) {
   const decodeStream = getDecodingStream(encoding);
   decodeStream.on('error', (err) => {
     logError(err);
