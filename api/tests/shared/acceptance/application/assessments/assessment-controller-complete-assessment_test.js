@@ -33,7 +33,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
       competences: [
         {
           id: 'recCompetence0',
-          index: 'competence0',
+          index: '1.1',
           tubes: [
             {
               id: 'recTube0_0',
@@ -60,7 +60,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         },
         {
           id: 'recCompetence1',
-          index: 'competence1',
+          index: '1.2',
           tubes: [
             {
               id: 'recTube1_0',
@@ -86,7 +86,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         },
         {
           id: 'recCompetence2',
-          index: 'competence2',
+          index: '1.3',
           tubes: [
             {
               id: 'recTube2_0',
@@ -112,7 +112,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         },
         {
           id: 'recCompetence3',
-          index: 'competence3',
+          index: '1.4',
           tubes: [
             {
               id: 'recTube3_0',
@@ -136,9 +136,15 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
             },
           ],
         },
+      ],
+    },
+    {
+      id: 'recArea1',
+      code: 'area1',
+      competences: [
         {
           id: 'recCompetence4',
-          index: 'competence4',
+          index: '2.1',
           tubes: [
             {
               id: 'recTube4_0',
@@ -157,6 +163,216 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                   id: 'recSkill4_2',
                   nom: '@recSkill4_2',
                   challenges: [{ id: 'recChallenge4_2_0', ...hardChallengeParams }],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'recCompetence5',
+          index: '2.2',
+          tubes: [
+            {
+              id: 'recTube4_0',
+              skills: [
+                {
+                  id: 'recSkill5_0',
+                  nom: '@recSkill5_0',
+                  challenges: [{ id: 'recChallenge5_0_0', ...easyChallengeParams }],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'recCompetence6',
+          index: '2.3',
+          tubes: [
+            {
+              id: 'recTube4_0',
+              skills: [
+                {
+                  id: 'recSkill6_0',
+                  nom: '@recSkill6_0',
+                  challenges: [{ id: 'recChallenge6_0_0', ...easyChallengeParams }],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'recCompetence7',
+          index: '2.4',
+          tubes: [
+            {
+              id: 'recTube7_0',
+              skills: [
+                {
+                  id: 'recSkill7_0',
+                  nom: '@recSkill7_0',
+                  challenges: [{ id: 'recChallenge7_0_0', ...easyChallengeParams }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'recArea2',
+      code: 'area2',
+      competences: [
+        {
+          id: 'recCompetence8',
+          index: '3.1',
+          tubes: [
+            {
+              id: 'recTube8_0',
+              skills: [
+                {
+                  id: 'recSkill8_0',
+                  nom: '@recSkill8_0',
+                  challenges: [{ id: 'recChallenge8_0_0', ...easyChallengeParams }],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'recCompetence9',
+          index: '3.2',
+          tubes: [
+            {
+              id: 'recTube9_0',
+              skills: [
+                {
+                  id: 'recSkill9_0',
+                  nom: '@recSkill9_0',
+                  challenges: [{ id: 'recChallenge9_0_0', ...easyChallengeParams }],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'recCompetence10',
+          index: '3.3',
+          tubes: [
+            {
+              id: 'recTube10_0',
+              skills: [
+                {
+                  id: 'recSkill10_0',
+                  nom: '@recSkill10_0',
+                  challenges: [{ id: 'recChallenge10_0_0', ...easyChallengeParams }],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'recCompetence11',
+          index: '3.4',
+          tubes: [
+            {
+              id: 'recTube11_0',
+              skills: [
+                {
+                  id: 'recSkill11_0',
+                  nom: '@recSkill11_0',
+                  challenges: [{ id: 'recChallenge11_0_0', ...easyChallengeParams }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'recArea3',
+      code: 'area3',
+      competences: [
+        {
+          id: 'recCompetence12',
+          index: '4.1',
+          tubes: [
+            {
+              id: 'recTube4_0',
+              skills: [
+                {
+                  id: 'recSkill12_0',
+                  nom: '@recSkill12_0',
+                  challenges: [{ id: 'recChallenge12_0_0', ...easyChallengeParams }],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'recCompetence13',
+          index: '4.2',
+          tubes: [
+            {
+              id: 'recTube13_0',
+              skills: [
+                {
+                  id: 'recSkill13_0',
+                  nom: '@recSkill13_0',
+                  challenges: [{ id: 'recChallenge13_0_0', ...easyChallengeParams }],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'recCompetence14',
+          index: '4.3',
+          tubes: [
+            {
+              id: 'recTube14_0',
+              skills: [
+                {
+                  id: 'recSkill14_0',
+                  nom: '@recSkill14_0',
+                  challenges: [{ id: 'recChallenge14_0_0', ...easyChallengeParams }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'recArea4',
+      code: 'area4',
+      competences: [
+        {
+          id: 'recCompetence15',
+          index: '5.1',
+          tubes: [
+            {
+              id: 'recTube15_0',
+              skills: [
+                {
+                  id: 'recSkill15_0',
+                  nom: '@recSkill15_0',
+                  challenges: [{ id: 'recChallenge15_0_0', ...easyChallengeParams }],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 'recCompetence16',
+          index: '5.2',
+          tubes: [
+            {
+              id: 'recTube16_0',
+              skills: [
+                {
+                  id: 'recSkill16_0',
+                  nom: '@recSkill16_0',
+                  challenges: [{ id: 'recChallenge16_0_0', ...easyChallengeParams }],
                 },
               ],
             },
