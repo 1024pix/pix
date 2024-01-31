@@ -10,6 +10,7 @@ import lodash from 'lodash';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../shared/infrastructure/constants.js';
 import { SiecleParser } from '../../infrastructure/serializers/xml/siecle-parser.js';
+import { SiecleFileStreamer } from '../../infrastructure/utils/xml/siecle-file-streamer.js';
 
 const ERRORS = {
   EMPTY: 'EMPTY',
@@ -31,7 +32,8 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
   const path = payload.path;
 
   if (format === 'xml') {
-    const parser = SiecleParser.create(organization, path);
+    const siecleFileStreamer = await SiecleFileStreamer.create(path);
+    const parser = SiecleParser.create(organization, siecleFileStreamer);
 
     organizationLearnerData = await parser.parse();
   } else if (format === 'csv') {

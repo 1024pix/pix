@@ -8,6 +8,7 @@ import { SiecleParser } from '../../../../../../src/prescription/learner-managem
 
 import fs from 'fs/promises';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
+import { SiecleFileStreamer } from '../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
 const i18n = getI18n();
 
 describe('Unit | UseCase | import-organization-learners-from-siecle', function () {
@@ -18,6 +19,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
   let organizationLearnersCsvServiceStub;
   let organizationLearnerRepositoryStub;
   let organizationRepositoryStub;
+  let siecleFileStreamerSymbol;
   let payload = null;
   let domainTransaction;
 
@@ -32,6 +34,10 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
     sinon.stub(SiecleParser, 'create');
     parseStub = sinon.stub();
     SiecleParser.create.returns({ parse: parseStub });
+
+    siecleFileStreamerSymbol = Symbol('siecleFileStreamerSymbol');
+    sinon.stub(SiecleFileStreamer, 'create');
+    SiecleFileStreamer.create.resolves(siecleFileStreamerSymbol);
 
     format = 'xml';
     organizationLearnersCsvServiceStub = { extractOrganizationLearnersInformation: sinon.stub() };
@@ -148,7 +154,10 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
         ];
 
-        expect(SiecleParser.create).to.have.been.calledWithExactly({ externalId: organizationUAI }, payload.path);
+        expect(SiecleParser.create).to.have.been.calledWithExactly(
+          { externalId: organizationUAI },
+          siecleFileStreamerSymbol,
+        );
         expect(
           organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners,
         ).to.have.been.calledWithExactly(organizationLearners, organizationId, domainTransaction);
