@@ -1,4 +1,5 @@
 {
+  "current-lang": "nl",
   "account-recovery-email": {
     "params": {
       "choosePassword": "Kies een wachtwoord",
@@ -21,16 +22,17 @@
       "session": "De certificeringssessie"
     },
     "examiner-information": {
+      "title": "De supervisor(s)",
       "invigilated-by": "Bewaakt door :",
-      "signature": "Handtekening(en) :",
-      "title": "De supervisor(s)"
+      "signature": "Handtekening(en) :"
     },
     "file-name": "registratie-sessieblad-",
     "header": {
-      "page": "Pagina",
-      "title": "Aanwezigheidslijst"
+      "title": "Aanwezigheidslijst",
+      "page": "Pagina"
     },
     "table": {
+      "title": "Kandidatenlijst",
       "birth-name": "Geboortenaam",
       "date-of-birth": {
         "example": "(dd/mm/jjjj)",
@@ -39,8 +41,7 @@
       "division": "Klasse",
       "external-id": "Lokaal identificatiesymbool",
       "first-name": "Voornaam",
-      "signature": "Handtekening",
-      "title": "Kandidatenlijst"
+      "signature": "Handtekening"
     }
   },
   "campaign-export": {
@@ -156,6 +157,7 @@
   },
   "certification-center-invitation-email": {
     "params": {
+      "title": "Uitnodiging om deel te nemen aan de ruimte",
       "acceptInvitation": "Uitnodiging accepteren",
       "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
       "here": "hier",
@@ -163,7 +165,6 @@
       "needHelp": "Hulp nodig? Neem contact met ons op",
       "oneTimeLink": "Deze link is voor eenmalig gebruik",
       "pixCertifPresentation": "De Pix Certif-ruimte is een hulpmiddel voor het organiseren van certificeringssessies.",
-      "title": "Uitnodiging om deel te nemen aan de ruimte",
       "yourCertificationCenter": "Uw certificeringscentrum"
     },
     "subject": "Uitnodiging voor Pix Certif"
@@ -176,6 +177,7 @@
     "max-reachable-level-indication": "* Op de datum waarop deze certificering werd behaald, was het maximaal haalbare aantal pix { maxReachableScore }, wat overeenkomt met het niveau { maxReachableLevelOnCertificationDate }."
   },
   "certification-result-email": {
+    "title": "Raadpleeg de resultaten van certificeringssessie nr. {sessionId} !",
     "params": {
       "doNotReply": "Dit is een automatische e-mail, antwoord niet.",
       "download": "Download de resultaten",
@@ -189,8 +191,7 @@
       "resultsAvailable": "De resultaten van de Pix-certificaten die je hebt voorgeschreven aan je doelgroepen zijn beschikbaar.",
       "subject": "[Pix] Certificeringssessie",
       "viewResultsInProfile": "Kandidaten kunnen hun resultaten bekijken in hun Pix-profiel."
-    },
-    "title": "Raadpleeg de resultaten van certificeringssessie nr. {sessionId} !"
+    }
   },
   "certification-results-csv": {
     "filenames": {
@@ -230,7 +231,6 @@
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {
-        "other": "Andere",
         "bts": "BTS onder staatscontrole",
         "classe-preparatoire": "Door de staat gecontroleerde voorbereidende klas",
         "dcg ": "Door de staat gecontroleerde DCG",
@@ -246,12 +246,13 @@
         "license-grade": "Door de staat gecontroleerde graad die de graad van licentie verleent",
         "master": "Door de staat gecontroleerd nationaal masterdiploma",
         "master-grade": "Door de staat gecontroleerde master",
+        "other": "Andere",
         "vise": "Staatsdiploma"
       },
       "study-schemes": {
-        "other": "Andere",
         "continuous-training": "Voortgezette opleiding",
         "initial-training": "Initiële opleiding exclusief stages",
+        "other": "Andere",
         "training": "Leren"
       },
       "unknown": "Niet erkend"
@@ -292,7 +293,6 @@
     },
     "template-name": "importmodel"
   },
-  "current-lang": "en",
   "entity-validation-errors": {
     "ACCEPT_CGU": "Je moet de gebruiksvoorwaarden van Pix accepteren om een account aan te maken.",
     "ALREADY_REGISTERED_EMAIL": "Dit e-mailadres is al geregistreerd, log in.",
@@ -315,6 +315,7 @@
   },
   "organization-invitation-email": {
     "params": {
+      "title": "Je bent uitgenodigd om lid te worden van Pix Orga",
       "acceptInvitation": "Uitnodiging accepteren",
       "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
       "here": "hier",
@@ -323,13 +324,13 @@
       "oneTimeLink": "Deze link is voor eenmalig gebruik",
       "pixPresentation": "Pix is de openbare online service voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
       "subtitle": "Met het Pix Orga platform kun je testcampagnes maken en beheren en de voortgang van je deelnemers volgen.",
-      "title": "Je bent uitgenodigd om lid te worden van Pix Orga",
       "yourOrganization": "Uw organisatie"
     },
     "subject": "Uitnodiging om lid te worden van Pix Orga"
   },
   "pix-account-creation-email": {
     "params": {
+      "title": "Je Pix-account is aangemaakt!",
       "askForHelp": "Hulp nodig? Neem contact met ons op",
       "disclaimer": "Als je de account niet hebt aangemaakt, kun je vragen om deze te verwijderen.",
       "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
@@ -337,13 +338,13 @@
       "helpdeskLinkLabel": "hier",
       "moreOn": "Ontdek meer over",
       "pixPresentation": "Pix is de online overheidsdienst voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
-      "subtitle": "Je kunt nu beginnen met de tests.",
-      "title": "Je Pix-account is aangemaakt!"
+      "subtitle": "Je kunt nu beginnen met de tests."
     },
     "subject": "Je Pix-account is aangemaakt"
   },
   "reset-password-demand-email": {
     "params": {
+      "title": "Wachtwoord opnieuw instellen",
       "clickOnTheButton": "Klik op de knop hieronder om een nieuw wachtwoord te kiezen.",
       "contactUs": "neem hier contact met ons op",
       "doNotAnswer": "Dit is een automatische e-mail, antwoord niet. Hulp nodig?",
@@ -351,7 +352,6 @@
       "moreOn": "Ontdek meer over",
       "pixPresentation": "Pix is de online overheidsdienst voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
       "resetMyPassword": "Een nieuw wachtwoord instellen",
-      "title": "Wachtwoord opnieuw instellen",
       "weCannotSendYourPassword": "Hallo, om veiligheidsredenen sturen we jouw wachtwoord niet per e-mail."
     },
     "subject": "Verzoek instellen nieuw wachtwoord Pix"
