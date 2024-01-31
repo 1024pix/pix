@@ -14,7 +14,7 @@
   max-width: 800px;
   margin-top: -60px;
   padding: 30px;
-  background: $pix-neutral-0;
+  background: var(--pix-neutral-0);
   border-radius: 10px;
   box-shadow: 0 7px 14px 0 rgb(12 22 58 / 10%), 0 3px 6px 0 rgb(0 0 0 / 10%);
 }
@@ -54,7 +54,7 @@
 }
 
 .assessment-results__link-back {
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   font-weight: $font-medium;
   font-size: 1rem;
   font-family: $font-open-sans;

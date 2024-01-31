@@ -4,7 +4,7 @@
   &--focused {
     z-index: 1;
     border-radius: 10px;
-    outline: 3px dashed $pix-neutral-70;
+    outline: 3px dashed var(--pix-neutral-800);
     outline-offset: -3px;
   }
 }
@@ -15,14 +15,14 @@
   display: flex;
   flex-direction: column;
   margin: 4px;
-  background-color: $pix-neutral-10;
+  background-color: var(--pix-neutral-20);
 
   label {
     font-weight: $font-normal;
   }
 
   a {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
     text-decoration: underline;
 
     @include device-is('tablet') {
@@ -32,7 +32,7 @@
     &:active,
     &:focus,
     &:hover {
-      color: $pix-primary-60;
+      color: var(--pix-primary-700);
     }
 
     &::after {
@@ -116,7 +116,7 @@ form .challenge-response {
 
     float: left;
     margin-top: 0;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
 
     &:not(:last-child) {
       margin-bottom: 1rem;

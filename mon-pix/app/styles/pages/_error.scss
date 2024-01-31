@@ -7,8 +7,8 @@
   &__error {
     margin: 20px;
     padding: 20px;
-    color: $pix-neutral-45;
-    background: $pix-neutral-15;
+    color: var(--pix-neutral-500);
+    background: var(--pix-neutral-20);
   }
 
   &__error-title {
@@ -31,7 +31,7 @@
   align-items: center;
   margin: 0 20px;
   padding: 40px;
-  border-bottom: 1px dashed $pix-neutral-50;
+  border-bottom: 1px dashed var(--pix-neutral-100);
 
   @include device-is('desktop') {
     padding: 80px 0;

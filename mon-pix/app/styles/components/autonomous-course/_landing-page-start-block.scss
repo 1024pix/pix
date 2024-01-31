@@ -23,14 +23,14 @@
   @extend %pix-body-l;
 
   margin-top: 1rem;
-  color: $pix-neutral-50;
+  color: var(--pix-neutral-100);
 }
 
 .autonomous-course-landing-page-start-block__launcher {
   display: inline-block;
   margin: 1.5rem 0 2rem;
   padding: 1.5rem 2rem;
-  background-color: $pix-neutral-10;
+  background-color: var(--pix-neutral-20);
   border-radius: 0.5rem;
 
   p {
@@ -43,7 +43,7 @@
 
   .sign-in-button {
     margin-top: 0.5rem;
-    color: $pix-primary;
+    color: var(--pix-primary-500);
     font-size: 0.875rem;
     text-decoration: underline;
   }

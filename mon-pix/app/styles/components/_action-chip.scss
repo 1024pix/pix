@@ -2,21 +2,21 @@
   width: 36px;
   height: 36px;
   text-align: center;
-  background: $pix-neutral-0;
-  border: 1px solid $pix-neutral-10;
+  background: var(--pix-neutral-0);
+  border: 1px solid var(--pix-neutral-20);
   border-radius: 50%;
 
   &__icon {
     top: 0%;
     bottom: 0%;
     left: calc(50% - 20px / 2);
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-100);
     font-size: 18px;
   }
 
   &:hover {
-    background: $pix-neutral-10;
-    border: 1.4px solid $pix-neutral-50;
+    background: var(--pix-neutral-20);
+    border: 1.4px solid var(--pix-neutral-100);
     cursor: pointer;
   }
 
@@ -26,39 +26,39 @@
   }
 
   &--selected {
-    border-color: $pix-primary;
+    border-color: var(--pix-primary-500);
 
     .action-chip__icon {
-      color: $pix-primary;
+      color: var(--pix-primary-500);
     }
 
     &:hover {
-      border-color: $pix-primary-60;
+      border-color: var(--pix-primary-700);
 
       .action-chip__icon {
-        color: $pix-primary-60;
+        color: var(--pix-primary-700);
       }
     }
 
     &:focus-visible {
-      background-color: $pix-primary;
-      border-color: $pix-neutral-0;
-      box-shadow: 0 0 0 3px $pix-primary;
+      background-color: var(--pix-primary-500);
+      border-color: var(--pix-neutral-0);
+      box-shadow: 0 0 0 3px var(--pix-primary-500);
 
       .action-chip__icon {
-        color: $pix-neutral-0;
+        color: var(--pix-neutral-0);
       }
     }
   }
 
   &:not(.action-chip--selected):focus-visible {
-    background-color: $pix-neutral-60;
-    border-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-500);
+    border-color: var(--pix-neutral-0);
     outline: none;
-    box-shadow: 0 0 0 3px $pix-neutral-60;
+    box-shadow: 0 0 0 3px var(--pix-neutral-500);
 
     .action-chip__icon {
-      color: $pix-neutral-0;
+      color: var(--pix-neutral-0);
     }
   }
 }

@@ -27,7 +27,7 @@
 
   &__title,
   &__description {
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     font-family: $font-roboto;
     text-align: center;
   }
@@ -54,7 +54,7 @@
 .terms-of-service-form-conditions {
   &__validation-error {
     margin-top: 16px;
-    color: $pix-error-50;
+    color: var(--pix-error-500);
     font-weight: normal;
   }
 }

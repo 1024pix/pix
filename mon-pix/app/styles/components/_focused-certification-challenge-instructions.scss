@@ -18,7 +18,7 @@
 
   &__title {
     margin-top: 22px;
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     font-size: 3rem;
     font-family: $font-open-sans;
     font-style: normal;
@@ -30,7 +30,7 @@
     max-width: 450px;
     margin-top: 24px;
     margin-bottom: 50px;
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     font-weight: 500;
     font-size: 1.25rem;
     font-family: $font-roboto;

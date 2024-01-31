@@ -16,12 +16,12 @@
   }
 
   h2 {
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
   }
 
   &__note {
     max-width: 980px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-size: 0.875rem;
     line-height: 22px;
     letter-spacing: 0.15px;

@@ -28,19 +28,19 @@
 
 // Certifiable badge item
 .skill-review-share-badge-icons__item--certifiable {
-  background-color: $pix-success-5;
+  background-color: var(--pix-success-50);
 
   & + .skill-review-share-badge-icons__item--certifiable::before {
-    background-color: $pix-success-5;
+    background-color: var(--pix-success-50);
   }
 }
 
 // Not certifiable badge item
 .skill-review-share-badge-icons__item--not-certifiable {
-  background-color: $pix-neutral-10;
+  background-color: var(--pix-neutral-20);
 
   & + .skill-review-share-badge-icons__item--not-certifiable::before {
-    background-color: $pix-neutral-10;
+    background-color: var(--pix-neutral-20);
   }
 }
 

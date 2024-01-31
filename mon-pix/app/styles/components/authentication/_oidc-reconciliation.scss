@@ -2,7 +2,7 @@
   &__title,
   &__subtitle,
   &__information {
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     text-align: center;
   }
 
@@ -41,13 +41,13 @@
     align-items: center;
     width: 570px;
     padding-top: $pix-spacing-l;
-    background-color: $pix-neutral-10;
+    background-color: var(--pix-neutral-20);
     border-radius: $pix-spacing-xs;
 
     svg {
       min-width: 120px;
       height: 120px;
-      color: $pix-neutral-50;
+      color: var(--pix-neutral-100);
     }
 
     p {
@@ -55,7 +55,7 @@
 
       margin: 0;
       padding-top: $pix-spacing-xs;
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
     }
   }
 
@@ -77,20 +77,20 @@
     p {
       @extend %pix-title-xs;
 
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
       font-weight: 400;
     }
   }
 
   &__user-authentication-methods-list {
     padding: $pix-spacing-l $pix-spacing-xl;
-    background-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-0);
     border-radius: $pix-spacing-xs;
 
     dd,
     dt {
       display: inline;
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
 
       @extend %pix-body-l;
     }
@@ -113,7 +113,7 @@
   &__arrow {
     min-width: 50px;
     height: 70px;
-    color: $pix-neutral-15;
+    color: var(--pix-neutral-20);
   }
 
   &__authentication-method-to-add {
@@ -126,7 +126,7 @@
 
       @extend %pix-body-l;
 
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
     }
 
     dd,

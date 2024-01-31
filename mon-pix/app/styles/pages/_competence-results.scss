@@ -10,7 +10,7 @@
 
     &-result-comment {
       margin: 0;
-      color: $pix-neutral-0;
+      color: var(--pix-neutral-0);
       font-weight: $font-bold;
       font-size: 3rem;
       font-family: $font-open-sans;
@@ -90,7 +90,7 @@
 
   &__subtitle {
     margin-top: 14px;
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     font-size: 1.125rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -158,14 +158,14 @@
 .competence-results-banner-text-results {
 
   &__label {
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     font-size: 0.875rem;
     font-family: $font-open-sans;
   }
 
   &__value {
     padding: 0 10px;
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     font-size: 1.5rem;
     font-family: $font-open-sans;
     text-transform: capitalize;

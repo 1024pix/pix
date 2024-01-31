@@ -1,6 +1,6 @@
 .qcu-panel {
   a {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
     text-decoration: underline;
 
     @include device-is('tablet') {
@@ -10,7 +10,7 @@
     &:active,
     &:focus,
     &:hover {
-      color: $pix-primary-60;
+      color: var(--pix-primary-700);
     }
 
     &::after {
@@ -46,7 +46,7 @@
       display: inline-block;
 
       &[data-goodness='good'] {
-        color: $pix-success-70;
+        color: var(--pix-success-700);
         font-weight: $font-bold;
       }
 

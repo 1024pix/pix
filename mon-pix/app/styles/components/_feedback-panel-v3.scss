@@ -1,6 +1,6 @@
 .feedback-panel-v3 {
   margin-bottom: $pix-spacing-xl;
-  color: $pix-neutral-70;
+  color: var(--pix-neutral-800);
   font-size: 0.875rem;
   font-family: $font-roboto;
 
@@ -20,7 +20,7 @@
       align-items: center;
       margin: 0;
       padding: 0;
-      color: $pix-primary-70;
+      color: var(--pix-primary-700);
       font-weight: $font-bold;
     }
   }
@@ -45,7 +45,7 @@
   }
 
   &[aria-expanded='true'] {
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
   }
 
   &--hidden {
@@ -55,7 +55,7 @@
   &:hover,
   &:focus-visible,
   &:active {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
   }
 }
 
@@ -73,9 +73,9 @@
     text-decoration: underline;
 
     &:first-of-type {
-      color: $pix-error-70;
+      color: var(--pix-error-700);
       font-weight: $font-bold;
-      text-decoration-color: $pix-error-70;
+      text-decoration-color: var(--pix-error-700);
     }
   }
 }

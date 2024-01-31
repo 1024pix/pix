@@ -13,7 +13,7 @@
 
   &__informations {
     padding-top: 12px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-family: $font-open-sans;
     line-height: 1.75rem;
     text-align: center;
@@ -37,7 +37,7 @@
 
   &__error {
     padding-top: 30px;
-    color: $pix-error-60;
+    color: var(--pix-error-700);
   }
 }
 

@@ -5,7 +5,7 @@
     right: 0;
     z-index: 100;
     display: block;
-    color: $pix-communication-dark;
+    color: var(--pix-communication-dark);
 
     strong {
       font-weight: bold;

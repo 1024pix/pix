@@ -40,23 +40,23 @@
   }
 
   &--jaffa {
-    @include coloriseElements($pix-information-light);
+    @include coloriseElements(var(--pix-information-light));
   }
 
   &--emerald {
-    @include coloriseElements($pix-content-light);
+    @include coloriseElements(var(--pix-content-light));
   }
 
   &--cerulean {
-    @include coloriseElements($pix-communication-light);
+    @include coloriseElements(var(--pix-communication-light));
   }
 
   &--wild-strawberry {
-    @include coloriseElements($pix-security-light);
+    @include coloriseElements(var(--pix-security-light));
   }
 
   &--butterfly-bush {
-    @include coloriseElements($pix-environment-light);
+    @include coloriseElements(var(--pix-environment-light));
   }
 }
 
@@ -78,7 +78,7 @@
       &:last-child {
         min-width: 90px;
         padding-right: $pix-spacing-l;
-        color: $pix-neutral-60;
+        color: var(--pix-neutral-500);
       }
     }
   }
@@ -104,7 +104,7 @@
 .user-certifications-detail-competence-list-row {
   &__name {
     padding: 20px 0 20px 36px;
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     font-family: $font-open-sans;
   }
 

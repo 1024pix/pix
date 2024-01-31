@@ -5,7 +5,7 @@
   margin-top: 40px;
   padding-top: 20px;
   padding-bottom: 20px;
-  border-top: 1px dashed $pix-neutral-22;
+  border-top: 1px dashed var(--pix-neutral-100);
 
   &__message {
     font-size: 1.5rem;

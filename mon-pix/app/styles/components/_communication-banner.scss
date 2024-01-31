@@ -4,7 +4,7 @@
   justify-content: center;
   height: 56px;
   padding: 10px 0;
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   font-weight: 400;
   font-size: 0.625rem;
   font-family: $font-open-sans;
@@ -21,19 +21,19 @@
   }
 
   a {
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     text-decoration: underline;
   }
 
   &--info {
-    background-color: darken($pix-primary, 5%);
+    background-color: darken(var(--pix-primary-500), 5%);
   }
 
   &--warning {
-    background-color: $pix-information-light;
+    background-color: var(--pix-information-light);
   }
 
   &--error {
-    background-color: darken($pix-error-60, 10%);
+    background-color: darken(var(--pix-error-700), 10%);
   }
 }

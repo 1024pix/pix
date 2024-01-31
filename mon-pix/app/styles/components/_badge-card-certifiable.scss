@@ -13,7 +13,7 @@
   justify-content: center;
   margin-bottom: 20px;
   padding: $pix-spacing-m;
-  background-color: $pix-success-5;
+  background-color: var(--pix-success-50);
   border-radius: 16px;
 
   &__header {
@@ -23,7 +23,7 @@
   }
 
   &--not-acquired {
-    background-color: $pix-neutral-10;
+    background-color: var(--pix-neutral-20);
   }
 
   @include device-is('tablet') {
@@ -71,7 +71,7 @@
     width: fit-content;
     padding: $pix-spacing-xxs $pix-spacing-xs;
     white-space: nowrap;
-    background-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-0);
     border-radius: 8px;
   }
 

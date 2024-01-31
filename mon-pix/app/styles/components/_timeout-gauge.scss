@@ -18,7 +18,7 @@
   width: 100px;
   height: 36px;
   overflow: hidden;
-  background-color: $pix-neutral-20;
+  background-color: var(--pix-neutral-20);
   border-radius: 5px;
 }
 
@@ -28,7 +28,7 @@
   left: 0;
   z-index: 1;
   height: 100%;
-  background-color: $pix-neutral-10;
+  background-color: var(--pix-neutral-20);
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }

@@ -66,7 +66,7 @@
     @extend %pix-body-m;
 
     margin: $pix-spacing-xxs 0 $pix-spacing-xs;
-    color: $pix-success-70;
+    color: var(--pix-success-700);
     font-weight: $font-bold;
   }
 }

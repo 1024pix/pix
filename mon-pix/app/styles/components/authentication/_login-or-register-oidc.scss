@@ -19,7 +19,7 @@
 
   &__title {
     padding: 22px 0 38px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: 300;
     font-size: 36px;
     font-family: $font-open-sans;
@@ -47,7 +47,7 @@
 
   &__subtitle {
     padding-bottom: 24px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: 500;
     font-size: 22px;
     font-family: $font-open-sans;
@@ -61,7 +61,7 @@
   &__description {
     margin: 0;
     padding-bottom: 24px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-weight: 500;
     font-size: 16px;
     font-family: $font-roboto;
@@ -71,13 +71,13 @@
   &__description em {
     padding-right: 0.2rem;
     padding-left: 0.2rem;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-style: normal;
   }
 
   &__information {
     margin-bottom: 2rem;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-weight: 500;
     font-size: 16px;
     font-family: $font-roboto;
@@ -115,13 +115,13 @@
   &__divider {
     width: 100%;
     margin: 50px 0 30px;
-    border-bottom: 1px solid $pix-neutral-30;
+    border-bottom: 1px solid var(--pix-neutral-100);
 
     @include device-is('desktop') {
       width: 0;
       margin: 0;
       border-bottom-style: none;
-      border-left: 1px solid $pix-neutral-30;
+      border-left: 1px solid var(--pix-neutral-100);
     }
   }
 
@@ -141,7 +141,7 @@
 
   &__mandatory-description {
     padding-bottom: 10px;
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     font-size: 14px;
     text-align: center;
   }
@@ -155,7 +155,7 @@
   &__forgotten-password-link {
     align-self: flex-end;
     margin-top: 5px;
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     font-size: 14px;
   }
 

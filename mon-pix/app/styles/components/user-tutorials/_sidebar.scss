@@ -6,7 +6,7 @@
       position: relative;
       align-items: center;
       padding-left: 2rem;
-      color: $pix-neutral-70;
+      color: var(--pix-neutral-800);
       font-weight: 500;
       font-size: 0.875rem;
       font-family: $font-open-sans;
@@ -24,23 +24,23 @@
       }
 
       &.jaffa::before {
-        border-color: $pix-information-light;
+        border-color: var(--pix-information-light);
       }
 
       &.emerald::before {
-        border-color: $pix-content-light;
+        border-color: var(--pix-content-light);
       }
 
       &.cerulean::before {
-        border-color: $pix-communication-light;
+        border-color: var(--pix-communication-light);
       }
 
       &.wild-strawberry::before {
-        border-color: $pix-security-light;
+        border-color: var(--pix-security-light);
       }
 
       &.butterfly-bush::before {
-        border-color: $pix-environment-light;
+        border-color: var(--pix-environment-light);
       }
     }
   }

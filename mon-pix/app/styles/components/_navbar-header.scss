@@ -1,8 +1,8 @@
 .navbar-header {
   float: none;
   width: 100%;
-  color: $pix-neutral-50;
-  background-color: $pix-neutral-0;
+  color: var(--pix-neutral-100);
+  background-color: var(--pix-neutral-0);
 
   .pix-sidebar__footer {
     padding: 0;

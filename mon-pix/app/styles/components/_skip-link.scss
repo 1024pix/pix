@@ -3,8 +3,8 @@
   z-index: 1;
   margin: 8px;
   padding: 0.5em;
-  color: $pix-neutral-0;
-  background-color: $pix-primary;
+  color: var(--pix-neutral-0);
+  background-color: var(--pix-primary-500);
   transform: translateY(calc(-100% - 16px));
   transition: transform 0.3s;
 

@@ -18,11 +18,11 @@
 }
 
 .progress-bar-stepnum {
-  color: $pix-neutral-110;
+  color: var(--pix-neutral-900);
   opacity: 0.3;
 
   &.active {
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     opacity: 1;
   }
 }
@@ -63,7 +63,7 @@
 
 .assessment-progress {
   margin: 12px 0 10px;
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   text-align: right;
 
   &__label {

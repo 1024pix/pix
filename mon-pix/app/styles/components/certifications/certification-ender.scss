@@ -5,7 +5,7 @@
   padding-top: 10px;
   overflow: hidden;
   line-height: 1.875rem;
-  background-color: $pix-neutral-0;
+  background-color: var(--pix-neutral-0);
 
   &__image {
     display: block;
@@ -24,7 +24,7 @@
 
   &__candidate-name {
     display: block;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-weight: normal;
     font-size: 1.25rem;
     font-family: $font-open-sans;
@@ -33,7 +33,7 @@
 
   &__candidate-title {
     display: block;
-    color: $pix-success-70;
+    color: var(--pix-success-700);
     font-size: 2rem;
     font-family: $font-open-sans;
     line-height: 64px;
@@ -43,7 +43,7 @@
     display: block;
     width: 272px;
     margin: 16px auto auto;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-100);
     font-size: 1rem;
     font-family: $font-roboto;
     line-height: 22px;
@@ -56,7 +56,7 @@
 
       &__content {
         margin-left: 16px;
-        color: $pix-neutral-50;
+        color: var(--pix-neutral-100);
         font-size: 14px;
         line-height: 20px;
       }
@@ -75,7 +75,7 @@
     display: block;
     width: 272px;
     margin: auto;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-100);
     font-size: 0.875rem;
     font-family: $font-roboto;
     line-height: 22px;
@@ -84,14 +84,14 @@
   &__results {
     margin: 8px;
     padding: 16px 24px;
-    background-color: $pix-neutral-10;
+    background-color: var(--pix-neutral-20);
     border-radius: 10px;
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%);
   }
 
   &__results-disclaimer {
     margin-bottom: 8px;
-    color: $pix-success-70;
+    color: var(--pix-success-700);
     font-weight: 600;
     font-size: 0.875rem;
     font-family: $font-open-sans;
@@ -102,14 +102,14 @@
   &__results-title {
     display: block;
     margin-bottom: 6px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-size: 1.25rem;
     font-family: $font-open-sans;
   }
 
   &__results-steps {
     display: block;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-size: 0.875rem;
     font-family: $font-roboto;
     line-height: 22px;

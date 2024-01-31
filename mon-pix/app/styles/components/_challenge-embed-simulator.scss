@@ -18,9 +18,9 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    color: $pix-neutral-40;
+    color: var(--pix-neutral-500);
     font-size: 4.375rem;
-    background-color: $pix-neutral-15;
+    background-color: var(--pix-neutral-20);
   }
 
   .rounded-panel {

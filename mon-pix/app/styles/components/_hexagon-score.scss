@@ -11,23 +11,23 @@
 }
 
 @mixin hexagon-score-title {
-  color: $pix-neutral-100;
+  color: var(--pix-neutral-900);
   font-size: 0.875rem;
   font-family: $font-roboto;
   letter-spacing: 0.219rem;
 }
 
 @mixin hexagon-score-pix-score {
-  color: $pix-neutral-110;
+  color: var(--pix-neutral-900);
   font-size: 2.875rem;
   font-family: $font-open-sans;
 }
 
 @mixin hexagon-score-pix-total {
-  color: $pix-neutral-60;
+  color: var(--pix-neutral-500);
   font-size: 0.813rem;
   font-family: $font-roboto;
-  border-top: 1px solid $pix-neutral-30;
+  border-top: 1px solid var(--pix-neutral-100);
 }
 
 .hexagon-score-content {
@@ -116,6 +116,6 @@
 
   &:hover,
   &:focus {
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
   }
 }

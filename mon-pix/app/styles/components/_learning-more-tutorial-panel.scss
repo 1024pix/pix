@@ -12,12 +12,12 @@
 }
 
 .learning-more-panel__hint-title {
-  @include tutorial-panel-title($pix-neutral-10);
+  @include tutorial-panel-title(var(--pix-neutral-20));
 }
 
 .learning-more-panel__tutorial-info {
   margin: 5px;
-  color: $pix-neutral-50;
+  color: var(--pix-neutral-100);
   font-size: 0.813rem;
   line-height: 1.25rem;
 }
