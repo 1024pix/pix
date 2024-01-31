@@ -5,15 +5,13 @@ import saxPath from 'saxpath';
 import lodash from 'lodash';
 
 const { isEmpty, isUndefined } = lodash;
-import { SiecleFileStreamer } from '../../utils/xml/siecle-file-streamer.js';
 import { XMLOrganizationLearnersSet } from './xml-organization-learner-set.js';
 
 const ERRORS = {
   UAI_MISMATCHED: 'UAI_MISMATCHED',
 };
 
-const NODE_ORGANIZATION_UAI = '/BEE_ELEVES/PARAMETRES/UAJ';
-const NODES_ORGANIZATION_LEARNERS = '/BEE_ELEVES/DONNEES/*/*';
+const UAJ = '<UAJ';
 const ELEVE_ELEMENT = '<ELEVE';
 const STRUCTURE_ELEVE_ELEMENT = '<STRUCTURES_ELEVE';
 
@@ -22,6 +20,8 @@ class SiecleParser {
     this.organization = organization;
     this.siecleFileStreamer = siecleFileStreamer;
     this.organizationLearnersSet = new XMLOrganizationLearnersSet();
+
+    this.hasCorrectUAJ = false;
   }
 
   static create(organization, siecleFileStreamer) {
@@ -29,69 +29,58 @@ class SiecleParser {
   }
 
   async parse() {
-    await this._parseUAI();
-
-    await this._parseStudents();
+    await this._parse();
 
     await this.siecleFileStreamer.close();
+
+    // Prevent missing UAJ tag
+    if (!this.hasCorrectUAJ) {
+      throw new SiecleXmlImportError(ERRORS.UAI_MISMATCHED);
+    }
 
     return this.organizationLearnersSet.organizationLearners.filter(
       (organizationLearner) => !isUndefined(organizationLearner.division),
     );
   }
 
-  async _parseUAI() {
-    await this.siecleFileStreamer.perform((stream, resolve, reject) => this._checkUAI(stream, resolve, reject));
-  }
+  async _parse() {
+    await this.siecleFileStreamer.perform((stream, resolve, reject) => {
+      const streamerToParseOrganizationLearners = new saxPath.SaXPath(stream, '//*');
+      streamerToParseOrganizationLearners.on('match', (xmlNode) => {
+        if (_isOrganizationLearnerNode(xmlNode)) {
+          xml2js.parseString(xmlNode, (err, nodeData) => {
+            try {
+              if (err) throw err; // Si j'enleve cette ligne les tests passent
 
-  async _checkUAI(stream, resolve, reject) {
-    const streamerToParseOrganizationUAI = new saxPath.SaXPath(stream, NODE_ORGANIZATION_UAI);
-
-    streamerToParseOrganizationUAI.once('match', (xmlNode) => {
-      xml2js.parseString(xmlNode, (err, nodeData) => {
-        if (err) return reject(err); // Si j'enleve cette ligne les tests passent
-        const UAIFromUserOrganization = this.organization.externalId;
-        if (nodeData.UAJ !== UAIFromUserOrganization) {
-          reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
-        } else {
-          resolve();
+              if (_isNodeImportableStudent(nodeData)) {
+                this.organizationLearnersSet.add(nodeData.ELEVE.$.ELEVE_ID, nodeData.ELEVE);
+              } else if (_isNodeImportableStructures(nodeData, this.organizationLearnersSet)) {
+                this.organizationLearnersSet.updateDivision(nodeData);
+              }
+            } catch (err) {
+              reject(err);
+            }
+          });
+        } else if (_isUAJNode(xmlNode)) {
+          xml2js.parseString(xmlNode, (err, nodeData) => {
+            if (err) return reject(err); // Si j'enleve cette ligne les tests passent
+            const UAIFromUserOrganization = this.organization.externalId;
+            if (nodeData.UAJ !== UAIFromUserOrganization) {
+              reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
+            } else {
+              this.hasCorrectUAJ = true;
+            }
+          });
         }
       });
-    });
 
-    stream.on('end', () => {
-      reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
+      streamerToParseOrganizationLearners.on('end', resolve);
     });
   }
+}
 
-  async _parseStudents() {
-    await this.siecleFileStreamer.perform((stream, resolve, reject) =>
-      this._extractOrganizationLearnersFromStream(stream, resolve, reject),
-    );
-  }
-
-  _extractOrganizationLearnersFromStream(saxParser, resolve, reject) {
-    const streamerToParseOrganizationLearners = new saxPath.SaXPath(saxParser, NODES_ORGANIZATION_LEARNERS);
-    streamerToParseOrganizationLearners.on('match', (xmlNode) => {
-      if (_isOrganizationLearnerNode(xmlNode)) {
-        xml2js.parseString(xmlNode, (err, nodeData) => {
-          try {
-            if (err) throw err; // Si j'enleve cette ligne les tests passent
-
-            if (_isNodeImportableStudent(nodeData)) {
-              this.organizationLearnersSet.add(nodeData.ELEVE.$.ELEVE_ID, nodeData.ELEVE);
-            } else if (_isNodeImportableStructures(nodeData, this.organizationLearnersSet)) {
-              this.organizationLearnersSet.updateDivision(nodeData);
-            }
-          } catch (err) {
-            reject(err);
-          }
-        });
-      }
-    });
-
-    streamerToParseOrganizationLearners.on('end', resolve);
-  }
+function _isUAJNode(xmlNode) {
+  return xmlNode.startsWith(UAJ);
 }
 
 function _isOrganizationLearnerNode(xmlNode) {
