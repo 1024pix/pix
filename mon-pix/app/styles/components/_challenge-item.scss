@@ -1,5 +1,5 @@
 .challenge-item {
-  padding: $pix-spacing-xxs;
+  padding: var(--pix-spacing-1x);
 
   &--focused {
     z-index: 1;
@@ -72,7 +72,7 @@
     }
 
     &--input {
-      margin: $pix-spacing-xs;
+      margin: var(--pix-spacing-2x);
     }
   }
 
@@ -126,7 +126,7 @@ form .challenge-response {
   .qroc-proposal {
     display: flex;
     flex-wrap: wrap;
-    gap: $pix-spacing-xs;
+    gap: var(--pix-spacing-2x);
     align-items: center;
 
     .qroc_input-label {

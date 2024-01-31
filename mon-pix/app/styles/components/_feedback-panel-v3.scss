@@ -1,5 +1,5 @@
 .feedback-panel-v3 {
-  margin-bottom: $pix-spacing-xl;
+  margin-bottom: var(--pix-spacing-10x);
   color: var(--pix-neutral-800);
   font-size: 0.875rem;
   font-family: $font-roboto;
@@ -16,7 +16,7 @@
 
     button {
       display: flex;
-      gap: $pix-spacing-xxs;
+      gap: var(--pix-spacing-1x);
       align-items: center;
       margin: 0;
       padding: 0;
@@ -31,17 +31,17 @@
 
 .feedback-panel-v3__open-button {
   display: flex;
-  gap: $pix-spacing-xxs;
+  gap: var(--pix-spacing-1x);
   align-items: center;
   width: 100%;
-  margin-top: $pix-spacing-s;
+  margin-top: var(--pix-spacing-4x);
   padding: 0.75rem 0;
   line-height: 20px;
   text-align: left;
   text-decoration: underline;
 
   svg {
-    margin-right: $pix-spacing-xxs;
+    margin-right: var(--pix-spacing-1x);
   }
 
   &[aria-expanded='true'] {
@@ -81,5 +81,5 @@
 }
 
 .feedback-panel-v3__information {
-  margin-top: $pix-spacing-s;
+  margin-top: var(--pix-spacing-4x);
 }

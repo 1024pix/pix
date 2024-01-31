@@ -28,7 +28,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: $pix-spacing-xxs;
+  margin: var(--pix-spacing-1x);
   background-color: var(--pix-neutral-20);
 
   &__group > p {
@@ -42,7 +42,7 @@
     &__buttons {
       display: flex;
       flex-direction: column;
-      padding: 0 $pix-spacing-m;
+      padding: 0 var(--pix-spacing-6x);
     }
 
     &__action-validate {
@@ -62,7 +62,7 @@
 
     &__action-validate {
       min-width: 12.5em;
-      margin-left: $pix-spacing-s;
+      margin-left: var(--pix-spacing-4x);
     }
   }
 

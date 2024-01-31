@@ -59,7 +59,7 @@
 .fill-in-participant-external-id__form-field input {
   width: 232px;
   height: 43px;
-  margin-right: $pix-spacing-xs;
+  margin-right: var(--pix-spacing-2x);
   padding: 4px 8px;
   border: solid 2px var(--pix-neutral-20);
   border-radius: 3px;

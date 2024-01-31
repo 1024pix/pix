@@ -66,7 +66,7 @@
     align-items: center;
     justify-content: space-between;
     height: inherit;
-    padding: $pix-spacing-m 0 $pix-spacing-m $pix-spacing-s;
+    padding: var(--pix-spacing-6x) 0 var(--pix-spacing-6x) var(--pix-spacing-4x);
     font-weight: normal;
     text-transform: uppercase;
 
@@ -77,7 +77,7 @@
 
       &:last-child {
         min-width: 90px;
-        padding-right: $pix-spacing-l;
+        padding-right: var(--pix-spacing-8x);
         color: var(--pix-neutral-500);
       }
     }
@@ -110,7 +110,7 @@
 
   &__level {
     min-width: 90px;
-    padding-right: $pix-spacing-l;
+    padding-right: var(--pix-spacing-8x);
     font-weight: bold;
     font-size: 1.5rem;
     text-align: center;

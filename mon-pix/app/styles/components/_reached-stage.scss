@@ -23,7 +23,7 @@
     justify-content: center;
     min-width: 200px;
     max-width: 250px;
-    margin-bottom: $pix-spacing-m;
+    margin-bottom: var(--pix-spacing-6x);
   }
 
   &__percentage-text {

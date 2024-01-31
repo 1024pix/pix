@@ -91,7 +91,7 @@
     }
 
     &--logout {
-      margin-top: $pix-spacing-xs;
+      margin-top: var(--pix-spacing-2x);
     }
   }
 }

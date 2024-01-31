@@ -64,8 +64,8 @@
 .embed__reboot {
   display: flex;
   justify-content: flex-end;
-  margin-top: $pix-spacing-xxs;
-  padding-right: $pix-spacing-xs;
+  margin-top: var(--pix-spacing-1x);
+  padding-right: var(--pix-spacing-2x);
 }
 
 .embed-reboot__content {

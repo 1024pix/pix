@@ -23,7 +23,7 @@
     flex-direction: column;
     align-items: center;
     max-width: 609px;
-    margin-bottom: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-4x);
     padding: 20px 10px;
     background-color: var(--pix-neutral-0);
     border-radius: 10px;
@@ -103,7 +103,7 @@
   &__inputs {
     display: flex;
     flex-direction: column;
-    gap: $pix-spacing-s;
+    gap: var(--pix-spacing-4x);
     align-items: center;
   }
 
@@ -202,8 +202,8 @@
     }
 
     &__logo {
-      width: $pix-spacing-m;
-      margin: 6px $pix-spacing-xs 6px $pix-spacing-s;
+      width: var(--pix-spacing-6x);
+      margin: 6px var(--pix-spacing-2x) 6px var(--pix-spacing-4x);
 
       &:focus,
       &:hover,
@@ -222,7 +222,7 @@
 }
 
 .oidc-provider-fwb {
-  padding: $pix-spacing-xs $pix-spacing-s $pix-spacing-xs $pix-spacing-xs;
+  padding: var(--pix-spacing-2x) var(--pix-spacing-4x) var(--pix-spacing-2x) var(--pix-spacing-2x);
   color: var(--pix-neutral-900);
   
   &:focus,

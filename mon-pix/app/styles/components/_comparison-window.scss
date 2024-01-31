@@ -61,7 +61,7 @@
 .comparison-window-solution {
   display: flex;
   align-items: stretch;
-  margin-top: $pix-spacing-xs;
+  margin-top: var(--pix-spacing-2x);
 
   &__text {
     @extend %pix-body-m;
@@ -81,5 +81,5 @@
 }
 
 .comparison-window .feedback-panel {
-  margin-bottom: $pix-spacing-xs;
+  margin-bottom: var(--pix-spacing-2x);
 }
