@@ -5,6 +5,14 @@ export default class SidebarMenu extends Component {
   @service currentUser;
   @service url;
 
+  get redirectionRoute() {
+    if (this.shouldDisplayMissionsEntry) {
+      return 'authenticated.missions';
+    } else {
+      return 'authenticated.campaigns';
+    }
+  }
+
   get documentationUrl() {
     return this.currentUser.organization.documentationUrl;
   }
