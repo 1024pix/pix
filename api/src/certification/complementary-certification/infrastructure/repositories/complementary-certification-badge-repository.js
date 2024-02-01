@@ -59,17 +59,11 @@ const getAllWithSameTargetProfile = async function (complementaryCertificationBa
     .where(
       'badges.targetProfileId',
       '=',
-      knex.raw(
-        `
-      (SELECT "target-profiles".id
-      FROM "complementary-certification-badges"
-      JOIN "badges" on "badges".id = "complementary-certification-badges"."badgeId"
-      JOIN "target-profiles" on "target-profiles"."id" = "badges"."targetProfileId"
-      WHERE "complementary-certification-badges".id = ?
-      )
-    `,
-        [`${complementaryCertificationBadgeId}`],
-      ),
+      knex('complementary-certification-badges')
+        .select('target-profiles.id')
+        .join('badges', 'badges.id', '=', 'complementary-certification-badges.badgeId')
+        .join('target-profiles', 'target-profiles.id', '=', 'badges.targetProfileId')
+        .where('complementary-certification-badges.id', '=', complementaryCertificationBadgeId),
     );
 
   if (complementaryCertificationBadges.length === 0) {
