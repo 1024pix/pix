@@ -89,4 +89,20 @@ module('Integration | Component | user-certifications-detail-competence', functi
       },
     ]);
   });
+
+  module('if certification is v3', function () {
+    test('render all failed competences properly', async function (assert) {
+      const expectedDisabledCompetenceList = ['Adapter les docs à leur finalité', 'Développer des docs multimédia'];
+
+      const failedCompetenceElements = Array.from(
+        document.getElementsByClassName('user-certifications-detail-competence-list-row'),
+      );
+
+      const disabledRowCompetenceName = failedCompetenceElements
+        .filter((element) => element.attributes['aria-disabled'].value === 'true')
+        .map((element) => element.innerText);
+
+      assert.deepEqual(disabledRowCompetenceName, expectedDisabledCompetenceList);
+    });
+  });
 });

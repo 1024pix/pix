@@ -116,7 +116,7 @@
     text-align: center;
   }
 
-  &--disabled {
+  &[aria-disabled='true'] {
     opacity: 0.4;
   }
 }
