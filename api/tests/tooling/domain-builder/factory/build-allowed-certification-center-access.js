@@ -10,6 +10,7 @@ function buildAllowedCertificationCenterAccess({
   isRelatedToManagingStudentsOrganization = false,
   relatedOrganizationTags = [],
   habilitations = [],
+  isV3Pilot = false,
 } = {}) {
   return new AllowedCertificationCenterAccess({
     id,
@@ -19,6 +20,7 @@ function buildAllowedCertificationCenterAccess({
     isRelatedToManagingStudentsOrganization,
     relatedOrganizationTags,
     habilitations,
+    isV3Pilot,
   });
 }
 
