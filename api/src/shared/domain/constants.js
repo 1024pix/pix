@@ -4,6 +4,7 @@ const LOCALE = {
   ENGLISH_SPOKEN: 'en',
   FRENCH_FRANCE: 'fr-fr',
   FRENCH_SPOKEN: 'fr',
+  DUTCH_SPOKEN: 'nl',
 };
 
 const SUPPORTED_LOCALES = ['en', 'fr', 'fr-BE', 'fr-FR'];
