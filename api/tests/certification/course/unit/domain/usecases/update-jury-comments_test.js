@@ -17,18 +17,20 @@ describe('Unit | UseCase | update-jury-comments', function () {
 
   it('should save jury comments', async function () {
     // given
+    const certificationCourseId = 123;
     const assessmentResultComments = {
       commentForOrganization: null,
       commentForCandidate: null,
       commentByJury: 'Hello',
-      assessmentId: 12345,
     };
     const competenceMark = domainBuilder.buildCompetenceMark({});
     const oldAssessmentResult = domainBuilder.buildAssessmentResult({ id: 56, competenceMarks: [competenceMark] });
     const newAssessmentResult = domainBuilder.buildAssessmentResult({ id: 78, juryId: 456, commentByJury: 'Hello' });
 
+    const courseAssessmentResultRepository = {
+      getLatestAssessmentResult: sinon.stub().resolves(oldAssessmentResult),
+    };
     const assessmentResultRepository = {
-      getLatestByAssessmentId: sinon.stub().resolves(oldAssessmentResult),
       save: sinon.stub().resolves(newAssessmentResult),
     };
     const competenceMarkRepository = {
@@ -37,20 +39,21 @@ describe('Unit | UseCase | update-jury-comments', function () {
 
     // when
     await updateJuryComments({
-      certificationCourseId: 123,
+      certificationCourseId,
       assessmentResultComments,
       juryId: 456,
       assessmentResultRepository,
       competenceMarkRepository,
+      courseAssessmentResultRepository,
     });
 
     // then
-    expect(assessmentResultRepository.getLatestByAssessmentId).to.have.been.calledOnceWith({
-      assessmentId: 12345,
+    expect(courseAssessmentResultRepository.getLatestAssessmentResult).to.have.been.calledOnceWith({
+      certificationCourseId,
       domainTransaction,
     });
     expect(assessmentResultRepository.save).to.have.been.calledOnceWith({
-      certificationCourseId: 123,
+      certificationCourseId,
       assessmentResult: sinon.match.instanceOf(AssessmentResult).and(
         sinon.match({
           ...oldAssessmentResult.clone,

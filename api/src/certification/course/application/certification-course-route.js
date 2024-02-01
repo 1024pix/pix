@@ -64,7 +64,6 @@ const register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                'assessment-id': Joi.number().required(),
                 'comment-for-organization': Joi.string().allow(null, '').required(),
                 'comment-for-candidate': Joi.string().allow(null, '').required(),
                 'comment-by-jury': Joi.string().allow(null, '').required(),

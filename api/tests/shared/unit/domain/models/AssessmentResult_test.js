@@ -32,6 +32,7 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
       expectedAssessmentResult.id = undefined;
       expectedAssessmentResult.commentForCandidate = undefined;
       expectedAssessmentResult.commentForOrganization = undefined;
+      expectedAssessmentResult.commentByAutoJury = undefined;
       expectedAssessmentResult.createdAt = undefined;
       expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
     });
@@ -62,6 +63,7 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
       expectedAssessmentResult.id = undefined;
       expectedAssessmentResult.commentForCandidate = undefined;
       expectedAssessmentResult.commentForOrganization = undefined;
+      expectedAssessmentResult.commentByAutoJury = undefined;
       expectedAssessmentResult.createdAt = undefined;
       expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
     });
@@ -102,6 +104,7 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
       });
       expectedAssessmentResult.id = undefined;
       expectedAssessmentResult.createdAt = undefined;
+      expectedAssessmentResult.commentByAutoJury = undefined;
       expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
     });
   });
@@ -121,6 +124,7 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
       expectedAssessmentResult.commentForCandidate = undefined;
       expectedAssessmentResult.commentForOrganization = undefined;
       expectedAssessmentResult.commentByJury = undefined;
+      expectedAssessmentResult.commentByAutoJury = undefined;
       expectedAssessmentResult.createdAt = undefined;
       expectedAssessmentResult.emitter = undefined;
       expectedAssessmentResult.juryId = undefined;

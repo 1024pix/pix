@@ -17,7 +17,6 @@ export default class Certification extends ApplicationAdapter {
     if (snapshot.adapterOptions.updateComments) {
       const payload = this.serialize(snapshot);
       payload.data.attributes = {
-        'assessment-id': payload.data.attributes['assessment-id'],
         'comment-for-organization': payload.data.attributes['comment-for-organization'],
         'comment-for-candidate': payload.data.attributes['comment-for-candidate'],
         'comment-by-jury': payload.data.attributes['comment-by-jury'],

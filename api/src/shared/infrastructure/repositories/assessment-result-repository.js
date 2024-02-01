@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { knex } from '../../../../db/knex-database-connection.js';
-import { AssessmentResultNotCreatedError, MissingAssessmentId, NotFoundError } from '../../domain/errors.js';
+import { AssessmentResultNotCreatedError, MissingAssessmentId } from '../../domain/errors.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
@@ -130,28 +130,4 @@ const getByCertificationCourseId = async function ({ certificationCourseId }) {
   return AssessmentResult.buildStartedAssessmentResult({ assessmentId: null });
 };
 
-const getLatestByAssessmentId = async function ({
-  assessmentId,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-}) {
-  const knexConn = domainTransaction.knexTransaction || knex;
-
-  const latestAssessmentResult = await knexConn('assessment-results')
-    .where({ assessmentId })
-    .orderBy('createdAt', 'desc')
-    .first();
-
-  if (!latestAssessmentResult) {
-    throw new NotFoundError('No assessment result found');
-  }
-  const competencesMarksDTO = await knexConn('competence-marks').where({
-    assessmentResultId: latestAssessmentResult.id,
-  });
-
-  return _toDomain({
-    assessmentResultDTO: latestAssessmentResult,
-    competencesMarksDTO,
-  });
-};
-
-export { save, findLatestLevelAndPixScoreByAssessmentId, getByCertificationCourseId, getLatestByAssessmentId };
+export { save, findLatestLevelAndPixScoreByAssessmentId, getByCertificationCourseId };

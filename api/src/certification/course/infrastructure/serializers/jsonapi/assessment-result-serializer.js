@@ -5,7 +5,6 @@ const { Deserializer } = jsonapiSerializer;
 const deserialize = async function (payload) {
   const dto = await new Deserializer({ keyForAttribute: 'camelCase' }).deserialize(payload);
   return {
-    assessmentId: dto.assessmentId,
     commentByJury: _sanitizeComment(dto.commentByJury),
     commentForCandidate: _sanitizeComment(dto.commentForCandidate),
     commentForOrganization: _sanitizeComment(dto.commentForOrganization),

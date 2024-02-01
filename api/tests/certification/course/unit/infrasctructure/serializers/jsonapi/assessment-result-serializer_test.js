@@ -7,7 +7,6 @@ describe('Unit | Serializer | JSONAPI | assessment-result-serializer', function 
       const payload = {
         data: {
           attributes: {
-            'assessment-id': 1,
             'comment-by-jury': '',
             'comment-for-candidate': null,
             'comment-for-organization': 'another comment',
@@ -20,7 +19,6 @@ describe('Unit | Serializer | JSONAPI | assessment-result-serializer', function 
 
       // then
       const expectedPayload = {
-        assessmentId: 1,
         commentByJury: undefined,
         commentForCandidate: undefined,
         commentForOrganization: 'another comment',

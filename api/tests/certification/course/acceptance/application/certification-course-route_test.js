@@ -200,7 +200,6 @@ describe('Acceptance | Route | certification-course', function () {
           data: {
             type: 'assessment-results',
             attributes: {
-              'assessment-id': assessmentId,
               'comment-by-jury': 'Parce que',
               'comment-for-candidate': 'Voilà',
               'comment-for-organization': 'Je suis sûr que vous etes ok avec nous',
@@ -223,23 +222,16 @@ describe('Acceptance | Route | certification-course', function () {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('should return a 204 after saving in database', async function () {
+    it('should save a new assessment result and one mark and return a 204', async function () {
       // when
       const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-    });
-
-    it('should save an assessment-results and 1 mark', async function () {
-      // when
-      await server.inject(options);
 
       // then
       const assessmentResults = await knex('assessment-results').orderBy('createdAt', 'desc');
       expect(assessmentResults).to.have.lengthOf(2);
       const competenceMarks = await knex('competence-marks').where({ assessmentResultId: assessmentResults[0].id });
       expect(competenceMarks).to.have.lengthOf(1);
+      expect(response.statusCode).to.equal(204);
     });
   });
 

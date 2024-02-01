@@ -2,7 +2,7 @@ import { expect, knex, databaseBuilder, domainBuilder, catchErr } from '../../..
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import * as assessmentResultRepository from '../../../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
-import { MissingAssessmentId, NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { MissingAssessmentId } from '../../../../../src/shared/domain/errors.js';
 
 describe('Integration | Repository | AssessmentResult', function () {
   describe('#save', function () {
@@ -443,6 +443,7 @@ describe('Integration | Repository | AssessmentResult', function () {
         expectedAssessmentResult.commentForCandidate = undefined;
         expectedAssessmentResult.commentByJury = undefined;
         expectedAssessmentResult.commentForOrganization = undefined;
+        expectedAssessmentResult.commentByAutoJury = undefined;
         expectedAssessmentResult.createdAt = undefined;
         expectedAssessmentResult.emitter = undefined;
         expectedAssessmentResult.reproducibilityRate = undefined;
@@ -474,109 +475,13 @@ describe('Integration | Repository | AssessmentResult', function () {
         expectedAssessmentResult.commentForCandidate = undefined;
         expectedAssessmentResult.commentByJury = undefined;
         expectedAssessmentResult.commentForOrganization = undefined;
+        expectedAssessmentResult.commentByAutoJury = undefined;
         expectedAssessmentResult.createdAt = undefined;
         expectedAssessmentResult.emitter = undefined;
         expectedAssessmentResult.reproducibilityRate = undefined;
         expectedAssessmentResult.pixScore = undefined;
         expectedAssessmentResult.juryId = undefined;
         expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
-      });
-    });
-  });
-
-  describe('#getLatestByAssessmentId', function () {
-    context('when assessment result exists', function () {
-      it('should return the assessment result', async function () {
-        // given
-        databaseBuilder.factory.buildCertificationCourse({ id: 1 });
-        databaseBuilder.factory.buildUser({ id: 100 });
-        databaseBuilder.factory.buildAssessment({ id: 2, certificationCourseId: 1 });
-        const competenceMark1 = domainBuilder.buildCompetenceMark({
-          id: 200,
-          level: 3,
-          score: 33,
-          area_code: 'area1',
-          competence_code: 'compCode1',
-          competenceId: 'recComp1',
-          assessmentResultId: 9876,
-        });
-        const competenceMark2 = domainBuilder.buildCompetenceMark({
-          id: 201,
-          level: 1,
-          score: 2,
-          area_code: 'area2',
-          competence_code: 'compCode2',
-          competenceId: 'recComp2',
-          assessmentResultId: 9876,
-        });
-        const competenceMark3 = domainBuilder.buildCompetenceMark({
-          id: 202,
-          level: 1,
-          score: 2,
-          area_code: 'area2',
-          competence_code: 'compCode2',
-          competenceId: 'recComp2',
-          assessmentResultId: 6543,
-        });
-        const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
-          id: 9876,
-          pixScore: 33,
-          reproducibilityRate: 29.1,
-          status: AssessmentResult.status.VALIDATED,
-          emitter: 'Jury Pix',
-          commentForCandidate: 'candidate',
-          commentByJury: 'jury',
-          commentForOrganization: 'orga',
-          createdAt: new Date('2021-10-29T03:06:00Z'),
-          juryId: 100,
-          assessmentId: 2,
-          competenceMarks: [competenceMark1, competenceMark2],
-        });
-        const olderAssessmentResult = domainBuilder.buildAssessmentResult({
-          id: 6543,
-          pixScore: 33,
-          reproducibilityRate: 30,
-          status: AssessmentResult.status.VALIDATED,
-          emitter: 'some-emitter',
-          commentForCandidate: 'old comment for candidate',
-          commentByJury: 'jury',
-          commentForOrganization: 'orga',
-          createdAt: new Date('2020-10-29T03:06:00Z'),
-          juryId: 100,
-          assessmentId: 2,
-          competenceMarks: [competenceMark3],
-        });
-        databaseBuilder.factory.buildAssessmentResult(expectedAssessmentResult);
-        databaseBuilder.factory.buildAssessmentResult(olderAssessmentResult);
-        databaseBuilder.factory.buildCompetenceMark(competenceMark1);
-        databaseBuilder.factory.buildCompetenceMark(competenceMark2);
-        await databaseBuilder.commit();
-
-        // when
-        const latestAssessmentResult = await assessmentResultRepository.getLatestByAssessmentId({
-          assessmentId: 2,
-        });
-
-        // then
-        expect(latestAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
-      });
-    });
-
-    context('when no assessment result exists', function () {
-      it('should return a NotFound error', async function () {
-        // given
-        databaseBuilder.factory.buildCertificationCourse({ id: 1 });
-        databaseBuilder.factory.buildUser({ id: 100 });
-        databaseBuilder.factory.buildAssessment({ id: 2, certificationCourseId: 1 });
-        await databaseBuilder.commit();
-
-        // when
-        const error = await catchErr(assessmentResultRepository.getLatestByAssessmentId)({
-          assessmentId: 2,
-        });
-
-        // then
-        expect(error).to.deepEqualInstance(new NotFoundError('No assessment result found'));
       });
     });
   });
