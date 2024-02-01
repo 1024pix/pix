@@ -9,10 +9,10 @@ export default class Missions extends Controller {
 
   @action
   missionCompleted(missionId) {
-    return this.model.completedMissionIds.includes(missionId);
+    return this.model.organizationLearner.completedMissionIds.includes(missionId);
   }
   get schoolUrl() {
-    return this.currentLearner.learner.schoolUrl + '/students?division=' + this.model.division;
+    return this.currentLearner.learner.schoolUrl + '/students?division=' + this.model.organizationLearner.division;
   }
 
   @action
