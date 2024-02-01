@@ -279,6 +279,9 @@
     },
     "template-name": "import-template"
   },
+  "email-sender-name": {
+    "pix-app": "PIX - Noreply"
+  },
   "entity-validation-errors": {
     "ACCEPT_CGU": "Please agree to the terms and conditions of use.",
     "ALREADY_REGISTERED_EMAIL": "This email address is already registered, please log in.",
