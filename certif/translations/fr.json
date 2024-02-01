@@ -463,7 +463,7 @@
           "cancel-label": "Annuler et fermer la fenêtre de confirmation",
           "description": "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté.",
           "error": "Une erreur est survenue, {firstName} {lastName} n'a a pu être autorisé à reprendre son test.",
-          "handle-live-alert": "Gérer un signalement",
+          "handle-live-alert": "Gérer le signalement",
           "instruction-with-name": "Autoriser {firstName} {lastName} à reprendre son test ?",
           "success": "Succès ! {firstName} {lastName} peut reprendre son test de certification."
         },

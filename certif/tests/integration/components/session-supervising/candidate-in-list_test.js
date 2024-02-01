@@ -339,7 +339,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         // then
         assert.dom(screen.getByText('Autoriser la reprise du test')).exists();
         assert.dom(screen.getByText('Terminer le test')).exists();
-        assert.dom(screen.queryByText('Gérer un signalement')).doesNotExist();
+        assert.dom(screen.queryByText('Gérer le signalement')).doesNotExist();
       });
     });
 
@@ -366,7 +366,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
         // then
         assert.dom(screen.getByText('Autoriser la reprise du test')).exists();
-        assert.dom(screen.getByText('Gérer un signalement')).exists();
+        assert.dom(screen.getByText('Gérer le signalement')).exists();
         assert.dom(screen.getByText('Terminer le test')).exists();
       });
     });
@@ -474,7 +474,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
             `);
       await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
-      await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+      await click(screen.getByRole('button', { name: 'Gérer le signalement' }));
 
       // then
       assert
