@@ -7,19 +7,20 @@
     pour obtenir le résultat thématique.
   </PixMessage>
   <div class="badge-form-criteria-choice">
+    <p>Définir un critère d'obtention&nbsp;:</p>
     <PixCheckbox
       @id="hasCampaignCriterion"
       @checked={{this.hasCampaignCriterion}}
       {{on "change" this.onHasCampaignCriterionChange}}
     >
-      Définir sur l'ensemble du profil cible
+      sur l'ensemble du profil cible
     </PixCheckbox>
     <PixCheckbox
       @id="hasCappedTubesCriteria"
       @checked={{this.hasCappedTubesCriteria}}
       {{on "change" this.onHasCappedTubesCriteriaChange}}
     >
-      Définir sur une sélection de sujets du profil cible
+      sur une sélection de sujets du profil cible
     </PixCheckbox>
   </div>
   {{#if this.hasCampaignCriterion}}
