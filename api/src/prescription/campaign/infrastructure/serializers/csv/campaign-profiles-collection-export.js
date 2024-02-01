@@ -17,9 +17,6 @@ class CampaignProfilesCollectionExport {
   }
 
   export(campaignParticipationResultDatas, placementProfileService) {
-    // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
-    // - https://en.wikipedia.org/wiki/Byte_order_mark
-    // - https://stackoverflow.com/a/38192870
     this.stream.write(this._buildHeader());
 
     const campaignParticipationResultDataChunks = _.chunk(
@@ -66,12 +63,16 @@ class CampaignProfilesCollectionExport {
       ...this._competenceColumnHeaders(),
     ];
 
+    // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
+    // - https://en.wikipedia.org/wiki/Byte_order_mark
+    // - https://stackoverflow.com/a/38192870
     return '\uFEFF' + csvSerializer.serializeLine(_.compact(header));
   }
 
   async _getUsersPlacementProfiles(campaignParticipationResultDataChunk, placementProfileService) {
-    const userIdsAndDates = {};
-    campaignParticipationResultDataChunk.forEach(({ userId, sharedAt }) => (userIdsAndDates[userId] = sharedAt));
+    const userIdsAndDates = campaignParticipationResultDataChunk.map(({ userId, sharedAt }) => {
+      return { userId, sharedAt };
+    });
 
     const placementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
       userIdsAndDates,
@@ -83,11 +84,15 @@ class CampaignProfilesCollectionExport {
   }
 
   _buildLines(placementProfiles, campaignParticipationResultDatas) {
-    let csvLines = '';
-    for (const placementProfile of placementProfiles) {
-      const campaignParticipationResultData = campaignParticipationResultDatas.find(
-        ({ userId }) => userId === placementProfile.userId,
-      );
+    const csvLines = campaignParticipationResultDatas.map((campaignParticipationResultData) => {
+      const placementProfile = placementProfiles.find(({ userId, profileDate }) => {
+        const sameUserId = campaignParticipationResultData.userId === userId;
+        const sameDate =
+          campaignParticipationResultData.sharedAt &&
+          campaignParticipationResultData.sharedAt.getTime() === profileDate.getTime();
+
+        return sameUserId && sameDate;
+      });
 
       const line = new CampaignProfilesCollectionResultLine(
         this.campaign,
@@ -97,9 +102,11 @@ class CampaignProfilesCollectionExport {
         placementProfile,
         this.translate,
       );
-      csvLines = csvLines.concat(line.toCsvLine());
-    }
-    return csvLines;
+
+      return line.toCsvLine();
+    });
+
+    return csvLines.join('');
   }
 
   _competenceColumnHeaders() {
