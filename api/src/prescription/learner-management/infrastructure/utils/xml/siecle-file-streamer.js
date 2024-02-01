@@ -95,7 +95,7 @@ async function _readFirstLine(path) {
 }
 
 function _getSaxStream(inputStream, encoding, reject, logError) {
-  const decodeStream = getDecodingStream(encoding);
+  const decodeStream = _getDecodingStream(encoding);
   decodeStream.on('error', (err) => {
     logError(err);
     return reject(new FileValidationError(ERRORS.ENCODING_NOT_SUPPORTED));
@@ -112,7 +112,7 @@ function _getSaxStream(inputStream, encoding, reject, logError) {
   return inputStream.pipe(decodeStream).pipe(saxParser);
 }
 
-function getDecodingStream(encoding) {
+function _getDecodingStream(encoding) {
   try {
     return iconv.decodeStream(encoding);
   } catch (err) {
