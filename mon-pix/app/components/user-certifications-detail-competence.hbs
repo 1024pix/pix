@@ -9,14 +9,14 @@
     <tbody>
       {{#each this.sortedCompetences as |competence|}}
         <tr
-          class="user-certifications-detail-competence-list__row user-certifications-detail-competence-list-row
-            {{if (lt competence.level 0) 'user-certifications-detail-competence-list-row--disabled'}}"
+          class="user-certifications-detail-competence-list__row user-certifications-detail-competence-list-row"
+          aria-disabled={{this.isCompetenceDisabled competence}}
         >
           <td class="user-certifications-detail-competence-list-row__name">
             {{competence.name}}
           </td>
           <td class="user-certifications-detail-competence-list-row__level">
-            {{if (lt competence.level 1) "" competence.level}}
+            {{if (gt 1 competence.level) "" competence.level}}
           </td>
         </tr>
       {{/each}}
