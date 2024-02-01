@@ -14,21 +14,28 @@ export default class SessionSupervisingRoute extends Route {
 
   afterModel(model) {
     this.poller = setInterval(async () => {
-      await this.store.queryRecord('session-for-supervising', { sessionId: model.id });
+      try {
+        await this.store.queryRecord('session-for-supervising', { sessionId: model.id });
+      } catch (_) {
+        this.#stopPolling();
+      }
     }, ENV.APP.sessionSupervisingPollingRate);
   }
 
   deactivate() {
-    if (this.poller) {
-      clearInterval(this.poller);
-    }
+    this.#stopPolling();
   }
 
   @action
   error() {
+    this.#stopPolling();
+    return true;
+  }
+
+  #stopPolling() {
     if (this.poller) {
       clearInterval(this.poller);
+      this.poller = null;
     }
-    return true;
   }
 }
