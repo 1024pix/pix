@@ -11,6 +11,8 @@ import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTrans
 import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../shared/infrastructure/constants.js';
 import { SiecleParser } from '../../infrastructure/serializers/xml/siecle-parser.js';
 import { SiecleFileStreamer } from '../../infrastructure/utils/xml/siecle-file-streamer.js';
+import * as zip from '../../infrastructure/utils/xml/zip.js';
+import { detectEncoding } from '../../infrastructure/utils/xml/detect-encoding.js';
 
 const ERRORS = {
   EMPTY: 'EMPTY',
@@ -24,6 +26,10 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
   organizationLearnersCsvService,
   organizationLearnerRepository,
   organizationRepository,
+  siecleService = {
+    unzip: zip.unzip,
+    detectEncoding,
+  },
   i18n,
 }) {
   let organizationLearnerData = [];
@@ -31,8 +37,11 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
   const organization = await organizationRepository.get(organizationId);
   const path = payload.path;
 
+  const { file: filePath, directory } = await siecleService.unzip(path);
+  const encoding = await siecleService.detectEncoding(filePath);
+
   if (format === 'xml') {
-    const siecleFileStreamer = await SiecleFileStreamer.create(path);
+    const siecleFileStreamer = await SiecleFileStreamer.create(filePath, encoding);
     const parser = SiecleParser.create(organization, siecleFileStreamer);
 
     organizationLearnerData = await parser.parse();
@@ -47,6 +56,10 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
   }
 
   fs.unlink(payload.path);
+
+  if (directory) {
+    await fsPromises.rm(directory, { recursive: true });
+  }
 
   if (isEmpty(organizationLearnerData)) {
     throw new SiecleXmlImportError(ERRORS.EMPTY);

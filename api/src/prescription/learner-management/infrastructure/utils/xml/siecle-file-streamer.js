@@ -3,20 +3,11 @@ import _ from 'lodash';
 import { FileValidationError } from '../../../../../../lib/domain/errors.js';
 import { SiecleXmlImportError } from '../../../domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../../../../../lib/infrastructure/monitoring-tools.js';
-import fs from 'fs';
 
-const fsPromises = fs.promises;
-import buffer from 'buffer';
-
-const { xmlEncoding } = xmlBufferTostring;
-
-const { Buffer } = buffer;
+import * as fs from 'fs';
 
 import iconv from 'iconv-lite';
 import sax from 'sax';
-import xmlBufferTostring from 'xml-buffer-tostring';
-
-import * as zip from '../zip/zip.js';
 
 /*
   https://github.com/1024pix/pix/pull/3470#discussion_r707319744
@@ -28,13 +19,9 @@ const ERRORS = {
   INVALID_FILE: 'INVALID_FILE',
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
 };
-const DEFAULT_FILE_ENCODING = 'UTF-8';
 
 class SiecleFileStreamer {
-  static async create(path, logError = logErrorWithCorrelationIds) {
-    const { file: filePath, directory } = await zip.unzip(path);
-    const encoding = await _detectEncoding(filePath);
-
+  static async create(filePath, encoding = 'utf-8', logError = logErrorWithCorrelationIds) {
     let readableStream;
     try {
       readableStream = fs.createReadStream(filePath);
@@ -46,18 +33,19 @@ class SiecleFileStreamer {
       logError(err);
       throw new FileValidationError(ERRORS.INVALID_FILE);
     });
-    const stream = new SiecleFileStreamer(readableStream, encoding, directory, logError);
+    const stream = new SiecleFileStreamer(readableStream, encoding, logError);
     return stream;
   }
 
-  constructor(readableStream, encoding, directory, logError) {
+  constructor(readableStream, encoding, logError) {
     this.readableStream = readableStream;
     this.encoding = encoding;
-    this.directory = directory;
     this.logError = logError;
   }
 
   async perform(callback) {
+    if (this.readableStream.destroyed) throw new FileValidationError(ERRORS.INVALID_FILE);
+
     await this._callbackAsPromise(callback);
   }
 
@@ -67,31 +55,9 @@ class SiecleFileStreamer {
       callback(saxStream, resolve, reject);
     });
   }
-
   async close() {
-    if (this.directory) {
-      await fsPromises.rm(this.directory, { recursive: true });
-    }
+    this.readableStream.destroy();
   }
-}
-async function _detectEncoding(path) {
-  const firstLine = await _readFirstLine(path);
-  return xmlEncoding(Buffer.from(firstLine)) || DEFAULT_FILE_ENCODING;
-}
-
-async function _readFirstLine(path) {
-  const buffer = Buffer.alloc(128);
-
-  try {
-    const file = await fsPromises.open(path);
-    await file.read(buffer, 0, 128, 0);
-    file.close();
-  } catch (err) {
-    logErrorWithCorrelationIds(err);
-    throw new FileValidationError(ERRORS.INVALID_FILE);
-  }
-
-  return buffer;
 }
 
 function _getSaxStream(inputStream, encoding, reject, logError) {

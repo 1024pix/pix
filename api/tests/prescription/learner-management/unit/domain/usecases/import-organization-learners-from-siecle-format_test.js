@@ -19,6 +19,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
   let organizationLearnersCsvServiceStub;
   let organizationLearnerRepositoryStub;
   let organizationRepositoryStub;
+  let siecleServiceStub;
   let siecleFileStreamerSymbol;
   let payload = null;
   let domainTransaction;
@@ -47,6 +48,14 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
       findByOrganizationId: sinon.stub(),
       disableAllOrganizationLearnersInOrganization: sinon.stub().resolves(),
     };
+    siecleServiceStub = {
+      unzip: sinon.stub(),
+      detectEncoding: sinon.stub(),
+    };
+
+    siecleServiceStub.unzip.returns({ file: payload.path, directory: null });
+    siecleServiceStub.detectEncoding.returns('utf8');
+
     organizationRepositoryStub = { get: sinon.stub() };
   });
 
@@ -108,6 +117,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           organizationRepository: organizationRepositoryStub,
           organizationLearnersCsvService: organizationLearnersCsvServiceStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
+          siecleService: siecleServiceStub,
           i18n,
         });
 
@@ -145,6 +155,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           format,
           organizationRepository: organizationRepositoryStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
+          siecleService: siecleServiceStub,
         });
 
         // then
@@ -183,6 +194,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
         format,
         organizationRepository: organizationRepositoryStub,
         organizationLearnerRepository: organizationLearnerRepositoryStub,
+        siecleService: siecleServiceStub,
       });
 
       // then
@@ -209,6 +221,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           format,
           organizationRepository: organizationRepositoryStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
+          siecleService: siecleServiceStub,
         });
 
         // then
@@ -232,6 +245,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           format,
           organizationRepository: organizationRepositoryStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
+          siecleService: siecleServiceStub,
         });
 
         // then
