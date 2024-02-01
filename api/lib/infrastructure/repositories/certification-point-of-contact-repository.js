@@ -78,6 +78,7 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
       habilitations: knex.raw(
         `array_agg(json_build_object('id', "complementary-certifications".id, 'label', "complementary-certifications".label, 'key', "complementary-certifications".key) order by "complementary-certifications".id)`,
       ),
+      isV3Pilot: 'certification-centers.isV3Pilot',
     })
     .from('certification-centers')
     .leftJoin('organizations', function () {
