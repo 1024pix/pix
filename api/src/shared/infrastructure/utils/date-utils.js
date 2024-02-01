@@ -1,22 +1,36 @@
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 
-moment.parseTwoDigitYear = function (yearString) {
-  const year = parseInt(yearString);
-  const currentYear = new Date().getFullYear();
-  return 2000 + year < currentYear ? 2000 + year : 1900 + year;
-};
+dayjs.extend(customParseFormat, {
+  parseTwoDigitYear: (yearString) => {
+    const year = parseInt(yearString);
+    const currentYear = new Date().getFullYear();
+    return 2000 + year < currentYear ? 2000 + year : 1900 + year;
+  },
+});
 
 function isValidDate(dateValue, format) {
-  return moment.utc(dateValue, format, true).isValid();
+  return dayjs(dateValue, format, true).isValid() || dateValue instanceof Date;
 }
 
 function convertDateValue({ dateString, inputFormat, alternativeInputFormat = null, outputFormat }) {
-  if (isValidDate(dateString, inputFormat)) {
-    return moment(dateString, inputFormat, true).format(outputFormat);
-  } else if (alternativeInputFormat && isValidDate(dateString, alternativeInputFormat)) {
-    return moment(dateString, alternativeInputFormat, true).format(outputFormat);
+  const isDateInstance = dateString instanceof Date;
+
+  if (isDateInstance) {
+    return formatDate([dateString], outputFormat);
   }
+
+  if (isValidDate(dateString, inputFormat)) {
+    return formatDate([dateString, inputFormat, true], outputFormat);
+  } else if (alternativeInputFormat && isValidDate(dateString, alternativeInputFormat)) {
+    return formatDate([dateString, alternativeInputFormat, true], outputFormat);
+  }
+
   return null;
+}
+
+function formatDate(params, outputFormat) {
+  return dayjs(...params).format(outputFormat);
 }
 
 function getNowDate() {
