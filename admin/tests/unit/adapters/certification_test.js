@@ -60,7 +60,6 @@ module('Unit | Adapter | certification', function (hooks) {
           .returns('https://example.net/api/admin/certification-courses/123/assessment-results');
         const store = Symbol();
         const attributes = {
-          'assessment-id': 567,
           'comment-for-organization': 'comment organization',
           'comment-for-candidate': 'comment candidate',
           'comment-by-jury': 'comment by jury',
@@ -82,7 +81,6 @@ module('Unit | Adapter | certification', function (hooks) {
           data: {
             data: {
               attributes: {
-                'assessment-id': 567,
                 'comment-for-organization': 'comment organization',
                 'comment-for-candidate': 'comment candidate',
                 'comment-by-jury': 'comment by jury',

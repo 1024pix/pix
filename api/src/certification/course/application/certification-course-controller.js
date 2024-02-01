@@ -1,4 +1,5 @@
-import { usecases } from '../../shared/domain/usecases/index.js';
+import { usecases as sharedUsecases } from '../../shared/domain/usecases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 import * as events from '../../../../lib/domain/events/index.js';
 import * as assessmentResultSerializer from '../infrastructure/serializers/jsonapi/assessment-result-serializer.js';
 import * as v3CertificationDetailsForAdministrationSerializer from '../infrastructure/serializers/jsonapi/v3-certification-course-details-for-administration-serializer.js';
@@ -6,7 +7,7 @@ import * as v3CertificationDetailsForAdministrationSerializer from '../infrastru
 const reject = async function (request, h, dependencies = { events }) {
   const certificationCourseId = request.params.id;
   const juryId = request.auth.credentials.userId;
-  const certificationCourseRejectedEvent = await usecases.rejectCertificationCourse({
+  const certificationCourseRejectedEvent = await sharedUsecases.rejectCertificationCourse({
     certificationCourseId,
     juryId,
   });
@@ -18,7 +19,7 @@ const reject = async function (request, h, dependencies = { events }) {
 const unreject = async function (request, h, dependencies = { events }) {
   const certificationCourseId = request.params.id;
   const juryId = request.auth.credentials.userId;
-  const certificationCourseRejectedEvent = await usecases.unrejectCertificationCourse({
+  const certificationCourseRejectedEvent = await sharedUsecases.unrejectCertificationCourse({
     certificationCourseId,
     juryId,
   });
@@ -49,7 +50,7 @@ const getCertificationV3Details = async function (
   dependencies = { v3CertificationDetailsForAdministrationSerializer },
 ) {
   const { certificationCourseId } = request.params;
-  const certificationDetails = await usecases.getV3CertificationCourseDetailsForAdministration({
+  const certificationDetails = await sharedUsecases.getV3CertificationCourseDetailsForAdministration({
     certificationCourseId,
   });
 
