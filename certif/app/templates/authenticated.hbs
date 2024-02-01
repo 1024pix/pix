@@ -28,7 +28,13 @@
             </LinkTo>
           </li>
           <li>
-            <LinkTo @route="login-session-supervisor" class="sidebar-menu__item" type="button">
+            <LinkTo
+              @route="login-session-supervisor"
+              class="sidebar-menu__item"
+              type="button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaIcon @icon="eye" class="sidebar-menu__item-icon" />
               {{t "navigation.main.supervisor"}}
             </LinkTo>
