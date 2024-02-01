@@ -4,6 +4,7 @@ import { SIECLE_ERRORS } from '../../../../../../../lib/domain/errors.js';
 import { SiecleXmlImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
 import { SiecleParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/xml/siecle-parser.js';
 import { SiecleFileStreamer } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
+import { detectEncoding } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/detect-encoding.js';
 
 const fixturesDirPath = `${url.fileURLToPath(new URL('../../../../../../', import.meta.url))}tooling/fixtures/`;
 
@@ -52,7 +53,8 @@ describe('Integration | Serializers | siecle-parser', function () {
       ];
 
       // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const encoding = await detectEncoding(path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(path, encoding);
       const parser = SiecleParser.create(organization, siecleFileStreamer);
       const result = await parser.parse();
 
