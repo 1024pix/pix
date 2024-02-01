@@ -6,10 +6,11 @@ import { config } from '../../config.js';
 
 import frTranslations from '../../../translations/fr.json' assert { type: 'json' };
 import enTranslations from '../../../translations/en.json' assert { type: 'json' };
+import nlTranslations from '../../../translations/nl.json' assert { type: 'json' };
 
 import { LOCALE } from '../../../src/shared/domain/constants.js';
 
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
+const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN } = LOCALE;
 
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const PIX_ORGA_NAME_FR = 'Pix Orga - Ne pas répondre';
@@ -57,6 +58,18 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
 
     pixName = enTranslations['email-sender-name']['pix-app'];
     accountCreationEmailSubject = enTranslations['pix-account-creation-email'].subject;
+  } else if (locale === DUTCH_SPOKEN) {
+    variables = {
+      homeName: PIX_HOME_NAME_INTERNATIONAL,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
+      redirectionUrl: redirectionUrl || `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=nl`,
+      helpdeskUrl: HELPDESK_ENGLISH_SPOKEN,
+      displayNationalLogo: false,
+      ...nlTranslations['pix-account-creation-email'].params,
+    };
+
+    pixName = nlTranslations['email-sender-name']['pix-app'];
+    accountCreationEmailSubject = nlTranslations['pix-account-creation-email'].subject;
   } else {
     variables = {
       homeName: PIX_HOME_NAME_FRENCH_FRANCE,
@@ -167,6 +180,20 @@ function sendResetPasswordDemandEmail({ email, locale, temporaryKey }) {
 
     pixName = enTranslations['email-sender-name']['pix-app'];
     resetPasswordEmailSubject = enTranslations['reset-password-demand-email'].subject;
+  }
+
+  if (localeParam === DUTCH_SPOKEN) {
+    templateParams = {
+      locale: localeParam,
+      ...nlTranslations['reset-password-demand-email'].params,
+      homeName: PIX_HOME_NAME_INTERNATIONAL,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
+      resetUrl: `${config.domain.pixApp + config.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}/?lang=nl`,
+      helpdeskURL: HELPDESK_ENGLISH_SPOKEN,
+    };
+
+    pixName = nlTranslations['email-sender-name']['pix-app'];
+    resetPasswordEmailSubject = nlTranslations['reset-password-demand-email'].subject;
   }
 
   return mailer.sendEmail({
@@ -420,6 +447,17 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
       homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
       displayNationalLogo: false,
       ...enTranslations['verification-code-email'].body,
+    };
+  } else if (locale === DUTCH_SPOKEN) {
+    options.subject = translate({ phrase: 'verification-code-email.subject', locale: 'nl' }, { code });
+    options.fromName = nlTranslations['email-sender-name']['pix-app'];
+
+    options.variables = {
+      code,
+      homeName: PIX_HOME_NAME_INTERNATIONAL,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
+      displayNationalLogo: false,
+      ...nlTranslations['verification-code-email'].body,
     };
   }
 
