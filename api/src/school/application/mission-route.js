@@ -20,8 +20,23 @@ const register = async function (server) {
         handler: missionController.getById,
         tags: ['api', 'pix1d', 'mission'],
         notes: [
+          '- **Cette route est restreinte aux utilisateurs de pix1d' + '- Elle permet de récupérer une mission du LCMS',
+        ],
+      },
+    },
+  ]);
+  server.route([
+    {
+      method: 'GET',
+      path: '/api/pix1d/missions',
+      config: {
+        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
+        auth: false,
+        handler: missionController.findAll,
+        tags: ['api', 'pix1d', 'mission'],
+        notes: [
           '- **Cette route est restreinte aux utilisateurs de pix1d' +
-            '- Elle permet de récupérer une mission Pix Editor',
+            '- Elle permet de récupérer la liste des missions du LCMS',
         ],
       },
     },
