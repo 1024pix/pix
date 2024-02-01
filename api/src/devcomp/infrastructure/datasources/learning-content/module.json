@@ -301,20 +301,32 @@
       "slug": "didacticiel-modulix",
       "title": "Didacticiel Modulix",
       "details": {
-        "image": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg",
-        "description": "Un module d'exemple pour essayer la plateforme Modulix.",
+        "image": "https://images.pix.fr/modulix/didacticiel/icon.svg",
+        "description": "Découvrez avec ce didacticiel comment fonctionne Modulix !",
         "duration": 5,
         "level": "Débutant",
-        "objectives": ["Naviguer dans Modulix", "Répondre à des activités"]
+        "objectives": ["Naviguer dans Modulix", "Découvrir les leçons et les activités"]
       },
       "transitionTexts": [
         {
-          "content": "<p>Bonjour et bienvenue dans ce didacticiel Modulix. Vous allez pouvoir facilement découvrir comment fonctionne ce nouveau produit Pix.<br> C'est partix !</p>",
+          "content": "<p>Bonjour et bienvenue dans ce didacticiel Modulix. Vous allez pouvoir facilement découvrir comment fonctionne ce nouveau produit Pix.<br>C'est partix !</p>",
           "grainId": "f312c33d-e7c9-4a69-9ba0-913957b8f7dd"
         },
         {
-          "content": "<p>Vous savez désormais ce qu'est une leçon.</p><p>Dans un module, il y a aussi des activités. Elles permettent de vérifier que vous avez bien compris les leçons !</p><p>Voici les différentes activités de Modulix :</p>",
+          "content": "<p>Chaque leçon a un objectif pédagogique précis.</p><p>Dans la prochaine leçon, nous vous proposons de découvrir Pix avec une courte vidéo <span aria-hidden='true'>▶️</span></p>",
+          "grainId": "73ac3644-7637-4cee-86d4-1a75f53f0b9c"
+        },
+        {
+          "content": "<p>Vous allez faire votre première activité. Les activités servent à vérifier que vous avez compris l'essentiel des leçons.<br>Dans les activités Modulix, vous avez votre résultat immédiatement. À vous de jouer <span aria-hidden='true'>🚀</span></p>",
           "grainId": "533c69b8-a836-41be-8ffc-8d4636e31224"
+        },
+        {
+          "content": "<p>Vous l'avez peut-être remarqué : dans un module, vous pouvez voir tous les contenus en remontant la page <span aria-hidden='true'>⬆️</span>️</p>",
+          "grainId": "2a77a10f-19a3-4544-80f9-8012dad6506a"
+        },
+        {
+          "content": "<p>Vous arrivez à la fin de ce didacticiel. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez !<span aria-hidden='true'>🌟</span>️ </p>",
+          "grainId": "7cf75e70-8749-4392-8081-f2c02badb0fb"
         }
       ],
       "grains": [
@@ -326,36 +338,52 @@
             {
               "id": "84726001-1665-457d-8f13-4a74dc4768ea",
               "type": "text",
-              "content": "<h4>Les leçons sont des textes, des images ou des vidéos. Ils sont là pour vous expliquer des notions.</h4>"
+              "content": "<h4>On commence avec les leçons.<br>Les leçons sont des textes, des images ou des vidéos. Les leçons sont là pour vous expliquer des concepts ou des méthodes.</h4>"
             },
             {
               "id": "a2372bf4-86a4-4ecc-a188-b51f4f98bca2",
               "type": "text",
-              "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture <span aria-hidden='true'>📚</span>️.<br> Et là, voici une image !</p>"
+              "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture <span aria-hidden='true'>📚</span>️.<br>Et là, voici une image !</p>"
             },
             {
               "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel-chaton.jpg",
+              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
               "alt": "",
-              "alternativeText": "Photo d'un chaton mignon"
+              "alternativeText": "Dessin d'un ordinateur dans un univers spatial."
+            }
+          ]
+        },
+        {
+          "id": "73ac3644-7637-4cee-86d4-1a75f53f0b9c",
+          "type": "lesson",
+          "title": "Vidéo de présentation de Pix",
+          "elements": [
+            {
+              "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
+              "type": "text",
+              "content": "<p>À la fin de cette vidéo, une question sera posée sur les compétences Pix.</p>"
+            },
+            {
+              "id": "3a9f2269-99ba-4631-b6fd-6802c88d5c26",
+              "type": "video",
+              "title": "Vidéo de présentation de Pix",
+              "url": "https://videos.pix.fr/modulix/didacticiel/presentation.mp4",
+              "subtitles": "-",
+              "transcription": "<p>Le numérique évolue en permanence, vos compétences aussi, pour travailler, communiquer et s'informer, se déplacer, réaliser des démarches, un enjeu tout au long de la vie.</p><p>Sur <a href='https://pix.fr' target='blank'>pix.fr</a>, testez-vous et cultivez vos compétences numériques.</p><p>Les tests Pix sont personnalisés, les questions s'adaptent à votre niveau, réponse après réponse.</p><p>Évaluez vos connaissances et savoir-faire sur 16 compétences, dans 5 domaines, sur 5 niveaux de débutants à confirmer, avec des mises en situation ludiques, recherches en ligne, manipulation de fichiers et de données, culture numérique...</p><p>Allez à votre rythme, vous pouvez arrêter et reprendre quand vous le voulez.</p><p>Toutes les 5 questions, découvrez vos résultats et progressez grâce aux astuces et aux tutos.</p><p>En relevant les défis Pix, vous apprendrez de nouvelles choses et aurez envie d'aller plus loin.</p><p>Vous pensez pouvoir faire mieux ?</p><p>Retentez les tests et améliorez votre score.</p><p>Faites reconnaître officiellement votre niveau en passant la certification Pix, reconnue par l'État et le monde professionnel.</p><p>Pix : le service public en ligne pour évaluer, développer et certifier ses compétences numériques.</p>",
+              "alternativeText": "Vidéo de présentation de Pix"
             }
           ]
         },
         {
           "id": "533c69b8-a836-41be-8ffc-8d4636e31224",
           "type": "activity",
-          "title": "Voici des activités",
+          "title": "Voici un vrai-faux",
           "elements": [
-            {
-              "id": "47995d78-d0d5-48ae-b5fb-a6bea002ec3a",
-              "type": "text",
-              "content": "<h4>Ceci est un QCU à deux propositions aussi appelé \"vrai-faux\".</h4>"
-            },
             {
               "id": "71de6394-ff88-4de3-8834-a40057a50ff4",
               "type": "qcu",
-              "instruction": "<p>Zinédine Zidane est un joueur de football.</p>",
+              "instruction": "<p>Pix évalue 16 compétences numériques différentes.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -367,10 +395,71 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct ! Allez les Bleus <span aria-hidden='true'>🇫🇷</span>️!",
-                "invalid": "<p>Incorrect. Un peu de révision s'impose !"
+                "valid": "<p>Correct ! Ces 16 compétences sont rangées dans 5 domaines.</p>",
+                "invalid": "<p>Incorrect. Retourner voir la vidéo si besoin <span aria-hidden='true'>⬆️</span>️!</p>"
               },
               "solution": "1"
+            }
+          ]
+        },
+        {
+          "id": "2a77a10f-19a3-4544-80f9-8012dad6506a",
+          "type": "activity",
+          "title": "Activité remonter dans la page",
+          "elements": [
+            {
+              "id": "0a5e77e8-1c8e-4cb6-a41d-cf6ad7935447",
+              "type": "qcu",
+              "instruction": "<p>Remontez la page pour trouver le premier mot de ce module.<br>Quel est ce mot ?</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "Bienvenue"
+                },
+                {
+                  "id": "2",
+                  "content": "Bonjour"
+                },
+                {
+                  "id": "3",
+                  "content": "Nous"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct ! Vous avez bien remonté la page</p>",
+                "invalid": "<p>Incorrect. Remonter la page pour retrouver le premier mot !</p>"
+              },
+              "solution": "2"
+            }
+          ]
+        },
+        {
+          "id": "7cf75e70-8749-4392-8081-f2c02badb0fb",
+          "type": "activity",
+          "title": "Le nom de ce produit",
+          "elements": [
+            {
+              "id": "98c51fa7-03b7-49b1-8c5e-49341d35909c",
+              "type": "qrocm",
+              "instruction": "<p>Quel est le nom de ce nouveau produit Pix ?</p>",
+              "proposals": [
+                {
+                  "input": "symbole",
+                  "type": "input",
+                  "inputType": "text",
+                  "size": 10,
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Réponse 1",
+                  "defaultValue": "",
+                  "tolerances": ["t1"],
+                  "solutions": ["Modulix"]
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct ! vous êtes prêt à explorer <span aria-hidden='true'>🎉</span></p>",
+                "invalid": "<p>Incorrect ! vous y arriverez la prochaine fois !</p>"
+              }
             }
           ]
         }
