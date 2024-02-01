@@ -41,7 +41,10 @@
               placeholder={{block.placeholder}}
               name={{block.randomName}}
               autocomplete="nope"
+              {{! To activate validation button as soon as possible }}
               {{on "keyup" (fn this.onInputChange block.input)}}
+              {{! To also deal with browser dictionary auto complete }}
+              {{on "change" (fn this.onInputChange block.input)}}
             />
           {{else if (eq @challenge.format "phrase")}}
             <PixInput
@@ -52,7 +55,10 @@
               autocomplete="nope"
               placeholder={{block.placeholder}}
               @ariaLabel={{block.ariaLabel}}
+              {{! To activate validation button as soon as possible }}
               {{on "keyup" (fn this.onInputChange block.input)}}
+              {{! To also deal with browser dictionary auto complete }}
+              {{on "change" (fn this.onInputChange block.input)}}
             />
           {{else}}
             <PixInput
@@ -64,7 +70,10 @@
               placeholder={{block.placeholder}}
               @value={{get @answersValue block.input}}
               @ariaLabel={{block.ariaLabel}}
+              {{! To activate validation button as soon as possible }}
               {{on "keyup" (fn this.onInputChange block.input)}}
+              {{! To also deal with browser dictionary auto complete }}
+              {{on "change" (fn this.onInputChange block.input)}}
             />
           {{/if}}
         </div>
