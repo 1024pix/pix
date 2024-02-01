@@ -34,6 +34,22 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
   });
 
   module('Common menu', function () {
+    test('the logo should redirect to campaigns page', async function (assert) {
+      class CurrentUserStub extends Service {
+        organization = Object.create({ id: 5 });
+        shouldAccessCampaignsPage = true;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const intl = this.owner.lookup('service:intl');
+      intl.setLocale(['fr', 'fr']);
+
+      const screen = await render(hbs`<Layout::Sidebar />`);
+
+      const logoLink = screen.getByRole('link', { name: this.intl.t('common.home-page') });
+
+      assert.dom(logoLink).hasAttribute('href', '/campagnes');
+    });
+
     test('should display Campagne and Équipe menu for all organisation members', async function (assert) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1 });
@@ -228,6 +244,21 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
   });
 
   module('When the user has the mission-management feature', function () {
+    test('the logo should redirect to mission page', async function (assert) {
+      class CurrentUserStub extends Service {
+        organization = Object.create({ id: 5 });
+        shouldAccessMissionsPage = true;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const intl = this.owner.lookup('service:intl');
+      intl.setLocale(['fr', 'fr']);
+
+      const screen = await render(hbs`<Layout::Sidebar />`);
+
+      const logoLink = screen.getByRole('link', { name: this.intl.t('common.home-page') });
+      assert.dom(logoLink).hasAttribute('href', '/missions');
+    });
+
     test('should display Mission menu', async function (assert) {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 5 });
