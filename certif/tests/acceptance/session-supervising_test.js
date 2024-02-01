@@ -263,7 +263,7 @@ module('Acceptance | Session supervising', function (hooks) {
       await click(firstVisit.getByRole('button', { name: 'Afficher les options du candidat' }));
 
       // then
-      assert.dom('button[name="Gérer un signalement"]').doesNotExist();
+      assert.dom('button[name="Gérer le signalement"]').doesNotExist();
     });
   });
 
@@ -302,7 +302,7 @@ module('Acceptance | Session supervising', function (hooks) {
 
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
-          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+          await click(screen.getByRole('button', { name: 'Gérer le signalement' }));
           await click(screen.getByText('Refuser le signalement'));
 
           // then
@@ -341,7 +341,7 @@ module('Acceptance | Session supervising', function (hooks) {
 
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
-          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+          await click(screen.getByRole('button', { name: 'Gérer le signalement' }));
           await click(screen.getByText('Refuser le signalement'));
           await settled();
 
@@ -395,7 +395,7 @@ module('Acceptance | Session supervising', function (hooks) {
 
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
-          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+          await click(screen.getByRole('button', { name: 'Gérer le signalement' }));
 
           await click(
             screen.getByLabelText(
@@ -450,7 +450,7 @@ module('Acceptance | Session supervising', function (hooks) {
 
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
-          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+          await click(screen.getByRole('button', { name: 'Gérer le signalement' }));
           await click(
             screen.getByLabelText(
               "E5 Le site est bloqué par les restrictions réseau de l'établissement (réseaux sociaux par ex.)",
@@ -500,7 +500,7 @@ module('Acceptance | Session supervising', function (hooks) {
 
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
-          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+          await click(screen.getByRole('button', { name: 'Gérer le signalement' }));
           await click(screen.getByLabelText('E4 Le site à visiter est indisponible/en maintenance/inaccessible'));
           await click(screen.getByText('Refuser le signalement'));
 
@@ -510,7 +510,7 @@ module('Acceptance | Session supervising', function (hooks) {
           const visibleCloseButton = closeButtons.filter((element) => isVisible(element))[0];
           await click(visibleCloseButton);
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
-          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+          await click(screen.getByRole('button', { name: 'Gérer le signalement' }));
           // then
           const checkedRadioButtons = screen.queryAllByRole('radio', { checked: true });
           assert.strictEqual(checkedRadioButtons.length, 0);
@@ -549,7 +549,7 @@ module('Acceptance | Session supervising', function (hooks) {
 
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
-          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+          await click(screen.getByRole('button', { name: 'Gérer le signalement' }));
           await click(screen.getByLabelText('E4 Le site à visiter est indisponible/en maintenance/inaccessible'));
 
           const modal = await screen.findByRole('dialog');
