@@ -69,7 +69,7 @@ module('Acceptance | authenticated', function (hooks) {
       assert.dom(screen.getByRole('link', { name: 'Espace surveillant' })).exists();
     });
 
-    test('it should redirect to the login session supervisor', async function (assert) {
+    test('it should open the login session supervisor in a new tab', async function (assert) {
       // given
       const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
         name: 'Bibiche',
@@ -85,10 +85,11 @@ module('Acceptance | authenticated', function (hooks) {
 
       // when
       const screen = await visitScreen('/sessions/liste');
-      await click(screen.getByRole('link', { name: 'Espace surveillant' }));
+      const invigilatorSpaceLink = screen.getByRole('link', { name: 'Espace surveillant' });
+      await click(invigilatorSpaceLink);
 
       // then
-      assert.strictEqual(currentURL(), '/connexion-espace-surveillant');
+      assert.dom(invigilatorSpaceLink).hasAttribute('target', '_blank');
     });
   });
 
