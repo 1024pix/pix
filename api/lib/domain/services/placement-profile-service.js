@@ -7,6 +7,7 @@ import * as assessmentRepository from '../../../src/shared/infrastructure/reposi
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
+import * as knowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as scoringService from './scoring/scoring-service.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
@@ -129,28 +130,31 @@ async function _generatePlacementProfile({ userId, profileDate, competences, all
 }
 
 async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competences, allowExcessPixAndLevels = true }) {
-  const knowledgeElementsByUserIdAndCompetenceId =
-    await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers(userIdsAndDates);
+  const knowledgeElementsByUserIdAndDates =
+    await knowledgeElementSnapshotRepository.findMultipleUsersFromUserIdsAndSnappedAtDates(userIdsAndDates);
 
-  const placementProfilesList = [];
-  for (const [strUserId, knowledgeElementsByCompetence] of Object.entries(knowledgeElementsByUserIdAndCompetenceId)) {
-    const userId = parseInt(strUserId);
+  return userIdsAndDates.map(({ userId, sharedAt }) => {
+    const keForUser = knowledgeElementsByUserIdAndDates.find((knowledgeElementsByUserIdAndDates) => {
+      const sameUserId = knowledgeElementsByUserIdAndDates.userId === userId;
+      const sameDate = sharedAt && knowledgeElementsByUserIdAndDates.snappedAt.getTime() === sharedAt.getTime();
+
+      return sameUserId && sameDate;
+    });
+
+    const knowledgeElementsByCompetence = keForUser ? _.groupBy(keForUser.knowledgeElements, 'competenceId') : [];
 
     const userCompetences = _createUserCompetencesV2({
       knowledgeElementsByCompetence,
       competences,
       allowExcessPixAndLevels,
     });
-    const placementProfile = new PlacementProfile({
+
+    return new PlacementProfile({
       userId,
-      profileDate: userIdsAndDates[userId],
+      profileDate: sharedAt,
       userCompetences,
     });
-
-    placementProfilesList.push(placementProfile);
-  }
-
-  return placementProfilesList;
+  });
 }
 
 async function getPlacementProfileWithSnapshotting({ userId, limitDate, competences, allowExcessPixAndLevels = true }) {
