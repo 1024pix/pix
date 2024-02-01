@@ -1,7 +1,6 @@
 import * as poleEmploiService from '../services/pole-emploi-service.js';
 
-const getPoleEmploiSendings = async function ({ cursor, poleEmploiSendingRepository, filters }) {
-  const cursorData = await poleEmploiService.decodeCursor(cursor);
+const getPoleEmploiSendings = async function ({ cursorData, poleEmploiSendingRepository, filters }) {
   const sendings = await poleEmploiSendingRepository.find(cursorData, filters);
   const link = _generateLink(sendings, filters);
   return { sendings, link };
