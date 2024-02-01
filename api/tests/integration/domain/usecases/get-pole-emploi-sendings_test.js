@@ -47,10 +47,10 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
         dateEnvoi: sending2.createdAt,
       });
       const expectedLink = poleEmploiService.generateLink({ idEnvoi: sending1.id, dateEnvoi: sending1.createdAt });
-
+      const cursorData = poleEmploiService.decodeCursor(cursorCorrespondingToSending2);
       //when
       const response = await usecases.getPoleEmploiSendings({
-        cursor: cursorCorrespondingToSending2,
+        cursorData,
         poleEmploiSendingRepository,
       });
       //then
@@ -89,10 +89,11 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
         idEnvoi: sending1.id,
         dateEnvoi: sending1.createdAt,
       });
+      const cursorData = poleEmploiService.decodeCursor(cursorCorrespondingToSending1);
 
       //when
       const response = await usecases.getPoleEmploiSendings({
-        cursor: cursorCorrespondingToSending1,
+        cursorData,
         poleEmploiSendingRepository,
       });
 
