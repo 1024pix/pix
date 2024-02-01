@@ -217,12 +217,16 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
         // when
-        await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
-        await screen.findByRole('listbox');
-        await click(screen.getByRole('option', { name: "L'image" }));
-        await click(screen.getByRole('button', { name: 'Sélectionner une option pour préciser votre problème' }));
-        await click(screen.getByRole('option', { name: 'L’accessibilité de l’épreuve' }));
-        await click(screen.getByRole('button', { name: 'Ajouter un commentaire' }));
+
+        await click(await screen.findByRole('button', { name: "J'ai un problème avec" }));
+
+        await click(
+          await screen.findByRole('option', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+          }),
+        );
+
+        await click(await screen.findByRole('button', { name: 'Ajouter un commentaire' }));
 
         // then
         assert.dom(screen.queryByText('Votre connexion internet est peut-être trop faible.')).doesNotExist();
@@ -241,20 +245,31 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
         // when
-        await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
+        await click(await screen.findByRole('button', { name: "J'ai un problème avec" }));
         await screen.findByRole('listbox');
+
         await click(
-          screen.getByRole('option', {
+          await screen.findByRole('option', {
             name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.question'),
           }),
         );
+
         await click(
-          screen.getByRole('option', {
-            name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+          await screen.findByRole('button', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary'),
           }),
         );
+
         await click(
-          screen.getByRole('button', {
+          await screen.findByRole('option', {
+            name: this.intl.t(
+              'pages.challenge.feedback-panel.form.fields.detail-selection.options.question-improvement',
+            ),
+          }),
+        );
+
+        await click(
+          await screen.findByRole('button', {
             name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
           }),
         );
