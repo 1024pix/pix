@@ -31,7 +31,10 @@
           name={{block.randomName}}
           autocomplete="nope"
           data-uid="qroc-proposal-uid"
+          {{! To activate validation button as soon as possible }}
           {{on "keyup" this.updateUserAnswerValue}}
+          {{! To also deal with browser dictionary auto complete }}
+          {{on "change" this.updateUserAnswerValue}}
         />
       {{else if (eq @challenge.format "phrase")}}
         <PixInput
@@ -42,7 +45,10 @@
           placeholder={{block.placeholder}}
           autocomplete="nope"
           data-uid="qroc-proposal-uid"
+          {{! To activate validation button as soon as possible }}
           {{on "keyup" this.updateUserAnswerValue}}
+          {{! To also deal with browser dictionary auto complete }}
+          {{on "change" this.updateUserAnswerValue}}
         />
       {{else if (eq @challenge.format "nombre")}}
         <PixInput
@@ -64,7 +70,10 @@
           type="text"
           autocomplete="nope"
           data-uid="qroc-proposal-uid"
+          {{! To activate validation button as soon as possible }}
           {{on "keyup" this.updateUserAnswerValue}}
+          {{! To also deal with browser dictionary auto complete }}
+          {{on "change" this.updateUserAnswerValue}}
         />
       {{/if}}
     {{/if}}
