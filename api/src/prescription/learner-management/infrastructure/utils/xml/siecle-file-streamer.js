@@ -1,25 +1,22 @@
 import _ from 'lodash';
 
-const { isObject, values } = _;
 import { FileValidationError } from '../../../../../../lib/domain/errors.js';
 import { SiecleXmlImportError } from '../../../domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../../../../../lib/infrastructure/monitoring-tools.js';
 import fs from 'fs';
 
 const fsPromises = fs.promises;
-import Path from 'path';
-import os from 'os';
 import buffer from 'buffer';
 
 const { xmlEncoding } = xmlBufferTostring;
 
 const { Buffer } = buffer;
 
-import StreamZip from 'node-stream-zip';
-import { fileTypeFromFile } from 'file-type';
 import iconv from 'iconv-lite';
 import sax from 'sax';
 import xmlBufferTostring from 'xml-buffer-tostring';
+
+import * as zip from '../zip/zip.js';
 
 /*
   https://github.com/1024pix/pix/pull/3470#discussion_r707319744
@@ -27,22 +24,15 @@ import xmlBufferTostring from 'xml-buffer-tostring';
   On cherche 0 ou plusieurs fois un nom de répertoire (ne commençant pas par un point, se terminant par /),
   puis un nom de fichier ne commençant pas par un point et se terminant par .xml.
  */
-const VALID_FILE_NAME_REGEX = /^([^.][^/]*\/)*[^./][^/]*\.xml$/;
 const ERRORS = {
   INVALID_FILE: 'INVALID_FILE',
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
 };
 const DEFAULT_FILE_ENCODING = 'UTF-8';
-const ZIP = 'application/zip';
 
 class SiecleFileStreamer {
   static async create(path, logError = logErrorWithCorrelationIds) {
-    let filePath = path;
-    let directory = undefined;
-    if (await _isFileZipped(path)) {
-      directory = await _createTempDir();
-      filePath = await _unzipFile(directory, path);
-    }
+    const { file: filePath, directory } = await zip.unzip(path);
     const encoding = await _detectEncoding(filePath);
 
     let readableStream;
@@ -84,43 +74,6 @@ class SiecleFileStreamer {
     }
   }
 }
-
-async function _isFileZipped(path) {
-  const fileType = await fileTypeFromFile(path);
-  return isObject(fileType) && fileType.mime === ZIP;
-}
-
-function _createTempDir() {
-  const tmpDir = os.tmpdir();
-  const directory = Path.join(tmpDir, 'import-siecle-');
-  return fsPromises.mkdtemp(directory);
-}
-
-async function _unzipFile(directory, path) {
-  const extractedFileName = Path.join(directory, 'organization-learners.xml');
-  const zip = new StreamZip.async({ file: path });
-  const fileName = await _getFileToExtractName(zip);
-  try {
-    await zip.extract(fileName, extractedFileName);
-  } catch (error) {
-    throw new FileValidationError(ERRORS.INVALID_FILE);
-  }
-  await zip.close();
-  return extractedFileName;
-}
-
-async function _getFileToExtractName(zipStream) {
-  const entries = await zipStream.entries();
-  const fileNames = values(entries).map((entry) => entry.name);
-  const validFiles = fileNames.filter((name) => VALID_FILE_NAME_REGEX.test(name));
-  if (validFiles.length != 1) {
-    zipStream.close();
-    logErrorWithCorrelationIds({ ERROR: ERRORS.INVALID_FILE, entries });
-    throw new FileValidationError(ERRORS.INVALID_FILE);
-  }
-  return validFiles[0];
-}
-
 async function _detectEncoding(path) {
   const firstLine = await _readFirstLine(path);
   return xmlEncoding(Buffer.from(firstLine)) || DEFAULT_FILE_ENCODING;
