@@ -37,13 +37,23 @@ export default class BadgeForm extends Component {
   }
 
   @action
-  async createBadgeAndCriteria(event) {
+  async submitBadgeCreation(event) {
     event.preventDefault();
-    try {
-      await this._createBadge();
-    } catch (error) {
-      console.error(error);
+
+    const hasCampaignCriteria = this.badge.campaignThreshold;
+    const hasCappedTubesCriteria = this.badge.cappedTubesCriteria.length;
+
+    if (!hasCampaignCriteria && !hasCappedTubesCriteria) {
+      return this.notifications.error("Vous devez sélectionner au moins un critère d'obtention de résultat thématique");
     }
+
+    const hasSelectedCappedTubes = this.badge.cappedTubesCriteria[0]?.cappedTubes?.length;
+
+    if (hasCappedTubesCriteria && !hasSelectedCappedTubes) {
+      return this.notifications.error('Vous devez sélectionner au moins un sujet du profil cible');
+    }
+
+    await this._createBadge();
   }
 
   async _createBadge() {
@@ -52,6 +62,7 @@ export default class BadgeForm extends Component {
         ...this.badge,
         imageUrl: this.BASE_URL + this.imageName,
       };
+
       const badge = this.store.createRecord('badge', badgeWithFormattedImageUrl);
 
       await badge.save({

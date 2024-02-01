@@ -34,9 +34,13 @@
     flex-direction: column;
   }
 
+  &__check-field {
+    margin-left: 0.25rem;
+  }
+
   &__text-field:not(:last-child),
   &__check-field:not(:last-child) {
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
   }
 
   &-check-field__control {
@@ -99,8 +103,16 @@
   &-criteria-choice {
     margin-top: var(--pix-spacing-3x);
 
+    p {
+      margin-bottom: 0.75rem;
+    }
+
     label {
       margin-bottom: 0;
+    }
+
+    .pix-checkbox {
+      margin-left: 0.25rem;
     }
   }
 }
