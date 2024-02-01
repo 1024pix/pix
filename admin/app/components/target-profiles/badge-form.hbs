@@ -1,73 +1,85 @@
-<form {{on "submit" this.createBadgeAndCriteria}} class="badge-form">
-  <h2>Création d'un résultat thématique</h2>
-  <Card class="create-target-profile__card" @title="Informations">
-    <div class="badge-form__text-field">
-      <label for="title">Nom du résultat thématique : </label>
-      <Input id="title" class="form-control" @type="text" @value={{this.badge.title}} />
-    </div>
-    <div class="badge-form__text-field">
-      <label for="image-name" class="badge-form__label">Nom de l'image (svg) :</label>
-      <p class="badge-form__information">
-        <a
-          class="badge-form__information--link"
-          href="https://1024pix.github.io/pix-images-list/badges.html"
-          target="_blank"
-          rel="noopener noreferrer"
+<form class="admin-form admin-form--badge-form" {{on "submit" this.createBadgeAndCriteria}}>
+  <h2 class="badge-form__title">Création d'un résultat thématique</h2>
+  <section class="admin-form__content admin-form__content--with-counters">
+    <Card class="create-target-profile__card" @title="Remplir des informations sur le résultat thématique">
+      <div class="badge-form__text-field">
+        <PixInput
+          @id="title"
+          @value={{this.badge.title}}
+          @label={{"Nom du résultat thématique :"}}
+          @requiredLabel="Champ obligatoire"
+          {{on "change" (fn this.updateFormValue "title")}}
+        />
+      </div>
+      <div class="badge-form__text-field">
+        <label for="image-name" class="badge-form__label badge-form__label--required">Nom de l'image (svg) :</label>
+        <p class="badge-form__information">
+          <a
+            class="badge-form__information--link"
+            href="https://1024pix.github.io/pix-images-list/badges.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Voir la liste des résultats thématiques
+          </a>
+        </p>
+        <PixInput
+          @id="image-name"
+          @value={{this.imageName}}
+          @requiredLabel="Champ obligatoire"
+          placeholder="exemple: clea_num.svg"
+          {{on "change" (fn this.updateFormValue "imageName")}}
+        />
+      </div>
+      <div class="badge-form__text-field">
+        <PixInput
+          @id="alt-message"
+          @value={{this.badge.altMessage}}
+          @label="Texte alternatif pour l'image :"
+          @requiredLabel="Champ obligatoire"
+          {{on "change" (fn this.updateFormValue "altMessage")}}
+        />
+      </div>
+      <div class="badge-form__text-field">
+        <PixTextarea
+          @id="message"
+          @value={{this.badge.message}}
+          rows="4"
+          @label="Message :"
+          {{on "change" (fn this.updateFormValue "message")}}
+        />
+      </div>
+      <div class="badge-form__text-field">
+        <PixInput
+          @id="badge-key"
+          maxlength="255"
+          @value={{this.badge.key}}
+          @label="Clé (texte unique , vérifier qu'il n'existe pas) :"
+          @requiredLabel="Champ obligatoire"
+          {{on "change" (fn this.updateFormValue "key")}}
+        />
+      </div>
+      <div class="badge-form__check-field">
+        <PixCheckbox
+          @checked={{this.badge.isCertifiable}}
+          {{on "change" (fn this.updateFormCheckBoxValue "isCertifiable")}}
         >
-          Voir la liste des résultats thématiques
-        </a>
-      </p>
-      <Input
-        id="image-name"
-        required="true"
-        class="form-control"
-        @type="text"
-        @value={{this.imageName}}
-        placeholder="exemple: clea_num.svg"
-      />
-    </div>
-    <div class="badge-form__text-field">
-      <label for="alt-message">Texte alternatif pour l'image : </label>
-      <Input id="alt-message" required="true" class="form-control" @type="text" @value={{this.badge.altMessage}} />
-    </div>
-    <div class="badge-form__text-field">
-      <label for="message">Message : </label>
-      <Textarea id="message" class="form-control" @value={{this.badge.message}} rows="4" />
-    </div>
-    <div class="badge-form__text-field">
-      <label for="badge-key">Clé (texte unique , vérifier qu'il n'existe pas) : </label>
-      <Input
-        id="badge-key"
-        class="form-control"
-        maxlength="255"
-        @type="text"
-        required="true"
-        @value={{this.badge.key}}
-      />
-    </div>
-    <div class="badge-form__check-field">
-      <label for="isCertifiable">Certifiable : </label>
-      <Input
-        class="badge-form-check-field__control"
-        @type="checkbox"
-        @checked={{this.badge.isCertifiable}}
-        id="isCertifiable"
-      />
-    </div>
-    <div class="badge-form__check-field">
-      <label for="isAlwaysVisible">Lacunes : </label>
-      <Input
-        class="badge-form-check-field__control"
-        @type="checkbox"
-        @checked={{this.badge.isAlwaysVisible}}
-        id="isAlwaysVisible"
-      />
-    </div>
-  </Card>
-  <TargetProfiles::BadgeForm::Criteria @badge={{this.badge}} @areas={{@targetProfile.areas}} />
-  <div class="badge-form__action-buttons">
+          Certifiable
+        </PixCheckbox>
+      </div>
+      <div class="badge-form__check-field">
+        <PixCheckbox
+          @checked={{this.badge.isAlwaysVisible}}
+          {{on "change" (fn this.updateFormCheckBoxValue "isAlwaysVisible")}}
+        >
+          Lacunes
+        </PixCheckbox>
+      </div>
+    </Card>
+    <TargetProfiles::BadgeForm::Criteria @badge={{this.badge}} @areas={{@targetProfile.areas}} />
+  </section>
+  <section class="admin-form__actions">
     <PixButtonLink
-      class="badge-form-action-buttons__cancel"
       @backgroundColor="transparent-light"
       @isBorderVisible={{true}}
       @route="authenticated.target-profiles.target-profile.insights"
@@ -77,5 +89,5 @@
     <PixButton @backgroundColor="green" @type="submit">
       Enregistrer le RT
     </PixButton>
-  </div>
+  </section>
 </form>

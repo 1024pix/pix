@@ -1,12 +1,22 @@
 .badge-form {
+  &__title {
+    @extend %pix-title-xs;
 
-  h2 {
-    margin-bottom: 16px;
+    margin-bottom: var(--pix-spacing-3x);
     font-weight: 500;
   }
 
   &__label {
+    @extend %pix-body-s;
+
     margin-bottom: 2px;
+    color: var(--pix-neutral-900);
+    font-weight: 500;
+
+    &--required::before {
+      color: var(--pix-error-700);
+      content: '* ';
+    }
   }
 
   &__information {
@@ -62,10 +72,10 @@
   }
 
   &-criterion {
-    margin-bottom: 24px;
-    padding: 16px;
+    margin: var(--pix-spacing-3x) 0 var(--pix-spacing-6x);
+    padding: var(--pix-spacing-4x);
     background: var(--pix-neutral-20);
-    border: 1px solid #A5ADBA;
+    border: 1px solid #a5adba;
     border-radius: 8px;
 
     header {
@@ -76,19 +86,18 @@
     }
 
     &__add {
-
       svg {
         margin-right: 0.5rem;
       }
     }
   }
 
+  &-criteria-introduction {
+    @extend %pix-body-s;
+  }
+
   &-criteria-choice {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: start;
-    margin-bottom: 16px;
+    margin-top: var(--pix-spacing-3x);
 
     label {
       margin-bottom: 0;
@@ -97,9 +106,7 @@
 }
 
 input {
-
   &.badge-form-criterion {
-
     &__name {
       margin-bottom: 16px;
     }

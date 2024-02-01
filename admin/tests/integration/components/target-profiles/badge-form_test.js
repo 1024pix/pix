@@ -52,14 +52,14 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
 
     // then
-    assert.dom(screen.getByRole('checkbox', { name: "Sur l'ensemble du profil cible" })).exists();
-    assert.dom(screen.getByRole('checkbox', { name: 'Sur une sélection de sujets du profil cible' })).exists();
+    assert.dom(screen.getByRole('checkbox', { name: "Définir sur l'ensemble du profil cible" })).exists();
+    assert.dom(screen.getByRole('checkbox', { name: 'Définir sur une sélection de sujets du profil cible' })).exists();
   });
 
   test('it should display campaign-participation criterion form on click', async function (assert) {
     // when
     const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
-    await click(screen.getByRole('checkbox', { name: "Sur l'ensemble du profil cible" }));
+    await click(screen.getByRole('checkbox', { name: "Définir sur l'ensemble du profil cible" }));
 
     // then
     assert.dom(screen.getByRole('heading', { name: 'Critère d’obtention sur l’ensemble du profil cible' })).exists();
@@ -69,7 +69,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
   test('it should display capped tubes criterion form on click', async function (assert) {
     // when
     const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
-    await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujets du profil cible' }));
+    await click(screen.getByRole('checkbox', { name: 'Définir sur une sélection de sujets du profil cible' }));
 
     // then
     assert
@@ -84,7 +84,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
   test('it should add a new criteria on click', async function (assert) {
     // when
     const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
-    await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujets du profil cible' }));
+    await click(screen.getByRole('checkbox', { name: 'Définir sur une sélection de sujets du profil cible' }));
     await click(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujets' }));
 
     // then
@@ -98,7 +98,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
   test('it should delete criteria on click', async function (assert) {
     // when
     const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
-    await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujets du profil cible' }));
+    await click(screen.getByRole('checkbox', { name: 'Définir sur une sélection de sujets du profil cible' }));
     await click(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujets' }));
     await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
 
@@ -113,9 +113,9 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
   test('it should remove all caped tubes criteria when checkox is unchecked ', async function (assert) {
     // when
     const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfile={{this.targetProfile}} />`);
-    await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujets du profil cible' }));
+    await click(screen.getByRole('checkbox', { name: 'Définir sur une sélection de sujets du profil cible' }));
     await click(screen.getByRole('button', { name: 'Ajouter une nouvelle sélection de sujets' }));
-    await click(screen.getByRole('checkbox', { name: 'Sur une sélection de sujets du profil cible' }));
+    await click(screen.getByRole('checkbox', { name: 'Définir sur une sélection de sujets du profil cible' }));
 
     // then
     assert.strictEqual(

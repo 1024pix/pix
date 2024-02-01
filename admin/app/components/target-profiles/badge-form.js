@@ -23,6 +23,20 @@ export default class BadgeForm extends Component {
   imageName = '';
 
   @action
+  updateFormValue(key, event) {
+    if (key === 'imageName') {
+      this.imageName = event.target.value;
+    } else {
+      this.badge[key] = event.target.value;
+    }
+  }
+
+  @action
+  updateFormCheckBoxValue(key) {
+    this.badge[key] = !this.badge[key];
+  }
+
+  @action
   async createBadgeAndCriteria(event) {
     event.preventDefault();
     try {
