@@ -463,7 +463,7 @@
           "cancel-label": "Cancel and close the confirmation window",
           "description": "If the candidate has closed their Pix Certification exam window (by mistake, or because of a technical problem) and is still present in the exam room, you can allow them to resume their test where they left it.",
           "error": " An error has occurred, {firstName} {lastName} couldn't be allowed to resume his/her Pix certification exam.",
-          "handle-live-alert": "Gérer un signalement",
+          "handle-live-alert": "Gérer le signalement",
           "instruction-with-name": "Allow {firstName} {lastName} to resume their test ?",
           "success": "Success ! {firstName} {lastName} can resume his/her Pix certification exam."
         },
