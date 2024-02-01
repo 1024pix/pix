@@ -412,6 +412,7 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
     };
   } else if (locale === ENGLISH_SPOKEN) {
     options.subject = translate({ phrase: 'verification-code-email.subject', locale: 'en' }, { code });
+    options.fromName = enTranslations['email-sender-name']['pix-app'];
 
     options.variables = {
       code,
