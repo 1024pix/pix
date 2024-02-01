@@ -23,14 +23,7 @@ const get = async function (userId) {
     .from('users')
     .leftJoin('certification-center-memberships', 'certification-center-memberships.userId', 'users.id')
     .where('users.id', userId)
-    .groupBy(
-      'users.id',
-      'users.firstName',
-      'users.lastName',
-      'users.email',
-      'users.lang',
-      'users.pixCertifTermsOfServiceAccepted',
-    )
+    .groupBy('users.id')
     .first();
 
   if (!certificationPointOfContactDTO) {
@@ -107,13 +100,7 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
     )
     .whereIn('certification-centers.id', certificationCenterIds)
     .orderBy('certification-centers.id')
-    .groupBy(
-      'certification-centers.id',
-      'certification-centers.name',
-      'certification-centers.externalId',
-      'certification-centers.type',
-      'organizations.isManagingStudents',
-    );
+    .groupBy('certification-centers.id', 'organizations.isManagingStudents');
 
   return _.map(allowedCertificationCenterAccessDTOs, (allowedCertificationCenterAccessDTO) => {
     return new AllowedCertificationCenterAccess({
