@@ -29,10 +29,9 @@ module('Unit | Authenticator | oidc', function (hooks) {
       data: {
         attributes: {
           identity_provider: identityProviderCode,
-          code: code,
+          code,
           redirect_uri: redirectUri,
-          state_sent: undefined,
-          state_received: state,
+          state,
         },
       },
     });

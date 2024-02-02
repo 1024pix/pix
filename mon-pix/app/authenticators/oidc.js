@@ -35,8 +35,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
         identity_provider: identityProvider.code,
         code,
         redirect_uri: redirectUri,
-        state_sent: this.session.data.state,
-        state_received: state,
+        state,
       };
 
       if (this.session.isAuthenticated) {
