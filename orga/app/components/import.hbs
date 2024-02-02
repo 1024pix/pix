@@ -1,0 +1,47 @@
+<article class="import-students-page">
+  <header class="import-students-page__header">
+    <img src="{{this.rootURL}}/images/import-participant.svg" alt="" role="none" />
+    <h1 class="page-title import-students-page-header__title">
+      {{t this.textsByOrganizationType.title}}
+    </h1>
+    <p class="import-students-page-header__details import-students-page-header__details--small">
+      {{this.acceptedFileType}}
+    </p>
+    {{#if this.currentUser.isSUPManagingStudents}}
+      <p class="import-students-page-header__details">
+        {{t "pages.organization-participants-import.sup.description"}}
+      </p>
+    {{/if}}
+  </header>
+  {{#if @isLoading}}
+    <Ui::PixLoader />
+    <PixMessage @type="information" @withIcon="true">
+      {{t "pages.organization-participants-import.information"}}
+    </PixMessage>
+  {{else}}
+    <div class="import-type-list">
+      {{#if this.currentUser.isSCOManagingStudents}}
+        <section class="import-students-page__section">
+          <h2 class="import-students-page-section__title">
+            {{t "pages.organization-participants-import.actions.add-sco.title"}}
+          </h2>
+          <p class="import-students-page-section__details">
+            {{t "pages.organization-participants-import.actions.add-sco.details"}}
+          </p>
+          <PixButtonUpload
+            @id="students-file-upload"
+            @size="small"
+            @onChange={{@onImportScoStudents}}
+            accept={{this.supportedFormats}}
+          >
+            {{t "pages.organization-participants-import.actions.add-sco.label"}}
+          </PixButtonUpload>
+        </section>
+
+      {{else if this.currentUser.isSUPManagingStudents}}
+        <SupOrganizationParticipant::ImportCards::Add @onAddStudents={{@onImportSupStudents}} />
+        <SupOrganizationParticipant::ImportCards::Replace @onReplaceStudents={{@onReplaceStudents}} />
+      {{/if}}
+    </div>
+  {{/if}}
+</article>
