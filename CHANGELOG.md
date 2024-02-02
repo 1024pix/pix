@@ -1,5 +1,35 @@
 # Pix Changelog
 
+## v4.97.0 (02/02/2024)
+
+
+### :rocket: Amélioration
+- [#7926](https://github.com/1024pix/pix/pull/7926) [FEATURE] Afficher le score par compétence sur la page de certificat pour la v3 (PIX-10689).
+- [#7922](https://github.com/1024pix/pix/pull/7922) [FEATURE] Création en masse d'organisations PIX 1D (PIX-10889).
+- [#7952](https://github.com/1024pix/pix/pull/7952) [FEATURE] Permettre à un utilisateur néerlandophone de recevoir des emails dans sa langue (PIX-10796).
+- [#7946](https://github.com/1024pix/pix/pull/7946) [FEATURE] màj du contenu du module didacticiel.
+- [#7916](https://github.com/1024pix/pix/pull/7916) [FEATURE] Renvoyer une 422 si le curseur du pole emploi sendings n'est pas dans un format JSON valide (PIX-10867).
+- [#7944](https://github.com/1024pix/pix/pull/7944) [FEATURE] Retirer les validations et contraintes sur le code d'un fournisseur d'identité (PIX-10980).
+- [#7943](https://github.com/1024pix/pix/pull/7943) [FEATURE] Changer la position de la gestion de l'alert dans l'espace surveillant (PIX-10942).
+- [#7941](https://github.com/1024pix/pix/pull/7941) [FEATURE] Ouvrir le portail surveillant dans un nouvel onglet (PIX-10973).
+- [#7887](https://github.com/1024pix/pix/pull/7887) [FEATURE] Ajout de la page d'accueil des modules (PIX-10470).
+- [#7842](https://github.com/1024pix/pix/pull/7842) [FEATURE] Exporter toutes les participations non supprimés dans les exports CSV (PIX-10452).
+- [#7885](https://github.com/1024pix/pix/pull/7885) [FEATURE] Renommage commentForJury en commentByJury (PIX-10821).
+
+### :building_construction: Tech
+- [#7958](https://github.com/1024pix/pix/pull/7958) [TECH] Ne pas supprimer un organization learner déjà supprimé (PIX-11001).
+- [#7948](https://github.com/1024pix/pix/pull/7948) [TECH] Améliore la robustesse du groupBy dans certification-point-of-contact-repository.
+- [#7899](https://github.com/1024pix/pix/pull/7899) [TECH] Renommage de l'utilitaire de combinaison des security prehandlers (PIX-10967).
+
+### :bug: Correction
+- [#7864](https://github.com/1024pix/pix/pull/7864) [BUGFIX] Corriger l'erreur 500 lors de la récupération d'un profil cible en JSON.
+- [#7935](https://github.com/1024pix/pix/pull/7935) [BUGFIX] Prendre en compte le mot remplacé par le dictionnaire d'une tablette/téléphone (Pix-10968).
+- [#7936](https://github.com/1024pix/pix/pull/7936) [BUGFIX] Le logo Pix Orga doit rediriger vers la page des missions si l'orga est de type Sco-1D (Pix-10939).
+
+### :coffee: Autre
+- [#7929](https://github.com/1024pix/pix/pull/7929) [REFACTOR] Réparer les tests flakys (PIX-10945).
+- [#7937](https://github.com/1024pix/pix/pull/7937) Updated translations from Phrase.
+
 ## v4.96.0 (30/01/2024)
 
 
