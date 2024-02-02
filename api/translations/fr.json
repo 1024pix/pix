@@ -293,6 +293,9 @@
     },
     "template-name": "modele-import"
   },
+  "email-sender-name": {
+    "pix-app": "PIX - Ne pas répondre"
+  },
   "entity-validation-errors": {
     "ACCEPT_CGU": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
     "ALREADY_REGISTERED_EMAIL": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",

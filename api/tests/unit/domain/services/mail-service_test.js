@@ -7,15 +7,17 @@ import { config as settings } from '../../../../lib/config.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 import fr from '../../../../translations/fr.json' assert { type: 'json' };
 import en from '../../../../translations/en.json' assert { type: 'json' };
+import nl from '../../../../translations/nl.json' assert { type: 'json' };
 
 const mainTranslationsMapping = {
   fr,
   en,
+  nl,
 };
 
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
 
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
+const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN } = LOCALE;
 
 describe('Unit | Service | MailService', function () {
   const senderEmailAddress = 'ne-pas-repondre@pix.fr';
@@ -122,6 +124,25 @@ describe('Unit | Service | MailService', function () {
             ...mainTranslationsMapping.en['pix-account-creation-email'].params,
           });
         });
+        it(`should call sendEmail with from, to, template and locale ${DUTCH_SPOKEN}`, async function () {
+          // given
+          const locale = DUTCH_SPOKEN;
+
+          // when
+          await mailService.sendAccountCreationEmail(userEmailAddress, locale);
+
+          // then
+          const options = mailer.sendEmail.firstCall.args[0];
+          expect(options.fromName).to.equal('PIX - Niet beantwoorden');
+          expect(options.variables).to.include({
+            homeName: 'pix.org',
+            homeUrl: 'https://pix.org/en-gb/',
+            helpdeskUrl: 'https://support.pix.org/en/support/home',
+            displayNationalLogo: false,
+            redirectionUrl: 'https://app.pix.org/connexion/?lang=nl',
+            ...mainTranslationsMapping.nl['pix-account-creation-email'].params,
+          });
+        });
       });
     });
   });
@@ -219,6 +240,36 @@ describe('Unit | Service | MailService', function () {
         // then
         expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
       });
+
+      it(`should call mailer with translated texts if locale is ${DUTCH_SPOKEN}`, async function () {
+        // given
+        const expectedOptions = {
+          from,
+          to,
+          template,
+          fromName: 'PIX - Niet beantwoorden',
+          subject: mainTranslationsMapping.nl['reset-password-demand-email'].subject,
+          variables: {
+            locale: DUTCH_SPOKEN,
+            ...mainTranslationsMapping.nl['reset-password-demand-email'].params,
+            homeName: 'pix.org',
+            homeUrl: 'https://pix.org/en-gb/',
+            resetUrl: `https://app.pix.org/changer-mot-de-passe/${temporaryKey}/?lang=nl`,
+            helpdeskURL: 'https://support.pix.org/en/support/home',
+          },
+        };
+
+        // when
+        await mailService.sendResetPasswordDemandEmail({
+          email: userEmailAddress,
+          locale: DUTCH_SPOKEN,
+          temporaryKey,
+        });
+
+        // then
+        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+      });
+
       it(`should call mailer with translated texts if locale is ${FRENCH_SPOKEN}`, async function () {
         // given
         const expectedOptions = {
@@ -680,6 +731,7 @@ describe('Unit | Service | MailService', function () {
       // then
       const options = mailer.sendEmail.firstCall.args[0];
       expect(options.subject).to.equal(translate('verification-code-email.subject', { code }));
+      expect(options.fromName).to.equal('PIX - Ne pas répondre');
       expect(options.variables).to.include({
         homeName: 'pix.org',
         homeUrl: 'https://pix.org/fr/',
@@ -706,6 +758,7 @@ describe('Unit | Service | MailService', function () {
       // then
       const options = mailer.sendEmail.firstCall.args[0];
       expect(options.subject).to.equal(translate('verification-code-email.subject', { code }));
+      expect(options.fromName).to.equal('PIX - Ne pas répondre');
       expect(options.variables).to.include({
         homeName: 'pix.fr',
         homeUrl: 'https://pix.fr',
@@ -734,12 +787,42 @@ describe('Unit | Service | MailService', function () {
       expect(options.subject).to.equal(
         translate({ phrase: 'verification-code-email.subject', locale: 'en' }, { code }),
       );
+      expect(options.fromName).to.equal('PIX - Noreply');
       expect(options.variables).to.include({
         homeName: 'pix.org',
         homeUrl: 'https://pix.org/en-gb/',
         displayNationalLogo: false,
         code,
         ...mainTranslationsMapping.en['verification-code-email'].body,
+      });
+    });
+
+    it(`should call sendEmail with from, to, template, tags and locale ${DUTCH_SPOKEN}`, async function () {
+      // given
+      const translate = getI18n().__;
+      const userEmail = 'user@example.net';
+      const code = '999999';
+
+      // when
+      await mailService.sendVerificationCodeEmail({
+        code,
+        email: userEmail,
+        locale: DUTCH_SPOKEN,
+        translate,
+      });
+
+      // then
+      const options = mailer.sendEmail.firstCall.args[0];
+      expect(options.subject).to.equal(
+        translate({ phrase: 'verification-code-email.subject', locale: 'nl' }, { code }),
+      );
+      expect(options.fromName).to.equal('PIX - Niet beantwoorden');
+      expect(options.variables).to.include({
+        homeName: 'pix.org',
+        homeUrl: 'https://pix.org/en-gb/',
+        displayNationalLogo: false,
+        code,
+        ...mainTranslationsMapping.nl['verification-code-email'].body,
       });
     });
   });
