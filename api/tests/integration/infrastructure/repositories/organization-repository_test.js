@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { catchErr, expect, knex, domainBuilder, databaseBuilder } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Organization, OrganizationForAdmin } from '../../../../lib/domain/models/index.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
@@ -1058,6 +1058,36 @@ describe('Integration | Repository | Organization', function () {
       // then
       expect(savedOrganizationFeatures.length).to.equal(1);
       expect(savedOrganizationFeatures[0].featureId).to.equal(computeOrganizationLearnerCertificabilityId);
+    });
+
+    it('should associate organizations to enabled features', async function () {
+      // given
+      const missionManagementFeatureId = databaseBuilder.factory.buildFeature(
+        ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT,
+      ).id;
+      const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
+      await databaseBuilder.commit();
+      const features = {};
+      features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key] = false;
+      features[ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key] = true;
+      const organization = new OrganizationForAdmin({
+        name: 'Organization',
+        type: 'PRO',
+        features,
+        createdBy: superAdminUserId,
+      });
+
+      // when
+      await organizationRepository.batchCreateOrganizations([organization]);
+
+      const savedOrganizationFeatures = await knex('organization-features');
+      const savedOrganizations = await knex('organizations');
+
+      // then
+      expect(savedOrganizationFeatures.length).to.equal(1);
+      expect(savedOrganizationFeatures[0].featureId).to.equal(missionManagementFeatureId);
+      expect(savedOrganizations.length).to.equal(1);
+      expect(savedOrganizationFeatures[0].organizationId).to.equal(savedOrganizations[0].id);
     });
   });
 });
