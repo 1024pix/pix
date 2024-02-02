@@ -1,5 +1,5 @@
 <div class="element-video">
-  <div class="element-video-container">
+  <div class="element-video__container">
     <video
       {{did-insert this.launchPlyr}}
       id={{@video.id}}
@@ -13,7 +13,6 @@
       <source src={{@video.url}} type="video/mp4" />
       <track kind="captions" label="Français" src={{@video.subtitles}} srclang="fr" default />
     </video>
-
   </div>
   <PixButton
     @backgroundColor="transparent-light"
@@ -29,7 +28,6 @@
     @title={{t "pages.modulix.modals.transcription.title"}}
     @showModal={{this.modalIsOpen}}
     @onCloseButtonClick={{this.closeModal}}
-    class="element__video-modal"
   >
     <:content>
       <p class="video__modal-instruction">
