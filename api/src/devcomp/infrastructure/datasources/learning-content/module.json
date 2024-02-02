@@ -444,7 +444,7 @@
               "instruction": "<p>Quel est le nom de ce nouveau produit Pix ?</p>",
               "proposals": [
                 {
-                  "input": "symbole",
+                  "input": "nom-produit",
                   "type": "input",
                   "inputType": "text",
                   "size": 10,
