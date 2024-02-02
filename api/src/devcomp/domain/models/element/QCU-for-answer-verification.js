@@ -7,6 +7,7 @@ import Joi from 'joi';
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
 
 class QCUForAnswerVerification extends QCU {
+  userResponse;
   constructor({ id, instruction, locales, proposals, solution, feedbacks, validator }) {
     super({ id, instruction, locales, proposals });
 
@@ -25,7 +26,22 @@ class QCUForAnswerVerification extends QCU {
     }
   }
 
-  validateUserResponseFormat(userResponse) {
+  setUserResponse(userResponse) {
+    this.#validateUserResponseFormat(userResponse);
+    this.userResponse = userResponse[0];
+  }
+
+  assess() {
+    const validation = this.validator.assess({ answer: { value: this.userResponse } });
+
+    return new QcuCorrectionResponse({
+      status: validation.result,
+      feedback: validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid,
+      solution: this.solution,
+    });
+  }
+
+  #validateUserResponseFormat(userResponse) {
     const qcuResponseSchema = Joi.string()
       .pattern(/^[0-9]+$/)
       .required();
@@ -36,22 +52,6 @@ class QCUForAnswerVerification extends QCU {
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
-  }
-
-  assess(userResponse) {
-    const selectedQcuProposalId = userResponse[0];
-    const validation = this.validator.assess({ answer: { value: selectedQcuProposalId } });
-
-    const correction = new QcuCorrectionResponse({
-      status: validation.result,
-      feedback: validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid,
-      solution: this.solution,
-    });
-
-    return {
-      userResponseValue: selectedQcuProposalId,
-      correction,
-    };
   }
 }
 
