@@ -82,7 +82,9 @@ const getAuthenticationUrl = async function (
   const { identity_provider: identityProvider } = request.query;
   const oidcAuthenticationService =
     dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
-  const { nonce, state, ...payload } = oidcAuthenticationService.getAuthenticationUrl({ redirectUri: request.query['redirect_uri'] });
+  const { nonce, state, ...payload } = oidcAuthenticationService.getAuthenticationUrl({
+    redirectUri: request.query['redirect_uri'],
+  });
 
   request.yar.set('state', state);
   request.yar.set('nonce', nonce);
@@ -97,7 +99,11 @@ const authenticateUser = async function (
     authenticationServiceRegistry,
   },
 ) {
-  const { code, identityProvider, redirectUri, stateSent, stateReceived } = request.deserializedPayload;
+  const { code, identityProvider, redirectUri, state: stateReceived } = request.deserializedPayload;
+
+  const stateSent = request.yar.get('state', true);
+  // eslint-disable-next-line no-unused-vars
+  const nonce = request.yar.get('nonce', true);
 
   const oidcAuthenticationService =
     dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
