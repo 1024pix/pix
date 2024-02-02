@@ -4,8 +4,12 @@
   {{t "common.actions.back"}}
 </PixReturnTo>
 
-<SupOrganizationParticipant::Import
-  @onImportStudents={{this.importStudents}}
-  @onReplaceStudents={{this.replaceStudents}}
-  @isLoading={{this.isLoading}}
-/>
+{{#if this.currentUser.isSUPManagingStudents}}
+  <SupOrganizationParticipant::Import
+    @onImportStudents={{this.importStudents}}
+    @onReplaceStudents={{this.replaceStudents}}
+    @isLoading={{this.isLoading}}
+  />
+{{else if this.currentUser.isSCOManagingStudents}}
+  <ScoOrganizationParticipant::Import @isLoading={{this.isLoading}} />
+{{/if}}
