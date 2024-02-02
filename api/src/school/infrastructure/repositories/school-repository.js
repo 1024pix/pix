@@ -1,10 +1,11 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { School } from '../../domain/models/School.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 
-const save = async function ({ organizationId, code }) {
-  const [organizationCreated] = await knex('schools').insert({ organizationId, code }).returning('*');
-  return organizationCreated.code;
+const save = async function ({ organizationId, code, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction.knexTransaction ?? knex;
+  await knexConn('schools').insert({ organizationId, code }).returning('*');
 };
 
 const isCodeAvailable = async function (code) {

@@ -7,7 +7,6 @@ import { DomainTransaction } from '../DomainTransaction.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { Tag } from '../../domain/models/Tag.js';
 import { fetchPage } from '../utils/knex-utils.js';
-import { ORGANIZATION_FEATURE } from '../../domain/constants.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../constants.js';
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
@@ -76,14 +75,13 @@ const create = function (organization) {
     .then(([organization]) => _toDomain(organization));
 };
 
+// Uses OrganizationForAdmin to centralize features enablement by organization type
 const batchCreateOrganizations = async function (
   organizations,
   domainTransaction = DomainTransaction.emptyTransaction(),
 ) {
   const knexConn = domainTransaction.knexTransaction ?? knex;
-  const { id: computeOrganizationLearnerFeatureId } = await knexConn('features')
-    .where('key', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
-    .first('id');
+  const featuresByKey = _.keyBy(await knexConn('features'), (feature) => feature.key);
 
   return bluebird.map(
     organizations,
@@ -104,10 +102,13 @@ const batchCreateOrganizations = async function (
           ]),
         )
         .returning('*');
-      if (organization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]) {
+
+      const enabledFeatures = _.keys(organization.features).filter((key) => organization.features[key] === true);
+      for (const featureKey of enabledFeatures) {
+        const feature = featuresByKey[featureKey];
         await knexConn('organization-features').insert({
           organizationId: createdOrganization.id,
-          featureId: computeOrganizationLearnerFeatureId,
+          featureId: feature.id,
         });
       }
       return createdOrganization;
