@@ -30,9 +30,7 @@
     @onCloseButtonClick={{this.closeModal}}
   >
     <:content>
-      <p class="video__modal-instruction">
-        {{html-unsafe @video.transcription}}
-      </p>
+      {{html-unsafe @video.transcription}}
     </:content>
   </PixModal>
 </div>
