@@ -55,4 +55,27 @@ module('Integration | Component | Module | Video', function (hooks) {
     assert.ok(await screen.findByRole('dialog'));
     assert.ok(screen.getByText('transcription'));
   });
+
+  test('should not be able to open the modal if there is no alternative instruction', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const url = 'https://videos.pix.fr/modulix/chat_animation_2.webm';
+
+    const video = store.createRecord('video', {
+      url,
+      title: 'title',
+      subtitles: 'subtitles',
+      transcription: 'transcription',
+      alternativeText: '',
+    });
+
+    this.set('video', video);
+
+    //  when
+    const screen = await render(hbs`<Module::Video @video={{this.video}}/>`);
+
+    // then
+    const alternativeTextButton = await screen.queryByRole('button', { name: 'Afficher la transcription' });
+    assert.dom(alternativeTextButton).doesNotExist();
+  });
 });

@@ -14,23 +14,26 @@
       <track kind="captions" label="Français" src={{@video.subtitles}} srclang="fr" default />
     </video>
   </div>
-  <PixButton
-    @backgroundColor="transparent-light"
-    @shape="rounded"
-    @size="small"
-    @type="button"
-    @isBorderVisible={{true}}
-    @triggerAction={{this.showModal}}
-  >
-    {{t "pages.modulix.buttons.element.transcription"}}
-  </PixButton>
-  <PixModal
-    @title={{t "pages.modulix.modals.transcription.title"}}
-    @showModal={{this.modalIsOpen}}
-    @onCloseButtonClick={{this.closeModal}}
-  >
-    <:content>
-      {{html-unsafe @video.transcription}}
-    </:content>
-  </PixModal>
+
+  {{#if @video.hasAlternativeText}}
+    <PixButton
+      @backgroundColor="transparent-light"
+      @shape="rounded"
+      @size="small"
+      @type="button"
+      @isBorderVisible={{true}}
+      @triggerAction={{this.showModal}}
+    >
+      {{t "pages.modulix.buttons.element.transcription"}}
+    </PixButton>
+    <PixModal
+      @title={{t "pages.modulix.modals.transcription.title"}}
+      @showModal={{this.modalIsOpen}}
+      @onCloseButtonClick={{this.closeModal}}
+    >
+      <:content>
+        {{html-unsafe @video.transcription}}
+      </:content>
+    </PixModal>
+  {{/if}}
 </div>
