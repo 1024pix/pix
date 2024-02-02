@@ -51,7 +51,6 @@ function verify_prerequesite_programs() {
   assert_program_is_installed "node"
   assert_program_is_installed "npm"
   assert_program_is_installed "docker"
-  assert_program_is_installed "docker-compose"
 
   echo "✅ Required programs have been found."
   echo ""
@@ -79,14 +78,14 @@ function install_apps_dependencies() {
 function setup_and_run_infrastructure() {
   echo "Starting infrastructure building blocks…"
 
-  docker-compose up -d --force-recreate
+  docker compose up -d --force-recreate
 
   echo "✅ PostgreSQL and Redis servers started (using Docker Compose)."
   echo ""
 
   echo "Waiting for PostgreSQL server to be ready…"
 
-  timeout 20s bash -c "until docker-compose exec postgres pg_isready ; do sleep 1 ; done"
+  timeout 20s bash -c "until docker compose exec postgres pg_isready ; do sleep 1 ; done"
 
   echo "✅ PostgreSQL server is ready."
   echo ""
