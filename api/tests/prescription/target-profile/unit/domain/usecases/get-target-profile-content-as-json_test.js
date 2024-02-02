@@ -15,6 +15,33 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
     MockDate.reset();
   });
 
+  context('when the user has not pix admin role', function () {
+    beforeEach(function () {
+      targetProfileForAdminRepository = { get: sinon.stub() };
+      targetProfileForAdminRepository.get.rejects(new Error('I should not be called'));
+      learningContentConversionService.findActiveSkillsForCappedTubes.rejects(new Error('I should not be called'));
+    });
+
+    it('should throw a ForbiddenAccess error', async function () {
+      // given
+      adminMemberRepository = { get: sinon.stub() };
+      adminMemberRepository.get.withArgs({ userId: 66 }).resolves(undefined);
+
+      // when
+      const error = await catchErr(getTargetProfileContentAsJson)({
+        userId: 66,
+        targetProfileId: 123,
+        adminMemberRepository,
+        targetProfileForAdminRepository,
+        learningContentConversionService,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(ForbiddenAccess);
+      expect(error.message).to.equal("L'utilisateur n'est pas autorisé à effectuer cette opération.");
+    });
+  });
+
   context('when the user does not have the authorization to get the content', function () {
     beforeEach(function () {
       targetProfileForAdminRepository = { get: sinon.stub() };

@@ -27,5 +27,8 @@ const getTargetProfileContentAsJson = async function ({
 export { getTargetProfileContentAsJson };
 
 function _hasAuthorizationToDownloadContent(adminMember) {
+  if (!adminMember) {
+    return false;
+  }
   return adminMember.isMetier || adminMember.isSupport || adminMember.isSuperAdmin;
 }
