@@ -5,7 +5,6 @@ import { service } from '@ember/service';
 
 export default class SessionSupervisingRoute extends Route {
   @service store;
-  @service router;
 
   async model(params) {
     return this.store.queryRecord('session-for-supervising', {
@@ -15,28 +14,21 @@ export default class SessionSupervisingRoute extends Route {
 
   afterModel(model) {
     this.poller = setInterval(async () => {
-      try {
-        await this.store.queryRecord('session-for-supervising', { sessionId: model.id });
-      } catch (_) {
-        this.router.replaceWith('login-session-supervisor');
-      }
+      await this.store.queryRecord('session-for-supervising', { sessionId: model.id });
     }, ENV.APP.sessionSupervisingPollingRate);
   }
 
   deactivate() {
-    this.#stopPolling();
+    if (this.poller) {
+      clearInterval(this.poller);
+    }
   }
 
   @action
   error() {
-    this.#stopPolling();
-    return true;
-  }
-
-  #stopPolling() {
     if (this.poller) {
       clearInterval(this.poller);
-      this.poller = null;
     }
+    return true;
   }
 }

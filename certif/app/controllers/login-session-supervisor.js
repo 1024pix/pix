@@ -6,7 +6,6 @@ export default class LoginSessionSupervisorController extends Controller {
   @service store;
   @service router;
   @service currentUser;
-  @service notifications;
 
   get currentUserEmail() {
     return this.currentUser.certificationPointOfContact.email;
@@ -21,11 +20,9 @@ export default class LoginSessionSupervisorController extends Controller {
     });
     try {
       await supervisorAuthentication.save();
-      return this.router.transitionTo('session-supervising', sessionId);
-    } catch (error) {
-      this.notifications.error('Une erreur est survenue.');
     } finally {
       supervisorAuthentication.unloadRecord();
     }
+    return this.router.transitionTo('session-supervising', sessionId);
   }
 }
