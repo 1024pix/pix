@@ -353,11 +353,12 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Forbidden when a ForbiddenAccess error occurs', async function () {
-      routeHandler.throws(new ForbiddenAccess('Accès non autorisé.'));
+      routeHandler.throws(new ForbiddenAccess('Accès non autorisé.', 'FORBIDDEN_ACCESS'));
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
       expect(responseDetail(response)).to.equal('Accès non autorisé.');
+      expect(responseCode(response)).to.equal('FORBIDDEN_ACCESS');
     });
 
     it('responds Forbidden when a UserAlreadyLinkedToCandidateInSessionError error occurs', async function () {
