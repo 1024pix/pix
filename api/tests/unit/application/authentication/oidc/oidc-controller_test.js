@@ -137,7 +137,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
   describe('#getAuthenticationUrl', function () {
     it('should call oidc authentication service to generate url', async function () {
       // given
-      const request = { query: { identity_provider: identityProvider, redirect_uri: 'http:/exemple.net/' } };
+      const request = {
+        query: { identity_provider: identityProvider, redirect_uri: 'http:/exemple.net/' },
+        yar: { set: sinon.stub() },
+      };
       const getAuthenticationUrlStub = sinon.stub();
       const oidcAuthenticationService = {
         getAuthenticationUrl: getAuthenticationUrlStub,
@@ -162,14 +165,16 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       expect(oidcAuthenticationService.getAuthenticationUrl).to.have.been.calledWithExactly({
         redirectUri: 'http:/exemple.net/',
       });
+      expect(request.yar.set).to.have.been.calledTwice;
     });
   });
 
   describe('#authenticateUser', function () {
     const code = 'ABCD';
     const redirectUri = 'http://redirectUri.fr';
-    const stateSent = 'state';
-    const stateReceived = 'state';
+    const state = 'state';
+    const identityProviderState = 'identityProviderState';
+    const nonce = 'nonce';
 
     const pixAccessToken = 'pixAccessToken';
 
@@ -182,9 +187,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           identityProvider,
           code,
           redirectUri,
-          stateSent,
-          stateReceived,
+          state: identityProviderState,
         },
+        yar: { get: sinon.stub() },
       };
 
       sinon.stub(usecases, 'authenticateOidcUser');
@@ -211,6 +216,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         isAuthenticationComplete: true,
       });
 
+      request.yar.get.onCall(0).returns(state);
+      request.yar.get.onCall(1).returns(nonce);
+
       // when
       await oidcController.authenticateUser(request, hFake, dependencies);
 
@@ -218,8 +226,8 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       expect(usecases.authenticateOidcUser).to.have.been.calledWithExactly({
         code,
         redirectUri,
-        stateReceived,
-        stateSent,
+        stateReceived: identityProviderState,
+        stateSent: state,
         oidcAuthenticationService,
       });
     });

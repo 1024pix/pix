@@ -420,9 +420,9 @@ const configuration = (function () {
 
     config.bcryptNumberOfSaltRounds = 1;
 
-    config.authentication.secret = 'test-jwt-key';
+    config.authentication.secret = 'the-password-must-be-at-least-32-characters-long';
 
-    config.temporaryKey.secret = 'test-jwt-key';
+    config.temporaryKey.secret = 'the-password-must-be-at-least-32-characters-long';
 
     config.poleEmploi.isEnabled = true;
     config.poleEmploi.clientId = 'PIX_POLE_EMPLOI_CLIENT_ID';
@@ -522,7 +522,7 @@ const configuration = (function () {
 
     config.dataProtectionPolicy.updateDate = '2022-12-25 00:00:01';
 
-    config.partner.fetchTimeOut = '5ms';
+    config.partner.fetchTimeOut = '10ms';
   }
 
   return config;

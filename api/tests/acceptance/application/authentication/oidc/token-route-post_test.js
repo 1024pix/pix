@@ -1,9 +1,9 @@
 import jsonwebtoken from 'jsonwebtoken';
+import querystring from 'querystring';
 
 import {
   expect,
   databaseBuilder,
-  knex,
   nock,
   sinon,
   generateValidRequestAuthorizationHeader,
@@ -19,7 +19,7 @@ const uuidPattern = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9
 
 describe('Acceptance | Route | oidc | token', function () {
   describe('POST /api/oidc/token', function () {
-    let server, clock, payload;
+    let server, clock, payload, cookies;
 
     beforeEach(async function () {
       server = await createServer();
@@ -27,14 +27,26 @@ describe('Acceptance | Route | oidc | token', function () {
         now: Date.now(),
         toFake: ['Date'],
       });
+
+      const query = querystring.stringify({
+        identity_provider: OidcIdentityProviders.POLE_EMPLOI.code,
+        redirect_uri: 'http://app.pix.fr/connexion/pole-emploi',
+      });
+      const authUrlResponse = await server.inject({
+        method: 'GET',
+        url: `/api/oidc/authentication-url?${query}`,
+      });
+      cookies = authUrlResponse.headers['set-cookie'];
+
+      const redirectTarget = new URL(authUrlResponse.result.redirectTarget);
+
       payload = {
         data: {
           attributes: {
             identity_provider: OidcIdentityProviders.POLE_EMPLOI.code,
             code: 'code',
             redirect_uri: 'redirect_uri',
-            state_sent: 'state',
-            state_received: 'state',
+            state: redirectTarget.searchParams.get('state'),
           },
         },
       };
@@ -42,7 +54,6 @@ describe('Acceptance | Route | oidc | token', function () {
 
     afterEach(async function () {
       clock.restore();
-      await knex('user-logins').truncate();
     });
 
     context('When user does not have an account', function () {
@@ -83,7 +94,12 @@ describe('Acceptance | Route | oidc | token', function () {
         };
 
         // when
-        const response = await server.inject({ method: 'POST', url: '/api/oidc/token', payload });
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/oidc/token',
+          headers: { cookie: cookies[0] },
+          payload,
+        });
 
         // then
         const [error] = response.result.errors;
@@ -139,7 +155,7 @@ describe('Acceptance | Route | oidc | token', function () {
       const response = await server.inject({
         method: 'POST',
         url: '/api/oidc/token',
-        headers: { Authorization: generateValidRequestAuthorizationHeader(userId) },
+        headers: { Authorization: generateValidRequestAuthorizationHeader(userId), cookie: cookies[0] },
         payload,
       });
 
@@ -197,7 +213,7 @@ describe('Acceptance | Route | oidc | token', function () {
         const response = await server.inject({
           method: 'POST',
           url: '/api/oidc/token',
-          headers: { Authorization: generateValidRequestAuthorizationHeader(userId) },
+          headers: { Authorization: generateValidRequestAuthorizationHeader(userId), cookie: cookies[0] },
           payload,
         });
 
@@ -234,7 +250,7 @@ describe('Acceptance | Route | oidc | token', function () {
         const response = await server.inject({
           method: 'POST',
           url: '/api/oidc/token',
-          headers: { Authorization: 'invalid_token' },
+          headers: { Authorization: 'invalid_token', cookie: cookies[0] },
           payload,
         });
 
@@ -292,7 +308,7 @@ describe('Acceptance | Route | oidc | token', function () {
             const response = await server.inject({
               method: 'POST',
               url: '/api/oidc/token',
-              headers: { Authorization: generateValidRequestAuthorizationHeader(userId) },
+              headers: { Authorization: generateValidRequestAuthorizationHeader(userId), cookie: cookies[0] },
               payload,
             });
 
