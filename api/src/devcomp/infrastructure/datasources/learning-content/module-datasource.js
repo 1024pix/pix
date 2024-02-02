@@ -1,5 +1,5 @@
 import { LearningContentResourceNotFound } from '../../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
-import referential from './module.json' assert { type: 'json' };
+import referential from './module.json' with { type: 'json' };
 
 const moduleDatasource = {
   getBySlug: async (slug) => {
