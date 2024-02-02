@@ -7,6 +7,10 @@ export default class Video extends Element {
   @attr('string') subtitles;
   @attr('string') transcription;
   @attr('string') alternativeText;
+
+  get hasAlternativeText() {
+    return this.alternativeText.length > 0;
+  }
 }
 
 export { Video };
