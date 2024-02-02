@@ -137,7 +137,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
   describe('#getAuthenticationUrl', function () {
     it('should call oidc authentication service to generate url', async function () {
       // given
-      const request = { query: { identity_provider: identityProvider, redirect_uri: 'http:/exemple.net/' } };
+      const request = {
+        query: { identity_provider: identityProvider, redirect_uri: 'http:/exemple.net/' },
+        yar: { set: sinon.stub() },
+      };
       const getAuthenticationUrlStub = sinon.stub();
       const oidcAuthenticationService = {
         getAuthenticationUrl: getAuthenticationUrlStub,
@@ -162,6 +165,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       expect(oidcAuthenticationService.getAuthenticationUrl).to.have.been.calledWithExactly({
         redirectUri: 'http:/exemple.net/',
       });
+      expect(request.yar.set).to.have.been.calledTwice;
     });
   });
 
