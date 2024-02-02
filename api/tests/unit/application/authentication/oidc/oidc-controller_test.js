@@ -172,8 +172,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
   describe('#authenticateUser', function () {
     const code = 'ABCD';
     const redirectUri = 'http://redirectUri.fr';
-    const stateSent = 'state';
-    const stateReceived = 'state';
+    const state = 'state';
+    const identityProviderState = 'identityProviderState';
+    const nonce = 'nonce';
 
     const pixAccessToken = 'pixAccessToken';
 
@@ -186,9 +187,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           identityProvider,
           code,
           redirectUri,
-          stateSent,
-          stateReceived,
+          state: identityProviderState,
         },
+        yar: { get: sinon.stub() },
       };
 
       sinon.stub(usecases, 'authenticateOidcUser');
@@ -215,6 +216,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         isAuthenticationComplete: true,
       });
 
+      request.yar.get.onCall(0).returns(state);
+      request.yar.get.onCall(1).returns(nonce);
+
       // when
       await oidcController.authenticateUser(request, hFake, dependencies);
 
@@ -222,8 +226,8 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       expect(usecases.authenticateOidcUser).to.have.been.calledWithExactly({
         code,
         redirectUri,
-        stateReceived,
-        stateSent,
+        stateReceived: identityProviderState,
+        stateSent: state,
         oidcAuthenticationService,
       });
     });
