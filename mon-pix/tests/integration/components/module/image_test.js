@@ -52,4 +52,24 @@ module('Integration | Component | Module | Image', function (hooks) {
     assert.ok(await screen.findByRole('dialog'));
     assert.ok(screen.getByText(alternativeText));
   });
+
+  test('should not be able to open the modal if there is no alternative instruction', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+
+    const imageElement = store.createRecord('image', {
+      url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
+      alt: 'alt text',
+      alternativeText: '',
+    });
+
+    this.set('image', imageElement);
+
+    //  when
+    const screen = await render(hbs`<Module::Image @image={{this.image}}/>`);
+
+    // then
+    const alternativeTextButton = await screen.queryByRole('button', { name: "Afficher l'alternative textuelle" });
+    assert.dom(alternativeTextButton).doesNotExist();
+  });
 });
