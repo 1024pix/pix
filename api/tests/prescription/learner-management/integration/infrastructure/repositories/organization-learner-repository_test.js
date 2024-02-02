@@ -48,6 +48,37 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       expect(organizationLearnerResult.deletedBy).to.equal(userId);
     });
 
+    it('not update organization learner already deleted', async function () {
+      // given
+      const otherUserId = databaseBuilder.factory.buildUser().id;
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+        deletedAt: new Date('2020-02-01'),
+        deletedBy: otherUserId,
+      }).id;
+
+      await databaseBuilder.commit();
+
+      // when
+      const organizationLearnersIdsToDelete = [organizationLearnerId];
+
+      await DomainTransaction.execute(async (domainTransaction) => {
+        await removeByIds({ organizationLearnerIds: organizationLearnersIdsToDelete, userId, domainTransaction });
+      });
+
+      // then
+      const organizationLearnerResult = await knex('organization-learners')
+        .select('deletedAt', 'deletedBy')
+        .where('id', organizationLearnerId)
+        .first();
+
+      expect(organizationLearnerResult.deletedAt).to.deep.equal(new Date('2020-02-01'));
+      expect(organizationLearnerResult.deletedBy).to.equal(otherUserId);
+    });
+
     it('delete more than one organization learners at the same time', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
