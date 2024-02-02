@@ -1,10 +1,13 @@
 import { ModuleDoesNotExistError } from '../errors.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import { PassageCreated } from '../models/event/PassageCreated.js';
 
-const createPassage = async function ({ moduleId, moduleRepository, passageRepository }) {
+const createPassage = async ({ moduleId, moduleRepository, passageRepository }) => {
   await _verifyIfModuleExists({ moduleId, moduleRepository });
 
-  return passageRepository.save({ moduleId });
+  const passageFromRepository = await passageRepository.save({ moduleId });
+
+  return new PassageCreated(passageFromRepository);
 };
 
 async function _verifyIfModuleExists({ moduleId, moduleRepository }) {

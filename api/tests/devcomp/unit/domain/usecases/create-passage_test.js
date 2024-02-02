@@ -2,6 +2,7 @@ import { catchErr, expect, sinon } from '../../../../test-helper.js';
 import { createPassage } from '../../../../../src/devcomp/domain/usecases/create-passage.js';
 import { ModuleDoesNotExistError } from '../../../../../src/devcomp/domain/errors.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { PassageCreated } from '../../../../../src/devcomp/domain/models/event/PassageCreated.js';
 
 describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {
   describe('when module does not exist', function () {
@@ -35,6 +36,7 @@ describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {
       save: sinon.stub(),
     };
     passageRepositoryStub.save.resolves(repositoryResult);
+    const expectedPassageCreated = { passage: repositoryResult, occuredAt: '2023-02-02T10:46:30Z' };
 
     // when
     const result = await createPassage({
@@ -47,6 +49,8 @@ describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {
     expect(passageRepositoryStub.save).to.have.been.calledWithExactly({
       moduleId,
     });
-    expect(result).to.equal(repositoryResult);
+    expect(result).to.be.instanceOf(PassageCreated);
+    expect(result.passage).to.equal(expectedPassageCreated.passage);
+    expect(result.occuredAt).not.to.be.empty;
   });
 });
