@@ -37,14 +37,18 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
   const organization = await organizationRepository.get(organizationId);
   const path = payload.path;
 
-  const { file: filePath, directory } = await siecleService.unzip(path);
-  const encoding = await siecleService.detectEncoding(filePath);
-
   if (format === 'xml') {
+    const { file: filePath, directory } = await siecleService.unzip(path);
+    const encoding = await siecleService.detectEncoding(filePath);
+
     const siecleFileStreamer = await SiecleFileStreamer.create(filePath, encoding);
     const parser = SiecleParser.create(organization, siecleFileStreamer);
 
     organizationLearnerData = await parser.parse();
+
+    if (directory) {
+      await fs.rm(directory, { recursive: true });
+    }
   } else if (format === 'csv') {
     organizationLearnerData = await organizationLearnersCsvService.extractOrganizationLearnersInformation(
       path,
@@ -56,10 +60,6 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
   }
 
   fs.unlink(payload.path);
-
-  if (directory) {
-    await fsPromises.rm(directory, { recursive: true });
-  }
 
   if (isEmpty(organizationLearnerData)) {
     throw new SiecleXmlImportError(ERRORS.EMPTY);
