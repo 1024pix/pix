@@ -66,12 +66,11 @@ function generate_environment_config_file() {
 }
 
 function install_apps_dependencies() {
-  echo "Installing Pix apps dependencies…"
+  echo "Installing Pix root dependencies…"
 
-  npm install
-  npm run ci:all
+  npm ci
 
-  echo "✅ Dependencies installed."
+  echo "✅ Root dependencies installed."
   echo ""
 }
 
@@ -109,6 +108,6 @@ display_banner
 display_header
 verify_prerequesite_programs
 generate_environment_config_file
-install_apps_dependencies
 setup_and_run_infrastructure
+install_apps_dependencies
 display_footer
