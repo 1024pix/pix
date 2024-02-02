@@ -174,6 +174,7 @@ import { buildCertificationSessionEnrolledCandidate } from './certification/sess
 import { buildCertificationSessionComplementaryCertification } from './certification/session/build-certification-session-complementary-certification.js';
 
 import { buildCampaign as boundedContextCampaignBuildCampaign } from './prescription/campaign/build-campaign.js';
+import { buildCampaignParticipation as boundedContextCampaignParticipationBuildCampaignParticipation } from './prescription/campaign-participation/build-campaign-participation.js';
 
 const certification = {
   session: {
@@ -190,6 +191,9 @@ const certification = {
 const prescription = {
   campaign: {
     buildCampaign: boundedContextCampaignBuildCampaign,
+  },
+  campaignParticipation: {
+    buildCampaignParticipation: boundedContextCampaignParticipationBuildCampaignParticipation,
   },
 };
 

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING } from '../constants.js';
+import { MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING } from '../../../../../lib/domain/constants.js';
 
 class PreviousCampaignParticipation {
   constructor({

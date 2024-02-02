@@ -1,4 +1,4 @@
-import { CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
+import { CampaignTypes } from '../../../shared/domain/constants.js';
 
 class CampaignToStartParticipation {
   constructor({
