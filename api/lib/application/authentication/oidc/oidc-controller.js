@@ -82,8 +82,12 @@ const getAuthenticationUrl = async function (
   const { identity_provider: identityProvider } = request.query;
   const oidcAuthenticationService =
     dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
-  const result = oidcAuthenticationService.getAuthenticationUrl({ redirectUri: request.query['redirect_uri'] });
-  return h.response(result).code(200);
+  const { nonce, state, ...payload } = oidcAuthenticationService.getAuthenticationUrl({ redirectUri: request.query['redirect_uri'] });
+
+  request.yar.set('state', state);
+  request.yar.set('nonce', nonce);
+
+  return h.response(payload).code(200);
 };
 
 const authenticateUser = async function (
