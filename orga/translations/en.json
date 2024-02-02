@@ -1096,6 +1096,18 @@
         "row-title": "Student"
       }
     },
+    "sco-organization-participants-import": {
+      "title": "Importer des élèves",
+      "actions": {
+        "add": {
+          "title": "Add / Edit ({types})",
+          "details": "Add a list of students to the one already imported and/or edit the information of students already imported.",
+          "label": "Import students",
+          "file-type-separator": " or ",
+          "information": "Importing your file may take a few minutes. Some features may be temporarily inaccessible."
+        }
+      }
+    },
     "sup-organization-participant-activity": {
       "title": "Student activity"
     },
