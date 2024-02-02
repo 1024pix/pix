@@ -22,6 +22,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
   let certificationAssessmentRepository;
   let assessmentResultRepository;
   let certificationCourseRepository;
+  let competenceForScoringRepository;
   let competenceMarkRepository;
   let challengeRepository;
   let answerRepository;
@@ -43,6 +44,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
       update: sinon.stub(),
       getCreationDate: sinon.stub(),
     };
+    competenceForScoringRepository = { listByLocale: sinon.stub() };
     competenceMarkRepository = { save: sinon.stub() };
     challengeRepository = { getMany: sinon.stub() };
     answerRepository = { findByAssessment: sinon.stub() };
@@ -294,7 +296,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
     context('when certification is V3', function () {
       let certificationCourse;
-
+      const assessmentResultId = 99;
       beforeEach(function () {
         event = new AssessmentCompleted({
           assessmentId,
@@ -317,6 +319,13 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         flashAlgorithmService = {
           getEstimatedLevelAndErrorRate: sinon.stub(),
         };
+
+        competenceForScoringRepository.listByLocale.resolves([domainBuilder.buildCompetenceForScoring()]);
+        assessmentResultRepository.save.resolves(
+          domainBuilder.buildAssessmentResult({
+            id: assessmentResultId,
+          }),
+        );
       });
 
       describe('when less than the minimum number of answers required by the config has been answered and the candidate abandoned', function () {
@@ -361,6 +370,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               answerRepository,
               assessmentResultRepository,
               certificationCourseRepository,
+              competenceForScoringRepository,
               competenceMarkRepository,
               scoringCertificationService,
               certificationAssessmentRepository,
@@ -438,6 +448,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               answerRepository,
               assessmentResultRepository,
               certificationCourseRepository,
+              competenceForScoringRepository,
               competenceMarkRepository,
               scoringCertificationService,
               certificationAssessmentRepository,
@@ -490,8 +501,8 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             const scoreForEstimatedLevel = 592;
             const challenges = generateChallengeList({ length: maximumAssessmentLength });
             const challengeIds = challenges.map(({ id }) => id);
-
             const answers = generateAnswersForChallenges({ challenges });
+            const assessmentResultId = 123;
 
             challengeRepository.getMany.withArgs(challengeIds).resolves(challenges);
             answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
@@ -509,6 +520,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               .returns({
                 estimatedLevel: expectedEstimatedLevel,
               });
+            assessmentResultRepository.save.resolves(domainBuilder.buildAssessmentResult({ id: assessmentResultId }));
 
             // when
             await handleCertificationScoring({
@@ -517,6 +529,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               answerRepository,
               assessmentResultRepository,
               certificationCourseRepository,
+              competenceForScoringRepository,
               competenceMarkRepository,
               scoringCertificationService,
               certificationAssessmentRepository,
@@ -544,6 +557,17 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               new CertificationCourse({
                 ...certificationCourse.toDTO(),
                 completedAt: now,
+              }),
+            );
+            expect(competenceMarkRepository.save).to.have.been.calledWithExactly(
+              domainBuilder.buildCompetenceMark({
+                id: undefined,
+                assessmentResultId: assessmentResultId,
+                area_code: '1',
+                competenceId: 'recCompetenceId',
+                competence_code: '1.1',
+                level: 2,
+                score: 0,
               }),
             );
           });
@@ -582,6 +606,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 answerRepository,
                 assessmentResultRepository,
                 certificationCourseRepository,
+                competenceForScoringRepository,
                 competenceMarkRepository,
                 scoringCertificationService,
                 certificationAssessmentRepository,
@@ -650,6 +675,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 answerRepository,
                 assessmentResultRepository,
                 certificationCourseRepository,
+                competenceForScoringRepository,
                 competenceMarkRepository,
                 scoringCertificationService,
                 certificationAssessmentRepository,
@@ -723,6 +749,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 answerRepository,
                 assessmentResultRepository,
                 certificationCourseRepository,
+                competenceForScoringRepository,
                 competenceMarkRepository,
                 scoringCertificationService,
                 certificationAssessmentRepository,
@@ -790,6 +817,8 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           challengeRepository,
           answerRepository,
           assessmentResultRepository,
+          competenceMarkRepository,
+          competenceForScoringRepository,
           certificationCourseRepository,
           flashAlgorithmConfigurationRepository,
           flashAlgorithmService,
@@ -820,6 +849,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         event,
         assessmentResultRepository,
         certificationCourseRepository,
+        competenceForScoringRepository,
         competenceMarkRepository,
         scoringCertificationService,
         certificationAssessmentRepository,

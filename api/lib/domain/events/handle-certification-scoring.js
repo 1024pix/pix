@@ -21,6 +21,7 @@ async function handleCertificationScoring({
   certificationAssessmentRepository,
   certificationCourseRepository,
   competenceMarkRepository,
+  competenceForScoringRepository,
   scoringCertificationService,
   answerRepository,
   challengeRepository,
@@ -40,6 +41,7 @@ async function handleCertificationScoring({
         certificationAssessment,
         assessmentResultRepository,
         certificationCourseRepository,
+        competenceForScoringRepository,
         competenceMarkRepository,
         flashAlgorithmConfigurationRepository,
         flashAlgorithmService,
@@ -108,6 +110,7 @@ async function _handleV3CertificationScoring({
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
+  competenceForScoringRepository,
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
   locale,
@@ -129,12 +132,15 @@ async function _handleV3CertificationScoring({
     configuration,
   });
 
+  const competencesForScoring = await competenceForScoringRepository.listByLocale({ locale });
+
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     algorithm,
     challenges,
     allAnswers,
     abortReason,
     maxReachableLevelOnCertificationDate: certificationCourse.getMaxReachableLevelOnCertificationDate(),
+    competencesForScoring,
   });
 
   if (_shouldCancelV3Certification({ allAnswers, certificationCourse })) {
@@ -183,7 +189,7 @@ async function _saveResult({
   await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
     const competenceMarkDomain = new CompetenceMark({
       ...competenceMark,
-      ...{ assessmentResultId: assessmentResult.id },
+      assessmentResultId: assessmentResult.id,
     });
     return competenceMarkRepository.save(competenceMarkDomain);
   });

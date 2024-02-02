@@ -22,6 +22,7 @@ import * as certificationCourseRepository from '../../../src/certification/share
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
+import * as competenceForScoringRepository from '../../../src/certification/scoring/infrastructure/repositories/competence-for-scoring-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
@@ -74,6 +75,7 @@ const dependencies = {
   certificationIssueReportRepository,
   challengeRepository,
   competenceMarkRepository,
+  competenceForScoringRepository,
   competenceRepository,
   complementaryCertificationCourseResultRepository,
   complementaryCertificationScoringCriteriaRepository,
