@@ -50,7 +50,7 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun étudiant n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d’aide</a></div>',
+          '<div>Aucun étudiant n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d’aide</a>.</div>',
         );
       });
 
@@ -215,7 +215,7 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun étudiant n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d’aide</a></div>',
+          '<div>Aucun étudiant n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d’aide</a>.</div>',
         );
       });
 

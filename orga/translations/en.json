@@ -871,6 +871,47 @@
         "row-title": "Participant"
       }
     },
+    "organization-participants-import":{
+      "actions": {
+        "add-sco": {
+          "title": "Add / Edit",
+          "details": "Add a list of students to the one already imported and/or edit the information of students already imported.",
+          "label": "Add students",
+          "file-type-separator": " or "
+        },
+        "add-sup": {
+          "title": "Add / Edit",
+          "details": "Add a list of students to the one already imported and/or edit the information of students already imported.",
+          "label": "Add students"
+        },
+        "replace-sup": {
+          "title": "Overwrite",
+          "details": "Import a new list of students in replacement of the existing one.",
+          "label": "Overwrite list"
+        }
+      },
+      "title": "Import students",
+      "information": "Importing your file may take a few minutes. Some features may be temporarily inaccessible.",
+      "supported-formats": "(Supported format: {types})",
+      "file-type-separator": " or ",
+      "global-success": "The list has been successfully imported.",
+      "global-success-with-warnings": "'<div>'The list has been successfully imported.'<br/><br/>'However some values were not recognised:'<br/>'{warnings}'<br/><br/>'They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
+      "warnings": {
+        "diploma": "Diplomas unknown: {diplomas}; ",
+        "study-scheme": "Study schemes unknown: {studySchemes}; "
+      },
+      "sco":{
+        "title": "Import students",
+        "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please check or edit your file and try to import it again.</div>",
+        "global-error": "'<div>'Import has failed.'<br/>'Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a>'.'</div>'"
+      },
+      "sup":{
+        "title": "Import students",
+        "description": "What type of import would you like to use?",
+        "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please check or edit your file and try to import it again.</div>",
+        "global-error": "'<div>'Import has failed.'<br/>'Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a>'.'</div>'"
+      }
+    },
     "participants-list": {
       "latest-participation-information-tooltip": {
         "aria-label": "Latest participation's information",
@@ -999,11 +1040,6 @@
         },
         "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}"
       },
-      "import": {
-        "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please check or edit your file and try to import it again.</div>",
-        "global-error": "'<div>'Import has failed.'<br/>'Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a>'.'</div>'",
-        "global-success": "The list has been successfully imported."
-      },
       "manage-authentication-method-modal": {
         "title": "Managing the student's Pix account",
         "authentication-methods": "Log in methods",
@@ -1090,18 +1126,6 @@
         "description": "Table of students, sorted by name. For students who have provided an authentication method, you can manage the allowed login modes and reset the student's password through a menu in 'Actions' column",
         "empty": "No students.",
         "row-title": "Student"
-      }
-    },
-    "sco-organization-participants-import": {
-      "title": "Importer des élèves",
-      "actions": {
-        "add": {
-          "title": "Add / Edit ({types})",
-          "details": "Add a list of students to the one already imported and/or edit the information of students already imported.",
-          "label": "Import students",
-          "file-type-separator": " or ",
-          "information": "Importing your file may take a few minutes. Some features may be temporarily inaccessible."
-        }
       }
     },
     "sup-organization-participant-activity": {
@@ -1210,31 +1234,6 @@
         "description": "Table of students, sorted by name.You can edit the student's number through a menu in an additional column",
         "empty": "No students.",
         "row-title": "Student"
-      }
-    },
-    "sup-organization-participants-import": {
-      "title": "Import students",
-      "actions": {
-        "add": {
-          "title": "Add / Edit",
-          "details": "Add a list of students to the one already imported and/or edit the information of students already imported.",
-          "label": "Add students"
-        },
-        "replace": {
-          "title": "Overwrite",
-          "details": "Import a new list of students in replacement of the existing one.",
-          "label": "Overwrite list"
-        }
-      },
-      "description": "What type of import would you like to use?",
-      "error-wrapper": "'<div>'Import has failed.'<br/><strong>'{message}'</strong><br/>' Please edit your file and try to import it again.'</div>'",
-      "global-error": "'<div>'Import has failed.'<br/>'Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a></div>'",
-      "global-success": "The list has been successfully imported.",
-      "global-success-with-warnings": "'<div>'The list has been successfully imported.'<br/><br/>'However some values were not recognised:'<br/>'{warnings}'<br/><br/>'They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
-      "supported-formats": "(Supported format: csv)",
-      "warnings": {
-        "diploma": "Diplomas unknown: {diplomas}; ",
-        "study-scheme": "Study schemes unknown: {studySchemes}; "
       }
     },
     "team-invitations": {

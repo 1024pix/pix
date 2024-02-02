@@ -1,0 +1,305 @@
+import { module, test } from 'qunit';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import { render, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
+import { click, triggerEvent } from '@ember/test-helpers';
+import Service from '@ember/service';
+import { hbs } from 'ember-cli-htmlbars';
+import sinon from 'sinon';
+
+module('Integration | Component | OrganizationParticipantImport', function (hooks) {
+  setupIntlRenderingTest(hooks);
+
+  module('when user is from sup', (hooks) => {
+    class CurrentUserStub extends Service {
+      isAdminInOrganization = true;
+      isSUPManagingStudents = true;
+    }
+
+    hooks.beforeEach(function () {
+      this.owner.register('service:current-user', CurrentUserStub);
+      this.set('onImportSupStudents', sinon.stub());
+      this.set('onImportScoStudents', sinon.stub());
+      this.set('onReplaceStudents', sinon.stub());
+    });
+
+    test('it should display Import/Replace Component', async function (assert) {
+      // given
+      this.set('isLoading', false);
+
+      // when
+      const screen = await render(
+        hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
+      );
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('heading', {
+            name: this.intl.t('pages.organization-participants-import.sup.title'),
+            level: 1,
+          }),
+        )
+        .exists();
+
+      assert.dom(screen.getByText(this.intl.t('pages.organization-participants-import.sup.description'))).exists();
+      assert
+        .dom(
+          screen.getByText(this.intl.t('pages.organization-participants-import.supported-formats', { types: '.csv' })),
+        )
+        .exists();
+      assert.dom(screen.queryByText(this.intl.t('common.loading'))).doesNotExist();
+    });
+
+    test('it should display loading message', async function (assert) {
+      // given
+      this.set('isLoading', true);
+
+      // when
+      const screen = await render(
+        hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
+      );
+
+      // then
+      assert.dom(screen.getByText(this.intl.t('common.loading'))).exists();
+    });
+
+    module('replaceStudents', function (hooks) {
+      hooks.beforeEach(function () {
+        this.owner.register('service:current-user', CurrentUserStub);
+        this.set('onImportSupStudents', sinon.stub());
+        this.set('onImportScoStudents', sinon.stub());
+        this.set('onReplaceStudents', sinon.stub());
+      });
+
+      test('it should open the modal on replace button click', async function (assert) {
+        // given
+        this.set('isLoading', false);
+
+        // when
+        const screen = await render(
+          hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
+        );
+
+        const replaceButton = screen.getByRole('button', {
+          name: this.intl.t('pages.organization-participants-import.actions.replace.label'),
+        });
+
+        await click(replaceButton);
+
+        // then
+        assert
+          .dom(
+            await screen.findByRole('heading', {
+              level: 1,
+              name: this.intl.t('pages.sup-organization-participants.replace-students-modal.title'),
+            }),
+          )
+          .exists();
+      });
+
+      test('it should close the modal if the action is canceled', async function (assert) {
+        // given
+        this.set('isLoading', false);
+
+        // when
+        const screen = await render(
+          hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
+        );
+
+        const replaceButton = screen.getByRole('button', {
+          name: this.intl.t('pages.organization-participants-import.actions.replace.label'),
+        });
+
+        await click(replaceButton);
+
+        const cancelButton = await screen.findByRole('button', { name: this.intl.t('common.actions.cancel') });
+
+        await Promise.all([waitForElementToBeRemoved(() => screen.queryByRole('dialog')), click(cancelButton)]);
+
+        // then
+        assert
+          .dom(
+            screen.queryByRole('heading', {
+              level: 1,
+              name: this.intl.t('pages.sup-organization-participants.replace-students-modal.title'),
+            }),
+          )
+          .doesNotExist();
+      });
+    });
+
+    module('importSupStudents', function (hooks) {
+      hooks.beforeEach(function () {
+        this.owner.register('service:current-user', CurrentUserStub);
+        this.set('onImportSupStudents', sinon.stub());
+        this.set('onImportScoStudents', sinon.stub());
+        this.set('onReplaceStudents', sinon.stub());
+      });
+
+      test('it should import by confirming and clicking on import button', async function (assert) {
+        // given
+        this.set('isLoading', false);
+
+        // when
+        const screen = await render(
+          hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
+        );
+
+        const file = new Blob(['foo'], { type: 'valid-file' });
+
+        const addButton = screen.getByLabelText(
+          this.intl.t('pages.organization-participants-import.actions.add-sup.label'),
+        );
+
+        await triggerEvent(addButton, 'change', { files: [file] });
+
+        // then
+        assert.ok(this.onImportSupStudents.calledWithExactly([file]));
+        assert.notOk(this.onReplaceStudents.called);
+      });
+    });
+  });
+
+  module('when user is from sco', (hooks) => {
+    class CurrentUserStub extends Service {
+      isAdminInOrganization = true;
+      isSCOManagingStudents = true;
+    }
+
+    hooks.beforeEach(async function () {
+      this.owner.register('service:current-user', CurrentUserStub);
+      this.set('onImportSupStudents', sinon.stub());
+      this.set('onImportScoStudents', sinon.stub());
+      this.set('onReplaceStudents', sinon.stub());
+    });
+
+    test('it should display title and not the loading state', async function (assert) {
+      // given
+      this.set('isLoading', false);
+
+      // when
+      const screen = await render(
+        hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
+      );
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('heading', {
+            name: this.intl.t('pages.organization-participants-import.sco.title'),
+            level: 1,
+          }),
+        )
+        .exists();
+
+      assert.dom(screen.queryByText(this.intl.t('common.loading'))).doesNotExist();
+    });
+
+    test('it should display loading message', async function (assert) {
+      // given
+      this.set('isLoading', true);
+
+      // when
+      const screen = await render(
+        hbs`<Import
+    @onImportSupStudents={{this.onImportSupStudents}}
+    @onImportScoStudents={{this.onImportScoStudents}}
+    @onReplaceStudents={{this.onReplaceStudents}}
+    @isLoading={{this.isLoading}}
+  />`,
+      );
+
+      // then
+      assert.dom(screen.getByText(this.intl.t('common.loading'))).exists();
+    });
+
+    test('it trigger importStudentsSpy when clicking on the import button', async function (assert) {
+      this.set('isLoading', false);
+
+      const screen = await render(
+        hbs`<Import
+    @onImportSupStudents={{this.onImportSupStudents}}
+    @onImportScoStudents={{this.onImportScoStudents}}
+    @onReplaceStudents={{this.onReplaceStudents}}
+    @isLoading={{this.isLoading}}
+  />`,
+      );
+
+      const file = new Blob(['foo'], { type: 'valid-file' });
+      const input = screen.getByLabelText(this.intl.t('pages.organization-participants-import.sco.title'));
+
+      await triggerEvent(input, 'change', { files: [file] });
+
+      assert.ok(this.onImportScoStudents.called);
+    });
+
+    test('a message should be display when importing ', async function (assert) {
+      this.set('isLoading', true);
+      const screen = await render(
+        hbs`<Import
+    @onImportSupStudents={{this.onImportSupStudents}}
+    @onImportScoStudents={{this.onImportScoStudents}}
+    @onReplaceStudents={{this.onReplaceStudents}}
+    @isLoading={{this.isLoading}}
+  />`,
+      );
+      assert.dom(await screen.findByText(this.intl.t('pages.organization-participants-import.information'))).exists();
+    });
+  });
+
+  module('when organization is SCO and tagged as Agriculture and CFA', (hooks) => {
+    hooks.beforeEach(async function () {
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
+        isSCOManagingStudents = true;
+        isAgriculture = true;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+    });
+
+    test('a message should be display when importing ', async function (assert) {
+      this.set('isLoading', true);
+      const screen = await render(
+        hbs`<Import
+    @onImportSupStudents={{this.onImportSupStudents}}
+    @onImportScoStudents={{this.onImportScoStudents}}
+    @onReplaceStudents={{this.onReplaceStudents}}
+    @isLoading={{this.isLoading}}
+  />`,
+      );
+
+      assert.dom(await screen.findByText(this.intl.t('pages.organization-participants-import.information'))).exists();
+    });
+  });
+});

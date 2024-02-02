@@ -81,23 +81,23 @@ export default class ImportController extends Controller {
   _sendNotifications(response) {
     const warningsArray = get(response, 'data.attributes.warnings', []);
     if (isEmpty(warningsArray)) {
-      return this.notifications.sendSuccess(this.intl.t('pages.sup-organization-participants-import.global-success'));
+      return this.notifications.sendSuccess(this.intl.t('pages.organization-participants-import.global-success'));
     }
 
     const warnings = groupBy(warningsArray, 'field');
     const warningMessages = [];
     if (warnings.diploma) {
       const diplomas = uniq(warnings.diploma.map((warning) => warning.value)).join(', ');
-      warningMessages.push(this.intl.t('pages.sup-organization-participants-import.warnings.diploma', { diplomas }));
+      warningMessages.push(this.intl.t('pages.organization-participants-import.warnings.diploma', { diplomas }));
     }
     if (warnings['study-scheme']) {
       const studySchemes = uniq(warnings['study-scheme'].map((warning) => warning.value)).join(', ');
       warningMessages.push(
-        this.intl.t('pages.sup-organization-participants-import.warnings.study-scheme', { studySchemes }),
+        this.intl.t('pages.organization-participants-import.warnings.study-scheme', { studySchemes }),
       );
     }
     return this.notifications.sendWarning(
-      this.intl.t('pages.sup-organization-participants-import.global-success-with-warnings', {
+      this.intl.t('pages.organization-participants-import.global-success-with-warnings', {
         warnings: warningMessages.join(''),
         htmlSafe: true,
       }),
@@ -105,7 +105,7 @@ export default class ImportController extends Controller {
   }
 
   _sendErrorNotifications(errorResponse) {
-    const globalErrorMessage = this.intl.t('pages.sup-organization-participants-import.global-error', {
+    const globalErrorMessage = this.intl.t('pages.organization-participants-import.sup.global-error', {
       htmlSafe: true,
     });
     if (errorResponse.errors) {
@@ -113,7 +113,7 @@ export default class ImportController extends Controller {
         if (error.status === '412' || error.status === '413') {
           const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
           return this.notifications.sendError(
-            this.intl.t('pages.sup-organization-participants-import.error-wrapper', { message, htmlSafe: true }),
+            this.intl.t('pages.organization-participants-import.sup.error-wrapper', { message, htmlSafe: true }),
           );
         }
         return this.notifications.sendError(globalErrorMessage, {
@@ -128,7 +128,7 @@ export default class ImportController extends Controller {
   }
 
   _handleError(errorResponse) {
-    const globalErrorMessage = this.intl.t('pages.sco-organization-participants.import.global-error', {
+    const globalErrorMessage = this.intl.t('pages.organization-participants-import.sco.global-error', {
       htmlSafe: true,
     });
     if (!errorResponse.errors) {
@@ -141,7 +141,7 @@ export default class ImportController extends Controller {
       if (['422', '412', '413'].includes(error.status)) {
         const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
         return this.notifications.sendError(
-          this.intl.t('pages.sco-organization-participants.import.error-wrapper', { message, htmlSafe: true }),
+          this.intl.t('pages.organization-participants-import.sco.error-wrapper', { message, htmlSafe: true }),
         );
       }
       return this.notifications.sendError(globalErrorMessage, {
