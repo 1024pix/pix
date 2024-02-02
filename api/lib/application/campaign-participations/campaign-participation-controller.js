@@ -1,8 +1,5 @@
-import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { usecases as devcompUsecases } from '../../../src/devcomp/domain/usecases/index.js';
-import * as events from '../../domain/events/index.js';
-import * as campaignParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import * as campaignAnalysisSerializer from '../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
 import * as campaignAssessmentParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
 import * as campaignAssessmentParticipationResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js';
@@ -10,54 +7,6 @@ import * as campaignProfileSerializer from '../../infrastructure/serializers/jso
 import * as trainingSerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-
-const save = async function (request, h, dependencies = { campaignParticipationSerializer, monitoringTools }) {
-  const userId = request.auth.credentials.userId;
-  const campaignParticipation = await dependencies.campaignParticipationSerializer.deserialize(request.payload);
-
-  const { event, campaignParticipation: campaignParticipationCreated } = await DomainTransaction.execute(
-    (domainTransaction) => {
-      return usecases.startCampaignParticipation({ campaignParticipation, userId, domainTransaction });
-    },
-  );
-
-  events.eventDispatcher
-    .dispatch(event)
-    .catch((error) => dependencies.monitoringTools.logErrorWithCorrelationIds({ message: error }));
-
-  return h.response(dependencies.campaignParticipationSerializer.serialize(campaignParticipationCreated)).created();
-};
-
-const shareCampaignResult = async function (request) {
-  const userId = request.auth.credentials.userId;
-  const campaignParticipationId = request.params.id;
-
-  await DomainTransaction.execute(async (domainTransaction) => {
-    const event = await usecases.shareCampaignResult({
-      userId,
-      campaignParticipationId,
-      domainTransaction,
-    });
-    await events.eventBus.publish(event, domainTransaction);
-    return event;
-  });
-
-  return null;
-};
-
-const beginImprovement = async function (request) {
-  const userId = request.auth.credentials.userId;
-  const campaignParticipationId = request.params.id;
-
-  return DomainTransaction.execute(async (domainTransaction) => {
-    await usecases.beginCampaignParticipationImprovement({
-      campaignParticipationId,
-      userId,
-      domainTransaction,
-    });
-    return null;
-  });
-};
 
 const getAnalysis = async function (request, h, dependencies = { campaignAnalysisSerializer }) {
   const { userId } = request.auth.credentials;
@@ -160,9 +109,6 @@ const findTrainings = async function (request, h, dependencies = { trainingSeria
 };
 
 const campaignParticipationController = {
-  save,
-  shareCampaignResult,
-  beginImprovement,
   getAnalysis,
   getCampaignProfile,
   getCampaignAssessmentParticipation,

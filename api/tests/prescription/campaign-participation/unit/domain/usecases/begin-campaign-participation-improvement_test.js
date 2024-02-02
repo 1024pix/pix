@@ -1,13 +1,13 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, sinon, domainBuilder, catchErr } from '../../../../../test-helper.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 
 import {
   AlreadySharedCampaignParticipationError,
   UserNotAuthorizedToAccessEntityError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../../../lib/domain/errors.js';
 
-import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 
 const { beginCampaignParticipationImprovement } = usecases;
 
@@ -31,7 +31,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     // given
     const userId = 1;
     const campaignParticipationId = 2;
-    const campaignParticipation = domainBuilder.buildCampaignParticipation({
+    const campaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
       userId: userId + 1,
       id: campaignParticipationId,
     });
@@ -52,7 +52,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
     // given
     const userId = 1;
     const campaignParticipationId = 2;
-    const campaignParticipation = domainBuilder.buildCampaignParticipation({
+    const campaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
       userId,
       id: campaignParticipationId,
       status: CampaignParticipationStatuses.SHARED,
@@ -80,7 +80,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
       isImproving: true,
       state: Assessment.states.STARTED,
     });
-    const campaignParticipation = domainBuilder.buildCampaignParticipation({
+    const campaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
       userId,
       id: campaignParticipationId,
       status: CampaignParticipationStatuses.STARTED,
@@ -105,7 +105,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function (
       isImproving: true,
       state: Assessment.states.COMPLETED,
     });
-    const campaignParticipation = domainBuilder.buildCampaignParticipation({
+    const campaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
       userId,
       id: campaignParticipationId,
       status: CampaignParticipationStatuses.STARTED,

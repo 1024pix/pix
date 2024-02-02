@@ -6,9 +6,6 @@ describe('Integration | Application | Route | campaignParticipationRouter', func
   let httpTestServer;
 
   beforeEach(async function () {
-    sinon
-      .stub(campaignParticipationController, 'shareCampaignResult')
-      .callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignParticipationController, 'getAnalysis').callsFake((request, h) => h.response('ok').code(200));
     sinon
       .stub(campaignParticipationController, 'getCampaignAssessmentParticipation')
@@ -19,26 +16,6 @@ describe('Integration | Application | Route | campaignParticipationRouter', func
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
-  });
-
-  describe('PATCH /api/campaign-participations/{id}', function () {
-    it('should exist', async function () {
-      // given
-      const payload = {
-        data: {
-          type: 'campaign-participation',
-          attributes: {
-            isShared: true,
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/campaign-participations/1', payload);
-
-      // then
-      expect(response.statusCode).to.equal(201);
-    });
   });
 
   describe('GET /api/campaign-participations/{id}/analyses', function () {

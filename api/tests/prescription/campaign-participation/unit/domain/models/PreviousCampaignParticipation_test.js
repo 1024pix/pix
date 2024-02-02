@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { PreviousCampaignParticipation } from '../../../../lib/domain/read-models/PreviousCampaignParticipation.js';
-import { constants } from '../../../../lib/domain/constants.js';
+import { expect, sinon } from '../../../../../test-helper.js';
+import { PreviousCampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/PreviousCampaignParticipation.js';
+import { constants } from '../../../../../../lib/domain/constants.js';
 
 describe('Unit | Domain | Read-Models | PreviousCampaignParticipation', function () {
   describe('#constructor', function () {

@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, mockLearningContent } from '../../../test-helper.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, databaseBuilder, mockLearningContent } from '../../../../../test-helper.js';
+import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
+import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 
 describe('Integration | UseCases | startCampaignParticipation', function () {
   it('start a new participation', async function () {
