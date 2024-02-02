@@ -55,14 +55,26 @@ async function save({ certificationCourse, domainTransaction = DomainTransaction
   return savedCertificationCourse;
 }
 
+const _findCertificationCourse = async function (id, knexConn = knex) {
+  return knexConn('certification-courses').where({ id }).first();
+};
+
+const _findAssessment = async function (certificationCourseId, knexConn = knex) {
+  return knexConn('assessments').where({ certificationCourseId }).first();
+};
+
+const _findAllChallenges = async function (certificationCourseId, knexConn = knex) {
+  return knexConn('certification-challenges').where({ courseId: certificationCourseId });
+};
+
 async function get(id) {
-  const certificationCourseDTO = await knex('certification-courses').where({ id }).first();
+  const certificationCourseDTO = await _findCertificationCourse(id);
 
   if (!certificationCourseDTO) {
     throw new NotFoundError(`Certification course of id ${id} does not exist.`);
   }
 
-  const assessmentDTO = await knex('assessments').where({ certificationCourseId: id }).first();
+  const assessmentDTO = await _findAssessment(id);
 
   const certificationIssueReportsDTO = await knex('certification-issue-reports').where({ certificationCourseId: id });
 
@@ -70,7 +82,7 @@ async function get(id) {
     certificationCourseId: id,
   });
 
-  const challengesDTO = await knex('certification-challenges').where({ courseId: id });
+  const challengesDTO = await _findAllChallenges(id);
 
   return _toDomain({
     certificationCourseDTO,
@@ -112,14 +124,28 @@ async function findOneCertificationCourseByUserIdAndSessionId({
   sessionId,
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
-  const certificationCourse = await BookshelfCertificationCourse.where({ userId, sessionId })
+  const knexConn = domainTransaction.knexTransaction ?? knex;
+
+  const certificationCourseDto = await knexConn('certification-courses')
+    .where({ userId, sessionId })
     .orderBy('createdAt', 'desc')
-    .fetch({
-      require: false,
-      withRelated: ['assessment', 'challenges'],
-      transacting: domainTransaction.knexTransaction,
-    });
-  return bookshelfToDomain(certificationCourse);
+    .first();
+
+  if (!certificationCourseDto) {
+    return null;
+  }
+
+  const assessmentDTO = await _findAssessment(certificationCourseDto.id, knexConn);
+
+  const challengesDTO = await _findAllChallenges(certificationCourseDto.id, knexConn);
+
+  return _toDomain({
+    certificationCourseDTO: certificationCourseDto,
+    challengesDTO,
+    assessmentDTO,
+    complementaryCertificationCoursesDTO: [],
+    certificationIssueReportsDTO: [],
+  });
 }
 
 async function update(certificationCourse) {
