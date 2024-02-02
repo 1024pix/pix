@@ -5,7 +5,7 @@ import { Bookshelf } from '../../../../../lib/infrastructure/bookshelf.js';
 import { CertificationReport } from '../../domain/models/CertificationReport.js';
 import { BookshelfCertificationCourse } from '../../../../../lib/infrastructure/orm-models/CertificationCourse.js';
 import { CertificationCourseUpdateError } from '../../domain/errors.js';
-import { toDomain } from './certification-course-repository.js';
+import { bookshelfToDomain } from './certification-course-repository.js';
 
 const findBySessionId = async function (sessionId) {
   const results = await BookshelfCertificationCourse.where({ sessionId })
@@ -17,7 +17,7 @@ const findBySessionId = async function (sessionId) {
       withRelated: ['certificationIssueReports', 'assessment'],
     });
 
-  const certificationCourses = results.map(toDomain);
+  const certificationCourses = results.map(bookshelfToDomain);
   return _.map(certificationCourses, CertificationReport.fromCertificationCourse);
 };
 
