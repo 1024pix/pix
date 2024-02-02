@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CertificationIssueReportCategory } from '../../../issue-reports/domain/read-models/CertificationIssueReportCategory.js';
+import { CertificationIssueReportCategory } from '../../domain/read-models/CertificationIssueReportCategory.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 
 function _toDomain(issueReportCategoryModel) {
