@@ -64,7 +64,7 @@ git reset --hard
 Le script d'installation effectue les tâches suivantes :
 
 - créer la base de données et le cache (conteneurs Docker)
-- installer les librairies
+- installer les librairies communes à tous les projets
 
 Il prend moins de 5 minutes.
 Exécutez-le avec  `npm run configure`
