@@ -18,9 +18,7 @@
     @onCloseButtonClick={{this.closeModal}}
   >
     <:content>
-      <p class="image__modal-instruction">
-        {{html-unsafe @image.alternativeText}}
-      </p>
+      {{html-unsafe @image.alternativeText}}
     </:content>
   </PixModal>
 </div>
