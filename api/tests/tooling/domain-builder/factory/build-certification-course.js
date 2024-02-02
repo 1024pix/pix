@@ -31,6 +31,7 @@ function buildCertificationCourse({
   abortReason = null,
   complementaryCertificationCourses = [],
   maxReachableLevelOnCertificationDate = 7,
+  numberOfChallenges = 20,
 } = {}) {
   const certificationIssueReports = [];
   if (examinerComment && examinerComment !== '') {
@@ -72,6 +73,7 @@ function buildCertificationCourse({
     abortReason,
     complementaryCertificationCourses,
     maxReachableLevelOnCertificationDate,
+    numberOfChallenges,
   });
 }
 

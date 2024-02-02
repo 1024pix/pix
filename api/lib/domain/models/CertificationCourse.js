@@ -36,6 +36,7 @@ class CertificationCourse {
     isCancelled = false,
     abortReason,
     complementaryCertificationCourses = [],
+    numberOfChallenges,
     version = CertificationVersion.V2,
     isRejectedForFraud = false,
   } = {}) {
@@ -65,6 +66,7 @@ class CertificationCourse {
     this._abortReason = abortReason;
     this._complementaryCertificationCourses = complementaryCertificationCourses;
     this._isRejectedForFraud = isRejectedForFraud;
+    this._numberOfChallenges = numberOfChallenges;
   }
 
   static from({
@@ -73,6 +75,7 @@ class CertificationCourse {
     verificationCode,
     maxReachableLevelOnCertificationDate,
     complementaryCertificationCourses,
+    numberOfChallenges,
     version,
   }) {
     return new CertificationCourse({
@@ -88,6 +91,7 @@ class CertificationCourse {
       birthplace: certificationCandidate.birthCity,
       externalId: certificationCandidate.externalId,
       challenges,
+      numberOfChallenges,
       verificationCode,
       maxReachableLevelOnCertificationDate,
       complementaryCertificationCourses,
@@ -238,6 +242,10 @@ class CertificationCourse {
 
   getMaxReachableLevelOnCertificationDate() {
     return this._maxReachableLevelOnCertificationDate;
+  }
+
+  getNumberOfChallenges() {
+    return this._version === CertificationVersion.V3 ? this._numberOfChallenges : this._challenges?.length ?? 0;
   }
 
   toDTO() {

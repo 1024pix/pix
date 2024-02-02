@@ -1,5 +1,7 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
+import { generateChallengeList } from '../../../certification/shared/fixtures/challenges.js';
+import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 
 describe('Unit | Domain | Models | CertificationCourse', function () {
   describe('#cancel #isCancelled', function () {
@@ -314,6 +316,43 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
 
       // then
       expect(certificationCourse.toDTO().completedAt).to.deep.equal(new Date('1999-12-31'));
+    });
+  });
+
+  describe('#getNumberOfChallenges', function () {
+    describe('when certification course is version 3', function () {
+      it('should return the number of challenges defined when created', function () {
+        // given
+        const numberOfChallenges = 5;
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          version: CertificationVersion.V3,
+          numberOfChallenges,
+        });
+
+        // when
+        const computedNumberOfChallenges = certificationCourse.getNumberOfChallenges();
+
+        // then
+        expect(computedNumberOfChallenges).to.equal(numberOfChallenges);
+      });
+    });
+
+    describe('when certification course is version 2', function () {
+      it('should return the number of challenges based on the challenges length', function () {
+        // given
+        const numberOfChallenges = 5;
+        const challenges = generateChallengeList({ length: numberOfChallenges });
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          version: CertificationVersion.V2,
+          challenges,
+        });
+
+        // when
+        const computedNumberOfChallenges = certificationCourse.getNumberOfChallenges();
+
+        // then
+        expect(computedNumberOfChallenges).to.equal(numberOfChallenges);
+      });
     });
   });
 });
