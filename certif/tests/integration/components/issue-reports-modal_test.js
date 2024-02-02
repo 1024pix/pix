@@ -3,7 +3,6 @@ import { click } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
-import EmberObject from '@ember/object';
 import {
   certificationIssueReportCategories,
   certificationIssueReportSubcategories,
@@ -17,11 +16,11 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
 
   test('it show candidate information in title', async function (assert) {
     // given
-    const report = EmberObject.create({
-      certificationCourseId: 1,
+    const store = this.owner.lookup('service:store');
+
+    const report = store.createRecord('certification-report', {
       firstName: 'Lisa',
       lastName: 'Monpud',
-      hasSeenEndTestScreen: false,
     });
     const onClickIssueReportStub = sinon.stub();
     const closeIssueReportsModalStub = sinon.stub();
@@ -45,12 +44,9 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
 
   test('it should close modal onclick "Ajouter un signalement"', async function (assert) {
     // given
-    const report = EmberObject.create({
-      certificationCourseId: 1,
-      firstName: 'Lisa',
-      lastName: 'Monpud',
-      hasSeenEndTestScreen: false,
-    });
+    const store = this.owner.lookup('service:store');
+    const report = store.createRecord('certification-report');
+
     const onClickIssueReportStub = sinon.stub();
     const closeIssueReportsModalStub = sinon.stub();
     this.set('report', report);
@@ -74,23 +70,18 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
 
   test('it should show Mes signalements (2)', async function (assert) {
     // given
-    const issue1 = EmberObject.create({
+    const store = this.owner.lookup('service:store');
+    const issue1 = store.createRecord('certification-issue-report', {
       category: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
-      categoryLabel: categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES],
     });
-
-    const issue2 = EmberObject.create({
+    const issue2 = store.createRecord('certification-issue-report', {
       category: certificationIssueReportCategories.SIGNATURE_ISSUE,
-      categoryLabel: categoryToLabel[certificationIssueReportCategories.SIGNATURE_ISSUE],
     });
 
-    const report = EmberObject.create({
-      certificationCourseId: 1,
+    const report = store.createRecord('certification-report', {
       certificationIssueReports: [issue1, issue2],
-      firstName: 'Lisa',
-      lastName: 'Monpud',
-      hasSeenEndTestScreen: false,
     });
+
     const onClickIssueReportStub = sinon.stub();
     const closeIssueReportsModalStub = sinon.stub();
     this.set('report', report);
@@ -113,25 +104,19 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
 
   test('it should list existing issue reports with subcategory', async function (assert) {
     // given
-    const issue1 = EmberObject.create({
+    const store = this.owner.lookup('service:store');
+    const issue1 = store.createRecord('certification-issue-report', {
       category: certificationIssueReportCategories.SIGNATURE_ISSUE,
-      categoryLabel: categoryToLabel[certificationIssueReportCategories.SIGNATURE_ISSUE],
     });
-
-    const issue2 = EmberObject.create({
+    const issue2 = store.createRecord('certification-issue-report', {
       category: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
-      categoryLabel: categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES],
       subcategory: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
-      subcategoryLabel: subcategoryToLabel[certificationIssueReportSubcategories.NAME_OR_BIRTHDATE],
     });
 
-    const report = EmberObject.create({
-      certificationCourseId: 1,
+    const report = store.createRecord('certification-report', {
       certificationIssueReports: [issue1, issue2],
-      firstName: 'Lisa',
-      lastName: 'Monpud',
-      hasSeenEndTestScreen: false,
     });
+
     const onClickIssueReportStub = sinon.stub();
     const closeIssueReportsModalStub = sinon.stub();
     this.set('report', report);
