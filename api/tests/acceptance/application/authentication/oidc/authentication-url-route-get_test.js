@@ -26,14 +26,7 @@ describe('Acceptance | Route | oidc authentication url', function () {
         });
 
         // then
-        function _checkIfValidUUID(str) {
-          const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
-          return regexExp.test(str);
-        }
-
         expect(response.statusCode).to.equal(200);
-        expect(_checkIfValidUUID(response.result.state)).to.be.true;
-        expect(_checkIfValidUUID(response.result.nonce)).to.be.true;
 
         const redirectTargetUrl = new URL(response.result.redirectTarget);
 
@@ -59,14 +52,7 @@ describe('Acceptance | Route | oidc authentication url', function () {
         });
 
         // then
-        function _checkIfValidUUID(str) {
-          const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
-          return regexExp.test(str);
-        }
-
         expect(response.statusCode).to.equal(200);
-        expect(_checkIfValidUUID(response.result.state)).to.be.true;
-        expect(_checkIfValidUUID(response.result.nonce)).to.be.true;
 
         const redirectTargetUrl = new URL(response.result.redirectTarget);
 

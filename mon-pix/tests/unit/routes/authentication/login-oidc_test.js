@@ -33,16 +33,9 @@ module('Unit | Route | login-oidc', function (hooks) {
     });
 
     module('when no code exists in queryParams', function (hooks) {
-      const state = 'a8a3344f-6d7c-469d-9f84-bdd791e04fdf';
-      const nonce = '555c86fe-ed0a-4a80-80f3-45b1f7c2df8c';
-
       hooks.beforeEach(function () {
         sinon.stub(fetch, 'default').resolves({
-          json: sinon.stub().resolves({
-            redirectTarget: `https://oidc/connexion`,
-            state,
-            nonce,
-          }),
+          json: sinon.stub().resolves({ redirectTarget: 'https://oidc/connexion' }),
         });
         const oidcPartner = {
           id: 'oidc-partner',
@@ -117,16 +110,12 @@ module('Unit | Route | login-oidc', function (hooks) {
         });
       });
 
-      test('should clear previous session data, redirect user to identity provider login page and set state and nonce', async function (assert) {
+      test('clears previous session data and redirects user to identity provider login page', async function (assert) {
         // given
         const sessionStub = Service.create({
           attemptedTransition: { intent: { url: '/campagnes/PIXOIDC01/acces' } },
           authenticate: sinon.stub().resolves(),
-          data: {
-            nextURL: '/previous-url',
-            state: 'previous-state',
-            nonce: 'previous-nonce',
-          },
+          data: { nextURL: '/previous-url' },
         });
         const route = this.owner.lookup('route:authentication/login-oidc');
         route.set('session', sessionStub);
@@ -136,9 +125,8 @@ module('Unit | Route | login-oidc', function (hooks) {
         await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc-partner' } } });
 
         // then
-        sinon.assert.calledWithMatch(route.location.replace, 'https://oidc/connexion');
-        assert.deepEqual(sessionStub.data, { nextURL: '/campagnes/PIXOIDC01/acces', state, nonce });
-        assert.ok(true);
+        assert.true(route.location.replace.calledWithMatch('https://oidc/connexion'));
+        assert.deepEqual(sessionStub.data, { nextURL: '/campagnes/PIXOIDC01/acces' });
       });
     });
   });
@@ -204,7 +192,7 @@ module('Unit | Route | login-oidc', function (hooks) {
         state: undefined,
       });
       assert.ok(authenticateStub.getCall(0).args[1].redirectUri.includes('connexion/oidc'));
-      assert.deepEqual(sessionStub.data, { state: undefined, nonce: undefined });
+      assert.deepEqual(sessionStub.data, {});
     });
 
     test('should return values to be received by after model to validate CGUs', async function (assert) {
