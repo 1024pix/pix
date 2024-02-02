@@ -111,6 +111,7 @@ server {
   location /api/ {
     proxy_pass https://$upstream;
     proxy_set_header Host $upstream_host;
+    proxy_set_header X-Source-front <% ENV['APP'] %>
   }
 
   <% end %>
