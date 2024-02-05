@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 
 const LINK_SCO = 'http://cloud.pix.fr/s/GqwW6dFDDrHezfS';
 const LINK_OTHER = 'http://cloud.pix.fr/s/fLSG4mYCcX7GDRF';
+const LINK_V3_PILOT = 'https://cloud.pix.fr/s/f2PNGLajBypbaiJ';
 
 export default class AuthenticatedController extends Controller {
   @tracked isBannerVisible = true;
@@ -29,6 +30,9 @@ export default class AuthenticatedController extends Controller {
   }
 
   get documentationLink() {
+    if (this.currentUser.currentAllowedCertificationCenterAccess.isV3Pilot) {
+      return LINK_V3_PILOT;
+    }
     if (this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents) {
       return LINK_SCO;
     }

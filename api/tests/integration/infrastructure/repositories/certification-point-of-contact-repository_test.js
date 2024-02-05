@@ -279,6 +279,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         name: 'Centre de certif sans orga reliée',
         type: CertificationCenter.types.PRO,
         externalId: 'Centre1',
+        isV3Pilot: true,
       });
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId: 1,
@@ -293,6 +294,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         name: 'Centre de certif reliée à une orga sans tags',
         type: CertificationCenter.types.PRO,
         externalId: 'Centre2',
+        isV3Pilot: true,
       });
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId: 2,
@@ -344,6 +346,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         externalId: 'Centre1',
         type: CertificationCenter.types.PRO,
         isRelatedToManagingStudentsOrganization: false,
+        isV3Pilot: true,
         relatedOrganizationTags: [],
         habilitations: [
           { id: 1, label: 'Certif comp 1', key: 'COMP_1' },
@@ -356,6 +359,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         externalId: 'Centre2',
         type: CertificationCenter.types.PRO,
         isRelatedToManagingStudentsOrganization: false,
+        isV3Pilot: true,
         relatedOrganizationTags: [],
         habilitations: [{ id: 3, label: 'Certif comp 3', key: 'COMP_3' }],
       });
