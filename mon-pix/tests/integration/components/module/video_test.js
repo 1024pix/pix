@@ -16,7 +16,7 @@ module('Integration | Component | Module | Video', function (hooks) {
       url,
       title: 'title',
       subtitles: 'subtitles',
-      alternativeText: 'alternative instruction',
+      transcription: '',
     });
 
     this.set('video', videoElement);
@@ -28,13 +28,11 @@ module('Integration | Component | Module | Video', function (hooks) {
     assert.ok(screen);
     assert.strictEqual(findAll('.element-video').length, 1);
     assert.ok(document.getElementsByClassName('pix-video-player'));
-    assert.ok(screen.getByRole('button', { name: 'Afficher la transcription' }));
   });
 
-  test('should be able to use the modal for alternative instruction', async function (assert) {
+  test('should be able to use the modal for transcription', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const alternativeText = 'alternative text of video';
     const url = 'https://videos.pix.fr/modulix/chat_animation_2.webm';
 
     const videoElement = store.createRecord('video', {
@@ -42,7 +40,6 @@ module('Integration | Component | Module | Video', function (hooks) {
       title: 'title',
       subtitles: 'subtitles',
       transcription: 'transcription',
-      alternativeText: alternativeText,
     });
 
     this.set('video', videoElement);
@@ -56,7 +53,7 @@ module('Integration | Component | Module | Video', function (hooks) {
     assert.ok(screen.getByText('transcription'));
   });
 
-  test('should not be able to open the modal if there is no alternative instruction', async function (assert) {
+  test('should not be able to open the modal if there is no transcription', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
     const url = 'https://videos.pix.fr/modulix/chat_animation_2.webm';
@@ -65,8 +62,7 @@ module('Integration | Component | Module | Video', function (hooks) {
       url,
       title: 'title',
       subtitles: 'subtitles',
-      transcription: 'transcription',
-      alternativeText: '',
+      transcription: '',
     });
 
     this.set('video', video);
@@ -75,7 +71,7 @@ module('Integration | Component | Module | Video', function (hooks) {
     const screen = await render(hbs`<Module::Video @video={{this.video}}/>`);
 
     // then
-    const alternativeTextButton = await screen.queryByRole('button', { name: 'Afficher la transcription' });
-    assert.dom(alternativeTextButton).doesNotExist();
+    const transcriptionButton = await screen.queryByRole('button', { name: 'Afficher la transcription' });
+    assert.dom(transcriptionButton).doesNotExist();
   });
 });
