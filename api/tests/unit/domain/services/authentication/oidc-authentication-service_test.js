@@ -1,9 +1,12 @@
-import { expect, sinon, catchErr } from '../../../../test-helper.js';
-import { config as settings } from '../../../../../lib/config.js';
+import { Issuer } from 'openid-client';
 
+import { expect, sinon, catchErr } from '../../../../test-helper.js';
+
+import { config as settings } from '../../../../../lib/config.js';
 import { OidcAuthenticationService } from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
 import jsonwebtoken from 'jsonwebtoken';
 import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
+
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 
 import {
@@ -12,7 +15,6 @@ import {
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
 } from '../../../../../lib/domain/errors.js';
-
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
@@ -856,6 +858,43 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           authenticationMethod: expectedAuthenticationMethod,
           domainTransaction,
         });
+      });
+    });
+  });
+
+  describe('#createClient', function () {
+    it('creates an openid client', async function () {
+      // given
+      const clientId = Symbol('clientId');
+      const clientSecret = Symbol('clientSecret');
+      const configKey = 'identityProviderConfigKey';
+      const identityProvider = Symbol('identityProvider');
+      const redirectUri = Symbol('redirectUri');
+      const openidConfigurationUrl = Symbol('openidConfigurationUrl');
+      const Client = sinon.spy();
+
+      sinon.stub(Issuer, 'discover').resolves({ Client });
+      sinon.stub(settings, 'identityProviderConfigKey').value({});
+
+      const oidcAuthenticationService = new OidcAuthenticationService({
+        clientId,
+        clientSecret,
+        configKey,
+        identityProvider,
+        redirectUri,
+        openidConfigurationUrl,
+      });
+
+      // when
+      await oidcAuthenticationService.createClient();
+
+      // then
+      expect(Issuer.discover).to.have.been.calledWithExactly(openidConfigurationUrl);
+      expect(Client).to.have.been.calledWithNew;
+      expect(Client).to.have.been.calledWithExactly({
+        client_id: clientId,
+        client_secret: clientSecret,
+        redirect_uris: [redirectUri],
       });
     });
   });
