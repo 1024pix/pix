@@ -95,10 +95,10 @@ async function get(id) {
 
 function _toDomain({
   certificationCourseDTO,
-  challengesDTO,
-  assessmentDTO,
-  complementaryCertificationCoursesDTO,
-  certificationIssueReportsDTO,
+  challengesDTO = [],
+  assessmentDTO = {},
+  complementaryCertificationCoursesDTO = [],
+  certificationIssueReportsDTO = [],
 }) {
   const complementaryCertificationCourses = complementaryCertificationCoursesDTO.map(
     (complementaryCertificationCourseDTO) => new ComplementaryCertificationCourse(complementaryCertificationCourseDTO),
@@ -172,8 +172,9 @@ async function isVerificationCodeAvailable(verificationCode) {
 }
 
 async function findCertificationCoursesBySessionId({ sessionId }) {
-  const bookshelfCertificationCourses = await BookshelfCertificationCourse.where({ sessionId }).fetchAll();
-  return bookshelfCertificationCourses.map(bookshelfToDomain);
+  const certificationCoursesDTO = await knex('certification-courses').where({ sessionId });
+
+  return certificationCoursesDTO.map((certificationCourseDTO) => _toDomain({ certificationCourseDTO }));
 }
 
 function bookshelfToDomain(bookshelfCertificationCourse) {
