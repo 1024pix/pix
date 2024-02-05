@@ -1,9 +1,18 @@
+/**
+ * @typedef {import ('./index.js').CertificationResultRepository} CertificationResultRepository
+ * @typedef {import ('./index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
+ */
 import lodash from 'lodash';
 
 const { isEmpty } = lodash;
 
-import { NoCertificationResultForDivision } from '../errors.js';
+import { NoCertificationResultForDivision } from '../../../../../lib/domain/errors.js';
 
+/**
+ * @param {Object} params
+ * @param {CertificationResultRepository} params.certificationResultRepository
+ * @param {ScoCertificationCandidateRepository} params.scoCertificationCandidateRepository
+ */
 const getScoCertificationResultsByDivision = async function ({
   organizationId,
   division,
