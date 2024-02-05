@@ -1,8 +1,6 @@
-import { expect, databaseBuilder, knex } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import { createServer, databaseBuilder, expect } from '../../../../test-helper.js';
 import jsonwebtoken from 'jsonwebtoken';
 import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 
 describe('Acceptance | Application | Oidc | Routes', function () {
   describe('POST /api/oidc/user/reconcile', function () {
@@ -10,10 +8,6 @@ describe('Acceptance | Application | Oidc | Routes', function () {
 
     beforeEach(async function () {
       server = await createServer();
-    });
-
-    afterEach(async function () {
-      await knex('user-logins').truncate();
     });
 
     it('should return 200 HTTP status', async function () {
@@ -51,7 +45,7 @@ describe('Acceptance | Application | Oidc | Routes', function () {
         payload: {
           data: {
             attributes: {
-              identity_provider: OidcIdentityProviders.CNAV.code,
+              identity_provider: 'OIDC_EXAMPLE_NET',
               authentication_key: userAuthenticationKey,
             },
           },
@@ -61,7 +55,7 @@ describe('Acceptance | Application | Oidc | Routes', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result['access_token']).to.exist;
-      expect(response.result['logout_url_uuid']).to.be.null;
+      expect(response.result['logout_url_uuid']).to.exist;
     });
   });
 });

@@ -1,11 +1,10 @@
 import {
-  expect,
+  createServer,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Routes | organization-administration-controller', function () {
   let server;

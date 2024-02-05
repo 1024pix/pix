@@ -3,11 +3,11 @@ import {
   databaseBuilder,
   generateValidRequestAuthorizationHeaderForApplication,
   generateValidRequestAuthorizationHeader,
+  createServer,
 } from '../../../test-helper.js';
 
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
-import { createServer } from '../../../../server.js';
 import { config as settings } from '../../../../lib/config.js';
 
 describe('Acceptance | API | Pole Emploi envois', function () {

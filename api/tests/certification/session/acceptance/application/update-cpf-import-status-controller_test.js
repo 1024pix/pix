@@ -2,12 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import * as url from 'url';
 import {
+  createServer,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   nock,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

@@ -1,5 +1,9 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Acceptance | Controller | session-with-clea-certified-candidate', function () {

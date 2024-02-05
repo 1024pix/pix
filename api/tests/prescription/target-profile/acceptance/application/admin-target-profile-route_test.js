@@ -5,9 +5,8 @@ import {
   MockDate,
   mockLearningContent,
   learningContentBuilder,
+  createServer,
 } from '../../../../test-helper.js';
-
-import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Route | admin-target-profile', function () {
   let server;

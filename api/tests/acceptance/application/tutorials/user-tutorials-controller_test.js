@@ -4,9 +4,9 @@ import {
   mockLearningContent,
   learningContentBuilder,
   databaseBuilder,
+  createServer,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 
 describe('Acceptance | Controller | user-tutorial-controller', function () {

@@ -1,11 +1,9 @@
 import lodash from 'lodash';
-const { pick } = lodash;
-
-import { domainBuilder, expect, nock } from '../../../test-helper.js';
+import { createServer, domainBuilder, expect, nock } from '../../../test-helper.js';
 
 import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 
-import { createServer } from '../../../../server.js';
+const { pick } = lodash;
 
 describe('Acceptance | Controller | users-controller', function () {
   let server;

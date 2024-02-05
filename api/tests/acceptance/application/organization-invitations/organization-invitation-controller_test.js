@@ -1,7 +1,6 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
+import { createServer, databaseBuilder, expect } from '../../../test-helper.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Application | organization-invitation-controller', function () {
   let server;

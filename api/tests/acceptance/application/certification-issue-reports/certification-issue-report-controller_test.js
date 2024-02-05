@@ -4,9 +4,8 @@ import {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
+  createServer,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | certification-issue-report-controller', function () {
   describe('DELETE /api/certification-issue-reports/{id}', function () {

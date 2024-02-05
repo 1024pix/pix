@@ -1,12 +1,11 @@
 import _ from 'lodash';
 import {
+  createServer,
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-  databaseBuilder,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Certification Center Membership', function () {
   let server;

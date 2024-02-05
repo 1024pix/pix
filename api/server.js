@@ -38,6 +38,7 @@ import { devcompRoutes } from './src/devcomp/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
 
 import { authenticationRoutes } from './src/authentication/application/routes.js';
+import { setupOidcAuthenticationServiceRegistry } from './config/setup-oidc-authentication-service-registry.js';
 
 const certificationRoutes = [
   certificationSessionRoutes,
@@ -57,7 +58,7 @@ const prescriptionSharedRoutes = [prescriberManagementRoutes];
 monitoringTools.installHapiHook();
 
 const { logOpsMetrics, port, logging } = config;
-const createServer = async () => {
+const createServer = async (serverOptions = {}) => {
   const server = createBareServer();
 
   if (logOpsMetrics) await enableOpsMetrics(server);
@@ -71,6 +72,8 @@ const createServer = async () => {
   await setupOpenApiSpecification(server);
 
   setupDeserialization(server);
+
+  setupOidcAuthenticationServiceRegistry(serverOptions.oidcProviderServices);
 
   return server;
 };

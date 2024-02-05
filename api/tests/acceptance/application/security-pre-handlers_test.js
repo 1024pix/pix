@@ -1,5 +1,4 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../test-helper.js';
-import { createServer } from '../../../server.js';
+import { createServer, databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../test-helper.js';
 import { Membership } from '../../../lib/domain/models/Membership.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { ORGANIZATION_FEATURE } from '../../../lib/domain/constants.js';

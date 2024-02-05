@@ -5,9 +5,8 @@ import {
   mockLearningContent,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
+  createServer,
 } from '../../../../test-helper.js';
-
-import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Route | target-profile', function () {
   let server;

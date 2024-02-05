@@ -1,12 +1,11 @@
 import {
+  createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | users-controller-is-certifiable', function () {
   let server;
