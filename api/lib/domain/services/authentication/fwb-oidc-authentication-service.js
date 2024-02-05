@@ -12,7 +12,6 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
     super({
       additionalRequiredProperties: ['logoutUrl'],
       authenticationUrl: config[configKey].authenticationUrl,
-      authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
       claimsToStore: config[configKey].claimsToStore,
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,

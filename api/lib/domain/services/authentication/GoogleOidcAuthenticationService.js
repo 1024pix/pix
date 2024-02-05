@@ -8,7 +8,6 @@ class GoogleOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
       authenticationUrl: config[configKey].authenticationUrl,
-      authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
