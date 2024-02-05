@@ -1,5 +1,9 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 import * as userEmailRepository from '../../../../lib/infrastructure/repositories/user-email-repository.js';
 
 describe('Acceptance | Route | Users', function () {

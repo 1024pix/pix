@@ -1,12 +1,11 @@
 import {
-  expect,
+  createServer,
   databaseBuilder,
   domainBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   knex,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | session-for-supervising-controller-supervise', function () {
   let server;

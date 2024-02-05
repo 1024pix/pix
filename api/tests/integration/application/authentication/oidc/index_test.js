@@ -1,11 +1,11 @@
-import { expect, sinon, HttpTestServer, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
+import { expect, generateValidRequestAuthorizationHeader, HttpTestServer, sinon } from '../../../../test-helper.js';
 import { oidcController } from '../../../../../lib/application/authentication/oidc/oidc-controller.js';
 import * as moduleUnderTest from '../../../../../lib/application/authentication/oidc/index.js';
 
 import {
-  UserNotFoundError,
   AuthenticationKeyExpired,
   DifferentExternalIdentifierError,
+  UserNotFoundError,
 } from '../../../../../lib/domain/errors.js';
 
 describe('Integration | Application | Route | OidcRouter', function () {

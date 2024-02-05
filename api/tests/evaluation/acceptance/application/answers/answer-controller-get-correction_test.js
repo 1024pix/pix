@@ -1,11 +1,10 @@
 import {
+  createServer,
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
-
-import { createServer } from '../../../../../server.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;

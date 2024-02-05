@@ -1,5 +1,4 @@
-import { expect, databaseBuilder } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import { expect, databaseBuilder, createServer } from '../../../../test-helper.js';
 import jsonwebtoken from 'jsonwebtoken';
 import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
 

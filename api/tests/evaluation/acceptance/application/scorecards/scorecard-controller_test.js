@@ -1,4 +1,5 @@
 import {
+  createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
@@ -9,8 +10,6 @@ import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElem
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
-
-import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Controller | scorecard-controller', function () {
   let options;

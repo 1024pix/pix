@@ -1,12 +1,12 @@
 import {
-  learningContentBuilder,
-  mockLearningContent,
+  createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../../test-helper.js';
 
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 

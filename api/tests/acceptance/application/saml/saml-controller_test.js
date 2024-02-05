@@ -1,9 +1,8 @@
 import _ from 'lodash';
 
-import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
+import { createServer, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 import samlify from 'samlify';
-import { createServer } from '../../../../server.js';
 import { config as settings } from '../../../../lib/config.js';
 
 const testCertificate = `MIICCzCCAXQCCQD2MlHh/QmGmjANBgkqhkiG9w0BAQsFADBKMQswCQYDVQQGEwJG

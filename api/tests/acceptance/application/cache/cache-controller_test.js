@@ -1,11 +1,11 @@
 import Redis from 'ioredis';
 import {
+  createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
 } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import { LearningContentCache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
 

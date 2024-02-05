@@ -1,5 +1,3 @@
-import { createServer } from '../../../../../server.js';
-
 import {
   expect,
   generateValidRequestAuthorizationHeader,
@@ -9,6 +7,7 @@ import {
   knex,
   learningContentBuilder,
   insertUserWithRoleSuperAdmin,
+  createServer,
 } from '../../../../test-helper.js';
 import { constants } from '../../../../../lib/domain/constants.js';
 

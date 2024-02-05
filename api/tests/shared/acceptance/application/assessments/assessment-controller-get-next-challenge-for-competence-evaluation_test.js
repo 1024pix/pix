@@ -1,14 +1,14 @@
 import {
-  expect,
+  createServer,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
-  learningContentBuilder,
   knex,
+  learningContentBuilder,
+  mockLearningContent,
   sinon,
 } from '../../../../test-helper.js';
 
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 

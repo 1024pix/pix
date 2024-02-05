@@ -3,9 +3,8 @@ import {
   databaseBuilder,
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
+  createServer,
 } from '../../../../test-helper.js';
-
-import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | API | complementary-certification-controller', function () {
   describe('GET /api/admin/complementary-certifications/{id}/target-profiles', function () {

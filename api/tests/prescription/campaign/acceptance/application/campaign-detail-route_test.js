@@ -1,4 +1,5 @@
 import {
+  createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
@@ -9,7 +10,6 @@ import { CampaignParticipationStatuses } from '../../../../../src/prescription/s
 
 const { STARTED } = CampaignParticipationStatuses;
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | API | campaign-detail-route', function () {
   let server;

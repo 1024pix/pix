@@ -1,5 +1,4 @@
-import { expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import { createServer, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 describe('Acceptance | API | countries-controller', function () {
   let server;

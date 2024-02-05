@@ -1,13 +1,13 @@
 import {
-  expect,
+  createServer,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
   learningContentBuilder,
   mockLearningContent,
-  insertUserWithRoleSuperAdmin,
   nock,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { generateCertificateVerificationCode } from '../../../../../lib/domain/services/verify-certificate-code-service.js';
 import { AssessmentResult, Membership } from '../../../../../lib/domain/models/index.js';

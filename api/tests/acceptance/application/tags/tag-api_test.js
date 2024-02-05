@@ -1,14 +1,13 @@
 import _ from 'lodash';
 
 import {
+  createServer,
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRoleSuperAdmin,
   insertUserWithRoleCertif,
-  databaseBuilder,
+  insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | tag-router', function () {
   describe('POST /api/admin/tags', function () {

@@ -1,11 +1,10 @@
 import {
+  createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
-
-import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Route | Delete Organizations Places Lot', function () {
   describe('DELETE /api/admin/organizations/{id}/places/{placeId}', function () {

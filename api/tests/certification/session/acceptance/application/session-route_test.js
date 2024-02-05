@@ -5,8 +5,9 @@ import {
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
+  createServer,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,

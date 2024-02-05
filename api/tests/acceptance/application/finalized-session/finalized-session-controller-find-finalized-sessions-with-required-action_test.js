@@ -3,9 +3,8 @@ import {
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
   insertUserWithRoleSuperAdmin,
+  createServer,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | finalized-session-controller-find-finalized-sessions-with-required-action', function () {
   describe('GET /api/admin/sessions/with-required-action', function () {

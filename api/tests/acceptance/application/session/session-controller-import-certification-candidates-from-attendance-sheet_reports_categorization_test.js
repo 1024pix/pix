@@ -1,5 +1,10 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, sinon } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  sinon,
+} from '../../../test-helper.js';
 import { clearResolveMx, setResolveMx } from '../../../../src/shared/mail/infrastructure/services/mail-check.js';
 import fs from 'fs';
 import * as url from 'url';

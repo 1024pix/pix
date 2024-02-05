@@ -1,13 +1,13 @@
 import {
-  expect,
+  createServer,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
-  learningContentBuilder,
   knex,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../../test-helper.js';
 
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 const competenceId = 'recCompetence';
