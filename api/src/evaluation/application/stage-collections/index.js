@@ -24,6 +24,26 @@ const register = async function (server) {
           params: Joi.object({
             id: identifiersType.targetProfileId,
           }),
+          payload: Joi.object({
+            data: {
+              type: Joi.string().valid('stage-collections').required(),
+              attributes: {
+                stages: Joi.array()
+                  .items({
+                    id: Joi.string().allow(null),
+                    title: Joi.string().required(),
+                    message: Joi.string().allow('').required(),
+                    prescriberDescription: Joi.string().allow('').allow(null),
+                    prescriberTitle: Joi.string().allow('').allow(null),
+                    level: Joi.number().allow(null),
+                    threshold: Joi.number().allow(null),
+                    isFirstSkill: Joi.boolean().allow(null),
+                  })
+                  .min(1)
+                  .required(),
+              },
+            },
+          }),
         },
         handler: stageCollectionController.update,
         tags: ['api', 'admin', 'stage-collections'],
