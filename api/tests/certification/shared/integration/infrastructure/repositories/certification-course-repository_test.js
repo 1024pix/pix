@@ -302,20 +302,12 @@ describe('Integration | Repository | Certification Course', function () {
     beforeEach(async function () {
       // given
       const userId = databaseBuilder.factory.buildUser({}).id;
-      const bookshelfCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
+      const certificationCourseData = databaseBuilder.factory.buildCertificationCourse({
         userId,
         isCancelled: false,
       });
-      certificationCourse = domainBuilder.buildCertificationCourse(bookshelfCertificationCourse);
+      certificationCourse = domainBuilder.buildCertificationCourse(certificationCourseData);
       await databaseBuilder.commit();
-    });
-
-    it('should return a certification course domain object', async function () {
-      // when
-      const updatedCertificationCourse = await certificationCourseRepository.update(certificationCourse);
-
-      // then
-      expect(updatedCertificationCourse).to.be.an.instanceof(CertificationCourse);
     });
 
     it('should not add row in table "certification-courses"', async function () {
@@ -348,13 +340,14 @@ describe('Integration | Repository | Certification Course', function () {
       });
 
       // when
-      const persistedUpdatedCertificationCourse = await certificationCourseRepository.update(
-        unpersistedUpdatedCertificationCourse,
-      );
+      await certificationCourseRepository.update(unpersistedUpdatedCertificationCourse);
 
       // then
-      const persistedUpdatedCertificationCourseDTO = persistedUpdatedCertificationCourse.toDTO();
       const unpersistedUpdatedCertificationCourseDTO = unpersistedUpdatedCertificationCourse.toDTO();
+      const persistedUpdatedCertificationCourse = await certificationCourseRepository.get(
+        unpersistedUpdatedCertificationCourseDTO.id,
+      );
+      const persistedUpdatedCertificationCourseDTO = persistedUpdatedCertificationCourse.toDTO();
       expect(persistedUpdatedCertificationCourse.getId()).to.equal(unpersistedUpdatedCertificationCourse.getId());
       expect(persistedUpdatedCertificationCourseDTO.firstName).to.equal(
         unpersistedUpdatedCertificationCourseDTO.firstName,
@@ -388,9 +381,11 @@ describe('Integration | Repository | Certification Course', function () {
       certificationCourse.version = 1;
 
       // when
-      const certificationCourseUpdated = await certificationCourseRepository.update(certificationCourse);
+      await certificationCourseRepository.update(certificationCourse);
 
       // then
+      const certificationCourseUpdated = await certificationCourseRepository.get(certificationCourse.getId());
+
       expect(certificationCourseUpdated.toDTO().version).to.equal(2);
     });
 

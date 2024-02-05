@@ -149,11 +149,13 @@ async function findOneCertificationCourseByUserIdAndSessionId({
 }
 
 async function update(certificationCourse) {
+  const knexConn = knex;
+
   const certificationCourseData = _pickUpdatableProperties(certificationCourse);
-  const certificationCourseBookshelf = new BookshelfCertificationCourse(certificationCourseData);
+
   try {
-    const certificationCourse = await certificationCourseBookshelf.save();
-    return bookshelfToDomain(certificationCourse);
+    await knexConn('certification-courses').update(certificationCourseData).where({ id: certificationCourseData.id });
+    return get(certificationCourseData.id);
   } catch (err) {
     if (err instanceof BookshelfCertificationCourse.NoRowsUpdatedError) {
       throw new NotFoundError(`No rows updated for certification course of id ${certificationCourse.getId()}.`);
