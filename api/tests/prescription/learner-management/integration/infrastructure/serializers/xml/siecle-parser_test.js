@@ -1,4 +1,5 @@
 import * as url from 'url';
+import fs from 'fs';
 import { expect, catchErr } from '../../../../../../test-helper.js';
 import { SIECLE_ERRORS } from '../../../../../../../lib/domain/errors.js';
 import { SiecleXmlImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
@@ -15,6 +16,7 @@ describe('Integration | Serializers | siecle-parser', function () {
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-two-valid-students.xml`;
+
       const expectedOrganizationLearners = [
         {
           lastName: 'HANDMADE',
@@ -54,7 +56,9 @@ describe('Integration | Serializers | siecle-parser', function () {
 
       // when
       const encoding = await detectEncoding(path);
-      const siecleFileStreamer = await SiecleFileStreamer.create(path, encoding);
+      const readableStream = fs.createReadStream(path);
+
+      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream, encoding);
       const parser = SiecleParser.create(organization, siecleFileStreamer);
       const result = await parser.parse();
 
@@ -67,10 +71,12 @@ describe('Integration | Serializers | siecle-parser', function () {
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-registrations-no-longer-in-school.xml`;
+      const readableStream = fs.createReadStream(path);
+
       const expectedOrganizationLearners = [];
 
       // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
       const parser = SiecleParser.create(organization, siecleFileStreamer);
       const result = await parser.parse();
 
@@ -83,8 +89,9 @@ describe('Integration | Serializers | siecle-parser', function () {
       const wrongUAIFromSIECLE = '123ABC';
       const organization = { externalId: wrongUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-wrong-uai.xml`;
+      const readableStream = fs.createReadStream(path);
       // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
       const parser = SiecleParser.create(organization, siecleFileStreamer);
       const error = await catchErr(() => parser.parse())();
 
@@ -98,9 +105,10 @@ describe('Integration | Serializers | siecle-parser', function () {
       const wrongUAIFromSIECLE = '123ABC';
       const organization = { externalId: wrongUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-no-uai.xml`;
+      const readableStream = fs.createReadStream(path);
 
       // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
       const parser = SiecleParser.create(organization, siecleFileStreamer);
       const error = await catchErr(() => parser.parse())();
 
@@ -114,9 +122,10 @@ describe('Integration | Serializers | siecle-parser', function () {
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-duplicate-national-student-id.xml`;
+      const readableStream = fs.createReadStream(path);
 
       // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
       const parser = SiecleParser.create(organization, siecleFileStreamer);
       const error = await catchErr(() => parser.parse())();
 
@@ -131,9 +140,10 @@ describe('Integration | Serializers | siecle-parser', function () {
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-duplicate-national-student-id-and-unclosed-tag.xml`;
+      const readableStream = fs.createReadStream(path);
 
       // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
       const parser = SiecleParser.create(organization, siecleFileStreamer);
       const error = await catchErr(() => parser.parse())();
 
@@ -148,9 +158,10 @@ describe('Integration | Serializers | siecle-parser', function () {
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-no-national-student-id.xml`;
+      const readableStream = fs.createReadStream(path);
 
       // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
       const parser = SiecleParser.create(organization, siecleFileStreamer);
       const error = await catchErr(() => parser.parse())();
 
@@ -165,9 +176,10 @@ describe('Integration | Serializers | siecle-parser', function () {
       const nationalStudentIdFromFile = '12345';
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-student-with-no-sex.xml`;
+      const readableStream = fs.createReadStream(path);
 
       // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(path);
+      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
       const parser = SiecleParser.create(organization, siecleFileStreamer);
       const error = await catchErr(() => parser.parse())();
 
@@ -183,9 +195,10 @@ describe('Integration | Serializers | siecle-parser', function () {
         const nationalStudentIdFromFile = '1234';
         const organization = { externalId: validUAIFromSIECLE };
         const path = `${fixturesDirPath}/siecle-file/siecle-french-student-with-no-birth-city-code.xml`;
+        const readableStream = fs.createReadStream(path);
 
         // when
-        const siecleFileStreamer = await SiecleFileStreamer.create(path);
+        const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
         const parser = SiecleParser.create(organization, siecleFileStreamer);
         const error = await catchErr(() => parser.parse())();
 

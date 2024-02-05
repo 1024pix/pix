@@ -1,7 +1,7 @@
 import { FileValidationError } from '../../../../../lib/domain/errors.js';
 import { SiecleXmlImportError } from '../errors.js';
 
-import * as fs from 'fs/promises';
+import fs from 'fs/promises';
 
 const { isEmpty, chunk } = lodash;
 
@@ -26,6 +26,7 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
   organizationLearnersCsvService,
   organizationLearnerRepository,
   organizationRepository,
+  importStorage,
   siecleService = {
     unzip: zip.unzip,
     detectEncoding,
@@ -41,13 +42,19 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
     const { file: filePath, directory } = await siecleService.unzip(path);
     const encoding = await siecleService.detectEncoding(filePath);
 
-    const siecleFileStreamer = await SiecleFileStreamer.create(filePath, encoding);
-    const parser = SiecleParser.create(organization, siecleFileStreamer);
+    const filename = await importStorage.sendFile({ filepath: filePath });
 
-    organizationLearnerData = await parser.parse();
+    try {
+      if (directory) {
+        await fs.rm(directory, { recursive: true });
+      }
+      const readableStream = await importStorage.readFile({ filename });
+      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream, encoding);
+      const parser = SiecleParser.create(organization, siecleFileStreamer);
 
-    if (directory) {
-      await fs.rm(directory, { recursive: true });
+      organizationLearnerData = await parser.parse();
+    } finally {
+      await importStorage.deleteFile({ filename });
     }
   } else if (format === 'csv') {
     organizationLearnerData = await organizationLearnersCsvService.extractOrganizationLearnersInformation(

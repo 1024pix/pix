@@ -2,6 +2,7 @@ import { expect, catchErr, sinon } from '../../../../../../test-helper.js';
 import { SiecleFileStreamer } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
 import { FileValidationError } from '../../../../../../../lib/domain/errors.js';
 import * as url from 'url';
+import fs from 'fs';
 import { SiecleXmlImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -10,7 +11,8 @@ describe('SiecleFileStreamer', function () {
     context('when the file is not zipped', function () {
       it('parse the file', async function () {
         const path = `${__dirname}files/xml/valid.xml`;
-        const streamer = await SiecleFileStreamer.create(path, 'utf-8');
+        const readableStream = fs.createReadStream(path);
+        const streamer = await SiecleFileStreamer.create(readableStream, 'utf-8');
 
         const text = await read(streamer);
 
@@ -20,8 +22,9 @@ describe('SiecleFileStreamer', function () {
       context('when the xml is not correctly formed', function () {
         it('throws an error', async function () {
           const path = `${__dirname}/files/xml/bad.xml`;
+          const readableStream = fs.createReadStream(path);
 
-          const streamer = await SiecleFileStreamer.create(path);
+          const streamer = await SiecleFileStreamer.create(readableStream);
 
           const error = await catchErr(
             streamer.perform,
@@ -40,8 +43,9 @@ describe('SiecleFileStreamer', function () {
         it('log only the first sax error', async function () {
           const path = `${__dirname}/files/xml/garbage.xml`;
           const logError = sinon.stub();
+          const readableStream = fs.createReadStream(path);
 
-          const streamer = await SiecleFileStreamer.create(path, 'utf-8', logError);
+          const streamer = await SiecleFileStreamer.create(readableStream, 'utf-8', logError);
 
           await catchErr(
             streamer.perform,
@@ -60,8 +64,9 @@ describe('SiecleFileStreamer', function () {
       context('when the file contain the BOM character', function () {
         it('streams the file', async function () {
           const path = `${__dirname}/files/xml/bom.xml`;
+          const readableStream = fs.createReadStream(path);
 
-          const streamer = await SiecleFileStreamer.create(path);
+          const streamer = await SiecleFileStreamer.create(readableStream);
 
           const text = await read(streamer);
 
@@ -72,7 +77,9 @@ describe('SiecleFileStreamer', function () {
       context('when the encoding is not supported', function () {
         it('it throws an error', async function () {
           const path = `${__dirname}/files/xml/unknown-encoding.xml`;
-          const streamer = await SiecleFileStreamer.create(path, 'x-macthai');
+          const readableStream = fs.createReadStream(path);
+
+          const streamer = await SiecleFileStreamer.create(readableStream, 'x-macthai');
 
           const error = await catchErr(
             streamer.perform,
@@ -92,8 +99,9 @@ describe('SiecleFileStreamer', function () {
       context('when the stream is closed perform method is called', function () {
         it('throws an error', async function () {
           const path = `${__dirname}/files/xml/valid.xml`;
+          const readableStream = fs.createReadStream(path);
 
-          const streamer = await SiecleFileStreamer.create(path, 'utf-8');
+          const streamer = await SiecleFileStreamer.create(readableStream, 'utf-8');
 
           await read(streamer);
           streamer.close();
