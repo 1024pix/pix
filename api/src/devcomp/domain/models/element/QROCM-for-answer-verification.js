@@ -8,6 +8,7 @@ import { EntityValidationError } from '../../../../shared/domain/errors.js';
 
 class QROCMForAnswerVerification extends QROCM {
   #solution;
+  userResponse;
 
   constructor({ id, instruction, feedbacks, proposals, locales, validator }) {
     super({ id, instruction, proposals, locales });
@@ -27,7 +28,27 @@ class QROCMForAnswerVerification extends QROCM {
     }
   }
 
-  validateUserResponseFormat(userResponse) {
+  setUserResponse(userResponse) {
+    this.#validateUserResponseFormat(userResponse);
+
+    const answer = {};
+    for (const response of userResponse) {
+      answer[response.input] = response.answer;
+    }
+    this.userResponse = answer;
+  }
+
+  assess() {
+    const validation = this.validator.assess({ answer: { value: this.userResponse } });
+
+    return new QrocmCorrectionResponse({
+      status: validation.result,
+      feedback: validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid,
+      solution: this.solutions,
+    });
+  }
+
+  #validateUserResponseFormat(userResponse) {
     const qrocmResponseSchema = Joi.object({
       input: Joi.string().required(),
       answer: Joi.string().required(),
@@ -39,25 +60,6 @@ class QROCMForAnswerVerification extends QROCM {
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
     }
-  }
-
-  assess(userResponse) {
-    const answer = {};
-    for (const response of userResponse) {
-      answer[response.input] = response.answer;
-    }
-    const validation = this.validator.assess({ answer: { value: answer } });
-
-    const correction = new QrocmCorrectionResponse({
-      status: validation.result,
-      feedback: validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid,
-      solution: this.solutions,
-    });
-
-    return {
-      userResponseValue: answer,
-      correction,
-    };
   }
 }
 
