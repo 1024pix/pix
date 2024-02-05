@@ -1220,6 +1220,12 @@
       "qrocm": {
         "direction": "Vul de lege velden in."
       },
+      "recap": {
+        "title": "Goed gedaan ! Module voltooid",
+        "backToModuleDetails": "Keer terug naar moduledetails",
+        "goToForm": "Répondre au questionnaire",
+        "subtitle": "Je weet nu '<span aria-hidden=\"true\">'👍'</span>'"
+      },
       "verification-precondition-failed-alert": {
         "qcu": "Selecteer een antwoord om te bevestigen.",
         "qrocm": "Vul alle antwoordvelden in om te valideren."
