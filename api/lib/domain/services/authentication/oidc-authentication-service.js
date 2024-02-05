@@ -44,7 +44,7 @@ class OidcAuthenticationService {
     {
       additionalRequiredProperties,
       authenticationUrl,
-      authenticationUrlParameters,
+      extraAuthorizationUrlParameters,
       claimsToStore,
       clientId,
       clientSecret,
@@ -66,7 +66,7 @@ class OidcAuthenticationService {
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
     this.authenticationUrl = authenticationUrl;
-    this.authenticationUrlParameters = authenticationUrlParameters;
+    this.extraAuthorizationUrlParameters = extraAuthorizationUrlParameters;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.configKey = configKey;
