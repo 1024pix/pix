@@ -13,21 +13,11 @@ const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
-    const clientId = config[configKey].clientId;
-    // Attention, les scopes serviceDigitauxExposition api_peconnect-servicesdigitauxv1 ne sont pas présents dans la documentation de Pole Emploi mais ils sont nécessaires à l'envoi des résultats
-    const authenticationUrlParameters = [
-      { key: 'realm', value: '/individu' },
-      {
-        key: 'scope',
-        value: `application_${clientId} api_peconnect-individuv1 openid profile serviceDigitauxExposition api_peconnect-servicesdigitauxv1`,
-      },
-    ];
-
     super({
       additionalRequiredProperties: ['logoutUrl', 'afterLogoutUrl', 'sendingUrl'],
       authenticationUrl: config[configKey].authenticationUrl,
-      authenticationUrlParameters,
-      clientId: clientId,
+      extraAuthorizationUrlParameters: { realm: '/individu' },
+      clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
       hasLogoutUrl: true,
