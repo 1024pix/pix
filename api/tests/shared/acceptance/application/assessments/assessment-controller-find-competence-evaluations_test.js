@@ -1,5 +1,9 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 
 describe('Acceptance | API | assessment-controller-find-competence-evaluations', function () {
   let server;

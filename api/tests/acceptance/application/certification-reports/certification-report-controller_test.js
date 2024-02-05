@@ -1,5 +1,9 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Controller | certification-report-controller', function () {
   let server, certificationCourseId, userId, sessionId, certificationCenterId;

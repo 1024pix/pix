@@ -1,11 +1,11 @@
-import { createServer } from '../../../../../server.js';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import {
-  expect,
+  createServer,
   databaseBuilder,
-  mockLearningContent,
-  learningContentBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../../test-helper.js';
 
 describe('Acceptance | API | campaign-results-route', function () {

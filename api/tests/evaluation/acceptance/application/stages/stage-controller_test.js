@@ -1,5 +1,3 @@
-import { createServer } from '../../../../../server.js';
-
 import {
   expect,
   generateValidRequestAuthorizationHeader,
@@ -7,6 +5,7 @@ import {
   knex,
   learningContentBuilder,
   mockLearningContent,
+  createServer,
 } from '../../../../test-helper.js';
 
 describe('Acceptance | API | Stages', function () {

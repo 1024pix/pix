@@ -1,9 +1,7 @@
 import jsonwebtoken from 'jsonwebtoken';
-import { expect, knex } from '../../../../test-helper.js';
+import { createServer, expect, knex } from '../../../../test-helper.js';
 import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
-import { createServer } from '../../../../../server.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 
 describe('Acceptance | Route | oidc users', function () {
   let server;
@@ -50,7 +48,7 @@ describe('Acceptance | Route | oidc users', function () {
         payload: {
           data: {
             attributes: {
-              identity_provider: OidcIdentityProviders.CNAV.code,
+              identity_provider: 'OIDC_EXAMPLE_NET',
               authentication_key: userAuthenticationKey,
             },
           },
@@ -84,7 +82,7 @@ describe('Acceptance | Route | oidc users', function () {
           payload: {
             data: {
               attributes: {
-                identity_provider: OidcIdentityProviders.CNAV.code,
+                identity_provider: 'OIDC_EXAMPLE_NET',
                 authentication_key: userAuthenticationKey,
               },
             },

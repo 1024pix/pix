@@ -1,7 +1,6 @@
 import querystring from 'querystring';
 
-import { expect, sinon } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import { createServer, expect, sinon } from '../../../test-helper.js';
 import { authenticationController } from '../../../../lib/application/authentication/authentication-controller.js';
 
 describe('Integration | Application | Route | AuthenticationRouter', function () {

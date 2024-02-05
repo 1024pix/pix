@@ -1,15 +1,15 @@
 import {
-  expect,
+  createServer,
   databaseBuilder,
-  knex,
-  mockLearningContent,
-  learningContentBuilder,
-  insertUserWithRoleSuperAdmin,
+  expect,
   generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
+  knex,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../../test-helper.js';
 
 import { config as settings } from '../../../../../lib/config.js';
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 const lastChallengeAnswer = 'last challenge answer';

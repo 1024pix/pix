@@ -1,16 +1,15 @@
 import _ from 'lodash';
 
 import {
-  knex,
+  createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  sinon,
-  mockLearningContent,
+  knex,
   learningContentBuilder,
+  mockLearningContent,
+  sinon,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 
 const { STARTED } = CampaignParticipationStatuses;

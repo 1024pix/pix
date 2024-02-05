@@ -1,4 +1,5 @@
 import {
+  createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
@@ -6,7 +7,6 @@ import {
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 
 describe('Acceptance | Route | Organizations', function () {

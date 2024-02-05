@@ -1,19 +1,18 @@
 import {
-  expect,
+  createServer,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   generateValidRequestAuthorizationHeaderForApplication,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
 import {
   buildOrganization,
+  buildOrganizationLearner,
+  buildUser,
   buildValidatedPublishedCertificationData,
   mockLearningContentCompetences,
-  buildUser,
-  buildOrganizationLearner,
 } from '../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls.js';
 
 describe('Acceptance | API | Certifications', function () {

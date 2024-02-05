@@ -1,8 +1,7 @@
-import { createServer } from '../../../../../server.js';
-
 import {
-  expect,
+  createServer,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';

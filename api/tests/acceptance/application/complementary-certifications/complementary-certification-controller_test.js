@@ -3,9 +3,9 @@ import {
   databaseBuilder,
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
+  createServer,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
 import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Acceptance | API | complementary-certification-controller', function () {

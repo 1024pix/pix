@@ -1,5 +1,10 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  expect,
+  databaseBuilder,
+  generateValidRequestAuthorizationHeader,
+  createServer,
+} from '../../../../test-helper.js';
+
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';

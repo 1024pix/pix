@@ -1,11 +1,11 @@
 import {
-  expect,
+  createServer,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   knex,
   mockLearningContent,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 describe('Acceptance | API | assessment-controller-pause-assessment', function () {

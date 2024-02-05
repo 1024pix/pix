@@ -1,5 +1,9 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  expect,
+  generateValidRequestAuthorizationHeader,
+  databaseBuilder,
+  createServer,
+} from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | answer-controller-find', function () {
   describe('GET /api/answers?challengeId=Y&assessmentId=Z', function () {

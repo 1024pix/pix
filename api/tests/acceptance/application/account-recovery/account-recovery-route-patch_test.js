@@ -1,5 +1,4 @@
-import { databaseBuilder, expect, knex } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import { createServer, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Acceptance | Route | Account-recovery', function () {
   describe('PATCH /api/account-recovery', function () {

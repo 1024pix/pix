@@ -1,11 +1,10 @@
 import {
+  createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | Users', function () {
   describe('POST /api/users/{id}/add-pix-authentication-method', function () {

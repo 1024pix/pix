@@ -1,11 +1,11 @@
 import {
+  createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
 
-import { createServer } from '../../../../../server.js';
 import * as organizationPlacesLotCategories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 
 describe('Acceptance | Route | Find Organization Places', function () {

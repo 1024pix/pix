@@ -5,6 +5,7 @@ import {
   learningContentBuilder,
   mockLearningContent,
   knex,
+  createServer,
 } from '../../../../test-helper.js';
 
 import { ORGANIZATION_FEATURE } from '../../../../../lib/domain/constants.js';
@@ -12,8 +13,6 @@ import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
-
-import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | API | campaign-administration-route', function () {
   let organization;

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import {
+  createServer,
   databaseBuilder,
   domainBuilder,
   expect,
@@ -9,8 +10,6 @@ import {
   sinon,
 } from '../../../../test-helper.js';
 import { clearResolveMx, setResolveMx } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
-
-import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Controller | session-controller-post-certification-candidate', function () {
   let server;

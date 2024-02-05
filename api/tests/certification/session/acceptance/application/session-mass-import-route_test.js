@@ -1,11 +1,11 @@
 import {
-  expect,
-  knex,
+  createServer,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
+  knex,
   sinon,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
 import * as temporarySessionsStorageForMassImportService from '../../../../../src/certification/session/domain/services/temporary-sessions-storage-for-mass-import-service.js';
 
 import lodash from 'lodash';

@@ -1,5 +1,10 @@
-import { createServer } from '../../../../../server.js';
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../../test-helper.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  knex,
+} from '../../../../test-helper.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 
 describe('Acceptance | Application | flash-assessment-configuration-route', function () {

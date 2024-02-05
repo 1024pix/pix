@@ -4,8 +4,9 @@ import {
   knex,
   insertUserWithRoleSuperAdmin,
   databaseBuilder,
+  createServer,
 } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+
 import { createSuccessfulCertificationCourse } from '../../../shared/fixtures/certification-course.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 

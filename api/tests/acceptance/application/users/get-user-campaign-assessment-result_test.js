@@ -1,12 +1,12 @@
-import { createServer } from '../../../../server.js';
 import _ from 'lodash';
 import { SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
 import {
-  expect,
+  createServer,
   databaseBuilder,
-  mockLearningContent,
-  learningContentBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../test-helper.js';
 
 describe('Acceptance | API | Campaign Assessment Result', function () {
