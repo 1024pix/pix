@@ -6,12 +6,7 @@
 
   <div class="module-recap__objectives">
     <p class="module-recap-objectives__subtitle">{{t "pages.modulix.recap.subtitle" htmlSafe=true}}</p>
-
-    <ol>
-      {{#each @module.details.objectives as |objective|}}
-        <li>{{objective}}</li>
-      {{/each}}
-    </ol>
+    <Module::Objectives @objectives={{@module.details.objectives}} />
   </div>
   <div class="module-recap__link-form">
     <PixButtonLink
