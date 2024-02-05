@@ -2,6 +2,7 @@ import lodash from 'lodash';
 import jsonwebtoken from 'jsonwebtoken';
 import querystring from 'querystring';
 import { randomUUID } from 'crypto';
+import { Issuer } from 'openid-client';
 
 import { logger } from '../../../infrastructure/logger.js';
 import {
@@ -125,6 +126,15 @@ class OidcAuthenticationService {
 
   get isReadyForPixAdmin() {
     return this.#isReadyForPixAdmin;
+  }
+
+  async createClient() {
+    const issuer = await Issuer.discover(this.openidConfigurationUrl);
+    this.client = new issuer.Client({
+      client_id: this.clientId,
+      client_secret: this.clientSecret,
+      redirect_uris: [this.redirectUri],
+    });
   }
 
   createAccessToken(userId) {
