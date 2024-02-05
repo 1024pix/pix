@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit, within } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit, within, getByTextWithHtml } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { waitForDialogClose } from '../../../../helpers/wait-for';
 
@@ -22,9 +22,10 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
   });
 
   module('When user is logged in', function (hooks) {
+    let connectedUser;
     hooks.beforeEach(async function () {
       // given
-      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      connectedUser = await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       server.create('session', { id: '1' });
     });
 
@@ -195,6 +196,54 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
           // then
           assert.dom(screen.queryByText('Informations complémentaires :')).doesNotExist();
         });
+      });
+    });
+
+    test('should assign the session to the connected user', async function (assert) {
+      // given
+      server.create('session', {
+        id: '3',
+        finalizedAt: new Date('2023-01-31'),
+        status: 'finalized',
+      });
+      const screen = await visit('/sessions/3');
+      // when
+      await clickByName("M'assigner la session");
+
+      // then
+      assert.dom(screen.queryByText(`${connectedUser.firstName} ${connectedUser.lastName}`)).exists();
+    });
+
+    module('When the session is already assigned to another user', function () {
+      test('should display a modal before assigning the session to the connected user', async function (assert) {
+        // given
+        const previouslyAssignedUser = server.create('user', { firstName: 'Helmut', lastName: 'Fritz' });
+        server.create('session', {
+          id: '3',
+          finalizedAt: new Date('2023-01-31'),
+          status: 'finalized',
+          assignedCertificationOfficer: previouslyAssignedUser,
+        });
+        const screen = await visit('/sessions/3');
+
+        assert.dom(screen.queryByText('Helmut Fritz')).exists();
+
+        // when
+        await clickByName("M'assigner la session");
+        const modal = await screen.findByRole('dialog');
+        assert
+          .dom(
+            getByTextWithHtml(
+              `L'utilisateur Helmut Fritz s'est déjà assigné cette session.<br>Voulez-vous vous quand même vous assigner cette session ?`,
+            ),
+          )
+          .exists();
+        await within(modal).queryByRole('button', { name: 'Confirmer' }).click();
+        await waitForDialogClose();
+
+        // then
+        assert.dom(screen.queryByText('Helmut Fritz')).doesNotExist();
+        assert.dom(screen.queryByText(`${connectedUser.firstName} ${connectedUser.lastName}`)).exists();
       });
     });
 
