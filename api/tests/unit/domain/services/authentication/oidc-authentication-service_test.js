@@ -11,7 +11,6 @@ import { AuthenticationSessionContent } from '../../../../../lib/domain/models/A
 
 import {
   InvalidExternalAPIResponseError,
-  OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
 } from '../../../../../lib/domain/errors.js';
@@ -423,55 +422,38 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       // given
       const authenticationUrl = 'http://authenticationurl.net';
       const clientId = 'OIDC_CLIENT_ID';
-      const authenticationUrlParameters = [
-        { key: 'realm', value: '/individu' },
-        { key: 'scope', value: `openid profile` },
-      ];
+      const clientSecret = 'OIDC_CLIENT_SECRET';
+      const extraAuthorizationUrlParameters = { realm: '/individu' };
       const redirectUri = 'https://example.org/please-redirect-to-me';
 
       const oidcAuthenticationService = new OidcAuthenticationService({
         authenticationUrl,
         clientId,
-        authenticationUrlParameters,
+        clientSecret,
+        extraAuthorizationUrlParameters,
+        redirectUri,
       });
 
+      const clientInstance = { authorizationUrl: sinon.stub().returns('') };
+      const Client = sinon.stub().returns(clientInstance);
+
+      sinon.stub(Issuer, 'discover').resolves({ Client });
+      await oidcAuthenticationService.createClient();
+
       // when
-      const { redirectTarget } = oidcAuthenticationService.getAuthenticationUrl({ redirectUri });
+      const { nonce, state } = oidcAuthenticationService.getAuthenticationUrl();
 
       // then
-      const parsedRedirectTarget = new URL(redirectTarget);
-      const queryParams = parsedRedirectTarget.searchParams;
       const uuidV4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
-      expect(parsedRedirectTarget.protocol).to.equal('http:');
-      expect(parsedRedirectTarget.hostname).to.equal('authenticationurl.net');
-      expect(queryParams.get('state')).to.match(uuidV4Regex);
-      expect(queryParams.get('nonce')).to.match(uuidV4Regex);
-      expect(queryParams.get('client_id')).to.equal('OIDC_CLIENT_ID');
-      expect(queryParams.get('redirect_uri')).to.equal('https://example.org/please-redirect-to-me');
-      expect(queryParams.get('response_type')).to.equal('code');
-      expect(queryParams.get('scope')).to.equal('openid profile');
-      expect(queryParams.get('realm')).to.equal('/individu');
-    });
+      expect(nonce).to.match(uuidV4Regex);
+      expect(state).to.match(uuidV4Regex);
 
-    describe('when config is missing', function () {
-      it('throws an error', async function () {
-        // given
-        const redirectUri = 'https://example.org/please-redirect-to-me';
-
-        const oidcAuthenticationService = new OidcAuthenticationService({});
-
-        // when
-        let errorResponse;
-        try {
-          await oidcAuthenticationService.getAuthenticationUrl({
-            redirectUri,
-          });
-        } catch (error) {
-          errorResponse = error;
-        }
-
-        // then
-        expect(errorResponse.code).to.be.equal('ERR_INVALID_URL');
+      expect(clientInstance.authorizationUrl).to.have.been.calledWithExactly({
+        nonce,
+        redirect_uri: 'https://example.org/please-redirect-to-me',
+        scope: 'openid profile',
+        state,
+        realm: '/individu',
       });
     });
   });
