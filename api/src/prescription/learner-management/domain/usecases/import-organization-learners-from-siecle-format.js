@@ -59,8 +59,6 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
     throw new FileValidationError(ERRORS.INVALID_FILE_EXTENSION, { fileExtension: format });
   }
 
-  fs.unlink(payload.path);
-
   if (isEmpty(organizationLearnerData)) {
     throw new SiecleXmlImportError(ERRORS.EMPTY);
   }

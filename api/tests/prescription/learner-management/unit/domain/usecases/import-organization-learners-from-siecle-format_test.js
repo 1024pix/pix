@@ -25,7 +25,6 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
   let domainTransaction;
 
   beforeEach(function () {
-    sinon.stub(fs, 'unlink');
     sinon.stub(fs, 'readFile');
     domainTransaction = Symbol();
     sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
