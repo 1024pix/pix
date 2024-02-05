@@ -4,6 +4,7 @@ const { omit } = lodash;
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 
 const save = async function (certificationIssueReport) {
   const [data] = await knex
@@ -18,6 +19,9 @@ const save = async function (certificationIssueReport) {
 
 const get = async function (id) {
   const certificationIssueReport = await knex('certification-issue-reports').where({ id }).first();
+  if (!certificationIssueReport) {
+    throw new NotFoundError(`Certification issue report ${id} does not exist`);
+  }
   return new CertificationIssueReport(certificationIssueReport);
 };
 

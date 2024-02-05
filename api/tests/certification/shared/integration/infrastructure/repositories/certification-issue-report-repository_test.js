@@ -1,11 +1,12 @@
 import _ from 'lodash';
-import { expect, domainBuilder, databaseBuilder, knex } from '../../../../../test-helper.js';
+import { expect, domainBuilder, databaseBuilder, knex, catchErr } from '../../../../../test-helper.js';
 import * as certificationIssueReportRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import { CertificationIssueReport } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Integration | Repository | Certification Issue Report', function () {
   describe('#save', function () {
@@ -139,6 +140,20 @@ describe('Integration | Repository | Certification Issue Report', function () {
 
       expect(result).to.deep.equal(expectedIssueReport);
       expect(result).to.be.instanceOf(CertificationIssueReport);
+    });
+
+    context('when the issue report does not exists', function () {
+      it('should throw NotFoundError', async function () {
+        // given
+        const unknownCertificationIssueReportId = 999999;
+
+        // when
+        const error = await catchErr(certificationIssueReportRepository.get)(unknownCertificationIssueReportId);
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal(`Certification issue report 999999 does not exist`);
+      });
     });
   });
 
