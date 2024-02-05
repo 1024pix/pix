@@ -146,7 +146,6 @@ function _toVideoDomain(element) {
     url: element.url,
     subtitles: element.subtitles,
     transcription: element.transcription,
-    alternativeText: element.alternativeText,
   });
 }
 

@@ -149,7 +149,6 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
                 url: 'url',
                 subtitles: 'subtitles',
                 transcription: 'transcription',
-                alternativeText: 'alternativeText',
               }),
             ],
           },
@@ -260,7 +259,6 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
           },
           {
             attributes: {
-              'alternative-text': 'alternativeText',
               'is-answerable': false,
               subtitles: 'subtitles',
               transcription: 'transcription',

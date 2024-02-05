@@ -11,7 +11,6 @@ describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
         url: 'url',
         subtitles: 'subtitles',
         transcription: 'transcription',
-        alternativeText: 'alternativeText',
       });
 
       // then
@@ -21,7 +20,6 @@ describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
       expect(image.url).to.equal('url');
       expect(image.subtitles).to.equal('subtitles');
       expect(image.transcription).to.equal('transcription');
-      expect(image.alternativeText).to.equal('alternativeText');
     });
   });
 
@@ -56,15 +54,6 @@ describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
       expect(() => new Video({ id: 'id', title: 'title', url: 'url', subtitles: 'subtitles' })).to.throw(
         'Les transcriptions sont obligatoire pour un video',
       );
-    });
-  });
-
-  describe('A video without an alternative Text', function () {
-    it('should throw an error', function () {
-      expect(
-        () =>
-          new Video({ id: 'id', title: 'title', url: 'url', subtitles: 'subtitles', transcription: 'transcription' }),
-      ).to.throw("L'instruction alternative est obligatoire pour un video");
     });
   });
 });
