@@ -568,6 +568,8 @@ const configuration = (function () {
     config.dataProtectionPolicy.updateDate = '2022-12-25 00:00:01';
 
     config.partner.fetchTimeOut = '10ms';
+
+    config.identityProviderConfigKey = null;
   }
 
   return config;
