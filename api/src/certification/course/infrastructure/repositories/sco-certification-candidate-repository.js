@@ -1,7 +1,10 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 
+/**
+ * @returns {Array<number>} certification candidates ids
+ */
 const findIdsByOrganizationIdAndDivision = async function ({ organizationId, division }) {
-  const rows = await knex
+  return knex
     .select(['certification-candidates.id'])
     .from('certification-candidates')
     .join(
@@ -15,9 +18,8 @@ const findIdsByOrganizationIdAndDivision = async function ({ organizationId, div
     })
     .whereRaw('LOWER("view-active-organization-learners"."division") = ?', division.toLowerCase())
     .orderBy('certification-candidates.lastName', 'ASC')
-    .orderBy('certification-candidates.firstName', 'ASC');
-
-  return rows.map((row) => row.id);
+    .orderBy('certification-candidates.firstName', 'ASC')
+    .pluck('certification-candidates.id');
 };
 
 export { findIdsByOrganizationIdAndDivision };
