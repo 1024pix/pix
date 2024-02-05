@@ -224,7 +224,7 @@ LOG_ENABLED=true
 # presence: required
 # type: String
 # default: none
-AUTH_SECRET=Change me!
+AUTH_SECRET=the-password-must-be-at-least-32-characters-long
 
 # Allow email change in API
 

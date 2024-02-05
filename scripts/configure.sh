@@ -51,7 +51,6 @@ function verify_prerequesite_programs() {
   assert_program_is_installed "node"
   assert_program_is_installed "npm"
   assert_program_is_installed "docker"
-  assert_program_is_installed "docker-compose"
 
   echo "✅ Required programs have been found."
   echo ""
@@ -67,26 +66,25 @@ function generate_environment_config_file() {
 }
 
 function install_apps_dependencies() {
-  echo "Installing Pix apps dependencies…"
+  echo "Installing Pix root dependencies…"
 
-  npm install
-  npm run ci:all
+  npm ci
 
-  echo "✅ Dependencies installed."
+  echo "✅ Root dependencies installed."
   echo ""
 }
 
 function setup_and_run_infrastructure() {
   echo "Starting infrastructure building blocks…"
 
-  docker-compose up -d --force-recreate
+  docker compose up -d --force-recreate
 
   echo "✅ PostgreSQL and Redis servers started (using Docker Compose)."
   echo ""
 
   echo "Waiting for PostgreSQL server to be ready…"
 
-  timeout 20s bash -c "until docker-compose exec postgres pg_isready ; do sleep 1 ; done"
+  timeout 20s bash -c "until docker compose exec postgres pg_isready ; do sleep 1 ; done"
 
   echo "✅ PostgreSQL server is ready."
   echo ""
@@ -110,6 +108,6 @@ display_banner
 display_header
 verify_prerequesite_programs
 generate_environment_config_file
-install_apps_dependencies
 setup_and_run_infrastructure
+install_apps_dependencies
 display_footer

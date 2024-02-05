@@ -6,7 +6,7 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 - [Git](https://git-scm.com/) (2.6.4)
 - [Node.js](https://nodejs.org/) (version utilisée disponible dans les fichiers [.nvmrc](https://github.com/1024pix/pix/blob/dev/.nvmrc)) il est recommandé d'utiliser un gestionnaire de versions tel que [nvm](https://github.com/nvm-sh/nvm)
-- [Docker](https://docs.docker.com/get-started/) (20.10) avec [Docker Compose](https://docs.docker.com/compose/install/)
+- [Docker](https://docs.docker.com/get-started/) (20.10)
 
 > ⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que
 > l'application fonctionne avec des versions différentes.
@@ -34,13 +34,6 @@ git clone --filter tree:0  git@github.com:1024pix/pix.git && cd pix
 ```
 
 ### Configurer l'environnement de développement sous Windows (si applicable)
-
-Il se peut que la dernière version `windows-build-tools` ne s'installe pas sur votre machine.
-La `windows-build-tools@4.0.0` semble plus stable à l'installation.
-
-```bash
-npm install windows-build-tools
-```
 
 Définir dans `.npmrc` l'invite de commande à utiliser pour lancer les script-shell.
 
@@ -71,7 +64,7 @@ git reset --hard
 Le script d'installation effectue les tâches suivantes :
 
 - créer la base de données et le cache (conteneurs Docker)
-- installer les librairies
+- installer les librairies communes à tous les projets
 
 Il prend moins de 5 minutes.
 Exécutez-le avec  `npm run configure`
