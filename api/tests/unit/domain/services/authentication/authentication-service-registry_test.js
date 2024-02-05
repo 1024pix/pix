@@ -1,68 +1,147 @@
-import { expect, catchErrSync } from '../../../../test-helper.js';
-import * as authenticationRegistry from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
+import { oidcAuthenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
 
 describe('Unit | Domain | Services | authentication registry', function () {
   describe('#getAllOidcProviderServices', function () {
     it('returns all OIDC Providers', async function () {
+      // given
+      const firstOidcProviderService = {
+        code: 'FIRST',
+      };
+      const secondOidcProviderService = {
+        code: 'SECOND',
+      };
+
+      oidcAuthenticationServiceRegistry.loadOidcProviderServices([firstOidcProviderService, secondOidcProviderService]);
+
       // when
-      const services = authenticationRegistry.getAllOidcProviderServices();
+      const services = oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
 
       // then
       const serviceCodes = services.map((service) => service.code);
-      expect(serviceCodes).to.contain('POLE_EMPLOI');
-      expect(serviceCodes).to.contain('CNAV');
-      expect(serviceCodes).to.contain('FWB');
-      expect(serviceCodes).to.contain('GOOGLE');
+      expect(serviceCodes.length).to.equal(2);
+      expect(serviceCodes).to.contain('FIRST');
+      expect(serviceCodes).to.contain('SECOND');
     });
   });
 
   describe('#getReadyOidcProviderServices', function () {
     it('returns ready OIDC Providers', function () {
+      // given
+      const firstOidcProviderService = {
+        code: 'FIRST',
+      };
+      const secondOidcProviderService = {
+        code: 'SECOND',
+        isReady: true,
+      };
+
+      oidcAuthenticationServiceRegistry.loadOidcProviderServices([firstOidcProviderService, secondOidcProviderService]);
+
       // when
-      const services = authenticationRegistry.getReadyOidcProviderServices();
+      const services = oidcAuthenticationServiceRegistry.getReadyOidcProviderServices();
 
       // then
       const serviceCodes = services.map((service) => service.code);
-      expect(serviceCodes).to.contain('POLE_EMPLOI');
-      expect(serviceCodes).to.contain('CNAV');
-      expect(serviceCodes).not.to.contain('FWB');
+      expect(serviceCodes.length).to.equal(1);
+      expect(serviceCodes).to.contain('SECOND');
     });
   });
 
   describe('#getReadyOidcProviderServicesForPixAdmin', function () {
     it('returns ready OIDC Providers for Pix Admin', function () {
+      // given
+      const firstOidcProviderService = {
+        code: 'FIRST',
+        isReadyForPixAdmin: true,
+      };
+      const secondOidcProviderService = {
+        code: 'SECOND',
+      };
+
+      oidcAuthenticationServiceRegistry.loadOidcProviderServices([firstOidcProviderService, secondOidcProviderService]);
+
       // when
-      const services = authenticationRegistry.getReadyOidcProviderServicesForPixAdmin();
+      const services = oidcAuthenticationServiceRegistry.getReadyOidcProviderServicesForPixAdmin();
 
       // then
       const serviceCodes = services.map((service) => service.code);
-      expect(serviceCodes).to.contain('GOOGLE');
+      expect(serviceCodes.length).to.equal(1);
+      expect(serviceCodes).to.contain('FIRST');
     });
   });
 
   describe('#getOidcProviderServiceByCode', function () {
-    it('returns a ready OIDC Provider', function () {
+    it('returns a ready OIDC Provider service', function () {
       // given
-      const identityProvider = 'POLE_EMPLOI';
+      const identityProviderCode = 'FIRST';
+      const firstOidcProviderService = {
+        code: identityProviderCode,
+        isReady: true,
+      };
+      const secondOidcProviderService = {
+        code: 'SECOND',
+      };
+
+      oidcAuthenticationServiceRegistry.loadOidcProviderServices([firstOidcProviderService, secondOidcProviderService]);
 
       // when
-      const service = authenticationRegistry.getOidcProviderServiceByCode(identityProvider);
+      const service = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode(identityProviderCode);
 
       // then
-      expect(service.code).to.equal('POLE_EMPLOI');
+      expect(service.code).to.equal('FIRST');
     });
 
     it('throws an error when identity provider is not supported', function () {
       // given
-      const identityProvider = 'UNSUPPORTED_OIDC_PROVIDER';
+      const identityProviderCode = 'UNSUPPORTED_OIDC_PROVIDER';
+      const firstOidcProviderService = {
+        code: 'FIRST',
+        isReady: true,
+      };
+      const secondOidcProviderService = {
+        code: 'SECOND',
+      };
+
+      oidcAuthenticationServiceRegistry.loadOidcProviderServices([firstOidcProviderService, secondOidcProviderService]);
 
       // when
-      const error = catchErrSync(authenticationRegistry.getOidcProviderServiceByCode)(identityProvider);
+      const error = catchErrSync(
+        oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode,
+        oidcAuthenticationServiceRegistry,
+      )(identityProviderCode);
 
       // then
       expect(error).to.be.an.instanceOf(InvalidIdentityProviderError);
-      expect(error.message).to.equal(`Identity provider ${identityProvider} is not supported.`);
+      expect(error.message).to.equal(`Identity provider ${identityProviderCode} is not supported.`);
+    });
+  });
+  describe('#loadOidcProviderServices', function () {
+    it('loads all given oidc provider services and filters them', function () {
+      // given
+      const oidcProviderServices = [
+        { code: 'ONE' },
+        { code: 'OIDC', isReady: true },
+        { code: 'OIDC_FOR_PIX_ADMIN', isReadyForPixAdmin: true },
+      ];
+
+      // when
+      oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+
+      // then
+      const allOidcProviderServices = oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
+      const readyOidcProviderServices = oidcAuthenticationServiceRegistry.getReadyOidcProviderServices();
+      const readyOidcProviderServicesForPixAdmin =
+        oidcAuthenticationServiceRegistry.getReadyOidcProviderServicesForPixAdmin();
+
+      expect(allOidcProviderServices).to.have.lengthOf(3);
+
+      expect(readyOidcProviderServices).to.have.lengthOf(1);
+      expect(readyOidcProviderServices.map((service) => service.code)).to.contain('OIDC');
+
+      expect(readyOidcProviderServicesForPixAdmin).to.have.lengthOf(1);
+      expect(readyOidcProviderServicesForPixAdmin.map((service) => service.code)).to.contain('OIDC_FOR_PIX_ADMIN');
     });
   });
 });
