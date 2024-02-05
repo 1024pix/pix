@@ -11,16 +11,19 @@ async function verifyAndSaveAnswer({
 }) {
   const passage = await _getPassage({ passageId, passageRepository });
   const module = await moduleRepository.getBySlugForVerification({ slug: passage.moduleId });
+
   const grain = module.getGrainByElementId(elementId);
   const element = grain.getElementById(elementId);
-  element.validateUserResponseFormat(userResponse);
 
-  const { correction, userResponseValue } = element.assess(userResponse);
+  element.setUserResponse(userResponse);
+
+  const correction = element.assess();
+
   return await elementAnswerRepository.save({
     passageId,
     elementId,
     grainId: grain.id,
-    value: userResponseValue,
+    value: element.userResponse,
     correction,
   });
 }

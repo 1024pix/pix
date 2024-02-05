@@ -90,26 +90,16 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
   });
 
   describe('#assess', function () {
-    it('should return a QrocmCorrectionResponse and a user response for a valid answer', function () {
+    it('should return a QrocmCorrectionResponse for a valid answer', function () {
       // given
       const stubedIsOk = sinon.stub().returns(true);
       const assessResult = { result: { isOK: stubedIsOk } };
       const qrocmSolution = { inputBlock: ['@'], selectBlock: ['2'] };
-      const userResponse = [
-        { input: 'inputBlock', answer: '@' },
-        { input: 'selectBlock', answer: '2' },
-      ];
+      const userResponse = { inputBlock: '@', selectBlock: '2' };
 
       const validator = {
         assess: sinon.stub(),
       };
-      validator.assess
-        .withArgs({
-          answer: {
-            value: { inputBlock: '@', selectBlock: '2' },
-          },
-        })
-        .returns(assessResult);
       const qrocm = new QROCMForAnswerVerification({
         validator,
         id: 'qrocm-id',
@@ -153,22 +143,28 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
           invalid: 'KO',
         },
       });
+      qrocm.userResponse = userResponse;
 
-      const expectedResult = {
-        userResponseValue: { inputBlock: '@', selectBlock: '2' },
-        correction: {
-          status: assessResult.result,
-          feedback: qrocm.feedbacks.valid,
-          solution: qrocmSolution,
-        },
+      validator.assess
+        .withArgs({
+          answer: {
+            value: userResponse,
+          },
+        })
+        .returns(assessResult);
+
+      const expectedCorrection = {
+        status: assessResult.result,
+        feedback: qrocm.feedbacks.valid,
+        solution: qrocmSolution,
       };
 
       // when
-      const result = qrocm.assess(userResponse);
+      const correction = qrocm.assess();
 
       // then
-      expect(result).to.deep.equal(expectedResult);
-      expect(result.correction).to.deepEqualInstance(new QrocmCorrectionResponse(expectedResult.correction));
+      expect(correction).to.deep.equal(expectedCorrection);
+      expect(correction).to.deepEqualInstance(new QrocmCorrectionResponse(expectedCorrection));
     });
 
     it('should return a QrocmCorrectionResponse for an invalid answer', function () {
@@ -176,21 +172,11 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
       const stubedIsOk = sinon.stub().returns(false);
       const assessResult = { result: { isOK: stubedIsOk } };
       const qrocmSolution = { inputBlock: ['@'], selectBlock: ['2'] };
-      const userResponse = [
-        { input: 'inputBlock', answer: '#' },
-        { input: 'selectBlock', answer: '1' },
-      ];
+      const userResponse = { inputBlock: '#', selectBlock: '1' };
 
       const validator = {
         assess: sinon.stub(),
       };
-      validator.assess
-        .withArgs({
-          answer: {
-            value: { inputBlock: '#', selectBlock: '1' },
-          },
-        })
-        .returns(assessResult);
       const qrocm = new QROCMForAnswerVerification({
         validator,
         id: 'qrocm-id',
@@ -234,34 +220,46 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
           invalid: 'KO',
         },
       });
+      qrocm.userResponse = userResponse;
 
-      const expectedResult = {
-        userResponseValue: { inputBlock: '#', selectBlock: '1' },
-        correction: {
-          status: assessResult.result,
-          feedback: qrocm.feedbacks.invalid,
-          solution: qrocmSolution,
-        },
+      validator.assess
+        .withArgs({
+          answer: {
+            value: userResponse,
+          },
+        })
+        .returns(assessResult);
+
+      const expectedCorrection = {
+        status: assessResult.result,
+        feedback: qrocm.feedbacks.invalid,
+        solution: qrocmSolution,
       };
 
       // when
-      const result = qrocm.assess(userResponse);
+      const correction = qrocm.assess();
 
       // then
-      expect(result).to.deep.equal(expectedResult);
-      expect(result.correction).to.deepEqualInstance(new QrocmCorrectionResponse(expectedResult.correction));
+      expect(correction).to.deep.equal(expectedCorrection);
+      expect(correction).to.deepEqualInstance(new QrocmCorrectionResponse(expectedCorrection));
     });
   });
 
-  describe('#validateUserResponseFormat', function () {
+  describe('#setUserResponse', function () {
     describe('if userResponse is valid', function () {
-      it('should not throw error', function () {
+      it('should return the user response value', function () {
         // given
         const userResponse = [
           { input: 'emailSeparatorCharacter', answer: '@' },
           { input: 'emailFirstPartSelect', answer: '1' },
           { input: 'emailSecondPartSelect', answer: '2' },
         ];
+
+        const expectedUserResponse = {
+          emailSeparatorCharacter: '@',
+          emailFirstPartSelect: '1',
+          emailSecondPartSelect: '2',
+        };
 
         const qrocm = new QROCMForAnswerVerification({
           id: 'qrocm-id',
@@ -326,8 +324,11 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
           },
         });
 
-        // when/then
-        expect(() => qrocm.validateUserResponseFormat(userResponse)).not.to.throw();
+        // when
+        qrocm.setUserResponse(userResponse);
+
+        // then
+        expect(qrocm.userResponse).to.deep.equal(expectedUserResponse);
       });
     });
 
@@ -432,7 +433,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
           });
 
           // when/then
-          expect(() => qrocm.validateUserResponseFormat(userResponse)).to.throw(EntityValidationError);
+          expect(() => qrocm.setUserResponse(userResponse)).to.throw(EntityValidationError);
         });
       });
     });

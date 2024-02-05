@@ -28,10 +28,7 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
         const elementId = Symbol('elementId');
         const passageId = Symbol('passageId');
         const userResponse = Symbol('userResponse');
-        const elementAnswer = {
-          userResponseValue: userResponse,
-          correction: { status: { status: Symbol('status') } },
-        };
+        const correction = { status: { status: Symbol('status') } };
         const persistedElementAnswer = Symbol('persistedElementAnswer');
 
         const passageRepository = {
@@ -46,9 +43,14 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
 
         const module = { getGrainByElementId: sinon.stub() };
 
-        const element = { assess: sinon.stub(), validateUserResponseFormat: sinon.stub() };
-        element.assess.withArgs(userResponse).returns(elementAnswer);
-        element.validateUserResponseFormat.withArgs(userResponse).returns();
+        const element = {
+          userResponse: Symbol('UserResponse'),
+          assess: sinon.stub(),
+          validateUserResponseFormat: sinon.stub(),
+          setUserResponse: sinon.stub(),
+        };
+        element.setUserResponse.withArgs(userResponse).returns();
+        element.assess.withArgs().returns(correction);
 
         const grain = { id: 'grain-id', getElementById: sinon.stub() };
         grain.getElementById.withArgs(elementId).returns(element);
@@ -64,8 +66,8 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
             passageId,
             elementId,
             grainId: grain.id,
-            value: userResponse,
-            correction: elementAnswer.correction,
+            value: element.userResponse,
+            correction: correction,
           })
           .resolves(persistedElementAnswer);
 
@@ -81,7 +83,7 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
 
         // then
         expect(result).to.equal(persistedElementAnswer);
-        expect(element.validateUserResponseFormat).to.have.been.calledOnce;
+        expect(element.setUserResponse).to.have.been.calledOnce;
       });
     });
   });
