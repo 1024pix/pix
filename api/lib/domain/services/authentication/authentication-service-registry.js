@@ -5,6 +5,12 @@ class OidcAuthenticationServiceRegistry {
   #readyOidcProviderServices = null;
   #readyOidcProviderServicesForPixAdmin = null;
 
+  async configureReadyOidcProviderServices() {
+    await Promise.allSettled(
+      this.#readyOidcProviderServices.map((oidcProviderService) => oidcProviderService.createClient()),
+    );
+  }
+
   getAllOidcProviderServices() {
     return this.#allOidcProviderServices;
   }
