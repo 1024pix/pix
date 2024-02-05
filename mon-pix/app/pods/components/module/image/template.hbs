@@ -1,6 +1,6 @@
 <div class="element-image">
-  <div class="element-image-container">
-    <img alt={{@image.alt}} src={{@image.url}} />
+  <div class="element-image__container">
+    <img class="element-image-container__image" alt={{@image.alt}} src={{@image.url}} />
   </div>
   <PixButton
     @backgroundColor="transparent-light"
@@ -16,12 +16,9 @@
     @title={{t "pages.modulix.modals.alternativeText.title"}}
     @showModal={{this.modalIsOpen}}
     @onCloseButtonClick={{this.closeModal}}
-    class="element__image-modal"
   >
     <:content>
-      <p class="image__modal-instruction">
-        {{html-unsafe @image.alternativeText}}
-      </p>
+      {{html-unsafe @image.alternativeText}}
     </:content>
   </PixModal>
 </div>

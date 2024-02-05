@@ -52,7 +52,7 @@ module('Integration | Component | Module | Video', function (hooks) {
 
     // then
     await click(screen.getByRole('button', { name: 'Afficher la transcription' }));
-    assert.strictEqual(findAll('.element__video-modal').length, 1);
+    assert.ok(await screen.findByRole('dialog'));
     assert.ok(screen.getByText('transcription'));
   });
 });

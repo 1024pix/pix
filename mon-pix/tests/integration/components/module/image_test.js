@@ -49,7 +49,7 @@ module('Integration | Component | Module | Image', function (hooks) {
 
     // then
     await click(screen.getByRole('button', { name: "Afficher l'alternative textuelle" }));
-    assert.strictEqual(findAll('.element__image-modal').length, 1);
+    assert.ok(await screen.findByRole('dialog'));
     assert.ok(screen.getByText(alternativeText));
   });
 });

@@ -1,17 +1,11 @@
 .element-video {
-  &-container {
+  &__container {
     margin: 0 auto var(--pix-spacing-3x) auto;
     overflow: clip;
     border-radius: var(--pix-spacing-2x);
-    aspect-ratio: auto 16 / 9;
-
-    video {
-      display: block;
-      height: 100%;
-    }
   }
 }
 
 .pix-video-player {
-  width: 100%;
+  aspect-ratio: auto 16 / 9;
 }
