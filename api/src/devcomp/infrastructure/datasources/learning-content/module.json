@@ -348,8 +348,8 @@
               "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
               "type": "image",
               "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
-              "alt": "",
-              "alternativeText": "Dessin d'un ordinateur dans un univers spatial."
+              "alt": "Dessin d'un ordinateur dans un univers spatial",
+              "alternativeText": ""
             }
           ]
         },
@@ -543,7 +543,7 @@
               "type": "image",
               "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
               "alt": "Photo d'un chargeur de téléphone portable avec une connexion USB",
-              "alternativeText": "Un chargeur de téléphone portable avec une connexion USB"
+              "alternativeText": ""
             },
             {
               "id": "b91728f4-a8f2-403b-81bc-520db8b8cbf0",
@@ -555,7 +555,7 @@
               "type": "image",
               "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
               "alt": "Photo d'une souris filaire avec une connexion USB",
-              "alternativeText": "Une souris filaire avec une connexion USB"
+              "alternativeText": ""
             },
             {
               "id": "eec72acd-c8e6-45fe-804c-05ad53b839fd",
@@ -567,7 +567,7 @@
               "type": "image",
               "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
               "alt": "Photo d'une manette de jeu vidéo avec une connexion USB",
-              "alternativeText": "Une manette de jeu vidéo avec une connexion USB"
+              "alternativeText": ""
             },
             {
               "id": "96cb3320-8885-4e70-a521-e6e0f47b52a3",
@@ -579,7 +579,7 @@
               "type": "image",
               "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
               "alt": "Photo d'une webcam avec une connexion USB",
-              "alternativeText": "Une webcam avec une connexion USB"
+              "alternativeText": ""
             },
             {
               "id": "a4414cd9-2071-4bad-b805-a7516a04e83d",
@@ -591,7 +591,7 @@
               "type": "image",
               "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
               "alt": "Le symbole de l'USB",
-              "alternativeText": "Le symbole de l'USB"
+              "alternativeText": ""
             }
           ]
         },
@@ -610,7 +610,7 @@
               "type": "image",
               "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
               "alt": "Une souris d'ordinateur",
-              "alternativeText": "Une souris d'ordinateur"
+              "alternativeText": ""
             },
             {
               "id": "54a04560-ab1b-410b-a2f7-771f6483d951",
@@ -637,7 +637,7 @@
               "type": "image",
               "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
               "alt": "Un casque audio",
-              "alternativeText": "Un casque audio"
+              "alternativeText": ""
             },
             {
               "id": "690bfa69-b8fe-4036-8d3e-4c5e49261534",
@@ -664,7 +664,7 @@
               "type": "image",
               "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
               "alt": "Un casque audio",
-              "alternativeText": "Un casque audio"
+              "alternativeText": ""
             },
             {
               "id": "06af3ce9-50ee-469e-a649-d5d4476e60f5",
@@ -703,7 +703,7 @@
               "type": "image",
               "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
               "alt": "",
-              "alternativeText": "-"
+              "alternativeText": "<p>6 ports habituels sur un ordinateur :</p><ul><li>Port de l'alimentation électrique</li><li>Port VGA</li><li>Port HDMI</li><li>Port USB</li><li>Port ethernet</li><li>Port jack</li></ul>"
             }
           ]
         }
