@@ -4,7 +4,7 @@ import { deleteCertificationIssueReport } from '../../../../lib/domain/usecases/
 import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | delete-certification-issue-report', function () {
-  const certificationCourseRepository = { get: () => _.noop() };
+  const certificationCourseRepository = { getSessionId: () => _.noop() };
   let certificationIssueReportRepository;
   const sessionRepository = { isFinalized: () => _.noop() };
   const certificationIssueReportId = 456;
@@ -13,14 +13,10 @@ describe('Unit | UseCase | delete-certification-issue-report', function () {
 
   beforeEach(function () {
     const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ id: certificationIssueReportId });
-    const certificationCourse = domainBuilder.buildCertificationCourse({
-      id: certificationIssueReport.certificationCourseId,
-      sessionId,
-    });
-    sinon.stub(certificationCourseRepository, 'get');
-    certificationCourseRepository.get
+    sinon.stub(certificationCourseRepository, 'getSessionId');
+    certificationCourseRepository.getSessionId
       .withArgs(certificationIssueReport.certificationCourseId)
-      .resolves(certificationCourse);
+      .resolves(sessionId);
     certificationIssueReportRepository = {
       remove: sinon.stub(),
       get: sinon.stub(),

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { expect, databaseBuilder, domainBuilder } from '../../../../../test-helper.js';
+import { expect, databaseBuilder, domainBuilder, catchErr } from '../../../../../test-helper.js';
 import * as certificationCourseRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import { BookshelfCertificationCourse } from '../../../../../../lib/infrastructure/orm-models/CertificationCourse.js';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
