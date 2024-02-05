@@ -23,14 +23,21 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
   let siecleFileStreamerSymbol;
   let payload = null;
   let domainTransaction;
+  let importStorageStub;
 
   beforeEach(function () {
+    sinon.stub(fs, 'rm');
     sinon.stub(fs, 'readFile');
     domainTransaction = Symbol();
     sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
       return callback(domainTransaction);
     });
 
+    importStorageStub = {
+      sendFile: sinon.stub(),
+      readFile: sinon.stub(),
+      deleteFile: sinon.stub(),
+    };
     sinon.stub(SiecleParser, 'create');
     parseStub = sinon.stub();
     SiecleParser.create.returns({ parse: parseStub });
@@ -127,6 +134,39 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
     context('when the format is XML', function () {
       beforeEach(function () {
         format = 'xml';
+        const readableStream = Symbol('readableStream');
+        siecleServiceStub.unzip.withArgs(payload.path).resolves({ file: payload.path, directory: null });
+        importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves('file.xml');
+        importStorageStub.readFile.withArgs(payload.path).resolves(readableStream);
+      });
+
+      context('when the file is zipped', function () {
+        it('should remove temporary directory', async function () {
+          // given
+          payload = { path: 'file.zip' };
+
+          siecleServiceStub.unzip.withArgs(payload.path).resolves({ directory: 'tmp', file: 'file.xml' });
+
+          organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
+
+          const extractedOrganizationLearnersInformations = [{ lastName: 'Student1', nationalStudentId: 'INE1' }];
+          parseStub.resolves(extractedOrganizationLearnersInformations);
+
+          organizationLearnerRepositoryStub.findByOrganizationId.resolves([]);
+
+          // when
+          await importOrganizationLearnersFromSIECLEFormat({
+            organizationId,
+            payload,
+            format,
+            organizationRepository: organizationRepositoryStub,
+            organizationLearnerRepository: organizationLearnerRepositoryStub,
+            siecleService: siecleServiceStub,
+            importStorage: importStorageStub,
+          });
+
+          expect(fs.rm).to.have.been.calledWith('tmp', { recursive: true });
+        });
       });
 
       it('should save these informations', async function () {
@@ -155,6 +195,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           organizationRepository: organizationRepositoryStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
           siecleService: siecleServiceStub,
+          importStorage: importStorageStub,
         });
 
         // then
@@ -194,6 +235,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
         organizationRepository: organizationRepositoryStub,
         organizationLearnerRepository: organizationLearnerRepositoryStub,
         siecleService: siecleServiceStub,
+        importStorage: importStorageStub,
       });
 
       // then
@@ -209,6 +251,10 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
     context('because there is no organization learners imported', function () {
       beforeEach(function () {
         // given
+        const readableStream = Symbol('readableStream');
+        siecleServiceStub.unzip.withArgs(payload.path).resolves({ file: payload.path, directory: null });
+        importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves('file.xml');
+        importStorageStub.readFile.withArgs(payload.path).resolves(readableStream);
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
         parseStub.resolves([]);
       });
@@ -221,6 +267,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           organizationRepository: organizationRepositoryStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
           siecleService: siecleServiceStub,
+          importStorage: importStorageStub,
         });
 
         // then

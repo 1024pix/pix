@@ -5,10 +5,11 @@ import * as supOrganizationLearnerRepository from '../../infrastructure/reposito
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 
+import { importStorage } from '../../infrastructure/storage/import-storage.js';
+
 import * as organizationRepository from '../../../../../lib/infrastructure/repositories/organization-repository.js';
 
 import * as organizationLearnersCsvService from '../services/organization-learners-csv-service.js';
-
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 
@@ -18,6 +19,7 @@ const dependencies = {
   campaignParticipationRepository,
   organizationRepository,
   organizationLearnersCsvService,
+  importStorage,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

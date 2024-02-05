@@ -4,8 +4,6 @@ import { FileValidationError } from '../../../../../../lib/domain/errors.js';
 import { SiecleXmlImportError } from '../../../domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../../../../../lib/infrastructure/monitoring-tools.js';
 
-import * as fs from 'fs';
-
 import iconv from 'iconv-lite';
 import sax from 'sax';
 
@@ -21,18 +19,7 @@ const ERRORS = {
 };
 
 class SiecleFileStreamer {
-  static async create(filePath, encoding = 'utf-8', logError = logErrorWithCorrelationIds) {
-    let readableStream;
-    try {
-      readableStream = fs.createReadStream(filePath);
-    } catch (error) {
-      logError(error);
-      throw new FileValidationError(ERRORS.INVALID_FILE);
-    }
-    readableStream.on('error', (err) => {
-      logError(err);
-      throw new FileValidationError(ERRORS.INVALID_FILE);
-    });
+  static async create(readableStream, encoding = 'utf-8', logError = logErrorWithCorrelationIds) {
     const stream = new SiecleFileStreamer(readableStream, encoding, logError);
     return stream;
   }
