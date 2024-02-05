@@ -144,4 +144,26 @@ describe('Unit | Domain | Services | authentication registry', function () {
       expect(readyOidcProviderServicesForPixAdmin.map((service) => service.code)).to.contain('OIDC_FOR_PIX_ADMIN');
     });
   });
+
+  describe('#configureReadyOidcProviderServices', function () {
+    it('configures openid client for ready oidc provider services', async function () {
+      // given
+      sinon.restore();
+      const createClient = sinon.stub().resolves();
+      const oidcProviderServices = [
+        {
+          code: 'OIDC',
+          isReady: true,
+          createClient,
+        },
+      ];
+      oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+
+      // when
+      await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServices();
+
+      // then
+      expect(createClient).to.have.been.calledOnce;
+    });
+  });
 });

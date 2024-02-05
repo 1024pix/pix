@@ -129,12 +129,16 @@ class OidcAuthenticationService {
   }
 
   async createClient() {
-    const issuer = await Issuer.discover(this.openidConfigurationUrl);
-    this.client = new issuer.Client({
-      client_id: this.clientId,
-      client_secret: this.clientSecret,
-      redirect_uris: [this.redirectUri],
-    });
+    try {
+      const issuer = await Issuer.discover(this.openidConfigurationUrl);
+      this.client = new issuer.Client({
+        client_id: this.clientId,
+        client_secret: this.clientSecret,
+        redirect_uris: [this.redirectUri],
+      });
+    } catch (error) {
+      logger.error(`OIDC Provider "${this.identityProvider}" is UNAVAILABLE: ${error}`);
+    }
   }
 
   createAccessToken(userId) {
