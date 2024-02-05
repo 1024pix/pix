@@ -34,6 +34,7 @@ const serialize = function (certificationPointOfContact) {
         'isAccessBlockedAgri',
         'relatedOrganizationTags',
         'habilitations',
+        'isV3Pilot',
         'pixCertifScoBlockedAccessDateLycee',
         'pixCertifScoBlockedAccessDateCollege',
       ],

@@ -7,6 +7,31 @@ module('Unit | Controller | authenticated', function (hooks) {
   setupTest(hooks);
 
   module('#get documentationLink', function () {
+    test('should return the dedicated link for V3 pilot certification center', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = run(() =>
+        store.createRecord('allowed-certification-center-access', {
+          id: 123,
+          name: 'Sunnydale',
+          type: 'SCO',
+          isRelatedToManagingStudentsOrganization: true,
+          isV3Pilot: true,
+        }),
+      );
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const controller = this.owner.lookup('controller:authenticated');
+
+      // when
+      const documentationLink = controller.documentationLink;
+
+      // then
+      assert.strictEqual(documentationLink, 'https://cloud.pix.fr/s/f2PNGLajBypbaiJ');
+    });
+
     test('should return the dedicated link for non SCO isManagingStudents certification center', function (assert) {
       // given
       const store = this.owner.lookup('service:store');

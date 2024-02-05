@@ -17,6 +17,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
         externalId: 'BUFFY_SLAYER',
         type: 'PRO',
         isRelatedToManagingStudentsOrganization: false,
+        isV3Pilot: false,
         relatedOrganizationTags: [],
         habilitations: [
           { id: 1, name: 'Certif comp 1' },
@@ -30,6 +31,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
         externalId: 'SPIKE',
         type: 'SCO',
         isRelatedToManagingStudentsOrganization: true,
+        isV3Pilot: false,
         relatedOrganizationTags: ['tag1'],
         habilitations: [],
       });
@@ -114,6 +116,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'is-access-blocked-lycee': false,
               'is-access-blocked-aefe': false,
               'is-access-blocked-agri': false,
+              'is-v3-pilot': false,
               'pix-certif-sco-blocked-access-date-college': '2022-06-01',
               'pix-certif-sco-blocked-access-date-lycee': '2022-08-01',
               'related-organization-tags': [],
@@ -135,6 +138,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'is-access-blocked-lycee': false,
               'is-access-blocked-aefe': false,
               'is-access-blocked-agri': false,
+              'is-v3-pilot': false,
               'pix-certif-sco-blocked-access-date-college': '2022-06-01',
               'pix-certif-sco-blocked-access-date-lycee': '2022-08-01',
               'related-organization-tags': ['tag1'],
