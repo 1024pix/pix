@@ -5,9 +5,9 @@ import {
   mockLearningContent,
   learningContentBuilder,
   insertUserWithRoleSuperAdmin,
+  createServer,
 } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { generateCertificateVerificationCode } from '../../../../lib/domain/services/verify-certificate-code-service.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';

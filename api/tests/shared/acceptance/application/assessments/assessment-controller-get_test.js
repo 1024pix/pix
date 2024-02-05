@@ -1,10 +1,13 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
-
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 describe('Acceptance | API | assessment-controller-get', function () {
   let server;

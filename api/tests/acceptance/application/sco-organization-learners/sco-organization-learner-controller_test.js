@@ -1,12 +1,11 @@
 import {
+  createServer,
   databaseBuilder,
   expect,
+  generateIdTokenForExternalUser,
   generateValidRequestAuthorizationHeader,
   knex,
-  generateIdTokenForExternalUser,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 describe('Acceptance | Controller | sco-organization-learners', function () {

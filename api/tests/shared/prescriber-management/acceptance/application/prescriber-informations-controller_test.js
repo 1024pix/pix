@@ -1,7 +1,11 @@
 import _ from 'lodash';
 
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 import { constants as apps } from '../../../../../lib/domain/constants.js';
 
 describe('Acceptance | Controller | prescriber-informations-controller', function () {

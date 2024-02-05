@@ -1,6 +1,7 @@
 import { expect } from 'chai';
-import { createServer } from '../../../../server.js';
+
 import {
+  createServer,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,

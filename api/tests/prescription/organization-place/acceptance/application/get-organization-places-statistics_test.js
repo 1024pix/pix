@@ -1,6 +1,10 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 
-import { createServer } from '../../../../../server.js';
 import * as categories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import { Membership } from '../../../../../lib/domain/models/index.js';
 import { ORGANIZATION_FEATURE } from '../../../../../lib/domain/constants.js';

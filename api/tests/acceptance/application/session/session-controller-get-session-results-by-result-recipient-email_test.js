@@ -1,5 +1,4 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import { createServer, databaseBuilder, expect } from '../../../test-helper.js';
 import jsonwebtoken from 'jsonwebtoken';
 import { config as settings } from '../../../../lib/config.js';
 
