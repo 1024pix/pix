@@ -119,6 +119,30 @@ describe('Integration | Repository | Certification Course', function () {
     });
   });
 
+  describe('#getSessionId', function () {
+    it('should get the related session id', async function () {
+      // given
+      databaseBuilder.factory.buildSession({ id: 99 });
+      databaseBuilder.factory.buildCertificationCourse({ id: 77, sessionId: 99 });
+      await databaseBuilder.commit();
+      // when
+
+      const sessionId = await certificationCourseRepository.getSessionId(77);
+
+      // then
+      expect(sessionId).to.deep.equal(99);
+    });
+
+    it('should throw an error if not found', async function () {
+      // when
+      const error = await catchErr(certificationCourseRepository.getSessionId)(77);
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.deep.equals('Certification course of id 77 does not exist');
+    });
+  });
+
   describe('#get', function () {
     const description = 'Un commentaire du surveillant';
     let sessionId, expectedCertificationCourse, userId;
