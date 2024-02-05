@@ -150,7 +150,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       };
 
       authenticationServiceRegistryStub.getOidcProviderServiceByCode
-        .withArgs({ identityProviderCode: identityProvider })
+        .withArgs({ identityProviderCode: identityProvider, audience: undefined })
         .returns(oidcAuthenticationService);
 
       const dependencies = {
