@@ -19,7 +19,7 @@ docker-compose up -d
 
 ## Utilisation du .env : 
 
-Copier le sample.env en .env et rajouter si besoin des valeurs nécessaires
+Copier le `sample.env` en `development.env` et rajouter si besoin des valeurs nécessaires
 
 ## exemple utilisation Dev d'API : 
 
