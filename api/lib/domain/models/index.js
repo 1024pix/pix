@@ -53,6 +53,7 @@ import { CertificationResult } from './CertificationResult.js';
 import { CertifiedLevel } from './CertifiedLevel.js';
 import { CertifiedScore } from './CertifiedScore.js';
 import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
+import { ChallengeInstruction } from '../../../src/shared/domain/models/ChallengeInstruction.js';
 import { Competence } from '../../../src/shared/domain/models/Competence.js';
 import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import { CompetenceMark } from './CompetenceMark.js';
@@ -201,6 +202,7 @@ export {
   CertifiedLevel,
   CertifiedScore,
   Challenge,
+  ChallengeInstruction,
   Competence,
   CompetenceEvaluation,
   CompetenceForAdmin,

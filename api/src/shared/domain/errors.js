@@ -172,6 +172,12 @@ class TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization extends Doma
   }
 }
 
+class InvalidChallengeStateError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 export {
   DomainError,
   AlreadyExistingEntityError,
@@ -181,6 +187,7 @@ export {
   EntityValidationError,
   CertificationAttestationGenerationError,
   CsvImportError,
+  InvalidChallengeStateError,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultTokenError,
