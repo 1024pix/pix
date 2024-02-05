@@ -21,11 +21,11 @@ const verifyCertificationSessionAuthorization = async (
   const userId = request.auth.credentials.userId;
   const certificationCourseId = request.params.id;
 
-  const certificationCourse = await dependencies.certificationCourseRepository.get(certificationCourseId);
+  const sessionId = await dependencies.certificationCourseRepository.getSessionId(certificationCourseId);
 
   return _isAuthorizedToAccessSession({
     userId,
-    sessionId: certificationCourse.getSessionId(),
+    sessionId,
     sessionRepository: dependencies.sessionRepository,
   });
 };

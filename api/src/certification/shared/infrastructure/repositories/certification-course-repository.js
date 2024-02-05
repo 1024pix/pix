@@ -126,6 +126,15 @@ function _toDomain({
   });
 }
 
+async function getSessionId(id) {
+  const row = await knex('certification-courses').select('sessionId').where({ id }).first();
+  if (!row) {
+    throw new NotFoundError(`Certification course of id ${id} does not exist`);
+  }
+
+  return row.sessionId;
+}
+
 async function findOneCertificationCourseByUserIdAndSessionId({
   userId,
   sessionId,
@@ -189,6 +198,7 @@ async function findCertificationCoursesBySessionId({ sessionId }) {
 export {
   save,
   get,
+  getSessionId,
   findOneCertificationCourseByUserIdAndSessionId,
   update,
   isVerificationCodeAvailable,
