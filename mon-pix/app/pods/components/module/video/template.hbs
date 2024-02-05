@@ -5,7 +5,6 @@
       id={{@video.id}}
       ref="video"
       class="pix-video-player"
-      alt={{@video.alternativeText}}
       playsinline
       controls
       crossorigin
@@ -15,7 +14,7 @@
     </video>
   </div>
 
-  {{#if @video.hasAlternativeText}}
+  {{#if @video.hasTranscription}}
     <PixButton
       @backgroundColor="transparent-light"
       @shape="rounded"
