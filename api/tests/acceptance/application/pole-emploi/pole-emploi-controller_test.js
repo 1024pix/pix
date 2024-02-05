@@ -1,6 +1,5 @@
-import { expect, generateValidRequestAuthorizationHeaderForApplication } from '../../../test-helper.js';
+import { createServer, expect, generateValidRequestAuthorizationHeaderForApplication } from '../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
 import { generateCursor } from '../../../../lib/domain/services/pole-emploi-service.js';
 
 describe('Acceptance | Application | Pole Emploi Controller', function () {
