@@ -12,10 +12,6 @@ describe('Acceptance | Application | Oidc | Routes', function () {
       server = await createServer();
     });
 
-    afterEach(async function () {
-      await knex('user-logins').truncate();
-    });
-
     it('should return 200 HTTP status', async function () {
       // given
       const user = databaseBuilder.factory.buildUser.withRawPassword({
