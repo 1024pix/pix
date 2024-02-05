@@ -136,4 +136,8 @@ export default class CertificationIssueReport extends Model {
   get subcategoryCode() {
     return subcategoryToCode[this.subcategory];
   }
+
+  get isInChallengeIssue() {
+    return categoryToCode[this.category] === categoryToCode[certificationIssueReportCategories.IN_CHALLENGE];
+  }
 }

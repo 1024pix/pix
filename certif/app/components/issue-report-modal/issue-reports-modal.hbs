@@ -13,11 +13,21 @@
           <li class="issue-report-modal__report">
             <p class="issue-report-modal__category-label">
               {{issueReport.categoryCode}}&nbsp;{{t issueReport.categoryLabel}}
-              <PixIconButton
-                @icon="trash"
-                aria-label={{t "pages.session-finalization.issue-reports-modal.actions.delete-reporting"}}
-                @triggerAction={{fn this.handleClickOnDeleteButton issueReport}}
-              />
+              {{#if (eq @version 3)}}
+                {{#unless issueReport.isInChallengeIssue}}
+                  <PixIconButton
+                    @icon="trash"
+                    aria-label={{t "pages.session-finalization.issue-reports-modal.actions.delete-reporting"}}
+                    @triggerAction={{fn this.handleClickOnDeleteButton issueReport}}
+                  />
+                {{/unless}}
+              {{else}}
+                <PixIconButton
+                  @icon="trash"
+                  aria-label={{t "pages.session-finalization.issue-reports-modal.actions.delete-reporting"}}
+                  @triggerAction={{fn this.handleClickOnDeleteButton issueReport}}
+                />
+              {{/if}}
             </p>
             {{#if issueReport.subcategoryLabel}}
               <p class="issue-report-modal__subcategory-label">{{issueReport.subcategoryCode}}&nbsp;{{t
