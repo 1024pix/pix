@@ -87,7 +87,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       oidcAuthenticationServiceRegistry.loadOidcProviderServices([firstOidcProviderService, secondOidcProviderService]);
 
       // when
-      const service = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode(identityProviderCode);
+      const service = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({ identityProviderCode });
 
       // then
       expect(service.code).to.equal('FIRST');
@@ -110,7 +110,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       const error = catchErrSync(
         oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode,
         oidcAuthenticationServiceRegistry,
-      )(identityProviderCode);
+      )({ identityProviderCode });
 
       // then
       expect(error).to.be.an.instanceOf(InvalidIdentityProviderError);

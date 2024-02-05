@@ -17,7 +17,7 @@ class OidcAuthenticationServiceRegistry {
     return this.#readyOidcProviderServicesForPixAdmin;
   }
 
-  getOidcProviderServiceByCode(identityProviderCode) {
+  getOidcProviderServiceByCode({ identityProviderCode }) {
     const oidcProviderService = this.#readyOidcProviderServices.find(
       (service) => identityProviderCode === service.code,
     );
