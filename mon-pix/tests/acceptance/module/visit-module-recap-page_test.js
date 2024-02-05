@@ -3,9 +3,11 @@ import { setupApplicationTest } from 'ember-qunit';
 import { currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import setupIntl from '../../helpers/setup-intl';
 
 module('Acceptance | Module | Routes | recap', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
 
   test('can visit /modules/:slug/recap', async function (assert) {
@@ -28,9 +30,10 @@ module('Acceptance | Module | Routes | recap', function (hooks) {
     });
 
     // when
-    await visit('/modules/bien-ecrire-son-adresse-mail/recap');
+    const screen = await visit('/modules/bien-ecrire-son-adresse-mail/recap');
 
     // then
-    assert.ok(document.title.includes('Bravo ! Module terminé'));
+    assert.ok(document.title.includes(this.intl.t('pages.modulix.recap.title')));
+    assert.ok(screen.getByRole('heading', { level: 1, name: this.intl.t('pages.modulix.recap.title') }));
   });
 });
