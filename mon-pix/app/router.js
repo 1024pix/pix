@@ -117,6 +117,7 @@ Router.map(function () {
   this.route('module', { path: '/modules/:slug' }, function () {
     this.route('details');
     this.route('get', { path: '/passage' });
+    this.route('recap');
   });
 
   this.route('terms-of-service', { path: '/cgu' });
