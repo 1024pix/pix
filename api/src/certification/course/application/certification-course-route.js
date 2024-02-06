@@ -68,7 +68,6 @@ const register = async function (server) {
                 'comment-for-candidate': Joi.string().allow(null, '').required(),
                 'comment-by-jury': Joi.string().allow(null, '').required(),
               },
-              type: Joi.string(),
             },
           }),
         },

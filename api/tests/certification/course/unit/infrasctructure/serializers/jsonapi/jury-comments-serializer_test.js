@@ -1,7 +1,7 @@
 import { expect } from '../../../../../../test-helper.js';
-import * as serializer from '../../../../../../../src/certification/course/infrastructure/serializers/jsonapi/assessment-result-serializer.js';
+import * as serializer from '../../../../../../../src/certification/course/infrastructure/serializers/jsonapi/jury-comments-serializer.js';
 
-describe('Unit | Serializer | JSONAPI | assessment-result-serializer', function () {
+describe('Unit | Serializer | JSONAPI | jury-comments-serializer', function () {
   describe('#deserialize()', function () {
     it('should convert a JSON API data', async function () {
       const payload = {
