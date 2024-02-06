@@ -243,6 +243,11 @@ describe('Acceptance | Route | certification-course', function () {
 
     beforeEach(async function () {
       certificationCourse = databaseBuilder.factory.buildCertificationCourse({ version: 3 });
+      databaseBuilder.factory.buildFlashAlgorithmConfiguration({
+        maximumAssessmentLength: 10,
+        createdAt: new Date('2020-01-01'),
+      });
+
       const user = await insertUserWithRoleSuperAdmin();
       ({ certificationChallenges, assessmentResult } = await createSuccessfulCertificationCourse({
         userId: user.id,
@@ -285,6 +290,7 @@ describe('Acceptance | Route | certification-course', function () {
           'is-rejected-for-fraud': false,
           'is-cancelled': false,
           'pix-score': assessmentResult.pixScore,
+          'number-of-challenges': 10,
           'assessment-state': 'completed',
           'assessment-result-status': 'validated',
         },

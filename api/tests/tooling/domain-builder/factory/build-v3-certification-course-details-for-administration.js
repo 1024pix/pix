@@ -11,6 +11,7 @@ export const buildV3CertificationCourseDetailsForAdministration = ({
   assessmentResultStatus,
   abortReason,
   pixScore,
+  numberOfChallenges,
 }) => {
   return new V3CertificationCourseDetailsForAdministration({
     certificationCourseId,
@@ -23,5 +24,6 @@ export const buildV3CertificationCourseDetailsForAdministration = ({
     abortReason,
     pixScore,
     certificationChallengesForAdministration,
+    numberOfChallenges,
   });
 };

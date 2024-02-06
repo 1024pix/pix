@@ -14,6 +14,7 @@ const serialize = function ({ certificationDetails }) {
     'assessmentResultStatus',
     'abortReason',
     'pixScore',
+    'numberOfChallenges',
   ];
 
   return new Serializer('v3-certification-course-details-for-administration', {
