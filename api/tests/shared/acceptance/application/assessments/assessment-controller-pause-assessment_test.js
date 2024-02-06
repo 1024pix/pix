@@ -28,6 +28,7 @@ describe('Acceptance | API | assessment-controller-pause-assessment', function (
             illustrationUrl: 'illustration.url',
             focused: true,
             attachments: ['attachment.url'],
+            instruction: '',
           },
         ],
         skills: [

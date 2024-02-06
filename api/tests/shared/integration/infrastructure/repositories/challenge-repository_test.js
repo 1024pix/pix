@@ -5,19 +5,19 @@ import { Validator } from '../../../../../lib/domain/models/Validator.js';
 import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 
+const nonComparableFields = ['instruction', 'validator'];
+
 describe('Integration | Repository | challenge-repository', function () {
   describe('#get', function () {
     it('should return the challenge with skill', async function () {
       // given
       const challengeId = 'recCHAL1';
-
       const skill = _buildSkill({ id: 'recSkill1' });
-
       const challenge = _buildChallenge({ id: challengeId, skill });
 
       const learningContent = {
-        skills: [{ ...skill, status: 'actif' }],
-        challenges: [{ ...challenge, skillId: 'recSkill1', alpha: 1, delta: 0 }],
+        skills: [skill],
+        challenges: [challenge],
       };
 
       mockLearningContent(learningContent);
@@ -33,24 +33,26 @@ describe('Integration | Repository | challenge-repository', function () {
 
       // then
       expect(actualChallenge).to.be.instanceOf(Challenge);
-      expect(_.omit(actualChallenge, 'validator')).to.deep.equal(_.omit(expectedChallenge, 'validator'));
+      expect(_.omit(actualChallenge, nonComparableFields)).to.deep.equal(
+        _.omit(expectedChallenge, nonComparableFields),
+      );
+      expect(actualChallenge.instruction.toString()).to.equal(expectedChallenge.instruction.toString());
     });
 
     it('should setup the expected validator and solution', async function () {
       // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const challenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skill });
+      const challengeId = 'recCHAL1';
+      const skill = _buildSkill({ id: 'recSkill1' });
+      const challenge = _buildChallenge({ id: challengeId, skill });
 
       const learningContent = {
-        skills: [{ ...skill, status: 'actif' }],
-        challenges: [
-          { ...challenge, skillId: 'recSkill1', t1Status: 'Activé', t2Status: 'Activé', t3Status: 'Désactivé' },
-        ],
+        skills: [skill],
+        challenges: [{ ...challenge, t1Status: 'Activé', t2Status: 'Activé', t3Status: 'Désactivé' }],
       };
       mockLearningContent(learningContent);
 
       // when
-      const actualChallenge = await challengeRepository.get(challenge.id);
+      const actualChallenge = await challengeRepository.get(challengeId);
 
       // then
       expect(actualChallenge.validator).to.be.instanceOf(Validator);
@@ -65,28 +67,18 @@ describe('Integration | Repository | challenge-repository', function () {
 
   describe('#getMany', function () {
     it('should return the challenges by their id and locale', async function () {
-      const skill1 = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const challenge1 = domainBuilder.buildChallenge({ id: 'recChal1', skill: skill1, locales: ['fr'] });
-      const skill2 = domainBuilder.buildSkill({ id: 'recSkill2' });
-      const challenge2 = domainBuilder.buildChallenge({ id: 'recChal2', skill: skill2, locales: ['fr'] });
-      const skill3 = domainBuilder.buildSkill({ id: 'recSkill3' });
-      const challenge3 = domainBuilder.buildChallenge({ id: 'recChal3', skill: skill3, locales: ['fr'] });
-      const skill4 = domainBuilder.buildSkill({ id: 'recSkill4' });
-      const challenge4 = domainBuilder.buildChallenge({ id: 'recChal4', skill: skill4, locales: ['en'] });
+      const skill1 = _buildSkill({ id: 'recSkill1' });
+      const challenge1 = _buildChallenge({ id: 'recChal1', skill: skill1 });
+      const skill2 = _buildSkill({ id: 'recSkill2' });
+      const challenge2 = _buildChallenge({ id: 'recChal2', skill: skill2 });
+      const skill3 = _buildSkill({ id: 'recSkill3' });
+      const challenge3 = _buildChallenge({ id: 'recChal3', skill: skill3 });
+      const skill4 = _buildSkill({ id: 'recSkill4' });
+      const challenge4 = _buildChallenge({ id: 'recChal4', skill: skill4, locales: ['en'] });
 
       const learningContent = {
-        skills: [
-          { ...skill1, level: skill1.difficulty },
-          { ...skill2, level: skill2.difficulty },
-          { ...skill3, level: skill3.difficulty },
-          { ...skill4, level: skill4.difficulty },
-        ],
-        challenges: [
-          { ...challenge1, skillId: 'recSkill1' },
-          { ...challenge2, skillId: 'recSkill2' },
-          { ...challenge3, skillId: 'recSkill3' },
-          { ...challenge4, skillId: 'recSkill4' },
-        ],
+        skills: [skill1, skill2, skill3, skill4],
+        challenges: [challenge1, challenge2, challenge3, challenge4],
       };
       mockLearningContent(learningContent);
 
@@ -94,31 +86,23 @@ describe('Integration | Repository | challenge-repository', function () {
       const actualChallenges = await challengeRepository.getMany(['recChal1', 'recChal2', 'recChal4'], 'fr');
 
       // then
-      const actualChallenge1 = _.find(actualChallenges, { skill: skill1, id: 'recChal1' });
-      const actualChallenge2 = _.find(actualChallenges, { skill: skill2, id: 'recChal2' });
+      const actualChallenge1 = _.find(actualChallenges, { id: 'recChal1' });
+      const actualChallenge2 = _.find(actualChallenges, { id: 'recChal2' });
       expect(actualChallenges).to.have.lengthOf(2);
       expect(Boolean(actualChallenge1)).to.be.true;
       expect(Boolean(actualChallenge2)).to.be.true;
     });
 
     it('should throw a NotFoundError error when resource not found', async function () {
-      const skill1 = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const challenge1 = domainBuilder.buildChallenge({ id: 'recChal1', skill: skill1 });
-      const skill2 = domainBuilder.buildSkill({ id: 'recSkill2' });
-      const challenge2 = domainBuilder.buildChallenge({ id: 'recChal2', skill: skill2 });
-      const skill3 = domainBuilder.buildSkill({ id: 'recSkill3' });
-      const challenge3 = domainBuilder.buildChallenge({ id: 'recChal3', skill: skill3 });
+      const skill1 = _buildSkill({ id: 'recSkill1' });
+      const challenge1 = _buildChallenge({ id: 'recChal1', skill: skill1 });
+      const skill2 = _buildSkill({ id: 'recSkill2' });
+      const challenge2 = _buildChallenge({ id: 'recChal2', skill: skill2 });
+      const skill3 = _buildSkill({ id: 'recSkill3' });
+      const challenge3 = _buildChallenge({ id: 'recChal3', skill: skill3 });
       const learningContent = {
-        skills: [
-          { ...skill1, level: skill1.difficulty },
-          { ...skill2, level: skill2.difficulty },
-          { ...skill3, level: skill3.difficulty },
-        ],
-        challenges: [
-          { ...challenge1, skillId: 'recSkill1' },
-          { ...challenge2, skillId: 'recSkill2' },
-          { ...challenge3, skillId: 'recSkill3' },
-        ],
+        skills: [skill1, skill2, skill3],
+        challenges: [challenge1, challenge2, challenge3],
       };
       mockLearningContent(learningContent);
 
@@ -133,27 +117,17 @@ describe('Integration | Repository | challenge-repository', function () {
   describe('#list', function () {
     it('should return all the challenges', async function () {
       // given
-      const skill1 = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const challenge1 = domainBuilder.buildChallenge({ id: 'recChal1', skill: skill1 });
-      const skill2 = domainBuilder.buildSkill({ id: 'recSkill2' });
-      const challenge2 = domainBuilder.buildChallenge({ id: 'recChal2', skill: skill2 });
-      const skill3 = domainBuilder.buildSkill({ id: 'recSkill3' });
-      const challenge3 = domainBuilder.buildChallenge({ id: 'recChal3', skill: skill3 });
-      const skill4 = domainBuilder.buildSkill({ id: 'recSkill4' });
-      const challenge4 = domainBuilder.buildChallenge({ id: 'recChal4', skill: skill4 });
+      const skill1 = _buildSkill({ id: 'recSkill1' });
+      const challenge1 = _buildChallenge({ id: 'recChal1', skill: skill1 });
+      const skill2 = _buildSkill({ id: 'recSkill2' });
+      const challenge2 = _buildChallenge({ id: 'recChal2', skill: skill2 });
+      const skill3 = _buildSkill({ id: 'recSkill3' });
+      const challenge3 = _buildChallenge({ id: 'recChal3', skill: skill3 });
+      const skill4 = _buildSkill({ id: 'recSkill4' });
+      const challenge4 = _buildChallenge({ id: 'recChal4', skill: skill4, locales: ['fr-fr'] });
       const learningContent = {
-        skills: [
-          { ...skill1, level: skill1.difficulty },
-          { ...skill2, level: skill2.difficulty },
-          { ...skill3, level: skill3.difficulty },
-          { ...skill4, level: skill4.difficulty },
-        ],
-        challenges: [
-          { ...challenge1, locales: ['fr'], skillId: 'recSkill1' },
-          { ...challenge2, locales: ['fr'], skillId: 'recSkill2' },
-          { ...challenge3, locales: ['fr'], skillId: 'recSkill3' },
-          { ...challenge4, locales: ['fr-fr'], skillId: 'recSkill4' },
-        ],
+        skills: [skill1, skill2, skill3, skill4],
+        challenges: [challenge1, challenge2, challenge3, challenge4],
       };
       mockLearningContent(learningContent);
 
@@ -161,9 +135,9 @@ describe('Integration | Repository | challenge-repository', function () {
       const actualChallenges = await challengeRepository.list('fr');
 
       // then
-      const actualChallenge1 = _.find(actualChallenges, { skill: skill1, id: 'recChal1', locales: ['fr'] });
-      const actualChallenge2 = _.find(actualChallenges, { skill: skill2, id: 'recChal2', locales: ['fr'] });
-      const actualChallenge3 = _.find(actualChallenges, { skill: skill3, id: 'recChal3', locales: ['fr'] });
+      const actualChallenge1 = _.find(actualChallenges, { id: 'recChal1' });
+      const actualChallenge2 = _.find(actualChallenges, { id: 'recChal2' });
+      const actualChallenge3 = _.find(actualChallenges, { id: 'recChal3' });
       expect(actualChallenges).to.have.lengthOf(3);
       expect(Boolean(actualChallenge1)).to.be.true;
       expect(Boolean(actualChallenge2)).to.be.true;
@@ -174,15 +148,12 @@ describe('Integration | Repository | challenge-repository', function () {
   describe('#findValidated', function () {
     it('should return only validated challenges with skills', async function () {
       // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const validatedChallenge = domainBuilder.buildChallenge({ skill, status: 'validé' });
-      const nonValidatedChallenge = domainBuilder.buildChallenge({ skill, status: 'PAS validé' });
+      const skill = _buildSkill({ id: 'recSkill1' });
+      const validatedChallenge = _buildChallenge({ id: 'recChal1', skill, status: 'validé' });
+      const nonValidatedChallenge = _buildChallenge({ id: 'recChal2', skill, status: 'PAS validé' });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
-        challenges: [
-          { ...validatedChallenge, skillId: 'recSkill1' },
-          { ...nonValidatedChallenge, skillId: 'recSkill1' },
-        ],
+        skills: [skill],
+        challenges: [validatedChallenge, nonValidatedChallenge],
       };
       mockLearningContent(learningContent);
 
@@ -192,23 +163,18 @@ describe('Integration | Repository | challenge-repository', function () {
       // then
       expect(actualChallenges).to.have.lengthOf(1);
       expect(actualChallenges[0]).to.be.instanceOf(Challenge);
-      expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
+      expect(actualChallenges[0].id).to.equal(validatedChallenge.id);
     });
 
     it('should setup the expected validator and solution on found challenges', async function () {
       // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const validatedChallenge = domainBuilder.buildChallenge({
-        type: Challenge.Type.QCM,
-        skills: [skill],
-        status: 'validé',
-      });
+      const skill = _buildSkill({ id: 'recSkill1' });
+      const validatedChallenge = _buildChallenge({ id: 'recChal1', skill });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
+        skills: [skill],
         challenges: [
           {
             ...validatedChallenge,
-            skillId: 'recSkill1',
             t1Status: 'Activé',
             t2Status: 'Activé',
             t3Status: 'Désactivé',
@@ -234,16 +200,13 @@ describe('Integration | Repository | challenge-repository', function () {
   describe('#findOperative', function () {
     it('should return only french france operative challenges with skills', async function () {
       // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const frfrOperativeChallenge = domainBuilder.buildChallenge({ skill, locales: ['fr-fr'] });
-      const nonFrfrOperativeChallenge = domainBuilder.buildChallenge({ skill, locales: ['en'] });
+      const skill = _buildSkill({ id: 'recSkill1' });
+      const frfrOperativeChallenge = _buildChallenge({ id: 'recChal1', skill, locales: ['fr-fr'] });
+      const nonFrfrOperativeChallenge = _buildChallenge({ id: 'recChal2', skill, locales: ['en'] });
       const locale = 'fr-fr';
       const learningContent = {
-        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
-        challenges: [
-          { ...frfrOperativeChallenge, skillId: 'recSkill1' },
-          { ...nonFrfrOperativeChallenge, skillId: 'recSkill1' },
-        ],
+        skills: [skill],
+        challenges: [frfrOperativeChallenge, nonFrfrOperativeChallenge],
       };
       mockLearningContent(learningContent);
 
@@ -253,29 +216,25 @@ describe('Integration | Repository | challenge-repository', function () {
       // then
       expect(actualChallenges).to.have.lengthOf(1);
       expect(actualChallenges[0]).to.be.instanceOf(Challenge);
-      expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
+      expect(actualChallenges[0].id).to.equal(frfrOperativeChallenge.id);
     });
   });
 
   describe('#findValidatedByCompetenceId', function () {
     it('should return only validated challenges with skills', async function () {
       // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const competenceId = 'recCompetenceId';
-      const validatedChallenge = domainBuilder.buildChallenge({ skill, status: 'validé', competenceId });
-      const nonValidatedChallenge = domainBuilder.buildChallenge({
-        skill,
+      const skill1 = _buildSkill({ id: 'recSkill1', competenceId });
+      const skill2 = _buildSkill({ id: 'recSkill2', competenceId: 'otherCompetence' });
+      const validatedChallenge = _buildChallenge({ skill: skill1 });
+      const nonValidatedChallenge = _buildChallenge({
+        skill: skill1,
         status: 'PAS validé',
-        competenceId,
       });
-      const notInCompetenceValidatedChallenge = domainBuilder.buildChallenge({ skills: [skill], status: 'validé' });
+      const notInCompetenceValidatedChallenge = _buildChallenge({ skill: skill2 });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
-        challenges: [
-          { ...validatedChallenge, skillId: 'recSkill1' },
-          { ...nonValidatedChallenge, skillId: 'recSkill1' },
-          { ...notInCompetenceValidatedChallenge, skillId: 'recSkill1' },
-        ],
+        skills: [skill1],
+        challenges: [validatedChallenge, nonValidatedChallenge, notInCompetenceValidatedChallenge],
       };
       mockLearningContent(learningContent);
 
@@ -285,23 +244,18 @@ describe('Integration | Repository | challenge-repository', function () {
       // then
       expect(actualChallenges).to.have.lengthOf(1);
       expect(actualChallenges[0]).to.be.instanceOf(Challenge);
-      expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
+      expect(actualChallenges[0].id).to.equal(validatedChallenge.id);
     });
 
     it('should setup the expected validator and solution on found challenges', async function () {
       // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const validatedChallenge = domainBuilder.buildChallenge({
-        type: Challenge.Type.QCM,
-        skill,
-        status: 'validé',
-      });
+      const skill = _buildSkill({ id: 'recSkill1' });
+      const validatedChallenge = _buildChallenge({ id: 'rechChal1', skill });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
+        skills: [skill],
         challenges: [
           {
             ...validatedChallenge,
-            skillId: 'recSkill1',
             t1Status: 'Activé',
             t2Status: 'Activé',
             t3Status: 'Désactivé',
@@ -329,22 +283,15 @@ describe('Integration | Repository | challenge-repository', function () {
   describe('#findOperativeBySkills', function () {
     it('should return only operative challenges with skills', async function () {
       // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const anotherSkill = domainBuilder.buildSkill({ id: 'recAnotherSkill' });
-      const operativeInSkillChallenge = domainBuilder.buildChallenge({ skill, status: 'archivé' });
-      const nonOperativeInSkillChallenge = domainBuilder.buildChallenge({ skill, status: 'PAS opérative' });
-      const operativeNotInSkillChallenge = domainBuilder.buildChallenge({ skill: anotherSkill, status: 'validé' });
+      const skill = _buildSkill({ id: 'recSkill1' });
+      const anotherSkill = _buildSkill({ id: 'recAnotherSkill' });
+      const operativeInSkillChallenge = _buildChallenge({ skill, status: 'archivé' });
+      const nonOperativeInSkillChallenge = _buildChallenge({ skill, status: 'PAS opérative' });
+      const operativeNotInSkillChallenge = _buildChallenge({ skill: anotherSkill, status: 'validé' });
       const locale = 'fr';
       const learningContent = {
-        skills: [
-          { ...skill, status: 'actif', level: skill.difficulty },
-          { ...anotherSkill, status: 'actif', level: anotherSkill.difficulty },
-        ],
-        challenges: [
-          { ...operativeInSkillChallenge, skillId: 'recSkill1' },
-          { ...nonOperativeInSkillChallenge, skillId: 'recSkill1' },
-          { ...operativeNotInSkillChallenge, skillId: 'recAnotherSkill' },
-        ],
+        skills: [skill, anotherSkill],
+        challenges: [operativeInSkillChallenge, nonOperativeInSkillChallenge, operativeNotInSkillChallenge],
       };
       mockLearningContent(learningContent);
 
@@ -354,24 +301,19 @@ describe('Integration | Repository | challenge-repository', function () {
       // then
       expect(actualChallenges).to.have.lengthOf(1);
       expect(actualChallenges[0]).to.be.instanceOf(Challenge);
-      expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
+      expect(actualChallenges[0].id).to.equal(operativeInSkillChallenge.id);
     });
 
     it('should setup the expected validator and solution on found challenges', async function () {
       // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const operativeChallenge = domainBuilder.buildChallenge({
-        type: Challenge.Type.QCM,
-        skill,
-        status: 'validé',
-      });
+      const skill = _buildSkill({ id: 'recSkill1' });
+      const operativeChallenge = _buildChallenge({ skill });
       const locale = 'fr';
       const learningContent = {
-        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
+        skills: [skill],
         challenges: [
           {
             ...operativeChallenge,
-            skillId: 'recSkill1',
             t1Status: 'Activé',
             t2Status: 'Activé',
             t3Status: 'Désactivé',
@@ -397,33 +339,35 @@ describe('Integration | Repository | challenge-repository', function () {
   describe('#findFlashCompatible', function () {
     beforeEach(function () {
       // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+      const skill = _buildSkill({ id: 'recSkill1' });
       const locales = ['fr-fr'];
-      const activeChallenge = domainBuilder.buildChallenge({
+      const activeChallenge = _buildChallenge({
         id: 'activeChallenge',
         skill,
         status: 'validé',
         locales,
+        alpha: 3.57,
+        delta: -8.99,
       });
-      const archivedChallenge = domainBuilder.buildChallenge({
+      const archivedChallenge = _buildChallenge({
         id: 'archivedChallenge',
         skill,
         status: 'archivé',
         locales,
+        alpha: 3.2,
+        delta: 1.06,
       });
-      const outdatedChallenge = domainBuilder.buildChallenge({
+      const outdatedChallenge = _buildChallenge({
         id: 'outdatedChallenge',
         skill,
         status: 'périmé',
         locales,
+        alpha: 4.1,
+        delta: -2.08,
       });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
-        challenges: [
-          { ...activeChallenge, skillId: 'recSkill1', alpha: 3.57, delta: -8.99 },
-          { ...archivedChallenge, skillId: 'recSkill1', alpha: 3.2, delta: 1.06 },
-          { ...outdatedChallenge, skillId: 'recSkill1', alpha: 4.1, delta: -2.08 },
-        ],
+        skills: [skill],
+        challenges: [activeChallenge, archivedChallenge, outdatedChallenge],
       };
       mockLearningContent(learningContent);
     });
@@ -441,11 +385,11 @@ describe('Integration | Repository | challenge-repository', function () {
         // then
         expect(actualChallenges).to.have.lengthOf(2);
         expect(actualChallenges[0]).to.be.instanceOf(Challenge);
-        expect(actualChallenges[0]).to.deep.contain({
-          status: 'validé',
+        expect(actualChallenges[0]).to.contain({
+          id: 'activeChallenge',
         });
-        expect(actualChallenges[1]).to.deep.contain({
-          status: 'archivé',
+        expect(actualChallenges[1]).to.contain({
+          id: 'archivedChallenge',
         });
       });
 
@@ -480,15 +424,14 @@ describe('Integration | Repository | challenge-repository', function () {
         // then
         expect(actualChallenges).to.have.lengthOf(3);
         expect(actualChallenges[0]).to.be.instanceOf(Challenge);
-        expect(actualChallenges[0]).to.deep.contain({
-          status: 'validé',
+        expect(actualChallenges[0]).to.contain({
+          id: 'activeChallenge',
         });
-        expect(actualChallenges[1]).to.deep.contain({
-          status: 'archivé',
+        expect(actualChallenges[1]).to.contain({
+          id: 'archivedChallenge',
         });
-
-        expect(actualChallenges[2]).to.deep.contain({
-          status: 'périmé',
+        expect(actualChallenges[2]).to.contain({
+          id: 'outdatedChallenge',
         });
       });
     });
@@ -497,33 +440,31 @@ describe('Integration | Repository | challenge-repository', function () {
   describe('#findActiveFlashCompatible', function () {
     beforeEach(function () {
       // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+      const skill = _buildSkill({ id: 'recSkill1' });
       const locales = ['fr-fr'];
-      const activeChallenge = domainBuilder.buildChallenge({
+      const activeChallenge = _buildChallenge({
         id: 'activeChallenge',
         skill,
         status: 'validé',
         locales,
+        alpha: 3.57,
+        delta: -8.99,
       });
-      const archivedChallenge = domainBuilder.buildChallenge({
+      const archivedChallenge = _buildChallenge({
         id: 'archivedChallenge',
         skill,
         status: 'archivé',
         locales,
       });
-      const outdatedChallenge = domainBuilder.buildChallenge({
+      const outdatedChallenge = _buildChallenge({
         id: 'outdatedChallenge',
         skill,
         status: 'périmé',
         locales,
       });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
-        challenges: [
-          { ...activeChallenge, skillId: 'recSkill1', alpha: 3.57, delta: -8.99 },
-          { ...archivedChallenge, skillId: 'recSkill1' },
-          { ...outdatedChallenge, skillId: 'recSkill1' },
-        ],
+        skills: [skill],
+        challenges: [activeChallenge, archivedChallenge, outdatedChallenge],
       };
       mockLearningContent(learningContent);
     });
@@ -575,33 +516,33 @@ describe('Integration | Repository | challenge-repository', function () {
   describe('#findOperativeFlashCompatible', function () {
     beforeEach(function () {
       // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+      const skill = _buildSkill({ id: 'recSkill1' });
       const locales = ['fr-fr'];
-      const activeChallenge = domainBuilder.buildChallenge({
+      const activeChallenge = _buildChallenge({
         id: 'activeChallenge',
         skill,
         status: 'validé',
         locales,
+        alpha: 3.57,
+        delta: -8.99,
       });
-      const archivedChallenge = domainBuilder.buildChallenge({
+      const archivedChallenge = _buildChallenge({
         id: 'archivedChallenge',
         skill,
         status: 'archivé',
         locales,
+        alpha: 1.98723,
+        delta: 5.42183,
       });
-      const outdatedChallenge = domainBuilder.buildChallenge({
+      const outdatedChallenge = _buildChallenge({
         id: 'outdatedChallenge',
         skill,
         status: 'périmé',
         locales,
       });
       const learningContent = {
-        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
-        challenges: [
-          { ...activeChallenge, skillId: 'recSkill1', alpha: 3.57, delta: -8.99 },
-          { ...archivedChallenge, skillId: 'recSkill1', alpha: 1.98723, delta: 5.42183 },
-          { ...outdatedChallenge, skillId: 'recSkill1' },
-        ],
+        skills: [skill],
+        challenges: [activeChallenge, archivedChallenge, outdatedChallenge],
       };
       mockLearningContent(learningContent);
     });
@@ -684,9 +625,10 @@ describe('Integration | Repository | challenge-repository', function () {
       // then
       expect(validatedChallenges).to.have.lengthOf(1);
       expect(validatedChallenges[0]).to.be.instanceOf(Challenge);
-      expect(_.omit(validatedChallenges[0], 'validator')).to.deep.equal(
-        _.omit(expectedValidatedChallenge, 'validator'),
+      expect(_.omit(validatedChallenges[0], nonComparableFields)).to.deep.equal(
+        _.omit(expectedValidatedChallenge, nonComparableFields),
       );
+      expect(validatedChallenges[0].instruction.toString()).to.equal(expectedValidatedChallenge.instruction.toString());
     });
   });
 
@@ -721,9 +663,9 @@ describe('Integration | Repository | challenge-repository', function () {
   });
 });
 
-function _buildSkill({ id, name = '@sau6', tubeId = 'recTUB123' }) {
+function _buildSkill({ id, name = '@sau6', tubeId = 'recTUB123', competenceId = 'recCOMP123' }) {
   return {
-    competenceId: 'recCOMP123',
+    competenceId,
     id,
     name,
     pixValue: 3,
@@ -743,6 +685,7 @@ function _buildChallenge({
   type = Challenge.Type.QCM,
   alpha = 1,
   delta = 0,
+  locales = ['fr'],
 }) {
   return {
     id,
@@ -757,11 +700,11 @@ function _buildChallenge({
     timer: '',
     focusable: true,
     type,
-    locales: ['fr'],
+    locales,
     autoReply: false,
     answer: undefined,
     responsive: 'Smartphone/Tablette',
-    competenceId: 'recCOMP1',
+    competenceId: skill.competenceId,
     skillId: skill.id,
     alpha,
     delta,

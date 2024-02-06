@@ -95,6 +95,7 @@ ko,aband,ok`;
           delta: -2,
           locales: ['fr-fr'],
           successProbabilityThreshold: 0.3,
+          instruction: '',
         },
         {
           id: 'challenge2',
@@ -104,6 +105,7 @@ ko,aband,ok`;
           delta: 6,
           locales: ['fr-fr'],
           successProbabilityThreshold: 0.4,
+          instruction: '',
         },
         {
           id: 'challenge3',
@@ -113,6 +115,7 @@ ko,aband,ok`;
           delta: 8.5,
           locales: ['fr-fr'],
           successProbabilityThreshold: 0.5,
+          instruction: '',
         },
         {
           id: 'challenge4',
@@ -122,6 +125,7 @@ ko,aband,ok`;
           delta: 0.145,
           locales: ['fr-fr'],
           successProbabilityThreshold: 0.6,
+          instruction: '',
         },
         {
           id: 'challenge5',
@@ -131,6 +135,7 @@ ko,aband,ok`;
           delta: 1,
           locales: ['fr-fr'],
           successProbabilityThreshold: 0.7,
+          instruction: '',
         },
         {
           id: 'challenge6',
@@ -140,6 +145,7 @@ ko,aband,ok`;
           delta: -1,
           locales: ['fr-fr'],
           successProbabilityThreshold: 0.8,
+          instruction: '',
         },
       ],
     };

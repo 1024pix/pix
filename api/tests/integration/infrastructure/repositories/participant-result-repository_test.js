@@ -68,9 +68,33 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           { id: 'skill6', status: 'périmé', tubeId: 'recTube2', competenceId: 'rec2', level: 7 },
         ],
         challenges: [
-          { id: 'challenge1', skillId: 'skill1', status: 'validé', locales: ['FR'], alpha: 1, delta: 0 },
-          { id: 'challenge2', skillId: 'skill3', status: 'validé', locales: ['FR'], alpha: 1, delta: 4 },
-          { id: 'challenge3', skillId: 'skill4', status: 'validé', locales: ['FR'], alpha: 2.57, delta: 1.4 },
+          {
+            id: 'challenge1',
+            skillId: 'skill1',
+            status: 'validé',
+            locales: ['FR'],
+            alpha: 1,
+            delta: 0,
+            instruction: '',
+          },
+          {
+            id: 'challenge2',
+            skillId: 'skill3',
+            status: 'validé',
+            locales: ['FR'],
+            alpha: 1,
+            delta: 4,
+            instruction: '',
+          },
+          {
+            id: 'challenge3',
+            skillId: 'skill4',
+            status: 'validé',
+            locales: ['FR'],
+            alpha: 2.57,
+            delta: 1.4,
+            instruction: '',
+          },
         ],
       };
 

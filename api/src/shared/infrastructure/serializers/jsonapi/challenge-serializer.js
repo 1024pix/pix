@@ -29,6 +29,7 @@ const serialize = function (challenges) {
       const challenge = _.pickBy(record, (value) => !_.isUndefined(value));
 
       challenge.competence = challenge.competenceId || 'N/A';
+      challenge.instruction = challenge.instruction?.toString();
 
       return challenge;
     },

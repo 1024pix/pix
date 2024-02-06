@@ -75,6 +75,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
               proposals: '${a}',
               locales: ['fr-fr'],
               type: 'QROC',
+              instruction: '',
             },
           ],
         };
@@ -290,6 +291,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
               locales: ['fr-fr'],
               proposals: '${a}',
               type: 'QROC',
+              instruction: '',
             },
           ],
         };

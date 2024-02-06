@@ -48,7 +48,7 @@ const buildLearningContent = function (learningContent) {
                     locales: _convertLanguesToLocales(challenge.langues || ['Francophone']),
                     type: challenge.type,
                     focusable: challenge.focusable,
-                    instruction: challenge.instruction,
+                    instruction: challenge.instruction ?? '',
                     proposals: challenge.proposals,
                     autoReply: challenge.autoReply,
                     alpha: challenge.alpha,

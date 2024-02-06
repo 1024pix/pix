@@ -1,5 +1,4 @@
-import { Challenge } from '../../../../src/shared/domain/models/Challenge.js';
-import { Validator } from '../../../../lib/domain/models/Validator.js';
+import { Challenge, ChallengeInstruction, Validator } from '../../../../lib/domain/models/index.js';
 import { buildSkill } from './build-skill.js';
 
 const buildChallenge = function ({
@@ -43,7 +42,7 @@ const buildChallenge = function ({
     embedUrl,
     format,
     illustrationUrl,
-    instruction,
+    instruction: new ChallengeInstruction({ source: instruction }),
     proposals,
     status,
     timer,

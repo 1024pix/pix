@@ -43,12 +43,12 @@ describe('Integration | UseCases | simulateOldScoring', function () {
         { id: 'skill6', status: 'périmé', tubeId: 'recTube2', competenceId: 'rec2', level: 6, pixValue: 100000 },
       ],
       challenges: [
-        { id: 'challenge1', skillId: 'skill1', status: 'validé', locales: ['fr'] },
-        { id: 'challenge2', skillId: 'skill2', status: 'validé', locales: ['fr'] },
-        { id: 'challenge3', skillId: 'skill3', status: 'validé', locales: ['fr'] },
-        { id: 'challenge4', skillId: 'skill4', status: 'validé', locales: ['fr'] },
-        { id: 'challenge5', skillId: 'skill5', status: 'validé', locales: ['fr'] },
-        { id: 'challenge6', skillId: 'skill5', status: 'validé', locales: ['fr'] },
+        { id: 'challenge1', skillId: 'skill1', status: 'validé', locales: ['fr'], instruction: '' },
+        { id: 'challenge2', skillId: 'skill2', status: 'validé', locales: ['fr'], instruction: '' },
+        { id: 'challenge3', skillId: 'skill3', status: 'validé', locales: ['fr'], instruction: '' },
+        { id: 'challenge4', skillId: 'skill4', status: 'validé', locales: ['fr'], instruction: '' },
+        { id: 'challenge5', skillId: 'skill5', status: 'validé', locales: ['fr'], instruction: '' },
+        { id: 'challenge6', skillId: 'skill5', status: 'validé', locales: ['fr'], instruction: '' },
       ],
     };
 

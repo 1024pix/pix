@@ -1,6 +1,7 @@
 import { expect } from '../../../../../test-helper.js';
 import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/challenge-serializer.js';
 import { Challenge } from '../../../../../../src/shared/domain/models/Challenge.js';
+import { ChallengeInstruction } from '../../../../../../lib/domain/models/index.js';
 
 describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
   describe('#serialize()', function () {
@@ -56,43 +57,40 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
     describe('field "competence"', function () {
       it('should be the the first associated to the challenge when it exists', function () {
         // given
-        const challenge = new Challenge();
-        challenge.id = 1;
-        challenge.competenceId = 'competence_id';
+        const challenge = new Challenge({ competenceId: 'competence_id' });
 
         // when
         const json = serializer.serialize(challenge);
 
         // then
-        expect(json).to.deep.equal({
-          data: {
-            type: 'challenges',
-            id: '1',
-            attributes: {
-              competence: 'competence_id',
-            },
-          },
-        });
+        expect(json.data.attributes.competence).to.equal('competence_id');
       });
 
       it('should be null when no competence is associated to the challenge (ex: DEMO course)', function () {
         // given
         const challenge = new Challenge();
-        challenge.id = 1;
 
         // when
         const json = serializer.serialize(challenge);
 
         // then
-        expect(json).to.deep.equal({
-          data: {
-            type: 'challenges',
-            id: '1',
-            attributes: {
-              competence: 'N/A',
-            },
-          },
+        expect(json.data.attributes.competence).to.equal('N/A');
+      });
+    });
+
+    describe('#instruction', function () {
+      it('should transform ChallengeInstruction to string', function () {
+        // given
+        const challenge = new Challenge({
+          // id: '1',
+          instruction: new ChallengeInstruction({ source: 'La consigne' }),
         });
+
+        // when
+        const json = serializer.serialize(challenge);
+
+        // then
+        expect(json.data.attributes.instruction).to.equal('La consigne');
       });
     });
   });

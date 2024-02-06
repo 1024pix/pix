@@ -61,6 +61,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           competenceId: 'recArea1_Competence1',
           status: '', // unoperative
           locales: ['fr-fr'],
+          instruction: '',
         },
         {
           id: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
@@ -68,6 +69,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'validé', // operative
           competenceId: 'recArea1_Competence1',
           locales: ['fr-fr'],
+          instruction: '',
         },
       ],
     };
@@ -152,6 +154,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           competenceId: 'recArea1_Competence1',
           status: 'validé',
           locales: ['fr', 'en'],
+          instruction: '',
         },
         {
           id: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
@@ -159,6 +162,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'validé',
           competenceId: 'recArea1_Competence1',
           locales: ['fr-fr'],
+          instruction: '',
         },
       ],
     };
@@ -254,6 +258,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           competenceId: 'recArea1_Competence1',
           status: 'validé',
           locales: ['fr-fr'],
+          instruction: '',
         },
         {
           id: 'recArea1_Competence2_Tube1_Skill1_Challenge1',
@@ -261,6 +266,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'validé',
           competenceId: 'recArea1_Competence2',
           locales: ['fr-fr'],
+          instruction: '',
         },
       ],
     };
@@ -355,6 +361,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           competenceId: 'recArea1_Competence1',
           status: 'validé',
           locales: ['fr-fr'],
+          instruction: '',
         },
         {
           id: 'recArea1_Competence2_Tube1_Skill1_Challenge1',
@@ -362,6 +369,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'validé',
           competenceId: 'recArea1_Competence2',
           locales: ['fr-fr'],
+          instruction: '',
         },
       ],
     };
@@ -439,6 +447,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           competenceId: 'recArea1_Competence1',
           status: 'validé',
           locales: ['fr-fr'],
+          instruction: '',
         },
         {
           id: 'recArea1_Competence1_Tube1_Skill1_Challenge2',
@@ -446,6 +455,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'validé',
           competenceId: 'recArea1_Competence1',
           locales: ['fr-fr'],
+          instruction: '',
         },
         {
           id: 'recArea1_Competence1_Tube1_Skill1_Challenge3',
@@ -453,6 +463,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'validé',
           competenceId: 'recArea1_Competence1',
           locales: ['fr-fr'],
+          instruction: '',
         },
       ],
     };
@@ -522,6 +533,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           competenceId: 'recArea1_Competence1',
           status: 'validé',
           locales: ['fr-fr'],
+          instruction: '',
         },
         {
           id: 'recArea1_Competence1_Tube1_Skill1_Challenge2',
@@ -529,6 +541,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'validé',
           competenceId: 'recArea1_Competence1',
           locales: ['fr-fr'],
+          instruction: '',
         },
         {
           id: 'recArea1_Competence1_Tube1_Skill1_Challenge3',
@@ -536,6 +549,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'validé',
           competenceId: 'recArea1_Competence1',
           locales: ['fr-fr'],
+          instruction: '',
         },
       ],
     };
@@ -648,6 +662,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           competenceId: 'recArea1_Competence1',
           status: 'validé',
           locales: ['fr-fr'],
+          instruction: '',
         },
         {
           id: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
@@ -655,6 +670,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'validé',
           competenceId: 'recArea1_Competence1',
           locales: ['fr-fr'],
+          instruction: '',
         },
         {
           id: 'recArea1_Competence1_Tube1_Skill3_Challenge1',
@@ -662,6 +678,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'validé',
           competenceId: 'recArea1_Competence1',
           locales: ['fr-fr'],
+          instruction: '',
         },
         {
           id: 'recArea1_Competence1_Tube1_Skill4_Challenge1',
@@ -669,6 +686,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
           status: 'validé',
           competenceId: 'recArea1_Competence1',
           locales: ['fr-fr'],
+          instruction: '',
         },
       ],
     };

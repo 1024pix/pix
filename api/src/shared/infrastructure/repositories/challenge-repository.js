@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Challenge } from '../../../../lib/domain/models/index.js';
+import { Challenge, ChallengeInstruction } from '../../../../lib/domain/models/index.js';
 import * as skillAdapter from '../../../../lib/infrastructure/adapters/skill-adapter.js';
 import * as solutionAdapter from '../../../../lib/infrastructure/adapters/solution-adapter.js';
 import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
@@ -162,7 +162,9 @@ function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThr
     id: challengeDataObject.id,
     type: challengeDataObject.type,
     status: challengeDataObject.status,
-    instruction: challengeDataObject.instruction,
+    instruction: new ChallengeInstruction({
+      source: challengeDataObject.instruction,
+    }),
     alternativeInstruction: challengeDataObject.alternativeInstruction,
     proposals: challengeDataObject.proposals,
     timer: challengeDataObject.timer,
