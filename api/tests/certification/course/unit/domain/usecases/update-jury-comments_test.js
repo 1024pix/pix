@@ -1,37 +1,80 @@
 import { expect, sinon, domainBuilder } from '../../../../../test-helper.js';
 import { updateJuryComments } from '../../../../../../src/certification/course/domain/usecases/update-jury-comments.js';
+import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
+import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
+import { CompetenceMark } from '../../../../../../lib/domain/models/index.js';
 
 describe('Unit | UseCase | update-jury-comments', function () {
+  let domainTransaction;
+  beforeEach(function () {
+    domainTransaction = {
+      knexTransaction: Symbol('transaction'),
+    };
+    sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+      return callback(domainTransaction);
+    });
+  });
+
   it('should save jury comments', async function () {
     // given
+    const certificationCourseId = 123;
+    const assessmentResultComments = {
+      commentForOrganization: null,
+      commentForCandidate: null,
+      commentByJury: 'Hello',
+    };
+    const competenceMark = domainBuilder.buildCompetenceMark({});
+    const oldAssessmentResult = domainBuilder.buildAssessmentResult({ id: 56, competenceMarks: [competenceMark] });
+    const newAssessmentResult = domainBuilder.buildAssessmentResult({ id: 78, juryId: 456, commentByJury: 'Hello' });
+
+    const courseAssessmentResultRepository = {
+      getLatestAssessmentResult: sinon.stub().resolves(oldAssessmentResult),
+    };
     const assessmentResultRepository = {
-      save: sinon.stub(),
+      save: sinon.stub().resolves(newAssessmentResult),
     };
     const competenceMarkRepository = {
-      findByCertificationCourseId: sinon.stub(),
-      save: sinon.stub(),
+      save: sinon.stub().resolves(),
     };
-    const oldAssessmentResult = domainBuilder.buildAssessmentResult({ id: 56 });
-    const newAssessmentResult = domainBuilder.buildAssessmentResult({ id: 78 });
-    const competenceMark = domainBuilder.buildCompetenceMark({});
-
-    assessmentResultRepository.save
-      .withArgs({ certificationCourseId: 123, assessmentResult: oldAssessmentResult })
-      .resolves(newAssessmentResult);
-    competenceMarkRepository.findByCertificationCourseId.withArgs(123).resolves([competenceMark]);
-    competenceMarkRepository.save.withArgs({ competenceMark, assessmentResultId: newAssessmentResult.id }).resolves();
 
     // when
     await updateJuryComments({
-      certificationCourseId: 123,
-      assessmentResult: oldAssessmentResult,
+      certificationCourseId,
+      assessmentResultComments,
+      juryId: 456,
       assessmentResultRepository,
       competenceMarkRepository,
+      courseAssessmentResultRepository,
     });
 
     // then
-    expect(competenceMarkRepository.findByCertificationCourseId).to.have.been.calledOnce;
-    expect(assessmentResultRepository.save).to.have.been.calledOnce;
-    expect(competenceMarkRepository.save).to.have.been.calledOnce;
+    expect(courseAssessmentResultRepository.getLatestAssessmentResult).to.have.been.calledOnceWith({
+      certificationCourseId,
+      domainTransaction,
+    });
+    expect(assessmentResultRepository.save).to.have.been.calledOnceWith({
+      certificationCourseId,
+      assessmentResult: sinon.match.instanceOf(AssessmentResult).and(
+        sinon.match({
+          ...oldAssessmentResult.clone,
+          id: undefined,
+          juryId: 456,
+          emitter: AssessmentResult.emitters.PIX_JURY,
+          commentForOrganization: assessmentResultComments.commentForOrganization,
+          commentForCandidate: assessmentResultComments.commentForCandidate,
+          commentByJury: assessmentResultComments.commentByJury,
+        }),
+      ),
+      domainTransaction,
+    });
+    expect(competenceMarkRepository.save).to.have.been.calledOnceWith(
+      sinon.match.instanceOf(CompetenceMark).and(
+        sinon.match({
+          ...competenceMark,
+          assessmentResultId: newAssessmentResult.id,
+        }),
+      ),
+      domainTransaction,
+    );
   });
 });

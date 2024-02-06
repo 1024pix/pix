@@ -31,13 +31,13 @@ module('Unit | Adapter | certification', function (hooks) {
     });
   });
 
-  module('#urlForUpdateMarks', function () {
-    test('should build update marks url from certification id', function (assert) {
+  module('#urlForUpdateComments', function () {
+    test('should build update comments url from certification course id', function (assert) {
       // when
-      const url = adapter.urlForUpdateMarks(1001);
+      const url = adapter.urlForUpdateComments(1001);
 
       // then
-      assert.ok(url.endsWith('/admin/certification-courses/1001/assessment-results/'));
+      assert.ok(url.endsWith('/admin/certification-courses/1001/assessment-results'));
     });
   });
 
@@ -52,42 +52,49 @@ module('Unit | Adapter | certification', function (hooks) {
   });
 
   module('#updateRecord', function () {
-    module('when updateMarks adapter option passed', function () {
-      test('it should trigger an ajax call with the updateMarks url, data and method', async function (assert) {
+    module('when updateComments adapter option passed', function () {
+      test('it should trigger an ajax call with the updateComments url, data and method', async function (assert) {
         // given
-        adapter.ajax.resolves();
-        store.serializerFor.returns(serializer);
-        serializer.serializeIntoHash.callsFake((data) => {
-          data.data = {};
-          data.data.attributes = {};
-        });
+        sinon
+          .stub(adapter, 'urlForUpdateComments')
+          .returns('https://example.net/api/admin/certification-courses/123/assessment-results');
+        const store = Symbol();
+        const attributes = {
+          'comment-for-organization': 'comment organization',
+          'comment-for-candidate': 'comment candidate',
+          'comment-by-jury': 'comment by jury',
+        };
 
         // when
         await adapter.updateRecord(
           store,
           { modelName: 'someModelName' },
-          { id: 123, adapterOptions: { updateMarks: true } },
+          {
+            id: 123,
+            adapterOptions: { updateComments: true },
+            serialize: sinon.stub().returns({ data: { attributes } }),
+          },
         );
 
         // then
-        const expectedData = {
+        const expectedPayload = {
           data: {
             data: {
-              type: 'results',
               attributes: {
-                'jury-id': null,
-                emitter: 'Jury Pix',
+                'comment-for-organization': 'comment organization',
+                'comment-for-candidate': 'comment candidate',
+                'comment-by-jury': 'comment by jury',
               },
             },
           },
         };
-        sinon.assert.calledWith(
-          adapter.ajax,
-          'http://localhost:3000/api/admin/certification-courses/123/assessment-results/',
-          'POST',
-          expectedData,
+        assert.ok(
+          adapter.ajax.calledWith(
+            'https://example.net/api/admin/certification-courses/123/assessment-results',
+            'POST',
+            expectedPayload,
+          ),
         );
-        assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
       });
     });
 

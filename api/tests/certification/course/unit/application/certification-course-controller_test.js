@@ -1,14 +1,14 @@
-import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { usecases } from '../../../../../src/certification/course/domain/usecases/index.js';
+import { usecases as sharedUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 import { certificationCourseController } from '../../../../../src/certification/course/application/certification-course-controller.js';
 import { sinon, hFake, expect } from '../../../../test-helper.js';
 import { CertificationCourseRejected } from '../../../../../lib/domain/events/CertificationCourseRejected.js';
 import { CertificationCourseUnrejected } from '../../../../../lib/domain/events/CertificationCourseUnrejected.js';
-import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
   describe('reject', function () {
     it('should call the rejectCertificationCourse usecase', async function () {
-      const rejectCertificationCourse = sinon.stub(usecases, 'rejectCertificationCourse');
+      const rejectCertificationCourse = sinon.stub(sharedUsecases, 'rejectCertificationCourse');
       const certificationCourseId = 12;
       const juryId = 456;
       const events = { eventDispatcher: { dispatch: sinon.stub() } };
@@ -35,7 +35,7 @@ describe('Unit | Controller | certification-course-controller', function () {
 
   describe('unreject', function () {
     it('should call the unrejectCertificationCourse usecase', async function () {
-      const unrejectCertificationCourse = sinon.stub(usecases, 'unrejectCertificationCourse');
+      const unrejectCertificationCourse = sinon.stub(sharedUsecases, 'unrejectCertificationCourse');
       const certificationCourseId = 12;
       const juryId = 456;
       const events = { eventDispatcher: { dispatch: sinon.stub() } };
@@ -65,9 +65,6 @@ describe('Unit | Controller | certification-course-controller', function () {
   describe('#updateJuryComments', function () {
     it('should updateJuryComments usecase', async function () {
       // given
-      const assessmentResultSerializer = {
-        deserialize: sinon.stub(),
-      };
       sinon.stub(usecases, 'updateJuryComments');
       const request = {
         auth: {
@@ -81,10 +78,6 @@ describe('Unit | Controller | certification-course-controller', function () {
         payload: {
           data: {
             attributes: {
-              'assessment-id': 1,
-              'pix-score': 300,
-              status: 'validated',
-              emitter: 'Jury Pix',
               'comment-by-jury': 'Tell',
               'comment-for-candidate': 'Me',
               'comment-for-organization': 'Why',
@@ -92,16 +85,6 @@ describe('Unit | Controller | certification-course-controller', function () {
           },
         },
       };
-      const assessmentResult = new AssessmentResult({
-        assessmentId: 1,
-        emitter: 'Jury Pix',
-        commentByJury: 'Tell',
-        commentForCandidate: 'Me',
-        commentForOrganization: 'Why',
-        pixScore: 300,
-        status: 'validated',
-      });
-      assessmentResultSerializer.deserialize.withArgs(request.payload).resolves(assessmentResult);
       usecases.updateJuryComments.resolves();
 
       // when
@@ -110,7 +93,12 @@ describe('Unit | Controller | certification-course-controller', function () {
       // then
       expect(usecases.updateJuryComments).to.have.been.calledWithExactly({
         certificationCourseId: 123,
-        assessmentResult: { ...assessmentResult, juryId: 789 },
+        assessmentResultComments: {
+          commentByJury: 'Tell',
+          commentForCandidate: 'Me',
+          commentForOrganization: 'Why',
+        },
+        juryId: request.auth.credentials.userId,
       });
     });
   });

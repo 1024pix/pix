@@ -21,6 +21,7 @@ describe('Integration | Repository | AssessmentResult', function () {
           commentForCandidate: 'candidate',
           commentByJury: 'jury',
           commentForOrganization: 'orga',
+          commentByAutoJury: 'KEY',
           createdAt: new Date('2021-10-29T03:06:00Z'),
           juryId: 100,
           assessmentId: 2,
@@ -52,6 +53,7 @@ describe('Integration | Repository | AssessmentResult', function () {
           commentForCandidate: 'candidate',
           commentByJury: 'jury',
           commentForOrganization: 'orga',
+          commentByAutoJury: 'KEY',
           createdAt: new Date('2021-10-29T03:06:00Z'),
           juryId: 100,
           assessmentId: 2,
@@ -441,6 +443,7 @@ describe('Integration | Repository | AssessmentResult', function () {
         expectedAssessmentResult.commentForCandidate = undefined;
         expectedAssessmentResult.commentByJury = undefined;
         expectedAssessmentResult.commentForOrganization = undefined;
+        expectedAssessmentResult.commentByAutoJury = undefined;
         expectedAssessmentResult.createdAt = undefined;
         expectedAssessmentResult.emitter = undefined;
         expectedAssessmentResult.reproducibilityRate = undefined;
@@ -472,6 +475,7 @@ describe('Integration | Repository | AssessmentResult', function () {
         expectedAssessmentResult.commentForCandidate = undefined;
         expectedAssessmentResult.commentByJury = undefined;
         expectedAssessmentResult.commentForOrganization = undefined;
+        expectedAssessmentResult.commentByAutoJury = undefined;
         expectedAssessmentResult.createdAt = undefined;
         expectedAssessmentResult.emitter = undefined;
         expectedAssessmentResult.reproducibilityRate = undefined;

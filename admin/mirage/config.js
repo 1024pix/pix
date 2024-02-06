@@ -550,7 +550,7 @@ function routes() {
     return new Response(200);
   });
 
-  this.post('/admin/certification-courses/:id/assessment-results/', () => {
+  this.post('/admin/certification-courses/:id/assessment-results', () => {
     return new Response(204);
   });
 

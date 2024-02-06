@@ -57,6 +57,20 @@ const register = async function (server) {
       method: 'POST',
       path: '/api/admin/certification-courses/{id}/assessment-results',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'comment-for-organization': Joi.string().allow(null, '').required(),
+                'comment-for-candidate': Joi.string().allow(null, '').required(),
+                'comment-by-jury': Joi.string().allow(null, '').required(),
+              },
+            },
+          }),
+        },
         pre: [
           {
             method: (request, h) =>

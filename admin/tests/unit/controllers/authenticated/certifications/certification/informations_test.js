@@ -401,7 +401,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       await controller.onCandidateInformationSave();
 
       // then
-      sinon.assert.calledWith(certification.save, { adapterOptions: { updateMarks: false } });
+      sinon.assert.calledWith(certification.save, { adapterOptions: { updateComments: false } });
       assert.ok(true);
     });
   });

@@ -16,6 +16,7 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
     commentForCandidate: assessmentResultDTO.commentForCandidate,
     commentForOrganization: assessmentResultDTO.commentForOrganization,
     commentByJury: assessmentResultDTO.commentByJury,
+    commentByAutoJury: assessmentResultDTO.commentByAutoJury,
     createdAt: assessmentResultDTO.createdAt,
     emitter: assessmentResultDTO.emitter,
     juryId: assessmentResultDTO.juryId,
@@ -38,6 +39,7 @@ const save = async function ({
     commentByJury,
     commentForCandidate,
     commentForOrganization,
+    commentByAutoJury,
     id,
     juryId,
     assessmentId,
@@ -57,13 +59,14 @@ const save = async function ({
         commentByJury,
         commentForCandidate,
         commentForOrganization,
+        commentByAutoJury,
         id,
         juryId,
         assessmentId,
       })
       .returning('*');
 
-    await knex('certification-courses-last-assessment-results')
+    await knexConn('certification-courses-last-assessment-results')
       .insert({ certificationCourseId, lastAssessmentResultId: savedAssessmentResultData.id })
       .onConflict('certificationCourseId')
       .merge(['lastAssessmentResultId']);

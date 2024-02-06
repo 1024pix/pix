@@ -49,6 +49,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
  * @typedef {assessmentRepository} AssessmentRepository
+ * @typedef {assessmentResultRepository} AssessmentResultRepository
  * @typedef {attendanceSheetPdfUtils} AttendanceSheetPdfUtils
  * @typedef {badgeRepository} BadgeRepository
  * @typedef {candidateRepository} CandidateRepository
@@ -145,6 +146,7 @@ const usecasesWithoutInjectedDependencies = {
   })),
   ...(await importNamedExportsFromDirectory({
     path: join(path, '../../../course/domain/usecases/'),
+    ignoredFileNames: ['index.js', 'update-jury-comments.js'],
   })),
 };
 
