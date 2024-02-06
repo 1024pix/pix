@@ -519,6 +519,7 @@
     "session-supervising-error": {
       "title": "An error occurred",
       "description": "To access this session, click on the \"Invigilate a session\" button and fill in the details of the session",
+      "no-internet-error": "Your internet connection is currently interrupted, the data displayed is no longer up to date. Please reconnect to the internet and reload the page.",
       "page-title": "Access error to the session's invigilation"
     },
     "sessions": {
