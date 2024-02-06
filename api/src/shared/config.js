@@ -63,6 +63,7 @@ const configuration = (function () {
           endpoint: process.env.IMPORT_STORAGE_ENDPOINT,
           region: process.env.IMPORT_STORAGE_REGION,
           bucket: process.env.IMPORT_STORAGE_BUCKET_NAME,
+          forcePathStyle: true,
         },
       },
     },
@@ -541,6 +542,19 @@ const configuration = (function () {
     config.redis = {
       url: process.env.TEST_REDIS_URL,
       database: 1,
+    };
+
+    config.import = {
+      storage: {
+        client: {
+          accessKeyId: 'nothing',
+          secretAccessKey: 'nothing',
+          endpoint: process.env.TEST_IMPORT_STORAGE_ENDPOINT,
+          region: 'nothing',
+          bucket: process.env.TEST_IMPORT_STORAGE_BUCKET_NAME,
+          forcePathStyle: true,
+        },
+      },
     };
 
     config.dataProtectionPolicy.updateDate = '2022-12-25 00:00:01';
