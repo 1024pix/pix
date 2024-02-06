@@ -5,7 +5,13 @@ import { Bookshelf } from '../../../../../lib/infrastructure/bookshelf.js';
 import { CertificationReport } from '../../domain/models/CertificationReport.js';
 import { BookshelfCertificationCourse } from '../../../../../lib/infrastructure/orm-models/CertificationCourse.js';
 import { CertificationCourseUpdateError } from '../../domain/errors.js';
-import { toDomain } from './certification-course-repository.js';
+import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
+import { BookshelfAssessment } from '../../../../../lib/infrastructure/orm-models/Assessment.js';
+import {
+  CertificationCourse,
+  CertificationIssueReport,
+  ComplementaryCertificationCourse,
+} from '../../../../../lib/domain/models/index.js';
 
 const findBySessionId = async function (sessionId) {
   const results = await BookshelfCertificationCourse.where({ sessionId })
@@ -17,7 +23,7 @@ const findBySessionId = async function (sessionId) {
       withRelated: ['certificationIssueReports', 'assessment'],
     });
 
-  const certificationCourses = results.map(toDomain);
+  const certificationCourses = results.map(bookshelfToDomain);
   return _.map(certificationCourses, CertificationReport.fromCertificationCourse);
 };
 
@@ -44,4 +50,52 @@ async function _finalize({ certificationReport, transaction = undefined }) {
     { hasSeenEndTestScreen: certificationReport.hasSeenEndTestScreen },
     saveOptions,
   );
+}
+
+function bookshelfToDomain(bookshelfCertificationCourse) {
+  if (!bookshelfCertificationCourse) {
+    return null;
+  }
+
+  const assessment = bookshelfToDomainConverter.buildDomainObject(
+    BookshelfAssessment,
+    bookshelfCertificationCourse.related('assessment'),
+  );
+  const dbCertificationCourse = bookshelfCertificationCourse.toJSON();
+  return new CertificationCourse({
+    assessment,
+    challenges: bookshelfCertificationCourse.related('challenges').toJSON(),
+    certificationIssueReports: bookshelfCertificationCourse
+      .related('certificationIssueReports')
+      .toJSON()
+      .map((json) => new CertificationIssueReport(json)),
+    complementaryCertificationCourses: bookshelfCertificationCourse
+      .related('complementaryCertificationCourses')
+      .toJSON()
+      .map((json) => new ComplementaryCertificationCourse(json)),
+    ..._.pick(dbCertificationCourse, [
+      'id',
+      'userId',
+      'createdAt',
+      'completedAt',
+      'firstName',
+      'lastName',
+      'birthplace',
+      'birthdate',
+      'sex',
+      'birthPostalCode',
+      'birthINSEECode',
+      'birthCountry',
+      'sessionId',
+      'externalId',
+      'isPublished',
+      'hasSeenEndTestScreen',
+      'isCancelled',
+      'isRejectedForFraud',
+      'maxReachableLevelOnCertificationDate',
+      'verificationCode',
+      'abortReason',
+      'version',
+    ]),
+  });
 }
