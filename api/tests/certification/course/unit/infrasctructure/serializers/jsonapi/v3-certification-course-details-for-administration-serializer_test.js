@@ -23,6 +23,7 @@ describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administrat
       const answerValue = 'Some answer';
       const isRejectedForFraud = true;
       const isCancelled = true;
+      const numberOfChallenges = 20;
       const createdAt = new Date('2022-02-02');
       const completedAt = new Date('2022-02-03');
       const assessmentState = Assessment.states.ENDED_DUE_TO_FINALIZATION;
@@ -63,6 +64,7 @@ describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administrat
             'assessment-result-status': assessmentResultStatus,
             'abort-reason': abortReason,
             'pix-score': pixScore,
+            'number-of-challenges': 20,
           },
         },
         included: [
@@ -95,6 +97,7 @@ describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administrat
         assessmentResultStatus,
         abortReason,
         pixScore,
+        numberOfChallenges,
         certificationChallengesForAdministration: [certificationChallenge],
       });
 
