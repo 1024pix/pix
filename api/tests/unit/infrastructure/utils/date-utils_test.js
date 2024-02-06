@@ -97,6 +97,19 @@ describe('Unit | Utils | date-utils', function () {
         });
       });
 
+      context('when dateValue is Date Object', function () {
+        it('should return converted date', function () {
+          expect(
+            convertDateValue({
+              dateString: new Date('1980-05-05'),
+              inputFormat: 'DD/MM/YYYY',
+              alternativeInputFormat: 'DD/MM/YY',
+              outputFormat: 'YYYY-MM-DD',
+            }),
+          ).to.equal('1980-05-05');
+        });
+      });
+
       context('when dateValue matches alternativeInputFormat with 2 digits year', function () {
         it('should return converted date with year 2000 if input year < the current year', function () {
           const currentYear = new Date().getFullYear();
