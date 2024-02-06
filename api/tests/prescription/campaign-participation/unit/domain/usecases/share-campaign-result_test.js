@@ -1,7 +1,7 @@
-import { sinon, expect, domainBuilder, catchErr } from '../../../test-helper.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
-import { CampaignParticipationResultsShared } from '../../../../lib/domain/events/CampaignParticipationResultsShared.js';
-import { shareCampaignResult } from '../../../../lib/domain/usecases/share-campaign-result.js';
+import { sinon, expect, domainBuilder, catchErr } from '../../../../../test-helper.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../lib/domain/errors.js';
+import { CampaignParticipationResultsShared } from '../../../../../../lib/domain/events/CampaignParticipationResultsShared.js';
+import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 
 describe('Unit | UseCase | share-campaign-result', function () {
   let campaignParticipationRepository;
@@ -24,7 +24,7 @@ describe('Unit | UseCase | share-campaign-result', function () {
       campaignParticipationRepository.get.resolves({ userId: userId + 1 });
 
       // when
-      const error = await catchErr(shareCampaignResult)({
+      const error = await catchErr(usecases.shareCampaignResult)({
         userId,
         campaignParticipationId,
         campaignParticipationRepository,
@@ -40,14 +40,17 @@ describe('Unit | UseCase | share-campaign-result', function () {
     it('updates the campaign participation', async function () {
       // given
       const domainTransaction = Symbol('transaction');
-      const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId });
+      const campaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
+        id: campaignParticipationId,
+        userId,
+      });
       sinon.stub(campaignParticipation, 'share');
       campaignParticipationRepository.get
         .withArgs(campaignParticipationId, domainTransaction)
         .resolves(campaignParticipation);
 
       // when
-      await shareCampaignResult({
+      await usecases.shareCampaignResult({
         userId,
         campaignParticipationId,
         campaignParticipationRepository,
@@ -65,13 +68,16 @@ describe('Unit | UseCase | share-campaign-result', function () {
     it('returns the CampaignParticipationResultsShared event', async function () {
       // given
       const domainTransaction = Symbol('transaction');
-      const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId });
+      const campaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
+        id: campaignParticipationId,
+        userId,
+      });
       sinon.stub(campaignParticipation, 'share');
 
       campaignParticipationRepository.get.resolves(campaignParticipation);
 
       // when
-      const actualEvent = await shareCampaignResult({
+      const actualEvent = await usecases.shareCampaignResult({
         userId,
         campaignParticipationId,
         campaignParticipationRepository,

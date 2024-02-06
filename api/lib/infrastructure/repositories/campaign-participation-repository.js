@@ -1,7 +1,5 @@
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import * as knowledgeElementRepository from './knowledge-element-repository.js';
-import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
 import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { Campaign } from '../../domain/models/Campaign.js';
@@ -46,13 +44,6 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
   });
 };
 
-const update = async function (campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
-  const knexConn = domainTransaction.knexTransaction || knex;
-  const attributes = _getAttributes(campaignParticipation);
-
-  await knexConn.from('campaign-participations').where({ id: campaignParticipation.id }).update(attributes);
-};
-
 const findLatestOngoingByUserId = async function (userId) {
   const campaignParticipations = await knex('campaign-participations')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
@@ -91,25 +82,6 @@ const findOneByCampaignIdAndUserId = async function ({ campaignId, userId }) {
   return new CampaignParticipation({
     ...campaignParticipation,
     assessments: assessments.map((assessment) => new Assessment(assessment)),
-  });
-};
-
-const updateWithSnapshot = async function (
-  campaignParticipation,
-  domainTransaction = DomainTransaction.emptyTransaction(),
-) {
-  await this.update(campaignParticipation, domainTransaction);
-
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
-    userId: campaignParticipation.userId,
-    limitDate: campaignParticipation.sharedAt,
-    domainTransaction,
-  });
-  await knowledgeElementSnapshotRepository.save({
-    userId: campaignParticipation.userId,
-    snappedAt: campaignParticipation.sharedAt,
-    knowledgeElements,
-    domainTransaction,
   });
 };
 
@@ -192,28 +164,14 @@ export {
   hasAssessmentParticipations,
   getCodeOfLastParticipationToProfilesCollectionCampaignForUser,
   get,
-  update,
   findLatestOngoingByUserId,
   findOneByCampaignIdAndUserId,
-  updateWithSnapshot,
   isRetrying,
   getAllParticipationsByCampaignId,
   countParticipationsByStatus,
   getAllCampaignParticipationsInCampaignForASameLearner,
   remove,
 };
-
-function _getAttributes(campaignParticipation) {
-  return {
-    createdAt: campaignParticipation.createdAt,
-    participantExternalId: campaignParticipation.participantExternalId,
-    sharedAt: campaignParticipation.sharedAt,
-    status: campaignParticipation.status,
-    campaignId: campaignParticipation.campaignId,
-    userId: campaignParticipation.userId,
-    organizationLearnerId: campaignParticipation.organizationLearnerId,
-  };
-}
 
 function mapToParticipationByStatus(row = {}, campaignType) {
   const participationByStatus = {

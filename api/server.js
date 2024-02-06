@@ -26,10 +26,11 @@ import { certificationCourseRoutes } from './src/certification/course/routes.js'
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
 
 import { learnerManagementRoutes } from './src/prescription/learner-management/routes.js';
-import { learnerListRoutes } from './src/prescription/organization-learner/routes.js';
+import { organizationLearnerRoutes } from './src/prescription/organization-learner/routes.js';
 import { organizationPlaceRoutes } from './src/prescription/organization-place/routes.js';
 import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
 import { campaignRoutes } from './src/prescription/campaign/routes.js';
+import { campaignParticipationsRoutes } from './src/prescription/campaign-participation/routes.js';
 
 import { prescriberManagementRoutes } from './src/shared/prescriber-management/routes.js';
 
@@ -46,12 +47,14 @@ const certificationRoutes = [
   complementaryCertificationRoutes,
   certificationCourseRoutes,
 ];
+
 const prescriptionRoutes = [
   learnerManagementRoutes,
-  learnerListRoutes,
+  organizationLearnerRoutes,
   targetProfileRoutes,
   campaignRoutes,
   organizationPlaceRoutes,
+  campaignParticipationsRoutes,
 ];
 const prescriptionSharedRoutes = [prescriberManagementRoutes];
 
