@@ -15,6 +15,9 @@ const register = async function (server) {
           params: Joi.object({
             id: identifiersType.challengeId,
           }),
+          query: Joi.object({
+            assessmentId: identifiersType.assessmentId.optional(),
+          }),
         },
         handler: challengeController.get,
         tags: ['api'],
