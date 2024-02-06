@@ -300,7 +300,7 @@
       "slug": "didacticiel-modulix",
       "title": "Didacticiel Modulix",
       "details": {
-        "image": "https://images.pix.fr/modulix/didacticiel/icon.svg",
+        "image": "https://images.pix.fr/modulix/placeholder-details.svg",
         "description": "Découvrez avec ce didacticiel comment fonctionne Modulix !",
         "duration": 5,
         "level": "Débutant",
@@ -347,8 +347,8 @@
             {
               "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
-              "alt": "Dessin d'un ordinateur dans un univers spatial",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
+              "alt": "",
               "alternativeText": ""
             }
           ]
@@ -367,8 +367,8 @@
               "id": "3a9f2269-99ba-4631-b6fd-6802c88d5c26",
               "type": "video",
               "title": "Vidéo de présentation de Pix",
-              "url": "https://videos.pix.fr/modulix/didacticiel/presentation.mp4",
-              "subtitles": "-",
+              "url": "https://videos.pix.fr/modulix/placeholder-video.mp4",
+              "subtitles": "https://videos.pix.fr/modulix/placeholder-video.vtt",
               "transcription": "<p>Le numérique évolue en permanence, vos compétences aussi, pour travailler, communiquer et s'informer, se déplacer, réaliser des démarches, un enjeu tout au long de la vie.</p><p>Sur <a href='https://pix.fr' target='blank'>pix.fr</a>, testez-vous et cultivez vos compétences numériques.</p><p>Les tests Pix sont personnalisés, les questions s'adaptent à votre niveau, réponse après réponse.</p><p>Évaluez vos connaissances et savoir-faire sur 16 compétences, dans 5 domaines, sur 5 niveaux de débutants à confirmer, avec des mises en situation ludiques, recherches en ligne, manipulation de fichiers et de données, culture numérique...</p><p>Allez à votre rythme, vous pouvez arrêter et reprendre quand vous le voulez.</p><p>Toutes les 5 questions, découvrez vos résultats et progressez grâce aux astuces et aux tutos.</p><p>En relevant les défis Pix, vous apprendrez de nouvelles choses et aurez envie d'aller plus loin.</p><p>Vous pensez pouvoir faire mieux ?</p><p>Retentez les tests et améliorez votre score.</p><p>Faites reconnaître officiellement votre niveau en passant la certification Pix, reconnue par l'État et le monde professionnel.</p><p>Pix : le service public en ligne pour évaluer, développer et certifier ses compétences numériques.</p>"
             }
           ]
@@ -468,7 +468,7 @@
       "slug": "ports-connexions-essentiels",
       "title": "Les ports de connexion d’un ordinateur",
       "details": {
-        "image": "https://images.pix.fr/modulix/didacticiel/icon.svg",
+        "image": "https://images.pix.fr/modulix/placeholder-details.svg",
         "description": "Pour savoir ce que vous pouvez brancher ou non à votre ordinateur, il faut bien connaître ses ports de connexion !",
         "duration": 10,
         "level": "Débutant",
@@ -541,7 +541,7 @@
             {
               "id": "1496c1da-e0ea-4c44-98c3-cdcfab871e04",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Photo d'un chargeur de téléphone portable avec une connexion USB",
               "alternativeText": ""
             },
@@ -553,7 +553,7 @@
             {
               "id": "b7f8feb2-b355-4fbd-99ec-48511303536f",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Photo d'une souris filaire avec une connexion USB",
               "alternativeText": ""
             },
@@ -565,7 +565,7 @@
             {
               "id": "cfca4266-f0cf-4dd9-81a5-f297b907334b",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Photo d'une manette de jeu vidéo avec une connexion USB",
               "alternativeText": ""
             },
@@ -577,7 +577,7 @@
             {
               "id": "70bca95e-6aad-4fc9-b4eb-8499945879c2",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Photo d'une webcam avec une connexion USB",
               "alternativeText": ""
             },
@@ -589,7 +589,7 @@
             {
               "id": "7a55d4a9-3bff-4604-9fa9-0898b7d109dc",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Le symbole de l'USB",
               "alternativeText": ""
             }
@@ -608,7 +608,7 @@
             {
               "id": "6f276b50-a00c-49f7-b22c-23dbef0c2bf2",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Une souris d'ordinateur",
               "alternativeText": ""
             },
@@ -635,7 +635,7 @@
             {
               "id": "49bb95aa-1074-45e9-8c85-c061efd07348",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Un casque audio",
               "alternativeText": ""
             },
@@ -662,7 +662,7 @@
             {
               "id": "36b959d4-add7-403d-9e7f-aa4f0bf777b8",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Un casque audio",
               "alternativeText": ""
             },
@@ -701,9 +701,334 @@
             {
               "id": "fe7c8a3f-8576-466d-89df-fe99a8e332c2",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "",
               "alternativeText": "<p>6 ports habituels sur un ordinateur :</p><ul><li>Port de l'alimentation électrique</li><li>Port VGA</li><li>Port HDMI</li><li>Port USB</li><li>Port ethernet</li><li>Port jack</li></ul>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8bdec793-7508-41b4-9df2-e1cf96969680",
+      "slug": "mots-de-passe-securises",
+      "title": "Mots de passe sécurisés",
+      "details": {
+        "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+        "description": "Comprendre et appliquer les essentiels de la sécurisation de vos mots de passe.",
+        "duration": 12,
+        "level": "Débutant",
+        "objectives": [
+          "Comprendre les enjeux",
+          "Connaître les principaux risques liés aux mots de passe",
+          "Savoir créer un mot de passe sécurisé"
+        ]
+      },
+      "transitionTexts": [
+        {
+          "content": "<p>Un mot de passe sert à protéger vos données. Il faut donc qu’il soit compliqué à trouver. Sinon, n’importe qui va le trouver et pourra lire vos messages.</p>",
+          "grainId": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8"
+        },
+        {
+          "content": "<p>C’est très clair : si tout le monde utilise le même mot de passe, ça ne sert pas à grand chose !<br />Regardons d’un peu plus près les situations dont il faut se protéger...</p>",
+          "grainId": "831fd61c-54ae-4b21-bd3f-61f40887a869"
+        },
+        {
+          "content": "<p>Si vous utilisez des informations qui vous concernent (prénoms, date de naissance, etc.), il sera facile pour vos proches de le trouver.</p> <p>Une illustration : vous allez devoir deviner le mot de passe d’Austin !</p>",
+          "grainId": "1cda400f-008c-49db-b46b-6f783ccbc273"
+        },
+        {
+          "content": "<p>Pour créer un mot de passe sécurisé, c’est-à-dire difficile à trouver, il y a des règles à connaître. Vous les rencontrez peut-être quand vous créez un compte, on vous demande de rajouter certaines contraintes à votre mot de passe : examinons-les ensemble !</p>",
+          "grainId": "1564f763-5ba5-48ef-b752-dac463319899"
+        },
+        {
+          "content": "<p>Cela fait beaucoup de règles à respecter !<br />Et si on essayait d'utiliser une méthode pour que ce soit un peu plus facile ?</p>",
+          "grainId": "f6bd140c-4f63-4fe7-94f4-b4d7a51db7a5"
+        },
+        {
+          "content": "<p>Avec cette méthode, nous voilà équipés pour créer des mots de passe très solides ! Mais au delà de la création des mots de passe, il y a d'autres bonnes habitudes à adopter !</p>",
+          "grainId": "f14510d6-ee18-48be-8bb6-39a9427e3102"
+        },
+        {
+          "content": "<p>Et si on testait tout ça avec quelques questions ?</p>",
+          "grainId": "27c3d4e9-cdee-452f-8c63-f780b890776e"
+        },
+        {
+          "content": "<p>Gérer des mots de passe solides, c'est tout sauf simple. Mais sécuriser ses données, ce n'est pas une option dans un monde tel que le nôtre où le numérique est partout.</p>",
+          "grainId": "1ed4223a-2b8f-4c2c-8dcb-3d0567b562b0"
+        }
+      ],
+      "grains": [
+        {
+          "id": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8",
+          "type": "activity",
+          "title": "TODO",
+          "elements": [
+            {
+              "id": "d8d3f524-10c7-4190-986b-f1e309efb124",
+              "type": "qrocm",
+              "instruction": "<p>À votre avis, quel est le mot de passe le plus utilisé en France ?</p>",
+              "proposals": [
+                {
+                  "input": "mot-de-passe",
+                  "type": "input",
+                  "inputType": "text",
+                  "size": 15,
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Mot de passe",
+                  "defaultValue": "",
+                  "tolerances": ["t1"],
+                  "solutions": ["123456"]
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Bien vu ! Voici la liste des 5 pires mots de passe : 123456 ; 123456789 ; azerty ; 1234561 ; qwerty</p>",
+                "invalid": "<p>Dommage ! Voici la liste des 5 pires mots de passe : 123456 ; 123456789 ; azerty ; 1234561 ; qwerty</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "831fd61c-54ae-4b21-bd3f-61f40887a869",
+          "type": "lesson",
+          "title": "titre",
+          "elements": [
+            {
+              "id": "826281e7-865f-462d-abc0-77537c42a2b4",
+              "type": "text",
+              "content": "<h4><span aria-hidden='true'>🔮&nbsp;</span>Une personne a deviné votre mot de passe…</h4><p>Une personne qui vous connaît bien a accès à de nombreuses informations vous concernant. <br />Si vous utilisez des informations privées en guise de mot de passe, il est probable qu’une personne de votre entourage puisse deviner facilement votre mot de passe et ainsi accéder à des données privées. Et ce n’est peut être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.<span aria-hidden='true'> 🙃</span></p>"
+            },
+            {
+              "id": "9d0b7aff-a9da-453f-a6ba-c61fbaa7bb25",
+              "type": "text",
+              "content": "<h4><span aria-hidden='true'>🤖&nbsp;</span>Un programme a deviné votre mot de passe…</h4><p>En 2023, un mot de passe de 8 caractères avec minuscules, majuscules, nombres et caractères spéciaux sera piraté en 5 minutes seulement ! <span aria-hidden='true'>😰 </span>Avec 12 caractères, cette durée passe à 226 ans ! <span aria-hidden='true'>😮 </span><br />En général, dans le cas d’attaques automatisées, votre attaquant ne vous connaît pas personnellement, et cherche certainement à revendre vos informations ou à vous soutirer de l’argent.</p>"
+            },
+            {
+              "id": "e17089d4-a166-4bf4-a18b-155caaebe081",
+              "type": "text",
+              "content": "<h4><span aria-hidden='true'>🔓&nbsp;</span>Votre mot de passe est compromis…</h4><p>Qu’il s’agisse d’une attaque automatisée ou d’une attaque ciblée vous concernant, si votre mot de passe a été deviné, les conséquences peuvent être graves. En particulier si le mot de passe compromis est celui de votre boîte mail <span aria-hidden='true'>😬</span></p>"
+            }
+          ]
+        },
+        {
+          "id": "1cda400f-008c-49db-b46b-6f783ccbc273",
+          "type": "activity",
+          "title": "Deviner le mot de passe d'Austin",
+          "elements": [
+            {
+              "id": "7ef31e68-e798-4a92-86a0-ad61ebd9b915",
+              "type": "text",
+              "content": "<p>Austin est producteur de miel dans les Vosges. Austin<ul><li>est né le 15 novembre 1984,</li><li>a un enfant qui s’appelle Bill.</li></ul>Il a utilisé ces deux informations pour créer son mot de passe.</p>"
+            },
+            {
+              "id": "2695bb89-112c-49d1-80b2-469d824af58f",
+              "type": "qrocm",
+              "instruction": "<p>Quel est le mot de passe d'Austin ?</p>",
+              "proposals": [
+                {
+                  "input": "mot-de-passe",
+                  "type": "input",
+                  "inputType": "text",
+                  "size": 15,
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Mot de passe d'Austin",
+                  "defaultValue": "",
+                  "tolerances": ["t1"],
+                  "solutions": ["Bill15111984", "15111984Bill"]
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct ! Et oui ! C’est un mot de passe faible, c’est-à-dire  facile à trouver.</p>",
+                "invalid": "<p>Incorrect ! Avez-vous bien écrit la date de naissance d’Austin en chiffres (15/11/1984) ? Et pensé au prénom de son enfant (Bill) ?</p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "1564f763-5ba5-48ef-b752-dac463319899",
+          "type": "lesson",
+          "title": "TODO",
+          "elements": [
+            {
+              "id": "b3a143af-210e-4a5f-9798-3e2aef45806c",
+              "type": "image",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
+              "alt": "",
+              "alternativeText": ""
+            },
+            {
+              "id": "02bb0017-a74d-4c78-8502-3c57d9f12209",
+              "type": "text",
+              "content": "<p>Texte - à modifier</p>"
+            },
+            {
+              "id": "b04b0fbd-fccc-4a35-b089-76e120d7af7b",
+              "type": "image",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
+              "alt": "",
+              "alternativeText": ""
+            },
+            {
+              "id": "c4505a09-864c-48f8-8077-013fae2db291",
+              "type": "text",
+              "content": "<p>Texte - à modifier</p>"
+            },
+            {
+              "id": "0ef47e65-d31e-41b6-a5a5-0f3b00caf5be",
+              "type": "image",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
+              "alt": "",
+              "alternativeText": ""
+            },
+            {
+              "id": "52f4050d-7ab9-41da-987b-d9172d5b3cb0",
+              "type": "text",
+              "content": "<p>Texte - à modifier</p>"
+            }
+          ]
+        },
+        {
+          "id": "f6bd140c-4f63-4fe7-94f4-b4d7a51db7a5",
+          "type": "activity",
+          "title": "Méthode pour créer un mot de passe sécurisé",
+          "elements": [
+            {
+              "id": "a71a60a7-f1c3-4a3c-b9b6-7ea5f1ec970e",
+              "type": "image",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
+              "alt": "",
+              "alternativeText": ""
+            },
+            {
+              "id": "fd4b05ee-8cda-4bfe-b18a-468f1a895f80",
+              "type": "text",
+              "content": "<h4>Voici la méthode pour construire un mot de passe sécurisé</h4><p>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em><br />Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !<br />Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><br />Maintenant à vous de jouer </p>"
+            },
+            {
+              "id": "718ee7f6-19bf-4787-a025-2a70b89c6288",
+              "type": "qrocm",
+              "instruction": "<p>Écrivez le mot de passe correspondant à la phrase suivante : <em>J'ai 2 passions, la course à pied et le VTT !</em></p>",
+              "proposals": [
+                {
+                  "input": "mot-de-passe",
+                  "type": "input",
+                  "inputType": "text",
+                  "size": 15,
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Votre mot de passe",
+                  "defaultValue": "",
+                  "tolerances": ["t1"],
+                  "solutions": ["J'a2p,lcàpelV!"]
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Bien vu ! Vous maîtrisez maintenant la méthode, à vous de jouer <span aria-hidden='true'>😁</span></p>",
+                "invalid": "<p>Et non ! Essayez peut-être de vérifier la ponctuation ? <span aria-hidden='true'>🧐</span></p>"
+              }
+            }
+          ]
+        },
+        {
+          "id": "f14510d6-ee18-48be-8bb6-39a9427e3102",
+          "type": "lesson",
+          "title": "Recommandations de gestion de mots de passe",
+          "elements": [
+            {
+              "id": "6d8ea5ad-d394-4aa8-b8dc-82733df76bdb",
+              "type": "image",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
+              "alt": "",
+              "alternativeText": ""
+            },
+            {
+              "id": "6eda6d92-1147-4c19-a7e5-f61a2228e33c",
+              "type": "text",
+              "content": "<p>Recommandation 1</p>"
+            }
+          ]
+        },
+        {
+          "id": "27c3d4e9-cdee-452f-8c63-f780b890776e",
+          "type": "activity",
+          "title": "Quizz mots de passe solides",
+          "elements": [
+            {
+              "id": "669c89e1-167e-40a3-a198-2ee226494b2e",
+              "type": "qcu",
+              "instruction": "<p>consigne vf 1</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "Vrai"
+                },
+                {
+                  "id": "2",
+                  "content": "Faux"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct ! <span aria-hidden='true'>🎉</span> </p>",
+                "invalid": "<p>Incorrect !</p>"
+              },
+              "solution": "1"
+            },
+            {
+              "id": "006acae6-1bca-420f-ba74-29e7e0369069",
+              "type": "qcu",
+              "instruction": "<p>consigne vf 2</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "Vrai"
+                },
+                {
+                  "id": "2",
+                  "content": "Faux"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct ! <span aria-hidden='true'>🎉</span> </p>",
+                "invalid": "<p>Incorrect !</p>"
+              },
+              "solution": "1"
+            },
+            {
+              "id": "68f45335-8aab-40f5-baff-9719ce8b582a",
+              "type": "qcu",
+              "instruction": "<p>consigne vf 2</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "Vrai"
+                },
+                {
+                  "id": "2",
+                  "content": "Faux"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct ! <span aria-hidden='true'>🎉</span> </p>",
+                "invalid": "<p>Incorrect !</p>"
+              },
+              "solution": "1"
+            }
+          ]
+        },
+        {
+          "id": "1ed4223a-2b8f-4c2c-8dcb-3d0567b562b0",
+          "type": "lesson",
+          "title": "Gérer ses mots de passe",
+          "elements": [
+            {
+              "id": "7a3de8e3-319c-4062-a41a-721d50a57ad5",
+              "type": "video",
+              "title": "Gérer ses mots de passe",
+              "url": "https://videos.pix.fr/modulix/placeholder-video.mp4",
+              "transcription": "",
+              "subtitles": "https://videos.pix.fr/modulix/placeholder-video.vtt"
             }
           ]
         }
