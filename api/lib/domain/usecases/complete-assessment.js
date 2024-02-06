@@ -5,7 +5,7 @@ import { AlreadyRatedAssessmentError } from '../errors.js';
 const completeAssessment = async function ({
   assessmentId,
   domainTransaction,
-  campaignParticipationRepository,
+  campaignParticipationBCRepository,
   assessmentRepository,
   locale,
 }) {
@@ -20,7 +20,7 @@ const completeAssessment = async function ({
   if (assessment.campaignParticipationId) {
     const { TO_SHARE } = CampaignParticipationStatuses;
 
-    await campaignParticipationRepository.update(
+    await campaignParticipationBCRepository.update(
       { id: assessment.campaignParticipationId, status: TO_SHARE },
       domainTransaction,
     );

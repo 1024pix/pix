@@ -1,12 +1,42 @@
-import { OrganizationLearnerForStartingParticipation } from '../../domain/read-models/OrganizationLearnerForStartingParticipation.js';
-import { UserIdentity } from '../../domain/read-models/UserIdentity.js';
-import * as campaignRepository from '../repositories/campaign-repository.js';
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import * as knexUtils from '../../../../../lib/infrastructure/utils/knex-utils.js';
 
-import { CampaignParticipant } from '../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
-import { NotFoundError } from '../../../src/shared/domain/errors.js';
-import { CampaignToStartParticipation } from '../../../src/prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
-import { PreviousCampaignParticipation } from '../../../src/prescription/campaign-participation/domain/models/PreviousCampaignParticipation.js';
+import { OrganizationLearnerForStartingParticipation } from '../../../../../lib/domain/read-models/OrganizationLearnerForStartingParticipation.js';
+import { UserIdentity } from '../../../../../lib/domain/read-models/UserIdentity.js';
+import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
+import {
+  AlreadyExistingCampaignParticipationError,
+  OrganizationLearnersCouldNotBeSavedError,
+} from '../../../../../lib/domain/errors.js';
+
+import { CampaignParticipant } from '../../domain/models/CampaignParticipant.js';
+import { CampaignToStartParticipation } from '../../domain/models/CampaignToStartParticipation.js';
+import { PreviousCampaignParticipation } from '../../domain/models/PreviousCampaignParticipation.js';
+
+import { NotFoundError } from '../../../../shared/domain/errors.js';
+
+import pick from 'lodash/pick.js';
+
+async function save(campaignParticipant, domainTransaction) {
+  const newlyCreatedOrganizationLearnerId = await _createNewOrganizationLearner(
+    campaignParticipant.organizationLearner,
+    domainTransaction.knexTransaction,
+  );
+  if (newlyCreatedOrganizationLearnerId) {
+    campaignParticipant.campaignParticipation.organizationLearnerId = newlyCreatedOrganizationLearnerId;
+  }
+
+  await _updatePreviousParticipation(
+    campaignParticipant.previousCampaignParticipationForUser,
+    domainTransaction.knexTransaction,
+  );
+  const campaignParticipationId = await _createNewCampaignParticipation(
+    domainTransaction.knexTransaction,
+    campaignParticipant.campaignParticipation,
+  );
+  await _createAssessment(campaignParticipant.assessment, campaignParticipationId, domainTransaction.knexTransaction);
+  return campaignParticipationId;
+}
 
 async function get({ userId, campaignId, domainTransaction }) {
   const userIdentity = await _getUserIdentityForTrainee(userId, domainTransaction);
@@ -28,6 +58,87 @@ async function get({ userId, campaignId, domainTransaction }) {
     organizationLearner,
     previousCampaignParticipationForUser,
   });
+}
+
+async function _createNewOrganizationLearner(organizationLearner, queryBuilder) {
+  if (organizationLearner) {
+    const existingOrganizationLearner = await queryBuilder('view-active-organization-learners')
+      .where({
+        userId: organizationLearner.userId,
+        organizationId: organizationLearner.organizationId,
+      })
+      .first();
+
+    if (existingOrganizationLearner) {
+      if (existingOrganizationLearner.isDisabled) {
+        await queryBuilder('organization-learners')
+          .update({ isDisabled: false })
+          .where({ id: existingOrganizationLearner.id })
+          .returning('id');
+      }
+
+      return existingOrganizationLearner.id;
+    } else {
+      try {
+        const [{ id }] = await queryBuilder('organization-learners').insert(
+          {
+            userId: organizationLearner.userId,
+            organizationId: organizationLearner.organizationId,
+            firstName: organizationLearner.firstName,
+            lastName: organizationLearner.lastName,
+          },
+          ['id'],
+        );
+        return id;
+      } catch (error) {
+        if (knexUtils.isUniqConstraintViolated(error) && error.constraint === 'one_active_organization_learner') {
+          throw new OrganizationLearnersCouldNotBeSavedError(
+            `User ${organizationLearner.userId} already inserted into ${organizationLearner.organizationId}`,
+          );
+        }
+
+        throw error;
+      }
+    }
+  }
+}
+
+async function _updatePreviousParticipation(campaignParticipation, queryBuilder) {
+  if (campaignParticipation) {
+    await queryBuilder('campaign-participations')
+      .update({ isImproved: campaignParticipation.isImproved })
+      .where({ id: campaignParticipation.id });
+  }
+}
+
+async function _createNewCampaignParticipation(queryBuilder, campaignParticipation) {
+  try {
+    const [{ id }] = await queryBuilder('campaign-participations')
+      .insert({
+        campaignId: campaignParticipation.campaignId,
+        userId: campaignParticipation.userId,
+        status: campaignParticipation.status,
+        organizationLearnerId: campaignParticipation.organizationLearnerId,
+        participantExternalId: campaignParticipation.participantExternalId,
+      })
+      .returning('id');
+
+    return id;
+  } catch (error) {
+    if (error.constraint === 'campaign_participations_campaignid_userid_isimproved_deleted') {
+      throw new AlreadyExistingCampaignParticipationError(
+        `User ${campaignParticipation.userId} has already a campaign participation with campaign ${campaignParticipation.campaignId}`,
+      );
+    }
+    throw error;
+  }
+}
+
+async function _createAssessment(assessment, campaignParticipationId, queryBuilder) {
+  if (assessment) {
+    const assessmentAttributes = pick(assessment, ['userId', 'method', 'state', 'type', 'courseId', 'isImproving']);
+    await queryBuilder('assessments').insert({ campaignParticipationId, ...assessmentAttributes });
+  }
 }
 
 async function _getUserIdentityForTrainee(userId, domainTransaction) {
@@ -163,4 +274,4 @@ async function _isOrganizationLearnerActive(userId, campaignId, domainTransactio
   return !organizationLearner?.isDisabled;
 }
 
-export { get };
+export { get, save };

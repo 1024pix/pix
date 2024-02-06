@@ -8,7 +8,7 @@ import { CampaignParticipationStatuses } from '../../../../src/prescription/shar
 
 describe('Unit | UseCase | complete-assessment', function () {
   let assessmentRepository;
-  let campaignParticipationRepository;
+  let campaignParticipationBCRepository;
   let domainTransaction;
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
@@ -20,7 +20,7 @@ describe('Unit | UseCase | complete-assessment', function () {
       completeByAssessmentId: _.noop,
     };
 
-    campaignParticipationRepository = {
+    campaignParticipationBCRepository = {
       get: _.noop,
       update: _.noop,
     };
@@ -49,7 +49,7 @@ describe('Unit | UseCase | complete-assessment', function () {
         assessmentId,
         domainTransaction,
         assessmentRepository,
-        campaignParticipationRepository,
+        campaignParticipationBCRepository,
       });
 
       // then
@@ -81,7 +81,7 @@ describe('Unit | UseCase | complete-assessment', function () {
             assessmentId: assessment.id,
             domainTransaction,
             assessmentRepository,
-            campaignParticipationRepository,
+            campaignParticipationBCRepository,
           });
 
           // then
@@ -95,7 +95,7 @@ describe('Unit | UseCase | complete-assessment', function () {
             assessmentId: assessment.id,
             domainTransaction,
             assessmentRepository,
-            campaignParticipationRepository,
+            campaignParticipationBCRepository,
           });
 
           // then
@@ -113,14 +113,14 @@ describe('Unit | UseCase | complete-assessment', function () {
 
         sinon.stub(assessmentRepository, 'get').withArgs(assessment.id, domainTransaction).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
-        sinon.stub(campaignParticipationRepository, 'get').resolves({ id: 1 });
-        sinon.stub(campaignParticipationRepository, 'update').resolves();
+        sinon.stub(campaignParticipationBCRepository, 'get').resolves({ id: 1 });
+        sinon.stub(campaignParticipationBCRepository, 'update').resolves();
         // when
         const result = await completeAssessment({
           assessmentId: assessment.id,
           domainTransaction,
           assessmentRepository,
-          campaignParticipationRepository,
+          campaignParticipationBCRepository,
         });
 
         // then
@@ -133,18 +133,18 @@ describe('Unit | UseCase | complete-assessment', function () {
 
         sinon.stub(assessmentRepository, 'get').withArgs(assessment.id, domainTransaction).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
-        sinon.stub(campaignParticipationRepository, 'update').resolves();
+        sinon.stub(campaignParticipationBCRepository, 'update').resolves();
         // when
         await completeAssessment({
           assessmentId: assessment.id,
           domainTransaction,
           assessmentRepository,
-          campaignParticipationRepository,
+          campaignParticipationBCRepository,
         });
 
         // then
         expect(
-          campaignParticipationRepository.update.calledWithExactly(
+          campaignParticipationBCRepository.update.calledWithExactly(
             { id: assessment.campaignParticipationId, status: TO_SHARE },
             domainTransaction,
           ),
@@ -158,17 +158,17 @@ describe('Unit | UseCase | complete-assessment', function () {
 
         sinon.stub(assessmentRepository, 'get').withArgs(assessment.id, domainTransaction).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
-        sinon.stub(campaignParticipationRepository, 'update').resolves();
+        sinon.stub(campaignParticipationBCRepository, 'update').resolves();
         // when
         const result = await completeAssessment({
           assessmentId: assessment.id,
           domainTransaction,
           assessmentRepository,
-          campaignParticipationRepository,
+          campaignParticipationBCRepository,
         });
 
         // then
-        expect(campaignParticipationRepository.update).to.not.have.been.called;
+        expect(campaignParticipationBCRepository.update).to.not.have.been.called;
         expect(result.event.isCertificationType).to.equal(true);
       });
     });

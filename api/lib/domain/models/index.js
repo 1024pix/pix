@@ -21,11 +21,11 @@ import { CampaignCreator } from '../../../src/prescription/campaign/domain/model
 import { CampaignForArchiving } from './CampaignForArchiving.js';
 import { CampaignForCreation } from '../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
 import { CampaignLearningContent } from './CampaignLearningContent.js';
-import { CampaignParticipant } from './CampaignParticipant.js';
+import { CampaignParticipant } from './../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
 import { CampaignParticipation } from './CampaignParticipation.js';
 import { CampaignParticipationResult } from './CampaignParticipationResult.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
-import { CampaignToStartParticipation } from './CampaignToStartParticipation.js';
+import { CampaignToStartParticipation } from '../../../src/prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
 import { CertifiableBadgeAcquisition } from './CertifiableBadgeAcquisition.js';
 import { CertifiableProfileForLearningContent } from './CertifiableProfileForLearningContent.js';
 import { CertificationAnswerStatusChangeAttempt } from './CertificationAnswerStatusChangeAttempt.js';

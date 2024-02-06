@@ -170,6 +170,7 @@ import * as verifyCertificateCodeService from '../../domain/services/verify-cert
 import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
 import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';
 import * as stageAndStageAcquisitionComparisonService from '../../../src/evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
+import * as campaignParticipationBCRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRepository } from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
 import { campaignParticipationResultRepository } from '../../infrastructure/repositories/campaign-participation-result-repository.js';
 import { getCompetenceLevel } from '../../../src/evaluation/domain/services/get-competence-level.js';
@@ -230,6 +231,7 @@ const dependencies = {
   campaignForArchivingRepository,
   campaignManagementRepository,
   campaignParticipantRepository,
+  campaignParticipationBCRepository,
   campaignParticipationOverviewRepository,
   campaignParticipationRepository,
   campaignParticipationResultRepository,

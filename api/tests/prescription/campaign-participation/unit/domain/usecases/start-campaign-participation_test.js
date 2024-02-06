@@ -1,8 +1,9 @@
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { startCampaignParticipation } from '../../../../lib/domain/usecases/start-campaign-participation.js';
-import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
-import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { CampaignParticipationStarted } from '../../../../../../lib/domain/events/CampaignParticipationStarted.js';
+import { KnowledgeElement } from '../../../../../../lib/domain/models/KnowledgeElement.js';
+
+import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
+import { CampaignParticipant } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
 
 describe('Unit | UseCase | start-campaign-participation', function () {
   const userId = 19837482;
@@ -34,7 +35,9 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       userIdentity: { id: userId },
     });
     const campaignParticipationAttributes = { campaignId: 12, participantExternalId: 'YvoLoL', isReset: false };
-    const expectedCampaignParticipation = domainBuilder.buildCampaignParticipation({ id: 12 });
+    const expectedCampaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
+      id: 12,
+    });
 
     const campaignParticipationStartedEvent = new CampaignParticipationStarted({
       campaignParticipationId: expectedCampaignParticipation.id,
@@ -51,7 +54,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     campaignParticipationRepository.get.withArgs(12, domainTransaction).resolves(expectedCampaignParticipation);
 
     // when
-    const { event, campaignParticipation } = await startCampaignParticipation({
+    const { event, campaignParticipation } = await usecases.startCampaignParticipation({
       campaignParticipation: campaignParticipationAttributes,
       userId,
       campaignRepository,
@@ -140,7 +143,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
       it('should retrieve skillIds to reset', async function () {
         // when
-        await startCampaignParticipation({
+        await usecases.startCampaignParticipation({
           campaignParticipation: campaignParticipationAttributes,
           userId,
           campaignRepository,
@@ -166,7 +169,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           .resolves();
 
         // when
-        await startCampaignParticipation({
+        await usecases.startCampaignParticipation({
           campaignParticipation: campaignParticipationAttributes,
           userId,
           campaignRepository,
@@ -197,7 +200,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
         ]);
 
         // when
-        await startCampaignParticipation({
+        await usecases.startCampaignParticipation({
           campaignParticipation: campaignParticipationAttributes,
           userId,
           campaignRepository,
@@ -226,7 +229,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
           .resolves(false);
 
         // when
-        await startCampaignParticipation({
+        await usecases.startCampaignParticipation({
           campaignParticipation: campaignParticipationAttributes,
           userId,
           assessmentRepository,
