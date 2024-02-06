@@ -53,6 +53,7 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   await _createProOrganization({ databaseBuilder });
   await _createProCertificationCenter({ databaseBuilder });
   await _createComplementaryCertificationCampaign({ databaseBuilder });
+  _createV3CertificationConfiguration({ databaseBuilder });
   await _createV3PilotCertificationCenter({ databaseBuilder });
   await _createSuccessCertifiableUser({ databaseBuilder });
   await _createScoSession({ databaseBuilder });
@@ -96,6 +97,22 @@ async function _createScoCertificationCenter({ databaseBuilder }) {
     updatedAt: new Date(),
     members: [{ id: SCO_CERTIFICATION_MANAGING_STUDENTS_CERTIFICATION_CENTER_USER_ID }],
     complementaryCertificationIds: [],
+  });
+}
+
+function _createV3CertificationConfiguration({ databaseBuilder }) {
+  databaseBuilder.factory.buildFlashAlgorithmConfiguration({
+    warmUpLength: null,
+    forcedCompetences: [],
+    maximumAssessmentLength: 32,
+    challengesBetweenSameCompetence: null,
+    minimumEstimatedSuccessRateRanges: [],
+    limitToOneQuestionPerTube: true,
+    enablePassageByAllCompetences: true,
+    doubleMeasuresUntil: null,
+    variationPercent: 0.5,
+    variationPercentUntil: null,
+    createdAt: new Date('2022-01-01'),
   });
 }
 
