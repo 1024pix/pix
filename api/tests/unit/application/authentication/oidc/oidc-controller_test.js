@@ -269,6 +269,49 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       });
     });
 
+    context('when audience is "admin"', function () {
+      it('uses only identity providers enabled in Pix Admin', async function () {
+        // given
+        request = {
+          ...request,
+          deserializedPayload: {
+            ...request.deserializedPayload,
+            audience: 'admin',
+          },
+        };
+        const oidcAuthenticationService = {};
+        const authenticationServiceRegistryStub = {
+          getOidcProviderServiceByCode: sinon.stub(),
+        };
+
+        authenticationServiceRegistryStub.getOidcProviderServiceByCode
+          .withArgs({ identityProviderCode: identityProvider })
+          .returns(oidcAuthenticationService);
+
+        const dependencies = {
+          authenticationServiceRegistry: authenticationServiceRegistryStub,
+        };
+
+        usecases.authenticateOidcUser.resolves({
+          pixAccessToken,
+          logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
+          isAuthenticationComplete: true,
+        });
+
+        request.yar.get.onCall(0).returns(state);
+        request.yar.get.onCall(1).returns(nonce);
+
+        // when
+        await oidcController.authenticateUser(request, hFake, dependencies);
+
+        // then
+        expect(authenticationServiceRegistryStub.getOidcProviderServiceByCode).to.have.been.calledWithExactly({
+          identityProviderCode: identityProvider,
+          audience: 'admin',
+        });
+      });
+    });
+
     it('should return PIX access token and logout url uuid when authentication is complete', async function () {
       // given
       const oidcAuthenticationService = {};
