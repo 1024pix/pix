@@ -14,6 +14,8 @@ const buildCertificationChallenge = function ({
   isNeutralized = false,
   hasBeenSkippedAutomatically = false,
   certifiableBadgeKey = null,
+  difficulty = null,
+  discriminant = null,
 } = {}) {
   courseId = _.isUndefined(courseId) ? buildCertificationCourse().id : courseId;
 
@@ -29,6 +31,8 @@ const buildCertificationChallenge = function ({
     isNeutralized,
     hasBeenSkippedAutomatically,
     certifiableBadgeKey,
+    difficulty,
+    discriminant,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-challenges',

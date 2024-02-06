@@ -5,7 +5,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -1.4290127754211426,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -53,7 +53,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 5.012345314025879,
         },
         competenceLevel: 7,
@@ -66,7 +66,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -1.816159963607788,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -114,7 +114,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 6.849133491516113,
         },
         competenceLevel: 7,
@@ -127,7 +127,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -0.6393653750419617,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -175,7 +175,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 3.2087042331695557,
         },
         competenceLevel: 7,
@@ -188,7 +188,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -1.61019766330719,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -236,7 +236,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 4.262047290802002,
         },
         competenceLevel: 7,
@@ -249,7 +249,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -1.6842528581619263,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -290,7 +290,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 6.855661869049072,
         },
         competenceLevel: 6,
@@ -303,7 +303,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -1.290342926979065,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -344,7 +344,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 4.602512359619141,
         },
         competenceLevel: 6,
@@ -357,7 +357,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -2.0458545684814453,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -398,7 +398,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 4.221365928649902,
         },
         competenceLevel: 6,
@@ -411,7 +411,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -1.3573087453842163,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -452,7 +452,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 3.0218923091888428,
         },
         competenceLevel: 6,
@@ -465,7 +465,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -2.3695690631866455,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -506,7 +506,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 3.2162301540374756,
         },
         competenceLevel: 6,
@@ -519,7 +519,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -1.4244885444641113,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -560,7 +560,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 3.189551830291748,
         },
         competenceLevel: 6,
@@ -573,7 +573,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: 2.1766011714935303,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -621,7 +621,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 2.088264226913452,
         },
         competenceLevel: 7,
@@ -634,7 +634,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -0.5992878079414368,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -675,7 +675,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 3.9777281284332275,
         },
         competenceLevel: 6,
@@ -688,7 +688,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -0.5439767837524414,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -736,7 +736,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 4.868575096130371,
         },
         competenceLevel: 7,
@@ -749,7 +749,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -1.5177412033081055,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -790,7 +790,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 4.159452438354492,
         },
         competenceLevel: 6,
@@ -803,7 +803,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -1.9220428466796875,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -851,7 +851,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 4.048096656799316,
         },
         competenceLevel: 7,
@@ -864,7 +864,7 @@ export const competenceLevelIntervals = [
       {
         bounds: {
           max: -0.8218916654586792,
-          min: -5.3399882316589355,
+          min: Number.MIN_SAFE_INTEGER,
         },
         competenceLevel: 0,
       },
@@ -912,7 +912,7 @@ export const competenceLevelIntervals = [
       },
       {
         bounds: {
-          max: 7.374109745025635,
+          max: Number.MAX_SAFE_INTEGER,
           min: 4.473289489746094,
         },
         competenceLevel: 7,

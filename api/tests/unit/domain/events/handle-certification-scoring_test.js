@@ -10,6 +10,7 @@ import {
   generateAnswersForChallenges,
   generateChallengeList,
 } from '../../../certification/shared/fixtures/challenges.js';
+import { CertificationChallengeForScoring } from '../../../../src/certification/scoring/domain/models/CertificationChallengeForScoring.js';
 
 const { handleCertificationScoring } = _forTestOnly.handlers;
 
@@ -24,11 +25,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
   let certificationCourseRepository;
   let competenceForScoringRepository;
   let competenceMarkRepository;
-  let challengeRepository;
   let answerRepository;
   let flashAlgorithmConfigurationRepository;
   let flashAlgorithmService;
   let baseFlashAlgorithmConfiguration;
+  let certificationChallengeForScoringRepository;
 
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
@@ -46,7 +47,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
     };
     competenceForScoringRepository = { listByLocale: sinon.stub() };
     competenceMarkRepository = { save: sinon.stub() };
-    challengeRepository = { getMany: sinon.stub() };
+    certificationChallengeForScoringRepository = { getByCertificationCourseId: sinon.stub() };
     answerRepository = { findByAssessment: sinon.stub() };
     flashAlgorithmConfigurationRepository = { get: sinon.stub() };
     baseFlashAlgorithmConfiguration = domainBuilder.buildFlashAlgorithmConfiguration({
@@ -339,14 +340,17 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               abortReason: ABORT_REASONS.CANDIDATE,
             });
 
-            const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification - 1 });
-            const challengeIds = challenges.map(({ id }) => id);
+            const challenges = _generateCertificationChallengeForScoringList({
+              length: minimumAnswersRequiredToValidateACertification - 1,
+            });
 
             const answers = generateAnswersForChallenges({ challenges });
 
             flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
 
-            challengeRepository.getMany.withArgs(challengeIds).resolves(challenges);
+            certificationChallengeForScoringRepository.getByCertificationCourseId
+              .withArgs({ certificationCourseId })
+              .resolves(challenges);
             answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
             certificationCourseRepository.get.withArgs(certificationCourseId).resolves(abortedCertificationCourse);
 
@@ -366,7 +370,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             // when
             await handleCertificationScoring({
               event,
-              challengeRepository,
+              certificationChallengeForScoringRepository,
               answerRepository,
               assessmentResultRepository,
               certificationCourseRepository,
@@ -417,14 +421,18 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               abortReason,
             });
 
-            const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification - 1 });
-            const challengeIds = challenges.map(({ id }) => id);
+            const challenges = _generateCertificationChallengeForScoringList({
+              length: minimumAnswersRequiredToValidateACertification - 1,
+            });
 
             const answers = generateAnswersForChallenges({ challenges });
 
             flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
 
-            challengeRepository.getMany.withArgs(challengeIds).resolves(challenges);
+            certificationChallengeForScoringRepository.getByCertificationCourseId
+              .withArgs({ certificationCourseId })
+              .resolves(challenges);
+
             answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
             certificationCourseRepository.get.withArgs(certificationCourseId).resolves(abortedCertificationCourse);
 
@@ -444,7 +452,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             // when
             await handleCertificationScoring({
               event,
-              challengeRepository,
+              certificationChallengeForScoringRepository,
               answerRepository,
               assessmentResultRepository,
               certificationCourseRepository,
@@ -499,12 +507,13 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             // given
             const expectedEstimatedLevel = 2;
             const scoreForEstimatedLevel = 592;
-            const challenges = generateChallengeList({ length: maximumAssessmentLength });
-            const challengeIds = challenges.map(({ id }) => id);
+            const challenges = _generateCertificationChallengeForScoringList({ length: maximumAssessmentLength });
             const answers = generateAnswersForChallenges({ challenges });
             const assessmentResultId = 123;
 
-            challengeRepository.getMany.withArgs(challengeIds).resolves(challenges);
+            certificationChallengeForScoringRepository.getByCertificationCourseId
+              .withArgs({ certificationCourseId })
+              .resolves(challenges);
             answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
             certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
             flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
@@ -525,7 +534,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             // when
             await handleCertificationScoring({
               event,
-              challengeRepository,
+              certificationChallengeForScoringRepository,
               answerRepository,
               assessmentResultRepository,
               certificationCourseRepository,
@@ -577,12 +586,13 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               // given
               const expectedEstimatedLevel = 8;
               const cappedScoreForEstimatedLevel = 896;
-              const challenges = generateChallengeList({ length: maximumAssessmentLength });
-              const challengeIds = challenges.map(({ id }) => id);
+              const challenges = _generateCertificationChallengeForScoringList({ length: maximumAssessmentLength });
 
               const answers = generateAnswersForChallenges({ challenges });
 
-              challengeRepository.getMany.withArgs(challengeIds).resolves(challenges);
+              certificationChallengeForScoringRepository.getByCertificationCourseId
+                .withArgs({ certificationCourseId })
+                .resolves(challenges);
               answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
               certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
               flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
@@ -602,7 +612,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               // when
               await handleCertificationScoring({
                 event,
-                challengeRepository,
+                certificationChallengeForScoringRepository,
                 answerRepository,
                 assessmentResultRepository,
                 certificationCourseRepository,
@@ -640,8 +650,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               // given
               const expectedEstimatedLevel = 2;
               const rawScore = 592;
-              const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification });
-              const challengeIds = challenges.map(({ id }) => id);
+              const challenges = _generateCertificationChallengeForScoringList({
+                length: minimumAnswersRequiredToValidateACertification,
+              });
               const abortReason = ABORT_REASONS.TECHNICAL;
               const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
                 id: certificationCourseId,
@@ -651,7 +662,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
               const answers = generateAnswersForChallenges({ challenges });
 
-              challengeRepository.getMany.withArgs(challengeIds).resolves(challenges);
+              certificationChallengeForScoringRepository.getByCertificationCourseId
+                .withArgs({ certificationCourseId })
+                .resolves(challenges);
               answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
               certificationCourseRepository.get.withArgs(certificationCourseId).resolves(abortedCertificationCourse);
               flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
@@ -671,7 +684,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               // when
               await handleCertificationScoring({
                 event,
-                challengeRepository,
+                certificationChallengeForScoringRepository,
                 answerRepository,
                 assessmentResultRepository,
                 certificationCourseRepository,
@@ -714,8 +727,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               // given
               const expectedEstimatedLevel = 2;
               const degradedScore = 474;
-              const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification });
-              const challengeIds = challenges.map(({ id }) => id);
+              const challenges = _generateCertificationChallengeForScoringList({
+                length: minimumAnswersRequiredToValidateACertification,
+              });
               const abortReason = ABORT_REASONS.CANDIDATE;
               const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
                 id: certificationCourseId,
@@ -725,7 +739,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
               const answers = generateAnswersForChallenges({ challenges });
 
-              challengeRepository.getMany.withArgs(challengeIds).resolves(challenges);
+              certificationChallengeForScoringRepository.getByCertificationCourseId
+                .withArgs({ certificationCourseId })
+                .resolves(challenges);
               answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
               certificationCourseRepository.get.withArgs(certificationCourseId).resolves(abortedCertificationCourse);
               flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
@@ -745,7 +761,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               // when
               await handleCertificationScoring({
                 event,
-                challengeRepository,
+                certificationChallengeForScoringRepository,
                 answerRepository,
                 assessmentResultRepository,
                 certificationCourseRepository,
@@ -787,13 +803,15 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
       it('should return a CertificationScoringCompleted', async function () {
         // given
-        const challenge1 = domainBuilder.buildChallenge();
-        const challenge2 = domainBuilder.buildChallenge();
+        const challenge1 = domainBuilder.buildCertificationChallengeForScoring();
+        const challenge2 = domainBuilder.buildCertificationChallengeForScoring();
         const challenges = [challenge1, challenge2];
         const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.id, assessmentId });
         const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.id, assessmentId });
         const answers = [answer1, answer2];
-        challengeRepository.getMany.withArgs([challenge1.id, challenge2.id]).resolves(challenges);
+        certificationChallengeForScoringRepository.getByCertificationCourseId
+          .withArgs({ certificationCourseId })
+          .resolves(challenges);
         answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
         certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
         flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
@@ -814,7 +832,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         const generatedEvent = await handleCertificationScoring({
           event,
           certificationAssessmentRepository,
-          challengeRepository,
+          certificationChallengeForScoringRepository,
           answerRepository,
           assessmentResultRepository,
           competenceMarkRepository,
@@ -859,3 +877,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
     });
   });
 });
+
+const _generateCertificationChallengeForScoringList = ({ length }) => {
+  return generateChallengeList({
+    length,
+  }).map(({ discriminant, difficulty }) => new CertificationChallengeForScoring({ discriminant, difficulty }));
+};

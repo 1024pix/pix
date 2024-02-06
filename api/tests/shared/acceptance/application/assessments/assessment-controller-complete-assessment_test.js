@@ -585,60 +585,102 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
       });
 
       context('when certification is v3', function () {
-        let certifiableUserId;
-        let certificationAssessment;
+        describe('when user answers are normal', function () {
+          it('should complete the certification assessment', async function () {
+            // given
+            const limitDate = new Date('2020-01-01T00:00:00Z');
+            const certifiableUserId = databaseBuilder.factory.buildUser().id;
 
-        beforeEach(function () {
-          const limitDate = new Date('2020-01-01T00:00:00Z');
-          certifiableUserId = databaseBuilder.factory.buildUser().id;
+            const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+              userId: certifiableUserId,
+              createdAt: limitDate,
+              version: 3,
+            }).id;
+            const certificationAssessment = databaseBuilder.factory.buildAssessment({
+              certificationCourseId,
+              userId: certifiableUserId,
+              state: Assessment.states.STARTED,
+              type: Assessment.types.CERTIFICATION,
+              createdAt: limitDate,
+            });
 
-          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
-            userId: certifiableUserId,
-            createdAt: limitDate,
-            version: 3,
-          }).id;
-          certificationAssessment = databaseBuilder.factory.buildAssessment({
-            certificationCourseId,
-            userId: certifiableUserId,
-            state: Assessment.states.STARTED,
-            type: Assessment.types.CERTIFICATION,
-            createdAt: limitDate,
+            _buildValidAnswersAndCertificationChallenges({
+              assessmentId: certificationAssessment.id,
+              certificationCourseId,
+            });
+
+            await databaseBuilder.commit();
+
+            options.url = `/api/assessments/${certificationAssessment.id}/complete-assessment`;
+            options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);
+
+            // when
+            const response = await server.inject(options);
+
+            // then
+            expect(response.statusCode).to.equal(204);
+
+            const assessmentResult = await knex('assessment-results')
+              .where({
+                assessmentId: certificationAssessment.id,
+              })
+              .first();
+
+            expect(assessmentResult.pixScore).to.exist;
           });
-
-          _buildValidAnswersAndCertificationChallenges({
-            assessmentId: certificationAssessment.id,
-            certificationCourseId,
-          });
-          databaseBuilder.factory.buildBadge();
-
-          return databaseBuilder.commit();
         });
 
-        it('should complete the certification assessment', async function () {
-          // given
-          options.url = `/api/assessments/${certificationAssessment.id}/complete-assessment`;
-          options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);
+        describe('when user estimatedLevel is too high', function () {
+          it('should complete the certification assessment', async function () {
+            // given
+            const limitDate = new Date('2020-01-01T00:00:00Z');
+            const certifiableUserId = databaseBuilder.factory.buildUser().id;
 
-          // when
-          const response = await server.inject(options);
+            const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+              userId: certifiableUserId,
+              createdAt: limitDate,
+              version: 3,
+            }).id;
+            const certificationAssessment = databaseBuilder.factory.buildAssessment({
+              certificationCourseId,
+              userId: certifiableUserId,
+              state: Assessment.states.STARTED,
+              type: Assessment.types.CERTIFICATION,
+              createdAt: limitDate,
+            });
 
-          // then
-          expect(response.statusCode).to.equal(204);
-
-          const assessmentResult = await knex('assessment-results')
-            .where({
+            _buildValidAnswersAndCertificationChallenges({
               assessmentId: certificationAssessment.id,
-            })
-            .first();
+              certificationCourseId,
+              difficulty: 9,
+            });
 
-          expect(assessmentResult.pixScore).to.exist;
+            await databaseBuilder.commit();
+
+            options.url = `/api/assessments/${certificationAssessment.id}/complete-assessment`;
+            options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);
+
+            // when
+            const response = await server.inject(options);
+
+            // then
+            expect(response.statusCode).to.equal(204);
+
+            const assessmentResult = await knex('assessment-results')
+              .where({
+                assessmentId: certificationAssessment.id,
+              })
+              .first();
+
+            expect(assessmentResult.pixScore).to.exist;
+          });
         });
       });
     });
   });
 });
 
-function _buildValidAnswersAndCertificationChallenges({ certificationCourseId, assessmentId }) {
+function _buildValidAnswersAndCertificationChallenges({ certificationCourseId, assessmentId, difficulty = 0 }) {
   const answers = _.flatten(
     _.range(0, 3).map((skillIndex) =>
       _.range(0, 3).map((level) => {
@@ -655,6 +697,8 @@ function _buildValidAnswersAndCertificationChallenges({ certificationCourseId, a
     databaseBuilder.factory.buildCertificationChallenge({
       challengeId,
       courseId: certificationCourseId,
+      difficulty,
+      discriminant: 2,
     }),
   );
 
