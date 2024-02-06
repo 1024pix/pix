@@ -11,6 +11,8 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
           complementaryCertificationBadgeId: 89,
           reproducibilityRate: 71,
           hasAcquiredPixCertification: false,
+          pixScore: 80,
+          minimumEarnedPix: 60,
         });
 
       // then
@@ -22,10 +24,13 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
           hasAcquiredPixCertification: false,
           minimumReproducibilityRate: undefined,
           source: 'PIX',
+          pixScore: 80,
+          minimumEarnedPix: 60,
         }),
       );
     });
   });
+
   context('#isAcquired', function () {
     it('returns true when Pix+ certification is acquired and reproducibility rate is over minimum reproducibility rate', function () {
       // given
@@ -35,6 +40,8 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
           hasAcquiredPixCertification: true,
           reproducibilityRate,
           minimumReproducibilityRate: 70,
+          pixScore: 80,
+          minimumEarnedPix: 60,
         });
 
       // when
@@ -52,6 +59,8 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
           hasAcquiredPixCertification: true,
           reproducibilityRate,
           minimumReproducibilityRate: 70,
+          pixScore: 80,
+          minimumEarnedPix: 60,
         });
 
       // when
@@ -69,6 +78,8 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
           hasAcquiredPixCertification: false,
           reproducibilityRate,
           minimumReproducibilityRate: 70,
+          pixScore: 80,
+          minimumEarnedPix: 60,
         });
 
       // when
@@ -78,7 +89,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
       expect(isAcquired).to.be.false;
     });
 
-    it('returns false when reproducibility rate is under minimum reproducibility rat even if Pix+ certification is acquired', function () {
+    it('returns false when reproducibility rate is under minimum reproducibility rate even if Pix+ certification is acquired', function () {
       // given
       const reproducibilityRate = domainBuilder.buildReproducibilityRate({ value: 69 });
       const complementaryCertificationScoringWithComplementaryReferential =
@@ -86,6 +97,8 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
           hasAcquiredPixCertification: true,
           reproducibilityRate,
           minimumReproducibilityRate: 70,
+          pixScore: 80,
+          minimumEarnedPix: 60,
         });
 
       // when
@@ -93,6 +106,27 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
 
       // then
       expect(isAcquired).to.be.false;
+    });
+
+    context('when pixScore is under minimumEarnedPix rate even if Pix+ certification is acquired', function () {
+      it('returns false', function () {
+        // given
+        const reproducibilityRate = domainBuilder.buildReproducibilityRate({ value: 69 });
+        const complementaryCertificationScoringWithComplementaryReferential =
+          domainBuilder.buildComplementaryCertificationScoringWithComplementaryReferential({
+            hasAcquiredPixCertification: true,
+            reproducibilityRate,
+            minimumReproducibilityRate: 70,
+            pixScore: 60,
+            minimumEarnedPix: 80,
+          });
+
+        // when
+        const isAcquired = complementaryCertificationScoringWithComplementaryReferential.isAcquired();
+
+        // then
+        expect(isAcquired).to.be.false;
+      });
     });
   });
 });

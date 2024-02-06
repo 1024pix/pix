@@ -12,11 +12,13 @@ describe('Integration | Repository | complementary certification scoring criteri
       const badge2 = databaseBuilder.factory.buildBadge({ key: 'PIX+_TEST2_EXPERT' });
 
       const complementaryCertification1 = databaseBuilder.factory.buildComplementaryCertification({
-        minimumReproducibilityRate: 50,
+        minimumReproducibilityRate: 70,
+        minimumReproducibilityRateLowerLevel: 60,
         hasComplementaryReferential: true,
       });
       const complementaryCertification2 = databaseBuilder.factory.buildComplementaryCertification({
-        minimumReproducibilityRate: 30,
+        minimumReproducibilityRate: 75,
+        minimumReproducibilityRateLowerLevel: 60,
         hasComplementaryReferential: false,
       });
 
@@ -59,6 +61,7 @@ describe('Integration | Repository | complementary certification scoring criteri
           complementaryCertificationCourseId: complementaryCertificationCourse1.id,
           complementaryCertificationBadgeId: complementaryCertificationCourse1.complementaryCertificationBadgeId,
           minimumReproducibilityRate: complementaryCertification1.minimumReproducibilityRate,
+          minimumReproducibilityRateLowerLevel: complementaryCertification1.minimumReproducibilityRateLowerLevel,
           complementaryCertificationBadgeKey: badge1.key,
           hasComplementaryReferential: complementaryCertification1.hasComplementaryReferential,
         }),
@@ -66,6 +69,7 @@ describe('Integration | Repository | complementary certification scoring criteri
           complementaryCertificationCourseId: complementaryCertificationCourse2.id,
           complementaryCertificationBadgeId: complementaryCertificationCourse2.complementaryCertificationBadgeId,
           minimumReproducibilityRate: complementaryCertification2.minimumReproducibilityRate,
+          minimumReproducibilityRateLowerLevel: complementaryCertification2.minimumReproducibilityRateLowerLevel,
           complementaryCertificationBadgeKey: badge2.key,
           hasComplementaryReferential: complementaryCertification2.hasComplementaryReferential,
           minimumEarnedPix: complementaryCertificationBadge2.minimumEarnedPix,

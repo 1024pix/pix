@@ -7,6 +7,8 @@ const buildComplementaryCertificationScoringWithComplementaryReferential = funct
   reproducibilityRate = buildReproducibilityRate({ value: 100 }),
   hasAcquiredPixCertification = true,
   minimumReproducibilityRate = 70,
+  pixScore = 80,
+  minimumEarnedPix = 60,
 } = {}) {
   return new ComplementaryCertificationScoringWithComplementaryReferential({
     complementaryCertificationCourseId,
@@ -14,6 +16,8 @@ const buildComplementaryCertificationScoringWithComplementaryReferential = funct
     reproducibilityRate,
     hasAcquiredPixCertification,
     minimumReproducibilityRate,
+    pixScore,
+    minimumEarnedPix,
   });
 };
 
