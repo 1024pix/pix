@@ -300,7 +300,7 @@
       "slug": "didacticiel-modulix",
       "title": "Didacticiel Modulix",
       "details": {
-        "image": "https://images.pix.fr/modulix/didacticiel/icon.svg",
+        "image": "https://images.pix.fr/modulix/placeholder-details.svg",
         "description": "Découvrez avec ce didacticiel comment fonctionne Modulix !",
         "duration": 5,
         "level": "Débutant",
@@ -347,8 +347,8 @@
             {
               "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
-              "alt": "Dessin d'un ordinateur dans un univers spatial",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
+              "alt": "",
               "alternativeText": ""
             }
           ]
@@ -367,8 +367,8 @@
               "id": "3a9f2269-99ba-4631-b6fd-6802c88d5c26",
               "type": "video",
               "title": "Vidéo de présentation de Pix",
-              "url": "https://videos.pix.fr/modulix/didacticiel/presentation.mp4",
-              "subtitles": "-",
+              "url": "https://videos.pix.fr/modulix/placeholder-video.mp4",
+              "subtitles": "https://videos.pix.fr/modulix/placeholder-video.vtt",
               "transcription": "<p>Le numérique évolue en permanence, vos compétences aussi, pour travailler, communiquer et s'informer, se déplacer, réaliser des démarches, un enjeu tout au long de la vie.</p><p>Sur <a href='https://pix.fr' target='blank'>pix.fr</a>, testez-vous et cultivez vos compétences numériques.</p><p>Les tests Pix sont personnalisés, les questions s'adaptent à votre niveau, réponse après réponse.</p><p>Évaluez vos connaissances et savoir-faire sur 16 compétences, dans 5 domaines, sur 5 niveaux de débutants à confirmer, avec des mises en situation ludiques, recherches en ligne, manipulation de fichiers et de données, culture numérique...</p><p>Allez à votre rythme, vous pouvez arrêter et reprendre quand vous le voulez.</p><p>Toutes les 5 questions, découvrez vos résultats et progressez grâce aux astuces et aux tutos.</p><p>En relevant les défis Pix, vous apprendrez de nouvelles choses et aurez envie d'aller plus loin.</p><p>Vous pensez pouvoir faire mieux ?</p><p>Retentez les tests et améliorez votre score.</p><p>Faites reconnaître officiellement votre niveau en passant la certification Pix, reconnue par l'État et le monde professionnel.</p><p>Pix : le service public en ligne pour évaluer, développer et certifier ses compétences numériques.</p>"
             }
           ]
@@ -468,7 +468,7 @@
       "slug": "ports-connexions-essentiels",
       "title": "Les ports de connexion d’un ordinateur",
       "details": {
-        "image": "https://images.pix.fr/modulix/didacticiel/icon.svg",
+        "image": "https://images.pix.fr/modulix/placeholder-details.svg",
         "description": "Pour savoir ce que vous pouvez brancher ou non à votre ordinateur, il faut bien connaître ses ports de connexion !",
         "duration": 10,
         "level": "Débutant",
@@ -541,7 +541,7 @@
             {
               "id": "1496c1da-e0ea-4c44-98c3-cdcfab871e04",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Photo d'un chargeur de téléphone portable avec une connexion USB",
               "alternativeText": ""
             },
@@ -553,7 +553,7 @@
             {
               "id": "b7f8feb2-b355-4fbd-99ec-48511303536f",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Photo d'une souris filaire avec une connexion USB",
               "alternativeText": ""
             },
@@ -565,7 +565,7 @@
             {
               "id": "cfca4266-f0cf-4dd9-81a5-f297b907334b",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Photo d'une manette de jeu vidéo avec une connexion USB",
               "alternativeText": ""
             },
@@ -577,7 +577,7 @@
             {
               "id": "70bca95e-6aad-4fc9-b4eb-8499945879c2",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Photo d'une webcam avec une connexion USB",
               "alternativeText": ""
             },
@@ -589,7 +589,7 @@
             {
               "id": "7a55d4a9-3bff-4604-9fa9-0898b7d109dc",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Le symbole de l'USB",
               "alternativeText": ""
             }
@@ -608,7 +608,7 @@
             {
               "id": "6f276b50-a00c-49f7-b22c-23dbef0c2bf2",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Une souris d'ordinateur",
               "alternativeText": ""
             },
@@ -635,7 +635,7 @@
             {
               "id": "49bb95aa-1074-45e9-8c85-c061efd07348",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Un casque audio",
               "alternativeText": ""
             },
@@ -662,7 +662,7 @@
             {
               "id": "36b959d4-add7-403d-9e7f-aa4f0bf777b8",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "Un casque audio",
               "alternativeText": ""
             },
@@ -701,7 +701,7 @@
             {
               "id": "fe7c8a3f-8576-466d-89df-fe99a8e332c2",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/didacticiel/ordi-spatial.svg",
+              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "",
               "alternativeText": "<p>6 ports habituels sur un ordinateur :</p><ul><li>Port de l'alimentation électrique</li><li>Port VGA</li><li>Port HDMI</li><li>Port USB</li><li>Port ethernet</li><li>Port jack</li></ul>"
             }
