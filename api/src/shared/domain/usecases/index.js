@@ -7,6 +7,7 @@ import * as activityAnswerRepository from '../../../school/infrastructure/reposi
 import * as activityRepository from '../../../school/infrastructure/repositories/activity-repository.js';
 import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import * as badgeRepository from '../../infrastructure/repositories/badge-repository.js';
+import * as randomDataService from '../services/random-data-service.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
 
@@ -19,6 +20,7 @@ const dependencies = {
   activityRepository,
   challengeRepository,
   badgeRepository,
+  randomDataService,
 };
 
 const sharedUsecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
