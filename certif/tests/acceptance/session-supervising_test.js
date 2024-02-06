@@ -399,7 +399,7 @@ module('Acceptance | Session supervising', function (hooks) {
 
           await click(
             screen.getByLabelText(
-              "E5 Le site est bloqué par les restrictions réseau de l'établissement (réseaux sociaux par ex.)",
+              "Le site est bloqué par les restrictions réseau de l'établissement (réseaux sociaux par ex.)",
             ),
           );
 
@@ -453,7 +453,7 @@ module('Acceptance | Session supervising', function (hooks) {
           await click(screen.getByRole('button', { name: 'Gérer le signalement' }));
           await click(
             screen.getByLabelText(
-              "E5 Le site est bloqué par les restrictions réseau de l'établissement (réseaux sociaux par ex.)",
+              "Le site est bloqué par les restrictions réseau de l'établissement (réseaux sociaux par ex.)",
             ),
           );
 
@@ -501,7 +501,7 @@ module('Acceptance | Session supervising', function (hooks) {
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
           await click(screen.getByRole('button', { name: 'Gérer le signalement' }));
-          await click(screen.getByLabelText('E4 Le site à visiter est indisponible/en maintenance/inaccessible'));
+          await click(screen.getByLabelText('Le site à visiter est indisponible/en maintenance/inaccessible'));
           await click(screen.getByText('Refuser le signalement'));
 
           const closeButtons = screen.getAllByText('Fermer');
@@ -550,7 +550,7 @@ module('Acceptance | Session supervising', function (hooks) {
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
           await click(screen.getByRole('button', { name: 'Gérer le signalement' }));
-          await click(screen.getByLabelText('E4 Le site à visiter est indisponible/en maintenance/inaccessible'));
+          await click(screen.getByLabelText('Le site à visiter est indisponible/en maintenance/inaccessible'));
 
           const modal = await screen.findByRole('dialog');
           await click(within(modal).getByLabelText('Fermer'));
