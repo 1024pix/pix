@@ -90,6 +90,7 @@ const register = async function (server) {
                 code: Joi.string().required(),
                 redirect_uri: Joi.string().required(),
                 state: Joi.string().required(),
+                audience: Joi.string().valid('app', 'admin').optional(),
               },
             },
           }),
