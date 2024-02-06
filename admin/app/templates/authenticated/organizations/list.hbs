@@ -3,14 +3,14 @@
   <h1 class="page-title">Toutes les organisations</h1>
   {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
     <div class="page-actions">
-      <PixButton
+      <PixButtonLink
         @route="authenticated.organizations.new"
         @backgroundColor="transparent-light"
         @isBorderVisible={{true}}
         @iconBefore="plus"
       >
         Nouvelle organisation
-      </PixButton>
+      </PixButtonLink>
     </div>
   {{/if}}
 </header>
