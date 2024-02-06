@@ -1,5 +1,42 @@
 # Pix Changelog
 
+## v4.98.0 (06/02/2024)
+
+
+### :rocket: Amélioration
+- [#7939](https://github.com/1024pix/pix/pull/7939) [FEATURE] Ajout d'une modale sur la définalisation de session (PIX-10898).
+- [#7942](https://github.com/1024pix/pix/pull/7942) [FEATURE] Ajouter toutes les participations dans l'export des collecte de profils (Pix-10454).
+- [#7961](https://github.com/1024pix/pix/pull/7961) [FEATURE] Retirer le code de rapport d'erreur dans la modal de gestion d'alerte en certif (PIX-1943).
+- [#7972](https://github.com/1024pix/pix/pull/7972) [FEATURE] Permettre de fournir des alternatives textuelles vides sur Modulix (PIX-10961).
+- [#7836](https://github.com/1024pix/pix/pull/7836) [FEATURE] Gérer le niveau -1 pour les certifications complémentaires (PIX-10319).
+- [#7949](https://github.com/1024pix/pix/pull/7949) [FEATURE] Accès à la documentation V3 pour les centres de certifications pilotes (PIX-10839).
+- [#7955](https://github.com/1024pix/pix/pull/7955) [FEATURE] Création d'un nouveau module (ports de connexion débutant).
+- [#7951](https://github.com/1024pix/pix/pull/7951) [FEATURE] Retirer l'icône de suppression d'issue-report pour les live-alerts en certif V3 (PIX-10941).
+- [#7960](https://github.com/1024pix/pix/pull/7960) [FEATURE] Utiliser des cookies sécurisés pour stocker le nonce et le state lors de la connexion OIDC (PIX-10988).
+
+### :building_construction: Tech
+- [#7947](https://github.com/1024pix/pix/pull/7947) [TECH] Retirer toutes trace de moment dans l'API (PIX-11000).
+- [#7977](https://github.com/1024pix/pix/pull/7977) [TECH] Instancier entièrement le Module lors d'une vérification (PIX-11039).
+- [#7956](https://github.com/1024pix/pix/pull/7956) [TECH] [PIX-10858] Rajouter un header qui indique la provenance de la requete sur Baleen.
+- [#7967](https://github.com/1024pix/pix/pull/7967) [TECH] Retirer Bookshelf de certification-course-repository (PIX-11012).
+- [#7962](https://github.com/1024pix/pix/pull/7962) [TECH] Déplacer le read model CertificationIssueReportCategory dans shared (PIX-10772).
+- [#7973](https://github.com/1024pix/pix/pull/7973) [TECH] Ajouter un faux fournisseur d'identité pour faciliter les tests (PIX-10989).
+- [#7945](https://github.com/1024pix/pix/pull/7945) [TECH] Faire retourner uniquement la correction par la méthode `assess` (PIX-10875) (PIX-10298).
+- [#7965](https://github.com/1024pix/pix/pull/7965) [TECH] Mise à jour de l'installation par défaut du projet (PIX-11009).
+- [#7866](https://github.com/1024pix/pix/pull/7866) [TECH] :arrow_up: Mettre à jour notre fichier swagger en  v3.0.
+- [#7964](https://github.com/1024pix/pix/pull/7964) [TECH] Migration vers la nouvelle méthode d'import JSON (PIX-11011).
+
+### :bug: Correction
+- [#7975](https://github.com/1024pix/pix/pull/7975) [BUGFIX] Corrige un crash de l'API lorsque toutes les réponses à une certif v3 sont OK (PIX-11025).
+- [#7969](https://github.com/1024pix/pix/pull/7969) [BUGFIX] Retirer le `<p>` par défaut du contenu des `PixModal` (PIX-11006).
+- [#7963](https://github.com/1024pix/pix/pull/7963) [BUGFIX] Améliorer les `ariaLabel` Modulix (PIX-11008).
+
+### :arrow_up: Montée de version
+- [#7886](https://github.com/1024pix/pix/pull/7886) [BUMP] Update dependency node to v20.11.0.
+
+### :coffee: Autre
+- [#7901](https://github.com/1024pix/pix/pull/7901) [REFACTOR] Ajouter la validation de la charge utile de la mise à jour de collection de paliers (PIX-10840).
+
 ## v4.97.0 (02/02/2024)
 
 
