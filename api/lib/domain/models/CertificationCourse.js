@@ -275,6 +275,7 @@ class CertificationCourse {
       isCancelled: this._isCancelled,
       abortReason: this._abortReason,
       complementaryCertificationCourses: this._complementaryCertificationCourses,
+      numberOfChallenges: this._numberOfChallenges,
       version: this._version,
     };
   }

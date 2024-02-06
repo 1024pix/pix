@@ -13,6 +13,7 @@ import {
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import * as certificationChallengeRepository from './certification-challenge-repository.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
+import { config } from '../../../../shared/config.js';
 
 async function save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction || knex;
@@ -79,6 +80,16 @@ async function get(id, domainTransaction = DomainTransaction.emptyTransaction())
   });
 
   const challengesDTO = await _findAllChallenges(id, knexConn);
+
+  if (certificationCourseDTO.version === 3) {
+    const configuration = await knexConn('flash-algorithm-configurations')
+      .where('createdAt', '<=', certificationCourseDTO.createdAt)
+      .orderBy('createdAt', 'desc')
+      .first();
+
+    certificationCourseDTO.numberOfChallenges =
+      configuration?.maximumAssessmentLength ?? config.v3Certification.numberOfChallengesPerCourse;
+  }
 
   return _toDomain({
     certificationCourseDTO,
@@ -191,6 +202,7 @@ function _adaptModelToDb(certificationCourse) {
     'assessment',
     'challenges',
     'createdAt',
+    'numberOfChallenges',
   ]);
 }
 
