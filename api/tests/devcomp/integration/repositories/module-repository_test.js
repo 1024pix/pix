@@ -308,7 +308,6 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
                 url: 'https://videos.pix.fr/modulix/chat_animation_2.webm',
                 subtitles: 'Insert subtitles here',
                 transcription: 'Insert transcription here',
-                alternativeText: "Conversation entre Naomi et Mickaël de le format d'adresse mail",
               },
             ],
           },

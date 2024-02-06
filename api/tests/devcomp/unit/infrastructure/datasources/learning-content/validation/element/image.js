@@ -6,7 +6,7 @@ const imageElementSchema = Joi.object({
   type: Joi.string().valid('image').required(),
   url: Joi.string().uri().required(),
   alt: Joi.string().allow('').required(),
-  alternativeText: Joi.string().required(),
+  alternativeText: Joi.string().allow('').required(),
 }).required();
 
 export { imageElementSchema };
