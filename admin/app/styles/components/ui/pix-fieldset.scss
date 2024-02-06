@@ -1,5 +1,8 @@
 .pix-fieldset {
   &__label {
-    @include label;
+    display: block;
+    margin-bottom: var(--pix-spacing-1x);
+    color: var(--pix-neutral-900);
+    font-weight: var(--pix-font-medium);
   }
 }
