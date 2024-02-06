@@ -60,10 +60,10 @@ export default class Assessment extends Model {
       howManyAnswersSinceTheLastCheckpoint === 0
         ? -ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS
         : -howManyAnswersSinceTheLastCheckpoint;
-    return this.answers.slice(sliceAnswersFrom);
+    return this.hasMany('answers').value().slice(sliceAnswersFrom);
   }
 
   get currentChallengeNumber() {
-    return this.answers.length;
+    return this.hasMany('answers').value().length;
   }
 }

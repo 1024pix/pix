@@ -18,8 +18,7 @@ module('Unit | Model | Assessment', function (hooks) {
 
     test('should return an empty array when no answers has been given', function (assert) {
       // given
-      const assessment = store.createRecord('assessment');
-      assessment.answers = [];
+      const assessment = store.createRecord('assessment', { answers: [] });
 
       // when
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
