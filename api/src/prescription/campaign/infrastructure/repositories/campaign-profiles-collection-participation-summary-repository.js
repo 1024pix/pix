@@ -65,11 +65,12 @@ async function _makeMemoizedGetPlacementProfileForUser(results) {
   const sharedResultsChunks = await bluebird.mapSeries(
     chunk(sharedResults, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING),
     (sharedResultsChunk) => {
-      const sharedAtDatesByUsers = Object.fromEntries(
-        sharedResultsChunk.map(({ userId, sharedAt }) => [userId, sharedAt]),
-      );
+      const userIdsAndDates = sharedResultsChunk.map(({ userId, sharedAt }) => {
+        return { userId, sharedAt };
+      });
+
       return placementProfileService.getPlacementProfilesWithSnapshotting({
-        userIdsAndDates: sharedAtDatesByUsers,
+        userIdsAndDates,
         allowExcessPixAndLevels: false,
         competences,
       });

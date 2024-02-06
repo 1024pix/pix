@@ -140,7 +140,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
           false,
         );
 
-        databaseBuilder.factory.buildKnowledgeElement({
+        const ke1 = databaseBuilder.factory.buildKnowledgeElement({
           status: 'validated',
           competenceId: competences[0].id,
           skillId: skills[0].id,
@@ -149,13 +149,19 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
           createdAt,
         });
 
-        databaseBuilder.factory.buildKnowledgeElement({
+        const ke2 = databaseBuilder.factory.buildKnowledgeElement({
           status: 'validated',
           competenceId: competences[1].id,
           skillId: skills[2].id,
           earnedPix: 6,
           userId: campaignParticipation.userId,
           createdAt,
+        });
+
+        databaseBuilder.factory.buildKnowledgeElementSnapshot({
+          userId: campaignParticipation.userId,
+          snappedAt: campaignParticipation.sharedAt,
+          snapshot: JSON.stringify([ke1, ke2]),
         });
 
         await databaseBuilder.commit();
