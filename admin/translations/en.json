@@ -281,6 +281,12 @@
       "title": "Children organisations",
       "empty-table": "No child organisation"
     },
+    "sessions": {
+      "informations": {
+        "assignment-confirmation-modal": "This session is already assigned to the user {fullName}.'<br/>'Do you still want to assign it to yourself?",
+        "unfinalization-confirmation-modal": "Are you sure you want to unfinalize this session ? Click on confirm to process."
+      }
+    },
     "target-profiles": {
       "resettable-checkbox": {
         "label": "Allow resetting for evaluation-type campaigns when multiple submissions are enabled for the organisation"

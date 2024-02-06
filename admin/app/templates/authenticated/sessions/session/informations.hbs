@@ -133,7 +133,7 @@
                 <PixButton
                   @size="big"
                   @isDisabled={{true}}
-                  @triggerAction={{this.unfinalizeSession}}
+                  @triggerAction={{this.onUnfinalizeSessionButtonClick}}
                   @backgroundColor="error"
                 >Définaliser la session
                 </PixButton>
@@ -144,8 +144,11 @@
               </:tooltip>
             </PixTooltip>
           {{else}}
-            <PixButton @size="big" @triggerAction={{this.unfinalizeSession}} @backgroundColor="error">Définaliser la
-              session
+            <PixButton
+              @size="big"
+              @triggerAction={{this.onUnfinalizeSessionButtonClick}}
+              @backgroundColor="error"
+            >Définaliser la session
             </PixButton>
           {{/if}}
         {{/if}}
@@ -203,31 +206,10 @@
   @onDeleteButtonClicked={{this.deleteComment}}
 />
 
-<PixModal
-  @title="Assignation de la session"
-  @onCloseButtonClick={{this.cancelAssignment}}
-  @showModal={{this.isShowingAssignmentModal}}
->
-  <:content>
-    <p>
-      L'utilisateur
-      {{this.sessionModel.assignedCertificationOfficer.fullName}}
-      s'est déjà assigné cette session.
-      <br />
-      Voulez-vous vous quand même vous assigner cette session ?
-    </p>
-  </:content>
-  <:footer>
-    <PixButton
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @size="small"
-      @triggerAction={{this.cancelAssignment}}
-    >
-      Annuler
-    </PixButton>
-    <PixButton @size="small" @triggerAction={{this.confirmAssignment}}>
-      Confirmer
-    </PixButton>
-  </:footer>
-</PixModal>
+<ConfirmPopup
+  @title={{this.modalTitle}}
+  @message={{this.modalMessage}}
+  @confirm={{this.modalConfirmAction}}
+  @cancel={{this.cancelModal}}
+  @show={{this.isShowingModal}}
+/>

@@ -298,6 +298,12 @@
         }
       }
     },
+    "sessions": {
+      "informations": {
+        "assignment-confirmation-modal": "L'utilisateur {fullName} s'est déjà assigné cette session.'<br/>'Voulez-vous vous quand même vous assigner cette session ?",
+        "unfinalization-confirmation-modal": "Êtes-vous sûr.e de vouloir définaliser cette session ? Cliquez sur confirmer pour poursuivre."
+      }
+    },
     "target-profiles": {
       "resettable-checkbox": {
         "label": "Permettre la remise à zéro des acquis du profil cible"

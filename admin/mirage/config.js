@@ -84,8 +84,7 @@ function routes() {
   });
   this.post('/admin/admin-members', createAdminMember);
   this.get('/admin/admin-members/me', (schema, request) => {
-    const userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
-    const userId = JSON.parse(atob(userToken.split('.')[1])).user_id;
+    const userId = _parseUserIdFromJWT(request);
     return schema.adminMembers.findBy({ userId });
   });
   this.patch('/admin/admin-members/:id', (schema, request) => {
@@ -122,6 +121,12 @@ function routes() {
   });
   this.get('/admin/sessions/:id/generate-results-download-link', {
     sessionResultsLink: 'http://link-to-results.fr?lang=fr',
+  });
+  this.patch('/admin/sessions/:id/certification-officer-assignment', (schema, request) => {
+    const userId = _parseUserIdFromJWT(request);
+    const sessionId = request.params.id;
+    const session = schema.sessions.findBy({ id: sessionId });
+    return session.update({ assignedCertificationOfficerId: userId });
   });
 
   this.get('/admin/users');
@@ -610,4 +615,9 @@ function _configureOrganizationsRoutes(context) {
       ],
     };
   });
+}
+
+function _parseUserIdFromJWT(request) {
+  const userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
+  return JSON.parse(atob(userToken.split('.')[1])).user_id;
 }
