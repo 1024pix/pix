@@ -7,8 +7,7 @@ const videoElementSchema = Joi.object({
   title: Joi.string().required(),
   url: Joi.string().uri().required(),
   subtitles: Joi.string().required(),
-  transcription: Joi.string().required(),
-  alternativeText: Joi.string().required(),
+  transcription: Joi.string().allow('').required(),
 }).required();
 
 export { videoElementSchema };
