@@ -55,44 +55,27 @@ describe('Acceptance | API | ChallengeController', function () {
       mockLearningContent(learningContentObjects);
     });
 
-    const options = {
-      method: 'GET',
-      url: `/api/challenges/${challengeId}`,
-    };
+    it('should return the expected challenge', async function () {
+      // given
+      const options = {
+        method: 'GET',
+        url: `/api/challenges/${challengeId}`,
+      };
 
-    it('should return 200 HTTP status code', function () {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
-    });
+      expect(response.statusCode).to.equal(200);
 
-    it('should return application/json', function () {
-      // when
-      const promise = server.inject(options);
+      const contentType = response.headers['content-type'];
+      expect(contentType).to.contain('application/json');
 
-      // then
-      return promise.then((response) => {
-        const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
-      });
-    });
-
-    it('should return the expected challenge', function () {
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        const challenge = response.result.data;
-        expect(challenge.id).to.equal(challengeId);
-        expect(challenge.attributes.instruction).to.equal(instruction);
-        expect(challenge.attributes.proposals).to.equal(proposals);
-        expect(challenge.attributes.type).to.equal(challengeType);
-      });
+      const challenge = response.result.data;
+      expect(challenge.id).to.equal(challengeId);
+      expect(challenge.attributes.instruction).to.equal(instruction);
+      expect(challenge.attributes.proposals).to.equal(proposals);
+      expect(challenge.attributes.type).to.equal(challengeType);
     });
   });
 });
