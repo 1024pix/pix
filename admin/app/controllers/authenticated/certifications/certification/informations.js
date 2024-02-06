@@ -24,7 +24,7 @@ export default class CertificationInformationsController extends Controller {
   @tracked modalTitle = null;
   @tracked confirmMessage = '';
   @tracked confirmErrorMessage = '';
-  @tracked confirmAction = 'onCancelCertificationConfirmation';
+  @tracked confirmAction = this.onCancelCertificationConfirmation;
   @tracked isCandidateEditModalOpen = false;
   @tracked displayJuryLevelSelect = false;
 
@@ -119,7 +119,7 @@ export default class CertificationInformationsController extends Controller {
   onCancelCertificationButtonClick() {
     const confirmMessage =
       'Êtes-vous sûr·e de vouloir annuler cette certification ? Cliquez sur confirmer pour poursuivre.';
-    this.confirmAction = 'onCancelCertificationConfirmation';
+    this.confirmAction = this.onCancelCertificationConfirmation;
     this.confirmMessage = confirmMessage;
     this.displayConfirm = true;
   }
@@ -128,7 +128,7 @@ export default class CertificationInformationsController extends Controller {
   onUncancelCertificationButtonClick() {
     const confirmMessage =
       'Êtes-vous sûr·e de vouloir désannuler cette certification ? Cliquez sur confirmer pour poursuivre.';
-    this.confirmAction = 'onUncancelCertificationConfirmation';
+    this.confirmAction = this.onUncancelCertificationConfirmation;
     this.confirmMessage = confirmMessage;
     this.displayConfirm = true;
   }
@@ -138,7 +138,7 @@ export default class CertificationInformationsController extends Controller {
     const confirmMessage =
       'Êtes-vous sûr·e de vouloir rejeter cette certification ? Cliquez sur confirmer pour poursuivre.';
     this.modalTitle = 'Confirmer le rejet de la certification';
-    this.confirmAction = 'onRejectCertificationConfirmation';
+    this.confirmAction = this.onRejectCertificationConfirmation;
     this.confirmMessage = confirmMessage;
     this.displayConfirm = true;
   }
@@ -156,7 +156,7 @@ export default class CertificationInformationsController extends Controller {
     const confirmMessage =
       'Êtes-vous sûr·e de vouloir annuler le rejet de cette certification ? Cliquez sur confirmer pour poursuivre.';
     this.modalTitle = "Confirmer l'annulation du rejet de la certification";
-    this.confirmAction = 'onUnrejectCertificationConfirmation';
+    this.confirmAction = this.onUnrejectCertificationConfirmation;
     this.confirmMessage = confirmMessage;
     this.displayConfirm = true;
   }
