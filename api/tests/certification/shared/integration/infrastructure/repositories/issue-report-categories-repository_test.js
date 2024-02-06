@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, catchErr } from '../../../../../test-helper.js';
 import * as issueReportCategoryRepository from '../../../../../../src/certification/shared/infrastructure/repositories/issue-report-category-repository.js';
-import { CertificationIssueReportCategory } from '../../../../../../src/certification/issue-reports/domain/read-models/CertificationIssueReportCategory.js';
+import { CertificationIssueReportCategory } from '../../../../../../src/certification/shared/domain/read-models/CertificationIssueReportCategory.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Integration | Repository | Issue Report Categories', function () {
