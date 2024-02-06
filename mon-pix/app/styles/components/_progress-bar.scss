@@ -8,23 +8,10 @@
   margin-bottom: 40px;
 }
 
-.progress-bar-stepnums {
-  @extend %pix-body-m;
-
-  display: flex;
-  justify-content: space-between;
+.progress-bar-current-step {
   margin-bottom: 7px;
-  padding: 0 4px;
-}
-
-.progress-bar-stepnum {
-  color: $pix-neutral-110;
-  opacity: 0.3;
-
-  &.active {
-    color: $pix-neutral-0;
-    opacity: 1;
-  }
+  color: $pix-neutral-0;
+  font-size: 1rem;
 }
 
 .progress-bar-content {
