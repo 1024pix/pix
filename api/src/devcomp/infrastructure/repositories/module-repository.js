@@ -89,6 +89,7 @@ function _toDomainForVerification(moduleData) {
     slug: moduleData.slug,
     title: moduleData.title,
     details: new Details(moduleData.details),
+    transitionTexts: moduleData.transitionTexts?.map((transitionText) => new TransitionText(transitionText)) ?? [],
     grains: moduleData.grains.map((grain) => {
       return new Grain({
         id: grain.id,
