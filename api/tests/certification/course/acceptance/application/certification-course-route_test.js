@@ -198,7 +198,6 @@ describe('Acceptance | Route | certification-course', function () {
         headers: { authorization: generateValidRequestAuthorizationHeader() },
         payload: {
           data: {
-            type: 'assessment-results',
             attributes: {
               'comment-by-jury': 'Parce que',
               'comment-for-candidate': 'Voilà',

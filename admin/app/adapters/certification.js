@@ -15,13 +15,18 @@ export default class Certification extends ApplicationAdapter {
 
   updateRecord(store, type, snapshot) {
     if (snapshot.adapterOptions.updateComments) {
-      const payload = this.serialize(snapshot);
-      payload.data.attributes = {
-        'comment-for-organization': payload.data.attributes['comment-for-organization'],
-        'comment-for-candidate': payload.data.attributes['comment-for-candidate'],
-        'comment-by-jury': payload.data.attributes['comment-by-jury'],
+      const {
+        data: { attributes },
+      } = this.serialize(snapshot);
+      const payload = {
+        data: {
+          attributes: {
+            'comment-for-organization': attributes['comment-for-organization'],
+            'comment-for-candidate': attributes['comment-for-candidate'],
+            'comment-by-jury': attributes['comment-by-jury'],
+          },
+        },
       };
-      delete payload.data.relationships;
       return this.ajax(this.urlForUpdateComments(snapshot.id), 'POST', { data: payload });
     } else {
       const data = {};
