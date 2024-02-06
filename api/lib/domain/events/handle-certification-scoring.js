@@ -20,11 +20,11 @@ async function handleCertificationScoring({
   badgeAcquisitionRepository,
   certificationAssessmentRepository,
   certificationCourseRepository,
+  certificationChallengeForScoringRepository,
   competenceMarkRepository,
   competenceForScoringRepository,
   scoringCertificationService,
   answerRepository,
-  challengeRepository,
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
 }) {
@@ -35,12 +35,12 @@ async function handleCertificationScoring({
 
     if (certificationAssessment.version === CertificationVersion.V3) {
       return _handleV3CertificationScoring({
-        challengeRepository,
         answerRepository,
         assessmentId: event.assessmentId,
         certificationAssessment,
         assessmentResultRepository,
         certificationCourseRepository,
+        certificationChallengeForScoringRepository,
         competenceForScoringRepository,
         competenceMarkRepository,
         flashAlgorithmConfigurationRepository,
@@ -103,7 +103,7 @@ async function _calculateCertificationScore({
 }
 
 async function _handleV3CertificationScoring({
-  challengeRepository,
+  certificationChallengeForScoringRepository,
   answerRepository,
   assessmentId,
   certificationAssessment,
@@ -115,11 +115,13 @@ async function _handleV3CertificationScoring({
   flashAlgorithmService,
   locale,
 }) {
+  const { certificationCourseId } = certificationAssessment;
   const allAnswers = await answerRepository.findByAssessment(assessmentId);
-  const challengeIds = allAnswers.map(({ challengeId }) => challengeId);
-  const challenges = await challengeRepository.getMany(challengeIds, locale);
+  const challenges = await certificationChallengeForScoringRepository.getByCertificationCourseId({
+    certificationCourseId,
+  });
 
-  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
 
   const abortReason = certificationCourse.isAbortReasonCandidateRelated()
     ? ABORT_REASONS.CANDIDATE
