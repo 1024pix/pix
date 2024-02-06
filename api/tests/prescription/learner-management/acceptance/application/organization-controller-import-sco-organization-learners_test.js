@@ -6,7 +6,6 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
-  nock,
 } from '../../../../test-helper.js';
 import { EventEmitter } from 'events';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
@@ -26,7 +25,6 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
 
   beforeEach(async function () {
     server = await createServer();
-    nock.enableNetConnect();
   });
 
   describe('POST /api/organizations/{id}/sco-organization-learners/import-siecle', function () {
