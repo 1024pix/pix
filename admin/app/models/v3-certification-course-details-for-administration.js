@@ -26,6 +26,7 @@ export default class V3CertificationCourseDetailsForAdministration extends Model
   @attr('string') assessmentState;
   @attr('string') abortReason;
   @attr('number') pixScore;
+  @attr('number') numberOfChallenges;
   @hasMany('certification-challenges-for-administration') certificationChallengesForAdministration;
   version = 3;
 
@@ -33,11 +34,6 @@ export default class V3CertificationCourseDetailsForAdministration extends Model
     return this.certificationChallengesForAdministration.filter((challenge) => {
       return challenge.answerStatus;
     }).length;
-  }
-
-  get totalNumberOfQuestions() {
-    // TODO: save the number of questions at the start of a certification to get it here
-    return 32;
   }
 
   get numberOfOkAnswers() {
