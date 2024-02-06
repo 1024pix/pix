@@ -245,7 +245,15 @@ class CertificationCourse {
   }
 
   getNumberOfChallenges() {
-    return this._version === CertificationVersion.V3 ? this._numberOfChallenges : this._challenges?.length ?? 0;
+    if (this.isV3()) {
+      return this._numberOfChallenges;
+    }
+
+    return this._challenges?.length ?? 0;
+  }
+
+  isV3() {
+    return this._version === CertificationVersion.V3;
   }
 
   toDTO() {
