@@ -1,33 +1,58 @@
 /**
- * @typedef {import ('../../../shared/domain/usecases/index.js').assessmentResultRepository} assessmentResultRepository
- * @typedef {import ('../../../shared/domain/usecases/index.js').competenceMarkRepository} competenceMarkRepository
+ * @typedef {import ('../../domain/usecases/index.js').CourseAssessmentResultRepository} CourseAssessmentResultRepository
+ * @typedef {import ('../../domain/usecases/index.js').CompetenceMarkRepository} CompetenceMarkRepository
+ * @typedef {import ('../../domain/usecases/index.js').AssessmentResultRepository} AssessmentResultRepository
  */
 
-import bluebird from 'bluebird';
-import { CompetenceMark } from '../../../../../lib/domain/models/index.js';
+import { CompetenceMark, AssessmentResult } from '../../../../../lib/domain/models/index.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 /**
  * @param {Object} params
- * @param {assessmentResultRepository} params.assessmentResultRepository
- * @param {competenceMarkRepository} params.competenceMarkRepository
+ * @param {number} params.certificationCourseId
+ * @param {Object} params.assessmentResultComments
+ * @param {string} params.assessmentResultComments.commentByJury
+ * @param {string} params.assessmentResultComments.commentForCandidate
+ * @param {string} params.assessmentResultComments.commentForOrganization
+ * @param {number} params.juryId
+ * @param {AssessmentResultRepository} params.assessmentResultRepository
+ * @param {CourseAssessmentResultRepository} params.courseAssessmentResultRepository
+ * @param {CompetenceMarkRepository} params.competenceMarkRepository
  */
-
 const updateJuryComments = async function ({
   certificationCourseId,
-  assessmentResult,
+  assessmentResultComments,
+  juryId,
+  courseAssessmentResultRepository,
   assessmentResultRepository,
   competenceMarkRepository,
 }) {
-  const competenceMarks = await competenceMarkRepository.findByCertificationCourseId(certificationCourseId);
+  await DomainTransaction.execute(async (domainTransaction) => {
+    const latestAssessmentResult = await courseAssessmentResultRepository.getLatestAssessmentResult({
+      certificationCourseId,
+      domainTransaction,
+    });
 
-  const { id: assessmentResultId } = await assessmentResultRepository.save({
-    certificationCourseId,
-    assessmentResult,
+    const updatedAssessmentResult = latestAssessmentResult.clone();
+    updatedAssessmentResult.commentByJury = assessmentResultComments.commentByJury;
+    updatedAssessmentResult.commentForCandidate = assessmentResultComments.commentForCandidate;
+    updatedAssessmentResult.commentForOrganization = assessmentResultComments.commentForOrganization;
+    updatedAssessmentResult.juryId = juryId;
+    updatedAssessmentResult.emitter = AssessmentResult.emitters.PIX_JURY;
+
+    const { id: assessmentResultId } = await assessmentResultRepository.save({
+      certificationCourseId,
+      assessmentResult: updatedAssessmentResult,
+      domainTransaction,
+    });
+
+    for (const competenceMark of latestAssessmentResult.competenceMarks) {
+      await competenceMarkRepository.save(
+        new CompetenceMark({ ...competenceMark, assessmentResultId }),
+        domainTransaction,
+      );
+    }
   });
-
-  await bluebird.each(competenceMarks, (competenceMark) =>
-    competenceMarkRepository.save(new CompetenceMark({ ...competenceMark, assessmentResultId })),
-  );
 };
 
 export { updateJuryComments };

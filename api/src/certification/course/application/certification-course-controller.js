@@ -1,12 +1,13 @@
-import { usecases } from '../../shared/domain/usecases/index.js';
+import { usecases as sharedUsecases } from '../../shared/domain/usecases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 import * as events from '../../../../lib/domain/events/index.js';
-import * as assessmentResultSerializer from '../infrastructure/serializers/jsonapi/assessment-result-serializer.js';
+import * as assessmentResultSerializer from '../infrastructure/serializers/jsonapi/jury-comments-serializer.js';
 import * as v3CertificationDetailsForAdministrationSerializer from '../infrastructure/serializers/jsonapi/v3-certification-course-details-for-administration-serializer.js';
 
 const reject = async function (request, h, dependencies = { events }) {
   const certificationCourseId = request.params.id;
   const juryId = request.auth.credentials.userId;
-  const certificationCourseRejectedEvent = await usecases.rejectCertificationCourse({
+  const certificationCourseRejectedEvent = await sharedUsecases.rejectCertificationCourse({
     certificationCourseId,
     juryId,
   });
@@ -18,7 +19,7 @@ const reject = async function (request, h, dependencies = { events }) {
 const unreject = async function (request, h, dependencies = { events }) {
   const certificationCourseId = request.params.id;
   const juryId = request.auth.credentials.userId;
-  const certificationCourseRejectedEvent = await usecases.unrejectCertificationCourse({
+  const certificationCourseRejectedEvent = await sharedUsecases.unrejectCertificationCourse({
     certificationCourseId,
     juryId,
   });
@@ -29,12 +30,15 @@ const unreject = async function (request, h, dependencies = { events }) {
 
 const updateJuryComments = async function (request, h, dependencies = { assessmentResultSerializer }) {
   const certificationCourseId = request.params.id;
-  const deserializedAssessmentResult = await dependencies.assessmentResultSerializer.deserialize(request.payload);
+  const deserializedAssessmentResultComments = await dependencies.assessmentResultSerializer.deserialize(
+    request.payload,
+  );
   const juryId = request.auth.credentials.userId;
 
   await usecases.updateJuryComments({
     certificationCourseId,
-    assessmentResult: { ...deserializedAssessmentResult, juryId },
+    assessmentResultComments: deserializedAssessmentResultComments,
+    juryId,
   });
 
   return null;
@@ -46,7 +50,7 @@ const getCertificationV3Details = async function (
   dependencies = { v3CertificationDetailsForAdministrationSerializer },
 ) {
   const { certificationCourseId } = request.params;
-  const certificationDetails = await usecases.getV3CertificationCourseDetailsForAdministration({
+  const certificationDetails = await sharedUsecases.getV3CertificationCourseDetailsForAdministration({
     certificationCourseId,
   });
 

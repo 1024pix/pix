@@ -5,8 +5,8 @@ export default class Certification extends ApplicationAdapter {
     return `${this.host}/${this.namespace}/admin/certifications/${id}`;
   }
 
-  urlForUpdateMarks(id) {
-    return `${this.host}/${this.namespace}/admin/certification-courses/${id}/assessment-results/`;
+  urlForUpdateComments(id) {
+    return `${this.host}/${this.namespace}/admin/certification-courses/${id}/assessment-results`;
   }
 
   urlForUpdateRecord(id) {
@@ -14,15 +14,23 @@ export default class Certification extends ApplicationAdapter {
   }
 
   updateRecord(store, type, snapshot) {
-    const data = {};
-    const serializer = store.serializerFor(type.modelName);
-    if (snapshot.adapterOptions.updateMarks) {
-      serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
-      data.data.type = 'results';
-      data.data.attributes['jury-id'] = null;
-      data.data.attributes['emitter'] = 'Jury Pix';
-      return this.ajax(this.urlForUpdateMarks(snapshot.id), 'POST', { data: data });
+    if (snapshot.adapterOptions.updateComments) {
+      const {
+        data: { attributes },
+      } = this.serialize(snapshot);
+      const payload = {
+        data: {
+          attributes: {
+            'comment-for-organization': attributes['comment-for-organization'],
+            'comment-for-candidate': attributes['comment-for-candidate'],
+            'comment-by-jury': attributes['comment-by-jury'],
+          },
+        },
+      };
+      return this.ajax(this.urlForUpdateComments(snapshot.id), 'POST', { data: payload });
     } else {
+      const data = {};
+      const serializer = store.serializerFor(type.modelName);
       serializer.serializeIntoHash(data, type, snapshot, { includeId: true, onlyInformation: true });
       return this.ajax(this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord'), 'PATCH', { data: data });
     }
