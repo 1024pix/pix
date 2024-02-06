@@ -3,6 +3,7 @@ import { ComplementaryCertificationScoringCriteria } from '../../../../lib/domai
 function buildComplementaryCertificationScoringCriteria({
   complementaryCertificationCourseId = 123,
   minimumReproducibilityRate = 70,
+  minimumReproducibilityRateLowerLevel = 60,
   complementaryCertificationBadgeId = 89,
   complementaryCertificationBadgeKey = 'badge_key',
   hasComplementaryReferential = false,
@@ -12,6 +13,7 @@ function buildComplementaryCertificationScoringCriteria({
     complementaryCertificationCourseId,
     complementaryCertificationBadgeId,
     minimumReproducibilityRate,
+    minimumReproducibilityRateLowerLevel,
     complementaryCertificationBadgeKey,
     hasComplementaryReferential,
     minimumEarnedPix,

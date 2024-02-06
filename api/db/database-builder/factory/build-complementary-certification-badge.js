@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { buildBadge } from './build-badge.js';
 import { buildComplementaryCertification } from './build-complementary-certification.js';
 import { databaseBuffer } from '../database-buffer.js';
@@ -18,10 +17,8 @@ const buildComplementaryCertificationBadge = function ({
   createdBy,
   minimumEarnedPix = 0,
 } = {}) {
-  complementaryCertificationId = _.isNull(complementaryCertificationId)
-    ? buildComplementaryCertification().id
-    : complementaryCertificationId;
-  badgeId = _.isNull(badgeId) ? buildBadge().id : badgeId;
+  complementaryCertificationId = complementaryCertificationId ?? buildComplementaryCertification().id;
+  badgeId = badgeId ?? buildBadge().id;
 
   const values = {
     id,

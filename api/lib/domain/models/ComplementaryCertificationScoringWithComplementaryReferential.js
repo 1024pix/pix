@@ -9,6 +9,8 @@ class ComplementaryCertificationScoringWithComplementaryReferential extends Part
     hasAcquiredPixCertification,
     minimumReproducibilityRate,
     isRejectedForFraud,
+    pixScore,
+    minimumEarnedPix,
   } = {}) {
     super({
       complementaryCertificationCourseId,
@@ -18,6 +20,8 @@ class ComplementaryCertificationScoringWithComplementaryReferential extends Part
       hasAcquiredPixCertification,
     });
 
+    this.pixScore = pixScore;
+    this.minimumEarnedPix = minimumEarnedPix;
     this.reproducibilityRate = reproducibilityRate;
     this.minimumReproducibilityRate = minimumReproducibilityRate;
   }
@@ -26,7 +30,8 @@ class ComplementaryCertificationScoringWithComplementaryReferential extends Part
     return (
       !this.isRejectedForFraud &&
       this.hasAcquiredPixCertification &&
-      this.reproducibilityRate.isEqualOrAbove(this.minimumReproducibilityRate)
+      this.reproducibilityRate.isEqualOrAbove(this.minimumReproducibilityRate) &&
+      this.pixScore >= this.minimumEarnedPix
     );
   }
 }
