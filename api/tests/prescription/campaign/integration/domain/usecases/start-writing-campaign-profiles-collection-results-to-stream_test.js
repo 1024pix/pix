@@ -17,7 +17,6 @@ import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../.
 describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function () {
   describe('#startWritingCampaignProfilesCollectionResultsToStream', function () {
     let organization;
-    let user;
     let participant;
     let organizationLearner;
     let campaign;
@@ -27,10 +26,10 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
     let i18n;
 
     const createdAt = new Date('2019-02-25T10:00:00Z');
+    const sharedAt = new Date('2019-03-01T23:04:05Z');
 
     beforeEach(async function () {
       i18n = getI18n();
-      user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization();
       const skillWeb1 = { id: 'recSkillWeb1', name: '@web1', competenceIds: ['recCompetence1'] };
       const skillWeb2 = { id: 'recSkillWeb2', name: '@web2', competenceIds: ['recCompetence1'] };
@@ -41,7 +40,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
 
       participant = databaseBuilder.factory.buildUser();
 
-      databaseBuilder.factory.buildKnowledgeElement({
+      const ke1 = databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb1.id,
@@ -50,7 +49,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         userId: participant.id,
         createdAt,
       });
-      databaseBuilder.factory.buildKnowledgeElement({
+      const ke2 = databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb2.id,
@@ -59,7 +58,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         userId: participant.id,
         createdAt,
       });
-      databaseBuilder.factory.buildKnowledgeElement({
+      const ke3 = databaseBuilder.factory.buildKnowledgeElement({
         status: 'invalidated',
         pixScore: 2,
         skillId: skillWeb3.id,
@@ -68,16 +67,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         userId: participant.id,
         createdAt,
       });
-      databaseBuilder.factory.buildKnowledgeElement({
-        status: 'validated',
-        pixScore: 2,
-        skillId: skillWeb3.id,
-        earnedPix: 6,
-        competenceId: 'recCompetence1',
-        userId: participant.id,
-        createdAt: new Date('2019-03-25T10:00:00Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
+      const ke4 = databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         skillId: skillUrl1.id,
         earnedPix: 2,
@@ -85,13 +75,19 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         userId: participant.id,
         createdAt,
       });
-      databaseBuilder.factory.buildKnowledgeElement({
+      const ke5 = databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         skillId: skillUrl8.id,
         earnedPix: 64,
         competenceId: 'recCompetence2',
         userId: participant.id,
         createdAt,
+      });
+
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        userId: participant.id,
+        snappedAt: sharedAt,
+        snapshot: JSON.stringify([ke1, ke2, ke3, ke4, ke5]),
       });
 
       await databaseBuilder.commit();
@@ -123,7 +119,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
     context('When the organization is PRO', function () {
       beforeEach(async function () {
         organization = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
-        databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
         campaign = databaseBuilder.factory.buildCampaign({
           name: '@Campagne de Test N°2',
@@ -140,7 +135,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           organizationLearner,
           {
             createdAt,
-            sharedAt: new Date('2019-03-01T23:04:05Z'),
+            sharedAt,
             participantExternalId: '+Mon mail pro',
             campaignId: campaign.id,
             userId: participant.id,
@@ -174,7 +169,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
 
         // when
         startWritingCampaignProfilesCollectionResultsToStream({
-          userId: user.id,
           campaignId: campaign.id,
           writableStream,
           i18n,
@@ -199,7 +193,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
     context('When the organization is SCO and managing student', function () {
       beforeEach(async function () {
         organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-        databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
         organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           userId: participant.id,
@@ -221,7 +214,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
 
         campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           createdAt,
-          sharedAt: new Date('2019-03-01T23:04:05Z'),
+          sharedAt,
           participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
           userId: participant.id,
@@ -256,7 +249,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
 
         // when
         startWritingCampaignProfilesCollectionResultsToStream({
-          userId: user.id,
           campaignId: campaign.id,
           writableStream,
           i18n,
@@ -281,7 +273,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
     context('When the organization is SUP and isManagingStudent', function () {
       beforeEach(async function () {
         organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
-        databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
         organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           userId: participant.id,
@@ -304,7 +295,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
 
         campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           createdAt,
-          sharedAt: new Date('2019-03-01T23:04:05Z'),
+          sharedAt,
           participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
           userId: participant.id,
@@ -340,7 +331,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
 
         // when
         startWritingCampaignProfilesCollectionResultsToStream({
-          userId: user.id,
           campaignId: campaign.id,
           writableStream,
           i18n,
