@@ -106,6 +106,7 @@ server {
     proxy_pass https://api;
     proxy_redirect default;
     proxy_set_header Host <%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.<%= ENV['API_HOST_SUFFIX'] || 'scalingo.io' %>;
+    proxy_set_header X-Source-Front <%= ENV['APP'] %>;
   }
 
   <% end %>
