@@ -54,7 +54,7 @@ const databaseBuilder = await DatabaseBuilder.create({
 });
 
 nock.disableNetConnect();
-
+nock.enableNetConnect('localhost:9090');
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
 const { ROLES } = PIX_ADMIN;

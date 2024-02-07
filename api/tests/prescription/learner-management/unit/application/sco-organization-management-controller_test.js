@@ -1,4 +1,5 @@
 import { expect, hFake, sinon } from '../../../../test-helper.js';
+import fs from 'fs/promises';
 
 import { scoOrganizationManagementController } from '../../../../../src/prescription/learner-management/application/sco-organization-management-controller.js';
 import { usecases } from '../../../../../src/prescription/learner-management/domain/usecases/index.js';
@@ -19,8 +20,31 @@ describe('Unit | Application | Organizations | organization-controller', functio
     };
 
     beforeEach(function () {
+      sinon.stub(fs, 'access').resolves();
+      sinon.stub(fs, 'unlink');
       sinon.stub(usecases, 'importOrganizationLearnersFromSIECLEFormat');
       usecases.importOrganizationLearnersFromSIECLEFormat.resolves();
+    });
+
+    it('should delete uploaded file', async function () {
+      // given
+      request.i18n = getI18n();
+      request.server = {
+        events: {
+          on: sinon.stub().callsFake((_, callback) => {
+            callback();
+          }),
+        },
+      };
+      hFake.request = {
+        path: '/api/organizations/145/sco-organization-learners/import-siecle',
+      };
+
+      // when
+      await scoOrganizationManagementController.importOrganizationLearnersFromSIECLE(request, hFake);
+
+      // then
+      expect(fs.unlink).to.have.been.calledWithExactly(request.payload.path);
     });
 
     it('should call the usecase to import organizationLearners', async function () {
