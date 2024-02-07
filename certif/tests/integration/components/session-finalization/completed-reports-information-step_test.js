@@ -4,6 +4,7 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 
 module('Integration | Component | SessionFinalization::CompletedReportsInformationStep', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -202,6 +203,143 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
       // then
       assert.dom('[data-test-id="finalization-report-all-candidates-have-seen-end-test-screen"]').doesNotExist();
       assert.dom('[data-test-id="finalization-report-has-seen-end-test-screen_1"]').doesNotExist();
+    });
+  });
+
+  module('when certification is V3', function () {
+    module('when issue report contains IN_CHALLENGE (E1-E12) issues', function () {
+      test('it should not display the delete button for these issues', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+
+        const issue1 = store.createRecord('certification-issue-report', {
+          category: certificationIssueReportCategories.IN_CHALLENGE,
+        });
+
+        const certificationReports = [
+          store.createRecord('certification-report', {
+            certificationCourseId: 1,
+            firstName: 'Alice',
+            lastName: 'Alister',
+            certificationIssueReports: [issue1],
+            hasSeenEndTestScreen: null,
+          }),
+        ];
+
+        const session = store.createRecord('session', {
+          version: 3,
+          certificationReports,
+        });
+
+        this.set('session', session);
+        this.set('certificationReports', certificationReports);
+
+        // when
+        const screen = await render(hbs`
+        <SessionFinalization::CompletedReportsInformationStep
+          @session={{this.session}}
+          @certificationReports={{this.certificationReports}}
+        />
+      `);
+
+        await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
+        await screen.findByRole('dialog');
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Supprimer le signalement' })).doesNotExist();
+      });
+    });
+
+    module('when issue report does not contain IN_CHALLENGE (E1-E12) issues', function () {
+      test('it should display the delete button for these issues', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+
+        const issue1 = store.createRecord('certification-issue-report', {
+          category: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
+        });
+
+        const certificationReports = [
+          store.createRecord('certification-report', {
+            certificationCourseId: 1,
+            firstName: 'Alice',
+            lastName: 'Alister',
+            certificationIssueReports: [issue1],
+            hasSeenEndTestScreen: null,
+          }),
+        ];
+
+        const session = store.createRecord('session', {
+          version: 3,
+          certificationReports,
+        });
+
+        this.set('session', session);
+        this.set('certificationReports', certificationReports);
+
+        // when
+        const screen = await render(hbs`
+        <SessionFinalization::CompletedReportsInformationStep
+          @session={{this.session}}
+          @certificationReports={{this.certificationReports}}
+        />
+      `);
+
+        await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
+        await screen.findByRole('dialog');
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Supprimer le signalement' })).exists();
+      });
+    });
+  });
+
+  module('when certification is V2', function () {
+    module('when issue report contains IN_CHALLENGE (E1-E12) issues', function () {
+      test('it should display the delete button for these issues', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+
+        const issue1 = store.createRecord('certification-issue-report', {
+          category: certificationIssueReportCategories.IN_CHALLENGE,
+        });
+
+        const issue2 = store.createRecord('certification-issue-report', {
+          category: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
+        });
+
+        const certificationReports = [
+          store.createRecord('certification-report', {
+            certificationCourseId: 1,
+            firstName: 'Alice',
+            lastName: 'Alister',
+            certificationIssueReports: [issue1, issue2],
+            hasSeenEndTestScreen: null,
+          }),
+        ];
+
+        const session = store.createRecord('session', {
+          version: 2,
+          certificationReports,
+        });
+
+        this.set('session', session);
+        this.set('certificationReports', certificationReports);
+
+        // when
+        const screen = await render(hbs`
+        <SessionFinalization::CompletedReportsInformationStep
+          @session={{this.session}}
+          @certificationReports={{this.certificationReports}}
+        />
+      `);
+
+        await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
+        await screen.findByRole('dialog');
+
+        // then
+        assert.strictEqual(screen.queryAllByRole('button', { name: 'Supprimer le signalement' }).length, 2);
+      });
     });
   });
 });

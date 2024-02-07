@@ -231,4 +231,148 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
       )
       .exists();
   });
+
+  module('when certification is V3', function () {
+    module('when issue report contains IN_CHALLENGE (E1-E12) issues', function () {
+      test('it should not display the delete button for these issues', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        this.set('issueReportDescriptionMaxLength', 500);
+
+        const session = store.createRecord('session', {
+          version: 3,
+        });
+
+        const issue1 = store.createRecord('certification-issue-report', {
+          category: certificationIssueReportCategories.IN_CHALLENGE,
+        });
+
+        const certificationReport = store.createRecord('certification-report', {
+          certificationCourseId: 1234,
+          firstName: 'Alice',
+          lastName: 'Alister',
+          certificationIssueReports: [issue1],
+          hasSeenEndTestScreen: null,
+        });
+
+        const abortStub = sinon.stub();
+
+        this.set('certificationReports', [certificationReport]);
+        this.set('abort', abortStub);
+        this.set('session', session);
+
+        // when
+        const screen = await renderScreen(hbs`
+        <SessionFinalization::UncompletedReportsInformationStep
+          @certificationReports={{this.certificationReports}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+          @onChangeAbortReason = {{this.abort}}
+          @session={{this.session}}
+        />
+      `);
+
+        await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
+        await screen.findByRole('dialog');
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Supprimer le signalement' })).doesNotExist();
+      });
+    });
+
+    module('when issue report does not contain IN_CHALLENGE (E1-E12) issues', function () {
+      test('it should display the delete button for these issues', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        this.set('issueReportDescriptionMaxLength', 500);
+
+        const session = store.createRecord('session', {
+          version: 3,
+        });
+
+        const issue1 = store.createRecord('certification-issue-report', {
+          category: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
+        });
+
+        const certificationReport = store.createRecord('certification-report', {
+          certificationCourseId: 1234,
+          firstName: 'Alice',
+          lastName: 'Alister',
+          certificationIssueReports: [issue1],
+          hasSeenEndTestScreen: null,
+        });
+
+        const abortStub = sinon.stub();
+
+        this.set('certificationReports', [certificationReport]);
+        this.set('abort', abortStub);
+        this.set('session', session);
+
+        // when
+        const screen = await renderScreen(hbs`
+        <SessionFinalization::UncompletedReportsInformationStep
+          @certificationReports={{this.certificationReports}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+          @onChangeAbortReason = {{this.abort}}
+          @session={{this.session}}
+        />
+      `);
+
+        await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
+        await screen.findByRole('dialog');
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Supprimer le signalement' })).exists();
+      });
+    });
+  });
+
+  module('when certification is V2', function () {
+    module('when issue report contains IN_CHALLENGE (E1-E12) issues', function () {
+      test('it should display the delete button for these issues', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const session = store.createRecord('session', {
+          version: 2,
+        });
+
+        const issue1 = store.createRecord('certification-issue-report', {
+          category: certificationIssueReportCategories.IN_CHALLENGE,
+        });
+
+        const issue2 = store.createRecord('certification-issue-report', {
+          category: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
+        });
+
+        const certificationReport = store.createRecord('certification-report', {
+          certificationCourseId: 1234,
+          firstName: 'Alice',
+          lastName: 'Alister',
+          certificationIssueReports: [issue1, issue2],
+          hasSeenEndTestScreen: null,
+        });
+
+        const abortStub = sinon.stub();
+
+        this.set('certificationReports', [certificationReport]);
+        this.set('abort', abortStub);
+        this.set('session', session);
+
+        // when
+        const screen = await renderScreen(hbs`
+        <SessionFinalization::UncompletedReportsInformationStep
+          @certificationReports={{this.certificationReports}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+          @onChangeAbortReason = {{this.abort}}
+          @session={{this.session}}
+        />
+      `);
+
+        await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
+        await screen.findByRole('dialog');
+
+        // then
+        assert.strictEqual(screen.queryAllByRole('button', { name: 'Supprimer le signalement' }).length, 2);
+      });
+    });
+  });
 });
