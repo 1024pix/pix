@@ -15,7 +15,6 @@ import {
   extractUserIdFromRequest,
   extractLocaleFromRequest,
 } from '../../infrastructure/utils/request-response-utils.js';
-import { getDivisionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-division-certification-results-csv.js';
 import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
 
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';

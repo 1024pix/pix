@@ -1,6 +1,5 @@
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 import * as scoCertificationCandidateRepository from '../../../../../../src/certification/course/infrastructure/repositories/sco-certification-candidate-repository.js';
-import _ from 'lodash';
 
 describe('Certification | Course | Integration | Repository | SCOCertificationCandidate', function () {
   describe('#findIdsByOrganizationIdAndDivision', function () {
@@ -96,9 +95,10 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
       expect(candidatesIds).to.deep.equal([candidateId]);
     });
 
-    it('retrieves candidates ordered by lastname and firstname', async function () {
+    it('retrieves last candidates ordered by lastname and firstname', async function () {
       // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
+      const sessionInThePastId = databaseBuilder.factory.buildSession({ publishedAt: '2020-01-01' }).id;
+      const sessionId = databaseBuilder.factory.buildSession({ publishedAt: '2024-01-01' }).id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
       const aOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: anOrganizationId,
@@ -124,6 +124,14 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         sessionId,
         organizationLearnerId: yetAnotherOrganizationLearnerId,
       }).id;
+
+      databaseBuilder.factory.buildCertificationCandidate({
+        firstName: 'Smith',
+        lastName: 'Aaron',
+        sessionId: sessionInThePastId,
+        organizationLearnerId: yetAnotherOrganizationLearnerId,
+      }).id;
+
       const secondInAlphabeticOrderCandidateId = databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'Smith',
         lastName: 'Ben',
@@ -145,6 +153,41 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         secondInAlphabeticOrderCandidateId,
         thirdInAlphabeticOrderCandidateId,
       ]);
+    });
+
+    it('should not retrieve unpublished sessions', async function () {
+      // given
+      const division = '3ème A';
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const candidate = {
+        firstName: 'Smith',
+        lastName: 'Aaron',
+        organizationLearnerId: databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organizationId,
+          division,
+        }).id,
+      };
+      const sessionPublishedId = databaseBuilder.factory.buildSession({ publishedAt: '2024-01-01' }).id;
+      const unpublishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
+      databaseBuilder.factory.buildCertificationCandidate({
+        ...candidate,
+        sessionId: unpublishedSessionId,
+      }).id;
+      const candidateIdFromPublishedSession = databaseBuilder.factory.buildCertificationCandidate({
+        ...candidate,
+        sessionId: sessionPublishedId,
+      }).id;
+
+      await databaseBuilder.commit();
+
+      // when
+      const candidatesIds = await scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision({
+        organizationId,
+        division,
+      });
+
+      // then
+      expect(candidatesIds).to.deep.equal([candidateIdFromPublishedSession]);
     });
   });
 });

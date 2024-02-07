@@ -13,6 +13,7 @@ const downloadCertificationResults = async function (
 
   const csvResult = await dependencies.getDivisionCertificationResultsCsv({
     division,
+
     certificationResults,
     i18n: request.i18n,
   });
