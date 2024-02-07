@@ -1,9 +1,8 @@
 import jsonwebtoken from 'jsonwebtoken';
 import querystring from 'querystring';
 
-import { createServer, expect, databaseBuilder, nock, sinon } from '../../../../test-helper.js';
+import { createServer, expect, databaseBuilder, sinon } from '../../../../test-helper.js';
 
-import { config as settings } from '../../../../../lib/config.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
@@ -59,10 +58,9 @@ describe('Acceptance | Route | oidc | token', function () {
         // given
         const idToken = jsonwebtoken.sign(
           {
+            sub: 'sub',
             given_name: 'John',
             family_name: 'Doe',
-            nonce: 'nonce',
-            sub: 'sub',
           },
           'secret',
         );
@@ -88,7 +86,6 @@ describe('Acceptance | Route | oidc | token', function () {
             externalIdentityId: 'sub',
             firstName: 'John',
             lastName: 'Doe',
-            nonce: 'nonce',
           },
         };
 
