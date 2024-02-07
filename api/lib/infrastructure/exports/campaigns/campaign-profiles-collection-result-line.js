@@ -55,9 +55,11 @@ class CampaignProfilesCollectionResultLine {
   }
 
   _getIsCertifiableColumn() {
-    return this.campaignParticipationResult.isShared
-      ? this._yesOrNo(this.placementProfile.isCertifiable())
-      : this.notShared;
+    if (this.campaignParticipationResult.isShared) {
+      return this._yesOrNo(this.placementProfile.isCertifiable());
+    }
+
+    return this.notShared;
   }
 
   _getIdPixLabelColumn() {
@@ -94,9 +96,10 @@ class CampaignProfilesCollectionResultLine {
   _competenceColumns() {
     const columns = [];
     this.competences.forEach((competence) => {
-      const { estimatedLevel, pixScore } = this.placementProfile.userCompetences.find(({ id }) => id === competence.id);
-
       if (this.campaignParticipationResult.isShared) {
+        const { estimatedLevel, pixScore } = this.placementProfile.userCompetences.find(
+          ({ id }) => id === competence.id,
+        );
         columns.push(estimatedLevel, pixScore);
       } else {
         columns.push(this.notShared, this.notShared);
