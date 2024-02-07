@@ -4,12 +4,10 @@ import { randomUUID } from 'crypto';
 import { Issuer } from 'openid-client';
 
 import { logger } from '../../../infrastructure/logger.js';
-import { InvalidExternalAPIResponseError, OidcMissingFieldsError, OidcUserInfoFormatError } from '../../errors.js';
+import { OidcMissingFieldsError, OidcUserInfoFormatError } from '../../errors.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';
 import { config } from '../../../../src/shared/config.js';
-import { httpAgent } from '../../../infrastructure/http/http-agent.js';
-import * as httpErrorsHelper from '../../../infrastructure/http/errors-helper.js';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
 import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../constants.js';
@@ -274,20 +272,7 @@ class OidcAuthenticationService {
   }
 
   async _getUserInfoFromEndpoint({ accessToken }) {
-    const httpResponse = await httpAgent.get({
-      url: this.userInfoUrl,
-      headers: { Authorization: `Bearer ${accessToken}` },
-      timeout: config.partner.fetchTimeOut,
-    });
-
-    if (!httpResponse.isSuccessful) {
-      const message = 'Une erreur est survenue en récupérant les informations des utilisateurs.';
-      const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(httpResponse, message);
-      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
-      throw new InvalidExternalAPIResponseError(message);
-    }
-
-    const userInfo = httpResponse.data;
+    const userInfo = await this.client.userinfo(accessToken);
 
     if (!userInfo || typeof userInfo !== 'object') {
       const message = `Les informations utilisateur renvoyées par votre fournisseur d'identité ${this.organizationName} ne sont pas au format attendu.`;
@@ -323,8 +308,8 @@ class OidcAuthenticationService {
 
     const pickedUserInfo = {
       sub: userInfo.sub,
-      given_name: userInfo.given_name,
       family_name: userInfo.family_name,
+      given_name: userInfo.given_name,
     };
 
     if (this.claimsToStore) {
