@@ -331,10 +331,9 @@ class OidcAuthenticationService {
     }
 
     const pickedUserInfo = {
+      sub: userInfo.sub,
       given_name: userInfo.given_name,
       family_name: userInfo.family_name,
-      sub: userInfo.sub,
-      nonce: userInfo.nonce,
     };
 
     if (this.claimsToStore) {
