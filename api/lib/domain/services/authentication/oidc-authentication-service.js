@@ -285,21 +285,12 @@ class OidcAuthenticationService {
   }
 
   async _getUserInfoFromEndpoint({ accessToken }) {
-    const userInfo = await this.client.userinfo(accessToken);
+    let userInfo;
 
-    if (!userInfo || typeof userInfo !== 'object') {
-      const message = `Les informations utilisateur renvoyées par votre fournisseur d'identité ${this.organizationName} ne sont pas au format attendu.`;
-      const dataToLog = {
-        message,
-        typeOfUserInfo: typeof userInfo,
-        userInfo,
-      };
-      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
-      const error = OIDC_ERRORS.USER_INFO.badResponseFormat;
-      const meta = {
-        shortCode: error.shortCode,
-      };
-      throw new OidcUserInfoFormatError(message, error.code, meta);
+    try {
+      userInfo = await this.client.userinfo(accessToken);
+    } catch (error) {
+      throw new OidcError({ message: error.message });
     }
 
     const missingRequiredClaims = this.#findMissingRequiredClaims(userInfo);

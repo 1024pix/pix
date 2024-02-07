@@ -570,101 +570,37 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
-    // eslint-disable-next-line mocha/no-skipped-tests
-    describe.skip('when call to external API fails with no data details', function () {
-      it('should throw error', async function () {
-        // given
-        const userInfoUrl = '';
-        const accessToken = '';
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-        const axiosError = {
-          response: {
-            data: '',
-            status: 400,
-          },
-        };
-        sinon
-          .stub(httpAgent, 'get')
-          .withArgs({
-            url: userInfoUrl,
-            headers: { Authorization: `Bearer ${accessToken}` },
-            timeout: settings.partner.fetchTimeOut,
-          })
-          .resolves({ isSuccessful: false, code: axiosError.response.status, data: axiosError.response.data });
-        // See api/lib/infrastructure/http/http-agent.js to understand, axios can throw an error but httpAgent.get map it into an http response
-        const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl, accessToken });
+    context('when OpenId Client userinfo fails', function () {
+      it('throws an error', async function () {
+        const clientId = Symbol('clientId');
+        const clientSecret = Symbol('clientSecret');
+        const configKey = 'identityProviderConfigKey';
+        const identityProvider = Symbol('identityProvider');
+        const redirectUri = Symbol('redirectUri');
+        const openidConfigurationUrl = Symbol('openidConfigurationUrl');
 
-        // when
-        let errorResponse;
-        try {
-          await oidcAuthenticationService._getUserInfoFromEndpoint({
-            accessToken: 'accessToken',
-            userInfoUrl: 'userInfoUrl',
-          });
-        } catch (error) {
-          errorResponse = error;
-        }
+        sinon.stub(settings, 'identityProviderConfigKey').value({});
 
-        // then
-        expect(errorResponse).to.be.instanceOf(InvalidExternalAPIResponseError);
-        expect(errorResponse.message).to.be.equal(
-          'Une erreur est survenue en récupérant les informations des utilisateurs.',
-        );
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
-          message: {
-            customMessage: 'Une erreur est survenue en récupérant les informations des utilisateurs.',
-            errorDetails: 'Pas de détails disponibles',
-          },
-        });
-      });
-    });
+        const Client = sinon.stub().returns({ userinfo: sinon.stub().rejects(new Error('Fails to get user info')) });
 
-    // eslint-disable-next-line mocha/no-skipped-tests
-    describe.skip('when returned value by external API is not a json object', function () {
-      it('should throw error', async function () {
-        // given
-        const userInfoUrl = '';
-        const accessToken = '';
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-        sinon
-          .stub(httpAgent, 'get')
-          .withArgs({
-            url: userInfoUrl,
-            headers: { Authorization: `Bearer ${accessToken}` },
-            timeout: settings.partner.fetchTimeOut,
-          })
-          .resolves({
-            isSuccessful: true,
-            data: '',
-          });
-        const organizationName = 'Organization Name';
+        sinon.stub(Issuer, 'discover').resolves({ Client });
+
         const oidcAuthenticationService = new OidcAuthenticationService({
-          userInfoUrl: 'userInfoUrl',
-          organizationName,
+          clientId,
+          clientSecret,
+          configKey,
+          identityProvider,
+          redirectUri,
+          openidConfigurationUrl,
         });
+        await oidcAuthenticationService.createClient();
 
         // when
-        const error = await catchErr(
-          oidcAuthenticationService._getUserInfoFromEndpoint,
-          oidcAuthenticationService,
-        )({
-          accessToken,
-          userInfoUrl,
-        });
+        const error = await catchErr(oidcAuthenticationService._getUserInfoFromEndpoint, oidcAuthenticationService)({});
 
         // then
-        expect(error).to.be.instanceOf(OidcUserInfoFormatError);
-        expect(error.message).to.be.equal(
-          `Les informations utilisateur renvoyées par votre fournisseur d'identité ${organizationName} ne sont pas au format attendu.`,
-        );
-        expect(error.code).to.be.equal(OIDC_ERRORS.USER_INFO.badResponseFormat.code);
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
-          message: {
-            message: `Les informations utilisateur renvoyées par votre fournisseur d'identité ${organizationName} ne sont pas au format attendu.`,
-            typeOfUserInfo: 'string',
-            userInfo: '',
-          },
-        });
+        expect(error).to.be.instanceOf(OidcError);
+        expect(error.message).to.be.equal('Fails to get user info');
       });
     });
 
