@@ -1,10 +1,8 @@
 import { module, test } from 'qunit';
 import { click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
-
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
-import EmberObject from '@ember/object';
 import {
   v3CertificationIssueReportCategories,
   certificationIssueReportCategories,
@@ -19,12 +17,12 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
 
   test('it show candidate informations in title', async function (assert) {
     // given
-    const report = EmberObject.create({
-      certificationCourseId: 1,
+    const store = this.owner.lookup('service:store');
+    const report = store.createRecord('certification-report', {
       firstName: 'Lisa',
       lastName: 'Monpud',
-      hasSeenEndTestScreen: false,
     });
+
     const closeAddIssueReportModalStub = sinon.stub();
     this.set('closeAddIssueReportModal', closeAddIssueReportModalStub);
     this.set('reportToEdit', report);
@@ -35,7 +33,7 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
           <IssueReportModal::AddIssueReportModal
             @closeModal={{this.closeAddIssueReportModal}}
             @report={{this.reportToEdit}}
-            @maxlength={{@issueReportDescriptionMaxLength}}
+            @maxlength={{this.maxLength}}
           />
         `);
 
@@ -46,12 +44,12 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
   module('when session is V2', function () {
     test('it should show all categories code & label', async function (assert) {
       // given
-      const report = EmberObject.create({
-        certificationCourseId: 1,
+      const store = this.owner.lookup('service:store');
+      const report = store.createRecord('certification-report', {
         firstName: 'Lisa',
         lastName: 'Monpud',
-        hasSeenEndTestScreen: false,
       });
+
       const closeAddIssueReportModalStub = sinon.stub();
       this.set('closeAddIssueReportModal', closeAddIssueReportModalStub);
       this.set('reportToEdit', report);
@@ -62,7 +60,7 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
             <IssueReportModal::AddIssueReportModal
               @closeModal={{this.closeAddIssueReportModal}}
               @report={{this.reportToEdit}}
-              @maxlength={{@issueReportDescriptionMaxLength}}
+              @maxlength={{this.maxlength}}
               @version={{2}}
             />
           `);
@@ -83,12 +81,12 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
   module('when session is V3', function () {
     test('it should show all V3 categories code & label', async function (assert) {
       // given
-      const report = EmberObject.create({
-        certificationCourseId: 1,
+      const store = this.owner.lookup('service:store');
+      const report = store.createRecord('certification-report', {
         firstName: 'Lisa',
         lastName: 'Monpud',
-        hasSeenEndTestScreen: false,
       });
+
       const closeAddIssueReportModalStub = sinon.stub();
       this.set('closeAddIssueReportModal', closeAddIssueReportModalStub);
       this.set('reportToEdit', report);
@@ -99,7 +97,7 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
             <IssueReportModal::AddIssueReportModal
               @closeModal={{this.closeAddIssueReportModal}}
               @report={{this.reportToEdit}}
-              @maxlength={{@issueReportDescriptionMaxLength}}
+              @maxlength={{this.maxlength}}
               @version={{3}}
             />
           `);
@@ -126,12 +124,12 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
 
   test('it should show an error when trying to submit without selecting a category', async function (assert) {
     // given
-    const report = EmberObject.create({
-      certificationCourseId: 1,
+    const store = this.owner.lookup('service:store');
+    const report = store.createRecord('certification-report', {
       firstName: 'Lisa',
       lastName: 'Monpud',
-      hasSeenEndTestScreen: false,
     });
+
     const closeAddIssueReportModalStub = sinon.stub();
     this.set('closeAddIssueReportModal', closeAddIssueReportModalStub);
     this.set('reportToEdit', report);
@@ -142,7 +140,7 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
           <IssueReportModal::AddIssueReportModal
             @closeModal={{this.closeAddIssueReportModal}}
             @report={{this.reportToEdit}}
-            @maxlength={{@issueReportDescriptionMaxLength}}
+            @maxlength={{this.maxLength}}
           />
         `);
 
