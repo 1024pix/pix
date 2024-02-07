@@ -89,6 +89,7 @@ class CampaignProfilesCollectionExport {
         const sameUserId = campaignParticipationResultData.userId === userId;
         const sameDate =
           campaignParticipationResultData.sharedAt &&
+          profileDate &&
           campaignParticipationResultData.sharedAt.getTime() === profileDate.getTime();
 
         return sameUserId && sameDate;

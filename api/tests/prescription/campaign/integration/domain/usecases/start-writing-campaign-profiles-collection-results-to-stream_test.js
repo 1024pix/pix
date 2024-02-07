@@ -13,7 +13,7 @@ import * as userRepository from '../../../../../../src/shared/infrastructure/rep
 import * as placementProfileService from '../../../../../../lib/domain/services/placement-profile-service.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../../lib/domain/constants.js';
-
+import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function () {
   describe('#startWritingCampaignProfilesCollectionResultsToStream', function () {
     let organization;
@@ -114,6 +114,80 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
 
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
+    });
+
+    context('common cases', function () {
+      beforeEach(async function () {
+        organization = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+
+        campaign = databaseBuilder.factory.buildCampaign({
+          name: '@Campagne de Test N°2',
+          code: 'QWERTY456',
+          organizationId: organization.id,
+          idPixLabel: 'Mail Perso',
+          targetProfileId: null,
+          type: 'PROFILES_COLLECTION',
+          title: null,
+        });
+
+        organizationLearner = { firstName: '@Jean', lastName: '=Bono' };
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          organizationLearner,
+          {
+            createdAt,
+            sharedAt,
+            status: CampaignParticipationStatuses.SHARED,
+            participantExternalId: '+Mon mail pro',
+            campaignId: campaign.id,
+            userId: participant.id,
+            pixScore: 52,
+            isImproved: true,
+          },
+        );
+
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          organizationLearner,
+          {
+            createdAt,
+            sharedAt: null,
+            status: CampaignParticipationStatuses.TO_SHARE,
+            participantExternalId: '+Mon mail pro',
+            campaignId: campaign.id,
+            userId: participant.id,
+            pixScore: 0,
+            isImproved: false,
+          },
+        );
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return all participation for one learner', async function () {
+        startWritingCampaignProfilesCollectionResultsToStream({
+          campaignId: campaign.id,
+          writableStream,
+          i18n,
+          campaignRepository,
+          userRepository,
+          competenceRepository,
+          organizationRepository,
+          campaignParticipationRepository,
+          placementProfileService,
+        });
+
+        const csv = await csvPromise;
+        const cells = csv.split('\n');
+
+        expect(cells[0]).to.be.equals(
+          '\uFEFF"Nom de l\'organisation";"ID Campagne";"Code";"Nom de la campagne";"Nom du Participant";"Prénom du Participant";"Mail Perso";"Envoi (O/N)";"Date de l\'envoi";"Nombre de pix total";"Certifiable (O/N)";"Nombre de compétences certifiables";"Niveau pour la compétence ";"Nombre de pix pour la compétence ";"Niveau pour la compétence ";"Nombre de pix pour la compétence "',
+        );
+        expect(cells[1]).to.be.equals(
+          `"Observatoire de Pix";${campaign.id};"QWERTY456";"'@Campagne de Test N°2";"'=Bono";"'@Jean";"'+Mon mail pro";"Oui";2019-03-01;52;"Non";2;1;12;5;40`,
+        );
+        expect(cells[2]).to.be.equals(
+          `"Observatoire de Pix";${campaign.id};"QWERTY456";"'@Campagne de Test N°2";"'=Bono";"'@Jean";"'+Mon mail pro";"Non";"NA";"NA";"NA";"NA";"NA";"NA";"NA";"NA"`,
+        );
+      });
     });
 
     context('When the organization is PRO', function () {
