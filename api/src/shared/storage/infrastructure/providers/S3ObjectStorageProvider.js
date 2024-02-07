@@ -14,6 +14,7 @@ class S3ObjectStorageProvider {
     region,
     bucket,
     dependencies = { clientS3, libStorage, s3RequestPresigner, logger },
+    forcePathStyle = false,
   }) {
     this.#dependencies = dependencies;
 
@@ -21,6 +22,7 @@ class S3ObjectStorageProvider {
       credentials,
       endpoint,
       region,
+      forcePathStyle,
     });
 
     this.#bucket = bucket;
@@ -33,6 +35,7 @@ class S3ObjectStorageProvider {
     region,
     bucket,
     dependencies = { clientS3, libStorage, s3RequestPresigner },
+    forcePathStyle,
   }) {
     if ([accessKeyId, secretAccessKey, endpoint, region, bucket].some((prop) => prop === undefined)) {
       logger.warn('Invalid S3 configuration provided');
@@ -44,6 +47,7 @@ class S3ObjectStorageProvider {
       region,
       bucket,
       dependencies: { clientS3, libStorage, s3RequestPresigner, logger, ...dependencies },
+      forcePathStyle,
     });
   }
 
