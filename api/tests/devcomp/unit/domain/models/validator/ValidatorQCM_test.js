@@ -2,8 +2,9 @@ import { ValidatorQCM } from '../../../../../../src/devcomp/domain/models/valida
 import { Validation } from '../../../../../../src/devcomp/domain/models/validator/Validation.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import * as devcompDomainBuilder from '../../../../tooling/domain-builder/factory/index.js';
 
-describe('Unit | Devcomp | Domain | Models | ValidatorQCM', function () {
+describe('Unit | Devcomp | Domain | Models | Validator | ValidatorQCM', function () {
   let solutionServiceQcmStub;
   beforeEach(function () {
     solutionServiceQcmStub = {
@@ -20,7 +21,7 @@ describe('Unit | Devcomp | Domain | Models | ValidatorQCM', function () {
     beforeEach(function () {
       // given
       solutionServiceQcmStub.match.returns(AnswerStatus.OK);
-      solution = domainBuilder.buildSolution({ type: 'QCM' });
+      solution = devcompDomainBuilder.buildSolution({ type: 'QCM' });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
       validator = new ValidatorQCM({
@@ -32,7 +33,7 @@ describe('Unit | Devcomp | Domain | Models | ValidatorQCM', function () {
       validation = validator.assess({ answer: uncorrectedAnswer });
     });
 
-    it('should call solutionServiceQCU', function () {
+    it('should call solutionServiceQCM', function () {
       // then
       expect(solutionServiceQcmStub.match).to.have.been.calledWithExactly(uncorrectedAnswer.value, solution.value);
     });
