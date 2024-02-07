@@ -28,7 +28,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
       expect(qcu.instruction).equal('instruction');
       expect(qcu.locales).deep.equal(['fr-FR']);
       expect(qcu.proposals).deep.equal([proposal1, proposal2]);
-      expect(qcu.solution).deep.equal(solution);
+      expect(qcu.solutionValue).deep.equal(solution);
       expect(qcu.feedbacks).to.be.instanceof(Feedbacks);
     });
 
