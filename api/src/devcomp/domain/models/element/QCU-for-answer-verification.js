@@ -13,7 +13,7 @@ class QCUForAnswerVerification extends QCU {
 
     assertNotNullOrUndefined(solution, 'La solution est obligatoire pour un QCU de vérification');
 
-    this.solution = solution;
+    this.solutionValue = solution;
 
     if (feedbacks) {
       this.feedbacks = new Feedbacks(feedbacks);
@@ -22,7 +22,7 @@ class QCUForAnswerVerification extends QCU {
     if (validator) {
       this.validator = validator;
     } else {
-      this.validator = new ValidatorQCU({ solution: { value: this.solution } });
+      this.validator = new ValidatorQCU({ solution: { value: this.solutionValue } });
     }
   }
 
@@ -37,7 +37,7 @@ class QCUForAnswerVerification extends QCU {
     return new QcuCorrectionResponse({
       status: validation.result,
       feedback: validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid,
-      solution: this.solution,
+      solution: this.solutionValue,
     });
   }
 
