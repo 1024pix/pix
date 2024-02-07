@@ -391,7 +391,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#getUserInfo', function () {
-    it('should return nonce, firstName, lastName and external identity id', async function () {
+    it('returns firstName, lastName and external identity id', async function () {
       // given
       function generateIdToken(payload) {
         return jsonwebtoken.sign(
@@ -421,7 +421,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       expect(result).to.deep.equal({
         firstName: 'givenName',
         lastName: 'familyName',
-        nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
         externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
       });
     });
@@ -609,10 +608,9 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           .resolves({
             isSuccessful: true,
             data: {
+              sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
               given_name: 'givenName',
               family_name: undefined,
-              nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
-              sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
             },
           });
         const organizationName = 'Organization Name';
@@ -636,10 +634,9 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           message: errorMessage,
           missingFields: 'family_name',
           userInfo: {
+            sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
             given_name: 'givenName',
             family_name: undefined,
-            nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
-            sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
           },
         });
       });

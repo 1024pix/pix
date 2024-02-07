@@ -57,10 +57,9 @@ describe('Acceptance | Route | oidc | token', function () {
         // given
         const idToken = jsonwebtoken.sign(
           {
+            sub: 'sub',
             given_name: 'John',
             family_name: 'Doe',
-            nonce: 'nonce',
-            sub: 'sub',
           },
           'secret',
         );
@@ -86,7 +85,6 @@ describe('Acceptance | Route | oidc | token', function () {
             externalIdentityId: 'sub',
             firstName: 'John',
             lastName: 'Doe',
-            nonce: 'nonce',
           },
         };
 
