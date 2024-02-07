@@ -41,7 +41,7 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
 
     // when
     const screen = await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
-    await fillIn(screen.getByRole('searchbox', { name: 'Filtrer les tags' }), 'e');
+    await fillIn(screen.getByRole('textbox', { name: 'Filtrer les tags' }), 'e');
 
     // then
     assert.dom(screen.queryByText('SCO')).doesNotExist();

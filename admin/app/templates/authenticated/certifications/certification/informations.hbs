@@ -1,8 +1,8 @@
 <div class="certification-informations">
   <div class="certification-informations__row">
-    <PixButton @route="authenticated.users.get" @size="small" @model={{this.certification.userId}}>
+    <PixButtonLink @route="authenticated.users.get" @size="small" @model={{this.certification.userId}}>
       Voir les détails de l'utilisateur
-    </PixButton>
+    </PixButtonLink>
     {{#if this.certification.isCancelled}}
       <PixButton @backgroundColor="red" @size="small" @triggerAction={{this.onUncancelCertificationButtonClick}}>
         Désannuler la certification

@@ -12,14 +12,14 @@
         <FaIcon @icon="arrow-up-right-from-square" />
         <span>Consulter la documentation</span>
       </a>
-      <PixButton
+      <PixButtonLink
         @route="authenticated.trainings.new"
         @backgroundColor="transparent-light"
         @isBorderVisible={{true}}
         @iconBefore="plus"
       >
         Nouveau contenu formatif
-      </PixButton>
+      </PixButtonLink>
     </div>
   {{/if}}
 </header>

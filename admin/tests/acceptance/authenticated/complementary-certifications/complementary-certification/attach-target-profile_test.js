@@ -80,7 +80,7 @@ module(
               badges: [],
             });
             const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
-            const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+            const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
             await fillIn(input, '3');
 
             await screen.findByRole('listbox');
@@ -117,7 +117,7 @@ module(
               badges: [badge],
             });
             const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
-            const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+            const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
             await fillIn(input, '5');
             await screen.findByRole('listbox');
             const targetProfileSelectable = await screen.findByRole('option', { name: '5 - ALEX TARGET' });
@@ -161,7 +161,7 @@ module(
               badges: [badge],
             });
             const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
-            const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+            const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
             await fillIn(input, '5');
             await screen.findByRole('listbox');
             const targetProfileSelectable = screen.getByRole('option', { name: '5 - ALEX TARGET' });
@@ -228,7 +228,7 @@ module(
               badges: [badge],
             });
             const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
-            const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+            const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
             await fillIn(input, '5');
             await screen.findByRole('listbox');
             const targetProfileSelectable = screen.getByRole('option', { name: '5 - ALEX TARGET' });
