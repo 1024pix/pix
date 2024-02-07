@@ -15,7 +15,7 @@ module(
       const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector />`);
 
       // then
-      assert.dom(await screen.getByRole('searchbox')).exists();
+      assert.dom(await screen.getByRole('textbox')).exists();
     });
 
     module('when user type in the search bar', function () {
@@ -31,7 +31,7 @@ module(
         const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector />`);
 
         // when
-        const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+        const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
         await fillIn(input, '3');
 
         // then
@@ -45,7 +45,7 @@ module(
         const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector />`);
 
         // when
-        const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+        const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
         await fillIn(input, '3');
 
         // then
@@ -62,11 +62,11 @@ module(
         />`);
 
         // when
-        const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+        const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
         await fillIn(input, '3');
 
         // then
-        assert.dom(await screen.findByRole('searchbox', { name: 'ID du profil cible' })).exists();
+        assert.dom(await screen.findByRole('textbox', { name: 'ID du profil cible' })).exists();
       });
     });
 
@@ -85,7 +85,7 @@ module(
         />`);
 
         // when
-        const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+        const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
         await fillIn(input, '1');
         const searchResult = await screen.findByRole('option', { name: '1 - ALEX TARGET' });
         await searchResult.click();

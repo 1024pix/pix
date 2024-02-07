@@ -18,7 +18,7 @@ module(
       const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar />`);
 
       // then
-      assert.dom(screen.getByRole('searchbox', { name: 'ID du profil cible' })).exists();
+      assert.dom(screen.getByRole('textbox', { name: 'ID du profil cible' })).exists();
     });
 
     test('it should display the provided search results', async function (assert) {
@@ -88,7 +88,7 @@ module(
         const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
           @onSearch={{this.onSearchStub}}
         />`);
-        const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+        const input = screen.getByRole('textbox', { name: 'ID du profil cible' });
         await fillIn(input, '3');
 
         // then
