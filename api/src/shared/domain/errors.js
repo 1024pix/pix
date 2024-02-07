@@ -5,9 +5,49 @@ class DomainError extends Error {
   }
 }
 
-class ForbiddenAccess extends DomainError {
-  constructor(message = 'Accès non autorisé.') {
+class AlreadyExistingEntityError extends DomainError {
+  constructor(message = 'L’entité existe déjà.') {
     super(message);
+  }
+}
+
+class AssessmentEndedError extends DomainError {
+  constructor(message = 'Evaluation terminée.') {
+    super(message);
+  }
+
+  getErrorMessage() {
+    return {
+      data: {
+        error: ["L'évaluation est terminée. Nous n'avons plus de questions à vous poser."],
+      },
+    };
+  }
+}
+
+class AssessmentResultNotCreatedError extends DomainError {
+  constructor(message = "L'assessment result n'a pas pu être généré.") {
+    super(message);
+  }
+}
+
+class AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError extends DomainError {
+  constructor() {
+    super('Autonomous course requires a target profile with simplified access.');
+  }
+}
+
+class CertificationAttestationGenerationError extends DomainError {
+  constructor(message = "Une erreur est survenue durant la génération de l'attestation.") {
+    super(message);
+  }
+}
+
+class CsvImportError extends DomainError {
+  constructor(code, meta) {
+    super('An error occurred during CSV import');
+    this.code = code;
+    this.meta = meta;
   }
 }
 
@@ -33,16 +73,8 @@ class EntityValidationError extends DomainError {
   }
 }
 
-class CsvImportError extends DomainError {
-  constructor(code, meta) {
-    super('An error occurred during CSV import');
-    this.code = code;
-    this.meta = meta;
-  }
-}
-
-class AlreadyExistingEntityError extends DomainError {
-  constructor(message = 'L’entité existe déjà.') {
+class ForbiddenAccess extends DomainError {
+  constructor(message = 'Accès non autorisé.') {
     super(message);
   }
 }
@@ -79,38 +111,6 @@ class InvalidTemporaryKeyError extends DomainError {
   }
 }
 
-class NotFoundError extends DomainError {
-  constructor(message = 'Erreur, ressource introuvable.') {
-    super(message);
-  }
-}
-
-class AssessmentEndedError extends DomainError {
-  constructor(message = 'Evaluation terminée.') {
-    super(message);
-  }
-
-  getErrorMessage() {
-    return {
-      data: {
-        error: ["L'évaluation est terminée. Nous n'avons plus de questions à vous poser."],
-      },
-    };
-  }
-}
-
-class AssessmentResultNotCreatedError extends DomainError {
-  constructor(message = "L'assessment result n'a pas pu être généré.") {
-    super(message);
-  }
-}
-
-class MissingAssessmentId extends DomainError {
-  constructor(message = 'AssessmentId manquant ou incorrect') {
-    super(message);
-  }
-}
-
 class LanguageNotSupportedError extends DomainError {
   constructor(languageCode) {
     super(`Given language is not supported : "${languageCode}"`);
@@ -135,14 +135,14 @@ class LocaleNotSupportedError extends DomainError {
   }
 }
 
-class UserNotAuthorizedToAccessEntityError extends DomainError {
-  constructor(message = 'User is not authorized to access ressource') {
+class MissingAssessmentId extends DomainError {
+  constructor(message = 'AssessmentId manquant ou incorrect') {
     super(message);
   }
 }
 
-class CertificationAttestationGenerationError extends DomainError {
-  constructor(message = "Une erreur est survenue durant la génération de l'attestation.") {
+class MissingBadgeCriterionError extends DomainError {
+  constructor(message = 'Vous devez définir au moins un critère pour créer ce résultat thématique.') {
     super(message);
   }
 }
@@ -154,15 +154,9 @@ class NoCertificationAttestationForDivisionError extends DomainError {
   }
 }
 
-class MissingBadgeCriterionError extends DomainError {
-  constructor(message = 'Vous devez définir au moins un critère pour créer ce résultat thématique.') {
+class NotFoundError extends DomainError {
+  constructor(message = 'Erreur, ressource introuvable.') {
     super(message);
-  }
-}
-
-class AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError extends DomainError {
-  constructor() {
-    super('Autonomous course requires a target profile with simplified access.');
   }
 }
 
@@ -172,27 +166,33 @@ class TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization extends Doma
   }
 }
 
+class UserNotAuthorizedToAccessEntityError extends DomainError {
+  constructor(message = 'User is not authorized to access ressource') {
+    super(message);
+  }
+}
+
 export {
   DomainError,
   AlreadyExistingEntityError,
   AssessmentEndedError,
   AssessmentResultNotCreatedError,
-  ForbiddenAccess,
-  EntityValidationError,
+  AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
   CertificationAttestationGenerationError,
   CsvImportError,
+  EntityValidationError,
+  ForbiddenAccess,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultTokenError,
   InvalidTemporaryKeyError,
-  MissingAssessmentId,
-  NotFoundError,
-  UserNotAuthorizedToAccessEntityError,
-  NoCertificationAttestationForDivisionError,
   LanguageNotSupportedError,
   LocaleFormatError,
   LocaleNotSupportedError,
+  MissingAssessmentId,
   MissingBadgeCriterionError,
-  AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
+  NoCertificationAttestationForDivisionError,
+  NotFoundError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
+  UserNotAuthorizedToAccessEntityError,
 };
