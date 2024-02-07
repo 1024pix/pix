@@ -18,13 +18,18 @@ class QROCMForAnswerVerification extends QROCM {
     this.feedbacks = feedbacks;
 
     this.#solution = new QrocmSolutions(proposals);
-    this.solutions = this.#solution.value;
-    this.tolerances = this.#solution.tolerances;
+    this.solutionValues = this.#solution.value;
+    this.solutionTolerances = this.#solution.tolerances;
 
     if (validator) {
       this.validator = validator;
     } else {
-      this.validator = new ValidatorQROCMInd({ solution: { value: this.solutions } });
+      this.validator = new ValidatorQROCMInd({
+        solution: {
+          value: this.solutionValues,
+          enabledTreatments: this.solutionTolerances,
+        },
+      });
     }
   }
 
@@ -44,7 +49,7 @@ class QROCMForAnswerVerification extends QROCM {
     return new QrocmCorrectionResponse({
       status: validation.result,
       feedback: validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid,
-      solution: this.solutions,
+      solution: this.solutionValues,
     });
   }
 

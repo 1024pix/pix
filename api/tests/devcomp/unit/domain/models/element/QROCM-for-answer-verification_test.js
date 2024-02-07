@@ -51,11 +51,11 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
       });
 
       // then
-      expect(qrocm.solutions).deep.equal({
+      expect(qrocm.solutionValues).deep.equal({
         inputBlock: ['@'],
         selectBlock: ['2'],
       });
-      expect(qrocm.tolerances).deep.equal(['t1', 't2', 't3']);
+      expect(qrocm.solutionTolerances).deep.equal(['t1', 't2', 't3']);
       expect(qrocm.feedbacks).deep.equal({
         valid: 'Bravo!',
         invalid: 'Mince!',
