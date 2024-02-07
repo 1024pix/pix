@@ -138,6 +138,10 @@ class Challenge {
     this.minimumCapability = this.difficulty - Math.log(1 / successProbabilityThreshold - 1) / this.discriminant;
   }
 
+  get locale() {
+    return this.locales?.sort()[0];
+  }
+
   _isCompliant(type) {
     return this.responsive?.includes(type);
   }
