@@ -214,7 +214,6 @@ class OidcAuthenticationService {
       firstName: userInfo.given_name,
       lastName: userInfo.family_name,
       externalIdentityId: userInfo.sub,
-      nonce: userInfo.nonce,
     };
 
     if (this.claimsToStore) {
