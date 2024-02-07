@@ -586,15 +586,15 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         const screen = await visit('/target-profiles/1');
         await clickByName('Clés de lecture');
         await clickByName('Nouveau résultat thématique');
-        await fillByLabel('Nom du résultat thématique :', 'Mon nouveau RT');
+        await fillByLabel(/Nom du résultat thématique :/, 'Mon nouveau RT');
         await fillByLabel("Nom de l'image (svg) :", 'troll.png');
-        await fillByLabel("Texte alternatif pour l'image :", 'Je mets du png je fais ce que je veux');
+        await fillByLabel(/Texte alternatif pour l'image :/, 'Je mets du png je fais ce que je veux');
         await fillByLabel('Message :', 'message de mon RT');
-        await fillByLabel("Clé (texte unique , vérifier qu'il n'existe pas) :", 'MY_BADGE');
-        await clickByName('Certifiable :');
-        await clickByName('Lacunes :');
-        await clickByName("Sur l'ensemble du profil cible");
-        await clickByName('Sur une sélection de sujets du profil cible');
+        await fillByLabel(/Clé/, 'MY_BADGE');
+        await clickByName('Certifiable');
+        await clickByName('Lacunes');
+        await clickByName("sur l'ensemble du profil cible");
+        await clickByName('sur une sélection de sujets du profil cible');
         await clickByName('Ajouter une nouvelle sélection de sujets');
 
         const [tubeGroupNameInput] = screen.getAllByLabelText('Nom du critère :');

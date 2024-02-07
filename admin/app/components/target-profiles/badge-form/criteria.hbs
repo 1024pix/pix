@@ -1,22 +1,26 @@
-<Card @title="Définir un ou plusieurs critères d'obtention">
-  <p>
-    Vous pouvez définir des critères de réussite du résultat thématique sur une liste de sujets ET/OU sur l’ensemble du
-    profil cible. Toutes les conditions devront être remplies pour obtenir le résultat thématique.
-  </p>
+<Card @title="Critères d'obtention du résultat thématique">
+  <PixMessage @type="info" @withIcon={{true}}>
+    Vous pouvez définir des critères de réussite du résultat thématique
+    <strong>sur une liste de sujets ET/OU sur l’ensemble du profil cible</strong>.
+    <br />
+    <strong>Toutes les conditions devront être remplies</strong>
+    pour obtenir le résultat thématique.
+  </PixMessage>
   <div class="badge-form-criteria-choice">
+    <p>Définir un critère d'obtention&nbsp;:</p>
     <PixCheckbox
       @id="hasCampaignCriterion"
       @checked={{this.hasCampaignCriterion}}
       {{on "change" this.onHasCampaignCriterionChange}}
     >
-      Sur l'ensemble du profil cible
+      sur l'ensemble du profil cible
     </PixCheckbox>
     <PixCheckbox
       @id="hasCappedTubesCriteria"
       @checked={{this.hasCappedTubesCriteria}}
       {{on "change" this.onHasCappedTubesCriteriaChange}}
     >
-      Sur une sélection de sujets du profil cible
+      sur une sélection de sujets du profil cible
     </PixCheckbox>
   </div>
   {{#if this.hasCampaignCriterion}}
