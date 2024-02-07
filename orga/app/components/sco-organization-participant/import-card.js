@@ -1,0 +1,21 @@
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
+
+export default class ScoImport extends Component {
+  @service currentUser;
+  @service session;
+  @service intl;
+
+  get supportedFormats() {
+    if (this.currentUser.isSCOManagingStudents) {
+      return ['.xml', '.zip'];
+    } else if (this.currentUser.isAgriculture) {
+      return ['.csv'];
+    } else return [];
+  }
+
+  get acceptedFileType() {
+    const types = this.supportedFormats.join(this.intl.t('pages.organization-participants-import.file-type-separator'));
+    return this.intl.t('pages.organization-participants-import.supported-formats', { types });
+  }
+}

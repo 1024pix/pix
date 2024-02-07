@@ -6,9 +6,14 @@
     {{t "pages.organization-participants-import.actions.replace.details"}}
   </p>
 
-  <PixButton @triggerAction={{this.toggleModal}}>
-    {{t "pages.organization-participants-import.actions.replace.label"}}
-  </PixButton>
+  <div class="import-students-page-section__button-and-type">
+    <PixButton @triggerAction={{this.toggleModal}} @size="small">
+      {{t "pages.organization-participants-import.actions.replace.label"}}
+    </PixButton>
+    <p class="import-students-page-section__details">
+      {{t "pages.organization-participants-import.supported-formats" types=".csv"}}
+    </p>
+  </div>
 
   <SupOrganizationParticipant::Modal::ReplaceStudentsModal
     @onClose={{this.toggleModal}}

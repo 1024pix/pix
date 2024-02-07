@@ -5,7 +5,12 @@
   <p class="import-students-page-section__details">
     {{t "pages.organization-participants-import.actions.add-sup.details"}}
   </p>
-  <PixButtonUpload @id="students-file-upload-add" @size="small" @onChange={{@onAddStudents}} accept=".csv">
-    {{t "pages.organization-participants-import.actions.add-sup.label"}}
-  </PixButtonUpload>
+  <div class="import-students-page-section__button-and-type">
+    <PixButtonUpload @id="students-file-upload-add" @size="small" @onChange={{@onAddStudents}} accept=".csv">
+      {{t "pages.organization-participants-import.actions.add-sup.label"}}
+    </PixButtonUpload>
+    <p class="import-students-page-section__details">
+      {{t "pages.organization-participants-import.supported-formats" types=".csv"}}
+    </p>
+  </div>
 </section>
