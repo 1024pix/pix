@@ -35,27 +35,60 @@ module('Integration | Component | challenge actions', function (hooks) {
 
   module('when user has focused out', function () {
     module('when assessent is of type certification', function () {
-      test("should show certification focus out's error message", async function (assert) {
-        // given
-        this.set('isValidateButtonEnabled', true);
-        this.set('isCertification', true);
-        this.set('hasFocusedOutOfWindow', true);
-        this.set('hasChallengeTimedOut', false);
-        this.set('isSkipButtonEnabled', true);
-        this.set('validateActionStub', () => {});
+      module('when certification course version is 2', function () {
+        test("should show certification focus out's error message", async function (assert) {
+          // given
+          this.set('isValidateButtonEnabled', true);
+          this.set('isCertification', true);
+          this.set('hasFocusedOutOfWindow', true);
+          this.set('hasChallengeTimedOut', false);
+          this.set('isSkipButtonEnabled', true);
+          this.set('validateActionStub', () => {});
+          this.set('certificationVersion', 2);
 
-        // when
-        await render(hbs`<ChallengeActions
+          // when
+          await render(hbs`<ChallengeActions
                             @isCertification={{this.isCertification}}
                             @validateAnswer={{this.validateActionStub}}
                             @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
                             @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
                             @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
-                            @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>`);
+                            @isSkipButtonEnabled={{this.isSkipButtonEnabled}}
+                            @certificationVersion={{this.certificationVersion}}/>`);
 
-        // then
-        assert.dom('[data-test="certification-focused-out-error-message"]').exists();
-        assert.dom('[data-test="default-focused-out-error-message"]').doesNotExist();
+          // then
+          assert.dom('[data-test="default-focused-out-error-message"]').doesNotExist();
+          assert.dom('[data-test="certification-v3-focused-out-error-message"]').doesNotExist();
+          assert.dom('[data-test="certification-focused-out-error-message"]').exists();
+        });
+      });
+
+      module('when certification course version is 3', function () {
+        test("should show certification focus out's error message", async function (assert) {
+          // given
+          this.set('isValidateButtonEnabled', true);
+          this.set('isCertification', true);
+          this.set('hasFocusedOutOfWindow', true);
+          this.set('hasChallengeTimedOut', false);
+          this.set('isSkipButtonEnabled', true);
+          this.set('validateActionStub', () => {});
+          this.set('certificationVersion', 3);
+
+          // when
+          await render(hbs`<ChallengeActions
+                            @isCertification={{this.isCertification}}
+                            @validateAnswer={{this.validateActionStub}}
+                            @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
+                            @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+                            @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+                            @isSkipButtonEnabled={{this.isSkipButtonEnabled}}
+                            @certificationVersion={{this.certificationVersion}}/>`);
+
+          // then
+          assert.dom('[data-test="default-focused-out-error-message"]').doesNotExist();
+          assert.dom('[data-test="certification-focused-out-error-message"]').doesNotExist();
+          assert.dom('[data-test="certification-v3-focused-out-error-message"]').exists();
+        });
       });
     });
 

@@ -692,8 +692,9 @@
         "waiting-information": "En attente du surveillant..."
       },
       "has-focused-out-of-window": {
-        "certification": "We have detected a page switch. Your answer will not be validated.'<br>'If you have been forced to change pages, please inform your invigilator and answer the question in their presence.",
-        "default": "We have detected a page switch.'<br>'During a certification test, your answer would not be validated."
+        "certification": "We have detected a page switch. Your answer will not be validated. If you have been forced to change pages, please inform your invigilator and answer the question in their presence.",
+        "default": "We have detected a page switch.'<br>'During a certification test, your answer would not be validated.",
+        "v3-certification": "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse.'<br>'Si vous avez été contraint de changer de page, prévenez votre surveillant afin qu'il puisse le constater et le signaler, le cas échéant."
       },
       "illustration": {
         "placeholder": "Image loading"
