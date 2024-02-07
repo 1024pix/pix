@@ -158,7 +158,13 @@ class OidcAuthenticationService {
   }
 
   async exchangeCodeForTokens({ code, nonce, state, sessionState }) {
-    const tokenSet = await this.client.callback(this.redirectUri, { code, state }, { nonce, state: sessionState });
+    let tokenSet;
+
+    try {
+      tokenSet = await this.client.callback(this.redirectUri, { code, state }, { nonce, state: sessionState });
+    } catch (error) {
+      throw new OidcError({ message: error.message });
+    }
 
     const {
       access_token: accessToken,
