@@ -1,0 +1,37 @@
+.import-card {
+  @extend %pix-shadow-xs;
+  @extend %pix-body-m;
+
+  min-width: 50%;
+  padding: var(--pix-spacing-6x);
+  text-align: center;
+  background-color: var(--pix-neutral-0);
+  border-radius: 8px;
+
+  &__title {
+    @extend %pix-title-xs;
+
+    margin-bottom: var(--pix-spacing-6x);
+  }
+
+  &__details {
+    width: fit-content;
+    margin: 0 auto var(--pix-spacing-4x) auto;
+    text-align: initial;
+  }
+
+  &__sub-title {
+    margin-bottom: var(--pix-spacing-3x);
+  }
+
+  &__list {
+    margin-left: var(--pix-spacing-3x);
+    list-style-position: inside;
+    list-style-type: disc;
+  }
+
+  &__button {
+    width: fit-content;
+    margin: 0 auto var(--pix-spacing-2x) auto;
+  }
+}

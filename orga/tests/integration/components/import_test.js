@@ -46,10 +46,11 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
         )
         .exists();
 
-      assert.dom(screen.getByText(this.intl.t('pages.organization-participants-import.sup.description'))).exists();
       assert
         .dom(
-          screen.getByText(this.intl.t('pages.organization-participants-import.supported-formats', { types: '.csv' })),
+          screen.getAllByText(
+            this.intl.t('pages.organization-participants-import.supported-formats', { types: '.csv' }),
+          )[0],
         )
         .exists();
       assert.dom(screen.queryByText(this.intl.t('common.loading'))).doesNotExist();
@@ -232,11 +233,11 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       // when
       const screen = await render(
         hbs`<Import
-    @onImportSupStudents={{this.onImportSupStudents}}
-    @onImportScoStudents={{this.onImportScoStudents}}
-    @onReplaceStudents={{this.onReplaceStudents}}
-    @isLoading={{this.isLoading}}
-  />`,
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
       );
 
       // then
@@ -248,15 +249,15 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
 
       const screen = await render(
         hbs`<Import
-    @onImportSupStudents={{this.onImportSupStudents}}
-    @onImportScoStudents={{this.onImportScoStudents}}
-    @onReplaceStudents={{this.onReplaceStudents}}
-    @isLoading={{this.isLoading}}
-  />`,
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
       );
 
       const file = new Blob(['foo'], { type: 'valid-file' });
-      const input = screen.getByLabelText(this.intl.t('pages.organization-participants-import.sco.title'));
+      const input = screen.getByLabelText(this.intl.t('pages.organization-participants-import.actions.add-sco.label'));
 
       await triggerEvent(input, 'change', { files: [file] });
 
@@ -267,11 +268,11 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       this.set('isLoading', true);
       const screen = await render(
         hbs`<Import
-    @onImportSupStudents={{this.onImportSupStudents}}
-    @onImportScoStudents={{this.onImportScoStudents}}
-    @onReplaceStudents={{this.onReplaceStudents}}
-    @isLoading={{this.isLoading}}
-  />`,
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
       );
       assert.dom(await screen.findByText(this.intl.t('pages.organization-participants-import.information'))).exists();
     });
@@ -292,11 +293,11 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       this.set('isLoading', true);
       const screen = await render(
         hbs`<Import
-    @onImportSupStudents={{this.onImportSupStudents}}
-    @onImportScoStudents={{this.onImportScoStudents}}
-    @onReplaceStudents={{this.onReplaceStudents}}
-    @isLoading={{this.isLoading}}
-  />`,
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
       );
 
       assert.dom(await screen.findByText(this.intl.t('pages.organization-participants-import.information'))).exists();
