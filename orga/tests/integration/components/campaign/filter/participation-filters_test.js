@@ -798,7 +798,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
   @selectedDivisions={{this.selectedDivisions}}
 />`,
         );
-        await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.divisions.placeholder')));
+        await click(screen.getByLabelText(this.intl.t('common.filters.divisions.label')));
         await click(
           await screen.findByRole('checkbox', {
             name: 'd1',

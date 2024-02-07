@@ -10,35 +10,33 @@
   <Ui::SearchInputFilter
     @field="search"
     @value={{@searchFilter}}
-    @placeholder={{t "pages.sco-organization-participants.filter.search.label"}}
-    @ariaLabel={{t "pages.sco-organization-participants.filter.search.aria-label"}}
+    @placeholder={{t "pages.sco-organization-participants.filter.search.placeholder"}}
+    @label={{t "pages.sco-organization-participants.filter.search.label"}}
     @triggerFiltering={{@onFilter}}
   />
 
   <Ui::MultiSelectFilter
     @field="divisions"
-    @title={{t "pages.sco-organization-participants.filter.division.label"}}
+    @label={{t "pages.sco-organization-participants.filter.division.label"}}
     @onSelect={{@onFilter}}
     @selectedOption={{@divisionsFilter}}
     @isLoading={{@isLoadingDivisions}}
     @options={{@divisionsOptions}}
     @placeholder={{t "pages.sco-organization-participants.filter.division.label"}}
-    @ariaLabel={{t "pages.sco-organization-participants.filter.division.aria-label"}}
     @emptyMessage={{t "pages.sco-organization-participants.filter.division.empty"}}
   />
 
   <Ui::MultiSelectFilter
     @field="connectionTypes"
-    @title={{t "pages.sco-organization-participants.filter.login-method.aria-label"}}
+    @label={{t "pages.sco-organization-participants.filter.login-method.label"}}
     @onSelect={{@onFilter}}
     @selectedOption={{@connectionTypeFilter}}
     @options={{@connectionTypesOptions}}
     @placeholder={{t "pages.sco-organization-participants.filter.login-method.empty-option"}}
-    @ariaLabel={{t "pages.sco-organization-participants.filter.login-method.aria-label"}}
   />
   <Ui::MultiSelectFilter
     @field="certificability"
-    @title={{t "pages.sco-organization-participants.filter.certificability.label"}}
+    @label={{t "pages.sco-organization-participants.filter.certificability.label"}}
     @onSelect={{@onFilter}}
     @selectedOption={{@certificabilityFilter}}
     @options={{this.certificabilityOptions}}

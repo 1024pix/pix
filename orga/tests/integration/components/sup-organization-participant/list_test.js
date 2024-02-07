@@ -336,7 +336,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       );
 
       // when
-      await fillByLabel(this.intl.t('pages.sup-organization-participants.filter.search.aria-label'), 'Bob M');
+      await fillByLabel(this.intl.t('pages.sup-organization-participants.filter.search.label'), 'Bob M');
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'search', 'Bob M');
