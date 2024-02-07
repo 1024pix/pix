@@ -1,5 +1,36 @@
 # Pix Changelog
 
+## v4.99.0 (07/02/2024)
+
+
+### :rocket: Amélioration
+- [#7974](https://github.com/1024pix/pix/pull/7974) [FEATURE] Accéder à la page de fin de module via l'URL (PIX-11026).
+- [#7979](https://github.com/1024pix/pix/pull/7979) [FEATURE] Ajout d'un module "Mots de passe sécurisés" .
+
+### :building_construction: Tech
+- [#7980](https://github.com/1024pix/pix/pull/7980) [TECH]: ajoute les variable d'env du s3 local  pour les tests.
+- [#7940](https://github.com/1024pix/pix/pull/7940) [TECH] Stocke les fichiers d'import dans un bucket S3 (PIX-10927).
+- [#7968](https://github.com/1024pix/pix/pull/7968) [TECH] Migrer le cycle de vie d'une participation dans son Bounded Context (PIX-11022).
+
+### :bug: Correction
+- [#7991](https://github.com/1024pix/pix/pull/7991) [BUGFIX] Corriger l'extraction des résultats d'une collecte de profil en csv(PIX-11096).
+- [#7984](https://github.com/1024pix/pix/pull/7984) [BUGFIX] Utiliser les tolérances lors de la vérification des QROCM-ind (PIX-11007).
+- [#7953](https://github.com/1024pix/pix/pull/7953) [BUGFIX] Vérifier le remplissage de sujets lors de la création des badges (PIX-10969).
+- [#7932](https://github.com/1024pix/pix/pull/7932) [BUGFIX] Ne plus appeler la route API pour récupérer tous les oidc providers juste après la connexion sur Pix Admin (PIX-10964).
+- [#7900](https://github.com/1024pix/pix/pull/7900) [BUGFIX] Ne plus écraser les données de l'assessment-result lors de la mise à jour des commentaires d'une certification sur Pix Admin (PIX-10433).
+
+### :arrow_up: Montée de version
+- [#7993](https://github.com/1024pix/pix/pull/7993) [BUMP] Update adobe/s3mock Docker tag to v3.3.0 (.circleci).
+- [#7990](https://github.com/1024pix/pix/pull/7990) [BUMP] Update dependency npm-run-all2 to v5.0.2 (e2e).
+- [#7987](https://github.com/1024pix/pix/pull/7987) [BUMP] Replace dependency npm-run-all with npm-run-all2 ^5.0.0 (mon-pix).
+- [#7989](https://github.com/1024pix/pix/pull/7989) [BUMP] Replace dependency npm-run-all with npm-run-all2 ^5.0.0 (orga).
+- [#7986](https://github.com/1024pix/pix/pull/7986) [BUMP] Replace dependency npm-run-all with npm-run-all2 ^5.0.0 (dossier racine).
+- [#7985](https://github.com/1024pix/pix/pull/7985) [BUMP] Replace dependency npm-run-all with npm-run-all2 ^5.0.0 (api).
+- [#7983](https://github.com/1024pix/pix/pull/7983) [BUMP] Replace dependency npm-run-all with npm-run-all2 ^5.0.0 (admin).
+- [#7982](https://github.com/1024pix/pix/pull/7982) [BUMP] Replace dependency npm-run-all with npm-run-all2 ^5.0.0 (1d).
+- [#7930](https://github.com/1024pix/pix/pull/7930) [BUMP] Replace dependency npm-run-all with npm-run-all2 5.0.0 (e2e).
+- [#7954](https://github.com/1024pix/pix/pull/7954) [BUMP] Update dependency nodemailer to v6.9.9 [SECURITY].
+
 ## v4.98.0 (06/02/2024)
 
 
