@@ -1220,6 +1220,12 @@
       "qrocm": {
         "direction": "Remplissez les champs vides."
       },
+      "recap": {
+        "title": "Bravo ! Module terminé",
+        "backToModuleDetails": "Revenir aux détails du module",
+        "goToForm": "Répondre au questionnaire",
+        "subtitle": "Vous savez maintenant '<span aria-hidden=\"true\">'👍'</span>'"
+      },
       "verification-precondition-failed-alert": {
         "qcu": "Pour valider, sélectionnez une réponse.",
         "qrocm": "Pour valider, veuillez remplir tous les champs réponse."

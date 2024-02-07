@@ -1220,6 +1220,12 @@
       "qrocm": {
         "direction": "Fill in the empty fields."
       },
+      "recap": {
+        "title": "Congratulations! Module completed",
+        "backToModuleDetails": "Back to module details",
+        "goToForm": "Répondre au questionnaire",
+        "subtitle": "Now you know '<span aria-hidden=\"true\">'👍'</span>'"
+      },
       "verification-precondition-failed-alert": {
         "qcu": "To validate, select an answer.",
         "qrocm": "To validate, please complete all response fields."
