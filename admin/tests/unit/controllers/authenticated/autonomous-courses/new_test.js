@@ -133,6 +133,31 @@ module('Unit | Controller | authenticated/autonomous-courses/new', function (hoo
       assert.ok(controller.notifications.error.calledWith('Le profil cible ne correspond pas'));
     });
 
+    test('it should display error message from API when it receives an "user does not have access to the organization" error message', async function (assert) {
+      // given
+      const autonomousCourse = {
+        targetProfileId: 32,
+      };
+      controller.notifications = {
+        error: sinon.stub(),
+      };
+      const errors = {
+        errors: [{ status: '403', detail: 'User does not have an access to the organization 14' }],
+      };
+      const saveStub = sinon.stub().rejects(errors);
+      controller.store.createRecord = sinon.stub().returns({ save: saveStub });
+      const event = {
+        preventDefault: sinon.stub(),
+      };
+
+      // when
+      await controller.createAutonomousCourse(event, autonomousCourse);
+
+      // then
+      assert.ok(saveStub.called);
+      assert.ok(controller.notifications.error.calledWith('User does not have an access to the organization 14'));
+    });
+
     test('it should display not selected target profile error notification when autonomous-course is saved without target profile', async function (assert) {
       // given
 
