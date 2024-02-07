@@ -4,7 +4,7 @@
   margin: var(--pix-spacing-6x);
   padding: var(--pix-spacing-4x) var(--pix-spacing-4x) var(--pix-spacing-12x) var(--pix-spacing-4x);
   background-color: var(--pix-primary-100);
-  border-radius: 16px;
+  border-radius: var(--modulix-radius);
 
   &__header {
     margin-bottom: var(--pix-spacing-6x);
@@ -36,7 +36,7 @@
     margin: 0 auto var(--pix-spacing-8x) auto;
     padding: var(--pix-spacing-8x) var(--pix-spacing-6x);
     background-color: var(--pix-primary-10);
-    border-radius: 16px;
+    border-radius: var(--modulix-radius);
   }
 }
 
