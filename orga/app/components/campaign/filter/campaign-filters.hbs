@@ -11,7 +11,7 @@
     @field="name"
     @value={{@nameFilter}}
     @placeholder={{t "pages.campaigns-list.filter.by-name"}}
-    @ariaLabel={{t "pages.campaigns-list.filter.by-name"}}
+    @label={{t "pages.campaigns-list.filter.by-name"}}
     @triggerFiltering={{@onFilter}}
   />
   {{#unless @listOnlyCampaignsOfCurrentUser}}
@@ -19,7 +19,7 @@
       @field="ownerName"
       @value={{@ownerNameFilter}}
       @placeholder={{t "pages.campaigns-list.filter.by-owner"}}
-      @ariaLabel={{t "pages.campaigns-list.filter.by-owner"}}
+      @label={{t "pages.campaigns-list.filter.by-owner"}}
       @triggerFiltering={{@onFilter}}
     />
   {{/unless}}

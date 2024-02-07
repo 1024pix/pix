@@ -52,6 +52,9 @@
     }
   },
   "banners": {
+    "certification": {
+      "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finaliser les sessions dans Pix Certif'</a>' puis de télécharger les attestations ici via l'onglet “Certifications” avant la rentrée 2023."
+    },
     "import": {
       "message": "The administrator can download certification results and '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'import'</a>' the students database to create back-to-school campaigns by year level. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Learn more'</a>'"
     }
@@ -167,8 +170,9 @@
     "breadcrumb": "Breadcrumb",
     "filters": {
       "divisions": {
-        "title": "Classes",
-        "empty": "No class"
+        "empty": "No class",
+        "label": "Search by classes",
+        "placeholder": "Classes"
       },
       "loading": "Loading..."
     },
@@ -485,9 +489,6 @@
         "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
         "type": {
           "badges": "Thematic results",
-          "divisions": {
-            "placeholder": "Classes"
-          },
           "groups": {
             "title": "Groups",
             "empty": "No group"
@@ -781,10 +782,6 @@
               "status": "Status"
             },
             "row-title": "Participation"
-          },
-          "type": {
-            "ASSESSMENT": "Assessment",
-            "PROFILES_COLLECTION": "Profiles collection"
           }
         },
         "participations-title": "List of all the participations",
@@ -836,7 +833,7 @@
             "placeholder": "Search by certificability"
           },
           "fullName": {
-            "title": "Search by last name and first name",
+            "label": "Search by last name and first name",
             "placeholder": "Last name, first name"
           }
         }
@@ -987,25 +984,22 @@
           "placeholder": "Search by certificability"
         },
         "division": {
-          "aria-label": "Enter a class",
           "empty": "No class",
           "label": "Search by class"
         },
         "first-name": {
-          "aria-label": "Enter a first name",
           "label": "Search by first name"
         },
         "last-name": {
-          "aria-label": "Enter a last name",
           "label": "Search by last name"
         },
         "login-method": {
-          "aria-label": "Search by log in method",
-          "empty-option": "Log in method"
+          "empty-option": "Log in method",
+          "label": "Search by log in method"
         },
         "search": {
-          "aria-label": "Search by last name and first name",
-          "label": "Last name, first name"
+          "label": "Search by last name and first name",
+          "placeholder": "Last name, first name"
         },
         "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}"
       },
@@ -1159,17 +1153,17 @@
           "placeholder": "Search by certificability"
         },
         "group": {
-          "aria-label": "Enter a group",
           "empty": "No group",
-          "label": "Search by group"
+          "label": "Enter a group",
+          "placeholder": "Search by group"
         },
         "search": {
-          "aria-label": "Search by last name and first name",
-          "label": "Last name, first name"
+          "label": "Search by last name and first name",
+          "placeholder": "Last name, first name"
         },
         "student-number": {
-          "aria-label": "Enter a student number",
-          "label": "Search by student number"
+          "label": "Enter a student number",
+          "placeholder": "Search by student number"
         },
         "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}"
       },
