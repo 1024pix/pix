@@ -34,7 +34,7 @@ executors:
     docker:
       - image: cimg/node:<<parameters.node-version>>
     resource_class: small
-  node-redis-postgres-docker:
+  node-redis-postgres-s3-docker:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
@@ -47,6 +47,9 @@ executors:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
       - image: redis:7.2.3-alpine
+      - image: adobe/s3mock:3.1.0
+        environment:
+          - initialBuckets=pix-import-test
     resource_class: small
   node-browsers-docker:
     parameters:
@@ -278,7 +281,7 @@ jobs:
 
   api_lint:
     executor:
-      name: node-redis-postgres-docker
+      name: node-redis-postgres-s3-docker
     working_directory: ~/pix/api
     steps:
       - attach_workspace:
@@ -293,7 +296,7 @@ jobs:
 
   api_test:
     executor:
-      name: node-redis-postgres-docker
+      name: node-redis-postgres-s3-docker
     working_directory: ~/pix/api
     steps:
       - attach_workspace:
@@ -304,6 +307,8 @@ jobs:
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
             TEST_REDIS_URL: redis://localhost:6379
+            TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
+            TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
             MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
             MOCHA_REPORTER: mocha-junit-reporter
           when: always
