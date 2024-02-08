@@ -933,12 +933,6 @@ class UnableToAttachChildOrganizationToParentOrganizationError extends DomainErr
   }
 }
 
-class UnexpectedOidcStateError extends DomainError {
-  constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
-    super(message);
-  }
-}
-
 class OidcMissingFieldsError extends DomainError {
   constructor(
     message = 'Mandatory information returned by the identify provider about the user is missing.',
@@ -1217,7 +1211,6 @@ export {
   UnableToAttachChildOrganizationToParentOrganizationError,
   UncancellableCertificationCenterInvitationError,
   UncancellableOrganizationInvitationError,
-  UnexpectedOidcStateError,
   UnexpectedUserAccountError,
   UnknownCountryForStudentEnrolmentError,
   UserAlreadyExistsWithAuthenticationMethodError,
