@@ -1,20 +1,27 @@
 import lodash from 'lodash';
 import jsonwebtoken from 'jsonwebtoken';
+import querystring from 'querystring';
 import { randomUUID } from 'crypto';
-import { Issuer } from 'openid-client';
 
 import { logger } from '../../../infrastructure/logger.js';
-import { OidcMissingFieldsError, OidcUserInfoFormatError } from '../../errors.js';
+import {
+  InvalidExternalAPIResponseError,
+  OidcInvokingTokenEndpointError,
+  OidcMissingFieldsError,
+  OidcUserInfoFormatError,
+} from '../../errors.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';
 import { config } from '../../../../src/shared/config.js';
+import { httpAgent } from '../../../infrastructure/http/http-agent.js';
+import * as httpErrorsHelper from '../../../infrastructure/http/errors-helper.js';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
 import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../constants.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 
 const DEFAULT_REQUIRED_PROPERTIES = ['clientId', 'clientSecret', 'authenticationUrl', 'userInfoUrl', 'tokenUrl'];
-const DEFAULT_SCOPE = 'openid profile';
+
 const DEFAULT_REQUIRED_CLAIMS = ['sub', 'family_name', 'given_name'];
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
@@ -22,51 +29,46 @@ const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session
 class OidcAuthenticationService {
   #isReady = false;
   #isReadyForPixAdmin = false;
+
   #requiredClaims = Array.from(DEFAULT_REQUIRED_CLAIMS);
 
   constructor(
     {
-      additionalRequiredProperties,
-      authenticationUrl,
-      extraAuthorizationUrlParameters,
-      claimsToStore,
-      clientId,
-      clientSecret,
-      configKey,
-      endSessionUrl,
-      hasLogoutUrl = false,
       identityProvider,
-      jwtOptions,
-      organizationName,
-      postLogoutRedirectUri,
-      redirectUri,
-      scope = DEFAULT_SCOPE,
-      slug,
+      configKey,
       source,
+      slug,
+      organizationName,
+      hasLogoutUrl = false,
+      jwtOptions,
+      clientSecret,
+      clientId,
       tokenUrl,
+      authenticationUrl,
+      authenticationUrlParameters,
       userInfoUrl,
-      openidConfigurationUrl,
+      endSessionUrl,
+      postLogoutRedirectUri,
+      additionalRequiredProperties,
+      claimsToStore,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
-    this.authenticationUrl = authenticationUrl;
-    this.extraAuthorizationUrlParameters = extraAuthorizationUrlParameters;
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
-    this.configKey = configKey;
-    this.endSessionUrl = endSessionUrl;
-    this.hasLogoutUrl = hasLogoutUrl;
     this.identityProvider = identityProvider;
-    this.jwtOptions = jwtOptions;
-    this.organizationName = organizationName;
-    this.postLogoutRedirectUri = postLogoutRedirectUri;
-    this.redirectUri = redirectUri;
-    this.scope = scope;
-    this.slug = slug;
+    this.configKey = configKey;
     this.source = source;
+    this.slug = slug;
+    this.organizationName = organizationName;
+    this.hasLogoutUrl = hasLogoutUrl;
+    this.jwtOptions = jwtOptions;
+    this.clientSecret = clientSecret;
+    this.clientId = clientId;
     this.tokenUrl = tokenUrl;
+    this.authenticationUrl = authenticationUrl;
+    this.authenticationUrlParameters = authenticationUrlParameters;
     this.userInfoUrl = userInfoUrl;
-    this.openidConfigurationUrl = openidConfigurationUrl;
+    this.endSessionUrl = endSessionUrl;
+    this.postLogoutRedirectUri = postLogoutRedirectUri;
 
     if (!lodash.isEmpty(claimsToStore)) {
       this.claimsToStore = claimsToStore;
@@ -98,8 +100,9 @@ class OidcAuthenticationService {
     const isConfigValid = missingRequiredProperties.length == 0;
     if (!isConfigValid) {
       logger.error(
-        `OIDC Provider "${this.identityProvider}" has been DISABLED because of INVALID config. ` +
-          `The following required properties are missing: ${missingRequiredProperties.join(', ')}`,
+        `Invalid config for OIDC Provider "${
+          this.identityProvider
+        }": the following required properties are missing: ${missingRequiredProperties.join(', ')}`,
       );
       return;
     }
@@ -119,19 +122,6 @@ class OidcAuthenticationService {
 
   get isReadyForPixAdmin() {
     return this.#isReadyForPixAdmin;
-  }
-
-  async createClient() {
-    try {
-      const issuer = await Issuer.discover(this.openidConfigurationUrl);
-      this.client = new issuer.Client({
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
-        redirect_uris: [this.redirectUri],
-      });
-    } catch (error) {
-      logger.error(`OIDC Provider "${this.identityProvider}" is UNAVAILABLE: ${error}`);
-    }
   }
 
   createAccessToken(userId) {
@@ -156,41 +146,59 @@ class OidcAuthenticationService {
     return uuid;
   }
 
-  async exchangeCodeForTokens({ code, nonce, state, sessionState }) {
-    const tokenSet = await this.client.callback(this.redirectUri, { code, state }, { nonce, state: sessionState });
+  async exchangeCodeForTokens({ code, redirectUri }) {
+    const data = {
+      client_secret: this.clientSecret,
+      grant_type: 'authorization_code',
+      code,
+      client_id: this.clientId,
+      redirect_uri: redirectUri,
+    };
 
-    const {
-      access_token: accessToken,
-      expires_in: expiresIn,
-      id_token: idToken,
-      refresh_token: refreshToken,
-    } = tokenSet;
+    const httpResponse = await httpAgent.post({
+      url: this.tokenUrl,
+      payload: querystring.stringify(data),
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      timeout: config.partner.fetchTimeOut,
+    });
+
+    if (!httpResponse.isSuccessful) {
+      const message = 'Erreur lors de la récupération des tokens du partenaire.';
+      const dataToLog = {
+        ...httpErrorsHelper.serializeHttpErrorResponse(httpResponse, message),
+        code: 'EXCHANGE_CODE_FOR_TOKEN',
+        requestPayload: data,
+        identityProvider: this.identityProvider,
+      };
+      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
+      throw new OidcInvokingTokenEndpointError(message);
+    }
 
     return new AuthenticationSessionContent({
-      accessToken,
-      expiresIn,
-      idToken,
-      refreshToken,
+      idToken: httpResponse.data['id_token'],
+      accessToken: httpResponse.data['access_token'],
+      expiresIn: httpResponse.data['expires_in'],
+      refreshToken: httpResponse.data['refresh_token'],
     });
   }
 
-  getAuthenticationUrl() {
+  getAuthenticationUrl({ redirectUri }) {
+    const redirectTarget = new URL(this.authenticationUrl);
     const state = randomUUID();
     const nonce = randomUUID();
-    const authorizationParameters = {
-      nonce,
-      redirect_uri: this.redirectUri,
-      scope: this.scope,
-      state,
-    };
 
-    if (this.extraAuthorizationUrlParameters) {
-      Object.assign(authorizationParameters, this.extraAuthorizationUrlParameters);
-    }
+    const params = [
+      { key: 'state', value: state },
+      { key: 'nonce', value: nonce },
+      { key: 'client_id', value: this.clientId },
+      { key: 'redirect_uri', value: redirectUri },
+      { key: 'response_type', value: 'code' },
+      ...this.authenticationUrlParameters,
+    ];
 
-    const redirectTarget = this.client.authorizationUrl(authorizationParameters);
+    params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
 
-    return { redirectTarget, state, nonce };
+    return { redirectTarget: redirectTarget.toString(), state, nonce };
   }
 
   async getUserInfo({ idToken, accessToken }) {
@@ -204,6 +212,7 @@ class OidcAuthenticationService {
       firstName: userInfo.given_name,
       lastName: userInfo.family_name,
       externalIdentityId: userInfo.sub,
+      nonce: userInfo.nonce,
     };
 
     if (this.claimsToStore) {
@@ -272,7 +281,20 @@ class OidcAuthenticationService {
   }
 
   async _getUserInfoFromEndpoint({ accessToken }) {
-    const userInfo = await this.client.userinfo(accessToken);
+    const httpResponse = await httpAgent.get({
+      url: this.userInfoUrl,
+      headers: { Authorization: `Bearer ${accessToken}` },
+      timeout: config.partner.fetchTimeOut,
+    });
+
+    if (!httpResponse.isSuccessful) {
+      const message = 'Une erreur est survenue en récupérant les informations des utilisateurs.';
+      const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(httpResponse, message);
+      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
+      throw new InvalidExternalAPIResponseError(message);
+    }
+
+    const userInfo = httpResponse.data;
 
     if (!userInfo || typeof userInfo !== 'object') {
       const message = `Les informations utilisateur renvoyées par votre fournisseur d'identité ${this.organizationName} ne sont pas au format attendu.`;
@@ -307,9 +329,10 @@ class OidcAuthenticationService {
     }
 
     const pickedUserInfo = {
-      sub: userInfo.sub,
-      family_name: userInfo.family_name,
       given_name: userInfo.given_name,
+      family_name: userInfo.family_name,
+      sub: userInfo.sub,
+      nonce: userInfo.nonce,
     };
 
     if (this.claimsToStore) {

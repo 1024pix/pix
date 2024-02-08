@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v4.100.1 (08/02/2024)
+
+### :bug: Correction
+- [#8009](https://github.com/1024pix/pix/pull/8009) [TECH] Retirer la librairie openid-client.
+
 ## v4.100.0 (08/02/2024)
 
 
