@@ -1,4 +1,3 @@
-import { FileValidationError } from '../../../../../lib/domain/errors.js';
 import { SiecleXmlImportError } from '../errors.js';
 
 import fs from 'fs/promises';
@@ -19,11 +18,9 @@ const ERRORS = {
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
 };
 
-const importOrganizationLearnersFromSIECLEFormat = async function ({
+const importOrganizationLearnersFromSIECLEXMLFormat = async function ({
   organizationId,
   payload,
-  format,
-  organizationLearnersCsvService,
   organizationLearnerRepository,
   organizationRepository,
   importStorage,
@@ -31,39 +28,28 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
     unzip: zip.unzip,
     detectEncoding,
   },
-  i18n,
 }) {
   let organizationLearnerData = [];
 
   const organization = await organizationRepository.get(organizationId);
   const path = payload.path;
 
-  if (format === 'xml') {
-    const { file: filePath, directory } = await siecleService.unzip(path);
-    const encoding = await siecleService.detectEncoding(filePath);
+  const { file: filePath, directory } = await siecleService.unzip(path);
+  const encoding = await siecleService.detectEncoding(filePath);
 
-    const filename = await importStorage.sendFile({ filepath: filePath });
+  const filename = await importStorage.sendFile({ filepath: filePath });
 
-    try {
-      if (directory) {
-        await fs.rm(directory, { recursive: true });
-      }
-      const readableStream = await importStorage.readFile({ filename });
-      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream, encoding);
-      const parser = SiecleParser.create(organization, siecleFileStreamer);
-
-      organizationLearnerData = await parser.parse();
-    } finally {
-      await importStorage.deleteFile({ filename });
+  try {
+    if (directory) {
+      await fs.rm(directory, { recursive: true });
     }
-  } else if (format === 'csv') {
-    organizationLearnerData = await organizationLearnersCsvService.extractOrganizationLearnersInformation(
-      path,
-      organization,
-      i18n,
-    );
-  } else {
-    throw new FileValidationError(ERRORS.INVALID_FILE_EXTENSION, { fileExtension: format });
+    const readableStream = await importStorage.readFile({ filename });
+    const siecleFileStreamer = await SiecleFileStreamer.create(readableStream, encoding);
+    const parser = SiecleParser.create(organization, siecleFileStreamer);
+
+    organizationLearnerData = await parser.parse();
+  } finally {
+    await importStorage.deleteFile({ filename });
   }
 
   if (isEmpty(organizationLearnerData)) {
@@ -91,4 +77,4 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
   });
 };
 
-export { importOrganizationLearnersFromSIECLEFormat };
+export { importOrganizationLearnersFromSIECLEXMLFormat };
