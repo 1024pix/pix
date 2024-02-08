@@ -386,7 +386,7 @@ const register = async function (server) {
         tags: ['api', 'organizations'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle permettant un accès à l'admin de Pix**\n" +
-            '- Elle permet de récupérer la liste des organisations enfants',
+            '- Elle permet de récupérer la liste des organisations filles',
         ],
       },
     },
@@ -412,7 +412,7 @@ const register = async function (server) {
         tags: ['api', 'admin', 'organizations'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN, METIER ou SUPPORT permettant un accès à l'application d'administration de Pix**\n" +
-            "- Elle permet d'attacher une organization parente à une organization enfant",
+            "- Elle permet d'attacher une organisation mère à une organisation fille",
         ],
       },
     },
