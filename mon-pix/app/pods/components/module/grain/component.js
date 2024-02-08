@@ -60,4 +60,9 @@ export default class ModuleGrain extends Component {
       'pix-event-name': `Click sur le bouton passer du grain : ${this.grain.id}`,
     });
   }
+
+  @action
+  terminateAction() {
+    this.args.terminateAction();
+  }
 }
