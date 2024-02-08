@@ -7,20 +7,19 @@ const configKey = CNAV.configKey;
 class CnavOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
-      authenticationUrl: config[configKey].authenticationUrl,
-      clientId: config[configKey].clientId,
-      clientSecret: config[configKey].clientSecret,
-      configKey,
-      hasLogoutUrl: false,
       identityProvider: CNAV.code,
-      jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
-      organizationName: 'CNAV',
-      redirectUri: config[configKey].redirectUri,
-      slug: 'cnav',
+      configKey,
       source: 'cnav',
-      tokenUrl: config[configKey].tokenUrl,
-      userInfoUrl: config[configKey].userInfoUrl,
-      openidConfigurationUrl: config[configKey].openidConfigurationUrl,
+      slug: 'cnav',
+      organizationName: 'CNAV',
+      hasLogoutUrl: false,
+      jwtOptions: { expiresIn: config.cnav.accessTokenLifespanMs / 1000 },
+      clientSecret: config.cnav.clientSecret,
+      clientId: config.cnav.clientId,
+      tokenUrl: config.cnav.tokenUrl,
+      authenticationUrl: config.cnav.authenticationUrl,
+      authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
+      userInfoUrl: config.cnav.userInfoUrl,
     });
   }
 }

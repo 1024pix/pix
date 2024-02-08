@@ -1,18 +1,25 @@
 import jsonwebtoken from 'jsonwebtoken';
 import querystring from 'querystring';
 
-import { createServer, expect, databaseBuilder, nock, sinon } from '../../../../test-helper.js';
+import {
+  expect,
+  databaseBuilder,
+  nock,
+  sinon,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 
+import { createServer } from '../../../../../server.js';
 import { config as settings } from '../../../../../lib/config.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
-import { oidcAuthenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
+import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 
 const uuidPattern = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
 
 describe('Acceptance | Route | oidc | token', function () {
   describe('POST /api/oidc/token', function () {
-    let server, clock, payload, cookies, oidcExampleNetProvider;
+    let server, clock, payload, cookies;
 
     beforeEach(async function () {
       server = await createServer();
@@ -22,8 +29,8 @@ describe('Acceptance | Route | oidc | token', function () {
       });
 
       const query = querystring.stringify({
-        identity_provider: 'OIDC_EXAMPLE_NET',
-        redirect_uri: 'https://app.dev.pix.org/connexion/oidc-example-net',
+        identity_provider: OidcIdentityProviders.POLE_EMPLOI.code,
+        redirect_uri: 'http://app.pix.fr/connexion/pole-emploi',
       });
       const authUrlResponse = await server.inject({
         method: 'GET',
@@ -36,16 +43,13 @@ describe('Acceptance | Route | oidc | token', function () {
       payload = {
         data: {
           attributes: {
-            identity_provider: 'OIDC_EXAMPLE_NET',
+            identity_provider: OidcIdentityProviders.POLE_EMPLOI.code,
             code: 'code',
             redirect_uri: 'redirect_uri',
             state: redirectTarget.searchParams.get('state'),
           },
         },
       };
-
-      oidcExampleNetProvider = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode('OIDC_EXAMPLE_NET');
-      sinon.stub(oidcExampleNetProvider.client, 'callback');
     });
 
     afterEach(async function () {
@@ -57,9 +61,10 @@ describe('Acceptance | Route | oidc | token', function () {
         // given
         const idToken = jsonwebtoken.sign(
           {
-            sub: 'sub',
             given_name: 'John',
             family_name: 'Doe',
+            nonce: 'nonce',
+            sub: 'sub',
           },
           'secret',
         );
@@ -71,8 +76,7 @@ describe('Acceptance | Route | oidc | token', function () {
           refresh_token: 'refresh_token',
         };
 
-        //nock('https://oidc.example.net').post('/ea5ac20c-5076-4806-860a-b0aeb01645d4/oauth2/v2.0/token').reply(200, getAccessTokenResponse);
-        oidcExampleNetProvider.client.callback.resolves(getAccessTokenResponse);
+        nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
 
         const sessionContentAndUserInfo = {
           sessionContent: new AuthenticationSessionContent({
@@ -85,6 +89,7 @@ describe('Acceptance | Route | oidc | token', function () {
             externalIdentityId: 'sub',
             firstName: 'John',
             lastName: 'Doe',
+            nonce: 'nonce',
           },
         };
 
@@ -109,66 +114,59 @@ describe('Acceptance | Route | oidc | token', function () {
       });
     });
 
-    context('When user has an account', function () {
-      it('returns 200 with access_token and logout_url_uuid', async function () {
-        // given
-        const firstName = 'John';
-        const lastName = 'Doe';
-        const externalIdentifier = 'sub';
+    it('should return 200 with access_token and logout_url_uuid', async function () {
+      // given
+      const firstName = 'John';
+      const lastName = 'Doe';
+      const externalIdentifier = 'sub';
 
-        const userId = databaseBuilder.factory.buildUser({
-          firstName,
-          lastName,
-        }).id;
+      const userId = databaseBuilder.factory.buildUser({
+        firstName,
+        lastName,
+      }).id;
 
-        databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-          identityProvider: 'OIDC_EXAMPLE_NET',
-          externalIdentifier,
-          accessToken: 'access_token',
-          refreshToken: 'refresh_token',
-          expiresIn: 1000,
-          userId,
-        });
-        await databaseBuilder.commit();
-
-        const idToken = jsonwebtoken.sign(
-          {
-            given_name: firstName,
-            family_name: lastName,
-            nonce: 'nonce',
-            sub: externalIdentifier,
-          },
-          'secret',
-        );
-        const getAccessTokenResponse = {
-          access_token: 'access_token',
-          id_token: idToken,
-          expires_in: 60,
-          refresh_token: 'refresh_token',
-        };
-        // const getAccessTokenRequest = nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
-
-        oidcExampleNetProvider.client.callback.resolves(getAccessTokenResponse);
-
-        // when
-        const response = await server.inject({
-          method: 'POST',
-          url: '/api/oidc/token',
-          headers: { cookie: cookies[0] },
-          payload,
-        });
-
-        // then
-        // expect(getAccessTokenRequest.isDone()).to.be.true;
-        expect(oidcExampleNetProvider.client.callback).to.have.been.calledOnce;
-        expect(response.statusCode).to.equal(200);
-        expect(response.result['access_token']).to.exist;
-        expect(response.result['logout_url_uuid']).to.match(uuidPattern);
+      databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+        externalIdentifier,
+        accessToken: 'access_token',
+        refreshToken: 'refresh_token',
+        expiresIn: 1000,
+        userId,
       });
+      await databaseBuilder.commit();
+
+      const idToken = jsonwebtoken.sign(
+        {
+          given_name: firstName,
+          family_name: lastName,
+          nonce: 'nonce',
+          sub: externalIdentifier,
+        },
+        'secret',
+      );
+      const getAccessTokenResponse = {
+        access_token: 'access_token',
+        id_token: idToken,
+        expires_in: 60,
+        refresh_token: 'refresh_token',
+      };
+      const getAccessTokenRequest = nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
+
+      // when
+      const response = await server.inject({
+        method: 'POST',
+        url: '/api/oidc/token',
+        headers: { Authorization: generateValidRequestAuthorizationHeader(userId), cookie: cookies[0] },
+        payload,
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(getAccessTokenRequest.isDone()).to.be.true;
+      expect(response.result['access_token']).to.exist;
+      expect(response.result['logout_url_uuid']).to.match(uuidPattern);
     });
 
-    // eslint-disable-next-line mocha/no-skipped-tests
-    context.skip('when the identity provider token route API does not respond within timeout', function () {
+    context('when the identity provider token route API does not respond within timeout', function () {
       it('should return 422', async function () {
         // given
         const firstName = 'John';
@@ -204,9 +202,10 @@ describe('Acceptance | Route | oidc | token', function () {
           expires_in: 60,
           refresh_token: 'refresh_token',
         };
+
         const TIMEOUT_MILLISECONDS = 10;
-        const getAccessTokenRequest = nock('https://oidc.example.net')
-          .post('/ea5ac20c-5076-4806-860a-b0aeb01645d4/oauth2/v2.0/token')
+        const getAccessTokenRequest = nock(settings.poleEmploi.tokenUrl)
+          .post('/')
           .delay(TIMEOUT_MILLISECONDS)
           .reply(200, getAccessTokenResponse);
 
@@ -214,7 +213,7 @@ describe('Acceptance | Route | oidc | token', function () {
         const response = await server.inject({
           method: 'POST',
           url: '/api/oidc/token',
-          headers: { cookie: cookies[0] },
+          headers: { Authorization: generateValidRequestAuthorizationHeader(userId), cookie: cookies[0] },
           payload,
         });
 
@@ -227,66 +226,100 @@ describe('Acceptance | Route | oidc | token', function () {
       });
     });
 
-    // eslint-disable-next-line mocha/no-skipped-tests
-    context.skip('When ID Token does not contain all the required claims', function () {
-      context('When identity provider userinfo does not respond within timeout or fails', function () {
-        it('should return 503', async function () {
-          // given
-          const firstName = 'John';
-          const lastName = 'Doe';
-          const externalIdentifier = 'sub';
+    context('When user has an invalid token', function () {
+      it('should be rejected by API', async function () {
+        // given
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: 'John',
+            family_name: 'Doe',
+            nonce: 'nonce',
+            sub: 'sub',
+          },
+          'secret',
+        );
+        const getAccessTokenResponse = {
+          access_token: 'access_token',
+          id_token: idToken,
+          expires_in: 60,
+          refresh_token: 'refresh_token',
+        };
+        nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
 
-          const userId = databaseBuilder.factory.buildUser({
-            firstName,
-            lastName,
-          }).id;
+        // when
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/oidc/token',
+          headers: { Authorization: 'invalid_token', cookie: cookies[0] },
+          payload,
+        });
 
-          databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-            externalIdentifier,
-            accessToken: 'access_token',
-            refreshToken: 'refresh_token',
-            expiresIn: 1000,
-            userId,
+        // expect
+        expect(response.statusCode).to.equal(401);
+      });
+
+      context('When user has a valid token but with missing required data', function () {
+        context('When identity provider userinfo does not respond within timeout or fails', function () {
+          it('should return 503', async function () {
+            // given
+            const firstName = 'John';
+            const lastName = 'Doe';
+            const externalIdentifier = 'sub';
+
+            const userId = databaseBuilder.factory.buildUser({
+              firstName,
+              lastName,
+            }).id;
+
+            databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+              externalIdentifier,
+              accessToken: 'access_token',
+              refreshToken: 'refresh_token',
+              expiresIn: 1000,
+              userId,
+            });
+            await databaseBuilder.commit();
+
+            const invalidIdToken = jsonwebtoken.sign(
+              {
+                nonce: 'nonce',
+                sub: externalIdentifier,
+              },
+              'secret',
+            );
+
+            const getAccessTokenResponse = {
+              access_token: 'access_token',
+              id_token: invalidIdToken,
+              expires_in: 60,
+              refresh_token: 'refresh_token',
+            };
+
+            const getAccessTokenRequest = nock(settings.poleEmploi.tokenUrl)
+              .post('/')
+              .reply(200, getAccessTokenResponse);
+            const TIMEOUT_MILLISECONDS = 10;
+            const getUserInfoRequest = nock(settings.poleEmploi.userInfoUrl)
+              .get('/')
+              .delay(TIMEOUT_MILLISECONDS)
+              .reply(200, {});
+
+            // when
+            const response = await server.inject({
+              method: 'POST',
+              url: '/api/oidc/token',
+              headers: { Authorization: generateValidRequestAuthorizationHeader(userId), cookie: cookies[0] },
+              payload,
+            });
+
+            // then
+            expect(response.statusCode).to.equal(503);
+            expect(getAccessTokenRequest.isDone()).to.be.true;
+            expect(getUserInfoRequest.isDone()).to.be.true;
+            expect(response.payload).to.equal(
+              '{"errors":[{"status":"503","title":"ServiceUnavailable","detail":"Une erreur est survenue en récupérant les informations des utilisateurs."}]}',
+            );
           });
-          await databaseBuilder.commit();
-
-          const invalidIdToken = jsonwebtoken.sign(
-            {
-              nonce: 'nonce',
-              sub: externalIdentifier,
-            },
-            'secret',
-          );
-
-          const getAccessTokenResponse = {
-            access_token: 'access_token',
-            id_token: invalidIdToken,
-            expires_in: 60,
-            refresh_token: 'refresh_token',
-          };
-
-          const getAccessTokenRequest = nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
-          const TIMEOUT_MILLISECONDS = 10;
-          const getUserInfoRequest = nock(settings.poleEmploi.userInfoUrl)
-            .get('/')
-            .delay(TIMEOUT_MILLISECONDS)
-            .reply(200, {});
-
-          // when
-          const response = await server.inject({
-            method: 'POST',
-            url: '/api/oidc/token',
-            headers: { cookie: cookies[0] },
-            payload,
-          });
-
-          // then
-          expect(response.statusCode).to.equal(503);
-          expect(getAccessTokenRequest.isDone()).to.be.true;
-          expect(getUserInfoRequest.isDone()).to.be.true;
-          expect(response.payload).to.equal(
-            '{"errors":[{"status":"503","title":"ServiceUnavailable","detail":"Une erreur est survenue en récupérant les informations des utilisateurs."}]}',
-          );
         });
       });
     });
