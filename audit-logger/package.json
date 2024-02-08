@@ -1,6 +1,6 @@
 {
   "name": "pix-audit-logger",
-  "version": "4.100.1",
+  "version": "4.100.2",
   "description": "",
   "scripts": {
     "build": "npx tsc --project tsconfig.production.json",
