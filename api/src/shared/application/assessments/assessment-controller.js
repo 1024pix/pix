@@ -15,6 +15,7 @@ import {
   extractUserIdFromRequest,
 } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import * as certificationChallengeRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-repository.js';
+import * as randomDataService from '../../domain/services/random-data-service.js';
 
 import { Examiner } from '../../domain/models/Examiner.js';
 import { ValidatorAlwaysOK } from '../../../../lib/domain/models/ValidatorAlwaysOK.js';
@@ -56,6 +57,8 @@ const getNextChallenge = async function (
     usecases,
     assessmentRepository,
     certificationChallengeRepository,
+    randomDataService,
+    challengeSerializer,
   },
 ) {
   const assessmentId = request.params.id;
@@ -76,7 +79,7 @@ const getNextChallenge = async function (
     logContext.challenge = challenge;
     logger.trace(logContext, 'replying with challenge');
 
-    return challengeSerializer.serialize(challenge);
+    return dependencies.challengeSerializer.serialize(challenge);
   } catch (error) {
     if (error instanceof AssessmentEndedError) {
       const object = new JSONAPISerializer('', {});
@@ -181,13 +184,17 @@ async function _getChallenge(assessment, request, dependencies) {
   }
   const challenge = await _getChallengeByAssessmentType({ assessment, request, dependencies });
 
-  if (challenge) {
-    if (challenge.id !== assessment.lastChallengeId) {
-      await dependencies.assessmentRepository.updateWhenNewChallengeIsAsked({
-        id: assessment.id,
-        lastChallengeId: challenge.id,
-      });
-    }
+  if (!challenge) return challenge;
+
+  if (challenge.id !== assessment.lastChallengeId) {
+    await dependencies.assessmentRepository.updateWhenNewChallengeIsAsked({
+      id: assessment.id,
+      lastChallengeId: challenge.id,
+    });
+  }
+
+  if (challenge.hasVariables) {
+    dependencies.randomDataService.generateChallengeVariables({ challenge, assessmentId: assessment.id });
   }
 
   return challenge;

@@ -10,10 +10,12 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
   describe('#getNextChallenge', function () {
     let assessmentWithoutScore;
     let assessmentWithScore;
-    let scoredAsssessment;
+    let scoredAssessment;
     let assessmentRepository;
     let certificationChallengeRepository;
     let usecases;
+    let randomDataService;
+    let challengeSerializer;
     let dependencies;
 
     beforeEach(function () {
@@ -32,7 +34,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         pixScore: 0,
       });
 
-      scoredAsssessment = {
+      scoredAssessment = {
         assessmentPix: assessmentWithScore,
       };
 
@@ -50,10 +52,24 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         getNextChallengeForCompetenceEvaluation: sinon.stub(),
         getNextChallengeForPreview: sinon.stub(),
       };
-      usecases.getAssessment.resolves(scoredAsssessment);
+      usecases.getAssessment.resolves(scoredAssessment);
       certificationChallengeRepository = { getNextNonAnsweredChallengeByCourseId: sinon.stub() };
 
-      dependencies = { usecases, certificationChallengeRepository, assessmentRepository };
+      randomDataService = {
+        generateChallengeVariables: sinon.stub(),
+      };
+
+      challengeSerializer = {
+        serialize: sinon.stub(),
+      };
+
+      dependencies = {
+        usecases,
+        certificationChallengeRepository,
+        assessmentRepository,
+        randomDataService,
+        challengeSerializer,
+      };
     });
 
     // TODO: Que faire si l'assessment n'existe pas pas ?
@@ -78,10 +94,10 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         usecases.getNextChallengeForPreview.returns(null);
 
         // when
-        const response = await assessmentController.getNextChallenge(request, null, dependencies);
+        await assessmentController.getNextChallenge(request, null, dependencies);
 
         // then
-        expect(response).to.deep.equal({ data: null });
+        expect(challengeSerializer.serialize).to.have.been.calledOnceWithExactly(null);
       });
     });
 
@@ -90,7 +106,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
         usecases.getNextChallengeForDemo.rejects(new AssessmentEndedError());
         assessmentRepository.get.resolves(assessmentWithoutScore);
-        usecases.getAssessment.resolves(scoredAsssessment);
+        usecases.getAssessment.resolves(scoredAssessment);
       });
 
       context('when the assessment is a DEMO', function () {
@@ -332,24 +348,66 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
           assessmentRepository.get.resolves(assessment);
         });
 
-        describe('#getNextChallenge', function () {
-          it('should not call assessmentRepository updateLastQuestionDate method', async function () {
-            // given
-            const locale = FRENCH_SPOKEN;
-            const request = {
-              params: { id: 1 },
-              headers: {
-                authorization: generateValidRequestAuthorizationHeader(1),
-                'accept-language': locale,
-              },
-            };
+        it('should not call assessmentRepository updateLastQuestionDate method', async function () {
+          // given
+          const locale = FRENCH_SPOKEN;
+          const request = {
+            params: { id: 1 },
+            headers: {
+              authorization: generateValidRequestAuthorizationHeader(1),
+              'accept-language': locale,
+            },
+          };
 
-            // when
-            await assessmentController.getNextChallenge(request, null, dependencies);
+          // when
+          await assessmentController.getNextChallenge(request, null, dependencies);
 
-            // then
-            expect(assessmentRepository.updateLastQuestionDate).to.have.not.been.called;
-          });
+          // then
+          expect(assessmentRepository.updateLastQuestionDate).to.have.not.been.called;
+        });
+      });
+    });
+
+    describe('when selected challenge has variables', function () {
+      const instruction = `---
+variables:
+  - name: foo
+    type: integer
+    params:
+      min: 0
+      max: 1000
+---
+Est-ce que {% $foo %} c'est beaucoup ?`;
+
+      let challenge;
+
+      beforeEach(function () {
+        challenge = domainBuilder.buildChallenge({
+          instruction,
+        });
+
+        assessmentRepository.get.resolves(assessmentWithoutScore);
+        usecases.getNextChallengeForDemo.resolves(challenge);
+      });
+
+      it('should generate challenge variables', async function () {
+        // given
+        const locale = FRENCH_SPOKEN;
+        const request = {
+          params: { id: assessmentWithoutScore.id },
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(1),
+            'accept-language': locale,
+          },
+        };
+
+        // when
+        await assessmentController.getNextChallenge(request, null, dependencies);
+
+        // then
+        expect(randomDataService.generateChallengeVariables).to.have.been.calledOnceWith({
+          challenge,
+          assessmentId: assessmentWithoutScore.id,
         });
       });
     });
