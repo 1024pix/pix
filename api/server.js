@@ -76,7 +76,7 @@ const createServer = async (serverOptions = {}) => {
 
   setupDeserialization(server);
 
-  await setupOidcAuthenticationServiceRegistry(serverOptions.oidcProviderServices);
+  setupOidcAuthenticationServiceRegistry(serverOptions.oidcProviderServices);
 
   return server;
 };
