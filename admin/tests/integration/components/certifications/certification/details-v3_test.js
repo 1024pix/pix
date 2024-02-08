@@ -287,7 +287,7 @@ module('Integration | Component | Certifications | certification > details v3', 
         const expected = [
           {
             term: 'Nombre de question répondues\n/ Nombre total de questions',
-            definition: '9/32',
+            definition: '9/15',
           },
           {
             term: 'Nombre de question OK :',
@@ -504,6 +504,7 @@ function createCertificationCourseDetailsRecord({ certificationChallengesForAdmi
     assessmentState: 'completed',
     completedAt: new Date(),
     assessmentResultStatus: 'validated',
+    numberOfChallenges: 15,
     certificationChallengesForAdministration,
     ...params,
   });

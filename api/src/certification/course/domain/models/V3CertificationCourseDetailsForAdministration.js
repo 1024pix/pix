@@ -10,6 +10,7 @@ export class V3CertificationCourseDetailsForAdministration {
     assessmentResultStatus,
     abortReason,
     pixScore,
+    numberOfChallenges,
   }) {
     this.certificationCourseId = certificationCourseId;
     this.isRejectedForFraud = isRejectedForFraud;
@@ -21,6 +22,7 @@ export class V3CertificationCourseDetailsForAdministration {
     this.assessmentResultStatus = assessmentResultStatus;
     this.abortReason = abortReason;
     this.pixScore = pixScore;
+    this.numberOfChallenges = numberOfChallenges;
   }
 
   setCompetencesDetails(competenceList) {
