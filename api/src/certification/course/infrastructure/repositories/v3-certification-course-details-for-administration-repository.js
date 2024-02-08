@@ -44,6 +44,11 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
     })
     .first();
 
+  const { maximumAssessmentLength: numberOfChallenges } = await knex('flash-algorithm-configurations')
+    .where('createdAt', '<=', certificationCourseDTO.createdAt)
+    .orderBy('createdAt', 'desc')
+    .first();
+
   const certificationChallengesDetailsDTO = await knex
     .select({
       challengeId: 'certification-challenges.challengeId',
@@ -65,10 +70,10 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
     })
     .orderBy('certification-challenges.createdAt', 'asc');
 
-  return _toDomain({ certificationChallengesDetailsDTO, liveAlertsDTO, certificationCourseDTO });
+  return _toDomain({ certificationChallengesDetailsDTO, liveAlertsDTO, certificationCourseDTO, numberOfChallenges });
 };
 
-function _toDomain({ certificationChallengesDetailsDTO, liveAlertsDTO, certificationCourseDTO }) {
+function _toDomain({ certificationChallengesDetailsDTO, liveAlertsDTO, certificationCourseDTO, numberOfChallenges }) {
   const certificationChallengesForAdministration = certificationChallengesDetailsDTO.map(
     (certificationChallengeDetailsDTO) =>
       new V3CertificationChallengeForAdministration({
@@ -85,6 +90,7 @@ function _toDomain({ certificationChallengesDetailsDTO, liveAlertsDTO, certifica
 
   return new V3CertificationCourseDetailsForAdministration({
     ...certificationCourseDTO,
+    numberOfChallenges,
     certificationChallengesForAdministration,
   });
 }

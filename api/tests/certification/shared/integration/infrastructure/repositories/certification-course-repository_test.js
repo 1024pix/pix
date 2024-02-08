@@ -120,125 +120,100 @@ describe('Integration | Repository | Certification Course', function () {
   });
 
   describe('#get', function () {
-    let expectedCertificationCourse;
-    let anotherCourseId;
-    let sessionId;
-    let userId;
     const description = 'Un commentaire du surveillant';
-
-    beforeEach(function () {
-      userId = databaseBuilder.factory.buildUser().id;
-      sessionId = databaseBuilder.factory.buildSession().id;
-      expectedCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
-        userId,
-        sessionId,
-        completedAt: null,
-        firstName: 'Timon',
-        lastName: 'De La Havane',
-        birthdate: '1993-08-14',
-        birthplace: 'Cuba',
-        isPublished: true,
-        isRejectedForFraud: true,
-      });
-      anotherCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
-      _.each(
-        [
-          { courseId: expectedCertificationCourse.id },
-          { courseId: expectedCertificationCourse.id },
-          { courseId: anotherCourseId },
-        ],
-        (certificationChallenge) => {
-          databaseBuilder.factory.buildCertificationChallenge(certificationChallenge);
-        },
-      );
-      _.each(
-        [
-          {
-            certificationCourseId: expectedCertificationCourse.id,
-            badge: databaseBuilder.factory.buildBadge({ key: 'forêt_noire' }),
-            complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
-          },
-          {
-            certificationCourseId: expectedCertificationCourse.id,
-            badge: databaseBuilder.factory.buildBadge({ key: 'baba_au_rhum' }),
-            complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
-          },
-          {
-            certificationCourseId: anotherCourseId,
-            badge: databaseBuilder.factory.buildBadge({ key: 'tropézienne' }),
-            complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
-          },
-        ],
-        ({ certificationCourseId, complementaryCertificationId, badge }) => {
-          const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
-            badgeId: badge.id,
-            complementaryCertificationId,
-          }).id;
-          const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
-            certificationCourseId,
-            complementaryCertificationId,
-            complementaryCertificationBadgeId,
-          }).id;
-          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-            complementaryCertificationCourseId,
-            certificationCourseId,
-          });
-        },
-      );
-      databaseBuilder.factory.buildCertificationIssueReport({
-        certificationCourseId: expectedCertificationCourse.id,
-        description,
-      });
-      return databaseBuilder.commit();
-    });
+    let sessionId, expectedCertificationCourse, userId;
 
     context('When the certification course exists', function () {
-      it('should retrieve certification course informations', async function () {
-        // when
-        const actualCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
+      context('When the certification course is v2', function () {
+        beforeEach(async function () {
+          ({ sessionId, expectedCertificationCourse, userId } = _buildCertificationCourse({
+            description,
+          }));
 
-        // then
-        const actualCertificationCourseDTO = actualCertificationCourse.toDTO();
-        expect(actualCertificationCourseDTO.id).to.equal(expectedCertificationCourse.id);
-        expect(actualCertificationCourseDTO.completedAt).to.equal(expectedCertificationCourse.completedAt);
-        expect(actualCertificationCourseDTO.firstName).to.equal(expectedCertificationCourse.firstName);
-        expect(actualCertificationCourseDTO.lastName).to.equal(expectedCertificationCourse.lastName);
-        expect(actualCertificationCourseDTO.birthdate).to.equal(expectedCertificationCourse.birthdate);
-        expect(actualCertificationCourseDTO.birthplace).to.equal(expectedCertificationCourse.birthplace);
-        expect(actualCertificationCourseDTO.sessionId).to.equal(sessionId);
-        expect(actualCertificationCourseDTO.isPublished).to.equal(expectedCertificationCourse.isPublished);
-        expect(actualCertificationCourseDTO.isRejectedForFraud).to.equal(
-          expectedCertificationCourse.isRejectedForFraud,
-        );
-        expect(actualCertificationCourseDTO.certificationIssueReports[0].description).to.equal(description);
-      });
+          await databaseBuilder.commit();
+        });
+        it('should retrieve certification course informations', async function () {
+          // when
+          const actualCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
-      it('should retrieve associated challenges with the certification course', async function () {
-        // when
-        const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
-
-        // then
-        expect(thisCertificationCourse.toDTO().challenges.length).to.equal(2);
-      });
-
-      context('When the certification course has one assessment', function () {
-        let assessmentId;
-
-        beforeEach(function () {
-          assessmentId = databaseBuilder.factory.buildAssessment({
-            type: 'CERTIFICATION',
-            certificationCourseId: expectedCertificationCourse.id,
-            userId,
-          }).id;
-          return databaseBuilder.commit();
+          // then
+          const actualCertificationCourseDTO = actualCertificationCourse.toDTO();
+          expect(actualCertificationCourseDTO.id).to.equal(expectedCertificationCourse.id);
+          expect(actualCertificationCourseDTO.completedAt).to.equal(expectedCertificationCourse.completedAt);
+          expect(actualCertificationCourseDTO.firstName).to.equal(expectedCertificationCourse.firstName);
+          expect(actualCertificationCourseDTO.lastName).to.equal(expectedCertificationCourse.lastName);
+          expect(actualCertificationCourseDTO.birthdate).to.equal(expectedCertificationCourse.birthdate);
+          expect(actualCertificationCourseDTO.birthplace).to.equal(expectedCertificationCourse.birthplace);
+          expect(actualCertificationCourseDTO.sessionId).to.equal(sessionId);
+          expect(actualCertificationCourseDTO.isPublished).to.equal(expectedCertificationCourse.isPublished);
+          expect(actualCertificationCourseDTO.isRejectedForFraud).to.equal(
+            expectedCertificationCourse.isRejectedForFraud,
+          );
+          expect(actualCertificationCourseDTO.certificationIssueReports[0].description).to.equal(description);
         });
 
-        it('should retrieve associated assessment', async function () {
+        it('should retrieve associated challenges with the certification course', async function () {
           // when
           const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
           // then
-          expect(thisCertificationCourse.toDTO().assessment.id).to.equal(assessmentId);
+          expect(thisCertificationCourse.toDTO().challenges.length).to.equal(2);
+        });
+        context('When the certification course has one assessment', function () {
+          let assessmentId;
+
+          beforeEach(function () {
+            assessmentId = databaseBuilder.factory.buildAssessment({
+              type: 'CERTIFICATION',
+              certificationCourseId: expectedCertificationCourse.id,
+              userId,
+            }).id;
+            return databaseBuilder.commit();
+          });
+
+          it('should retrieve associated assessment', async function () {
+            // when
+            const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
+
+            // then
+            expect(thisCertificationCourse.toDTO().assessment.id).to.equal(assessmentId);
+          });
+        });
+      });
+
+      context('When the certification course is v3', function () {
+        it('should retrieve the number of challenges from the configuration', async function () {
+          const maximumAssessmentLength = 10;
+          const { expectedCertificationCourse } = _buildCertificationCourse({
+            description,
+            version: 3,
+            createdAt: new Date('2022-01-03'),
+          });
+
+          // Active configuration on the certification day
+          databaseBuilder.factory.buildFlashAlgorithmConfiguration({
+            maximumAssessmentLength,
+            createdAt: new Date('2022-01-02'),
+          });
+
+          // Older configuration
+          databaseBuilder.factory.buildFlashAlgorithmConfiguration({
+            maximumAssessmentLength: 5,
+            createdAt: new Date('2022-01-01'),
+          });
+
+          // Newer configuration
+          databaseBuilder.factory.buildFlashAlgorithmConfiguration({
+            maximumAssessmentLength: 15,
+            createdAt: new Date('2022-01-04'),
+          });
+
+          await databaseBuilder.commit();
+          // when
+          const actualCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
+
+          // then
+          expect(actualCertificationCourse.getNumberOfChallenges()).to.equal(maximumAssessmentLength);
         });
       });
     });
@@ -473,3 +448,76 @@ describe('Integration | Repository | Certification Course', function () {
     });
   });
 });
+
+function _buildCertificationCourse({ createdAt, description, version = 2 }) {
+  const userId = databaseBuilder.factory.buildUser().id;
+  const sessionId = databaseBuilder.factory.buildSession().id;
+  const expectedCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
+    userId,
+    sessionId,
+    completedAt: null,
+    createdAt,
+    firstName: 'Timon',
+    lastName: 'De La Havane',
+    birthdate: '1993-08-14',
+    birthplace: 'Cuba',
+    isPublished: true,
+    isRejectedForFraud: true,
+    version,
+  });
+  const anotherCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
+  _.each(
+    [
+      { courseId: expectedCertificationCourse.id },
+      { courseId: expectedCertificationCourse.id },
+      { courseId: anotherCourseId },
+    ],
+    (certificationChallenge) => {
+      databaseBuilder.factory.buildCertificationChallenge(certificationChallenge);
+    },
+  );
+  _.each(
+    [
+      {
+        certificationCourseId: expectedCertificationCourse.id,
+        badge: databaseBuilder.factory.buildBadge({ key: 'forêt_noire' }),
+        complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
+      },
+      {
+        certificationCourseId: expectedCertificationCourse.id,
+        badge: databaseBuilder.factory.buildBadge({ key: 'baba_au_rhum' }),
+        complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
+      },
+      {
+        certificationCourseId: anotherCourseId,
+        badge: databaseBuilder.factory.buildBadge({ key: 'tropézienne' }),
+        complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
+      },
+    ],
+    ({ certificationCourseId, complementaryCertificationId, badge }) => {
+      const complementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId: badge.id,
+        complementaryCertificationId,
+      }).id;
+      const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+        certificationCourseId,
+        complementaryCertificationId,
+        complementaryCertificationBadgeId,
+      }).id;
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId,
+        certificationCourseId,
+      });
+    },
+  );
+  databaseBuilder.factory.buildCertificationIssueReport({
+    certificationCourseId: expectedCertificationCourse.id,
+    description,
+  });
+
+  return {
+    userId,
+    sessionId,
+    expectedCertificationCourse,
+  };
+}

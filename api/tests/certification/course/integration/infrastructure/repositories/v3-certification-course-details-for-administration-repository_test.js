@@ -18,6 +18,7 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
       const assessmentId = 78;
       const isRejectedForFraud = true;
       const createdAt = new Date('2022-02-02');
+      const flashAlgorithmConfigurationCreationDate = new Date('2022-02-01');
       const completedAt = new Date('2022-02-03');
       const assessmentState = Assessment.states.ENDED_DUE_TO_FINALIZATION;
       const assessmentResultStatus = AssessmentResult.status.VALIDATED;
@@ -47,6 +48,10 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
         certificationCourseId,
         assessmentId,
         assessmentResultStatus,
+      });
+      const { maximumAssessmentLength: numberOfChallenges } = databaseBuilder.factory.buildFlashAlgorithmConfiguration({
+        maximumAssessmentLength: 1,
+        createdAt: flashAlgorithmConfigurationCreationDate,
       });
 
       const answer = databaseBuilder.factory.buildAnswer({
@@ -83,6 +88,7 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
         abortReason,
         pixScore,
         isCancelled,
+        numberOfChallenges,
         certificationChallengesForAdministration: [certificationChallengeForAdministration],
       });
 
@@ -95,7 +101,13 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
       const firstChallengeId = 'recCHAL456';
       const secondChallengeId = 'recCHAL789';
       const thirdChallengeId = 'recCHAL123';
+      const flashAlgorithmConfigurationCreationDate = new Date('2020-01-01');
       const assessmentId = 78;
+
+      databaseBuilder.factory.buildFlashAlgorithmConfiguration({
+        maximumAssessmentLength: 3,
+        createdAt: flashAlgorithmConfigurationCreationDate,
+      });
 
       databaseBuilder.factory.buildCertificationCourse({ id: certificationCourseId });
       databaseBuilder.factory.buildCertificationChallenge({
