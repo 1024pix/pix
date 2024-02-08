@@ -240,7 +240,7 @@ module('Integration | Component | organizations/information-section-view', funct
         const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
         // then
-        assert.dom(screen.getByText('Organisation parente')).exists();
+        assert.dom(screen.getByText('Organisation mère')).exists();
       });
     });
 
@@ -261,7 +261,7 @@ module('Integration | Component | organizations/information-section-view', funct
         const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
         // then
-        assert.dom(screen.getByText('Organisation enfant')).exists();
+        assert.dom(screen.getByText('Organisation fille')).exists();
         assert.dom(screen.getByText('Shibusen')).exists();
       });
     });
@@ -281,7 +281,7 @@ module('Integration | Component | organizations/information-section-view', funct
         const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
 
         // then
-        assert.dom(screen.queryByText('Organisation parente')).doesNotExist();
+        assert.dom(screen.queryByText('Organisation mère')).doesNotExist();
       });
     });
 

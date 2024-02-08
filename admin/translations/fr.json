@@ -115,11 +115,11 @@
           "id": "ID",
           "name": "Nom"
         },
-        "table-name": "Liste des organisations enfants"
+        "table-name": "Liste des organisations filles"
       },
       "information-section-view": {
-        "child-organization": "Organisation enfant",
-        "parent-organization": "Organisation parente"
+        "child-organization": "Organisation fille",
+        "parent-organization": "Organisation mère"
       }
     },
     "users": {
@@ -285,12 +285,12 @@
     },
     "organization": {
       "navbar": {
-        "children": "Organisations enfants"
+        "children": "Organisations filles"
       }
     },
     "organization-children": {
-      "title": "Organisations enfants",
-      "empty-table": "Aucune organisation enfant"
+      "title": "Organisations filles",
+      "empty-table": "Aucune organisation fille"
     },
     "organizations": {
       "notifications": {
