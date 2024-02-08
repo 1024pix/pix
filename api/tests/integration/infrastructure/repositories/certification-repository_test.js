@@ -15,12 +15,11 @@ describe('Integration | Repository | Certification', function () {
     });
 
     context('when some certifications latest assessment result is error', function () {
-      beforeEach(function () {
-        _buildErrorCertification({ id: 4, sessionId, isPublished: false });
-        return databaseBuilder.commit();
-      });
-
       it('should throw a CertificationCourseNotPublishableError without publishing any certification nor setting pixCertificationStatus', async function () {
+        // given
+        _buildErrorCertification({ id: 4, sessionId, isPublished: false });
+        await databaseBuilder.commit();
+
         // when
         const err = await catchErr(certificationRepository.publishCertificationCoursesBySessionId)(sessionId);
 
@@ -30,6 +29,9 @@ describe('Integration | Repository | Certification', function () {
           .pluck('pixCertificationStatus')
           .where({ sessionId });
         expect(err).to.be.instanceOf(CertificationCourseNotPublishableError);
+        expect(err.message).to.equal(
+          "Publication de la session 200: Une Certification avec le statut 'started' ou 'error' ne peut-être publiée.",
+        );
         expect(isPublishedStates).to.deep.equal([false, false, false, false]);
         expect(pixCertificationStatuses).to.deep.equal([null, null, null, null]);
       });
