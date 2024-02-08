@@ -306,10 +306,6 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
 
-  if (error instanceof DomainErrors.UnexpectedOidcStateError) {
-    return new HttpErrors.BadRequestError(error.message);
-  }
-
   if (error instanceof DomainErrors.OidcMissingFieldsError) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
