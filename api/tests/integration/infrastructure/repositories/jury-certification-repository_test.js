@@ -84,6 +84,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           commentForOrganization: 'Un commentaire orga',
           commentForCandidate: 'Un commentaire candidat',
           commentByJury: 'Un commentaire jury',
+          commentByAutoJury: 'FRAUD',
           juryId: 22,
         }).id;
         databaseBuilder.factory.buildCompetenceMark({
@@ -133,6 +134,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           commentForOrganization: 'Un commentaire orga',
           commentForCandidate: 'Un commentaire candidat',
           commentByJury: 'Un commentaire jury',
+          commentByAutoJury: 'FRAUD',
           competenceMarks: [expectedCompetenceMark],
           certificationIssueReports: [],
           version: 2,
