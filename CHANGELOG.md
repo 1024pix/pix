@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v4.100.0 (08/02/2024)
+
+
+### :rocket: Amélioration
+- [#7992](https://github.com/1024pix/pix/pull/7992) [FEATURE] Pouvoir utiliser les logiques de `solution-service-qcm` et de `ValidatorQCM` dans notre BC `devcomp`.
+
+### :building_construction: Tech
+- [#7978](https://github.com/1024pix/pix/pull/7978) [TECH] Utiliser la librairie openid-client (PIX-10990).
+
+### :bug: Correction
+- [#8005](https://github.com/1024pix/pix/pull/8005) [BUGFIX] corrige la suppression de fichier temporaire après un import siecle (PIX-11118).
+
+### :arrow_up: Montée de version
+- [#7851](https://github.com/1024pix/pix/pull/7851) [BUMP] Update dependency @1024pix/pix-ui to v42 (admin).
+- [#7996](https://github.com/1024pix/pix/pull/7996) [BUMP] Update adobe/s3mock Docker tag to v3.3.0 (dossier racine).
+- [#7994](https://github.com/1024pix/pix/pull/7994) [BUMP] Update adobe/s3mock Docker tag to v3.3.0 (docker).
+
 ## v4.99.0 (07/02/2024)
 
 
