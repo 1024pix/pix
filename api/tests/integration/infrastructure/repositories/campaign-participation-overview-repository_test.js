@@ -587,6 +587,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
             validatedSkillsCount: 3,
             totalStagesCount: undefined,
             validatedStagesCount: undefined,
+            isAutonomousCourse: false,
           },
         ]);
       });

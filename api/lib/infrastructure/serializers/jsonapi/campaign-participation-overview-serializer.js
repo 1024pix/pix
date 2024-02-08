@@ -17,6 +17,7 @@ const serialize = function (campaignParticipationOverview, meta) {
       'status',
       'campaignCode',
       'campaignTitle',
+      'isAutonomousCourse',
       'disabledAt',
       'masteryRate',
       'validatedStagesCount',

@@ -32,6 +32,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
       expect(campaignParticipationOverview.campaignCode).to.equal('campaignCode');
       expect(campaignParticipationOverview.campaignTitle).to.equal('campaignTitle');
       expect(campaignParticipationOverview.masteryRate).to.equal(0.5);
+      expect(campaignParticipationOverview.isAutonomousCourse).to.be.false;
     });
 
     describe('when the campaign is an autonomous course', function () {
@@ -45,6 +46,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
 
         // when / then
         expect(campaignParticipationOverview.organizationName).to.equal('Pix');
+        expect(campaignParticipationOverview.isAutonomousCourse).to.be.true;
       });
     });
 
