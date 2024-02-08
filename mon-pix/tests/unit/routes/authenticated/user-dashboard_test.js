@@ -8,7 +8,7 @@ module('Unit | Route | User-Dashboard', function (hooks) {
   setupTest(hooks);
 
   module('#model', function () {
-    test('should returns the model that contains campaignParticipationOverviews and scorecards', async function (assert) {
+    test('should returns the model that contains filtered campaignParticipationOverviews and scorecards', async function (assert) {
       // given
       const scorecards = [EmberObject.create({ id: 3 }), EmberObject.create({ id: 8 })];
       const profile = EmberObject.create({ scorecards });
@@ -21,7 +21,10 @@ module('Unit | Route | User-Dashboard', function (hooks) {
         },
       });
 
-      const campaignParticipationOverviews = [EmberObject.create({ id: 10 })];
+      const campaignParticipationOverviews = [
+        EmberObject.create({ id: 10 }),
+        EmberObject.create({ id: 11, isAutonomousCourse: true }),
+      ];
       const storeStub = { query: sinon.stub().returns(campaignParticipationOverviews) };
 
       const route = this.owner.lookup('route:authenticated.user-dashboard');
@@ -32,7 +35,8 @@ module('Unit | Route | User-Dashboard', function (hooks) {
       const model = await route.model();
 
       // then
-      assert.deepEqual(model.campaignParticipationOverviews, campaignParticipationOverviews);
+      assert.strictEqual(model.campaignParticipationOverviews.length, 1);
+      assert.deepEqual(model.campaignParticipationOverviews[0], campaignParticipationOverviews[0]);
       assert.deepEqual(model.scorecards, scorecards);
     });
   });

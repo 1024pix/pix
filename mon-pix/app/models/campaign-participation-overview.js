@@ -9,6 +9,7 @@ export default class CampaignParticipationOverviews extends Model {
   @attr('string') status;
   @attr('string') campaignCode;
   @attr('string') campaignTitle;
+  @attr('boolean') isAutonomousCourse;
   @attr('date') disabledAt;
   @attr('number') masteryRate;
   @attr('number') totalStagesCount;

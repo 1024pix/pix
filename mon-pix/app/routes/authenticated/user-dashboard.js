@@ -17,11 +17,15 @@ export default class UserDashboard extends Route {
     };
     const campaignParticipationOverviews = await this.store.query('campaign-participation-overview', queryParams);
 
+    const filteredCampaignParticipationOverviews = campaignParticipationOverviews.filter(
+      (campaignParticipation) => !campaignParticipation.isAutonomousCourse,
+    );
+
     const profile = await user.belongsTo('profile').reload();
     const scorecards = profile.scorecards;
 
     return {
-      campaignParticipationOverviews,
+      campaignParticipationOverviews: filteredCampaignParticipationOverviews,
       scorecards,
     };
   }
