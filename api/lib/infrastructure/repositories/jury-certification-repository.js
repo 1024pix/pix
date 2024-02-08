@@ -97,6 +97,7 @@ function _selectJuryCertifications() {
       commentForCandidate: 'assessment-results.commentForCandidate',
       commentForOrganization: 'assessment-results.commentForOrganization',
       commentByJury: 'assessment-results.commentByJury',
+      commentByAutoJury: 'assessment-results.commentByAutoJury',
     })
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')

@@ -26,6 +26,7 @@ class JuryCertification {
     commentForCandidate,
     commentForOrganization,
     commentByJury,
+    commentByAutoJury,
     certificationIssueReports,
     complementaryCertificationCourseResultWithExternal,
     commonComplementaryCertificationCourseResult,
@@ -55,6 +56,7 @@ class JuryCertification {
     this.commentForCandidate = commentForCandidate;
     this.commentForOrganization = commentForOrganization;
     this.commentByJury = commentByJury;
+    this.commentByAutoJury = commentByAutoJury;
     this.certificationIssueReports = certificationIssueReports;
     this.complementaryCertificationCourseResultWithExternal = complementaryCertificationCourseResultWithExternal;
     this.commonComplementaryCertificationCourseResult = commonComplementaryCertificationCourseResult;
@@ -100,6 +102,7 @@ class JuryCertification {
       commentForCandidate: juryCertificationDTO.commentForCandidate,
       commentForOrganization: juryCertificationDTO.commentForOrganization,
       commentByJury: juryCertificationDTO.commentByJury,
+      commentByAutoJury: juryCertificationDTO.commentByAutoJury,
       certificationIssueReports,
       complementaryCertificationCourseResultWithExternal,
       commonComplementaryCertificationCourseResult,
