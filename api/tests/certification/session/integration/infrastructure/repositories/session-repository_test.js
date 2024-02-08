@@ -5,6 +5,7 @@ import { Session, statuses } from '../../../../../../src/certification/session/d
 import * as sessionRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-repository.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { CertificationAssessment } from '../../../../../../lib/domain/models/CertificationAssessment.js';
 
 describe('Integration | Repository | Session', function () {
   describe('#save', function () {
@@ -923,7 +924,7 @@ describe('Integration | Repository | Session', function () {
     });
   });
 
-  describe('#countUncompletedCertifications', function () {
+  describe('#countUncompletedCertificationsAssessment', function () {
     context('when session has at least one uncompleted certification course', function () {
       it('should return the count of uncompleted certification courses', async function () {
         // given
@@ -931,25 +932,61 @@ describe('Integration | Repository | Session', function () {
         const userId1 = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId1 });
         databaseBuilder.factory.buildCertificationCourse({
+          id: 97,
           sessionId,
           userId: userId1,
-          completedAt: null,
+        });
+        databaseBuilder.factory.buildAssessment({
+          certificationCourseId: 97,
+          state: CertificationAssessment.states.STARTED,
         });
         const userId2 = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId2 });
         databaseBuilder.factory.buildCertificationCourse({
+          id: 98,
           sessionId,
           userId: userId2,
-          completedAt: null,
+        });
+        databaseBuilder.factory.buildAssessment({
+          certificationCourseId: 98,
+          state: CertificationAssessment.states.STARTED,
         });
 
         await databaseBuilder.commit();
 
         // when
-        const unfinishedCertificationsCount = await sessionRepository.countUncompletedCertifications(sessionId);
+        const unfinishedCertificationsCount =
+          await sessionRepository.countUncompletedCertificationsAssessment(sessionId);
 
         // then
         expect(unfinishedCertificationsCount).to.equal(2);
+      });
+    });
+
+    context('when session has no uncompleted certification course', function () {
+      it('should return 0', async function () {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession({}).id;
+        const userId1 = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId1 });
+        databaseBuilder.factory.buildCertificationCourse({
+          id: 97,
+          sessionId,
+          userId: userId1,
+        });
+        databaseBuilder.factory.buildAssessment({
+          certificationCourseId: 97,
+          state: CertificationAssessment.states.COMPLETED,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const unfinishedCertificationsCount =
+          await sessionRepository.countUncompletedCertificationsAssessment(sessionId);
+
+        // then
+        expect(unfinishedCertificationsCount).to.equal(0);
       });
     });
   });
