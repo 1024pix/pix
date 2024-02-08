@@ -19,7 +19,6 @@ import {
   CandidateNotAuthorizedToResumeCertificationTestError,
   UncancellableOrganizationInvitationError,
   OidcMissingFieldsError,
-  OidcUserInfoFormatError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
   OrganizationLearnerCannotBeDissociatedError,
   UserShouldNotBeReconciledOnAnotherAccountError,
@@ -455,23 +454,6 @@ describe('Unit | Application | ErrorManager', function () {
 
         // then
         expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(
-          error.message,
-          error.code,
-          error.meta,
-        );
-      });
-
-      it('instantiates ServiceUnavailableError when OidcUserInfoFormatError', async function () {
-        // given
-        const error = new OidcUserInfoFormatError('Some message', 'someCode', 'someMetaData');
-        sinon.stub(HttpErrors, 'ServiceUnavailableError');
-        const params = { request: {}, h: hFake, error };
-
-        // when
-        await handle(params.request, params.h, params.error);
-
-        // then
-        expect(HttpErrors.ServiceUnavailableError).to.have.been.calledWithExactly(
           error.message,
           error.code,
           error.meta,
