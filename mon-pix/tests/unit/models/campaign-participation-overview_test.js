@@ -24,7 +24,7 @@ module('Unit | Model | Campaign-Participation-Overview', function (hooks) {
         });
       });
 
-      module('when the particiaption status is "TO_SHARE" and the participation is not shared"', function () {
+      module('when the participation status is "TO_SHARE" and the participation is not shared"', function () {
         test('should return the status "TO_SHARE"', function (assert) {
           // given
           const model = store.createRecord('campaign-participation-overview', {
@@ -49,6 +49,34 @@ module('Unit | Model | Campaign-Participation-Overview', function (hooks) {
 
           // when / then
           assert.strictEqual(model.cardStatus, 'ENDED');
+        });
+      });
+
+      module('when the campaign is an autonomous course', function () {
+        module('the participation status is "TO_SHARE"', function () {
+          test('should return the status "ENDED"', function (assert) {
+            // given
+            const model = store.createRecord('campaign-participation-overview', {
+              isAutonomousCourse: true,
+              status: 'TO_SHARE',
+            });
+
+            // when / then
+            assert.strictEqual(model.cardStatus, 'ENDED');
+          });
+        });
+
+        module('the participation status is "ONGOING"', function () {
+          test('should return the status "ONGOING"', function (assert) {
+            // given
+            const model = store.createRecord('campaign-participation-overview', {
+              isAutonomousCourse: true,
+              status: 'ONGOING',
+            });
+
+            // when / then
+            assert.strictEqual(model.cardStatus, 'ONGOING');
+          });
         });
       });
     });

@@ -102,4 +102,30 @@ module('Integration | Component | CampaignParticipationOverview | Card', functio
       assert.dom(screen.getByText('Inactif')).exists();
     });
   });
+
+  module('when the campaign is an autonomous course and the participation status is TO_SHARE', function () {
+    test('should display CardEnded without end date', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
+        isShared: false,
+        createdAt: '2020-12-10T15:16:20.109Z',
+        status: 'TO_SHARE',
+        campaignTitle: 'My campaign',
+        organizationName: 'My organization',
+        isAutonomousCourse: true,
+      });
+
+      this.set('campaignParticipationOverview', campaignParticipationOverview);
+
+      // when
+      const screen = await render(
+        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`,
+      );
+
+      // then
+      assert.dom(screen.getByText('Terminé')).exists();
+      assert.notOk(screen.queryByText('Terminé le', { exact: false }));
+    });
+  });
 });

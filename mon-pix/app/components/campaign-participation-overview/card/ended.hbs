@@ -5,9 +5,11 @@
     </PixTag>
     <h2 class="campaign-participation-overview-card-header__title">{{@model.organizationName}}</h2>
     <strong class="campaign-participation-overview-card-header__subtitle">{{@model.campaignTitle}}</strong>
-    <time class="campaign-participation-overview-card-header__date" datetime="{{@model.sharedAt}}">
-      {{t "pages.campaign-participation-overview.card.finished-at" date=(dayjs-format @model.sharedAt "DD/MM/YYYY")}}
-    </time>
+    {{#if @model.sharedAt}}
+      <time class="campaign-participation-overview-card-header__date" datetime="{{@model.sharedAt}}">
+        {{t "pages.campaign-participation-overview.card.finished-at" date=(dayjs-format @model.sharedAt "DD/MM/YYYY")}}
+      </time>
+    {{/if}}
   </div>
   <section class="campaign-participation-overview-card-content">
     <div class="campaign-participation-overview-card-content__content">
