@@ -271,4 +271,35 @@ describe('Unit | Shared | Domain | Models | Challenge', function () {
       });
     }
   });
+
+  describe('#hasVariables', function () {
+    const instructionWithVariables = `---
+variables:
+  - name: untel
+    type: person
+---
+C'est pas moi c'est {% $untel.firstname %}`;
+
+    it('should return true when instruction has variables', function () {
+      // given
+      const challenge = domainBuilder.buildChallenge({ instruction: instructionWithVariables });
+
+      // when
+      const { hasVariables } = challenge;
+
+      // then
+      expect(hasVariables).to.be.true;
+    });
+
+    it('should return false when instruction has no variables', function () {
+      // given
+      const challenge = domainBuilder.buildChallenge({ instruction: "C'est pas moi c'est Jérémie" });
+
+      // when
+      const { hasVariables } = challenge;
+
+      // then
+      expect(hasVariables).to.be.false;
+    });
+  });
 });

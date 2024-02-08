@@ -142,6 +142,10 @@ class Challenge {
     return this.locales?.sort()[0];
   }
 
+  get hasVariables() {
+    return Boolean(this.instruction.hasVariables);
+  }
+
   _isCompliant(type) {
     return this.responsive?.includes(type);
   }
