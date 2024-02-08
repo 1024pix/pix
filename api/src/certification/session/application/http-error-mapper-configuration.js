@@ -4,6 +4,7 @@ import {
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
+  SessionWithMissingAbortReasonError,
   SessionWithoutStartedCertificationError,
 } from '../domain/errors.js';
 import { DomainErrorMappingConfiguration } from '../../../shared/application/models/domain-error-mapping-configuration.js';
@@ -16,6 +17,10 @@ const sessionDomainErrorMappingConfiguration = [
   {
     name: SessionWithAbortReasonOnCompletedCertificationCourseError.name,
     httpErrorFn: (error) => new HttpErrors.ConflictError(error.message, error.code, error.meta),
+  },
+  {
+    name: SessionWithMissingAbortReasonError.name,
+    httpErrorFn: (error) => new HttpErrors.ConflictError(error.message, error.code),
   },
   {
     name: SessionAlreadyFinalizedError.name,
