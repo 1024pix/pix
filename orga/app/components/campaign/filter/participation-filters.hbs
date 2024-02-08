@@ -20,12 +20,7 @@
       />
     {{/if}}
     {{#if this.displayDivisionFilter}}
-      <Ui::DivisionsFilter
-        @model={{@campaign}}
-        @selected={{@selectedDivisions}}
-        @onSelect={{this.onSelectDivision}}
-        @placeholder={{t "pages.campaign-results.filters.type.divisions.placeholder"}}
-      />
+      <Ui::DivisionsFilter @model={{@campaign}} @selected={{@selectedDivisions}} @onSelect={{this.onSelectDivision}} />
     {{/if}}
     {{#if this.displayGroupsFilter}}
       <Ui::GroupsFilter @campaign={{@campaign}} @onSelect={{this.onSelectGroup}} @selectedGroups={{@selectedGroups}} />
@@ -35,7 +30,7 @@
         @field="search"
         @value={{@searchFilter}}
         @placeholder={{t "pages.campaign-results.filters.type.search.placeholder"}}
-        @ariaLabel={{t "pages.campaign-results.filters.type.search.title"}}
+        @label={{t "pages.campaign-results.filters.type.search.title"}}
         @triggerFiltering={{@onFilter}}
       />
     {{/if}}

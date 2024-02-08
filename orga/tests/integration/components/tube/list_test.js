@@ -78,7 +78,9 @@ module('Integration | Component | tube:list', function (hooks) {
     const screen = await render(hbs`<Tube::list @frameworks={{this.frameworks}} />`);
 
     // then
-    assert.dom(screen.getByText('Télécharger la sélection des sujets (JSON, 0.00ko)')).hasClass('pix-button--disabled');
+    assert
+      .dom(screen.getByRole('button', { name: 'Télécharger la sélection des sujets (JSON, 0.00ko)', hidden: true }))
+      .hasAttribute('aria-disabled', 'true');
   });
 
   test('it should enable the download button if a tube is selected', async function (assert) {

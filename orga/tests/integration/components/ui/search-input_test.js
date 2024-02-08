@@ -46,7 +46,7 @@ module('Integration | Component | Ui::SearchInput', function (hooks) {
     this.set('onSearch', onSearch);
 
     // when
-    await render(hbs`<Ui::SearchInput @ariaLabel='search' @onSearch={{this.onSearch}} />`);
+    await render(hbs`<Ui::SearchInput @label='search' @onSearch={{this.onSearch}} />`);
     await fillByLabel('search', 'Text to search');
 
     // then
