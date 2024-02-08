@@ -1,4 +1,4 @@
-import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
 
@@ -142,28 +142,6 @@ describe('Unit | Domain | Services | authentication registry', function () {
 
       expect(readyOidcProviderServicesForPixAdmin).to.have.lengthOf(1);
       expect(readyOidcProviderServicesForPixAdmin.map((service) => service.code)).to.contain('OIDC_FOR_PIX_ADMIN');
-    });
-  });
-
-  describe('#configureReadyOidcProviderServices', function () {
-    it('configures openid client for ready oidc provider services', async function () {
-      // given
-      sinon.restore();
-      const createClient = sinon.stub().resolves();
-      const oidcProviderServices = [
-        {
-          code: 'OIDC',
-          isReady: true,
-          createClient,
-        },
-      ];
-      oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
-
-      // when
-      await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServices();
-
-      // then
-      expect(createClient).to.have.been.calledOnce;
     });
   });
 });
