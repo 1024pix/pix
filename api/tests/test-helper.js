@@ -62,6 +62,7 @@ const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 const { ROLES } = PIX_ADMIN;
 
 /* eslint-disable mocha/no-top-level-hooks */
+
 afterEach(function () {
   restore();
   LearningContentCache.instance.flushAll();
