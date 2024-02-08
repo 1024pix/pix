@@ -1,7 +1,7 @@
 import { SiecleXmlImportError } from '../errors.js';
 
 const { isEmpty, chunk } = lodash;
-
+import fs from 'fs';
 import bluebird from 'bluebird';
 import lodash from 'lodash';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
@@ -21,10 +21,10 @@ const importOrganizationLearnersFromSIECLECSVFormat = async function ({
   i18n,
 }) {
   const organization = await organizationRepository.get(organizationId);
-  const path = payload.path;
+  const readableStream = fs.createReadStream(payload.path);
 
   const organizationLearnerData = await organizationLearnersCsvService.extractOrganizationLearnersInformation(
-    path,
+    readableStream,
     organization,
     i18n,
   );
