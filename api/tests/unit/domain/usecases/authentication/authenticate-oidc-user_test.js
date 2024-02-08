@@ -1,4 +1,4 @@
-import { catchErr, expect, sinon } from '../../../../test-helper.js';
+import { expect, sinon, catchErr } from '../../../../test-helper.js';
 
 import { PAYSDELALOIRE, POLE_EMPLOI } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 
@@ -42,8 +42,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       };
     });
 
-    // eslint-disable-next-line mocha/no-skipped-tests
-    context.skip('when the request state does not match the response state', function () {
+    context('when the request state does not match the response state', function () {
       it('throws an UnexpectedOidcStateError', async function () {
         // given
         const stateSent = 'stateSent';
@@ -72,9 +71,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       await authenticateOidcUser({
         code: 'code',
         redirectUri: 'redirectUri',
-        sessionState: 'state',
-        state: 'state',
-        nonce: 'nonce',
+        stateReceived: 'state',
+        stateSent: 'state',
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,
@@ -86,9 +84,6 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       expect(oidcAuthenticationService.exchangeCodeForTokens).to.have.been.calledOnceWithExactly({
         code: 'code',
         redirectUri: 'redirectUri',
-        sessionState: 'state',
-        state: 'state',
-        nonce: 'nonce',
       });
     });
 
