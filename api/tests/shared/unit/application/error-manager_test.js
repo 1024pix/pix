@@ -8,6 +8,7 @@ import {
   UserNotAuthorizedToAccessEntityError,
   CertificationAttestationGenerationError,
   NoCertificationAttestationForDivisionError,
+  OidcError,
 } from '../../../../src/shared/domain/errors.js';
 
 import { HttpErrors, UnauthorizedError } from '../../../../src/shared/application/http-errors.js';
@@ -218,6 +219,25 @@ describe('Shared | Unit | Application | ErrorManager', function () {
             { locale: 'nl-BE' },
           );
         });
+      });
+    });
+
+    context('when handling an OidcError', function () {
+      it('maps to UnprocessableEntityError', async function () {
+        // given
+        const error = new OidcError({ code: 'OIDC_ERROR_CODE', message: 'an oidc error occurred' });
+        sinon.stub(HttpErrors, 'UnprocessableEntityError');
+        const params = { request: {}, h: hFake, error };
+
+        // when
+        await handle(params.request, params.h, params.error);
+
+        // then
+        expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(
+          'an oidc error occurred',
+          'OIDC_ERROR_CODE',
+          undefined,
+        );
       });
     });
 

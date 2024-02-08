@@ -4,6 +4,7 @@ import * as DomainErrors from '../domain/errors.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
   EntityValidationError,
+  OidcError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
 } from '../domain/errors.js';
 import jsonapiSerializer from 'jsonapi-serializer';
@@ -134,6 +135,10 @@ function _mapToHttpError(error) {
 
   if (error instanceof CsvWithNoSessionDataError) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code);
+  }
+
+  if (error instanceof OidcError) {
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
 
   return new HttpErrors.BaseHttpError(error.message);
