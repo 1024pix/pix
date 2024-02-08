@@ -5,15 +5,10 @@ import { expect, sinon, catchErr, catchErrSync } from '../../../../test-helper.j
 import { config as settings } from '../../../../../lib/config.js';
 import { OidcAuthenticationService } from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
 import jsonwebtoken from 'jsonwebtoken';
-import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
 
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 
-import {
-  InvalidExternalAPIResponseError,
-  OidcMissingFieldsError,
-  OidcUserInfoFormatError,
-} from '../../../../../lib/domain/errors.js';
+import { OidcMissingFieldsError } from '../../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
