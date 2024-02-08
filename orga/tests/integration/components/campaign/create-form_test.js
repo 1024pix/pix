@@ -58,7 +58,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     );
 
     // then
-    assert.dom(screen.getByText(this.intl.t('pages.campaign-creation.name.label'))).exists();
+    assert.dom(screen.getByLabelText(this.intl.t('pages.campaign-creation.name.label'), { exact: false })).exists();
     assert.dom('button[type="submit"]').exists();
     assert.dom('input[type=text]').hasAttribute('maxLength', '255');
     assert.dom('textarea').hasAttribute('maxLength', '5000');
@@ -81,7 +81,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     );
 
     assert
-      .dom(screen.getByRole('textbox', { name: this.intl.t('pages.campaign-creation.name.label') }))
+      .dom(screen.getByLabelText(this.intl.t('pages.campaign-creation.name.label'), { exact: false }))
       .hasValue('Campagne de test');
   });
 
@@ -98,7 +98,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 />`,
     );
     // then
-    assert.dom(screen.getByText(this.intl.t('pages.campaign-creation.owner.info'), { exact: true })).exists();
+    assert.dom(screen.getByText(this.intl.t('pages.campaign-creation.owner.info'))).exists();
     assert.dom(screen.getAllByText(this.intl.t('pages.campaign-creation.owner.title'))[0]).exists();
   });
 
@@ -189,11 +189,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       );
 
       // then
-      assert.strictEqual(
-        screen.getByRole('button', { name: this.intl.t('pages.campaign-creation.target-profiles-list-label') })
-          .innerText,
-        targetProfile.name,
+      const targetProfileField = screen.getByLabelText(
+        this.intl.t('pages.campaign-creation.target-profiles-list-label'),
+        { exact: false },
       );
+      assert.strictEqual(targetProfileField.innerText, targetProfile.name);
     });
 
     test('it should fill multiple sendings fields', async function (assert) {
@@ -797,13 +797,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
     assert.dom(element).isChecked();
     assert
-      .dom(
-        screen.getByRole('textbox', {
-          name: `${this.intl.t('pages.campaign-creation.external-id-label.label')} ${this.intl.t(
-            'pages.campaign-creation.external-id-label.suggestion',
-          )}`,
-        }),
-      )
+      .dom(screen.getByLabelText(this.intl.t('pages.campaign-creation.external-id-label.label'), { exact: false }))
       .hasValue('Numéro étudiant');
   });
 

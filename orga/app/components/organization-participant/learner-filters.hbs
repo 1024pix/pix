@@ -11,12 +11,12 @@
     @field="fullName"
     @value={{@fullName}}
     @placeholder={{t "pages.organization-participants.filters.type.fullName.placeholder"}}
-    @ariaLabel={{t "pages.organization-participants.filters.type.fullName.title"}}
+    @label={{t "pages.organization-participants.filters.type.fullName.label"}}
     @triggerFiltering={{@onTriggerFiltering}}
   />
   <Ui::MultiSelectFilter
     @field="certificability"
-    @title={{t "pages.organization-participants.filters.type.certificability.label"}}
+    @label={{t "pages.organization-participants.filters.type.certificability.label"}}
     @onSelect={{@onTriggerFiltering}}
     @selectedOption={{@certificabilityFilter}}
     @options={{this.certificabilityOptions}}
