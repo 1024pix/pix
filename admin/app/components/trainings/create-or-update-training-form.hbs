@@ -89,8 +89,9 @@
           @id="trainingEditorLogoUrl"
           required={{true}}
           aria-required={{true}}
-          @ariaLabel="Nom du fichier du logo éditeur"
-          placeholder="logo-ministere-education-nationale-et-jeunesse.svg"
+          @label="Nom du fichier du logo éditeur"
+          @screenReaderOnly={{true}}
+          @placeholder="logo-ministere-education-nationale-et-jeunesse.svg"
           @value={{this.form.editorLogoUrl}}
           {{on "change" (fn this.updateForm "editorLogoUrl")}}
         />

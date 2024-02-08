@@ -22,7 +22,7 @@ module('Acceptance | Team | Add member', function (hooks) {
       // when
       const screen = await visit('/equipe');
       await fillIn(
-        screen.getByRole('textbox', { name: "Adresse e-mail professionnelle de l'agent Pix à rattacher" }),
+        screen.getByRole('textbox', { name: /Adresse e-mail professionnelle de l'agent Pix à rattacher/ }),
         'chris@to.phe',
       );
       await click(screen.getByRole('button', { name: 'Donner accès à un agent Pix' }));
@@ -31,7 +31,7 @@ module('Acceptance | Team | Add member', function (hooks) {
       assert.dom(screen.getByText('chris@to.phe')).exists();
       assert.dom(screen.getByText("L'agent christophe leclerc a dorénavant accès à Pix Admin")).exists();
       assert
-        .dom(screen.getByRole('textbox', { name: "Adresse e-mail professionnelle de l'agent Pix à rattacher" }))
+        .dom(screen.getByRole('textbox', { name: /Adresse e-mail professionnelle de l'agent Pix à rattacher/ }))
         .hasNoValue();
       assert.dom(screen.getByRole('table', { name: 'Liste des membres' })).containsText('christophe leclerc');
     });
@@ -55,7 +55,7 @@ module('Acceptance | Team | Add member', function (hooks) {
       // when
       const screen = await visit('/equipe');
       await fillIn(
-        screen.getByRole('textbox', { name: "Adresse e-mail professionnelle de l'agent Pix à rattacher" }),
+        screen.getByRole('textbox', { name: /Adresse e-mail professionnelle de l'agent Pix à rattacher/ }),
         'marie.tim@example.net',
       );
       await click(screen.getByRole('button', { name: 'Donner accès à un agent Pix' }));
@@ -85,7 +85,7 @@ module('Acceptance | Team | Add member', function (hooks) {
       // when
       const screen = await visit('/equipe');
       await fillIn(
-        screen.getByRole('textbox', { name: "Adresse e-mail professionnelle de l'agent Pix à rattacher" }),
+        screen.getByRole('textbox', { name: /Adresse e-mail professionnelle de l'agent Pix à rattacher/ }),
         'marie.tim@example.net',
       );
       await click(screen.getByRole('button', { name: 'Donner accès à un agent Pix' }));

@@ -185,7 +185,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         await clickByName('Clés de lecture');
         await clickByName('Voir le détail du palier 100');
         await clickByName('Modifier');
-        await fillByLabel('Titre', 'titre modifié');
+        await fillByLabel(/Titre du palier/, 'titre modifié');
         await clickByName('Annuler');
 
         // then
@@ -205,10 +205,11 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           await clickByName('Nouveau palier "1er acquis"');
 
           const [firstStageTitleInput, secondStageTitleInput, firstSkillStageTitleInput] =
-            screen.getAllByLabelText('Titre du palier');
+            screen.getAllByLabelText(/Titre du palier/);
           const [firstStageLevelButton, secondStageLevelButton] = screen.getAllByLabelText('Niveau du palier');
           const [firstStageLevelMessage, secondStageLevelMessage, firstSkillStageLevelMessage] =
-            screen.getAllByLabelText('Message du palier');
+            screen.getAllByLabelText(/Message du palier/);
+
           await fillIn(firstStageTitleInput, 'mon premier palier');
           await fillIn(secondStageTitleInput, 'mon deuxième palier');
           await fillIn(firstSkillStageTitleInput, 'mon palier premier acquis');
@@ -291,7 +292,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           await click(screen.getByRole('button', { name: 'Niveau' }));
           await screen.findByRole('listbox');
           await click(screen.getByRole('option', { name: '1' }));
-          await fillByLabel('Titre', 'nouveau titre');
+          await fillByLabel(/Titre du palier/, 'nouveau titre');
           await fillByLabel('Message', 'nouveau message');
           await fillByLabel('Titre pour le prescripteur', 'nouveau titre prescripteur');
           await fillByLabel('Description pour le prescripteur', 'nouvelle description prescripteur');
@@ -318,9 +319,9 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           await clickByName('Nouveau palier');
           await clickByName('Nouveau palier');
 
-          const [firstStageTitleInput, secondStageTitleInput] = screen.getAllByLabelText('Titre du palier');
-          const [firstStageThresholdInput, secondStageThresholdInput] = screen.getAllByLabelText('Seuil du palier');
-          const [firstStageLevelMessage, secondStageLevelMessage] = screen.getAllByLabelText('Message du palier');
+          const [firstStageTitleInput, secondStageTitleInput] = screen.getAllByLabelText(/Titre du palier/);
+          const [firstStageThresholdInput, secondStageThresholdInput] = screen.getAllByLabelText(/Seuil/);
+          const [firstStageLevelMessage, secondStageLevelMessage] = screen.getAllByLabelText(/Message du palier/);
           await fillIn(firstStageTitleInput, 'mon premier palier');
           await fillIn(secondStageTitleInput, 'mon deuxième palier');
           await fillIn(secondStageThresholdInput, 50);
@@ -389,8 +390,8 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           await clickByName('Clés de lecture');
           await clickByName('Voir le détail du palier 100');
           await clickByName('Modifier');
-          await fillByLabel('Seuil', 20);
-          await fillByLabel('Titre', 'nouveau titre');
+          await fillByLabel(/Seuil/, 20);
+          await fillByLabel(/Titre du palier/, 'nouveau titre');
           await fillByLabel('Message', 'nouveau message');
           await fillByLabel('Titre pour le prescripteur', 'nouveau titre prescripteur');
           await fillByLabel('Description pour le prescripteur', 'nouvelle description prescripteur');

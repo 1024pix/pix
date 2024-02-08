@@ -12,17 +12,19 @@
           required="true"
           @isDisabled={{@stage.isZeroStage}}
           @label="Niveau du palier"
+          @id={{concat "threshold-" @index}}
         />
       {{else}}
         <PixInput
-          @id="threshold"
+          @id={{concat "threshold-" @index}}
           @errorMessage="Le seuil est invalide"
           @validationStatus={{this.thresholdStatus}}
           @requiredLabel="Champ obligatoire"
           type="number"
           @value={{this.threshold}}
           readonly={{@stage.isZeroStage}}
-          @ariaLabel="Seuil du palier"
+          @label="Seuil du palier"
+          @screenReaderOnly={{true}}
           {{on "focusout" this.checkThresholdValidity}}
         />
       {{/if}}
@@ -30,22 +32,24 @@
   </td>
   <td>
     <PixInput
-      @id="title"
+      @id={{concat "title-" @index}}
       @errorMessage="Le titre est vide"
       @validationStatus={{this.titleStatus}}
       @value={{this.title}}
       @requiredLabel="Champ obligatoire"
-      @ariaLabel="Titre du palier"
+      @label="Titre du palier"
+      @screenReaderOnly={{true}}
       {{on "focusout" this.checkTitleValidity}}
     />
   </td>
   <td>
     <PixInput
-      @id="message"
+      @id={{concat "message-" @index}}
       @errorMessage="Le message est vide"
       @validationStatus={{this.messageStatus}}
       @requiredLabel="Champ obligatoire"
-      @ariaLabel="Message du palier"
+      @label="Message du palier"
+      @screenReaderOnly={{true}}
       @value={{this.message}}
       {{on "focusout" this.checkMessageValidity}}
     />

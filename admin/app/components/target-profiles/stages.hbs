@@ -15,9 +15,10 @@
             </tr>
           </thead>
           <tbody>
-            {{#each @stageCollection.sortedStages as |stage|}}
+            {{#each @stageCollection.sortedStages as |stage index|}}
               {{#if stage.isBeingCreated}}
                 <TargetProfiles::Stages::NewStage
+                  @index={{index}}
                   @stage={{stage}}
                   @imageUrl={{@imageUrl}}
                   @availableLevels={{this.availableLevels}}
