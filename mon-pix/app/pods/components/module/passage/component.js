@@ -1,10 +1,11 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { service } from '@ember/service';
 
 export default class ModulePassage extends Component {
+  @service router;
   @tracked grainsToDisplay = [this.args.module.grains[0]];
-
   static SCROLL_OFFSET_PX = 70;
 
   @action
@@ -52,5 +53,10 @@ export default class ModulePassage extends Component {
     }
 
     return this.grainsToDisplay.length - 1 === index;
+  }
+
+  @action
+  terminateModule() {
+    return this.router.transitionTo('module.recap', this.args.module);
   }
 }

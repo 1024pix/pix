@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { currentURL } from '@ember/test-helpers';
 
 module('Acceptance | Module | Routes | navigateIntoTheModulePassage', function (hooks) {
   setupApplicationTest(hooks);
@@ -85,6 +86,37 @@ module('Acceptance | Module | Routes | navigateIntoTheModulePassage', function (
         // then
         assert.dom(screen.queryByRole('button', { name: 'Continuer' })).doesNotExist();
       });
+    });
+
+    test('should navigate to recap page when terminate is clicked', async function (assert) {
+      // given
+      const text1 = server.create('text', {
+        id: 'elementId-1',
+        type: 'texts',
+        content: 'content-1',
+      });
+      const grain1 = server.create('grain', {
+        id: 'grainId-1',
+        title: 'title grain 1',
+        elements: [text1],
+      });
+      server.create('module', {
+        id: 'bien-ecrire-son-adresse-mail',
+        title: 'Bien écrire son adresse mail',
+        grains: [grain1],
+      });
+
+      // when
+      const screen = await visit('/modules/bien-ecrire-son-adresse-mail/passage');
+
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Terminer' })).exists({ count: 1 });
+
+      // when
+      await clickByName('Terminer');
+
+      // then
+      assert.strictEqual(currentURL(), '/modules/bien-ecrire-son-adresse-mail/recap');
     });
   });
 });
