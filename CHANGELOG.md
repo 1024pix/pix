@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v4.100.2 (08/02/2024)
+
+### :bug: Correction
+- [#8014](https://github.com/1024pix/pix/pull/8014) [BUGFIX] Retirer les modifications relatives à l'import SIECLE sur S3.
+
 ## v4.100.1 (08/02/2024)
 
 ### :bug: Correction
