@@ -18,7 +18,6 @@ import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   UncancellableOrganizationInvitationError,
-  OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
@@ -473,23 +472,6 @@ describe('Unit | Application | ErrorManager', function () {
 
         // then
         expect(HttpErrors.ServiceUnavailableError).to.have.been.calledWithExactly(
-          error.message,
-          error.code,
-          error.meta,
-        );
-      });
-
-      it('instantiates UnprocessableEntityError when OidcInvokingTokenEndpointError', async function () {
-        // given
-        const error = new OidcInvokingTokenEndpointError('Some message', 'someCode', 'someMetaData');
-        sinon.stub(HttpErrors, 'UnprocessableEntityError');
-        const params = { request: {}, h: hFake, error };
-
-        // when
-        await handle(params.request, params.h, params.error);
-
-        // then
-        expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(
           error.message,
           error.code,
           error.meta,
