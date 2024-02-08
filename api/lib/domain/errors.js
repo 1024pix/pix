@@ -963,14 +963,6 @@ class OidcUserInfoFormatError extends DomainError {
   }
 }
 
-class OidcInvokingTokenEndpointError extends DomainError {
-  constructor(message = 'Error in retrieving tokens from the partner.', code, meta) {
-    super(message);
-    this.code = code;
-    this.meta = meta;
-  }
-}
-
 class InvalidIdentityProviderError extends DomainError {
   constructor(identityProvider) {
     const message = `Identity provider ${identityProvider} is not supported.`;
@@ -1205,7 +1197,6 @@ export {
   NotFoundError,
   NotImplementedError,
   ObjectValidationError,
-  OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
   OrganizationAlreadyExistError,
