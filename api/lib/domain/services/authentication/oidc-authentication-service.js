@@ -4,7 +4,7 @@ import { randomUUID } from 'crypto';
 import { Issuer } from 'openid-client';
 
 import { logger } from '../../../infrastructure/logger.js';
-import { OidcMissingFieldsError, OidcUserInfoFormatError } from '../../errors.js';
+import { OidcMissingFieldsError } from '../../errors.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';
 import { config } from '../../../../src/shared/config.js';
