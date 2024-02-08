@@ -99,9 +99,10 @@ const authenticateUser = async function (
     authenticationServiceRegistry,
   },
 ) {
-  const { code, identityProvider, redirectUri, state } = request.deserializedPayload;
+  const { code, identityProvider, redirectUri, state: stateReceived } = request.deserializedPayload;
 
-  const sessionState = request.yar.get('state', true);
+  const stateSent = request.yar.get('state', true);
+  // eslint-disable-next-line no-unused-vars
   const nonce = request.yar.get('nonce', true);
 
   const oidcAuthenticationService =
@@ -110,9 +111,8 @@ const authenticateUser = async function (
   const result = await usecases.authenticateOidcUser({
     code,
     redirectUri,
-    state,
-    sessionState,
-    nonce,
+    stateReceived,
+    stateSent,
     oidcAuthenticationService,
   });
 
