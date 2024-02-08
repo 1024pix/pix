@@ -7,21 +7,20 @@ const configKey = GOOGLE.configKey;
 class GoogleOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
-      identityProvider: GOOGLE.code,
+      authenticationUrl: config[configKey].authenticationUrl,
+      clientId: config[configKey].clientId,
+      clientSecret: config[configKey].clientSecret,
       configKey,
-      source: 'google',
-      slug: 'google',
+      identityProvider: GOOGLE.code,
+      jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       organizationName: 'Google',
-      jwtOptions: { expiresIn: config.google.accessTokenLifespanMs / 1000 },
-      clientSecret: config.google.clientSecret,
-      clientId: config.google.clientId,
-      tokenUrl: config.google.tokenUrl,
-      authenticationUrl: config.google.authenticationUrl,
-      authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
-      userInfoUrl: config.google.userInfoUrl,
+      slug: 'google',
+      source: 'google',
+      tokenUrl: config[configKey].tokenUrl,
+      userInfoUrl: config[configKey].userInfoUrl,
     });
 
-    this.temporaryStorage = config.google.temporaryStorage;
+    this.temporaryStorage = config[configKey].temporaryStorage;
   }
 }
 
