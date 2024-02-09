@@ -1,12 +1,12 @@
 import _ from 'lodash';
-import { DomainTransaction } from '../DomainTransaction.js';
-import { CertificationAssessment } from '../../domain/models/CertificationAssessment.js';
-import { CertificationChallengeWithType } from '../../domain/models/CertificationChallengeWithType.js';
-import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
-import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
-import * as answerStatusDatabaseAdapter from '../../../src/shared/infrastructure/adapters/answer-status-database-adapter.js';
-import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { CertificationAssessment } from '../../../../../lib/domain/models/CertificationAssessment.js';
+import { CertificationChallengeWithType } from '../../../../../lib/domain/models/CertificationChallengeWithType.js';
+import { Answer } from '../../../../evaluation/domain/models/Answer.js';
+import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
+import * as answerStatusDatabaseAdapter from '../../../../shared/infrastructure/adapters/answer-status-database-adapter.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
 
 async function _getCertificationChallenges(certificationCourseId, knexConn) {
   const certificationChallengeRows = await knexConn('certification-challenges')

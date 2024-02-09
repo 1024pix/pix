@@ -1,12 +1,12 @@
-import { expect, databaseBuilder, mockLearningContent, catchErr } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as certificationAssessmentRepository from '../../../../lib/infrastructure/repositories/certification-assessment-repository.js';
-import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
-import { Challenge } from '../../../../src/shared/domain/models/Challenge.js';
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
+import { expect, databaseBuilder, mockLearningContent, catchErr } from '../../../../../test-helper.js';
+import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import * as certificationAssessmentRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
+import { CertificationAssessment } from '../../../../../../lib/domain/models/index.js';
+import { Challenge } from '../../../../../../src/shared/domain/models/Challenge.js';
+import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import _ from 'lodash';
 import dayjs from 'dayjs';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 
 describe('Integration | Infrastructure | Repositories | certification-assessment-repository', function () {
   beforeEach(function () {
