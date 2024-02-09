@@ -45,14 +45,18 @@
       >
         <FaIcon @icon="circle-info" class="challenge-actions-alert-message__icon" />
         {{#if @isCertification}}
-          <span data-test="certification-focused-out-error-message">{{t
-              "pages.challenge.has-focused-out-of-window.certification"
-              htmlSafe=true
-            }}</span>
+          {{#if (eq @certificationVersion 3)}}
+            <span data-test="certification-v3-focused-out-error-message">{{t
+                "pages.challenge.has-focused-out-of-window.v3-certification"
+              }}</span>
+          {{else}}
+            <span data-test="certification-focused-out-error-message">{{t
+                "pages.challenge.has-focused-out-of-window.certification"
+              }}</span>
+          {{/if}}
         {{else}}
           <span data-test="default-focused-out-error-message">{{t
               "pages.challenge.has-focused-out-of-window.default"
-              htmlSafe=true
             }}</span>
         {{/if}}
       </div>
