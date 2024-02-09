@@ -91,17 +91,15 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
             title: 'Grain 1',
             type: 'activity',
             elements: [
-              new Text({ id: '1', content: 'toto', type: 'text' }),
+              new Text({ id: '1', content: 'toto' }),
               new QCU({
                 id: '2',
-                type: 'qcu',
                 proposals: [{ id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'toto' }],
                 instruction: 'hello',
                 solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
               }),
               new QCM({
                 id: '2000',
-                type: 'qcm',
                 proposals: [
                   { id: '1', content: 'toto' },
                   { id: '2', content: 'tata' },
@@ -112,7 +110,6 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
               }),
               new QROCM({
                 id: '100',
-                type: 'qrocm',
                 instruction: '',
                 locales: ['fr-FR'],
                 proposals: [
