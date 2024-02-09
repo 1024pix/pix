@@ -160,6 +160,13 @@ class NotFoundError extends DomainError {
   }
 }
 
+class OidcError extends DomainError {
+  constructor({ code = 'OIDC_GENERIC_ERROR', message }) {
+    super(message);
+    this.code = code;
+  }
+}
+
 class TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization extends DomainError {
   constructor() {
     super('Target profile requires to be linked to autonomous course organization.');
@@ -193,6 +200,7 @@ export {
   MissingBadgeCriterionError,
   NoCertificationAttestationForDivisionError,
   NotFoundError,
+  OidcError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
   UserNotAuthorizedToAccessEntityError,
 };
