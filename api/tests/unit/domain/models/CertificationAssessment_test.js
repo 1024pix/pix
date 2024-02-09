@@ -453,6 +453,19 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       // when then
       expect(certificationAssessment.state).to.equal(CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION);
     });
+
+    it('should NOT change the assessment state if it is "endedBySupervisor"', function () {
+      // given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        state: CertificationAssessment.states.ENDED_BY_SUPERVISOR,
+      });
+
+      // when
+      certificationAssessment.endDueToFinalization();
+
+      // when then
+      expect(certificationAssessment.state).to.equal(CertificationAssessment.states.ENDED_BY_SUPERVISOR);
+    });
   });
 
   describe('#findAnswersAndChallengesForCertifiableBadgeKey', function () {
