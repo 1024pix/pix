@@ -33,19 +33,42 @@ class SiecleParser {
 
     await this.siecleFileStreamer.close();
 
-    // Prevent missing UAJ tag
-    if (!this.hasCorrectUAJ) {
-      throw new SiecleXmlImportError(ERRORS.UAI_MISMATCHED);
-    }
-
     return this.organizationLearnersSet.organizationLearners.filter(
       (organizationLearner) => !isUndefined(organizationLearner.division),
     );
   }
 
+  async checkUAJ() {
+    await this.siecleFileStreamer.perform((stream, resolve, reject) => {
+      const streamerToParseOrganizationLearners = new saxPath.SaXPath(stream, '/BEE_ELEVES/PARAMETRES/UAJ');
+      streamerToParseOrganizationLearners.on('match', (xmlNode) => {
+        if (_isUAJNode(xmlNode)) {
+          xml2js.parseString(xmlNode, (err, nodeData) => {
+            if (err) return reject(err); // Si j'enleve cette ligne les tests passent
+            const UAIFromUserOrganization = this.organization.externalId;
+            if (nodeData.UAJ !== UAIFromUserOrganization) {
+              reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
+            } else {
+              this.hasCorrectUAJ = true;
+            }
+          });
+        }
+      });
+
+      streamerToParseOrganizationLearners.on('end', resolve);
+    });
+
+    await this.siecleFileStreamer.close();
+
+    // Prevent missing UAJ tag
+    if (!this.hasCorrectUAJ) {
+      throw new SiecleXmlImportError(ERRORS.UAI_MISMATCHED);
+    }
+  }
+
   async _parse() {
     await this.siecleFileStreamer.perform((stream, resolve, reject) => {
-      const streamerToParseOrganizationLearners = new saxPath.SaXPath(stream, '//*');
+      const streamerToParseOrganizationLearners = new saxPath.SaXPath(stream, '/BEE_ELEVES/DONNEES/*/*');
       streamerToParseOrganizationLearners.on('match', (xmlNode) => {
         if (_isOrganizationLearnerNode(xmlNode)) {
           xml2js.parseString(xmlNode, (err, nodeData) => {
@@ -59,16 +82,6 @@ class SiecleParser {
               }
             } catch (err) {
               reject(err);
-            }
-          });
-        } else if (_isUAJNode(xmlNode)) {
-          xml2js.parseString(xmlNode, (err, nodeData) => {
-            if (err) return reject(err); // Si j'enleve cette ligne les tests passent
-            const UAIFromUserOrganization = this.organization.externalId;
-            if (nodeData.UAJ !== UAIFromUserOrganization) {
-              reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
-            } else {
-              this.hasCorrectUAJ = true;
             }
           });
         }

@@ -43,6 +43,11 @@ const importOrganizationLearnersFromSIECLEXMLFormat = async function ({
     if (directory) {
       await fs.rm(directory, { recursive: true });
     }
+    const readableStreamForUAJ = await importStorage.readFile({ filename });
+    const siecleFileStreamerForUAJ = await SiecleFileStreamer.create(readableStreamForUAJ, encoding);
+    const parserForUAJ = SiecleParser.create(organization, siecleFileStreamerForUAJ);
+    await parserForUAJ.checkUAJ();
+
     const readableStream = await importStorage.readFile({ filename });
     const siecleFileStreamer = await SiecleFileStreamer.create(readableStream, encoding);
     const parser = SiecleParser.create(organization, siecleFileStreamer);
