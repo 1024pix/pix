@@ -26,7 +26,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QROCM', function () {
 
   describe('A QROCM without id', function () {
     it('should throw an error', function () {
-      expect(() => new QROCM({})).to.throw("L'id est obligatoire pour un élément");
+      expect(() => new QROCM({})).to.throw('The id is required for an element');
     });
   });
 

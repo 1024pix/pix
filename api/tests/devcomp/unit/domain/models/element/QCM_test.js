@@ -28,7 +28,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QCM', function () {
 
   describe('A QCM without id', function () {
     it('should throw an error', function () {
-      expect(() => new QCM({})).to.throw("L'id est obligatoire pour un élément");
+      expect(() => new QCM({})).to.throw('The id is required for an element');
     });
   });
 
