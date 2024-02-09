@@ -28,7 +28,6 @@ class OidcAuthenticationService {
     {
       additionalRequiredProperties,
       authenticationUrl,
-      extraAuthorizationUrlParameters,
       claimsToStore,
       clientId,
       clientSecret,
@@ -50,7 +49,6 @@ class OidcAuthenticationService {
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
     this.authenticationUrl = authenticationUrl;
-    this.extraAuthorizationUrlParameters = extraAuthorizationUrlParameters;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.configKey = configKey;
@@ -183,10 +181,6 @@ class OidcAuthenticationService {
       scope: this.scope,
       state,
     };
-
-    if (this.extraAuthorizationUrlParameters) {
-      Object.assign(authorizationParameters, this.extraAuthorizationUrlParameters);
-    }
 
     const redirectTarget = this.client.authorizationUrl(authorizationParameters);
 
