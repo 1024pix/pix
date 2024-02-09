@@ -17,6 +17,8 @@ import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { QROCMForAnswerVerification } from '../../domain/models/element/QROCM-for-answer-verification.js';
 import { Video } from '../../domain/models/element/Video.js';
 import { Details } from '../../domain/models/module/Details.js';
+import { QCM } from '../../domain/models/element/QCM.js';
+import { QcmProposal } from '../../domain/models/QcmProposal.js';
 
 async function getBySlug({ slug, moduleDatasource }) {
   try {
@@ -63,6 +65,8 @@ function _toDomain(moduleData) {
                 return _toImageDomain(element);
               case 'text':
                 return _toTextDomain(element);
+              case 'qcm':
+                return _toQCMDomain(element);
               case 'qcu':
                 return _toQCUDomain(element);
               case 'qrocm':
@@ -174,6 +178,21 @@ function _toQCUDomain(element) {
     locales: element.locales,
     proposals: element.proposals.map((proposal) => {
       return new QcuProposal({
+        id: proposal.id,
+        content: proposal.content,
+      });
+    }),
+    type: element.type,
+  });
+}
+
+function _toQCMDomain(element) {
+  return new QCM({
+    id: element.id,
+    instruction: element.instruction,
+    locales: element.locales,
+    proposals: element.proposals.map((proposal) => {
+      return new QcmProposal({
         id: proposal.id,
         content: proposal.content,
       });
