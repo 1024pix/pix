@@ -348,6 +348,40 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       expect(result).to.be.an.instanceOf(AuthenticationSessionContent);
       expect(result).to.deep.equal(oidcAuthenticationSessionContent);
     });
+
+    context('when OpenId Client callback fails', function () {
+      it('throws an error', async function () {
+        const clientId = Symbol('clientId');
+        const clientSecret = Symbol('clientSecret');
+        const configKey = 'identityProviderConfigKey';
+        const identityProvider = Symbol('identityProvider');
+        const redirectUri = Symbol('redirectUri');
+        const openidConfigurationUrl = Symbol('openidConfigurationUrl');
+
+        sinon.stub(settings, 'identityProviderConfigKey').value({});
+
+        const Client = sinon.stub().returns({ callback: sinon.stub().rejects(new Error('Fails to get tokens')) });
+
+        sinon.stub(Issuer, 'discover').resolves({ Client });
+
+        const oidcAuthenticationService = new OidcAuthenticationService({
+          clientId,
+          clientSecret,
+          configKey,
+          identityProvider,
+          redirectUri,
+          openidConfigurationUrl,
+        });
+        await oidcAuthenticationService.createClient();
+
+        // when
+        const error = await catchErr(oidcAuthenticationService.exchangeCodeForTokens, oidcAuthenticationService)({});
+
+        // then
+        expect(error).to.be.instanceOf(OidcError);
+        expect(error.message).to.be.equal('Fails to get tokens');
+      });
+    });
   });
 
   describe('#getAuthenticationUrl', function () {
