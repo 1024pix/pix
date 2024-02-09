@@ -6,6 +6,7 @@ import { Challenge } from '../../../../src/shared/domain/models/Challenge.js';
 import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import _ from 'lodash';
 import dayjs from 'dayjs';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
 describe('Integration | Infrastructure | Repositories | certification-assessment-repository', function () {
   beforeEach(function () {
@@ -475,6 +476,88 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       // then
       const persistedCertificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
       expect(persistedCertificationAssessment.endedAt).to.deep.equal(endedAt);
+    });
+  });
+
+  describe('#getByCertificationCandidateId', function () {
+    it("should return the user's assessment given its certification candidate id", async function () {
+      // given
+      const expectedState = Assessment.states.STARTED;
+      const expectedEndedAt = new Date('2020-01-02T00:00:00Z');
+      const sessionId = databaseBuilder.factory.buildSession({}).id;
+      const firstUserId = databaseBuilder.factory.buildUser({}).id;
+      const secondUserId = databaseBuilder.factory.buildUser({}).id;
+
+      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+        sessionId,
+        userId: firstUserId,
+      }).id;
+
+      const firstUserCertificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        userId: firstUserId,
+        endedAt: expectedEndedAt,
+      }).id;
+      const secondUserCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        userId: secondUserId,
+      }).id;
+
+      const firstUserAssessmentId = databaseBuilder.factory.buildAssessment({
+        userId: firstUserId,
+        certificationCourseId: firstUserCertificationCourseId,
+        state: expectedState,
+        type: 'CERTIFICATION',
+      }).id;
+
+      databaseBuilder.factory.buildAssessment({
+        userId: secondUserId,
+        certificationCourseId: secondUserCertificationCourse,
+        state: Assessment.states.COMPLETED,
+        type: 'CERTIFICATION',
+      });
+
+      databaseBuilder.factory.buildCertificationChallenge({
+        challengeId: 'recChalA',
+        courseId: firstUserCertificationCourseId,
+        id: 123,
+      });
+      databaseBuilder.factory.buildCertificationChallenge({
+        challengeId: 'recChalB',
+        courseId: firstUserCertificationCourseId,
+        id: 456,
+      });
+
+      // secondAnswerInTime must be inserted in DB before firstAnswerInTime so we can ensure that ordering is based on createdAt
+      databaseBuilder.factory.buildAnswer({
+        assessmentId: firstUserAssessmentId,
+        createdAt: new Date('2020-06-24T00:00:01Z'),
+        challengeId: 'recChalA',
+      }).id;
+
+      databaseBuilder.factory.buildAnswer({
+        assessmentId: firstUserAssessmentId,
+        createdAt: new Date('2020-06-24T00:00:00Z'),
+        challengeId: 'recChalB',
+      }).id;
+
+      await databaseBuilder.commit();
+
+      // when
+      const certificationAssessment =
+        await certificationAssessmentRepository.getByCertificationCandidateId(certificationCandidateId);
+
+      // then
+      expect(certificationAssessment).to.be.an.instanceOf(CertificationAssessment);
+      expect(certificationAssessment.id).to.equal(firstUserAssessmentId);
+      expect(certificationAssessment.userId).to.equal(firstUserId);
+      expect(certificationAssessment.certificationCourseId).to.equal(firstUserCertificationCourseId);
+      expect(certificationAssessment.state).to.equal(expectedState);
+      expect(certificationAssessment.version).to.equal(2);
+      expect(dayjs(certificationAssessment.endedAt).toISOString()).to.equal(dayjs(expectedEndedAt).toISOString());
+
+      expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
+      expect(certificationAssessment.certificationChallenges).to.have.length(2);
     });
   });
 });

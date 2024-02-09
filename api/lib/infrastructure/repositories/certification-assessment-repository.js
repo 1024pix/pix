@@ -107,6 +107,46 @@ const getByCertificationCourseId = async function ({
   });
 };
 
+const getByCertificationCandidateId = async function (certificationCandidateId) {
+  const certificationAssessmentRow = await knex('assessments')
+    .select({
+      id: 'assessments.id',
+      userId: 'assessments.userId',
+      certificationCourseId: 'certification-courses.id',
+      createdAt: 'certification-courses.createdAt',
+      completedAt: 'certification-courses.completedAt',
+      endedAt: 'certification-courses.endedAt',
+      state: 'assessments.state',
+      version: 'certification-courses.version',
+    })
+    .join('certification-courses', 'certification-courses.id', 'assessments.certificationCourseId')
+    .join('certification-candidates', function () {
+      this.on('certification-candidates.userId', 'certification-courses.userId').andOn(
+        'certification-candidates.sessionId',
+        'certification-courses.sessionId',
+      );
+    })
+    .where({ 'certification-candidates.id': certificationCandidateId })
+    .first();
+
+  if (!certificationAssessmentRow) {
+    throw new NotFoundError(
+      `L'assessment de certification pour le candidat d'id ${certificationCandidateId} n'existe pas ou son accès est restreint`,
+    );
+  }
+  const certificationChallenges = await _getCertificationChallenges(
+    certificationAssessmentRow.certificationCourseId,
+    knex,
+  );
+  const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRow.id, knex);
+
+  return new CertificationAssessment({
+    ...certificationAssessmentRow,
+    certificationChallenges,
+    certificationAnswersByDate,
+  });
+};
+
 const save = async function (certificationAssessment) {
   for (const challenge of certificationAssessment.certificationChallenges) {
     await knex('certification-challenges')
@@ -128,4 +168,4 @@ const save = async function (certificationAssessment) {
     .update({ endedAt: certificationAssessment.endedAt });
 };
 
-export { get, getByCertificationCourseId, save };
+export { get, getByCertificationCourseId, save, getByCertificationCandidateId };
