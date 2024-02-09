@@ -21,7 +21,7 @@ class ImportStorage {
     let readableStream;
     try {
       readableStream = this.#createReadStream(filepath);
-      readableStream.on('error', function (error) {
+      readableStream.once('error', function (error) {
         throw error;
       });
     } catch (error) {
@@ -29,6 +29,7 @@ class ImportStorage {
       throw new FileValidationError('INVALID_FILE');
     }
     await this.#client.startUpload({ filename, readableStream });
+    readableStream.destroy();
     return filename;
   }
 

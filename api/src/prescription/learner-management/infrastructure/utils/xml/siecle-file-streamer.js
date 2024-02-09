@@ -49,7 +49,7 @@ class SiecleFileStreamer {
 
 function _getSaxStream(inputStream, encoding, reject, logError) {
   const decodeStream = _getDecodingStream(encoding);
-  decodeStream.on('error', (err) => {
+  decodeStream.once('error', (err) => {
     logError(err);
     return reject(new FileValidationError(ERRORS.ENCODING_NOT_SUPPORTED));
   });

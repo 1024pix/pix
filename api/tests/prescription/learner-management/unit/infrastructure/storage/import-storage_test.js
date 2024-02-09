@@ -29,7 +29,7 @@ describe('Unit | Storage | ImportStorage', function () {
       sinon.stub(S3ObjectStorageProvider, 'createClient').returns(providerStub);
       const importStorage = new ImportStorage({ basename: basenameStub, createReadStream: createReadStreamStub });
       providerStub.startUpload.resolves();
-      const noOpStream = { on: () => sinon.stub() };
+      const noOpStream = { once: () => sinon.stub(), destroy: sinon.stub() };
       createReadStreamStub.withArgs(filepath).returns(noOpStream);
 
       // when
@@ -41,6 +41,24 @@ describe('Unit | Storage | ImportStorage', function () {
         readableStream: noOpStream,
       });
     });
+
+    it('should destroy stream once file is sent', async function () {
+      // given
+      const filepath = 'hey.xml';
+      const providerStub = sinon.createStubInstance(S3ObjectStorageProvider);
+      sinon.stub(S3ObjectStorageProvider, 'createClient').returns(providerStub);
+      const importStorage = new ImportStorage({ basename: basenameStub, createReadStream: createReadStreamStub });
+      providerStub.startUpload.resolves();
+      const noOpStream = { once: () => sinon.stub(), destroy: sinon.stub() };
+      createReadStreamStub.withArgs(filepath).returns(noOpStream);
+
+      // when
+      await importStorage.sendFile({ filepath });
+
+      // then
+      expect(noOpStream.destroy).to.have.been.called;
+    });
+
     it('should return filename stored in bucket', async function () {
       // given
       const filepath = 'src/hey.xml';
@@ -49,7 +67,7 @@ describe('Unit | Storage | ImportStorage', function () {
       basenameStub.withArgs(filepath).returns('hey.xml');
       const importStorage = new ImportStorage({ basename: basenameStub, createReadStream: createReadStreamStub });
       providerStub.startUpload.resolves();
-      const noOpStream = { on: () => sinon.stub() };
+      const noOpStream = { once: () => sinon.stub(), destroy: sinon.stub() };
       createReadStreamStub.withArgs(filepath).returns(noOpStream);
 
       // when
