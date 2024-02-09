@@ -280,7 +280,10 @@ class UserShouldNotBeReconciledOnAnotherAccountError extends DomainError {
 }
 
 class CertificationCourseNotPublishableError extends DomainError {
-  constructor(message = "Une Certification avec le statut 'started' ou 'error' ne peut-être publiée.") {
+  constructor(
+    sessionId,
+    message = `Publication de la session ${sessionId}: Une Certification avec le statut 'started' ou 'error' ne peut-être publiée.`,
+  ) {
     super(message);
   }
 }

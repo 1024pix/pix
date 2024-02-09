@@ -36,7 +36,7 @@ const finalizeSession = async function ({
 
   const hasNoStartedCertification = await sessionRepository.hasNoStartedCertification(sessionId);
 
-  const uncompletedCertificationCount = await sessionRepository.countUncompletedCertifications(sessionId);
+  const uncompletedCertificationCount = await sessionRepository.countUncompletedCertificationsAssessment(sessionId);
 
   const abortReasonCount = _countAbortReasons(certificationReports);
 

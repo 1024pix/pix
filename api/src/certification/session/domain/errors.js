@@ -40,6 +40,7 @@ class SessionWithMissingAbortReasonError extends DomainError {
     message = "Une ou plusieurs certifications non terminées n'ont pas de “Raison de l’abandon” renseignées. La session ne peut donc pas être finalisée.",
   ) {
     super(message);
+    this.code = 'UNTERMINATED_CERTIFICATION_WITHOUT_ABORT_REASON';
   }
 }
 
