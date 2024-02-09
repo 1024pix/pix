@@ -16,7 +16,6 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
     super({
       additionalRequiredProperties: ['logoutUrl', 'afterLogoutUrl', 'sendingUrl'],
       authenticationUrl: config[configKey].authenticationUrl,
-      extraAuthorizationUrlParameters: { realm: '/individu' },
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
