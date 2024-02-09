@@ -784,7 +784,7 @@
         "header": "Uw antwoorden"
       },
       "completion-percentage": {
-        "caption": "vooruitgang",
+        "caption": "vooruitgang in de reis",
         "label": "'<p class=\"sr-only\">'Je hebt '</p>'{completionPercentage}%'<p class=\"sr-only\">' van je reis voltooid.'</p>'"
       }
     },
