@@ -12,6 +12,7 @@ import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js'
 import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../constants.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
+import { OidcError } from '../../../../src/shared/domain/errors.js';
 
 const DEFAULT_REQUIRED_PROPERTIES = [
   'clientId',
@@ -204,7 +205,13 @@ class OidcAuthenticationService {
       Object.assign(authorizationParameters, this.extraAuthorizationUrlParameters);
     }
 
-    const redirectTarget = this.client.authorizationUrl(authorizationParameters);
+    let redirectTarget;
+
+    try {
+      redirectTarget = this.client.authorizationUrl(authorizationParameters);
+    } catch (error) {
+      throw new OidcError({ message: error.message });
+    }
 
     return { redirectTarget, state, nonce };
   }
