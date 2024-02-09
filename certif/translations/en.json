@@ -370,7 +370,7 @@
           "delete-reporting": "Delete the reporting"
         },
         "errors": {
-          "delete-reporting": "An error has occurred while deleting the reporting. Please try again"
+          "delete-reporting": "An error has occurred while deleting the reporting. Please try again after refresh"
         },
         "subtitle": "My reporting"
       },
