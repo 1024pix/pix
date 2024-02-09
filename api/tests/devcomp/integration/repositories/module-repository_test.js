@@ -16,6 +16,7 @@ import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { Video } from '../../../../src/devcomp/domain/models/element/Video.js';
 import { QROCMForAnswerVerification } from '../../../../src/devcomp/domain/models/element/QROCM-for-answer-verification.js';
 import { TransitionText } from '../../../../src/devcomp/domain/models/TransitionText.js';
+import { QCM } from '../../../../src/devcomp/domain/models/element/QCM.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {
   describe('#getBySlug', function () {
@@ -223,6 +224,83 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
       // then
       expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof QCU))).to.be.true;
+    });
+
+    it('should return a module which contains elements of type QCM if it exists', async function () {
+      // given
+      const existingModuleSlug = 'bien-ecrire-son-adresse-mail';
+      const expectedFoundModule = {
+        id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
+        slug: 'bien-ecrire-son-adresse-mail',
+        title: 'Bien écrire son adresse mail',
+        details: {
+          image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+          description:
+            'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
+          duration: 12,
+          level: 'Débutant',
+          objectives: [
+            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+            'Connaître les parties d’une adresse mail et les identifier sur des exemples',
+            'Comprendre les fonctions des parties d’une adresse mail',
+          ],
+        },
+        grains: [
+          {
+            id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
+            type: 'lesson',
+            title: 'Explications : les parties d’une adresse mail',
+            elements: [
+              {
+                id: '30701e93-1b4d-4da4-b018-fa756c07d53f',
+                type: 'qcm',
+                instruction: '<p>Quels sont les 3 piliers de Pix ?</p>',
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'Evaluer ses connaissances et savoir-faire sur 16 compétences du numérique',
+                  },
+                  {
+                    id: '2',
+                    content: 'Développer son savoir-faire sur les jeux de type TPS',
+                  },
+                  {
+                    id: '3',
+                    content: 'Développer ses compétences numériques',
+                  },
+                  {
+                    id: '4',
+                    content: 'Certifier ses compétences Pix',
+                  },
+                  {
+                    id: '5',
+                    content: 'Evaluer ses compétences de logique et compréhension mathématique',
+                  },
+                ],
+                feedbacks: {
+                  valid: '<p>Correct ! Vous nous avez bien cernés :)</p>',
+                  invalid: '<p>Et non ! Pix sert à évaluer, certifier et développer ses compétences numériques.',
+                },
+                solutions: ['1', '3', '4'],
+              },
+            ],
+          },
+        ],
+      };
+      const moduleDatasourceStub = {
+        getBySlug: sinon.stub(),
+      };
+      moduleDatasourceStub.getBySlug.withArgs(existingModuleSlug).resolves(expectedFoundModule);
+
+      // when
+      const module = await moduleRepository.getBySlug({
+        slug: existingModuleSlug,
+        moduleDatasource: moduleDatasourceStub,
+      });
+
+      // then
+      expect(module.grains[0].elements).to.have.lengthOf(1);
+      expect(module.grains[0].elements[0]).to.be.instanceOf(QCM);
     });
 
     it('should return a module which contains elements of type Image if it exists', async function () {
