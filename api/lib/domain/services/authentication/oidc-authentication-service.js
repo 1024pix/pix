@@ -45,6 +45,7 @@ class OidcAuthenticationService {
       tokenUrl,
       userInfoUrl,
       openidConfigurationUrl,
+      openidClientExtraMetadata,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
@@ -65,6 +66,7 @@ class OidcAuthenticationService {
     this.tokenUrl = tokenUrl;
     this.userInfoUrl = userInfoUrl;
     this.openidConfigurationUrl = openidConfigurationUrl;
+    this.openidClientExtraMetadata = openidClientExtraMetadata;
 
     if (!lodash.isEmpty(claimsToStore)) {
       this.claimsToStore = claimsToStore;
@@ -122,11 +124,17 @@ class OidcAuthenticationService {
   async createClient() {
     try {
       const issuer = await Issuer.discover(this.openidConfigurationUrl);
-      this.client = new issuer.Client({
+      const metadata = {
         client_id: this.clientId,
         client_secret: this.clientSecret,
         redirect_uris: [this.redirectUri],
-      });
+      };
+
+      if (this.openidClientExtraMetadata) {
+        Object.assign(metadata, this.openidClientExtraMetadata);
+      }
+
+      this.client = new issuer.Client(metadata);
     } catch (error) {
       logger.error(`OIDC Provider "${this.identityProvider}" is UNAVAILABLE: ${error}`);
     }
