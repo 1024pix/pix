@@ -832,5 +832,43 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         redirect_uris: [redirectUri],
       });
     });
+
+    it('creates an openid client with extra meatadata', async function () {
+      // given
+      const clientId = Symbol('clientId');
+      const clientSecret = Symbol('clientSecret');
+      const configKey = 'identityProviderConfigKey';
+      const identityProvider = Symbol('identityProvider');
+      const redirectUri = Symbol('redirectUri');
+      const openidConfigurationUrl = Symbol('openidConfigurationUrl');
+      const openidClientExtraMetadata = { token_endpoint_auth_method: 'client_secret_post' };
+      const Client = sinon.spy();
+
+      sinon.stub(Issuer, 'discover').resolves({ Client });
+      sinon.stub(settings, 'identityProviderConfigKey').value({});
+
+      const oidcAuthenticationService = new OidcAuthenticationService({
+        clientId,
+        clientSecret,
+        configKey,
+        identityProvider,
+        redirectUri,
+        openidConfigurationUrl,
+        openidClientExtraMetadata,
+      });
+
+      // when
+      await oidcAuthenticationService.createClient();
+
+      // then
+      expect(Issuer.discover).to.have.been.calledWithExactly(openidConfigurationUrl);
+      expect(Client).to.have.been.calledWithNew;
+      expect(Client).to.have.been.calledWithExactly({
+        client_id: clientId,
+        client_secret: clientSecret,
+        redirect_uris: [redirectUri],
+        token_endpoint_auth_method: 'client_secret_post',
+      });
+    });
   });
 });
