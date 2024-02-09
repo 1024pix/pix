@@ -1,10 +1,7 @@
-import { catchErr, expect, sinon } from '../../../../test-helper.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-import { PAYSDELALOIRE, POLE_EMPLOI } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import { POLE_EMPLOI } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 
-import { logger } from '../../../../../lib/infrastructure/logger.js';
-
-import { UnexpectedOidcStateError } from '../../../../../lib/domain/errors.js';
 import { authenticateOidcUser } from '../../../../../lib/domain/usecases/authentication/authenticate-oidc-user.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
@@ -20,7 +17,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
     beforeEach(function () {
       oidcAuthenticationService = {
-        identityProvider: PAYSDELALOIRE.code,
+        identityProvider: 'OIDC_EXAMPLE_NET',
         createAccessToken: sinon.stub(),
         saveIdToken: sinon.stub(),
         createAuthenticationComplement: sinon.stub(),
@@ -40,28 +37,6 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       userLoginRepository = {
         updateLastLoggedAt: sinon.stub().resolves(),
       };
-    });
-
-    // eslint-disable-next-line mocha/no-skipped-tests
-    context.skip('when the request state does not match the response state', function () {
-      it('throws an UnexpectedOidcStateError', async function () {
-        // given
-        const stateSent = 'stateSent';
-        const stateReceived = 'stateReceived';
-        sinon.stub(logger, 'error');
-
-        // when
-        const error = await catchErr(authenticateOidcUser)({
-          stateReceived,
-          stateSent,
-        });
-
-        // then
-        expect(error).to.be.an.instanceOf(UnexpectedOidcStateError);
-        expect(logger.error).to.have.been.calledWithExactly(
-          `State sent ${stateSent} did not match the state received ${stateReceived}`,
-        );
-      });
     });
 
     it('retrieves authentication token', async function () {
