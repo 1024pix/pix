@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v4.101.0 (09/02/2024)
+
+
+### :rocket: Amélioration
+- [#7999](https://github.com/1024pix/pix/pull/7999) [FEATURE] Modifier le message de sortie d'épreuve focus lors d'une certification V3 (PIX-11031).
+
+### :building_construction: Tech
+- [#8012](https://github.com/1024pix/pix/pull/8012) [TECH] [HOTFIX] Retirer la librairie openid-client.
+
+### :bug: Correction
+- [#8024](https://github.com/1024pix/pix/pull/8024) [BUGFIX] Corrige l'export des campagnes de collecte de profils pour utiliser les chunks correctement (PIX-11141).
+- [#8004](https://github.com/1024pix/pix/pull/8004) [BUGFIX] Permettre de finaliser une session avec des certifications qui n'ont pas encore de scoring (PIX-11105).
+- [#8018](https://github.com/1024pix/pix/pull/8018) [BUGFIX] Permettre l'affichage du nom de campagne sur plusieurs ligne dans la liste sur PixOrga (PIX-11133).
+- [#8014](https://github.com/1024pix/pix/pull/8014) [BUGFIX] Retirer les modifications relatives à l'import SIECLE sur S3.
+- [#8013](https://github.com/1024pix/pix/pull/8013) [BUGFIX] Revert "[TECH]: Sépare le usecase SIECLE de celui de FREGATA (PIX-11061)".
+
+### :coffee: Autre
+- [#7959](https://github.com/1024pix/pix/pull/7959) [FEAT] Ajouter un message d'erreur spécifique lors de la création de parcours autonome non-autorisée (PIX-10994).
+
 ## v4.100.2 (08/02/2024)
 
 ### :bug: Correction
