@@ -10,6 +10,7 @@ import { BlockInput } from '../../../../../../src/devcomp/domain/models/block/Bl
 import { BlockSelect } from '../../../../../../src/devcomp/domain/models/block/BlockSelect.js';
 import { BlockSelectOption } from '../../../../../../src/devcomp/domain/models/block/BlockSelectOption.js';
 import { Video } from '../../../../../../src/devcomp/domain/models/element/Video.js';
+import { QCM } from '../../../../../../src/devcomp/domain/models/element/QCM.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerializer', function () {
   describe('#serialize', function () {
@@ -97,6 +98,17 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
                 proposals: [{ id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'toto' }],
                 instruction: 'hello',
                 solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+              }),
+              new QCM({
+                id: '2000',
+                type: 'qcm',
+                proposals: [
+                  { id: '1', content: 'toto' },
+                  { id: '2', content: 'tata' },
+                  { id: '3', content: 'titi' },
+                ],
+                instruction: 'hello',
+                solutions: ['1', '3'],
               }),
               new QROCM({
                 id: '100',
@@ -201,6 +213,29 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
           },
           {
             attributes: {
+              instruction: 'hello',
+              'is-answerable': true,
+              proposals: [
+                {
+                  content: 'toto',
+                  id: '1',
+                },
+                {
+                  content: 'tata',
+                  id: '2',
+                },
+                {
+                  content: 'titi',
+                  id: '3',
+                },
+              ],
+              type: 'qcms',
+            },
+            id: '2000',
+            type: 'qcms',
+          },
+          {
+            attributes: {
               instruction: '',
               'is-answerable': true,
               type: 'qrocms',
@@ -285,6 +320,10 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
                   {
                     id: '2',
                     type: 'qcus',
+                  },
+                  {
+                    id: '2000',
+                    type: 'qcms',
                   },
                   {
                     id: '100',
