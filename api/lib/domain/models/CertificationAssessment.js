@@ -24,6 +24,7 @@ const certificationAssessmentSchema = Joi.object({
   certificationCourseId: Joi.number().integer().required(),
   createdAt: Joi.date().required(),
   completedAt: Joi.date().allow(null),
+  endedAt: Joi.date().allow(null),
   state: Joi.string()
     .valid(states.COMPLETED, states.STARTED, states.ENDED_BY_SUPERVISOR, states.ENDED_DUE_TO_FINALIZATION)
     .required(),
@@ -46,12 +47,14 @@ class CertificationAssessment {
     version,
     certificationChallenges,
     certificationAnswersByDate,
+    endedAt,
   } = {}) {
     this.id = id;
     this.userId = userId;
     this.certificationCourseId = certificationCourseId;
     this.createdAt = createdAt;
     this.completedAt = completedAt;
+    this.endedAt = endedAt;
     this.state = state;
     this.version = version;
     this.certificationChallenges = certificationChallenges;

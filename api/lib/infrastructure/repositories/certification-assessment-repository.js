@@ -47,6 +47,7 @@ const get = async function (id) {
       certificationCourseId: 'certification-courses.id',
       createdAt: 'certification-courses.createdAt',
       completedAt: 'certification-courses.completedAt',
+      endedAt: 'certification-courses.endedAt',
       state: 'assessments.state',
       version: 'certification-courses.version',
     })
@@ -82,6 +83,7 @@ const getByCertificationCourseId = async function ({
       certificationCourseId: 'certification-courses.id',
       createdAt: 'certification-courses.createdAt',
       completedAt: 'certification-courses.completedAt',
+      endedAt: 'certification-courses.endedAt',
       version: 'certification-courses.version',
       state: 'assessments.state',
     })
@@ -120,6 +122,10 @@ const save = async function (certificationAssessment) {
   await knex('assessments')
     .where({ certificationCourseId: certificationAssessment.certificationCourseId })
     .update({ state: certificationAssessment.state });
+
+  await knex('certification-courses')
+    .where({ id: certificationAssessment.certificationCourseId })
+    .update({ endedAt: certificationAssessment.endedAt });
 };
 
 export { get, getByCertificationCourseId, save };
