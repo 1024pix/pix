@@ -784,7 +784,7 @@
         "header": "vos réponses"
       },
       "completion-percentage": {
-        "caption": "avancement",
+        "caption": "avancement dans le parcours",
         "label": "'<p class=\"sr-only\">'Vous avez effectué '</p>'{completionPercentage}%'<p class=\"sr-only\">' de votre parcours.'</p>'"
       }
     },
