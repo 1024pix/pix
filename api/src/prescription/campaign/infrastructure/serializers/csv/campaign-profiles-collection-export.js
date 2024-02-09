@@ -16,12 +16,16 @@ class CampaignProfilesCollectionExport {
     this.translate = translate;
   }
 
-  export(campaignParticipationResultDatas, placementProfileService) {
+  export(
+    campaignParticipationResultDatas,
+    placementProfileService,
+    constants = { CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING, CONCURRENCY_HEAVY_OPERATIONS },
+  ) {
     this.stream.write(this._buildHeader());
 
     const campaignParticipationResultDataChunks = _.chunk(
       campaignParticipationResultDatas,
-      CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
+      constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
     );
 
     return bluebird.map(
@@ -31,11 +35,11 @@ class CampaignProfilesCollectionExport {
           campaignParticipationResultDataChunk,
           placementProfileService,
         );
-        const csvLines = this._buildLines(placementProfiles, campaignParticipationResultDatas);
+        const csvLines = this._buildLines(placementProfiles, campaignParticipationResultDataChunk);
 
         this.stream.write(csvLines);
       },
-      { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
+      { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS },
     );
   }
 
