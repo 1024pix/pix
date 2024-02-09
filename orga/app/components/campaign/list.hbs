@@ -16,7 +16,7 @@
         <col class="table__column--wide" />
         <col class="table__column--small" />
         {{#unless @listOnlyCampaignsOfCurrentUser}}
-          <col class="table__column--wide hide-on-mobile" />
+          <col class="table__column--small hide-on-mobile" />
         {{/unless}}
         <col class="table__column--small hide-on-mobile" />
         <col class="table__column--small hide-on-mobile" />
@@ -39,7 +39,7 @@
         {{#each @campaigns as |campaign|}}
           <tr {{on "click" (fn @onClickCampaign campaign.id)}} class="tr--clickable">
             <td class="table__column">
-              <span class="campaign-list__campaign-link">
+              <span class="campaign-list__campaign-link-cell">
                 <Campaign::Detail::Type @labels={{this.labels}} @campaignType={{campaign.type}} @hideLabel={{true}} />
                 <LinkTo @route="authenticated.campaigns.campaign" @model={{campaign.id}}>
                   {{campaign.name}}
@@ -48,7 +48,7 @@
             </td>
             <td class="table__column--small" {{on "click" this.stopPropagation}}>{{campaign.code}}</td>
             {{#unless @listOnlyCampaignsOfCurrentUser}}
-              <td class="table__column--truncated hide-on-mobile">{{campaign.ownerFullName}}</td>
+              <td class="hide-on-mobile">{{campaign.ownerFullName}}</td>
             {{/unless}}
             <td class="hide-on-mobile">{{dayjs-format campaign.createdAt "DD/MM/YYYY" allow-empty=true}}</td>
             <td class="hide-on-mobile">{{campaign.participationsCount}}</td>

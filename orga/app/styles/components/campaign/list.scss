@@ -1,10 +1,11 @@
 .campaign-list {
   padding: 0;
 
-  &__campaign-link {
+  &__campaign-link-cell {
     display: flex;
     gap: var(--pix-spacing-2x);
     align-items: center;
+    word-break: break-all;
   }
 
   &__item {
