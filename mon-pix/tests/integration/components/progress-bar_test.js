@@ -25,11 +25,10 @@ module('Integration | Component | progress-bar', function (hooks) {
 
     this.set('assessment', mockAssessment);
     this.set('currentChallengeNumber', 2);
-    this.set('shouldBlurBanner', false);
 
     // when
     const screen = await render(
-      hbs`<ProgressBar @assessment={{ this.assessment }} @currentChallengeNumber={{ this.currentChallengeNumber }} @shouldBlurProgressBar={{this.shouldBlurBanner}} />`,
+      hbs`<ProgressBar @assessment={{ this.assessment }} @currentChallengeNumber={{ this.currentChallengeNumber }} />`,
     );
 
     // then
