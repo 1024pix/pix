@@ -365,14 +365,12 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const authenticationUrl = 'http://authenticationurl.net';
       const clientId = 'OIDC_CLIENT_ID';
       const clientSecret = 'OIDC_CLIENT_SECRET';
-      const extraAuthorizationUrlParameters = { realm: '/individu' };
       const redirectUri = 'https://example.org/please-redirect-to-me';
 
       const oidcAuthenticationService = new OidcAuthenticationService({
         authenticationUrl,
         clientId,
         clientSecret,
-        extraAuthorizationUrlParameters,
         redirectUri,
       });
 
@@ -395,7 +393,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         redirect_uri: 'https://example.org/please-redirect-to-me',
         scope: 'openid profile',
         state,
-        realm: '/individu',
       });
     });
   });
