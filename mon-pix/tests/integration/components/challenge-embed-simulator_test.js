@@ -87,7 +87,7 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
     });
 
     test('should have an height that is the one defined in the referential', function (assert) {
-      assert.strictEqual(find('.challenge-embed-simulator').style.cssText, 'height: 200px;');
+      assert.strictEqual(find('.embed__iframe').style.cssText, 'height: 200px;');
     });
 
     test('should define a title attribute on the iframe element that is the one defined in the referential for field "Embed title"', function (assert) {
