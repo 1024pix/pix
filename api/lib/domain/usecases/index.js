@@ -1,3 +1,6 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable import/no-restricted-paths */
+
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -182,6 +185,7 @@ import { injectDependencies } from '../../../src/shared/infrastructure/utils/dep
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
 import { getCampaignManagement as getCampaignDetailsManagement } from './get-campaign-details-management.js';
 import { getNextChallengeForCertification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-certification.js';
+import { endAssessmentBySupervisor } from '../../../src/certification/course/domain/usecases/end-assessment-by-supervisor.js';
 
 function requirePoleEmploiNotifier() {
   if (config.poleEmploi.pushEnabled) {
@@ -395,6 +399,7 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedFilteredTargetProfileOrganizations,
   getCampaignDetailsManagement,
   getNextChallengeForCertification,
+  endAssessmentBySupervisor,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
