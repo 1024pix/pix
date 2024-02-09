@@ -31,6 +31,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       tokenUrl: config[configKey].tokenUrl,
       userInfoUrl: config[configKey].userInfoUrl,
       openidConfigurationUrl: config[configKey].openidConfigurationUrl,
+      openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
     });
 
     this.logoutUrl = config[configKey].logoutUrl;
