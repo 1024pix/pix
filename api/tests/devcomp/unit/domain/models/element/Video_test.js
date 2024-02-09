@@ -25,7 +25,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
 
   describe('An video without id', function () {
     it('should throw an error', function () {
-      expect(() => new Video({})).to.throw("L'id est obligatoire pour un élément");
+      expect(() => new Video({})).to.throw('The id is required for an element');
     });
   });
 

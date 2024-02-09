@@ -16,7 +16,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Text', function () {
 
   describe('A text without id', function () {
     it('should throw an error', function () {
-      expect(() => new Text({ content: 'content' })).to.throw("L'id est obligatoire pour un élément");
+      expect(() => new Text({ content: 'content' })).to.throw('The id is required for an element');
     });
   });
 
