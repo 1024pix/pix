@@ -78,7 +78,9 @@ class CertificationAssessment {
   }
 
   endDueToFinalization() {
-    this.state = states.ENDED_DUE_TO_FINALIZATION;
+    if (this.state === states.STARTED) {
+      this.state = states.ENDED_DUE_TO_FINALIZATION;
+    }
   }
 
   neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber) {
