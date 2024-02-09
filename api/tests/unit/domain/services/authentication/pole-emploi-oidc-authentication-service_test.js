@@ -1,11 +1,40 @@
-import { expect } from '../../../../test-helper.js';
+import { expect, sinon } from '../../../../test-helper.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import { PoleEmploiOidcAuthenticationService } from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
 import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
+import { Issuer } from 'openid-client';
+import { config as settings } from '../../../../../src/shared/config.js';
 
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', function () {
+  describe('#createClient', function () {
+    it('creates an openid client with extra metadata', async function () {
+      // given
+      const Client = sinon.spy();
+
+      sinon.stub(Issuer, 'discover').resolves({ Client });
+      sinon.stub(settings, 'poleEmploi').value(settings.oidcExampleNet);
+
+      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+
+      // when
+      await poleEmploiOidcAuthenticationService.createClient();
+
+      // then
+      expect(Issuer.discover).to.have.been.calledWithExactly(
+        'https://oidc.example.net/.well-known/openid-configuration',
+      );
+      expect(Client).to.have.been.calledWithNew;
+      expect(Client).to.have.been.calledWithExactly({
+        client_id: 'client',
+        client_secret: 'secret',
+        redirect_uris: ['https://app.dev.pix.local/connexion/oidc-example-net'],
+        token_endpoint_auth_method: 'client_secret_post',
+      });
+    });
+  });
+
   describe('#getRedirectLogoutUrl', function () {
     it('should return a redirect logout url', async function () {
       // given

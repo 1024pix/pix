@@ -403,6 +403,8 @@ const configuration = (function () {
       },
       tokenUrl: 'https://oidc.example.net/token',
       userInfoUrl: 'https://oidc.example.net/userinfo',
+      openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
+      redirectUri: 'https://app.dev.pix.local/connexion/oidc-example-net',
     };
 
     config.auditLogger.baseUrl = 'http://audit-logger.local';
