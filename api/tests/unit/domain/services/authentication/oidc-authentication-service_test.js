@@ -1,6 +1,6 @@
 import { Issuer } from 'openid-client';
 
-import { expect, sinon, catchErr } from '../../../../test-helper.js';
+import { expect, sinon, catchErr, catchErrSync } from '../../../../test-helper.js';
 
 import { config as settings } from '../../../../../lib/config.js';
 import { OidcAuthenticationService } from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
@@ -21,6 +21,7 @@ import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc
 import { logger } from '../../../../../lib/infrastructure/logger.js';
 import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
+import { OidcError } from '../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('constructor', function () {
@@ -393,6 +394,40 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         redirect_uri: 'https://example.org/please-redirect-to-me',
         scope: 'openid profile',
         state,
+      });
+    });
+
+    context('when generating the authorization url fails', function () {
+      it('throws an error', async function () {
+        // given
+        const clientId = Symbol('clientId');
+        const clientSecret = Symbol('clientSecret');
+        const configKey = 'identityProviderConfigKey';
+        const identityProvider = Symbol('identityProvider');
+        const redirectUri = Symbol('redirectUri');
+        const openidConfigurationUrl = Symbol('openidConfigurationUrl');
+        sinon.stub(settings, 'identityProviderConfigKey').value({});
+        const Client = sinon
+          .stub()
+          .returns({ authorizationUrl: sinon.stub().throws(new Error('Fails to generate authorization url')) });
+        sinon.stub(Issuer, 'discover').resolves({ Client });
+
+        const oidcAuthenticationService = new OidcAuthenticationService({
+          clientId,
+          clientSecret,
+          configKey,
+          identityProvider,
+          redirectUri,
+          openidConfigurationUrl,
+        });
+        await oidcAuthenticationService.createClient();
+
+        // when
+        const error = catchErrSync(oidcAuthenticationService.getAuthenticationUrl, oidcAuthenticationService)();
+
+        // then
+        expect(error).to.be.instanceOf(OidcError);
+        expect(error.message).to.be.equal('Fails to generate authorization url');
       });
     });
   });
