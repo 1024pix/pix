@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { endAssessmentBySupervisor } from '../../../../lib/domain/usecases/end-assessment-by-supervisor.js';
+import { expect, sinon, domainBuilder } from '../../../../../test-helper.js';
+import { endAssessmentBySupervisor } from '../../../../../../src/certification/course/domain/usecases/end-assessment-by-supervisor.js';
 
 describe('Unit | UseCase | end-assessment-by-supervisor', function () {
   let assessmentRepository;
