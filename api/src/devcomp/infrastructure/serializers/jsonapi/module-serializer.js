@@ -22,6 +22,11 @@ function serialize(module) {
                     ...element,
                     type: 'qcus',
                   };
+                case 'qcm':
+                  return {
+                    ...element,
+                    type: 'qcms',
+                  };
                 case 'qrocm':
                   return {
                     ...element,
