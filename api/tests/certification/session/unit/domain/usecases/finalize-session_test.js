@@ -34,7 +34,7 @@ describe('Unit | UseCase | finalize-session', function () {
       finalize: sinon.stub(),
       isFinalized: sinon.stub(),
       hasNoStartedCertification: sinon.stub(),
-      countUncompletedCertifications: sinon.stub(),
+      countUncompletedCertificationsAssessment: sinon.stub(),
     };
     certificationReportRepository = {
       finalizeAll: sinon.stub(),
@@ -123,7 +123,7 @@ describe('Unit | UseCase | finalize-session', function () {
           abortReason: 'candidate',
           completedAt: '2022-01-01',
         });
-        sessionRepository.countUncompletedCertifications.withArgs(sessionId).resolves(0);
+        sessionRepository.countUncompletedCertificationsAssessment.withArgs(sessionId).resolves(0);
         certificationCourseRepository.findCertificationCoursesBySessionId
           .withArgs({ sessionId })
           .resolves([completedCertificationCourse]);
@@ -157,7 +157,7 @@ describe('Unit | UseCase | finalize-session', function () {
           abortReason: null,
           completedAt: null,
         });
-        sessionRepository.countUncompletedCertifications.withArgs(sessionId).resolves(1);
+        sessionRepository.countUncompletedCertificationsAssessment.withArgs(sessionId).resolves(1);
         certificationCourseRepository.findCertificationCoursesBySessionId
           .withArgs({ sessionId })
           .resolves([uncompletedCertificationCourse]);

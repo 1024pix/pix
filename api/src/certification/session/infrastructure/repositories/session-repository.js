@@ -8,6 +8,7 @@ import { CertificationCandidate } from '../../../../../lib/domain/models/Certifi
 import { ComplementaryCertification } from '../../../session/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { CertificationAssessment } from '../../../../../lib/domain/models/CertificationAssessment.js';
 
 const save = async function (sessionData, { knexTransaction } = DomainTransaction.emptyTransaction()) {
   const knexConn = knexTransaction ?? knex;
@@ -211,11 +212,12 @@ const hasNoStartedCertification = async function (sessionId) {
   return !result;
 };
 
-const countUncompletedCertifications = async function (sessionId) {
+const countUncompletedCertificationsAssessment = async function (sessionId) {
   const { count } = await knex
-    .count('id')
+    .count('certification-courses.id')
     .from('certification-courses')
-    .where({ sessionId, completedAt: null })
+    .join('assessments', 'certification-courses.id', 'certificationCourseId')
+    .where({ sessionId, state: CertificationAssessment.states.STARTED })
     .first();
   return count;
 };
@@ -239,7 +241,7 @@ export {
   remove,
   hasSomeCleaAcquired,
   hasNoStartedCertification,
-  countUncompletedCertifications,
+  countUncompletedCertificationsAssessment,
 };
 
 function _toDomain(results) {

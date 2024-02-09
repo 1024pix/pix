@@ -25,7 +25,7 @@ const publishCertificationCoursesBySessionId = async function (sessionId) {
   const hasCertificationInError = _hasCertificationInError(certificationDTOs);
   const hasCertificationWithNoAssessmentResultStatus = _hasCertificationWithNoAssessmentResultStatus(certificationDTOs);
   if (hasCertificationInError || hasCertificationWithNoAssessmentResultStatus) {
-    throw new CertificationCourseNotPublishableError();
+    throw new CertificationCourseNotPublishableError(sessionId);
   }
 
   const certificationDataToUpdate = certificationDTOs.map(({ certificationId, assessmentResultStatus }) => ({
