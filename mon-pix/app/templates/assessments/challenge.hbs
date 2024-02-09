@@ -35,11 +35,7 @@
   </div>
 
   <main class="challenge__content rounded-panel--over-background-banner" role="main">
-    <ProgressBar
-      @assessment={{@model.assessment}}
-      @currentChallengeNumber={{@model.currentChallengeNumber}}
-      @shouldBlurProgressBar={{this.shouldBlurBanner}}
-    />
+    <ProgressBar @assessment={{@model.assessment}} @currentChallengeNumber={{@model.currentChallengeNumber}} />
 
     {{#if this.displayTimedChallengeInstructions}}
       <TimedChallengeInstructions
