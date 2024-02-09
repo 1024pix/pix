@@ -8,7 +8,7 @@ const getById = async ({ id }) => {
       id: 'certification-centers.id',
       type: 'certification-centers.type',
       habilitations: knex.raw(
-        'array_agg("complementary-certification-habilitations"."complementaryCertificationId" order by "complementary-certification-habilitations"."complementaryCertificationId")',
+        'array_remove(array_agg("complementary-certification-habilitations"."complementaryCertificationId" order by "complementary-certification-habilitations"."complementaryCertificationId"), NULL)',
       ),
     })
     .from('certification-centers')
