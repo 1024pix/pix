@@ -27,6 +27,12 @@
             @submitAnswer={{@submitAnswer}}
             @correction={{this.getLastCorrectionForElement element}}
           />
+        {{else if element.isQcm}}
+          <Module::Qcm
+            @qcm={{element}}
+            @submitAnswer={{@submitAnswer}}
+            @correction={{this.getLastCorrectionForElement element}}
+          />
         {{else if element.isQrocm}}
           <Module::Qrocm
             @qrocm={{element}}

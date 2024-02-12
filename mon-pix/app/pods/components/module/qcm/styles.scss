@@ -1,0 +1,36 @@
+.element-qcm {
+  &__proposals {
+    margin-bottom: var(--pix-spacing-4x);
+  }
+
+  &__required-field-missing {
+    margin-bottom: var(--pix-spacing-4x);
+  }
+}
+
+.element-qcm-header {
+  &__instruction {
+    margin-bottom: var(--pix-spacing-2x);
+    font-weight: var(--pix-font-medium);
+  }
+
+  &__direction {
+    @extend %pix-body-s;
+
+    margin-bottom: var(--pix-spacing-4x);
+    color: var(--pix-neutral-500);
+  }
+}
+
+.element-qcm-proposals {
+  &__proposal {
+    padding: var(--pix-spacing-2x);
+    background: var(--pix-neutral-0);
+    border: 1px solid var(--pix-neutral-100);
+    border-radius: var(--pix-spacing-2x);
+
+    &:not(:last-child) {
+      margin-bottom: var(--pix-spacing-2x);
+    }
+  }
+}
