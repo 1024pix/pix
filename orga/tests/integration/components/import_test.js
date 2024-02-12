@@ -37,14 +37,12 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       );
 
       // then
-      assert
-        .dom(
-          screen.getByRole('heading', {
-            name: this.intl.t('pages.organization-participants-import.sup.title'),
-            level: 1,
-          }),
-        )
-        .exists();
+      assert.ok(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.organization-participants-import.sup.title'),
+          level: 1,
+        }),
+      );
 
       assert.strictEqual(
         screen.getAllByText(this.intl.t('pages.organization-participants-import.supported-formats', { types: '.csv' }))
@@ -70,7 +68,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       );
 
       // then
-      assert.dom(screen.getByText(this.intl.t('common.loading'))).exists();
+      assert.ok(screen.getByText(this.intl.t('common.loading')));
     });
 
     module('replaceStudents', function (hooks) {
@@ -102,14 +100,12 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
         await click(replaceButton);
 
         // then
-        assert
-          .dom(
-            await screen.findByRole('heading', {
-              level: 1,
-              name: this.intl.t('pages.sup-organization-participants.replace-students-modal.title'),
-            }),
-          )
-          .exists();
+        assert.ok(
+          await screen.findByRole('heading', {
+            level: 1,
+            name: this.intl.t('pages.sup-organization-participants.replace-students-modal.title'),
+          }),
+        );
       });
 
       test('it should close the modal if the action is canceled', async function (assert) {
@@ -137,14 +133,12 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
         await Promise.all([waitForElementToBeRemoved(() => screen.queryByRole('dialog')), click(cancelButton)]);
 
         // then
-        assert
-          .dom(
-            screen.queryByRole('heading', {
-              level: 1,
-              name: this.intl.t('pages.sup-organization-participants.replace-students-modal.title'),
-            }),
-          )
-          .doesNotExist();
+        assert.notOk(
+          screen.queryByRole('heading', {
+            level: 1,
+            name: this.intl.t('pages.sup-organization-participants.replace-students-modal.title'),
+          }),
+        );
       });
     });
 
@@ -213,16 +207,14 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       );
 
       // then
-      assert
-        .dom(
-          screen.getByRole('heading', {
-            name: this.intl.t('pages.organization-participants-import.sco.title'),
-            level: 1,
-          }),
-        )
-        .exists();
+      assert.ok(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.organization-participants-import.sco.title'),
+          level: 1,
+        }),
+      );
 
-      assert.dom(screen.queryByText(this.intl.t('common.loading'))).doesNotExist();
+      assert.notOk(screen.queryByText(this.intl.t('common.loading')));
     });
 
     test('it specify that it require the right file type', async function (assert) {
@@ -262,7 +254,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       );
 
       // then
-      assert.dom(screen.getByText(this.intl.t('common.loading'))).exists();
+      assert.ok(screen.getByText(this.intl.t('common.loading')));
     });
 
     test('it trigger importStudentsSpy when clicking on the import button', async function (assert) {
@@ -295,7 +287,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @isLoading={{this.isLoading}}
 />`,
       );
-      assert.dom(await screen.findByText(this.intl.t('pages.organization-participants-import.information'))).exists();
+      assert.ok(await screen.findByText(this.intl.t('pages.organization-participants-import.information')));
     });
   });
 
@@ -321,7 +313,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
 />`,
       );
 
-      assert.dom(await screen.findByText(this.intl.t('pages.organization-participants-import.information'))).exists();
+      assert.ok(await screen.findByText(this.intl.t('pages.organization-participants-import.information')));
     });
 
     test('it specify that it require the right file type', async function (assert) {
