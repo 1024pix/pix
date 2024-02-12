@@ -1,11 +1,13 @@
-const endAssessmentBySupervisor = async function ({ certificationCandidateId, assessmentRepository }) {
-  const assessment = await assessmentRepository.getByCertificationCandidateId(certificationCandidateId);
+const endAssessmentBySupervisor = async function ({ certificationCandidateId, certificationAssessmentRepository }) {
+  const certificationAssessment =
+    await certificationAssessmentRepository.getByCertificationCandidateId(certificationCandidateId);
 
-  if (assessment.isCompleted()) {
+  if (certificationAssessment.isCompleted()) {
     return;
   }
 
-  await assessmentRepository.endBySupervisorByAssessmentId(assessment.id);
+  certificationAssessment.endBySupervisor({ now: new Date() });
+  await certificationAssessmentRepository.save(certificationAssessment);
 };
 
 export { endAssessmentBySupervisor };
