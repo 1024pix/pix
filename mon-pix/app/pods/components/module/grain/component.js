@@ -5,17 +5,18 @@ import ModulePassage from '../passage/component';
 
 export default class ModuleGrain extends Component {
   @service metrics;
+  grain = this.args.grain;
 
   get shouldDisplayContinueButton() {
-    return this.args.canDisplayActionsButton && this.allElementsAreAnswered;
+    return this.args.canMoveToNextGrain && this.allElementsAreAnswered;
   }
 
   get shouldDisplaySkipButton() {
-    return this.args.canDisplayActionsButton && this.args.grain.hasAnswerableElements && !this.allElementsAreAnswered;
+    return this.args.canMoveToNextGrain && this.grain.hasAnswerableElements && !this.allElementsAreAnswered;
   }
 
   get allElementsAreAnswered() {
-    return this.args.grain.allElementsAreAnswered;
+    return this.grain.allElementsAreAnswered;
   }
 
   get ariaLiveGrainValue() {
@@ -44,8 +45,8 @@ export default class ModuleGrain extends Component {
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
-      'pix-event-action': `Passage du module : ${this.args.grain.module.id}`,
-      'pix-event-name': `Click sur le bouton continuer du grain : ${this.args.grain.id}`,
+      'pix-event-action': `Passage du module : ${this.grain.module.id}`,
+      'pix-event-name': `Click sur le bouton continuer du grain : ${this.grain.id}`,
     });
   }
 
@@ -55,8 +56,13 @@ export default class ModuleGrain extends Component {
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
-      'pix-event-action': `Passage du module : ${this.args.grain.module.id}`,
-      'pix-event-name': `Click sur le bouton passer du grain : ${this.args.grain.id}`,
+      'pix-event-action': `Passage du module : ${this.grain.module.id}`,
+      'pix-event-name': `Click sur le bouton passer du grain : ${this.grain.id}`,
     });
+  }
+
+  @action
+  terminateAction() {
+    this.args.terminateAction();
   }
 }
