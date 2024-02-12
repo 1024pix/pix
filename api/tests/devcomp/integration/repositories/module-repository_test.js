@@ -16,6 +16,7 @@ import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { Video } from '../../../../src/devcomp/domain/models/element/Video.js';
 import { QROCMForAnswerVerification } from '../../../../src/devcomp/domain/models/element/QROCM-for-answer-verification.js';
 import { TransitionText } from '../../../../src/devcomp/domain/models/TransitionText.js';
+import { QCM } from '../../../../src/devcomp/domain/models/element/QCM.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {
   describe('#getBySlug', function () {
@@ -107,12 +108,6 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             title: 'Explications : les parties d’une adresse mail',
             elements: [
               {
-                id: 'c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
-                type: 'text',
-                content:
-                  "<h3 class='screen-reader-only'>L'identifiant</h3><h4><span aria-hidden='true'>1️⃣</span><span class='screen-reader-only'>1</span> L’identifiant est la première partie de l’adresse mail. Il a été choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p><span aria-hidden='true'>✅</span> Par exemple : mika671 ou G3oDu671</p><p><span aria-hidden='true'>❌</span> Des caractères sont interdits :</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>…</li></ul>",
-              },
-              {
                 id: 'd9e8a7b6-5c4d-3e2f-1a0b-9f8e7d6c5b4a',
                 type: 'text',
                 content:
@@ -134,7 +129,8 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
-      expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof Text))).to.be.true;
+      expect(module.grains[0].elements).to.have.lengthOf(1);
+      expect(module.grains[0].elements[0]).to.be.instanceOf(Text);
     });
 
     it('should return a module which contains elements of type QCU if it exists', async function () {
@@ -162,28 +158,6 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             type: 'lesson',
             title: 'Explications : les parties d’une adresse mail',
             elements: [
-              {
-                id: 'z3b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p7',
-                type: 'qcu',
-                instruction: '<p>On peut avoir des chiffres dans l’identifiant de son adresse mail</p>',
-                proposals: [
-                  {
-                    id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
-                    content: 'Vrai',
-                  },
-                  {
-                    id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6',
-                    content: 'Faux',
-                  },
-                ],
-                feedbacks: {
-                  valid:
-                    '<p>Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc…</li></ul>',
-                  invalid:
-                    '<p>Et si ! les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc…</li></ul>',
-                },
-                solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
-              },
               {
                 id: 'ba78dead-a806-4954-b408-e8ef28d28fab',
                 type: 'qcu',
@@ -222,7 +196,85 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
-      expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof QCU))).to.be.true;
+      expect(module.grains[0].elements).to.have.lengthOf(1);
+      expect(module.grains[0].elements[0]).to.be.instanceOf(QCU);
+    });
+
+    it('should return a module which contains elements of type QCM if it exists', async function () {
+      // given
+      const existingModuleSlug = 'bien-ecrire-son-adresse-mail';
+      const expectedFoundModule = {
+        id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
+        slug: 'bien-ecrire-son-adresse-mail',
+        title: 'Bien écrire son adresse mail',
+        details: {
+          image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+          description:
+            'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
+          duration: 12,
+          level: 'Débutant',
+          objectives: [
+            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+            'Connaître les parties d’une adresse mail et les identifier sur des exemples',
+            'Comprendre les fonctions des parties d’une adresse mail',
+          ],
+        },
+        grains: [
+          {
+            id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
+            type: 'lesson',
+            title: 'Explications : les parties d’une adresse mail',
+            elements: [
+              {
+                id: '30701e93-1b4d-4da4-b018-fa756c07d53f',
+                type: 'qcm',
+                instruction: '<p>Quels sont les 3 piliers de Pix ?</p>',
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'Evaluer ses connaissances et savoir-faire sur 16 compétences du numérique',
+                  },
+                  {
+                    id: '2',
+                    content: 'Développer son savoir-faire sur les jeux de type TPS',
+                  },
+                  {
+                    id: '3',
+                    content: 'Développer ses compétences numériques',
+                  },
+                  {
+                    id: '4',
+                    content: 'Certifier ses compétences Pix',
+                  },
+                  {
+                    id: '5',
+                    content: 'Evaluer ses compétences de logique et compréhension mathématique',
+                  },
+                ],
+                feedbacks: {
+                  valid: '<p>Correct ! Vous nous avez bien cernés :)</p>',
+                  invalid: '<p>Et non ! Pix sert à évaluer, certifier et développer ses compétences numériques.',
+                },
+                solutions: ['1', '3', '4'],
+              },
+            ],
+          },
+        ],
+      };
+      const moduleDatasourceStub = {
+        getBySlug: sinon.stub(),
+      };
+      moduleDatasourceStub.getBySlug.withArgs(existingModuleSlug).resolves(expectedFoundModule);
+
+      // when
+      const module = await moduleRepository.getBySlug({
+        slug: existingModuleSlug,
+        moduleDatasource: moduleDatasourceStub,
+      });
+
+      // then
+      expect(module.grains[0].elements).to.have.lengthOf(1);
+      expect(module.grains[0].elements[0]).to.be.instanceOf(QCM);
     });
 
     it('should return a module which contains elements of type Image if it exists', async function () {
@@ -273,7 +325,8 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
-      expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof Image))).to.be.true;
+      expect(module.grains[0].elements).to.have.lengthOf(1);
+      expect(module.grains[0].elements[0]).to.be.instanceOf(Image);
     });
 
     it('should return a module which contains elements of type Video if it exists', async function () {
@@ -325,7 +378,8 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
-      expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof Video))).to.be.true;
+      expect(module.grains[0].elements).to.have.lengthOf(1);
+      expect(module.grains[0].elements[0]).to.be.instanceOf(Video);
     });
 
     it('should return a module which contains elements of type QROCM if it exists', async function () {
@@ -421,7 +475,8 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
-      expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof QROCM))).to.be.true;
+      expect(module.grains[0].elements).to.have.lengthOf(1);
+      expect(module.grains[0].elements[0]).to.be.instanceOf(QROCM);
       expect(module.grains[0].elements[0].proposals[BLOCK_TEXT_INDEX]).to.be.instanceOf(BlockText);
       expect(module.grains[0].elements[0].proposals[BLOCK_INPUT_INDEX]).to.be.instanceOf(BlockInput);
       expect(module.grains[0].elements[0].proposals[BLOCK_SELECT_INDEX]).to.be.instanceOf(BlockSelect);

@@ -2,8 +2,8 @@ import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asser
 
 class Element {
   constructor({ id, type }) {
-    assertNotNullOrUndefined(id, "L'id est obligatoire pour un élément");
-    assertNotNullOrUndefined(type, 'Le type est obligatoire pour un élément');
+    assertNotNullOrUndefined(id, 'The id is required for an element');
+    assertNotNullOrUndefined(type, 'The type is required for an element');
 
     this.id = id;
     this.type = type;
