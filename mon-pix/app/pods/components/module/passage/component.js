@@ -31,7 +31,7 @@ export default class ModulePassage extends Component {
   }
 
   @action
-  grainCanDisplayActionsButton(index) {
+  grainCanMoveToNextGrain(index) {
     return this.lastIndex === index && this.hasNextGrain;
   }
 
