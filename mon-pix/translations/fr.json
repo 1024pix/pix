@@ -1194,7 +1194,8 @@
         },
         "grain": {
           "continue": "Continuer",
-          "skip": "Passer"
+          "skip": "Passer",
+          "terminate": "Terminer"
         }
       },
       "details": {

@@ -36,6 +36,11 @@ export default class ModulePassage extends Component {
   }
 
   @action
+  grainShouldDisplayTerminateButton(index) {
+    return this.lastIndex === index && !this.hasNextGrain;
+  }
+
+  @action
   grainTransition(grainId) {
     return this.args.module.transitionTexts.find((transition) => transition.grainId === grainId);
   }

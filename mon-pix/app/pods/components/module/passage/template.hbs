@@ -14,6 +14,8 @@
         @canMoveToNextGrain={{this.grainCanMoveToNextGrain index}}
         @continueAction={{this.addNextGrainToDisplay}}
         @skipAction={{this.addNextGrainToDisplay}}
+        @shouldDisplayTerminateButton={{this.grainShouldDisplayTerminateButton index}}
+        @terminateAction={{this.terminateModule}}
         @hasJustAppeared={{this.hasGrainJustAppeared index}}
       />
     {{/each}}

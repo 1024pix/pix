@@ -14,7 +14,8 @@ module('Integration | Component | Module | Grain', function (hooks) {
     this.set('grain', grain);
 
     // when
-    const screen = await render(hbs`<Module::Grain @grain={{this.grain}} />`);
+    const screen = await render(hbs`
+        <Module::Grain @grain={{this.grain}} />`);
 
     // then
     assert.ok(screen.getByRole('heading', { name: grain.title, level: 2 }));
@@ -30,7 +31,8 @@ module('Integration | Component | Module | Grain', function (hooks) {
       this.set('transition', transition);
 
       // when
-      const screen = await render(hbs`<Module::Grain @grain={{this.grain}} @transition={{this.transition}} />`);
+      const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} @transition={{this.transition}} />`);
 
       // then
       assert.ok(screen.getByText('transition text'));
@@ -45,7 +47,8 @@ module('Integration | Component | Module | Grain', function (hooks) {
       this.set('grain', grain);
 
       // when
-      await render(hbs`<Module::Grain @grain={{this.grain}} />`);
+      await render(hbs`
+          <Module::Grain @grain={{this.grain}} />`);
 
       // then
       assert.dom('.grain__header').doesNotExist();
@@ -66,7 +69,8 @@ module('Integration | Component | Module | Grain', function (hooks) {
       this.set('grain', grain);
 
       // when
-      const screen = await render(hbs`<Module::Grain @grain={{this.grain}} />`);
+      const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} />`);
 
       // then
       assert.ok(screen.getByText('element content'));
@@ -88,7 +92,8 @@ module('Integration | Component | Module | Grain', function (hooks) {
       this.set('grain', grain);
 
       // when
-      const screen = await render(hbs`<Module::Grain @grain={{this.grain}} />`);
+      const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} />`);
 
       // then
       assert.strictEqual(screen.getAllByRole('radio').length, qcuElement.proposals.length);
@@ -143,7 +148,8 @@ module('Integration | Component | Module | Grain', function (hooks) {
       this.set('grain', grain);
 
       // when
-      const screen = await render(hbs`<Module::Grain @grain={{this.grain}} />`);
+      const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} />`);
 
       // then
       assert.ok(screen);
@@ -168,7 +174,8 @@ module('Integration | Component | Module | Grain', function (hooks) {
       this.set('grain', grain);
 
       // when
-      const screen = await render(hbs`<Module::Grain @grain={{this.grain}} />`);
+      const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} />`);
 
       // then
       assert.ok(screen.getByRole('img', { name: 'alt text' }).hasAttribute('src', url));
@@ -189,7 +196,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // when
       const screen = await render(hbs`
-            <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} />`);
+          <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} />`);
 
       // then
       assert
@@ -202,7 +209,8 @@ module('Integration | Component | Module | Grain', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const element = store.createRecord('element', { type: 'qcus', isAnswerable: true });
-        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+        const grain = store.createRecord('grain', { title: '1st Grain title', elements: [element] });
+        store.createRecord('module', { grains: [grain] });
         this.set('grain', grain);
 
         const correction = store.createRecord('correction-response');
@@ -222,7 +230,8 @@ module('Integration | Component | Module | Grain', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const element = store.createRecord('element', { type: 'qcus', isAnswerable: true });
-        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+        const grain = store.createRecord('grain', { title: '1st Grain title', elements: [element] });
+        store.createRecord('module', { grains: [grain] });
         this.set('grain', grain);
 
         assert.false(grain.allElementsAreAnswered);
@@ -260,14 +269,15 @@ module('Integration | Component | Module | Grain', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const element = store.createRecord('element', { type: 'qcus', isAnswerable: true });
-        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+        const grain = store.createRecord('grain', { title: '1st Grain title', elements: [element] });
+        store.createRecord('module', { grains: [grain] });
         this.set('grain', grain);
 
         assert.false(grain.allElementsAreAnswered);
 
         // when
         const screen = await render(hbs`
-              <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} />`);
+            <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} />`);
 
         // then
         assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.skip') })).exists();
@@ -297,13 +307,14 @@ module('Integration | Component | Module | Grain', function (hooks) {
         const store = this.owner.lookup('service:store');
         const element = store.createRecord('element', { type: 'qcus', isAnswerable: true });
         const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+        store.createRecord('module', { grains: [grain] });
         this.set('grain', grain);
 
         assert.false(grain.allElementsAreAnswered);
 
         // when
         const screen = await render(hbs`
-              <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{false}} />`);
+            <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{false}} />`);
 
         // then
         assert
@@ -318,7 +329,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const element = store.createRecord('text', { type: 'texts', isAnswerable: false });
-      const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+      const grain = store.createRecord('grain', { title: '1st Grain title', elements: [element] });
       store.createRecord('module', { id: 'module-id', grains: [grain] });
       this.set('grain', grain);
 
@@ -329,7 +340,9 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // when
       await render(
-        hbs`<Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} @continueAction={{this.continueAction}} />`,
+        hbs`
+            <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}}
+                           @continueAction={{this.continueAction}} />`,
       );
       await clickByName('Continuer');
 
@@ -363,7 +376,9 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // when
       await render(
-        hbs`<Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} @continueAction={{this.continueAction}} @skipAction={{this.skipAction}} />`,
+        hbs`
+            <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}}
+                           @continueAction={{this.continueAction}} @skipAction={{this.skipAction}} />`,
       );
       await clickByName(this.intl.t('pages.modulix.buttons.grain.skip'));
 
@@ -376,6 +391,67 @@ module('Integration | Component | Module | Grain', function (hooks) {
         'pix-event-name': `Click sur le bouton passer du grain : ${this.grain.id}`,
       });
       assert.ok(true);
+    });
+  });
+
+  module('when shouldDisplayTerminateButton is true', function () {
+    test('should display the terminate button', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const element = store.createRecord('text', { type: 'texts', isAnswerable: false });
+      const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+      this.set('grain', grain);
+
+      // when
+      const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} @shouldDisplayTerminateButton={{true}} />`);
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') })).exists();
+    });
+
+    module('when terminateAction is called', function () {
+      test('should call terminateAction passed in argument', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const element = store.createRecord('qcu', { type: 'qcus', isAnswerable: true });
+        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+        this.set('grain', grain);
+
+        const terminateActionStub = sinon.stub();
+        this.set('terminateAction', terminateActionStub);
+
+        // when
+        await render(
+          hbs`
+            <Module::Grain @grain={{this.grain}} @shouldDisplayTerminateButton={{true}}
+                           @terminateAction={{this.terminateAction}} />`,
+        );
+        await clickByName(this.intl.t('pages.modulix.buttons.grain.terminate'));
+
+        // then
+        sinon.assert.calledOnce(terminateActionStub);
+        assert.ok(true);
+      });
+    });
+  });
+
+  module('when shouldDisplayTerminateButton is false', function () {
+    test('should not display the terminate button', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const element = store.createRecord('text', { type: 'texts', isAnswerable: false });
+      const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+      this.set('grain', grain);
+
+      // when
+      const screen = await render(hbs`
+          <Module::Grain @grain={{this.grain}} @shouldDisplayTerminateButton={{false}} />`);
+
+      // then
+      assert
+        .dom(screen.queryByRole('button', { name: this.intl.t('pages.modulix.buttons.grain.terminate') }))
+        .doesNotExist();
     });
   });
 });
