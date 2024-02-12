@@ -115,7 +115,7 @@
     "loader.js": "^4.7.0",
     "lodash": "^4.17.21",
     "miragejs": "^0.1.45",
-    "npm-run-all2": "^5.0.0",
+    "npm-run-all2": "^6.0.0",
     "p-queue": "^8.0.0",
     "plyr": "^3.7.8",
     "prettier": "^3.0.0",
