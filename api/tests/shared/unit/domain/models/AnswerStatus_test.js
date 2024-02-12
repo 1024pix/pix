@@ -1,7 +1,4 @@
-import chai from 'chai';
-
-const { expect } = chai;
-
+import { expect } from '../../../../test-helper.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 
 describe('AnswerStatus', function () {
