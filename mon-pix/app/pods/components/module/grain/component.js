@@ -7,11 +7,11 @@ export default class ModuleGrain extends Component {
   @service metrics;
 
   get shouldDisplayContinueButton() {
-    return this.args.canDisplayActionsButton && this.allElementsAreAnswered;
+    return this.args.canMoveToNextGrain && this.allElementsAreAnswered;
   }
 
   get shouldDisplaySkipButton() {
-    return this.args.canDisplayActionsButton && this.args.grain.hasAnswerableElements && !this.allElementsAreAnswered;
+    return this.args.canMoveToNextGrain && this.args.grain.hasAnswerableElements && !this.allElementsAreAnswered;
   }
 
   get allElementsAreAnswered() {
