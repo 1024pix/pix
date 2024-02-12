@@ -50,4 +50,12 @@
       </PixButton>
     </footer>
   {{/if}}
+
+  {{#if @shouldDisplayTerminateButton}}
+    <footer class="grain__footer">
+      <PixButton @backgroundColor="primary" @shape="rounded" @triggerAction={{@terminateAction}}>
+        {{t "pages.modulix.buttons.grain.terminate"}}
+      </PixButton>
+    </footer>
+  {{/if}}
 </article>
