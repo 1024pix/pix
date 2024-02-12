@@ -1194,7 +1194,8 @@
         },
         "grain": {
           "continue": "Ga verder met",
-          "skip": "Ga naar"
+          "skip": "Ga naar",
+          "terminate": "Eindigen"
         }
       },
       "details": {
