@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { targetProfileController } from '../../../../lib/application/target-profiles/target-profile-controller.js';
@@ -568,13 +569,25 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           title: 'title',
           'is-certifiable': false,
           'is-always-visible': true,
+          'campaign-threshold': 20,
+          'capped-tubes-criteria': [
+            {
+              name: 'dummy name',
+              threshold: '30',
+              cappedTubes: [
+                {
+                  id: '1',
+                  level: 2,
+                },
+              ],
+            },
+          ],
         },
       },
     };
 
     context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
-      it('should return a response with an HTTP status code 201', async function () {
-        // given
+      beforeEach(function () {
         sinon
           .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
           .withArgs([
@@ -584,6 +597,10 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon.stub(targetProfileController, 'createBadge').callsFake((request, h) => h.response('ok').code(201));
+      });
+
+      it('should return a response with an HTTP status code 201', async function () {
+        // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -594,7 +611,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
         expect(statusCode).to.equal(201);
       });
 
-      context('when request payload has wrong format', function () {
+      context('when request payload is empty', function () {
         it('should return a 400 HTTP response', async function () {
           // given
           const httpTestServer = new HttpTestServer();
@@ -605,6 +622,73 @@ describe('Unit | Application | Target Profiles | Routes', function () {
 
           // then
           expect(statusCode).to.equal(400);
+        });
+      });
+
+      context('when request payload has no campaign-threshold and no capped-tubes-criteria attributes', function () {
+        it('should return a 400 HTTP response', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const wrongPayload = _.omit(payload.data.attributes, 'campaign-threshold');
+          const { statusCode } = await httpTestServer.request(method, url, { data: { attributes: wrongPayload } });
+
+          // then
+          expect(statusCode).to.equal(400);
+        });
+      });
+
+      context('when capped-tubes-criteria has no threshold', function () {
+        it('should return a 400 HTTP response', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const payloadCopy = _.cloneDeep(payload);
+          payloadCopy.data.attributes['capped-tubes-criteria'] = [
+            {
+              cappedTubes: [
+                {
+                  id: '1',
+                  level: 2,
+                },
+              ],
+            },
+          ];
+          const response = await httpTestServer.request(method, url, payloadCopy);
+
+          // then
+          expect(response.statusCode).to.equal(400);
+          expect(response.result.errors[0].detail).to.equal(
+            '"data.attributes.capped-tubes-criteria[0].threshold" is required',
+          );
+        });
+      });
+
+      context('when capped-tubes-criteria has no capped tubes', function () {
+        it('should return a 400 HTTP response', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const payloadCopy = _.cloneDeep(payload);
+          payloadCopy.data.attributes['capped-tubes-criteria'] = [
+            {
+              threshold: '20',
+              cappedTubes: [],
+            },
+          ];
+          const response = await httpTestServer.request(method, url, payloadCopy);
+
+          // then
+          expect(response.statusCode).to.equal(400);
+          expect(response.result.errors[0].detail).to.equal(
+            '"data.attributes.capped-tubes-criteria[0].cappedTubes" must contain at least 1 items',
+          );
         });
       });
     });
