@@ -10,7 +10,7 @@ import MockDate from 'mockdate';
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr.js';
 import localizedFormat from 'dayjs/plugin/localizedFormat.js';
-import chai from 'chai';
+import { expect, use as chaiUse, util as chaiUtil, Assertion, AssertionError } from 'chai';
 import sinon, { restore } from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
 import chaiSorted from 'chai-sorted';
@@ -36,13 +36,11 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 dotenv.config({ path: `${__dirname}/../.env` });
 dayjs.extend(localizedFormat);
 
-const expect = chai.expect;
+chaiUse(chaiAsPromised);
+chaiUse(chaiSorted);
+chaiUse(sinonChai);
 
-chai.use(chaiAsPromised);
-chai.use(chaiSorted);
-chai.use(sinonChai);
-
-_.each(customChaiHelpers, chai.use);
+_.each(customChaiHelpers, chaiUse);
 
 const { apimRegisterApplicationsCredentials, jwtConfig } = config;
 
@@ -227,18 +225,14 @@ function catchErrSync(fn, ctx) {
   };
 }
 
-chai.use(function (chai) {
-  const Assertion = chai.Assertion;
-
+chaiUse(function () {
   Assertion.addMethod('exactlyContain', function (expectedElements) {
     const errorMessage = `expect [${this._obj}] to exactly contain [${expectedElements}]`;
     new Assertion(this._obj, errorMessage).to.deep.have.members(expectedElements);
   });
 });
 
-chai.use(function (chai) {
-  const Assertion = chai.Assertion;
-
+chaiUse(function () {
   Assertion.addMethod('exactlyContainInOrder', function (expectedElements) {
     const errorMessage = `expect [${this._obj}] to exactly contain in order [${expectedElements}]`;
 
@@ -256,28 +250,28 @@ function mockLearningContent(learningContent) {
 // Inspired by what is done within chai project itself to test assertions
 // https://github.com/chaijs/chai/blob/main/test/bootstrap/index.js
 global.chaiErr = function globalErr(fn, val) {
-  if (chai.util.type(fn) !== 'function') throw new chai.AssertionError('Invalid fn');
+  if (chaiUtil.type(fn) !== 'function') throw new AssertionError('Invalid fn');
 
   try {
     fn();
   } catch (err) {
-    switch (chai.util.type(val).toLowerCase()) {
+    switch (chaiUtil.type(val).toLowerCase()) {
       case 'undefined':
         return;
       case 'string':
-        return chai.expect(err.message).to.equal(val);
+        return expect(err.message).to.equal(val);
       case 'regexp':
-        return chai.expect(err.message).to.match(val);
+        return expect(err.message).to.match(val);
       case 'object':
         return Object.keys(val).forEach(function (key) {
-          chai.expect(err).to.have.property(key).and.to.deep.equal(val[key]);
+          expect(err).to.have.property(key).and.to.deep.equal(val[key]);
         });
     }
 
-    throw new chai.AssertionError('Invalid val');
+    throw new AssertionError('Invalid val');
   }
 
-  throw new chai.AssertionError('Expected an error');
+  throw new AssertionError('Expected an error');
 };
 
 const testErr = new Error('Fake Error');
