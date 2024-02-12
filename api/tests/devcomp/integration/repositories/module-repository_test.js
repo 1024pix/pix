@@ -108,12 +108,6 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             title: 'Explications : les parties d’une adresse mail',
             elements: [
               {
-                id: 'c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
-                type: 'text',
-                content:
-                  "<h3 class='screen-reader-only'>L'identifiant</h3><h4><span aria-hidden='true'>1️⃣</span><span class='screen-reader-only'>1</span> L’identifiant est la première partie de l’adresse mail. Il a été choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p><span aria-hidden='true'>✅</span> Par exemple : mika671 ou G3oDu671</p><p><span aria-hidden='true'>❌</span> Des caractères sont interdits :</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>…</li></ul>",
-              },
-              {
                 id: 'd9e8a7b6-5c4d-3e2f-1a0b-9f8e7d6c5b4a',
                 type: 'text',
                 content:
@@ -135,7 +129,8 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
-      expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof Text))).to.be.true;
+      expect(module.grains[0].elements).to.have.lengthOf(1);
+      expect(module.grains[0].elements[0]).to.be.instanceOf(Text);
     });
 
     it('should return a module which contains elements of type QCU if it exists', async function () {
@@ -163,28 +158,6 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             type: 'lesson',
             title: 'Explications : les parties d’une adresse mail',
             elements: [
-              {
-                id: 'z3b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p7',
-                type: 'qcu',
-                instruction: '<p>On peut avoir des chiffres dans l’identifiant de son adresse mail</p>',
-                proposals: [
-                  {
-                    id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
-                    content: 'Vrai',
-                  },
-                  {
-                    id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6',
-                    content: 'Faux',
-                  },
-                ],
-                feedbacks: {
-                  valid:
-                    '<p>Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc…</li></ul>',
-                  invalid:
-                    '<p>Et si ! les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc…</li></ul>',
-                },
-                solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
-              },
               {
                 id: 'ba78dead-a806-4954-b408-e8ef28d28fab',
                 type: 'qcu',
@@ -223,7 +196,8 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
-      expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof QCU))).to.be.true;
+      expect(module.grains[0].elements).to.have.lengthOf(1);
+      expect(module.grains[0].elements[0]).to.be.instanceOf(QCU);
     });
 
     it('should return a module which contains elements of type QCM if it exists', async function () {
@@ -351,7 +325,8 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
-      expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof Image))).to.be.true;
+      expect(module.grains[0].elements).to.have.lengthOf(1);
+      expect(module.grains[0].elements[0]).to.be.instanceOf(Image);
     });
 
     it('should return a module which contains elements of type Video if it exists', async function () {
@@ -403,7 +378,8 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
-      expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof Video))).to.be.true;
+      expect(module.grains[0].elements).to.have.lengthOf(1);
+      expect(module.grains[0].elements[0]).to.be.instanceOf(Video);
     });
 
     it('should return a module which contains elements of type QROCM if it exists', async function () {
@@ -499,7 +475,8 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       });
 
       // then
-      expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof QROCM))).to.be.true;
+      expect(module.grains[0].elements).to.have.lengthOf(1);
+      expect(module.grains[0].elements[0]).to.be.instanceOf(QROCM);
       expect(module.grains[0].elements[0].proposals[BLOCK_TEXT_INDEX]).to.be.instanceOf(BlockText);
       expect(module.grains[0].elements[0].proposals[BLOCK_INPUT_INDEX]).to.be.instanceOf(BlockInput);
       expect(module.grains[0].elements[0].proposals[BLOCK_SELECT_INDEX]).to.be.instanceOf(BlockSelect);
