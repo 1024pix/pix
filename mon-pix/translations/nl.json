@@ -1216,6 +1216,10 @@
           "title": "Transcriptie"
         }
       },
+
+      "qcm": {
+        "direction": "Kies meerdere antwoorden."
+      },
       "qcu": {
         "direction": "Kies slechts één antwoord."
       },
@@ -1229,6 +1233,7 @@
         "subtitle": "Je weet nu '<span aria-hidden=\"true\">'👍'</span>'"
       },
       "verification-precondition-failed-alert": {
+        "qcm": "Selecteer ten minste twee antwoorden om te bevestigen.",
         "qcu": "Selecteer een antwoord om te bevestigen.",
         "qrocm": "Vul alle antwoordvelden in om te valideren."
       }

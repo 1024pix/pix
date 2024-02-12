@@ -1216,6 +1216,9 @@
           "title": "Transcription"
         }
       },
+      "qcm": {
+        "direction": "Select several answers."
+      },
       "qcu": {
         "direction": "Select one answer."
       },
@@ -1229,6 +1232,7 @@
         "subtitle": "Now you know '<span aria-hidden=\"true\">'👍'</span>'"
       },
       "verification-precondition-failed-alert": {
+        "qcm": "To validate, select at least two answers.",
         "qcu": "To validate, select an answer.",
         "qrocm": "To validate, please complete all response fields."
       }

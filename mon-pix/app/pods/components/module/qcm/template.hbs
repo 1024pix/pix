@@ -1,0 +1,52 @@
+<form class="element-qcm">
+  <fieldset disabled={{this.disableInput}}>
+    <div class="element-qcm__header">
+      <div class="element-qcm-header__instruction">
+        {{html-unsafe @qcm.instruction}}
+      </div>
+
+      <legend class="element-qcm-header__direction">
+        {{t "pages.modulix.qcm.direction"}}
+      </legend>
+    </div>
+
+    <div class="element-qcm__proposals">
+      {{#each @qcm.proposals as |proposal|}}
+        <div class="element-qcm-proposals__proposal">
+          <PixCheckbox
+            name={{@qcm.id}}
+            {{on "click" (fn this.checkboxSelected proposal.id)}}
+          >{{proposal.content}}</PixCheckbox>
+        </div>
+      {{/each}}
+    </div>
+  </fieldset>
+
+  {{#if this.requiredMessage}}
+    <div class="element-qcm__required-field-missing">
+      <PixMessage role="alert" @type="error" @withIcon={{true}}>
+        {{t "pages.modulix.verification-precondition-failed-alert.qcm"}}
+      </PixMessage>
+    </div>
+  {{/if}}
+
+  {{#unless @correction}}
+    <PixButton
+      @backgroundColor="success"
+      @shape="rounded"
+      @type="submit"
+      class="element-qcm__verify_button"
+      @triggerAction={{this.submitAnswer}}
+    >
+      {{t "pages.modulix.buttons.activity.verify"}}
+    </PixButton>
+  {{/unless}}
+
+  <div role="status" tabindex="-1">
+    {{#if this.shouldDisplayFeedback}}
+      <PixMessage @type={{this.feedbackType}} @withIcon={{true}} class="element-qcm__feedback">
+        {{html-unsafe @correction.feedback}}
+      </PixMessage>
+    {{/if}}
+  </div>
+</form>
