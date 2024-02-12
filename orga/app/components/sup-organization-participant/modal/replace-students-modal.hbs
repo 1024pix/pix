@@ -28,7 +28,7 @@
         @id="students-file-upload-replace"
         @onChange={{@onReplaceStudents}}
         @backgroundColor="red"
-        accept=".csv"
+        accept={{@supportedFormats}}
       >
         {{t "pages.sup-organization-participants.replace-students-modal.confirm"}}
       </PixButtonUpload>

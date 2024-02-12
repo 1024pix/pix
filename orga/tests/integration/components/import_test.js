@@ -46,14 +46,13 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
         )
         .exists();
 
-      assert
-        .dom(
-          screen.getAllByText(
-            this.intl.t('pages.organization-participants-import.supported-formats', { types: '.csv' }),
-          )[0],
-        )
-        .exists();
-      assert.dom(screen.queryByText(this.intl.t('common.loading'))).doesNotExist();
+      assert.strictEqual(
+        screen.getAllByText(this.intl.t('pages.organization-participants-import.supported-formats', { types: '.csv' }))
+          .length,
+        2,
+      );
+
+      assert.notOk(screen.queryByText(this.intl.t('common.loading')));
     });
 
     test('it should display loading message', async function (assert) {
@@ -226,6 +225,28 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       assert.dom(screen.queryByText(this.intl.t('common.loading'))).doesNotExist();
     });
 
+    test('it specify that it require the right file type', async function (assert) {
+      // given
+      this.set('isLoading', false);
+
+      // when
+      const screen = await render(
+        hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
+      );
+
+      // then
+      assert.ok(
+        await screen.findByText(
+          this.intl.t('pages.organization-participants-import.supported-formats', { types: '.xml, .zip' }),
+        ),
+      );
+    });
+
     test('it should display loading message', async function (assert) {
       // given
       this.set('isLoading', true);
@@ -289,7 +310,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       this.owner.register('service:current-user', CurrentUserStub);
     });
 
-    test('a message should be display when importing ', async function (assert) {
+    test('a message should be display when importing', async function (assert) {
       this.set('isLoading', true);
       const screen = await render(
         hbs`<Import
@@ -301,6 +322,24 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       );
 
       assert.dom(await screen.findByText(this.intl.t('pages.organization-participants-import.information'))).exists();
+    });
+
+    test('it specify that it require the right file type', async function (assert) {
+      this.set('isLoading', false);
+      const screen = await render(
+        hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
+      );
+
+      assert.ok(
+        await screen.findByText(
+          this.intl.t('pages.organization-participants-import.supported-formats', { types: '.csv' }),
+        ),
+      );
     });
   });
 });

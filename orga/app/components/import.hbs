@@ -15,10 +15,19 @@
         <ScoOrganizationParticipant::ImportCard
           @onImportStudents={{@onImportScoStudents}}
           @acceptedFileType={{this.acceptedFileType}}
+          @supportedFormats={{this.supportedFormats}}
         />
       {{else if this.currentUser.isSUPManagingStudents}}
-        <SupOrganizationParticipant::ImportCards::Add @onAddStudents={{@onImportSupStudents}} />
-        <SupOrganizationParticipant::ImportCards::Replace @onReplaceStudents={{@onReplaceStudents}} />
+        <SupOrganizationParticipant::ImportCards::Add
+          @onAddStudents={{@onImportSupStudents}}
+          @acceptedFileType={{this.acceptedFileType}}
+          @supportedFormats={{this.supportedFormats}}
+        />
+        <SupOrganizationParticipant::ImportCards::Replace
+          @onReplaceStudents={{@onReplaceStudents}}
+          @acceptedFileType={{this.acceptedFileType}}
+          @supportedFormats={{this.supportedFormats}}
+        />
       {{/if}}
     </div>
   {{/if}}
