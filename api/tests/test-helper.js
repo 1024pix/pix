@@ -250,7 +250,7 @@ function mockLearningContent(learningContent) {
 // Inspired by what is done within chai project itself to test assertions
 // https://github.com/chaijs/chai/blob/main/test/bootstrap/index.js
 global.chaiErr = function globalErr(fn, val) {
-  if (chaiUtil.type(fn) !== 'function') throw new AssertionError('Invalid fn');
+  if (chaiUtil.type(fn) !== 'Function') throw new AssertionError('Invalid fn');
 
   try {
     fn();

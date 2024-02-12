@@ -1,8 +1,6 @@
 import { expect } from '../../../../../test-helper.js';
 import { AnswerStatus } from '../../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
 
-const { expect } = chai;
-
 describe('Unit | Devcomp | Domain | Models | Validator | AnswerStatus', function () {
   context('AnswerStatus#isOK', function () {
     it('should be true with AnswerStatus.OK', function () {
