@@ -10,7 +10,8 @@
         <PixInput
           class="search-input"
           @id="search-candidate"
-          @ariaLabel={{t "pages.session-supervising.candidate-list.search-candidate"}}
+          @label={{t "pages.session-supervising.candidate-list.search-candidate"}}
+          @screenReaderOnly={{true}}
           placeholder={{t "pages.session-supervising.candidate-list.search-candidate"}}
           @value={{this.filter}}
           {{on "input" this.setFilter}}
