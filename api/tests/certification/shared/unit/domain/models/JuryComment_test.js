@@ -1,14 +1,21 @@
-import { JuryComment } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import {
+  JuryComment,
+  AutoJuryCommentKeys,
+  JuryCommentContexts,
+} from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | JuryComment', function () {
-  describe('#shouldTranslate', function () {
+  describe('#shouldBeTranslated', function () {
     describe('when commentByAutoJury exists', function () {
       it('should return true', function () {
         // Given
-        const juryComment = new JuryComment({ commentByAutoJury: 'FRAUD' });
+        const juryComment = new JuryComment({
+          commentByAutoJury: AutoJuryCommentKeys.FRAUD,
+          context: JuryCommentContexts.CANDIDATE,
+        });
         // When
-        const result = juryComment.shouldTranslate();
+        const result = juryComment.shouldBeTranslated();
         // Then
         expect(result).to.equal(true);
       });
@@ -19,7 +26,7 @@ describe('Unit | Domain | Models | JuryComment', function () {
         // Given
         const juryComment = new JuryComment({ commentByAutoJury: null });
         // When
-        const result = juryComment.shouldTranslate();
+        const result = juryComment.shouldBeTranslated();
         // Then
         expect(result).to.equal(false);
       });
@@ -27,13 +34,16 @@ describe('Unit | Domain | Models | JuryComment', function () {
   });
 
   describe('#getKeyToTranslate', function () {
-    it('should return commentByAutoJury', function () {
+    it('should return commentByAutoJury with context', function () {
       // Given
-      const juryComment = new JuryComment({ commentByAutoJury: 'FRAUD' });
+      const juryComment = new JuryComment({
+        commentByAutoJury: AutoJuryCommentKeys.FRAUD,
+        context: JuryCommentContexts.CANDIDATE,
+      });
       // When
       const result = juryComment.getKeyToTranslate();
       // Then
-      expect(result).to.equal('FRAUD');
+      expect(result).to.equal('jury.comment.fraud.candidate');
     });
   });
 

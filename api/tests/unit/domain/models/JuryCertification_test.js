@@ -3,10 +3,11 @@ import { JuryCertification } from '../../../../lib/domain/models/JuryCertificati
 
 describe('Unit | Domain | Models | JuryCertification', function () {
   describe('#from', function () {
-    let juryCertificationBaseDTO;
+    let juryCertificationDTO;
+    let competenceMarkDTOs;
 
     beforeEach(function () {
-      juryCertificationBaseDTO = {
+      juryCertificationDTO = {
         certificationCourseId: 123,
         sessionId: 456,
         userId: 789,
@@ -30,23 +31,10 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         commentForCandidate: 'coucou',
         commentForOrganization: 'comment',
         commentByJury: 'ça va',
+        commentByAutoJury: null,
         version: 2,
       };
-    });
-
-    it('should return an instance of JuryCertification', function () {
-      // given
-      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ id: 555 });
-      const juryCertificationDTO = {
-        ...juryCertificationBaseDTO,
-      };
-      const certificationIssueReports = [certificationIssueReport];
-      const commonComplementaryCertificationCourseResult =
-        domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
-          acquired: true,
-        });
-
-      const competenceMarkDTOs = [
+      competenceMarkDTOs = [
         {
           id: 123,
           score: 10,
@@ -57,6 +45,16 @@ describe('Unit | Domain | Models | JuryCertification', function () {
           competenceId: 'recComp23',
         },
       ];
+    });
+
+    it('should return an instance of JuryCertification', function () {
+      // given
+      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ id: 555 });
+      const certificationIssueReports = [certificationIssueReport];
+      const commonComplementaryCertificationCourseResult =
+        domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
+          acquired: true,
+        });
 
       const complementaryCertificationCourseResultWithExternal =
         domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
@@ -77,15 +75,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
       });
 
       // then
-      const expectedCompetenceMark = domainBuilder.buildCompetenceMark({
-        id: 123,
-        level: 4,
-        score: 10,
-        area_code: '2',
-        competence_code: '2.3',
-        competenceId: 'recComp23',
-        assessmentResultId: 753,
-      });
+      const expectedCompetenceMarks = competenceMarkDTOs.map(domainBuilder.buildCompetenceMark);
       const expectedJuryCertification = domainBuilder.buildJuryCertification({
         certificationCourseId: 123,
         sessionId: 456,
@@ -110,8 +100,74 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         commentForCandidate: 'coucou',
         commentForOrganization: 'comment',
         commentByJury: 'ça va',
+        commentByAutoJury: null,
         version: 2,
-        competenceMarks: [expectedCompetenceMark],
+        competenceMarks: expectedCompetenceMarks,
+        certificationIssueReports,
+        commonComplementaryCertificationCourseResult,
+        complementaryCertificationCourseResultWithExternal,
+      });
+      expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
+    });
+
+    it('should return an instance of JuryCertification with comment by auto jury', function () {
+      // given
+      juryCertificationDTO.commentByAutoJury = 'FRAUD';
+
+      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ id: 555 });
+      const certificationIssueReports = [certificationIssueReport];
+      const commonComplementaryCertificationCourseResult =
+        domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
+          acquired: true,
+        });
+
+      const complementaryCertificationCourseResultWithExternal =
+        domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
+          complementaryCertificationCourseId: 123,
+          pixComplementaryCertificationBadgeId: 98,
+          pixAcquired: true,
+          externalComplementaryCertificationBadgeId: 99,
+          externalAcquired: true,
+        });
+
+      // when
+      const juryCertification = JuryCertification.from({
+        juryCertificationDTO,
+        certificationIssueReports,
+        competenceMarkDTOs,
+        commonComplementaryCertificationCourseResult,
+        complementaryCertificationCourseResultWithExternal,
+      });
+
+      // then
+      const expectedCompetenceMarks = competenceMarkDTOs.map(domainBuilder.buildCompetenceMark);
+      const expectedJuryCertification = domainBuilder.buildJuryCertification({
+        certificationCourseId: 123,
+        sessionId: 456,
+        userId: 789,
+        assessmentId: 159,
+        firstName: 'James',
+        lastName: 'Watt',
+        birthdate: '1990-01-04',
+        birthplace: 'Somewhere',
+        sex: 'M',
+        birthCountry: 'ENGLAND',
+        birthINSEECode: '99124',
+        birthPostalCode: null,
+        createdAt: new Date('2020-02-20T10:30:00Z'),
+        completedAt: new Date('2020-02-20T11:00:00Z'),
+        isCancelled: true,
+        isPublished: true,
+        isRejectedForFraud: false,
+        status: 'rejected',
+        juryId: 1,
+        pixScore: 555,
+        commentForCandidate: 'coucou',
+        commentForOrganization: 'comment',
+        commentByJury: 'ça va',
+        commentByAutoJury: 'FRAUD',
+        version: 2,
+        competenceMarks: expectedCompetenceMarks,
         certificationIssueReports,
         commonComplementaryCertificationCourseResult,
         complementaryCertificationCourseResultWithExternal,

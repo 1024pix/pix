@@ -2,6 +2,7 @@ import { CertificationVersion } from '../../../../src/shared/domain/models/Certi
 import { JuryCertification } from '../../../../lib/domain/models/JuryCertification.js';
 import { buildCertificationIssueReport } from './build-certification-issue-report.js';
 import { buildCompetenceMark } from './build-competence-mark.js';
+import { JuryComment, JuryCommentContexts } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 const buildJuryCertification = function ({
   certificationCourseId = 123,
@@ -27,7 +28,7 @@ const buildJuryCertification = function ({
   commentForCandidate = 'comment candidate',
   commentForOrganization = 'comment organization',
   commentByJury,
-  commentByAutoJury = 'comment auto jury',
+  commentByAutoJury,
   competenceMarks = [buildCompetenceMark()],
   certificationIssueReports = [buildCertificationIssueReport()],
   commonComplementaryCertificationCourseResult,
@@ -55,10 +56,17 @@ const buildJuryCertification = function ({
     completedAt,
     pixScore,
     juryId,
-    commentForCandidate,
-    commentForOrganization,
+    commentForCandidate: new JuryComment({
+      commentByAutoJury,
+      fallbackComment: commentForCandidate,
+      context: JuryCommentContexts.CANDIDATE,
+    }),
+    commentForOrganization: new JuryComment({
+      commentByAutoJury,
+      fallbackComment: commentForOrganization,
+      context: JuryCommentContexts.ORGANIZATION,
+    }),
     commentByJury,
-    commentByAutoJury,
     competenceMarks,
     certificationIssueReports,
     commonComplementaryCertificationCourseResult,
