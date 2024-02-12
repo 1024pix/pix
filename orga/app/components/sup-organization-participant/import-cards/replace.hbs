@@ -11,7 +11,7 @@
       {{t "pages.organization-participants-import.actions.replace.label"}}
     </PixButton>
     <p class="import-students-page-section__details">
-      {{t "pages.organization-participants-import.supported-formats" types=".csv"}}
+      {{@acceptedFileType}}
     </p>
   </div>
 
@@ -19,5 +19,6 @@
     @onClose={{this.toggleModal}}
     @display={{this.displayModal}}
     @onReplaceStudents={{@onReplaceStudents}}
+    @supportedFormats={{@supportedFormats}}
   />
 </section>

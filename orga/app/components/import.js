@@ -1,16 +1,19 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 
-export default class ScoImport extends Component {
+export default class Import extends Component {
   @service currentUser;
   @service session;
   @service intl;
 
   get supportedFormats() {
-    if (this.currentUser.isSCOManagingStudents) {
-      return ['.xml', '.zip'];
-    } else if (this.currentUser.isAgriculture || this.currentUser.isSUPManagingStudents) {
+    if (
+      (this.currentUser.isSCOManagingStudents && this.currentUser.isAgriculture) ||
+      this.currentUser.isSUPManagingStudents
+    ) {
       return ['.csv'];
+    } else if (this.currentUser.isSCOManagingStudents) {
+      return ['.xml', '.zip'];
     } else return [];
   }
 
