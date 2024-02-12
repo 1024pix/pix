@@ -370,7 +370,7 @@
           "delete-reporting": "Supprimer le signalement"
         },
         "errors": {
-          "delete-reporting": "Une erreur s'est produite lors de la suppression du signalement. Merci de réessayer"
+          "delete-reporting": "Une erreur s'est produite lors de la suppression du signalement. Merci de réessayer après avoir rechargé la page"
         },
         "subtitle": "Mes signalements"
       },
