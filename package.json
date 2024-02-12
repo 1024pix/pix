@@ -92,7 +92,7 @@
     "bluebird": "3.7.2",
     "d3-dsv": "^2.0.0",
     "moment": "^2.29.1",
-    "npm-run-all2": "^5.0.0"
+    "npm-run-all2": "^6.0.0"
   },
   "devDependencies": {
     "@1024pix/eslint-config": "^1.1.1",
