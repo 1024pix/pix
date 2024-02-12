@@ -10,10 +10,11 @@ module('Unit | Model | Module | Grain', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const qcu = store.createRecord('qcu', { type: 'qcus', isAnswerable: true });
+        const qcm = store.createRecord('qcm', { type: 'qcms', isAnswerable: true });
         const qrocm = store.createRecord('qrocm', { type: 'qrocms', isAnswerable: true });
         const text = store.createRecord('text', { type: 'texts', isAnswerable: false });
         const grain = store.createRecord('grain', {
-          elements: [qcu, qrocm, text],
+          elements: [qcu, qcm, qrocm, text],
         });
 
         // when
@@ -48,18 +49,19 @@ module('Unit | Model | Module | Grain', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const qcu = store.createRecord('qcu', { type: 'qcus', isAnswerable: true });
+        const qcm = store.createRecord('qcm', { type: 'qcms', isAnswerable: true });
         const qrocm = store.createRecord('qrocm', { type: 'qrocms', isAnswerable: true });
         const text = store.createRecord('text', { type: 'texts', isAnswerable: false });
         const grain = store.createRecord('grain', {
-          elements: [qcu, qrocm, text],
+          elements: [qcu, qcm, qrocm, text],
         });
 
         // when
         const answerableElements = grain.answerableElements;
 
         // then
-        assert.strictEqual(answerableElements.length, 2);
-        assert.deepEqual(answerableElements, [qcu, qrocm]);
+        assert.strictEqual(answerableElements.length, 3);
+        assert.deepEqual(answerableElements, [qcu, qcm, qrocm]);
       });
     });
 
