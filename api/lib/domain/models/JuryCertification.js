@@ -1,4 +1,5 @@
 import { CompetenceMark } from './CompetenceMark.js';
+import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
 
 class JuryCertification {
   constructor({
@@ -77,6 +78,22 @@ class JuryCertification {
         }),
     );
 
+    const {
+      commentByAutoJury,
+      commentForCandidate: manualCommentForCandidate,
+      commentForOrganization: manualCommentForOrganization,
+    } = juryCertificationDTO;
+    const commentForCandidate = new JuryComment({
+      commentByAutoJury,
+      fallbackComment: manualCommentForCandidate,
+      context: JuryCommentContexts.CANDIDATE,
+    });
+    const commentForOrganization = new JuryComment({
+      commentByAutoJury,
+      fallbackComment: manualCommentForOrganization,
+      context: JuryCommentContexts.ORGANIZATION,
+    });
+
     return new JuryCertification({
       certificationCourseId: juryCertificationDTO.certificationCourseId,
       sessionId: juryCertificationDTO.sessionId,
@@ -99,10 +116,9 @@ class JuryCertification {
       juryId: juryCertificationDTO.juryId,
       pixScore: juryCertificationDTO.pixScore,
       competenceMarks,
-      commentForCandidate: juryCertificationDTO.commentForCandidate,
-      commentForOrganization: juryCertificationDTO.commentForOrganization,
+      commentForCandidate,
+      commentForOrganization,
       commentByJury: juryCertificationDTO.commentByJury,
-      commentByAutoJury: juryCertificationDTO.commentByAutoJury,
       certificationIssueReports,
       complementaryCertificationCourseResultWithExternal,
       commonComplementaryCertificationCourseResult,

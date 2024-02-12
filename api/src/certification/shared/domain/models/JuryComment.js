@@ -1,7 +1,21 @@
+const JuryCommentContexts = Object.freeze({
+  CANDIDATE: 'candidate',
+  ORGANIZATION: 'organization',
+});
+
+const AutoJuryCommentKeys = Object.freeze({
+  FRAUD: 'FRAUD',
+});
+
+const MAPPING_JURY_AUTO_COMMENT_KEYS_TO_TRANSLATION_KEYS = {
+  FRAUD: 'jury.comment.fraud',
+};
+
 class JuryComment {
-  constructor({ commentByAutoJury, fallbackComment }) {
-    this.commentByAutoJury = commentByAutoJury;
+  constructor({ commentByAutoJury, fallbackComment, context }) {
+    this.commentByAutoJury = AutoJuryCommentKeys[commentByAutoJury];
     this.fallbackComment = fallbackComment;
+    this.context = context;
   }
 
   getFallbackComment() {
@@ -9,12 +23,12 @@ class JuryComment {
   }
 
   getKeyToTranslate() {
-    return this.commentByAutoJury;
+    return `${MAPPING_JURY_AUTO_COMMENT_KEYS_TO_TRANSLATION_KEYS[this.commentByAutoJury]}.${this.context}`;
   }
 
-  shouldTranslate() {
+  shouldBeTranslated() {
     return !!this.commentByAutoJury;
   }
 }
 
-export { JuryComment };
+export { JuryComment, JuryCommentContexts, AutoJuryCommentKeys };
