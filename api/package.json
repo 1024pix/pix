@@ -88,7 +88,7 @@
     "@babel/eslint-parser": "^7.18.2",
     "@babel/plugin-syntax-import-assertions": "^7.20.0",
     "@ls-lint/ls-lint": "^2.0.0",
-    "chai": "^4.3.6",
+    "chai": "^5.0.0",
     "chai-as-promised": "^7.1.1",
     "chai-sorted": "^0.2.0",
     "depcheck": "^1.4.3",
@@ -120,7 +120,8 @@
   "overrides": {
     "bookshelf": {
       "knex": "^3.0.0"
-    }
+    },
+    "chai": "^5.0.0"
   },
   "scripts": {
     "clean": "rm -rf node_modules",
