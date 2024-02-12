@@ -1,6 +1,7 @@
 import { databaseBuilder, domainBuilder, expect, catchErr } from '../../../../../test-helper.js';
 import * as centerRepository from '../../../../../../src/certification/session/infrastructure/repositories/center-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { CertificationCenter } from '../../../../../../lib/domain/models/CertificationCenter.js';
 
 describe('Integration | Certification |  Center | Repository | center-repository', function () {
   describe('#getById', function () {
@@ -16,12 +17,37 @@ describe('Integration | Certification |  Center | Repository | center-repository
       });
     });
 
+    context('when the certification center has no habilitations', function () {
+      it('should return the certification center without habilitations', async function () {
+        // given
+        const centerId = 1;
+        databaseBuilder.factory.buildCertificationCenter({
+          id: centerId,
+          type: CertificationCenter.types.PRO,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await centerRepository.getById({
+          id: centerId,
+        });
+
+        // then
+        const expectedCenter = domainBuilder.certification.session.buildCenter({
+          id: centerId,
+          type: 'PRO',
+          habilitations: [],
+        });
+        expect(result).to.deepEqualInstance(expectedCenter);
+      });
+    });
+
     it('should return the certification center by its id', async function () {
       // given
       const centerId = 1;
       databaseBuilder.factory.buildCertificationCenter({
         id: centerId,
-        type: 'SCO',
+        type: CertificationCenter.types.SCO,
       });
       const cleaId = databaseBuilder.factory.buildComplementaryCertification.clea({}).id;
       const droitId = databaseBuilder.factory.buildComplementaryCertification.droit({}).id;
