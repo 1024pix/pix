@@ -15,6 +15,7 @@ const serverSideCookieSessionPlugin = {
       isSecure: config.environment !== 'test',
       password: config.authentication.secret,
     },
+    storeBlank: false,
   },
   plugin: Yar,
 };
