@@ -1,7 +1,4 @@
-import chai from 'chai';
-
-const { expect } = chai;
-
+import { expect } from '../../../test-helper.js';
 import { paginate } from '../../../../lib/infrastructure/utils/paginate.js';
 
 describe('Unit | Utils | paginate', function () {

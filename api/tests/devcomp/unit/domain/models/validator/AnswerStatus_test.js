@@ -1,4 +1,4 @@
-import chai from 'chai';
+import { expect } from '../../../../../test-helper.js';
 import { AnswerStatus } from '../../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
 
 const { expect } = chai;

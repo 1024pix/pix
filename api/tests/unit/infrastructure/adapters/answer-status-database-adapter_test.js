@@ -1,9 +1,6 @@
+import { expect } from '../../../test-helper.js';
 import * as AnswerStatusDatabaseAdapter from '../../../../src/shared/infrastructure/adapters/answer-status-database-adapter.js';
 import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
-
-import chai from 'chai';
-
-const { expect } = chai;
 
 describe('AnswerStatusDatabaseAdapter', function () {
   describe('#adapt', function () {
