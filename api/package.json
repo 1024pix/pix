@@ -120,7 +120,8 @@
   "overrides": {
     "bookshelf": {
       "knex": "^3.0.0"
-    }
+    },
+    "chai": "^5.0.0"
   },
   "scripts": {
     "clean": "rm -rf node_modules",
