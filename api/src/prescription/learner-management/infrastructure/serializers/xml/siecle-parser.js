@@ -11,41 +11,41 @@ const ERRORS = {
   UAI_MISMATCHED: 'UAI_MISMATCHED',
 };
 
-const UAJ = '<UAJ';
 const ELEVE_ELEMENT = '<ELEVE';
 const STRUCTURE_ELEVE_ELEMENT = '<STRUCTURES_ELEVE';
 
 class SiecleParser {
   constructor(organization, siecleFileStreamer) {
-    this.organization = organization;
     this.siecleFileStreamer = siecleFileStreamer;
     this.organizationLearnersSet = new XMLOrganizationLearnersSet();
-
-    this.hasCorrectUAJ = false;
   }
 
   static create(organization, siecleFileStreamer) {
     return new SiecleParser(organization, siecleFileStreamer);
   }
 
-  async parse() {
-    await this._parse();
-
-    await this.siecleFileStreamer.close();
-
-    // Prevent missing UAJ tag
-    if (!this.hasCorrectUAJ) {
-      throw new SiecleXmlImportError(ERRORS.UAI_MISMATCHED);
-    }
-
-    return this.organizationLearnersSet.organizationLearners.filter(
-      (organizationLearner) => !isUndefined(organizationLearner.division),
-    );
+  async parseUAJ(organisationId) {
+    await this.siecleFileStreamer.perform((stream, resolve, reject) => {
+      const streamerToParseOrganizationLearners = new saxPath.SaXPath(stream, '/BEE_ELEVES/PARAMETRES/UAJ');
+      streamerToParseOrganizationLearners.once('match', (xmlNode) => {
+        xml2js.parseString(xmlNode, (err, nodeData) => {
+          if (err) return reject(err); // Si j'enleve cette ligne les tests passentorganisationId
+          if (nodeData.UAJ !== organisationId) {
+            reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
+          } else {
+            resolve();
+          }
+        });
+      });
+      streamerToParseOrganizationLearners.once('end', () => {
+        reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
+      });
+    });
   }
 
-  async _parse() {
+  async parse() {
     await this.siecleFileStreamer.perform((stream, resolve, reject) => {
-      const streamerToParseOrganizationLearners = new saxPath.SaXPath(stream, '//*');
+      const streamerToParseOrganizationLearners = new saxPath.SaXPath(stream, '/BEE_ELEVES/DONNEES/*/*');
       streamerToParseOrganizationLearners.on('match', (xmlNode) => {
         if (_isOrganizationLearnerNode(xmlNode)) {
           xml2js.parseString(xmlNode, (err, nodeData) => {
@@ -61,26 +61,18 @@ class SiecleParser {
               reject(err);
             }
           });
-        } else if (_isUAJNode(xmlNode)) {
-          xml2js.parseString(xmlNode, (err, nodeData) => {
-            if (err) return reject(err); // Si j'enleve cette ligne les tests passent
-            const UAIFromUserOrganization = this.organization.externalId;
-            if (nodeData.UAJ !== UAIFromUserOrganization) {
-              reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
-            } else {
-              this.hasCorrectUAJ = true;
-            }
-          });
         }
       });
 
       streamerToParseOrganizationLearners.on('end', resolve);
     });
-  }
-}
 
-function _isUAJNode(xmlNode) {
-  return xmlNode.startsWith(UAJ);
+    await this.siecleFileStreamer.close();
+
+    return this.organizationLearnersSet.organizationLearners.filter(
+      (organizationLearner) => !isUndefined(organizationLearner.division),
+    );
+  }
 }
 
 function _isOrganizationLearnerNode(xmlNode) {

@@ -12,6 +12,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
   const organizationId = 1234;
   let format;
   let parseStub;
+  let parseUAJStub;
   let organizationLearnerRepositoryStub;
   let organizationRepositoryStub;
   let siecleServiceStub;
@@ -35,7 +36,8 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
     };
     sinon.stub(SiecleParser, 'create');
     parseStub = sinon.stub();
-    SiecleParser.create.returns({ parse: parseStub });
+    parseUAJStub = sinon.stub();
+    SiecleParser.create.returns({ parse: parseStub, parseUAJ: parseUAJStub });
 
     siecleFileStreamerSymbol = Symbol('siecleFileStreamerSymbol');
     sinon.stub(SiecleFileStreamer, 'create');

@@ -93,7 +93,7 @@ describe('Integration | Serializers | siecle-parser', function () {
       // when
       const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
       const parser = SiecleParser.create(organization, siecleFileStreamer);
-      const error = await catchErr(() => parser.parse())();
+      const error = await catchErr(() => parser.parseUAJ(wrongUAIFromSIECLE))();
 
       //then
       expect(error).to.be.instanceof(SiecleXmlImportError);
@@ -110,7 +110,7 @@ describe('Integration | Serializers | siecle-parser', function () {
       // when
       const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
       const parser = SiecleParser.create(organization, siecleFileStreamer);
-      const error = await catchErr(() => parser.parse())();
+      const error = await catchErr(() => parser.parseUAJ(wrongUAIFromSIECLE))();
 
       //then
       expect(error).to.be.instanceof(SiecleXmlImportError);
