@@ -1,56 +1,60 @@
-import _ from 'lodash';
 import { expect, sinon, domainBuilder } from '../../../../../test-helper.js';
+import { CertificationAssessment } from '../../../../../../lib/domain/models/index.js';
 import { endAssessmentBySupervisor } from '../../../../../../src/certification/course/domain/usecases/end-assessment-by-supervisor.js';
 
 describe('Unit | UseCase | end-assessment-by-supervisor', function () {
-  let assessmentRepository;
+  let certificationAssessmentRepository;
 
   beforeEach(function () {
-    assessmentRepository = {
-      getByCertificationCandidateId: _.noop,
-      endBySupervisorByAssessmentId: _.noop,
+    certificationAssessmentRepository = {
+      getByCertificationCandidateId: sinon.stub(),
+      save: sinon.stub(),
     };
   });
 
   context('when assessment is already completed', function () {
     it('should not end the assessment', async function () {
       // when
-      const completedAssessment = domainBuilder.buildAssessment.ofTypeCertification({ state: 'completed' });
       const certificationCandidateId = domainBuilder.buildCertificationCandidate().id;
-      sinon.stub(assessmentRepository, 'endBySupervisorByAssessmentId').resolves();
-      sinon
-        .stub(assessmentRepository, 'getByCertificationCandidateId')
+      const completedCertificationAssessment = domainBuilder.buildCertificationAssessment({
+        state: CertificationAssessment.states.COMPLETED,
+      });
+
+      certificationAssessmentRepository.getByCertificationCandidateId
         .withArgs(certificationCandidateId)
-        .resolves(completedAssessment);
+        .resolves(completedCertificationAssessment);
 
       await endAssessmentBySupervisor({
         certificationCandidateId,
-        assessmentRepository,
+        certificationAssessmentRepository,
       });
 
       // then
-      expect(assessmentRepository.endBySupervisorByAssessmentId).not.to.have.been.called;
+      expect(certificationAssessmentRepository.save).not.to.have.been.called;
     });
   });
 
   context('when assessment is not completed', function () {
     it('should end the assessment', async function () {
       // when
-      const assessment = domainBuilder.buildAssessment.ofTypeCertification({ state: 'started', userId: 123 });
-      const certificationCandidateId = domainBuilder.buildCertificationCandidate({ userId: 123 }).id;
-      sinon.stub(assessmentRepository, 'endBySupervisorByAssessmentId').resolves();
-      sinon
-        .stub(assessmentRepository, 'getByCertificationCandidateId')
+      const certificationCandidateId = domainBuilder.buildCertificationCandidate().id;
+      const startedCertificationAssessment = domainBuilder.buildCertificationAssessment({
+        state: CertificationAssessment.states.STARTED,
+      });
+
+      certificationAssessmentRepository.getByCertificationCandidateId
         .withArgs(certificationCandidateId)
-        .resolves(assessment);
+        .resolves(startedCertificationAssessment);
 
       await endAssessmentBySupervisor({
         certificationCandidateId,
-        assessmentRepository,
+        certificationAssessmentRepository,
       });
 
       // then
-      expect(assessmentRepository.endBySupervisorByAssessmentId).to.have.been.calledWithExactly(assessment.id);
+      expect(startedCertificationAssessment.endedAt).to.be.instanceOf(Date);
+      expect(startedCertificationAssessment.state).to.equal(CertificationAssessment.states.ENDED_BY_SUPERVISOR);
+      expect(certificationAssessmentRepository.save).to.have.been.calledWithExactly(startedCertificationAssessment);
     });
   });
 });

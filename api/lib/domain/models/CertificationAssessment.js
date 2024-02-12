@@ -80,10 +80,16 @@ class CertificationAssessment {
     }
   }
 
-  endDueToFinalization() {
+  endDueToFinalization({ now }) {
     if (this.state === states.STARTED) {
       this.state = states.ENDED_DUE_TO_FINALIZATION;
+      this.endedAt = now;
     }
+  }
+
+  endBySupervisor({ now }) {
+    this.state = states.ENDED_BY_SUPERVISOR;
+    this.endedAt = now;
   }
 
   neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber) {

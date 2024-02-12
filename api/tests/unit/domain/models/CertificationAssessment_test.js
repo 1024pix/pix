@@ -443,15 +443,34 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
   describe('#endDueToFinalization', function () {
     it('should change the assessment state to "endedDueToFinalization"', function () {
       // given
+      const now = new Date('2020-12-31');
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         state: CertificationAssessment.states.STARTED,
       });
 
       // when
-      certificationAssessment.endDueToFinalization();
+      certificationAssessment.endDueToFinalization({ now });
 
-      // when then
+      // then
       expect(certificationAssessment.state).to.equal(CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION);
+      expect(certificationAssessment.endedAt).to.deep.equal(now);
+    });
+  });
+
+  describe('#endBySupervisor', function () {
+    it('should change the assessment state to "endBySupervisor"', function () {
+      // given
+      const now = new Date('2020-12-31');
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        state: CertificationAssessment.states.STARTED,
+      });
+
+      // when
+      certificationAssessment.endBySupervisor({ now });
+
+      // then
+      expect(certificationAssessment.state).to.equal(CertificationAssessment.states.ENDED_BY_SUPERVISOR);
+      expect(certificationAssessment.endedAt).to.deep.equal(now);
     });
 
     it('should NOT change the assessment state if it is "endedBySupervisor"', function () {
