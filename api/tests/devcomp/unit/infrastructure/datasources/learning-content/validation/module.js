@@ -2,6 +2,7 @@ import Joi from 'joi';
 import {
   imageElementSchema,
   qcuElementSchema,
+  qcmElementSchema,
   qrocmElementSchema,
   textElementSchema,
   videoElementSchema,
@@ -39,6 +40,7 @@ const moduleSchema = Joi.object({
               textElementSchema,
               imageElementSchema,
               qcuElementSchema,
+              qcmElementSchema,
               qrocmElementSchema,
               videoElementSchema,
             ),
