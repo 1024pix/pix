@@ -15,6 +15,7 @@ import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import { config } from '../../../../lib/config.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Acceptance | API | Certification Course', function () {
   let server;
@@ -265,8 +266,7 @@ describe('Acceptance | API | Certification Course', function () {
         assessmentId: 159,
         pixScore: 55,
         juryId: 66,
-        commentForCandidate: 'comment candidate',
-        commentForOrganization: 'comment organization',
+        commentByAutoJury: AutoJuryCommentKeys.FRAUD,
         commentByJury: 'comment jury',
         status: 'rejected',
       });
@@ -317,9 +317,11 @@ describe('Acceptance | API | Certification Course', function () {
           'completed-at': new Date('2020-02-01'),
           'pix-score': 55,
           'jury-id': 66,
-          'comment-for-candidate': 'comment candidate',
+          'comment-for-candidate':
+            "Les conditions de passation du test de certification n'ayant pas été respectées et ayant fait l'objet d'un signalement pour fraude, votre certification a été invalidée en conséquence.",
           'comment-by-jury': 'comment jury',
-          'comment-for-organization': 'comment organization',
+          'comment-for-organization':
+            'Une situation de fraude a été détectée : après analyse, nous avons statué sur un rejet de la certification.',
           version: 2,
           'competences-with-mark': [
             {
