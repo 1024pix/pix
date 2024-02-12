@@ -81,7 +81,7 @@
     "ember-exam": "^9.0.0",
     "ember-fetch": "^8.1.2",
     "ember-file-upload": "^9.0.0",
-    "ember-flatpickr": "^4.0.0",
+    "ember-flatpickr": "^7.0.0",
     "ember-intl": "^6.0.0",
     "ember-load-initializers": "^2.1.2",
     "ember-modifier": "^4.1.0",
