@@ -957,11 +957,7 @@
         "reset-password-button": "Reset passwords for selected students"
       },
       "actions": {
-        "import-file": {
-          "file-type-separator": " or ",
-          "information": "Importing your file may take a few minutes. Some features may be temporarily inaccessible.",
-          "label": "Import ({types})"
-        },
+        "import-file":"Import",
         "manage-account": "Manage the account",
         "show-actions": "Show actions"
       },
