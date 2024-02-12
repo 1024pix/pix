@@ -55,7 +55,7 @@
                 placeholder={{block.placeholder}}
                 @value={{get @answersValue block.input}}
                 disabled={{@isAnswerFieldDisabled}}
-                @ariaLabel={{block.ariaLabel}}
+                aria-label={{block.ariaLabel}}
                 data-test="challenge-response-proposal-selector"
                 data-uid="qrocm-proposal-uid"
                 {{on "change" (fn this.onInputChange block.input)}}
@@ -72,7 +72,7 @@
                 placeholder={{block.placeholder}}
                 @value={{get @answersValue block.input}}
                 disabled={{@isAnswerFieldDisabled}}
-                @ariaLabel={{block.ariaLabel}}
+                aria-label={{block.ariaLabel}}
                 data-test="challenge-response-proposal-selector"
                 data-uid="qrocm-proposal-uid"
                 {{on "change" (fn this.onInputChange block.input)}}
