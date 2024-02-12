@@ -13,7 +13,7 @@ describe('Unit | Pre-handler | Authorization', function () {
   let dependencies;
 
   beforeEach(function () {
-    certificationCourseRepository = { get: sinon.stub() };
+    certificationCourseRepository = { getSessionId: sinon.stub() };
     sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
     dependencies = { certificationCourseRepository, sessionRepository };
   });
@@ -63,17 +63,15 @@ describe('Unit | Pre-handler | Authorization', function () {
       it('should return true', async function () {
         // given
         const userId = 1;
-        const certificationCourse = domainBuilder.buildCertificationCourse();
+        domainBuilder.buildCertificationCourse({ id: 77, sessionId: 99 });
         const request = {
           auth: { credentials: { accessToken: 'valid.access.token', userId } },
           params: {
-            id: certificationCourse.id,
+            id: 77,
           },
         };
-        certificationCourseRepository.get.resolves(certificationCourse);
-        sessionRepository.doesUserHaveCertificationCenterMembershipForSession
-          .withArgs(userId, certificationCourse.getSessionId())
-          .resolves(true);
+        certificationCourseRepository.getSessionId.withArgs(77).resolves(99);
+        sessionRepository.doesUserHaveCertificationCenterMembershipForSession.withArgs(userId, 99).resolves(true);
 
         // when
         const response = await verifyCertificationSessionAuthorization(request, hFake, dependencies);
@@ -87,17 +85,15 @@ describe('Unit | Pre-handler | Authorization', function () {
       it('should throw a NotFoundError', async function () {
         // given
         const userId = 1;
-        const certificationCourse = domainBuilder.buildCertificationCourse();
+        domainBuilder.buildCertificationCourse({ id: 77, sessionId: 99 });
         const request = {
           auth: { credentials: { accessToken: 'valid.access.token', userId } },
           params: {
-            id: certificationCourse.id,
+            id: 77,
           },
         };
-        certificationCourseRepository.get.resolves(certificationCourse);
-        sessionRepository.doesUserHaveCertificationCenterMembershipForSession
-          .withArgs(userId, certificationCourse.getSessionId())
-          .resolves(false);
+        certificationCourseRepository.getSessionId.withArgs(77).resolves(99);
+        sessionRepository.doesUserHaveCertificationCenterMembershipForSession.withArgs(userId, 99).resolves(false);
 
         // when
         const error = await catchErr(verifyCertificationSessionAuthorization)(request, hFake, dependencies);
