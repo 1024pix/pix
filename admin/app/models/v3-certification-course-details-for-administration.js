@@ -22,6 +22,7 @@ export default class V3CertificationCourseDetailsForAdministration extends Model
   @attr('boolean') isCancelled;
   @attr('date') createdAt;
   @attr('date') completedAt;
+  @attr('date') endedAt;
   @attr('string') assessmentResultStatus;
   @attr('string') assessmentState;
   @attr('string') abortReason;
