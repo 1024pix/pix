@@ -68,6 +68,18 @@ async function _countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDate
   );
 }
 
+const findUniqByUserIds = function (userIds) {
+  return Promise.all(
+    userIds.map(async (userId) => {
+      const knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({
+        userId,
+      });
+
+      return { userId, knowledgeElements };
+    }),
+  );
+};
+
 const save = async function (knowledgeElement) {
   const knowledgeElementToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
   const [savedKnowledgeElement] = await knex(tableName).insert(knowledgeElementToSave).returning('*');
@@ -162,6 +174,7 @@ export {
   save,
   batchSave,
   findUniqByUserId,
+  findUniqByUserIds,
   findUniqByUserIdAndAssessmentId,
   findUniqByUserIdAndCompetenceId,
   findUniqByUserIdGroupedByCompetenceId,
