@@ -656,12 +656,6 @@ class DeletedError extends DomainError {
   }
 }
 
-class NoCertificationResultForDivision extends DomainError {
-  constructor(message = 'Aucun résultat de certification pour cette classe.') {
-    super(message);
-  }
-}
-
 class ObjectValidationError extends DomainError {
   constructor(message = 'Erreur, objet non valide.') {
     super(message);
@@ -1199,7 +1193,6 @@ export {
   MissingUserAccountError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NoCampaignParticipationForUserAndCampaign,
-  NoCertificationResultForDivision,
   NoOrganizationToAttach,
   NoSkillsInCampaignError,
   NoStagesForCampaign,

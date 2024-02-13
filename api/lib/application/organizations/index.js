@@ -620,33 +620,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/organizations/{id}/certification-results',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
-            assign: 'belongsToOrganizationManagingStudents',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          query: Joi.object({
-            division: Joi.string().optional(),
-            lang: Joi.string().optional().valid('fr', 'en'),
-          }),
-        },
-        handler: organizationController.downloadCertificationResults,
-        tags: ['api', 'organizations'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          "Elle retourne les certifications liées à l'organisation sous forme de fichier CSV.",
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/organizations/{id}/sup-organization-learners/csv-template',
       config: {
         auth: false,

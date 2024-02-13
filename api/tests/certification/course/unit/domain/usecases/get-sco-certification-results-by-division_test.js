@@ -1,8 +1,8 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { getScoCertificationResultsByDivision } from '../../../../lib/domain/usecases/get-sco-certification-results-by-division.js';
-import { NoCertificationResultForDivision } from '../../../../lib/domain/errors.js';
+import { expect, sinon, domainBuilder, catchErr } from '../../../../../test-helper.js';
+import { getScoCertificationResultsByDivision } from '../../../../../../src/certification/course/domain/usecases/get-sco-certification-results-by-division.js';
+import { NoCertificationResultForDivision } from '../../../../../../src/certification/course/domain/errors.js';
 
-describe('Unit | UseCase | get-sco-certification-results-by-division', function () {
+describe('Certification | Course | Unit | UseCase | get-sco-certification-results-by-division', function () {
   const scoCertificationCandidateRepository = { findIdsByOrganizationIdAndDivision: null };
   const certificationResultRepository = { findByCertificationCandidateIds: null };
   const dependencies = {
@@ -33,7 +33,7 @@ describe('Unit | UseCase | get-sco-certification-results-by-division', function 
     });
 
     // then
-    expect(error).to.be.instanceof(NoCertificationResultForDivision);
+    expect(error).to.deepEqualInstance(new NoCertificationResultForDivision());
   });
 
   it('throws when no results are found for candidates', async function () {
