@@ -1,10 +1,10 @@
 const buildMission = function ({
-  id = 'recCHAL1',
+  id = 1,
   name_i18n = {
     fr: 'Recherche sur Internet',
   },
   competenceId = 'recCOMP1',
-  thematicId = undefined,
+  thematicId = 'recCHAL1',
   learningObjectives_i18n = {
     fr: 'un objectif en français',
   },
