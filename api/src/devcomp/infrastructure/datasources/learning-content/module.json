@@ -1082,11 +1082,15 @@
         "description": "Découvrez dans ce module ce qu'est une adresse IP publique et les informations et traces numériques qu'elle porte.",
         "duration": 10,
         "level": "Intermédiaire",
-        "objectives": ["Connaître les traces numériques portées par l'IP publique", "Localiser une IP publique","Connaître les différences entre IP publique et IP privée"]
+        "objectives": [
+          "Connaître les traces numériques portées par l'IP publique",
+          "Localiser une IP publique",
+          "Connaître les différences entre IP publique et IP privée"
+        ]
       },
       "transitionTexts": [
         {
-          "content": "<p>[TODO] Texte intro grain</p>",
+          "content": "<p>En naviguant sur internet, il arrive qu'un site sache où vous vous trouvez alors que vous n'avez pas partagé votre localisation <span aria-hidden='true'>📍</span>️<br>Mystère ? Pas vraiment. On vous explique tout dans ce module.</p>",
           "grainId": "1d516eb9-e7b7-48a3-a3b5-7971ad171d6f"
         },
         {
@@ -1123,7 +1127,7 @@
             {
               "id": "67b68f2a-349d-4df7-90a5-c9f5dc930a1a",
               "type": "text",
-              "content": "<p>[TODO] Texte </p>"
+              "content": "<p> Voici la page de résultats d'une recherche en ligne sur des recettes végétariennes <span aria-hidden='true'>🥗</span>️<br>Le moteur de recherche indique que l'utilisateur se trouve actuellement vers Toulouse.</p>"
             },
             {
               "id": "2098be0b-e994-4bcd-8e52-5a6559963f8c",
@@ -1131,6 +1135,30 @@
               "url": "https://images.pix.fr/modulix/placeholder-image.svg",
               "alt": "",
               "alternativeText": ""
+            },
+            {
+              "id": "ff75255c-18e0-4cd9-8fd1-83a9ab6994fb",
+              "type": "qcu",
+              "instruction": "<p>Quelle information ce moteur de recherche a-t-il utilisé pour obtenir une localisation de cet utilisateur ?</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "la marque de son ordinateur"
+                },
+                {
+                  "id": "2",
+                  "content": "son adresse IP"
+                },
+                {
+                  "id": "3",
+                  "content": "son historique de navigation"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct.</p>",
+                "invalid": "<p>Incorrect. Le moteur indique à côté de la localisation que c'est <strong>d'après votre adresse IP </strong></p>"
+              },
+              "solution": "2"
             }
           ]
         },
@@ -1423,7 +1451,7 @@
             {
               "id": "1203cc2d-fc07-4641-88f8-2b3d42020b39",
               "type": "text",
-              "content": "<p><span aria-hidden='true'>🗝️</span>️ Pour vérifier votre réponse, suivez ce lien vers <a href=\"http://monip.org/\">le site monip.org</a></p>"
+              "content": "<p><span aria-hidden='true'>🗝️</span>️ Pour vérifier votre réponse, suivez ce lien vers <a href=\"http://monip.org/\" target=\"_blank\">le site monip.org</a></p>"
             }
           ]
         }
