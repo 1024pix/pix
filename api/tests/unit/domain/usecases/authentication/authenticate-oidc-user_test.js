@@ -112,10 +112,25 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     context('when user does not have an account', function () {
       it('saves the authentication session and returns the authentication key', async function () {
         // given
-        const sessionContent = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+        const sessionContent = new AuthenticationSessionContent({
+          accessToken: 'accessToken',
+          idToken: 'idToken',
+          expiresIn: 120,
+          refreshToken: 'refreshToken',
+        });
+        const userInfo = {
+          firstName: 'Mélusine',
+          lastName: 'TITEGOUTTE',
+          email: 'melu@example.net',
+          externalIdentityId,
+        };
+
+        oidcAuthenticationService.exchangeCodeForTokens.resolves(sessionContent);
+        oidcAuthenticationService.getUserInfo
+          .withArgs({ idToken: sessionContent.idToken, accessToken: sessionContent.accessToken })
+          .resolves(userInfo);
+
         const authenticationKey = 'aaa-bbb-ccc';
-        const givenName = 'Mélusine';
-        const familyName = 'TITEGOUTTE';
         authenticationSessionService.save.resolves(authenticationKey);
         userRepository.findByExternalIdentifier.resolves(null);
 
@@ -131,8 +146,14 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         });
 
         // then
-        expect(authenticationSessionService.save).to.have.been.calledWithExactly(sessionContent);
-        expect(result).to.deep.equal({ authenticationKey, givenName, familyName, isAuthenticationComplete: false });
+        expect(authenticationSessionService.save).to.have.been.calledWithExactly({ userInfo, sessionContent });
+        expect(result).to.deep.equal({
+          authenticationKey,
+          givenName: 'Mélusine',
+          familyName: 'TITEGOUTTE',
+          email: 'melu@example.net',
+          isAuthenticationComplete: false,
+        });
       });
 
       it('does not create an access token, nor saves the id token in storage, nor updates the last logged date', async function () {
