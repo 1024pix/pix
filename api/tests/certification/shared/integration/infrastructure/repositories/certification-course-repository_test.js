@@ -256,42 +256,88 @@ describe('Integration | Repository | Certification Course', function () {
   describe('#findOneCertificationCourseByUserIdAndSessionId', function () {
     const createdAt = new Date('2018-12-11T01:02:03Z');
     const createdAtLater = new Date('2018-12-12T01:02:03Z');
+    const v3ConfigurationCreationDate = new Date('2018-12-12T01:00:03Z');
+    const numberOfQuestionsForV3 = 10;
     let userId;
     let sessionId;
 
-    beforeEach(function () {
-      // given
-      userId = databaseBuilder.factory.buildUser({}).id;
-      sessionId = databaseBuilder.factory.buildSession({}).id;
-      databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt });
-      databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt: createdAtLater });
+    describe('when certification is v2', function () {
+      beforeEach(function () {
+        // given
+        userId = databaseBuilder.factory.buildUser({}).id;
+        sessionId = databaseBuilder.factory.buildSession({}).id;
+        databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt });
+        databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt: createdAtLater });
 
-      databaseBuilder.factory.buildCertificationCourse({ sessionId });
-      databaseBuilder.factory.buildCertificationCourse({ userId });
+        databaseBuilder.factory.buildCertificationCourse({ sessionId });
+        databaseBuilder.factory.buildCertificationCourse({ userId });
 
-      return databaseBuilder.commit();
-    });
-
-    it('should retrieve the most recently created certification course with given userId, sessionId', async function () {
-      // when
-      const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
-        userId,
-        sessionId,
+        return databaseBuilder.commit();
       });
 
-      // then
-      expect(certificationCourse.toDTO().createdAt).to.deep.equal(createdAtLater);
-    });
+      it('should retrieve the most recently created certification course with given userId, sessionId', async function () {
+        // when
+        const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
+          userId,
+          sessionId,
+        });
 
-    it('should return null when no certification course found', async function () {
-      // when
-      const result = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
-        userId: userId + 1,
-        sessionId,
+        // then
+        expect(certificationCourse.toDTO().createdAt).to.deep.equal(createdAtLater);
       });
 
-      // then
-      expect(result).to.be.null;
+      it('should return null when no certification course found', async function () {
+        // when
+        const result = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
+          userId: userId + 1,
+          sessionId,
+        });
+
+        // then
+        expect(result).to.be.null;
+      });
+    });
+
+    describe('when certification is v3', function () {
+      beforeEach(function () {
+        // given
+        userId = databaseBuilder.factory.buildUser({}).id;
+        sessionId = databaseBuilder.factory.buildSession({}).id;
+        databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt });
+        databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt: createdAtLater, version: 3 });
+
+        databaseBuilder.factory.buildCertificationCourse({ sessionId });
+        databaseBuilder.factory.buildCertificationCourse({ userId });
+
+        databaseBuilder.factory.buildFlashAlgorithmConfiguration({
+          maximumAssessmentLength: numberOfQuestionsForV3,
+          createdAt: v3ConfigurationCreationDate,
+        });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should retrieve the most recently created certification course with given userId, sessionId', async function () {
+        // when
+        const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
+          userId,
+          sessionId,
+        });
+
+        // then
+        expect(certificationCourse.toDTO().createdAt).to.deep.equal(createdAtLater);
+      });
+
+      it('should retrieve the right number of question', async function () {
+        // when
+        const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
+          userId,
+          sessionId,
+        });
+
+        // then
+        expect(certificationCourse.toDTO().numberOfChallenges).to.equal(numberOfQuestionsForV3);
+      });
     });
   });
 
