@@ -949,7 +949,19 @@ describe('Integration | Repository | Session', function () {
         });
         databaseBuilder.factory.buildAssessment({
           certificationCourseId: 98,
-          state: CertificationAssessment.states.STARTED,
+          state: CertificationAssessment.states.ENDED_BY_SUPERVISOR,
+        });
+
+        const userId3 = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId3 });
+        databaseBuilder.factory.buildCertificationCourse({
+          id: 99,
+          sessionId,
+          userId: userId3,
+        });
+        databaseBuilder.factory.buildAssessment({
+          certificationCourseId: 99,
+          state: CertificationAssessment.states.COMPLETED,
         });
 
         await databaseBuilder.commit();
