@@ -695,11 +695,11 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       expect(module).to.be.instanceOf(Module);
 
       const qcus = module.grains.flatMap((grain) => grain.elements.filter((element) => element.type === 'qcu'));
-      expect(qcus).to.not.have.length(0);
+      expect(qcus).to.have.length(1);
       qcus.every((qcu) => qcu instanceof QCUForAnswerVerification);
 
       const qrocms = module.grains.flatMap((grain) => grain.elements.filter((element) => element.type === 'qrocm'));
-      expect(qrocms).to.not.have.length(0);
+      expect(qrocms).to.have.length(1);
       qrocms.every((qrocm) => qrocm instanceof QROCMForAnswerVerification);
     });
 
