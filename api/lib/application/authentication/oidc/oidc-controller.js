@@ -92,6 +92,7 @@ const getAuthenticationUrl = async function (
 
   request.yar.set('state', state);
   request.yar.set('nonce', nonce);
+  await request.yar.commit(h);
 
   return h.response(payload).code(200);
 };
@@ -107,6 +108,7 @@ const authenticateUser = async function (
 
   const sessionState = request.yar.get('state', true);
   const nonce = request.yar.get('nonce', true);
+  await request.yar.commit(h);
 
   const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,

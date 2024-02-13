@@ -139,7 +139,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       // given
       const request = {
         query: { identity_provider: identityProvider, redirect_uri: 'http:/exemple.net/' },
-        yar: { set: sinon.stub() },
+        yar: { set: sinon.stub(), commit: sinon.stub() },
       };
       const getAuthenticationUrlStub = sinon.stub();
       const oidcAuthenticationService = {
@@ -166,6 +166,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         redirectUri: 'http:/exemple.net/',
       });
       expect(request.yar.set).to.have.been.calledTwice;
+      expect(request.yar.commit).to.have.been.calledOnce;
     });
 
     context('when an audience is specified', function () {
@@ -177,7 +178,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
             redirect_uri: 'http:/exemple.net/',
             audience: 'admin',
           },
-          yar: { set: sinon.stub() },
+          yar: { set: sinon.stub(), commit: sinon.stub() },
         };
         const getAuthenticationUrlStub = sinon.stub();
         const oidcAuthenticationService = {
@@ -226,7 +227,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           redirectUri,
           state: identityProviderState,
         },
-        yar: { get: sinon.stub() },
+        yar: { get: sinon.stub(), commit: sinon.stub() },
       };
 
       sinon.stub(usecases, 'authenticateOidcUser');
@@ -268,6 +269,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         nonce: 'nonce',
         oidcAuthenticationService,
       });
+      expect(request.yar.commit).to.have.been.calledOnce;
     });
 
     context('when audience is "admin"', function () {
