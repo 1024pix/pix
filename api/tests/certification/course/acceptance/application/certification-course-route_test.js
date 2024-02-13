@@ -287,6 +287,7 @@ describe('Acceptance | Route | certification-course', function () {
           'certification-course-id': certificationCourse.id,
           'completed-at': certificationCourse.completedAt,
           'created-at': certificationCourse.createdAt,
+          'ended-at': null,
           'is-rejected-for-fraud': false,
           'is-cancelled': false,
           'pix-score': assessmentResult.pixScore,
