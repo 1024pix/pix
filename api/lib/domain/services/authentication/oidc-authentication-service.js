@@ -179,6 +179,15 @@ class OidcAuthenticationService {
     try {
       tokenSet = await this.client.callback(this.redirectUri, { code, state }, { nonce, state: sessionState });
     } catch (error) {
+      monitoringTools.logErrorWithCorrelationIds({
+        message: {
+          context: 'oidc',
+          data: { code, nonce, organizationName: this.organizationName, sessionState, state },
+          error,
+          event: 'exchange-code-for-tokens',
+          team: 'acces',
+        },
+      });
       throw new OidcError({ message: error.message });
     }
 
@@ -216,6 +225,15 @@ class OidcAuthenticationService {
     try {
       redirectTarget = this.client.authorizationUrl(authorizationParameters);
     } catch (error) {
+      monitoringTools.logErrorWithCorrelationIds({
+        message: {
+          context: 'oidc',
+          data: { organizationName: this.organizationName },
+          error,
+          event: 'generate-authorization-url',
+          team: 'acces',
+        },
+      });
       throw new OidcError({ message: error.message });
     }
 
@@ -306,6 +324,15 @@ class OidcAuthenticationService {
     try {
       userInfo = await this.client.userinfo(accessToken);
     } catch (error) {
+      monitoringTools.logErrorWithCorrelationIds({
+        message: {
+          context: 'oidc',
+          data: { organizationName: this.organizationName },
+          error,
+          event: 'get-user-info-from-endpoint',
+          team: 'acces',
+        },
+      });
       throw new OidcError({ message: error.message });
     }
 
