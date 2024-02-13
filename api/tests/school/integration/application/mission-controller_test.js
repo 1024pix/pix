@@ -1,7 +1,7 @@
 import { expect, hFake, sinon } from '../../../test-helper.js';
 import { missionController } from '../../../../src/school/application/mission-controller.js';
 import { Mission } from '../../../../src/school/domain/models/Mission.js';
-import { usecases } from '../../../../src/school/shared/usecases/index.js';
+import { usecases } from '../../../../src/school/domain/usecases/index.js';
 
 describe('Integration | Controller | mission-controller', function () {
   describe('#getById', function () {
@@ -24,6 +24,7 @@ describe('Integration | Controller | mission-controller', function () {
       expect(result.data).to.deep.equal({
         attributes: {
           name: mission.name,
+          'area-code': mission.areaCode,
         },
         id: mission.id.toString(),
         type: 'missions',
@@ -33,7 +34,7 @@ describe('Integration | Controller | mission-controller', function () {
   describe('#findAll', function () {
     it('should find all missions', async function () {
       // given
-      const mission = new Mission({ id: 1, name: 'TAG1' });
+      const mission = new Mission({ id: 1, name: 'TAG1', color: 'Green' });
       sinon.stub(usecases, 'findAllMissions').resolves([mission]);
 
       // when
@@ -44,6 +45,7 @@ describe('Integration | Controller | mission-controller', function () {
         {
           attributes: {
             name: mission.name,
+            'area-code': mission.areaCode,
           },
           id: mission.id.toString(),
           type: 'missions',

@@ -29,6 +29,56 @@ describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource
     });
   });
 
+  describe('#findOneFromCompetenceId', function () {
+    it('should return the corresponding area', async function () {
+      // given
+      const areas = [
+        {
+          id: 'area_1',
+          competenceIds: ['competenceId_1', 'competenceId_2', 'competenceId_3'],
+        },
+        {
+          id: 'area_2',
+          competenceIds: undefined,
+        },
+        {
+          id: 'area_3',
+          competenceIds: ['competenceId_4'],
+        },
+      ];
+
+      sinon.stub(lcms, 'getLatestRelease').resolves({ areas });
+
+      // when
+      const foundArea = await areaDatasource.findOneFromCompetenceId('competenceId_1');
+      // then
+      expect(foundArea).to.deep.equal({
+        id: 'area_1',
+        competenceIds: ['competenceId_1', 'competenceId_2', 'competenceId_3'],
+      });
+    });
+
+    it('should return an object when no match', async function () {
+      // given
+      const areas = [
+        {
+          id: 'area_1',
+          competenceIds: ['competenceId_1', 'competenceId_2', 'competenceId_3'],
+        },
+        {
+          id: 'area_1',
+          competenceIds: ['competenceId_4'],
+        },
+      ];
+      sinon.stub(lcms, 'getLatestRelease').resolves({ areas });
+
+      // when
+      const foundArea = await areaDatasource.findOneFromCompetenceId('competenceId_10');
+      // then
+      expect(foundArea).to.deep.equal({});
+    });
+  });
+
   describe('#findByFrameworkId', function () {
     it('should return an array of matching learning content area data objects by framework id', async function () {
       // given

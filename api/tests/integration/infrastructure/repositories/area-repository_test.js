@@ -94,6 +94,33 @@ describe('Integration | Repository | area-repository', function () {
     });
   });
 
+  describe('#getAreaCodeByCompetenceId', function () {
+    const area0 = {
+      id: 'recArea0',
+      code: 3,
+      competenceIds: ['competenceId_01', 'competenceId_02'],
+    };
+    const area1 = {
+      id: 'recArea1',
+      code: 5,
+      competenceIds: ['competenceId_03', 'competenceId_04', 'competenceId_05'],
+    };
+
+    const learningContent = { areas: [area0, area1] };
+
+    beforeEach(function () {
+      mockLearningContent(learningContent);
+    });
+
+    it('should return the code area', async function () {
+      // when
+      const result = await areaRepository.getAreaCodeByCompetenceId('competenceId_02');
+
+      // then
+      expect(result).to.deep.equal(3);
+    });
+  });
+
   describe('#listWithPixCompetencesOnly', function () {
     context('when there are areas that do not have pix competences', function () {
       const learningContent = {
