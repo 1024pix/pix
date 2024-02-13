@@ -82,10 +82,10 @@ async function get(id, domainTransaction = DomainTransaction.emptyTransaction())
   const challengesDTO = await _findAllChallenges(id, knexConn);
 
   if (certificationCourseDTO.version === 3) {
-    const configuration = await knexConn('flash-algorithm-configurations')
-      .where('createdAt', '<=', certificationCourseDTO.createdAt)
-      .orderBy('createdAt', 'desc')
-      .first();
+    const configuration = await _getV3ConfigurationForCertificationCreationDate(
+      certificationCourseDTO.createdAt,
+      knexConn,
+    );
 
     certificationCourseDTO.numberOfChallenges =
       configuration?.maximumAssessmentLength ?? config.v3Certification.numberOfChallengesPerCourse;
@@ -126,6 +126,13 @@ function _toDomain({
   });
 }
 
+async function _getV3ConfigurationForCertificationCreationDate(createdAt, knexConn) {
+  return knexConn('flash-algorithm-configurations')
+    .where('createdAt', '<=', createdAt)
+    .orderBy('createdAt', 'desc')
+    .first();
+}
+
 async function getSessionId(id) {
   const row = await knex('certification-courses').select('sessionId').where({ id }).first();
   if (!row) {
@@ -142,21 +149,31 @@ async function findOneCertificationCourseByUserIdAndSessionId({
 }) {
   const knexConn = domainTransaction.knexTransaction ?? knex;
 
-  const certificationCourseDto = await knexConn('certification-courses')
+  const certificationCourseDTO = await knexConn('certification-courses')
     .where({ userId, sessionId })
     .orderBy('createdAt', 'desc')
     .first();
 
-  if (!certificationCourseDto) {
+  if (!certificationCourseDTO) {
     return null;
   }
 
-  const assessmentDTO = await _findAssessment(certificationCourseDto.id, knexConn);
+  const assessmentDTO = await _findAssessment(certificationCourseDTO.id, knexConn);
 
-  const challengesDTO = await _findAllChallenges(certificationCourseDto.id, knexConn);
+  const challengesDTO = await _findAllChallenges(certificationCourseDTO.id, knexConn);
+
+  if (certificationCourseDTO.version === 3) {
+    const configuration = await _getV3ConfigurationForCertificationCreationDate(
+      certificationCourseDTO.createdAt,
+      knexConn,
+    );
+
+    certificationCourseDTO.numberOfChallenges =
+      configuration?.maximumAssessmentLength ?? config.v3Certification.numberOfChallengesPerCourse;
+  }
 
   return _toDomain({
-    certificationCourseDTO: certificationCourseDto,
+    certificationCourseDTO,
     challengesDTO,
     assessmentDTO,
     complementaryCertificationCoursesDTO: [],
