@@ -1,5 +1,50 @@
 # Pix Changelog
 
+## v4.102.0 (13/02/2024)
+
+
+### :rocket: Amélioration
+- [#8033](https://github.com/1024pix/pix/pull/8033) [FEATURE] stocke les fichiers d'import dans s3... le retour (PIX-10927).
+- [#7998](https://github.com/1024pix/pix/pull/7998) [FEATURE] Remplacer les chiffres de la barre d'avancement par Question X/Y (PIX-10921).
+- [#8026](https://github.com/1024pix/pix/pull/8026) [FEATURE] Création d'un module MVP sur les adresses IP publique.
+- [#8017](https://github.com/1024pix/pix/pull/8017) [FEATURE] Ne pas écraser le statut "endedBySupervisor" à la finalisation d'une session (pix-11082).
+- [#8021](https://github.com/1024pix/pix/pull/8021) [FEATURE] Ajouter un QCM dans le referenciel Modulix (PIX-11099).
+- [#8006](https://github.com/1024pix/pix/pull/8006) [FEATURE] Rediriger vers la page de fin de module (PIX-10471).
+- [#7976](https://github.com/1024pix/pix/pull/7976) [FEATURE] Restreindre les informations récupérées pour supprimer un signalement (PIX-11033).
+
+### :building_construction: Tech
+- [#8022](https://github.com/1024pix/pix/pull/8022) [TECH] :broom: Réduction du nombre de fichier de configuration à suivre.
+
+### :bug: Correction
+- [#8062](https://github.com/1024pix/pix/pull/8062) [BUGFIX] Finalisation session impossible si le test est terminé par le surveillant par le surveillant (PIX-11179).
+- [#8020](https://github.com/1024pix/pix/pull/8020) [BUGFIX] Ne retourner que la dernière certification publiée d'un élève dans Pix Orga (PIX-10972).
+- [#8059](https://github.com/1024pix/pix/pull/8059) [BUGFIX] Rebascule ember-flatpickr en version 4 sur admin et certif (PIX-11185).
+- [#8027](https://github.com/1024pix/pix/pull/8027) [BUGFIX] Téléchargement import en masse KO si pas d'habilitations (PIX-11144).
+- [#8039](https://github.com/1024pix/pix/pull/8039) [BUGFIX] Afficher correctement le nombre d'une question lors de la reprise d'une certif v3 (PIX-11150).
+- [#8045](https://github.com/1024pix/pix/pull/8045) [BUGFIX] Remise à jour du contenu du didacticiel Modulix (image et vidéo).
+- [#8030](https://github.com/1024pix/pix/pull/8030) [BUGFIX] Retirer les balises '<br>' dans le message lorsque l'utilisateur quitte le focus. (PIX-11148).
+
+### :arrow_up: Montée de version
+- [#8055](https://github.com/1024pix/pix/pull/8055) [BUMP] Update dependency eslint-plugin-ember to v12 (1d).
+- [#8054](https://github.com/1024pix/pix/pull/8054) [BUMP] Update dependency ember-concurrency to v4 (admin).
+- [#8052](https://github.com/1024pix/pix/pull/8052) [BUMP] Update dependency ember-cli-showdown to v8 (orga).
+- [#8049](https://github.com/1024pix/pix/pull/8049) [BUMP] Update dependency ember-cli-showdown to v8 (admin).
+- [#8002](https://github.com/1024pix/pix/pull/8002) [BUMP] Update dependency @1024pix/pix-ui to v43 (certif).
+- [#8048](https://github.com/1024pix/pix/pull/8048) [BUMP] Update dependency ember-flatpickr to v7 (certif).
+- [#8046](https://github.com/1024pix/pix/pull/8046) [BUMP] Update dependency ember-flatpickr to v7 (admin).
+- [#8031](https://github.com/1024pix/pix/pull/8031) [BUMP] Update dependency chai to v5 (api).
+- [#8044](https://github.com/1024pix/pix/pull/8044) [BUMP] Update dependency npm-run-all2 to v6 (e2e).
+- [#8043](https://github.com/1024pix/pix/pull/8043) [BUMP] Update dependency npm-run-all2 to v6 (orga).
+- [#8042](https://github.com/1024pix/pix/pull/8042) [BUMP] Update dependency npm-run-all2 to v6 (mon-pix).
+- [#8041](https://github.com/1024pix/pix/pull/8041) [BUMP] Update dependency npm-run-all2 to v6 (dossier racine).
+- [#8040](https://github.com/1024pix/pix/pull/8040) [BUMP] Update dependency ember-file-upload to v9 (certif).
+- [#8038](https://github.com/1024pix/pix/pull/8038) [BUMP] Update dependency ember-file-upload to v9 (admin).
+- [#8037](https://github.com/1024pix/pix/pull/8037) [BUMP] Update dependency ember-exam to v9 (mon-pix).
+- [#8036](https://github.com/1024pix/pix/pull/8036) [BUMP] Update dependency ember-exam to v9 (admin).
+- [#8034](https://github.com/1024pix/pix/pull/8034) [BUMP] Update dependency npm-run-all2 to v6 (api).
+- [#8032](https://github.com/1024pix/pix/pull/8032) [BUMP] Update dependency npm-run-all2 to v6 (admin).
+- [#8029](https://github.com/1024pix/pix/pull/8029) [BUMP] Update dependency npm-run-all2 to v6 (1d).
+
 ## v4.101.0 (09/02/2024)
 
 
