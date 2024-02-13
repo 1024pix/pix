@@ -205,6 +205,10 @@
               "ended-by-supervisor": "Le surveillant",
               "ended-due-to-finalization": "Finalisation session"
             },
+            "completion-date-tooltip": {
+              "ended-by-supervisor": "Date et heure à laquelle le test de certification a été terminé par le surveillant.",
+              "ended-due-to-finalization": "Date et heure d’affichage de la dernière question proposée au candidat."
+            },
             "general-informations": {
               "title": "Certification N°{certificationCourseId}",
               "labels": {

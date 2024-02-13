@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { render, within } from '@1024pix/ember-testing-library';
+import { fireEvent, render, within } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { click } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -284,7 +284,7 @@ module('Integration | Component | Certifications | certification > details v3', 
             ];
 
             this.model = await store.createRecord('v3-certification-course-details-for-administration', {
-              assessmentState: 'endedByFinalization',
+              assessmentState: 'endedDueToFinalization',
               completedAt: null,
               // eslint-disable-next-line no-restricted-syntax
               endedAt: new Date('2023-01-13T08:05:00'),
@@ -299,6 +299,37 @@ module('Integration | Component | Certifications | certification > details v3', 
             // then
             assert.dom(screen.getByText('Terminée le :')).exists();
             assert.dom(screen.getByText('13/01/2023 08:05:00')).exists();
+          });
+          test('should display the session finalized tooltip', async function (assert) {
+            // given
+            const certificationChallenges = [
+              store.createRecord('certification-challenges-for-administration', {
+                // eslint-disable-next-line no-restricted-syntax
+                createdAt: new Date('2023-01-13T08:05:00'),
+              }),
+            ];
+
+            this.model = await store.createRecord('v3-certification-course-details-for-administration', {
+              assessmentState: 'endedDueToFinalization',
+              completedAt: null,
+              // eslint-disable-next-line no-restricted-syntax
+              endedAt: new Date('2023-01-13T08:05:00'),
+              assessmentResultStatus: 'rejected',
+              numberOfChallenges: 1,
+              certificationChallengesForAdministration: certificationChallenges,
+            });
+
+            // when
+            const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+
+            // then
+            const tooltipTrigger = screen.getByText('13/01/2023 08:05:00');
+
+            fireEvent.mouseOver(tooltipTrigger);
+
+            assert
+              .dom(screen.getByText('Date et heure d’affichage de la dernière question proposée au candidat.'))
+              .exists();
           });
         });
 
@@ -328,6 +359,36 @@ module('Integration | Component | Certifications | certification > details v3', 
             // then
             assert.dom(screen.getByText('Terminée le :')).exists();
             assert.dom(screen.getByText('13/01/2023 08:05:00')).exists();
+          });
+          test('should display the ended by invigilator tooltip', async function (assert) {
+            // given
+            const certificationChallenges = [
+              store.createRecord('certification-challenges-for-administration', {
+                // eslint-disable-next-line no-restricted-syntax
+                createdAt: new Date('2023-01-13T08:05:00'),
+              }),
+            ];
+
+            this.model = await store.createRecord('v3-certification-course-details-for-administration', {
+              assessmentState: 'endedBySupervisor',
+              completedAt: null,
+              // eslint-disable-next-line no-restricted-syntax
+              endedAt: new Date('2023-01-13T08:05:00'),
+              assessmentResultStatus: 'rejected',
+              numberOfChallenges: 1,
+              certificationChallengesForAdministration: certificationChallenges,
+            });
+
+            // when
+            const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+            fireEvent.mouseOver(screen.getByText('13/01/2023 08:05:00'));
+
+            // then
+            assert
+              .dom(
+                screen.getByText('Date et heure à laquelle le test de certification a été terminé par le surveillant.'),
+              )
+              .exists();
           });
         });
       });

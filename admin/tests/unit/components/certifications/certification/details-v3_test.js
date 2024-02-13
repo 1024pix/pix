@@ -327,4 +327,48 @@ module('Unit | Component | certifications/certification/details-v3', function (h
       assert.false(displayEndedByBlock);
     });
   });
+
+  module('completionDateTooltipContent', function () {
+    test('should return the tooltip content for ended by supervisor', function (assert) {
+      component.args.details = {
+        wasEndedBySupervisor: true,
+        wasFinalized: false,
+      };
+      // when
+      const tooltipContent = component.completionDateTooltipContent;
+
+      //then
+      assert.strictEqual(
+        tooltipContent,
+        'pages.certifications.certification.details.v3.completion-date-tooltip.ended-by-supervisor',
+      );
+    });
+
+    test('should return the tooltip content for ended due to finalization', function (assert) {
+      component.args.details = {
+        wasEndedBySupervisor: false,
+        wasFinalized: true,
+      };
+      // when
+      const tooltipContent = component.completionDateTooltipContent;
+
+      //then
+      assert.strictEqual(
+        tooltipContent,
+        'pages.certifications.certification.details.v3.completion-date-tooltip.ended-due-to-finalization',
+      );
+    });
+
+    test('should return null when the certification has not been ended by supervisor or finalized', function (assert) {
+      component.args.details = {
+        wasEndedBySupervisor: false,
+        wasFinalized: false,
+      };
+      // when
+      const tooltipContent = component.completionDateTooltipContent;
+
+      //then
+      assert.strictEqual(tooltipContent, null);
+    });
+  });
 });

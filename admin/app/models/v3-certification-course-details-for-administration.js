@@ -37,6 +37,14 @@ export default class V3CertificationCourseDetailsForAdministration extends Model
     }).length;
   }
 
+  get wasFinalized() {
+    return this.assessmentState === assessmentStates.ENDED_DUE_TO_FINALIZATION;
+  }
+
+  get wasEndedBySupervisor() {
+    return this.assessmentState === assessmentStates.ENDED_BY_SUPERVISOR;
+  }
+
   get numberOfOkAnswers() {
     return this.certificationChallengesForAdministration.filter((challenge) => challenge.isOk()).length;
   }
