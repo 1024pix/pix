@@ -2,11 +2,8 @@
  * @typedef {import ('./index.js').CertificationResultRepository} CertificationResultRepository
  * @typedef {import ('./index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
  */
-import lodash from 'lodash';
 
-const { isEmpty } = lodash;
-
-import { NoCertificationResultForDivision } from '../../../../../lib/domain/errors.js';
+import { NoCertificationResultForDivision } from '../errors.js';
 
 /**
  * @param {Object} params
@@ -23,14 +20,14 @@ const getScoCertificationResultsByDivision = async function ({
     organizationId,
     division,
   });
-  if (isEmpty(candidateIds)) {
+  if (candidateIds?.length === 0) {
     throw new NoCertificationResultForDivision();
   }
 
   const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({
     certificationCandidateIds: candidateIds,
   });
-  if (isEmpty(certificationResults)) {
+  if (certificationResults?.length === 0) {
     throw new NoCertificationResultForDivision();
   }
 
