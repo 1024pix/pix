@@ -1,7 +1,4 @@
-import { FileValidationError } from '../../../../../lib/domain/errors.js';
 import { SiecleXmlImportError } from '../errors.js';
-
-import * as fs from 'fs/promises';
 
 const { isEmpty, chunk } = lodash;
 
@@ -15,37 +12,22 @@ const ERRORS = {
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
 };
 
-const importOrganizationLearnersFromSIECLEFormat = async function ({
+const importOrganizationLearnersFromSIECLECSVFormat = async function ({
   organizationId,
   payload,
-  format,
   organizationLearnersCsvService,
-  organizationLearnersXmlService,
   organizationLearnerRepository,
   organizationRepository,
   i18n,
 }) {
-  let organizationLearnerData = [];
-
   const organization = await organizationRepository.get(organizationId);
   const path = payload.path;
 
-  if (format === 'xml') {
-    organizationLearnerData = await organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE(
-      path,
-      organization,
-    );
-  } else if (format === 'csv') {
-    organizationLearnerData = await organizationLearnersCsvService.extractOrganizationLearnersInformation(
-      path,
-      organization,
-      i18n,
-    );
-  } else {
-    throw new FileValidationError(ERRORS.INVALID_FILE_EXTENSION, { fileExtension: format });
-  }
-
-  fs.unlink(payload.path);
+  const organizationLearnerData = await organizationLearnersCsvService.extractOrganizationLearnersInformation(
+    path,
+    organization,
+    i18n,
+  );
 
   if (isEmpty(organizationLearnerData)) {
     throw new SiecleXmlImportError(ERRORS.EMPTY);
@@ -72,4 +54,4 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
   });
 };
 
-export { importOrganizationLearnersFromSIECLEFormat };
+export { importOrganizationLearnersFromSIECLECSVFormat };
