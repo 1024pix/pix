@@ -1,16 +1,17 @@
 {{#if this.showProgressBar}}
   <div class="progress-bar-container">
     <div
-      class="progress-bar-stepnums"
+      class="progress-bar-current-step"
       role="progressbar"
       aria-valuenow={{this.currentStepNumber}}
       aria-valuemin="1"
       aria-valuemax="5"
       aria-label="{{t 'pages.challenge.parts.progress'}}"
     >
-      {{#each this.steps as |step|}}
-        <div class="progress-bar-stepnum {{step.status}}">{{step.stepnum}}</div>
-      {{/each}}
+      {{t "pages.challenge.progress-bar.label"}}
+      {{this.currentStepNumber}}
+      /
+      {{this.maxStepsNumber}}
     </div>
 
     <div class="progress-bar-content">
@@ -26,11 +27,7 @@
     </div>
   </div>
 {{else}}
-  <div
-    class="assessment-progress {{if @shouldBlurProgressBar 'blur-progress-bar'}}"
-    role="progressbar"
-    aria-label="{{t 'pages.challenge.parts.progress'}}"
-  >
+  <div class="assessment-progress" role="progressbar" aria-label="{{t 'pages.challenge.parts.progress'}}">
     <div class="assessment-progress__label">{{t "pages.challenge.progress-bar.label"}}</div>
     <div class="assessment-progress__value">
       {{this.currentStepNumber}}
