@@ -82,7 +82,7 @@
     "ember-cli-showdown": "^8.0.0",
     "ember-click-outside": "^6.0.0",
     "ember-cookies": "^1.0.0",
-    "ember-data": "~4.0.2",
+    "ember-data": "4.5",
     "ember-dayjs": "^0.12.0",
     "ember-fetch": "^8.1.2",
     "ember-intl": "^6.0.0",
