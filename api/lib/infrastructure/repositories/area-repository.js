@@ -53,6 +53,11 @@ async function findByRecordIds({ areaIds, locale }) {
   return areaDataObjects.filter(({ id }) => areaIds.includes(id)).map((areaData) => _toDomain({ areaData, locale }));
 }
 
+async function getAreaCodeByCompetenceId(competenceId) {
+  const area = await areaDatasource.findOneFromCompetenceId(competenceId);
+  return area.code;
+}
+
 async function get({ id, locale }) {
   const areaDataObjects = await areaDatasource.list();
   const areaData = areaDataObjects.find((area) => area.id === id);
@@ -62,4 +67,12 @@ async function get({ id, locale }) {
   return _toDomain({ areaData, locale });
 }
 
-export { list, listWithPixCompetencesOnly, findByFrameworkIdWithCompetences, findByFrameworkId, findByRecordIds, get };
+export {
+  list,
+  listWithPixCompetencesOnly,
+  findByFrameworkIdWithCompetences,
+  findByFrameworkId,
+  findByRecordIds,
+  get,
+  getAreaCodeByCompetenceId,
+};

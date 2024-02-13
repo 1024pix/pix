@@ -26,8 +26,14 @@ describe('Integration | UseCases | find-all-missions', function () {
       validatedObjectives_i18n: { fr: 'Bravo ! tu as réussi !' },
     });
 
+    const area = learningContentBuilder.buildArea({
+      code: 3,
+      competenceIds: ['competenceId'],
+    });
+
     mockLearningContent({
       missions: [mission],
+      areas: [area],
     });
 
     const expectedMission = new Mission({
@@ -36,11 +42,13 @@ describe('Integration | UseCases | find-all-missions', function () {
       competenceId: 'competenceId',
       thematicId: 'thematicId',
       status: 'a status',
+      areaCode: 3,
       learningObjectives: 'Il était une fois',
       validatedObjectives: 'Bravo ! tu as réussi !',
     });
     const expectedMissions = [expectedMission];
     const returnedMissions = await usecases.findAllMissions();
+
     expect(returnedMissions).to.deep.equal(expectedMissions);
   });
 });

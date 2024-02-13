@@ -1,5 +1,5 @@
 import { databaseBuilder, expect } from '../../../../test-helper.js';
-import { usecases } from '../../../../../src/school/shared/usecases/index.js';
+import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import { OrganizationLearner } from '../../../../../src/school/domain/models/OrganizationLearner.js';
 import { School } from '../../../../../src/school/domain/models/School.js';
 

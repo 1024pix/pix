@@ -5,15 +5,21 @@ import { injectDependencies } from '../../../shared/infrastructure/utils/depende
 
 import * as activityAnswerRepository from '../../infrastructure/repositories/activity-answer-repository.js';
 import * as activityRepository from '../../infrastructure/repositories/activity-repository.js';
+import * as areaRepository from '../../../../lib/infrastructure/repositories/area-repository.js';
+import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
+import * as missionAssessmentRepository from '../../infrastructure/repositories/mission-assessment-repository.js';
 import * as missionRepository from '../../infrastructure/repositories/mission-repository.js';
-import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as schoolRepository from '../../infrastructure/repositories/school-repository.js';
 
 const dependencies = {
   activityAnswerRepository,
   activityRepository,
+  areaRepository,
+  assessmentRepository,
   challengeRepository,
+  missionAssessmentRepository,
   missionRepository,
   organizationLearnerRepository,
   schoolRepository,

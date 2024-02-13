@@ -1,9 +1,9 @@
 const getOrganizationLearnerWithCompletedMissionIds = async function ({
   organizationLearnerId,
   missionAssessmentRepository,
-  organizationLearnersRepository,
+  organizationLearnerRepository,
 } = {}) {
-  const learner = await organizationLearnersRepository.getById(organizationLearnerId);
+  const learner = await organizationLearnerRepository.getById(organizationLearnerId);
   learner.completedMissionIds = await missionAssessmentRepository.getAllCompletedMissionIds(organizationLearnerId);
   return learner;
 };

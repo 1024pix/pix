@@ -1,5 +1,5 @@
 import { databaseBuilder, expect } from '../../../../test-helper.js';
-import * as organizationLearnersRepository from '../../../../../src/school/infrastructure/repositories/organization-learners-repository.js';
+import * as organizationLearnersRepository from '../../../../../src/school/infrastructure/repositories/organization-learner-repository.js';
 import { OrganizationLearner } from '../../../../../src/school/domain/models/OrganizationLearner.js';
 
 describe('Integration | Repository | organizationLearner', function () {
