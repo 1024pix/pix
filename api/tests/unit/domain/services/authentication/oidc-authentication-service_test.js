@@ -19,6 +19,11 @@ import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
 import { OidcError } from '../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
+  beforeEach(function () {
+    sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+    sinon.stub(settings, 'identityProviderConfigKey').value({});
+  });
+
   describe('constructor', function () {
     context('when no parameter provided', function () {
       it('creates an instance with default values', function () {
@@ -345,17 +350,21 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
 
     context('when OpenId Client callback fails', function () {
-      it('throws an error', async function () {
+      it('throws an error and logs a message in datadog', async function () {
         const clientId = Symbol('clientId');
         const clientSecret = Symbol('clientSecret');
         const configKey = 'identityProviderConfigKey';
         const identityProvider = Symbol('identityProvider');
         const redirectUri = Symbol('redirectUri');
         const openidConfigurationUrl = Symbol('openidConfigurationUrl');
+        const code = 'code';
+        const nonce = 'nonce';
+        const sessionState = 'sessionState';
+        const state = 'state';
+        const errorThrown = new Error('Fails to get tokens');
 
-        sinon.stub(settings, 'identityProviderConfigKey').value({});
-
-        const Client = sinon.stub().returns({ callback: sinon.stub().rejects(new Error('Fails to get tokens')) });
+        const clientInstance = { callback: sinon.stub().rejects(errorThrown) };
+        const Client = sinon.stub().returns(clientInstance);
 
         sinon.stub(Issuer, 'discover').resolves({ Client });
 
@@ -366,15 +375,35 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           identityProvider,
           redirectUri,
           openidConfigurationUrl,
+          organizationName: 'Oidc Example',
         });
         await oidcAuthenticationService.createClient();
 
         // when
-        const error = await catchErr(oidcAuthenticationService.exchangeCodeForTokens, oidcAuthenticationService)({});
+        const error = await catchErr(
+          oidcAuthenticationService.exchangeCodeForTokens,
+          oidcAuthenticationService,
+        )({ code, nonce, sessionState, state });
 
         // then
         expect(error).to.be.instanceOf(OidcError);
         expect(error.message).to.be.equal('Fails to get tokens');
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
+          message: {
+            context: 'oidc',
+            data: {
+              client: clientInstance,
+              code,
+              nonce,
+              organizationName: 'Oidc Example',
+              sessionState,
+              state,
+            },
+            error: errorThrown,
+            event: 'exchange-code-for-tokens',
+            team: 'accès',
+          },
+        });
       });
     });
   });
@@ -417,7 +446,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
 
     context('when generating the authorization url fails', function () {
-      it('throws an error', async function () {
+      it('throws an error and logs a message in datadog', async function () {
         // given
         const clientId = Symbol('clientId');
         const clientSecret = Symbol('clientSecret');
@@ -425,10 +454,11 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const identityProvider = Symbol('identityProvider');
         const redirectUri = Symbol('redirectUri');
         const openidConfigurationUrl = Symbol('openidConfigurationUrl');
-        sinon.stub(settings, 'identityProviderConfigKey').value({});
-        const Client = sinon
-          .stub()
-          .returns({ authorizationUrl: sinon.stub().throws(new Error('Fails to generate authorization url')) });
+        const errorThrown = new Error('Fails to generate authorization url');
+
+        const clientInstance = { authorizationUrl: sinon.stub().throws(errorThrown) };
+        const Client = sinon.stub().returns(clientInstance);
+
         sinon.stub(Issuer, 'discover').resolves({ Client });
 
         const oidcAuthenticationService = new OidcAuthenticationService({
@@ -438,6 +468,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           identityProvider,
           redirectUri,
           openidConfigurationUrl,
+          organizationName: 'Oidc Example',
         });
         await oidcAuthenticationService.createClient();
 
@@ -447,6 +478,18 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.instanceOf(OidcError);
         expect(error.message).to.be.equal('Fails to generate authorization url');
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
+          message: {
+            context: 'oidc',
+            data: {
+              client: clientInstance,
+              organizationName: 'Oidc Example',
+            },
+            error: errorThrown,
+            event: 'generate-authorization-url',
+            team: 'accès',
+          },
+        });
       });
     });
   });
@@ -563,17 +606,17 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
 
     context('when OpenId Client userinfo fails', function () {
-      it('throws an error', async function () {
+      it('throws an error and logs a message in datadog', async function () {
         const clientId = Symbol('clientId');
         const clientSecret = Symbol('clientSecret');
         const configKey = 'identityProviderConfigKey';
         const identityProvider = Symbol('identityProvider');
         const redirectUri = Symbol('redirectUri');
         const openidConfigurationUrl = Symbol('openidConfigurationUrl');
+        const errorThrown = new Error('Fails to get user info');
 
-        sinon.stub(settings, 'identityProviderConfigKey').value({});
-
-        const Client = sinon.stub().returns({ userinfo: sinon.stub().rejects(new Error('Fails to get user info')) });
+        const clientInstance = { userinfo: sinon.stub().rejects(errorThrown) };
+        const Client = sinon.stub().returns(clientInstance);
 
         sinon.stub(Issuer, 'discover').resolves({ Client });
 
@@ -584,6 +627,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           identityProvider,
           redirectUri,
           openidConfigurationUrl,
+          organizationName: 'Oidc Example',
         });
         await oidcAuthenticationService.createClient();
 
@@ -593,6 +637,18 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.instanceOf(OidcError);
         expect(error.message).to.be.equal('Fails to get user info');
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
+          message: {
+            context: 'oidc',
+            data: {
+              client: clientInstance,
+              organizationName: 'Oidc Example',
+            },
+            error: errorThrown,
+            event: 'get-user-info-from-endpoint',
+            team: 'accès',
+          },
+        });
       });
     });
 
@@ -604,8 +660,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const clientSecret = 'OIDC_CLIENT_SECRET';
         const redirectUri = 'https://example.org/please-redirect-to-me';
         const organizationName = 'Example';
-
-        sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
 
         const oidcAuthenticationService = new OidcAuthenticationService({
           authenticationUrl,
@@ -799,7 +853,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const Client = sinon.spy();
 
       sinon.stub(Issuer, 'discover').resolves({ Client });
-      sinon.stub(settings, 'identityProviderConfigKey').value({});
 
       const oidcAuthenticationService = new OidcAuthenticationService({
         clientId,
@@ -835,7 +888,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const Client = sinon.spy();
 
       sinon.stub(Issuer, 'discover').resolves({ Client });
-      sinon.stub(settings, 'identityProviderConfigKey').value({});
 
       const oidcAuthenticationService = new OidcAuthenticationService({
         clientId,
