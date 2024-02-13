@@ -1,9 +1,13 @@
 {{page-title "Home"}}
 <div>
   <RobotDialog>
-    <Bubble @message={{t "pages.missions.start-page.instruction" prenom=@model.organizationLearner.firstName}} />
+    <Bubble @message={{t "pages.missions.start-page.instruction" prenom=this.model.organizationLearner.firstName}} />
     <Bubble
-      @message={{t "pages.missions.start-page.back-to-students" prenom=@model.organizationLearner.firstName backUrl=this.schoolUrl}}
+      @message={{t
+        "pages.missions.start-page.back-to-students"
+        prenom=this.model.organizationLearner.firstName
+        backUrl=this.schoolUrl
+      }}
     />
   </RobotDialog>
 
@@ -12,29 +16,11 @@
       <PixButton @triggerAction={{fn this.goToMission mission.id}} class="card">
         <MissionCard
           @title={{mission.name}}
-          @colorClass="mission-color-{{mission.domainId}}"
-          @imageName="mission-{{mission.id}}"
+          @colorClass="area-{{mission.areaCode}}"
+          @imageName="img-area-{{mission.areaCode}}"
           @missionCompleted={{this.missionCompleted mission.id}}
         />
       </PixButton>
     {{/each}}
-
-    <PixButton @triggerAction={{fn this.goToMission "recExjO7RHeDI48HK"}} class="card">
-    <MissionCard
-    @title="Recherche sur internet"
-    @colorClass="red"
-    @imageName="internet-search"
-    @missionCompleted={{this.missionCompleted "recExjO7RHeDI48HK"}}
-    />
-    </PixButton>
-
-    <PixButton @triggerAction={{fn this.goToMission "recZtwymXXrtdXRrx"}} class="card">
-    <MissionCard
-    @title="Données personnelles"
-    @colorClass="blue"
-    @imageName="personal-data"
-    @missionCompleted={{this.missionCompleted "recZtwymXXrtdXRrx"}}
-    />
-    </PixButton>
   </div>
 </div>
