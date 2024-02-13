@@ -696,11 +696,11 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
       const qcus = module.grains.flatMap((grain) => grain.elements.filter((element) => element.type === 'qcu'));
       expect(qcus).to.have.length(1);
-      qcus.every((qcu) => qcu instanceof QCUForAnswerVerification);
+      qcus.forEach((qcu) => expect(qcu).to.be.instanceOf(QCUForAnswerVerification));
 
       const qrocms = module.grains.flatMap((grain) => grain.elements.filter((element) => element.type === 'qrocm'));
       expect(qrocms).to.have.length(1);
-      qrocms.every((qrocm) => qrocm instanceof QROCMForAnswerVerification);
+      qrocms.forEach((qrocm) => expect(qrocm).to.be.instanceOf(QROCMForAnswerVerification));
     });
 
     it('should log a warning if none of the element types match and return an empty element', async function () {
