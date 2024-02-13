@@ -146,9 +146,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.InvalidExternalAPIResponseError) {
     return new HttpErrors.ServiceUnavailableError(error.message);
   }
-  if (error instanceof DomainErrors.NoCertificationResultForDivision) {
-    return new HttpErrors.NotFoundError(error.message);
-  }
   if (error instanceof DomainErrors.UnexpectedUserAccountError) {
     return new HttpErrors.ConflictError(error.message, error.code, error.meta);
   }
