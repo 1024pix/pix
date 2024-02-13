@@ -1,5 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
-const compareSnapshotCommand = require('cypress-visual-regression/dist/command');
+const { addCompareSnapshotCommand } = require('cypress-visual-regression/dist/command');
 
 function getLoginBody(username, password) {
   return {
@@ -152,4 +152,4 @@ Cypress.Commands.add('checkA11yAndShowViolations', ({ context = {}, options = {}
   return cy.checkA11y(context, options, logViolations, skipFailures);
 })
 
-compareSnapshotCommand();
+addCompareSnapshotCommand();
