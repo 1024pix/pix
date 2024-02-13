@@ -155,6 +155,10 @@ export default class DetailsV3 extends Component {
     return abortReasonMap[this.args.details.abortReason];
   }
 
+  get completionDate() {
+    return this.args.details.completedAt || this.args.details.endedAt;
+  }
+
   @action
   openModal(certificationChallenge) {
     this.showModal = true;

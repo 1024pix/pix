@@ -17,14 +17,14 @@
         :
       </dt>
       <dd aria-labelledby="creation-date">{{dayjs-format @details.createdAt "DD/MM/YYYY HH:mm:ss"}}</dd>
-      {{#if @details.completedAt}}
+      {{#if this.completionDate}}
         <dt id="completion-date">
           {{t "pages.certifications.certification.details.v3.general-informations.labels.ended-at"}}
           :
         </dt>
         <dd aria-labelledby="completion-date">
           <span class="certification-details-v3-list__completion-date">{{dayjs-format
-              @details.completedAt
+              this.completionDate
               "DD/MM/YYYY HH:mm:ss"
             }}</span>
           {{#if (lt @details.duration this.twentyFourHoursInMs)}}

@@ -271,6 +271,66 @@ module('Integration | Component | Certifications | certification > details v3', 
           assert.strictEqual(abortReasonElement.innerText, abortReasonTranslation);
         });
       });
+
+      module('when the certification is not completed by the candidate', function () {
+        module('when the session if finalized', function () {
+          test('should display the latest challenge creation date as completion time', async function (assert) {
+            // given
+            const certificationChallenges = [
+              store.createRecord('certification-challenges-for-administration', {
+                // eslint-disable-next-line no-restricted-syntax
+                createdAt: new Date('2023-01-13T08:05:00'),
+              }),
+            ];
+
+            this.model = await store.createRecord('v3-certification-course-details-for-administration', {
+              assessmentState: 'endedByFinalization',
+              completedAt: null,
+              // eslint-disable-next-line no-restricted-syntax
+              endedAt: new Date('2023-01-13T08:05:00'),
+              assessmentResultStatus: 'rejected',
+              numberOfChallenges: 1,
+              certificationChallengesForAdministration: certificationChallenges,
+            });
+
+            // when
+            const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+
+            // then
+            assert.dom(screen.getByText('Terminée le :')).exists();
+            assert.dom(screen.getByText('13/01/2023 08:05:00')).exists();
+          });
+        });
+
+        module('when the session if ended by the invigilator', function () {
+          test('should display the latest challenge creation date as completion time', async function (assert) {
+            // given
+            const certificationChallenges = [
+              store.createRecord('certification-challenges-for-administration', {
+                // eslint-disable-next-line no-restricted-syntax
+                createdAt: new Date('2023-01-13T08:05:00'),
+              }),
+            ];
+
+            this.model = await store.createRecord('v3-certification-course-details-for-administration', {
+              assessmentState: 'endedBySupervisor',
+              completedAt: null,
+              // eslint-disable-next-line no-restricted-syntax
+              endedAt: new Date('2023-01-13T08:05:00'),
+              assessmentResultStatus: 'rejected',
+              numberOfChallenges: 1,
+              certificationChallengesForAdministration: certificationChallenges,
+            });
+
+            // when
+            const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+
+            // then
+            assert.dom(screen.getByText('Terminée le :')).exists();
+            assert.dom(screen.getByText('13/01/2023 08:05:00')).exists();
+          });
+        });
+      });
     });
 
     module('certification "more informations" section', function () {
