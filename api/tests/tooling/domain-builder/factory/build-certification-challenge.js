@@ -12,6 +12,7 @@ const buildCertificationChallenge = function ({
   certifiableBadgeKey = null,
   discriminant = null,
   difficulty = null,
+  createdAt = new Date('2020-01-01'),
 } = {}) {
   return new CertificationChallenge({
     id,
@@ -24,6 +25,7 @@ const buildCertificationChallenge = function ({
     certifiableBadgeKey,
     discriminant,
     difficulty,
+    createdAt,
   });
 };
 

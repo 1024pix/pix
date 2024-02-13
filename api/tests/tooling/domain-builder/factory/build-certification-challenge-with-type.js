@@ -10,6 +10,7 @@ const buildCertificationChallengeWithType = function ({
   isNeutralized = false,
   hasBeenSkippedAutomatically = false,
   certifiableBadgeKey = null,
+  createdAt = new Date('2020-01-01'),
 } = {}) {
   return new CertificationChallengeWithType({
     id,
@@ -20,6 +21,7 @@ const buildCertificationChallengeWithType = function ({
     isNeutralized,
     hasBeenSkippedAutomatically,
     certifiableBadgeKey,
+    createdAt,
   });
 };
 
