@@ -5,6 +5,8 @@ import config from 'pix-admin/config/environment';
 import Inflector from 'ember-inflector';
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
 import { fapixTachometer, fapixPersonExport } from './custom-icons';
+import 'flatpickr';
+import 'flatpickr/dist/l10n';
 
 class App extends Application {
   modulePrefix = config.modulePrefix;
