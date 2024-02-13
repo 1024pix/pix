@@ -23,10 +23,19 @@
           :
         </dt>
         <dd aria-labelledby="completion-date">
-          <span class="certification-details-v3-list__completion-date">{{dayjs-format
-              this.completionDate
-              "DD/MM/YYYY HH:mm:ss"
-            }}</span>
+          <PixTooltip @isWide={{true}}>
+            <:triggerElement>
+              <span tabindex="0" class="certification-details-v3-list__completion-date">{{dayjs-format
+                  this.completionDate
+                  "DD/MM/YYYY HH:mm:ss"
+                }}</span>
+            </:triggerElement>
+            <:tooltip>
+              {{#if this.completionDateTooltipContent}}
+                {{t this.completionDateTooltipContent}}
+              {{/if}}
+            </:tooltip>
+          </PixTooltip>
           {{#if (lt @details.duration this.twentyFourHoursInMs)}}
             <PixTag @color={{this.durationTagColor}}>{{dayjs-format-duration @details.duration "H[h]mm"}}</PixTag>
           {{else}}
