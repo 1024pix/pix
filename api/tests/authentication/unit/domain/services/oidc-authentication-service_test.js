@@ -630,8 +630,8 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       expect(clientInstance.userinfo).to.have.been.calledOnceWithExactly(accessToken);
       expect(pickedUserInfo).to.deep.equal({
         sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-        family_name: 'familyName',
         given_name: 'givenName',
+        family_name: 'familyName',
       });
     });
 
