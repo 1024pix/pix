@@ -217,7 +217,8 @@ const countUncompletedCertificationsAssessment = async function (sessionId) {
     .count('certification-courses.id')
     .from('certification-courses')
     .join('assessments', 'certification-courses.id', 'certificationCourseId')
-    .where({ sessionId, state: CertificationAssessment.states.STARTED })
+    .whereIn('state', [CertificationAssessment.states.ENDED_BY_SUPERVISOR, CertificationAssessment.states.STARTED])
+    .andWhere({ sessionId })
     .first();
   return count;
 };
