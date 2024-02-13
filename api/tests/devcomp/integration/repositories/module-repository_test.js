@@ -582,11 +582,113 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
     it('should return a module if it exists', async function () {
       // given
       const existingModuleSlug = 'bien-ecrire-son-adresse-mail';
+      const expectedFoundModule = {
+        id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
+        slug: 'bien-ecrire-son-adresse-mail',
+        title: 'Bien écrire son adresse mail',
+        details: {
+          image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+          description:
+            'Apprendre à rédiger correctement une adresse e-mail pour assurer une meilleure communication et éviter les erreurs courantes.',
+          duration: 12,
+          level: 'Débutant',
+          objectives: [
+            'Écrire une adresse mail correctement, en évitant les erreurs courantes',
+            'Connaître les parties d’une adresse mail et les identifier sur des exemples',
+            'Comprendre les fonctions des parties d’une adresse mail',
+          ],
+        },
+        grains: [
+          {
+            id: 'b7ea7630-824a-4a49-83d1-abb9b8d0d120',
+            type: 'activity',
+            title: 'Écrire une adresse mail correctement',
+            elements: [
+              {
+                id: '98c51fa7-03b7-49b1-8c5e-49341d35909c',
+                type: 'qrocm',
+                instruction:
+                  "<p>Pour être sûr que tout est clair, complétez le texte ci-dessous <span aria-hidden='true'>🧩</span></p><p>Si vous avez besoin d’aide, revenez en arrière <span aria-hidden='true'>⬆️</span></p>",
+                proposals: [
+                  {
+                    type: 'text',
+                    content: '<p>Le symbole</>',
+                  },
+                  {
+                    input: 'symbole',
+                    type: 'input',
+                    inputType: 'text',
+                    size: 1,
+                    display: 'inline',
+                    placeholder: '',
+                    ariaLabel: 'Réponse 1',
+                    defaultValue: '',
+                    tolerances: ['t1'],
+                    solutions: ['@'],
+                  },
+                  {
+                    input: 'premiere-partie',
+                    type: 'select',
+                    display: 'inline',
+                    placeholder: '',
+                    ariaLabel: 'Réponse 2',
+                    defaultValue: '',
+                    tolerances: [],
+                    options: [
+                      {
+                        id: '1',
+                        content: "l'identifiant",
+                      },
+                      {
+                        id: '2',
+                        content: "le fournisseur d'adresse mail",
+                      },
+                    ],
+                    solutions: ['1'],
+                  },
+                ],
+                feedbacks: {
+                  valid: '<p>Bravo ! 🎉 </p>',
+                  invalid: "<p class='pix-list-inline'>Et non !</p>",
+                },
+              },
+              {
+                id: '0a5e77e8-1c8e-4cb6-a41d-cf6ad7935447',
+                type: 'qcu',
+                instruction: '<p>Remontez la page pour trouver le premier mot de ce module.<br>Quel est ce mot ?</p>',
+                proposals: [
+                  {
+                    id: '1',
+                    content: 'Bienvenue',
+                  },
+                  {
+                    id: '2',
+                    content: 'Bonjour',
+                  },
+                  {
+                    id: '3',
+                    content: 'Nous',
+                  },
+                ],
+                feedbacks: {
+                  valid: '<p>Correct ! Vous avez bien remonté la page</p>',
+                  invalid: '<p>Incorrect. Remonter la page pour retrouver le premier mot !</p>',
+                },
+                solution: '2',
+              },
+            ],
+          },
+        ],
+      };
+      const moduleDatasourceStub = {
+        getBySlug: sinon.stub(),
+      };
+      moduleDatasourceStub.getBySlug.withArgs(existingModuleSlug).resolves(expectedFoundModule);
 
       // when
       const module = await moduleRepository.getBySlugForVerification({
         slug: existingModuleSlug,
-        moduleDatasource,
+        moduleDatasource: moduleDatasourceStub,
       });
 
       // then
