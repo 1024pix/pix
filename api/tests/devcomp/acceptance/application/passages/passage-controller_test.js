@@ -44,6 +44,7 @@ describe('Acceptance | Controller | passage-controller', function () {
       const cases = [
         {
           case: 'QCU',
+          moduleId: 'bien-ecrire-son-adresse-mail',
           elementId: '29195dde-b603-488f-a554-f391fbdf3b24',
           userResponse: ['1'],
           expectedUserResponseValue: '1',
@@ -53,6 +54,7 @@ describe('Acceptance | Controller | passage-controller', function () {
         },
         {
           case: 'QROCM-ind',
+          moduleId: 'bien-ecrire-son-adresse-mail',
           elementId: '8709ad92-093e-447a-a7b6-3223e6171196',
           userResponse: [{ input: 'email', answer: 'naomizao457@yahoo.com' }],
           expectedUserResponseValue: { email: 'naomizao457@yahoo.com' },
@@ -62,13 +64,22 @@ describe('Acceptance | Controller | passage-controller', function () {
             email: ['naomizao457@yahoo.com', 'naomizao457@yahoo.fr'],
           },
         },
+        {
+          case: 'QCM',
+          moduleId: 'didacticiel-modulix',
+          elementId: '30701e93-1b4d-4da4-b018-fa756c07d53f',
+          userResponse: ['1', '3', '4'],
+          expectedUserResponseValue: ['1', '3', '4'],
+          expectedFeedback: '<p>Correct ! Vous nous avez bien cernés :)</p>',
+          expectedSolution: ['1', '3', '4'],
+        },
       ];
 
       // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       cases.forEach((testCase, i) =>
         it(`should return a valid ${testCase.case} element answer`, async function () {
-          const passage = databaseBuilder.factory.buildPassage({ id: i + 1, moduleId: 'bien-ecrire-son-adresse-mail' });
+          const passage = databaseBuilder.factory.buildPassage({ id: i + 1, moduleId: testCase.moduleId });
           await databaseBuilder.commit();
 
           const options = {
@@ -94,7 +105,12 @@ describe('Acceptance | Controller | passage-controller', function () {
           expect(response.result.data.attributes['element-id']).to.equal(testCase.elementId);
           expect(response.result.included[0].attributes.status).to.equal('ok');
           expect(response.result.included[0].attributes.feedback).to.equal(testCase.expectedFeedback);
-          expect(response.result.included[0].attributes.solution).to.deep.equal(testCase.expectedSolution);
+          if (testCase.case === 'QCM') {
+            expect(response.result.included[0].attributes.solutions).to.deep.equal(testCase.expectedSolution);
+          }
+          if (['QCU', 'QROCM-ind'].includes(testCase.case)) {
+            expect(response.result.included[0].attributes.solution).to.deep.equal(testCase.expectedSolution);
+          }
         }),
       );
     });
