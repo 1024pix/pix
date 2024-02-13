@@ -1,9 +1,15 @@
-import lodash from 'lodash';
-
-const { isEmpty } = lodash;
+/**
+ * @typedef {import ('./index.js').CertificationResultRepository} CertificationResultRepository
+ * @typedef {import ('./index.js').ScoCertificationCandidateRepository} ScoCertificationCandidateRepository
+ */
 
 import { NoCertificationResultForDivision } from '../errors.js';
 
+/**
+ * @param {Object} params
+ * @param {CertificationResultRepository} params.certificationResultRepository
+ * @param {ScoCertificationCandidateRepository} params.scoCertificationCandidateRepository
+ */
 const getScoCertificationResultsByDivision = async function ({
   organizationId,
   division,
@@ -14,14 +20,14 @@ const getScoCertificationResultsByDivision = async function ({
     organizationId,
     division,
   });
-  if (isEmpty(candidateIds)) {
+  if (candidateIds?.length === 0) {
     throw new NoCertificationResultForDivision();
   }
 
   const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({
     certificationCandidateIds: candidateIds,
   });
-  if (isEmpty(certificationResults)) {
+  if (certificationResults?.length === 0) {
     throw new NoCertificationResultForDivision();
   }
 

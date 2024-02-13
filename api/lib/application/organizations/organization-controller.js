@@ -15,7 +15,6 @@ import {
   extractUserIdFromRequest,
   extractLocaleFromRequest,
 } from '../../infrastructure/utils/request-response-utils.js';
-import { getDivisionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-division-certification-results-csv.js';
 import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
 
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
@@ -108,28 +107,6 @@ const getOrganizationMemberIdentities = async function (
   const organizationId = request.params.id;
   const members = await usecases.getOrganizationMemberIdentities({ organizationId });
   return dependencies.organizationMemberIdentitySerializer.serialize(members);
-};
-
-const downloadCertificationResults = async function (
-  request,
-  h,
-  dependencies = { getDivisionCertificationResultsCsv },
-) {
-  const organizationId = request.params.id;
-  const { division } = request.query;
-
-  const certificationResults = await usecases.getScoCertificationResultsByDivision({ organizationId, division });
-
-  const csvResult = await dependencies.getDivisionCertificationResultsCsv({
-    division,
-    certificationResults,
-    i18n: request.i18n,
-  });
-
-  return h
-    .response(csvResult.content)
-    .header('Content-Type', 'text/csv;charset=utf-8')
-    .header('Content-Disposition', `attachment; filename="${csvResult.filename}"`);
 };
 
 const attachChildOrganization = async function (request, h) {
@@ -261,7 +238,6 @@ const organizationController = {
   cancelOrganizationInvitation,
   create,
   createInBatch,
-  downloadCertificationResults,
   findChildrenOrganizationsForAdmin,
   findPaginatedCampaignManagements,
   findPaginatedFilteredMemberships,
