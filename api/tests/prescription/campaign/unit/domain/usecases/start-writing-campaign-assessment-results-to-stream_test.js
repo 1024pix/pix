@@ -13,6 +13,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
   let campaignRepository,
     campaignParticipationInfoRepository,
     organizationRepository,
+    knowledgeElementRepository,
     knowledgeElementSnapshotRepository,
     badgeAcquisitionRepository,
     stageCollectionRepository,
@@ -25,6 +26,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     campaignRepository = { get: sinon.stub() };
     campaignParticipationInfoRepository = { findByCampaignId: sinon.stub() };
     organizationRepository = { get: sinon.stub() };
+    knowledgeElementRepository = { findUniqByUserIds: sinon.stub() };
     knowledgeElementSnapshotRepository = { findMultipleUsersFromUserIdsAndSnappedAtDates: sinon.stub() };
     badgeAcquisitionRepository = { getAcquiredBadgesByCampaignParticipations: sinon.stub() };
     stageCollectionRepository = { findStageCollection: sinon.stub() };
@@ -612,6 +614,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       new StageCollection({ campaignId: campaign.id, stages: [] }),
     );
     campaignParticipationInfoRepository.findByCampaignId.withArgs(campaign.id).resolves([participantInfo]);
+
     knowledgeElementSnapshotRepository.findMultipleUsersFromUserIdsAndSnappedAtDates.resolves([
       {
         userId: participantInfo.userId,
@@ -676,6 +679,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
       learningContentRepository,
       organizationRepository,
       campaignParticipationInfoRepository,
+      knowledgeElementRepository,
       knowledgeElementSnapshotRepository,
       badgeAcquisitionRepository,
       campaignCsvExportService,
