@@ -11,19 +11,6 @@ import {
 import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
 
 describe('Unit | Domain | Events | handle-auto-jury', function () {
-  let clock;
-
-  beforeEach(async function () {
-    clock = sinon.useFakeTimers({
-      now: Date.now(),
-      toFake: ['Date'],
-    });
-  });
-
-  afterEach(function () {
-    clock.restore();
-  });
-
   it('fails when event is not of correct type', async function () {
     // given
     const event = 'not an event of the correct type';
@@ -413,6 +400,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         isNeutralized: false,
         hasBeenSkippedAutomatically: true,
         certifiableBadgeKey: null,
+        createdAt: new Date('2020-01-01'),
       });
       const challengeNotToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({
         id: 123,
@@ -423,6 +411,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         isNeutralized: false,
         hasBeenSkippedAutomatically: false,
         certifiableBadgeKey: null,
+        createdAt: new Date('2020-01-02'),
       });
       const answeredChallenge = domainBuilder.buildAnswer({
         challengeId: challengeNotToBeConsideredAsSkipped.challengeId,
@@ -466,7 +455,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         certificationCourseId: 123,
         createdAt: new Date('2020-01-01T00:00:00Z'),
         completedAt: new Date('2020-01-01T00:00:00Z'),
-        endedAt: new Date(),
+        endedAt: challengeNotToBeConsideredAsSkipped.createdAt,
         state: 'endedDueToFinalization',
         version: 2,
         certificationChallenges: [
@@ -492,7 +481,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         ],
       });
       expect(certificationAssessmentRepository.save.getCall(0).args[0]).to.deep.equal(expectedCertificationAssessment);
-      // expect(certificationAssessmentRepository.save).to.have.been.calledWithExactly(expectedCertificationAssessment);
     });
   });
 

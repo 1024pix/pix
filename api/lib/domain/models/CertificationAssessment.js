@@ -80,10 +80,10 @@ class CertificationAssessment {
     }
   }
 
-  endDueToFinalization({ now }) {
+  endDueToFinalization() {
     if (this.state === states.STARTED) {
       this.state = states.ENDED_DUE_TO_FINALIZATION;
-      this.endedAt = now;
+      this.endedAt = this._getLastChallenge().createdAt;
     }
   }
 
@@ -178,6 +178,10 @@ class CertificationAssessment {
 
   static get uncompletedAssessmentStates() {
     return [states.STARTED, states.ENDED_BY_SUPERVISOR, states.ENDED_DUE_TO_FINALIZATION];
+  }
+
+  _getLastChallenge() {
+    return _.orderBy(this.certificationChallenges, 'createdAt', 'desc')[0];
   }
 }
 
