@@ -11,13 +11,10 @@ const sourceMapConfig = {
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     sassOptions: {
-      includePaths: ['node_modules/@1024pix/pix-ui/addon/styles'],
+      includePaths: ['node_modules/@1024pix/pix-ui/addon/styles', 'node_modules/flatpickr/dist'],
     },
     babel: {
       plugins: [require.resolve('ember-auto-import/babel-plugin')],
-    },
-    flatpickr: {
-      locales: ['fr'],
     },
     'ember-simple-auth': {
       useSessionSetupMethod: true,
