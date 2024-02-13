@@ -5,10 +5,10 @@ import { usecases } from '../../../../../src/prescription/campaign-participation
 import { CampaignParticipationResultsShared } from '../../../../../lib/domain/events/CampaignParticipationResultsShared.js';
 import { CampaignParticipationStarted } from '../../../../../lib/domain/events/CampaignParticipationStarted.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { ApplicationTransaction } from '../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
 
 describe('Unit | Application | Controller | Campaign-Participation', function () {
   describe('#shareCampaignResult', function () {
-    let domainTransaction;
     let dependencies;
     const userId = 1;
     const request = {
@@ -37,12 +37,10 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       const monitoringToolsStub = {
         logErrorWithCorrelationIds: sinon.stub(),
       };
-      domainTransaction = {
-        knexTransaction: Symbol('transaction'),
-      };
-      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-        return callback(domainTransaction);
+      sinon.stub(ApplicationTransaction, 'execute').callsFake((callback) => {
+        return callback();
       });
+      sinon.stub(ApplicationTransaction, 'getTransactionAsDomainTransaction');
 
       dependencies = {
         requestResponseUtils: requestResponseUtilsStub,
@@ -68,6 +66,8 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       // given
       const campaignParticipationResultsSharedEvent = new CampaignParticipationResultsShared();
       usecases.shareCampaignResult.resolves(campaignParticipationResultsSharedEvent);
+      const domainTransaction = Symbol('domainTransaction');
+      ApplicationTransaction.getTransactionAsDomainTransaction.returns(domainTransaction);
 
       // when
       await learnerParticipationController.shareCampaignResult(request, hFake, dependencies);

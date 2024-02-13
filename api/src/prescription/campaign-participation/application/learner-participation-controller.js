@@ -3,6 +3,7 @@ import { usecases } from '../domain/usecases/index.js';
 import * as events from '../../../../lib/domain/events/index.js';
 import * as campaignParticipationSerializer from '../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { ApplicationTransaction } from '../../shared/infrastructure/ApplicationTransaction.js';
 
 const save = async function (request, h, dependencies = { campaignParticipationSerializer, monitoringTools }) {
   const userId = request.auth.credentials.userId;
@@ -25,12 +26,12 @@ const shareCampaignResult = async function (request) {
   const userId = request.auth.credentials.userId;
   const campaignParticipationId = request.params.campaignParticipationId;
 
-  await DomainTransaction.execute(async (domainTransaction) => {
+  await ApplicationTransaction.execute(async () => {
     const event = await usecases.shareCampaignResult({
       userId,
       campaignParticipationId,
-      domainTransaction,
     });
+    const domainTransaction = ApplicationTransaction.getTransactionAsDomainTransaction();
     await events.eventBus.publish(event, domainTransaction);
     return event;
   });

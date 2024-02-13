@@ -4,9 +4,11 @@ import { Campaign } from '../../../../../lib/domain/models/Campaign.js';
 
 import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
+import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 
-const updateWithSnapshot = async function (campaignParticipation, domainTransaction) {
-  await this.update(campaignParticipation, domainTransaction);
+const updateWithSnapshot = async function (campaignParticipation) {
+  const domainTransaction = ApplicationTransaction.getTransactionAsDomainTransaction();
+  await this.update(campaignParticipation);
 
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
     userId: campaignParticipation.userId,
@@ -22,7 +24,7 @@ const updateWithSnapshot = async function (campaignParticipation, domainTransact
 };
 
 const update = async function (campaignParticipation, domainTransaction) {
-  const knexConn = domainTransaction.knexTransaction;
+  const knexConn = ApplicationTransaction.getConnection(domainTransaction);
 
   const attributes = {
     participantExternalId: campaignParticipation.participantExternalId,
@@ -37,7 +39,7 @@ const update = async function (campaignParticipation, domainTransaction) {
 };
 
 const get = async function (id, domainTransaction) {
-  const knexConn = domainTransaction.knexTransaction;
+  const knexConn = ApplicationTransaction.getConnection(domainTransaction);
 
   const campaignParticipation = await knexConn.from('campaign-participations').where({ id }).first();
   const campaign = await knexConn.from('campaigns').where({ id: campaignParticipation.campaignId }).first();
