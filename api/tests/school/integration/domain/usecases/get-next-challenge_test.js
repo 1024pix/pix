@@ -11,7 +11,8 @@ import * as learningContentBuilder from '../../../../tooling/learning-content-bu
 
 describe('Integration | Usecase | get-next-challenge', function () {
   describe('#getNextChallenge', function () {
-    const missionId = 'recCHAL1';
+    const missionId = 1;
+    const thematicId = 'recCHAL1';
     let challengeVal1;
     let challengeAlterVal1;
     let challengeVal2;
@@ -25,6 +26,7 @@ describe('Integration | Usecase | get-next-challenge', function () {
       const tubeIdVal = 'tubeIdVal';
       const tubeIdEn = 'tubeIdEn';
       const tubeIdDefi = 'tubeIdDefi';
+      const mission = learningContentBuilder.buildMission({ id: missionId, thematicId });
       const skillVal1 = learningContentBuilder.buildSkill({
         id: 'recSkillVal1',
         name: '@rechercher_va1',
@@ -48,19 +50,19 @@ describe('Integration | Usecase | get-next-challenge', function () {
 
       const tubeVal = learningContentBuilder.buildTube({
         id: tubeIdVal,
-        thematicId: missionId,
+        thematicId,
         name: '@rechercher_va',
         skillIds: [skillVal1.id, skillVal2.id],
       });
       const tubeEn = learningContentBuilder.buildTube({
         id: tubeIdEn,
-        thematicId: missionId,
+        thematicId,
         name: '@rechercher_en',
         skillIds: [skillEn1.id],
       });
       const tubeDefi = learningContentBuilder.buildTube({
         id: tubeIdDefi,
-        thematicId: missionId,
+        thematicId,
         name: '@rechercher_en',
         skillIds: [skillDefi.id],
       });
@@ -102,6 +104,7 @@ describe('Integration | Usecase | get-next-challenge', function () {
         tubes: [tubeDefi, tubeVal, tubeEn],
         skills: [skillDefi, skillVal1, skillVal2, skillEn1],
         challenges: [challengeDefi, challengeVal1, challengeAlterVal1, challengeVal2, challengeAlterVal2, challengeEn1],
+        missions: [mission],
       };
 
       mockLearningContent(learningContent);

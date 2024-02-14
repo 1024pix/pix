@@ -5,12 +5,24 @@
   }
 
   .stop-start-gradient {
-    &--red {
-      stop-color: #EC667B;
+    &--area-1 {
+      stop-color: var(--pix-information-dark);
     }
 
-    &--blue {
-      stop-color: #317CED;
+    &--area-2 {
+      stop-color: var(--pix-content-dark);
+    }
+
+    &--area-3 {
+      stop-color: var(--pix-communication-dark);
+    }
+
+    &--area-4 {
+      stop-color: var(--pix-security-dark);
+    }
+
+    &--area-5 {
+      stop-color: var(--pix-environment-dark);
     }
 
     &--purple {
@@ -19,12 +31,24 @@
   }
 
   .stop-end-gradient {
-    &--red {
-      stop-color: #EC5D64;
+    &--area-1 {
+      stop-color: var(--pix-information-light);
     }
 
-    &--blue {
-      stop-color: #4461EF;
+    &--area-2 {
+      stop-color: var(--pix-content-light);
+    }
+
+    &--area-3 {
+      stop-color: var(--pix-communication-light);
+    }
+
+    &--area-4 {
+      stop-color: var(--pix-security-light);
+    }
+
+    &--area-5 {
+      stop-color: var(--pix-environment-light);
     }
 
     &--purple {

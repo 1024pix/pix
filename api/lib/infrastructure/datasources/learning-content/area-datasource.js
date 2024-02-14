@@ -11,6 +11,12 @@ const areaDatasource = datasource.extend({
     const areas = await this.list();
     return areas.filter((area) => area.frameworkId === frameworkId);
   },
+
+  async findOneFromCompetenceId(competenceId) {
+    const areas = await this.list();
+    const area = areas.filter((area) => area.competenceIds?.includes(competenceId));
+    return area.length > 0 ? area[0] : {};
+  },
 });
 
 export { areaDatasource };

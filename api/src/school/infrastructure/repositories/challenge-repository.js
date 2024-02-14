@@ -1,13 +1,14 @@
 import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Challenge } from '../../../../lib/domain/models/index.js';
+import { missionDatasource } from '../datasources/learning-content/mission-datasource.js';
 import {
   challengeDatasource,
   skillDatasource,
   tubeDatasource,
 } from '../../../../lib/infrastructure/datasources/learning-content/index.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
-import { Activity } from '../../../school/domain/models/Activity.js';
+import { Activity } from '../../domain/models/Activity.js';
 import * as solutionAdapter from '../../../../lib/infrastructure/adapters/solution-adapter.js';
 
 /**
@@ -87,9 +88,14 @@ const getActivityChallengesFor1d = async function ({ missionId, activityLevel, l
 };
 
 async function _getMissionNamePrefix(missionId) {
-  const [firstTube] = await tubeDatasource.findByThematicId(missionId);
-  const activityName = firstTube === undefined ? '' : firstTube.name;
-  return activityName.split('_')[0];
+  try {
+    const { thematicId } = await missionDatasource.get(parseInt(missionId, 10));
+    const [firstTube] = await tubeDatasource.findByThematicId(thematicId);
+    const activityName = firstTube === undefined ? '' : firstTube.name;
+    return activityName.split('_')[0];
+  } catch (error) {
+    return '';
+  }
 }
 
 function _getPix1dActivityLevelTubeName(missionNamePrefix, activityLevel) {

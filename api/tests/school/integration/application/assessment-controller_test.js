@@ -1,6 +1,6 @@
 import { expect, hFake, sinon } from '../../../test-helper.js';
 import { assessmentController } from '../../../../src/school/application/assessment-controller.js';
-import { usecases } from '../../../../src/school/shared/usecases/index.js';
+import { usecases } from '../../../../src/school/domain/usecases/index.js';
 import { Assessment } from '../../../../src/school/domain/models/Assessment.js';
 
 describe('Integration | Controller | assessment-controller', function () {

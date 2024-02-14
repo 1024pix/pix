@@ -1,27 +1,40 @@
 import { Mission } from '../../domain/models/Mission.js';
 import { thematicDatasource } from '../../../shared/infrastructure/datasources/learning-content/thematic-datasource.js';
+import { missionDatasource } from '../datasources/learning-content/mission-datasource.js';
 import { getTranslatedKey } from '../../../../lib/domain/services/get-translated-text.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
-function _toDomain(thematicData, locale) {
-  const translatedName = getTranslatedKey(thematicData.name_i18n, locale);
+function _toDomain(data, locale) {
+  const translatedName = getTranslatedKey(data.name_i18n, locale);
+  const translatedLearningObjectives = getTranslatedKey(data.learningObjectives_i18n, locale);
+  const translatedValidatedObjectives = getTranslatedKey(data.validatedObjectives_i18n, locale);
   return new Mission({
-    id: thematicData.id,
+    id: data.id,
     name: translatedName,
+    competenceId: data.competenceId,
+    thematicId: data.thematicId,
+    learningObjectives: translatedLearningObjectives,
+    validatedObjectives: translatedValidatedObjectives,
+    status: data.status,
   });
 }
 
-// Les missions sont stockées en tant que thématiques dans PixEditor :)
-const get = async function (id, locale = { locale: FRENCH_FRANCE }) {
+async function get(id, locale = { locale: FRENCH_FRANCE }) {
   try {
+    // Les missions sont stockées en tant que thématiques dans PixEditor :)
     const thematicData = await thematicDatasource.get(id);
     return _toDomain(thematicData, locale);
   } catch (error) {
     throw new NotFoundError(`Il n'existe pas de mission ayant pour id ${id}`);
   }
-};
+}
 
-export { get };
+async function findAllMissions(locale = { locale: FRENCH_FRANCE }) {
+  const missionDataList = await missionDatasource.list();
+  return missionDataList.map((missionData) => _toDomain(missionData, locale));
+}
+
+export { get, findAllMissions };
