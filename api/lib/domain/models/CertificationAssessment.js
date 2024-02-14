@@ -166,6 +166,10 @@ class CertificationAssessment {
       }
     });
   }
+
+  static get uncompletedAssessmentStates() {
+    return [states.STARTED, states.ENDED_BY_SUPERVISOR, states.ENDED_DUE_TO_FINALIZATION];
+  }
 }
 
 function _isAnswerKoOrSkippedOrPartially(answerStatus) {
