@@ -6,20 +6,15 @@
         <label class="form-field__label">1er acquis</label>
         <br />
       {{else if @isTypeLevel}}
-        <label for="threshold-or-level" class="form-field__label">
-          {{@stageTypeName}}
-        </label>
         <Stages::StageLevelSelect
           @id="threshold-or-level"
           @availableLevels={{@availableLevels}}
           @isDisabled={{this.isThresholdOrLevelDisabled}}
           @onChange={{this.setLevel}}
+          @label={{@stageTypeName}}
           @value={{this.level}}
         />
       {{else}}
-        <label for="threshold-or-level" class="form-field__label">
-          {{@stageTypeName}}
-        </label>
         <PixInput
           @id="threshold-or-level"
           @errorMessage="Le seuil est invalide"
@@ -28,7 +23,7 @@
           type="number"
           readonly={{this.isThresholdOrLevelDisabled}}
           @value={{this.threshold}}
-          @ariaLabel="Seuil du palier"
+          @label={{@stageTypeName}}
           min="0"
           max="100"
           {{on "focusout" this.checkThresholdValidity}}
@@ -36,9 +31,6 @@
       {{/if}}
       <br />
 
-      <label for="title" class="form-field__label">
-        Titre
-      </label>
       <PixInput
         @id="title"
         @errorMessage="Le titre est vide"
@@ -46,16 +38,14 @@
         @requiredLabel="Champ obligatoire"
         @value={{this.title}}
         type="text"
-        @ariaLabel="Titre du palier"
+        @label="Titre du palier"
         {{on "focusout" this.checkTitleValidity}}
       />
       <br />
 
-      <label for="message" class="form-field__label">
-        Message
-      </label>
       <PixTextarea
-        id="message"
+        @label="Message"
+        @id="message"
         @value={{this.message}}
         @errorMessage={{this.messageError}}
         {{on "focusout" this.checkMessageValidity}}
