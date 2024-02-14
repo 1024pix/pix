@@ -3,7 +3,6 @@ import config from 'pix-certif/config/environment';
 import { initialize } from 'pix-certif/instance-initializers/session';
 import { module, test } from 'qunit';
 import Resolver from 'ember-resolver';
-import { run } from '@ember/runloop';
 import sinon from 'sinon';
 import PixWindow from 'pix-certif/utils/pix-window';
 
@@ -22,8 +21,8 @@ module('Unit | Instance Initializer | session', function (hooks) {
     this.instance = this.application.buildInstance();
   });
   hooks.afterEach(function () {
-    run(this.instance, 'destroy');
-    run(this.application, 'destroy');
+    this.instance.destroy();
+    this.application.destroy();
     sinon.restore();
   });
 
