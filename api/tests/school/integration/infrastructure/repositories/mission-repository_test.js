@@ -8,21 +8,29 @@ describe('Integration | Repository | mission-repository', function () {
       it('should return the correct mission with FR default language', async function () {
         // given
         const expectedMission = new Mission({
-          id: 'recThematic1',
+          id: 1,
           name: 'nameThemaFR1',
+          competenceId: 'competenceId',
+          thematicId: 'thematicId',
+          learningObjectives: 'learningObjectivesi18n',
+          validatedObjectives: 'validatedObjectivesi18n',
         });
 
         mockLearningContent({
-          thematics: [
+          missions: [
             {
-              id: 'recThematic1',
+              id: 1,
               name_i18n: { fr: 'nameThemaFR1' },
+              competenceId: 'competenceId',
+              thematicId: 'thematicId',
+              learningObjectives_i18n: { fr: 'learningObjectivesi18n' },
+              validatedObjectives_i18n: { fr: 'validatedObjectivesi18n' },
             },
           ],
         });
 
         // when
-        const mission = await missionRepository.get('recThematic1');
+        const mission = await missionRepository.get(1);
 
         // then
         expect(mission).to.deep.equal(expectedMission);
