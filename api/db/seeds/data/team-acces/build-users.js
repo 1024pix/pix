@@ -25,9 +25,10 @@ function _buildUserWithFwbAuthenticationMethod(databaseBuilder) {
 }
 
 function _buildUserWithPoleEmploiAuthenticationMethod(databaseBuilder) {
-  const user = databaseBuilder.factory.buildUser.withoutPixAuthenticationMethod({
+  const user = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Paul',
     lastName: 'Emploi',
+    email: 'paul-emploi@example.net',
   });
 
   databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
