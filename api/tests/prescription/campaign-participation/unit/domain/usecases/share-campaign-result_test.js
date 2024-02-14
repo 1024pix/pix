@@ -20,7 +20,6 @@ describe('Unit | UseCase | share-campaign-result', function () {
   context('when user is not the owner of the campaign participation', function () {
     it('throws a UserNotAuthorizedToAccessEntityError error ', async function () {
       // given
-      const domainTransaction = Symbol('transaction');
       campaignParticipationRepository.get.resolves({ userId: userId + 1 });
 
       // when
@@ -28,7 +27,6 @@ describe('Unit | UseCase | share-campaign-result', function () {
         userId,
         campaignParticipationId,
         campaignParticipationRepository,
-        domainTransaction,
       });
 
       // then
@@ -39,35 +37,27 @@ describe('Unit | UseCase | share-campaign-result', function () {
   context('when user is the owner of the campaign participation', function () {
     it('updates the campaign participation', async function () {
       // given
-      const domainTransaction = Symbol('transaction');
       const campaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
         id: campaignParticipationId,
         userId,
       });
       sinon.stub(campaignParticipation, 'share');
-      campaignParticipationRepository.get
-        .withArgs(campaignParticipationId, domainTransaction)
-        .resolves(campaignParticipation);
+      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
 
       // when
       await usecases.shareCampaignResult({
         userId,
         campaignParticipationId,
         campaignParticipationRepository,
-        domainTransaction,
       });
 
       // then
       expect(campaignParticipation.share).to.have.been.called;
-      expect(campaignParticipationRepository.updateWithSnapshot).to.have.been.calledWithExactly(
-        campaignParticipation,
-        domainTransaction,
-      );
+      expect(campaignParticipationRepository.updateWithSnapshot).to.have.been.calledWithExactly(campaignParticipation);
     });
 
     it('returns the CampaignParticipationResultsShared event', async function () {
       // given
-      const domainTransaction = Symbol('transaction');
       const campaignParticipation = domainBuilder.prescription.campaignParticipation.buildCampaignParticipation({
         id: campaignParticipationId,
         userId,
@@ -81,7 +71,6 @@ describe('Unit | UseCase | share-campaign-result', function () {
         userId,
         campaignParticipationId,
         campaignParticipationRepository,
-        domainTransaction,
       });
 
       // then
