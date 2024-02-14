@@ -63,6 +63,10 @@ td.td--bold {
   &--id {
     width: 140px;
   }
+
+  &--break-word {
+    word-break: break-all;
+  }
 }
 
 .table__empty {
