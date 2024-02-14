@@ -122,6 +122,7 @@ function _selectPrivateCertificates() {
     maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
     pixScore: 'assessment-results.pixScore',
     commentForCandidate: 'assessment-results.commentForCandidate',
+    commentByAutoJury: 'assessment-results.commentByAutoJury',
     assessmentResultStatus: 'assessment-results.status',
     assessmentResultId: 'assessment-results.id',
     competenceMarks: knex.raw(`

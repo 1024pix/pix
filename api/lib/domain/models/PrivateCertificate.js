@@ -1,4 +1,5 @@
 import { status as assessmentResultStatuses } from '../../../src/shared/domain/models/AssessmentResult.js';
+import { JuryComment, juryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
 
 const status = {
   REJECTED: 'rejected',
@@ -60,6 +61,7 @@ class PrivateCertificate {
     certificationCenter,
     pixScore,
     commentForCandidate,
+    commentByAutoJury,
     certifiedBadgeImages,
     resultCompetenceTree = null,
     verificationCode,
@@ -68,6 +70,11 @@ class PrivateCertificate {
     isCancelled,
   }) {
     const status = _computeStatus(assessmentResultStatus, isCancelled);
+    const juryComment = new JuryComment({
+      commentByAutoJury,
+      fallbackComment: commentForCandidate,
+      context: juryCommentContexts.CANDIDATE,
+    });
     return new PrivateCertificate({
       id,
       firstName,
@@ -80,7 +87,7 @@ class PrivateCertificate {
       deliveredAt,
       certificationCenter,
       pixScore,
-      commentForCandidate,
+      commentForCandidate: juryComment,
       certifiedBadgeImages,
       resultCompetenceTree,
       verificationCode,
