@@ -80,8 +80,6 @@
     "test:mon-pix": "cd mon-pix && npm test",
     "test:orga": "cd orga && npm test",
     "test:1d": "cd 1d && npm test",
-    "test:root": "npm run test:scripts",
-    "test:scripts": "cd scripts && NODE_ENV=test mocha --recursive --exit --reporter dot tests",
     "domains:install": "./scripts/local-domains/install",
     "domains:start": "cd ./scripts/local-domains/ && docker compose up -d",
     "domains:stop": "cd ./scripts/local-domains/ && docker compose down",
@@ -89,19 +87,14 @@
     "domains:trust-self-signed-certificate:linux": "cd ./scripts/local-domains/ && sudo docker cp caddy:/data/caddy/pki/authorities/local/root.crt /usr/local/share/ca-certificates/root.crt && sudo update-ca-certificates --fresh"
   },
   "dependencies": {
-    "bluebird": "3.7.2",
-    "d3-dsv": "^2.0.0",
-    "moment": "^2.29.1",
     "npm-run-all2": "^6.0.0"
   },
   "devDependencies": {
     "@1024pix/eslint-config": "^1.1.1",
-    "chai": "^5.0.0",
     "eslint": "^8.46.0",
     "eslint-plugin-mocha": "^10.0.0",
     "husky": "^8.0.0",
-    "lint-staged": "^15.0.0",
-    "mocha": "^10.0.0"
+    "lint-staged": "^15.0.0"
   },
   "peerDependencies": {
     "markdown-link-check": "^3.8.6"
