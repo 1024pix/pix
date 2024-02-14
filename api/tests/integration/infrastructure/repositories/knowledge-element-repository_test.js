@@ -1385,4 +1385,51 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       expect(knowledgeElements).to.have.length(0);
     });
   });
+
+  describe('#findKeForUsers', function () {
+    let userId1;
+    let userId2;
+
+    beforeEach(function () {
+      userId1 = databaseBuilder.factory.buildUser().id;
+      userId2 = databaseBuilder.factory.buildUser().id;
+      return databaseBuilder.commit();
+    });
+
+    it('should return knowledge elements for given users', async function () {
+      // given
+
+      const user1knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({
+        userId: userId1,
+        createdAt: new Date('2020-01-01'),
+        skillId: 'rec1',
+      });
+      const user2knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({
+        userId: userId2,
+        createdAt: new Date('2019-01-01'),
+        skillId: 'rec2',
+      });
+      const user2knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({
+        userId: userId2,
+        createdAt: new Date('2019-01-02'),
+        skillId: 'rec3',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsByUserIdAndCompetenceId = await knowledgeElementRepository.findUniqByUserIds([
+        userId1,
+        userId2,
+      ]);
+
+      // then
+      expect(knowledgeElementsByUserIdAndCompetenceId[0].knowledgeElements).to.have.deep.members([
+        user1knowledgeElement1,
+      ]);
+      expect(knowledgeElementsByUserIdAndCompetenceId[1].knowledgeElements).to.have.deep.members([
+        user2knowledgeElement1,
+        user2knowledgeElement2,
+      ]);
+    });
+  });
 });
