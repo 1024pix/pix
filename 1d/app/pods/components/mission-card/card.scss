@@ -24,6 +24,10 @@
     &--area-5 {
       stop-color: var(--pix-environment-dark);
     }
+
+    &--purple {
+      stop-color: var(--pix-tertiary-50);
+    }
   }
 
   .stop-end-gradient {
@@ -45,6 +49,10 @@
 
     &--area-5 {
       stop-color: var(--pix-environment-light);
+    }
+
+    &--purple {
+      stop-color: var(--pix-tertiary-700);
     }
   }
 }

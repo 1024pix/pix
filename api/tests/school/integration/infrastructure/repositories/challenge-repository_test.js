@@ -11,7 +11,7 @@ describe('School | Integration | Repository | challenge-repository', function ()
   describe('#getChallengeFor1d', function () {
     it('should return an error when the mission is not found', async function () {
       // given
-      const missionId = 'recCHAL1';
+      const missionId = 1;
       const activityLevel = Activity.levels.TUTORIAL;
 
       mockLearningContent({
@@ -28,7 +28,7 @@ describe('School | Integration | Repository | challenge-repository', function ()
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal("Aucune mission trouvée pour l'identifiant : recCHAL1");
+      expect(error.message).to.equal("Aucune mission trouvée pour l'identifiant : 1");
     });
 
     it('should return an error when the skill associated to the challenge is not found', async function () {
@@ -37,7 +37,7 @@ describe('School | Integration | Repository | challenge-repository', function ()
       const activityLevel = Activity.levels.TRAINING;
       const tubeId = 'tubeId';
       const thematicId = 'recCHAL1';
-      const mission = learningContentBuilder.buildMission({ id: 1, thematicId: 'recCHAL1' });
+      const mission = learningContentBuilder.buildMission({ id: 1, thematicId });
       const tube = learningContentBuilder.buildTube({ id: tubeId, thematicId, name: '@rechercher_di' });
       const skill = learningContentBuilder.buildSkill({ id: 'recSkill1', name: '@rechercher_di1', tubeId });
 
@@ -65,7 +65,7 @@ describe('School | Integration | Repository | challenge-repository', function ()
       const thematicId = 'recCHAL1';
       const activityLevel = Activity.levels.TUTORIAL;
       const tubeId = 'tubeId';
-      const mission = learningContentBuilder.buildMission({ id: 1, thematicId: 'recCHAL1' });
+      const mission = learningContentBuilder.buildMission({ id: 1, thematicId });
       const tube = learningContentBuilder.buildTube({ id: tubeId, thematicId, name: '@rechercher_di' });
       const skill = learningContentBuilder.buildSkill({ id: 'recSkill1', name: '@rechercher_di1', tubeId });
       const challenge = learningContentBuilder.buildChallenge({
