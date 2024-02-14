@@ -7,7 +7,13 @@ describe('Integration | Controller | mission-controller', function () {
   describe('#getById', function () {
     it('should get mission by id', async function () {
       // given
-      const mission = new Mission({ name: 'TAG1', id: 1 });
+      const mission = new Mission({
+        name: 'TAG1',
+        id: 1,
+        areaCode: 1,
+        learningObjectives: 'learningObjectives',
+        validatedObjectives: 'validatedObjectives',
+      });
       sinon.stub(usecases, 'getMission').withArgs({ missionId: mission.id }).resolves(mission);
 
       // when
@@ -25,6 +31,8 @@ describe('Integration | Controller | mission-controller', function () {
         attributes: {
           name: mission.name,
           'area-code': mission.areaCode,
+          'learning-objectives': mission.learningObjectives,
+          'validated-objectives': mission.validatedObjectives,
         },
         id: mission.id.toString(),
         type: 'missions',
@@ -46,6 +54,8 @@ describe('Integration | Controller | mission-controller', function () {
           attributes: {
             name: mission.name,
             'area-code': mission.areaCode,
+            'learning-objectives': mission.learningObjectives,
+            'validated-objectives': mission.validatedObjectives,
           },
           id: mission.id.toString(),
           type: 'missions',

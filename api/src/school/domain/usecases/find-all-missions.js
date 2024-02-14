@@ -1,19 +1,8 @@
-const cacheArea = {};
-
-async function _injectCodeFromAreaTo(mission, areaRepository) {
-  let areaCode = cacheArea[mission.competenceId];
-
-  if (!areaCode) {
-    areaCode = await areaRepository.getAreaCodeByCompetenceId(mission.competenceId);
-    cacheArea[mission.competenceId] = areaCode;
-  }
-
-  return { ...mission, areaCode };
-}
+import { injectCodeFromAreaTo } from '../services/inject-code-from-area-to-mission.js';
 
 async function findAllMissions({ missionRepository, areaRepository }) {
   const missions = await missionRepository.findAllMissions();
-  return Promise.all(missions.map(async (mission) => await _injectCodeFromAreaTo(mission, areaRepository)));
+  return Promise.all(missions.map(async (mission) => await injectCodeFromAreaTo(mission, areaRepository)));
 }
 
 export { findAllMissions };
