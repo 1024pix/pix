@@ -232,5 +232,34 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const thirdGrain = grainsAfterTwoContinueActions.at(-1);
       assert.strictEqual(document.activeElement, thirdGrain);
     });
+
+    test('should push event', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const text1Element = store.createRecord('text', { content: 'content', type: 'texts' });
+      const text2Element = store.createRecord('text', { content: 'content 2', type: 'texts' });
+      const grain1 = store.createRecord('grain', { elements: [text1Element] });
+      const grain2 = store.createRecord('grain', { elements: [text2Element] });
+
+      const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
+      this.set('module', module);
+
+      await render(hbs`<Module::Passage @module={{this.module}} />`);
+
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+
+      // when
+      await clickByName(continueButtonName);
+
+      // then
+      sinon.assert.calledWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${module.id}`,
+        'pix-event-name': `Click sur le bouton continuer du grain : ${grain1.id}`,
+      });
+      assert.ok(true);
+    });
   });
 });

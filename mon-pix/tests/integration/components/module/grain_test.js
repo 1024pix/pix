@@ -325,7 +325,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
   });
 
   module('when continueAction is called', function () {
-    test('should call continueAction pass in argument and push event', async function (assert) {
+    test('should call continueAction pass in argument', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const element = store.createRecord('text', { type: 'texts', isAnswerable: false });
@@ -335,8 +335,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       const stubContinueAction = sinon.stub();
       this.set('continueAction', stubContinueAction);
-      const metrics = this.owner.lookup('service:metrics');
-      metrics.add = sinon.stub();
 
       // when
       await render(
@@ -348,12 +346,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // then
       sinon.assert.calledOnce(stubContinueAction);
-      sinon.assert.calledWithExactly(metrics.add, {
-        event: 'custom-event',
-        'pix-event-category': 'Modulix',
-        'pix-event-action': `Passage du module : ${this.grain.module.id}`,
-        'pix-event-name': `Click sur le bouton continuer du grain : ${this.grain.id}`,
-      });
       assert.ok(true);
     });
   });
