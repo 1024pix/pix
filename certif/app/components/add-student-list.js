@@ -12,7 +12,12 @@ export default class AddStudentList extends Component {
 
   emptyMessage = 'Aucune classe trouvée';
 
-  @tracked selectedDivisions = this.args.selectedDivisions;
+  @tracked selectedDivisions = [];
+
+  constructor() {
+    super(...arguments);
+    this.selectedDivisions = this.args.selectedDivisions;
+  }
 
   get isDisabled() {
     const areStudentsAllEnrolled = this.args.studentList.every((student) => student.isEnrolled);
