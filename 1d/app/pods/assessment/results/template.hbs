@@ -3,37 +3,21 @@
     <Bubble @message={{t "pages.missions.end-page.congratulations"}} @color="success" />
   </RobotDialog>
   <div class="mission-page__body">
-    {{#if (eq @model.id "recExjO7RHeDI48HK")}}
-      <MissionCard @title="Recherche sur internet" @colorClass="red" @imageName="internet-search" />
-    {{else}}
-      <MissionCard @title="Données personnelles" @colorClass="blue" @imageName="personal-data" />
-    {{/if}}
+    <MissionCard
+      @title={{@model.name}}
+      @colorClass="area-{{@model.areaCode}}"
+      @imageName="img-area-{{@model.areaCode}}"
+    />
+
     <div class="mission-page__details">
       <p class="details-list__title">{{t "pages.missions.end-page.details-list"}}</p>
       <ul class="details-list">
-        {{#if (eq @model.id "recExjO7RHeDI48HK")}}
+        {{#each this.validatedObjectives as |element|}}
           <li class="details-list__item">
             <img src="/images/icons/objectif.svg" alt="" />
-            <p>ce qu'est un moteur de recherche et donner le nom d'un moteur de recherche que tu connais,</p>
+            <Markdown::MarkdownToHtml @markdown={{element}} />
           </li>
-          <li class="details-list__item">
-            <img src="/images/icons/objectif.svg" alt="" />
-            <p>choisir correctement les mots pour faire une recherche,</p>
-          </li>
-          <li class="details-list__item">
-            <img src="/images/icons/objectif.svg" alt="" />
-            <p>utiliser un moteur de recherche.</p>
-          </li>
-        {{else}}
-          <li class="details-list__item">
-            <img src="/images/icons/objectif.svg" alt="" />
-            <p>ce qu'est une donnée personelle,</p>
-          </li>
-          <li class="details-list__item">
-            <img src="/images/icons/objectif.svg" alt="" />
-            <p>protéger tes données personnelles en évitant de les diffuser.</p>
-          </li>
-        {{/if}}
+        {{/each}}
       </ul>
 
       <PixButtonLink @route="identified.missions" @shape="rounded" class="details-action">
