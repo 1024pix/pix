@@ -784,7 +784,7 @@
         "header": "your answers"
       },
       "completion-percentage": {
-        "caption": "progression",
+        "caption": "course progression",
         "label": "'<p class=\"sr-only\">'You have completed '</p>'{completionPercentage}%'<p class=\"sr-only\">' of your customised test.'</p>'"
       }
     },
