@@ -2,6 +2,7 @@ import { sinon, expect, knex, databaseBuilder, catchErr } from '../../../../../t
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
+import { ApplicationTransaction } from '../../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
 
@@ -42,8 +43,8 @@ describe('Integration | Repository | Campaign Participation', function () {
       campaignParticipation.participantExternalId = 'Laura';
 
       // when
-      await DomainTransaction.execute((domainTransaction) => {
-        return campaignParticipationRepository.updateWithSnapshot(campaignParticipation, domainTransaction);
+      await ApplicationTransaction.execute(async () => {
+        await campaignParticipationRepository.updateWithSnapshot(campaignParticipation);
       });
 
       const updatedCampaignParticipation = await knex('campaign-participations')
@@ -59,9 +60,10 @@ describe('Integration | Repository | Campaign Participation', function () {
       campaignParticipation.sharedAt = new Date();
 
       // when
-      await DomainTransaction.execute(async (domainTransaction) => {
-        await campaignParticipationRepository.updateWithSnapshot(campaignParticipation, domainTransaction);
+      await ApplicationTransaction.execute(async () => {
+        await campaignParticipationRepository.updateWithSnapshot(campaignParticipation);
       });
+
       // then
       const snapshotInDB = await knex.select('id').from('knowledge-element-snapshots');
       expect(snapshotInDB).to.have.length(1);
@@ -71,8 +73,8 @@ describe('Integration | Repository | Campaign Participation', function () {
       it('should save a snapshot using a transaction', async function () {
         campaignParticipation.sharedAt = new Date();
 
-        await DomainTransaction.execute((domainTransaction) => {
-          return campaignParticipationRepository.updateWithSnapshot(campaignParticipation, domainTransaction);
+        await ApplicationTransaction.execute(async () => {
+          await campaignParticipationRepository.updateWithSnapshot(campaignParticipation);
         });
 
         const snapshotInDB = await knex.select('id').from('knowledge-element-snapshots');
@@ -83,8 +85,8 @@ describe('Integration | Repository | Campaign Participation', function () {
         campaignParticipation.sharedAt = new Date();
 
         try {
-          await DomainTransaction.execute(async (domainTransaction) => {
-            await campaignParticipationRepository.updateWithSnapshot(campaignParticipation, domainTransaction);
+          await ApplicationTransaction.execute(async () => {
+            await campaignParticipationRepository.updateWithSnapshot(campaignParticipation);
             throw new Error();
           });
           // eslint-disable-next-line no-empty
