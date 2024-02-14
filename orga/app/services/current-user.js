@@ -18,7 +18,7 @@ export default class CurrentUserService extends Service {
         this.prescriber = await this.store.queryRecord('prescriber', this.session.data.authenticated.user_id);
         this.memberships = await this.prescriber.memberships;
         const userOrgaSettings = await this.prescriber.userOrgaSettings;
-        const membership = await this._getMembershipByUserOrgaSettings(this.memberships.toArray(), userOrgaSettings);
+        const membership = await this._getMembershipByUserOrgaSettings(this.memberships.slice(), userOrgaSettings);
 
         await this._setOrganizationProperties(membership);
       } catch (error) {

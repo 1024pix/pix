@@ -24,7 +24,7 @@ export default class UserLoggedMenu extends Component {
       return [];
     }
     return memberships
-      .toArray()
+      .slice()
       .map((membership) => membership.organization)
       .filter((organization) => organization.get('id') !== this.currentUser.organization.id)
       .sort((a, b) => a.get('name').localeCompare(b.get('name')));

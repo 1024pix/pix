@@ -8,6 +8,8 @@ export default class Area extends Model {
   @hasMany('competence') competences;
 
   get sortedCompetences() {
-    return this.competences.sortBy('index');
+    return this.competences.slice().sort((a, b) => {
+      return a.index - b.index;
+    });
   }
 }
