@@ -1,5 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { fetchPage } from '../utils/knex-utils.js';
+import { constants } from '../../domain/constants.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
 import { CampaignParticipationOverview } from '../../domain/read-models/CampaignParticipationOverview.js';
 
@@ -44,6 +45,7 @@ function _findByUserId({ userId }) {
         .from('campaign-participations')
         .innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id')
         .innerJoin('organizations', 'organizations.id', 'campaigns.organizationId')
+        .whereNot('organizations.id', constants.AUTONOMOUS_COURSES_ORGANIZATION_ID)
         .where('campaign-participations.userId', userId)
         .where('campaign-participations.isImproved', false)
         .where('campaigns.type', CampaignTypes.ASSESSMENT)
