@@ -12,7 +12,8 @@ module('Acceptance | Display informations about the mission', function (hooks) {
     // when
     const screen = await visit(`/missions/${mission.id}`);
     // then
-    assert.dom(screen.getByText('Connaître la notion de données personnelles et savoir les protéger')).exists();
+    assert.dom(screen.getByText('Recherche sur internet')).exists();
+    assert.dom(screen.getByText('learningObjectives')).exists();
     assert.dom(screen.getByText(this.intl.t('pages.missions.start-page.start-mission'))).exists();
   });
 });

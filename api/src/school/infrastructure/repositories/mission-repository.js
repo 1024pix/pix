@@ -1,5 +1,4 @@
 import { Mission } from '../../domain/models/Mission.js';
-import { thematicDatasource } from '../../../shared/infrastructure/datasources/learning-content/thematic-datasource.js';
 import { missionDatasource } from '../datasources/learning-content/mission-datasource.js';
 import { getTranslatedKey } from '../../../../lib/domain/services/get-translated-text.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
@@ -25,8 +24,8 @@ function _toDomain(data, locale) {
 async function get(id, locale = { locale: FRENCH_FRANCE }) {
   try {
     // Les missions sont stockées en tant que thématiques dans PixEditor :)
-    const thematicData = await thematicDatasource.get(id);
-    return _toDomain(thematicData, locale);
+    const missionData = await missionDatasource.get(id);
+    return _toDomain(missionData, locale);
   } catch (error) {
     throw new NotFoundError(`Il n'existe pas de mission ayant pour id ${id}`);
   }

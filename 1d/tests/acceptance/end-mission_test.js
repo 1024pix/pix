@@ -6,6 +6,21 @@ import { setupApplicationTest } from '../helpers';
 
 module('Acceptance | End mission', function (hooks) {
   setupApplicationTest(hooks);
+  test('displays mission validated objectives', async function (assert) {
+    // given
+    const mission = this.server.create('mission');
+    const assessment = this.server.create('assessment', { missionId: mission.id });
+    identifyLearner(this.owner);
+
+    // when
+    const screen = await visit(`/assessments/${assessment.id}/results`);
+
+    // then
+    assert.dom(screen.getByText('Recherche sur internet')).exists();
+    assert.dom(screen.getByText('validatedObjectives')).exists();
+    assert.dom(screen.getByText(this.intl.t('pages.missions.end-page.back-to-missions'))).exists();
+  });
+
   test('redirect to home page after clicking on return button', async function (assert) {
     // given
     const mission = this.server.create('mission');
