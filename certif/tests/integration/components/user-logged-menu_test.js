@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
-import { run } from '@ember/runloop';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -15,18 +14,14 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
   hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
-    currentAllowedCertificationCenterAccess = run(() =>
-      store.createRecord('allowed-certification-center-access', {
-        id: 123,
-        name: 'Sunnydale',
-      }),
-    );
-    certificationPointOfContact = run(() =>
-      store.createRecord('certification-point-of-contact', {
-        firstName: 'Buffy',
-        lastName: 'Summers',
-      }),
-    );
+    currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+      id: 123,
+      name: 'Sunnydale',
+    });
+    certificationPointOfContact = store.createRecord('certification-point-of-contact', {
+      firstName: 'Buffy',
+      lastName: 'Summers',
+    });
     class CurrentUserStub extends Service {
       certificationPointOfContact = certificationPointOfContact;
       currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -120,20 +115,16 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
     test('should display the certification centers name and externalId of all allowed ones of the user', async function (assert) {
       // given
-      const allowedCertificationCenterAccessA = run(() =>
-        store.createRecord('allowed-certification-center-access', {
-          id: 456,
-          name: 'Torreilles',
-          externalId: 'externalId1',
-        }),
-      );
-      const allowedCertificationCenterAccessB = run(() =>
-        store.createRecord('allowed-certification-center-access', {
-          id: 789,
-          name: 'Paris',
-          externalId: 'ILPlEUT',
-        }),
-      );
+      const allowedCertificationCenterAccessA = store.createRecord('allowed-certification-center-access', {
+        id: 456,
+        name: 'Torreilles',
+        externalId: 'externalId1',
+      });
+      const allowedCertificationCenterAccessB = store.createRecord('allowed-certification-center-access', {
+        id: 789,
+        name: 'Paris',
+        externalId: 'ILPlEUT',
+      });
       certificationPointOfContact.set('allowedCertificationCenterAccesses', [
         currentAllowedCertificationCenterAccess,
         allowedCertificationCenterAccessA,
@@ -153,13 +144,11 @@ module('Integration | Component | user-logged-menu', function (hooks) {
   module('when clicking on a menu item', function () {
     test('should close the menu', async function (assert) {
       // given
-      const allowedCertificationCenterAccessA = run(() =>
-        store.createRecord('allowed-certification-center-access', {
-          id: 456,
-          name: 'Torreilles',
-          externalId: 'externalId1',
-        }),
-      );
+      const allowedCertificationCenterAccessA = store.createRecord('allowed-certification-center-access', {
+        id: 456,
+        name: 'Torreilles',
+        externalId: 'externalId1',
+      });
       certificationPointOfContact.set('allowedCertificationCenterAccesses', [
         currentAllowedCertificationCenterAccess,
         allowedCertificationCenterAccessA,
@@ -180,13 +169,11 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
     test('should call the "onCertificationCenterAccessChanged" function', async function (assert) {
       // given
-      const allowedCertificationCenterAccessA = run(() =>
-        store.createRecord('allowed-certification-center-access', {
-          id: 456,
-          name: 'Torreilles',
-          externalId: 'externalId1',
-        }),
-      );
+      const allowedCertificationCenterAccessA = store.createRecord('allowed-certification-center-access', {
+        id: 456,
+        name: 'Torreilles',
+        externalId: 'externalId1',
+      });
       certificationPointOfContact.set('allowedCertificationCenterAccesses', [
         currentAllowedCertificationCenterAccess,
         allowedCertificationCenterAccessA,
