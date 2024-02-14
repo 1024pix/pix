@@ -2,7 +2,7 @@ import { Mission } from '../../domain/models/Mission.js';
 import { missionDatasource } from '../datasources/learning-content/mission-datasource.js';
 import { getTranslatedKey } from '../../../../lib/domain/services/get-translated-text.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { MissionNotFoundError } from '../../domain/school-errors.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
@@ -27,7 +27,7 @@ async function get(id, locale = { locale: FRENCH_FRANCE }) {
     const missionData = await missionDatasource.get(id);
     return _toDomain(missionData, locale);
   } catch (error) {
-    throw new NotFoundError(`Il n'existe pas de mission ayant pour id ${id}`);
+    throw new MissionNotFoundError(id);
   }
 }
 
