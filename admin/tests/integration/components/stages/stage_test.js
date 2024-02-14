@@ -203,7 +203,7 @@ module('Integration | Component | Stages::Stage', function (hooks) {
       );
 
       // then
-      assert.dom(screen.getByRole('spinbutton', { name: 'Seuil du palier' })).hasAttribute('readonly');
+      assert.dom(screen.getByRole('spinbutton', { name: /Seuil/ })).hasAttribute('readonly');
     });
   });
 
@@ -241,7 +241,7 @@ module('Integration | Component | Stages::Stage', function (hooks) {
           @onUpdate={{this.update}} />`,
       );
 
-      await fillByLabel('Titre', 'New title');
+      await fillByLabel(/Titre du palier/, 'New title');
       await fillByLabel('Message', 'New message');
       await fillByLabel('Titre pour le prescripteur', 'New prescriber title');
       await fillByLabel('Description pour le prescripteur', 'New prescriber description');

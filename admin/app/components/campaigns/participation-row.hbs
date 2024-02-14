@@ -8,9 +8,10 @@
   <td>
     {{#if this.isEditionMode}}
       <PixInput
-        id="participantExternalId"
         type="text"
-        @ariaLabel="Modifier l'identifiant externe du participant"
+        @id="participantExternalId"
+        @label="Modifier l'identifiant externe du participant"
+        @screenReaderOnly={{true}}
         value={{@participation.participantExternalId}}
         onchange={{this.handleChange}}
         class="table-admin-input form-control"
@@ -49,6 +50,7 @@
             >
               Enregistrer
             </PixButton>
+
             <PixButton
               @size="small"
               @backgroundColor="transparent-light"
