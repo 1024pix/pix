@@ -54,6 +54,10 @@ export const validateLiveAlert = async ({
     liveAlertId: certificationChallengeLiveAlert.id,
   });
 
+  const ISSUE_REPORT_RESOLUTION =
+    'Le signalement a été validé par le surveillant pendant la session. Une nouvelle question a été proposée au candidat';
+  certificationIssueReport.resolveAutomatically(ISSUE_REPORT_RESOLUTION);
+
   await certificationIssueReportRepository.save(certificationIssueReport);
 
   await certificationChallengeLiveAlertRepository.save({
