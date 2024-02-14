@@ -1,7 +1,7 @@
 import { expect, mockLearningContent, catchErr } from '../../../../test-helper.js';
 import * as missionRepository from '../../../../../src/school/infrastructure/repositories/mission-repository.js';
 import { Mission } from '../../../../../src/school/domain/models/Mission.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { MissionNotFoundError } from '../../../../../src/school/domain/school-errors.js';
 describe('Integration | Repository | mission-repository', function () {
   describe('#get', function () {
     context('when there is a mission for the given id', function () {
@@ -47,7 +47,7 @@ describe('Integration | Repository | mission-repository', function () {
         const error = await catchErr(missionRepository.get)(missionId);
 
         // then
-        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error).to.be.instanceOf(MissionNotFoundError);
         expect(error.message).to.deep.equal(`Il n'existe pas de mission ayant pour id ${missionId}`);
       });
     });
