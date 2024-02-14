@@ -1,0 +1,34 @@
+<article class="import-students-page">
+  <header class="import-students-page__header">
+    <h1 class="page-title import-students-page-header__title">
+      {{t this.textsByOrganizationType.title}}
+    </h1>
+  </header>
+  {{#if @isLoading}}
+    <Ui::PixLoader />
+    <PixMessage @type="information" @withIcon="true">
+      {{t "pages.organization-participants-import.information"}}
+    </PixMessage>
+  {{else}}
+    <div class="import-type-list">
+      {{#if this.currentUser.isSCOManagingStudents}}
+        <ScoOrganizationParticipant::ImportCard
+          @onImportStudents={{@onImportScoStudents}}
+          @acceptedFileType={{this.acceptedFileType}}
+          @supportedFormats={{this.supportedFormats}}
+        />
+      {{else if this.currentUser.isSUPManagingStudents}}
+        <SupOrganizationParticipant::ImportCards::Add
+          @onAddStudents={{@onImportSupStudents}}
+          @acceptedFileType={{this.acceptedFileType}}
+          @supportedFormats={{this.supportedFormats}}
+        />
+        <SupOrganizationParticipant::ImportCards::Replace
+          @onReplaceStudents={{@onReplaceStudents}}
+          @acceptedFileType={{this.acceptedFileType}}
+          @supportedFormats={{this.supportedFormats}}
+        />
+      {{/if}}
+    </div>
+  {{/if}}
+</article>

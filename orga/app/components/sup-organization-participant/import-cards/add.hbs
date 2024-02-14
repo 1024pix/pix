@@ -1,11 +1,21 @@
 <section class="import-students-page__section">
   <h2 class="import-students-page-section__title">
-    {{t "pages.sup-organization-participants-import.actions.add.title"}}
+    {{t "pages.organization-participants-import.actions.add-sup.title"}}
   </h2>
   <p class="import-students-page-section__details">
-    {{t "pages.sup-organization-participants-import.actions.add.details"}}
+    {{t "pages.organization-participants-import.actions.add-sup.details"}}
   </p>
-  <PixButtonUpload @id="students-file-upload-add" @size="small" @onChange={{@onAddStudents}} accept=".csv">
-    {{t "pages.sup-organization-participants-import.actions.add.label"}}
-  </PixButtonUpload>
+  <div class="import-students-page-section__button-and-type">
+    <PixButtonUpload
+      @id="students-file-upload-add"
+      @size="small"
+      @onChange={{@onAddStudents}}
+      accept={{@supportedFormats}}
+    >
+      {{t "pages.organization-participants-import.actions.add-sup.label"}}
+    </PixButtonUpload>
+    <p class="import-students-page-section__details">
+      {{@acceptedFileType}}
+    </p>
+  </div>
 </section>

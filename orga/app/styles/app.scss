@@ -20,11 +20,10 @@
 // components
 @import 'components/certificability';
 @import 'components/ui';
-@import 'components/ui/last-participation-date-tooltip.scss';
-@import 'components/ui/action-bar.scss';
+@import 'components/sco-organization-participant';
 @import 'components/login-form';
 @import 'components/campaign';
-@import 'components/campaign/cards';
+@import 'components/import';
 @import 'components/current-organization';
 @import 'components/edit-student-number-modal';
 @import 'components/dropdown';
@@ -48,7 +47,6 @@
 @import 'components/manage-authentication-method-modal';
 @import 'components/participation-filters';
 @import 'components/learner/header';
-@import 'components/sco-organization-participant/reset-password-modal';
 @import 'components/sup-organization-participant/replace-students-modal';
 
 // pages
@@ -75,7 +73,6 @@
 @import 'pages/authenticated/organization-participants/list';
 @import 'pages/authenticated/organization-participants/deletion-modal';
 @import 'pages/authenticated/sup-organization-participants/list';
-@import 'pages/authenticated/sup-organization-participants/import';
 @import 'pages/authenticated/sco-organization-participants/list';
 @import 'pages/authenticated/preselect-target-profile';
 @import 'pages/authenticated/team';

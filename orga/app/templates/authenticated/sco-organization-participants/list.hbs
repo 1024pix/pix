@@ -1,11 +1,7 @@
 {{page-title (t "pages.sco-organization-participants.page-title")}}
 
 <div class="organization-participant-list-page sco-organization-participant-list-page">
-  <ScoOrganizationParticipant::HeaderActions
-    @onImportStudents={{this.importStudents}}
-    @participantCount={{@model.meta.participantCount}}
-    @isLoading={{this.isLoading}}
-  />
+  <ScoOrganizationParticipant::HeaderActions @participantCount={{@model.meta.participantCount}} />
   <ScoOrganizationParticipant::List
     @students={{@model}}
     @searchFilter={{this.search}}

@@ -57,6 +57,10 @@ export default class CurrentUserService extends Service {
     this.organization = organization;
   }
 
+  get shouldAccessImportPage() {
+    return Boolean((this.isSCOManagingStudents || this.isSUPManagingStudents) && this.isAdminInOrganization);
+  }
+
   get shouldAccessPlacesPage() {
     return this.isAdminInOrganization && this.prescriber.placesManagement;
   }

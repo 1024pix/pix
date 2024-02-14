@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { find, currentURL, triggerEvent, click } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
 import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -69,46 +69,6 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/eleves');
-      });
-
-      module('when admin uploads a file', function (hooks) {
-        hooks.beforeEach(async function () {
-          user = createUserManagingStudents('ADMIN');
-          createPrescriberByUser(user);
-
-          await authenticateSession(user.id);
-        });
-
-        test('it should display success message and reload students', async function (assert) {
-          // given
-          await visit('/eleves');
-
-          const file = new Blob(['foo'], { type: 'valid-file' });
-
-          // when
-          const input = find('#students-file-upload');
-          await triggerEvent(input, 'change', { files: [file] });
-
-          // then
-          assert.dom('[data-test-notification-message="success"]').hasText('La liste a été importée avec succès.');
-          assert.dom('[aria-label="Élève"]').exists({ count: 1 });
-          assert.contains('Cover');
-          assert.contains('Harry');
-        });
-
-        test('it should display an error message when uploading an invalid file', async function (assert) {
-          // given
-          await visit('/eleves');
-
-          const file = new Blob(['foo'], { type: 'invalid-file' });
-
-          // when
-          const input = find('#students-file-upload');
-          await triggerEvent(input, 'change', { files: [file] });
-
-          // then
-          assert.dom('[data-test-notification-message="error"]').exists();
-        });
       });
 
       module('when prescriber is looking for students', function (hooks) {
