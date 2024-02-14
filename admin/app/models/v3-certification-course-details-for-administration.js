@@ -45,6 +45,10 @@ export default class V3CertificationCourseDetailsForAdministration extends Model
     return this.assessmentState === assessmentStates.ENDED_BY_SUPERVISOR;
   }
 
+  get wasCompleted() {
+    return this.assessmentState === assessmentStates.COMPLETED;
+  }
+
   get numberOfOkAnswers() {
     return this.certificationChallengesForAdministration.filter((challenge) => challenge.isOk()).length;
   }
@@ -63,7 +67,7 @@ export default class V3CertificationCourseDetailsForAdministration extends Model
 
   get duration() {
     const start = dayjs(this.createdAt);
-    const end = dayjs(this.completedAt);
+    const end = this.wasCompleted ? dayjs(this.completedAt) : dayjs(this.endedAt);
     return end.diff(start);
   }
 
