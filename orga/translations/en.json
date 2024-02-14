@@ -871,6 +871,48 @@
         "row-title": "Participant"
       }
     },
+    "organization-participants-import": {
+      "title": "Import students",
+      "actions": {
+        "add-sco": {
+          "title": "Import list of students",
+          "details": "This action allows you to :",
+          "details-add-student": "add new students",
+          "details-disable-student": "deactivate old students",
+          "details-update-student": "edit previously imported students",
+          "label": "Import list"
+        },
+        "add-sup": {
+          "title": "Add / Edit",
+          "details": "Add a list of students to the one already imported and/or edit the information of students already imported.",
+          "label": "Add students"
+        },
+        "replace": {
+          "title": "Overwrite",
+          "details": "Import a new list of students in replacement of the existing one.",
+          "label": "Overwrite list"
+        }
+      },
+      "file-type-separator": " or ",
+      "global-success": "The list has been successfully imported.",
+      "global-success-with-warnings": "'<div>'The list has been successfully imported.'<br/><br/>'However some values were not recognised:'<br/>'{warnings}'<br/><br/>'They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
+      "information": "Importing your file may take a few minutes. Some features may be temporarily inaccessible.",
+      "sco": {
+        "title": "Import students",
+        "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please check or edit your file and try to import it again.</div>",
+        "global-error": "'<div>'Import has failed.'<br/>'Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a>'.'</div>'"
+      },
+      "sup": {
+        "title": "Import students",
+        "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please check or edit your file and try to import it again.</div>",
+        "global-error": "'<div>'Import has failed.'<br/>'Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a>'.'</div>'"
+      },
+      "supported-formats": "(supported format: {types})",
+      "warnings": {
+        "diploma": "Diplomas unknown: {diplomas}; ",
+        "study-scheme": "Study schemes unknown: {studySchemes}; "
+      }
+    },
     "participants-list": {
       "latest-participation-information-tooltip": {
         "aria-label": "Latest participation's information",
@@ -957,11 +999,7 @@
         "reset-password-button": "Reset passwords for selected students"
       },
       "actions": {
-        "import-file": {
-          "file-type-separator": " or ",
-          "information": "Importing your file may take a few minutes. Some features may be temporarily inaccessible.",
-          "label": "Import ({types})"
-        },
+        "import-file": "Import",
         "manage-account": "Manage the account",
         "show-actions": "Show actions"
       },
@@ -1002,11 +1040,6 @@
           "placeholder": "Last name, first name"
         },
         "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}"
-      },
-      "import": {
-        "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please check or edit your file and try to import it again.</div>",
-        "global-error": "'<div>'Import has failed.'<br/>'Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a>'.'</div>'",
-        "global-success": "The list has been successfully imported."
       },
       "manage-authentication-method-modal": {
         "title": "Managing the student's Pix account",
@@ -1202,31 +1235,6 @@
         "description": "Table of students, sorted by name.You can edit the student's number through a menu in an additional column",
         "empty": "No students.",
         "row-title": "Student"
-      }
-    },
-    "sup-organization-participants-import": {
-      "title": "Import students",
-      "actions": {
-        "add": {
-          "title": "Add / Edit",
-          "details": "Add a list of students to the one already imported and/or edit the information of students already imported.",
-          "label": "Add students"
-        },
-        "replace": {
-          "title": "Overwrite",
-          "details": "Import a new list of students in replacement of the existing one.",
-          "label": "Overwrite list"
-        }
-      },
-      "description": "What type of import would you like to use?",
-      "error-wrapper": "'<div>'Import has failed.'<br/><strong>'{message}'</strong><br/>' Please edit your file and try to import it again.'</div>'",
-      "global-error": "'<div>'Import has failed.'<br/>'Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a></div>'",
-      "global-success": "The list has been successfully imported.",
-      "global-success-with-warnings": "'<div>'The list has been successfully imported.'<br/><br/>'However some values were not recognised:'<br/>'{warnings}'<br/><br/>'They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
-      "supported-formats": "(Supported format: csv)",
-      "warnings": {
-        "diploma": "Diplomas unknown: {diplomas}; ",
-        "study-scheme": "Study schemes unknown: {studySchemes}; "
       }
     },
     "team-invitations": {

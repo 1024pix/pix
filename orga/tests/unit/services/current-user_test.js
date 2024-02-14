@@ -315,6 +315,7 @@ module('Unit | Service | current-user', function (hooks) {
         assert.true(currentUserService.shouldAccessCampaignsPage);
       });
     });
+
     module('#shouldAccessParticipantsPage', function () {
       test('should return false if user has mission feature activated', function (assert) {
         currentUserService.prescriber = {
@@ -330,6 +331,68 @@ module('Unit | Service | current-user', function (hooks) {
         };
 
         assert.true(currentUserService.shouldAccessParticipantsPage);
+      });
+    });
+
+    module('#shouldAccessImportPage', function () {
+      module('when is admin of the organization', function () {
+        test('should return false if organization is not sco managing student', function (assert) {
+          currentUserService.isAdminInOrganization = true;
+          currentUserService.isSCOManagingStudents = false;
+
+          assert.false(currentUserService.shouldAccessImportPage);
+        });
+
+        test('should return true if organization is sco managing student', function (assert) {
+          currentUserService.isAdminInOrganization = true;
+          currentUserService.isSCOManagingStudents = true;
+
+          assert.true(currentUserService.shouldAccessImportPage);
+        });
+
+        test('should return false if organization not sup managing student', function (assert) {
+          currentUserService.isAdminInOrganization = true;
+          currentUserService.isSUPManagingStudents = false;
+
+          assert.false(currentUserService.shouldAccessImportPage);
+        });
+
+        test('should return true if organization is sup managing student', function (assert) {
+          currentUserService.isAdminInOrganization = true;
+          currentUserService.isSUPManagingStudents = true;
+
+          assert.true(currentUserService.shouldAccessImportPage);
+        });
+      });
+
+      module('when is not admin of the organization', function () {
+        test('should return false if organization is not sco managing student', function (assert) {
+          currentUserService.isAdminInOrganization = false;
+          currentUserService.isSCOManagingStudents = false;
+
+          assert.false(currentUserService.shouldAccessImportPage);
+        });
+
+        test('should return false if organization is sco managing student', function (assert) {
+          currentUserService.isAdminInOrganization = false;
+          currentUserService.isSCOManagingStudents = true;
+
+          assert.false(currentUserService.shouldAccessImportPage);
+        });
+
+        test('should return false if organization not sup managing student', function (assert) {
+          currentUserService.isAdminInOrganization = false;
+          currentUserService.isSUPManagingStudents = false;
+
+          assert.false(currentUserService.shouldAccessImportPage);
+        });
+
+        test('should return false if organization is sup managing student', function (assert) {
+          currentUserService.isAdminInOrganization = false;
+          currentUserService.isSUPManagingStudents = true;
+
+          assert.false(currentUserService.shouldAccessImportPage);
+        });
       });
     });
   });

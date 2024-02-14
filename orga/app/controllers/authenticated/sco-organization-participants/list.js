@@ -73,53 +73,6 @@ export default class ListController extends Controller {
   }
 
   @action
-  async importStudents(files) {
-    const adapter = this.store.adapterFor('students-import');
-    const organizationId = this.currentUser.organization.id;
-    const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
-    const confirmBeforeClose = (event) => {
-      event.preventDefault();
-      return (event.returnValue = '');
-    };
-    window.addEventListener('beforeunload', confirmBeforeClose);
-    this.isLoading = true;
-    this.notifications.clearAll();
-    try {
-      await adapter.importStudentsSiecle(organizationId, files, format);
-      this.refresh();
-      this.isLoading = false;
-      this.notifications.sendSuccess(this.intl.t('pages.sco-organization-participants.import.global-success'));
-    } catch (errorResponse) {
-      this.isLoading = false;
-      this._handleError(errorResponse);
-    }
-    window.removeEventListener('beforeunload', confirmBeforeClose);
-  }
-
-  _handleError(errorResponse) {
-    const globalErrorMessage = this.intl.t('pages.sco-organization-participants.import.global-error', {
-      htmlSafe: true,
-    });
-    if (!errorResponse.errors) {
-      return this.notifications.sendError(globalErrorMessage, {
-        onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
-      });
-    }
-
-    errorResponse.errors.forEach((error) => {
-      if (['422', '412', '413'].includes(error.status)) {
-        const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
-        return this.notifications.sendError(
-          this.intl.t('pages.sco-organization-participants.import.error-wrapper', { message, htmlSafe: true }),
-        );
-      }
-      return this.notifications.sendError(globalErrorMessage, {
-        onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
-      });
-    });
-  }
-
-  @action
   refresh() {
     this.send('refreshModel');
   }

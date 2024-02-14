@@ -1,18 +1,24 @@
 <section class="import-students-page__section">
   <h2 class="import-students-page-section__title">
-    {{t "pages.sup-organization-participants-import.actions.replace.title"}}
+    {{t "pages.organization-participants-import.actions.replace.title"}}
   </h2>
   <p class="import-students-page-section__details">
-    {{t "pages.sup-organization-participants-import.actions.replace.details"}}
+    {{t "pages.organization-participants-import.actions.replace.details"}}
   </p>
 
-  <PixButton @triggerAction={{this.toggleModal}}>
-    {{t "pages.sup-organization-participants-import.actions.replace.label"}}
-  </PixButton>
+  <div class="import-students-page-section__button-and-type">
+    <PixButton @triggerAction={{this.toggleModal}} @size="small">
+      {{t "pages.organization-participants-import.actions.replace.label"}}
+    </PixButton>
+    <p class="import-students-page-section__details">
+      {{@acceptedFileType}}
+    </p>
+  </div>
 
   <SupOrganizationParticipant::Modal::ReplaceStudentsModal
     @onClose={{this.toggleModal}}
     @display={{this.displayModal}}
     @onReplaceStudents={{@onReplaceStudents}}
+    @supportedFormats={{@supportedFormats}}
   />
 </section>
