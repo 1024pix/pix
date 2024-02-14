@@ -1,4 +1,4 @@
-import { usecases } from '../shared/usecases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 import * as organizationLearnerSerializer from '../infrastructure/serializers/organization-learner.js';
 
 const getById = async function (request) {

@@ -22,6 +22,10 @@ function routes() {
     return schema.missions.find(request.params.mission_id);
   });
 
+  this.get('/missions', (schema) => {
+    return schema.missions.all();
+  });
+
   this.post('/assessments', (schema, request) => {
     const params = JSON.parse(request.requestBody);
     if (!params.missionId || !params.learnerId) {
@@ -67,7 +71,9 @@ function routes() {
     return new Response(404);
   });
 
-  this.get('/organization-learners/:id', (schema) => {
+  this.get('/organization-learners/:id', (schema, request) => {
+    const learner = schema.organizationLearners.find(request.params.id);
+    if (learner) return learner;
     return schema.create('organization-learner', { completedMissionIds: ['recExjO7RHeDI48HK'] });
   });
 }

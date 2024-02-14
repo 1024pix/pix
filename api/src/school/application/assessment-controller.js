@@ -1,5 +1,5 @@
 import * as challengeSerializer from '../../shared/infrastructure/serializers/jsonapi/challenge-serializer.js';
-import { usecases } from '../shared/usecases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 import * as assessmentSerializer from '../../../src/school/infrastructure/serializers/assessment.js';
 
 const getNextChallengeForPix1d = async function (request, h, dependencies = { challengeSerializer }) {
