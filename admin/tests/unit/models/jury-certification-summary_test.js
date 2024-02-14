@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 import { certificationStatuses } from 'pix-admin/models/certification';
 
 module('Unit | Model | jury-certification-summary', function (hooks) {
@@ -17,9 +16,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       module(`when the status is ${value}`, function () {
         test(`statusLabel should return ${label}`, function (assert) {
           // given
-          const juryCertificationSummaryProcessed = run(() => {
-            return store.createRecord('jury-certification-summary', { status: value });
-          });
+          const juryCertificationSummaryProcessed = store.createRecord('jury-certification-summary', { status: value });
 
           // when
           const statusLabel = juryCertificationSummaryProcessed.get('statusLabel');
@@ -34,8 +31,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
   module('#hasSeenEndTestScreenLabel', function () {
     test('it returns an empty string when it has seen end test screen', function (assert) {
       // given
-      const juryCertificationSummaryProcessed = run(() => {
-        return store.createRecord('jury-certification-summary', { hasSeenEndTestScreen: true });
+      const juryCertificationSummaryProcessed = store.createRecord('jury-certification-summary', {
+        hasSeenEndTestScreen: true,
       });
 
       // when
@@ -47,8 +44,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
 
     test("it returns 'non' when it has not seen end test screen", function (assert) {
       // given
-      const juryCertificationSummaryProcessed = run(() => {
-        return store.createRecord('jury-certification-summary', { hasSeenEndTestScreen: false });
+      const juryCertificationSummaryProcessed = store.createRecord('jury-certification-summary', {
+        hasSeenEndTestScreen: false,
       });
 
       // when
@@ -62,10 +59,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
   module('#numberOfCertificationIssueReportsWithRequiredActionLabel', function () {
     test('it returns an empty string when there are no issue reports', function (assert) {
       // given
-      const juryCertificationSummaryProcessed = run(() => {
-        return store.createRecord('jury-certification-summary', {
-          numberOfCertificationIssueReportsWithRequiredAction: 0,
-        });
+      const juryCertificationSummaryProcessed = store.createRecord('jury-certification-summary', {
+        numberOfCertificationIssueReportsWithRequiredAction: 0,
       });
 
       // when
@@ -78,10 +73,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
 
     test('it returns the count of issue reports when there are some', function (assert) {
       // given
-      const juryCertificationSummaryProcessed = run(() => {
-        return store.createRecord('jury-certification-summary', {
-          numberOfCertificationIssueReportsWithRequiredAction: 4,
-        });
+      const juryCertificationSummaryProcessed = store.createRecord('jury-certification-summary', {
+        numberOfCertificationIssueReportsWithRequiredAction: 4,
       });
 
       // when
@@ -96,9 +89,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
   module('#get isCertificationStarted', function () {
     test('it should return true when the status is "started"', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('jury-certification-summary', { status: 'started' });
-      });
+      const juryCertificationSummary = store.createRecord('jury-certification-summary', { status: 'started' });
 
       // when
       const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
@@ -109,9 +100,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
 
     test('it should return false when the status is "validated" (not started)', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('jury-certification-summary', { status: 'validated' });
-      });
+      const juryCertificationSummary = store.createRecord('jury-certification-summary', { status: 'validated' });
 
       // when
       const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
@@ -122,9 +111,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
 
     test('it should return false when the status is "rejected" (not started)', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('jury-certification-summary', { status: 'rejected' });
-      });
+      const juryCertificationSummary = store.createRecord('jury-certification-summary', { status: 'rejected' });
 
       // when
       const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
@@ -135,9 +122,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
 
     test('it should return false when the status is "error" (not started)', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('jury-certification-summary', { status: 'error' });
-      });
+      const juryCertificationSummary = store.createRecord('jury-certification-summary', { status: 'error' });
 
       // when
       const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
@@ -148,9 +133,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
 
     test('it should return false when the status is "cancelled" (not started)', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('jury-certification-summary', { status: 'cancelled' });
-      });
+      const juryCertificationSummary = store.createRecord('jury-certification-summary', { status: 'cancelled' });
 
       // when
       const isCertificationStarted = juryCertificationSummary.isCertificationStarted;
@@ -163,9 +146,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
   module('#isCertificationInError', function () {
     test('it should return true when the status is "error"', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('jury-certification-summary', { status: 'error' });
-      });
+      const juryCertificationSummary = store.createRecord('jury-certification-summary', { status: 'error' });
 
       // when
       const isCertificationInError = juryCertificationSummary.isCertificationInError;
@@ -176,9 +157,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
 
     test('it should return false when the status is "started" (not in error)', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('jury-certification-summary', { status: 'started' });
-      });
+      const juryCertificationSummary = store.createRecord('jury-certification-summary', { status: 'started' });
 
       // when
       const isCertificationInError = juryCertificationSummary.isCertificationInError;
@@ -189,9 +168,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
 
     test('it should return false when the status is "validated" (not in error)', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('jury-certification-summary', { status: 'validated' });
-      });
+      const juryCertificationSummary = store.createRecord('jury-certification-summary', { status: 'validated' });
 
       // when
       const isCertificationInError = juryCertificationSummary.isCertificationInError;
@@ -202,9 +179,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
 
     test('it should return false when the status is "rejected" (not in error)', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('jury-certification-summary', { status: 'rejected' });
-      });
+      const juryCertificationSummary = store.createRecord('jury-certification-summary', { status: 'rejected' });
 
       // when
       const isCertificationInError = juryCertificationSummary.isCertificationInError;
@@ -215,9 +190,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
 
     test('it should return false when the status is "cancelled" (not in error)', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('jury-certification-summary', { status: 'cancelled' });
-      });
+      const juryCertificationSummary = store.createRecord('jury-certification-summary', { status: 'cancelled' });
 
       // when
       const isCertificationInError = juryCertificationSummary.isCertificationInError;
@@ -230,9 +203,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
   module('#get completionDate', function () {
     test('it should return null if completedAt is null', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('jury-certification-summary', { completedAt: null });
-      });
+      const juryCertificationSummary = store.createRecord('jury-certification-summary', { completedAt: null });
 
       // then
       assert.notOk(juryCertificationSummary.completionDate, null);
@@ -240,8 +211,8 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
 
     test('it should a formatted date when completedAt is defined', function (assert) {
       // given
-      const juryCertificationSummary = run(() => {
-        return store.createRecord('jury-certification-summary', { completedAt: '2021-06-30 15:10:45' });
+      const juryCertificationSummary = store.createRecord('jury-certification-summary', {
+        completedAt: '2021-06-30 15:10:45',
       });
 
       // then
