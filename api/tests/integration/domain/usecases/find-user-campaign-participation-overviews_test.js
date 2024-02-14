@@ -1,11 +1,15 @@
-import { databaseBuilder, expect } from '../../../test-helper.js';
+import { databaseBuilder, expect, sinon } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { constants } from '../../../../lib/domain/constants.js';
+
 describe('Integration | UseCase | find-user-campaign-participation-overviews_test', function () {
   describe('when there are several campaigns for several target profiles', function () {
     let user;
 
     beforeEach(async function () {
       // given
+      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+
       user = databaseBuilder.factory.buildUser();
 
       const targetProfile1 = databaseBuilder.factory.buildTargetProfile();
@@ -77,6 +81,8 @@ describe('Integration | UseCase | find-user-campaign-participation-overviews_tes
 
     beforeEach(async function () {
       // given
+      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+
       user = databaseBuilder.factory.buildUser();
 
       const targetProfile = databaseBuilder.factory.buildTargetProfile();

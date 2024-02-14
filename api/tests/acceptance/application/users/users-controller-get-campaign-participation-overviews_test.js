@@ -5,7 +5,9 @@ import {
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
+  sinon,
 } from '../../../test-helper.js';
+import { constants } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Controller | users-controller-get-campaign-participation-overviews', function () {
   let server;
@@ -50,6 +52,8 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
 
     it('should return participation which match with filters', async function () {
       // given
+      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+
       const startedCampaignParticipation = databaseBuilder.factory.campaignParticipationOverviewFactory.buildOnGoing({
         userId,
         campaignSkills: ['recSkillId1'],

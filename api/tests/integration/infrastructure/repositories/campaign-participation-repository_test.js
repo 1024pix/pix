@@ -1,4 +1,4 @@
-import { expect, knex, databaseBuilder, catchErr } from '../../../test-helper.js';
+import { expect, knex, databaseBuilder, catchErr, sinon } from '../../../test-helper.js';
 import { Campaign } from '../../../../lib/domain/models/Campaign.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
@@ -6,6 +6,7 @@ import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/pr
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { constants } from '../../../../lib/domain/constants.js';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
@@ -13,6 +14,8 @@ describe('Integration | Repository | Campaign Participation', function () {
   describe('#hasAssessmentParticipations', function () {
     let userId;
     beforeEach(async function () {
+      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+
       userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
     });
@@ -53,6 +56,28 @@ describe('Integration | Repository | Campaign Participation', function () {
     it('should return false if the user does not have participations to campaigns of type assement', async function () {
       // given
       const campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignParticipationRepository.hasAssessmentParticipations(userId);
+
+      // then
+      expect(result).to.equal(false);
+    });
+
+    it('should return false if the user only have autonomouse-course participations', async function () {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization({
+        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+      });
+      const campaign = databaseBuilder.factory.buildCampaign({
+        organizationId: organization.id,
+        type: CampaignTypes.ASSESSMENT,
+      });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
         userId,

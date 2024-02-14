@@ -1,10 +1,11 @@
-import { expect, databaseBuilder, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
+import { expect, databaseBuilder, mockLearningContent, learningContentBuilder, sinon } from '../../../test-helper.js';
 
 const { campaignParticipationOverviewFactory } = databaseBuilder.factory;
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import * as campaignParticipationOverviewRepository from '../../../../lib/infrastructure/repositories/campaign-participation-overview-repository.js';
 import _ from 'lodash';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { constants } from '../../../../lib/domain/constants.js';
 
 let userId;
 
@@ -12,6 +13,8 @@ describe('Integration | Repository | Campaign Participation Overview', function 
   let targetProfile;
 
   beforeEach(async function () {
+    sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+
     userId = databaseBuilder.factory.buildUser().id;
     const learningContent = [
       {
@@ -589,6 +592,36 @@ describe('Integration | Repository | Campaign Participation Overview', function 
             validatedStagesCount: undefined,
           },
         ]);
+      });
+    });
+
+    context('when there is an autonomous course', function () {
+      it('should not keep the autonomous course from the campaign participations list', async function () {
+        // given
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
+          id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+        });
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          targetProfileId: targetProfile.id,
+        });
+        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          validatedSkillsCount: 1,
+        });
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: participationId,
+          state: Assessment.states.COMPLETED,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignParticipationOverviews } =
+          await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
+
+        // then
+        expect(campaignParticipationOverviews.length).to.equal(0);
       });
     });
   });

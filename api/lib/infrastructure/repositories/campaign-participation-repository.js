@@ -5,6 +5,7 @@ import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { NotFoundError } from '../../domain/errors.js';
+import { constants } from '../../domain/constants.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -12,6 +13,7 @@ const hasAssessmentParticipations = async function (userId) {
   const { count } = await knex('campaign-participations')
     .count('campaign-participations.id')
     .join('campaigns', 'campaigns.id', 'campaignId')
+    .whereNot('campaigns.organizationId', constants.AUTONOMOUS_COURSES_ORGANIZATION_ID)
     .where('campaigns.type', '=', CampaignTypes.ASSESSMENT)
     .andWhere({ userId })
     .first();
