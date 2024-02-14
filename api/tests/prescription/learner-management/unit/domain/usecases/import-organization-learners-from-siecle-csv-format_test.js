@@ -2,7 +2,6 @@ import { expect, sinon } from '../../../../../test-helper.js';
 import { importOrganizationLearnersFromSIECLECSVFormat } from '../../../../../../src/prescription/learner-management/domain/usecases/import-organization-learners-from-siecle-csv-format.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { OrganizationLearner } from '../../../../../../lib/domain/models/OrganizationLearner.js';
-import { SiecleParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/xml/siecle-parser.js';
 
 import fs from 'fs/promises';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
@@ -10,10 +9,10 @@ const i18n = getI18n();
 
 describe('Unit | UseCase | import-organization-learners-from-siecle-csv', function () {
   const organizationId = 1234;
-  let parseStub;
   let organizationLearnersCsvServiceStub;
   let organizationLearnerRepositoryStub;
   let organizationRepositoryStub;
+  let importStorageStub;
   let payload = { path: 'file.csv' };
   let domainTransaction;
 
@@ -24,10 +23,11 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-csv', functi
     sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
       return callback(domainTransaction);
     });
-
-    sinon.stub(SiecleParser, 'create');
-    parseStub = sinon.stub();
-    SiecleParser.create.returns({ parse: parseStub });
+    importStorageStub = {
+      sendFile: sinon.stub(),
+      readFile: sinon.stub(),
+      deleteFile: sinon.stub(),
+    };
 
     organizationLearnersCsvServiceStub = { extractOrganizationLearnersInformation: sinon.stub() };
     organizationLearnerRepositoryStub = {
@@ -42,13 +42,11 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-csv', functi
 
   context('when extracted organizationLearners informations can be imported', function () {
     payload = { path: 'file.csv' };
-    const buffer = 'data';
 
     beforeEach(function () {
-      fs.readFile.withArgs(payload.path).resolves(buffer);
-    });
-
-    it('should save these informations', async function () {
+      const readableStream = Symbol('readableStream');
+      importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves('file.csv');
+      importStorageStub.readFile.withArgs(payload.path).resolves(readableStream);
       const organization = Symbol('organization');
       organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
 
@@ -88,17 +86,33 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-csv', functi
         organizationLearner1,
         organizationLearner2,
       ]);
+    });
 
+    it('should save these informations', async function () {
       await importOrganizationLearnersFromSIECLECSVFormat({
         organizationId,
         payload,
         organizationRepository: organizationRepositoryStub,
         organizationLearnersCsvService: organizationLearnersCsvServiceStub,
         organizationLearnerRepository: organizationLearnerRepositoryStub,
+        importStorage: importStorageStub,
         i18n,
       });
 
       expect(organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners).to.have.been.called;
+    });
+
+    it('should delete file on s3', async function () {
+      await importOrganizationLearnersFromSIECLECSVFormat({
+        organizationId,
+        payload,
+        organizationRepository: organizationRepositoryStub,
+        organizationLearnersCsvService: organizationLearnersCsvServiceStub,
+        organizationLearnerRepository: organizationLearnerRepositoryStub,
+        importStorage: importStorageStub,
+        i18n,
+      });
+      expect(importStorageStub.deleteFile).to.have.been.called;
     });
   });
 });

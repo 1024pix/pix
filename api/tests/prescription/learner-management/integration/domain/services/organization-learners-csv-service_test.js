@@ -1,4 +1,5 @@
 import * as url from 'url';
+import fs from 'fs';
 import _ from 'lodash';
 import { expect, catchErr } from '../../../../../test-helper.js';
 import { CsvImportError } from '../../../../../../src/shared/domain/errors.js';
@@ -52,7 +53,8 @@ describe('Integration | Services | organization-learners-csv-service', function 
       ];
 
       // when
-      const results = await extractOrganizationLearnersInformation(path, organization, i18n);
+      const readableStream = fs.createReadStream(path);
+      const results = await extractOrganizationLearnersInformation(readableStream, organization, i18n);
 
       //then
       const actualResult = _.map(results, (result) =>
@@ -65,8 +67,9 @@ describe('Integration | Services | organization-learners-csv-service', function 
       // given
       const organization = { id: 123, isAgriculture: true };
       const path = `${fixturesDirPath}/siecle-file/siecle-csv-with-unknown-encoding.csv`;
+      const readableStream = fs.createReadStream(path);
       // when
-      const error = await catchErr(extractOrganizationLearnersInformation)(path, organization, i18n);
+      const error = await catchErr(extractOrganizationLearnersInformation)(readableStream, organization, i18n);
 
       //then
       expect(error).to.be.instanceof(CsvImportError);
@@ -77,8 +80,10 @@ describe('Integration | Services | organization-learners-csv-service', function 
       // given
       const organization = { id: 123, isAgriculture: true };
       const path = `${fixturesDirPath}/siecle-file/siecle-csv-with-duplicate-national-student-id.csv`;
+      const readableStream = fs.createReadStream(path);
+
       // when
-      const error = await catchErr(extractOrganizationLearnersInformation)(path, organization, i18n);
+      const error = await catchErr(extractOrganizationLearnersInformation)(readableStream, organization, i18n);
 
       //then
       expect(error).to.be.instanceof(CsvImportError);
@@ -90,8 +95,9 @@ describe('Integration | Services | organization-learners-csv-service', function 
       // given
       const organization = { id: 123, isAgriculture: true };
       const path = `${fixturesDirPath}/siecle-file/siecle-csv-with-no-national-student-id.csv`;
+      const readableStream = fs.createReadStream(path);
       // when
-      const error = await catchErr(extractOrganizationLearnersInformation)(path, organization, i18n);
+      const error = await catchErr(extractOrganizationLearnersInformation)(readableStream, organization, i18n);
 
       //then
       expect(error).to.be.instanceof(CsvImportError);
