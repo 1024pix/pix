@@ -5,6 +5,7 @@ import { service } from '@ember/service';
 
 export default class ModulePassage extends Component {
   @service router;
+  @service metrics;
   @tracked grainsToDisplay = [this.args.module.grains[0]];
   static SCROLL_OFFSET_PX = 70;
 
@@ -22,6 +23,19 @@ export default class ModulePassage extends Component {
   }
 
   @action
+  skipToNextGrain() {
+    const lastGrain = this.args.module.grains[this.lastIndex];
+
+    this.addNextGrainToDisplay();
+
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Modulix',
+      'pix-event-action': `Passage du module : ${this.args.module.id}`,
+      'pix-event-name': `Click sur le bouton passer du grain : ${lastGrain.id}`,
+    });
+  }
+
   addNextGrainToDisplay() {
     if (!this.hasNextGrain) {
       return;

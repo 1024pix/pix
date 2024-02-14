@@ -53,12 +53,6 @@ export default class ModuleGrain extends Component {
   @action
   skipAction() {
     this.args.skipAction();
-    this.metrics.add({
-      event: 'custom-event',
-      'pix-event-category': 'Modulix',
-      'pix-event-action': `Passage du module : ${this.grain.module.id}`,
-      'pix-event-name': `Click sur le bouton passer du grain : ${this.grain.id}`,
-    });
   }
 
   @action

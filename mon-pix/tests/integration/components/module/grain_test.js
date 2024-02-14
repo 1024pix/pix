@@ -359,7 +359,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
   });
 
   module('when skipAction is called', function () {
-    test('should call skipAction pass in argument and push event', async function (assert) {
+    test('should call skipAction pass in argument', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const element = store.createRecord('qcu', { type: 'qcus', isAnswerable: true });
@@ -369,8 +369,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       const skipActionStub = sinon.stub();
       this.set('skipAction', skipActionStub);
-      const metrics = this.owner.lookup('service:metrics');
-      metrics.add = sinon.stub();
 
       this.set('continueAction', () => {});
 
@@ -384,12 +382,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       // then
       sinon.assert.calledOnce(skipActionStub);
-      sinon.assert.calledWithExactly(metrics.add, {
-        event: 'custom-event',
-        'pix-event-category': 'Modulix',
-        'pix-event-action': `Passage du module : ${this.grain.module.id}`,
-        'pix-event-name': `Click sur le bouton passer du grain : ${this.grain.id}`,
-      });
       assert.ok(true);
     });
   });
