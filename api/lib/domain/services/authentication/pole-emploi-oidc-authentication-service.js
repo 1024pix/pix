@@ -27,7 +27,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       configKey,
       source: 'pole_emploi_connect',
       slug: 'pole-emploi',
-      organizationName: 'Pôle Emploi',
+      organizationName: 'France Travail',
       additionalRequiredProperties: ['logoutUrl', 'afterLogoutUrl', 'sendingUrl'],
       hasLogoutUrl: true,
       jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
