@@ -18,7 +18,7 @@ export default class SelectableList extends Component {
     if (this.someSelected || this.allSelected) {
       this.selectedItems = [];
     } else {
-      this.selectedItems = [...this.args.items.toArray()];
+      this.selectedItems = this.args.items.slice();
     }
   }
 
