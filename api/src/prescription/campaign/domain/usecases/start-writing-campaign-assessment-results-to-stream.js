@@ -22,6 +22,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   campaignParticipationInfoRepository,
   organizationRepository,
   knowledgeElementSnapshotRepository,
+  knowledgeElementRepository,
   badgeAcquisitionRepository,
   campaignCsvExportService,
   targetProfileRepository,
@@ -69,11 +70,19 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
     .map(
       campaignParticipationInfoChunks,
       async (campaignParticipationInfoChunk) => {
-        const userIdsAndDates = campaignParticipationInfoChunk.map(({ userId, sharedAt }) => {
-          return { userId, sharedAt };
-        });
-        const knowledgeElementsByUserIdAndCompetenceId =
-          await knowledgeElementSnapshotRepository.findMultipleUsersFromUserIdsAndSnappedAtDates(userIdsAndDates);
+        const sharedParticipations = campaignParticipationInfoChunk.filter(({ isShared }) => isShared);
+        const startedParticipations = campaignParticipationInfoChunk.filter(
+          ({ isShared, isCompleted }) => !isShared && !isCompleted,
+        );
+
+        const sharedKnowledgeElementsByUserIdAndCompetenceId =
+          await knowledgeElementSnapshotRepository.findMultipleUsersFromUserIdsAndSnappedAtDates(
+            sharedParticipations.map(({ userId, sharedAt }) => ({ userId, sharedAt })),
+          );
+
+        const othersKnowledgeElementsByUserIdAndCompetenceId = await knowledgeElementRepository.findUniqByUserIds(
+          startedParticipations.map(({ userId }) => userId),
+        );
 
         let acquiredBadgesByCampaignParticipations;
         if (targetProfile.hasBadges) {
@@ -85,23 +94,30 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
         }
 
         const csvLines = campaignParticipationInfoChunk.map((campaignParticipationInfo) => {
-          const sharedResultInfo = knowledgeElementsByUserIdAndCompetenceId.find(
-            (knowledElementForSharedParticipation) => {
-              const sameUserId = campaignParticipationInfo.userId === knowledElementForSharedParticipation.userId;
-              const sameDate =
-                campaignParticipationInfo.sharedAt &&
-                campaignParticipationInfo.sharedAt.getTime() ===
-                  knowledElementForSharedParticipation.snappedAt.getTime();
+          let participantKnowledgeElementsByCompetenceId = [];
 
-              return sameUserId && sameDate;
-            },
-          );
+          if (campaignParticipationInfo.isShared) {
+            const sharedResultInfo = sharedKnowledgeElementsByUserIdAndCompetenceId.find(
+              (knowledElementForSharedParticipation) => {
+                const sameUserId = campaignParticipationInfo.userId === knowledElementForSharedParticipation.userId;
+                const sameDate =
+                  campaignParticipationInfo.sharedAt &&
+                  campaignParticipationInfo.sharedAt.getTime() ===
+                    knowledElementForSharedParticipation.snappedAt.getTime();
 
-          let participantKnowledgeElementsByCompetenceId = null;
+                return sameUserId && sameDate;
+              },
+            );
 
-          if (sharedResultInfo) {
             participantKnowledgeElementsByCompetenceId =
               campaignLearningContent.getKnowledgeElementsGroupedByCompetence(sharedResultInfo.knowledgeElements);
+          } else if (campaignParticipationInfo.isCompleted === false) {
+            const othersResultInfo = othersKnowledgeElementsByUserIdAndCompetenceId.find(
+              (knowledElementForOtherParticipation) =>
+                campaignParticipationInfo.userId === knowledElementForOtherParticipation.userId,
+            );
+            participantKnowledgeElementsByCompetenceId =
+              campaignLearningContent.getKnowledgeElementsGroupedByCompetence(othersResultInfo.knowledgeElements);
           }
 
           const acquiredBadges =
