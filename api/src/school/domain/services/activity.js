@@ -1,10 +1,10 @@
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { ActivityNotFoundError } from '../school-errors.js';
 
 export async function getCurrentActivity(activityRepository, assessmentId) {
   try {
     return await activityRepository.getLastActivity(assessmentId);
   } catch (error) {
-    if (!(error instanceof NotFoundError)) {
+    if (!(error instanceof ActivityNotFoundError)) {
       throw error;
     }
   }
