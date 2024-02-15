@@ -681,20 +681,20 @@
       },
       "feedback-panel-v3": {
         "actions": {
-          "no-send-feedback": "Non, je reviens à l'épreuve",
-          "open-close": "Signaler un problème avec la question",
-          "refresh-page": "Rafraîchir la page",
-          "send-feedback": "Oui, je suis sûr(e)"
+          "no-send-feedback": "No, I'm coming back to the test",
+          "open-close": "Report a problem with the question",
+          "refresh-page": "Refresh the page",
+          "send-feedback": "Yes, I'm sure"
         },
-        "description": "Êtes-vous sûr(e) de vouloir signaler un problème ?",
-        "information": "En signalant un problème, votre certification est mise en pause le temps que le surveillant intervienne pour valider ou invalider votre signalement.",
-        "problem-banner": "Prévenez votre surveillant afin qu'il puisse constater votre problème.",
-        "waiting-information": "En attente du surveillant..."
+        "description": "Are you sure you want to report a problem?",
+        "information": "By reporting a problem, your certification is paused while the supervisor intervenes to validate or invalidate your report",
+        "problem-banner": "Notify your supervisor so that he/she can check your problem",
+        "waiting-information": "Waiting for the supervisor..."
       },
       "has-focused-out-of-window": {
         "certification": "We have detected a page switch. Your answer will not be validated. If you have been forced to change pages, please inform your invigilator and answer the question in their presence.",
         "default": "We have detected a page switch. During a certification test, your answer would not be validated.",
-        "v3-certification": "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant afin qu'il puisse le constater et le signaler, le cas échéant."
+        "v3-certification": "We have detected a page change. Your answer will be counted as wrong. If you have been forced to change page, tell your supervisor so that he or she can see this and report it, if necessary."
       },
       "illustration": {
         "placeholder": "Image loading"
@@ -712,7 +712,7 @@
           "qcu": "Select one answer"
         },
         "feedback": "Report a problem",
-        "feedback-v3": "Signaler un problème avec la question",
+        "feedback-v3": "Report a problem with the question",
         "instruction": "Instructions to answer the question",
         "progress": "Your progression",
         "validation": "Validate or skip this question"
