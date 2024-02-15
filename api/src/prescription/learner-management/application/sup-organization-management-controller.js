@@ -5,6 +5,7 @@ import * as requestResponseUtils from '../../../../lib/infrastructure/utils/requ
 import * as supOrganizationLearnerWarningSerializer from '../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer.js';
 import { SupOrganizationLearnerParser } from '../infrastructure/serializers/csv/sup-organization-learner-parser.js';
 import { importStorage } from '../infrastructure/storage/import-storage.js';
+import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
 
 const importSupOrganizationLearners = async function (
   request,
@@ -13,6 +14,8 @@ const importSupOrganizationLearners = async function (
     makeOrganizationLearnerParser,
     supOrganizationLearnerWarningSerializer,
     importStorage,
+    logErrorWithCorrelationIds,
+    unlink: fs.unlink,
   },
 ) {
   const organizationId = request.params.id;
@@ -31,6 +34,13 @@ const importSupOrganizationLearners = async function (
     warnings = await usecases.importSupOrganizationLearners({ supOrganizationLearnerParser });
   } finally {
     await dependencies.importStorage.deleteFile({ filename });
+    // see https://hapi.dev/api/?v=21.3.3#-routeoptionspayloadoutput
+    // add a catch to avoid an error if unlink fails
+    try {
+      dependencies.unlink(request.payload.path);
+    } catch (err) {
+      dependencies.logErrorWithCorrelationIds(err);
+    }
   }
 
   return h
