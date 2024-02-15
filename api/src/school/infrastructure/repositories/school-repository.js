@@ -1,6 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { School } from '../../domain/models/School.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { SchoolNotFoundError } from '../../domain/school-errors.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 
 const save = async function ({ organizationId, code, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -20,7 +20,7 @@ const getByCode = async function (code) {
     .first();
 
   if (!data) {
-    throw new NotFoundError(`No school found for code ${code}`);
+    throw new SchoolNotFoundError(`No school found for code ${code}`);
   }
 
   return new School(data);
