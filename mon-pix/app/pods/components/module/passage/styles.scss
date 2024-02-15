@@ -42,6 +42,11 @@
     }
   }
 
+  a {
+    color: revert;
+    text-decoration: revert;
+  }
+
   &__title {
     @extend %pix-title-m;
 
