@@ -103,16 +103,15 @@ module('Acceptance | join-request', function (hooks) {
 
       test('it should display error message if organization is archived', async function (assert) {
         // given
+        // when reject 422 response Ember consider it's an internal error ( reject commit because invalid )
+        server.post('/organization-invitations/sco', () => new Response(400, {}, { errors: [{ status: '422' }] }));
         const screen = await visit('/demande-administration-sco');
-        server.post('/organization-invitations/sco', () => new Response(422, {}, { errors: [{ status: '422' }] }));
-
         await fillByLabel("UAI/RNE de l'établissement", '1111111A');
         await fillByLabel('Votre prénom', 'firstName');
         await fillByLabel('Votre nom', 'lastName');
 
         // when
         await clickByName('Envoyer');
-
         // then
         assert
           .dom(

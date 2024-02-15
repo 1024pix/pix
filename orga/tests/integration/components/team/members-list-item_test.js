@@ -6,63 +6,65 @@ import { clickByText, render, clickByName } from '@1024pix/ember-testing-library
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
 
-class CurrentUserAdminStub extends Service {
-  isAdminInOrganization = true;
-  prescriber = {
-    id: 344535,
-  };
-  organization = {
-    credit: 10000,
-  };
-}
-
-class CurrentUserMemberStub extends Service {
-  isAdminInOrganization = false;
-  organization = {
-    credit: 10000,
-  };
-}
-
 module('Integration | Component | Team::MembersListItem', function (hooks) {
   setupIntlRenderingTest(hooks);
   let adminMembership;
   let memberMembership;
   let store;
+  let organization;
+  let prescriber;
 
   hooks.beforeEach(function () {
     this.set('noop', sinon.stub());
 
     store = this.owner.lookup('service:store');
+
+    organization = store.createRecord('organization', { id: '18', credit: '10000' });
+    prescriber = store.createRecord('prescriber', { id: '344535' });
+
+    const user = store.createRecord('user', {
+      id: 111,
+      firstName: 'Gigi',
+      lastName: 'La Terreur',
+    });
+
+    const secondUser = store.createRecord('user', {
+      id: 112,
+      firstName: 'Jojo',
+      lastName: 'La Panique',
+    });
+
     adminMembership = store.createRecord('membership', {
       id: 1,
       displayRole: 'Administrateur',
       organizationRole: 'ADMIN',
-      user: store.createRecord('user', {
-        id: 111,
-        firstName: 'Gigi',
-        lastName: 'La Terreur',
-      }),
+      user,
       save: sinon.stub(),
+      rollbackAttributes: sinon.stub(),
     });
 
     memberMembership = store.createRecord('membership', {
       id: 2,
       displayRole: 'Membre',
       organizationRole: 'MEMBER',
-      user: store.createRecord('user', {
-        id: 112,
-        firstName: 'Jojo',
-        lastName: 'La Panique',
-      }),
+      user: secondUser,
       save: sinon.stub(),
+      rollbackAttributes: sinon.stub(),
     });
   });
 
-  module('when user is a member', function () {
+  module('when user is a member', function (hooks) {
+    hooks.beforeEach(function () {
+      class CurrentUserMemberStub extends Service {
+        isAdminInOrganization = false;
+        organization = organization;
+      }
+      this.owner.register('service:current-user', CurrentUserMemberStub);
+    });
+
     test('it should display a member, firstName, lastName and role', async function (assert) {
       // given
       this.set('membership', memberMembership);
-      this.owner.register('service:current-user', CurrentUserMemberStub);
 
       // when
       await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
@@ -76,7 +78,6 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
     test('it should not display the edit button', async function (assert) {
       // given
       this.set('membership', memberMembership);
-      this.owner.register('service:current-user', CurrentUserMemberStub);
 
       // when
       const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
@@ -86,11 +87,20 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
     });
   });
 
-  module('when current user is an administrator', function () {
+  module('when current user is an administrator', function (hooks) {
+    hooks.beforeEach(function () {
+      class CurrentUserAdminStub extends Service {
+        isAdminInOrganization = true;
+        organization = organization;
+        prescriber = prescriber;
+      }
+
+      this.owner.register('service:current-user', CurrentUserAdminStub);
+    });
+
     test('it should display a member firstName, lastName, role and edit button', async function (assert) {
       // given
       this.set('membership', memberMembership);
-      this.owner.register('service:current-user', CurrentUserAdminStub);
 
       // when
       const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
@@ -107,7 +117,6 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       test('it should show update and save button, and show the drop down to select role to update', async function (assert) {
         // given
         this.set('membership', adminMembership);
-        this.owner.register('service:current-user', CurrentUserAdminStub);
 
         const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
 
@@ -124,7 +133,6 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       test('it should cancel the update if using the cancel button', async function (assert) {
         // given
         this.set('membership', adminMembership);
-        this.owner.register('service:current-user', CurrentUserAdminStub);
 
         await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
 
@@ -142,7 +150,6 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
       test('it should change the value of the drop down to Administrateur and display the modified role', async function (assert) {
         // given
-        this.owner.register('service:current-user', CurrentUserAdminStub);
         this.set('membership', memberMembership);
 
         const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
@@ -163,7 +170,6 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
       test('it should change the value of the drop down to Membre and display the modified role', async function (assert) {
         // given
         this.set('membership', adminMembership);
-        this.owner.register('service:current-user', CurrentUserAdminStub);
 
         const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
         await clickByName('Gérer');
@@ -185,7 +191,6 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         const notifications = this.owner.lookup('service:notifications');
         sinon.stub(notifications, 'success');
         this.set('membership', adminMembership);
-        this.owner.register('service:current-user', CurrentUserAdminStub);
 
         const screen = await render(hbs`<Team::MembersListItem @membership={{this.membership}} />`);
         await clickByName('Gérer');
@@ -208,7 +213,6 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         // given
         adminMembership.save.rejects();
         this.set('membership', adminMembership);
-        this.owner.register('service:current-user', CurrentUserAdminStub);
         const notifications = this.owner.lookup('service:notifications');
         sinon.stub(notifications, 'error');
 
@@ -236,7 +240,6 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
 
       hooks.beforeEach(async function () {
         // given
-        this.owner.register('service:current-user', CurrentUserAdminStub);
         removeMembershipStub = sinon.stub();
 
         this.set('membership', memberMembership);

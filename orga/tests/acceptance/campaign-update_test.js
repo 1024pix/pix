@@ -3,34 +3,34 @@ import { currentURL } from '@ember/test-helpers';
 import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
-import { createAdmin, createMember, createPrescriberByUser } from '../helpers/test-init';
+import { createUserManagingStudents, createPrescriberByUser } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | Campaign Update', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  let user;
 
-  test('it should show campaign title', async function (assert) {
-    // given
-    const { user } = createAdmin();
-    createPrescriberByUser(user);
-    await authenticateSession(user.id);
-    const campaign = server.create('campaign', { id: 1, name: 'Super Campagne', ownerId: user.id });
-
-    // when
-    const screen = await visitScreen(`/campagnes/${campaign.id}/modification`);
-
-    // then
-    assert.dom(screen.getByText('Super Campagne')).exists();
-  });
-
-  module('when user is ADMIN', function () {
-    test('it should allow to update a campaign and redirect to the newly updated campaign', async function (assert) {
-      // given
-      const { user } = createAdmin();
+  module('when user is ADMIN', function (hooks) {
+    hooks.beforeEach(async function () {
+      user = createUserManagingStudents('ADMIN');
       createPrescriberByUser(user);
       await authenticateSession(user.id);
+    });
+
+    test('it should show campaign title', async function (assert) {
+      // given
+      const campaign = server.create('campaign', { id: 1, name: 'Super Campagne', ownerId: user.id });
+
+      // when
+      const screen = await visitScreen(`/campagnes/${campaign.id}/modification`);
+      // then
+      assert.dom(screen.getByText('Super Campagne')).exists();
+    });
+
+    test('it should allow to update a campaign and redirect to the newly updated campaign', async function (assert) {
+      // given
       const campaign = server.create('campaign', { id: 1, ownerId: user.id });
       const newName = 'New Name';
       const newText = 'New text';
@@ -49,11 +49,15 @@ module('Acceptance | Campaign Update', function (hooks) {
     });
   });
 
-  module('when user is a MEMBER and owner of the campaign', function () {
+  module('when user is a MEMBER and owner of the campaign', function (hooks) {
+    hooks.beforeEach(async function () {
+      user = createUserManagingStudents('MEMBER');
+      createPrescriberByUser(user);
+      await authenticateSession(user.id);
+    });
+
     test('it should allow to see update campaign page', async function (assert) {
       // given
-      const { user } = createMember();
-      await authenticateSession(user.id);
       const campaign = server.create('campaign', { id: 1, name: 'Campagne des champs', ownerId: user.id });
 
       // when
@@ -64,12 +68,16 @@ module('Acceptance | Campaign Update', function (hooks) {
     });
   });
 
-  module('when user is a MEMBER and not own the campaign', function () {
+  module('when user is a MEMBER and not own the campaign', function (hooks) {
+    hooks.beforeEach(async function () {
+      user = createUserManagingStudents('MEMBER');
+      createPrescriberByUser(user);
+      await authenticateSession(user.id);
+    });
+
     test('it should not allow to see update campaign page', async function (assert) {
       // given
       const otherUserId = server.create('user').id;
-      const { user } = createMember();
-      await authenticateSession(user.id);
       const campaign = server.create('campaign', { id: 1, ownerId: otherUserId });
 
       // when
@@ -82,8 +90,6 @@ module('Acceptance | Campaign Update', function (hooks) {
     test('it should redirect user to his campaigns', async function (assert) {
       // given
       const otherUserId = server.create('user').id;
-      const { user } = createMember();
-      await authenticateSession(user.id);
       const campaign = server.create('campaign', { id: 1, ownerId: otherUserId });
 
       // when
