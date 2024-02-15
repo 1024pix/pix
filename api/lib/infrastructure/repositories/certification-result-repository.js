@@ -59,6 +59,7 @@ function _selectCertificationResults() {
       sessionId: 'certification-courses.sessionId',
       pixScore: 'assessment-results.pixScore',
       assessmentResultStatus: 'assessment-results.status',
+      commentByAutoJury: 'assessment-results.commentByAutoJury',
       commentForOrganization: 'assessment-results.commentForOrganization',
       emitter: 'assessment-results.emitter',
     })
