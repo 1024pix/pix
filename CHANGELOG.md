@@ -1,5 +1,37 @@
 # Pix Changelog
 
+## v4.103.0 (15/02/2024)
+
+
+### :rocket: Amélioration
+- [#8074](https://github.com/1024pix/pix/pull/8074) [FEATURE] Affichage dynamique des objectifs pour la page de présentation et la page de fin d'une mission(Pix-10278).
+- [#7995](https://github.com/1024pix/pix/pull/7995) [FEATURE] Uniformiser les visuels des imports sur Pix Orga (PIX-10936).
+- [#7917](https://github.com/1024pix/pix/pull/7917) [FEATURE] Changer Pôle Emploi en France Travail sur les différents écrans du parcours PE (PIX-10516).
+- [#8015](https://github.com/1024pix/pix/pull/8015) [FEATURE] Changer le texte présent sous la barre d'avancement des écrans intermédiaires (PIX-10922).
+
+### :building_construction: Tech
+- [#8065](https://github.com/1024pix/pix/pull/8065) [TECH] stocke le fichier d'import fregata sur s3 (PIX-11063).
+- [#5867](https://github.com/1024pix/pix/pull/5867) [TECH] Introduit la notion d'ApplicationTransaction (PIX-11205).
+
+### :bug: Correction
+- [#8076](https://github.com/1024pix/pix/pull/8076) [BUGFIX] Corriges l'affichage des participantExternalId sur les participations dans PixAdmin (PIX-11214).
+- [#8047](https://github.com/1024pix/pix/pull/8047) [BUGFIX] Corriger l'affichage de la progression dans l'export des CSV (PIX-11163).
+- [#8067](https://github.com/1024pix/pix/pull/8067) [BUGFIX] Afficher correctement le module de didacticiel.
+- [#8025](https://github.com/1024pix/pix/pull/8025) [BUGFIX] Réparer les barres de scroll non désirées des épreuves Ember (PIX-11139).
+
+### :arrow_up: Montée de version
+- [#8001](https://github.com/1024pix/pix/pull/8001) [BUMP] Update dependency @1024pix/pix-ui to v43 (admin).
+- [#8072](https://github.com/1024pix/pix/pull/8072) [BUMP] Lock file maintenance (api).
+- [#8070](https://github.com/1024pix/pix/pull/8070) [BUMP] Update adobe/s3mock Docker tag to v3.3.0 (dossier racine).
+- [#8069](https://github.com/1024pix/pix/pull/8069) [BUMP] Update adobe/s3mock Docker tag to v3.3.0 (docker).
+- [#8068](https://github.com/1024pix/pix/pull/8068) [BUMP] Update adobe/s3mock Docker tag to v3.3.0 (.circleci).
+- [#8053](https://github.com/1024pix/pix/pull/8053) [BUMP] Update dependency cypress-visual-regression to v5 (e2e).
+- [#8061](https://github.com/1024pix/pix/pull/8061) [BUMP] Met à jour `Ember-flatpickr`.
+
+### :coffee: Autre
+- [#7957](https://github.com/1024pix/pix/pull/7957) [FEAT] Afficher la liste des missions trouvé dans le LCMS (PIX-10277).
+- [#8035](https://github.com/1024pix/pix/pull/8035) [CLEANUP] Suppression du script compute-lead-times.
+
 ## v4.102.0 (13/02/2024)
 
 
