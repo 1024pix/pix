@@ -2,7 +2,7 @@ import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js'
 import * as certificationResultRepository from '../../../../lib/infrastructure/repositories/certification-result-repository.js';
 import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
-import {autoJuryCommentKeys} from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { autoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Integration | Infrastructure | Repository | Certification Result', function () {
   describe('#findBySessionId', function () {

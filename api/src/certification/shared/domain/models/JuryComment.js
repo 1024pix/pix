@@ -20,15 +20,15 @@ class JuryComment {
     this.context = context;
   }
 
-  getFallbackComment() {
-    return this.fallbackComment;
+  getComment(translate) {
+    return this.#shouldBeTranslated() ? translate(this.#getKeyToTranslate()) : this.fallbackComment;
   }
 
-  getKeyToTranslate() {
+  #getKeyToTranslate() {
     return `${MAPPING_JURY_AUTO_COMMENT_KEYS_TO_TRANSLATION_KEYS[this.commentByAutoJury]}.${this.context}`;
   }
 
-  shouldBeTranslated() {
+  #shouldBeTranslated() {
     return !!this.commentByAutoJury;
   }
 }

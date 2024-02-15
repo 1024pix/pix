@@ -7,7 +7,7 @@ import {
 
 import { createServer } from '../../../../../server.js';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import {autoJuryCommentKeys} from '../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { autoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Certification | Course | Acceptance | Application | organization-controller', function () {
   let server;
