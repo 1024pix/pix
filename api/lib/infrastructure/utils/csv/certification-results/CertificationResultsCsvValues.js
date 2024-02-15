@@ -88,7 +88,12 @@ class CertificationResultsCsvValues {
       return this.getTranslation(CertificationResultsCsvValues.VALUES.REJECTED_AUTOMATICALLY_COMMENT);
     }
 
-    return certificationResult.commentForOrganization;
+    const commentJury = certificationResult.commentForOrganization;
+    if (commentJury?.shouldBeTranslated()) {
+      return this.translate(commentJury.getKeyToTranslate());
+    }
+
+    return commentJury?.getFallbackComment();
   }
 
   getComplementaryCertificationStatus({ certificationResult, sessionComplementaryCertificationsLabel }) {

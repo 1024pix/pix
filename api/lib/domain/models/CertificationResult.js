@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { CompetenceMark } from './CompetenceMark.js';
 import { ComplementaryCertificationCourseResult } from './ComplementaryCertificationCourseResult.js';
+import { JuryComment, juryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
 
 const status = {
   REJECTED: 'rejected',
@@ -73,6 +74,12 @@ class CertificationResult {
       (complementaryCertifCourseResult) => new ComplementaryCertificationCourseResult(complementaryCertifCourseResult),
     );
 
+    const commentForOrganization = new JuryComment({
+      fallbackComment: certificationResultDTO.commentForOrganization,
+      context: juryCommentContexts.ORGANIZATION,
+      commentByAutoJury: certificationResultDTO.commentByAutoJury,
+    });
+
     return new CertificationResult({
       id: certificationResultDTO.id,
       firstName: certificationResultDTO.firstName,
@@ -85,7 +92,7 @@ class CertificationResult {
       status: certificationStatus,
       pixScore: certificationResultDTO.pixScore,
       emitter: certificationResultDTO.emitter,
-      commentForOrganization: certificationResultDTO.commentForOrganization,
+      commentForOrganization,
       competencesWithMark,
       complementaryCertificationCourseResults,
     });
