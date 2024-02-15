@@ -4,6 +4,7 @@ import { usecases } from '../domain/usecases/index.js';
 import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import * as supOrganizationLearnerWarningSerializer from '../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer.js';
 import { SupOrganizationLearnerParser } from '../infrastructure/serializers/csv/sup-organization-learner-parser.js';
+import { importStorage } from '../infrastructure/storage/import-storage.js';
 
 const importSupOrganizationLearners = async function (
   request,
@@ -11,17 +12,26 @@ const importSupOrganizationLearners = async function (
   dependencies = {
     makeOrganizationLearnerParser,
     supOrganizationLearnerWarningSerializer,
-    createReadStream: fs.createReadStream,
+    importStorage,
   },
 ) {
   const organizationId = request.params.id;
-  const readableStream = dependencies.createReadStream(request.payload.path);
-  const supOrganizationLearnerParser = await dependencies.makeOrganizationLearnerParser(
-    readableStream,
-    organizationId,
-    request.i18n,
-  );
-  const warnings = await usecases.importSupOrganizationLearners({ supOrganizationLearnerParser });
+
+  const filename = await dependencies.importStorage.sendFile({ filepath: request.payload.path });
+
+  let warnings;
+  try {
+    const readableStream = await dependencies.importStorage.readFile({ filename });
+
+    const supOrganizationLearnerParser = await dependencies.makeOrganizationLearnerParser(
+      readableStream,
+      organizationId,
+      request.i18n,
+    );
+    warnings = await usecases.importSupOrganizationLearners({ supOrganizationLearnerParser });
+  } finally {
+    await dependencies.importStorage.deleteFile({ filename });
+  }
 
   return h
     .response(dependencies.supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings }))

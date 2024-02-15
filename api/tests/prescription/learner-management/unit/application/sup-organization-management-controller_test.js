@@ -8,6 +8,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       const organizationId = Symbol('organizationId');
       const supOrganizationLearnerParser = Symbol('supOrgnaizationLearnerParser');
       const path = Symbol('path');
+      const filename = Symbol('filename');
       const readableStream = Symbol('readableStream');
       const params = { id: organizationId };
       const i18n = Symbol('i18n');
@@ -31,8 +32,13 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         })
         .resolves(warnings);
 
-      const createReadStreamStub = sinon.stub();
-      createReadStreamStub.withArgs(path).returns(readableStream);
+      const importStorageStub = {
+        sendFile: sinon.stub(),
+        readFile: sinon.stub(),
+        deleteFile: sinon.stub(),
+      };
+      importStorageStub.sendFile.withArgs({ filepath: path }).resolves(filename);
+      importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
 
       const makeOrganizationLearnerParserStub = sinon.stub();
       makeOrganizationLearnerParserStub
@@ -43,7 +49,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       const dependencies = {
         makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        createReadStream: createReadStreamStub,
+        importStorage: importStorageStub,
       };
 
       const response = await supOrganizationManagementController.importSupOrganizationLearners(
@@ -55,6 +61,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       // then
       expect(response.statusCode).to.be.equal(200);
       expect(response.source).to.be.equal(serializedResponse);
+      expect(importStorageStub.deleteFile).to.have.been.calledWith({ filename });
     });
   });
   context('#replaceSupOrganizationLearner', function () {
