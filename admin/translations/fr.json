@@ -118,6 +118,7 @@
         "table-name": "Liste des organisations enfants"
       },
       "information-section-view": {
+        "child-organization": "Organisation enfant",
         "parent-organization": "Organisation parente"
       }
     },

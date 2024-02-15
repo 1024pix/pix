@@ -110,6 +110,7 @@
         "table-name": "List of children organisations"
       },
       "information-section-view": {
+        "child-organization": "Child organization",
         "parent-organization": "Parent organization"
       }
     },
