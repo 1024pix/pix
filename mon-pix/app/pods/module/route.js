@@ -5,6 +5,8 @@ export default class ModuleRoute extends Route {
   @service store;
 
   async model(params) {
-    return await this.store.findRecord('module', params.slug);
+    const module = await this.store.findRecord('module', params.slug);
+    console.log(module.grains[0].elements);
+    return module;
   }
 }
