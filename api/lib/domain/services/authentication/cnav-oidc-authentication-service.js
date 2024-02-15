@@ -11,6 +11,7 @@ class CnavOidcAuthenticationService extends OidcAuthenticationService {
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
+      extraAuthorizationUrlParameters: { RedirectToIdentityProvider: 'AD+Authority' },
       hasLogoutUrl: false,
       identityProvider: CNAV.code,
       jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
