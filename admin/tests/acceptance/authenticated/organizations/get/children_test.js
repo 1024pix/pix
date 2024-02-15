@@ -15,7 +15,7 @@ module('Acceptance | Organizations | Children', function (hooks) {
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
   });
 
-  test('"Organisations enfants" tab exists', async function (assert) {
+  test('"Organisations filles" tab exists', async function (assert) {
     // given
     const organizationId = this.server.create('organization').id;
 
@@ -24,7 +24,7 @@ module('Acceptance | Organizations | Children', function (hooks) {
 
     // then
     assert.strictEqual(currentURL(), `/organizations/${organizationId}/children`);
-    assert.dom(screen.getByRole('link', { name: 'Organisations enfants' })).hasClass('active');
+    assert.dom(screen.getByRole('link', { name: 'Organisations filles' })).hasClass('active');
   });
 
   module('when there is no child organization', function () {
@@ -37,8 +37,8 @@ module('Acceptance | Organizations | Children', function (hooks) {
       const screen = await visit(`/organizations/${organizationId}/children`);
 
       // then
-      assert.dom(screen.getByText('Aucune organisation enfant')).exists();
-      assert.dom(screen.getByRole('heading', { name: 'Organisations enfants', level: 2 })).exists();
+      assert.dom(screen.getByText('Aucune organisation fille')).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Organisations filles', level: 2 })).exists();
     });
   });
 
@@ -51,8 +51,8 @@ module('Acceptance | Organizations | Children', function (hooks) {
       const screen = await visit(`/organizations/${parentOrganizationId}/children`);
 
       // then
-      assert.dom(screen.queryByText('Aucune organisation enfant')).doesNotExist();
-      assert.dom(screen.getByRole('table', { name: 'Liste des organisations enfants' })).exists();
+      assert.dom(screen.queryByText('Aucune organisation fille')).doesNotExist();
+      assert.dom(screen.getByRole('table', { name: 'Liste des organisations filles' })).exists();
     });
   });
 });

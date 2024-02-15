@@ -26,7 +26,7 @@ module('Integration | Component | organizations/children/list', function (hooks)
     const screen = await renderScreen(hbs`<Organizations::Children::List @organizations={{this.organizations}}/>`);
 
     // then
-    assert.dom(screen.getByRole('table', { name: 'Liste des organisations enfants' })).exists();
+    assert.dom(screen.getByRole('table', { name: 'Liste des organisations filles' })).exists();
 
     assert.dom(screen.getByRole('columnheader', { name: 'ID' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Nom' })).exists();
