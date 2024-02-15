@@ -11,8 +11,8 @@ async function findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }
   const stageCollection = await stageCollectionRepository.findStageCollection({ campaignId });
 
   const { results, pagination } = await _getResultListPaginated(campaignId, stageCollection, filters, page);
-
   const participations = await _buildCampaignAssessmentParticipationResultList(results, stageCollection);
+
   return {
     participations,
     pagination,
@@ -42,6 +42,7 @@ function _getParticipations(qb, campaignId, stageCollection, filters) {
     'campaign-participations.id AS campaignParticipationId',
     'campaign-participations.userId',
   )
+    .distinctOn('campaign-participations.organizationLearnerId')
     .from('campaign-participations')
     .join(
       'view-active-organization-learners',
@@ -50,13 +51,13 @@ function _getParticipations(qb, campaignId, stageCollection, filters) {
     )
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.status', '=', SHARED)
-    .where('campaign-participations.isImproved', '=', false)
     .where('campaign-participations.deletedAt', 'IS', null)
     .modify(_filterByDivisions, filters)
     .modify(_filterByGroups, filters)
     .modify(_addAcquiredBadgeIds, filters)
     .modify(_filterByStage, stageCollection, filters)
-    .modify(_filterBySearch, filters);
+    .modify(_filterBySearch, filters)
+    .modify(_orderBy, filters);
 }
 
 function _filterByDivisions(queryBuilder, filters) {
@@ -98,8 +99,23 @@ function _addAcquiredBadgeIds(queryBuilder, filters) {
     queryBuilder
       .select(knex.raw('ARRAY_AGG("badgeId") OVER (PARTITION BY "campaign-participations"."id") as badges_acquired'))
       .join('badge-acquisitions', 'badge-acquisitions.campaignParticipationId', 'campaign-participations.id')
-      .distinct('campaign-participations.id');
+      .distinctOn('campaign-participations.id', 'campaign-participations.organizationLearnerId');
   }
+}
+
+function _orderBy(queryBuilder, filters) {
+  const orderByClauses = [
+    { column: 'campaign-participations.organizationLearnerId' },
+    {
+      column: 'campaign-participations.createdAt',
+      order: 'desc',
+      nulls: 'last',
+    },
+  ];
+  if (filters.badges) {
+    orderByClauses.unshift({ column: 'campaign-participations.id' });
+  }
+  queryBuilder.orderBy(orderByClauses);
 }
 
 function _filterByBadgeAcquisitionsOut(queryBuilder, filters) {

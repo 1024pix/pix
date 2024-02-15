@@ -181,29 +181,42 @@ describe('Integration | Repository | Campaign-Report', function () {
         expect(result.participationsCount).to.equal(1);
       });
 
-      it('should only count shared participations not improved', async function () {
+      it('should only count one shared participations by participant', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
+        const learner = databaseBuilder.factory.buildOrganizationLearner({ userId });
+        const userId2 = databaseBuilder.factory.buildUser().id;
+        const learner2 = databaseBuilder.factory.buildOrganizationLearner({ userId: userId2 });
+
         databaseBuilder.factory.buildCampaignParticipation({
           userId,
+          organizationLearnerId: learner.id,
           campaignId: campaign.id,
-          sharedAt: new Date(),
           isImproved: true,
         });
         databaseBuilder.factory.buildCampaignParticipation({
           userId,
+          organizationLearnerId: learner.id,
           campaignId: campaign.id,
-          sharedAt: null,
-          status: STARTED,
-          isImproved: false,
+          isImproved: true,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          organizationLearnerId: learner.id,
+          campaignId: campaign.id,
+          isImproved: true,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          userId: userId2,
+          organizationLearnerId: learner2.id,
+          campaignId: campaign.id,
         });
         await databaseBuilder.commit();
 
         // when
         const result = await campaignReportRepository.get(campaign.id);
-
         // then
-        expect(result.sharedParticipationsCount).to.equal(0);
+        expect(result.sharedParticipationsCount).to.equal(2);
       });
 
       it('should only count shared participations not deleted', async function () {
