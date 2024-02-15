@@ -1,7 +1,7 @@
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 import * as schoolRepository from '../../../../../src/school/infrastructure/repositories/school-repository.js';
 import { School } from '../../../../../src/school/domain/models/School.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { SchoolNotFoundError } from '../../../../../src/school/domain/school-errors.js';
 import { Organization } from '../../../../../lib/domain/models/index.js';
 
 describe('Integration | Repository | School', function () {
@@ -35,7 +35,7 @@ describe('Integration | Repository | School', function () {
       expect(result).to.deep.equal(expectedSchool);
     });
 
-    it('throws a NotFoundError if code does not exist', async function () {
+    it('throws a SchoolNotFoundError if code does not exist', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO-1D', name: 'École des fans' });
       databaseBuilder.factory.buildSchool({ organizationId: organization.id, code: 'HAPPYY123' });
@@ -45,7 +45,7 @@ describe('Integration | Repository | School', function () {
       const error = await catchErr(schoolRepository.getByCode)('NOTHAPPY');
 
       // then
-      expect(error).to.be.an.instanceof(NotFoundError);
+      expect(error).to.be.an.instanceof(SchoolNotFoundError);
       expect(error.message).to.equal('No school found for code NOTHAPPY');
     });
   });

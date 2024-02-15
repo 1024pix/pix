@@ -1,10 +1,4 @@
-class DomainError extends Error {
-  constructor(message, code, meta) {
-    super(message);
-    this.code = code;
-    this.meta = meta;
-  }
-}
+import { DomainError } from '../../../lib/domain/errors.js';
 
 class ActivityNotFoundError extends DomainError {
   constructor(message = 'Erreur, activitée introuvable.', code) {
@@ -13,4 +7,11 @@ class ActivityNotFoundError extends DomainError {
   }
 }
 
-export { ActivityNotFoundError };
+class SchoolNotFoundError extends DomainError {
+  constructor(message = 'Erreur, École introuvable.', code) {
+    super(message);
+    this.code = code;
+  }
+}
+
+export { ActivityNotFoundError, SchoolNotFoundError };
