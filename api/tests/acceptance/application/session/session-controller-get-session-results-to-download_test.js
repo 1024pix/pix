@@ -1,6 +1,7 @@
 import { createServer, databaseBuilder, expect } from '../../../test-helper.js';
 import jsonwebtoken from 'jsonwebtoken';
 import { config as settings } from '../../../../lib/config.js';
+import { autoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Acceptance | Controller | session-controller-get-session-results-to-download', function () {
   describe('GET /api/sessions/download-all-results/{token}', function () {
@@ -39,7 +40,10 @@ describe('Acceptance | Controller | session-controller-get-session-results-to-do
         });
 
         const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
-        dbf.buildAssessment({ certificationCourseId: certif2.id });
+        dbf.buildAssessment({
+          certificationCourseId: certif2.id,
+          commentByAutoJury: autoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+        });
 
         dbf.buildAssessmentResult({ assessmentId: assessmentId1, createdAt: new Date('2018-04-15T00:00:00Z') });
 

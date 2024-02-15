@@ -318,6 +318,10 @@
   },
   "jury": {
     "comment": {
+      "cancelled_due_to_neutralization": {
+        "candidate": "Un ou plusieurs problème(s) technique(s), signalé(s) à votre surveillant pendant la session de certification, a/ont affecté la qualité du test de certification. En raison du trop grand nombre de questions auxquelles vous n'avez pas pu répondre, nous ne sommes pas en mesure de délivrer une certification. Celle-ci est annulée, le prescripteur de votre certification(le cas échéant), en est informé.",
+        "organization": "Un ou plusieurs problème(s) technique(s), a/ont affecté le bon déroulement du test de certification. Nous ne sommes pas en mesure de délivrer la certification, celle-ci est donc annulée. Cette information peut vous conduire à proposer une nouvelle session de certification pour ce(cette) candidat(e)."
+      },
       "fraud": {
         "candidate": "Les conditions de passation du test de certification n'ayant pas été respectées et ayant fait l'objet d'un signalement pour fraude, votre certification a été invalidée en conséquence.",
         "organization": "Une situation de fraude a été détectée : après analyse, nous avons statué sur un rejet de la certification."

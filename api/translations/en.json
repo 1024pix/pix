@@ -304,6 +304,10 @@
   },
   "jury": {
     "comment": {
+      "cancelled_due_to_neutralization": {
+        "candidate": "At least one technical issue, reported to your invigilator during the certification session, has affected the quality of the certification exam. Due to the number of questions to which you have not been able to answer, we are not able to deliver a certification. It has been cancelled, the specifier of your certification exam (if applicable), has been informed.",
+        "organization": "At least one technical issue, has affected the quality of the certification exam. We are not able to deliver a certification. It has thus been cancelled. This information may lead you to proposing another certification session for this candidate."
+      },
       "fraud": {
         "candidate": "The Pix certification exam conditions have not been respected. Your certification exam has been reported for fraud and has consequently been invalidated.",
         "organization": "A fraud has been detected : after analysis, we have decided on rejecting this certification exam."

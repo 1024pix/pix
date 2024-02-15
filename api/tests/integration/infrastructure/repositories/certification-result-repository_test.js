@@ -2,6 +2,7 @@ import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js'
 import * as certificationResultRepository from '../../../../lib/infrastructure/repositories/certification-result-repository.js';
 import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import {autoJuryCommentKeys} from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Integration | Infrastructure | Repository | Certification Result', function () {
   describe('#findBySessionId', function () {
@@ -525,6 +526,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         pixScore: 123,
         status: CertificationResult.status.VALIDATED,
         commentForOrganization: 'Un commentaire orga 1',
+        commentByAutoJury: autoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
       }).id;
       databaseBuilder.factory.buildAssessmentResult.last({
         certificationCourseId: certificationCourseId2,
@@ -615,6 +617,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         status: CertificationResult.status.VALIDATED,
         pixScore: 123,
         commentForOrganization: 'Un commentaire orga 1',
+        commentByAutoJury: autoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
         competencesWithMark: [
           domainBuilder.buildCompetenceMark({
             id: 123,
