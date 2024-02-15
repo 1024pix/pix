@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import { usecases } from '../domain/usecases/index.js';
 import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import * as supOrganizationLearnerWarningSerializer from '../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer.js';
@@ -6,11 +8,19 @@ import { SupOrganizationLearnerParser } from '../infrastructure/serializers/csv/
 const importSupOrganizationLearners = async function (
   request,
   h,
-  dependencies = { makeOrganizationLearnerParser, supOrganizationLearnerWarningSerializer },
+  dependencies = {
+    makeOrganizationLearnerParser,
+    supOrganizationLearnerWarningSerializer,
+    createReadStream: fs.createReadStream,
+  },
 ) {
   const organizationId = request.params.id;
-  const buffer = request.payload;
-  const supOrganizationLearnerParser = dependencies.makeOrganizationLearnerParser(buffer, organizationId, request.i18n);
+  const readableStream = dependencies.createReadStream(request.payload.path);
+  const supOrganizationLearnerParser = await dependencies.makeOrganizationLearnerParser(
+    readableStream,
+    organizationId,
+    request.i18n,
+  );
   const warnings = await usecases.importSupOrganizationLearners({ supOrganizationLearnerParser });
 
   return h
@@ -21,12 +31,21 @@ const importSupOrganizationLearners = async function (
 const replaceSupOrganizationLearners = async function (
   request,
   h,
-  dependencies = { requestResponseUtils, makeOrganizationLearnerParser, supOrganizationLearnerWarningSerializer },
+  dependencies = {
+    requestResponseUtils,
+    makeOrganizationLearnerParser,
+    supOrganizationLearnerWarningSerializer,
+    createReadStream: fs.createReadStream,
+  },
 ) {
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const organizationId = request.params.id;
-  const buffer = request.payload;
-  const supOrganizationLearnerParser = dependencies.makeOrganizationLearnerParser(buffer, organizationId, request.i18n);
+  const readableStream = dependencies.createReadStream(request.payload.path);
+  const supOrganizationLearnerParser = await dependencies.makeOrganizationLearnerParser(
+    readableStream,
+    organizationId,
+    request.i18n,
+  );
   const warnings = await usecases.replaceSupOrganizationLearners({
     organizationId,
     userId,
@@ -38,7 +57,17 @@ const replaceSupOrganizationLearners = async function (
     .code(200);
 };
 
-function makeOrganizationLearnerParser(buffer, organizationId, i18n) {
+async function makeOrganizationLearnerParser(readableStream, organizationId, i18n) {
+  const buffer = await new Promise((resolve, reject) => {
+    const chunks = [];
+    readableStream.on('data', (data) => {
+      chunks.push(data);
+    });
+    readableStream.on('error', (err) => reject(err));
+    readableStream.once('end', () => {
+      resolve(Buffer.concat(chunks));
+    });
+  });
   return new SupOrganizationLearnerParser(buffer, organizationId, i18n);
 }
 
