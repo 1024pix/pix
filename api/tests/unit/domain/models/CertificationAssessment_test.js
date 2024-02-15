@@ -877,4 +877,18 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       });
     });
   });
+
+  describe('#get uncompletedAssessmentStates', function () {
+    it('should return the uncompleted assessment states', function () {
+      //given / when
+      const result = CertificationAssessment.uncompletedAssessmentStates;
+
+      // then
+      expect(result).to.deep.equal([
+        CertificationAssessment.states.STARTED,
+        CertificationAssessment.states.ENDED_BY_SUPERVISOR,
+        CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION,
+      ]);
+    });
+  });
 });

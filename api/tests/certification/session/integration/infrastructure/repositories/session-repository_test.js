@@ -940,6 +940,7 @@ describe('Integration | Repository | Session', function () {
           certificationCourseId: 97,
           state: CertificationAssessment.states.STARTED,
         });
+
         const userId2 = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId2 });
         databaseBuilder.factory.buildCertificationCourse({
@@ -961,6 +962,18 @@ describe('Integration | Repository | Session', function () {
         });
         databaseBuilder.factory.buildAssessment({
           certificationCourseId: 99,
+          state: CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION,
+        });
+
+        const userId4 = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId: userId4 });
+        databaseBuilder.factory.buildCertificationCourse({
+          id: 100,
+          sessionId,
+          userId: userId4,
+        });
+        databaseBuilder.factory.buildAssessment({
+          certificationCourseId: 100,
           state: CertificationAssessment.states.COMPLETED,
         });
 
@@ -971,7 +984,7 @@ describe('Integration | Repository | Session', function () {
           await sessionRepository.countUncompletedCertificationsAssessment(sessionId);
 
         // then
-        expect(unfinishedCertificationsCount).to.equal(2);
+        expect(unfinishedCertificationsCount).to.equal(3);
       });
     });
 
