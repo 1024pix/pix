@@ -4,57 +4,38 @@ import {
   JuryCommentContexts,
 } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { expect } from '../../../../../test-helper.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 describe('Unit | Domain | Models | JuryComment', function () {
-  describe('#shouldBeTranslated', function () {
-    describe('when commentByAutoJury exists', function () {
-      it('should return true', function () {
+  let translate;
+
+  beforeEach(function () {
+    translate = getI18n().__;
+  });
+
+  describe('#getComment', function () {
+    context('when there is an automatic jury comment', function () {
+      it('should return the translated comment matching the key', function () {
         // Given
         const juryComment = new JuryComment({
+          fallbackComment: 'Le petit Max a copié la réponse sur Lily!!',
           commentByAutoJury: AutoJuryCommentKeys.FRAUD,
           context: JuryCommentContexts.CANDIDATE,
         });
-        // When
-        const result = juryComment.shouldBeTranslated();
-        // Then
-        expect(result).to.equal(true);
+
+        // When & Then
+        expect(juryComment.getComment(translate)).to.equal(translate('jury.comment.fraud.candidate'));
       });
     });
 
-    describe('when commentByAutoJury does not exist', function () {
-      it('should return false', function () {
-        // Given
-        const juryComment = new JuryComment({ commentByAutoJury: null });
-        // When
-        const result = juryComment.shouldBeTranslated();
-        // Then
-        expect(result).to.equal(false);
-      });
-    });
-  });
-
-  describe('#getKeyToTranslate', function () {
-    it('should return commentByAutoJury with context', function () {
+    it('should return the fallback comment', function () {
       // Given
       const juryComment = new JuryComment({
-        commentByAutoJury: AutoJuryCommentKeys.FRAUD,
+        fallbackComment: 'Belle perf!',
         context: JuryCommentContexts.CANDIDATE,
       });
-      // When
-      const result = juryComment.getKeyToTranslate();
-      // Then
-      expect(result).to.equal('jury.comment.fraud.candidate');
-    });
-  });
-
-  describe('#getPlainTextComment', function () {
-    it('should return the comment', function () {
-      // Given
-      const juryComment = new JuryComment({ fallbackComment: 'Le petit Max a copié la réponse sur Lily!!' });
-      // When
-      const result = juryComment.getFallbackComment();
-      // Then
-      expect(result).to.equal('Le petit Max a copié la réponse sur Lily!!');
+      // When & Then
+      expect(juryComment.getComment(translate)).to.equal('Belle perf!');
     });
   });
 });
