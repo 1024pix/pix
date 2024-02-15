@@ -11,8 +11,11 @@ export default class Recommendations extends Component {
 
   constructor() {
     super(...arguments);
+
     this.sortedRecommendations = this.args.campaignTubeRecommendations
-      ? this.args.campaignTubeRecommendations.sortBy('averageScore')
+      ? this.args.campaignTubeRecommendations.slice().sort((a, b) => {
+          return a.averageScore - b.averageScore;
+        })
       : [];
   }
 
@@ -26,14 +29,20 @@ export default class Recommendations extends Component {
   }
 
   @action
-  sortRecommendationOrder(order) {
+  async sortRecommendationOrder(order) {
     this.order = order;
+    const campaignTubeRecommendations = this.args.campaignTubeRecommendations.slice();
+
     if (!this.sortedRecommendations) {
       return null;
     } else if (order === 'desc') {
-      this.sortedRecommendations = this.args.campaignTubeRecommendations.sortBy('averageScore');
+      this.sortedRecommendations = campaignTubeRecommendations.sort((a, b) => {
+        return a.averageScore - b.averageScore;
+      });
     } else {
-      this.sortedRecommendations = this.args.campaignTubeRecommendations.sortBy('averageScore').reverse();
+      this.sortedRecommendations = campaignTubeRecommendations.sort((a, b) => {
+        return b.averageScore - a.averageScore;
+      });
     }
   }
 }
