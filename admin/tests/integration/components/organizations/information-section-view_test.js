@@ -244,8 +244,30 @@ module('Integration | Component | organizations/information-section-view', funct
       });
     });
 
-    module('when organization is not parent', function () {
-      test('it should not display parent label', async function (assert) {
+    module('when organization is child', function () {
+      test('it displays child label and parent organization name', async function (assert) {
+        //given
+        const store = this.owner.lookup('service:store');
+        const parentOrganization = store.createRecord('organization', { id: 5, type: 'SCO', isManagingStudents: true });
+        const organization = store.createRecord('organization', {
+          type: 'SCO',
+          isManagingStudents: true,
+          parentOrganizationId: parentOrganization.id,
+          parentOrganizationName: 'Shibusen',
+        });
+        this.set('organization', organization);
+
+        // when
+        const screen = await render(hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`);
+
+        // then
+        assert.dom(screen.getByText('Organisation enfant')).exists();
+        assert.dom(screen.getByText('Shibusen')).exists();
+      });
+    });
+
+    module('when organization is neither parent nor children', function () {
+      test('it displays no organization network label', async function (assert) {
         //given
         const store = this.owner.lookup('service:store');
         const organization = store.createRecord('organization', {

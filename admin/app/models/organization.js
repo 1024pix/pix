@@ -28,7 +28,8 @@ export default class Organization extends Model {
   @attr() dataProtectionOfficerEmail;
   @attr() features;
   @attr('nullable-string') code;
-
+  @attr() parentOrganizationId;
+  @attr('nullable-string') parentOrganizationName;
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
 

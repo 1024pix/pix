@@ -12,6 +12,23 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         domainBuilder.buildTag({ id: 7, name: 'AEFE' }),
         domainBuilder.buildTag({ id: 44, name: 'PUBLIC' }),
       ];
+      const parentOrganization = domainBuilder.buildOrganizationForAdmin({
+        email: 'motherSco.generic.account@example.net',
+        tags,
+        code: null,
+        createdBy: 10,
+        documentationUrl: 'https://pix.fr/',
+        archivistFirstName: 'John',
+        archivistLastName: 'Doe',
+        dataProtectionOfficerFirstName: 'Justin',
+        dataProtectionOfficerLastName: 'Ptipeu',
+        dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
+        identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+        features: {
+          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+        },
+        name: 'motherSco',
+      });
       const organization = domainBuilder.buildOrganizationForAdmin({
         email: 'sco.generic.account@example.net',
         tags,
@@ -27,6 +44,8 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         features: {
           [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
         },
+        parentOrganizationId: parentOrganization.id,
+        parentOrganizationName: parentOrganization.name,
       });
       const meta = { some: 'meta' };
 
@@ -43,6 +62,8 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             type: organization.type,
             'logo-url': organization.logoUrl,
             'external-id': organization.externalId,
+            'parent-organization-id': organization.parentOrganizationId,
+            'parent-organization-name': organization.parentOrganizationName,
             'province-code': organization.provinceCode,
             'is-managing-students': organization.isManagingStudents,
             code: organization.code,
