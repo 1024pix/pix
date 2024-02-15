@@ -6,14 +6,16 @@ import * as requestResponseUtils from '../../infrastructure/utils/request-respon
 
 const findUserCertifications = async function (request) {
   const userId = request.auth.credentials.userId;
+  const translate = request.i18n.__;
 
   const privateCertificates = await usecases.findUserPrivateCertificates({ userId });
-  return privateCertificateSerializer.serialize(privateCertificates);
+  return privateCertificateSerializer.serialize(privateCertificates, { translate });
 };
 
 const getCertification = async function (request, h, dependencies = { requestResponseUtils }) {
   const userId = request.auth.credentials.userId;
   const certificationId = request.params.id;
+  const translate = request.i18n.__;
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
   const privateCertificate = await usecases.getPrivateCertificate({
@@ -21,7 +23,7 @@ const getCertification = async function (request, h, dependencies = { requestRes
     certificationId,
     locale,
   });
-  return privateCertificateSerializer.serialize(privateCertificate);
+  return privateCertificateSerializer.serialize(privateCertificate, { translate });
 };
 
 const getCertificationByVerificationCode = async function (request, h, dependencies = { requestResponseUtils }) {
