@@ -55,22 +55,40 @@ const replaceSupOrganizationLearners = async function (
     requestResponseUtils,
     makeOrganizationLearnerParser,
     supOrganizationLearnerWarningSerializer,
-    createReadStream: fs.createReadStream,
+    importStorage,
+    logErrorWithCorrelationIds,
+    unlink: fs.unlink,
   },
 ) {
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const organizationId = request.params.id;
-  const readableStream = dependencies.createReadStream(request.payload.path);
-  const supOrganizationLearnerParser = await dependencies.makeOrganizationLearnerParser(
-    readableStream,
-    organizationId,
-    request.i18n,
-  );
-  const warnings = await usecases.replaceSupOrganizationLearners({
-    organizationId,
-    userId,
-    supOrganizationLearnerParser,
-  });
+
+  const filename = await dependencies.importStorage.sendFile({ filepath: request.payload.path });
+
+  let warnings;
+  try {
+    const readableStream = await dependencies.importStorage.readFile({ filename });
+
+    const supOrganizationLearnerParser = await dependencies.makeOrganizationLearnerParser(
+      readableStream,
+      organizationId,
+      request.i18n,
+    );
+    warnings = await usecases.replaceSupOrganizationLearners({
+      organizationId,
+      userId,
+      supOrganizationLearnerParser,
+    });
+  } finally {
+    await dependencies.importStorage.deleteFile({ filename });
+    // see https://hapi.dev/api/?v=21.3.3#-routeoptionspayloadoutput
+    // add a catch to avoid an error if unlink fails
+    try {
+      dependencies.unlink(request.payload.path);
+    } catch (err) {
+      dependencies.logErrorWithCorrelationIds(err);
+    }
+  }
 
   return h
     .response(dependencies.supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings }))
