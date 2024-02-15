@@ -15,13 +15,42 @@ describe('Unit | Controller | cache-controller', function () {
       },
     };
 
-    beforeEach(function () {
-      sinon.stub(learningContentDatasources.challengeDatasource, 'refreshLearningContentCacheRecord');
-    });
+    for (const entity of [
+      'area',
+      'challenge',
+      'competence',
+      'course',
+      'framework',
+      'skill',
+      'thematic',
+      'tube',
+      'tutorial',
+    ]) {
+      it(`should reply 204 when patching ${entity}`, async function () {
+        // given
+        // eslint-disable-next-line import/namespace
+        sinon.stub(learningContentDatasources[`${entity}Datasource`], 'refreshLearningContentCacheRecord').resolves();
+        const request = {
+          params: {
+            model: `${entity}s`,
+            id: 'recId',
+          },
+          payload: {
+            property: 'updatedValue',
+          },
+        };
+
+        // when
+        const response = await cacheController.refreshCacheEntry(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    }
 
     it('should reply with null when the cache key exists', async function () {
       // given
-      learningContentDatasources.challengeDatasource.refreshLearningContentCacheRecord.resolves();
+      sinon.stub(learningContentDatasources.challengeDatasource, 'refreshLearningContentCacheRecord').resolves();
 
       // when
       const response = await cacheController.refreshCacheEntry(request, hFake);
@@ -35,7 +64,7 @@ describe('Unit | Controller | cache-controller', function () {
 
     it('should reply with null when the cache key does not exist', async function () {
       // given
-      learningContentDatasources.challengeDatasource.refreshLearningContentCacheRecord.resolves();
+      sinon.stub(learningContentDatasources.challengeDatasource, 'refreshLearningContentCacheRecord').resolves();
 
       // when
       const response = await cacheController.refreshCacheEntry(request, hFake);
