@@ -7,13 +7,14 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     it('should call importSupOrganizationLearners usecase and return 200', async function () {
       const organizationId = Symbol('organizationId');
       const supOrganizationLearnerParser = Symbol('supOrgnaizationLearnerParser');
-      const payload = Symbol('payload');
+      const path = Symbol('path');
+      const readableStream = Symbol('readableStream');
       const params = { id: organizationId };
       const i18n = Symbol('i18n');
       const warnings = Symbol('warnings');
       const serializedResponse = Symbol('serializedResponse');
       const request = {
-        payload,
+        payload: { path },
         params,
         i18n,
       };
@@ -30,13 +31,19 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         })
         .resolves(warnings);
 
+      const createReadStreamStub = sinon.stub();
+      createReadStreamStub.withArgs(path).returns(readableStream);
+
       const makeOrganizationLearnerParserStub = sinon.stub();
-      makeOrganizationLearnerParserStub.withArgs(payload, organizationId, i18n).returns(supOrganizationLearnerParser);
+      makeOrganizationLearnerParserStub
+        .withArgs(readableStream, organizationId, i18n)
+        .returns(supOrganizationLearnerParser);
 
       // when
       const dependencies = {
         makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
+        createReadStream: createReadStreamStub,
       };
 
       const response = await supOrganizationManagementController.importSupOrganizationLearners(
@@ -55,13 +62,14 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       const organizationId = Symbol('organizationId');
       const userId = Symbol('userId');
       const supOrganizationLearnerParser = Symbol('supOrgnaizationLearnerParser');
-      const payload = Symbol('payload');
+      const path = Symbol('path');
+      const readableStream = Symbol('readableStream');
       const params = { id: organizationId };
       const i18n = Symbol('i18n');
       const warnings = Symbol('warnings');
       const serializedResponse = Symbol('serializedResponse');
       const request = {
-        payload,
+        payload: { path },
         params,
         i18n,
       };
@@ -83,14 +91,20 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         })
         .resolves(warnings);
 
+      const createReadStreamStub = sinon.stub();
+      createReadStreamStub.withArgs(path).returns(readableStream);
+
       const makeOrganizationLearnerParserStub = sinon.stub();
-      makeOrganizationLearnerParserStub.withArgs(payload, organizationId, i18n).returns(supOrganizationLearnerParser);
+      makeOrganizationLearnerParserStub
+        .withArgs(readableStream, organizationId, i18n)
+        .returns(supOrganizationLearnerParser);
 
       // when
       const dependencies = {
         requestResponseUtils: requestResponseUtilsStub,
         makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
+        createReadStream: createReadStreamStub,
       };
 
       const response = await supOrganizationManagementController.replaceSupOrganizationLearners(
