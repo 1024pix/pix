@@ -55,7 +55,7 @@ const serialize = function (certificate, { translate }) {
     transform(privateCertificate) {
       return {
         ...privateCertificate,
-        commentForCandidate: _translateJuryComment(privateCertificate.commentForCandidate, translate),
+        commentForCandidate: privateCertificate.commentForCandidate.getComment(translate),
       };
     },
     typeForAttribute,
@@ -65,6 +65,3 @@ const serialize = function (certificate, { translate }) {
 };
 
 export { serialize };
-
-const _translateJuryComment = (juryComment, translate) =>
-  juryComment.shouldBeTranslated() ? translate(juryComment.getKeyToTranslate()) : juryComment.getFallbackComment();

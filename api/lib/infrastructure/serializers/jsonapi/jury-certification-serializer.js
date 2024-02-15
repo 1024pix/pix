@@ -9,8 +9,8 @@ const serialize = function (juryCertification, { translate }) {
         id: juryCertification.certificationCourseId,
         ...juryCertification,
         competencesWithMark: juryCertification.competenceMarks,
-        commentForOrganization: _translateJuryComment(juryCertification.commentForOrganization, translate),
-        commentForCandidate: _translateJuryComment(juryCertification.commentForCandidate, translate),
+        commentForOrganization: juryCertification.commentForOrganization.getComment(translate),
+        commentForCandidate: juryCertification.commentForCandidate.getComment(translate),
       };
     },
     attributes: [
@@ -75,6 +75,3 @@ const serialize = function (juryCertification, { translate }) {
 };
 
 export { serialize };
-
-const _translateJuryComment = (commentJury, translate) =>
-  commentJury.shouldBeTranslated() ? translate(commentJury.getKeyToTranslate()) : commentJury.getFallbackComment();
