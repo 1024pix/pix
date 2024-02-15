@@ -11,9 +11,8 @@ module('Unit | Component | Module | Image', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const image = store.createRecord('image', { id: 'image-id' });
-
-      const metrics = this.owner.lookup('service:metrics');
-      metrics.add = () => {};
+      const grain = store.createRecord('grain', { id: 'grain-id', elements: [image] });
+      store.createRecord('module', { id: 'module-id', grains: [grain] });
 
       const component = createPodsComponent('module/image', { image });
       assert.false(component.modalIsOpen);
@@ -29,6 +28,8 @@ module('Unit | Component | Module | Image', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const image = store.createRecord('image', { id: 'image-id' });
+      const grain = store.createRecord('grain', { id: 'grain-id', elements: [image] });
+      const module = store.createRecord('module', { id: 'module-id', grains: [grain] });
 
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = sinon.stub();
@@ -44,7 +45,7 @@ module('Unit | Component | Module | Image', function (hooks) {
         metrics.add.calledWithExactly({
           event: 'custom-event',
           'pix-event-category': 'Modulix',
-          'pix-event-action': `Afficher l’alternative textuelle : ${image.id}`,
+          'pix-event-action': `Passage du module : ${module.id}`,
           'pix-event-name': `Click sur le bouton alternative textuelle : ${image.id}`,
         }),
       );
@@ -57,6 +58,8 @@ module('Unit | Component | Module | Image', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const image = store.createRecord('image', { id: 'image-id' });
+        const grain = store.createRecord('grain', { id: 'grain-id', elements: [image] });
+        store.createRecord('module', { id: 'module-id', grains: [grain] });
 
         const component = createPodsComponent('module/image', { image });
         assert.false(component.modalIsOpen);
