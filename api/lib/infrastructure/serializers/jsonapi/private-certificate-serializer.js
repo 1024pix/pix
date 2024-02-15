@@ -50,8 +50,14 @@ const attributes = [
   'maxReachableLevelOnCertificationDate',
 ];
 
-const serialize = function (certificate) {
+const serialize = function (certificate, { translate }) {
   return new Serializer('certifications', {
+    transform(privateCertificate) {
+      return {
+        ...privateCertificate,
+        commentForCandidate: _translateJuryComment(privateCertificate.commentForCandidate, translate),
+      };
+    },
     typeForAttribute,
     attributes,
     resultCompetenceTree,
@@ -59,3 +65,6 @@ const serialize = function (certificate) {
 };
 
 export { serialize };
+
+const _translateJuryComment = (juryComment, translate) =>
+  juryComment.shouldBeTranslated() ? translate(juryComment.getKeyToTranslate()) : juryComment.getFallbackComment();

@@ -3,13 +3,14 @@ import { certificationController } from '../../../../lib/application/certificati
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
 import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Controller | certifications-controller', function () {
   describe('#findUserCertifications', function () {
     it('should return the serialized private certificates of the user', async function () {
       // given
       const userId = 1;
-      const request = { auth: { credentials: { userId } } };
+      const request = { auth: { credentials: { userId } }, i18n: getI18n() };
       const privateCertificate1 = domainBuilder.buildPrivateCertificate.validated({
         id: 123,
         firstName: 'Dorothé',
@@ -73,6 +74,7 @@ describe('Unit | Controller | certifications-controller', function () {
       const request = {
         auth: { credentials: { userId } },
         params: { id: certificationId },
+        i18n: getI18n(),
       };
       const locale = 'fr-fr';
       const requestResponseUtilsStub = { extractLocaleFromRequest: sinon.stub() };
