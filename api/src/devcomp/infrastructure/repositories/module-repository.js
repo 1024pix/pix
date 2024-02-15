@@ -1,24 +1,25 @@
-import { NotFoundError } from '../../../shared/domain/errors.js';
-import { Module } from '../../domain/models/module/Module.js';
-import { Text } from '../../domain/models/element/Text.js';
-import { Image } from '../../domain/models/element/Image.js';
-import { QCU } from '../../domain/models/element/QCU.js';
-import { QcuProposal } from '../../domain/models/QcuProposal.js';
-import { Grain } from '../../domain/models/Grain.js';
-import { TransitionText } from '../../domain/models/TransitionText.js';
-import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
-import { QCUForAnswerVerification } from '../../domain/models/element/QCU-for-answer-verification.js';
-import { BlockText } from '../../domain/models/block/BlockText.js';
 import { BlockInput } from '../../domain/models/block/BlockInput.js';
 import { BlockSelect } from '../../domain/models/block/BlockSelect.js';
 import { BlockSelectOption } from '../../domain/models/block/BlockSelectOption.js';
-import { QROCM } from '../../domain/models/element/QROCM.js';
-import { logger } from '../../../shared/infrastructure/utils/logger.js';
-import { QROCMForAnswerVerification } from '../../domain/models/element/QROCM-for-answer-verification.js';
-import { Video } from '../../domain/models/element/Video.js';
+import { BlockText } from '../../domain/models/block/BlockText.js';
 import { Details } from '../../domain/models/module/Details.js';
+import { Grain } from '../../domain/models/Grain.js';
+import { Image } from '../../domain/models/element/Image.js';
+import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { Module } from '../../domain/models/module/Module.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
 import { QCM } from '../../domain/models/element/QCM.js';
+import { QCMForAnswerVerification } from '../../domain/models/element/QCM-for-answer-verification.js';
+import { QCU } from '../../domain/models/element/QCU.js';
+import { QCUForAnswerVerification } from '../../domain/models/element/QCU-for-answer-verification.js';
+import { QROCM } from '../../domain/models/element/QROCM.js';
+import { QROCMForAnswerVerification } from '../../domain/models/element/QROCM-for-answer-verification.js';
 import { QcmProposal } from '../../domain/models/QcmProposal.js';
+import { QcuProposal } from '../../domain/models/QcuProposal.js';
+import { Text } from '../../domain/models/element/Text.js';
+import { TransitionText } from '../../domain/models/TransitionText.js';
+import { Video } from '../../domain/models/element/Video.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 
 async function getBySlug({ slug, moduleDatasource }) {
   try {
@@ -108,6 +109,8 @@ function _toDomainForVerification(moduleData) {
                 return _toTextDomain(element);
               case 'qcu':
                 return _toQCUForAnswerVerificationDomain(element);
+              case 'qcm':
+                return _toQCMForAnswerVerificationDomain(element);
               case 'qrocm':
                 return _toQROCMForAnswerVerificationDomain(element);
               case 'video':
@@ -165,7 +168,6 @@ function _toQCUForAnswerVerificationDomain(element) {
     }),
     feedbacks: element.feedbacks,
     solution: element.solution,
-    type: element.type,
   });
 }
 
@@ -197,6 +199,22 @@ function _toQCMDomain(element) {
   });
 }
 
+function _toQCMForAnswerVerificationDomain(element) {
+  return new QCMForAnswerVerification({
+    id: element.id,
+    instruction: element.instruction,
+    locales: element.locales,
+    proposals: element.proposals.map((proposal) => {
+      return new QcmProposal({
+        id: proposal.id,
+        content: proposal.content,
+      });
+    }),
+    feedbacks: element.feedbacks,
+    solutions: element.solutions,
+  });
+}
+
 function _toQROCMForAnswerVerificationDomain(element) {
   return new QROCMForAnswerVerification({
     id: element.id,
@@ -204,7 +222,6 @@ function _toQROCMForAnswerVerificationDomain(element) {
     locales: element.locales,
     proposals: element.proposals,
     feedbacks: element.feedbacks,
-    type: element.type,
   });
 }
 
