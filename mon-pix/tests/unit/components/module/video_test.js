@@ -11,6 +11,8 @@ module('Unit | Component | Module | Video', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const video = store.createRecord('video', { id: 'video-id' });
+      const grain = store.createRecord('grain', { id: 'grain-id', elements: [video] });
+      store.createRecord('module', { id: 'module-id', grains: [grain] });
 
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = () => {};
@@ -29,6 +31,8 @@ module('Unit | Component | Module | Video', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const video = store.createRecord('video', { id: 'video-id' });
+      const grain = store.createRecord('grain', { id: 'grain-id', elements: [video] });
+      const module = store.createRecord('module', { id: 'module-id', grains: [grain] });
 
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = sinon.stub();
@@ -44,7 +48,7 @@ module('Unit | Component | Module | Video', function (hooks) {
         metrics.add.calledWithExactly({
           event: 'custom-event',
           'pix-event-category': 'Modulix',
-          'pix-event-action': `Afficher la transcription : ${video.id}`,
+          'pix-event-action': `Passage du module : ${module.id}`,
           'pix-event-name': `Clic sur le bouton transcription : ${video.id}`,
         }),
       );
@@ -57,6 +61,8 @@ module('Unit | Component | Module | Video', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const video = store.createRecord('video', { id: 'video-id' });
+        const grain = store.createRecord('grain', { id: 'grain-id', elements: [video] });
+        store.createRecord('module', { id: 'module-id', grains: [grain] });
 
         const component = createPodsComponent('module/video', { video });
         assert.false(component.modalIsOpen);
