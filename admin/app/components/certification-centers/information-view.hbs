@@ -23,8 +23,9 @@
         {{@certificationCenter.dataProtectionOfficerEmail}}
       </li>
       <li>
-        Pilote certification V3 :
-        {{if (eq @certificationCenter.isV3Pilot true) "Oui" "Non"}}
+        {{t "pages.certification-centers.information-view.is-v3-pilot"}}
+        :
+        {{if (eq @certificationCenter.isV3Pilot true) (t "common.words.yes") (t "common.words.no")}}
       </li>
     </ul>
   </div>
