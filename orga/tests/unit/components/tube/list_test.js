@@ -1,4 +1,5 @@
 import { module, test } from 'qunit';
+import { A } from '@ember/array';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import { setupTest } from 'ember-qunit';
 
@@ -10,35 +11,35 @@ module('Unit | Component | Tube::List', function (hooks) {
     const frameworks = [
       {
         id: 'fmkId1',
-        areas: [
+        areas: A([
           {
-            competences: [
+            competences: A([
               {
-                thematics: [
+                thematics: A([
                   {
-                    tubes: [{ id: 'tubeId1' }, { id: 'tubeId2' }],
+                    tubes: A([{ id: 'tubeId1' }, { id: 'tubeId2' }]),
                   },
-                ],
+                ]),
               },
-            ],
+            ]),
           },
-        ],
+        ]),
       },
       {
         id: 'fmkId2',
-        areas: [
+        areas: A([
           {
-            competences: [
+            competences: A([
               {
-                thematics: [
+                thematics: A([
                   {
-                    tubes: [{ id: 'tubeId3' }, { id: 'tubeId4' }],
+                    tubes: A([{ id: 'tubeId3' }, { id: 'tubeId4' }]),
                   },
-                ],
+                ]),
               },
-            ],
+            ]),
           },
-        ],
+        ]),
       },
     ];
     const component = await createGlimmerComponent('component:tube/list', { frameworks });

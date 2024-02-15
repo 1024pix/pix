@@ -1,10 +1,11 @@
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { A } from '@ember/array';
 import Component from '@glimmer/component';
 import { service } from '@ember/service';
 
 export default class TubeList extends Component {
-  @tracked selectedTubeIds = [];
+  @tracked selectedTubeIds = A();
 
   @service dayjs;
 
@@ -54,11 +55,9 @@ export default class TubeList extends Component {
 
   get sortedAreas() {
     return this.args.frameworks
-      .map((framework) => framework.areas.slice())
+      .map((framework) => framework.areas.toArray())
       .flat()
-      .sort((a, b) => {
-        return a.code.localeCompare(b.code);
-      });
+      .sortBy('code');
   }
 
   get haveNoTubeSelected() {
@@ -70,10 +69,10 @@ export default class TubeList extends Component {
   }
 
   get file() {
-    const selectedTubes = this.args.frameworks.slice().flatMap((framework) => {
-      return framework.areas.slice().flatMap((area) => {
-        return area.competences.slice().flatMap((competence) => {
-          return competence.thematics.slice().flatMap((thematic) => {
+    const selectedTubes = this.args.frameworks.toArray().flatMap((framework) => {
+      return framework.areas.toArray().flatMap((area) => {
+        return area.competences.toArray().flatMap((competence) => {
+          return competence.thematics.toArray().flatMap((thematic) => {
             return thematic.tubes
               .filter((tube) => this.isTubeSelected(tube))
               .map((tube) => ({

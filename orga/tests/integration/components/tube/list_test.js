@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { hbs } from 'ember-cli-htmlbars';
 import { clickByName, render } from '@1024pix/ember-testing-library';
+import { A } from '@ember/array';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
 
@@ -11,7 +12,7 @@ module('Integration | Component | tube:list', function (hooks) {
   let dayjs;
 
   hooks.beforeEach(function () {
-    const tubes = [
+    const tubes = A([
       {
         id: 'tubeId1',
         practicalTitle: 'Titre 1',
@@ -22,17 +23,17 @@ module('Integration | Component | tube:list', function (hooks) {
         practicalTitle: 'Titre 2',
         practicalDescription: 'Description 2',
       },
-    ];
-    const thematics = [{ id: 'thematicId', name: 'thematic1', tubes }];
-    const competences = [
+    ]);
+    const thematics = A([{ id: 'thematicId', name: 'thematic1', tubes }]);
+    const competences = A([
       {
         thematics,
         get sortedThematics() {
           return thematics;
         },
       },
-    ];
-    const areas = [
+    ]);
+    const areas = A([
       {
         title: 'Titre domaine',
         code: 1,
@@ -41,7 +42,7 @@ module('Integration | Component | tube:list', function (hooks) {
           return competences;
         },
       },
-    ];
+    ]);
     frameworks = [
       {
         id: 'fmkId',

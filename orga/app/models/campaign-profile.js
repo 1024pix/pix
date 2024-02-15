@@ -28,8 +28,6 @@ export default class CampaignProfile extends Model {
   @hasMany('campaignProfileCompetence') competences;
 
   get sortedCompetences() {
-    return this.competences.slice().sort((a, b) => {
-      return a.index.localeCompare(b.index);
-    });
+    return this.competences.sortBy('index');
   }
 }
