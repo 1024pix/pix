@@ -159,6 +159,9 @@
   },
   "pages": {
     "certification-centers": {
+      "information-view": {
+        "is-v3-pilot": "Pilote certification V3"
+      },
       "notifications": {
         "failure": {
           "update-certification-center-membership-role": "Une erreur est survenue, le rôle du membre n'a pas été modifié."
@@ -307,6 +310,10 @@
       "informations": {
         "assignment-confirmation-modal": "L'utilisateur {fullName} s'est déjà assigné cette session.'<br/>'Voulez-vous vous quand même vous assigner cette session ?",
         "unfinalization-confirmation-modal": "Êtes-vous sûr.e de vouloir définaliser cette session ? Cliquez sur confirmer pour poursuivre."
+      },
+      "list": {
+        "v3-required-actions": "Sessions à traiter V3",
+        "v3-to-be-published": "Sessions à publier V3"
       }
     },
     "target-profiles": {
