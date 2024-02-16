@@ -147,8 +147,13 @@ describe('Acceptance | Route | oidc | token', function () {
           expires_in: 60,
           refresh_token: 'refresh_token',
         };
+        /*
+        Le code ci-dessous a été commenté parce qu'on utilise un fournisseur d'identité
+        non valide d'exemple et l'utilisation de nock n'est pas possible car la librairie
+        openid-client tentera de valider le token reçu avec une configuration de chiffrement
+        d'exemple.
+         */
         // const getAccessTokenRequest = nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
-
         oidcExampleNetProvider.client.callback.resolves(getAccessTokenResponse);
 
         // when
@@ -160,6 +165,12 @@ describe('Acceptance | Route | oidc | token', function () {
         });
 
         // then
+        /*
+        Le code ci-dessous a été commenté parce qu'on utilise un fournisseur d'identité
+        non valide d'exemple et l'utilisation de nock n'est pas possible car la librairie
+        openid-client tentera de valider le token reçu avec une configuration de chiffrement
+        d'exemple.
+         */
         // expect(getAccessTokenRequest.isDone()).to.be.true;
         expect(oidcExampleNetProvider.client.callback).to.have.been.calledOnce;
         expect(response.statusCode).to.equal(200);
