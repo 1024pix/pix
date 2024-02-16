@@ -15,7 +15,7 @@ export default class ModuleVideo extends Component {
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
-      'pix-event-action': `Afficher la transcription : ${this.args.video.id}`,
+      'pix-event-action': `Passage du module : ${this.args.video.grain.get('module').get('id')}`,
       'pix-event-name': `Clic sur le bouton transcription : ${this.args.video.id}`,
     });
   }

@@ -13,7 +13,7 @@ export default class ModuleImage extends Component {
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
-      'pix-event-action': `Afficher l’alternative textuelle : ${this.args.image.id}`,
+      'pix-event-action': `Passage du module : ${this.args.image.grain.get('module').get('id')}`,
       'pix-event-name': `Click sur le bouton alternative textuelle : ${this.args.image.id}`,
     });
   }

@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { findAll } from '@ember/test-helpers';
+import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Module | Passage', function (hooks) {
@@ -86,6 +87,40 @@ module('Integration | Component | Module | Passage', function (hooks) {
 
       // then
       assert.strictEqual(findAll('.element-text').length, 1);
+    });
+
+    test('should push event', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const textElement = store.createRecord('text', { content: 'content', type: 'texts' });
+      const qcuElement = store.createRecord('qcu', {
+        instruction: 'instruction',
+        proposals: ['radio1', 'radio2'],
+        type: 'qcus',
+        isAnswerable: true,
+      });
+      const grain1 = store.createRecord('grain', { elements: [qcuElement] });
+      const grain2 = store.createRecord('grain', { elements: [textElement] });
+
+      const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
+      this.set('module', module);
+
+      await render(hbs`<Module::Passage @module={{this.module}} />`);
+
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+
+      // when
+      await clickByName(this.intl.t('pages.modulix.buttons.grain.skip'));
+
+      // then
+      sinon.assert.calledWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${module.id}`,
+        'pix-event-name': `Click sur le bouton passer du grain : ${grain1.id}`,
+      });
+      assert.ok(true);
     });
   });
 
@@ -196,6 +231,35 @@ module('Integration | Component | Module | Passage', function (hooks) {
       assert.strictEqual(grainsAfterTwoContinueActions.length, 3);
       const thirdGrain = grainsAfterTwoContinueActions.at(-1);
       assert.strictEqual(document.activeElement, thirdGrain);
+    });
+
+    test('should push event', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const text1Element = store.createRecord('text', { content: 'content', type: 'texts' });
+      const text2Element = store.createRecord('text', { content: 'content 2', type: 'texts' });
+      const grain1 = store.createRecord('grain', { elements: [text1Element] });
+      const grain2 = store.createRecord('grain', { elements: [text2Element] });
+
+      const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
+      this.set('module', module);
+
+      await render(hbs`<Module::Passage @module={{this.module}} />`);
+
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+
+      // when
+      await clickByName(continueButtonName);
+
+      // then
+      sinon.assert.calledWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${module.id}`,
+        'pix-event-name': `Click sur le bouton continuer du grain : ${grain1.id}`,
+      });
+      assert.ok(true);
     });
   });
 });

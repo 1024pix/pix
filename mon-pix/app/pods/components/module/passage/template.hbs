@@ -12,8 +12,8 @@
         @transition={{this.grainTransition grain.id}}
         @submitAnswer={{@submitAnswer}}
         @canMoveToNextGrain={{this.grainCanMoveToNextGrain index}}
-        @continueAction={{this.addNextGrainToDisplay}}
-        @skipAction={{this.addNextGrainToDisplay}}
+        @continueAction={{this.continueToNextGrain}}
+        @skipAction={{this.skipToNextGrain}}
         @shouldDisplayTerminateButton={{this.grainShouldDisplayTerminateButton index}}
         @terminateAction={{this.terminateModule}}
         @hasJustAppeared={{this.hasGrainJustAppeared index}}

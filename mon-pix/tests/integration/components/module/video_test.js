@@ -41,6 +41,8 @@ module('Integration | Component | Module | Video', function (hooks) {
       subtitles: 'subtitles',
       transcription: 'transcription',
     });
+    const grain = store.createRecord('grain', { id: 'grain-id', elements: [videoElement] });
+    store.createRecord('module', { id: 'module-id', grains: [grain] });
 
     this.set('video', videoElement);
 
