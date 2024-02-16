@@ -38,7 +38,7 @@ const getNextNonAnsweredChallengeByCourseId = async function (assessmentId, cour
     .first();
 
   if (!certificationChallenge) {
-    logger.trace(logContext, 'no found challenges');
+    logger.info(logContext, `no found challenges for certificationCourseId : ${courseId}`);
     throw new AssessmentEndedError();
   }
 
