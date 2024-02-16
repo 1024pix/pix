@@ -24,8 +24,9 @@ const getRedirectLogoutUrl = async function (
 ) {
   const userId = request.auth.credentials.userId;
   const { identity_provider: identityProvider, logout_url_uuid: logoutUrlUUID } = request.query;
-  const oidcAuthenticationService =
-    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
+  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
+    identityProviderCode: identityProvider,
+  });
   const redirectLogoutUrl = await oidcAuthenticationService.getRedirectLogoutUrl({
     userId,
     logoutUrlUUID,
@@ -61,8 +62,9 @@ const reconcileUser = async function (
   },
 ) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
-  const oidcAuthenticationService =
-    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
+  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
+    identityProviderCode: identityProvider,
+  });
 
   const result = await usecases.reconcileOidcUser({
     authenticationKey,
@@ -79,9 +81,11 @@ const getAuthenticationUrl = async function (
     authenticationServiceRegistry,
   },
 ) {
-  const { identity_provider: identityProvider } = request.query;
-  const oidcAuthenticationService =
-    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
+  const { identity_provider: identityProvider, audience } = request.query;
+  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
+    identityProviderCode: identityProvider,
+    audience,
+  });
   const { nonce, state, ...payload } = oidcAuthenticationService.getAuthenticationUrl({
     redirectUri: request.query['redirect_uri'],
   });
@@ -99,14 +103,16 @@ const authenticateUser = async function (
     authenticationServiceRegistry,
   },
 ) {
-  const { code, identityProvider, redirectUri, state: stateReceived } = request.deserializedPayload;
+  const { code, identityProvider, redirectUri, state: stateReceived, audience } = request.deserializedPayload;
 
   const stateSent = request.yar.get('state', true);
   // eslint-disable-next-line no-unused-vars
   const nonce = request.yar.get('nonce', true);
 
-  const oidcAuthenticationService =
-    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
+  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
+    identityProviderCode: identityProvider,
+    audience,
+  });
 
   const result = await usecases.authenticateOidcUser({
     code,
@@ -137,8 +143,9 @@ const createUser = async function (
   const { identityProvider, authenticationKey } = request.deserializedPayload;
   const localeFromCookie = request.state?.locale;
 
-  const oidcAuthenticationService =
-    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
+  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
+    identityProviderCode: identityProvider,
+  });
   const { accessToken, logoutUrlUUID } = await usecases.createOidcUser({
     authenticationKey,
     identityProvider,

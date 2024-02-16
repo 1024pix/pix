@@ -115,7 +115,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         };
 
         authenticationServiceRegistryStub.getOidcProviderServiceByCode
-          .withArgs(identityProvider)
+          .withArgs({ identityProviderCode: identityProvider })
           .returns(oidcAuthenticationService);
 
         const dependencies = {
@@ -150,7 +150,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       };
 
       authenticationServiceRegistryStub.getOidcProviderServiceByCode
-        .withArgs(identityProvider)
+        .withArgs({ identityProviderCode: identityProvider, audience: undefined })
         .returns(oidcAuthenticationService);
 
       const dependencies = {
@@ -166,6 +166,43 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         redirectUri: 'http:/exemple.net/',
       });
       expect(request.yar.set).to.have.been.calledTwice;
+    });
+
+    context('when an audience is specified', function () {
+      it('calls oidc authentication service with audience as a parameter', async function () {
+        // given
+        const request = {
+          query: {
+            identity_provider: identityProvider,
+            redirect_uri: 'http:/exemple.net/',
+            audience: 'admin',
+          },
+          yar: { set: sinon.stub() },
+        };
+        const getAuthenticationUrlStub = sinon.stub();
+        const oidcAuthenticationService = {
+          getAuthenticationUrl: getAuthenticationUrlStub,
+        };
+        const authenticationServiceRegistryStub = {
+          getOidcProviderServiceByCode: sinon.stub(),
+        };
+
+        authenticationServiceRegistryStub.getOidcProviderServiceByCode.returns(oidcAuthenticationService);
+
+        const dependencies = {
+          authenticationServiceRegistry: authenticationServiceRegistryStub,
+        };
+        getAuthenticationUrlStub.returns('an authentication url');
+
+        // when
+        await oidcController.getAuthenticationUrl(request, hFake, dependencies);
+
+        // then
+        expect(authenticationServiceRegistryStub.getOidcProviderServiceByCode).to.have.been.calledWith({
+          identityProviderCode: identityProvider,
+          audience: 'admin',
+        });
+      });
     });
   });
 
@@ -203,7 +240,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       };
 
       authenticationServiceRegistryStub.getOidcProviderServiceByCode
-        .withArgs(identityProvider)
+        .withArgs({ identityProviderCode: identityProvider, audience: undefined })
         .returns(oidcAuthenticationService);
 
       const dependencies = {
@@ -232,6 +269,49 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       });
     });
 
+    context('when audience is "admin"', function () {
+      it('uses only identity providers enabled in Pix Admin', async function () {
+        // given
+        request = {
+          ...request,
+          deserializedPayload: {
+            ...request.deserializedPayload,
+            audience: 'admin',
+          },
+        };
+        const oidcAuthenticationService = {};
+        const authenticationServiceRegistryStub = {
+          getOidcProviderServiceByCode: sinon.stub(),
+        };
+
+        authenticationServiceRegistryStub.getOidcProviderServiceByCode
+          .withArgs({ identityProviderCode: identityProvider })
+          .returns(oidcAuthenticationService);
+
+        const dependencies = {
+          authenticationServiceRegistry: authenticationServiceRegistryStub,
+        };
+
+        usecases.authenticateOidcUser.resolves({
+          pixAccessToken,
+          logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
+          isAuthenticationComplete: true,
+        });
+
+        request.yar.get.onCall(0).returns(state);
+        request.yar.get.onCall(1).returns(nonce);
+
+        // when
+        await oidcController.authenticateUser(request, hFake, dependencies);
+
+        // then
+        expect(authenticationServiceRegistryStub.getOidcProviderServiceByCode).to.have.been.calledWithExactly({
+          identityProviderCode: identityProvider,
+          audience: 'admin',
+        });
+      });
+    });
+
     it('should return PIX access token and logout url uuid when authentication is complete', async function () {
       // given
       const oidcAuthenticationService = {};
@@ -240,7 +320,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       };
 
       authenticationServiceRegistryStub.getOidcProviderServiceByCode
-        .withArgs(identityProvider)
+        .withArgs({ identityProviderCode: identityProvider })
         .returns(oidcAuthenticationService);
 
       const dependencies = {
@@ -271,7 +351,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       };
 
       authenticationServiceRegistryStub.getOidcProviderServiceByCode
-        .withArgs(identityProvider)
+        .withArgs({ identityProviderCode: identityProvider })
         .returns(oidcAuthenticationService);
 
       const dependencies = {
@@ -309,7 +389,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       };
 
       authenticationServiceRegistryStub.getOidcProviderServiceByCode
-        .withArgs(identityProvider)
+        .withArgs({ identityProviderCode: identityProvider })
         .returns(oidcAuthenticationService);
 
       const dependencies = {
