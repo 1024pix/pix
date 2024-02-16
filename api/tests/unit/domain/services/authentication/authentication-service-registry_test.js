@@ -73,24 +73,54 @@ describe('Unit | Domain | Services | authentication registry', function () {
   });
 
   describe('#getOidcProviderServiceByCode', function () {
-    it('returns a ready OIDC Provider service', function () {
-      // given
-      const identityProviderCode = 'FIRST';
-      const firstOidcProviderService = {
-        code: identityProviderCode,
-        isReady: true,
-      };
-      const secondOidcProviderService = {
-        code: 'SECOND',
-      };
+    describe('when the audience is admin', function () {
+      it('returns a ready OIDC provider for Pix Admin', function () {
+        // given
+        const oidcProviderForPixApp = {
+          code: 'PROVIDER_FOR_APP',
+          isReady: true,
+        };
+        const oidcProviderForPixAdmin = {
+          code: 'PROVIDER_FOR_ADMIN',
+          isReadyForPixAdmin: true,
+        };
 
-      oidcAuthenticationServiceRegistry.loadOidcProviderServices([firstOidcProviderService, secondOidcProviderService]);
+        oidcAuthenticationServiceRegistry.loadOidcProviderServices([oidcProviderForPixApp, oidcProviderForPixAdmin]);
 
-      // when
-      const service = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode(identityProviderCode);
+        // when
+        const service = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
+          identityProviderCode: 'PROVIDER_FOR_ADMIN',
+          audience: 'admin',
+        });
 
-      // then
-      expect(service.code).to.equal('FIRST');
+        // then
+        expect(service.code).to.equal('PROVIDER_FOR_ADMIN');
+      });
+    });
+
+    describe('when audience is not provided', function () {
+      it('returns a ready OIDC Provider for Pix App', function () {
+        // given
+        const identityProviderCode = 'FIRST';
+        const firstOidcProviderService = {
+          code: identityProviderCode,
+          isReady: true,
+        };
+        const secondOidcProviderService = {
+          code: 'SECOND',
+        };
+
+        oidcAuthenticationServiceRegistry.loadOidcProviderServices([
+          firstOidcProviderService,
+          secondOidcProviderService,
+        ]);
+
+        // when
+        const service = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({ identityProviderCode });
+
+        // then
+        expect(service.code).to.equal('FIRST');
+      });
     });
 
     it('throws an error when identity provider is not supported', function () {
@@ -110,7 +140,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       const error = catchErrSync(
         oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode,
         oidcAuthenticationServiceRegistry,
-      )(identityProviderCode);
+      )({ identityProviderCode });
 
       // then
       expect(error).to.be.an.instanceOf(InvalidIdentityProviderError);

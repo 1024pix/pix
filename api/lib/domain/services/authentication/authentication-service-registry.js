@@ -17,10 +17,10 @@ class OidcAuthenticationServiceRegistry {
     return this.#readyOidcProviderServicesForPixAdmin;
   }
 
-  getOidcProviderServiceByCode(identityProviderCode) {
-    const oidcProviderService = this.#readyOidcProviderServices.find(
-      (service) => identityProviderCode === service.code,
-    );
+  getOidcProviderServiceByCode({ identityProviderCode, audience = 'app' }) {
+    const services =
+      audience === 'admin' ? this.#readyOidcProviderServicesForPixAdmin : this.#readyOidcProviderServices;
+    const oidcProviderService = services.find((service) => identityProviderCode === service.code);
 
     if (!oidcProviderService) {
       throw new InvalidIdentityProviderError(identityProviderCode);
