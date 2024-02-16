@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { getTextSample } from '../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/text.sample.js';
 
 console.log('');

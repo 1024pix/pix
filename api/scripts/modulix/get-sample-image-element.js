@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { getImageSample } from '../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/image.sample.js';
 
 console.log('');

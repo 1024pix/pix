@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { getQrocmSample } from '../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/qrocm.sample.js';
 
 console.log('');

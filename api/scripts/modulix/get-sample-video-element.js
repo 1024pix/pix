@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { getVideoSample } from '../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/video.sample.js';
 
 console.log('');
