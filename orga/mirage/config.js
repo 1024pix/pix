@@ -515,6 +515,10 @@ function routes() {
     return new Response(204);
   });
 
+  this.get('/organizations/:id/missions', (schema) => {
+    return schema.missions.all();
+  });
+
   this.get('/frameworks/for-target-profile-submission', (schema) => {
     return schema.frameworks.all();
   });

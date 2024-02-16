@@ -755,7 +755,15 @@
       }
     },
     "missions": {
-      "title": "Missions"
+      "title": "Missions",
+      "list": {
+        "tab": {
+          "caption": "List of missions",
+          "competences": "Targeted competence",
+          "empty-state": "There is not any mission",
+          "name": "Mission"
+        }
+      }
     },
     "organization-learner": {
       "activity": {
