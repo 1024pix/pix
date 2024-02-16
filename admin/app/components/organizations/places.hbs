@@ -9,7 +9,7 @@
     {{#if this.accessControl.hasAccessToOrganizationPlacesActionsScope}}
       <PixButtonLink
         class="places__button"
-        @backgroundColor="blue"
+        @backgroundColor="primary"
         @route="authenticated.organizations.get.places.new"
         @model={{@model}}
         @isBorderVisible={{true}}
