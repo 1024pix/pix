@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { getQcmSample } from '../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/qcm.sample.js';
 
 console.log('');
