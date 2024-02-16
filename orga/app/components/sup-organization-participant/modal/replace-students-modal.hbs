@@ -27,7 +27,7 @@
       <PixButtonUpload
         @id="students-file-upload-replace"
         @onChange={{@onReplaceStudents}}
-        @backgroundColor="red"
+        @backgroundColor="error"
         accept={{@supportedFormats}}
       >
         {{t "pages.sup-organization-participants.replace-students-modal.confirm"}}
@@ -37,7 +37,7 @@
         @id="students-file-upload-replace"
         @triggerAction={{(@onReplaceStudents)}}
         @isDisabled={{true}}
-        @backgroundColor="red"
+        @backgroundColor="error"
       >
         {{t "pages.sup-organization-participants.replace-students-modal.confirm"}}
       </PixButton>
