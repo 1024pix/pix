@@ -4,7 +4,7 @@ import { statuses } from '../models/Session.js';
 import { types } from '../../../../../lib/domain/models/CertificationCenter.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
-import { identifiersType } from '../../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../../shared/domain/types/identifiers-type.js';
 import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
 
 const Joi = BaseJoi.extend(JoiDate);

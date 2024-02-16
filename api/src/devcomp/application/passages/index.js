@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { passageController } from './controller.js';
 import { handlerWithDependencies } from '../../infrastructure/utils/handlerWithDependencies.js';
 

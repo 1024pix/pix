@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { missionController } from './mission-controller.js';
-import { identifiersType } from '../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../shared/domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
 
 const register = async function (server) {

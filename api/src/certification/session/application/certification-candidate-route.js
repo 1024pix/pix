@@ -1,7 +1,7 @@
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
 import { certificationCandidateController } from './certification-candidate-controller.js';
 

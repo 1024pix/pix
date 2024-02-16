@@ -1,6 +1,6 @@
 import { adminMemberController } from './admin-member-controller.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import Joi from 'joi';
 
 const register = async function (server) {

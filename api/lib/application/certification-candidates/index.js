@@ -1,7 +1,7 @@
 import { certificationCandidatesController } from './certification-candidates-controller.js';
 import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
 import Joi from 'joi';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 
 const register = async function (server) {
   server.route([
