@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
 import ArrayProxy from '@ember/array/proxy';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 function _createEmberDataHabilitations(store) {
   return ArrayProxy.create({
@@ -14,7 +14,7 @@ function _createEmberDataHabilitations(store) {
 }
 
 module('Integration | Component | certification-centers/information-view', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it should display label and values in read mode', async function (assert) {
     // given
