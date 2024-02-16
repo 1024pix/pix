@@ -155,6 +155,20 @@ export default class DetailsV3 extends Component {
     return abortReasonMap[this.args.details.abortReason];
   }
 
+  get completionDate() {
+    return this.args.details.completedAt || this.args.details.endedAt;
+  }
+
+  get completionDateTooltipContent() {
+    if (this.args.details.wasEndedBySupervisor) {
+      return 'pages.certifications.certification.details.v3.completion-date-tooltip.ended-by-supervisor';
+    }
+    if (this.args.details.wasFinalized) {
+      return 'pages.certifications.certification.details.v3.completion-date-tooltip.ended-due-to-finalization';
+    }
+    return null;
+  }
+
   @action
   openModal(certificationChallenge) {
     this.showModal = true;

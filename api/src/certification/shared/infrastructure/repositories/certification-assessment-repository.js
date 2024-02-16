@@ -1,12 +1,12 @@
 import _ from 'lodash';
-import { DomainTransaction } from '../DomainTransaction.js';
-import { CertificationAssessment } from '../../domain/models/CertificationAssessment.js';
-import { CertificationChallengeWithType } from '../../domain/models/CertificationChallengeWithType.js';
-import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
-import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
-import * as answerStatusDatabaseAdapter from '../../../src/shared/infrastructure/adapters/answer-status-database-adapter.js';
-import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { CertificationAssessment } from '../../../../../lib/domain/models/CertificationAssessment.js';
+import { CertificationChallengeWithType } from '../../../../../lib/domain/models/CertificationChallengeWithType.js';
+import { Answer } from '../../../../evaluation/domain/models/Answer.js';
+import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
+import * as answerStatusDatabaseAdapter from '../../../../shared/infrastructure/adapters/answer-status-database-adapter.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
 
 async function _getCertificationChallenges(certificationCourseId, knexConn) {
   const certificationChallengeRows = await knexConn('certification-challenges')
@@ -47,6 +47,7 @@ const get = async function (id) {
       certificationCourseId: 'certification-courses.id',
       createdAt: 'certification-courses.createdAt',
       completedAt: 'certification-courses.completedAt',
+      endedAt: 'certification-courses.endedAt',
       state: 'assessments.state',
       version: 'certification-courses.version',
     })
@@ -82,6 +83,7 @@ const getByCertificationCourseId = async function ({
       certificationCourseId: 'certification-courses.id',
       createdAt: 'certification-courses.createdAt',
       completedAt: 'certification-courses.completedAt',
+      endedAt: 'certification-courses.endedAt',
       version: 'certification-courses.version',
       state: 'assessments.state',
     })
@@ -105,6 +107,46 @@ const getByCertificationCourseId = async function ({
   });
 };
 
+const getByCertificationCandidateId = async function (certificationCandidateId) {
+  const certificationAssessmentRow = await knex('assessments')
+    .select({
+      id: 'assessments.id',
+      userId: 'assessments.userId',
+      certificationCourseId: 'certification-courses.id',
+      createdAt: 'certification-courses.createdAt',
+      completedAt: 'certification-courses.completedAt',
+      endedAt: 'certification-courses.endedAt',
+      state: 'assessments.state',
+      version: 'certification-courses.version',
+    })
+    .join('certification-courses', 'certification-courses.id', 'assessments.certificationCourseId')
+    .join('certification-candidates', function () {
+      this.on('certification-candidates.userId', 'certification-courses.userId').andOn(
+        'certification-candidates.sessionId',
+        'certification-courses.sessionId',
+      );
+    })
+    .where({ 'certification-candidates.id': certificationCandidateId })
+    .first();
+
+  if (!certificationAssessmentRow) {
+    throw new NotFoundError(
+      `L'assessment de certification pour le candidat d'id ${certificationCandidateId} n'existe pas ou son accès est restreint`,
+    );
+  }
+  const certificationChallenges = await _getCertificationChallenges(
+    certificationAssessmentRow.certificationCourseId,
+    knex,
+  );
+  const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRow.id, knex);
+
+  return new CertificationAssessment({
+    ...certificationAssessmentRow,
+    certificationChallenges,
+    certificationAnswersByDate,
+  });
+};
+
 const save = async function (certificationAssessment) {
   for (const challenge of certificationAssessment.certificationChallenges) {
     await knex('certification-challenges')
@@ -120,6 +162,10 @@ const save = async function (certificationAssessment) {
   await knex('assessments')
     .where({ certificationCourseId: certificationAssessment.certificationCourseId })
     .update({ state: certificationAssessment.state });
+
+  await knex('certification-courses')
+    .where({ id: certificationAssessment.certificationCourseId })
+    .update({ endedAt: certificationAssessment.endedAt });
 };
 
-export { get, getByCertificationCourseId, save };
+export { get, getByCertificationCourseId, save, getByCertificationCandidateId };

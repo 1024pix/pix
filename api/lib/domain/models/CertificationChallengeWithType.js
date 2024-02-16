@@ -10,6 +10,7 @@ class CertificationChallengeWithType {
     isNeutralized,
     hasBeenSkippedAutomatically,
     certifiableBadgeKey,
+    createdAt,
   } = {}) {
     this.id = id;
     this.associatedSkillName = associatedSkillName;
@@ -20,6 +21,7 @@ class CertificationChallengeWithType {
     this.isNeutralized = isNeutralized;
     this.hasBeenSkippedAutomatically = hasBeenSkippedAutomatically;
     this.certifiableBadgeKey = certifiableBadgeKey;
+    this.createdAt = createdAt;
   }
 
   neutralize() {

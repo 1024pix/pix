@@ -7,8 +7,9 @@ import * as assessmentRepository from '../../../../shared/infrastructure/reposit
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
 import * as attendanceSheetPdfUtils from '../../../session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import * as candidateRepository from '../../../session/infrastructure/repositories/candidate-repository.js';
-import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
+import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
+import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../shared/infrastructure/repositories/certification-issue-report-repository.js';
@@ -53,6 +54,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  * @typedef {attendanceSheetPdfUtils} AttendanceSheetPdfUtils
  * @typedef {badgeRepository} BadgeRepository
  * @typedef {candidateRepository} CandidateRepository
+ * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
@@ -89,6 +91,7 @@ const dependencies = {
   assessmentResultRepository,
   attendanceSheetPdfUtils,
   candidateRepository,
+  certificationAssessmentRepository,
   certificationCandidateRepository,
   certificationCenterRepository,
   certificationChallengeLiveAlertRepository,

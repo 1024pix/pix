@@ -42,7 +42,7 @@ import * as campaignRepository from '../../infrastructure/repositories/campaign-
 import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
 import * as certifiableProfileForLearningContentRepository from '../../infrastructure/repositories/certifiable-profile-for-learning-content-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
-import * as certificationAssessmentRepository from '../../infrastructure/repositories/certification-assessment-repository.js';
+import * as certificationAssessmentRepository from '../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationBadgesService from '../../domain/services/certification-badges-service.js';
 import * as certificationCandidateForSupervisingRepository from '../../../src/certification/supervision/infrastructure/repositories/certification-candidate-for-supervising-repository.js';
 import * as certificationCandidateRepository from '../../../src/certification/shared/infrastructure/repositories/certification-candidate-repository.js';
@@ -185,6 +185,7 @@ import { injectDependencies } from '../../../src/shared/infrastructure/utils/dep
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
 import { getCampaignManagement as getCampaignDetailsManagement } from './get-campaign-details-management.js';
 import { getNextChallengeForCertification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-certification.js';
+import { endAssessmentBySupervisor } from '../../../src/certification/course/domain/usecases/end-assessment-by-supervisor.js';
 
 function requirePoleEmploiNotifier() {
   if (config.poleEmploi.pushEnabled) {
@@ -398,6 +399,7 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedFilteredTargetProfileOrganizations,
   getCampaignDetailsManagement,
   getNextChallengeForCertification,
+  endAssessmentBySupervisor,
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);

@@ -5,7 +5,7 @@ const ASSESSMENT_COUNT = parseInt(process.env.ASSESSMENT_COUNT) || 100;
 const ASSESSMENT_ID = parseInt(process.env.ASSESSMENT_ID) || null;
 import bluebird from 'bluebird';
 import * as scoringCertificationService from '../../lib/domain/services/scoring/scoring-certification-service.js';
-import * as certificationAssessmentRepository from '../../lib/infrastructure/repositories/certification-assessment-repository.js';
+import * as certificationAssessmentRepository from '../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as url from 'url';
 
 async function _retrieveLastScoredAssessmentIds() {

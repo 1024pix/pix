@@ -441,30 +441,82 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
   });
 
   describe('#endDueToFinalization', function () {
-    it('should change the assessment state to "endedDueToFinalization"', function () {
+    describe('when the assessment is started', function () {
+      it('should change the assessment state to "endedDueToFinalization"', function () {
+        // given
+        const firstChallengeDate = new Date('2020-12-31T10:00:00Z');
+        const lastChallengeDate = new Date('2020-12-31T10:02:00Z');
+        const certificationChallenge = domainBuilder.buildCertificationChallenge({
+          createdAt: firstChallengeDate,
+        });
+        const lastCertificationChallenge = domainBuilder.buildCertificationChallenge({
+          createdAt: lastChallengeDate,
+        });
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          state: CertificationAssessment.states.STARTED,
+          certificationChallenges: [lastCertificationChallenge, certificationChallenge],
+        });
+
+        // when
+        certificationAssessment.endDueToFinalization();
+
+        // then
+        expect(certificationAssessment.state).to.equal(CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION);
+      });
+
+      it('should set endedAt date', function () {
+        // given
+        const firstChallengeDate = new Date('2020-12-31T10:00:00Z');
+        const lastChallengeDate = new Date('2020-12-31T10:02:00Z');
+        const certificationChallenge = domainBuilder.buildCertificationChallenge({
+          createdAt: firstChallengeDate,
+        });
+        const lastCertificationChallenge = domainBuilder.buildCertificationChallenge({
+          createdAt: lastChallengeDate,
+        });
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          state: CertificationAssessment.states.STARTED,
+          certificationChallenges: [lastCertificationChallenge, certificationChallenge],
+        });
+
+        // when
+        certificationAssessment.endDueToFinalization();
+
+        // then
+        expect(certificationAssessment.endedAt).to.deep.equal(lastChallengeDate);
+      });
+    });
+
+    describe('when the assessment is ENDED_BY_SUPERVISOR', function () {
+      it('should NOT change the assessment state"', function () {
+        // given
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          state: CertificationAssessment.states.ENDED_BY_SUPERVISOR,
+        });
+
+        // when
+        certificationAssessment.endDueToFinalization();
+
+        // when then
+        expect(certificationAssessment.state).to.equal(CertificationAssessment.states.ENDED_BY_SUPERVISOR);
+      });
+    });
+  });
+
+  describe('#endBySupervisor', function () {
+    it('should change the assessment state to "endBySupervisor"', function () {
       // given
+      const now = new Date('2020-12-31');
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         state: CertificationAssessment.states.STARTED,
       });
 
       // when
-      certificationAssessment.endDueToFinalization();
+      certificationAssessment.endBySupervisor({ now });
 
-      // when then
-      expect(certificationAssessment.state).to.equal(CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION);
-    });
-
-    it('should NOT change the assessment state if it is "endedBySupervisor"', function () {
-      // given
-      const certificationAssessment = domainBuilder.buildCertificationAssessment({
-        state: CertificationAssessment.states.ENDED_BY_SUPERVISOR,
-      });
-
-      // when
-      certificationAssessment.endDueToFinalization();
-
-      // when then
+      // then
       expect(certificationAssessment.state).to.equal(CertificationAssessment.states.ENDED_BY_SUPERVISOR);
+      expect(certificationAssessment.endedAt).to.deep.equal(now);
     });
   });
 

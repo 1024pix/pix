@@ -6,6 +6,7 @@ export class V3CertificationCourseDetailsForAdministration {
     isCancelled,
     createdAt,
     completedAt,
+    endedAt = null,
     assessmentState,
     assessmentResultStatus,
     abortReason,
@@ -23,6 +24,7 @@ export class V3CertificationCourseDetailsForAdministration {
     this.abortReason = abortReason;
     this.pixScore = pixScore;
     this.numberOfChallenges = numberOfChallenges;
+    this.endedAt = endedAt;
   }
 
   setCompetencesDetails(competenceList) {

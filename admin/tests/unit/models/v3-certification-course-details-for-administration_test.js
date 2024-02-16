@@ -79,6 +79,49 @@ module('Unit | Model | v3-certification-course-details-for-administration', func
       assert.strictEqual(result, 3);
     });
   });
+
+  module('#duration', function () {
+    [
+      {
+        assessmentState: 'completed',
+        completedAt: new Date('2023-01-13T08:05:00Z'),
+        endedAt: null,
+      },
+      {
+        assessmentState: 'endedBySupervisor',
+        endedAt: new Date('2023-01-13T08:05:00Z'),
+        completedAt: null,
+      },
+      {
+        assessmentState: 'endedDueToFinalization',
+        endedAt: new Date('2023-01-13T08:05:00Z'),
+        completedAt: null,
+      },
+    ].forEach(({ assessmentState, endedAt, completedAt }) => {
+      module(`when session is ${assessmentState}`, function () {
+        test('it should return the duration based on completion time', function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const certificationChallengeDetails = store.createRecord(
+            'v3-certification-course-details-for-administration',
+            {
+              assessmentState,
+              createdAt: new Date('2023-01-13T08:00:00Z'),
+              completedAt,
+              endedAt,
+            },
+          );
+
+          // when
+          const resultInMilliseconds = certificationChallengeDetails.duration;
+
+          // then
+          const fiveMinutesInMilliseconds = 300000;
+          assert.strictEqual(resultInMilliseconds, fiveMinutesInMilliseconds);
+        });
+      });
+    });
+  });
 });
 
 function createChallengesForAdministration(answerStatuses, store) {
