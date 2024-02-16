@@ -1,9 +1,9 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { certificationReportController } from '../../../../src/certification/session/application/certification-report-controller.js';
-import { NotFoundError } from '../../../../lib/application/http-errors.js';
-import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
-import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import * as moduleUnderTest from '../../../../lib/application/certification-reports/index.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
+import { certificationReportController } from '../../../../../src/certification/session/application/certification-report-controller.js';
+import { NotFoundError } from '../../../../../lib/application/http-errors.js';
+import { authorization } from '../../../../../lib/application/preHandlers/authorization.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import * as moduleUnderTest from '../../../../../src/certification/session/application/certification-report-route.js';
 
 describe('Unit | Application | Certifications Report | Route', function () {
   describe('POST /api/certification-reports/{id}/certification-issue-reports', function () {
