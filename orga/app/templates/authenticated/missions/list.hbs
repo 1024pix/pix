@@ -1,0 +1,33 @@
+{{page-title (t "pages.missions.title")}}
+
+<h1 class="mission-list__title page-title">{{t "pages.missions.title"}}</h1>
+{{#if @model}}
+  <div class="panel">
+    <table class="table content-text content-text--small participation-list__table">
+      <caption class="screen-reader-only">{{t "pages.missions.list.tab.caption"}}</caption>
+      <thead>
+        <tr>
+          <Table::Header scope="col">{{t "pages.missions.list.tab.name"}}</Table::Header>
+          <Table::Header scope="col">{{t "pages.missions.list.tab.competences"}}</Table::Header>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each @model as |mission|}}
+          <tr>
+            <td>
+              {{mission.name}}
+            </td>
+            <td>
+              {{mission.competenceName}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+{{else}}
+  <div class="table__empty content-text">
+    {{t "pages.missions.list.tab.empty-state"}}
+  </div>
+{{/if}}
