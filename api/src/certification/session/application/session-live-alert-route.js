@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { responseObjectErrorDoc } from '../../../../lib/infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
 import { assessmentSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
 import { sessionLiveAlertController } from './session-live-alert-controller.js';

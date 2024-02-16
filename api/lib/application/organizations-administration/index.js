@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { sendJsonApiError, PayloadTooLargeError } from '../http-errors.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { organizationAdministrationController as organizationController } from './organization-administration-controller.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 
 const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',

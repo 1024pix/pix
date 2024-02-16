@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { expect } from '../../../../test-helper.js';
+import { identifiersType } from '../../../../../src/shared/domain/types/identifiers-type.js';
 const { userId, competenceId } = identifiersType;
 
 describe('Unit | Domain | Type | identifier-types', function () {

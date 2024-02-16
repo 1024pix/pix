@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { securityPreHandlers } from '../../application/security-pre-handlers.js';
 import { badgesController } from './badges-controller.js';
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
 const register = async function (server) {
   server.route([

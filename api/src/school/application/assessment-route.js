@@ -1,6 +1,6 @@
 import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
 import Joi from 'joi';
-import { identifiersType } from '../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../shared/domain/types/identifiers-type.js';
 import { assessmentController } from './assessment-controller.js';
 
 const register = async function (server) {

@@ -8,7 +8,7 @@ import { sessionForSupervisingController } from './session-for-supervising-contr
 import { sessionWithCleaCertifiedCandidateController } from './session-with-clea-certified-candidate-controller.js';
 import { finalizedSessionController } from './finalized-session-controller.js';
 import { authorization } from '../preHandlers/authorization.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
 import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
 

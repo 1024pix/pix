@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { challengeController } from './challenge-controller.js';
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../../src/shared/domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../../application/security-pre-handlers.js';
 
 const register = async function (server) {

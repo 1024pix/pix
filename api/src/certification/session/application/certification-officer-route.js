@@ -1,4 +1,4 @@
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';

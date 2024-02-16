@@ -4,7 +4,7 @@ const Joi = BaseJoi.extend(JoiDate);
 
 import { sendJsonApiError, PayloadTooLargeError } from '../../../../lib/application/http-errors.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { scoOrganizationManagementController } from './sco-organization-management-controller.js';
 
 const TWENTY_MEGABYTES = 1048576 * 20;

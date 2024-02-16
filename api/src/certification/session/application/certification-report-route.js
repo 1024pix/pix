@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { certificationReportController } from './certification-report-controller.js';
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 

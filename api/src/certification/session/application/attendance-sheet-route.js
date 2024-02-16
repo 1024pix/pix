@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { attendanceSheetController } from './attendance-sheet-controller.js';
 import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
 
