@@ -4,19 +4,28 @@ import { AssessmentResultNotCreatedError, MissingAssessmentId } from '../../doma
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
+import { JuryComment, JuryCommentContexts } from '../../../certification/shared/domain/models/JuryComment.js';
 
 function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   const competenceMarks = competencesMarksDTO.map((competenceMark) => new CompetenceMark(competenceMark));
-
   const reproducibilityRateAsNumber = _.toNumber(assessmentResultDTO.reproducibilityRate) ?? null;
+  const commentForOrganization = new JuryComment({
+    commentByAutoJury: assessmentResultDTO.commentByAutoJury,
+    fallbackComment: assessmentResultDTO.commentForOrganization,
+    context: JuryCommentContexts.ORGANIZATION,
+  });
+  const commentForCandidate = new JuryComment({
+    commentByAutoJury: assessmentResultDTO.commentByAutoJury,
+    fallbackComment: assessmentResultDTO.commentForCandidate,
+    context: JuryCommentContexts.CANDIDATE,
+  });
   return new AssessmentResult({
     id: assessmentResultDTO.id,
     assessmentId: assessmentResultDTO.assessmentId,
     status: assessmentResultDTO.status,
-    commentForCandidate: assessmentResultDTO.commentForCandidate,
-    commentForOrganization: assessmentResultDTO.commentForOrganization,
+    commentForCandidate,
     commentByJury: assessmentResultDTO.commentByJury,
-    commentByAutoJury: assessmentResultDTO.commentByAutoJury,
+    commentForOrganization,
     createdAt: assessmentResultDTO.createdAt,
     emitter: assessmentResultDTO.emitter,
     juryId: assessmentResultDTO.juryId,
@@ -31,25 +40,14 @@ const save = async function ({
   assessmentResult,
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
-  const {
-    pixScore,
-    reproducibilityRate,
-    status,
-    emitter,
-    commentByJury,
-    commentForCandidate,
-    commentForOrganization,
-    commentByAutoJury,
-    id,
-    juryId,
-    assessmentId,
-  } = assessmentResult;
+  const { pixScore, reproducibilityRate, status, emitter, commentByJury, id, juryId, assessmentId } = assessmentResult;
+  const commentByAutoJury = _getCommentByAutoJury(assessmentResult);
 
-  const knexConn = domainTransaction.knexTransaction || knex;
   if (_.isNil(assessmentId)) {
     throw new MissingAssessmentId();
   }
   try {
+    const knexConn = domainTransaction.knexTransaction || knex;
     const [savedAssessmentResultData] = await knexConn('assessment-results')
       .insert({
         pixScore,
@@ -57,12 +55,12 @@ const save = async function ({
         status,
         emitter,
         commentByJury,
-        commentForCandidate,
-        commentForOrganization,
-        commentByAutoJury,
         id,
         juryId,
         assessmentId,
+        commentForCandidate: assessmentResult.commentForCandidate?.fallbackComment,
+        commentForOrganization: assessmentResult.commentForOrganization?.fallbackComment,
+        commentByAutoJury,
       })
       .returning('*');
 
@@ -71,11 +69,7 @@ const save = async function ({
       .onConflict('certificationCourseId')
       .merge(['lastAssessmentResultId']);
 
-    const savedAssessmentResult = new AssessmentResult({
-      ...savedAssessmentResultData,
-      reproducibilityRate: _.toNumber(savedAssessmentResultData.reproducibilityRate) ?? null,
-    });
-    return savedAssessmentResult;
+    return _toDomain({ assessmentResultDTO: savedAssessmentResultData, competencesMarksDTO: [] });
   } catch (error) {
     throw new AssessmentResultNotCreatedError();
   }
@@ -131,3 +125,14 @@ const getByCertificationCourseId = async function ({ certificationCourseId }) {
 };
 
 export { save, findLatestLevelAndPixScoreByAssessmentId, getByCertificationCourseId };
+
+const _getCommentByAutoJury = (assessmentResult) => {
+  if (
+    assessmentResult.commentForCandidate?.commentByAutoJury !==
+    assessmentResult.commentForOrganization?.commentByAutoJury
+  ) {
+    throw new Error('Incoherent commentByAutoJury between commentForCandidate and commentForOrganization');
+  }
+
+  return assessmentResult.commentForCandidate?.commentByAutoJury;
+};
