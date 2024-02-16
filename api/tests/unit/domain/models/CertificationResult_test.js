@@ -1,6 +1,6 @@
 import { CertificationResult } from '../../../../lib/domain/models/index.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { autoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 const CERTIFICATION_RESULT_STATUS_CANCELLED = CertificationResult.status.CANCELLED;
 const CERTIFICATION_RESULT_STATUS_ERROR = CertificationResult.status.ERROR;
@@ -105,7 +105,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         // given
         const certificationResultDTO = {
           ...certificationResultData,
-          commentByAutoJury: autoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+          commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
         };
 
         // when

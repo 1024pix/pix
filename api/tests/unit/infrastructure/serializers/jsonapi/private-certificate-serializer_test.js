@@ -3,7 +3,7 @@ import * as serializer from '../../../../../lib/infrastructure/serializers/jsona
 import { ResultCompetenceTree } from '../../../../../lib/domain/models/ResultCompetenceTree.js';
 import { ResultCompetence } from '../../../../../lib/domain/models/ResultCompetence.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
-import { autoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Unit | Serializer | JSONAPI | private-certificate-serializer', function () {
   let translate;
@@ -164,7 +164,7 @@ describe('Unit | Serializer | JSONAPI | private-certificate-serializer', functio
       // given
       const privateCertificate = domainBuilder.buildPrivateCertificate({
         ...privateCertificateBase,
-        commentByAutoJury: autoJuryCommentKeys.FRAUD,
+        commentByAutoJury: AutoJuryCommentKeys.FRAUD,
       });
 
       // when

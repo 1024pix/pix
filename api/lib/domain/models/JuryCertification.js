@@ -2,6 +2,36 @@ import { CompetenceMark } from './CompetenceMark.js';
 import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
 
 class JuryCertification {
+  /**
+   * @param {Object} props
+   * @param {number} props.certificationCourseId
+   * @param {number} props.sessionId
+   * @param {number} props.userId
+   * @param {number} props.assessmentId
+   * @param {string} props.firstName
+   * @param {string} props.lastName
+   * @param {string} props.birthplace
+   * @param {string} props.birthINSEECode
+   * @param {string} props.birthCountry
+   * @param {string} props.birthPostalCode
+   * @param {Date} props.createdAt
+   * @param {Date} props.completedAt
+   * @param {string} props.status
+   * @param {boolean} props.isCancelled
+   * @param {boolean} props.isPublished
+   * @param {boolean} props.isRejectedForFraud
+   * @param {number} props.juryId
+   * @param {number} props.pixScore
+   * @param {Array<CompetenceMark>} props.competenceMarks
+   * @param {JuryComment} props.commentForCandidate
+   * @param {JuryComment} props.commentForOrganization
+   * @param {string} props.commentByJury
+   * @param {string} props.commentByAutoJury
+   * @param {Array<string>} props.certificationIssueReports
+   * @param {Object} props.complementaryCertificationCourseResultWithExternal
+   * @param {Object} props.commonComplementaryCertificationCourseResult
+   * @param {string} props.version
+   */
   constructor({
     certificationCourseId,
     sessionId,
@@ -27,7 +57,6 @@ class JuryCertification {
     commentForCandidate,
     commentForOrganization,
     commentByJury,
-    commentByAutoJury,
     certificationIssueReports,
     complementaryCertificationCourseResultWithExternal,
     commonComplementaryCertificationCourseResult,
@@ -57,7 +86,6 @@ class JuryCertification {
     this.commentForCandidate = commentForCandidate;
     this.commentForOrganization = commentForOrganization;
     this.commentByJury = commentByJury;
-    this.commentByAutoJury = commentByAutoJury;
     this.certificationIssueReports = certificationIssueReports;
     this.complementaryCertificationCourseResultWithExternal = complementaryCertificationCourseResultWithExternal;
     this.commonComplementaryCertificationCourseResult = commonComplementaryCertificationCourseResult;

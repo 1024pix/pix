@@ -15,6 +15,18 @@ describe('Unit | Domain | Models | JuryComment', function () {
 
   describe('#getComment', function () {
     context('when there is an automatic jury comment', function () {
+      it('expects a context', function () {
+        // given
+        const juryCommentBadParameters = {
+          fallbackComment: 'Le petit Max a copié la réponse sur Lily!!',
+          commentByAutoJury: AutoJuryCommentKeys.FRAUD,
+          context: 'NOT A VALID CONTEXT',
+        };
+
+        // when, then
+        expect(() => new JuryComment(juryCommentBadParameters)).to.throw();
+      });
+
       it('should return the translated comment matching the key', function () {
         // Given
         const juryComment = new JuryComment({
