@@ -2,7 +2,7 @@ import { expect, domainBuilder } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 import { CertificationResult } from '../../../../../../lib/domain/models/CertificationResult.js';
 import { CertificationResultsCsvValues } from '../../../../../../lib/infrastructure/utils/csv/certification-results/CertificationResultsCsvValues.js';
-import { autoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', function () {
   let i18n, translate;
@@ -310,7 +310,7 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
         const certificationResult = domainBuilder.buildCertificationResult.cancelled({
           ...aCertificationResultData,
           emitter: CertificationResult.emitters.PIX_ALGO,
-          commentByAutoJury: autoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+          commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
         });
 
         // when

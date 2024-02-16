@@ -7,7 +7,7 @@ import {
 
 import { createServer } from '../../../../../server.js';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { autoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Certification | Course | Acceptance | Application | organization-controller', function () {
   let server;
@@ -44,7 +44,7 @@ describe('Certification | Course | Acceptance | Application | organization-contr
 
       databaseBuilder.factory.buildAssessmentResult.last({
         certificationCourseId: certificationCourse.id,
-        commentByAutoJury: autoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+        commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
       });
       await databaseBuilder.commit();
 

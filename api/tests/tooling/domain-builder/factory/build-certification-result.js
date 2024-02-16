@@ -1,5 +1,5 @@
 import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
-import { JuryComment, juryCommentContexts } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { JuryComment, JuryCommentContexts } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 const buildCertificationResult = function ({
   id = 123,
@@ -21,7 +21,7 @@ const buildCertificationResult = function ({
   const juryCommentForOrganization = new JuryComment({
     fallbackComment: commentForOrganization,
     commentByAutoJury,
-    context: juryCommentContexts.ORGANIZATION,
+    context: JuryCommentContexts.ORGANIZATION,
   });
 
   return new CertificationResult({

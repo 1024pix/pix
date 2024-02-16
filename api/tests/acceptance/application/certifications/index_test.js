@@ -11,7 +11,7 @@ import {
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { generateCertificateVerificationCode } from '../../../../lib/domain/services/verify-certificate-code-service.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
-import { autoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Acceptance | API | Certifications', function () {
   let server, options;
@@ -689,7 +689,7 @@ async function _buildDatabaseForV2Certification() {
     pixScore: 23,
     emitter: 'PIX-ALGO',
     status: 'validated',
-    commentByAutoJury: autoJuryCommentKeys.FRAUD,
+    commentByAutoJury: AutoJuryCommentKeys.FRAUD,
   });
   const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({
     certificationCourseId: certificationCourse.id,

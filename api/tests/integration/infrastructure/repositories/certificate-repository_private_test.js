@@ -9,7 +9,7 @@ import {
 
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import * as certificateRepository from '../../../../lib/infrastructure/repositories/certificate-repository.js';
-import { autoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Integration | Infrastructure | Repository | Certificate_private', function () {
   const minimalLearningContent = [
@@ -305,7 +305,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
           certificationCenter: 'Centre des poules bien dodues',
           pixScore: 51,
           commentForCandidate: 'Il aime beaucoup les mangues, mais il a fraudé :( !',
-          commentByAutoJury: autoJuryCommentKeys.FRAUD,
+          commentByAutoJury: AutoJuryCommentKeys.FRAUD,
         };
 
         const { certificationCourseId } = await _buildValidPrivateCertificate(privateCertificateData);

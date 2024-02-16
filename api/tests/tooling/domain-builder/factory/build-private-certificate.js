@@ -1,5 +1,5 @@
 import { PrivateCertificate } from '../../../../lib/domain/models/PrivateCertificate.js';
-import { JuryComment, juryCommentContexts } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { JuryComment, JuryCommentContexts } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 const buildPrivateCertificate = function ({
   id = 1,
@@ -24,7 +24,7 @@ const buildPrivateCertificate = function ({
   const juryComment = new JuryComment({
     commentByAutoJury,
     fallbackComment: commentForCandidate,
-    context: juryCommentContexts.CANDIDATE,
+    context: JuryCommentContexts.CANDIDATE,
   });
   return new PrivateCertificate({
     id,
