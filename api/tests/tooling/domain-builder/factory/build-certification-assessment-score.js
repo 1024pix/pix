@@ -1,4 +1,4 @@
-import { CertificationAssessmentScore } from '../../../../lib/domain/models/CertificationAssessmentScore.js';
+import { CertificationAssessmentScore } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
 
 const buildCertificationAssessmentScore = function ({
   competenceMarks = [],
