@@ -151,6 +151,9 @@ const usecasesWithoutInjectedDependencies = {
     path: join(path, '../../../flash-certification/domain/usecases/'),
   })),
   ...(await importNamedExportsFromDirectory({
+    path: join(path, '../../../scoring/domain/usecases/'),
+  })),
+  ...(await importNamedExportsFromDirectory({
     path: join(path, '../../../course/domain/usecases/'),
     ignoredFileNames: ['index.js', 'update-jury-comments.js', 'get-sco-certification-results-by-division.js'],
   })),
