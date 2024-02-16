@@ -1,21 +1,19 @@
 import { usecases } from '../domain/usecases/index.js';
-import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { escapeFileName } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import * as learningContentPDFPresenter from './presenter/pdf/learning-content-pdf-presenter.js';
 import dayjs from 'dayjs';
 
-const getContentAsJsonFile = async function (request, h, dependencies = { tokenService }) {
+const getContentAsJsonFile = async function (request, h) {
   const targetProfileId = request.params.id;
-  const token = request.query.accessToken;
-  const userId = dependencies.tokenService.extractUserId(token);
 
-  const { jsonContent, fileName } = await usecases.getTargetProfileContentAsJson({ userId, targetProfileId });
-  const escapedFilename = escapeFileName(fileName);
+  const { jsonContent, targetProfileName } = await usecases.getTargetProfileContentAsJson({ targetProfileId });
+
+  const filename = escapeFileName(`${dayjs().format('YYYYMMDD')}_profil_cible_${targetProfileName}.json`);
 
   return h
     .response(jsonContent)
     .header('Content-Type', 'text/json;charset=utf-8')
-    .header('Content-Disposition', `attachment; filename=${escapedFilename}`);
+    .header('Content-Disposition', `attachment; filename=${filename}`);
 };
 
 const getLearningContentAsPdf = async function (request, h, dependencies = { learningContentPDFPresenter }) {

@@ -106,4 +106,17 @@ export default class TargetProfile extends Component {
       this.notifications.error(error.message, { autoClear: false });
     }
   }
+
+  @action
+  async downloadJSON() {
+    try {
+      const targetProfileId = this.args.model.id;
+      const url = `/api/admin/target-profiles/${targetProfileId}/content-json`;
+      const fileName = 'whatever.json';
+      const token = this.session.data.authenticated.access_token;
+      await this.fileSaver.save({ url, fileName, token });
+    } catch (error) {
+      this.notifications.error(error.message, { autoClear: false });
+    }
+  }
 }
