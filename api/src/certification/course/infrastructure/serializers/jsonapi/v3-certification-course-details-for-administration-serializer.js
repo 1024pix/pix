@@ -10,6 +10,7 @@ const serialize = function ({ certificationDetails }) {
     'isCancelled',
     'createdAt',
     'completedAt',
+    'endedAt',
     'assessmentState',
     'assessmentResultStatus',
     'abortReason',

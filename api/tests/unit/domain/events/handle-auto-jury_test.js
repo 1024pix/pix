@@ -400,6 +400,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         isNeutralized: false,
         hasBeenSkippedAutomatically: true,
         certifiableBadgeKey: null,
+        createdAt: new Date('2020-01-01'),
       });
       const challengeNotToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({
         id: 123,
@@ -410,6 +411,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         isNeutralized: false,
         hasBeenSkippedAutomatically: false,
         certifiableBadgeKey: null,
+        createdAt: new Date('2020-01-02'),
       });
       const answeredChallenge = domainBuilder.buildAnswer({
         challengeId: challengeNotToBeConsideredAsSkipped.challengeId,
@@ -453,6 +455,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         certificationCourseId: 123,
         createdAt: new Date('2020-01-01T00:00:00Z'),
         completedAt: new Date('2020-01-01T00:00:00Z'),
+        endedAt: challengeNotToBeConsideredAsSkipped.createdAt,
         state: 'endedDueToFinalization',
         version: 2,
         certificationChallenges: [
@@ -477,9 +480,10 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
           }),
         ],
       });
-      expect(certificationAssessmentRepository.save).to.have.been.calledWithExactly(expectedCertificationAssessment);
+      expect(certificationAssessmentRepository.save.getCall(0).args[0]).to.deep.equal(expectedCertificationAssessment);
     });
   });
+
   context('when certificationCourse is completed', function () {
     it('should not return a CertificationJuryDone', async function () {
       // given

@@ -26,7 +26,10 @@ describe('Integration | Repository | Certification Challenge', function () {
       // then
       expect(savedCertificationChallenge).to.be.an.instanceOf(CertificationChallenge);
       expect(savedCertificationChallenge).to.have.property('id').and.not.null;
-      expect(_.omit(savedCertificationChallenge, 'id')).to.deep.equal(_.omit(certificationChallenge, 'id'));
+      expect(_.omit(savedCertificationChallenge, ['id', 'createdAt'])).to.deep.equal(
+        _.omit(certificationChallenge, ['id', 'createdAt']),
+      );
+      expect(savedCertificationChallenge.createdAt).to.be.instanceOf(Date);
     });
   });
 

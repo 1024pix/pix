@@ -22,6 +22,7 @@ export default class V3CertificationCourseDetailsForAdministration extends Model
   @attr('boolean') isCancelled;
   @attr('date') createdAt;
   @attr('date') completedAt;
+  @attr('date') endedAt;
   @attr('string') assessmentResultStatus;
   @attr('string') assessmentState;
   @attr('string') abortReason;
@@ -34,6 +35,18 @@ export default class V3CertificationCourseDetailsForAdministration extends Model
     return this.certificationChallengesForAdministration.filter((challenge) => {
       return challenge.answerStatus;
     }).length;
+  }
+
+  get wasFinalized() {
+    return this.assessmentState === assessmentStates.ENDED_DUE_TO_FINALIZATION;
+  }
+
+  get wasEndedBySupervisor() {
+    return this.assessmentState === assessmentStates.ENDED_BY_SUPERVISOR;
+  }
+
+  get wasCompleted() {
+    return this.assessmentState === assessmentStates.COMPLETED;
   }
 
   get numberOfOkAnswers() {
@@ -54,7 +67,7 @@ export default class V3CertificationCourseDetailsForAdministration extends Model
 
   get duration() {
     const start = dayjs(this.createdAt);
-    const end = dayjs(this.completedAt);
+    const end = this.wasCompleted ? dayjs(this.completedAt) : dayjs(this.endedAt);
     return end.diff(start);
   }
 

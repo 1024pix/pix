@@ -3,6 +3,7 @@ import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
+  mockLearningContent,
 } from '../../../test-helper.js';
 
 import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
@@ -138,6 +139,17 @@ describe('Acceptance | API | Certifications candidates', function () {
             userId: candidateUserId,
             type: 'CERTIFICATION',
             certificationCourseId,
+          });
+          const certificationChallenge = databaseBuilder.factory.buildCertificationChallenge({
+            courseId: certificationCourseId,
+          });
+          mockLearningContent({
+            frameworks: [{ id: 'frameworkId' }],
+            challenges: [
+              {
+                id: certificationChallenge.challengeId,
+              },
+            ],
           });
 
           const supervisorUserId = databaseBuilder.factory.buildUser({}).id;
