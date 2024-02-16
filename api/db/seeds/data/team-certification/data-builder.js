@@ -118,7 +118,7 @@ function _createV3CertificationConfiguration({ databaseBuilder }) {
     doubleMeasuresUntil: null,
     variationPercent: 0.5,
     variationPercentUntil: null,
-    createdAt: new Date('2022-01-01'),
+    createdAt: new Date('1977-10-19'),
   });
 }
 
