@@ -31,9 +31,18 @@ describe('Integration | UseCases | find-all-missions', function () {
       competenceIds: ['competenceId'],
     });
 
+    const competence = {
+      id: 'competenceId',
+      index: '4.5',
+      name_i18n: {
+        fr: 'Competence',
+      },
+    };
+
     mockLearningContent({
       missions: [mission],
       areas: [area],
+      competences: [competence],
     });
 
     const expectedMission = new Mission({
@@ -41,6 +50,7 @@ describe('Integration | UseCases | find-all-missions', function () {
       name: 'truc',
       competenceId: 'competenceId',
       thematicId: 'thematicId',
+      competenceName: '4.5 Competence',
       status: 'a status',
       areaCode: 3,
       learningObjectives: 'Il était une fois',

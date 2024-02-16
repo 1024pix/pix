@@ -1,8 +1,8 @@
-import { injectCodeFromAreaTo } from '../services/inject-code-from-area-to-mission.js';
+import { injectComplementDataTo } from '../services/inject-complement-data-to-mission.js';
 
-const getMission = async function ({ missionId, missionRepository, areaRepository }) {
+const getMission = async function ({ missionId, missionRepository, areaRepository, competenceRepository }) {
   const mission = await missionRepository.get(missionId);
-  return await injectCodeFromAreaTo(mission, areaRepository);
+  return await injectComplementDataTo(mission, areaRepository, competenceRepository);
 };
 
 export { getMission };

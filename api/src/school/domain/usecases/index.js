@@ -8,6 +8,7 @@ import * as activityRepository from '../../infrastructure/repositories/activity-
 import * as areaRepository from '../../../../lib/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
+import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as missionAssessmentRepository from '../../infrastructure/repositories/mission-assessment-repository.js';
 import * as missionRepository from '../../infrastructure/repositories/mission-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
@@ -19,6 +20,7 @@ const dependencies = {
   areaRepository,
   assessmentRepository,
   challengeRepository,
+  competenceRepository,
   missionAssessmentRepository,
   missionRepository,
   organizationLearnerRepository,
