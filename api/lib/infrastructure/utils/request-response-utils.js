@@ -10,7 +10,13 @@ const requestResponseUtils = { escapeFileName, extractUserIdFromRequest, extract
 export { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest, requestResponseUtils };
 
 function escapeFileName(fileName) {
-  return fileName.replace(/[^_. A-Za-z0-9-]/g, '_');
+  return fileName
+    .normalize('NFD')
+    .toLowerCase()
+    .replace(/\p{Diacritic}/gu, '')
+    .replace(/[^_. a-z0-9-]/g, '')
+    .trim()
+    .replace(/ /g, '_');
 }
 
 function extractUserIdFromRequest(request) {
