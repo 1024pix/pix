@@ -2,6 +2,7 @@ import * as competenceRepository from '../../../../shared/infrastructure/reposit
 import * as areaRepository from '../../../../../lib/infrastructure/repositories/area-repository.js';
 import { competenceLevelIntervals } from '../../../flash-certification/domain/constants/competence-level-intervals.js';
 import { CompetenceForScoring } from '../../domain/models/CompetenceForScoring.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
 
 export const listByLocale = async ({ locale }) => {
   const allAreas = await areaRepository.list();
@@ -17,4 +18,11 @@ export const listByLocale = async ({ locale }) => {
       intervals: values,
     });
   });
+};
+
+export const save = async (configuration) => {
+  const data = {
+    configuration: JSON.stringify(configuration),
+  };
+  await knex('competence-scoring-configurations').insert(data);
 };
