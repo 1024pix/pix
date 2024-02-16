@@ -47,9 +47,9 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
   });
 
-  it('should validate sample text structure', function () {
+  it('should validate sample text structure', async function () {
     // When
-    const result = textElementSchema.validate(getTextSample());
+    const result = await textElementSchema.validateAsync(getTextSample());
 
     // Then
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
