@@ -18,10 +18,11 @@
       @query={{hash version=3}}
       class="navbar-item navbar-item--right"
     >
-      Sessions à traiter V3 ({{this.sessionsWithRequiredActionCountVersion3}})
+      {{t "pages.sessions.list.v3-required-actions"}}
+      ({{this.sessionsWithRequiredActionCountVersion3}})
     </LinkTo>
     <LinkTo @route="authenticated.sessions.list.to-be-published" @query={{hash version=3}} class="navbar-item">
-      Sessions à publier V3
+      {{t "pages.sessions.list.v3-to-be-published"}}
     </LinkTo>
   </nav>
 </header>

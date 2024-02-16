@@ -149,6 +149,9 @@
   },
   "pages": {
     "certification-centers": {
+      "information-view": {
+        "is-v3-pilot": "V3 certification pilot"
+      },
       "notifications": {
         "failure": {
           "update-certification-center-membership-role": "An error has occurred, the member's role has not been changed."
@@ -168,32 +171,32 @@
       "certification": {
         "title": "Certif",
         "details": {
-          "title": "Détails",
+          "title": "Details",
           "v3": {
             "abort-reason": {
-              "candidate": "Abandon : Manque de temps ou départ prématuré",
-              "technical": "Problème technique"
+              "candidate": "Withdrawal: Lack of time or early departure",
+              "technical": "Technical problem"
             },
             "answer-status": {
-              "aband": "Abandonnée",
+              "aband": "Abandoned",
               "focused-out": "Focus out",
               "ko": "KO",
               "ok": "OK",
-              "partially-ok": "Partiellement OK",
-              "timedout": "Temps écoulé",
-              "unimplemented": "Non implémentée",
-              "validated-live-alert": "Signalement validé"
+              "partially-ok": "Partially OK",
+              "timedout": "Time out",
+              "unimplemented": "Not implemented",
+              "validated-live-alert": "Report validated"
             },
             "assessment-result-status": {
-              "cancelled": "Annulée",
-              "error": "Erreur",
-              "fraud": "Rejetée pour fraude",
-              "rejected": "Rejetée",
-              "validated": "Validée"
+              "cancelled": "Cancelled",
+              "error": "Error",
+              "fraud": "Rejected for fraud",
+              "rejected": "Rejected",
+              "validated": "Validated"
             },
             "assessment-state": {
-              "ended-by-supervisor": "Le surveillant",
-              "ended-due-to-finalization": "Finalisation session"
+              "ended-by-supervisor": "The invigilator",
+              "ended-due-to-finalization": "Session finalised"
             },
             "completion-date-tooltip": {
               "ended-by-supervisor": "Date et heure à laquelle le test de certification a été terminé par le surveillant.",
@@ -202,57 +205,57 @@
             "general-informations": {
               "title": "Certification N°{certificationCourseId}",
               "labels": {
-                "abort-reason": "Raison de l'abandon",
-                "created-at": "Créée le",
-                "ended-at": "Terminée le",
-                "ended-by": "Certification terminée par",
-                "pix-score": "Score (en pix)"
+                "abort-reason": "Reason for withdrawal",
+                "created-at": "Created on",
+                "ended-at": "Completed on",
+                "ended-by": "Certification completed by",
+                "pix-score": "Score (in pix)"
               }
             },
             "live-alert-modal": {
               "title": {
-                "answer": "Réponse",
-                "report": "Signalement"
+                "answer": "Response",
+                "report": "Report"
               }
             },
             "more-informations": {
-              "title": "Informations complémentaires",
+              "title": "Additional information",
               "labels": {
-                "numberof-aband-answers": "Nombre de question abandonnées",
-                "numberof-answered-questions": "Nombre de question répondues",
-                "numberof-ko-questions": "Nombre de question KO",
-                "numberof-ok-questions": "Nombre de question OK",
-                "numberof-validated-live-alerts": "Nombre de problèmes techniques validés",
-                "total-numberof-questions": "Nombre total de questions"
+                "numberof-aband-answers": "Number of questions abandoned",
+                "numberof-answered-questions": "Number of questions answered",
+                "numberof-ko-questions": "Number of questions KO",
+                "numberof-ok-questions": "Number of questions OK",
+                "numberof-validated-live-alerts": "Number of technical problems validated",
+                "total-numberof-questions": "Total number of questions"
               }
             },
             "questions-list": {
-              "title": "Liste des questions",
+              "title": "List of questions",
               "actions": {
                 "challenge-preview": {
-                  "extra-information": "Lien vers l'aperçu de l'épreuve (Ouverture dans une nouvelle fenêtre)",
-                  "label": "Lien vers l'aperçu de l'épreuve"
+                  "extra-information": "Link to test preview (opens in new window)",
+                  "label": "Link to the test preview"
                 },
                 "display-answer": {
-                  "extra-information": "Afficher la réponse du candidat",
-                  "label": "Afficher la réponse du candidat"
+                  "extra-information": "Display candidate's answer",
+                  "label": "Show candidate's answer"
                 },
                 "display-live-alert": {
-                  "extra-information": "Afficher le signalement de la question",
-                  "label": "Afficher le signalement de la question"
+                  "extra-information": "Show question description",
+                  "label": "Show question description"
                 },
                 "informations": {
-                  "extra-information": "Lien vers les informations de la question (Ouverture dans une nouvelle fenêtre)"
+                  "extra-information": "Link to question information (Opens in new window)"
                 }
               },
               "labels": {
                 "actions": "Actions",
-                "answer-status": "Statut",
-                "answered-at": "Heure de réponse",
-                "challenge-id": "RecID (voir dans Pix Editor)",
-                "competence": "Compétence concernée",
+                "answer-status": "Status",
+                "answered-at": "Response time",
+                "challenge-id": "RecID (see in Pix Editor)",
+                "competence": "Competence concerned",
                 "number": "N°",
-                "skill": "Nom de l'acquis"
+                "skill": "Name of the asset"
               }
             }
           }
@@ -290,6 +293,10 @@
       "informations": {
         "assignment-confirmation-modal": "This session is already assigned to the user {fullName}.'<br/>'Do you still want to assign it to yourself?",
         "unfinalization-confirmation-modal": "Are you sure you want to unfinalize this session ? Click on confirm to process."
+      },
+      "list": {
+        "v3-required-actions": "V3 sessions with required actions",
+        "v3-to-be-published": "V3 sessions to be published"
       }
     },
     "target-profiles": {
