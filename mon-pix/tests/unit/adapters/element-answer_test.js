@@ -29,10 +29,13 @@ module('Unit | Adapter | Module | ElementAnswer', function (hooks) {
       adapter.ajax = sinon.stub().resolves();
 
       const passageId = 12;
+      const passage = {
+        id: passageId,
+      };
       const userResponse = [];
       const element = { id: 'element-id' };
 
-      const expectedUrl = `http://localhost:3000/api/passages/12/answers`;
+      const expectedUrl = `http://localhost:3000/api/passages/${passageId}/answers`;
       const expectedMethod = 'POST';
       const expectedData = {
         data: {
@@ -40,12 +43,13 @@ module('Unit | Adapter | Module | ElementAnswer', function (hooks) {
             attributes: {
               'element-id': element.id,
               'user-response': userResponse,
+              'passage-id': passage.id,
             },
           },
         },
       };
       const snapshot = {
-        record: { element, userResponse },
+        record: { element, userResponse, passage },
         adapterOptions: {
           passageId,
         },
@@ -54,9 +58,12 @@ module('Unit | Adapter | Module | ElementAnswer', function (hooks) {
             data: {
               attributes: {
                 'user-response': userResponse,
+                'element-id': element.id,
+                'passage-id': passage.id,
               },
               relationships: {
                 element: { data: element },
+                passage: { data: passage },
               },
             },
           };

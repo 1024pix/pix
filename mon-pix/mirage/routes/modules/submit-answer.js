@@ -3,5 +3,7 @@ export default function (schema, request) {
   const elementId = params.data.attributes['element-id'];
 
   const correction = schema.correctionResponses.find(elementId);
-  return schema.elementAnswers.create({ correction });
+
+  const passage = schema.passages.find(request.params.passageId);
+  return schema.elementAnswers.create({ correction, passage });
 }

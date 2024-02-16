@@ -5,6 +5,11 @@ import ModulePassage from '../passage/component';
 export default class ModuleGrain extends Component {
   grain = this.args.grain;
 
+  @action
+  getLastCorrectionForElement(element) {
+    return this.args.passage.getLastCorrectionForElement(element);
+  }
+
   get shouldDisplayContinueButton() {
     return this.args.canMoveToNextGrain && this.allElementsAreAnswered;
   }

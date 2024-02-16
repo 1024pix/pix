@@ -24,8 +24,11 @@ module('Integration | Component | Module | Passage', function (hooks) {
     const module = store.createRecord('module', { title: 'Module title', grains: [grain], transitionTexts });
     this.set('module', module);
 
+    const passage = store.createRecord('passage');
+    this.set('passage', passage);
+
     // when
-    const screen = await render(hbs`<Module::Passage @module={{this.module}} />`);
+    const screen = await render(hbs`<Module::Passage @module={{this.module}} @passage={{this.passage}} />`);
 
     // then
     assert.ok(screen.getByRole('heading', { name: module.title, level: 1 }));
@@ -51,8 +54,11 @@ module('Integration | Component | Module | Passage', function (hooks) {
     const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
     this.set('module', module);
 
+    const passage = store.createRecord('passage');
+    this.set('passage', passage);
+
     // when
-    const screen = await render(hbs`<Module::Passage @module={{this.module}} />`);
+    const screen = await render(hbs`<Module::Passage @module={{this.module}} @passage={{this.passage}} />`);
 
     // then
     assert.ok(screen.getByRole('heading', { name: module.title, level: 1 }));
@@ -79,7 +85,11 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);
 
-      await render(hbs`<Module::Passage @module={{this.module}} />`);
+      const passage = store.createRecord('passage');
+      this.set('passage', passage);
+
+      await render(hbs`<Module::Passage @module={{this.module}} @passage={{this.passage}} />`);
+
       assert.strictEqual(findAll('.element-text').length, 0);
 
       // when
@@ -105,7 +115,10 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);
 
-      await render(hbs`<Module::Passage @module={{this.module}} />`);
+      const passage = store.createRecord('passage');
+      this.set('passage', passage);
+
+      await render(hbs`<Module::Passage @module={{this.module}} @passage={{this.passage}} />`);
 
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = sinon.stub();
@@ -141,7 +154,10 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);
 
-      const screen = await render(hbs`<Module::Passage @module={{this.module}} />`);
+      const passage = store.createRecord('passage');
+      this.set('passage', passage);
+
+      const screen = await render(hbs`<Module::Passage @module={{this.module}} @passage={{this.passage}} />`);
 
       const grainsBeforeAnyAction = screen.getAllByRole('article');
       assert.strictEqual(grainsBeforeAnyAction.length, 1);
@@ -167,7 +183,10 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2, grain3] });
       this.set('module', module);
 
-      const screen = await render(hbs`<Module::Passage @module={{this.module}} />`);
+      const passage = store.createRecord('passage');
+      this.set('passage', passage);
+
+      const screen = await render(hbs`<Module::Passage @module={{this.module}} @passage={{this.passage}} />`);
 
       const grainsBeforeAnyAction = screen.getAllByRole('article');
       assert.strictEqual(grainsBeforeAnyAction.length, 1);
@@ -208,7 +227,10 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2, grain3] });
       this.set('module', module);
 
-      const screen = await render(hbs`<Module::Passage @module={{this.module}} />`);
+      const passage = store.createRecord('passage');
+      this.set('passage', passage);
+
+      const screen = await render(hbs`<Module::Passage @module={{this.module}} @passage={{this.passage}} />`);
 
       const grainsBeforeAnyAction = screen.getAllByRole('article');
       assert.strictEqual(grainsBeforeAnyAction.length, 1);
@@ -244,7 +266,10 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);
 
-      await render(hbs`<Module::Passage @module={{this.module}} />`);
+      const passage = store.createRecord('passage');
+      this.set('passage', passage);
+
+      await render(hbs`<Module::Passage @module={{this.module}} @passage={{this.passage}} />`);
 
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = sinon.stub();

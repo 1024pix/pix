@@ -1,0 +1,63 @@
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import { visit } from '@1024pix/ember-testing-library';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { click } from '@ember/test-helpers';
+
+module('Acceptance | Module | Routes | retakeCompletedModule', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+
+  test('should reset activities when I retake a completed module', async function (assert) {
+    // given
+    const qcu = server.create('qcu', {
+      id: 'elementId-1',
+      type: 'qcus',
+      instruction: 'instruction',
+      proposals: [
+        { id: 'qcu-1-proposal-1', content: 'I am the wrong answer!' },
+        { id: 'qcu-1-proposal-2', content: 'I am the right answer!' },
+      ],
+    });
+
+    const grain = server.create('grain', {
+      id: 'grainId',
+      title: 'title',
+      elements: [qcu],
+    });
+
+    server.create('module', {
+      id: 'bien-ecrire-son-adresse-mail',
+      title: 'Bien écrire son adresse mail',
+      grains: [grain],
+    });
+
+    server.create('correction-response', {
+      id: 'elementId-1',
+      feedback: "Bravo ! C'est la bonne réponse.",
+      status: 'ok',
+      solution: 'qcu-1-proposal-2',
+    });
+
+    // when
+    const screen = await visit('/modules/bien-ecrire-son-adresse-mail/passage');
+    await click(screen.getByLabelText('I am the right answer!'));
+
+    const verifyButton = screen.getByRole('button', { name: 'Vérifier' });
+    await click(verifyButton);
+
+    assert.dom(screen.queryByText("Bravo ! C'est la bonne réponse.")).exists();
+
+    const terminateButton = screen.getByRole('button', { name: 'Terminer' });
+    await click(terminateButton);
+
+    const backToDetailsButton = screen.getByRole('link', { name: 'Revenir aux détails du module' });
+    await click(backToDetailsButton);
+
+    const startModuleButton = screen.getByRole('link', { name: 'Commencer le module' });
+    await click(startModuleButton);
+
+    // then
+    assert.dom(screen.queryByText("Bravo ! C'est la bonne réponse.")).doesNotExist();
+  });
+});

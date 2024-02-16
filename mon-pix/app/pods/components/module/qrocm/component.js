@@ -8,6 +8,10 @@ export default class ModuleQrocm extends Component {
 
   qrocm = this.args.qrocm;
 
+  get lastCorrection() {
+    return this.args.lastCorrection;
+  }
+
   @action
   onInputChanged(block, { target }) {
     this.#updateSelectedValues(block, target.value);
@@ -19,15 +23,15 @@ export default class ModuleQrocm extends Component {
   }
 
   get disableInput() {
-    return !!this.qrocm.lastCorrection;
+    return !!this.lastCorrection;
   }
 
   get feedbackType() {
-    return this.qrocm.lastCorrection?.isOk ? 'success' : 'error';
+    return this.lastCorrection?.isOk ? 'success' : 'error';
   }
 
   get shouldDisplayFeedback() {
-    return !!this.qrocm.lastCorrection;
+    return !!this.lastCorrection;
   }
 
   @action
