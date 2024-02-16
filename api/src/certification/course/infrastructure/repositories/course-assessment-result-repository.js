@@ -4,23 +4,34 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { AssessmentResult } from '../../../../shared/domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../../../../lib/domain/models/CompetenceMark.js';
+import { JuryComment, JuryCommentContexts } from '../../../shared/domain/models/JuryComment.js';
 
 function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   const competenceMarks = competencesMarksDTO.map((competenceMark) => new CompetenceMark(competenceMark));
-
   const reproducibilityRateAsNumber = _.toNumber(assessmentResultDTO.reproducibilityRate) ?? null;
+  const commentForOrganization = new JuryComment({
+    commentByAutoJury: assessmentResultDTO.commentByAutoJury,
+    fallbackComment: assessmentResultDTO.commentForOrganization,
+    context: JuryCommentContexts.ORGANIZATION,
+  });
+  const commentForCandidate = new JuryComment({
+    commentByAutoJury: assessmentResultDTO.commentByAutoJury,
+    fallbackComment: assessmentResultDTO.commentForCandidate,
+    context: JuryCommentContexts.CANDIDATE,
+  });
+
   return new AssessmentResult({
     id: assessmentResultDTO.id,
     assessmentId: assessmentResultDTO.assessmentId,
     status: assessmentResultDTO.status,
-    commentForCandidate: assessmentResultDTO.commentForCandidate,
-    commentForOrganization: assessmentResultDTO.commentForOrganization,
     commentByJury: assessmentResultDTO.commentByJury,
     commentByAutoJury: assessmentResultDTO.commentByAutoJury,
     createdAt: assessmentResultDTO.createdAt,
     emitter: assessmentResultDTO.emitter,
     juryId: assessmentResultDTO.juryId,
     pixScore: assessmentResultDTO.pixScore,
+    commentForCandidate,
+    commentForOrganization,
     reproducibilityRate: reproducibilityRateAsNumber,
     competenceMarks: competenceMarks,
   });

@@ -175,6 +175,7 @@ import { buildCertificationSessionComplementaryCertification } from './certifica
 
 import { buildCampaign as boundedContextCampaignBuildCampaign } from './prescription/campaign/build-campaign.js';
 import { buildCampaignParticipation as boundedContextCampaignParticipationBuildCampaignParticipation } from './prescription/campaign-participation/build-campaign-participation.js';
+import { buildJuryComment } from './certification/shared/build-jury-comment.js';
 
 const certification = {
   session: {
@@ -185,6 +186,9 @@ const certification = {
   },
   complementary: {
     buildComplementaryCertificationBadge: buildComplementaryCertificationBadge,
+  },
+  shared: {
+    buildJuryComment: buildJuryComment,
   },
 };
 

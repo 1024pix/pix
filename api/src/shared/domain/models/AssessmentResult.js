@@ -1,23 +1,48 @@
+/**
+ * @typedef {import('../../../../lib/domain/models/CompetenceMark.js').CompetenceMark} CompetenceMark
+ */
+import { JuryComment, JuryCommentContexts } from '../../../certification/shared/domain/models/JuryComment.js';
 import { Assessment } from './Assessment.js';
 
-const status = {
+/**
+ * @readonly
+ * @enum {string}
+ */
+const status = Object.freeze({
   REJECTED: 'rejected',
   VALIDATED: 'validated',
   ERROR: 'error',
-};
+});
 
-const emitters = {
+/**
+ * @readonly
+ * @enum {string}
+ */
+const emitters = Object.freeze({
   PIX_ALGO: 'PIX-ALGO',
   PIX_JURY: 'Jury Pix',
-};
+});
 
 class AssessmentResult {
+  /**
+   * @param {number} id
+   * @param {JuryComment} commentForCandidate
+   * @param {string} commentByJury
+   * @param {JuryComment} commentForOrganization
+   * @param {Date} createdAt
+   * @param {emitters} emitter
+   * @param {number} pixScore
+   * @param {number} reproducibilityRate
+   * @param {status} status
+   * @param {Array<CompetenceMark>} competenceMarks
+   * @param {number} assessmentId
+   * @param {number} juryId
+   */
   constructor({
     id,
     commentForCandidate,
     commentByJury,
     commentForOrganization,
-    commentByAutoJury,
     createdAt,
     emitter,
     pixScore,
@@ -31,7 +56,6 @@ class AssessmentResult {
     this.commentForCandidate = commentForCandidate;
     this.commentByJury = commentByJury;
     this.commentForOrganization = commentForOrganization;
-    this.commentByAutoJury = commentByAutoJury;
     this.createdAt = createdAt;
     this.emitter = emitter;
     this.pixScore = pixScore;
@@ -73,19 +97,29 @@ class AssessmentResult {
   }
 
   static buildNotTrustableAssessmentResult({ pixScore, reproducibilityRate, status, assessmentId, juryId, emitter }) {
-    return new AssessmentResult({
-      emitter,
-      commentForCandidate:
+    const commentForCandidate = new JuryComment({
+      context: JuryCommentContexts.CANDIDATE,
+      fallbackComment:
         'Un ou plusieurs problème(s) technique(s), signalé(s) à votre surveillant pendant la session de certification' +
         ', a/ont affecté la qualité du test de certification. En raison du trop grand nombre de questions auxquelles vous ' +
         "n'avez pas pu répondre dans de bonnes conditions, nous ne sommes malheureusement pas en mesure de calculer un " +
         'score fiable et de fournir un certificat. La certification est annulée, le prescripteur de votre certification' +
         '(le cas échéant), en est informé.',
-      commentForOrganization:
+    });
+
+    const commentForOrganization = new JuryComment({
+      context: JuryCommentContexts.ORGANIZATION,
+      fallbackComment:
         'Un ou plusieurs problème(s) technique(s), signalés par ce(cette) candidate au surveillant' +
         'de la session de certification, a/ont affecté le bon déroulement du test de certification. Nous sommes dans ' +
         "l'incapacité de le/la certifier, sa certification est donc annulée. Cette information est à prendre en compte " +
         'et peut vous conduire à proposer une nouvelle session de certification pour ce(cette) candidat(e).',
+    });
+
+    return new AssessmentResult({
+      emitter,
+      commentForCandidate,
+      commentForOrganization,
       pixScore,
       reproducibilityRate,
       status,
@@ -100,10 +134,9 @@ class AssessmentResult {
 
   clone() {
     return new AssessmentResult({
-      commentForCandidate: this.commentForCandidate,
+      commentForCandidate: this.commentForCandidate?.clone(),
       commentByJury: this.commentByJury,
-      commentForOrganization: this.commentForOrganization,
-      commentByAutoJury: this.commentByAutoJury,
+      commentForOrganization: this.commentForOrganization?.clone(),
       emitter: this.emitter,
       pixScore: this.pixScore,
       reproducibilityRate: this.reproducibilityRate,
