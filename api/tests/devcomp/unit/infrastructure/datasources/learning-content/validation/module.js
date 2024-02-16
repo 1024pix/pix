@@ -7,11 +7,11 @@ import {
   textElementSchema,
   videoElementSchema,
 } from './element/index.js';
-import { uuidSchema } from './utils.js';
+import { htmlSchema, uuidSchema } from './utils.js';
 
 const transitionTextSchema = Joi.object({
   grainId: uuidSchema,
-  content: Joi.string().required(),
+  content: htmlSchema,
 }).required();
 
 const moduleSchema = Joi.object({
