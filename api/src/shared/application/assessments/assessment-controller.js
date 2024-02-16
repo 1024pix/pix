@@ -3,6 +3,7 @@ import { Serializer as JSONAPISerializer } from 'jsonapi-serializer';
 import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { usecases as devcompUsecases } from '../../../devcomp/domain/usecases/index.js';
+import { usecases as certificationUsecases } from '../../../certification/shared/domain/usecases/index.js';
 import * as events from '../../../../lib/domain/events/index.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
@@ -155,7 +156,7 @@ const autoValidateNextChallenge = async function (request, h) {
 const createCertificationChallengeLiveAlert = async function (request, h) {
   const assessmentId = request.params.id;
   const challengeId = request.payload?.data?.attributes?.['challenge-id'];
-  await usecases.createCertificationChallengeLiveAlert({ assessmentId, challengeId });
+  await certificationUsecases.createCertificationChallengeLiveAlert({ assessmentId, challengeId });
   return h.response().code(204);
 };
 

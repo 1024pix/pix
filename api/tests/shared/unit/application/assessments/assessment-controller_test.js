@@ -2,6 +2,7 @@ import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js'
 import { assessmentController } from '../../../../../src/shared/application/assessments/assessment-controller.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { usecases as devcompUsecases } from '../../../../../src/devcomp/domain/usecases/index.js';
+import { usecases as certificationUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 import * as events from '../../../../../lib/domain/events/index.js';
 import { AssessmentCompleted } from '../../../../../lib/domain/events/AssessmentCompleted.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
@@ -234,8 +235,8 @@ describe('Unit | Controller | assessment-controller', function () {
       // given
       const assessmentId = 2;
       const challengeId = '123';
-      sinon.stub(usecases, 'createCertificationChallengeLiveAlert');
-      usecases.createCertificationChallengeLiveAlert.resolves();
+      sinon.stub(certificationUsecases, 'createCertificationChallengeLiveAlert');
+      certificationUsecases.createCertificationChallengeLiveAlert.resolves();
       const payload = { data: { attributes: { 'challenge-id': challengeId } } };
       const request = { params: { id: assessmentId }, payload };
 
@@ -244,7 +245,7 @@ describe('Unit | Controller | assessment-controller', function () {
 
       // then
       expect(response.statusCode).to.be.equal(204);
-      expect(usecases.createCertificationChallengeLiveAlert).to.have.been.calledWithExactly({
+      expect(certificationUsecases.createCertificationChallengeLiveAlert).to.have.been.calledWithExactly({
         assessmentId,
         challengeId,
       });
