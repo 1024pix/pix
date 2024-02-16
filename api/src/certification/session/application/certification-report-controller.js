@@ -1,5 +1,5 @@
-import { usecases } from '../../domain/usecases/index.js';
-import * as certificationIssueReportSerializer from '../../infrastructure/serializers/jsonapi/certification-issue-report-serializer.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import * as certificationIssueReportSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-issue-report-serializer.js';
 
 const saveCertificationIssueReport = async function (request, h) {
   const certificationIssueReportDTO = certificationIssueReportSerializer.deserialize(request);
