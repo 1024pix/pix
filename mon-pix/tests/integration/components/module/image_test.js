@@ -41,6 +41,8 @@ module('Integration | Component | Module | Image', function (hooks) {
       alt: 'alt text',
       alternativeText,
     });
+    const grain = store.createRecord('grain', { id: 'grain-id', elements: [imageElement] });
+    store.createRecord('module', { id: 'module-id', grains: [grain] });
 
     this.set('image', imageElement);
 
