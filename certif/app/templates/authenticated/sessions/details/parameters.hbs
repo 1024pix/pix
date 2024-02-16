@@ -116,7 +116,7 @@
 
   <div class="session-details-buttons">
     {{#if this.sessionHasStarted}}
-      <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}} @backgroundColor="grey">
+      <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}} @backgroundColor="neutral">
         {{t "common.actions.update"}}
       </PixButtonLink>
       {{#if this.session.isFinalized}}
