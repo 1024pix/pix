@@ -49,6 +49,7 @@ module.exports = {
           'split2',
           'stream-to-promise',
           'pino-pretty',
+          'html-validate',
         ],
       },
     ],
