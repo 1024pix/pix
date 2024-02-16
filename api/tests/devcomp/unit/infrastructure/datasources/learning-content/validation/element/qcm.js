@@ -16,7 +16,7 @@ const qcmElementSchema = Joi.object({
     valid: Joi.string().required(),
     invalid: Joi.string().required(),
   }).required(),
-  solutions: Joi.array().items(proposalIdSchema).min(3).required(),
+  solutions: Joi.array().items(proposalIdSchema).min(2).required(),
 }).required();
 
 export { qcmElementSchema };
