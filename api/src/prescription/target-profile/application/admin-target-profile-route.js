@@ -34,14 +34,24 @@ const register = async function (server) {
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de récupérer le référentiel du profil cible en version pdf',
         ],
-        tags: ['api', 'learning-content', 'target-profile', 'PDF'],
+        tags: ['api', 'admin', 'target-profile', 'pdf'],
       },
     },
     {
       method: 'GET',
       path: '/api/admin/target-profiles/{id}/content-json',
       config: {
-        auth: false,
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.targetProfileId,

@@ -1,10 +1,8 @@
-import { expect, sinon, catchErr, domainBuilder, MockDate } from '../../../../../test-helper.js';
+import { expect, sinon, domainBuilder, MockDate } from '../../../../../test-helper.js';
 import { getTargetProfileContentAsJson } from '../../../../../../src/prescription/target-profile/domain/usecases/get-target-profile-content-as-json.js';
-import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | get-target-profile-content-as-json', function () {
   let targetProfileForAdminRepository;
-  let adminMemberRepository;
   let learningContentConversionService;
 
   beforeEach(function () {
@@ -15,59 +13,6 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
     MockDate.reset();
   });
 
-  context('when the user has not pix admin role', function () {
-    beforeEach(function () {
-      targetProfileForAdminRepository = { get: sinon.stub() };
-      targetProfileForAdminRepository.get.rejects(new Error('I should not be called'));
-      learningContentConversionService.findActiveSkillsForCappedTubes.rejects(new Error('I should not be called'));
-    });
-
-    it('should throw a ForbiddenAccess error', async function () {
-      // given
-      adminMemberRepository = { get: sinon.stub() };
-      adminMemberRepository.get.withArgs({ userId: 66 }).resolves(undefined);
-
-      // when
-      const error = await catchErr(getTargetProfileContentAsJson)({
-        userId: 66,
-        targetProfileId: 123,
-        adminMemberRepository,
-        targetProfileForAdminRepository,
-        learningContentConversionService,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(ForbiddenAccess);
-      expect(error.message).to.equal("L'utilisateur n'est pas autorisé à effectuer cette opération.");
-    });
-  });
-
-  context('when the user does not have the authorization to get the content', function () {
-    beforeEach(function () {
-      targetProfileForAdminRepository = { get: sinon.stub() };
-      targetProfileForAdminRepository.get.rejects(new Error('I should not be called'));
-      learningContentConversionService.findActiveSkillsForCappedTubes.rejects(new Error('I should not be called'));
-    });
-
-    it('should throw a ForbiddenAccess error', async function () {
-      // given
-      const certifMember = domainBuilder.buildAdminMember.withRoleCertif({ userId: 66 });
-      adminMemberRepository = { get: sinon.stub().withArgs({ userId: 66 }).resolves(certifMember) };
-
-      // when
-      const error = await catchErr(getTargetProfileContentAsJson)({
-        userId: 66,
-        targetProfileId: 123,
-        adminMemberRepository,
-        targetProfileForAdminRepository,
-        learningContentConversionService,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(ForbiddenAccess);
-      expect(error.message).to.equal("L'utilisateur n'est pas autorisé à effectuer cette opération.");
-    });
-  });
   context('when the user has the authorization to get the content', function () {
     beforeEach(function () {
       MockDate.set(new Date('2020-12-01'));
@@ -124,73 +69,20 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
         .resolves([...skillsForTube1, ...skillsForTube2, ...skillsForTube3]);
     });
 
-    context('when the user has role SUPPORT', function () {
-      it('should return the json content and the filename for the target profile to export', async function () {
-        // given
-        const supportMember = domainBuilder.buildAdminMember.withRoleSupport({ userId: 66 });
-        adminMemberRepository = { get: sinon.stub().withArgs({ userId: 66 }).resolves(supportMember) };
-
-        // when
-        const { jsonContent, fileName } = await getTargetProfileContentAsJson({
-          userId: 66,
-          targetProfileId: 123,
-          adminMemberRepository,
-          targetProfileForAdminRepository,
-          learningContentConversionService,
-        });
-
-        // then
-        expect(fileName).to.equal('20201201_profil_cible_Profil Rentrée scolaire.json');
-        expect(jsonContent).to.equal(
-          '[{"id":"recTube1","level":8,"frameworkId":"recFramework","skills":["skill1Tube1"]},{"id":"recTube2","level":7,"frameworkId":"recFramework","skills":["skill1Tube2","skill2Tube2"]},{"id":"recTube3","level":1,"frameworkId":"recFramework","skills":[]}]',
-        );
+    it('should return the json content and the filename for the target profile to export', async function () {
+      // when
+      const { jsonContent, targetProfileName } = await getTargetProfileContentAsJson({
+        userId: 66,
+        targetProfileId: 123,
+        targetProfileForAdminRepository,
+        learningContentConversionService,
       });
-    });
 
-    context('when the user has role METIER', function () {
-      it('should return the json content and the filename for the target profile to export', async function () {
-        // given
-        const metierMember = domainBuilder.buildAdminMember.withRoleMetier({ userId: 66 });
-        adminMemberRepository = { get: sinon.stub().withArgs({ userId: 66 }).resolves(metierMember) };
-
-        // when
-        const { jsonContent, fileName } = await getTargetProfileContentAsJson({
-          userId: 66,
-          targetProfileId: 123,
-          adminMemberRepository,
-          targetProfileForAdminRepository,
-          learningContentConversionService,
-        });
-
-        // then
-        expect(fileName).to.equal('20201201_profil_cible_Profil Rentrée scolaire.json');
-        expect(jsonContent).to.equal(
-          '[{"id":"recTube1","level":8,"frameworkId":"recFramework","skills":["skill1Tube1"]},{"id":"recTube2","level":7,"frameworkId":"recFramework","skills":["skill1Tube2","skill2Tube2"]},{"id":"recTube3","level":1,"frameworkId":"recFramework","skills":[]}]',
-        );
-      });
-    });
-
-    context('when the user has role SUPER_ADMIN', function () {
-      it('should return the json content and the filename for the target profile to export', async function () {
-        // given
-        const superAdminMember = domainBuilder.buildAdminMember.withRoleSuperAdmin({ userId: 66 });
-        adminMemberRepository = { get: sinon.stub().withArgs({ userId: 66 }).resolves(superAdminMember) };
-
-        // when
-        const { jsonContent, fileName } = await getTargetProfileContentAsJson({
-          userId: 66,
-          targetProfileId: 123,
-          adminMemberRepository,
-          targetProfileForAdminRepository,
-          learningContentConversionService,
-        });
-
-        // then
-        expect(fileName).to.equal('20201201_profil_cible_Profil Rentrée scolaire.json');
-        expect(jsonContent).to.equal(
-          '[{"id":"recTube1","level":8,"frameworkId":"recFramework","skills":["skill1Tube1"]},{"id":"recTube2","level":7,"frameworkId":"recFramework","skills":["skill1Tube2","skill2Tube2"]},{"id":"recTube3","level":1,"frameworkId":"recFramework","skills":[]}]',
-        );
-      });
+      // then
+      expect(targetProfileName).to.equal('Profil Rentrée scolaire');
+      expect(jsonContent).to.equal(
+        '[{"id":"recTube1","level":8,"frameworkId":"recFramework","skills":["skill1Tube1"]},{"id":"recTube2","level":7,"frameworkId":"recFramework","skills":["skill1Tube2","skill2Tube2"]},{"id":"recTube3","level":1,"frameworkId":"recFramework","skills":[]}]',
+      );
     });
   });
 });
