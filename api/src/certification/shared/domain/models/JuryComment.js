@@ -1,8 +1,18 @@
+import { assertEnumValue } from '../../../../shared/domain/models/asserts.js';
+
+/**
+ * @readonly
+ * @enum {string}
+ */
 const JuryCommentContexts = Object.freeze({
   CANDIDATE: 'candidate',
   ORGANIZATION: 'organization',
 });
 
+/**
+ * @readonly
+ * @enum {string}
+ */
 const AutoJuryCommentKeys = Object.freeze({
   FRAUD: 'FRAUD',
   CANCELLED_DUE_TO_NEUTRALIZATION: 'CANCELLED_DUE_TO_NEUTRALIZATION',
@@ -14,10 +24,21 @@ const MAPPING_JURY_AUTO_COMMENT_KEYS_TO_TRANSLATION_KEYS = {
 };
 
 class JuryComment {
+  /**
+   * @param {Object} props
+   * @param {AutoJuryCommentKeys} props.commentByAutoJury
+   * @param {string} props.fallbackComment
+   * @param {JuryCommentContexts} props.context mandatory if AutoJuryCommentKeys given
+   */
   constructor({ commentByAutoJury, fallbackComment, context }) {
     this.commentByAutoJury = AutoJuryCommentKeys[commentByAutoJury];
+
+    if (this.commentByAutoJury) {
+      assertEnumValue(JuryCommentContexts, context);
+      this.context = context;
+    }
+
     this.fallbackComment = fallbackComment;
-    this.context = context;
   }
 
   getComment(translate) {

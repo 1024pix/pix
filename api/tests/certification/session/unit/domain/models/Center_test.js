@@ -32,7 +32,7 @@ describe('Unit | Certification | Session | Domain | Models | Center', function (
 
         // then
         expect(error).to.be.an.instanceOf(TypeError);
-        expect(error.message).to.equal('Illegal argument provided');
+        expect(error.message).to.equal('Illegal enum value provided');
       });
     });
   });

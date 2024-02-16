@@ -1,7 +1,7 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
 import { PrivateCertificate } from '../../../../lib/domain/models/PrivateCertificate.js';
 import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
-import { autoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Unit | Domain | Models | PrivateCertificate', function () {
   context('#static buildFrom', function () {
@@ -93,7 +93,7 @@ describe('Unit | Domain | Models | PrivateCertificate', function () {
 
     it('builds PrivateCertificate with an auto jury comment', async function () {
       // given
-      const certificateWithAutoJuryCommentData = { ...commonData, commentByAutoJury: autoJuryCommentKeys.FRAUD };
+      const certificateWithAutoJuryCommentData = { ...commonData, commentByAutoJury: AutoJuryCommentKeys.FRAUD };
 
       // when
       const privateCertificate = PrivateCertificate.buildFrom(certificateWithAutoJuryCommentData);
