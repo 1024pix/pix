@@ -33,7 +33,7 @@ describe('Unit | Controller | admin-target-profile-controller', function () {
       // then
       expect(response.source).to.equal('json_content');
       expect(response.headers).to.deep.equal({
-        'Content-Type': 'text/json;charset=utf-8',
+        'Content-Type': 'application/json;charset=utf-8',
         'Content-Disposition': 'attachment; filename=20220201_profil_cible_target_profile_name.json',
       });
     });
