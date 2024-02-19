@@ -1,5 +1,38 @@
 # Pix Changelog
 
+## v4.104.0 (19/02/2024)
+
+
+### :rocket: Amélioration
+- [#8097](https://github.com/1024pix/pix/pull/8097) [FEATURE] Créé des scripts pour générer des élements Modulix (PIX-11270).
+- [#8102](https://github.com/1024pix/pix/pull/8102) [FEATURE] Ajout des liens vers image et dernier grain de ports-connexions-essentiels (MODC-11).
+- [#7970](https://github.com/1024pix/pix/pull/7970) [FEATURE] Ajouter le paramètre audience aux routes API 'oidc/token' et 'oidc/authentication-url' pour le besoin SSO Google (PIX-10966).
+- [#8089](https://github.com/1024pix/pix/pull/8089) [FEATURE] Création du module distinguer-vrai-faux-sur-internet (MODC-26) (PIX-11267).
+- [#8093](https://github.com/1024pix/pix/pull/8093) [FEATURE] créer la table organization-imports (PIX-11255).
+- [#8085](https://github.com/1024pix/pix/pull/8085) [FEATURE] Ajout des traductions en anglais (PIX-11176).
+- [#8023](https://github.com/1024pix/pix/pull/8023) [FEATURE] Afficher la date de fin de certification lorsque le candidat n'a pas répondu à toutes les questions (PIX-11083).
+- [#8063](https://github.com/1024pix/pix/pull/8063) [FEATURE] Ajout d'une intro au module adresse IP publique (PIX-11167).
+- [#8058](https://github.com/1024pix/pix/pull/8058) [FEATURE] Ajouter la vérification d'un QCM pour modulix (PIX-11134).
+- [#7915](https://github.com/1024pix/pix/pull/7915) [FEATURE] Ajouter un label "organisation enfant" sur la page d'une organisation enfant (PIX-10050).
+
+### :building_construction: Tech
+- [#8099](https://github.com/1024pix/pix/pull/8099) [TECH] Utiliser les bon paramètres couleurs sur PixAPP (PIX-11286).
+- [#8098](https://github.com/1024pix/pix/pull/8098) [TECH] Utiliser les bon arguments de couleurs sur PixAdmin (PIX-11284).
+- [#8100](https://github.com/1024pix/pix/pull/8100) [TECH] Utiliser les bon arguments couleurs sur les PixButton dans PixCertif (Pix-11287).
+- [#8096](https://github.com/1024pix/pix/pull/8096) [TECH] Utiliser les bon arguments des couleurs sur les PixButton sur  Pix Orga (PIX-11283).
+- [#8084](https://github.com/1024pix/pix/pull/8084) [TECH] Permettre de tracer les challenge non trouver en certification (PIX-11261).
+- [#8000](https://github.com/1024pix/pix/pull/8000) [TECH] Stocke les fichiers d'import du SUP dans un bucket S3 (PIX-11064).
+- [#8080](https://github.com/1024pix/pix/pull/8080) [TECH] Revue Matomo pour Modulix (PIX-11162).
+- [#8060](https://github.com/1024pix/pix/pull/8060) [TECH] Mettre à jour ember-data sur PixOrga (PIX-11204).
+- [#8079](https://github.com/1024pix/pix/pull/8079) [TECH] Deplacement des versions de navigateurs pour docker (PIX-11235).
+
+### :bug: Correction
+- [#8103](https://github.com/1024pix/pix/pull/8103) [BUGFIX] Autoriser le champ participantExternalId à s'afficher sur plusieurs ligne (PIX-11288).
+- [#8088](https://github.com/1024pix/pix/pull/8088) [BUGFIX] affiche les dernières participations partagées dans la page résultats (Pix-11171).
+- [#8086](https://github.com/1024pix/pix/pull/8086) [BUGFIX] Rendre les placeholders des inputs sur Pix Admin (PIX-11258).
+- [#8019](https://github.com/1024pix/pix/pull/8019) [BUGFIX] Modifier les noms des types d'organisation en réseau (PIX-11038).
+- [#8073](https://github.com/1024pix/pix/pull/8073) [BUGFIX] Re finalisation session impossible si le test est terminé par la finalisation (PIX-11215).
+
 ## v4.103.0 (15/02/2024)
 
 
