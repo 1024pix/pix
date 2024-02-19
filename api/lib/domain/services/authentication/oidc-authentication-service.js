@@ -299,23 +299,32 @@ class OidcAuthenticationService {
   }
 
   async getRedirectLogoutUrl({ userId, logoutUrlUUID } = {}) {
-    if (!this.endSessionUrl) {
-      return null;
-    }
-
-    const redirectTarget = new URL(this.endSessionUrl);
     const key = `${userId}:${logoutUrlUUID}`;
     const idToken = await this.sessionTemporaryStorage.get(key);
-    const params = [
-      { key: 'post_logout_redirect_uri', value: this.postLogoutRedirectUri },
-      { key: 'id_token_hint', value: idToken },
-    ];
 
-    params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
+    const parameters = {
+      post_logout_redirect_uri: this.postLogoutRedirectUri,
+      id_token_hint: idToken,
+    };
 
-    await this.sessionTemporaryStorage.delete(key);
+    try {
+      const endSessionUrl = this.client.endSessionUrl(parameters);
 
-    return redirectTarget.toString();
+      await this.sessionTemporaryStorage.delete(key);
+
+      return endSessionUrl;
+    } catch (error) {
+      monitoringTools.logErrorWithCorrelationIds({
+        message: {
+          context: 'oidc',
+          data: { organizationName: this.organizationName },
+          error,
+          event: 'get-redirect-logout-url',
+          team: 'acces',
+        },
+      });
+      throw new OidcError({ message: error.message });
+    }
   }
 
   async _getUserInfoFromEndpoint({ accessToken }) {

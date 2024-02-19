@@ -255,21 +255,42 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#getRedirectLogoutUrl', function () {
-    context('when there is no endSessionEndpoint', function () {
-      it('returns null', async function () {
-        // given
-        const oidcAuthenticationService = new OidcAuthenticationService({});
+    it('returns a redirect URL', async function () {
+      // given
+      const idToken = 'some_dummy_id_token';
+      const userId = 'some_dummy_user_id';
+      const logoutUrlUUID = 'some_dummy_logout_url_uuid';
+      const sessionTemporaryStorage = {
+        get: sinon.stub().resolves(idToken),
+        delete: sinon.stub().resolves(),
+      };
+      const postLogoutRedirectUriEncoded = encodeURIComponent(settings.oidcExampleNet.postLogoutRedirectUri);
+      const endSessionUrl = `https://example.net/logout?post_logout_redirect_uri=${postLogoutRedirectUriEncoded}&id_token_hint=some_dummy_id_token`;
+      const clientInstance = { endSessionUrl: sinon.stub().resolves(endSessionUrl) };
+      const Client = sinon.stub().returns(clientInstance);
 
-        // when
-        const result = await oidcAuthenticationService.getRedirectLogoutUrl();
+      sinon.stub(Issuer, 'discover').resolves({ Client });
 
-        // then
-        expect(result).to.be.null;
+      const oidcAuthenticationService = new OidcAuthenticationService(settings.oidcExampleNet, {
+        sessionTemporaryStorage,
       });
+      await oidcAuthenticationService.createClient();
+
+      // when
+      const result = await oidcAuthenticationService.getRedirectLogoutUrl({ userId, logoutUrlUUID });
+
+      // then
+      expect(clientInstance.endSessionUrl).to.have.been.calledWith({
+        id_token_hint: idToken,
+        post_logout_redirect_uri: settings.oidcExampleNet.postLogoutRedirectUri,
+      });
+      expect(result).to.equal(
+        'https://example.net/logout?post_logout_redirect_uri=https%3A%2F%2Fapp.dev.pix.local%2Fconnexion&id_token_hint=some_dummy_id_token',
+      );
     });
 
-    context('when there is an endSessionEndpoint', function () {
-      it('returns a redirect URL for the user browser', async function () {
+    context('when OpenId Client endSessionUrl fails', function () {
+      it('throws an error and logs a message in datadog', async function () {
         // given
         const idToken = 'some_dummy_id_token';
         const userId = 'some_dummy_user_id';
@@ -278,30 +299,38 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           get: sinon.stub().resolves(idToken),
           delete: sinon.stub().resolves(),
         };
-        settings.someOidcProviderService = {
-          isEnabled: true,
-          clientId: 'anId',
-          clientSecret: 'aSecret',
-          authenticationUrl: 'https://example.net/authorize',
-          tokenUrl: 'https://example.net/token',
-          userInfoUrl: 'https://example.net/userinfo',
-        };
-        const oidcAuthenticationService = new OidcAuthenticationService(
-          {
-            configKey: 'someOidcProviderService',
-            endSessionUrl: 'https://example.net/logout',
-            postLogoutRedirectUri: 'https://app.pix.fr/connexion',
-          },
-          { sessionTemporaryStorage },
-        );
+        const errorThrown = new Error('Fails to generate endSessionUrl');
+
+        const clientInstance = { endSessionUrl: sinon.stub().throws(errorThrown) };
+        const Client = sinon.stub().returns(clientInstance);
+
+        sinon.stub(Issuer, 'discover').resolves({ Client });
+
+        const oidcAuthenticationService = new OidcAuthenticationService(settings.oidcExampleNet, {
+          sessionTemporaryStorage,
+        });
+        await oidcAuthenticationService.createClient();
 
         // when
-        const result = await oidcAuthenticationService.getRedirectLogoutUrl({ userId, logoutUrlUUID });
+        const error = await catchErr(
+          oidcAuthenticationService.getRedirectLogoutUrl,
+          oidcAuthenticationService,
+        )({ userId, logoutUrlUUID });
 
         // then
-        expect(result).to.equal(
-          'https://example.net/logout?post_logout_redirect_uri=https%3A%2F%2Fapp.pix.fr%2Fconnexion&id_token_hint=some_dummy_id_token',
-        );
+        expect(error).to.be.instanceOf(OidcError);
+        expect(error.message).to.be.equal('Fails to generate endSessionUrl');
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
+          message: {
+            context: 'oidc',
+            data: {
+              organizationName: 'Oidc Example',
+            },
+            error: errorThrown,
+            event: 'get-redirect-logout-url',
+            team: 'acces',
+          },
+        });
       });
     });
   });
