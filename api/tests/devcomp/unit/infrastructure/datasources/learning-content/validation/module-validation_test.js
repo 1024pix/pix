@@ -23,9 +23,9 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
   });
 
-  it('should validate sample qcm structure', function () {
+  it('should validate sample qcm structure', async function () {
     // When
-    const result = qcmElementSchema.validate(getQcmSample());
+    const result = await qcmElementSchema.validateAsync(getQcmSample());
 
     // Then
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
