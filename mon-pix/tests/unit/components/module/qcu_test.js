@@ -30,7 +30,7 @@ module('Unit | Component | Module | QCU', function (hooks) {
         const correctionResponse = store.createRecord('correction-response', { status: 'ok' });
         const elementAnswer = store.createRecord('element-answer', { correction: correctionResponse });
         const qcuElement = store.createRecord('qcu', { elementAnswers: [elementAnswer] });
-        const component = createPodsComponent('module/qcu', { qcu: qcuElement });
+        const component = createPodsComponent('module/qcu', { qcu: qcuElement, correction: correctionResponse });
 
         // when
         const feedbackType = component.feedbackType;

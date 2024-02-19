@@ -5,6 +5,11 @@ import ModulePassage from '../passage/component';
 export default class ModuleGrain extends Component {
   grain = this.args.grain;
 
+  @action
+  getLastCorrectionForElement(element) {
+    return this.args.passage.getLastCorrectionForElement(element);
+  }
+
   get shouldDisplayContinueButton() {
     return this.args.canMoveToNextGrain && this.allElementsAreAnswered;
   }
@@ -14,7 +19,7 @@ export default class ModuleGrain extends Component {
   }
 
   get allElementsAreAnswered() {
-    return this.grain.allElementsAreAnswered;
+    return this.grain.allElementsAreAnsweredForPassage(this.args.passage);
   }
 
   get ariaLiveGrainValue() {

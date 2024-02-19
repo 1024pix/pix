@@ -79,7 +79,9 @@ module('Integration | Component | Module | QCU', function (hooks) {
     this.set('submitAnswer', () => {});
 
     // when
-    const screen = await render(hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}} />`);
+    const screen = await render(
+      hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+    );
 
     // then
     const status = screen.getByRole('status');
@@ -101,7 +103,9 @@ module('Integration | Component | Module | QCU', function (hooks) {
     this.set('submitAnswer', () => {});
 
     // when
-    const screen = await render(hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}} />`);
+    const screen = await render(
+      hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
 
     // then
     const status = screen.getByRole('status');
@@ -176,4 +180,5 @@ function prepareContextRecords(store, correctionResponse) {
     element: qcuElement,
   });
   this.set('qcu', qcuElement);
+  this.set('correctionResponse', correctionResponse);
 }

@@ -81,21 +81,24 @@ module('Unit | Model | Module | Grain', function (hooks) {
     });
   });
 
-  module('#allElementsAreAnswered', function () {
+  module('#allElementsAreAnsweredForPassage', function () {
     module('when all answerable elements are answered', function () {
       test('should return true', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const qcu = store.createRecord('qcu', { type: 'qcus' });
-        store.createRecord('element-answer', {
+        const elementAnswer = store.createRecord('element-answer', {
           element: qcu,
+        });
+        const passage = store.createRecord('passage', {
+          elementAnswers: [elementAnswer],
         });
         const grain = store.createRecord('grain', {
           elements: [qcu],
         });
 
         // when
-        const allElementsAreAnswered = grain.allElementsAreAnswered;
+        const allElementsAreAnswered = grain.allElementsAreAnsweredForPassage(passage);
 
         // then
         assert.true(allElementsAreAnswered);
@@ -110,9 +113,10 @@ module('Unit | Model | Module | Grain', function (hooks) {
         const grain = store.createRecord('grain', {
           elements: [qcu],
         });
+        const passage = store.createRecord('passage');
 
         // when
-        const allElementsAreAnswered = grain.allElementsAreAnswered;
+        const allElementsAreAnswered = grain.allElementsAreAnsweredForPassage(passage);
 
         // then
         assert.false(allElementsAreAnswered);
