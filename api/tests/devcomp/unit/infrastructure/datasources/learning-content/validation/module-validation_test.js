@@ -15,9 +15,9 @@ import { getTextSample } from '../../../../../../../src/devcomp/infrastructure/d
 import { getVideoSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/video.sample.js';
 
 describe('Unit | Infrastructure | Datasources | Learning Content | Module Datasource | format validation', function () {
-  it('should validate sample image structure', function () {
+  it('should validate sample image structure', async function () {
     // When
-    const result = imageElementSchema.validate(getImageSample());
+    const result = await imageElementSchema.validateAsync(getImageSample());
 
     // Then
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
