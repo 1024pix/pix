@@ -24,6 +24,10 @@ class CnavOidcAuthenticationService extends OidcAuthenticationService {
       openidConfigurationUrl: config[configKey].openidConfigurationUrl,
     });
   }
+
+  async getRedirectLogoutUrl() {
+    return null;
+  }
 }
 
 export { CnavOidcAuthenticationService };
