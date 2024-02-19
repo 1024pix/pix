@@ -8,7 +8,6 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/admin/oidc/identity-providers',
       config: {
-        auth: false,
         handler: oidcController.getAllIdentityProvidersForAdmin,
         notes: [
           "Cette route renvoie un objet contenant tous les fournisseurs d'identité OIDC (même désactivés) pour leur gestion dans Pix Admin",
