@@ -55,9 +55,9 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
   });
 
-  it('should validate sample video structure', function () {
+  it('should validate sample video structure', async function () {
     // When
-    const result = videoElementSchema.validate(getVideoSample());
+    const result = await videoElementSchema.validateAsync(getVideoSample());
 
     // Then
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));

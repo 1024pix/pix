@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { uuidSchema } from '../utils.js';
+import { htmlSchema, uuidSchema } from '../utils.js';
 
 const videoElementSchema = Joi.object({
   id: uuidSchema,
@@ -7,7 +7,7 @@ const videoElementSchema = Joi.object({
   title: Joi.string().required(),
   url: Joi.string().uri().required(),
   subtitles: Joi.string().required(),
-  transcription: Joi.string().allow('').required(),
+  transcription: htmlSchema.allow(''),
 }).required();
 
 export { videoElementSchema };
