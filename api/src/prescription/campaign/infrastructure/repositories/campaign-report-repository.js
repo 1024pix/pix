@@ -38,7 +38,7 @@ const get = async function (id) {
         '(SELECT COUNT(*) from "campaign-participations" WHERE "campaign-participations"."campaignId" = "campaigns"."id" AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) AS "participationsCount"',
       ),
       knex.raw(
-        '(SELECT COUNT(*) from "campaign-participations" WHERE "campaign-participations"."campaignId" = "campaigns"."id" AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) AS "sharedParticipationsCount"',
+        '(SELECT count( distinct "organizationLearnerId" ) from "campaign-participations" WHERE "campaign-participations"."campaignId" = "campaigns"."id" AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."deletedAt" IS NULL) AS "sharedParticipationsCount"',
       ),
     )
     .join('users', 'users.id', 'campaigns.ownerId')
@@ -48,7 +48,6 @@ const get = async function (id) {
     .where('campaigns.id', id)
     .groupBy('campaigns.id', 'users.id', 'target-profiles.id')
     .first();
-
   if (!result) {
     throw new NotFoundError(`La campagne d'id ${id} n'existe pas ou son accès est restreint`);
   }
