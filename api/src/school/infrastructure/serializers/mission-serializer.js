@@ -2,7 +2,7 @@ import { Serializer } from 'jsonapi-serializer';
 
 const serialize = function (missions) {
   return new Serializer('missions', {
-    attributes: ['name', 'areaCode', 'validatedObjectives', 'learningObjectives'],
+    attributes: ['name', 'areaCode', 'validatedObjectives', 'learningObjectives', 'competenceName'],
   }).serialize(missions);
 };
 export { serialize };

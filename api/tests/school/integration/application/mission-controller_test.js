@@ -33,12 +33,14 @@ describe('Integration | Controller | mission-controller', function () {
           'area-code': mission.areaCode,
           'learning-objectives': mission.learningObjectives,
           'validated-objectives': mission.validatedObjectives,
+          'competence-name': mission.competenceName,
         },
         id: mission.id.toString(),
         type: 'missions',
       });
     });
   });
+
   describe('#findAll', function () {
     it('should find all missions', async function () {
       // given
@@ -56,6 +58,7 @@ describe('Integration | Controller | mission-controller', function () {
             'area-code': mission.areaCode,
             'learning-objectives': mission.learningObjectives,
             'validated-objectives': mission.validatedObjectives,
+            'competence-name': mission.competenceName,
           },
           id: mission.id.toString(),
           type: 'missions',
