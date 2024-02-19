@@ -39,9 +39,9 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
   });
 
-  it('should validate sample qrocm structure', function () {
+  it('should validate sample qrocm structure', async function () {
     // When
-    const result = qrocmElementSchema.validate(getQrocmSample());
+    const result = await qrocmElementSchema.validateAsync(getQrocmSample());
 
     // Then
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
