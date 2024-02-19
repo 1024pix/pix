@@ -83,7 +83,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification'
       const expectedCorrection = {
         status: assessResult.result,
         feedback: qcm.feedbacks.valid,
-        solutions: qcmSolutions,
+        solution: qcmSolutions,
       };
 
       // when
@@ -127,7 +127,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification'
       const expectedCorrection = {
         status: assessResult.result,
         feedback: qcm.feedbacks.invalid,
-        solutions: qcmSolutions,
+        solution: qcmSolutions,
       };
 
       // when
