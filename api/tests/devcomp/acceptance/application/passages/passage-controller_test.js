@@ -49,7 +49,7 @@ describe('Acceptance | Controller | passage-controller', function () {
           userResponse: ['1'],
           expectedUserResponseValue: '1',
           expectedFeedback:
-            "<p class='pix-list-inline'>Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>",
+            '<p class="pix-list-inline">Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>',
           expectedSolution: '1',
         },
         {
@@ -59,7 +59,7 @@ describe('Acceptance | Controller | passage-controller', function () {
           userResponse: [{ input: 'email', answer: 'naomizao457@yahoo.com' }],
           expectedUserResponseValue: { email: 'naomizao457@yahoo.com' },
           expectedFeedback:
-            "<p>Correct ! <span aria-hidden='true'>🎉</span> Tout est en ordre : identifiant, arobase, fournisseur d'adresse mail</p>",
+            '<p>Correct ! <span aria-hidden="true">🎉</span> Tout est en ordre : identifiant, arobase, fournisseur d\'adresse mail</p>',
           expectedSolution: {
             email: ['naomizao457@yahoo.com', 'naomizao457@yahoo.fr'],
           },
