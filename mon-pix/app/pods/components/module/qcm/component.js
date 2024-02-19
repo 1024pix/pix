@@ -22,19 +22,23 @@ export default class ModuleQcm extends Component {
 
   @action
   checkboxSelected(proposalId) {
-    this.selectedAnswerId = proposalId;
+    if (this.selectedAnswerIds.has(proposalId)) {
+      this.selectedAnswerIds.delete(proposalId);
+    } else {
+      this.selectedAnswerIds.add(proposalId);
+    }
   }
 
   @action
   async submitAnswer(event) {
     event.preventDefault();
-    if (!this.selectedAnswerId) {
+    if (this.selectedAnswerIds.size < 2) {
       this.requiredMessage = true;
 
       return;
     }
     this.requiredMessage = false;
-    const answerData = { userResponse: [this.selectedAnswerId], element: this.qcm };
+    const answerData = { userResponse: [...this.selectedAnswerIds], element: this.qcm };
     await this.args.submitAnswer(answerData);
   }
 }
