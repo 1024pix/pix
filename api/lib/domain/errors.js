@@ -930,38 +930,12 @@ class UnableToAttachChildOrganizationToParentOrganizationError extends DomainErr
   }
 }
 
-class UnexpectedOidcStateError extends DomainError {
-  constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
-    super(message);
-  }
-}
-
 class OidcMissingFieldsError extends DomainError {
   constructor(
     message = 'Mandatory information returned by the identify provider about the user is missing.',
     code,
     meta,
   ) {
-    super(message);
-    this.code = code;
-    this.meta = meta;
-  }
-}
-
-class OidcUserInfoFormatError extends DomainError {
-  constructor(
-    message = 'The user information returned by your identity provider is not in the expected format.',
-    code,
-    meta,
-  ) {
-    super(message);
-    this.code = code;
-    this.meta = meta;
-  }
-}
-
-class OidcInvokingTokenEndpointError extends DomainError {
-  constructor(message = 'Error in retrieving tokens from the partner.', code, meta) {
     super(message);
     this.code = code;
     this.meta = meta;
@@ -1201,9 +1175,7 @@ export {
   NotFoundError,
   NotImplementedError,
   ObjectValidationError,
-  OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
-  OidcUserInfoFormatError,
   OrganizationAlreadyExistError,
   OrganizationArchivedError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
@@ -1235,7 +1207,6 @@ export {
   UnableToAttachChildOrganizationToParentOrganizationError,
   UncancellableCertificationCenterInvitationError,
   UncancellableOrganizationInvitationError,
-  UnexpectedOidcStateError,
   UnexpectedUserAccountError,
   UnknownCountryForStudentEnrolmentError,
   UserAlreadyExistsWithAuthenticationMethodError,

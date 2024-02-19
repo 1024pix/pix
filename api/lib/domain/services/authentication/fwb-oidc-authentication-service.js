@@ -10,25 +10,26 @@ const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 class FwbOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
-      identityProvider: FWB.code,
-      configKey,
-      source: 'fwb',
-      slug: 'fwb',
-      organizationName: 'Fédération Wallonie-Bruxelles',
       additionalRequiredProperties: ['logoutUrl'],
+      authenticationUrl: config[configKey].authenticationUrl,
+      claimsToStore: config[configKey].claimsToStore,
+      clientId: config[configKey].clientId,
+      clientSecret: config[configKey].clientSecret,
+      configKey,
       hasLogoutUrl: true,
-      jwtOptions: { expiresIn: config.fwb.accessTokenLifespanMs / 1000 },
-      clientSecret: config.fwb.clientSecret,
-      clientId: config.fwb.clientId,
-      tokenUrl: config.fwb.tokenUrl,
-      authenticationUrl: config.fwb.authenticationUrl,
-      authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
-      userInfoUrl: config.fwb.userInfoUrl,
-      claimsToStore: config.fwb.claimsToStore,
+      identityProvider: FWB.code,
+      jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
+      organizationName: 'Fédération Wallonie-Bruxelles',
+      redirectUri: config[configKey].redirectUri,
+      slug: 'fwb',
+      source: 'fwb',
+      tokenUrl: config[configKey].tokenUrl,
+      userInfoUrl: config[configKey].userInfoUrl,
+      openidConfigurationUrl: config[configKey].openidConfigurationUrl,
     });
 
-    this.logoutUrl = config.fwb.logoutUrl;
-    this.temporaryStorageConfig = config.fwb.temporaryStorage;
+    this.logoutUrl = config[configKey].logoutUrl;
+    this.temporaryStorageConfig = config[configKey].temporaryStorage;
   }
 
   async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {

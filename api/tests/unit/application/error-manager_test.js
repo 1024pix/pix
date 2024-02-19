@@ -18,9 +18,7 @@ import {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   UncancellableOrganizationInvitationError,
-  OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
-  OidcUserInfoFormatError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
   OrganizationLearnerCannotBeDissociatedError,
   UserShouldNotBeReconciledOnAnotherAccountError,
@@ -28,7 +26,6 @@ import {
   CertificationEndedByFinalizationError,
   CampaignTypeError,
   InvalidJuryLevelError,
-  UnexpectedOidcStateError,
   InvalidIdentityProviderError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
@@ -406,19 +403,6 @@ describe('Unit | Application | ErrorManager', function () {
         expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
       });
 
-      it('should instantiate BadRequestError when UnexpectedOidcStateError', async function () {
-        // given
-        const error = new UnexpectedOidcStateError();
-        sinon.stub(HttpErrors, 'BadRequestError');
-        const params = { request: {}, h: hFake, error };
-
-        // when
-        await handle(params.request, params.h, params.error);
-
-        // then
-        expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
-      });
-
       it('should instantiate BadRequestError when InvalidIdentityProviderError', async function () {
         // given
         const error = new InvalidIdentityProviderError();
@@ -448,40 +432,6 @@ describe('Unit | Application | ErrorManager', function () {
       it('instantiates UnprocessableEntityError when OidcMissingFieldsError', async function () {
         // given
         const error = new OidcMissingFieldsError('Some message', 'someCode', 'someMetaData');
-        sinon.stub(HttpErrors, 'UnprocessableEntityError');
-        const params = { request: {}, h: hFake, error };
-
-        // when
-        await handle(params.request, params.h, params.error);
-
-        // then
-        expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(
-          error.message,
-          error.code,
-          error.meta,
-        );
-      });
-
-      it('instantiates ServiceUnavailableError when OidcUserInfoFormatError', async function () {
-        // given
-        const error = new OidcUserInfoFormatError('Some message', 'someCode', 'someMetaData');
-        sinon.stub(HttpErrors, 'ServiceUnavailableError');
-        const params = { request: {}, h: hFake, error };
-
-        // when
-        await handle(params.request, params.h, params.error);
-
-        // then
-        expect(HttpErrors.ServiceUnavailableError).to.have.been.calledWithExactly(
-          error.message,
-          error.code,
-          error.meta,
-        );
-      });
-
-      it('instantiates UnprocessableEntityError when OidcInvokingTokenEndpointError', async function () {
-        // given
-        const error = new OidcInvokingTokenEndpointError('Some message', 'someCode', 'someMetaData');
         sinon.stub(HttpErrors, 'UnprocessableEntityError');
         const params = { request: {}, h: hFake, error };
 
