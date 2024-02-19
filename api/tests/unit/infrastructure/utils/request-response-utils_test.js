@@ -37,13 +37,13 @@ describe('Unit | Utils | Request Utils', function () {
   describe('#escapeFileName', function () {
     it('should allow only a restricted set of characters', function () {
       // given
-      const fileName = 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv';
+      const fileName = 'file-name with é invalid_chars •’<>:"/\\|?*"\n👌.csv';
 
       // when
       const escapedFileName = escapeFileName(fileName);
 
       // then
-      expect(escapedFileName).to.equal('file-name with invalid_chars _____________.csv');
+      expect(escapedFileName).to.equal('file-name_with_e_invalid_chars_.csv');
     });
   });
 

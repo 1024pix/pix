@@ -1,6 +1,5 @@
 import { memberAction } from 'ember-api-actions';
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
-import ENV from 'pix-admin/config/environment';
 import { service } from '@ember/service';
 import formatList from '../utils/format-select-options';
 
@@ -37,10 +36,6 @@ export default class TargetProfile extends Model {
   @hasMany('training-summary') trainingSummaries;
 
   @hasMany('area') areas;
-
-  get urlToJsonContent() {
-    return `${ENV.APP.API_HOST}/api/admin/target-profiles/${this.id}/content-json?accessToken=${this.session.data.authenticated.access_token}`;
-  }
 
   attachOrganizations = memberAction({
     path: 'attach-organizations',
