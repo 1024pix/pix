@@ -38,7 +38,7 @@ class QCMForAnswerVerification extends QCM {
     return new QcmCorrectionResponse({
       status: validation.result,
       feedback: validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid,
-      solutions: this.solutionsValue,
+      solution: this.solutionsValue,
     });
   }
 
