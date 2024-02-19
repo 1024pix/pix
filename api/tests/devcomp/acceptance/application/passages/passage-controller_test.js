@@ -49,7 +49,7 @@ describe('Acceptance | Controller | passage-controller', function () {
           userResponse: ['1'],
           expectedUserResponseValue: '1',
           expectedFeedback:
-            '<p class="pix-list-inline">Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>',
+            '<p class="pix-list-inline">Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>',
           expectedSolution: '1',
         },
         {
