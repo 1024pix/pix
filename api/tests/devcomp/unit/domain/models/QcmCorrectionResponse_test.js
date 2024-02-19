@@ -8,16 +8,16 @@ describe('Unit | Devcomp | Domain | Models | QcmCorrectionResponse', function ()
       // given
       const status = AnswerStatus.OK;
       const feedback = 'Bien joué !';
-      const solutions = ['1', '2'];
+      const solution = ['1', '2'];
 
       // when
-      const qcmCorrectionResponse = new QcmCorrectionResponse({ status, feedback, solutions });
+      const qcmCorrectionResponse = new QcmCorrectionResponse({ status, feedback, solution });
 
       // then
       expect(qcmCorrectionResponse).not.to.be.undefined;
       expect(qcmCorrectionResponse.status).to.deep.equal(status);
       expect(qcmCorrectionResponse.feedback).to.equal(feedback);
-      expect(qcmCorrectionResponse.solutions).to.deep.equal(solutions);
+      expect(qcmCorrectionResponse.solution).to.deep.equal(solution);
     });
   });
 
