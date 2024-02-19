@@ -12,6 +12,7 @@ export default class GetController extends Controller {
       .createRecord('element-answer', {
         userResponse: answerData.userResponse,
         element: answerData.element,
+        passage: this.model.passage,
       })
       .save({
         adapterOptions: { passageId: this.model.passage.id },
