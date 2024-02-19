@@ -22,9 +22,17 @@
         {{else if element.isVideo}}
           <Module::Video @video={{element}} />
         {{else if element.isQcu}}
-          <Module::Qcu @qcu={{element}} @submitAnswer={{@submitAnswer}} />
+          <Module::Qcu
+            @qcu={{element}}
+            @submitAnswer={{@submitAnswer}}
+            @correction={{this.getLastCorrectionForElement element}}
+          />
         {{else if element.isQrocm}}
-          <Module::Qrocm @qrocm={{element}} @submitAnswer={{@submitAnswer}} />
+          <Module::Qrocm
+            @qrocm={{element}}
+            @submitAnswer={{@submitAnswer}}
+            @correction={{this.getLastCorrectionForElement element}}
+          />
         {{/if}}
       </div>
     {{/each}}

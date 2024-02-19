@@ -14,6 +14,7 @@ export default class ElementAnswer extends ApplicationAdapter {
         data: {
           attributes: {
             'element-id': serializedSnapshot.data.relationships.element.data.id,
+            'passage-id': serializedSnapshot.data.relationships.passage.data.id,
             'user-response': serializedSnapshot.data.attributes['user-response'],
           },
         },

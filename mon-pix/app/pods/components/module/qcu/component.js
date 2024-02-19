@@ -9,15 +9,15 @@ export default class ModuleQcu extends Component {
   qcu = this.args.qcu;
 
   get feedbackType() {
-    return this.qcu.lastCorrection?.isOk ? 'success' : 'error';
+    return this.args.correction?.isOk ? 'success' : 'error';
   }
 
   get disableInput() {
-    return !!this.qcu.lastCorrection;
+    return !!this.args.correction;
   }
 
   get shouldDisplayFeedback() {
-    return !!this.qcu.lastCorrection;
+    return !!this.args.correction;
   }
 
   @action

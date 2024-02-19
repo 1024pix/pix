@@ -15,8 +15,8 @@ module('Acceptance | Module | Routes | verifyQcu', function (hooks) {
       type: 'qcus',
       instruction: 'instruction',
       proposals: [
-        { id: 'qcu-1-proposal-1', content: 'I am the wrong answer!' },
-        { id: 'qcu-1-proposal-2', content: 'I am the right answer!' },
+        { id: '1', content: 'I am the wrong answer!' },
+        { id: '2', content: 'I am the right answer!' },
       ],
     });
     const qcu2 = server.create('qcu', {
@@ -24,8 +24,8 @@ module('Acceptance | Module | Routes | verifyQcu', function (hooks) {
       type: 'qcus',
       instruction: 'instruction',
       proposals: [
-        { id: 'qcu-2-proposal-1', content: 'Vrai' },
-        { id: 'qcu-2-proposal-2', content: 'Faux' },
+        { id: '1', content: 'Vrai' },
+        { id: '2', content: 'Faux' },
       ],
     });
 
@@ -45,14 +45,14 @@ module('Acceptance | Module | Routes | verifyQcu', function (hooks) {
       id: 'elementId-1',
       feedback: "Bravo ! C'est la bonne réponse.",
       status: 'ok',
-      solution: 'qcu-1-proposal-2',
+      solution: qcu1.proposals[1].id,
     });
 
     server.create('correction-response', {
       id: 'elementId-2',
       feedback: 'Pas ouf',
       status: 'ko',
-      solution: 'qcu-2-proposal-1',
+      solution: qcu2.proposals[0].id,
     });
 
     // when
