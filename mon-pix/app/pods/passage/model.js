@@ -4,4 +4,8 @@ export default class Passage extends Model {
   @attr('string') moduleId;
 
   @hasMany('element-answer', { async: false, inverse: 'passage' }) elementAnswers;
+
+  getLastCorrectionForElement(element) {
+    return this.elementAnswers.find((answer) => answer.element.get('id') === element.id)?.correction;
+  }
 }

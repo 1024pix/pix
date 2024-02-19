@@ -16,9 +16,9 @@ export default class Grain extends Model {
     });
   }
 
-  get allElementsAreAnswered() {
+  allElementsAreAnsweredForPassage(passage) {
     return this.answerableElements.every((element) => {
-      return element.isAnswered;
+      return !!passage.getLastCorrectionForElement(element);
     });
   }
 }
