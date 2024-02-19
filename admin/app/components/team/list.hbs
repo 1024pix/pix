@@ -54,7 +54,7 @@
                 {{/if}}
                 <PixButton
                   class="admin-member-item-actions__button"
-                  @backgroundColor="red"
+                  @backgroundColor="error"
                   aria-label={{concat "Désactiver l'agent " member.firstName " " member.lastName}}
                   @triggerAction={{fn this.displayDeactivateConfirmationPopup member}}
                   @iconBefore="trash"
