@@ -404,6 +404,8 @@ const configuration = (function () {
       tokenUrl: 'https://oidc.example.net/token',
       userInfoUrl: 'https://oidc.example.net/userinfo',
       openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
+      organizationName: 'Oidc Example',
+      postLogoutRedirectUri: 'https://app.dev.pix.local/connexion',
       redirectUri: 'https://app.dev.pix.local/connexion/oidc-example-net',
     };
 
