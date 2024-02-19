@@ -14,8 +14,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const qcuElement = store.createRecord('qcu', {
       instruction: 'Instruction',
       proposals: [
-        { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio1' },
-        { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio2' },
+        { id: '1', content: 'radio1' },
+        { id: '2', content: 'radio2' },
       ],
       type: 'qcus',
     });
@@ -42,11 +42,11 @@ module('Integration | Component | Module | QCU', function (hooks) {
   test('should call action when verify button is clicked', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const answeredProposal = { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio1' };
+    const answeredProposal = { id: '1', content: 'radio1' };
     const qcuElement = store.createRecord('qcu', {
       id: 'qcu-id-1',
       instruction: 'Instruction',
-      proposals: [answeredProposal, { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio2' }],
+      proposals: [answeredProposal, { id: '2', content: 'radio2' }],
       type: 'qcus',
     });
     this.set('qcu', qcuElement);
@@ -120,8 +120,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const qcuElement = store.createRecord('qcu', {
       instruction: 'Instruction',
       proposals: [
-        { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio1' },
-        { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio2' },
+        { id: '1', content: 'radio1' },
+        { id: '2', content: 'radio2' },
       ],
       type: 'qcus',
     });
@@ -141,8 +141,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const qcuElement = store.createRecord('qcu', {
       instruction: 'Instruction',
       proposals: [
-        { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio1' },
-        { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio2' },
+        { id: '1', content: 'radio1' },
+        { id: '2', content: 'radio2' },
       ],
       type: 'qcus',
     });
@@ -168,8 +168,8 @@ function prepareContextRecords(store, correctionResponse) {
   const qcuElement = store.createRecord('qcu', {
     instruction: 'Instruction',
     proposals: [
-      { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio1' },
-      { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio2' },
+      { id: '1', content: 'radio1' },
+      { id: '2', content: 'radio2' },
     ],
     type: 'qcus',
     elementAnswers: [elementAnswer],
