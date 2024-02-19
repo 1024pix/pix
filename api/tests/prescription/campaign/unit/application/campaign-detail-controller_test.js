@@ -188,14 +188,14 @@ describe('Unit | Application | Controller | Campaign detail', function () {
 
       sinon
         .stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream')
-        .resolves({ fileName: 'expected file name' });
+        .resolves({ fileName: 'expected file name.csv' });
 
       // when
       const response = await campaignDetailController.getCsvProfilesCollectionResults(request, hFake);
 
       // then
       expect(response.headers['content-type']).to.equal('text/csv;charset=utf-8');
-      expect(response.headers['content-disposition']).to.equal('attachment; filename="expected file name"');
+      expect(response.headers['content-disposition']).to.equal('attachment; filename="expected_file_name.csv"');
       expect(response.headers['content-encoding']).to.equal('identity');
     });
 
@@ -213,7 +213,7 @@ describe('Unit | Application | Controller | Campaign detail', function () {
 
       // then
       expect(response.headers['content-disposition']).to.equal(
-        'attachment; filename="file-name with invalid_chars _____________.csv"',
+        'attachment; filename="file-name_with_invalid_chars_.csv"',
       );
     });
   });
@@ -242,14 +242,14 @@ describe('Unit | Application | Controller | Campaign detail', function () {
 
       sinon
         .stub(usecases, 'startWritingCampaignAssessmentResultsToStream')
-        .resolves({ fileName: 'expected file name' });
+        .resolves({ fileName: 'expected file name.csv' });
 
       // when
       const response = await campaignDetailController.getCsvAssessmentResults(request, hFake);
 
       // then
       expect(response.headers['content-type']).to.equal('text/csv;charset=utf-8');
-      expect(response.headers['content-disposition']).to.equal('attachment; filename="expected file name"');
+      expect(response.headers['content-disposition']).to.equal('attachment; filename="expected_file_name.csv"');
       expect(response.headers['content-encoding']).to.equal('identity');
     });
 
@@ -259,7 +259,7 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       const request = _getRequestForCampaignId(campaignId);
 
       sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves({
-        fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv',
+        fileName: 'file-name_with_invalid_chars •’<>:"/\\|?*"\n.csv',
       });
 
       // when
@@ -267,7 +267,7 @@ describe('Unit | Application | Controller | Campaign detail', function () {
 
       // then
       expect(response.headers['content-disposition']).to.equal(
-        'attachment; filename="file-name with invalid_chars _____________.csv"',
+        'attachment; filename="file-name_with_invalid_chars_.csv"',
       );
     });
   });
