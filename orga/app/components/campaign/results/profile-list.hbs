@@ -19,7 +19,7 @@
         <col />
         <col />
         {{#if @campaign.idPixLabel}}
-          <col />
+          <col class="table__column--medium" />
         {{/if}}
         <col />
         <col />
@@ -62,7 +62,7 @@
               </td>
               <td>{{profile.firstName}}</td>
               {{#if @campaign.idPixLabel}}
-                <td>{{profile.participantExternalId}}</td>
+                <td class="table__column table__column--break-word">{{profile.participantExternalId}}</td>
               {{/if}}
               <td class="table__column--center">
                 {{#if profile.sharedAt}}
