@@ -59,7 +59,7 @@
               "type": "image",
               "url": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg",
               "alt": "Schéma de la syntaxe d'une adresse mail, en trois blocs distincts, décrit dans l'alternative textuelle",
-              "alternativeText": "Bloc 1&nbsp;: Identifiant, exemple&nbsp;: mickael.aubert123<br/>Bloc 2&nbsp;: Arobase<br/>Bloc 3&nbsp;: Fournisseur d'adresse mail, exemple&nbsp;: laposte.net "
+              "alternativeText": "Bloc 1&nbsp;: Identifiant, exemple&nbsp;: mickael.aubert123<br>Bloc 2&nbsp;: Arobase<br>Bloc 3&nbsp;: Fournisseur d'adresse mail, exemple&nbsp;: laposte.net "
             },
             {
               "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
@@ -255,7 +255,7 @@
             {
               "id": "b0fcb950-b5b1-4384-886e-79fb852d5bb7",
               "type": "text",
-              "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Il peut y avoir des chiffres dans l’identifiant d’une adresse mail. Ils peuvent être n’importe où dans l’adresse. <br/><span aria-hidden=\"true\">💡</span> Ça peut être utile si deux personnes ont le même nom et qu’elles veulent le même fournisseur d’adresse mail.</li><li>Il y a une seule @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br/><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
+              "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Il peut y avoir des chiffres dans l’identifiant d’une adresse mail. Ils peuvent être n’importe où dans l’adresse. <br><span aria-hidden=\"true\">💡</span> Ça peut être utile si deux personnes ont le même nom et qu’elles veulent le même fournisseur d’adresse mail.</li><li>Il y a une seule @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
             }
           ]
         },
@@ -913,7 +913,7 @@
           "grainId": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8"
         },
         {
-          "content": "<p>C’est très clair : si tout le monde utilise le même mot de passe, ça ne sert pas à grand chose !<br />Regardons d’un peu plus près les situations dont il faut se protéger...</p>",
+          "content": "<p>C’est très clair : si tout le monde utilise le même mot de passe, ça ne sert pas à grand chose !<br>Regardons d’un peu plus près les situations dont il faut se protéger...</p>",
           "grainId": "831fd61c-54ae-4b21-bd3f-61f40887a869"
         },
         {
@@ -925,7 +925,7 @@
           "grainId": "1564f763-5ba5-48ef-b752-dac463319899"
         },
         {
-          "content": "<p>Cela fait beaucoup de règles à respecter !<br />Et si on essayait d'utiliser une méthode pour que ce soit un peu plus facile ?</p>",
+          "content": "<p>Cela fait beaucoup de règles à respecter !<br>Et si on essayait d'utiliser une méthode pour que ce soit un peu plus facile ?</p>",
           "grainId": "f6bd140c-4f63-4fe7-94f4-b4d7a51db7a5"
         },
         {
@@ -980,12 +980,12 @@
             {
               "id": "826281e7-865f-462d-abc0-77537c42a2b4",
               "type": "text",
-              "content": "<h4><span aria-hidden=\"true\">🔮&nbsp;</span>Une personne a deviné votre mot de passe…</h4><p>Une personne qui vous connaît bien a accès à de nombreuses informations vous concernant. <br />Si vous utilisez des informations privées en guise de mot de passe, il est probable qu’une personne de votre entourage puisse deviner facilement votre mot de passe et ainsi accéder à des données privées. Et ce n’est peut être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.<span aria-hidden=\"true\"> 🙃</span></p>"
+              "content": "<h4><span aria-hidden=\"true\">🔮&nbsp;</span>Une personne a deviné votre mot de passe…</h4>Une personne qui vous connaît bien a accès à de nombreuses informations vous concernant. <br>Si vous utilisez des informations privées en guise de mot de passe, il est probable qu’une personne de votre entourage puisse deviner facilement votre mot de passe et ainsi accéder à des données privées. Et ce n’est peut être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.<span aria-hidden=\"true\"> 🙃</span></p>"
             },
             {
               "id": "9d0b7aff-a9da-453f-a6ba-c61fbaa7bb25",
               "type": "text",
-              "content": "<h4><span aria-hidden=\"true\">🤖&nbsp;</span>Un programme a deviné votre mot de passe…</h4><p>En 2023, un mot de passe de 8 caractères avec minuscules, majuscules, nombres et caractères spéciaux sera piraté en 5 minutes seulement ! <span aria-hidden=\"true\">😰 </span>Avec 12 caractères, cette durée passe à 226 ans ! <span aria-hidden=\"true\">😮 </span><br />En général, dans le cas d’attaques automatisées, votre attaquant ne vous connaît pas personnellement, et cherche certainement à revendre vos informations ou à vous soutirer de l’argent.</p>"
+              "content": "<h4><span aria-hidden=\"true\">🤖&nbsp;</span>Un programme a deviné votre mot de passe…</h4><p>En 2023, un mot de passe de 8 caractères avec minuscules, majuscules, nombres et caractères spéciaux sera piraté en 5 minutes seulement ! <span aria-hidden=\"true\">😰 </span>Avec 12 caractères, cette durée passe à 226 ans ! <span aria-hidden=\"true\">😮 </span><br>En général, dans le cas d’attaques automatisées, votre attaquant ne vous connaît pas personnellement, et cherche certainement à revendre vos informations ou à vous soutirer de l’argent.</p>"
             },
             {
               "id": "e17089d4-a166-4bf4-a18b-155caaebe081",
@@ -1087,7 +1087,7 @@
             {
               "id": "fd4b05ee-8cda-4bfe-b18a-468f1a895f80",
               "type": "text",
-              "content": "<h4>Voici la méthode pour construire un mot de passe sécurisé</h4><p>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em><br />Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !<br />Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><br />Maintenant à vous de jouer </p>"
+              "content": "<h4>Voici la méthode pour construire un mot de passe sécurisé</h4><p>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em><br>Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !<br>Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><br>Maintenant à vous de jouer </p>"
             },
             {
               "id": "718ee7f6-19bf-4787-a025-2a70b89c6288",
@@ -1457,7 +1457,7 @@
             {
               "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
               "type": "text",
-              "content": "<h3>Ce qu'il faut retenir <span aria-hidden=\"true\">🎓</span>️</h3><br><p>L’adresse IP publique donne une information sur la zone géographique de la connexion.</p><br><p>Votre adresse IP publique est celle de votre point d’accès (box) internet.</p><br><p>Les personnes connectées au même point d’accès ont la même adresse IP publique.</p><br>À partir d'une adresse IP publique, on peut seulement identifier un pays voire une ville de connexion. Les fournisseurs d'accès internet et les autorités peuvent cependant avoir des informations beaucoup plus complètes sur la base d'une IP publique.</p>"
+              "content": "<h3>Ce qu'il faut retenir <span aria-hidden=\"true\">🎓</span>️</h3><br><p>L’adresse IP publique donne une information sur la zone géographique de la connexion.</p><br><p>Votre adresse IP publique est celle de votre point d’accès (box) internet.</p><br><p>Les personnes connectées au même point d’accès ont la même adresse IP publique.</p><br><p>À partir d'une adresse IP publique, on peut seulement identifier un pays voire une ville de connexion. Les fournisseurs d'accès internet et les autorités peuvent cependant avoir des informations beaucoup plus complètes sur la base d'une IP publique.</p>"
             }
           ]
         },
