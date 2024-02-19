@@ -70,25 +70,21 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
     });
 
     context('when a participant has retried', function () {
+      let userId, learner;
+
       beforeEach(async function () {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
-        const { id: userId } = databaseBuilder.factory.buildUser();
+        userId = databaseBuilder.factory.buildUser().id;
+        learner = databaseBuilder.factory.buildOrganizationLearner({ userId: userId });
 
         databaseBuilder.factory.buildCampaignParticipation({
           participantExternalId: 'My first',
           campaignId: campaign.id,
           isImproved: true,
+          organizationLearnerId: learner.id,
           userId,
+          createdAt: new Date(2023, 10, 1),
         });
-
-        databaseBuilder.factory.buildCampaignParticipation({
-          participantExternalId: 'My last',
-          campaignId: campaign.id,
-          isImproved: false,
-          userId,
-        });
-
-        await databaseBuilder.commit();
 
         const learningContent = [
           {
@@ -111,12 +107,52 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       });
 
       it('returns the list of participations shared for the given campaign', async function () {
+        // given
+        databaseBuilder.factory.buildCampaignParticipation({
+          participantExternalId: 'My middle',
+          campaignId: campaign.id,
+          isImproved: true,
+          organizationLearnerId: learner.id,
+          userId,
+          createdAt: new Date(2023, 10, 2),
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          participantExternalId: 'My last',
+          campaignId: campaign.id,
+          isImproved: false,
+          organizationLearnerId: learner.id,
+          userId,
+          createdAt: new Date(2023, 10, 3),
+        });
+        await databaseBuilder.commit();
+
+        //when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+        });
+        // then
+        expect(participations).to.have.lengthOf(1);
+        expect(participations[0].participantExternalId).to.equal('My last');
+      });
+
+      it('returns the list of last participations shared for the given campaign', async function () {
+        databaseBuilder.factory.buildCampaignParticipation({
+          participantExternalId: 'My last',
+          campaignId: campaign.id,
+          isImproved: false,
+          status: STARTED,
+          createdAt: new Date(2023, 10, 3),
+          userId,
+        });
+
+        await databaseBuilder.commit();
+
         const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
           campaignId: campaign.id,
         });
 
         expect(participations).to.have.lengthOf(1);
-        expect(participations[0].participantExternalId).to.equal('My last');
+        expect(participations[0].participantExternalId).to.equal('My first');
       });
     });
 
