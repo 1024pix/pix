@@ -169,6 +169,8 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
 
+          // We should keep getAllByText instead of getByText because in the ci the npm run test fails.
+          // It finds two occurences instead of one for some reason related to a nbsp; not being present in this context.
           assert.dom(screen.getAllByText('65%')[0]).exists();
         });
       });
