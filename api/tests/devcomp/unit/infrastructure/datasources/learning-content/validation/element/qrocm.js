@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { uuidSchema, proposalIdSchema } from '../utils.js';
+import { uuidSchema, proposalIdSchema, htmlSchema } from '../utils.js';
 
 const blockInputSchema = Joi.object({
   input: Joi.string().required(),
@@ -38,19 +38,19 @@ const blockSelectSchema = Joi.object({
 
 const blockTextSchema = Joi.object({
   type: Joi.string().valid('text').required(),
-  content: Joi.string().required(),
+  content: htmlSchema,
 }).required();
 
 const qrocmElementSchema = Joi.object({
   id: uuidSchema,
   type: Joi.string().valid('qrocm').required(),
-  instruction: Joi.string().required(),
+  instruction: htmlSchema,
   proposals: Joi.array()
     .items(Joi.alternatives().try(blockTextSchema, blockInputSchema, blockSelectSchema))
     .required(),
   feedbacks: Joi.object({
-    valid: Joi.string().required(),
-    invalid: Joi.string().required(),
+    valid: htmlSchema,
+    invalid: htmlSchema,
   }).required(),
 });
 
