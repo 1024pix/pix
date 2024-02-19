@@ -78,7 +78,9 @@ Router.map(function () {
     this.route('certifications');
     this.route('preselect-target-profile', { path: '/selection-sujets' });
     this.route('places');
-    this.route('missions');
+    this.route('missions', function () {
+      this.route('list', { path: '/' });
+    });
   });
 
   this.route('logout');
