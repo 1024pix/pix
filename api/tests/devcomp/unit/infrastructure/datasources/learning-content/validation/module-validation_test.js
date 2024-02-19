@@ -31,9 +31,9 @@ describe('Unit | Infrastructure | Datasources | Learning Content | Module Dataso
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
   });
 
-  it('should validate sample qcu structure', function () {
+  it('should validate sample qcu structure', async function () {
     // When
-    const result = qcuElementSchema.validate(getQcuSample());
+    const result = await qcuElementSchema.validateAsync(getQcuSample());
 
     // Then
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
