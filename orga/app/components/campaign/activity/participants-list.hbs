@@ -19,7 +19,7 @@
         <col class="table__column--wide" />
         <col class="table__column--wide" />
         {{#if @campaign.idPixLabel}}
-          <col class="table__column--wide" />
+          <col class="table__column--medium" />
         {{/if}}
         <col class="table__column--wide" />
         {{#if @showParticipationCount}}
@@ -84,7 +84,7 @@
               </td>
               <td>{{participation.firstName}}</td>
               {{#if @campaign.idPixLabel}}
-                <td>{{participation.participantExternalId}}</td>
+                <td class="table__column table__column--break-word">{{participation.participantExternalId}}</td>
               {{/if}}
               <td>
                 <Ui::ParticipationStatus @status={{participation.status}} @campaignType={{@campaign.type}} />

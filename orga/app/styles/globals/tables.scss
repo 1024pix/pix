@@ -134,6 +134,10 @@ th::first-letter {
     max-width: 150px;
   }
 
+  &--break-word {
+    word-break: break-all;
+  }
+
   &--medium {
     width: 15%;
   }
