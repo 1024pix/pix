@@ -298,7 +298,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     this.set('submitAnswer', () => {});
 
     // when
-    const screen = await render(hbs`<Module::Qrocm @qrocm={{this.qrocm}} @submitAnswer={{this.submitAnswer}} />`);
+    const screen = await render(
+      hbs`<Module::Qrocm @qrocm={{this.qrocm}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
 
     // then
     const status = screen.getByRole('status');
@@ -319,7 +321,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     this.set('submitAnswer', () => {});
 
     // when
-    const screen = await render(hbs`<Module::Qrocm @qrocm={{this.qrocm}} @submitAnswer={{this.submitAnswer}} />`);
+    const screen = await render(
+      hbs`<Module::Qrocm @qrocm={{this.qrocm}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+    );
 
     // then
     const status = screen.getByRole('status');
@@ -364,4 +368,5 @@ function prepareContextRecords(store, correctionResponse) {
     element: qrocm,
   });
   this.set('qrocm', qrocm);
+  this.set('correctionResponse', correctionResponse);
 }

@@ -15,6 +15,9 @@ module('Unit | Module | Controller | get', function (hooks) {
       const passageId = 'passageId';
       const element = { id: elementId };
       const moduleSlug = 'moduleSlug';
+      const passage = {
+        id: passageId,
+      };
 
       const answerData = {
         userResponse,
@@ -35,9 +38,7 @@ module('Unit | Module | Controller | get', function (hooks) {
         module: {
           id: moduleSlug,
         },
-        passage: {
-          id: passageId,
-        },
+        passage,
       };
 
       controller.store = {
@@ -49,6 +50,7 @@ module('Unit | Module | Controller | get', function (hooks) {
         .withArgs('element-answer', {
           userResponse,
           element,
+          passage,
         })
         .returns({
           save: saveStub,
@@ -57,7 +59,7 @@ module('Unit | Module | Controller | get', function (hooks) {
       saveStub
         .withArgs({
           adapterOptions: {
-            passageId,
+            passageId: passage.id,
           },
         })
         .resolves({ correction: expectedCorrection });
