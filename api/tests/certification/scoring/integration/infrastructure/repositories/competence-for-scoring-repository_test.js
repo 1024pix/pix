@@ -1,7 +1,6 @@
-import { expect, mockLearningContent } from '../../../../../test-helper.js';
+import { databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 import { buildArea, buildCompetence, buildFramework } from '../../../../../tooling/domain-builder/factory/index.js';
 import { buildLearningContent } from '../../../../../tooling/learning-content-builder/index.js';
-import { competenceLevelIntervals } from '../../../../../../src/certification/flash-certification/domain/constants/competence-level-intervals.js';
 import _ from 'lodash';
 import {
   listByLocale,
@@ -15,8 +14,23 @@ describe('Unit | Repository | competence-for-scoring-repository', function () {
     it('should return a list of competences for scoring', async function () {
       // given
       const frameworkId = 'frameworkId';
+
+      const configuration = [
+        {
+          competence: '1.1',
+          values: [
+            {
+              bounds: {
+                max: -2.2,
+                min: -9.8,
+              },
+              competenceLevel: 0,
+            },
+          ],
+        },
+      ];
       const getAreaCode = (competenceCode) => competenceCode.split('.').shift();
-      const competenceLevelIntervalsWithAreaCode = competenceLevelIntervals.map((competenceLevelInterval) => ({
+      const competenceLevelIntervalsWithAreaCode = configuration.map((competenceLevelInterval) => ({
         ...competenceLevelInterval,
         areaCode: getAreaCode(competenceLevelInterval.competence),
       }));
@@ -38,6 +52,10 @@ describe('Unit | Repository | competence-for-scoring-repository', function () {
 
       mockLearningContent(learningContent);
 
+      databaseBuilder.factory.buildCompetenceScoringConfiguration({ configuration });
+
+      await databaseBuilder.commit();
+
       // when
       const resultList = await listByLocale({ locale: 'fr-fr' });
 
@@ -45,7 +63,7 @@ describe('Unit | Repository | competence-for-scoring-repository', function () {
       resultList.map((result) => {
         expect(result).to.be.instanceOf(CompetenceForScoring);
       });
-      expect(resultList.length).to.equal(16);
+      expect(resultList.length).to.equal(1);
     });
   });
 
