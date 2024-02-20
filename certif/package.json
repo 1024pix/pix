@@ -86,6 +86,7 @@
     "ember-inputmask5": "^4.0.2",
     "ember-intl": "^6.0.0",
     "ember-keyboard": "^8.0.0",
+    "ember-lifeline": "^7.0.0",
     "ember-load-initializers": "^2.1.2",
     "ember-modifier": "^4.1.0",
     "ember-page-title": "^8.0.0",
