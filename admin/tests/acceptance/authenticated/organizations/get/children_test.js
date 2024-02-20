@@ -45,7 +45,8 @@ module('Acceptance | Organizations | Children', function (hooks) {
   module('when there is at least one child organization', function () {
     test('displays a list of child organizations', async function (assert) {
       // given
-      const parentOrganizationId = this.server.create('organization').id;
+      const parentOrganizationId = this.server.create('organization', { id: 1 }).id;
+      this.server.create('organization', { id: 2, parentOrganizationId: 1, name: 'Child' });
 
       // when
       const screen = await visit(`/organizations/${parentOrganizationId}/children`);
