@@ -949,7 +949,7 @@
         {
           "id": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8",
           "type": "activity",
-          "title": "TODO",
+          "title": "Les mots de passe les plus courants",
           "elements": [
             {
               "id": "d8d3f524-10c7-4190-986b-f1e309efb124",
@@ -966,7 +966,7 @@
                   "ariaLabel": "Mot de passe",
                   "defaultValue": "",
                   "tolerances": ["t1"],
-                  "solutions": ["123456"]
+                  "solutions": ["123456", "123456789", "azerty", "admin", "1234561", "azertyuiop", "loulou", "000000", "doudou", "password", "marseille", "motdepasse", "12345678", "chouchou", "soleil", "cheval", "12345", "Password", "bonjour", "1234567891"]
                 }
               ],
               "feedbacks": {
