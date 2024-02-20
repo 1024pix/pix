@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
-import debounce from 'lodash/debounce';
+import { debounceTask } from 'ember-lifeline';
 import config from 'pix-admin/config/environment';
 
 const DEFAULT_PAGE_NUMBER = 1;
@@ -22,14 +22,14 @@ export default class ListController extends Controller {
   @tracked hideArchived = false;
 
   updateFilters(filters) {
-    Object.keys(filters).forEach((filterKey) => (this[filterKey] = filters[filterKey]));
+    for (const filterKey of Object.keys(filters)) {
+      this[filterKey] = filters[filterKey];
+    }
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
-  debouncedUpdateFilters = debounce(this.updateFilters, this.DEBOUNCE_MS);
-
   @action
   triggerFiltering(fieldName, event) {
-    this.debouncedUpdateFilters({ [fieldName]: event.target.value });
+    debounceTask(this, 'updateFilters', { [fieldName]: event.target.value }, this.DEBOUNCE_MS);
   }
 }
