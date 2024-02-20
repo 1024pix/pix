@@ -11,10 +11,11 @@
       @size="small"
       @onChange={{@onAddStudents}}
       accept={{@supportedFormats}}
+      aria-describedby="accepted-files-add"
     >
       {{t "pages.organization-participants-import.actions.add-sup.label"}}
     </PixButtonUpload>
-    <p class="import-students-page-section__details">
+    <p class="import-students-page-section__details" id="accepted-files-add">
       {{@acceptedFileType}}
     </p>
   </div>

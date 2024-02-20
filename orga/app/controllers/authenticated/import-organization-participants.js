@@ -14,21 +14,21 @@ export default class ImportController extends Controller {
   @service notifications;
   @service errorMessages;
   @service store;
-  @service router;
 
   @tracked isLoading = false;
 
   @action
   async importSupStudents(files) {
+    if (this.isLoading) return;
+
     const adapter = this.store.adapterFor('students-import');
     const organizationId = this.currentUser.organization.id;
 
-    this.isLoading = true;
     this.notifications.clearAll();
     try {
+      this.isLoading = true;
       const response = await adapter.addStudentsCsv(organizationId, files);
       this._sendNotifications(response);
-      this.router.transitionTo('authenticated.sup-organization-participants.list');
     } catch (errorResponse) {
       this._sendErrorNotifications(errorResponse);
     } finally {
@@ -38,39 +38,44 @@ export default class ImportController extends Controller {
 
   @action
   async importScoStudents(files) {
+    if (this.isLoading) return;
+
     const adapter = this.store.adapterFor('students-import');
     const organizationId = this.currentUser.organization.id;
-    const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
+
     const confirmBeforeClose = (event) => {
       event.preventDefault();
       return (event.returnValue = '');
     };
+
     window.addEventListener('beforeunload', confirmBeforeClose);
     this.isLoading = true;
     this.notifications.clearAll();
     try {
+      const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
       await adapter.importStudentsSiecle(organizationId, files, format);
-      this.isLoading = false;
       this.notifications.sendSuccess(this.intl.t('pages.organization-participants-import.global-success'));
-      this.router.transitionTo('authenticated.sco-organization-participants.list');
     } catch (errorResponse) {
-      this.isLoading = false;
       this._handleError(errorResponse);
+    } finally {
+      this.isLoading = false;
+      window.removeEventListener('beforeunload', confirmBeforeClose);
     }
-    window.removeEventListener('beforeunload', confirmBeforeClose);
   }
 
   @action
   async replaceStudents(files) {
+    if (this.isLoading) return;
+
+    this.notifications.clearAll();
+
     const adapter = this.store.adapterFor('students-import');
     const organizationId = this.currentUser.organization.id;
 
-    this.isLoading = true;
-    this.notifications.clearAll();
     try {
+      this.isLoading = true;
       const response = await adapter.replaceStudentsCsv(organizationId, files);
       this._sendNotifications(response);
-      this.router.transitionTo('authenticated.sup-organization-participants.list');
     } catch (errorResponse) {
       this._sendErrorNotifications(errorResponse);
     } finally {
