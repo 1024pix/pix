@@ -317,7 +317,7 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
         const result = new CertificationResultsCsvValues(i18n).getCommentForOrganization(certificationResult);
 
         // then
-        expect(result).to.equal(translate('jury.comment.cancelled_due_to_neutralization.organization'));
+        expect(result).to.equal(translate('jury.comment.CANCELLED_DUE_TO_NEUTRALIZATION.organization'));
       });
     });
 

@@ -1,5 +1,6 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
 import { JuryCertification } from '../../../../lib/domain/models/JuryCertification.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Unit | Domain | Models | JuryCertification', function () {
   describe('#from', function () {
@@ -165,7 +166,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         commentForCandidate: 'coucou',
         commentForOrganization: 'comment',
         commentByJury: 'ça va',
-        commentByAutoJury: 'FRAUD',
+        commentByAutoJury: AutoJuryCommentKeys.FRAUD,
         version: 2,
         competenceMarks: expectedCompetenceMarks,
         certificationIssueReports,
