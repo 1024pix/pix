@@ -15,49 +15,49 @@ import { getTextSample } from '../../../../../../../src/devcomp/infrastructure/d
 import { getVideoSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/video.sample.js';
 
 describe('Unit | Infrastructure | Datasources | Learning Content | Module Datasource | format validation', function () {
-  it('should validate sample image structure', function () {
+  it('should validate sample image structure', async function () {
     // When
-    const result = imageElementSchema.validate(getImageSample());
+    const result = await imageElementSchema.validateAsync(getImageSample());
 
     // Then
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
   });
 
-  it('should validate sample qcm structure', function () {
+  it('should validate sample qcm structure', async function () {
     // When
-    const result = qcmElementSchema.validate(getQcmSample());
+    const result = await qcmElementSchema.validateAsync(getQcmSample());
 
     // Then
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
   });
 
-  it('should validate sample qcu structure', function () {
+  it('should validate sample qcu structure', async function () {
     // When
-    const result = qcuElementSchema.validate(getQcuSample());
+    const result = await qcuElementSchema.validateAsync(getQcuSample());
 
     // Then
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
   });
 
-  it('should validate sample qrocm structure', function () {
+  it('should validate sample qrocm structure', async function () {
     // When
-    const result = qrocmElementSchema.validate(getQrocmSample());
+    const result = await qrocmElementSchema.validateAsync(getQrocmSample());
 
     // Then
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
   });
 
-  it('should validate sample text structure', function () {
+  it('should validate sample text structure', async function () {
     // When
-    const result = textElementSchema.validate(getTextSample());
+    const result = await textElementSchema.validateAsync(getTextSample());
 
     // Then
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
   });
 
-  it('should validate sample video structure', function () {
+  it('should validate sample video structure', async function () {
     // When
-    const result = videoElementSchema.validate(getVideoSample());
+    const result = await videoElementSchema.validateAsync(getVideoSample());
 
     // Then
     expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
