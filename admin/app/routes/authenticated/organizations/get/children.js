@@ -4,6 +4,7 @@ export default class AuthenticatedOrganizationsGetChildrenRoute extends Route {
   async model() {
     const organization = this.modelFor('authenticated.organizations.get');
     return {
+      organization,
       organizations: organization.children,
     };
   }
