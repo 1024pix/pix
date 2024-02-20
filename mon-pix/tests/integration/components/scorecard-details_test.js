@@ -290,18 +290,21 @@ module('Integration | Component | scorecard-details', function (hooks) {
           const store = this.owner.lookup('service:store');
           const tuto1 = store.createRecord('tutorial', {
             title: 'Tuto 1.1',
+            link: 'https://example.net/1',
             tubeName: '@first_tube',
             tubePracticalTitle: 'Practical Title',
             duration: '00:15:10',
           });
           const tuto2 = store.createRecord('tutorial', {
             title: 'Tuto 2.1',
+            link: 'https://example.net/2',
             tubeName: '@second_tube',
             tubePracticalTitle: 'Practical Title 1',
             duration: '00:04:00',
           });
           const tuto3 = store.createRecord('tutorial', {
             title: 'Tuto 2.2',
+            link: 'https://example.net/3',
             tubeName: '@second_tube',
             tubePracticalTitle: 'Practical Title',
             duration: '00:04:00',
