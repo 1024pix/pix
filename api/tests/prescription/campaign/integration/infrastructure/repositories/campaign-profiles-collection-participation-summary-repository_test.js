@@ -3,11 +3,11 @@ import { CampaignProfilesCollectionParticipationSummary } from '../../../../../.
 import * as campaignProfilesCollectionParticipationSummaryRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 
-const { STARTED } = CampaignParticipationStatuses;
+const { STARTED, TO_SHARE } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Profiles Collection Participation Summary repository', function () {
   describe('#findPaginatedByCampaignId', function () {
-    let campaignId, organizationId;
+    let campaignId, organizationId, organizationLearner;
     let competences;
     let skills;
     const sharedAt = new Date('2018-05-06');
@@ -19,6 +19,8 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+      organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+
       await databaseBuilder.commit();
     });
 
@@ -33,7 +35,12 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
     it('should not return participant data summary for a not shared campaign participation', async function () {
       // given
-      const campaignParticipation = { campaignId, status: STARTED, sharedAt: null };
+      const campaignParticipation = {
+        campaignId,
+        status: STARTED,
+        sharedAt: null,
+        organizationLearnerId: organizationLearner.id,
+      };
       databaseBuilder.factory.buildCampaignParticipationWithUser({}, campaignParticipation, false);
       await databaseBuilder.commit();
 
@@ -189,24 +196,34 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
     });
 
     describe('when a participant has participated twice', function () {
-      let recentCampaignParticipation;
+      let recentCampaignParticipation, oldCampaignParticipation;
 
       beforeEach(async function () {
-        const userId = 999;
-        const oldCampaignParticipation = { userId, campaignId, sharedAt, isImproved: true };
-        databaseBuilder.factory.buildCampaignParticipationWithUser({ id: userId }, oldCampaignParticipation, false);
-
-        recentCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-          userId,
-          isImproved: false,
-          sharedAt,
+        oldCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
+          sharedAt: new Date('2020-01-02'),
+          createdAt: new Date('2020-01-02'),
+          isImproved: true,
+          userId: organizationLearner.userId,
+          organizationLearnerId: organizationLearner.id,
         });
 
         await databaseBuilder.commit();
       });
 
-      it('should return only the participationCampaign which is not improved', async function () {
+      it('should return only the latest shared participationCampaign', async function () {
+        //given
+        recentCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          isImproved: false,
+          sharedAt: new Date('2022-01-02'),
+          createdAt: new Date('2022-01-02'),
+          campaignId,
+          userId: organizationLearner.userId,
+          organizationLearnerId: organizationLearner.id,
+        });
+
+        await databaseBuilder.commit();
+
         // when
         const results =
           await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
@@ -214,6 +231,29 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         // then
         expect(results.data).to.have.lengthOf(1);
         expect(results.data[0].id).to.equal(recentCampaignParticipation.id);
+      });
+
+      it('should return only the shared participation', async function () {
+        //given
+        recentCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          isImproved: false,
+          sharedAt: null,
+          createdAt: new Date('2022-01-02'),
+          status: TO_SHARE,
+          campaignId,
+          userId: organizationLearner.userId,
+          organizationLearnerId: organizationLearner.id,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const results =
+          await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+
+        // then
+        expect(results.data).to.have.lengthOf(1);
+        expect(results.data[0].id).to.equal(oldCampaignParticipation.id);
       });
     });
 
