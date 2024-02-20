@@ -1,19 +1,19 @@
 import Joi from 'joi';
-import { uuidSchema, proposalIdSchema } from '../utils.js';
+import { uuidSchema, proposalIdSchema, htmlSchema } from '../utils.js';
 
 const qcuElementSchema = Joi.object({
   id: uuidSchema,
   type: Joi.string().valid('qcu').required(),
-  instruction: Joi.string().required(),
+  instruction: htmlSchema,
   proposals: Joi.array()
     .items({
       id: proposalIdSchema,
-      content: Joi.string().required(),
+      content: htmlSchema,
     })
     .required(),
   feedbacks: Joi.object({
-    valid: Joi.string().required(),
-    invalid: Joi.string().required(),
+    valid: htmlSchema,
+    invalid: htmlSchema,
   }).required(),
   solution: proposalIdSchema,
 }).required();

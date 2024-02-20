@@ -1,10 +1,10 @@
 import Joi from 'joi';
-import { uuidSchema } from '../utils.js';
+import { htmlSchema, uuidSchema } from '../utils.js';
 
 const textElementSchema = Joi.object({
   id: uuidSchema,
   type: Joi.string().valid('text').required(),
-  content: Joi.string().required(),
+  content: htmlSchema,
 }).required();
 
 export { textElementSchema };

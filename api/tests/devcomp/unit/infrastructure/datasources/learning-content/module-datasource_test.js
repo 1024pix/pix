@@ -34,9 +34,9 @@ describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasou
       // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       modules.forEach((module) => {
-        it(`module "${module.slug}" should contain a valid structure`, function () {
+        it(`module "${module.slug}" should contain a valid structure`, async function () {
           // When
-          const result = moduleSchema.validate(module);
+          const result = await moduleSchema.validateAsync(module);
 
           // Then
           expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
