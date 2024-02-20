@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import setupIntl from 'pix-admin/tests/helpers/setup-intl';
 import { currentURL } from '@ember/test-helpers';
@@ -67,6 +67,22 @@ module('Acceptance | Organizations | Children', function (hooks) {
 
       // then
       assert.dom(screen.getByRole('form', { name: `Formulaire d'ajout d'une organisation fille` })).exists();
+    });
+
+    module('when attaching child organization', function () {
+      test('attaches child organization to parent organization', async function (assert) {
+        // given
+        const parentOrganization = this.server.create('organization', { id: 1, name: 'Parent Organization Name' });
+        this.server.create('organization', { id: 2, name: 'Child Organization Name' });
+        const screen = await visit(`/organizations/${parentOrganization.id}/children`);
+        await fillByLabel(`Ajouter une organisation fille ID de l'organisation à ajouter`, '2');
+
+        // when
+        await clickByName('Ajouter');
+
+        // then
+        assert.dom(screen.getByRole('cell', { name: 'Child Organization Name' })).exists();
+      });
     });
   });
 
