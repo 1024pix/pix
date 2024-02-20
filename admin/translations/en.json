@@ -295,9 +295,15 @@
     },
     "organization-children": {
       "title": "Children organisations",
-      "empty-table": "No child organisation"
       "empty-table": "No child organisation",
       "notifications": {
+        "error": {
+          "unable-to-attach-already-attached-child-organization": "Child organization already linked",
+          "unable-to-attach-child-organization-to-another-child-organization": "Unable to attach a child organization to another child organization",
+          "unable-to-attach-child-organization-to-itself": "Unable to attach organization to itself",
+          "unable-to-attach-child-organization-without-same-type": "Check and select a child organization that matches the parent organization's type",
+          "unable-to-attach-parent-organization-as-child-organization": "Unable to attach a parent organization as child organization"
+        },
         "success": {
           "attach-child-organization": "The child organization has been linked to the parent organization"
         }
