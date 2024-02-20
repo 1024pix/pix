@@ -250,7 +250,7 @@ function _createTutorial(server) {
     'tube-practical-description': 'tube_1_practical_description',
     duration: '00:15:00',
     format: 'page',
-    link: 'www.monlien.net',
+    link: 'https://www.monlien.net',
     source: 'Pix',
   });
 }
