@@ -306,6 +306,12 @@
     "organization-children": {
       "title": "Organisations filles",
       "empty-table": "Aucune organisation fille"
+      "empty-table": "Aucune organisation fille",
+      "notifications": {
+        "success": {
+          "attach-child-organization": "L'organisation fille a bien été liée à l'organisation mère"
+        }
+      }
     },
     "organizations": {
       "notifications": {
