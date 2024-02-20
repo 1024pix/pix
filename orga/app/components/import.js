@@ -6,6 +6,10 @@ export default class Import extends Component {
   @service session;
   @service intl;
 
+  get displayBanner() {
+    return this.args.isLoading;
+  }
+
   get supportedFormats() {
     if (
       (this.currentUser.isSCOManagingStudents && this.currentUser.isAgriculture) ||

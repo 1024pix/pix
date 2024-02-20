@@ -49,8 +49,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
           .length,
         2,
       );
-
-      assert.notOk(screen.queryByText(this.intl.t('common.loading')));
+      assert.notOk(screen.queryByText(this.intl.t('pages.organization-participants-import.information')));
     });
 
     test('it should display loading message', async function (assert) {
@@ -68,7 +67,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('common.loading')));
+      assert.ok(await screen.findByText(this.intl.t('pages.organization-participants-import.information')));
     });
 
     module('replaceStudents', function (hooks) {
@@ -254,7 +253,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       );
 
       // then
-      assert.ok(screen.getByText(this.intl.t('common.loading')));
+      assert.ok(await screen.findByText(this.intl.t('pages.organization-participants-import.information')));
     });
 
     test('it trigger importStudentsSpy when clicking on the import button', async function (assert) {
