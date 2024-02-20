@@ -28,8 +28,8 @@ module('Unit | Controller | authenticated/organizations/get/children', function 
       sinon.stub(notifications, 'success');
       controller.model = {
         organization: store.createRecord('organization', { id: '12' }),
-        organizations: { reload: sinon.stub().resolves() },
       };
+      controller.model.organization.children.reload = sinon.stub().resolves();
 
       // when
       await controller.handleFormSubmitted(childOrganizationId);
@@ -45,7 +45,7 @@ module('Unit | Controller | authenticated/organizations/get/children', function 
       assert.true(
         notifications.success.calledWithExactly(`L'organisation fille a bien été liée à l'organisation mère`),
       );
-      assert.true(controller.model.organizations.reload.calledOnce);
+      assert.true(controller.model.organization.children.reload.calledOnce);
     });
 
     module('when form submit fails', function () {
