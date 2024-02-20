@@ -1072,7 +1072,7 @@
             {
               "id": "52f4050d-7ab9-41da-987b-d9172d5b3cb0",
               "type": "text",
-              "content": "<h3 class=\"screen-reader-only\">Astuce n°3</h3><h4>Astuce n°3 : De la variété dans les caractères utilisés</h4><p>Un bon mot de passe contient des caractères divers ! Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter : PlUs i1 Y en ä, MieuX c'EsT #@! <span aria-hidden=\"true\">💬</span></p>"
+              "content": "<h3 class=\"screen-reader-only\">Astuce n°3</h3><h4>Astuce n°3 : De la variété dans les caractères utilisés</h4><p>Un bon mot de passe contient des caractères divers ! Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter. <span aria-hidden=\"true\">💬</span></p>"
             },
             {
               "id": "95a1559a-71d8-4ef6-aa2c-e4d839d78d9b",
@@ -1084,7 +1084,7 @@
             {
               "id": "78cc559f-ea8a-48c8-860c-4615c0e816b8",
               "type": "text",
-              "content": "<h3 class=\"screen-reader-only\">Astuce n°4</h3><h4>Astuce n°4 : Certains mots de passe sont plus importants que d’autres</h4><p>C’est le cas de celui de votre adresse email principale. C’est lui qui vous permet de changer tous les autres mots de passe. <span aria-hidden=\"true\">😌</span> Et oui, un mot de passe oublié, ça se change, et ce n’est pas grave ! Il faut juste avoir un mot de passe solide pour sa boite mail.<span aria-hidden=\"true\">🔐</span></p>"
+              "content": "<h3 class=\"screen-reader-only\">Astuce n°4</h3><h4>Astuce n°4 : Certains mots de passe sont plus importants que d’autres</h4><p>C’est le cas de celui de votre adresse email principale. C’est lui qui vous permet de changer tous les autres mots de passe. <span aria-hidden=\"true\">😌</span> Et oui, un mot de passe oublié, ça se change, et ce n’est pas grave ! Il faut juste avoir un mot de passe solide pour sa boite mail. <span aria-hidden=\"true\">🔐</span></p>"
             }
           ]
         },
@@ -1096,19 +1096,19 @@
             {
               "id": "a71a60a7-f1c3-4a3c-b9b6-7ea5f1ec970e",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
+              "url": "https://i.imgur.com/V1ysNRl.jpeg",
               "alt": "",
               "alternativeText": ""
             },
             {
               "id": "fd4b05ee-8cda-4bfe-b18a-468f1a895f80",
               "type": "text",
-              "content": "<h4>Voici la méthode pour construire un mot de passe sécurisé</h4><p>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em><br>Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !<br>Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><br>Maintenant à vous de jouer </p>"
+              "content": "<h4>Voici une méthode pour construire un mot de passe solide</h4><ol><li>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em></li><li>Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !</li>Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><h4>Maintenant, à vous de jouer !</h4>"
             },
             {
               "id": "718ee7f6-19bf-4787-a025-2a70b89c6288",
               "type": "qrocm",
-              "instruction": "<p>Écrivez le mot de passe correspondant à la phrase suivante : <em>J'ai 2 passions, la course à pied et le VTT !</em></p>",
+              "instruction": "<p>Écrivez le mot de passe correspondant à la phrase suivante : <br><em>J'ai 2 passions, la course à pied et le VTT !</em></p>",
               "proposals": [
                 {
                   "input": "mot-de-passe",
