@@ -614,6 +614,9 @@ function _configureOrganizationsRoutes(context) {
         },
       ],
     };
+  context.get('/admin/organizations/:organizationId/children', (schema, request) => {
+    return schema.organizations.where({ parentOrganizationId: request.params.organizationId });
+  });
   });
 }
 
