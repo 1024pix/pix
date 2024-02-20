@@ -50,8 +50,14 @@ const attributes = [
   'maxReachableLevelOnCertificationDate',
 ];
 
-const serialize = function (certificate) {
+const serialize = function (certificate, { translate }) {
   return new Serializer('certifications', {
+    transform(privateCertificate) {
+      return {
+        ...privateCertificate,
+        commentForCandidate: privateCertificate.commentForCandidate.getComment(translate),
+      };
+    },
     typeForAttribute,
     attributes,
     resultCompetenceTree,

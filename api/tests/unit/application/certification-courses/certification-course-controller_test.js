@@ -4,6 +4,7 @@ import { certificationCourseController } from '../../../../lib/application/certi
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { CertificationCourse } from '../../../../lib/domain/models/index.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
   let certificationDetailsSerializer;
@@ -103,6 +104,7 @@ describe('Unit | Controller | certification-course-controller', function () {
         params: {
           id: certificationCourseId,
         },
+        i18n: getI18n(),
       };
 
       const juryCertification = domainBuilder.buildJuryCertification({

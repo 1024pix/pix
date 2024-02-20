@@ -316,6 +316,18 @@
     "STAGE_TITLE_IS_REQUIRED": "Le titre du palier est obligatoire",
     "WRONG_EMAIL_FORMAT": "Le format de l'adresse e-mail est incorrect."
   },
+  "jury": {
+    "comment": {
+      "CANCELLED_DUE_TO_NEUTRALIZATION": {
+        "candidate": "Un ou plusieurs problème(s) technique(s), signalé(s) à votre surveillant pendant la session de certification, a/ont affecté la qualité du test de certification. En raison du trop grand nombre de questions auxquelles vous n'avez pas pu répondre, nous ne sommes pas en mesure de délivrer une certification. Celle-ci est annulée, le prescripteur de votre certification (le cas échéant), en est informé.",
+        "organization": "Un ou plusieurs problème(s) technique(s), a/ont affecté le bon déroulement du test de certification. Nous ne sommes pas en mesure de délivrer la certification, celle-ci est donc annulée. Cette information peut vous conduire à proposer une nouvelle session de certification pour ce(cette) candidat(e)."
+      },
+      "FRAUD": {
+        "candidate": "Les conditions de passation du test de certification n'ayant pas été respectées et ayant fait l'objet d'un signalement pour fraude, votre certification a été invalidée en conséquence.",
+        "organization": "Une situation de fraude a été détectée : après analyse, nous avons statué sur un rejet de la certification."
+      }
+    }
+  },
   "organization-invitation-email": {
     "params": {
       "title": "Vous êtes invité(e) à rejoindre Pix Orga",

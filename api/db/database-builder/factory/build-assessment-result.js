@@ -12,7 +12,7 @@ function buildAssessmentResult({
   level = null,
   status = AssessmentResult.status.VALIDATED,
   emitter = 'PIX-ALGO',
-  commentByAutoJury = 'Some comment by auto jury',
+  commentByAutoJury,
   commentByJury,
   commentForCandidate = 'Some comment for candidate',
   commentForOrganization = 'Some comment for organization',

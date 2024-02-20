@@ -3,3 +3,10 @@ export function assertNotNullOrUndefined(value, errorMessage = 'Ne doit pas êtr
     throw new Error(errorMessage);
   }
 }
+
+export function assertEnumValue(enumObject, value) {
+  const isValidEnumValue = Object.keys(enumObject).some((key) => enumObject[key] === value);
+  if (!isValidEnumValue) {
+    throw new TypeError('Illegal enum value provided');
+  }
+}

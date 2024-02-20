@@ -9,6 +9,7 @@ import {
 
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import * as certificateRepository from '../../../../lib/infrastructure/repositories/certificate-repository.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Integration | Infrastructure | Repository | Certificate_private', function () {
   const minimalLearningContent = [
@@ -282,6 +283,44 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
       expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
+    context('when the comment for candidate is automatically set', function () {
+      it('should return a PrivateCertificate with matching key', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.fromAreas(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          isCancelled: false,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDE-F',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: 51,
+          commentForCandidate: 'Il aime beaucoup les mangues, mais il a fraudé :( !',
+          commentByAutoJury: AutoJuryCommentKeys.FRAUD,
+        };
+
+        const { certificationCourseId } = await _buildValidPrivateCertificate(privateCertificateData);
+
+        // when
+        const privateCertificate = await certificateRepository.getPrivateCertificate(certificationCourseId);
+
+        // then
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
+          id: certificationCourseId,
+          ...privateCertificateData,
+        });
+        expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
+      });
+    });
     describe('when "locale" is french', function () {
       it('should return a PrivateCertificate with french resultCompetenceTree', async function () {
         // given
@@ -930,6 +969,7 @@ async function _buildValidPrivateCertificate(privateCertificateData, buildCompet
     pixScore: privateCertificateData.pixScore,
     status: 'validated',
     commentForCandidate: privateCertificateData.commentForCandidate,
+    commentByAutoJury: privateCertificateData.commentByAutoJury,
     createdAt: new Date('2021-01-01'),
   }).id;
 

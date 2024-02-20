@@ -1,3 +1,4 @@
+import { assertEnumValue } from '../../../../shared/domain/models/asserts.js';
 import { CenterTypes } from './CenterTypes.js';
 
 export class Center {
@@ -8,7 +9,7 @@ export class Center {
    * @param {Array<number>} props.habilitations List of complementary certification id
    */
   constructor({ id, type, habilitations = [] } = {}) {
-    Center.#assertType(type);
+    assertEnumValue(CenterTypes, type);
 
     this.id = id;
     this.type = type;
@@ -17,11 +18,5 @@ export class Center {
 
   get hasBillingMode() {
     return this.type !== CenterTypes.SCO;
-  }
-
-  static #assertType(type) {
-    if (!CenterTypes.contains(type)) {
-      throw new TypeError('Illegal argument provided');
-    }
   }
 }
