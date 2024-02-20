@@ -99,6 +99,18 @@ module('Unit | Component | Training | card', function (hooks) {
       // then
       assert.ok(new RegExp(/https:\/\/images.pix.fr\/contenu-formatif\/type\/In-person-1.svg/g).test(result));
     });
+
+    test('should return appropriate image src for training type modulix', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'modulix' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.imageSrc;
+
+      // then
+      assert.ok(new RegExp(/https:\/\/images.pix.fr\/contenu-formatif\/type\/Modulix-[1-3].svg/g).test(result));
+    });
   });
 
   module('#tagColor', function () {
@@ -160,6 +172,18 @@ module('Unit | Component | Training | card', function (hooks) {
 
       // then
       assert.strictEqual(result, 'secondary');
+    });
+
+    test('should return appropriate tag color for given type modulix', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'modulix' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.tagColor;
+
+      // then
+      assert.strictEqual(result, 'primary');
     });
   });
 });

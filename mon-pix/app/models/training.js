@@ -27,4 +27,8 @@ export default class Training extends Model {
   get isInPerson() {
     return this.type === 'in-person-training';
   }
+
+  get isModulix() {
+    return this.type === 'modulix';
+  }
 }
