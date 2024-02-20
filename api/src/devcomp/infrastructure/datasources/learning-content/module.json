@@ -320,6 +320,10 @@
           "grainId": "533c69b8-a836-41be-8ffc-8d4636e31224"
         },
         {
+          "content": "<p>Vous l’aurez compris, on aime varier les plaisirs et proposer différents types d’activité, après le questionnaire à choix unique on vous laisse découvrir le QCM !</p>",
+          "grainId": "0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"
+        },
+        {
           "content": "<p>Vous l'avez peut-être remarqué : dans un module, vous pouvez voir tous les contenus en remontant la page <span aria-hidden=\"true\">⬆️</span>️</p>",
           "grainId": "2a77a10f-19a3-4544-80f9-8012dad6506a"
         },
