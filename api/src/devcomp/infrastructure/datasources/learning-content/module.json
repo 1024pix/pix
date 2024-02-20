@@ -979,7 +979,7 @@
         {
           "id": "831fd61c-54ae-4b21-bd3f-61f40887a869",
           "type": "lesson",
-          "title": "titre",
+          "title": "Les risques liés aux mots de passe",
           "elements": [
             {
               "id": "826281e7-865f-462d-abc0-77537c42a2b4",
@@ -1006,7 +1006,7 @@
             {
               "id": "7ef31e68-e798-4a92-86a0-ad61ebd9b915",
               "type": "text",
-              "content": "<p>Austin est producteur de miel dans les Vosges. Austin</p><ul><li>est né le 15 novembre 1984,</li><li>a un enfant qui s’appelle Bill.</li></ul><p>Il a utilisé ces deux informations pour créer son mot de passe.</p>"
+              "content": "<p>Austin est producteur de miel dans les Vosges. Il a utilisé les deux informations suivantes pour créer son mot de passe&nbsp;:</p><ul><li>Il est né le 15 novembre 1984.</li><li>Il a un enfant qui s’appelle Bill.</li></ul>"
             },
             {
               "id": "2695bb89-112c-49d1-80b2-469d824af58f",
@@ -1023,12 +1023,12 @@
                   "ariaLabel": "Mot de passe d'Austin",
                   "defaultValue": "",
                   "tolerances": ["t1"],
-                  "solutions": ["Bill15111984", "15111984Bill"]
+                  "solutions": ["Bill15111984", "15111984Bill", "Bill151184", "151184Bill", "bill15111984", "15111984bill", "bill151184", "151184bill"]
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct ! Et oui ! C’est un mot de passe faible, c’est-à-dire  facile à trouver.</p>",
-                "invalid": "<p>Incorrect ! Avez-vous bien écrit la date de naissance d’Austin en chiffres (15/11/1984) ? Et pensé au prénom de son enfant (Bill) ?</p>"
+                "valid": "<p>Correct ! Et oui ! C’est un <strong>mot de passe faible</strong>, c’est-à-dire  facile à trouver.</p>",
+                "invalid": "<p>Incorrect ! Avez-vous bien écrit la date de naissance d’Austin en chiffres (15111984) ? Et pensé au prénom de son enfant (Bill) ?</p>"
               }
             }
           ]
