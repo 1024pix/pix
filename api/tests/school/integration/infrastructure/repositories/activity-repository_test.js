@@ -1,7 +1,7 @@
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 import * as activityRepository from '../../../../../src/school/infrastructure/repositories/activity-repository.js';
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { ActivityNotFoundError } from '../../../../../src/school/domain/school-errors.js';
 
 describe('Integration | Repository | activityRepository', function () {
   describe('#save', function () {
@@ -49,7 +49,7 @@ describe('Integration | Repository | activityRepository', function () {
         const error = await catchErr(activityRepository.updateStatus)({ activityId, status: Activity.status.SKIPPED });
 
         // then
-        expect(error).to.be.instanceof(NotFoundError);
+        expect(error).to.be.instanceof(ActivityNotFoundError);
       });
     });
   });
@@ -65,7 +65,7 @@ describe('Integration | Repository | activityRepository', function () {
         const error = await catchErr(activityRepository.getLastActivity)(assessmentId);
 
         // then
-        expect(error).to.be.instanceof(NotFoundError);
+        expect(error).to.be.instanceof(ActivityNotFoundError);
       });
     });
     context('when there is an activity for the given assessmentId', function () {
