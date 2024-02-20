@@ -1048,7 +1048,7 @@
             {
               "id": "02bb0017-a74d-4c78-8502-3c57d9f12209",
               "type": "text",
-              "content": "<h3 class=\"screen-reader-only\">Astuce n°1</h3><h4>Astuce n°1 : un bon mot de passe est long !</h4><p><p>D’ailleurs pensez “phrase de passe” plutôt que “mot de passe” … Pas la peine d’inventer un monologue non plus. <span aria-hidden=\"true\">😉</span> À partir de 12 caractères, le mot de passe atteint une longueur correcte. <span aria-hidden=\"true\">👍<span></p>"
+              "content": "<h3 class=\"screen-reader-only\">Astuce n°1</h3><h4>Astuce n°1 : un bon mot de passe est long !</h4><p>D’ailleurs pensez “phrase de passe” plutôt que “mot de passe” … Pas la peine d’inventer un monologue non plus. <span aria-hidden=\"true\">😉</span> À partir de 12 caractères, le mot de passe atteint une longueur correcte. <span aria-hidden=\"true\">👍</span></p>"
             },
             {
               "id": "b04b0fbd-fccc-4a35-b089-76e120d7af7b",
@@ -1103,7 +1103,7 @@
             {
               "id": "fd4b05ee-8cda-4bfe-b18a-468f1a895f80",
               "type": "text",
-              "content": "<h4>Voici une méthode pour construire un mot de passe solide</h4><ol><li>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em></li><li>Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !</li>Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><h4>Maintenant, à vous de jouer !</h4>"
+              "content": "<h4>Voici une méthode pour construire un mot de passe solide</h4><ol><li>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em></li><li>Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !</li></ol>Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><h4>Maintenant, à vous de jouer !</h4>"
             },
             {
               "id": "718ee7f6-19bf-4787-a025-2a70b89c6288",
