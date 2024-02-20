@@ -4,6 +4,8 @@ import { action } from '@ember/object';
 
 export default class AuthenticatedOrganizationsGetChildrenController extends Controller {
   @service accessControl;
+  @service intl;
+  @service notifications;
   @service store;
 
   @action
@@ -13,5 +15,8 @@ export default class AuthenticatedOrganizationsGetChildrenController extends Con
 
     await organizationAdapter.attachChildOrganization({ childOrganizationId, parentOrganizationId });
     await this.model.organizations.reload();
+      this.notifications.success(
+        this.intl.t('pages.organization-children.notifications.success.attach-child-organization'),
+      );
   }
 }

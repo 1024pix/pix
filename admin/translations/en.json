@@ -296,6 +296,12 @@
     "organization-children": {
       "title": "Children organisations",
       "empty-table": "No child organisation"
+      "empty-table": "No child organisation",
+      "notifications": {
+        "success": {
+          "attach-child-organization": "The child organization has been linked to the parent organization"
+        }
+      }
     },
     "sessions": {
       "informations": {
