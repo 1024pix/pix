@@ -19,6 +19,19 @@ module('Unit | Model | Module | Element', function (hooks) {
       ],
     },
     {
+      getterName: 'isQcm',
+      cases: [
+        {
+          modelType: 'qcms',
+          expectedResult: true,
+        },
+        {
+          modelType: 'texts',
+          expectedResult: false,
+        },
+      ],
+    },
+    {
       getterName: 'isText',
       cases: [
         {

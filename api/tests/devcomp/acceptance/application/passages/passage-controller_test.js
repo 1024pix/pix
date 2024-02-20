@@ -105,12 +105,7 @@ describe('Acceptance | Controller | passage-controller', function () {
           expect(response.result.data.attributes['element-id']).to.equal(testCase.elementId);
           expect(response.result.included[0].attributes.status).to.equal('ok');
           expect(response.result.included[0].attributes.feedback).to.equal(testCase.expectedFeedback);
-          if (testCase.case === 'QCM') {
-            expect(response.result.included[0].attributes.solutions).to.deep.equal(testCase.expectedSolution);
-          }
-          if (['QCU', 'QROCM-ind'].includes(testCase.case)) {
-            expect(response.result.included[0].attributes.solution).to.deep.equal(testCase.expectedSolution);
-          }
+          expect(response.result.included[0].attributes.solution).to.deep.equal(testCase.expectedSolution);
         }),
       );
     });
