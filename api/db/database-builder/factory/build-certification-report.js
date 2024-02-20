@@ -12,7 +12,7 @@ const buildCertificationReport = function ({
   abortReason = null,
 } = {}) {
   certificationCourseId = _.isUndefined(certificationCourseId)
-    ? buildCertificationCourse({ firstName, lastName, sessionId, hasSeenEndTestScreen }).id
+    ? buildCertificationCourse({ firstName, lastName, sessionId, hasSeenEndTestScreen, abortReason }).id
     : certificationCourseId;
 
   const id = CertificationReport.idFromCertificationCourseId(certificationCourseId);

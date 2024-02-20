@@ -57,7 +57,7 @@ describe('Unit | UseCase | validate-live-alert', function () {
   });
 
   describe('when the liveAlert exists', function () {
-    it('should update the LiveAlert and create a new CertificationIssueReport', async function () {
+    it('should update the LiveAlert and create a new resolved CertificationIssueReport', async function () {
       // given
       const sessionId = 123;
       const userId = 456;
@@ -127,6 +127,10 @@ describe('Unit | UseCase | validate-live-alert', function () {
         category,
         questionNumber,
         liveAlertId: liveAlert.id,
+        resolvedAt: sinon.match.date,
+        resolution:
+          'Le signalement a été validé par le surveillant pendant la session. Une nouvelle question a été proposée au candidat',
+        hasBeenAutomaticallyResolved: true,
       });
       expectedCertificationIssueReport.id = undefined;
       expectedCertificationIssueReport.description = undefined;
