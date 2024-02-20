@@ -1,4 +1,3 @@
-import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
@@ -20,7 +19,7 @@ module('Unit | Model | Answer', function (hooks) {
   module('isResultOk', function () {
     test('should return true when answser.result is ok', function (assert) {
       // given
-      const answer = run(() => store.createRecord('answer', { result: 'ok' }));
+      const answer = store.createRecord('answer', { result: 'ok' });
 
       // when
       const result = answer.isResultOk;
@@ -30,7 +29,7 @@ module('Unit | Model | Answer', function (hooks) {
 
     test('should return false when answser.result is ko', function (assert) {
       // given
-      const answer = run(() => store.createRecord('answer', { result: 'ko' }));
+      const answer = store.createRecord('answer', { result: 'ko' });
 
       // when
       const result = answer.isResultOk;
@@ -41,7 +40,7 @@ module('Unit | Model | Answer', function (hooks) {
   module('isResultNotOk', function () {
     test('should return true when answser.result is ok', function (assert) {
       // given
-      const answer = run(() => store.createRecord('answer', { result: 'ok' }));
+      const answer = store.createRecord('answer', { result: 'ok' });
 
       // when
       const result = answer.isResultNotOk;
@@ -51,7 +50,7 @@ module('Unit | Model | Answer', function (hooks) {
 
     test('should return false when answser.result is ko', function (assert) {
       // given
-      const answer = run(() => store.createRecord('answer', { result: 'ko' }));
+      const answer = store.createRecord('answer', { result: 'ko' });
 
       // when
       const result = answer.isResultNotOk;

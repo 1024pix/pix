@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 
 module('Unit | Model | Scorecard model', function (hooks) {
   let scorecard;
@@ -8,7 +7,7 @@ module('Unit | Model | Scorecard model', function (hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function () {
-    scorecard = run(() => this.owner.lookup('service:store').createRecord('scorecard'));
+    scorecard = this.owner.lookup('service:store').createRecord('scorecard');
   });
 
   module('capedPercentageAheadOfNextLevel', function () {
