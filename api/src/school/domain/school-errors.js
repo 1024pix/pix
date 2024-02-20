@@ -14,4 +14,11 @@ class SchoolNotFoundError extends DomainError {
   }
 }
 
-export { ActivityNotFoundError, SchoolNotFoundError };
+class MissionNotFoundError extends DomainError {
+  constructor(missionId) {
+    super(`Il n'existe pas de mission ayant pour id ${missionId}`);
+    this.code = missionId;
+  }
+}
+
+export { ActivityNotFoundError, SchoolNotFoundError, MissionNotFoundError };
