@@ -10,33 +10,8 @@ import { constants } from '../../../../../lib/infrastructure/constants.js';
 import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
 
-const findPaginatedByCampaignId = async function (campaignId, page, filters = {}) {
-  const query = knex
-    .select(
-      'campaign-participations.id AS campaignParticipationId',
-      'campaign-participations.userId AS userId',
-      knex.raw('LOWER("view-active-organization-learners"."firstName") AS "lowerFirstName"'),
-      knex.raw('LOWER("view-active-organization-learners"."lastName") AS "lowerLastName"'),
-      'view-active-organization-learners.firstName AS firstName',
-      'view-active-organization-learners.lastName AS lastName',
-      'campaign-participations.participantExternalId',
-      'campaign-participations.sharedAt',
-      'campaign-participations.pixScore AS pixScore',
-    )
-    .from('campaign-participations')
-    .join(
-      'view-active-organization-learners',
-      'view-active-organization-learners.id',
-      'campaign-participations.organizationLearnerId',
-    )
-    .where('campaign-participations.campaignId', '=', campaignId)
-    .where('campaign-participations.isImproved', '=', false)
-    .where('campaign-participations.deletedAt', 'IS', null)
-    .whereRaw('"campaign-participations"."sharedAt" IS NOT NULL')
-    .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName'])
-    .modify(_filterQuery, filters);
-
-  const { results, pagination } = await fetchPage(query, page);
+async function findPaginatedByCampaignId(campaignId, page = {}, filters = {}) {
+  const { results, pagination } = await _getResultListPaginated(campaignId, filters, page);
 
   const getPlacementProfileForUser = await _makeMemoizedGetPlacementProfileForUser(results);
 
@@ -55,7 +30,51 @@ const findPaginatedByCampaignId = async function (campaignId, page, filters = {}
   });
 
   return { data, pagination };
-};
+}
+
+function _getResultListPaginated(campaignId, filters, page) {
+  const query = _getParticipantsResultList(campaignId, filters);
+  return fetchPage(query, page);
+}
+
+function _getParticipantsResultList(campaignId, filters) {
+  return knex
+    .with('campaign_participation_summaries', (qb) => _getParticipations(qb, campaignId, filters))
+    .select('*')
+    .from('campaign_participation_summaries')
+    .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
+}
+
+function _getParticipations(qb, campaignId, filters) {
+  qb.select(
+    'campaign-participations.id AS campaignParticipationId',
+    'campaign-participations.userId AS userId',
+    'view-active-organization-learners.firstName AS firstName',
+    'view-active-organization-learners.lastName AS lastName',
+    'campaign-participations.participantExternalId',
+    'campaign-participations.sharedAt',
+    'campaign-participations.pixScore AS pixScore',
+  )
+    .distinctOn('campaign-participations.organizationLearnerId')
+    .from('campaign-participations')
+    .join(
+      'view-active-organization-learners',
+      'view-active-organization-learners.id',
+      'campaign-participations.organizationLearnerId',
+    )
+    .where('campaign-participations.campaignId', campaignId)
+    .whereNull('campaign-participations.deletedAt')
+    .whereNotNull('campaign-participations.sharedAt')
+    .orderBy([
+      { column: 'campaign-participations.organizationLearnerId' },
+      {
+        column: 'campaign-participations.createdAt',
+        order: 'desc',
+        nulls: 'last',
+      },
+    ])
+    .modify(_filterQuery, filters);
+}
 
 async function _makeMemoizedGetPlacementProfileForUser(results) {
   const competences = await competenceRepository.listPixCompetencesOnly();
