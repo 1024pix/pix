@@ -42,18 +42,18 @@ export default class Card extends Component {
   get imageSrc() {
     const randomNumber = this._getRandomImageNumber();
     if (this.args.training.isAutoformation) {
-      return `/images/illustrations/trainings/Autoformation-${randomNumber}.svg`;
+      return `https://images.pix.fr/contenu-formatif/type/Autoformation-${randomNumber}.svg`;
     }
     if (this.args.training.isElearning) {
-      return '/images/illustrations/trainings/E-learning-1.svg';
+      return 'https://images.pix.fr/contenu-formatif/type/E-learning-1.svg';
     }
     if (this.args.training.isHybrid) {
-      return '/images/illustrations/trainings/Hybrid-1.svg';
+      return 'https://images.pix.fr/contenu-formatif/type/Hybrid-1.svg';
     }
     if (this.args.training.isInPerson) {
-      return '/images/illustrations/trainings/In-person-1.svg';
+      return 'https://images.pix.fr/contenu-formatif/type/In-person-1.svg';
     }
-    return `/images/illustrations/trainings/Webinaire-${randomNumber}.svg`;
+    return `https://images.pix.fr/contenu-formatif/type/Webinaire-${randomNumber}.svg`;
   }
 
   _getRandomImageNumber() {
