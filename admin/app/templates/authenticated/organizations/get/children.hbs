@@ -2,7 +2,7 @@
 {{#if this.accessControl.hasAccessToAttachChildOrganizationActionsScope}}
   <section class="page-section">
     <div class="content-text content-text--small">
-      <Organizations::Children::AttachChildForm />
+      <Organizations::Children::AttachChildForm @onFormSubmitted={{this.handleFormSubmitted}} />
     </div>
   </section>
 {{/if}}
