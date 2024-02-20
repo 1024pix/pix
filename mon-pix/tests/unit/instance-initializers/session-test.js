@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import Application from '@ember/application';
 import { initialize } from 'mon-pix/instance-initializers/session';
-import { run } from '@ember/runloop';
 import Resolver from 'ember-resolver';
 import PixWindow from 'mon-pix/utils/pix-window';
 import sinon from 'sinon';
@@ -11,16 +10,14 @@ module('Unit | Instance Initializer | session', function () {
     module('when a user finalizes a GAR authentication process', function () {
       test('it removes the current session before the application loads', async function (assert) {
         // given
-        run(() => {
-          // eslint-disable-next-line ember/no-classic-classes
-          this.TestApplication = Application.extend();
-          this.TestApplication.instanceInitializer({
-            name: 'initializer under test',
-            initialize,
-          });
-          this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
-          this.instance = this.application.buildInstance();
+        // eslint-disable-next-line ember/no-classic-classes
+        this.TestApplication = Application.extend();
+        this.TestApplication.instanceInitializer({
+          name: 'initializer under test',
+          initialize,
         });
+        this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
+        this.instance = this.application.buildInstance();
         const key = 'ember_simple_auth-session';
         sinon.stub(PixWindow, 'getLocationHref').returns('/connexion/gar#access_token');
         window.localStorage.setItem(
@@ -44,8 +41,8 @@ module('Unit | Instance Initializer | session', function () {
         // then
         const session = window.localStorage.getItem(key);
         assert.notOk(session);
-        run(this.instance, 'destroy');
-        run(this.application, 'destroy');
+        this.instance.destroy();
+        this.application.destroy();
         sinon.restore();
       });
     });
@@ -53,16 +50,14 @@ module('Unit | Instance Initializer | session', function () {
     module('when current URL contains externalUser as query parameter', function () {
       test('it removes the current session before the application loads', async function (assert) {
         // given
-        run(() => {
-          // eslint-disable-next-line ember/no-classic-classes
-          this.TestApplication = Application.extend();
-          this.TestApplication.instanceInitializer({
-            name: 'initializer under test',
-            initialize,
-          });
-          this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
-          this.instance = this.application.buildInstance();
+        // eslint-disable-next-line ember/no-classic-classes
+        this.TestApplication = Application.extend();
+        this.TestApplication.instanceInitializer({
+          name: 'initializer under test',
+          initialize,
         });
+        this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
+        this.instance = this.application.buildInstance();
         const key = 'ember_simple_auth-session';
         sinon.stub(PixWindow, 'getLocationHref').returns('/campagnes?externalUser=EXTERNAL_USER_TOKEN');
         window.localStorage.setItem(
@@ -86,8 +81,8 @@ module('Unit | Instance Initializer | session', function () {
         // then
         const session = window.localStorage.getItem(key);
         assert.notOk(session);
-        run(this.instance, 'destroy');
-        run(this.application, 'destroy');
+        this.instance.destroy();
+        this.application.destroy();
         sinon.restore();
       });
     });
@@ -97,16 +92,14 @@ module('Unit | Instance Initializer | session', function () {
     module('when current URL is a campaign URL', function () {
       test('it removes the current session before the application loads', async function (assert) {
         // given
-        run(() => {
-          // eslint-disable-next-line ember/no-classic-classes
-          this.TestApplication = Application.extend();
-          this.TestApplication.instanceInitializer({
-            name: 'initializer under test',
-            initialize,
-          });
-          this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
-          this.instance = this.application.buildInstance();
+        // eslint-disable-next-line ember/no-classic-classes
+        this.TestApplication = Application.extend();
+        this.TestApplication.instanceInitializer({
+          name: 'initializer under test',
+          initialize,
         });
+        this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
+        this.instance = this.application.buildInstance();
         const key = 'ember_simple_auth-session';
         sinon.stub(PixWindow, 'getLocationHref').returns('/campagnes');
         window.localStorage.setItem(
@@ -126,8 +119,8 @@ module('Unit | Instance Initializer | session', function () {
         // then
         const session = window.localStorage.getItem(key);
         assert.notOk(session);
-        run(this.instance, 'destroy');
-        run(this.application, 'destroy');
+        this.instance.destroy();
+        this.application.destroy();
         sinon.restore();
       });
     });
@@ -135,16 +128,14 @@ module('Unit | Instance Initializer | session', function () {
     module('when current URL is a campaign URL with a code', function () {
       test('it removes the current session before the application loads', async function (assert) {
         // given
-        run(() => {
-          // eslint-disable-next-line ember/no-classic-classes
-          this.TestApplication = Application.extend();
-          this.TestApplication.instanceInitializer({
-            name: 'initializer under test',
-            initialize,
-          });
-          this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
-          this.instance = this.application.buildInstance();
+        // eslint-disable-next-line ember/no-classic-classes
+        this.TestApplication = Application.extend();
+        this.TestApplication.instanceInitializer({
+          name: 'initializer under test',
+          initialize,
         });
+        this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
+        this.instance = this.application.buildInstance();
         const key = 'ember_simple_auth-session';
         sinon.stub(PixWindow, 'getLocationHref').returns('/campagnes/SIMPLIFIE');
         window.localStorage.setItem(
@@ -164,8 +155,8 @@ module('Unit | Instance Initializer | session', function () {
         // then
         const session = window.localStorage.getItem(key);
         assert.notOk(session);
-        run(this.instance, 'destroy');
-        run(this.application, 'destroy');
+        this.instance.destroy();
+        this.application.destroy();
         sinon.restore();
       });
     });
@@ -173,16 +164,14 @@ module('Unit | Instance Initializer | session', function () {
     module('when current URL is a campaign tutorial URL with a code', function () {
       test('it removes the current session before the application loads', async function (assert) {
         // given
-        run(() => {
-          // eslint-disable-next-line ember/no-classic-classes
-          this.TestApplication = Application.extend();
-          this.TestApplication.instanceInitializer({
-            name: 'initializer under test',
-            initialize,
-          });
-          this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
-          this.instance = this.application.buildInstance();
+        // eslint-disable-next-line ember/no-classic-classes
+        this.TestApplication = Application.extend();
+        this.TestApplication.instanceInitializer({
+          name: 'initializer under test',
+          initialize,
         });
+        this.application = this.TestApplication.create({ autoboot: false, Resolver, modulePrefix: 'mon-pix-test' });
+        this.instance = this.application.buildInstance();
         const key = 'ember_simple_auth-session';
         sinon.stub(PixWindow, 'getLocationHref').returns('/campagnes/SIMPLIFIE/evaluation/didacticiel');
         window.localStorage.setItem(
@@ -202,8 +191,8 @@ module('Unit | Instance Initializer | session', function () {
         // then
         const session = window.localStorage.getItem(key);
         assert.notOk(session);
-        run(this.instance, 'destroy');
-        run(this.application, 'destroy');
+        this.instance.destroy();
+        this.application.destroy();
         sinon.restore();
       });
     });

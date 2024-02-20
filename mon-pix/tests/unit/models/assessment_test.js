@@ -1,4 +1,3 @@
-import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import times from 'lodash/times';
@@ -14,9 +13,7 @@ module('Unit | Model | Assessment', function (hooks) {
 
   module('@answersSinceLastCheckpoints', function () {
     function newAnswers(store, nbAnswers) {
-      return run(() => {
-        return times(nbAnswers, () => store.createRecord('answer'));
-      });
+      return times(nbAnswers, () => store.createRecord('answer'));
     }
 
     test('should return an empty array when no answers has been given', function (assert) {
@@ -33,10 +30,10 @@ module('Unit | Model | Assessment', function (hooks) {
 
     test('should return the one answer when only one answer has been given', function (assert) {
       // given
-      const answer = run(() => store.createRecord('answer'));
+      const answer = store.createRecord('answer');
       const assessment = store.createRecord('assessment');
       const answers = [answer];
-      run(() => (assessment.answers = answers));
+      assessment.answers = answers;
 
       // when
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
@@ -50,7 +47,7 @@ module('Unit | Model | Assessment', function (hooks) {
       const answers = newAnswers(store, 7);
       const [answer6, answer7] = answers.slice(5);
       const assessment = store.createRecord('assessment');
-      run(() => (assessment.answers = answers));
+      assessment.answers = answers;
 
       // when
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
@@ -64,7 +61,7 @@ module('Unit | Model | Assessment', function (hooks) {
       const answers = newAnswers(store, 10);
       const [answer6, answer7, answer8, answer9, answer10] = answers.slice(5);
       const assessment = store.createRecord('assessment');
-      run(() => (assessment.answers = answers));
+      assessment.answers = answers;
 
       // when
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
@@ -78,7 +75,7 @@ module('Unit | Model | Assessment', function (hooks) {
       const answers = newAnswers(store, 11);
       const answer11 = answers[10];
       const assessment = store.createRecord('assessment');
-      run(() => (assessment.answers = answers));
+      assessment.answers = answers;
 
       // when
       const answersSinceLastCheckpoints = assessment.answersSinceLastCheckpoints;
