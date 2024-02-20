@@ -6,7 +6,7 @@ import { CertifiedLevel } from '../../models/CertifiedLevel.js';
 import { CertifiedScore } from '../../models/CertifiedScore.js';
 import { ReproducibilityRate } from '../../models/ReproducibilityRate.js';
 import { CompetenceMark } from '../../models/CompetenceMark.js';
-import { CertificationAssessmentScore } from '../../models/CertificationAssessmentScore.js';
+import { CertificationAssessmentScore } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
 import { AnswerCollectionForScoring } from '../../models/AnswerCollectionForScoring.js';
 import * as areaRepository from '../../../infrastructure/repositories/area-repository.js';
 import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';

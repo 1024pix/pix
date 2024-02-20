@@ -30,7 +30,7 @@ import { CertifiableBadgeAcquisition } from './CertifiableBadgeAcquisition.js';
 import { CertifiableProfileForLearningContent } from './CertifiableProfileForLearningContent.js';
 import { CertificationAnswerStatusChangeAttempt } from './CertificationAnswerStatusChangeAttempt.js';
 import { CertificationAssessment } from './CertificationAssessment.js';
-import { CertificationAssessmentScore } from './CertificationAssessmentScore.js';
+import { CertificationAssessmentScore } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
 import { CertificationAttestation } from '../../../src/certification/course/domain/models/CertificationAttestation.js';
 import { CertificationCandidate } from './CertificationCandidate.js';
 import { CertificationCandidateForSupervising } from '../../../src/certification/supervision/domain/models/CertificationCandidateForSupervising.js';

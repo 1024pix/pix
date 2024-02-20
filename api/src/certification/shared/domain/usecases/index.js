@@ -3,6 +3,7 @@
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
+import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
 import * as attendanceSheetPdfUtils from '../../../session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
@@ -49,6 +50,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
+ * @typedef {answerRepository} AnswerRepository
  * @typedef {assessmentRepository} AssessmentRepository
  * @typedef {assessmentResultRepository} AssessmentResultRepository
  * @typedef {attendanceSheetPdfUtils} AttendanceSheetPdfUtils
@@ -87,6 +89,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  * @typedef {cpfExportsStorage} CpfExportsStorage
  */
 const dependencies = {
+  answerRepository,
   assessmentRepository,
   assessmentResultRepository,
   attendanceSheetPdfUtils,

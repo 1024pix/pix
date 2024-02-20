@@ -1,5 +1,5 @@
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { createCertificationChallengeLiveAlert } from '../../../../lib/domain/usecases/create-certification-challenge-live-alert.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { createCertificationChallengeLiveAlert } from '../../../../../../src/certification/course/domain/usecases/create-certification-challenge-live-alert.js';
 import _ from 'lodash';
 
 describe('Unit | UseCase | create-certification-challenge-live-alert', function () {
