@@ -8,6 +8,7 @@ export const typeCategories = {
   'e-learning': 'Formation en ligne',
   'hybrid-training': 'Formation hybride',
   'in-person-training': 'Formation en présentiel',
+  modulix: 'Modulix',
 };
 
 export const optionsTypeList = formatList(typeCategories);
