@@ -36,6 +36,9 @@ export default class Card extends Component {
     if (this.args.training.isInPerson) {
       return 'secondary';
     }
+    if (this.args.training.isModulix) {
+      return 'primary';
+    }
     return 'tertiary';
   }
 
@@ -52,6 +55,9 @@ export default class Card extends Component {
     }
     if (this.args.training.isInPerson) {
       return 'https://images.pix.fr/contenu-formatif/type/In-person-1.svg';
+    }
+    if (this.args.training.isModulix) {
+      return `https://images.pix.fr/contenu-formatif/type/Modulix-${randomNumber}.svg`;
     }
     return `https://images.pix.fr/contenu-formatif/type/Webinaire-${randomNumber}.svg`;
   }
