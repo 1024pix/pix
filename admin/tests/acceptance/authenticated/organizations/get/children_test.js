@@ -70,7 +70,7 @@ module('Acceptance | Organizations | Children', function (hooks) {
     });
 
     module('when attaching child organization', function () {
-      test('attaches child organization to parent organization', async function (assert) {
+      test('attaches child organization to parent organization and displays success notification', async function (assert) {
         // given
         const parentOrganization = this.server.create('organization', { id: 1, name: 'Parent Organization Name' });
         this.server.create('organization', { id: 2, name: 'Child Organization Name' });
@@ -82,6 +82,7 @@ module('Acceptance | Organizations | Children', function (hooks) {
 
         // then
         assert.dom(screen.getByRole('cell', { name: 'Child Organization Name' })).exists();
+        assert.dom(screen.getByText(`L'organisation fille a bien été liée à l'organisation mère`)).exists();
       });
     });
   });
