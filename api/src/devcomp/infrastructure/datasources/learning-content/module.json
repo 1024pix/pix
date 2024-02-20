@@ -925,7 +925,7 @@
           "grainId": "1cda400f-008c-49db-b46b-6f783ccbc273"
         },
         {
-          "content": "<p>Pour créer un mot de passe sécurisé, c’est-à-dire difficile à trouver, il y a des règles à connaître. Vous les rencontrez peut-être quand vous créez un compte, on vous demande de rajouter certaines contraintes à votre mot de passe : examinons-les ensemble !</p>",
+          "content": "<p>Pour créer un mot de passe sécurisé, c’est-à-dire difficile à trouver, certaines astuces peuvent aider. Examinons-les ensemble !</p>",
           "grainId": "1564f763-5ba5-48ef-b752-dac463319899"
         },
         {
@@ -1036,43 +1036,55 @@
         {
           "id": "1564f763-5ba5-48ef-b752-dac463319899",
           "type": "lesson",
-          "title": "TODO",
+          "title": "Bonnes pratiques de création de mot de passe",
           "elements": [
             {
               "id": "b3a143af-210e-4a5f-9798-3e2aef45806c",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
+              "url": "https://i.imgur.com/A2LUI87.jpeg",
               "alt": "",
               "alternativeText": ""
             },
             {
               "id": "02bb0017-a74d-4c78-8502-3c57d9f12209",
               "type": "text",
-              "content": "<p>Texte - à modifier</p>"
+              "content": "<h3 class=\"screen-reader-only\">Astuce n°1</h3><h4>Astuce n°1 : un bon mot de passe est long !</h4><p><p>D’ailleurs pensez “phrase de passe” plutôt que “mot de passe” … Pas la peine d’inventer un monologue non plus. <span aria-hidden=\"true\">😉</span> À partir de 12 caractères, le mot de passe atteint une longueur correcte. <span aria-hidden=\"true\">👍<span></p>"
             },
             {
               "id": "b04b0fbd-fccc-4a35-b089-76e120d7af7b",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
+              "url": "https://i.imgur.com/cldfUIh.jpeg",
               "alt": "",
               "alternativeText": ""
             },
             {
               "id": "c4505a09-864c-48f8-8077-013fae2db291",
               "type": "text",
-              "content": "<p>Texte - à modifier</p>"
+              "content": "<h3 class=\"screen-reader-only\">Astuce n°2</h3><h4>Astuce n°2 : Pas d’infos personnelles</h4><p>Un bon mot de passe est secret et ne contient pas d’informations personnelles. Par définition personne ne doit le connaître, ni le deviner ! Ciao les dates de naissance et autres numéros de téléphone. Un mot de passe doit rester secret !<span aria-hidden=\"true\">🤫</span></p>"
             },
             {
               "id": "0ef47e65-d31e-41b6-a5a5-0f3b00caf5be",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
+              "url": "https://i.imgur.com/aNdqNHF.jpeg",
               "alt": "",
               "alternativeText": ""
             },
             {
               "id": "52f4050d-7ab9-41da-987b-d9172d5b3cb0",
               "type": "text",
-              "content": "<p>Texte - à modifier</p>"
+              "content": "<h3 class=\"screen-reader-only\">Astuce n°3</h3><h4>Astuce n°3 : De la variété dans les caractères utilisés</h4><p>Un bon mot de passe contient des caractères divers ! Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter : PlUs i1 Y en ä, MieuX c'EsT #@! <span aria-hidden=\"true\">💬</span></p>"
+            },
+            {
+              "id": "95a1559a-71d8-4ef6-aa2c-e4d839d78d9b",
+              "type": "image",
+              "url": "https://i.imgur.com/BdO32Of.jpeg",
+              "alt": "",
+              "alternativeText": ""
+            },
+            {
+              "id": "78cc559f-ea8a-48c8-860c-4615c0e816b8",
+              "type": "text",
+              "content": "<h3 class=\"screen-reader-only\">Astuce n°4</h3><h4>Astuce n°4 : Certains mots de passe sont plus importants que d’autres</h4><p>C’est le cas de celui de votre adresse email principale. C’est lui qui vous permet de changer tous les autres mots de passe. <span aria-hidden=\"true\">😌</span> Et oui, un mot de passe oublié, ça se change, et ce n’est pas grave ! Il faut juste avoir un mot de passe solide pour sa boite mail.<span aria-hidden=\"true\">🔐</span></p>"
             }
           ]
         },
