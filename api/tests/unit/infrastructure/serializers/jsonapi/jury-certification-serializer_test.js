@@ -286,9 +286,9 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
               'jury-id': 1,
               'pix-score': 555,
               'competences-with-mark': juryCertification.competenceMarks,
-              'comment-for-candidate': translate('jury.comment.fraud.candidate'),
+              'comment-for-candidate': translate('jury.comment.FRAUD.candidate'),
               'comment-by-jury': 'ça va',
-              'comment-for-organization': translate('jury.comment.fraud.organization'),
+              'comment-for-organization': translate('jury.comment.FRAUD.organization'),
               version: 2,
             },
             relationships: {

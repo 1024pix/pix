@@ -18,11 +18,6 @@ const AutoJuryCommentKeys = Object.freeze({
   CANCELLED_DUE_TO_NEUTRALIZATION: 'CANCELLED_DUE_TO_NEUTRALIZATION',
 });
 
-const MAPPING_JURY_AUTO_COMMENT_KEYS_TO_TRANSLATION_KEYS = {
-  FRAUD: 'jury.comment.fraud',
-  CANCELLED_DUE_TO_NEUTRALIZATION: 'jury.comment.cancelled_due_to_neutralization',
-};
-
 class JuryComment {
   /**
    * @param {Object} props
@@ -46,7 +41,7 @@ class JuryComment {
   }
 
   #getKeyToTranslate() {
-    return `${MAPPING_JURY_AUTO_COMMENT_KEYS_TO_TRANSLATION_KEYS[this.commentByAutoJury]}.${this.context}`;
+    return `jury.comment.${this.commentByAutoJury}.${this.context}`;
   }
 
   #shouldBeTranslated() {
