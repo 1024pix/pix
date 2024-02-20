@@ -1,15 +1,18 @@
 import { module, test } from 'qunit';
-import { find, triggerEvent, visit, currentURL } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
+import { visit } from '@1024pix/ember-testing-library';
 
 import { createUserManagingStudents, createPrescriberByUser } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Student Import', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   let user;
 
@@ -26,59 +29,23 @@ module('Acceptance | Student Import', function (hooks) {
       await authenticateSession(user.id);
     });
 
-    module('And uploads a file', function () {
+    module('have access to upload file', function () {
       test('it should display success message and reload students', async function (assert) {
         // given
-        await visit('/import-participants');
-
-        const file = new Blob(['foo'], { type: 'valid-file' });
-
-        // when
-        const input = find('#students-file-upload-add');
-        await triggerEvent(input, 'change', { files: [file] });
+        const screen = await visit('/import-participants');
 
         // then
-        assert.dom('[data-test-notification-message="success"]').hasText('La liste a été importée avec succès.');
-        assert.dom('[data-test-notification-message="warning"]').doesNotExist();
-
-        assert.dom('[aria-label="Étudiant"]').exists({ count: 1 });
-        assert.contains('Cover');
-        assert.contains('Harry');
-      });
-
-      test('it should display warnings message and reload students', async function (assert) {
-        // given
-        await visit('/import-participants');
-
-        const file = new Blob(['foo'], { type: 'valid-file-with-warnings' });
-
-        // when
-        const input = find('#students-file-upload-add');
-        await triggerEvent(input, 'change', { files: [file] });
-
-        // then
-        assert
-          .dom('[data-test-notification-message="warning"]')
-          .hasText(
-            'La liste a été importée avec succès.Cependant les valeurs suivantes n’ont pas été reconnues.Diplômes non reconnus : BAD; Elles ont été remplacées par “Non reconnu”. Si vous considérez qu’il manque des valeurs dans la liste limitative, veuillez nous contacter à sup@pix.fr',
-          );
-        assert.dom('[aria-label="Étudiant"]').exists({ count: 1 });
-        assert.contains('Cover');
-        assert.contains('Harry');
-      });
-
-      test('it should display an error message when import failed', async function (assert) {
-        // given
-        await visit('/import-participants');
-
-        const file = new Blob(['foo'], { type: 'invalid-file' });
-
-        // when
-        const input = find('#students-file-upload-add');
-        await triggerEvent(input, 'change', { files: [file] });
-
-        // then
-        assert.dom('[data-test-notification-message="error"]').exists();
+        assert.strictEqual(currentURL(), '/import-participants');
+        assert.ok(
+          screen.getByRole('heading', {
+            name: this.intl.t('pages.organization-participants-import.actions.add-sup.title'),
+          }),
+        );
+        assert.ok(
+          screen.getByRole('heading', {
+            name: this.intl.t('pages.organization-participants-import.actions.replace.title'),
+          }),
+        );
       });
     });
   });

@@ -17,7 +17,6 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
     this.owner.lookup('service:intl').setLocale('fr');
     controller = this.owner.lookup('controller:authenticated/import-organization-participants');
     controller.send = sinon.stub();
-    controller.router.transitionTo = sinon.stub();
     controller.currentUser = currentUser;
 
     const store = this.owner.lookup('service:store');
