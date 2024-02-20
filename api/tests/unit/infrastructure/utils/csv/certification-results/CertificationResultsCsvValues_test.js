@@ -2,11 +2,13 @@ import { expect, domainBuilder } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 import { CertificationResult } from '../../../../../../lib/domain/models/CertificationResult.js';
 import { CertificationResultsCsvValues } from '../../../../../../lib/infrastructure/utils/csv/certification-results/CertificationResultsCsvValues.js';
+import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', function () {
-  let i18n;
+  let i18n, translate;
   beforeEach(function () {
     i18n = getI18n();
+    translate = i18n.__;
   });
 
   describe('#formatPixScore', function () {
@@ -301,6 +303,40 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       competencesWithMark: [],
       complementaryCertificationCourseResults: [],
     };
+
+    context('when there is an automatic jury comment', function () {
+      it('should return the automatic jury comment', function () {
+        // given
+        const certificationResult = domainBuilder.buildCertificationResult.cancelled({
+          ...aCertificationResultData,
+          emitter: CertificationResult.emitters.PIX_ALGO,
+          commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+        });
+
+        // when
+        const result = new CertificationResultsCsvValues(i18n).getCommentForOrganization(certificationResult);
+
+        // then
+        expect(result).to.equal(translate('jury.comment.CANCELLED_DUE_TO_NEUTRALIZATION.organization'));
+      });
+    });
+
+    context('when there is no automatic jury comment', function () {
+      it('should return the manual jury comment', function () {
+        // given
+        const certificationResult = domainBuilder.buildCertificationResult.validated({
+          ...aCertificationResultData,
+          emitter: CertificationResult.emitters.PIX_ALGO,
+          commentForOrganization: 'MANUAL COMMENT',
+        });
+
+        // when
+        const result = new CertificationResultsCsvValues(i18n).getCommentForOrganization(certificationResult);
+
+        // then
+        expect(result).to.equal('MANUAL COMMENT');
+      });
+    });
 
     context('when complementary certification is rejected', function () {
       it('should return that the certification has been automatically invalidated', function () {

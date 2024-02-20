@@ -1,14 +1,38 @@
 import { status as assessmentResultStatuses } from '../../../src/shared/domain/models/AssessmentResult.js';
+import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
 
-const status = {
+/**
+ * @readonly
+ * @enum {string}
+ */
+const status = Object.freeze({
   REJECTED: 'rejected',
   VALIDATED: 'validated',
   ERROR: 'error',
   CANCELLED: 'cancelled',
   STARTED: 'started',
-};
+});
 
 class PrivateCertificate {
+  /**
+   * @param {Object} props
+   * @param {number} props.id
+   * @param {string} props.firstName
+   * @param {string} props.lastName
+   * @param {string} props.birthplace
+   * @param {boolean} props.isPublished
+   * @param {number} props.userId
+   * @param {Date} props.date
+   * @param {Date} props.deliveredAt
+   * @param {string} props.certificationCenter
+   * @param {number} props.pixScore
+   * @param {status} props.status
+   * @param {JuryComment} props.commentForCandidate
+   * @param {Array<string>} props.certifiedBadgeImages
+   * @param {Object} props.resultCompetenceTree
+   * @param {string} props.verificationCode
+   * @param {Date} props.maxReachableLevelOnCertificationDate
+   */
   constructor({
     id,
     firstName,
@@ -60,6 +84,7 @@ class PrivateCertificate {
     certificationCenter,
     pixScore,
     commentForCandidate,
+    commentByAutoJury,
     certifiedBadgeImages,
     resultCompetenceTree = null,
     verificationCode,
@@ -68,6 +93,11 @@ class PrivateCertificate {
     isCancelled,
   }) {
     const status = _computeStatus(assessmentResultStatus, isCancelled);
+    const juryComment = new JuryComment({
+      commentByAutoJury,
+      fallbackComment: commentForCandidate,
+      context: JuryCommentContexts.CANDIDATE,
+    });
     return new PrivateCertificate({
       id,
       firstName,
@@ -80,7 +110,7 @@ class PrivateCertificate {
       deliveredAt,
       certificationCenter,
       pixScore,
-      commentForCandidate,
+      commentForCandidate: juryComment,
       certifiedBadgeImages,
       resultCompetenceTree,
       verificationCode,

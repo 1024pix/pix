@@ -88,7 +88,7 @@ class CertificationResultsCsvValues {
       return this.getTranslation(CertificationResultsCsvValues.VALUES.REJECTED_AUTOMATICALLY_COMMENT);
     }
 
-    return certificationResult.commentForOrganization;
+    return certificationResult.commentForOrganization.getComment(this.translate);
   }
 
   getComplementaryCertificationStatus({ certificationResult, sessionComplementaryCertificationsLabel }) {

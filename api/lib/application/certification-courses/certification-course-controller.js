@@ -18,8 +18,10 @@ const getCertificationDetails = async function (request, h, dependencies = { cer
 
 const getJuryCertification = async function (request, h, dependencies = { juryCertificationSerializer }) {
   const certificationCourseId = request.params.id;
+  const translate = request.i18n.__;
   const juryCertification = await usecases.getJuryCertification({ certificationCourseId });
-  return dependencies.juryCertificationSerializer.serialize(juryCertification);
+
+  return dependencies.juryCertificationSerializer.serialize(juryCertification, { translate });
 };
 
 const update = async function (request, h, dependencies = { certificationSerializer }) {

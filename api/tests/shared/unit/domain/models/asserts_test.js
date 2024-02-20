@@ -1,4 +1,4 @@
-import { assertNotNullOrUndefined } from '../../../../../src/shared/domain/models/asserts.js';
+import { assertNotNullOrUndefined, assertEnumValue } from '../../../../../src/shared/domain/models/asserts.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Models | asserts', function () {
@@ -20,6 +20,28 @@ describe('Unit | Shared | Models | asserts', function () {
         it(`"${input}" should not throw`, function () {
           expect(() => assertNotNullOrUndefined(input)).not.to.throw();
         });
+      });
+    });
+  });
+
+  describe('#assertEnumValue', function () {
+    describe('given invalid value', function () {
+      it('should throw', function () {
+        // given
+        const anEnum = { X: 'y' };
+
+        // When, Then
+        expect(() => assertEnumValue(anEnum, 'z')).to.throw();
+      });
+    });
+
+    describe('given valid values', function () {
+      it('should not throw', function () {
+        // given
+        const anEnum = { X: 'y' };
+
+        // When, Then
+        expect(() => assertEnumValue(anEnum, 'y')).not.to.throw();
       });
     });
   });

@@ -1,6 +1,7 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
 import { PrivateCertificate } from '../../../../lib/domain/models/PrivateCertificate.js';
 import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Unit | Domain | Models | PrivateCertificate', function () {
   context('#static buildFrom', function () {
@@ -17,6 +18,7 @@ describe('Unit | Domain | Models | PrivateCertificate', function () {
       certificationCenter: 'Centre des fruits et légumes',
       pixScore: 250,
       commentForCandidate: 'Bravo !',
+      commentByAutoJury: null,
       certifiedBadgeImages: [],
       resultCompetenceTree: null,
       verificationCode: 'someVerifCode',
@@ -87,6 +89,20 @@ describe('Unit | Domain | Models | PrivateCertificate', function () {
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started(commonData);
       expect(privateCertificate).to.be.instanceOf(PrivateCertificate);
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+    });
+
+    it('builds PrivateCertificate with an auto jury comment', async function () {
+      // given
+      const certificateWithAutoJuryCommentData = { ...commonData, commentByAutoJury: AutoJuryCommentKeys.FRAUD };
+
+      // when
+      const privateCertificate = PrivateCertificate.buildFrom(certificateWithAutoJuryCommentData);
+
+      // then
+      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started(
+        certificateWithAutoJuryCommentData,
+      );
+      expect(privateCertificate).to.deepEqualInstance(expectedPrivateCertificate);
     });
   });
 

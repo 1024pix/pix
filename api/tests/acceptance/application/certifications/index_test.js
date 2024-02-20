@@ -11,6 +11,7 @@ import {
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { generateCertificateVerificationCode } from '../../../../lib/domain/services/verify-certificate-code-service.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Acceptance | API | Certifications', function () {
   let server, options;
@@ -136,7 +137,8 @@ describe('Acceptance | API | Certifications', function () {
               birthdate: certificationCourse.birthdate,
               birthplace: certificationCourse.birthplace,
               'certification-center': session.certificationCenter,
-              'comment-for-candidate': assessmentResult.commentForCandidate,
+              'comment-for-candidate':
+                "Les conditions de passation du test de certification n'ayant pas été respectées et ayant fait l'objet d'un signalement pour fraude, votre certification a été invalidée en conséquence.",
               date: certificationCourse.createdAt,
               'first-name': certificationCourse.firstName,
               'delivered-at': session.publishedAt,
@@ -281,7 +283,8 @@ describe('Acceptance | API | Certifications', function () {
             birthdate: certificationCourse.birthdate,
             birthplace: certificationCourse.birthplace,
             'certification-center': session.certificationCenter,
-            'comment-for-candidate': assessmentResult.commentForCandidate,
+            'comment-for-candidate':
+              "Les conditions de passation du test de certification n'ayant pas été respectées et ayant fait l'objet d'un signalement pour fraude, votre certification a été invalidée en conséquence.",
             date: certificationCourse.createdAt,
             'first-name': certificationCourse.firstName,
             'delivered-at': session.publishedAt,
@@ -686,6 +689,7 @@ async function _buildDatabaseForV2Certification() {
     pixScore: 23,
     emitter: 'PIX-ALGO',
     status: 'validated',
+    commentByAutoJury: AutoJuryCommentKeys.FRAUD,
   });
   const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({
     certificationCourseId: certificationCourse.id,

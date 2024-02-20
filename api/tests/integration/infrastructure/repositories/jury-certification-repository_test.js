@@ -2,6 +2,7 @@ import { expect, databaseBuilder, domainBuilder, catchErr } from '../../../test-
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import * as juryCertificationRepository from '../../../../lib/infrastructure/repositories/jury-certification-repository.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Integration | Infrastructure | Repository | Jury Certification', function () {
   describe('#get', function () {
@@ -84,6 +85,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           commentForOrganization: 'Un commentaire orga',
           commentForCandidate: 'Un commentaire candidat',
           commentByJury: 'Un commentaire jury',
+          commentByAutoJury: AutoJuryCommentKeys.FRAUD,
           juryId: 22,
         }).id;
         databaseBuilder.factory.buildCompetenceMark({
@@ -133,6 +135,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           commentForOrganization: 'Un commentaire orga',
           commentForCandidate: 'Un commentaire candidat',
           commentByJury: 'Un commentaire jury',
+          commentByAutoJury: AutoJuryCommentKeys.FRAUD,
           competenceMarks: [expectedCompetenceMark],
           certificationIssueReports: [],
           version: 2,

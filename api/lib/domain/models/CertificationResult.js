@@ -1,7 +1,12 @@
 import _ from 'lodash';
 import { CompetenceMark } from './CompetenceMark.js';
 import { ComplementaryCertificationCourseResult } from './ComplementaryCertificationCourseResult.js';
+import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
 
+/**
+ * @readonly
+ * @enum {string}
+ */
 const status = {
   REJECTED: 'rejected',
   VALIDATED: 'validated',
@@ -10,6 +15,10 @@ const status = {
   STARTED: 'started',
 };
 
+/**
+ * @readonly
+ * @enum {string}
+ */
 const emitters = {
   PIX_ALGO: 'PIX-ALGO',
   PIX_ALGO_AUTO_JURY: 'PIX-ALGO-AUTO-JURY',
@@ -18,6 +27,22 @@ const emitters = {
 };
 
 class CertificationResult {
+  /**
+   * @param {Object} props
+   * @param {number} props.id
+   * @param {string} props.firstName
+   * @param {string} props.lastName
+   * @param {string} props.birthplace
+   * @param {number} props.externalId
+   * @param {Date} props.createdAt
+   * @param {number} props.sessionId
+   * @param {status} props.status
+   * @param {number} props.pixScore
+   * @param {string} props.emitter
+   * @param {JuryComment} props.commentForOrganization
+   * @param {Array<CompetenceMark>} props.competencesWithMark
+   * @param {Array<ComplementaryCertificationCourseResult>} props.complementaryCertificationCourseResults
+   */
   constructor({
     id,
     firstName,
@@ -73,6 +98,12 @@ class CertificationResult {
       (complementaryCertifCourseResult) => new ComplementaryCertificationCourseResult(complementaryCertifCourseResult),
     );
 
+    const commentForOrganization = new JuryComment({
+      fallbackComment: certificationResultDTO.commentForOrganization,
+      context: JuryCommentContexts.ORGANIZATION,
+      commentByAutoJury: certificationResultDTO.commentByAutoJury,
+    });
+
     return new CertificationResult({
       id: certificationResultDTO.id,
       firstName: certificationResultDTO.firstName,
@@ -85,7 +116,7 @@ class CertificationResult {
       status: certificationStatus,
       pixScore: certificationResultDTO.pixScore,
       emitter: certificationResultDTO.emitter,
-      commentForOrganization: certificationResultDTO.commentForOrganization,
+      commentForOrganization,
       competencesWithMark,
       complementaryCertificationCourseResults,
     });

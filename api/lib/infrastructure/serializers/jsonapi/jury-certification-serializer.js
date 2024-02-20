@@ -2,13 +2,15 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const serialize = function (juryCertification) {
+const serialize = function (juryCertification, { translate }) {
   return new Serializer('certifications', {
     transform(juryCertification) {
       return {
         id: juryCertification.certificationCourseId,
         ...juryCertification,
         competencesWithMark: juryCertification.competenceMarks,
+        commentForOrganization: juryCertification.commentForOrganization.getComment(translate),
+        commentForCandidate: juryCertification.commentForCandidate.getComment(translate),
       };
     },
     attributes: [

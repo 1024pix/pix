@@ -2,8 +2,33 @@ import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/private-certificate-serializer.js';
 import { ResultCompetenceTree } from '../../../../../lib/domain/models/ResultCompetenceTree.js';
 import { ResultCompetence } from '../../../../../lib/domain/models/ResultCompetence.js';
+import { getI18n } from '../../../../tooling/i18n/i18n.js';
+import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Unit | Serializer | JSONAPI | private-certificate-serializer', function () {
+  let translate;
+  let privateCertificateBase;
+
+  beforeEach(function () {
+    translate = getI18n().__;
+    privateCertificateBase = {
+      id: 123,
+      firstName: 'Dorothé',
+      lastName: '2Pac',
+      birthdate: '2000-01-01',
+      birthplace: 'Sin City',
+      isPublished: true,
+      date: new Date('2020-01-01T00:00:00Z'),
+      deliveredAt: new Date('2021-01-01T00:00:00Z'),
+      certificationCenter: 'Centre des choux de Bruxelles',
+      pixScore: 456,
+      commentForCandidate: 'Cette personne est impolie !',
+      certifiedBadgeImages: ['/img/1', '/img/2'],
+      verificationCode: 'P-SUPERCODE',
+      maxReachableLevelOnCertificationDate: 6,
+    };
+  });
+
   describe('#serialize', function () {
     it('should serialize to JSON with included relationships', function () {
       // given
@@ -34,25 +59,12 @@ describe('Unit | Serializer | JSONAPI | private-certificate-serializer', functio
         areas: [area1],
       });
       const privateCertificate = domainBuilder.buildPrivateCertificate.rejected({
-        id: 123,
-        firstName: 'Dorothé',
-        lastName: '2Pac',
-        birthdate: '2000-01-01',
-        birthplace: 'Sin City',
-        isPublished: true,
-        date: new Date('2020-01-01T00:00:00Z'),
-        deliveredAt: new Date('2021-01-01T00:00:00Z'),
-        certificationCenter: 'Centre des choux de Bruxelles',
-        pixScore: 456,
-        commentForCandidate: 'Cette personne est impolie !',
-        certifiedBadgeImages: ['/img/1', '/img/2'],
+        ...privateCertificateBase,
         resultCompetenceTree,
-        verificationCode: 'P-SUPERCODE',
-        maxReachableLevelOnCertificationDate: 6,
       });
 
       // when
-      const serializedCertifications = serializer.serialize(privateCertificate);
+      const serializedCertifications = serializer.serialize(privateCertificate, { translate });
 
       // then
       expect(serializedCertifications.data).to.deep.equal({
@@ -146,6 +158,22 @@ describe('Unit | Serializer | JSONAPI | private-certificate-serializer', functio
           },
         },
       ]);
+    });
+
+    it('should translate a commentForCandidate set by auto jury', function () {
+      // given
+      const privateCertificate = domainBuilder.buildPrivateCertificate({
+        ...privateCertificateBase,
+        commentByAutoJury: AutoJuryCommentKeys.FRAUD,
+      });
+
+      // when
+      const serializedCertifications = serializer.serialize(privateCertificate, { translate });
+
+      // then
+      expect(serializedCertifications.data.attributes['comment-for-candidate']).to.equal(
+        translate('jury.comment.FRAUD.candidate'),
+      );
     });
   });
 });
