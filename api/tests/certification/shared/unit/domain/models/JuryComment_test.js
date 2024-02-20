@@ -28,26 +28,33 @@ describe('Unit | Domain | Models | JuryComment', function () {
       });
 
       it('should return the translated comment matching the key', function () {
-        // Given
+        // given
         const juryComment = new JuryComment({
           fallbackComment: 'Le petit Max a copié la réponse sur Lily!!',
           commentByAutoJury: AutoJuryCommentKeys.FRAUD,
           context: JuryCommentContexts.CANDIDATE,
         });
 
-        // When & Then
-        expect(juryComment.getComment(translate)).to.equal(translate('jury.comment.fraud.candidate'));
+        // when
+        const translatedComment = juryComment.getComment(translate);
+
+        // then
+        expect(translatedComment).to.equal(translate('jury.comment.FRAUD.candidate'));
       });
     });
 
     it('should return the fallback comment', function () {
-      // Given
+      // given
       const juryComment = new JuryComment({
         fallbackComment: 'Belle perf!',
         context: JuryCommentContexts.CANDIDATE,
       });
-      // When & Then
-      expect(juryComment.getComment(translate)).to.equal('Belle perf!');
+
+      // when
+      const translatedComment = juryComment.getComment(translate);
+
+      // then
+      expect(translatedComment).to.equal('Belle perf!');
     });
   });
 });

@@ -172,7 +172,7 @@ describe('Unit | Serializer | JSONAPI | private-certificate-serializer', functio
 
       // then
       expect(serializedCertifications.data.attributes['comment-for-candidate']).to.equal(
-        translate('jury.comment.fraud.candidate'),
+        translate('jury.comment.FRAUD.candidate'),
       );
     });
   });

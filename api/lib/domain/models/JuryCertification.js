@@ -26,7 +26,6 @@ class JuryCertification {
    * @param {JuryComment} props.commentForCandidate
    * @param {JuryComment} props.commentForOrganization
    * @param {string} props.commentByJury
-   * @param {string} props.commentByAutoJury
    * @param {Array<string>} props.certificationIssueReports
    * @param {Object} props.complementaryCertificationCourseResultWithExternal
    * @param {Object} props.commonComplementaryCertificationCourseResult
