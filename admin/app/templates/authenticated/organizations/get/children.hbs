@@ -12,9 +12,9 @@
   </header>
   <div class="content-text content-text--small">
     <div class="table-admin">
-      <Organizations::Children::List @organizations={{@model.organizations}} />
+      <Organizations::Children::List @organizations={{@model.organization.children}} />
 
-      {{#unless @model.organizations}}
+      {{#unless @model.organization.children}}
         <p class="table__empty">{{t "pages.organization-children.empty-table"}}</p>
       {{/unless}}
     </div>
