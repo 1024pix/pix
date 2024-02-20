@@ -133,7 +133,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
         const givenCorrectionResponse = new QcmCorrectionResponse({
           status: AnswerStatus.OK,
           feedback: 'Good job!',
-          solutions,
+          solution: solutions,
         });
 
         const elementAnswer = new ElementAnswer({
@@ -164,7 +164,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
               attributes: {
                 feedback: 'Good job!',
                 status: 'ok',
-                solutions: givenCorrectionResponse.solutions,
+                solution: givenCorrectionResponse.solution,
               },
               id: '222',
               type: 'correction-responses',
