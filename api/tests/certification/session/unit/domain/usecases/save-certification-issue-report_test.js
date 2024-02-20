@@ -1,7 +1,7 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { saveCertificationIssueReport } from '../../../../lib/domain/usecases/save-certification-issue-report.js';
-import { CertificationIssueReport } from '../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { expect, sinon, domainBuilder, catchErr } from '../../../../../test-helper.js';
+import { saveCertificationIssueReport } from '../../../../../../src/certification/session/domain/usecases/save-certification-issue-report.js';
+import { CertificationIssueReport } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
+import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | save-certification-issue-report', function () {
   describe('#saveCertificationIssueReport', function () {

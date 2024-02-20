@@ -13,7 +13,6 @@ import * as certificationCenterMemberships from './application/certification-cen
 import * as certificationCourses from './application/certification-courses/index.js';
 import * as certificationPointOfContacts from './application/certification-point-of-contacts/index.js';
 import * as certificationLivretScolaire from './application/certification-livret-scolaire/index.js';
-import * as certificationReports from './application/certification-reports/index.js';
 import * as certificationIssueReports from './application/certification-issue-reports/index.js';
 import * as certifications from './application/certifications/index.js';
 import * as complementaryCertifications from './application/complementary-certifications/index.js';
@@ -59,7 +58,6 @@ const routes = [
   certificationCourses,
   certificationPointOfContacts,
   certificationLivretScolaire,
-  certificationReports,
   certificationIssueReports,
   certifications,
   complementaryCertifications,
