@@ -4,8 +4,10 @@
       {{t this.textsByOrganizationType.title}}
     </h1>
   </header>
-  {{#if @isLoading}}
+
+  {{#if this.displayBanner}}
     <Ui::PixLoader />
+
     <PixMessage @type="information" @withIcon="true">
       {{t "pages.organization-participants-import.information"}}
     </PixMessage>
