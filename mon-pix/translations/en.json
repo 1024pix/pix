@@ -1184,6 +1184,7 @@
       }
     },
     "modulix": {
+      "beta-banner": "This module is in beta version. You can send us your feedback at the end of this module to help us improve it.",
       "buttons": {
         "activity": {
           "verify": "Verify"

@@ -7,6 +7,26 @@ import { findAll } from '@ember/test-helpers';
 module('Integration | Component | Module | Details', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  test('should display a banner at the top of the screen for module details', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const details = {
+      image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
+      description: 'description',
+      duration: 12,
+      level: 'Débutant',
+      objectives: ['Objectif 1'],
+    };
+    const module = store.createRecord('module', { title: 'Module title', details });
+    this.set('module', module);
+
+    // when
+    const screen = await render(hbs`<Module::Details @module={{this.module}} />`);
+
+    // then
+    assert.dom(screen.getByRole('alert')).exists();
+  });
+
   test('should display the details of a given module', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
