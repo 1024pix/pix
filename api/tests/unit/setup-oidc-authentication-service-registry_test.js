@@ -36,7 +36,6 @@ describe('Unit | Config | setup-oidc-authentication-service-registry', function 
       // given
       const oidcProviderServices = [
         new OidcAuthenticationService({
-          authenticationUrl: 'https://oidc.example.net/authentication',
           clientId: 'client',
           clientSecret: 'secret',
           configKey: 'oidcExampleNet',
@@ -49,8 +48,6 @@ describe('Unit | Config | setup-oidc-authentication-service-registry', function 
           redirectUri: 'https://app.dev.pix.org/connexion/oidc-example-net',
           slug: 'oidc-example-net',
           source: 'oidcexamplenet',
-          tokenUrl: 'https://oidc.example.net/token',
-          userInfoUrl: 'https://oidc.example.net/userinfo',
         }),
       ];
 

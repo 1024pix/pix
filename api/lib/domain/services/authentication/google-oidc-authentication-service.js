@@ -7,7 +7,6 @@ const configKey = GOOGLE.configKey;
 class GoogleOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
-      authenticationUrl: config[configKey].authenticationUrl,
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
@@ -18,8 +17,6 @@ class GoogleOidcAuthenticationService extends OidcAuthenticationService {
       redirectUri: config[configKey].redirectUri,
       slug: 'google',
       source: 'google',
-      tokenUrl: config[configKey].tokenUrl,
-      userInfoUrl: config[configKey].userInfoUrl,
     });
 
     this.temporaryStorage = config[configKey].temporaryStorage;

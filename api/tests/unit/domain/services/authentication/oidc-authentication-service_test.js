@@ -104,9 +104,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
               clientSecret: 'aSecret',
               redirectUri: 'https://example.net/connexion/redirect',
               openidConfigurationUrl: 'https://example.net/.well-known/openid-configuration',
-              authenticationUrl: 'https://example.net',
-              userInfoUrl: 'https://example.net',
-              tokenUrl: 'https://example.net',
               aProperty: 'aValue',
             };
             const oidcAuthenticationService = new OidcAuthenticationService({
@@ -141,7 +138,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
             // then
             expect(logger.error).to.have.been.calledWithExactly(
-              'OIDC Provider "Example OP code" has been DISABLED because of INVALID config. The following required properties are missing: clientId, clientSecret, redirectUri, openidConfigurationUrl, authenticationUrl, userInfoUrl, tokenUrl, exampleProperty',
+              'OIDC Provider "Example OP code" has been DISABLED because of INVALID config. The following required properties are missing: clientId, clientSecret, redirectUri, openidConfigurationUrl, exampleProperty',
             );
             expect(result).to.be.false;
           });
@@ -449,13 +446,11 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('#getAuthenticationUrl', function () {
     it('returns oidc provider authentication url', async function () {
       // given
-      const authenticationUrl = 'http://authenticationurl.net';
       const clientId = 'OIDC_CLIENT_ID';
       const clientSecret = 'OIDC_CLIENT_SECRET';
       const redirectUri = 'https://example.org/please-redirect-to-me';
 
       const oidcAuthenticationService = new OidcAuthenticationService({
-        authenticationUrl,
         clientId,
         clientSecret,
         redirectUri,
@@ -604,13 +599,11 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('#_getUserInfoFromEndpoint', function () {
     it('returns firstName, lastName and external identity id', async function () {
       // given
-      const authenticationUrl = 'http://authenticationurl.net';
       const clientId = 'OIDC_CLIENT_ID';
       const clientSecret = 'OIDC_CLIENT_SECRET';
       const redirectUri = 'https://example.org/please-redirect-to-me';
 
       const oidcAuthenticationService = new OidcAuthenticationService({
-        authenticationUrl,
         clientId,
         clientSecret,
         redirectUri,
@@ -691,14 +684,12 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     describe('when required properties are not returned by external API', function () {
       it('throws an error', async function () {
         // given
-        const authenticationUrl = 'http://authenticationurl.net';
         const clientId = 'OIDC_CLIENT_ID';
         const clientSecret = 'OIDC_CLIENT_SECRET';
         const redirectUri = 'https://example.org/please-redirect-to-me';
         const organizationName = 'Example';
 
         const oidcAuthenticationService = new OidcAuthenticationService({
-          authenticationUrl,
           clientId,
           clientSecret,
           redirectUri,

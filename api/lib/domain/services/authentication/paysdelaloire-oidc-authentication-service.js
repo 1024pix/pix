@@ -8,7 +8,6 @@ const configKey = PAYSDELALOIRE.configKey;
 class PaysdelaloireOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
-      authenticationUrl: config[configKey].authenticationUrl,
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
@@ -22,8 +21,6 @@ class PaysdelaloireOidcAuthenticationService extends OidcAuthenticationService {
       redirectUri: config[configKey].redirectUri,
       slug: 'pays-de-la-loire',
       source: 'paysdelaloire',
-      tokenUrl: config[configKey].tokenUrl,
-      userInfoUrl: config[configKey].userInfoUrl,
     });
   }
 }

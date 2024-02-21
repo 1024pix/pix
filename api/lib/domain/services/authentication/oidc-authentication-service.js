@@ -14,15 +14,7 @@ import { OIDC_ERRORS } from '../../constants.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 import { OidcError } from '../../../../src/shared/domain/errors.js';
 
-const DEFAULT_REQUIRED_PROPERTIES = [
-  'clientId',
-  'clientSecret',
-  'redirectUri',
-  'openidConfigurationUrl',
-  'authenticationUrl',
-  'userInfoUrl',
-  'tokenUrl',
-];
+const DEFAULT_REQUIRED_PROPERTIES = ['clientId', 'clientSecret', 'redirectUri', 'openidConfigurationUrl'];
 const DEFAULT_SCOPE = 'openid profile';
 const DEFAULT_REQUIRED_CLAIMS = ['sub', 'family_name', 'given_name'];
 
@@ -36,7 +28,6 @@ class OidcAuthenticationService {
   constructor(
     {
       additionalRequiredProperties,
-      authenticationUrl,
       claimsToStore,
       clientId,
       clientSecret,
@@ -54,12 +45,9 @@ class OidcAuthenticationService {
       scope = DEFAULT_SCOPE,
       slug,
       source,
-      tokenUrl,
-      userInfoUrl,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
-    this.authenticationUrl = authenticationUrl;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.configKey = configKey;
@@ -76,8 +64,6 @@ class OidcAuthenticationService {
     this.scope = scope;
     this.slug = slug;
     this.source = source;
-    this.tokenUrl = tokenUrl;
-    this.userInfoUrl = userInfoUrl;
 
     if (!lodash.isEmpty(claimsToStore)) {
       this.claimsToStore = claimsToStore;
