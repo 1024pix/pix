@@ -7,12 +7,14 @@ module('Unit | Adapters | organization', function (hooks) {
   setupTest(hooks);
 
   let adapter;
-  let ajaxStub;
 
   hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:organization');
-    ajaxStub = sinon.stub();
-    adapter.ajax = ajaxStub;
+    sinon.stub(adapter, 'ajax').resolves();
+  });
+
+  hooks.afterEach(function () {
+    adapter.ajax.restore();
   });
 
   module('#findHasMany', function () {
@@ -27,7 +29,7 @@ module('Unit | Adapters | organization', function (hooks) {
 
       // then
       assert.ok(
-        ajaxStub.calledWith(`${ENV.APP.API_HOST}/api/admin/organizations/1/memberships?page%5Bsize%5D=2`, 'GET'),
+        adapter.ajax.calledWith(`${ENV.APP.API_HOST}/api/admin/organizations/1/memberships?page%5Bsize%5D=2`, 'GET'),
       );
     });
 
@@ -41,7 +43,27 @@ module('Unit | Adapters | organization', function (hooks) {
       await adapter.findHasMany({}, snapshot, url, relationship);
 
       // then
-      assert.ok(ajaxStub.calledWith(`${ENV.APP.API_HOST}/api/organizations/1/target-profiles`, 'GET'));
+      assert.ok(adapter.ajax.calledWith(`${ENV.APP.API_HOST}/api/organizations/1/target-profiles`, 'GET'));
+    });
+  });
+
+  module('#attachChildOrganization', function () {
+    test('sends an HTTP POST request', async function (assert) {
+      // given
+      const childOrganizationId = 123;
+      const parentOrganizationId = 2;
+
+      // when
+      await adapter.attachChildOrganization({ childOrganizationId, parentOrganizationId });
+
+      // then
+      assert.true(
+        adapter.ajax.calledOnceWithExactly(
+          'http://localhost:3000/api/admin/organizations/2/attach-child-organization',
+          'POST',
+          { data: { childOrganizationId } },
+        ),
+      );
     });
   });
 });
