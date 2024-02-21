@@ -257,6 +257,57 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
     });
   });
 
+  module('Share button', function (hooks) {
+    hooks.beforeEach(function () {
+      model.campaignParticipationResult.set('canReset', false);
+      model.campaignParticipationResult.set('isDisabled', false);
+
+      this.set('model', model);
+    });
+
+    test('display share button', async function (assert) {
+      model.campaignParticipationResult.set('isShared', false);
+      // when
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+
+      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.skill-review.actions.send') }));
+    });
+
+    test('not display share button', async function (assert) {
+      model.campaignParticipationResult.set('isShared', true);
+      // when
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+
+      assert.notOk(screen.queryByRole('button', { name: this.intl.t('pages.skill-review.actions.send') }));
+    });
+  });
+
+  module('Improve button', function (hooks) {
+    hooks.beforeEach(function () {
+      model.campaignParticipationResult.set('canReset', false);
+      model.campaignParticipationResult.set('isDisabled', false);
+      model.campaignParticipationResult.set('isShared', false);
+
+      this.set('model', model);
+    });
+
+    test('display improve button', async function (assert) {
+      model.campaignParticipationResult.set('canImprove', true);
+      // when
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+
+      assert.ok(screen.getByRole('button', { name: this.intl.t('pages.skill-review.actions.improve') }));
+    });
+
+    test('not display improve button', async function (assert) {
+      model.campaignParticipationResult.set('canImprove', false);
+      // when
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+
+      assert.notOk(screen.queryByRole('button', { name: this.intl.t('pages.skill-review.actions.improve') }));
+    });
+  });
+
   test('it should not display skill review infos if isForabsoluteNovice is true', async function (assert) {
     model.campaign.set('isForAbsoluteNovice', true);
     this.set('model', model);
