@@ -9,10 +9,17 @@ async function get(organizationLearnerId) {
       'campaign-participations.id',
       'campaign-participations.createdAt',
       'campaign-participations.sharedAt',
+      'campaign-participations.campaignId',
       'campaign-participations.status',
       'campaigns.name',
       'campaigns.type',
-      'campaign-participations.campaignId',
+      knex('campaign-participations')
+        .whereRaw('"campaignId" = "campaigns"."id"')
+        .where('organizationLearnerId', organizationLearnerId)
+        .whereNull('deletedAt')
+        .groupBy('campaignId')
+        .count()
+        .as('participationsCount'),
       knex('campaign-participations')
         .select('campaign-participations.id')
         .whereRaw('"campaignId" = "campaigns"."id"')
@@ -29,13 +36,6 @@ async function get(organizationLearnerId) {
     .where('campaign-participations.isImproved', '=', false)
     .orderBy('campaign-participations.createdAt', 'desc');
 
-  const participationsCount = await knex('campaign-participations')
-    .select('campaignId')
-    .where('organizationLearnerId', organizationLearnerId)
-    .whereNull('deletedAt')
-    .groupBy('campaignId')
-    .count();
-
   const participations = organizationLearnerParticipations.map(
     (participation) =>
       new OrganizationLearnerParticipation({
@@ -46,9 +46,7 @@ async function get(organizationLearnerId) {
         campaignName: participation.name,
         campaignType: participation.type,
         campaignId: participation.campaignId,
-        participationCount: participationsCount.find(
-          (participationCount) => participationCount.campaignId === participation.campaignId,
-        ).count,
+        participationCount: participation.participationsCount,
         lastSharedOrCurrentCampaignParticipationId: participation.lastSharedCampaignsParticipationId,
       }),
   );
