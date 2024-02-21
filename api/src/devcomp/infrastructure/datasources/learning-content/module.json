@@ -1103,7 +1103,12 @@
             {
               "id": "fd4b05ee-8cda-4bfe-b18a-468f1a895f80",
               "type": "text",
-              "content": "<h4>Voici une méthode pour construire un mot de passe solide</h4><ol><li>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em></li><li>Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !</li></ol>Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><h4>Maintenant, à vous de jouer !</h4>"
+              "content": "<h3>Voici une méthode pour construire un mot de passe solide</h3><ol><li>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em></li><li>Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !</li></ol>Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><hr><h3>Maintenant, à vous de jouer !</h3>"
+            },
+            {
+              "id": "74fad4da-be99-4b9b-83af-ef90ca553b06",
+              "type": "text",
+              "content": "<hr>"
             },
             {
               "id": "718ee7f6-19bf-4787-a025-2a70b89c6288",
