@@ -1048,7 +1048,7 @@
             {
               "id": "02bb0017-a74d-4c78-8502-3c57d9f12209",
               "type": "text",
-              "content": "<h3 class=\"screen-reader-only\">Astuce n°1</h3><h4>Astuce n°1 : un bon mot de passe est long !</h4><p>D’ailleurs pensez “phrase de passe” plutôt que “mot de passe” … Pas la peine d’inventer un monologue non plus. <span aria-hidden=\"true\">😉</span> À partir de 12 caractères, le mot de passe atteint une longueur correcte. <span aria-hidden=\"true\">👍</span></p>"
+              "content": "<h3>Astuce n°1 : un bon mot de passe est long !</h3><p>D’ailleurs pensez “phrase de passe” plutôt que “mot de passe” … Pas la peine d’inventer un monologue non plus. <span aria-hidden=\"true\">😉</span> À partir de 12 caractères, le mot de passe atteint une longueur correcte. <span aria-hidden=\"true\">👍</span></p>"
             },
             {
               "id": "b04b0fbd-fccc-4a35-b089-76e120d7af7b",
@@ -1060,7 +1060,7 @@
             {
               "id": "c4505a09-864c-48f8-8077-013fae2db291",
               "type": "text",
-              "content": "<h3 class=\"screen-reader-only\">Astuce n°2</h3><h4>Astuce n°2 : Pas d’infos personnelles</h4><p>Un bon mot de passe est secret et ne contient pas d’informations personnelles. Par définition personne ne doit le connaître, ni le deviner ! Ciao les dates de naissance et autres numéros de téléphone. Un mot de passe doit rester secret !<span aria-hidden=\"true\">🤫</span></p>"
+              "content": "<h3>Astuce n°2 : Pas d’infos personnelles</h3><p>Un bon mot de passe est secret et ne contient pas d’informations personnelles. Par définition personne ne doit le connaître, ni le deviner ! Ciao les dates de naissance et autres numéros de téléphone. Un mot de passe doit rester secret !<span aria-hidden=\"true\">🤫</span></p>"
             },
             {
               "id": "0ef47e65-d31e-41b6-a5a5-0f3b00caf5be",
@@ -1072,7 +1072,7 @@
             {
               "id": "52f4050d-7ab9-41da-987b-d9172d5b3cb0",
               "type": "text",
-              "content": "<h3 class=\"screen-reader-only\">Astuce n°3</h3><h4>Astuce n°3 : De la variété dans les caractères utilisés</h4><p>Un bon mot de passe contient des caractères divers ! Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter. <span aria-hidden=\"true\">💬</span></p>"
+              "content": "<h3>Astuce n°3 : De la variété dans les caractères utilisés</h3><p>Un bon mot de passe contient des caractères divers ! Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter. <span aria-hidden=\"true\">💬</span></p>"
             },
             {
               "id": "95a1559a-71d8-4ef6-aa2c-e4d839d78d9b",
@@ -1084,7 +1084,7 @@
             {
               "id": "78cc559f-ea8a-48c8-860c-4615c0e816b8",
               "type": "text",
-              "content": "<h3 class=\"screen-reader-only\">Astuce n°4</h3><h4>Astuce n°4 : Certains mots de passe sont plus importants que d’autres</h4><p>C’est le cas de celui de votre adresse email principale. C’est lui qui vous permet de changer tous les autres mots de passe. <span aria-hidden=\"true\">😌</span> Et oui, un mot de passe oublié, ça se change, et ce n’est pas grave ! Il faut juste avoir un mot de passe solide pour sa boite mail. <span aria-hidden=\"true\">🔐</span></p>"
+              "content": "<h3>Astuce n°4 : Certains mots de passe sont plus importants que d’autres</h3><p>C’est le cas de celui de votre adresse email principale. C’est lui qui vous permet de changer tous les autres mots de passe. <span aria-hidden=\"true\">😌</span> Et oui, un mot de passe oublié, ça se change, et ce n’est pas grave ! Il faut juste avoir un mot de passe solide pour sa boite mail. <span aria-hidden=\"true\">🔐</span></p>"
             }
           ]
         },
