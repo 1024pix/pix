@@ -9,8 +9,16 @@ export default class OrganizationAllTags extends Component {
 
   @tracked selectedTag = null;
   @tracked recentlyUsedTags = null;
-  @tracked allTags = this.args.model.allTags;
-  @tracked tagsToShow = this.args.model.allTags;
+  @tracked tagsToShow = [];
+
+  constructor() {
+    super(...arguments);
+    this.tagsToShow = this.args.model.allTags;
+  }
+
+  get allTags() {
+    return this.args.model.allTags;
+  }
 
   get debounceTimeInMs() {
     return ENV.pagination.debounce;

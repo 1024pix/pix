@@ -2,7 +2,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Controller from '@ember/controller';
-import { debounce } from '@ember/runloop';
+import { debounceTask } from 'ember-lifeline';
 import config from 'pix-admin/config/environment';
 
 const DEFAULT_PAGE_NUMBER = 1;
@@ -36,7 +36,7 @@ export default class GetTeamController extends Controller {
   triggerFiltering(fieldName, event) {
     const value = event.target.value;
     this.pendingFilters[fieldName] = value;
-    debounce(this, this.updateFilters, this.DEBOUNCE_MS);
+    debounceTask(this, 'updateFilters', this.DEBOUNCE_MS);
   }
 
   @action

@@ -4,7 +4,6 @@ import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
-import { run } from '@ember/runloop';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 import { click } from '@ember/test-helpers';
 
@@ -20,7 +19,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
   module('#display', function () {
     test('it should display the modal', async function (assert) {
       // given
-      this.candidate = run(() => store.createRecord('certification', { birthdate: '2000-12-15' }));
+      this.candidate = store.createRecord('certification', { birthdate: '2000-12-15' });
       this.countries = [];
 
       // when
@@ -36,21 +35,19 @@ module('Integration | Component | certifications/candidate-edit-modal', function
   module('#form initialization', function () {
     test('it should initialize common information', async function (assert) {
       // given
-      this.candidate = run(() =>
-        store.createRecord('certification', {
-          firstName: 'Fabrice',
-          lastName: 'Gadjo',
-          birthdate: '2000-12-15',
-          sex: 'M',
-          birthInseeCode: null,
-          birthPostalCode: '66440',
-          birthplace: 'Torreilles',
-          birthCountry: 'FRANCE',
-        }),
-      );
+      this.candidate = store.createRecord('certification', {
+        firstName: 'Fabrice',
+        lastName: 'Gadjo',
+        birthdate: '2000-12-15',
+        sex: 'M',
+        birthInseeCode: null,
+        birthPostalCode: '66440',
+        birthplace: 'Torreilles',
+        birthCountry: 'FRANCE',
+      });
       this.countries = [
-        run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
-        run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
+        store.createRecord('country', { code: '99101', name: 'DANEMARK' }),
+        store.createRecord('country', { code: '99100', name: 'FRANCE' }),
       ];
 
       // when
@@ -67,21 +64,19 @@ module('Integration | Component | certifications/candidate-edit-modal', function
     module('#sex', function () {
       test('it should check "Homme" option when candidate is male', async function (assert) {
         // given
-        this.candidate = run(() =>
-          store.createRecord('certification', {
-            firstName: 'Fabrice',
-            lastName: 'Gadjo',
-            birthdate: '2000-12-15',
-            sex: 'M',
-            birthInseeCode: null,
-            birthPostalCode: '66440',
-            birthplace: 'Torreilles',
-            birthCountry: 'FRANCE',
-          }),
-        );
+        this.candidate = store.createRecord('certification', {
+          firstName: 'Fabrice',
+          lastName: 'Gadjo',
+          birthdate: '2000-12-15',
+          sex: 'M',
+          birthInseeCode: null,
+          birthPostalCode: '66440',
+          birthplace: 'Torreilles',
+          birthCountry: 'FRANCE',
+        });
         this.countries = [
-          run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
-          run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
+          store.createRecord('country', { code: '99101', name: 'DANEMARK' }),
+          store.createRecord('country', { code: '99100', name: 'FRANCE' }),
         ];
 
         // when
@@ -95,21 +90,19 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
       test('it should check "Femme" option when candidate is female', async function (assert) {
         // given
-        this.candidate = run(() =>
-          store.createRecord('certification', {
-            firstName: 'Fabricia',
-            lastName: 'Gadjo',
-            birthdate: '2000-12-15',
-            sex: 'F',
-            birthInseeCode: null,
-            birthPostalCode: '66440',
-            birthplace: 'Torreilles',
-            birthCountry: 'FRANCE',
-          }),
-        );
+        this.candidate = store.createRecord('certification', {
+          firstName: 'Fabricia',
+          lastName: 'Gadjo',
+          birthdate: '2000-12-15',
+          sex: 'F',
+          birthInseeCode: null,
+          birthPostalCode: '66440',
+          birthplace: 'Torreilles',
+          birthCountry: 'FRANCE',
+        });
         this.countries = [
-          run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
-          run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
+          store.createRecord('country', { code: '99101', name: 'DANEMARK' }),
+          store.createRecord('country', { code: '99100', name: 'FRANCE' }),
         ];
 
         // when
@@ -125,21 +118,19 @@ module('Integration | Component | certifications/candidate-edit-modal', function
     module('when candidate birth information are of type foreign country', function () {
       test('it should init the form with expected informations for type foreign country', async function (assert) {
         // given
-        this.candidate = run(() =>
-          store.createRecord('certification', {
-            firstName: 'Fabrice',
-            lastName: 'Gadjo',
-            birthdate: '2000-12-15',
-            sex: 'M',
-            birthInseeCode: '99101',
-            birthPostalCode: null,
-            birthplace: 'Copenhague',
-            birthCountry: 'DANEMARK',
-          }),
-        );
+        this.candidate = store.createRecord('certification', {
+          firstName: 'Fabrice',
+          lastName: 'Gadjo',
+          birthdate: '2000-12-15',
+          sex: 'M',
+          birthInseeCode: '99101',
+          birthPostalCode: null,
+          birthplace: 'Copenhague',
+          birthCountry: 'DANEMARK',
+        });
         this.countries = [
-          run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
-          run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
+          store.createRecord('country', { code: '99101', name: 'DANEMARK' }),
+          store.createRecord('country', { code: '99100', name: 'FRANCE' }),
         ];
 
         // when
@@ -158,21 +149,19 @@ module('Integration | Component | certifications/candidate-edit-modal', function
     module('when candidate birth information are of type France with postal code', function () {
       test('it should init the form with expected informations for type France with postal code', async function (assert) {
         // given
-        this.candidate = run(() =>
-          store.createRecord('certification', {
-            firstName: 'Fabrice',
-            lastName: 'Gadjo',
-            birthdate: '2000-12-15',
-            sex: 'M',
-            birthInseeCode: null,
-            birthPostalCode: '66440',
-            birthplace: 'Torreilles',
-            birthCountry: 'FRANCE',
-          }),
-        );
+        this.candidate = store.createRecord('certification', {
+          firstName: 'Fabrice',
+          lastName: 'Gadjo',
+          birthdate: '2000-12-15',
+          sex: 'M',
+          birthInseeCode: null,
+          birthPostalCode: '66440',
+          birthplace: 'Torreilles',
+          birthCountry: 'FRANCE',
+        });
         this.countries = [
-          run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
-          run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
+          store.createRecord('country', { code: '99101', name: 'DANEMARK' }),
+          store.createRecord('country', { code: '99100', name: 'FRANCE' }),
         ];
 
         // when
@@ -191,21 +180,19 @@ module('Integration | Component | certifications/candidate-edit-modal', function
     module('when candidate birth information are of type France with INSEE code', function () {
       test('it should init the form with expected informations for type France with INSEE code', async function (assert) {
         // given
-        this.candidate = run(() =>
-          store.createRecord('certification', {
-            firstName: 'Fabrice',
-            lastName: 'Gadjo',
-            birthdate: '2000-12-15',
-            sex: 'M',
-            birthInseeCode: '66212',
-            birthPostalCode: null,
-            birthplace: 'Torreilles',
-            birthCountry: 'FRANCE',
-          }),
-        );
+        this.candidate = store.createRecord('certification', {
+          firstName: 'Fabrice',
+          lastName: 'Gadjo',
+          birthdate: '2000-12-15',
+          sex: 'M',
+          birthInseeCode: '66212',
+          birthPostalCode: null,
+          birthplace: 'Torreilles',
+          birthCountry: 'FRANCE',
+        });
         this.countries = [
-          run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
-          run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
+          store.createRecord('country', { code: '99101', name: 'DANEMARK' }),
+          store.createRecord('country', { code: '99100', name: 'FRANCE' }),
         ];
 
         // when
@@ -225,20 +212,18 @@ module('Integration | Component | certifications/candidate-edit-modal', function
   module('#onCancelButtonsClicked', function () {
     test('it should reset form', async function (assert) {
       // given
-      this.candidate = run(() =>
-        store.createRecord('certification', {
-          firstName: 'Fabrice',
-          lastName: 'Gadjo',
-          birthdate: '2000-12-15',
-          sex: 'M',
-          birthInseeCode: '99101',
-          birthplace: 'Copenhague',
-          birthCountry: 'DANEMARK',
-        }),
-      );
+      this.candidate = store.createRecord('certification', {
+        firstName: 'Fabrice',
+        lastName: 'Gadjo',
+        birthdate: '2000-12-15',
+        sex: 'M',
+        birthInseeCode: '99101',
+        birthplace: 'Copenhague',
+        birthCountry: 'DANEMARK',
+      });
       this.countries = [
-        run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
-        run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
+        store.createRecord('country', { code: '99101', name: 'DANEMARK' }),
+        store.createRecord('country', { code: '99100', name: 'FRANCE' }),
       ];
       this.onCancelButtonsClickedStub = sinon.stub();
       const screen = await render(
@@ -279,21 +264,19 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
     test('it should not alter candidate information', async function (assert) {
       // given
-      this.candidate = run(() =>
-        store.createRecord('certification', {
-          firstName: 'Fabrice',
-          lastName: 'Gadjo',
-          birthdate: '2000-12-15',
-          sex: 'F',
-          birthInseeCode: '99101',
-          birthplace: 'Copenhague',
-          birthCountry: 'DANEMARK',
-        }),
-      );
+      this.candidate = store.createRecord('certification', {
+        firstName: 'Fabrice',
+        lastName: 'Gadjo',
+        birthdate: '2000-12-15',
+        sex: 'F',
+        birthInseeCode: '99101',
+        birthplace: 'Copenhague',
+        birthCountry: 'DANEMARK',
+      });
       const initialCandidateInformation = this.candidate.getInformation();
       this.countries = [
-        run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
-        run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
+        store.createRecord('country', { code: '99101', name: 'DANEMARK' }),
+        store.createRecord('country', { code: '99100', name: 'FRANCE' }),
       ];
       this.onCancelButtonsClickedStub = sinon.stub();
       const screen = await render(
@@ -327,7 +310,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
     test('it should call the onCancelButtonsClicked action', async function (assert) {
       // given
-      this.candidate = run(() => store.createRecord('certification', { birthdate: '2000-12-15' }));
+      this.candidate = store.createRecord('certification', { birthdate: '2000-12-15' });
       this.countries = [];
       this.onCancelButtonsClickedStub = sinon.stub();
       await render(
@@ -350,7 +333,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
   module('#onFormSubmit', function () {
     test('it should not call the onFormSubmit action if a field is not filled', async function (assert) {
       // given
-      this.candidate = run(() => store.createRecord('certification', { birthdate: '2000-12-15' }));
+      this.candidate = store.createRecord('certification', { birthdate: '2000-12-15' });
       this.countries = [];
       this.onFormSubmitStub = sinon.stub();
       await render(
@@ -371,17 +354,15 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
     test('it should call the onFormSubmit action if all fields are filled', async function (assert) {
       // given
-      this.candidate = run(() =>
-        store.createRecord('certification', {
-          firstName: 'Fabrice',
-          lastName: 'Gadjo',
-          birthdate: '2000-12-15',
-          sex: 'F',
-          birthInseeCode: '99101',
-          birthplace: 'Copenhague',
-          birthCountry: 'DANEMARK',
-        }),
-      );
+      this.candidate = store.createRecord('certification', {
+        firstName: 'Fabrice',
+        lastName: 'Gadjo',
+        birthdate: '2000-12-15',
+        sex: 'F',
+        birthInseeCode: '99101',
+        birthplace: 'Copenhague',
+        birthCountry: 'DANEMARK',
+      });
       this.countries = [
         EmberObject.create({ code: '99101', name: 'DANEMARK' }),
         EmberObject.create({ code: '99100', name: 'FRANCE' }),
@@ -418,21 +399,19 @@ module('Integration | Component | certifications/candidate-edit-modal', function
     module('when editing candidate information with foreign country info', function () {
       test('it should update candidate information with foreign country expected information', async function (assert) {
         // given
-        this.candidate = run(() =>
-          store.createRecord('certification', {
-            firstName: 'Fabrice',
-            lastName: 'Gadjo',
-            birthdate: '2000-12-15',
-            sex: 'F',
-            birthInseeCode: '75015',
-            birthPostalCode: null,
-            birthplace: 'PARIS 15',
-            birthCountry: 'FRANCE',
-          }),
-        );
+        this.candidate = store.createRecord('certification', {
+          firstName: 'Fabrice',
+          lastName: 'Gadjo',
+          birthdate: '2000-12-15',
+          sex: 'F',
+          birthInseeCode: '75015',
+          birthPostalCode: null,
+          birthplace: 'PARIS 15',
+          birthCountry: 'FRANCE',
+        });
         this.countries = [
-          run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
-          run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
+          store.createRecord('country', { code: '99101', name: 'DANEMARK' }),
+          store.createRecord('country', { code: '99100', name: 'FRANCE' }),
         ];
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
@@ -470,21 +449,19 @@ module('Integration | Component | certifications/candidate-edit-modal', function
     module('when editing candidate information with france INSEE code info', function () {
       test('it should update candidate information with france INSEE code expected information', async function (assert) {
         // given
-        this.candidate = run(() =>
-          store.createRecord('certification', {
-            firstName: 'Fabrice',
-            lastName: 'Gadjo',
-            birthdate: '2000-12-15',
-            sex: 'F',
-            birthInseeCode: '99101',
-            birthPostalCode: null,
-            birthplace: 'Copenhague',
-            birthCountry: 'DANEMARK',
-          }),
-        );
+        this.candidate = store.createRecord('certification', {
+          firstName: 'Fabrice',
+          lastName: 'Gadjo',
+          birthdate: '2000-12-15',
+          sex: 'F',
+          birthInseeCode: '99101',
+          birthPostalCode: null,
+          birthplace: 'Copenhague',
+          birthCountry: 'DANEMARK',
+        });
         this.countries = [
-          run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
-          run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
+          store.createRecord('country', { code: '99101', name: 'DANEMARK' }),
+          store.createRecord('country', { code: '99100', name: 'FRANCE' }),
         ];
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
@@ -523,21 +500,19 @@ module('Integration | Component | certifications/candidate-edit-modal', function
     module('when editing candidate information with france postal code info', function () {
       test('it should update candidate information with france postal code expected information', async function (assert) {
         // given
-        this.candidate = run(() =>
-          store.createRecord('certification', {
-            firstName: 'Fabrice',
-            lastName: 'Gadjo',
-            birthdate: '2000-12-15',
-            sex: 'F',
-            birthInseeCode: '99101',
-            birthPostalCode: null,
-            birthplace: 'Copenhague',
-            birthCountry: 'DANEMARK',
-          }),
-        );
+        this.candidate = store.createRecord('certification', {
+          firstName: 'Fabrice',
+          lastName: 'Gadjo',
+          birthdate: '2000-12-15',
+          sex: 'F',
+          birthInseeCode: '99101',
+          birthPostalCode: null,
+          birthplace: 'Copenhague',
+          birthCountry: 'DANEMARK',
+        });
         this.countries = [
-          run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
-          run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
+          store.createRecord('country', { code: '99101', name: 'DANEMARK' }),
+          store.createRecord('country', { code: '99100', name: 'FRANCE' }),
         ];
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
@@ -579,20 +554,18 @@ module('Integration | Component | certifications/candidate-edit-modal', function
     module('when a foreign country is selected', () => {
       test('it shows city field and hides insee code and postal code fields', async function (assert) {
         // given
-        this.candidate = run(() =>
-          store.createRecord('certification', {
-            firstName: 'Fabrice',
-            lastName: 'Gadjo',
-            birthdate: '2000-12-15',
-            sex: 'F',
-            birthInseeCode: '75015',
-            birthplace: 'PARIS 15',
-            birthCountry: 'FRANCE',
-          }),
-        );
+        this.candidate = store.createRecord('certification', {
+          firstName: 'Fabrice',
+          lastName: 'Gadjo',
+          birthdate: '2000-12-15',
+          sex: 'F',
+          birthInseeCode: '75015',
+          birthplace: 'PARIS 15',
+          birthCountry: 'FRANCE',
+        });
         this.countries = [
-          run(() => store.createRecord('country', { code: '99101', name: 'DANEMARK' })),
-          run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
+          store.createRecord('country', { code: '99101', name: 'DANEMARK' }),
+          store.createRecord('country', { code: '99100', name: 'FRANCE' }),
         ];
         const screen = await render(
           hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`,
@@ -613,17 +586,15 @@ module('Integration | Component | certifications/candidate-edit-modal', function
     module('when the insee code option is selected', () => {
       test('it shows insee code field and hides postal code and city fields', async function (assert) {
         // given
-        this.candidate = run(() =>
-          store.createRecord('certification', {
-            firstName: 'Fabrice',
-            lastName: 'Gadjo',
-            birthdate: '2000-12-15',
-            sex: 'F',
-            birthPostalCode: '75015',
-            birthplace: 'PARIS 15',
-            birthCountry: 'FRANCE',
-          }),
-        );
+        this.candidate = store.createRecord('certification', {
+          firstName: 'Fabrice',
+          lastName: 'Gadjo',
+          birthdate: '2000-12-15',
+          sex: 'F',
+          birthPostalCode: '75015',
+          birthplace: 'PARIS 15',
+          birthCountry: 'FRANCE',
+        });
         this.countries = [];
         const screen = await render(
           hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`,
@@ -642,17 +613,15 @@ module('Integration | Component | certifications/candidate-edit-modal', function
     module('when the postal code option is selected', () => {
       test('it shows postal code and city fields and hides insee code field', async function (assert) {
         // given
-        this.candidate = run(() =>
-          store.createRecord('certification', {
-            firstName: 'Fabrice',
-            lastName: 'Gadjo',
-            birthdate: '2000-12-15',
-            sex: 'F',
-            birthInseeCode: '75115',
-            birthplace: 'PARIS 15',
-            birthCountry: 'FRANCE',
-          }),
-        );
+        this.candidate = store.createRecord('certification', {
+          firstName: 'Fabrice',
+          lastName: 'Gadjo',
+          birthdate: '2000-12-15',
+          sex: 'F',
+          birthInseeCode: '75115',
+          birthplace: 'PARIS 15',
+          birthCountry: 'FRANCE',
+        });
         this.countries = [];
         const screen = await render(
           hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`,

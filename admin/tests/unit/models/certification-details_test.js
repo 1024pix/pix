@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 import sinon from 'sinon';
 import ENV from 'pix-admin/config/environment';
 
@@ -14,11 +13,9 @@ module('Unit | Model | certification details', function (hooks) {
       const listChallengesAndAnswers = [{ id: 'answerId1' }, { id: 'answerId2' }, { id: 'answerId3' }];
 
       // when
-      const certification = run(() =>
-        store.createRecord('certification-details', {
-          listChallengesAndAnswers,
-        }),
-      );
+      const certification = store.createRecord('certification-details', {
+        listChallengesAndAnswers,
+      });
 
       // then
       assert.deepEqual(certification.answers, [
@@ -41,12 +38,10 @@ module('Unit | Model | certification details', function (hooks) {
       const competencesWithMark = [{ index: '1.1' }, { index: '1.2' }];
 
       // when
-      const certification = run(() =>
-        store.createRecord('certification-details', {
-          listChallengesAndAnswers,
-          competencesWithMark,
-        }),
-      );
+      const certification = store.createRecord('certification-details', {
+        listChallengesAndAnswers,
+        competencesWithMark,
+      });
 
       // then
       assert.deepEqual(certification.competences, [
@@ -82,11 +77,9 @@ module('Unit | Model | certification details', function (hooks) {
       };
       adapter.ajax.resolves({});
 
-      const certification = run(() =>
-        store.createRecord('certification-details', {
-          listChallengesAndAnswers: [],
-        }),
-      );
+      const certification = store.createRecord('certification-details', {
+        listChallengesAndAnswers: [],
+      });
 
       // when
       await certification.neutralizeChallenge({
@@ -119,11 +112,9 @@ module('Unit | Model | certification details', function (hooks) {
       };
       adapter.ajax.resolves({});
 
-      const certification = run(() =>
-        store.createRecord('certification-details', {
-          listChallengesAndAnswers: [],
-        }),
-      );
+      const certification = store.createRecord('certification-details', {
+        listChallengesAndAnswers: [],
+      });
 
       // when
       await certification.deneutralizeChallenge({
