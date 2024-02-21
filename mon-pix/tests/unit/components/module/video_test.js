@@ -6,13 +6,45 @@ import sinon from 'sinon';
 module('Unit | Component | Module | Video', function (hooks) {
   setupTest(hooks);
 
+  module(`#hasTranscription`, function () {
+    test(`should return true if video has a transcription`, function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const video = store.createRecord('video', {
+        title: '',
+        url: '',
+        subtitles: '',
+        transcription: 'hello',
+      });
+
+      const component = createPodsComponent('module/video', { video });
+
+      // when & then
+      assert.true(component.hasTranscription);
+    });
+
+    test(`should return false if video has an empty transcription`, function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const video = store.createRecord('video', {
+        title: '',
+        url: '',
+        subtitles: '',
+        transcription: '',
+      });
+
+      const component = createPodsComponent('module/video', { video });
+
+      // when & then
+      assert.false(component.hasTranscription);
+    });
+  });
+
   module('#showModal', function () {
     test('should switch the #modalIsOpen boolean', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const video = store.createRecord('video', { id: 'video-id' });
-      const grain = store.createRecord('grain', { id: 'grain-id', elements: [video] });
-      store.createRecord('module', { id: 'module-id', grains: [grain] });
 
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = () => {};
@@ -31,13 +63,12 @@ module('Unit | Component | Module | Video', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const video = store.createRecord('video', { id: 'video-id' });
-      const grain = store.createRecord('grain', { id: 'grain-id', elements: [video] });
-      const module = store.createRecord('module', { id: 'module-id', grains: [grain] });
+      const moduleId = 'module-id';
 
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = sinon.stub();
 
-      const component = createPodsComponent('module/video', { video });
+      const component = createPodsComponent('module/video', { video, moduleId });
       assert.false(component.modalIsOpen);
 
       // when
@@ -48,7 +79,7 @@ module('Unit | Component | Module | Video', function (hooks) {
         metrics.add.calledWithExactly({
           event: 'custom-event',
           'pix-event-category': 'Modulix',
-          'pix-event-action': `Passage du module : ${module.id}`,
+          'pix-event-action': `Passage du module : ${moduleId}`,
           'pix-event-name': `Clic sur le bouton transcription : ${video.id}`,
         }),
       );
@@ -61,8 +92,6 @@ module('Unit | Component | Module | Video', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const video = store.createRecord('video', { id: 'video-id' });
-        const grain = store.createRecord('grain', { id: 'grain-id', elements: [video] });
-        store.createRecord('module', { id: 'module-id', grains: [grain] });
 
         const component = createPodsComponent('module/video', { video });
         assert.false(component.modalIsOpen);
