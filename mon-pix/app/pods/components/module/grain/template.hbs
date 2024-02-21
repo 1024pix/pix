@@ -13,27 +13,27 @@
   {{/if}}
 
   <div class="grain__content">
-    {{#each @grain.elements as |element|}}
+    {{#each @grain.rawElements as |element|}}
       <div class="grain-content__element">
-        {{#if element.isText}}
+        {{#if (eq element.type "text")}}
           <Module::Text @text={{element}} />
-        {{else if element.isImage}}
+        {{else if (eq element.type "image")}}
           <Module::Image @image={{element}} @moduleId={{@grain.module.id}} />
-        {{else if element.isVideo}}
+        {{else if (eq element.type "video")}}
           <Module::Video @video={{element}} @moduleId={{@grain.module.id}} />
-        {{else if element.isQcu}}
+        {{else if (eq element.type "qcu")}}
           <Module::Qcu
             @qcu={{element}}
             @submitAnswer={{@submitAnswer}}
             @correction={{this.getLastCorrectionForElement element}}
           />
-        {{else if element.isQcm}}
+        {{else if (eq element.type "qcm")}}
           <Module::Qcm
             @qcm={{element}}
             @submitAnswer={{@submitAnswer}}
             @correction={{this.getLastCorrectionForElement element}}
           />
-        {{else if element.isQrocm}}
+        {{else if (eq element.type "qrocm")}}
           <Module::Qrocm
             @qrocm={{element}}
             @submitAnswer={{@submitAnswer}}
