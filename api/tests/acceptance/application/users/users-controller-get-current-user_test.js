@@ -3,7 +3,9 @@ import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
+  sinon,
 } from '../../../test-helper.js';
+import { constants } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Controller | users-controller-get-current-user', function () {
   let options;
@@ -43,6 +45,8 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
   describe('GET /users/me', function () {
     it('should return found user with 200 HTTP status code', async function () {
       // given
+      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+
       const expectedUserJSONApi = {
         data: {
           type: 'users',
