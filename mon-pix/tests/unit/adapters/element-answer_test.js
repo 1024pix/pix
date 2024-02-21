@@ -62,7 +62,6 @@ module('Unit | Adapter | Module | ElementAnswer', function (hooks) {
                 'passage-id': passage.id,
               },
               relationships: {
-                element: { data: element },
                 passage: { data: passage },
               },
             },
