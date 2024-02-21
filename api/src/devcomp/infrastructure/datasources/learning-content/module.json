@@ -1223,7 +1223,7 @@
     },
     {
       "id": "6282925d-4775-4bca-b513-4c3009ec5886",
-      "slug": "ce-que-revele-ladresse-ip-publique-sur-vous",
+      "slug": "adresse-ip-publique-et-vous",
       "title": "Adresse IP publique : ce qu'elle révèle sur vous !",
       "details": {
         "image": "https://images.pix.fr/modulix/placeholder-details.svg",
@@ -1498,19 +1498,19 @@
         {
           "id": "45d507ce-f822-4a06-aa6e-f2a1b0aeada3",
           "type": "lesson",
-          "title": "Schéma IP publique vs. IP locales!",
+          "title": "Schéma IP publique vs. IP locales !",
           "elements": [
             {
               "id": "1b524302-7175-4923-8810-835201d3d443",
               "type": "text",
-              "content": "<p>[TODO] Texte </p>"
+              "content": "<p> Dans le réseau local, ce sont des adresses IP <strong>privées</strong> (locales) qui sont utilisées par les appareils. Sur internet, ce sont des adresses IP <strong>publiques</strong>. </p>"
             },
             {
               "id": "f42fa86c-3936-485a-8ea3-cabed25153f9",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
-              "alt": "",
-              "alternativeText": ""
+              "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/schema-ip-publique-vs-privee.svg",
+              "alt": "Image décrite dans l'alternative textuelle",
+              "alternativeText": "Schéma représentant d'une part un réseau local, composé d'un ordinateur, d'un ordinateur portable, d'une imprimante et d'une box internet. Chacun de ces appareils à une adresse IP privée. La box internet assure la communication avec des sites internet, avec une adresse IP publique. Les sites internet ont également une IP publique."
             }
           ]
         },
