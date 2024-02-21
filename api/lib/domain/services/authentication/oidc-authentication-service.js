@@ -37,15 +37,17 @@ class OidcAuthenticationService {
     {
       additionalRequiredProperties,
       authenticationUrl,
-      extraAuthorizationUrlParameters,
       claimsToStore,
       clientId,
       clientSecret,
       configKey,
       endSessionUrl,
+      extraAuthorizationUrlParameters,
       hasLogoutUrl = false,
       identityProvider,
       jwtOptions,
+      openidClientExtraMetadata,
+      openidConfigurationUrl,
       organizationName,
       postLogoutRedirectUri,
       redirectUri,
@@ -54,20 +56,20 @@ class OidcAuthenticationService {
       source,
       tokenUrl,
       userInfoUrl,
-      openidConfigurationUrl,
-      openidClientExtraMetadata,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
     this.authenticationUrl = authenticationUrl;
-    this.extraAuthorizationUrlParameters = extraAuthorizationUrlParameters;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.configKey = configKey;
     this.endSessionUrl = endSessionUrl;
+    this.extraAuthorizationUrlParameters = extraAuthorizationUrlParameters;
     this.hasLogoutUrl = hasLogoutUrl;
     this.identityProvider = identityProvider;
     this.jwtOptions = jwtOptions;
+    this.openidClientExtraMetadata = openidClientExtraMetadata;
+    this.openidConfigurationUrl = openidConfigurationUrl;
     this.organizationName = organizationName;
     this.postLogoutRedirectUri = postLogoutRedirectUri;
     this.redirectUri = redirectUri;
@@ -76,8 +78,6 @@ class OidcAuthenticationService {
     this.source = source;
     this.tokenUrl = tokenUrl;
     this.userInfoUrl = userInfoUrl;
-    this.openidConfigurationUrl = openidConfigurationUrl;
-    this.openidClientExtraMetadata = openidClientExtraMetadata;
 
     if (!lodash.isEmpty(claimsToStore)) {
       this.claimsToStore = claimsToStore;
