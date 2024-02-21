@@ -4,7 +4,7 @@ import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
-const { SHARED } = CampaignParticipationStatuses;
+const { SHARED, STARTED } = CampaignParticipationStatuses;
 
 describe('Integration | Infrastructure | Repository | organization-learner-activity', function () {
   let organizationLearnerId, organizationId;
@@ -275,6 +275,157 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
 
       //then
       expect(undeletedParticipation.participationCount).to.equal(1);
+    });
+
+    it('Should return the shared participation by campaignId', async function () {
+      //given
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        name: 'Hulk',
+        type: CampaignTypes.ASSESSMENT,
+        multipleSendings: true,
+      });
+
+      const sharedParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        id: 202,
+        status: SHARED,
+        campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2000-01-03'),
+        sharedAt: new Date('2000-12-12'),
+        isImproved: true,
+      }).id;
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        id: 203,
+        status: STARTED,
+        campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2010-01-03'),
+        sharedAt: null,
+      }).id;
+
+      await databaseBuilder.commit();
+
+      //when
+      const { participations } = await organizationLearnerActivityRepository.get(organizationLearnerId);
+
+      const campaignParticipations = participations.find((participation) => participation.campaignName === 'Hulk');
+
+      //then
+      expect(campaignParticipations.lastSharedOrCurrentCampaignParticipationId).to.deep.equal(sharedParticipationId);
+    });
+
+    it('Should return the last participation for a campaign if not shared', async function () {
+      //given
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        name: 'Iron man',
+        type: CampaignTypes.PROFILES_COLLECTION,
+      });
+
+      const participationId = databaseBuilder.factory.buildCampaignParticipation({
+        id: 201,
+        status: STARTED,
+        campaignId: campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2000-01-01'),
+        sharedAt: null,
+      }).id;
+
+      await databaseBuilder.commit();
+
+      //when
+      const { participations } = await organizationLearnerActivityRepository.get(organizationLearnerId);
+
+      const campaignParticipations = participations.find((participation) => participation.campaignName === 'Iron man');
+
+      //then
+      expect(campaignParticipations.lastSharedOrCurrentCampaignParticipationId).to.deep.equal(participationId);
+    });
+
+    it('Should return the last shared participation by campaignId', async function () {
+      //given
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        name: 'Hulk',
+        type: CampaignTypes.ASSESSMENT,
+        multipleSendings: true,
+      });
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        id: 201,
+        status: SHARED,
+        campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2000-01-01'),
+        sharedAt: new Date('2000-01-02'),
+      }).id;
+
+      const secondSharedParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        id: 202,
+        status: SHARED,
+        campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2000-01-03'),
+        sharedAt: new Date('2000-12-12'),
+        isImproved: true,
+      }).id;
+
+      await databaseBuilder.commit();
+
+      //when
+      const { participations } = await organizationLearnerActivityRepository.get(organizationLearnerId);
+
+      const campaignParticipations = participations.find((participation) => participation.campaignName === 'Hulk');
+
+      //then
+      expect(campaignParticipations.lastSharedOrCurrentCampaignParticipationId).to.deep.equal(
+        secondSharedParticipationId,
+      );
+    });
+
+    it('Should return the right participation for a given campaignId', async function () {
+      //given
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        name: 'Iron Man',
+        type: CampaignTypes.ASSESSMENT,
+        multipleSendings: true,
+      });
+
+      const { id: otherCampaignId } = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        name: 'Hulk',
+        type: CampaignTypes.ASSESSMENT,
+        multipleSendings: true,
+      });
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        status: SHARED,
+        campaignId: otherCampaignId,
+        organizationLearnerId,
+        createdAt: new Date('2000-01-01'),
+        sharedAt: new Date('2000-01-02'),
+      }).id;
+
+      const rightParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        status: SHARED,
+        campaignId,
+        organizationLearnerId,
+        createdAt: new Date('2000-01-03'),
+        sharedAt: new Date('2000-12-12'),
+      }).id;
+
+      await databaseBuilder.commit();
+
+      //when
+      const { participations } = await organizationLearnerActivityRepository.get(organizationLearnerId);
+
+      const campaignParticipations = participations.find((participation) => participation.campaignName === 'Iron Man');
+
+      //then
+      expect(campaignParticipations.lastSharedOrCurrentCampaignParticipationId).to.deep.equal(rightParticipationId);
     });
   });
 });
