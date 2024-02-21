@@ -1,5 +1,34 @@
 # Pix Changelog
 
+## v4.105.0 (21/02/2024)
+
+
+### :rocket: Amélioration
+- [#8090](https://github.com/1024pix/pix/pull/8090) [FEATURE] Affichage des commentaires auto jury ou commentaires manuels si absents (PIX-10528).
+- [#8057](https://github.com/1024pix/pix/pull/8057) [FEATURE] Affichage et vérification des QCM (PIX-11100) (PIX-11024) (PIX-11135).
+- [#8075](https://github.com/1024pix/pix/pull/8075) [FEATURE] Résoudre automatiquement les signalements validés par le surveillant (PIX-11207).
+- [#8110](https://github.com/1024pix/pix/pull/8110) [FEATURE] Valider l'HTML des champs qui requièrent de l'HTML (PIX-10242).
+- [#8101](https://github.com/1024pix/pix/pull/8101) [FEATURE] Afficher les missions  dans Pix orga (Pix-11196).
+- [#8028](https://github.com/1024pix/pix/pull/8028) [FEATURE] Utiliser la librairie openid-client (PIX-11130).
+
+### :building_construction: Tech
+- [#8066](https://github.com/1024pix/pix/pull/8066) [TECH] Extraction d'une erreur spécifique pour pix 1d : `MissionNotFoundError`.
+- [#8095](https://github.com/1024pix/pix/pull/8095) [TECH] Migration de fichiers vers src.
+- [#8082](https://github.com/1024pix/pix/pull/8082) [TECH] Extraction d'une erreur spécifique pour pix 1d : `SchoolNotFoundError`.
+- [#8064](https://github.com/1024pix/pix/pull/8064) [TECH] extraction d'une erreur spécifique au domaine `school` : `ActivityErrorNotFound`.
+- [#8107](https://github.com/1024pix/pix/pull/8107) [TECH] Protéger la route récupérant la liste des fournisseurs d'identité sur Pix Admin (PIX-10706).
+
+### :bug: Correction
+- [#8112](https://github.com/1024pix/pix/pull/8112) [BUGFIX] Afficher la dernière participation partagé d'une collecte de profil dans l'onglet Résultat (PIX-11314).
+- [#8094](https://github.com/1024pix/pix/pull/8094) [BUGFIX] Mise à jour des seeds pour la configuration de la certif v3 (PIX-11278).
+- [#8078](https://github.com/1024pix/pix/pull/8078) [BUGFIX] Supprimer les feedbacks précédents lorsqu'un utilisateur repasse un module (PIX-11175).
+- [#8106](https://github.com/1024pix/pix/pull/8106) [BUGFIX] Affichage le pourcentage de réussite qu'une fois sur la page de résultat (PIX-10469).
+- [#8083](https://github.com/1024pix/pix/pull/8083) [BUGFIX] Erreur lors du patch d'une thématique dans le cache LCMS de recette (PIX-11260).
+- [#8091](https://github.com/1024pix/pix/pull/8091) [BUGFIX] Permettre de renvoyer un fichier PDF / JSON du profil cible ayant des caractères spéciaux (PIX-11265).
+
+### :arrow_up: Montée de version
+- [#8105](https://github.com/1024pix/pix/pull/8105) [BUMP] Update Node.js to v20.11.1.
+
 ## v4.104.0 (19/02/2024)
 
 
