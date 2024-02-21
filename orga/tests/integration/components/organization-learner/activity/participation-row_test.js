@@ -78,6 +78,7 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
       createdAt: new Date('2023-02-01'),
       sharedAt: new Date('2023-03-01'),
       status: 'SHARED',
+      lastSharedOrCurrentCampaignParticipationId: 345,
     };
     this.route = 'authenticated.campaigns.participant-assessment';
 
@@ -89,7 +90,13 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
     await click(await screen.findByRole('cell', { name: '01/02/2023' }));
 
     // then
-    assert.ok(router.transitionTo.calledWith(this.route, this.participation.campaignId, this.participation.id));
+    assert.ok(
+      router.transitionTo.calledWith(
+        this.route,
+        this.participation.campaignId,
+        this.participation.lastSharedOrCurrentCampaignParticipationId,
+      ),
+    );
   });
 
   test('it should transition to profile collection detail when campaignType is PROFILE_COLLECTION', async function (assert) {
@@ -102,6 +109,7 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
       createdAt: new Date('2023-02-01'),
       sharedAt: new Date('2023-03-01'),
       status: 'SHARED',
+      lastSharedOrCurrentCampaignParticipationId: 345,
     };
     this.route = 'authenticated.campaigns.participant-profile';
 
@@ -113,6 +121,12 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
     await click(await screen.findByRole('cell', { name: '01/02/2023' }));
 
     // then
-    assert.ok(router.transitionTo.calledWith(this.route, this.participation.campaignId, this.participation.id));
+    assert.ok(
+      router.transitionTo.calledWith(
+        this.route,
+        this.participation.campaignId,
+        this.participation.lastSharedOrCurrentCampaignParticipationId,
+      ),
+    );
   });
 });
