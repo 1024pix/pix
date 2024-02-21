@@ -1,17 +1,17 @@
 import { knex } from '../../../../../../db/knex-database-connection.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
-import { saveBatch } from '../../../../../../src/certification/scoring/infrastructure/repositories/certification-challenge-capacity-repository.js';
+import { save } from '../../../../../../src/certification/scoring/infrastructure/repositories/certification-assessment-history-repository.js';
 import _ from 'lodash';
 
 describe('Integration | Infrastructure | Repository | CertificationChallengeCapacityRepository', function () {
-  describe('#saveBatch', function () {
+  describe('#save', function () {
     describe('when there is no certification challenge capacity', function () {
       it('should save the certification challenge capacities', async function () {
         // given
         const certificationChallenge1 = databaseBuilder.factory.buildCertificationChallenge();
         const certificationChallenge2 = databaseBuilder.factory.buildCertificationChallenge();
 
-        const certificationChallengeCapacities = [
+        const capacityHistory = [
           domainBuilder.buildCertificationChallengeCapacity({
             certificationChallengeId: certificationChallenge1.id,
             capacity: 10,
@@ -22,10 +22,14 @@ describe('Integration | Infrastructure | Repository | CertificationChallengeCapa
           }),
         ];
 
+        const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
+          capacityHistory,
+        });
+
         await databaseBuilder.commit();
 
         // when
-        await saveBatch(certificationChallengeCapacities);
+        await save(certificationAssessmentHistory);
 
         // then
         const capacities = await knex('certification-challenge-capacities').select();
@@ -53,7 +57,7 @@ describe('Integration | Infrastructure | Repository | CertificationChallengeCapa
 
         await databaseBuilder.commit();
 
-        const certificationChallengeCapacities = [
+        const capacityHistory = [
           domainBuilder.buildCertificationChallengeCapacity({
             certificationChallengeId: certificationChallenge1.id,
             capacity: 10,
@@ -64,8 +68,12 @@ describe('Integration | Infrastructure | Repository | CertificationChallengeCapa
           }),
         ];
 
+        const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
+          capacityHistory,
+        });
+
         // when
-        await saveBatch(certificationChallengeCapacities);
+        await save(certificationAssessmentHistory);
 
         // then
         const capacities = await knex('certification-challenge-capacities').select();
