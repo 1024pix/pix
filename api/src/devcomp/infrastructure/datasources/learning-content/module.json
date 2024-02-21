@@ -913,7 +913,7 @@
       },
       "transitionTexts": [
         {
-          "content": "<p>Un mot de passe sert à protéger vos données. Il faut donc qu’il soit compliqué à trouver. Sinon, n’importe qui va le trouver et pourra lire vos messages.</p>",
+          "content": "<p>Un mot de passe sert à protéger vos données. Il faut donc qu’il soit compliqué à trouver. Sinon, n’importe qui va le trouver et pourra lire vos emails, accéder à vos appareils numériques, voir vos photos, etc.</p>",
           "grainId": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8"
         },
         {
@@ -966,7 +966,7 @@
                   "ariaLabel": "Mot de passe",
                   "defaultValue": "",
                   "tolerances": ["t1"],
-                  "solutions": ["123456", "123456789", "azerty", "admin", "1234561", "azertyuiop", "loulou", "000000", "doudou", "password", "marseille", "motdepasse", "12345678", "chouchou", "soleil", "cheval", "12345", "Password", "bonjour", "1234567891"]
+                  "solutions": ["123456", "123456789", "azerty", "admin", "1234561", "azertyuiop", "loulou", "000000", "doudou", "password", "marseille", "motdepasse", "12345678", "chouchou", "soleil", "cheval", "12345", "Password", "bonjour", "1234567891", "1234", "0000"]
                 }
               ],
               "feedbacks": {
