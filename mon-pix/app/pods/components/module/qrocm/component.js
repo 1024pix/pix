@@ -8,6 +8,18 @@ export default class ModuleQrocm extends Component {
 
   qrocm = this.args.qrocm;
 
+  get formattedProposals() {
+    return this.qrocm.proposals.map((proposal) => {
+      if (proposal.type === 'select') {
+        return {
+          ...proposal,
+          options: proposal.options.map((option) => ({ value: option.id, label: option.content })),
+        };
+      }
+      return proposal;
+    });
+  }
+
   @action
   onInputChanged(block, { target }) {
     this.#updateSelectedValues(block, target.value);
