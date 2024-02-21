@@ -245,15 +245,18 @@ async function _saveAssessmentResult(
   let assessmentResult;
   const emitter = _getEmitterFromEvent(event);
   const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
-  const assessmentResultStatus = certificationCourse.isRejectedForFraud()
-    ? AssessmentResult.status.REJECTED
-    : certificationAssessmentScore.status;
-
-  if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
+  if (certificationCourse.isRejectedForFraud()) {
+    assessmentResult = AssessmentResult.buildFraud({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      assessmentId: certificationAssessment.id,
+      juryId: event.juryId,
+    });
+  } else if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
     assessmentResult = AssessmentResult.buildNotTrustableAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      status: assessmentResultStatus,
+      status: certificationAssessmentScore.status,
       assessmentId: certificationAssessment.id,
       emitter,
       juryId: event.juryId,
@@ -262,7 +265,7 @@ async function _saveAssessmentResult(
     assessmentResult = AssessmentResult.buildStandardAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      status: assessmentResultStatus,
+      status: certificationAssessmentScore.status,
       assessmentId: certificationAssessment.id,
       emitter,
       juryId: event.juryId,
