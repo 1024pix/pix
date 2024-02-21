@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import Controller from '@ember/controller';
-import debounce from 'lodash/debounce';
+import { debounceTask } from 'ember-lifeline';
 import config from 'pix-admin/config/environment';
 import { service } from '@ember/service';
 
@@ -22,15 +22,15 @@ export default class TargetProfileOrganizationsController extends Controller {
   @tracked externalId = null;
 
   updateFilters(filters) {
-    Object.keys(filters).forEach((filterKey) => (this[filterKey] = filters[filterKey]));
+    for (const filterKey of Object.keys(filters)) {
+      this[filterKey] = filters[filterKey];
+    }
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
-  debouncedUpdateFilters = debounce(this.updateFilters, this.DEBOUNCE_MS);
-
   @action
   triggerFiltering(fieldName, event) {
-    this.debouncedUpdateFilters({ [fieldName]: event.target.value });
+    debounceTask(this, 'updateFilters', { [fieldName]: event.target.value }, this.DEBOUNCE_MS);
   }
 
   @action

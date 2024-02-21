@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 
 module('Unit | Model | stage', function (hooks) {
   setupTest(hooks);
@@ -14,9 +13,7 @@ module('Unit | Model | stage', function (hooks) {
   module('#hasPrescriberTitle', function () {
     test('when stage has a prescriber title then hasPrescriberTitle should be true', function (assert) {
       // given
-      const stage = run(() => {
-        return store.createRecord('stage', { prescriberTitle: 'prescriberTitle' });
-      });
+      const stage = store.createRecord('stage', { prescriberTitle: 'prescriberTitle' });
 
       // when
       const hasPrescriberTitle = stage.hasPrescriberTitle;
@@ -27,9 +24,7 @@ module('Unit | Model | stage', function (hooks) {
 
     test('when stage does not have a prescriber title then hasPrescriberTitle should be false', function (assert) {
       // given
-      const stage = run(() => {
-        return store.createRecord('stage', { prescriberTitle: '' });
-      });
+      const stage = store.createRecord('stage', { prescriberTitle: '' });
 
       // when
       const hasPrescriberTitle = stage.hasPrescriberTitle;
@@ -41,9 +36,7 @@ module('Unit | Model | stage', function (hooks) {
   module('#hasPrescriberDescription', function () {
     test('when stage has a prescriber description then hasPrescriberDescription should be true', function (assert) {
       // given
-      const stage = run(() => {
-        return store.createRecord('stage', { prescriberDescription: 'prescriberDescription' });
-      });
+      const stage = store.createRecord('stage', { prescriberDescription: 'prescriberDescription' });
 
       // when
       const hasPrescriberDescription = stage.hasPrescriberDescription;
@@ -54,9 +47,7 @@ module('Unit | Model | stage', function (hooks) {
 
     test('when stage does not have a prescriber description then hasPrescriberDescription should be false', function (assert) {
       // given
-      const stage = run(() => {
-        return store.createRecord('stage', { prescriberDescription: '' });
-      });
+      const stage = store.createRecord('stage', { prescriberDescription: '' });
 
       // when
       const hasPrescriberDescription = stage.hasPrescriberDescription;
@@ -68,9 +59,7 @@ module('Unit | Model | stage', function (hooks) {
   module('#isTypeLevel', function () {
     test('when stage has level then isTypeLevel should be true', function (assert) {
       // given
-      const stage = run(() => {
-        return store.createRecord('stage', { level: 8 });
-      });
+      const stage = store.createRecord('stage', { level: 8 });
 
       // when
       const isTypeLevel = stage.isTypeLevel;
@@ -81,9 +70,7 @@ module('Unit | Model | stage', function (hooks) {
 
     test('when stage does not have a level then isTypeLevel should be false', function (assert) {
       // given
-      const stage = run(() => {
-        return store.createRecord('stage', { level: null });
-      });
+      const stage = store.createRecord('stage', { level: null });
 
       // when
       const isTypeLevel = stage.isTypeLevel;
