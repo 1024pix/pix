@@ -8,6 +8,25 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Module | Passage', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  test('should display a banner at the top of the screen for a passage', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const textElement = store.createRecord('text', { content: 'content', type: 'texts' });
+    const elements = [textElement];
+    const grain = store.createRecord('grain', { id: 'grainId1', elements });
+    const module = store.createRecord('module', { title: 'Module title', grains: [grain] });
+    this.set('module', module);
+
+    const passage = store.createRecord('passage');
+    this.set('passage', passage);
+
+    // when
+    const screen = await render(hbs`<Module::Passage @module={{this.module}} @passage={{this.passage}} />`);
+
+    // then
+    assert.dom(screen.getByRole('alert')).exists();
+  });
+
   test('should display given module with one grain', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
