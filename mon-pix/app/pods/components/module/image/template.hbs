@@ -2,7 +2,7 @@
   <div class="element-image__container">
     <img class="element-image-container__image" alt={{@image.alt}} src={{@image.url}} />
   </div>
-  {{#if @image.hasAlternativeText}}
+  {{#if this.hasAlternativeText}}
     <PixButton
       @backgroundColor="transparent-light"
       @shape="rounded"
