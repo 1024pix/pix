@@ -10,15 +10,15 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
   test('should display a QCU', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
-    const qcuElement = store.createRecord('qcu', {
+    const qcuElement = {
+      id: 'd0690f26-978c-41c3-9a21-da931857739c',
       instruction: 'Instruction',
       proposals: [
         { id: '1', content: 'radio1' },
         { id: '2', content: 'radio2' },
       ],
-      type: 'qcus',
-    });
+      type: 'qcu',
+    };
     const givenSubmitAnswerStub = sinon.stub();
     this.set('qcu', qcuElement);
     this.set('submitAnswer', givenSubmitAnswerStub);
@@ -41,14 +41,13 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
   test('should call action when verify button is clicked', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
     const answeredProposal = { id: '1', content: 'radio1' };
-    const qcuElement = store.createRecord('qcu', {
+    const qcuElement = {
       id: 'qcu-id-1',
       instruction: 'Instruction',
       proposals: [answeredProposal, { id: '2', content: 'radio2' }],
-      type: 'qcus',
-    });
+      type: 'qcu',
+    };
     this.set('qcu', qcuElement);
     const userResponse = [answeredProposal.id];
     const givenSubmitAnswerSpy = sinon.spy();
@@ -116,15 +115,15 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
   test('should display an error message if QCU is validated without response', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
-    const qcuElement = store.createRecord('qcu', {
+    const qcuElement = {
+      id: 'd0690f26-978c-41c3-9a21-da931857739c',
       instruction: 'Instruction',
       proposals: [
         { id: '1', content: 'radio1' },
         { id: '2', content: 'radio2' },
       ],
-      type: 'qcus',
-    });
+      type: 'qcu',
+    };
     this.set('qcu', qcuElement);
     const screen = await render(hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}} />`);
 
@@ -137,15 +136,15 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
   test('should hide the error message when QCU is validated with response', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
-    const qcuElement = store.createRecord('qcu', {
+    const qcuElement = {
+      id: 'd0690f26-978c-41c3-9a21-da931857739c',
       instruction: 'Instruction',
       proposals: [
         { id: '1', content: 'radio1' },
         { id: '2', content: 'radio2' },
       ],
-      type: 'qcus',
-    });
+      type: 'qcu',
+    };
     const givenSubmitAnswerStub = function () {};
     this.set('submitAnswer', givenSubmitAnswerStub);
     this.set('qcu', qcuElement);
@@ -162,19 +161,20 @@ module('Integration | Component | Module | QCU', function (hooks) {
 });
 
 function prepareContextRecords(store, correctionResponse) {
-  const elementAnswer = store.createRecord('element-answer', {
-    correction: correctionResponse,
-  });
-  const qcuElement = store.createRecord('qcu', {
+  const qcuElement = {
+    id: 'd0690f26-978c-41c3-9a21-da931857739c',
     instruction: 'Instruction',
     proposals: [
       { id: '1', content: 'radio1' },
       { id: '2', content: 'radio2' },
     ],
-    type: 'qcus',
-    elementAnswers: [elementAnswer],
+    type: 'qcu',
+  };
+  store.createRecord('element-answer', {
+    correction: correctionResponse,
+    element: qcuElement,
   });
-  store.createRecord('grain', { id: 'id', elements: [qcuElement] });
+  store.createRecord('grain', { id: 'id', rawElements: [qcuElement] });
   store.createRecord('element-answer', {
     correction: correctionResponse,
     elementId: qcuElement.id,

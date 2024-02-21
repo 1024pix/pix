@@ -10,34 +10,34 @@ module('Acceptance | Module | Routes | retakeCompletedModule', function (hooks) 
 
   test('should reset activities when I retake a completed module', async function (assert) {
     // given
-    const qcu = server.create('qcu', {
+    const qcu = {
       id: 'elementId-1',
-      type: 'qcus',
+      type: 'qcu',
       instruction: 'instruction',
       isAnswerable: true,
       proposals: [
         { id: 'qcu-1-proposal-1', content: 'I am the wrong answer!' },
         { id: 'qcu-1-proposal-2', content: 'I am the right answer!' },
       ],
-    });
+    };
 
     const grain1 = server.create('grain', {
       id: 'grainId1',
       title: 'title',
-      elements: [qcu],
+      rawElements: [qcu],
     });
 
-    const text = server.create('text', {
+    const text = {
       id: 'elementId-1',
       type: 'texts',
       content: 'content-1',
       isAnswerable: false,
-    });
+    };
 
     const grain2 = server.create('grain', {
       id: 'grainId2',
       title: 'title',
-      elements: [text],
+      rawElements: [text],
     });
 
     server.create('module', {

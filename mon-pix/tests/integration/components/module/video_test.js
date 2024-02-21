@@ -9,15 +9,14 @@ module('Integration | Component | Module | Video', function (hooks) {
 
   test('should display a video', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
     const url = 'https://videos.pix.fr/modulix/chat_animation_2.webm';
 
-    const videoElement = store.createRecord('video', {
+    const videoElement = {
       url,
       title: 'title',
       subtitles: 'subtitles',
       transcription: '',
-    });
+    };
 
     this.set('video', videoElement);
 
@@ -32,17 +31,14 @@ module('Integration | Component | Module | Video', function (hooks) {
 
   test('should be able to use the modal for transcription', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
     const url = 'https://videos.pix.fr/modulix/chat_animation_2.webm';
 
-    const videoElement = store.createRecord('video', {
+    const videoElement = {
       url,
       title: 'title',
       subtitles: 'subtitles',
       transcription: 'transcription',
-    });
-    const grain = store.createRecord('grain', { id: 'grain-id', elements: [videoElement] });
-    store.createRecord('module', { id: 'module-id', grains: [grain] });
+    };
 
     this.set('video', videoElement);
 
@@ -57,15 +53,14 @@ module('Integration | Component | Module | Video', function (hooks) {
 
   test('should not be able to open the modal if there is no transcription', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
     const url = 'https://videos.pix.fr/modulix/chat_animation_2.webm';
 
-    const video = store.createRecord('video', {
+    const video = {
       url,
       title: 'title',
       subtitles: 'subtitles',
       transcription: '',
-    });
+    };
 
     this.set('video', video);
 
