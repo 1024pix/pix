@@ -17,15 +17,15 @@
       },
       "transitionTexts": [
         {
-          "content": "<p>Naomi a perdu l’adresse mail de son ami Mickaël. Elle n’arrive pas à retrouver cette adresse <span aria-hidden=\"true\">🤷‍♀</span>️. Elle a besoin de l’adresse mail de Mickaël pour lui envoyer un document. Elle demande donc à Mickaël par SMS. <br> Lancez la vidéo pour voir leur discussion <span aria-hidden=\"true\">▶️</span></p>",
+          "content": "<p>Naomi a perdu l’adresse mail de son ami Mickaël. Elle n’arrive pas à retrouver cette adresse <span aria-hidden='true'>🤷‍♀</span>️. Elle a besoin de l’adresse mail de Mickaël pour lui envoyer un document. Elle demande donc à Mickaël par SMS. <br> Lancez la vidéo pour voir leur discussion <span aria-hidden='true'>▶️</span></p>",
           "grainId": "34d225e8-5d52-4ebd-9acd-8bde8438cfc9"
         },
         {
-          "content": "<p>Et oui ! Naomi le sait : les adresses mail ont un certain format.</p><p>Étudions en détails l’adresse mail de Mickaël <span aria-hidden=\"true\">👨‍🏫👩‍🏫</span></p>",
+          "content": "<p>Et oui ! Naomi le sait : les adresses mail ont un certain format.</p><p>Étudions en détails l’adresse mail de Mickaël <span aria-hidden='true'>👨‍🏫👩‍🏫</span></p>",
           "grainId": "af860b1e-0566-4b06-bcb4-a68a5151d621"
         },
         {
-          "content": "<p>Pour être sûr que tout est clair, voici un texte à trous ! <span aria-hidden=\"true\">🧩</span></p>",
+          "content": "<p>Pour être sûr que tout est clair, voici un texte à trous ! <span aria-hidden='true'>🧩</span></p>",
           "grainId": "edd7fec3-a649-425b-b8e3-65b13c6c47ea"
         },
         {
@@ -45,7 +45,7 @@
               "title": "Le format des adresses mail",
               "url": "https://videos.pix.fr/modulix/chat_animation_2.mp4",
               "subtitles": "https://videos.pix.fr/modulix/chat_animation_2.vtt",
-              "transcription": "<ul><li>Naomi : Salut, tu peux me redonner ton adresse mail stp ? <span aria-hidden=\"true\">😇</span></li> <li>Mickaël : Oui, c’est mickael.aubert123#laposte.net</li><li>Naomi : T’es sûr ? <span aria-hidden=\"true\">😬</span></li><li>Naomi : Tu veux dire mickael.aubert123@laposte.net</li><li>Mickaël : Ah oui désolé ! <span aria-hidden=\"true\">😣</span></li><li>Mickaël : comment tu as su ? </li><li>Naomi : …</li></ul>"
+              "transcription": "<ul><li>Naomi : Salut, tu peux me redonner ton adresse mail stp ? <span aria-hidden='true'>😇</span></li> <li>Mickaël : Oui, c’est mickael.aubert123#laposte.net</li><li>Naomi : T’es sûr ? <span aria-hidden='true'>😬</span></li><li>Naomi : Tu veux dire mickael.aubert123@laposte.net</li><li>Mickaël : Ah oui désolé ! <span aria-hidden='true'>😣</span></li><li>Mickaël : comment tu as su ? </li><li>Naomi : …</li>"
             }
           ]
         },
@@ -59,22 +59,22 @@
               "type": "image",
               "url": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg",
               "alt": "Schéma de la syntaxe d'une adresse mail, en trois blocs distincts, décrit dans l'alternative textuelle",
-              "alternativeText": "Bloc 1&nbsp;: Identifiant, exemple&nbsp;: mickael.aubert123<br>Bloc 2&nbsp;: Arobase<br>Bloc 3&nbsp;: Fournisseur d'adresse mail, exemple&nbsp;: laposte.net "
+              "alternativeText": "Bloc 1&nbsp;: Identifiant, exemple&nbsp;: mickael.aubert123<br/>Bloc 2&nbsp;: Arobase<br/>Bloc 3&nbsp;: Fournisseur d'adresse mail, exemple&nbsp;: laposte.net "
             },
             {
               "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
               "type": "text",
-              "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>L’identifiant est la première partie de l’adresse mail. Il a été choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: mika671 ou G3oDu671</p><p class=\"pix-list-inline\"><span aria-hidden=\"true\">❌</span> Des caractères sont interdits&nbsp;:</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
+              "content": "<h3 class='screen-reader-only'>L'identifiant</h3><h4>L’identifiant est la première partie de l’adresse mail. Il a été choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p><span aria-hidden='true'>✅</span> Par exemple&nbsp;: mika671 ou G3oDu671</p><p class='pix-list-inline'><span aria-hidden='true'>❌</span> Des caractères sont interdits&nbsp;:</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
             },
             {
               "id": "ad8ad08a-3ff7-4228-8233-6cd5ce0f4812",
               "type": "text",
-              "content": "<h3 class=\"screen-reader-only\">L'arobase</h3><h4>L’arobase est dans toutes les adresses mails. Il sépare l’identifiant et le fournisseur d’adresse mail.</h4><p><span aria-hidden=\"true\">🇬🇧</span> En anglais, ce symbole se lit <i lang=\"en\">“at”</i> qui veut dire “chez”.</p><p><span aria-hidden=\"true\">🤔</span> Le saviez-vous&nbsp;: c’est un symbole qui était utilisé bien avant l’informatique ! Par exemple, pour compter des quantités.</p>"
+              "content": "<h3 class='screen-reader-only'>L'arobase</h3><h4>L’arobase est dans toutes les adresses mails. Il sépare l’identifiant et le fournisseur d’adresse mail.</h4><p><span aria-hidden='true'>🇬🇧</span> En anglais, ce symbole se lit <i lang='en'>“at”</i> qui veut dire “chez”.</p><p><span aria-hidden='true'>🤔</span> Le saviez-vous&nbsp;: c’est un symbole qui était utilisé bien avant l’informatique ! Par exemple, pour compter des quantités.</p>"
             },
             {
               "id": "1fd829f8-1799-4779-a28d-5d26fba31b8b",
               "type": "text",
-              "content": "<h3 class=\"screen-reader-only\">Le fournisseur d’adresse mail</h3><h4>Le fournisseur d’adresse mail est la deuxième partie de l’adresse mail.</h4><p>Cette partie de l’adresse est donnée par le fournisseur.</p><p><span aria-hidden=\"true\">✅</span> Des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com)</li><li>Microsoft (hotmail.com, live.fr)</li></ul>"
+              "content": "<h3 class='screen-reader-only'>Le fournisseur d’adresse mail</h3><h4>Le fournisseur d’adresse mail est la deuxième partie de l’adresse mail.</h4><p>Cette partie de l’adresse est donnée par le fournisseur.</p><p><span aria-hidden='true'>✅</span> Des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com)</li><li>Microsoft (hotmail.com, live.fr)</li></ul>"
             }
           ]
         },
@@ -154,8 +154,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct ! <span aria-hidden=\"true\">🎉</span>&nbsp;Vous avez retrouvé le bon format d’une adresse mail</p>",
-                "invalid": "<p>Incorrect ! pour avoir de l’aide, revenez en arrière <span aria-hidden=\"true\">⬆️</span></p>"
+                "valid": "<p>Correct ! <span aria-hidden='true'>🎉</span>&nbsp;Vous avez retrouvé le bon format d’une adresse mail</p>",
+                "invalid": "<p>Incorrect ! pour avoir de l’aide, revenez en arrière <span aria-hidden='true'>⬆️</span></p>"
               }
             }
           ]
@@ -180,8 +180,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p class=\"pix-list-inline\">Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>",
-                "invalid": "<p class=\"pix-list-inline\">Et si ! les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
+                "valid": "<p class='pix-list-inline'>Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>",
+                "invalid": "<p class='pix-list-inline'>Et si ! les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
               },
               "solution": "1"
             },
@@ -255,7 +255,7 @@
             {
               "id": "b0fcb950-b5b1-4384-886e-79fb852d5bb7",
               "type": "text",
-              "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Il peut y avoir des chiffres dans l’identifiant d’une adresse mail. Ils peuvent être n’importe où dans l’adresse. <br><span aria-hidden=\"true\">💡</span> Ça peut être utile si deux personnes ont le même nom et qu’elles veulent le même fournisseur d’adresse mail.</li><li>Il y a une seule @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
+              "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Il peut y avoir des chiffres dans l’identifiant d’une adresse mail. Ils peuvent être n’importe où dans l’adresse. <br/><span aria-hidden='true'>💡</span> Ça peut être utile si deux personnes ont le même nom et qu’elles veulent le même fournisseur d’adresse mail.</li><li>Il y a une seule @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br/><span aria-hidden='true'>✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
             }
           ]
         },
@@ -287,8 +287,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct ! <span aria-hidden=\"true\">🎉</span> Tout est en ordre : identifiant, arobase, fournisseur d'adresse mail</p>",
-                "invalid": "<p class=\"pix-list-inline\">Et non, essaie à nouveau <span aria-hidden=\"true\">⏮️</span> ! Voici de l'aide pour réussir :</p><ul><li>L'ordre à suivre est : identifiant, arobase, fournisseur d'adresse mail</li></ul><p>Les adresses mail fournies par Yahoo se terminent par yahoo.com</p>"
+                "valid": "<p>Correct ! <span aria-hidden='true'>🎉</span> Tout est en ordre : identifiant, arobase, fournisseur d'adresse mail</p>",
+                "invalid": "<p class='pix-list-inline'>Et non, essaie à nouveau <span aria-hidden='true'>⏮️</span> ! Voici de l'aide pour réussir :</p><ul><li>L'ordre à suivre est : identifiant, arobase, fournisseur d'adresse mail</li></ul><p>Les adresses mail fournies par Yahoo se terminent par yahoo.com</p>"
               }
             }
           ]
@@ -312,23 +312,19 @@
           "grainId": "f312c33d-e7c9-4a69-9ba0-913957b8f7dd"
         },
         {
-          "content": "<p>Chaque leçon a un objectif pédagogique précis.</p><p>Dans la prochaine leçon, nous vous proposons de découvrir Pix avec une courte vidéo <span aria-hidden=\"true\">▶️</span></p>",
+          "content": "<p>Chaque leçon a un objectif pédagogique précis.</p><p>Dans la prochaine leçon, nous vous proposons de découvrir Pix avec une courte vidéo <span aria-hidden='true'>▶️</span></p>",
           "grainId": "73ac3644-7637-4cee-86d4-1a75f53f0b9c"
         },
         {
-          "content": "<p>Vous allez faire votre première activité. Les activités servent à vérifier que vous avez compris l'essentiel des leçons.<br>Dans les activités Modulix, vous avez votre résultat immédiatement. À vous de jouer <span aria-hidden=\"true\">🚀</span></p>",
+          "content": "<p>Vous allez faire votre première activité. Les activités servent à vérifier que vous avez compris l'essentiel des leçons.<br>Dans les activités Modulix, vous avez votre résultat immédiatement. À vous de jouer <span aria-hidden='true'>🚀</span></p>",
           "grainId": "533c69b8-a836-41be-8ffc-8d4636e31224"
         },
         {
-          "content": "<p>Vous l’aurez compris, on aime varier les plaisirs et proposer différents types d’activité, après le questionnaire à choix unique on vous laisse découvrir le QCM !</p>",
-          "grainId": "0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"
-        },
-        {
-          "content": "<p>Vous l'avez peut-être remarqué : dans un module, vous pouvez voir tous les contenus en remontant la page <span aria-hidden=\"true\">⬆️</span>️</p>",
+          "content": "<p>Vous l'avez peut-être remarqué : dans un module, vous pouvez voir tous les contenus en remontant la page <span aria-hidden='true'>⬆️</span>️</p>",
           "grainId": "2a77a10f-19a3-4544-80f9-8012dad6506a"
         },
         {
-          "content": "<p>Vous arrivez à la fin de ce didacticiel. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez !<span aria-hidden=\"true\">🌟</span>️ </p>",
+          "content": "<p>Vous arrivez à la fin de ce didacticiel. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez !<span aria-hidden='true'>🌟</span>️ </p>",
           "grainId": "7cf75e70-8749-4392-8081-f2c02badb0fb"
         }
       ],
@@ -346,7 +342,7 @@
             {
               "id": "a2372bf4-86a4-4ecc-a188-b51f4f98bca2",
               "type": "text",
-              "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture <span aria-hidden=\"true\">📚</span>️.<br>Et là, voici une image !</p>"
+              "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture <span aria-hidden='true'>📚</span>️.<br>Et là, voici une image !</p>"
             },
             {
               "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
@@ -373,7 +369,7 @@
               "title": "Vidéo de présentation de Pix",
               "url": "https://videos.pix.fr/modulix/didacticiel/presentation.mp4",
               "subtitles": "-",
-              "transcription": "<p>Le numérique évolue en permanence, vos compétences aussi, pour travailler, communiquer et s'informer, se déplacer, réaliser des démarches, un enjeu tout au long de la vie.</p><p>Sur <a href=\"https://pix.fr\" target=\"blank\">pix.fr</a>, testez-vous et cultivez vos compétences numériques.</p><p>Les tests Pix sont personnalisés, les questions s'adaptent à votre niveau, réponse après réponse.</p><p>Évaluez vos connaissances et savoir-faire sur 16 compétences, dans 5 domaines, sur 5 niveaux de débutants à confirmer, avec des mises en situation ludiques, recherches en ligne, manipulation de fichiers et de données, culture numérique...</p><p>Allez à votre rythme, vous pouvez arrêter et reprendre quand vous le voulez.</p><p>Toutes les 5 questions, découvrez vos résultats et progressez grâce aux astuces et aux tutos.</p><p>En relevant les défis Pix, vous apprendrez de nouvelles choses et aurez envie d'aller plus loin.</p><p>Vous pensez pouvoir faire mieux ?</p><p>Retentez les tests et améliorez votre score.</p><p>Faites reconnaître officiellement votre niveau en passant la certification Pix, reconnue par l'État et le monde professionnel.</p><p>Pix : le service public en ligne pour évaluer, développer et certifier ses compétences numériques.</p>"
+              "transcription": "<p>Le numérique évolue en permanence, vos compétences aussi, pour travailler, communiquer et s'informer, se déplacer, réaliser des démarches, un enjeu tout au long de la vie.</p><p>Sur <a href='https://pix.fr' target='blank'>pix.fr</a>, testez-vous et cultivez vos compétences numériques.</p><p>Les tests Pix sont personnalisés, les questions s'adaptent à votre niveau, réponse après réponse.</p><p>Évaluez vos connaissances et savoir-faire sur 16 compétences, dans 5 domaines, sur 5 niveaux de débutants à confirmer, avec des mises en situation ludiques, recherches en ligne, manipulation de fichiers et de données, culture numérique...</p><p>Allez à votre rythme, vous pouvez arrêter et reprendre quand vous le voulez.</p><p>Toutes les 5 questions, découvrez vos résultats et progressez grâce aux astuces et aux tutos.</p><p>En relevant les défis Pix, vous apprendrez de nouvelles choses et aurez envie d'aller plus loin.</p><p>Vous pensez pouvoir faire mieux ?</p><p>Retentez les tests et améliorez votre score.</p><p>Faites reconnaître officiellement votre niveau en passant la certification Pix, reconnue par l'État et le monde professionnel.</p><p>Pix : le service public en ligne pour évaluer, développer et certifier ses compétences numériques.</p>"
             }
           ]
         },
@@ -398,7 +394,7 @@
               ],
               "feedbacks": {
                 "valid": "<p>Correct ! Ces 16 compétences sont rangées dans 5 domaines.</p>",
-                "invalid": "<p>Incorrect. Retourner voir la vidéo si besoin <span aria-hidden=\"true\">⬆️</span>️!</p>"
+                "invalid": "<p>Incorrect. Retourner voir la vidéo si besoin <span aria-hidden='true'>⬆️</span>️!</p>"
               },
               "solution": "1"
             }
@@ -437,7 +433,7 @@
               ],
               "feedbacks": {
                 "valid": "<p>Correct ! Vous nous avez bien cernés :)</p>",
-                "invalid": "<p>Et non ! Pix sert à évaluer, certifier et développer ses compétences numériques.</p>"
+                "invalid": "<p>Et non ! Pix sert à évaluer, certifier et développer ses compétences numériques."
               },
               "solutions": ["1", "3", "4"]
             }
@@ -498,7 +494,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct ! vous êtes prêt à explorer <span aria-hidden=\"true\">🎉</span></p>",
+                "valid": "<p>Correct ! vous êtes prêt à explorer <span aria-hidden='true'>🎉</span></p>",
                 "invalid": "<p>Incorrect ! vous y arriverez la prochaine fois !</p>"
               }
             }
@@ -522,11 +518,11 @@
       },
       "transitionTexts": [
         {
-          "content": "<p>Sur un ordinateur, on peut souvent brancher des appareils, comme une souris ou un clavier.<br>On peut aussi brancher une clé USB. Elle n’est pas toujours facile à brancher <span aria-hidden=\"true\">🤯</span></p>",
+          "content": "<p>Sur un ordinateur, on peut souvent brancher des appareils, comme une souris ou un clavier.<br>On peut aussi brancher une clé USB. Elle n’est pas toujours facile à brancher <span aria-hidden='true'>🤯</span></p>",
           "grainId": "8bb146db-104c-41e2-aa79-14f7a06e0930"
         },
         {
-          "content": "<p>Une clé USB se branche sur un port de connexion USB.<br>Ce n'est pas la seule ! Il y a d'autres objets qui se branchent aussi via USB. Voici quelques explications <span aria-hidden=\"true\">📚</span>.</p>",
+          "content": "<p>Une clé USB se branche sur un port de connexion USB.<br>Ce n'est pas la seule ! Il y a d'autres objets qui se branchent aussi via USB. Voici quelques explications <span aria-hidden='true'>📚</span>.</p>",
           "grainId": "75091cc6-61ca-4b9e-a6a0-89701ed721a8"
         },
         {
@@ -566,8 +562,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Ça arrive à tout le monde ! <span aria-hidden=\"true\">🏅</span></p>",
-                "invalid": "<p>Toujours ?! on ne vous croit pas... <span aria-hidden=\"true\">😉</span></p>"
+                "valid": "<p>Ça arrive à tout le monde ! <span aria-hidden='true'>🏅</span></p>",
+                "invalid": "<p>Toujours ?! on ne vous croit pas... <span aria-hidden='true'>😉</span></p>"
               },
               "solution": "2"
             }
@@ -673,7 +669,7 @@
             {
               "id": "270b0408-be92-484a-b9b2-5d302f01eecf",
               "type": "text",
-              "content": "<h4>Pour chaque affirmation, choisissez si elle est vraie ou fausse <span aria-hidden=\"true\">✅</span> <span aria-hidden=\"true\">❌</span></h4>"
+              "content": "<h4>Pour chaque affirmation, choisissez si elle est vraie ou fausse <span aria-hidden='true'>✅</span> <span aria-hidden='true'>❌</span></h4>"
             },
             {
               "id": "6f276b50-a00c-49f7-b22c-23dbef0c2bf2",
@@ -788,7 +784,7 @@
             {
               "id": "df4b59c7-b4d8-450c-985a-dc9bc9735f26",
               "type": "text",
-              "content": "<p>C’est un <strong>port de l’alimentation électrique</strong>.<br> Il sert à recharger son ordinateur ou à le connecter au réseau électrique <span aria-hidden=\"true\">🔌</span>. Sur les ordinateurs portables il y a beaucoup de variantes possibles et sur un ordinateur fixe il est plus gros.</p>"
+              "content": "<p>C’est un <strong>port de l’alimentation électrique</strong>.<br> Il sert à recharger son ordinateur ou à le connecter au réseau électrique <span aria-hidden='true'>🔌</span>. Sur les ordinateurs portables il y a beaucoup de variantes possibles et sur un ordinateur fixe il est plus gros.</p>"
             },
             {
               "id": "02e82529-bcbc-4d0d-b9ad-e50d28bec4f3",
@@ -805,7 +801,7 @@
             {
               "id": "466f1f93-de01-4c1e-9624-2783a875fcf2",
               "type": "text",
-              "content": "<p>C’est un <strong>port VGA</strong>.<br> On le reconnaît grâce à sa forme et ses petits pointillés. Ce port sert à connecter un écran ou un vidéo-projecteur à l’ordinateur <span aria-hidden=\"true\">📽️</span>.</p>"
+              "content": "<p>C’est un <strong>port VGA</strong>.<br> On le reconnaît grâce à sa forme et ses petits pointillés. Ce port sert à connecter un écran ou un vidéo-projecteur à l’ordinateur <span aria-hidden='true'>📽️</span>.</p>"
             },
             {
               "id": "3a445423-faac-460b-b407-c8d80dfeb5d3",
@@ -822,7 +818,7 @@
             {
               "id": "86851d7d-0ce8-48a3-b8ac-433da8134dec",
               "type": "text",
-              "content": "<p>C’est un <strong>port HDMI</strong>.<br> On peut le reconnaître grâce à sa forme et il y a souvent la mention “HDMI” juste à côté. Ce port sert principalement à connecter un écran ou un vidéo-projecteur à l’ordinateur, comme le port VGA <span aria-hidden=\"true\">📽️</span>.</p>"
+              "content": "<p>C’est un <strong>port HDMI</strong>.<br> On peut le reconnaître grâce à sa forme et il y a souvent la mention “HDMI” juste à côté. Ce port sert principalement à connecter un écran ou un vidéo-projecteur à l’ordinateur, comme le port VGA <span aria-hidden='true'>📽️</span>.</p>"
             },
             {
               "id": "4ad6f499-244f-4f74-9112-feaebdd62305",
@@ -839,7 +835,7 @@
             {
               "id": "706f1c55-3009-4cff-affe-6548076d65ac",
               "type": "text",
-              "content": "<p>C’est un <strong>port USB</strong>.<br> Il sert à connecter différents appareils externes à l’ordinateur <span aria-hidden=\"true\">🖱️</span> <span aria-hidden=\"true\">🎮</span>.</p>"
+              "content": "<p>C’est un <strong>port USB</strong>.<br> Il sert à connecter différents appareils externes à l’ordinateur <span aria-hidden='true'>🖱️</span> <span aria-hidden='true'>🎮</span>.</p>"
             },
             {
               "id": "aa3f93df-8348-47f2-bb3c-2c32c114fcd0",
@@ -856,7 +852,7 @@
             {
               "id": "be359a9d-19d2-49a7-8699-8921156e554c",
               "type": "text",
-              "content": "<p>C’est un <strong>port ethernet</strong>.<br> Il est utilisé pour connecter l’ordinateur à internet grâce à un câble éthernet <span aria-hidden=\"true\">🌐</span>. Le câble ethernet relie l’ordinateur à la box internet.</p>"
+              "content": "<p>C’est un <strong>port ethernet</strong>.<br> Il est utilisé pour connecter l’ordinateur à internet grâce à un câble éthernet <span aria-hidden='true'>🌐</span>. Le câble ethernet relie l’ordinateur à la box internet.</p>"
             },
             {
               "id": "53eca1dc-8f9f-46bc-a132-1c1e65fadb70",
@@ -873,7 +869,7 @@
             {
               "id": "12ac3b9a-286c-4587-9a0d-6dc56e13caf9",
               "type": "text",
-              "content": "<p>C’est un <strong>port jack</strong>. On dit aussi <strong>prise jack</strong>.<br> Il est petit et rond. Il est souvent accompagné d’une image de casque <span aria-hidden=\"true\">🎧</span>. Il sert à connecter des appareils audios à l’ordinateur : écouteurs, casque, micro, etc.</p>"
+              "content": "<p>C’est un <strong>port jack</strong>. On dit aussi <strong>prise jack</strong>.<br> Il est petit et rond. Il est souvent accompagné d’une image de casque <span aria-hidden='true'>🎧</span>. Il sert à connecter des appareils audios à l’ordinateur : écouteurs, casque, micro, etc.</p>"
             },
             {
               "id": "117eebac-f2be-4a14-808a-7adcceabf653",
@@ -917,7 +913,7 @@
           "grainId": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8"
         },
         {
-          "content": "<p>C’est très clair : si tout le monde utilise le même mot de passe, ça ne sert pas à grand chose !<br>Regardons d’un peu plus près les situations dont il faut se protéger...</p>",
+          "content": "<p>C’est très clair : si tout le monde utilise le même mot de passe, ça ne sert pas à grand chose !<br />Regardons d’un peu plus près les situations dont il faut se protéger...</p>",
           "grainId": "831fd61c-54ae-4b21-bd3f-61f40887a869"
         },
         {
@@ -929,7 +925,7 @@
           "grainId": "1564f763-5ba5-48ef-b752-dac463319899"
         },
         {
-          "content": "<p>Cela fait beaucoup de règles à respecter !<br>Et si on essayait d'utiliser une méthode pour que ce soit un peu plus facile ?</p>",
+          "content": "<p>Cela fait beaucoup de règles à respecter !<br />Et si on essayait d'utiliser une méthode pour que ce soit un peu plus facile ?</p>",
           "grainId": "f6bd140c-4f63-4fe7-94f4-b4d7a51db7a5"
         },
         {
@@ -984,17 +980,17 @@
             {
               "id": "826281e7-865f-462d-abc0-77537c42a2b4",
               "type": "text",
-              "content": "<h4><span aria-hidden=\"true\">🔮&nbsp;</span>Une personne a deviné votre mot de passe…</h4>Une personne qui vous connaît bien a accès à de nombreuses informations vous concernant. <br><p>Si vous utilisez des informations privées en guise de mot de passe, il est probable qu’une personne de votre entourage puisse deviner facilement votre mot de passe et ainsi accéder à des données privées. Et ce n’est peut être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.<span aria-hidden=\"true\"> 🙃</span></p>"
+              "content": "<h4><span aria-hidden='true'>🔮&nbsp;</span>Une personne a deviné votre mot de passe…</h4><p>Une personne qui vous connaît bien a accès à de nombreuses informations vous concernant. <br />Si vous utilisez des informations privées en guise de mot de passe, il est probable qu’une personne de votre entourage puisse deviner facilement votre mot de passe et ainsi accéder à des données privées. Et ce n’est peut être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.<span aria-hidden='true'> 🙃</span></p>"
             },
             {
               "id": "9d0b7aff-a9da-453f-a6ba-c61fbaa7bb25",
               "type": "text",
-              "content": "<h4><span aria-hidden=\"true\">🤖&nbsp;</span>Un programme a deviné votre mot de passe…</h4><p>En 2023, un mot de passe de 8 caractères avec minuscules, majuscules, nombres et caractères spéciaux sera piraté en 5 minutes seulement ! <span aria-hidden=\"true\">😰 </span>Avec 12 caractères, cette durée passe à 226 ans ! <span aria-hidden=\"true\">😮 </span><br>En général, dans le cas d’attaques automatisées, votre attaquant ne vous connaît pas personnellement, et cherche certainement à revendre vos informations ou à vous soutirer de l’argent.</p>"
+              "content": "<h4><span aria-hidden='true'>🤖&nbsp;</span>Un programme a deviné votre mot de passe…</h4><p>En 2023, un mot de passe de 8 caractères avec minuscules, majuscules, nombres et caractères spéciaux sera piraté en 5 minutes seulement ! <span aria-hidden='true'>😰 </span>Avec 12 caractères, cette durée passe à 226 ans ! <span aria-hidden='true'>😮 </span><br />En général, dans le cas d’attaques automatisées, votre attaquant ne vous connaît pas personnellement, et cherche certainement à revendre vos informations ou à vous soutirer de l’argent.</p>"
             },
             {
               "id": "e17089d4-a166-4bf4-a18b-155caaebe081",
               "type": "text",
-              "content": "<h4><span aria-hidden=\"true\">🔓&nbsp;</span>Votre mot de passe est compromis…</h4><p>Qu’il s’agisse d’une attaque automatisée ou d’une attaque ciblée vous concernant, si votre mot de passe a été deviné, les conséquences peuvent être graves. En particulier si le mot de passe compromis est celui de votre boîte mail <span aria-hidden=\"true\">😬</span></p>"
+              "content": "<h4><span aria-hidden='true'>🔓&nbsp;</span>Votre mot de passe est compromis…</h4><p>Qu’il s’agisse d’une attaque automatisée ou d’une attaque ciblée vous concernant, si votre mot de passe a été deviné, les conséquences peuvent être graves. En particulier si le mot de passe compromis est celui de votre boîte mail <span aria-hidden='true'>😬</span></p>"
             }
           ]
         },
@@ -1006,7 +1002,7 @@
             {
               "id": "7ef31e68-e798-4a92-86a0-ad61ebd9b915",
               "type": "text",
-              "content": "<p>Austin est producteur de miel dans les Vosges. Austin</p><ul><li>est né le 15 novembre 1984,</li><li>a un enfant qui s’appelle Bill.</li></ul><p>Il a utilisé ces deux informations pour créer son mot de passe.</p>"
+              "content": "<p>Austin est producteur de miel dans les Vosges. Austin<ul><li>est né le 15 novembre 1984,</li><li>a un enfant qui s’appelle Bill.</li></ul>Il a utilisé ces deux informations pour créer son mot de passe.</p>"
             },
             {
               "id": "2695bb89-112c-49d1-80b2-469d824af58f",
@@ -1091,7 +1087,7 @@
             {
               "id": "fd4b05ee-8cda-4bfe-b18a-468f1a895f80",
               "type": "text",
-              "content": "<h4>Voici la méthode pour construire un mot de passe sécurisé</h4><p>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em><br>Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !<br>Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><br>Maintenant à vous de jouer </p>"
+              "content": "<h4>Voici la méthode pour construire un mot de passe sécurisé</h4><p>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em><br />Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !<br />Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><br />Maintenant à vous de jouer </p>"
             },
             {
               "id": "718ee7f6-19bf-4787-a025-2a70b89c6288",
@@ -1112,8 +1108,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Bien vu ! Vous maîtrisez maintenant la méthode, à vous de jouer <span aria-hidden=\"true\">😁</span></p>",
-                "invalid": "<p>Et non ! Essayez peut-être de vérifier la ponctuation ? <span aria-hidden=\"true\">🧐</span></p>"
+                "valid": "<p>Bien vu ! Vous maîtrisez maintenant la méthode, à vous de jouer <span aria-hidden='true'>😁</span></p>",
+                "invalid": "<p>Et non ! Essayez peut-être de vérifier la ponctuation ? <span aria-hidden='true'>🧐</span></p>"
               }
             }
           ]
@@ -1157,7 +1153,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct ! <span aria-hidden=\"true\">🎉</span> </p>",
+                "valid": "<p>Correct ! <span aria-hidden='true'>🎉</span> </p>",
                 "invalid": "<p>Incorrect !</p>"
               },
               "solution": "1"
@@ -1177,7 +1173,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct ! <span aria-hidden=\"true\">🎉</span> </p>",
+                "valid": "<p>Correct ! <span aria-hidden='true'>🎉</span> </p>",
                 "invalid": "<p>Incorrect !</p>"
               },
               "solution": "1"
@@ -1197,7 +1193,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct ! <span aria-hidden=\"true\">🎉</span> </p>",
+                "valid": "<p>Correct ! <span aria-hidden='true'>🎉</span> </p>",
                 "invalid": "<p>Incorrect !</p>"
               },
               "solution": "1"
@@ -1238,23 +1234,23 @@
       },
       "transitionTexts": [
         {
-          "content": "<p>En naviguant sur internet, il arrive qu'un site sache où vous vous trouvez alors que vous n'avez pas partagé votre localisation <span aria-hidden=\"true\">📍</span>️<br>Mystère ? Pas vraiment. On vous explique tout dans ce module.</p>",
+          "content": "<p>En naviguant sur internet, il arrive qu'un site sache où vous vous trouvez alors que vous n'avez pas partagé votre localisation <span aria-hidden='true'>📍</span>️<br>Mystère ? Pas vraiment. On vous explique tout dans ce module.</p>",
           "grainId": "1d516eb9-e7b7-48a3-a3b5-7971ad171d6f"
         },
         {
-          "content": "<p>Dans la vidéo suivante, on vous explique ce qu'est une adresse IP publique et à quoi elle sert&nbsp;<span aria-hidden=\"true\">▶️</span>️</p>",
+          "content": "<p>Dans la vidéo suivante, on vous explique ce qu'est une adresse IP publique et à quoi elle sert&nbsp;<span aria-hidden='true'>▶️</span>️</p>",
           "grainId": "4f4ada91-e239-4991-9fc8-ab491aabc424"
         },
         {
-          "content": "<p>Vous en savez désormais plus sur les adresses IP publiques&nbsp;<span aria-hidden=\"true\">👩‍💻</span>️<span aria-hidden=\"true\">👨🏿‍💻</span>️. Pour le vérifier, répondez à cette question. </p>",
+          "content": "<p>Vous en savez désormais plus sur les adresses IP publiques&nbsp;<span aria-hidden='true'>👩‍💻</span>️<span aria-hidden='true'>👨🏿‍💻</span>️. Pour le vérifier, répondez à cette question. </p>",
           "grainId": "eba0b676-c0c4-4b32-b5e4-dd94d13766a5"
         },
         {
-          "content": "<p>Lorsque vous êtes en ligne, votre IP publique est partagée et utilisée. Mais savez-vous quelles informations cette adresse donne sur vous ? <span aria-hidden=\"true\">👁️‍🗨️</span>️</p>",
+          "content": "<p>Lorsque vous êtes en ligne, votre IP publique est partagée et utilisée. Mais savez-vous quelles informations cette adresse donne sur vous ? <span aria-hidden='true'>👁️‍🗨️</span>️</p>",
           "grainId": "96cdedc1-2d31-40c2-ac02-d3fd83f26e30"
         },
         {
-          "content": "<p>On l'a vu, on peut déterminer une zone géographique à partir d'une adresse IP publique. Place à la pratique&nbsp;<span aria-hidden=\"true\">🌍</span>️&nbsp;!</p>",
+          "content": "<p>On l'a vu, on peut déterminer une zone géographique à partir d'une adresse IP publique. Place à la pratique&nbsp;<span aria-hidden='true'>🌍</span>️&nbsp;!</p>",
           "grainId": "09304128-193f-4ea8-bda7-edffd72b1bf2"
         },
         {
@@ -1275,7 +1271,7 @@
             {
               "id": "67b68f2a-349d-4df7-90a5-c9f5dc930a1a",
               "type": "text",
-              "content": "<p> Voici la page de résultats d'une recherche en ligne sur des recettes végétariennes <span aria-hidden=\"true\">🥗</span>️<br>Le moteur de recherche indique que l'utilisateur se trouve actuellement vers Toulouse.</p>"
+              "content": "<p> Voici la page de résultats d'une recherche en ligne sur des recettes végétariennes <span aria-hidden='true'>🥗</span>️<br>Le moteur de recherche indique que l'utilisateur se trouve actuellement vers Toulouse.</p>"
             },
             {
               "id": "2098be0b-e994-4bcd-8e52-5a6559963f8c",
@@ -1446,7 +1442,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct. Au mieux, on peut connaître votre pays ou votre ville. Si quelqu’un vous menace de venir chez vous juste parce qu’elle connaît votre adresse IP … c’est du bluff ! <span aria-hidden=\"true\">😎</span>️</p>",
+                "valid": "<p>Correct. Au mieux, on peut connaître votre pays ou votre ville. Si quelqu’un vous menace de venir chez vous juste parce qu’elle connaît votre adresse IP … c’est du bluff ! <span aria-hidden='true'>😎</span>️</p>",
                 "invalid": "<p>Incorrect. Une adresse IP permet d'identifier un pays voire une ville de connexion, mais difficile d’en savoir plus !</p>"
               },
               "solution": "2"
@@ -1461,7 +1457,7 @@
             {
               "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
               "type": "text",
-              "content": "<h3>Ce qu'il faut retenir <span aria-hidden=\"true\">🎓</span>️</h3><br><p>L’adresse IP publique donne une information sur la zone géographique de la connexion.</p><br><p>Votre adresse IP publique est celle de votre point d’accès (box) internet.</p><br><p>Les personnes connectées au même point d’accès ont la même adresse IP publique.</p><br><p>À partir d'une adresse IP publique, on peut seulement identifier un pays voire une ville de connexion. Les fournisseurs d'accès internet et les autorités peuvent cependant avoir des informations beaucoup plus complètes sur la base d'une IP publique.</p>"
+              "content": "<h3>Ce qu'il faut retenir <span aria-hidden='true'>🎓</span>️</h3><br><p>L’adresse IP publique donne une information sur la zone géographique de la connexion.</p><br><p>Votre adresse IP publique est celle de votre point d’accès (box) internet.</p><br><p>Les personnes connectées au même point d’accès ont la même adresse IP publique.</p><br>À partir d'une adresse IP publique, on peut seulement identifier un pays voire une ville de connexion. Les fournisseurs d'accès internet et les autorités peuvent cependant avoir des informations beaucoup plus complètes sur la base d'une IP publique.</p>"
             }
           ]
         },
@@ -1473,7 +1469,7 @@
             {
               "id": "21842978-ba1c-4e16-8c2a-c7d1db082c2a",
               "type": "qrocm",
-              "instruction": "<p>Dans quel pays est située l’adresse IP suivante&nbsp;? <strong>77.205.153.196</strong></p>",
+              "instruction": "<p>Dans quel pays est située l’adresse IP suivante&nbsp;? <strong>77.205.153.196</strong>",
               "proposals": [
                 {
                   "input": "pays",
@@ -1489,7 +1485,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct <span aria-hidden=\"true\">🎉</span></p>",
+                "valid": "<p>Correct <span aria-hidden='true'>🎉</span></p>",
                 "invalid": "<p>Incorrect. Pour réussir, faites une recherche sur internet avec les mots-clés \"localisation adresse IP\".</p>"
               }
             }
@@ -1539,7 +1535,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct <span aria-hidden=\"true\">🎉</span></p>",
+                "valid": "<p>Correct <span aria-hidden='true'>🎉</span></p>",
                 "invalid": "<p>Incorrect. L'IP privée (locale) est visible uniquement par les appareils du réseaux local.</p>"
               },
               "solution": "1"
@@ -1559,7 +1555,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct <span aria-hidden=\"true\">🎉</span></p>",
+                "valid": "<p>Correct <span aria-hidden='true'>🎉</span></p>",
                 "invalid": "<p>Incorrect. L'IP publique permet les échanges entre une box internet et les sites visités.</p>"
               },
               "solution": "2"
@@ -1579,7 +1575,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct <span aria-hidden=\"true\">🎉</span></p>",
+                "valid": "<p>Correct <span aria-hidden='true'>🎉</span></p>",
                 "invalid": "<p>Incorrect. L'adresse IP publique est spécifique à la box internet, pas les appreils qui y sont connectés.</p>"
               },
               "solution": "2"
@@ -1594,12 +1590,12 @@
             {
               "id": "786e42f3-e33b-46e0-be56-59fa9f26d3bf",
               "type": "text",
-              "content": "<h4>Pour finir ce module, trouvez votre adresse IP publique actuelle <span aria-hidden=\"true\">🕵️‍♂️</span>️<span aria-hidden=\"true\">🕵🏽‍♀️</span>️</h4>"
+              "content": "<h4>Pour finir ce module, trouvez votre adresse IP publique actuelle <span aria-hidden='true'>🕵️‍♂️</span>️<span aria-hidden='true'>🕵🏽‍♀️</span>️</h4>"
             },
             {
               "id": "1203cc2d-fc07-4641-88f8-2b3d42020b39",
               "type": "text",
-              "content": "<p><span aria-hidden=\"true\">🗝️</span>️ Pour vérifier votre réponse, suivez ce lien vers <a href=\"http://monip.org/\" target=\"_blank\">le site monip.org</a></p>"
+              "content": "<p><span aria-hidden='true'>🗝️</span>️ Pour vérifier votre réponse, suivez ce lien vers <a href=\"http://monip.org/\" target=\"_blank\">le site monip.org</a></p>"
             }
           ]
         }
@@ -1614,19 +1610,15 @@
         "description": "Sur internet, de nombreuses informations circulent. Certaines sont vraies, d'autres sont fausses. Dans ce module, vous appliquerez des méthodes pour analyser une information et aiguiser votre esprit critique !",
         "duration": 10,
         "level": "Intermédiaire",
-        "objectives": [
-          "Vérifier une information en ligne",
-          "Connaître et appliquer une méthode de vérification d’une information",
-          "Repérer une information douteuse et agir en conséquence"
-        ]
+        "objectives": ["Vérifier une information en ligne", "Connaître et appliquer une méthode de vérification d’une information", "Repérer une information douteuse et agir en conséquence"]
       },
       "transitionTexts": [
         {
-          "content": "<p>Commençons par un jeu <span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, devinez si l’information proposée est vraie ou fausse. Bonne chance !</p>",
+          "content": "<p>Commençons par un jeu <span aria-hidden='true'>🎮</span>️<br>Sans chercher sur internet, devinez si l’information proposée est vraie ou fausse. Bonne chance !</p>",
           "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
         },
         {
-          "content": "<p>En lisant seulement le titre d’un article, c’est presque impossible d’être sûr de ce qui est vrai ou faux <span aria-hidden=\"true\">🤔</span>️<br>Pour vérifier une information, il y a une méthode à suivre <span aria-hidden=\"true\">📚</span>️</p>",
+          "content": "<p>En lisant seulement le titre d’un article, c’est presque impossible d’être sûr de ce qui est vrai ou faux <span aria-hidden='true'>🤔</span>️<br>Pour vérifier une information, il y a une méthode à suivre <span aria-hidden='true'>📚</span>️</p>",
           "grainId": "eb83569f-2e37-49ed-aa6f-31c420b673b9"
         },
         {
@@ -1638,7 +1630,7 @@
           "grainId": "428ea826-6e21-4c56-a5a2-f97373f1e833"
         },
         {
-          "content": "<p>Maintenant, à vous d’étudier une situation <span aria-hidden=\"true\">🕵️</span>️<span aria-hidden=\"true\">🕵🏿‍♀️</span>️</p>",
+          "content": "<p>Maintenant, à vous d’étudier une situation <span aria-hidden='true'>🕵️</span>️<span aria-hidden='true'>🕵🏿‍♀️</span>️</p>",
           "grainId": "9f56f75e-3e2d-4a6e-8623-9b74747b236d"
         }
       ],
@@ -1920,7 +1912,7 @@
               ],
               "feedbacks": {
                 "valid": "<p>Correct. Vous allez maintenant pouvoir appliquer cette méthode. </p>",
-                "invalid": "<p>Incorrect. Retourner voir la vidéo si besoin <span aria-hidden=\"true\">⬆</span>️!</p>"
+                "invalid": "<p>Incorrect. Retourner voir la vidéo si besoin <span aria-hidden='true'>⬆</span>️!</p>"
               },
               "solutions": ["2", "3", "5"]
             }
@@ -2073,7 +2065,7 @@
             {
               "id": "eb90d3ea-797f-4e4a-9675-e679b9f5bf3c",
               "type": "text",
-              "content": "<p>Stéphane a du mal à faire pousser sa nouvelle plante verte d’intérieur <span aria-hidden=\"true\">🪴</span>️. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve ces informations publiées par SuperJardinier le 28 août 2023 :</p>"
+              "content": "<p>Stéphane a du mal à faire pousser sa nouvelle plante verte d’intérieur <span aria-hidden='true'>🪴</span>️. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve ces informations publiées par SuperJardinier le 28 août 2023 :</p>"
             },
             {
               "id": "2c525ab3-23bf-4b43-867d-ea1fac54efad",
@@ -2109,6 +2101,376 @@
                 "invalid": "<p>Incorrect. Plusieurs indices dans cette information poussent à vouloir en savoir plus avant d'agir, notamment l'absence de source.</p>"
               },
               "solutions": ["2", "3"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a64d1ca8-5222-464a-ae0c-e8bbdf949e18",
+      "slug": "principes-fondateurs-wikipedia",
+      "title": "Les principes fondateurs de Wikipédia",
+      "details": {
+        "image": "https://images.pix.fr/modulix/placeholder-details.svg",
+        "description": "Wikipédia est un site très connu, que vous avez sans doute déjà utilisé. Dans ce module, vous trouverez des explications sur les principes de Wikipédia et des méthodes pour l'utiliser efficacement.",
+        "duration": 10,
+        "level": "Intermédiaire",
+        "objectives": ["Connaître les principes fondateurs de Wikipédia", "Connaître des caractéristiques et fonctionnalités spécifiques à Wikipédia", "Trouver et évaluer des informations dans un article Wikipédia"]
+      },
+      "transitionTexts": [
+        {
+          "content": "<p>Vous avez fort probablement déjà utilisé une fois Wikipédia dans votre vie. Mais connaissez-vous par exemple la signification de son logo ? <span aria-hidden='true'>🌎</span>️ <span aria-hidden='true'>🧩</span>️</p>",
+          "grainId": "da95d2bc-e597-4366-a095-21f7ab0f4845"
+        },
+        {
+          "content": "<p> Wikipédia a toujours été un site particulier dans le paysage d'internet, notamment de par ses cinq principes fondateurs. </p>",
+          "grainId": "b7f1f203-cf5d-4da8-bfa2-46e01a625f61"
+        },
+        {
+          "content": "<p>On l'a vu, Wikipédia a une philosophie unique. Répondez à cette question pour vérifier que vous avez compris l'essentiel.</p>",
+          "grainId": "9a3926dd-750c-4b89-b1d0-9a286fe2d9e4"
+        },
+        {
+          "content": "<p>Des personnes du monde entier utilisent Wikipédia et y contribuent. Ainsi, les articles sont fréquemment disponibles dans plusieurs langues.</p>",
+          "grainId": "5f048ad8-d008-4956-840b-37e84138b433"
+        },
+        {
+          "content": "<p>Par ailleurs, comme n’importe quel site internet, Wikipédia a besoin d’argent pour fonctionner <span aria-hidden='true'>💰</span>️ </p>",
+          "grainId": "09b21f5f-b7e7-4c7a-9059-bdb2a2be246d"
+        },
+        {
+          "content": "<p>Après la théorie, un peu de pratique. Voici des méthodes pour trouver et évaluer des informations sur Wikipédia. </p>",
+          "grainId": "d8ed222f-2a22-44a6-affe-fe6047689b2e"
+        },
+        {
+          "content": "<p></p>",
+          "grainId": "cbf15e50-8f82-47a6-affd-8494c688b606"
+        }
+      ],
+      "grains": [
+        {
+          "id": "da95d2bc-e597-4366-a095-21f7ab0f4845",
+          "type": "lesson",
+          "title": "Wikipédia : un site de référence !",
+          "elements": [
+            {
+              "id": "30b9ada4-a87a-4dfb-baa2-d97925b0bba5",
+              "type": "text",
+              "content": "<p>Depuis sa création en 2001, Wikipédia a fait évoluer son logo à trois reprises.<br> Désormais, le logo représente un globe composé de pièces de puzzle avec différents symboles.</p>"
+            },
+            {
+              "id": "a4a95061-c1c4-475a-9cb8-c64928d40b8c",
+              "type": "image",
+              "url": "https://i.imgur.com/ojp29lQ.png",
+              "alt": "Logos de Wikipédia de 2001 à 2010. Source : https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia. Licence : CC BY-SA 3.0 DEED",
+              "alternativeText": ""
+            },
+
+            {
+              "id": "d5acb701-fd9c-40d4-b59d-fb2fd8f6b3fe",
+              "type": "qcm",
+              "instruction": "<p>Selon vous, quelles sont les deux phrases qui décrivent le mieux la signification du logo actuel de Wikipédia ?</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "Le globe est incomplet car Wikipédia est constamment en construction."
+                },
+                {
+                  "id": "2",
+                  "content": "Le globe est incomplet car Wikipédia est et sera toujours ouvert."
+                },
+                {
+                  "id": "3",
+                  "content": "Les symboles représentent la diversité des savoirs rassemblés sur Wikipédia."
+                },
+                {
+                  "id": "4",
+                  "content": "Les symboles représentent la diversité des langues existantes sur Wikipédia."
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct !</p>",
+                "invalid": "<p>Incorrect. La construction permanente et la diversité des langues de Wikipédia sont symbolisés prioritairement à travers ce logo.</p>"
+              },
+              "solutions": [
+                "1",
+                "4"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "b7f1f203-cf5d-4da8-bfa2-46e01a625f61",
+          "type": "lesson",
+          "title": "Les principes fondateurs de Wikipédia",
+          "elements": [
+            {
+              "id": "afc8b60f-c2c1-405b-a6a4-a0e08e23ccc3",
+              "type": "text",
+              "content": "<h4> Principe n°1 : Wikipédia est une encyclopédie en ligne&nbsp;<span aria-hidden='true'>📖</span>️</h4><p>Des connaissances du monde y sont rassemblées, classées et exposées méthodiquement. Ce n'est pas un jounal ou encore un réseau social.</p>"
+            },
+            {
+              "id": "3bbf40bb-acd0-466f-a1ce-5c4bf9ccee8e",
+              "type": "text",
+              "content": "<p><hr></p>"
+            },
+            {
+              "id": "81710de7-1311-4980-81f5-87944e56de28",
+              "type": "text",
+              "content": "<h4>Principe n°2 : Wikipédia propose des contenus les plus neutres possibles&nbsp;<span aria-hidden='true'>⚖️</span>️</h4>Une opinion ou un point de vue unique n’ont pas leur place. Si besoin, les divers points de vue sont présentés, sans jugement de valeur.</p>"
+            },
+            {
+              "id": "20ed0b8b-a858-440e-a587-4856f96ef5be",
+              "type": "text",
+              "content": "<p><hr></p>"
+            },
+            {
+              "id": "78385472-07b0-4229-bfb8-a10636690300",
+              "type": "text",
+              "content": "<h4>Principe n°3 : Wikipédia est publié sous licence libre&nbsp;<span aria-hidden='true'>🪁</span>️</h4>En résumé, chacun peut créer, copier, modifier et partager le contenu qui se trouve sur Wikipédia. Certaines conditions doivent tout de même être respectées.</p>"
+            },
+            {
+              "id": "929661f0-ca4c-40fb-9df2-7832e97192e3",
+              "type": "text",
+              "content": "<p><hr></p>"
+            },
+            {
+              "id": "df11aa2c-1ebf-4a60-99a3-533dfc06756d",
+              "type": "text",
+              "content": "<h4>Principe n°4 : Wikipédia est un projet collaboratif&nbsp;<span aria-hidden='true'>🙋🏽‍♂️</span>️<span aria-hidden='true'>🙋🏻‍♀️</span>️<span aria-hidden='true'>🙋🏿‍♀️</span>️<span aria-hidden='true'>🙋‍♂️</span>️</h4>C’est probablement sa caractéristique la plus remarquable. Cela signifie que tout le monde peut améliorer les contenus de Wikipédia ! Des règles claires de savoir-vivre doivent être respéctées.</p>"
+            },
+            {
+              "id": "beeddb72-5395-46d0-b320-a679f860eca33",
+              "type": "text",
+              "content": "<p><hr></p>"
+            },
+            {
+              "id": "ca62ac2d-950d-4c00-b14d-2ac9e7d509f2",
+              "type": "text",
+              "content": "<h4>Principe n°5 : Wikipédia n’a pas d’autres règles fixes que celles présentées ci-dessus&nbsp;<span aria-hidden='true'>📜</span>️</h4><p>Il est toutefois possible de proposer et de créer des règles pour améliorer continuement Wikipédia, en accord avec ces principes."
+            }
+          ]
+        },
+        {
+          "id": "9a3926dd-750c-4b89-b1d0-9a286fe2d9e4",
+          "type": "activity",
+          "title": "Les principes fondateurs de Wikipédia",
+          "elements": [
+            {
+              "id": "b15e1ab7-9f62-458b-8bfe-f039028a808b",
+              "type": "qcm",
+              "instruction": "<p>Sélectionner les mots-clés qui correspondent aux principes fondateurs de Wikipédia.</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "Collaboratif"
+                },
+                {
+                  "id": "2",
+                  "content": "Académique"
+                },
+                {
+                  "id": "3",
+                  "content": "Neutre"
+                },
+                {
+                  "id": "4",
+                  "content": "Libre"
+                },
+                {
+                  "id": "5",
+                  "content": "Exhaustif"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct. Vous avez bien identifié les principes de Wikipédia. </p>",
+                "invalid": "<p>Incorrect. Remonter la page pour relire la leçon <span aria-hidden='true'>⬆</span>️</p>"
+              },
+              "solutions": [
+                "1",
+                "3",
+                "4"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "5f048ad8-d008-4956-840b-37e84138b433",
+          "type": "activity",
+          "title": "Le nombre de langues dans Wikipedia",
+          "elements": [
+            {
+              "id": "c99efced-e183-4f4f-aec7-07a5da13294a",
+              "type": "qcu",
+              "instruction": "<p>Selon vous, dans combien de langues environ Wikipédia existe-t-il ?</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "100"
+                },
+                {
+                  "id": "2",
+                  "content": "250"
+                },
+                {
+                  "id": "3",
+                  "content": "400"
+                },
+                {
+                  "id": "4",
+                  "content": "700"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct. Il y a une représentation inégales entre ces langues : on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>",
+                "invalid": "<p>Incorrect. La réponse est 250.<br>Il y a une représentation inégales entre ces langues : on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
+              },
+              "solution": "2"
+            }
+          ]
+        },
+        {
+          "id": "09b21f5f-b7e7-4c7a-9059-bdb2a2be246d",
+          "type": "activity",
+          "title": "Le financement de Wikipédia",
+          "elements": [
+            {
+              "id": "46dec681-51e7-44f8-9422-9ccd77125f8b",
+              "type": "qcu",
+              "instruction": "<p>Selon vous, comment est-ce que Wikipédia est financé ?</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "les publicités"
+                },
+                {
+                  "id": "2",
+                  "content": "les abonnements payants"
+                },
+                {
+                  "id": "3",
+                  "content": "les dons"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Oui. Wikipédia est gérée par une association à but non lucratif, financée par des donations d’utilisateurs.</p>",
+                "invalid": "<p>Incorrect. Sinon, son principe de neutralité serait mis en défaut. Wikipédia est gérée par une association à but non lucratif, financée par des donations d’utilisateurs.</p>"
+              },
+              "solution": "3"
+            }
+          ]
+        },
+        {
+          "id": "d8ed222f-2a22-44a6-affe-fe6047689b2e",
+          "type": "lesson",
+          "title": "Trouver efficacement des informations dans un article Wikipédia",
+          "elements": [
+            {
+              "id": "10e352a0-0c46-4348-b392-dedc22a32960",
+              "type": "text",
+              "content": "<p>À la suite de cette vidéo, vous devrez naviguer dans un sommaire et identifier la qualité d'un article Wikipédia donné.</p>"
+            },
+            {
+              "id": "5d6862bf-899f-4f2e-ac63-185b9a209e1c",
+              "type": "video",
+              "title": "Une vidéo",
+              "url": "https://videos.pix.fr/modulix/placeholder-video.mp4",
+              "subtitles": "https://videos.pix.fr/modulix/placeholder-video.vtt",
+              "transcription": "<p>[TODO] cf. script</p>"
+            }
+          ]
+        },
+        {
+          "id": "cbf15e50-8f82-47a6-affd-8494c688b606",
+          "type": "lesson",
+          "title": "Trouver efficacement des informations dans un article Wikipédia",
+          "elements": [
+            {
+              "id": "01eb319e-8219-425a-b66f-00f8f73a4842",
+              "type": "text",
+              "content": "<h4>Répondez aux questions ci-dessous en naviguant dans  <a href='https://fr.wikipedia.org/wiki/Charlie_Chaplin' target='blank'>l'article Wikipédia de Charlie Chaplin.</a></h4>"
+            },
+            {
+              "id": "cfcd33f1-3544-491d-95b4-0d028084ff32",
+              "type": "text",
+              "content": "<hr>"
+            },
+            {
+              "id": "ea12a08f-fa0b-4693-a1fd-8a5baf27f494",
+              "type": "qrocm",
+              "instruction": "<p>Dans le sommaire de cet article, le nom de la première section est <strong>Début</strong>. Quel est le nom de la cinquième section ?</p>",
+              "proposals": [
+                {
+                  "type": "text",
+                  "content": "<p>Nom de la cinquième section :</p>"
+                },
+                {
+                  "input": "cinquieme-section",
+                  "type": "input",
+                  "inputType": "text",
+                  "size": 20,
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Remplir le nom de la cinquième section du sommaire de l'article Wikipédia de Marie Curie",
+                  "defaultValue": "",
+                  "tolerances": [
+                    "t1"
+                  ],
+                  "solutions": [
+                    "Reconnaissance"
+                  ]
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct !</p>",
+                "invalid": "<p>Incorrect !</p>"
+              }
+            },
+            {
+              "id": "c6526e70-ac27-47d3-9794-3e1e2d243334",
+              "type": "text",
+              "content": "<hr>"
+            },
+            {
+              "id": "be1ba37e-0588-42ed-8fab-f47bf118953a",
+              "type": "qrocm",
+              "instruction": "<p>Quel est le niveau de qualité estimé de cet article ?</p>",
+              "proposals": [
+                {
+                  "type": "text",
+                  "content": "<p>Niveau de qualité estimé :</p>"
+                },
+                {
+                  "input": "quality-wiki",
+                  "type": "select",
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Choisir le niveau de qualité estimé",
+                  "defaultValue": "",
+                  "tolerances": [],
+                  "options": [
+                    {
+                      "id": "1",
+                      "content": "Bon article"
+                    },
+                    {
+                      "id": "2",
+                      "content": "Ébauche"
+                    },
+                    {
+                      "id": "3",
+                      "content": "Non renseigné"
+                    }
+                  ],
+                  "solutions": [
+                    "1"
+                  ]
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct !</p>",
+                "invalid": "<p>Incorrect !</p>"
+              }
             }
           ]
         }
