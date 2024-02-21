@@ -199,9 +199,7 @@ describe('Acceptance | Route | certification-course', function () {
         payload: {
           data: {
             attributes: {
-              'comment-by-jury': 'Parce que',
-              'comment-for-candidate': 'Voilà',
-              'comment-for-organization': 'Je suis sûr que vous etes ok avec nous',
+              'comment-by-jury': 'Parce que voilà',
             },
           },
         },

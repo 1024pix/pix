@@ -64,8 +64,6 @@ const register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                'comment-for-organization': Joi.string().allow(null, '').required(),
-                'comment-for-candidate': Joi.string().allow(null, '').required(),
                 'comment-by-jury': Joi.string().allow(null, '').required(),
               },
             },
@@ -82,12 +80,11 @@ const register = async function (server) {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
-        handler: certificationCourseController.updateJuryComments,
+        handler: certificationCourseController.updateJuryComment,
         tags: ['api', 'admin', 'assessment-results', 'certification-courses'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
-            '- Elle permet de mettre à jour les commentaires jury\n' +
-            ' - Elle recrée un assessment result pour mettre à jour les commentaires jury\n',
+            ' - Elle recrée un assessment result pour mettre à jour les notes internes du jury\n',
         ],
       },
     },

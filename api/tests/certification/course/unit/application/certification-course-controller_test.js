@@ -62,10 +62,10 @@ describe('Unit | Controller | certification-course-controller', function () {
     });
   });
 
-  describe('#updateJuryComments', function () {
-    it('should updateJuryComments usecase', async function () {
+  describe('#updateJuryComment', function () {
+    it('should updateJuryComment usecase', async function () {
       // given
-      sinon.stub(usecases, 'updateJuryComments');
+      sinon.stub(usecases, 'updateJuryComment');
       const request = {
         auth: {
           credentials: {
@@ -78,26 +78,20 @@ describe('Unit | Controller | certification-course-controller', function () {
         payload: {
           data: {
             attributes: {
-              'comment-by-jury': 'Tell',
-              'comment-for-candidate': 'Me',
-              'comment-for-organization': 'Why',
+              'comment-by-jury': 'Tell me why',
             },
           },
         },
       };
-      usecases.updateJuryComments.resolves();
+      usecases.updateJuryComment.resolves();
 
       // when
-      await certificationCourseController.updateJuryComments(request, hFake);
+      await certificationCourseController.updateJuryComment(request, hFake);
 
       // then
-      expect(usecases.updateJuryComments).to.have.been.calledWithExactly({
+      expect(usecases.updateJuryComment).to.have.been.calledWithExactly({
         certificationCourseId: 123,
-        assessmentResultComments: {
-          commentByJury: 'Tell',
-          commentForCandidate: 'Me',
-          commentForOrganization: 'Why',
-        },
+        assessmentResultCommentByJury: 'Tell me why',
         juryId: request.auth.credentials.userId,
       });
     });

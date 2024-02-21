@@ -1,10 +1,10 @@
 import { expect, sinon, domainBuilder } from '../../../../../test-helper.js';
-import { updateJuryComments } from '../../../../../../src/certification/course/domain/usecases/update-jury-comments.js';
+import { updateJuryComment } from '../../../../../../src/certification/course/domain/usecases/update-jury-comment.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../../../../../lib/domain/models/index.js';
 
-describe('Unit | UseCase | update-jury-comments', function () {
+describe('Unit | UseCase | update-jury-comment', function () {
   let domainTransaction;
   beforeEach(function () {
     domainTransaction = {
@@ -15,14 +15,10 @@ describe('Unit | UseCase | update-jury-comments', function () {
     });
   });
 
-  it('should save jury comments', async function () {
+  it('should save jury comment', async function () {
     // given
     const certificationCourseId = 123;
-    const assessmentResultComments = {
-      commentForOrganization: null,
-      commentForCandidate: null,
-      commentByJury: 'Hello',
-    };
+    const assessmentResultCommentByJury = 'Hello';
     const competenceMark = domainBuilder.buildCompetenceMark({});
     const oldAssessmentResult = domainBuilder.buildAssessmentResult({ id: 56, competenceMarks: [competenceMark] });
     const newAssessmentResult = domainBuilder.buildAssessmentResult({ id: 78, juryId: 456, commentByJury: 'Hello' });
@@ -38,9 +34,9 @@ describe('Unit | UseCase | update-jury-comments', function () {
     };
 
     // when
-    await updateJuryComments({
+    await updateJuryComment({
       certificationCourseId,
-      assessmentResultComments,
+      assessmentResultCommentByJury,
       juryId: 456,
       assessmentResultRepository,
       competenceMarkRepository,
@@ -60,9 +56,7 @@ describe('Unit | UseCase | update-jury-comments', function () {
           id: undefined,
           juryId: 456,
           emitter: AssessmentResult.emitters.PIX_JURY,
-          commentForOrganization: assessmentResultComments.commentForOrganization,
-          commentForCandidate: assessmentResultComments.commentForCandidate,
-          commentByJury: assessmentResultComments.commentByJury,
+          commentByJury: assessmentResultCommentByJury,
         }),
       ),
       domainTransaction,
