@@ -32,20 +32,18 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       );
 
       // when
-      await render(hbs`<Tutorials::Card @tutorial={{this.tutorial}} />`);
+      const screen = await render(hbs`<Tutorials::Card @tutorial={{this.tutorial}} />`);
 
       // then
-      assert.dom('.tutorial-card').exists();
-      assert.dom('.tutorial-card__content').exists();
-      assert.ok(find('.tutorial-card-content__title a').textContent.includes('Mon super tutoriel'));
-      assert.strictEqual(find('.tutorial-card-content__title a').href, 'https://exemple.net/');
+      const link = screen.getByRole('link', { name: 'Mon super tutoriel' });
+      assert.strictEqual(link.getAttribute('href'), 'https://exemple.net/');
       assert.ok(find('.tutorial-card-content__details').textContent.includes('mon-tuto'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('vidéo'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('une minute'));
-      assert.dom('.tutorial-card-content__actions').exists();
-      assert.dom('[aria-label="Ne plus considérer ce tuto comme utile"]').exists();
-      assert.dom('[aria-label="Retirer de ma liste de tutos"]').exists();
-      assert.dom('[title="Ne plus considérer ce tuto comme utile"]').exists();
+      assert.dom(screen.getByRole('list')).exists();
+      const evaluationButton = screen.getByRole('button', { name: 'Ne plus considérer ce tuto comme utile' });
+      assert.strictEqual(evaluationButton.title, 'Ne plus considérer ce tuto comme utile');
+      assert.dom(screen.getByRole('button', { name: 'Retirer de ma liste de tutos' })).exists();
     });
   });
 
@@ -72,17 +70,65 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       );
 
       // when
-      await render(hbs`<Tutorials::Card @tutorial={{this.tutorial}} />`);
+      const screen = await render(hbs`<Tutorials::Card @tutorial={{this.tutorial}} />`);
 
       // then
-      assert.dom('.tutorial-card').exists();
-      assert.dom('.tutorial-card__content').exists();
-      assert.ok(find('.tutorial-card-content__title a').textContent.includes('Mon super tutoriel'));
-      assert.strictEqual(find('.tutorial-card-content__title a').href, 'https://exemple.net/');
+      const link = screen.getByRole('link', { name: 'Mon super tutoriel' });
+      assert.strictEqual(link.getAttribute('href'), 'https://exemple.net/');
       assert.ok(find('.tutorial-card-content__details').textContent.includes('mon-tuto'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('vidéo'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('une minute'));
-      assert.dom('.tutorial-card-content__actions').doesNotExist();
+      assert.dom(screen.queryByRole('list')).doesNotExist();
+    });
+  });
+
+  module('link rel', function () {
+    test('should set rel="noreferrer" on external links', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      this.set(
+        'tutorial',
+        store.createRecord('tutorial', {
+          title: 'Mon super tutoriel',
+          link: 'https://exemple.net/',
+          source: 'mon-tuto',
+          format: 'vidéo',
+          duration: '60',
+          userSavedTutorial: store.createRecord('user-saved-tutorial', {}),
+          tutorialEvaluation: store.createRecord('tutorial-evaluation', { status: 'LIKED' }),
+        }),
+      );
+
+      // when
+      const screen = await render(hbs`<Tutorials::Card @tutorial={{this.tutorial}} />`);
+
+      // then
+      const link = screen.getByRole('link', { name: 'Mon super tutoriel' });
+      assert.strictEqual(link.getAttribute('rel'), 'noreferrer');
+    });
+
+    test('should not set rel="noreferrer" on internal links', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      this.set(
+        'tutorial',
+        store.createRecord('tutorial', {
+          title: 'Mon super tutoriel',
+          link: 'https://tutorial.pix.fr:443/known-link',
+          source: 'mon-tuto',
+          format: 'vidéo',
+          duration: '60',
+          userSavedTutorial: store.createRecord('user-saved-tutorial', {}),
+          tutorialEvaluation: store.createRecord('tutorial-evaluation', { status: 'LIKED' }),
+        }),
+      );
+
+      // when
+      const screen = await render(hbs`<Tutorials::Card @tutorial={{this.tutorial}} />`);
+
+      // then
+      const tutorialLink = screen.getByRole('link', { name: 'Mon super tutoriel' });
+      assert.strictEqual(tutorialLink.getAttribute('rel'), null);
     });
   });
 });

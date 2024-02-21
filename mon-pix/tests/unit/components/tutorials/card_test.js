@@ -179,4 +179,30 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
       });
     });
   });
+
+  module('#linkRel', function () {
+    test('should return noreferrer if unknown destination link', function (assert) {
+      // given
+      component = createGlimmerComponent('tutorials/card', { tutorial: { ...tutorial, link: 'https://exemple.net/' } });
+
+      // when
+      const result = component.linkRel;
+
+      // then
+      assert.strictEqual(result, 'noreferrer');
+    });
+
+    test('should return empty string if tutorial.pix.fr', function (assert) {
+      // given
+      component = createGlimmerComponent('tutorials/card', {
+        tutorial: { ...tutorial, link: 'https://tutorial.pix.fr:443/known-link' },
+      });
+
+      // when
+      const result = component.linkRel;
+
+      // then
+      assert.strictEqual(result, null);
+    });
+  });
 });
