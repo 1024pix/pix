@@ -90,7 +90,7 @@ module('Unit | Model | Module | Grain', function (hooks) {
         const store = this.owner.lookup('service:store');
         const qcu = store.createRecord('qcu', { type: 'qcus' });
         const elementAnswer = store.createRecord('element-answer', {
-          element: qcu,
+          elementId: qcu.id,
         });
         const passage = store.createRecord('passage', {
           elementAnswers: [elementAnswer],

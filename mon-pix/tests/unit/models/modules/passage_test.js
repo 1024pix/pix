@@ -16,6 +16,7 @@ module('Unit | Model | Module | Passage', function (hooks) {
         });
         const elementAnswer = store.createRecord('element-answer', {
           correction: expectedCorrection,
+          elementId: qcuElement.id,
         });
         const passage = store.createRecord('passage', { moduleId: '234', elementAnswers: [elementAnswer] });
         const qcuElement = store.createRecord('qcu', {
