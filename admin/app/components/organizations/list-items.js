@@ -9,6 +9,11 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
   @tracked showModal = false;
   @tracked organizationToDetach;
 
+  searchedId = this.args.id;
+  searchedName = this.args.name;
+  searchedType = this.args.type;
+  searchedExternalId = this.args.externalId;
+
   @action
   openModal(organization) {
     this.showModal = true;
