@@ -37,7 +37,6 @@ function _findByUserId({ userId }) {
         targetProfileId: 'campaigns.targetProfileId',
         campaignArchivedAt: 'campaigns.archivedAt',
         organizationName: 'organizations.name',
-        organizationId: 'organizations.id',
         deletedAt: 'campaign-participations.deletedAt',
         participationState: _computeCampaignParticipationState(),
         campaignId: 'campaigns.id',
