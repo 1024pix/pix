@@ -1,5 +1,5 @@
 import { expect } from '../../../../test-helper.js';
-import { GoogleOidcAuthenticationService } from '../../../../../lib/domain/services/authentication/GoogleOidcAuthenticationService.js';
+import { GoogleOidcAuthenticationService } from '../../../../../lib/domain/services/authentication/google-oidc-authentication-service.js';
 
 describe('Integration | Domain | Service | google-oidc-authentication-service', function () {
   describe('instantiate', function () {
