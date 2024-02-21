@@ -68,9 +68,9 @@ const register = async function (server) {
             audience: Joi.string().valid('app', 'admin').optional(),
           }),
         },
-        handler: oidcController.getAuthenticationUrl,
+        handler: oidcController.getAuthorizationUrl,
         notes: [
-          "- Cette route permet de récupérer l'url d'authentification du partenaire.\n" +
+          "- Cette route permet de récupérer l'url d'autorisation du partenaire.\n" +
             '- Elle retournera également les valeurs state et nonce.',
         ],
         tags: ['api', 'oidc', 'authentication'],

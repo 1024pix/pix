@@ -192,7 +192,7 @@ class OidcAuthenticationService {
     });
   }
 
-  getAuthenticationUrl() {
+  getAuthorizationUrl() {
     const state = randomUUID();
     const nonce = randomUUID();
     const authorizationParameters = {
