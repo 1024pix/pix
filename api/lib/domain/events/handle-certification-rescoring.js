@@ -15,6 +15,11 @@ import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certi
 import { config } from '../../../src/shared/config.js';
 import { CertificationCourseRejected } from './CertificationCourseRejected.js';
 import { CertificationCourseUnrejected } from './CertificationCourseUnrejected.js';
+import {
+  AutoJuryCommentKeys,
+  JuryComment,
+  JuryCommentContexts,
+} from '../../../src/certification/shared/domain/models/JuryComment.js';
 
 const eventTypes = [
   ChallengeNeutralized,
@@ -116,31 +121,36 @@ async function _handleV3Certification({
     maxReachableLevelOnCertificationDate: certificationCourse.getMaxReachableLevelOnCertificationDate(),
   });
 
-  const emitter =
-    _getEmitterFromEvent(event) === CertificationResult.emitters.PIX_ALGO_FRAUD_REJECTION
-      ? CertificationResult.emitters.PIX_ALGO_FRAUD_REJECTION
-      : EMITTER;
-
-  const status = certificationCourse.isRejectedForFraud()
-    ? AssessmentResult.status.REJECTED
-    : certificationAssessmentScore.status;
-
-  const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
-    pixScore: certificationAssessmentScore.nbPix,
-    reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-    status,
-    assessmentId: certificationAssessment.id,
-    emitter,
-    juryId: event.juryId,
-  });
+  let assessmentResult;
+  if (certificationCourse.isRejectedForFraud()) {
+    assessmentResult = AssessmentResult.buildFraud({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      assessmentId: certificationAssessment.id,
+      juryId: event.juryId,
+    });
+  } else {
+    assessmentResult = AssessmentResult.buildStandardAssessmentResult({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      status: certificationAssessmentScore.status,
+      assessmentId: certificationAssessment.id,
+      emitter: EMITTER,
+      juryId: event.juryId,
+    });
+  }
 
   if (_shouldCancelV3Certification({ allAnswers, certificationCourse })) {
-    const organizationCancelMessage =
-      "Un ou plusieurs problème(s) technique(s), signalés par ce(cette) candidat(e) au surveillant de la session de certification, a/ont affecté le bon déroulement du test de certification. Nous sommes dans l'incapacité de le/la certifier, sa certification est donc annulée. Cette information est à prendre en compte et peut vous conduire à proposer une nouvelle session de certification pour ce(cette) candidat(e).";
-    const candidateCancelMessage =
-      "Un ou plusieurs problème(s) technique(s), signalé(s) à votre surveillant pendant la session de certification, a/ont affecté la qualité du test de certification. En raison du trop grand nombre de questions auxquelles vous n'avez pas pu répondre dans de bonnes conditions, nous ne sommes malheureusement pas en mesure de calculer un score fiable et de fournir un certificat. La certification est annulée, le prescripteur de votre certification (le cas échéant), en est informé.";
-    assessmentResult.commentForCandidate = candidateCancelMessage;
-    assessmentResult.commentForOrganization = organizationCancelMessage;
+    assessmentResult.commentForCandidate = new JuryComment({
+      context: JuryCommentContexts.CANDIDATE,
+      fallbackComment:
+        "Un ou plusieurs problème(s) technique(s), signalé(s) à votre surveillant pendant la session de certification, a/ont affecté la qualité du test de certification. En raison du trop grand nombre de questions auxquelles vous n'avez pas pu répondre dans de bonnes conditions, nous ne sommes malheureusement pas en mesure de calculer un score fiable et de fournir un certificat. La certification est annulée, le prescripteur de votre certification (le cas échéant), en est informé.",
+    });
+    assessmentResult.commentForOrganization = new JuryComment({
+      context: JuryCommentContexts.ORGANIZATION,
+      fallbackComment:
+        "Un ou plusieurs problème(s) technique(s), signalés par ce(cette) candidat(e) au surveillant de la session de certification, a/ont affecté le bon déroulement du test de certification. Nous sommes dans l'incapacité de le/la certifier, sa certification est donc annulée. Cette information est à prendre en compte et peut vous conduire à proposer une nouvelle session de certification pour ce(cette) candidat(e).",
+    });
     certificationCourse.cancel();
     certificationCourseRepository.update(certificationCourse);
   }
