@@ -1571,7 +1571,7 @@
         "page0": {
           "title": "Je kunt op internet zoeken ...",
           "explanation": "Als je het antwoord niet weet, vind je het vast wel op\n.",
-          "icon": "icn-onderzoek.svg"
+          "icon": "icn-recherche.svg"
         },
         "page1": {
           "title": "... behalve voor bepaalde vragen",
@@ -1581,7 +1581,7 @@
         "page2": {
           "title": "Geen tijdslimiet!",
           "explanation": "Neem zoveel tijd als je nodig hebt om de cursus te voltooien.\nAls een vraag een tijdslimiet heeft, wordt dit aangegeven.",
-          "icon": "icn-tijd.svg"
+          "icon": "icn-temps.svg"
         },
         "page3": {
           "title": "Tutorials om te leren",
@@ -1715,7 +1715,7 @@
           "part1": "Tijdens het uitvoeren van je tests worden tutorials aanbevolen: klik op het bladwijzerpictogram",
           "part2": "om degene die je hier wilt vinden te registreren!"
         },
-        "image-link": "afbeeldingen/illustraties/gebruikerstutorials/illustratie-en.svg"
+        "image-link": "images/illustrations/user-tutorials/illustration-en.svg"
       },
       "filter": "Filter",
       "label": "handleidingen",
