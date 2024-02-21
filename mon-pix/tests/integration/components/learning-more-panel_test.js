@@ -13,7 +13,14 @@ module('Integration | Component | learning-more-panel', function (hooks) {
   module('when there is at least one learningMore item', function () {
     test('renders a list item when there is at least one learningMore item', async function (assert) {
       // given
-      this.set('learningMoreTutorials', [{ titre: 'Ceci est un tuto', duration: '20:00:00', type: 'video' }]);
+      this.set('learningMoreTutorials', [
+        {
+          link: 'https://example.net/1',
+          titre: 'Ceci est un tuto',
+          duration: '20:00:00',
+          type: 'video',
+        },
+      ]);
 
       // when
       await render(hbs`<LearningMorePanel @learningMoreTutorials={{this.learningMoreTutorials}}/>`);
@@ -29,6 +36,7 @@ module('Integration | Component | learning-more-panel', function (hooks) {
         // given
         const tuto1 = EmberObject.create({
           title: 'Tuto 1.1',
+          link: 'https://example.net/1',
           tubeName: '@first_tube',
           tubePracticalTitle: 'Practical Title',
           duration: '00:15:10',

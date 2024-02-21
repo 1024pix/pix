@@ -12,6 +12,8 @@ export default class Card extends Component {
   @tracked savingStatus;
   @tracked evaluationStatus;
 
+  static TUTORIAL_PIX_URL_HOST = 'tutorial.pix.fr';
+
   constructor(owner, args) {
     super(owner, args);
     this.savingStatus = args.tutorial.isSaved ? buttonStatusTypes.recorded : buttonStatusTypes.unrecorded;
@@ -44,6 +46,12 @@ export default class Card extends Component {
 
   get isTutorialSaved() {
     return this.savingStatus !== buttonStatusTypes.unrecorded;
+  }
+
+  get linkRel() {
+    const tutorialUrl = new URL(this.args.tutorial.link);
+    const isKnownHost = tutorialUrl.host === Card.TUTORIAL_PIX_URL_HOST;
+    return isKnownHost ? null : 'noreferrer';
   }
 
   @action

@@ -34,7 +34,12 @@ function _findPaginatedAndFilteredRecommendedTutorials(schema, request) {
   let tutorials;
 
   if (competenceFilters) {
-    tutorials = [schema.tutorials.create({ name: `Le tuto de la compétence ${competenceFilters[0]}` })];
+    tutorials = [
+      schema.tutorials.create({
+        link: 'https://example.net/',
+        name: `Le tuto de la compétence ${competenceFilters[0]}`,
+      }),
+    ];
   } else {
     tutorials = schema.tutorials.all().models;
   }

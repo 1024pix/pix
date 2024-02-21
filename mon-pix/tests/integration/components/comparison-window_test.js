@@ -86,7 +86,9 @@ module('Integration | Component | comparison-window', function (hooks) {
     test('should render a learningMoreTutorials panel when correction has a list of LearningMoreTutorials elements', async function (assert) {
       // given
       correction.setProperties({
-        learningMoreTutorials: [{ titre: 'Ceci est un tuto', duration: '20:00:00', type: 'video' }],
+        learningMoreTutorials: [
+          { titre: 'Ceci est un tuto', link: 'https://example.net', duration: '20:00:00', type: 'video' },
+        ],
       });
 
       // when
@@ -140,7 +142,9 @@ module('Integration | Component | comparison-window', function (hooks) {
       test('should not render a hint or a tutorial', async function (assert) {
         // given
         correction.setProperties({
-          learningMoreTutorials: [{ titre: 'Ceci est un tuto', duration: '20:00:00', type: 'video' }],
+          learningMoreTutorials: [
+            { titre: 'Ceci est un tuto', link: 'https://example.net', duration: '20:00:00', type: 'video' },
+          ],
         });
 
         // when

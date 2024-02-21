@@ -38,6 +38,7 @@ module('Integration | Component | Tutorial Panel', function (hooks) {
           {
             title: 'Ceci est un tuto',
             duration: '20:00:00',
+            link: 'https://example.com',
           },
         ]);
       });
