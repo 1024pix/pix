@@ -184,4 +184,8 @@ buildAssessmentResult.standard = function ({
   });
 };
 
+buildAssessmentResult.fraud = function ({ pixScore, reproducibilityRate, assessmentId, juryId, competenceMarks } = {}) {
+  return AssessmentResult.buildFraud({ pixScore, reproducibilityRate, assessmentId, juryId, competenceMarks });
+};
+
 export { buildAssessmentResult };

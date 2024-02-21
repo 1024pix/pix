@@ -960,18 +960,15 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           .withArgs({ certificationAssessment, continueOnError: false })
           .resolves(certificationAssessmentScore);
 
-        const assessmentResultToBeSaved = domainBuilder.buildAssessmentResult.standard({
-          emitter: 'PIX-ALGO-NEUTRALIZATION',
+        const assessmentResultToBeSaved = domainBuilder.buildAssessmentResult.fraud({
           pixScore: 30,
           reproducibilityRate: 80,
-          status: AssessmentResult.status.REJECTED,
           assessmentId: 123,
           juryId: 7,
         });
-        const savedAssessmentResult = new AssessmentResult({ ...assessmentResultToBeSaved, id: 4 });
         assessmentResultRepository.save.resolves({
           certificationCourseId: 789,
-          assessmentResult: savedAssessmentResult,
+          assessmentResult: assessmentResultToBeSaved,
         });
 
         const dependendencies = {

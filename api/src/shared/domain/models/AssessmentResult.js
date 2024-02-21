@@ -1,7 +1,11 @@
 /**
  * @typedef {import('../../../../lib/domain/models/CompetenceMark.js').CompetenceMark} CompetenceMark
  */
-import { JuryComment, JuryCommentContexts } from '../../../certification/shared/domain/models/JuryComment.js';
+import {
+  AutoJuryCommentKeys,
+  JuryComment,
+  JuryCommentContexts,
+} from '../../../certification/shared/domain/models/JuryComment.js';
 import { Assessment } from './Assessment.js';
 
 /**
@@ -21,6 +25,7 @@ const status = Object.freeze({
 const emitters = Object.freeze({
   PIX_ALGO: 'PIX-ALGO',
   PIX_JURY: 'Jury Pix',
+  PIX_ALGO_FRAUD_REJECTION: 'PIX-ALGO-FRAUD-REJECTION',
 });
 
 class AssessmentResult {
@@ -125,6 +130,30 @@ class AssessmentResult {
       status,
       assessmentId,
       juryId,
+    });
+  }
+
+  static buildFraud({ pixScore, reproducibilityRate, assessmentId, juryId, competenceMarks }) {
+    const commentForCandidate = new JuryComment({
+      context: JuryCommentContexts.CANDIDATE,
+      commentByAutoJury: AutoJuryCommentKeys.FRAUD,
+    });
+
+    const commentForOrganization = new JuryComment({
+      context: JuryCommentContexts.ORGANIZATION,
+      commentByAutoJury: AutoJuryCommentKeys.FRAUD,
+    });
+
+    return new AssessmentResult({
+      emitter: emitters.PIX_ALGO_FRAUD_REJECTION,
+      commentForCandidate,
+      commentForOrganization,
+      pixScore,
+      reproducibilityRate,
+      status: status.REJECTED,
+      assessmentId,
+      juryId,
+      competenceMarks,
     });
   }
 

@@ -1,6 +1,7 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Unit | Domain | Models | AssessmentResult', function () {
   describe('#buildAlgoErrorResult', function () {
@@ -130,6 +131,34 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
       expectedAssessmentResult.juryId = undefined;
       expectedAssessmentResult.pixScore = undefined;
       expectedAssessmentResult.reproducibilityRate = undefined;
+      expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
+    });
+  });
+
+  describe('#buildFraud', function () {
+    it('should return a fraud AssessmentResult', function () {
+      // given
+      const competenceMarks = [domainBuilder.buildCompetenceMark()];
+
+      // when
+      const actualAssessmentResult = AssessmentResult.buildFraud({
+        pixScore: 55,
+        reproducibilityRate: 50.25,
+        assessmentId: 123,
+        juryId: 456,
+        competenceMarks,
+      });
+
+      // then
+      const expectedAssessmentResult = domainBuilder.buildAssessmentResult.fraud({
+        assessmentId: 123,
+        juryId: 456,
+        pixScore: 55,
+        reproducibilityRate: 50.25,
+        competenceMarks,
+      });
+      expectedAssessmentResult.id = undefined;
+      expectedAssessmentResult.createdAt = undefined;
       expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
     });
   });
