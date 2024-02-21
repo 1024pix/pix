@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { userOrgaSettingsController } from './user-orga-settings-controller.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 
 const register = async function (server) {
   server.route([

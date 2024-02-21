@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { campaignAdministrationController } from './campaign-adminstration-controller.js';
 import { sendJsonApiError, PayloadTooLargeError } from '../../../../lib/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 const TWENTY_MEGABYTES = 1048576 * 20;
 
 const ERRORS = {

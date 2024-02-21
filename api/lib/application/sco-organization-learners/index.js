@@ -6,7 +6,7 @@ import { sendJsonApiError, UnprocessableEntityError, BadRequestError } from '../
 import { scoOrganizationLearnerController } from './sco-organization-learner-controller.js';
 import XRegExp from 'xregexp';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { config } from '../../config.js';
 
 const { passwordValidationPattern } = config.account;

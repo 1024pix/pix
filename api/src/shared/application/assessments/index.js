@@ -3,7 +3,7 @@ import { config } from '../../../../lib/config.js';
 import { assessmentController } from './assessment-controller.js';
 import { securityPreHandlers } from '../../application/security-pre-handlers.js';
 import { assessmentAuthorization } from '../../../../lib/application/preHandlers/assessment-authorization.js';
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
 const { featureToggles } = config;
 
