@@ -11,7 +11,6 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
       additionalRequiredProperties: ['logoutUrl'],
-      authenticationUrl: config[configKey].authenticationUrl,
       claimsToStore: config[configKey].claimsToStore,
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
@@ -24,8 +23,6 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
       redirectUri: config[configKey].redirectUri,
       slug: 'fwb',
       source: 'fwb',
-      tokenUrl: config[configKey].tokenUrl,
-      userInfoUrl: config[configKey].userInfoUrl,
     });
 
     this.logoutUrl = config[configKey].logoutUrl;

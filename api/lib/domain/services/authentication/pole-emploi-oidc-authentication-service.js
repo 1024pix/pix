@@ -15,7 +15,6 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
       additionalRequiredProperties: ['logoutUrl', 'afterLogoutUrl', 'sendingUrl'],
-      authenticationUrl: config[configKey].authenticationUrl,
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
@@ -30,8 +29,6 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       scope: `application_${config[configKey].clientId} api_peconnect-individuv1 openid profile serviceDigitauxExposition api_peconnect-servicesdigitauxv1`,
       slug: 'pole-emploi',
       source: 'pole_emploi_connect',
-      tokenUrl: config[configKey].tokenUrl,
-      userInfoUrl: config[configKey].userInfoUrl,
     });
 
     this.afterLogoutUrl = config[configKey].afterLogoutUrl;
