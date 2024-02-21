@@ -70,6 +70,7 @@ function serialize(module) {
                   };
               }
             }),
+            rawElements: grain.elements,
           };
         }),
       };
@@ -78,7 +79,7 @@ function serialize(module) {
     grains: {
       ref: 'id',
       includes: true,
-      attributes: ['title', 'type', 'elements'],
+      attributes: ['title', 'type', 'elements', 'rawElements'],
       elements: {
         ref: 'id',
         includes: true,
