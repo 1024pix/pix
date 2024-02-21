@@ -15,6 +15,7 @@ export default class ChallengeItemQcm extends Component {
     if (this.args.challenge.shuffled) {
       pshuffle(labeledCheckboxesList, this.args.assessment?.id);
     }
+    this.checkedValues.clear();
     return labeledCheckboxesList;
   }
 
