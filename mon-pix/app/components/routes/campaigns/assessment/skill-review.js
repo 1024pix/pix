@@ -16,8 +16,8 @@ export default class SkillReview extends Component {
 
   @tracked showNotFinishedYetMessage = false;
   @tracked showGlobalErrorMessage = false;
-  @tracked isShareButtonClicked = false;
   @tracked displayResetCampaignParticipationModal = false;
+  @tracked isLoading = false;
 
   get retryQuery() {
     return {
@@ -181,7 +181,7 @@ export default class SkillReview extends Component {
   }
 
   get showImproveButton() {
-    return this.args.model.campaignParticipationResult.canImprove && !this.isShareButtonClicked;
+    return this.args.model.campaignParticipationResult.canImprove;
   }
 
   get showBadges() {
@@ -242,14 +242,19 @@ export default class SkillReview extends Component {
 
   @action
   async shareCampaignParticipation() {
+    if (this.isLoading) return;
+
     this.showNotFinishedYetMessage = false;
     this.showGlobalErrorMessage = false;
-    this.isShareButtonClicked = true;
     const campaignParticipationResult = this.args.model.campaignParticipationResult;
 
     const adapter = this.store.adapterFor('campaign-participation-result');
     try {
+      this.isLoading = true;
       await adapter.share(campaignParticipationResult.id);
+
+      campaignParticipationResult.canImprove = false;
+      campaignParticipationResult.isShared = true;
     } catch (errorResponse) {
       if (!errorResponse?.errors) {
         this.showGlobalErrorMessage = true;
@@ -259,22 +264,28 @@ export default class SkillReview extends Component {
         if (error.status === '409') {
           this.showNotFinishedYetMessage = true;
         } else {
-          this.isShareButtonClicked = false;
           this.showGlobalErrorMessage = true;
         }
       });
+    } finally {
+      this.isLoading = false;
     }
-
-    campaignParticipationResult.isShared = true;
   }
 
   @action
   async improve() {
-    const campaignParticipationResult = this.args.model.campaignParticipationResult;
-    const adapter = this.store.adapterFor('campaign-participation-result');
-    await adapter.beginImprovement(campaignParticipationResult.id);
-    this.router.transitionTo('campaigns.entry-point', this.args.model.campaign.code);
-    return;
+    if (this.isLoading) return;
+
+    try {
+      this.isLoading = true;
+      const campaignParticipationResult = this.args.model.campaignParticipationResult;
+      const adapter = this.store.adapterFor('campaign-participation-result');
+      await adapter.beginImprovement(campaignParticipationResult.id);
+      this.router.transitionTo('campaigns.entry-point', this.args.model.campaign.code);
+      return;
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   @action

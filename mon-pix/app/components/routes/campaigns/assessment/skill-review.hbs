@@ -100,6 +100,7 @@
               {{else}}
                 <CampaignShareButton
                   @isShared={{this.isShared}}
+                  @isLoading={{this.isLoading}}
                   @displayPixLink={{this.displayPixLink}}
                   @shareCampaignParticipation={{this.shareCampaignParticipation}}
                   @redirectToSignupIfUserIsAnonymous={{this.redirectToSignupIfUserIsAnonymous}}
@@ -285,7 +286,7 @@
       {{/if}}
 
       {{#if this.showImproveButton}}
-        <SkillReviewImprove @improve={{this.improve}} />
+        <SkillReviewImprove @improve={{this.improve}} @isLoading={{this.isLoading}} />
       {{/if}}
 
       {{#unless @model.campaign.isForAbsoluteNovice}}

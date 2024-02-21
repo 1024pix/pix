@@ -154,36 +154,29 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
 
     store = this.owner.lookup('service:store');
     adapter = store.adapterFor('campaign-participation-result');
-    sinon.stub(adapter, 'share').resolves();
-    sinon.stub(adapter, 'beginImprovement').resolves();
+    sinon.stub(adapter, 'share');
+    sinon.stub(adapter, 'beginImprovement');
 
     component.router.transitionTo = sinon.stub();
   });
 
   module('#shareCampaignParticipation', function () {
-    test('should call adapter', async function (assert) {
+    test('should call adapter once', async function (assert) {
       // when
-      await component.actions.shareCampaignParticipation.call(component);
+      await Promise.all([
+        component.actions.shareCampaignParticipation.call(component),
+        component.actions.shareCampaignParticipation.call(component),
+      ]);
 
       // then
-      sinon.assert.calledWithExactly(adapter.share, 12345);
+      sinon.assert.calledOnceWithExactly(adapter.share, 12345);
       assert.ok(true);
     });
 
     module('before share', function () {
-      test('isShareButtonClicked should be false', async function (assert) {
+      test('isLoading should be false', async function (assert) {
         // then
-        assert.false(component.isShareButtonClicked);
-      });
-    });
-
-    module('when share is not yet effective but button is pressed', function () {
-      test('should set isShareButtonClicked to true', async function (assert) {
-        // when
-        await component.actions.shareCampaignParticipation.call(component);
-
-        // then
-        assert.true(component.isShareButtonClicked);
+        assert.false(component.isLoading);
       });
     });
 
@@ -197,6 +190,18 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
 
         // then
         assert.true(component.args.model.campaignParticipationResult.isShared);
+      });
+
+      test('should set canImprove to false', async function (assert) {
+        // given
+        adapter.share.resolves();
+        component.args.model.campaignParticipationResult.canImprove = true;
+
+        // when
+        await component.actions.shareCampaignParticipation.call(component);
+
+        // then
+        assert.false(component.args.model.campaignParticipationResult.canImprove);
       });
     });
 
@@ -229,12 +234,18 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
   });
 
   module('#improve', function () {
-    test('should save the campaignParticipation to start the improvement', async function (assert) {
+    test('isLoading should be false', async function (assert) {
+      // then
+      assert.false(component.isLoading);
+    });
+
+    test('should call the adapter once', async function (assert) {
       // when
-      await component.actions.improve.call(component);
+
+      await Promise.all([component.actions.improve.call(component), component.actions.improve.call(component)]);
 
       // then
-      sinon.assert.calledWithExactly(adapter.beginImprovement, 12345);
+      sinon.assert.calledOnceWithExactly(adapter.beginImprovement, 12345);
       assert.ok(true);
     });
 
@@ -1023,7 +1034,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
     test('should return false when canImprove is false', function (assert) {
       // given
       component.args.model.campaignParticipationResult.canImprove = false;
-      component.isShareButtonClicked = false;
+
       // when
       const result = component.showImproveButton;
 
@@ -1031,21 +1042,10 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       assert.false(result);
     });
 
-    test('should return false when isShareButtonClicked is true', function (assert) {
+    test('should return true when canImprove is true and isLoading is false', function (assert) {
       // given
       component.args.model.campaignParticipationResult.canImprove = true;
-      component.isShareButtonClicked = true;
-      // when
-      const result = component.showImproveButton;
 
-      // then
-      assert.false(result);
-    });
-
-    test('should return true when canImprove is true and isShareButtonClicked is false', function (assert) {
-      // given
-      component.args.model.campaignParticipationResult.canImprove = true;
-      component.isShareButtonClicked = false;
       // when
       const result = component.showImproveButton;
 
