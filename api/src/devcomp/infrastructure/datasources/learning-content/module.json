@@ -966,7 +966,7 @@
                   "ariaLabel": "Mot de passe",
                   "defaultValue": "",
                   "tolerances": ["t1"],
-                  "solutions": ["123456", "123456789", "azerty", "admin", "1234561", "azertyuiop", "loulou", "000000", "doudou", "password", "marseille", "motdepasse", "12345678", "chouchou", "soleil", "cheval", "12345", "Password", "bonjour", "1234567891", "1234", "0000"]
+                  "solutions": ["123456", "123456789", "azerty", "admin", "1234561", "azertyuiop", "loulou", "000000", "doudou", "password", "marseille", "motdepasse", "12345678", "chouchou", "soleil", "cheval", "12345", "Password", "bonjour", "1234567891", "1234", "0000", "toto"]
                 }
               ],
               "feedbacks": {
@@ -984,17 +984,17 @@
             {
               "id": "826281e7-865f-462d-abc0-77537c42a2b4",
               "type": "text",
-              "content": "<h4><span aria-hidden=\"true\">🔮&nbsp;</span>Une personne a deviné votre mot de passe…</h4>Une personne qui vous connaît bien a accès à de nombreuses informations vous concernant. <br><p>Si vous utilisez des informations privées en guise de mot de passe, il est probable qu’une personne de votre entourage puisse deviner facilement votre mot de passe et ainsi accéder à des données privées. Et ce n’est peut être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.<span aria-hidden=\"true\"> 🙃</span></p>"
+              "content": "<h3><span aria-hidden=\"true\">🔮&nbsp;</span>Une personne a deviné votre mot de passe…</h3>Une personne qui vous connaît bien a accès à de nombreuses informations vous concernant. <br><p>Si vous utilisez des informations privées en guise de mot de passe, il est probable qu’une personne de votre entourage puisse deviner facilement votre mot de passe et ainsi accéder à des données privées. Et ce n’est peut être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.<span aria-hidden=\"true\"> 🙃</span></p>"
             },
             {
               "id": "9d0b7aff-a9da-453f-a6ba-c61fbaa7bb25",
               "type": "text",
-              "content": "<h4><span aria-hidden=\"true\">🤖&nbsp;</span>Un programme a deviné votre mot de passe…</h4><p>En 2023, un mot de passe de 8 caractères avec minuscules, majuscules, nombres et caractères spéciaux sera piraté en 5 minutes seulement ! <span aria-hidden=\"true\">😰 </span>Avec 12 caractères, cette durée passe à 226 ans ! <span aria-hidden=\"true\">😮 </span><br>En général, dans le cas d’attaques automatisées, votre attaquant ne vous connaît pas personnellement, et cherche certainement à revendre vos informations ou à vous soutirer de l’argent.</p>"
+              "content": "<h3><span aria-hidden=\"true\">🤖&nbsp;</span>Un programme a deviné votre mot de passe…</h3><p>En 2023, un mot de passe de 8 caractères avec minuscules, majuscules, nombres et caractères spéciaux sera piraté en 5 minutes seulement ! <span aria-hidden=\"true\">😰 </span>Avec 12 caractères, cette durée passe à 226 ans ! <span aria-hidden=\"true\">😮 </span><br>En général, dans le cas d’attaques automatisées, votre attaquant ne vous connaît pas personnellement, et cherche certainement à revendre vos informations ou à vous soutirer de l’argent.</p>"
             },
             {
               "id": "e17089d4-a166-4bf4-a18b-155caaebe081",
               "type": "text",
-              "content": "<h4><span aria-hidden=\"true\">🔓&nbsp;</span>Votre mot de passe est compromis…</h4><p>Qu’il s’agisse d’une attaque automatisée ou d’une attaque ciblée vous concernant, si votre mot de passe a été deviné, les conséquences peuvent être graves. En particulier si le mot de passe compromis est celui de votre boîte mail <span aria-hidden=\"true\">😬</span></p>"
+              "content": "<h3><span aria-hidden=\"true\">🔓&nbsp;</span>Votre mot de passe est compromis…</h3><p>Qu’il s’agisse d’une attaque automatisée ou d’une attaque ciblée vous concernant, si votre mot de passe a été deviné, les conséquences peuvent être graves. En particulier si le mot de passe compromis est celui de votre boîte mail <span aria-hidden=\"true\">😬</span></p>"
             }
           ]
         },
@@ -1006,12 +1006,12 @@
             {
               "id": "7ef31e68-e798-4a92-86a0-ad61ebd9b915",
               "type": "text",
-              "content": "<p>Austin est producteur de miel dans les Vosges. Il a utilisé les deux informations suivantes pour créer son mot de passe&nbsp;:</p><ul><li>Il est né le 15 novembre 1984.</li><li>Il a un enfant qui s’appelle Bill.</li></ul>"
+              "content": "<p>Austin est producteur de miel dans les Vosges. Il a utilisé les deux informations suivantes pour créer son mot de passe&nbsp;:</p><ul><li>Il est né le <strong>15 novembre 1984</strong>.</li><li>Il a un enfant qui s’appelle <strong>Bill</strong>.</li></ul>"
             },
             {
               "id": "2695bb89-112c-49d1-80b2-469d824af58f",
               "type": "qrocm",
-              "instruction": "<p>Quel est le mot de passe d'Austin ?</p>",
+              "instruction": "<p>À votre avis, quel pourrait être le mot de passe d'Austin ?</p>",
               "proposals": [
                 {
                   "input": "mot-de-passe",
