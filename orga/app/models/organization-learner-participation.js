@@ -8,6 +8,7 @@ export default class OrganizationLearnerParticipation extends Model {
   @attr('string') status;
   @attr('number') campaignId;
   @attr('number') participationCount;
+  @attr('number') lastSharedOrCurrentCampaignParticipationId;
 
   @belongsTo('OrganizationLearnerActivity') organizationLearnerActivity;
 }

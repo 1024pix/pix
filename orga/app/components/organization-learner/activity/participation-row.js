@@ -21,6 +21,10 @@ export default class ParticipationRow extends Component {
   @action
   goToParticipationDetail(event) {
     event.preventDefault();
-    this.router.transitionTo(this.routeName, this.args.participation.campaignId, this.args.participation.id);
+    this.router.transitionTo(
+      this.routeName,
+      this.args.participation.campaignId,
+      this.args.participation.lastSharedOrCurrentCampaignParticipationId,
+    );
   }
 }
