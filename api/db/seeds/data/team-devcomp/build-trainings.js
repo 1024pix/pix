@@ -23,24 +23,51 @@ export function buildTrainings(databaseBuilder) {
     level: 2,
   });
 
-  const frFrTrainingId = databaseBuilder.factory.buildTraining({
+  const frFrTrainingId1 = databaseBuilder.factory.buildTraining({
     title: 'Apprendre à peindre comme Monet',
     locale: 'fr-fr',
   }).id;
 
   databaseBuilder.factory.buildTargetProfileTraining({
     targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
-    trainingId: frFrTrainingId,
+    trainingId: frFrTrainingId1,
   });
 
-  const frFrTrainingTriggerId = databaseBuilder.factory.buildTrainingTrigger({
-    trainingId: frFrTrainingId,
+  const frFrTrainingTriggerId1 = databaseBuilder.factory.buildTrainingTrigger({
+    trainingId: frFrTrainingId1,
     threshold: 0,
     type: 'prerequisite',
   }).id;
 
   databaseBuilder.factory.buildTrainingTriggerTube({
-    trainingTriggerId: frFrTrainingTriggerId,
+    trainingTriggerId: frFrTrainingTriggerId1,
+    tubeId: 'tube1NLpOetQhutFlA',
+    level: 2,
+  });
+
+  const frFrTrainingId2 = databaseBuilder.factory.buildTraining({
+    title: 'Didacticiel Modulix',
+    link: '/modules/didacticiel-modulix/details',
+    duration: '00:10:00',
+    editorName: 'Pix',
+    editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/pix-logo.svg',
+    type: 'modulix',
+    locale: 'fr-fr',
+  }).id;
+
+  databaseBuilder.factory.buildTargetProfileTraining({
+    targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
+    trainingId: frFrTrainingId2,
+  });
+
+  const frFrTrainingTriggerId2 = databaseBuilder.factory.buildTrainingTrigger({
+    trainingId: frFrTrainingId2,
+    threshold: 0,
+    type: 'prerequisite',
+  }).id;
+
+  databaseBuilder.factory.buildTrainingTriggerTube({
+    trainingTriggerId: frFrTrainingTriggerId2,
     tubeId: 'tube1NLpOetQhutFlA',
     level: 2,
   });

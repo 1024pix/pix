@@ -11,6 +11,7 @@ module.exports = {
     'no-html-comments': false,
     'no-bare-strings': ['Pix', '&nbsp;', '&#8226;', '.', '*', '1024', '/', '•', '-', '%'],
     'require-valid-alt-text': false,
+    'link-rel-noopener': false, // See https://github.com/ember-template-lint/ember-template-lint/issues/1883
   },
 
   ignore: ['blueprints/component-test/files/tests/integration/components/*'],
