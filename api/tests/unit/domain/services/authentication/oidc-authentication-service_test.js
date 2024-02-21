@@ -443,7 +443,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
   });
 
-  describe('#getAuthenticationUrl', function () {
+  describe('#getAuthorizationUrl', function () {
     it('returns oidc provider authentication url', async function () {
       // given
       const clientId = 'OIDC_CLIENT_ID';
@@ -463,7 +463,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       await oidcAuthenticationService.createClient();
 
       // when
-      const { nonce, state } = oidcAuthenticationService.getAuthenticationUrl();
+      const { nonce, state } = oidcAuthenticationService.getAuthorizationUrl();
 
       // then
       const uuidV4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
@@ -506,7 +506,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         await oidcAuthenticationService.createClient();
 
         // when
-        const error = catchErrSync(oidcAuthenticationService.getAuthenticationUrl, oidcAuthenticationService)();
+        const error = catchErrSync(oidcAuthenticationService.getAuthorizationUrl, oidcAuthenticationService)();
 
         // then
         expect(error).to.be.instanceOf(OidcError);
