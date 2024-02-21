@@ -229,6 +229,8 @@ const configuration = (function () {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       isEnabled: false,
       isEnabledForPixAdmin: isFeatureEnabled(process.env.GOOGLE_ENABLED_FOR_PIX_ADMIN),
+      openidConfigurationUrl: process.env.GOOGLE_OPENID_CONFIGURATION_URL,
+      redirectUri: process.env.GOOGLE_REDIRECT_URI,
       tokenUrl: process.env.GOOGLE_TOKEN_URL,
       userInfoUrl: process.env.GOOGLE_USER_INFO_URL,
     },
