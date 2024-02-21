@@ -9,7 +9,7 @@ module('Unit | Model | Module | Module', function (hooks) {
     const title = 'Bien écrire son adresse mail';
     const details = Symbol('details');
     const store = this.owner.lookup('service:store');
-    const grain = store.createRecord('grain', { elements: [] });
+    const grain = store.createRecord('grain', {});
 
     // when
     const module = store.createRecord('module', { title, details, grains: [grain] });

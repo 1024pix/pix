@@ -11,9 +11,8 @@ module('Integration | Component | Module | Passage', function (hooks) {
   test('should display a banner at the top of the screen for a passage', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const textElement = store.createRecord('text', { content: 'content', type: 'texts' });
-    const elements = [textElement];
-    const grain = store.createRecord('grain', { id: 'grainId1', elements });
+    const textElement = { content: 'content', type: 'text' };
+    const grain = store.createRecord('grain', { id: 'grainId1', rawElements: [textElement] });
     const module = store.createRecord('module', { title: 'Module title', grains: [grain] });
     this.set('module', module);
 
@@ -30,14 +29,14 @@ module('Integration | Component | Module | Passage', function (hooks) {
   test('should display given module with one grain', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const textElement = store.createRecord('text', { content: 'content', type: 'texts' });
-    const qcuElement = store.createRecord('qcu', {
+    const textElement = { content: 'content', type: 'text' };
+    const qcuElement = {
       instruction: 'instruction',
       proposals: ['radio1', 'radio2'],
-      type: 'qcus',
-    });
-    const elements = [textElement, qcuElement];
-    const grain = store.createRecord('grain', { id: 'grainId1', elements });
+      type: 'qcu',
+    };
+    const rawElements = [textElement, qcuElement];
+    const grain = store.createRecord('grain', { id: 'grainId1', rawElements });
     const transitionTexts = [{ grainId: 'grainId1', content: 'transition text' }];
 
     const module = store.createRecord('module', { title: 'Module title', grains: [grain], transitionTexts });
@@ -61,14 +60,14 @@ module('Integration | Component | Module | Passage', function (hooks) {
   test('should display given module with more than one grain', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const textElement = store.createRecord('text', { content: 'content', type: 'texts' });
-    const qcuElement = store.createRecord('qcu', {
+    const textElement = { content: 'content', type: 'text' };
+    const qcuElement = {
       instruction: 'instruction',
       proposals: ['radio1', 'radio2'],
-      type: 'qcus',
-    });
-    const grain1 = store.createRecord('grain', { elements: [textElement] });
-    const grain2 = store.createRecord('grain', { elements: [qcuElement] });
+      type: 'qcu',
+    };
+    const grain1 = store.createRecord('grain', { rawElements: [textElement] });
+    const grain2 = store.createRecord('grain', { rawElements: [qcuElement] });
 
     const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
     this.set('module', module);
@@ -91,15 +90,15 @@ module('Integration | Component | Module | Passage', function (hooks) {
     test('should display next grain', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const textElement = store.createRecord('text', { content: 'content', type: 'texts' });
-      const qcuElement = store.createRecord('qcu', {
+      const textElement = { content: 'content', type: 'text' };
+      const qcuElement = {
         instruction: 'instruction',
         proposals: ['radio1', 'radio2'],
-        type: 'qcus',
+        type: 'qcu',
         isAnswerable: true,
-      });
-      const grain1 = store.createRecord('grain', { elements: [qcuElement] });
-      const grain2 = store.createRecord('grain', { elements: [textElement] });
+      };
+      const grain1 = store.createRecord('grain', { rawElements: [qcuElement] });
+      const grain2 = store.createRecord('grain', { rawElements: [textElement] });
 
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);
@@ -121,15 +120,15 @@ module('Integration | Component | Module | Passage', function (hooks) {
     test('should push event', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const textElement = store.createRecord('text', { content: 'content', type: 'texts' });
-      const qcuElement = store.createRecord('qcu', {
+      const textElement = { content: 'content', type: 'text' };
+      const qcuElement = {
         instruction: 'instruction',
         proposals: ['radio1', 'radio2'],
-        type: 'qcus',
+        type: 'qcu',
         isAnswerable: true,
-      });
-      const grain1 = store.createRecord('grain', { elements: [qcuElement] });
-      const grain2 = store.createRecord('grain', { elements: [textElement] });
+      };
+      const grain1 = store.createRecord('grain', { rawElements: [qcuElement] });
+      const grain2 = store.createRecord('grain', { rawElements: [textElement] });
 
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);
@@ -165,10 +164,10 @@ module('Integration | Component | Module | Passage', function (hooks) {
     test('should display next grain', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const text1Element = store.createRecord('text', { content: 'content', type: 'texts' });
-      const text2Element = store.createRecord('text', { content: 'content 2', type: 'texts' });
-      const grain1 = store.createRecord('grain', { elements: [text1Element] });
-      const grain2 = store.createRecord('grain', { elements: [text2Element] });
+      const text1Element = { content: 'content', type: 'text' };
+      const text2Element = { content: 'content 2', type: 'text' };
+      const grain1 = store.createRecord('grain', { rawElements: [text1Element] });
+      const grain2 = store.createRecord('grain', { rawElements: [text2Element] });
 
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);
@@ -192,12 +191,12 @@ module('Integration | Component | Module | Passage', function (hooks) {
     test('should only set the aria-live="assertive" attribute on the last grain', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const text1Element = store.createRecord('text', { content: 'content', type: 'texts' });
-      const text2Element = store.createRecord('text', { content: 'content 2', type: 'texts' });
-      const text3Element = store.createRecord('text', { content: 'content 3', type: 'texts' });
-      const grain1 = store.createRecord('grain', { elements: [text1Element] });
-      const grain2 = store.createRecord('grain', { elements: [text2Element] });
-      const grain3 = store.createRecord('grain', { elements: [text3Element] });
+      const text1Element = { content: 'content', type: 'text' };
+      const text2Element = { content: 'content 2', type: 'text' };
+      const text3Element = { content: 'content 3', type: 'text' };
+      const grain1 = store.createRecord('grain', { rawElements: [text1Element] });
+      const grain2 = store.createRecord('grain', { rawElements: [text2Element] });
+      const grain3 = store.createRecord('grain', { rawElements: [text3Element] });
 
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2, grain3] });
       this.set('module', module);
@@ -236,12 +235,12 @@ module('Integration | Component | Module | Passage', function (hooks) {
     test('should give focus on the last grain when appearing', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const text1Element = store.createRecord('text', { content: 'content', type: 'texts' });
-      const text2Element = store.createRecord('text', { content: 'content 2', type: 'texts' });
-      const text3Element = store.createRecord('text', { content: 'content 3', type: 'texts' });
-      const grain1 = store.createRecord('grain', { elements: [text1Element] });
-      const grain2 = store.createRecord('grain', { elements: [text2Element] });
-      const grain3 = store.createRecord('grain', { elements: [text3Element] });
+      const text1Element = { content: 'content', type: 'text' };
+      const text2Element = { content: 'content 2', type: 'text' };
+      const text3Element = { content: 'content 3', type: 'text' };
+      const grain1 = store.createRecord('grain', { rawElements: [text1Element] });
+      const grain2 = store.createRecord('grain', { rawElements: [text2Element] });
+      const grain3 = store.createRecord('grain', { rawElements: [text3Element] });
 
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2, grain3] });
       this.set('module', module);
@@ -277,10 +276,10 @@ module('Integration | Component | Module | Passage', function (hooks) {
     test('should push event', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const text1Element = store.createRecord('text', { content: 'content', type: 'texts' });
-      const text2Element = store.createRecord('text', { content: 'content 2', type: 'texts' });
-      const grain1 = store.createRecord('grain', { elements: [text1Element] });
-      const grain2 = store.createRecord('grain', { elements: [text2Element] });
+      const text1Element = { content: 'content', type: 'text' };
+      const text2Element = { content: 'content 2', type: 'text' };
+      const grain1 = store.createRecord('grain', { rawElements: [text1Element] });
+      const grain2 = store.createRecord('grain', { rawElements: [text2Element] });
 
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);

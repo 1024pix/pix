@@ -9,6 +9,15 @@ module('Unit | Model | Module | Passage', function (hooks) {
       test('should return the element correction', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
+        const qcuElement = {
+          id: 'a6838f8e-05ee-42e0-9820-13a9977cf5dc',
+          instruction: 'Instruction',
+          proposals: [
+            { id: '1', content: 'radio1' },
+            { id: '2', content: 'radio2' },
+          ],
+          type: 'qcus',
+        };
         const expectedCorrection = store.createRecord('correction-response', {
           feedback: 'Too Bad!',
           status: 'ko',
@@ -19,15 +28,6 @@ module('Unit | Model | Module | Passage', function (hooks) {
           elementId: qcuElement.id,
         });
         const passage = store.createRecord('passage', { moduleId: '234', elementAnswers: [elementAnswer] });
-        const qcuElement = store.createRecord('qcu', {
-          instruction: 'Instruction',
-          proposals: [
-            { id: '1', content: 'radio1' },
-            { id: '2', content: 'radio2' },
-          ],
-          type: 'qcus',
-          elementAnswers: [elementAnswer],
-        });
 
         // when
         const correction = passage.getLastCorrectionForElement(qcuElement);
@@ -42,14 +42,15 @@ module('Unit | Model | Module | Passage', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const passage = store.createRecord('passage', { moduleId: '234' });
-        const qcuElement = store.createRecord('qcu', {
+        const qcuElement = {
+          id: 'a6838f8e-05ee-42e0-9820-13a9977cf5dc',
           instruction: 'Instruction',
           proposals: [
             { id: '1', content: 'radio1' },
             { id: '2', content: 'radio2' },
           ],
-          type: 'qcus',
-        });
+          type: 'qcu',
+        };
 
         // when
         const correction = passage.getLastCorrectionForElement(qcuElement);

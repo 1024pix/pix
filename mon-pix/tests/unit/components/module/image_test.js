@@ -9,8 +9,7 @@ module('Unit | Component | Module | Image', function (hooks) {
   module(`#hasAlternativeText`, function () {
     test(`should return true if image has an alternativeText`, function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const image = store.createRecord('image', { url: '', alt: '', alternativeText: 'hello' });
+      const image = { url: '', alt: '', alternativeText: 'hello' };
 
       const component = createPodsComponent('module/image', { image });
 
@@ -20,8 +19,7 @@ module('Unit | Component | Module | Image', function (hooks) {
 
     test(`should return false if image has an empty alternativeText`, function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const image = store.createRecord('image', { url: '', alt: '', alternativeText: '' });
+      const image = { url: '', alt: '', alternativeText: '' };
 
       const component = createPodsComponent('module/image', { image });
 
@@ -33,7 +31,7 @@ module('Unit | Component | Module | Image', function (hooks) {
   module('#showModal', function () {
     test('should switch the #modalIsOpen boolean', function (assert) {
       // given
-      const image = store.createRecord('image', { id: 'image-id' });
+      const image = { id: 'image-id' };
 
       const component = createPodsComponent('module/image', { image });
       assert.false(component.modalIsOpen);
@@ -47,8 +45,7 @@ module('Unit | Component | Module | Image', function (hooks) {
 
     test('should call metrics service', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const image = store.createRecord('image', { id: 'image-id' });
+      const image = { id: 'image-id' };
       const moduleId = 'module-id';
 
       const metrics = this.owner.lookup('service:metrics');
@@ -76,8 +73,7 @@ module('Unit | Component | Module | Image', function (hooks) {
     module('When we want to close the modal', function () {
       test('should switch the #modalIsOpen boolean', async function (assert) {
         // given
-        const store = this.owner.lookup('service:store');
-        const image = store.createRecord('image', { id: 'image-id' });
+        const image = { id: 'image-id' };
 
         const component = createPodsComponent('module/image', { image });
         assert.false(component.modalIsOpen);

@@ -90,15 +90,15 @@ module('Acceptance | Module | Routes | navigateIntoTheModulePassage', function (
 
     test('should navigate to recap page when terminate is clicked', async function (assert) {
       // given
-      const text1 = server.create('text', {
+      const text1 = {
         id: 'elementId-1',
         type: 'texts',
         content: 'content-1',
-      });
+      };
       const grain1 = server.create('grain', {
         id: 'grainId-1',
         title: 'title grain 1',
-        elements: [text1],
+        rawElements: [text1],
       });
       server.create('module', {
         id: 'bien-ecrire-son-adresse-mail',
@@ -122,36 +122,36 @@ module('Acceptance | Module | Routes | navigateIntoTheModulePassage', function (
 });
 
 function _createGrains(server) {
-  const text1 = server.create('text', {
+  const text1 = {
     id: 'elementId-1',
     type: 'texts',
     content: 'content-1',
-  });
-  const text2 = server.create('text', {
+  };
+  const text2 = {
     id: 'elementId-2',
     type: 'texts',
     content: 'content-2',
-  });
-  const text3 = server.create('text', {
+  };
+  const text3 = {
     id: 'elementId-3',
     type: 'texts',
     content: 'content-3',
-  });
+  };
 
   const grain1 = server.create('grain', {
     id: 'grainId-1',
     title: 'title grain 1',
-    elements: [text1],
+    rawElements: [text1],
   });
   const grain2 = server.create('grain', {
     id: 'grainId-2',
     title: 'title grain 2',
-    elements: [text2],
+    rawElements: [text2],
   });
   const grain3 = server.create('grain', {
     id: 'grainId-3',
     title: 'title grain 3',
-    elements: [text3],
+    rawElements: [text3],
   });
 
   return [grain1, grain2, grain3];

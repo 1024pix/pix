@@ -10,29 +10,29 @@ module('Acceptance | Module | Routes | verifyQcu', function (hooks) {
 
   test('can validate my QCU answer', async function (assert) {
     // given
-    const qcu1 = server.create('qcu', {
+    const qcu1 = {
       id: 'elementId-1',
-      type: 'qcus',
+      type: 'qcu',
       instruction: 'instruction',
       proposals: [
         { id: '1', content: 'I am the wrong answer!' },
         { id: '2', content: 'I am the right answer!' },
       ],
-    });
-    const qcu2 = server.create('qcu', {
+    };
+    const qcu2 = {
       id: 'elementId-2',
-      type: 'qcus',
+      type: 'qcu',
       instruction: 'instruction',
       proposals: [
         { id: '1', content: 'Vrai' },
         { id: '2', content: 'Faux' },
       ],
-    });
+    };
 
     const grain = server.create('grain', {
       id: 'grainId',
       title: 'title',
-      elements: [qcu1, qcu2],
+      rawElements: [qcu1, qcu2],
     });
 
     server.create('module', {

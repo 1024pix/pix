@@ -11,9 +11,12 @@ module('Unit | Component | Module | QCU', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const correctionResponse = store.createRecord('correction-response', { status: 'ko' });
-        const elementAnswer = store.createRecord('element-answer', { correction: correctionResponse });
-        const qcuElement = store.createRecord('qcu', { elementAnswers: [elementAnswer] });
-        const component = createPodsComponent('module/qcu', { qcu: qcuElement });
+        const qcuElement = { id: '994b6a96-a3c2-47ae-a461-87548ac6e02b' };
+        store.createRecord('element-answer', {
+          correction: correctionResponse,
+          element: qcuElement,
+        });
+        const component = createPodsComponent('module/qcu', { qcu: qcuElement, correction: correctionResponse });
 
         // when
         const feedbackType = component.feedbackType;
@@ -28,8 +31,11 @@ module('Unit | Component | Module | QCU', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const correctionResponse = store.createRecord('correction-response', { status: 'ok' });
-        const elementAnswer = store.createRecord('element-answer', { correction: correctionResponse });
-        const qcuElement = store.createRecord('qcu', { elementAnswers: [elementAnswer] });
+        const qcuElement = { id: 'qcu-id' };
+        store.createRecord('element-answer', {
+          correction: correctionResponse,
+          elementId: qcuElement.id,
+        });
         const component = createPodsComponent('module/qcu', { qcu: qcuElement, correction: correctionResponse });
 
         // when

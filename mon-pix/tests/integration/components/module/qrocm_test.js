@@ -10,8 +10,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
   test('should display a QROCM', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
-    const qrocm = store.createRecord('qrocm', {
+    const qrocm = {
+      id: '994b6a96-a3c2-47ae-a461-87548ac6e02b',
       instruction: 'Mon instruction',
       proposals: [
         { content: '<p>Ma première proposition</p>', type: 'text' },
@@ -44,8 +44,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
           ],
         },
       ],
-      type: 'qrocms',
-    });
+      type: 'qrocm',
+    };
     this.set('qrocm', qrocm);
     const screen = await render(hbs`
         <Module::Qrocm @qrocm={{this.qrocm}} />`);
@@ -62,8 +62,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
   test('should be able to select an option', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
-    const qrocm = store.createRecord('qrocm', {
+    const qrocm = {
+      id: '994b6a96-a3c2-47ae-a461-87548ac6e02b',
       instruction: 'Instruction',
       proposals: [
         {
@@ -85,8 +85,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
           ],
         },
       ],
-      type: 'qrocms',
-    });
+      type: 'qrocm',
+    };
     this.set('qrocm', qrocm);
     const screen = await render(hbs`
         <Module::Qrocm @qrocm={{this.qrocm}} />`);
@@ -107,8 +107,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
   test('should display an error message if QROCM is validated without response', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
-    const qrocm = store.createRecord('qrocm', {
+    const qrocm = {
+      id: '994b6a96-a3c2-47ae-a461-87548ac6e02b',
       instruction: 'Instruction',
       proposals: [
         {
@@ -130,8 +130,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
           ],
         },
       ],
-      type: 'qrocms',
-    });
+      type: 'qrocm',
+    };
     this.set('qrocm', qrocm);
     const screen = await render(hbs`<Module::Qrocm @qrocm={{this.qrocm}} />`);
 
@@ -144,8 +144,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
   test('should hide the error message when QROCM is validated with response', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
-    const qrocm = store.createRecord('qrocm', {
+    const qrocm = {
       instruction: 'Instruction',
       proposals: [
         {
@@ -167,8 +166,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
           ],
         },
       ],
-      type: 'qrocms',
-    });
+      type: 'qrocm',
+    };
     const givenSubmitAnswerStub = function () {};
     this.set('submitAnswer', givenSubmitAnswerStub);
     this.set('qrocm', qrocm);
@@ -194,8 +193,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
   module('should call action when verify button is clicked', function () {
     test('when proposal is an input', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const qrocm = store.createRecord('qrocm', {
+      const qrocm = {
+        id: '994b6a96-a3c2-47ae-a461-87548ac6e02b',
         instruction: 'Instruction',
         proposals: [
           {
@@ -209,8 +208,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
             defaultValue: '',
           },
         ],
-        type: 'qrocms',
-      });
+        type: 'qrocm',
+      };
       this.set('qrocm', qrocm);
       const userResponse = 'user-response';
       const givenSubmitAnswerSpy = sinon.spy();
@@ -237,8 +236,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     test('when proposal is a select', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const qrocm = store.createRecord('qrocm', {
+      const qrocm = {
+        id: '994b6a96-a3c2-47ae-a461-87548ac6e02b',
         instruction: 'Instruction',
         proposals: [
           {
@@ -260,8 +259,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
             ],
           },
         ],
-        type: 'qrocms',
-      });
+        type: 'qrocm',
+      };
       this.set('qrocm', qrocm);
       const userResponse = { input: 'premiere-partie', answer: '2' };
       const givenSubmitAnswerSpy = sinon.spy();
@@ -334,10 +333,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 });
 
 function prepareContextRecords(store, correctionResponse) {
-  const elementAnswer = store.createRecord('element-answer', {
-    correction: correctionResponse,
-  });
-  const qrocm = store.createRecord('qrocm', {
+  const qrocm = {
+    id: '994b6a96-a3c2-47ae-a461-87548ac6e02b',
     instruction: 'Instruction',
     proposals: [
       {
@@ -359,10 +356,13 @@ function prepareContextRecords(store, correctionResponse) {
         ],
       },
     ],
-    type: 'qrocms',
-    elementAnswers: [elementAnswer],
+    type: 'qrocm',
+  };
+  store.createRecord('element-answer', {
+    correction: correctionResponse,
+    element: qrocm,
   });
-  store.createRecord('grain', { id: 'id', elements: [qrocm] });
+  store.createRecord('grain', { id: 'id', rawElements: [qrocm] });
   store.createRecord('element-answer', {
     correction: correctionResponse,
     elementId: qrocm.id,

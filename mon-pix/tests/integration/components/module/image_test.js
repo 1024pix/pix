@@ -9,15 +9,14 @@ module('Integration | Component | Module | Image', function (hooks) {
 
   test('should display an image', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
     const url =
       'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg';
 
-    const imageElement = store.createRecord('image', {
+    const imageElement = {
       url,
       alt: 'alt text',
       alternativeText: 'alternative instruction',
-    });
+    };
 
     this.set('image', imageElement);
 
@@ -33,16 +32,13 @@ module('Integration | Component | Module | Image', function (hooks) {
 
   test('should be able to use the modal for alternative instruction', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
     const alternativeText = 'alternative instruction';
 
-    const imageElement = store.createRecord('image', {
+    const imageElement = {
       url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
       alt: 'alt text',
       alternativeText,
-    });
-    const grain = store.createRecord('grain', { id: 'grain-id', elements: [imageElement] });
-    store.createRecord('module', { id: 'module-id', grains: [grain] });
+    };
 
     this.set('image', imageElement);
 
@@ -57,13 +53,11 @@ module('Integration | Component | Module | Image', function (hooks) {
 
   test('should not be able to open the modal if there is no alternative instruction', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
-
-    const imageElement = store.createRecord('image', {
+    const imageElement = {
       url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
       alt: 'alt text',
       alternativeText: '',
-    });
+    };
 
     this.set('image', imageElement);
 

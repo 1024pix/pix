@@ -9,13 +9,12 @@ module('Unit | Component | Module | Video', function (hooks) {
   module(`#hasTranscription`, function () {
     test(`should return true if video has a transcription`, function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const video = store.createRecord('video', {
+      const video = {
         title: '',
         url: '',
         subtitles: '',
         transcription: 'hello',
-      });
+      };
 
       const component = createPodsComponent('module/video', { video });
 
@@ -25,13 +24,12 @@ module('Unit | Component | Module | Video', function (hooks) {
 
     test(`should return false if video has an empty transcription`, function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const video = store.createRecord('video', {
+      const video = {
         title: '',
         url: '',
         subtitles: '',
         transcription: '',
-      });
+      };
 
       const component = createPodsComponent('module/video', { video });
 
@@ -43,8 +41,7 @@ module('Unit | Component | Module | Video', function (hooks) {
   module('#showModal', function () {
     test('should switch the #modalIsOpen boolean', function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const video = store.createRecord('video', { id: 'video-id' });
+      const video = { id: 'video-id' };
 
       const metrics = this.owner.lookup('service:metrics');
       metrics.add = () => {};
@@ -61,8 +58,7 @@ module('Unit | Component | Module | Video', function (hooks) {
 
     test('should call metrics service', async function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const video = store.createRecord('video', { id: 'video-id' });
+      const video = { id: 'video-id' };
       const moduleId = 'module-id';
 
       const metrics = this.owner.lookup('service:metrics');
@@ -90,8 +86,7 @@ module('Unit | Component | Module | Video', function (hooks) {
     module('When we want to close the modal', function () {
       test('should switch the #modalIsOpen boolean', async function (assert) {
         // given
-        const store = this.owner.lookup('service:store');
-        const video = store.createRecord('video', { id: 'video-id' });
+        const video = { id: 'video-id' };
 
         const component = createPodsComponent('module/video', { video });
         assert.false(component.modalIsOpen);
