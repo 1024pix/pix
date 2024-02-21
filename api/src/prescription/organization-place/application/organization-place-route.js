@@ -1,5 +1,5 @@
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { organizationPlaceController } from './organization-place-controller.js';
 import Joi from 'joi';
 import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';

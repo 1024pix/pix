@@ -3,7 +3,7 @@ import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { scoLearnerListController } from './sco-learner-list-controller.js';
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 
 const register = async function (server) {
   server.route([

@@ -2,7 +2,7 @@ import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../../src/shared/domain/types/identifiers-type.js';
 import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
 
 describe('Unit | Router | organization-router', function () {

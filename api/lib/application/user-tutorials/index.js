@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { userTutorialsController } from './user-tutorials-controller.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 
 const register = async function (server) {
