@@ -601,19 +601,21 @@ function routes() {
 }
 
 function _configureOrganizationsRoutes(context) {
-  context.get('/admin/organizations/:organizationId/children', () => {
-    return {
-      data: [
-        {
-          type: 'organization',
-          id: '1234',
-          attributes: {
-            name: 'UA',
-            'external-id': 'UA123456',
-          },
-        },
-      ],
-    };
+  context.get('/admin/organizations/:organizationId/children', (schema, request) => {
+    return schema.organizations.where({ parentOrganizationId: request.params.organizationId });
+  });
+
+  context.post('/admin/organizations/:organizationId/attach-child-organization', (schema, request) => {
+    const parentOrganization = schema.organizations.find(request.params.organizationId);
+    const { childOrganizationId } = JSON.parse(request.requestBody);
+    const childOrganization = schema.organizations.find(childOrganizationId);
+
+    childOrganization.update({
+      parentOrganizationId: parentOrganization.id,
+      parentOrganizationName: parentOrganization.name,
+    });
+
+    return new Response(204);
   });
 }
 

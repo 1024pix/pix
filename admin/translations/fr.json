@@ -1,6 +1,7 @@
 {
   "common": {
     "actions": {
+      "add": "Ajouter",
       "cancel": "Annuler",
       "close": "Fermer",
       "deactivate": "Désactiver",
@@ -108,6 +109,13 @@
     "organizations": {
       "all-tags": {
         "recently-used-tags": "Liste de tags récemment utilisés avec {tagName}"
+      },
+      "children": {
+        "attach-child-form": {
+          "input-information": "ID de l'organisation à ajouter",
+          "input-label": "Ajouter une organisation fille",
+          "name": "Formulaire d'ajout d'une organisation fille"
+        }
       },
       "children-list": {
         "table-headers": {
@@ -297,7 +305,19 @@
     },
     "organization-children": {
       "title": "Organisations filles",
-      "empty-table": "Aucune organisation fille"
+      "empty-table": "Aucune organisation fille",
+      "notifications": {
+        "error": {
+          "unable-to-attach-already-attached-child-organization": "L'organisation fille est déjà liée.",
+          "unable-to-attach-child-organization-to-another-child-organization": "Impossible d'attacher une organisation fille à une autre organisation fille.",
+          "unable-to-attach-child-organization-to-itself": "Impossible d'attacher l'organisation à elle-même",
+          "unable-to-attach-child-organization-without-same-type": "Vérifiez et sélectionnez une organisation fille qui correspond au type de l'organisation mère.",
+          "unable-to-attach-parent-organization-as-child-organization": "Impossible d'attacher une organisation mère en tant qu'organisation fille."
+        },
+        "success": {
+          "attach-child-organization": "L'organisation fille a bien été liée à l'organisation mère"
+        }
+      }
     },
     "organizations": {
       "notifications": {
