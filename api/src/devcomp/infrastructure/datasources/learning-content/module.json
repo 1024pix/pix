@@ -1048,36 +1048,36 @@
             {
               "id": "02bb0017-a74d-4c78-8502-3c57d9f12209",
               "type": "text",
-              "content": "<h3>Astuce n°1 : un bon mot de passe est long !</h3><p>D’ailleurs pensez “phrase de passe” plutôt que “mot de passe” … Pas la peine d’inventer un monologue non plus. <span aria-hidden=\"true\">😉</span> À partir de 12 caractères, le mot de passe atteint une longueur correcte. <span aria-hidden=\"true\">👍</span></p>"
+              "content": "<h3>Astuce n°1 : un bon mot de passe est long !</h3><p>D’ailleurs pensez “phrase de passe” plutôt que “mot de passe” … Pas la peine d’inventer un monologue non plus. <span aria-hidden=\"true\">😉</span> À partir de 12 caractères, le mot de passe atteint une longueur correcte. <span aria-hidden=\"true\">👍</span></p><br><hr>"
             },
             {
               "id": "b04b0fbd-fccc-4a35-b089-76e120d7af7b",
               "type": "image",
-              "url": "https://i.imgur.com/cldfUIh.jpeg",
+              "url": "https://i.imgur.com/p3frLsr.jpeg",
               "alt": "",
               "alternativeText": ""
             },
             {
               "id": "c4505a09-864c-48f8-8077-013fae2db291",
               "type": "text",
-              "content": "<h3>Astuce n°2 : Pas d’infos personnelles</h3><p>Un bon mot de passe est secret et ne contient pas d’informations personnelles. Par définition personne ne doit le connaître, ni le deviner ! Ciao les dates de naissance et autres numéros de téléphone. Un mot de passe doit rester secret !<span aria-hidden=\"true\">🤫</span></p>"
+              "content": "<h3>Astuce n°2 : Pas d’infos personnelles</h3><p>Un bon mot de passe est secret et ne contient pas d’informations personnelles. Par définition personne ne doit le connaître, ni le deviner ! Ciao les dates de naissance et autres numéros de téléphone. Un mot de passe doit rester secret !<span aria-hidden=\"true\">🤫</span></p><br><hr>"
             },
             {
               "id": "0ef47e65-d31e-41b6-a5a5-0f3b00caf5be",
               "type": "image",
-              "url": "https://i.imgur.com/aNdqNHF.jpeg",
+              "url": "https://i.imgur.com/8LzCdGv.jpeg",
               "alt": "",
               "alternativeText": ""
             },
             {
               "id": "52f4050d-7ab9-41da-987b-d9172d5b3cb0",
               "type": "text",
-              "content": "<h3>Astuce n°3 : De la variété dans les caractères utilisés</h3><p>Un bon mot de passe contient des caractères divers ! Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter. <span aria-hidden=\"true\">💬</span></p>"
+              "content": "<h3>Astuce n°3 : De la variété dans les caractères utilisés</h3><p>Un bon mot de passe contient des caractères divers ! Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter. <span aria-hidden=\"true\">💬</span></p><br><hr>"
             },
             {
               "id": "95a1559a-71d8-4ef6-aa2c-e4d839d78d9b",
               "type": "image",
-              "url": "https://i.imgur.com/BdO32Of.jpeg",
+              "url": "https://i.imgur.com/rW32MQi.jpeg",
               "alt": "",
               "alternativeText": ""
             },
@@ -1096,14 +1096,14 @@
             {
               "id": "a71a60a7-f1c3-4a3c-b9b6-7ea5f1ec970e",
               "type": "image",
-              "url": "https://i.imgur.com/V1ysNRl.jpeg",
+              "url": "https://i.imgur.com/doNBrbj.jpeg",
               "alt": "",
               "alternativeText": ""
             },
             {
               "id": "fd4b05ee-8cda-4bfe-b18a-468f1a895f80",
               "type": "text",
-              "content": "<h3>Voici une méthode pour construire un mot de passe solide</h3><ol><li>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em></li><li>Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !</li></ol>Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><hr><h3>Maintenant, à vous de jouer !</h3>"
+              "content": "<h3>Voici une méthode pour construire un mot de passe solide</h3><ol><li>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em></li><li>Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !</li></ol>Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><h3>Maintenant, à vous de jouer !</h3>"
             },
             {
               "id": "74fad4da-be99-4b9b-83af-ef90ca553b06",
@@ -1143,15 +1143,17 @@
             {
               "id": "6d8ea5ad-d394-4aa8-b8dc-82733df76bdb",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/placeholder-image.svg",
+              "url": "https://i.imgur.com/psVBa3a.jpeg",
               "alt": "",
               "alternativeText": ""
             },
             {
               "id": "6eda6d92-1147-4c19-a7e5-f61a2228e33c",
               "type": "text",
-              "content": "<p>Recommandation 1</p>"
+              "content": "<p>Recommandation 1</p><br><hr>"
             }
+
+
           ]
         },
         {
