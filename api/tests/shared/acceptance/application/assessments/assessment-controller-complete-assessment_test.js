@@ -394,6 +394,30 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
       state: Assessment.states.STARTED,
     });
 
+    databaseBuilder.factory.buildCompetenceScoringConfiguration({
+      configuration: [
+        {
+          competence: '1.1',
+          values: [
+            {
+              bounds: {
+                max: 0,
+                min: Number.MIN_SAFE_INTEGER,
+              },
+              competenceLevel: 0,
+            },
+            {
+              bounds: {
+                max: Number.MAX_SAFE_INTEGER,
+                min: 0,
+              },
+              competenceLevel: 1,
+            },
+          ],
+        },
+      ],
+    });
+
     await databaseBuilder.commit();
 
     options = {
@@ -680,7 +704,12 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
   });
 });
 
-function _buildValidAnswersAndCertificationChallenges({ certificationCourseId, assessmentId, difficulty = 0 }) {
+function _buildValidAnswersAndCertificationChallenges({
+  certificationCourseId,
+  assessmentId,
+  difficulty = 0,
+  competenceId = 'recCompetence0',
+}) {
   const answers = _.flatten(
     _.range(0, 3).map((skillIndex) =>
       _.range(0, 3).map((level) => {
@@ -696,6 +725,7 @@ function _buildValidAnswersAndCertificationChallenges({ certificationCourseId, a
   const certificationChallenges = answers.map(({ challengeId }) =>
     databaseBuilder.factory.buildCertificationChallenge({
       challengeId,
+      competenceId,
       courseId: certificationCourseId,
       difficulty,
       discriminant: 2,
