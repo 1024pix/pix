@@ -46,4 +46,16 @@ module('Unit | Route | authenticated/import-organization-participant', function 
       assert.ok(true);
     });
   });
+
+  module('resetController', function () {
+    test('should reset errors and warnings to null when isExiting true', function (assert) {
+      const route = this.owner.lookup('route:authenticated.import-organization-participants');
+
+      const controller = { set: sinon.stub() };
+      route.resetController(controller, true);
+      assert.true(controller.set.calledWithExactly('errors', null));
+      assert.true(controller.set.calledWithExactly('warnings', null));
+      assert.true(controller.set.calledWithExactly('warningBanner', null));
+    });
+  });
 });

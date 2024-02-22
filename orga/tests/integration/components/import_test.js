@@ -9,6 +9,41 @@ import sinon from 'sinon';
 module('Integration | Component | OrganizationParticipantImport', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  hooks.beforeEach(function () {
+    this.set('onImportSupStudents', sinon.stub());
+    this.set('onImportScoStudents', sinon.stub());
+    this.set('onReplaceStudents', sinon.stub());
+  });
+
+  module('when has errors', function (hooks) {
+    hooks.beforeEach(function () {
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
+        isSUPManagingStudents = true;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+    });
+
+    test('display error heading information', async function (assert) {
+      this.set('errors', []);
+      this.set('warnings', null);
+      const screen = await render(
+        hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @errors={{this.errors}}
+  @warnings={{this.warnings}}
+/>`,
+      );
+
+      assert.ok(
+        screen.getByRole('heading', { name: this.intl.t('pages.organization-participants-import.error-panel.title') }),
+      );
+    });
+  });
+
   module('when user is from sup', (hooks) => {
     class CurrentUserStub extends Service {
       isAdminInOrganization = true;
@@ -17,9 +52,6 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
 
     hooks.beforeEach(function () {
       this.owner.register('service:current-user', CurrentUserStub);
-      this.set('onImportSupStudents', sinon.stub());
-      this.set('onImportScoStudents', sinon.stub());
-      this.set('onReplaceStudents', sinon.stub());
     });
 
     test('it should display Import/Replace Component', async function (assert) {
@@ -70,14 +102,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       assert.ok(await screen.findByText(this.intl.t('pages.organization-participants-import.information')));
     });
 
-    module('replaceStudents', function (hooks) {
-      hooks.beforeEach(function () {
-        this.owner.register('service:current-user', CurrentUserStub);
-        this.set('onImportSupStudents', sinon.stub());
-        this.set('onImportScoStudents', sinon.stub());
-        this.set('onReplaceStudents', sinon.stub());
-      });
-
+    module('replaceStudents', function () {
       test('it should open the modal on replace button click', async function (assert) {
         // given
         this.set('isLoading', false);
@@ -141,14 +166,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       });
     });
 
-    module('importSupStudents', function (hooks) {
-      hooks.beforeEach(function () {
-        this.owner.register('service:current-user', CurrentUserStub);
-        this.set('onImportSupStudents', sinon.stub());
-        this.set('onImportScoStudents', sinon.stub());
-        this.set('onReplaceStudents', sinon.stub());
-      });
-
+    module('importSupStudents', function () {
       test('it should import by confirming and clicking on import button', async function (assert) {
         // given
         this.set('isLoading', false);
@@ -186,9 +204,6 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
 
     hooks.beforeEach(async function () {
       this.owner.register('service:current-user', CurrentUserStub);
-      this.set('onImportSupStudents', sinon.stub());
-      this.set('onImportScoStudents', sinon.stub());
-      this.set('onReplaceStudents', sinon.stub());
     });
 
     test('it should display title and not the loading state', async function (assert) {
@@ -312,6 +327,39 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
 />`,
       );
 
+      assert.ok(await screen.findByText(this.intl.t('pages.organization-participants-import.information')));
+    });
+
+    test('it trigger importStudentsSpy when clicking on the import button', async function (assert) {
+      this.set('isLoading', false);
+
+      const screen = await render(
+        hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
+      );
+
+      const file = new Blob(['foo'], { type: 'valid-file' });
+      const input = screen.getByLabelText(this.intl.t('pages.organization-participants-import.actions.add-sco.label'));
+
+      await triggerEvent(input, 'change', { files: [file] });
+
+      assert.ok(this.onImportScoStudents.called);
+    });
+
+    test('a message should be display when importing ', async function (assert) {
+      this.set('isLoading', true);
+      const screen = await render(
+        hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @isLoading={{this.isLoading}}
+/>`,
+      );
       assert.ok(await screen.findByText(this.intl.t('pages.organization-participants-import.information')));
     });
 

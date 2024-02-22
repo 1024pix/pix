@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { visit } from '@1024pix/ember-testing-library';
@@ -32,20 +32,14 @@ module('Acceptance | Student Import', function (hooks) {
     module('have access to upload file', function () {
       test('it should display success message and reload students', async function (assert) {
         // given
-        const screen = await visit('/import-participants');
+        const screen = await visit('/etudiants');
 
+        // when
+        await click(
+          screen.getByRole('link', { name: this.intl.t('pages.sup-organization-participants.actions.import-file') }),
+        );
         // then
         assert.strictEqual(currentURL(), '/import-participants');
-        assert.ok(
-          screen.getByRole('heading', {
-            name: this.intl.t('pages.organization-participants-import.actions.add-sup.title'),
-          }),
-        );
-        assert.ok(
-          screen.getByRole('heading', {
-            name: this.intl.t('pages.organization-participants-import.actions.replace.title'),
-          }),
-        );
       });
     });
   });
