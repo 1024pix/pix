@@ -9,8 +9,7 @@ module('Integration | Component | Module | Text', function (hooks) {
 
   test('should display a Text', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
-    const textElement = store.createRecord('text', { content: 'toto', type: 'texts' });
+    const textElement = { content: 'toto', type: 'text' };
 
     this.set('text', textElement);
 

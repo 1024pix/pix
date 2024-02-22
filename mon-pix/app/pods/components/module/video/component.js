@@ -9,13 +9,17 @@ export default class ModuleVideo extends Component {
   @tracked modalIsOpen = false;
   @service metrics;
 
+  get hasTranscription() {
+    return this.args.video.transcription.length > 0;
+  }
+
   @action
   showModal() {
     this.modalIsOpen = true;
     this.metrics.add({
       event: 'custom-event',
       'pix-event-category': 'Modulix',
-      'pix-event-action': `Passage du module : ${this.args.video.grain.get('module').get('id')}`,
+      'pix-event-action': `Passage du module : ${this.args.moduleId}`,
       'pix-event-name': `Clic sur le bouton transcription : ${this.args.video.id}`,
     });
   }

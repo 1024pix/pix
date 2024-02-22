@@ -10,16 +10,15 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
   test('should display a QCM', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
-    const qcmElement = store.createRecord('qcm', {
+    const qcmElement = {
       instruction: 'Instruction',
       proposals: [
         { id: '1', content: 'checkbox1' },
         { id: '2', content: 'checkbox2' },
         { id: '3', content: 'checkbox3' },
       ],
-      type: 'qcms',
-    });
+      type: 'qcm',
+    };
     this.set('qcm', qcmElement);
     const screen = await render(hbs`<Module::Qcm @qcm={{this.qcm}} />`);
 
@@ -41,12 +40,11 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
   test('should call action when verify button is clicked', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
     const answeredProposal = [
       { id: '1', content: 'select1' },
       { id: '2', content: 'select2' },
     ];
-    const qcmElement = store.createRecord('qcm', {
+    const qcmElement = {
       id: 'qcm-id-1',
       instruction: 'Instruction',
       proposals: [
@@ -54,8 +52,8 @@ module('Integration | Component | Module | QCM', function (hooks) {
         { id: '2', content: 'select2' },
         { id: '3', content: 'select3' },
       ],
-      type: 'qcms',
-    });
+      type: 'qcm',
+    };
     this.set('qcm', qcmElement);
     const userResponse = [answeredProposal[0].id, answeredProposal[1].id];
     const givenSubmitAnswerSpy = sinon.spy();
@@ -124,16 +122,16 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
   test('should display an error message if QCM is validated with less than two responses', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
-    const qcmElement = store.createRecord('qcm', {
+    const qcmElement = {
+      id: 'a6838f8e-05ee-42e0-9820-13a9977cf5dc',
       instruction: 'Instruction',
       proposals: [
         { id: '1', content: 'checkbox1' },
         { id: '2', content: 'checkbox2' },
         { id: '3', content: 'checkbox3' },
       ],
-      type: 'qcms',
-    });
+      type: 'qcm',
+    };
     this.set('qcm', qcmElement);
     const screen = await render(hbs`<Module::Qcm @qcm={{this.qcm}} @submitAnswer={{this.submitAnswer}} />`);
 
@@ -147,16 +145,16 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
   test('should hide the error message when QCM is validated with response', async function (assert) {
     // given
-    const store = this.owner.lookup('service:store');
-    const qcmElement = store.createRecord('qcm', {
+    const qcmElement = {
+      id: 'a6838f8e-05ee-42e0-9820-13a9977cf5dc',
       instruction: 'Instruction',
       proposals: [
         { id: '1', content: 'checkbox1' },
         { id: '2', content: 'checkbox2' },
         { id: '3', content: 'checkbox3' },
       ],
-      type: 'qcms',
-    });
+      type: 'qcm',
+    };
     const givenSubmitAnswerStub = function () {};
     this.set('submitAnswer', givenSubmitAnswerStub);
     this.set('qcm', qcmElement);
@@ -173,23 +171,24 @@ module('Integration | Component | Module | QCM', function (hooks) {
 });
 
 function prepareContextRecords(store, correctionResponse) {
-  const elementAnswer = store.createRecord('element-answer', {
-    correction: correctionResponse,
-  });
-  const qcmElement = store.createRecord('qcm', {
+  const qcmElement = {
+    id: 'a6838f8e-05ee-42e0-9820-13a9977cf5dc',
     instruction: 'Instruction',
     proposals: [
       { id: '1', content: 'checkbox1' },
       { id: '2', content: 'checkbox2' },
       { id: '3', content: 'checkbox3' },
     ],
-    type: 'qcms',
-    elementAnswers: [elementAnswer],
-  });
-  store.createRecord('grain', { id: 'id', elements: [qcmElement] });
+    type: 'qcm',
+  };
   store.createRecord('element-answer', {
     correction: correctionResponse,
     element: qcmElement,
+  });
+  store.createRecord('grain', { id: 'id', rawElements: [qcmElement] });
+  store.createRecord('element-answer', {
+    correction: correctionResponse,
+    elementId: qcmElement.id,
   });
   this.set('qcm', qcmElement);
   this.set('correctionResponse', correctionResponse);
