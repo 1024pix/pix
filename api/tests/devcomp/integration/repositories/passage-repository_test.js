@@ -15,10 +15,14 @@ describe('Integration | DevComp | Repositories | PassageRepository', function ()
       clock.restore();
     });
 
-    it('should save a passage', async function () {
+    it('should save a passage with a userId provided', async function () {
       // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
       const passage = {
         moduleId: 'recModuleId',
+        userId: userId,
       };
 
       // when
@@ -27,11 +31,37 @@ describe('Integration | DevComp | Repositories | PassageRepository', function ()
       // then
       expect(returnedPassage).to.be.instanceOf(Passage);
       expect(returnedPassage.moduleId).to.equal(passage.moduleId);
+      expect(returnedPassage.userId).to.equal(passage.userId);
       expect(returnedPassage.createdAt).to.deep.equal(new Date('2023-12-31'));
       expect(returnedPassage.updatedAt).to.deep.equal(new Date('2023-12-31'));
 
       const savedPassage = await knex('passages').where({ id: returnedPassage.id }).first();
       expect(savedPassage.moduleId).to.equal(passage.moduleId);
+      expect(savedPassage.userId).to.equal(passage.userId);
+      expect(savedPassage.createdAt).to.deep.equal(new Date('2023-12-31'));
+      expect(savedPassage.updatedAt).to.deep.equal(new Date('2023-12-31'));
+    });
+
+    it('should save a passage no userId provided', async function () {
+      // given
+      const passage = {
+        moduleId: 'recModuleId',
+        userId: null,
+      };
+
+      // when
+      const returnedPassage = await passageRepository.save(passage);
+
+      // then
+      expect(returnedPassage).to.be.instanceOf(Passage);
+      expect(returnedPassage.moduleId).to.equal(passage.moduleId);
+      expect(returnedPassage.userId).to.equal(passage.userId);
+      expect(returnedPassage.createdAt).to.deep.equal(new Date('2023-12-31'));
+      expect(returnedPassage.updatedAt).to.deep.equal(new Date('2023-12-31'));
+
+      const savedPassage = await knex('passages').where({ id: returnedPassage.id }).first();
+      expect(savedPassage.moduleId).to.equal(passage.moduleId);
+      expect(savedPassage.userId).to.equal(passage.userId);
       expect(savedPassage.createdAt).to.deep.equal(new Date('2023-12-31'));
       expect(savedPassage.updatedAt).to.deep.equal(new Date('2023-12-31'));
     });
@@ -41,7 +71,7 @@ describe('Integration | DevComp | Repositories | PassageRepository', function ()
     describe('when passage exists', function () {
       it('should return the found passage', async function () {
         // given
-        const passage = databaseBuilder.factory.buildPassage({ id: 1, moduleId: 'my-module' });
+        const passage = databaseBuilder.factory.buildPassage({ id: 1, moduleId: 'my-module', userId: null });
         await databaseBuilder.commit();
 
         // when
@@ -52,6 +82,7 @@ describe('Integration | DevComp | Repositories | PassageRepository', function ()
           new Passage({
             id: passage.id,
             moduleId: passage.moduleId,
+            userId: passage.userId,
             createdAt: passage.createdAt,
             updatedAt: passage.updatedAt,
           }),
