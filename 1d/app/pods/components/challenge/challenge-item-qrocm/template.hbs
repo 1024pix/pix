@@ -54,7 +54,7 @@
               name={{block.randomName}}
               autocomplete="nope"
               placeholder={{block.placeholder}}
-              @ariaLabel={{block.ariaLabel}}
+              ariaLabel={{block.ariaLabel}}
               {{! To activate validation button as soon as possible }}
               {{on "keyup" (fn this.onInputChange block.input)}}
               {{! To also deal with browser dictionary auto complete }}
@@ -69,7 +69,7 @@
               autocomplete="nope"
               placeholder={{block.placeholder}}
               @value={{get @answersValue block.input}}
-              @ariaLabel={{block.ariaLabel}}
+              ariaLabel={{block.ariaLabel}}
               {{! To activate validation button as soon as possible }}
               {{on "keyup" (fn this.onInputChange block.input)}}
               {{! To also deal with browser dictionary auto complete }}
