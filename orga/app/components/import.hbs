@@ -1,16 +1,22 @@
 <article class="import-students-page">
   <header class="import-students-page__header">
-    <h1 class="page-title import-students-page-header__title">
+    <h1>
       {{t this.textsByOrganizationType.title}}
     </h1>
   </header>
+
+  {{#if this.displayBanner}}
+    <PixMessage @type={{this.bannerType}} @withIcon="true">
+      {{this.bannerMessage}}
+    </PixMessage>
+  {{/if}}
+
   {{#if @isLoading}}
     <Ui::PixLoader />
-    <PixMessage @type="information" @withIcon="true">
-      {{t "pages.organization-participants-import.information"}}
-    </PixMessage>
-  {{else}}
-    <div class="import-type-list">
+  {{/if}}
+
+  {{#unless @isLoading}}
+    <div class="import-students-page__type-list">
       {{#if this.currentUser.isSCOManagingStudents}}
         <ScoOrganizationParticipant::ImportCard
           @onImportStudents={{@onImportScoStudents}}
@@ -30,5 +36,17 @@
         />
       {{/if}}
     </div>
+  {{/unless}}
+
+  {{#if this.displayErrorImportPanel}}
+    <section class={{this.panelClasses}} aria-live="assertive">
+      <h2 class="screen-reader-only">{{t "pages.organization-participants-import.error-panel.title"}}</h2>
+
+      <ul class="import-students-page__error-panel-list">
+        {{#each this.errorDetailList as |errorElement|}}
+          <li class="import-students-page__error-panel-list__item">{{errorElement}}</li>
+        {{/each}}
+      </ul>
+    </section>
   {{/if}}
 </article>

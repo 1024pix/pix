@@ -901,21 +901,22 @@
           "label": "Overwrite list"
         }
       },
+      "error-panel": {
+        "title": "Errors list encountered",
+        "error-wrapper": "Import has failed. Please check or edit your file and try to import it again.",
+        "global-error": "Import has failed. Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a>'."
+      },
       "file-type-separator": " or ",
       "global-success": "The list has been successfully imported.",
-      "global-success-with-warnings": "'<div>'The list has been successfully imported.'<br/><br/>'However some values were not recognised:'<br/>'{warnings}'<br/><br/>'They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
       "information": "Importing your file may take a few minutes. Some features may be temporarily inaccessible.",
       "sco": {
-        "title": "Import students",
-        "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please check or edit your file and try to import it again.</div>",
-        "global-error": "'<div>'Import has failed.'<br/>'Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a>'.'</div>'"
+        "title": "Import students"
       },
       "sup": {
-        "title": "Import students",
-        "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please check or edit your file and try to import it again.</div>",
-        "global-error": "'<div>'Import has failed.'<br/>'Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a>'.'</div>'"
+        "title": "Import students"
       },
       "supported-formats": "(supported format: {types})",
+      "warning-banner": "However some values were not recognised. They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
       "warnings": {
         "diploma": "Diplomas unknown: {diplomas}; ",
         "study-scheme": "Study schemes unknown: {studySchemes}; "
