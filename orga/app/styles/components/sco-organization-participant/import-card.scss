@@ -2,7 +2,10 @@
   @extend %pix-shadow-xs;
   @extend %pix-body-m;
 
-  min-width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: calc(50% - var(--pix-spacing-4x));
   padding: var(--pix-spacing-6x);
   text-align: center;
   background-color: var(--pix-neutral-0);
@@ -30,8 +33,11 @@
     list-style-type: disc;
   }
 
-  &__button {
-    width: fit-content;
-    margin: 0 auto var(--pix-spacing-2x) auto;
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+    margin: 0 auto;
   }
 }

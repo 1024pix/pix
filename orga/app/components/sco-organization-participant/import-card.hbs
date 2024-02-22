@@ -15,7 +15,7 @@
     </ul>
   </div>
 
-  <div class="import-card__button">
+  <div class="import-card__footer">
     <PixButtonUpload
       @id="students-file-upload"
       @size="small"
@@ -25,9 +25,9 @@
     >
       {{t "pages.organization-participants-import.actions.add-sco.label"}}
     </PixButtonUpload>
-  </div>
 
-  <p class="import-card__accepted-files" id="accepted-files">
-    {{@acceptedFileType}}
-  </p>
+    <p class="import-card__accepted-files" id="accepted-files">
+      {{@acceptedFileType}}
+    </p>
+  </div>
 </section>

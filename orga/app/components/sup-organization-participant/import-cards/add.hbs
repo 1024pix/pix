@@ -1,11 +1,13 @@
-<section class="import-students-page__section">
-  <h2 class="import-students-page-section__title">
+<section class="import-card">
+  <h2 class="import-card__title">
     {{t "pages.organization-participants-import.actions.add-sup.title"}}
   </h2>
-  <p class="import-students-page-section__details">
+
+  <p class="import-card__details">
     {{t "pages.organization-participants-import.actions.add-sup.details"}}
   </p>
-  <div class="import-students-page-section__button-and-type">
+
+  <div class="import-card__footer">
     <PixButtonUpload
       @id="students-file-upload-add"
       @size="small"
@@ -15,7 +17,8 @@
     >
       {{t "pages.organization-participants-import.actions.add-sup.label"}}
     </PixButtonUpload>
-    <p class="import-students-page-section__details" id="accepted-files-add">
+
+    <p class="import-card__accepted-files" id="accepted-files-add">
       {{@acceptedFileType}}
     </p>
   </div>
