@@ -12,8 +12,8 @@
           <input
             id="id"
             type="text"
-            value={{@id}}
-            oninput={{perform @triggerFiltering "id"}}
+            value={{this.searchedId}}
+            oninput={{fn @triggerFiltering "id"}}
             class="table-admin-input"
           />
         </td>
@@ -21,8 +21,8 @@
           <input
             id="name"
             type="text"
-            value={{@name}}
-            oninput={{perform @triggerFiltering "name"}}
+            value={{this.searchedName}}
+            oninput={{fn @triggerFiltering "name"}}
             class="table-admin-input"
           />
         </td>
@@ -30,8 +30,8 @@
           <input
             id="type"
             type="text"
-            value={{@type}}
-            oninput={{perform @triggerFiltering "type"}}
+            value={{this.searchedType}}
+            oninput={{fn @triggerFiltering "type"}}
             class="table-admin-input"
           />
         </td>
@@ -39,8 +39,8 @@
           <input
             id="externalId"
             type="text"
-            value={{@externalId}}
-            oninput={{perform @triggerFiltering "externalId"}}
+            value={{this.searchedExternalId}}
+            oninput={{fn @triggerFiltering "externalId"}}
             class="table-admin-input"
           />
         </td>
