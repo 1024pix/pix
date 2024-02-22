@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 
 module('Unit | Model | correction', function (hooks) {
   setupTest(hooks);
@@ -54,7 +53,7 @@ module('Unit | Model | correction', function (hooks) {
 
     test('should be false when correction has a tutorial', function (assert) {
       // given
-      const givenTutorial = run(() => store.createRecord('tutorial', { title: 'is a fake tutorial' }));
+      const givenTutorial = store.createRecord('tutorial', { title: 'is a fake tutorial' });
       model = store.createRecord(
         'correction',
         Object.assign({}, defaultAttributes, {
@@ -71,7 +70,7 @@ module('Unit | Model | correction', function (hooks) {
 
     test('should be false when correction has a learningMoreTutorial', function (assert) {
       // given
-      const givenTutorial = run(() => store.createRecord('tutorial', { title: 'is a fake tutorial' }));
+      const givenTutorial = store.createRecord('tutorial', { title: 'is a fake tutorial' });
       model = store.createRecord(
         'correction',
         Object.assign({}, defaultAttributes, {

@@ -53,8 +53,7 @@ module('Integration | Component | Language Switcher', function (hooks) {
       await click(screen.getByRole('option', { name: 'Français' }));
 
       // then
-      assert.dom(screen.getByRole('button', { name: 'Français' })).exists();
-      assert.ok(onLanguageChangeStub.called);
+      assert.ok(onLanguageChangeStub.calledWithExactly('fr'));
     });
   });
 });

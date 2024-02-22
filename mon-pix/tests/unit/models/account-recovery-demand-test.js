@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import { run } from '@ember/runloop';
 import ENV from 'mon-pix/config/environment';
 
 module('Unit | Model | account recovery demand', function (hooks) {
@@ -15,15 +14,13 @@ module('Unit | Model | account recovery demand', function (hooks) {
       sinon.stub(adapter, 'ajax');
       adapter.ajax.resolves();
 
-      const accountRecoveryDemand = run(() =>
-        store.createRecord('account-recovery-demand', {
-          firstName: 'Jude',
-          lastName: 'Law',
-          ineIna: '123456789BB',
-          birthdate: '2012-07-01',
-          email: 'james.potter@example.net',
-        }),
-      );
+      const accountRecoveryDemand = store.createRecord('account-recovery-demand', {
+        firstName: 'Jude',
+        lastName: 'Law',
+        ineIna: '123456789BB',
+        birthdate: '2012-07-01',
+        email: 'james.potter@example.net',
+      });
 
       // when
       await accountRecoveryDemand.send();
@@ -55,12 +52,10 @@ module('Unit | Model | account recovery demand', function (hooks) {
       sinon.stub(adapter, 'ajax');
       adapter.ajax.resolves();
 
-      const accountRecoveryDemand = run(() =>
-        store.createRecord('account-recovery-demand', {
-          password: 'thisismypassword',
-          temporaryKey: 'temporarykey',
-        }),
-      );
+      const accountRecoveryDemand = store.createRecord('account-recovery-demand', {
+        password: 'thisismypassword',
+        temporaryKey: 'temporarykey',
+      });
 
       // when
       await accountRecoveryDemand.update();

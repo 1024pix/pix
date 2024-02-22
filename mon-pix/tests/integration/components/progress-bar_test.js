@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
 import { render } from '@1024pix/ember-testing-library';
-import { run } from '@ember/runloop';
 
 module('Integration | Component | progress-bar', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -21,7 +20,7 @@ module('Integration | Component | progress-bar', function (hooks) {
     const mockAssessment = store.createRecord('assessment', {
       type: 'CAMPAIGN',
     });
-    run(() => (mockAssessment.answers = answers));
+    mockAssessment.answers = answers;
 
     this.set('assessment', mockAssessment);
     this.set('currentChallengeNumber', 2);
