@@ -14,6 +14,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
           data: {
             attributes: {
               'certification-center-name': 'Toto',
+              address: 'centre de certification 1',
               'access-code': 'CODE12',
               date: '2017-01-20',
               examiner: 'Antoine Toutvenant',
@@ -58,7 +59,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
 
         const modelSession = domainBuilder.buildSessionForSupervising({
           id: 12,
-          address: 'Nice',
+          address: 'centre de certification 1',
           room: '28D',
           examiner: 'Antoine Toutvenant',
           accessCode: 'CODE12',
@@ -105,6 +106,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
           data: {
             attributes: {
               'certification-center-name': 'Toto',
+              address: 'centre de certification 1',
               'access-code': 'CODE12',
               date: '2017-01-20',
               examiner: 'Antoine Toutvenant',
@@ -155,7 +157,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
 
         const modelSession = domainBuilder.buildSessionForSupervising({
           id: 12,
-          address: 'Nice',
+          address: 'centre de certification 1',
           room: '28D',
           examiner: 'Antoine Toutvenant',
           accessCode: 'CODE12',
