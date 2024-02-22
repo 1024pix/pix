@@ -24,7 +24,7 @@
                 id="firstName"
                 type="text"
                 aria-label="Rechercher par prénom"
-                value={{@firstName}}
+                value={{this.searchedFirstName}}
                 oninput={{fn @triggerFiltering "firstName"}}
                 class="table-admin-input form-control"
               />
@@ -34,7 +34,7 @@
                 id="lastName"
                 type="text"
                 aria-label="Rechercher par nom"
-                value={{@lastName}}
+                value={{this.searchedLastName}}
                 oninput={{fn @triggerFiltering "lastName"}}
                 class="table-admin-input form-control"
               />
@@ -44,7 +44,7 @@
                 id="email"
                 type="text"
                 aria-label="Rechercher par adresse e-mail"
-                value={{@email}}
+                value={{this.searchedEmail}}
                 oninput={{fn @triggerFiltering "email"}}
                 class="table-admin-input form-control"
               />
