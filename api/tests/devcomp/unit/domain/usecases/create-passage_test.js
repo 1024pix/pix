@@ -25,6 +25,7 @@ describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {
   it('should call passage repository to save the passage', async function () {
     // given
     const moduleId = Symbol('moduleId');
+    const userId = Symbol('userId');
     const repositoryResult = Symbol('repository-result');
 
     const moduleRepositoryStub = {
@@ -39,6 +40,7 @@ describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {
     // when
     const result = await createPassage({
       moduleId,
+      userId,
       passageRepository: passageRepositoryStub,
       moduleRepository: moduleRepositoryStub,
     });
@@ -46,6 +48,7 @@ describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {
     // then
     expect(passageRepositoryStub.save).to.have.been.calledWithExactly({
       moduleId,
+      userId,
     });
     expect(result).to.equal(repositoryResult);
   });
