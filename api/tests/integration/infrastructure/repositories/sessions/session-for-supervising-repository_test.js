@@ -15,6 +15,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         databaseBuilder.factory.buildCertificationCenter({ name: 'Toto', id: 1234 });
         const session = databaseBuilder.factory.buildSession({
           certificationCenter: 'Tour Gamma',
+          address: 'centre de certification 1',
           room: 'Salle A',
           examiner: 'Monsieur Examinateur',
           accessCode: 'CODE12',
@@ -33,6 +34,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           new SessionForSupervising({
             id: session.id,
             certificationCenterName: 'Toto',
+            address: 'centre de certification 1',
             room: 'Salle A',
             examiner: 'Monsieur Examinateur',
             accessCode: 'CODE12',
@@ -228,12 +230,14 @@ describe('Integration | Repository | SessionForSupervising', function () {
         expect(error).to.be.instanceOf(NotFoundError);
       });
     });
+
     describe('when certification session is v3', function () {
       it('should return session informations in a SessionForSupervising Object', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({ name: 'Toto', id: 1234 });
         const session = databaseBuilder.factory.buildSession({
           version: CertificationVersion.V3,
+          address: 'centre de certification 1',
           certificationCenter: 'Tour Gamma',
           room: 'Salle A',
           examiner: 'Monsieur Examinateur',
@@ -253,6 +257,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           new SessionForSupervising({
             id: session.id,
             certificationCenterName: 'Toto',
+            address: 'centre de certification 1',
             room: 'Salle A',
             examiner: 'Monsieur Examinateur',
             accessCode: 'CODE12',
