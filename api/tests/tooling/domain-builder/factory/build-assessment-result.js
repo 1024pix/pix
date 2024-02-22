@@ -148,44 +148,4 @@ buildAssessmentResult.started = function ({
   });
 };
 
-buildAssessmentResult.notTrustable = function ({
-  pixScore,
-  reproducibilityRate,
-  status,
-  assessmentId,
-  juryId,
-  emitter,
-} = {}) {
-  return AssessmentResult.buildNotTrustableAssessmentResult({
-    pixScore,
-    reproducibilityRate,
-    status,
-    assessmentId,
-    juryId,
-    emitter,
-  });
-};
-
-buildAssessmentResult.standard = function ({
-  pixScore,
-  reproducibilityRate,
-  status,
-  assessmentId,
-  juryId,
-  emitter,
-} = {}) {
-  return AssessmentResult.buildStandardAssessmentResult({
-    pixScore,
-    reproducibilityRate,
-    status,
-    assessmentId,
-    juryId,
-    emitter,
-  });
-};
-
-buildAssessmentResult.fraud = function ({ pixScore, reproducibilityRate, assessmentId, juryId, competenceMarks } = {}) {
-  return AssessmentResult.buildFraud({ pixScore, reproducibilityRate, assessmentId, juryId, competenceMarks });
-};
-
 export { buildAssessmentResult };

@@ -1,4 +1,3 @@
-import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentResult.js';
 import { CertificationResult } from '../models/CertificationResult.js';
 import { CompetenceMark } from '../models/CompetenceMark.js';
 import { CertificationRescoringCompleted } from './CertificationRescoringCompleted.js';
@@ -15,11 +14,8 @@ import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certi
 import { config } from '../../../src/shared/config.js';
 import { CertificationCourseRejected } from './CertificationCourseRejected.js';
 import { CertificationCourseUnrejected } from './CertificationCourseUnrejected.js';
-import {
-  AutoJuryCommentKeys,
-  JuryComment,
-  JuryCommentContexts,
-} from '../../../src/certification/shared/domain/models/JuryComment.js';
+import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
+import { AssessmentResultFactory } from '../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
 
 const eventTypes = [
   ChallengeNeutralized,
@@ -123,14 +119,14 @@ async function _handleV3Certification({
 
   let assessmentResult;
   if (certificationCourse.isRejectedForFraud()) {
-    assessmentResult = AssessmentResult.buildFraud({
+    assessmentResult = AssessmentResultFactory.buildFraud({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       assessmentId: certificationAssessment.id,
       juryId: event.juryId,
     });
   } else {
-    assessmentResult = AssessmentResult.buildStandardAssessmentResult({
+    assessmentResult = AssessmentResultFactory.buildStandardAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       status: certificationAssessmentScore.status,
@@ -233,7 +229,7 @@ async function _saveResultAfterCertificationComputeError({
   event,
 }) {
   const emitter = _getEmitterFromEvent(event);
-  const assessmentResult = AssessmentResult.buildAlgoErrorResult({
+  const assessmentResult = AssessmentResultFactory.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
     juryId,
@@ -256,14 +252,14 @@ async function _saveAssessmentResult(
   const emitter = _getEmitterFromEvent(event);
   const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
   if (certificationCourse.isRejectedForFraud()) {
-    assessmentResult = AssessmentResult.buildFraud({
+    assessmentResult = AssessmentResultFactory.buildFraud({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       assessmentId: certificationAssessment.id,
       juryId: event.juryId,
     });
   } else if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
-    assessmentResult = AssessmentResult.buildNotTrustableAssessmentResult({
+    assessmentResult = AssessmentResultFactory.buildNotTrustableAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       status: certificationAssessmentScore.status,
@@ -272,7 +268,7 @@ async function _saveAssessmentResult(
       juryId: event.juryId,
     });
   } else {
-    assessmentResult = AssessmentResult.buildStandardAssessmentResult({
+    assessmentResult = AssessmentResultFactory.buildStandardAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       status: certificationAssessmentScore.status,
