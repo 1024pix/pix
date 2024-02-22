@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
-import { task, timeout } from 'ember-concurrency';
+import { debounceTask } from 'ember-lifeline';
 import config from 'pix-admin/config/environment';
 import { action } from '@ember/object';
 
@@ -27,52 +27,34 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   @tracked status = null;
   @tracked version = null;
 
-  pendingFilters = {};
-
-  @(task(function* (fieldName, param) {
-    let value;
-    let debounceDuration = this.DEBOUNCE_MS;
-    switch (fieldName) {
-      case 'id':
-      case 'certificationCenterName':
-      case 'certificationCenterExternalId':
-        value = param.target.value; // param is an InputEvent
-        break;
-      case 'status':
-      case 'version':
-      case 'certificationCenterType':
-        debounceDuration = 0;
-        value = param;
-        break;
-      default:
-        return;
+  updateFilters(filters) {
+    for (const filterKey of Object.keys(filters)) {
+      this[filterKey] = filters[filterKey];
     }
-    this.pendingFilters[fieldName] = value;
-    yield timeout(debounceDuration);
-
-    // eslint-disable-next-line ember/classic-decorator-no-classic-methods
-    this.setProperties(this.pendingFilters);
-    this.pendingFilters = {};
     this.pageNumber = DEFAULT_PAGE_NUMBER;
-  }).restartable())
-  triggerFiltering;
+  }
+
+  @action
+  triggerFiltering(fieldName, event) {
+    debounceTask(this, 'updateFilters', { [fieldName]: event.target.value }, this.DEBOUNCE_MS);
+  }
 
   @action
   updateCertificationCenterTypeFilter(newValue) {
     this.certificationCenterType = this._getOrNullForOptionAll(newValue);
-    this.triggerFiltering.perform();
+    this.updateFilters({ certificationCenterType: this.certificationCenterType });
   }
 
   @action
   updateSessionVersionFilter(newValue) {
     this.version = this._getOrNullForOptionAll(newValue);
-    this.triggerFiltering.perform();
+    this.updateFilters({ version: this.version });
   }
 
   @action
   updateSessionStatusFilter(newValue) {
     this.status = this._getOrNullForOptionAll(newValue);
-    this.triggerFiltering.perform();
+    this.updateFilters({ status: this.status });
   }
 
   _getOrNullForOptionAll(value) {
