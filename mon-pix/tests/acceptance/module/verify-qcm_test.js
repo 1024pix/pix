@@ -10,9 +10,9 @@ module('Acceptance | Module | Routes | verifyQcm', function (hooks) {
 
   test('can validate my QCM answer', async function (assert) {
     // given
-    const qcm1 = server.create('qcm', {
+    const qcm1 = {
       id: 'elementId-1',
-      type: 'qcms',
+      type: 'qcm',
       instruction: 'instruction',
       proposals: [
         { id: '1', content: 'I am one of the wrong answers!' },
@@ -20,10 +20,10 @@ module('Acceptance | Module | Routes | verifyQcm', function (hooks) {
         { id: '3', content: 'I am the second right answer!' },
         { id: '4', content: 'I am one of the wrong answers!' },
       ],
-    });
-    const qcm2 = server.create('qcm', {
+    };
+    const qcm2 = {
       id: 'elementId-2',
-      type: 'qcms',
+      type: 'qcm',
       instruction: 'instruction',
       proposals: [
         { id: '1', content: 'I am one of the right answers!' },
@@ -31,12 +31,12 @@ module('Acceptance | Module | Routes | verifyQcm', function (hooks) {
         { id: '3', content: 'Click Me!' },
         { id: '4', content: 'I am the second wrong answer!' },
       ],
-    });
+    };
 
     const grain = server.create('grain', {
       id: 'grainId',
       title: 'title',
-      elements: [qcm1, qcm2],
+      rawElements: [qcm1, qcm2],
     });
 
     server.create('module', {

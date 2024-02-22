@@ -13,7 +13,7 @@ export default class ElementAnswer extends ApplicationAdapter {
       data: {
         data: {
           attributes: {
-            'element-id': serializedSnapshot.data.relationships.element.data.id,
+            'element-id': serializedSnapshot.data.attributes['element-id'],
             'passage-id': serializedSnapshot.data.relationships.passage.data.id,
             'user-response': serializedSnapshot.data.attributes['user-response'],
           },

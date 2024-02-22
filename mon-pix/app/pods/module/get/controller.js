@@ -11,7 +11,7 @@ export default class GetController extends Controller {
     await this.store
       .createRecord('element-answer', {
         userResponse: answerData.userResponse,
-        element: answerData.element,
+        elementId: answerData.element.id,
         passage: this.model.passage,
       })
       .save({

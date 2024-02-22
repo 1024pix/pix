@@ -49,7 +49,7 @@ module('Unit | Module | Controller | get', function (hooks) {
       controller.store.createRecord
         .withArgs('element-answer', {
           userResponse,
-          element,
+          elementId,
           passage,
         })
         .returns({

@@ -9,12 +9,12 @@ module('Unit | Model | Module | Grain', function (hooks) {
       test('should return true', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const qcu = store.createRecord('qcu', { type: 'qcus', isAnswerable: true });
-        const qcm = store.createRecord('qcm', { type: 'qcms', isAnswerable: true });
-        const qrocm = store.createRecord('qrocm', { type: 'qrocms', isAnswerable: true });
-        const text = store.createRecord('text', { type: 'texts', isAnswerable: false });
+        const qcu = { type: 'qcu', isAnswerable: true };
+        const qcm = { type: 'qcm', isAnswerable: true };
+        const qrocm = { type: 'qrocm', isAnswerable: true };
+        const text = { type: 'text', isAnswerable: false };
         const grain = store.createRecord('grain', {
-          elements: [qcu, qcm, qrocm, text],
+          rawElements: [qcu, qcm, qrocm, text],
         });
 
         // when
@@ -29,9 +29,9 @@ module('Unit | Model | Module | Grain', function (hooks) {
       test('should return false', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const text = store.createRecord('text', { type: 'texts', isAnswerable: false });
+        const text = { type: 'text', isAnswerable: false };
         const grain = store.createRecord('grain', {
-          elements: [text],
+          rawElements: [text],
         });
 
         // when
@@ -48,12 +48,12 @@ module('Unit | Model | Module | Grain', function (hooks) {
       test('should return only answerable elements', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const qcu = store.createRecord('qcu', { type: 'qcus', isAnswerable: true });
-        const qcm = store.createRecord('qcm', { type: 'qcms', isAnswerable: true });
-        const qrocm = store.createRecord('qrocm', { type: 'qrocms', isAnswerable: true });
-        const text = store.createRecord('text', { type: 'texts', isAnswerable: false });
+        const qcu = { type: 'qcu', isAnswerable: true };
+        const qcm = { type: 'qcm', isAnswerable: true };
+        const qrocm = { type: 'qrocm', isAnswerable: true };
+        const text = { type: 'text', isAnswerable: false };
         const grain = store.createRecord('grain', {
-          elements: [qcu, qcm, qrocm, text],
+          rawElements: [qcu, qcm, qrocm, text],
         });
 
         // when
@@ -69,9 +69,9 @@ module('Unit | Model | Module | Grain', function (hooks) {
       test('should return an empty array', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const text = store.createRecord('text', { type: 'texts' });
+        const text = { type: 'text' };
         const grain = store.createRecord('grain', {
-          elements: [text],
+          rawElements: [text],
         });
 
         // when
@@ -88,15 +88,15 @@ module('Unit | Model | Module | Grain', function (hooks) {
       test('should return true', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const qcu = store.createRecord('qcu', { type: 'qcus' });
+        const qcu = { id: 'qcu-id-1', type: 'qcu' };
         const elementAnswer = store.createRecord('element-answer', {
-          element: qcu,
+          elementId: qcu.id,
         });
         const passage = store.createRecord('passage', {
           elementAnswers: [elementAnswer],
         });
         const grain = store.createRecord('grain', {
-          elements: [qcu],
+          rawElements: [qcu],
         });
 
         // when
@@ -111,9 +111,9 @@ module('Unit | Model | Module | Grain', function (hooks) {
       test('should return false', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const qcu = store.createRecord('qcu', { type: 'qcus', isAnswerable: true });
+        const qcu = { type: 'qcu', isAnswerable: true };
         const grain = store.createRecord('grain', {
-          elements: [qcu],
+          rawElements: [qcu],
         });
         const passage = store.createRecord('passage');
 

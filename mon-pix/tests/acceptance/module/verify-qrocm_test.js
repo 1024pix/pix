@@ -10,9 +10,9 @@ module('Acceptance | Module | Routes | verifyQrocm', function (hooks) {
 
   test('can validate my QROCM answer', async function (assert) {
     // given
-    const qrocm1 = server.create('qrocm', {
+    const qrocm1 = {
       id: 'elementId-1',
-      type: 'qrocms',
+      type: 'qrocm',
       instruction: 'instruction',
       proposals: [
         {
@@ -48,12 +48,12 @@ module('Acceptance | Module | Routes | verifyQrocm', function (hooks) {
           ],
         },
       ],
-    });
+    };
 
     const grain = server.create('grain', {
       id: 'grainId',
       title: 'title',
-      elements: [qrocm1],
+      rawElements: [qrocm1],
     });
 
     server.create('module', {

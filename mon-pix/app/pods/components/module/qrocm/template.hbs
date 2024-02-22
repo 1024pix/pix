@@ -11,7 +11,7 @@
     </div>
 
     <div class="element-qrocm__proposals">
-      {{#each @qrocm.formattedProposals as |block|}}
+      {{#each this.formattedProposals as |block|}}
         {{#if (eq block.type "text")}}
           {{html-unsafe block.content}}
         {{/if}}
