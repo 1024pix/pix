@@ -184,7 +184,9 @@ async function _updateFinalizedSession(finalizedSessionRepository, sessionId, pu
 }
 
 function _hasCertificationInError(certificationStatus) {
-  return certificationStatus.some(({ pixCertificationStatus }) => pixCertificationStatus === status.ERROR);
+  return certificationStatus.some(
+    ({ pixCertificationStatus, isCancelled }) => pixCertificationStatus === status.ERROR && !isCancelled,
+  );
 }
 
 function _hasCertificationWithNoScoring(certificationStatuses) {
