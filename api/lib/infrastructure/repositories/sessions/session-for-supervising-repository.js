@@ -22,6 +22,7 @@ const get = async function (idSession) {
       room: 'sessions.room',
       examiner: 'sessions.examiner',
       accessCode: 'sessions.accessCode',
+      address: 'sessions.address',
       certificationCenterName: 'certification-centers.name',
       version: 'sessions.version',
       certificationCandidates: knex.raw(`
