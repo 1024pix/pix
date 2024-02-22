@@ -10,6 +10,7 @@ const buildSessionForSupervising = function ({
   room = '28D',
   time = '14:30',
   certificationCandidates = [],
+  address = 'centre de certification 1',
 } = {}) {
   return new SessionForSupervising({
     id,
@@ -21,6 +22,7 @@ const buildSessionForSupervising = function ({
     room,
     time,
     certificationCandidates,
+    address,
   });
 };
 

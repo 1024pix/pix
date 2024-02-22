@@ -23,6 +23,7 @@ const serialize = function (sessions) {
       'time',
       'certificationCenterName',
       'certificationCandidates',
+      'address',
     ],
     typeForAttribute: (attribute) =>
       attribute === 'certificationCandidates' ? 'certification-candidate-for-supervising' : attribute,
