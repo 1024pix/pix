@@ -8,8 +8,8 @@ export default class Students extends Controller {
 
   queryParams = ['division'];
 
-  uppercaseFirstLetter(name) {
-    return name.charAt(0).toUpperCase() + name.slice(1);
+  getFullName(learner) {
+    return `${learner.firstName} ${learner.lastName.charAt(0).toUpperCase()}.`;
   }
 
   @action
