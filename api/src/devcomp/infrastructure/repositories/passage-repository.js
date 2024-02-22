@@ -3,11 +3,12 @@ import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransact
 import { Passage } from '../../domain/models/Passage.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 
-const save = async function ({ moduleId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+const save = async function ({ moduleId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction?.knexTransaction || knex;
   const [passage] = await knexConn('passages')
     .insert({
       moduleId,
+      userId,
       createdAt: new Date(),
       updatedAt: new Date(),
     })
@@ -26,8 +27,8 @@ const get = async function ({ passageId, domainTransaction = DomainTransaction.e
   return _toDomain(passage);
 };
 
-function _toDomain({ id, moduleId, createdAt, updatedAt }) {
-  return new Passage({ id, moduleId, createdAt, updatedAt });
+function _toDomain({ id, moduleId, userId, createdAt, updatedAt }) {
+  return new Passage({ id, moduleId, userId, createdAt, updatedAt });
 }
 
 export { get, save };
