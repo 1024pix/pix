@@ -1,5 +1,5 @@
 import { action } from '@ember/object';
-import { later } from '@ember/runloop';
+import { runTask } from 'ember-lifeline';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -52,7 +52,7 @@ export default class FeedbackPanelV3 extends Component {
   }
 
   _scrollIntoFeedbackPanel() {
-    later(function () {
+    runTask(this, function () {
       const feedbackPanelElements = document.getElementsByClassName('feedback-panel-v3');
       if (feedbackPanelElements && feedbackPanelElements[0]) {
         feedbackPanelElements[0].scrollIntoView();

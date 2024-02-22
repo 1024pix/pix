@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import ENV from 'mon-pix/config/environment';
-import { run } from '@ember/runloop';
 
 module('Unit | Model | Student-information', function (hooks) {
   setupTest(hooks);
@@ -25,14 +24,12 @@ module('Unit | Model | Student-information', function (hooks) {
         },
       });
 
-      const studentInformation = run(() =>
-        store.createRecord('student-information', {
-          firstName: 'James',
-          lastName: 'Potter',
-          ineIna: '123456789CC',
-          birthdate: '2010-01-22',
-        }),
-      );
+      const studentInformation = store.createRecord('student-information', {
+        firstName: 'James',
+        lastName: 'Potter',
+        ineIna: '123456789CC',
+        birthdate: '2010-01-22',
+      });
 
       // when
       const result = await studentInformation.submitStudentInformation();
