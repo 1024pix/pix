@@ -9,7 +9,7 @@ import {
 } from '../../../../lib/infrastructure/datasources/learning-content/index.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { Activity } from '../../domain/models/Activity.js';
-import * as solutionAdapter from '../../../../lib/infrastructure/adapters/solution-adapter.js';
+import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
 
 /**
  *
