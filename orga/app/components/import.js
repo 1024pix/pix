@@ -6,6 +6,44 @@ export default class Import extends Component {
   @service session;
   @service intl;
 
+  get displayErrorImportPanel() {
+    return Boolean(this.args.errors) || this.hasWarnings;
+  }
+
+  get hasWarnings() {
+    return Boolean(this.args.warnings);
+  }
+
+  get displayBanner() {
+    return this.args.isLoading || Boolean(this.args.warningBanner);
+  }
+
+  get panelClasses() {
+    const classes = ['import-students-page__error-panel'];
+
+    if (this.hasWarnings) classes.push('import-students-page__error-panel--warning');
+
+    return classes.join(' ');
+  }
+
+  get bannerType() {
+    if (this.hasWarnings) {
+      return 'warning';
+    } else {
+      return 'information';
+    }
+  }
+
+  get bannerMessage() {
+    if (this.hasWarnings) return this.args.warningBanner;
+
+    return this.intl.t('pages.organization-participants-import.information');
+  }
+
+  get errorDetailList() {
+    return this.args.errors || this.args.warnings;
+  }
+
   get supportedFormats() {
     if (
       (this.currentUser.isSCOManagingStudents && this.currentUser.isAgriculture) ||

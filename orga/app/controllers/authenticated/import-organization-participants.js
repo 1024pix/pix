@@ -14,23 +14,24 @@ export default class ImportController extends Controller {
   @service notifications;
   @service errorMessages;
   @service store;
-  @service router;
 
   @tracked isLoading = false;
+  @tracked errors = null;
+  @tracked warnings = null;
+  @tracked warningBanner = null;
 
   @action
   async importSupStudents(files) {
+    this._initializeUpload();
+
     const adapter = this.store.adapterFor('students-import');
     const organizationId = this.currentUser.organization.id;
 
-    this.isLoading = true;
-    this.notifications.clearAll();
     try {
       const response = await adapter.addStudentsCsv(organizationId, files);
       this._sendNotifications(response);
-      this.router.transitionTo('authenticated.sup-organization-participants.list');
     } catch (errorResponse) {
-      this._sendErrorNotifications(errorResponse);
+      this._instantiateErrorsDetail(errorResponse);
     } finally {
       this.isLoading = false;
     }
@@ -38,41 +39,42 @@ export default class ImportController extends Controller {
 
   @action
   async importScoStudents(files) {
+    this._initializeUpload();
+
     const adapter = this.store.adapterFor('students-import');
     const organizationId = this.currentUser.organization.id;
-    const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
+
     const confirmBeforeClose = (event) => {
       event.preventDefault();
       return (event.returnValue = '');
     };
+
     window.addEventListener('beforeunload', confirmBeforeClose);
-    this.isLoading = true;
-    this.notifications.clearAll();
     try {
-      await adapter.importStudentsSiecle(organizationId, files, format);
-      this.isLoading = false;
-      this.notifications.sendSuccess(this.intl.t('pages.organization-participants-import.global-success'));
-      this.router.transitionTo('authenticated.sco-organization-participants.list');
+      const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
+      const response = await adapter.importStudentsSiecle(organizationId, files, format);
+
+      this._sendNotifications(response);
     } catch (errorResponse) {
+      this._instantiateErrorsDetail(errorResponse);
+    } finally {
       this.isLoading = false;
-      this._handleError(errorResponse);
+      window.removeEventListener('beforeunload', confirmBeforeClose);
     }
-    window.removeEventListener('beforeunload', confirmBeforeClose);
   }
 
   @action
   async replaceStudents(files) {
+    this._initializeUpload();
+
     const adapter = this.store.adapterFor('students-import');
     const organizationId = this.currentUser.organization.id;
 
-    this.isLoading = true;
-    this.notifications.clearAll();
     try {
       const response = await adapter.replaceStudentsCsv(organizationId, files);
       this._sendNotifications(response);
-      this.router.transitionTo('authenticated.sup-organization-participants.list');
     } catch (errorResponse) {
-      this._sendErrorNotifications(errorResponse);
+      this._instantiateErrorsDetail(errorResponse);
     } finally {
       this.isLoading = false;
     }
@@ -80,73 +82,66 @@ export default class ImportController extends Controller {
 
   _sendNotifications(response) {
     const warningsArray = get(response, 'data.attributes.warnings', []);
-    if (isEmpty(warningsArray)) {
-      return this.notifications.sendSuccess(this.intl.t('pages.organization-participants-import.global-success'));
-    }
 
-    const warnings = groupBy(warningsArray, 'field');
-    const warningMessages = [];
-    if (warnings.diploma) {
-      const diplomas = uniq(warnings.diploma.map((warning) => warning.value)).join(', ');
-      warningMessages.push(this.intl.t('pages.organization-participants-import.warnings.diploma', { diplomas }));
-    }
-    if (warnings['study-scheme']) {
-      const studySchemes = uniq(warnings['study-scheme'].map((warning) => warning.value)).join(', ');
-      warningMessages.push(
-        this.intl.t('pages.organization-participants-import.warnings.study-scheme', { studySchemes }),
-      );
-    }
-    return this.notifications.sendWarning(
-      this.intl.t('pages.organization-participants-import.global-success-with-warnings', {
-        warnings: warningMessages.join(''),
-        htmlSafe: true,
-      }),
-    );
-  }
+    this.notifications.sendSuccess(this.intl.t('pages.organization-participants-import.global-success'));
 
-  _sendErrorNotifications(errorResponse) {
-    const globalErrorMessage = this.intl.t('pages.organization-participants-import.sup.global-error', {
-      htmlSafe: true,
-    });
-    if (errorResponse.errors) {
-      errorResponse.errors.forEach((error) => {
-        if (error.status === '412' || error.status === '413') {
-          const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
-          return this.notifications.sendError(
-            this.intl.t('pages.organization-participants-import.sup.error-wrapper', { message, htmlSafe: true }),
-          );
-        }
-        return this.notifications.sendError(globalErrorMessage, {
-          onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
-        });
-      });
-    } else {
-      return this.notifications.sendError(globalErrorMessage, {
-        onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
-      });
-    }
-  }
+    if (isEmpty(warningsArray.length)) {
+      const warnings = groupBy(warningsArray, 'field');
 
-  _handleError(errorResponse) {
-    const globalErrorMessage = this.intl.t('pages.organization-participants-import.sco.global-error', {
-      htmlSafe: true,
-    });
-    if (!errorResponse.errors) {
-      return this.notifications.sendError(globalErrorMessage, {
-        onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
-      });
-    }
+      this.warnings = [];
+      this.warningBanner = this.intl.t('pages.organization-participants-import.warning-banner', { htmlSafe: true });
 
-    errorResponse.errors.forEach((error) => {
-      if (['422', '412', '413'].includes(error.status)) {
-        const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
-        return this.notifications.sendError(
-          this.intl.t('pages.organization-participants-import.sco.error-wrapper', { message, htmlSafe: true }),
+      if (warnings.diploma) {
+        const diplomas = uniq(warnings.diploma.map((warning) => warning.value)).join(', ');
+        this.warnings.push(this.intl.t('pages.organization-participants-import.warnings.diploma', { diplomas }));
+      }
+      if (warnings['study-scheme']) {
+        const studySchemes = uniq(warnings['study-scheme'].map((warning) => warning.value)).join(', ');
+        this.warnings.push(
+          this.intl.t('pages.organization-participants-import.warnings.study-scheme', { studySchemes }),
         );
       }
-      return this.notifications.sendError(globalErrorMessage, {
-        onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
+    }
+  }
+
+  _initializeUpload() {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
+    this.notifications.clearAll();
+
+    this.errors = null;
+    this.warnings = null;
+    this.warningBanner = null;
+  }
+
+  _instantiateErrorsDetail(errorResponse) {
+    this.errors = [];
+    if (!errorResponse.errors) {
+      this.notifications.sendError(
+        this.intl.t('pages.organization-participants-import.error-panel.global-error', {
+          htmlSafe: true,
+        }),
+        {
+          onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
+        },
+      );
+    } else {
+      this.notifications.sendError(
+        this.intl.t('pages.organization-participants-import.error-panel.error-wrapper', {
+          htmlSafe: true,
+        }),
+        {
+          onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
+        },
+      );
+
+      errorResponse.errors.forEach((error) => {
+        if (['422', '412', '413'].includes(error.status)) {
+          const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
+          this.errors.push(message);
+        }
       });
-    });
+    }
   }
 }
