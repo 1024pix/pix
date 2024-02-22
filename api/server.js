@@ -23,6 +23,7 @@ import {
 } from './src/certification/complementary-certification/routes.js';
 import { flashCertificationRoutes } from './src/certification/flash-certification/routes.js';
 import { certificationCourseRoutes } from './src/certification/course/routes.js';
+import { scoringRoutes } from './src/certification/scoring/routes.js';
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
 
 import { learnerManagementRoutes } from './src/prescription/learner-management/routes.js';
@@ -46,6 +47,7 @@ const certificationRoutes = [
   attachTargetProfileRoutes,
   complementaryCertificationRoutes,
   certificationCourseRoutes,
+  scoringRoutes,
 ];
 
 const prescriptionRoutes = [
