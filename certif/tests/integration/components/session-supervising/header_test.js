@@ -26,6 +26,7 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
       room: 'Salle 12',
       examiner: 'Star Lord',
       certificationCenterName: 'Knowhere',
+      address: 'centre de certification 1',
       certificationCandidates: [],
       accessCode: 'ACCES1',
     });
@@ -37,6 +38,7 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
 
     // then
     assert.dom(screen.getByText('Session 12345')).exists();
+    assert.dom(screen.getByText('centre de certification 1')).exists();
     assert.dom(screen.getByText('Salle 12')).exists();
     assert.dom(screen.getByText('Star Lord')).exists();
     assert.dom(screen.getByText('ACCES1')).exists();
