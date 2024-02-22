@@ -1,6 +1,5 @@
-import { expect, databaseBuilder, catchErr, knex } from '../../../test-helper.js';
+import { expect, databaseBuilder, knex, sinon } from '../../../test-helper.js';
 import * as certificationRepository from '../../../../lib/infrastructure/repositories/certification-repository.js';
-import { CertificationCourseNotPublishableError } from '../../../../lib/domain/errors.js';
 import { AssessmentResult, status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 
 describe('Integration | Repository | Certification', function () {
@@ -24,17 +23,17 @@ describe('Integration | Repository | Certification', function () {
       expect(statuses).to.have.length(3);
       expect(statuses).to.deep.equal([
         {
-          certificationId: 1,
+          certificationCourseId: 1,
           isCancelled: false,
           pixCertificationStatus: AssessmentResult.status.VALIDATED,
         },
         {
-          certificationId: 3,
+          certificationCourseId: 3,
           isCancelled: false,
           pixCertificationStatus: AssessmentResult.status.REJECTED,
         },
         {
-          certificationId: 4,
+          certificationCourseId: 4,
           isCancelled: true,
           pixCertificationStatus: null,
         },
@@ -52,65 +51,58 @@ describe('Integration | Repository | Certification', function () {
       return databaseBuilder.commit();
     });
 
-    context('when some certifications latest assessment result is error', function () {
-      it('should throw a CertificationCourseNotPublishableError without publishing any certification nor setting pixCertificationStatus', async function () {
-        // given
-        _buildErrorCertification({ id: 4, sessionId, isPublished: false });
-        await databaseBuilder.commit();
-
-        // when
-        const err = await catchErr(certificationRepository.publishCertificationCoursesBySessionId)(sessionId);
-
-        // then
-        const isPublishedStates = await knex('certification-courses').pluck('isPublished').where({ sessionId });
-        const pixCertificationStatuses = await knex('certification-courses')
-          .pluck('pixCertificationStatus')
-          .where({ sessionId });
-        expect(err).to.be.instanceOf(CertificationCourseNotPublishableError);
-        expect(err.message).to.equal(
-          "Publication de la session 200: Une Certification avec le statut 'started' ou 'error' ne peut-être publiée.",
-        );
-        expect(isPublishedStates).to.deep.equal([false, false, false, false]);
-        expect(pixCertificationStatuses).to.deep.equal([null, null, null, null]);
-      });
-    });
-
-    context('when some certification are still started', function () {
-      beforeEach(function () {
-        _buildStartedCertification({ id: 4, sessionId, isPublished: false });
-        return databaseBuilder.commit();
-      });
-
-      it('should throw a CertificationCourseNotPublishableError without publishing any certification nor setting pixCertificationStatus', async function () {
-        // when
-        const err = await catchErr(certificationRepository.publishCertificationCoursesBySessionId)(sessionId);
-
-        // then
-        const isPublishedStates = await knex('certification-courses').pluck('isPublished').where({ sessionId });
-        const pixCertificationStatuses = await knex('certification-courses')
-          .pluck('pixCertificationStatus')
-          .where({ sessionId });
-        expect(err).to.be.instanceOf(CertificationCourseNotPublishableError);
-        expect(isPublishedStates).to.deep.equal([false, false, false, false]);
-        expect(pixCertificationStatuses).to.deep.equal([null, null, null, null]);
-      });
-    });
-
     context(
       'when all certification latest assessment result are validated, rejected or certification is cancelled',
       function () {
+        let clock;
+        const now = new Date('2022-12-25');
+
+        beforeEach(function () {
+          clock = sinon.useFakeTimers({
+            now,
+            toFake: ['Date'],
+          });
+        });
+
+        afterEach(async function () {
+          clock.restore();
+        });
+
         it('should set certifications as published within the session and update pixCertificationStatus according to assessment result status', async function () {
           // when
-          await certificationRepository.publishCertificationCoursesBySessionId(sessionId);
+          await certificationRepository.publishCertificationCourses([
+            { certificationCourseId: 1, pixCertificationStatus: status.VALIDATED },
+            { certificationCourseId: 2, pixCertificationStatus: status.REJECTED },
+            { certificationCourseId: 3, pixCertificationStatus: null },
+          ]);
 
           // then
-          const isPublishedStates = await knex('certification-courses').pluck('isPublished').where({ sessionId });
-          const pixCertificationStatuses = await knex('certification-courses')
-            .pluck('pixCertificationStatus')
-            .where({ sessionId })
-            .orderBy('id');
-          expect(isPublishedStates).to.deep.equal([true, true, true]);
-          expect(pixCertificationStatuses).to.deep.equal([status.VALIDATED, status.REJECTED, null]);
+          const certifications = await knex('certification-courses')
+            .select('id', 'isPublished', 'pixCertificationStatus', 'updatedAt', 'version')
+            .where({ sessionId });
+          expect(certifications).to.deep.equal([
+            {
+              id: 1,
+              isPublished: true,
+              pixCertificationStatus: status.VALIDATED,
+              updatedAt: now,
+              version: 2,
+            },
+            {
+              id: 2,
+              isPublished: true,
+              pixCertificationStatus: status.REJECTED,
+              updatedAt: now,
+              version: 2,
+            },
+            {
+              id: 3,
+              isPublished: true,
+              pixCertificationStatus: null,
+              updatedAt: now,
+              version: 2,
+            },
+          ]);
         });
       },
     );
@@ -134,11 +126,7 @@ describe('Integration | Repository | Certification', function () {
 
       // then
       const isPublishedStates = await knex('certification-courses').pluck('isPublished').where({ sessionId });
-      const pixCertificationStatuses = await knex('certification-courses')
-        .pluck('pixCertificationStatus')
-        .where({ sessionId });
       expect(isPublishedStates).to.deep.equal([false, false, false, false, false]);
-      expect(pixCertificationStatuses).to.deep.equal([null, null, null, null, null]);
     });
   });
 });

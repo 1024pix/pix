@@ -1,36 +1,9 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { CertificationCourseNotPublishableError } from '../../../lib/domain/errors.js';
-import { status } from '../../../src/shared/domain/models/AssessmentResult.js';
 
-const publishCertificationCoursesBySessionId = async function (sessionId) {
-  const certificationDTOs = await knex('certification-courses')
-    .select({
-      certificationId: 'certification-courses.id',
-      isCancelled: 'certification-courses.isCancelled',
-      assessmentResultStatus: 'assessment-results.status',
-    })
-    .where('certification-courses.sessionId', sessionId)
-    .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .leftJoin(
-      'certification-courses-last-assessment-results',
-      'certification-courses.id',
-      'certification-courses-last-assessment-results.certificationCourseId',
-    )
-    .leftJoin(
-      'assessment-results',
-      'assessment-results.id',
-      'certification-courses-last-assessment-results.lastAssessmentResultId',
-    );
-
-  const hasCertificationInError = _hasCertificationInError(certificationDTOs);
-  const hasCertificationWithNoAssessmentResultStatus = _hasCertificationWithNoAssessmentResultStatus(certificationDTOs);
-  if (hasCertificationInError || hasCertificationWithNoAssessmentResultStatus) {
-    throw new CertificationCourseNotPublishableError(sessionId);
-  }
-
-  const certificationDataToUpdate = certificationDTOs.map(({ certificationId, assessmentResultStatus }) => ({
-    id: certificationId,
-    pixCertificationStatus: assessmentResultStatus,
+const publishCertificationCourses = async function (certificationStatuses) {
+  const certificationDataToUpdate = certificationStatuses.map(({ certificationCourseId, pixCertificationStatus }) => ({
+    id: certificationCourseId,
+    pixCertificationStatus,
     isPublished: true,
     updatedAt: new Date(),
     version: -1, // Version number used to meet requirements regarding the version column non-null constraint in the insert request below
@@ -46,7 +19,7 @@ const publishCertificationCoursesBySessionId = async function (sessionId) {
 const getStatusesBySessionId = async function (sessionId) {
   return knex('certification-courses')
     .select({
-      certificationId: 'certification-courses.id',
+      certificationCourseId: 'certification-courses.id',
       isCancelled: 'certification-courses.isCancelled',
       pixCertificationStatus: 'assessment-results.status',
     })
@@ -70,12 +43,4 @@ const unpublishCertificationCoursesBySessionId = async function (sessionId) {
     .update({ isPublished: false, pixCertificationStatus: null, updatedAt: new Date() });
 };
 
-export { publishCertificationCoursesBySessionId, unpublishCertificationCoursesBySessionId, getStatusesBySessionId };
-
-function _hasCertificationInError(certificationDTOs) {
-  return certificationDTOs.some((dto) => dto.assessmentResultStatus === status.ERROR && !dto.isCancelled);
-}
-
-function _hasCertificationWithNoAssessmentResultStatus(certificationDTOs) {
-  return certificationDTOs.some((dto) => dto.assessmentResultStatus === null && !dto.isCancelled);
-}
+export { publishCertificationCourses, unpublishCertificationCoursesBySessionId, getStatusesBySessionId };
