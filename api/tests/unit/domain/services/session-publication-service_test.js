@@ -162,6 +162,34 @@ describe('Unit | UseCase | session-publication-service', function () {
             expect(error).to.be.instanceOf(CertificationCourseNotPublishableError);
           });
         });
+
+        context('when the certification is cancelled', function () {
+          it('should not throw', async function () {
+            // given
+            const session = domainBuilder.buildSession({ id: 'sessionId', publishedAt: null });
+            const sessionRepository = { getWithCertificationCandidates: sinon.stub(), updatePublishedAt: sinon.stub() };
+            const finalizedSessionRepository = {
+              get: sinon.stub(),
+              save: sinon.stub(),
+            };
+            sessionRepository.getWithCertificationCandidates.withArgs('sessionId').resolves(session);
+            certificationRepository.getStatusesBySessionId
+              .withArgs('sessionId')
+              .resolves([{ pixCertificationStatus: status.ERROR, isCancelled: true }]);
+            finalizedSessionRepository.get.resolves(domainBuilder.buildFinalizedSession());
+
+            // when/then
+            expect(
+              await publishSession({
+                sessionId: 'sessionId',
+                publishedAt: now,
+                certificationRepository,
+                finalizedSessionRepository,
+                sessionRepository,
+              }),
+            ).not.to.be.undefined;
+          });
+        });
       });
 
       context('when some certification are still started', function () {
