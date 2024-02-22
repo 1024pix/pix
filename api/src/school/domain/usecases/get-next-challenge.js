@@ -48,8 +48,14 @@ export async function getNextChallenge({
   if (nextChallenge === undefined) {
     await assessmentRepository.completeByAssessmentId(assessmentId);
     return null;
+  } else {
+    await assessmentRepository.updateWhenNewChallengeIsAsked({
+      id: assessmentId,
+      lastChallengeId: nextChallenge.id,
+    });
+
+    return nextChallenge;
   }
-  return nextChallenge;
 }
 
 function _getActivityStatusFromAnswerStatus(answerStatus) {
