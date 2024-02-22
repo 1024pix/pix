@@ -1,6 +1,7 @@
-const create = async function (request, h, { usecases, passageSerializer }) {
+const create = async function (request, h, { usecases, passageSerializer, extractUserIdFromRequest }) {
   const { 'module-id': moduleId } = request.payload.data.attributes;
-  const passage = await usecases.createPassage({ moduleId });
+  const userId = extractUserIdFromRequest(request);
+  const passage = await usecases.createPassage({ moduleId, userId });
 
   const serializedPassage = passageSerializer.serialize(passage);
   return h.response(serializedPassage).created();
