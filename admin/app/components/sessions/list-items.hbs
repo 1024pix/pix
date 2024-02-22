@@ -17,8 +17,8 @@
           <input
             aria-label="Filtrer les sessions avec un id"
             type="text"
-            value={{@id}}
-            oninput={{perform @triggerFiltering "id"}}
+            value={{this.searchedId}}
+            oninput={{fn @triggerFiltering "id"}}
             class="table-admin-input"
           />
         </td>
@@ -26,8 +26,8 @@
           <input
             aria-label="Filtrer les sessions avec le nom d'un centre de certification"
             type="text"
-            value={{@certificationCenterName}}
-            oninput={{perform @triggerFiltering "certificationCenterName"}}
+            value={{this.searchedCertificationCenterName}}
+            oninput={{fn @triggerFiltering "certificationCenterName"}}
             class="table-admin-input"
           />
         </td>
@@ -35,8 +35,8 @@
           <input
             aria-label="Filtrer les sessions avec un identifiant externe"
             type="text"
-            value={{@certificationCenterExternalId}}
-            oninput={{perform @triggerFiltering "certificationCenterExternalId"}}
+            value={{this.searchedCertificationCenterExternalId}}
+            oninput={{fn @triggerFiltering "certificationCenterExternalId"}}
             class="table-admin-input"
           />
         </td>

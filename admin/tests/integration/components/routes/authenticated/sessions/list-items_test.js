@@ -7,6 +7,10 @@ import { hbs } from 'ember-cli-htmlbars';
 module('Integration | Component | routes/authenticated/sessions | list-items', function (hooks) {
   setupRenderingTest(hooks);
 
+  hooks.beforeEach(function () {
+    this.set('triggerFiltering', () => {});
+  });
+
   test('it should display sessions list', async function (assert) {
     // given
     const date = new Date();
@@ -105,7 +109,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
   module('Dropdown menu for certification center type filtering', function () {
     test('it should render a dropdown menu to filter sessions on their certification center type', async function (assert) {
       // given
-      const screen = await render(hbs`<Sessions::ListItems />`);
+      const screen = await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
 
       // when
       await click(
@@ -130,7 +134,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
         hbs`<Sessions::ListItems
   @certificationCenterType={{this.certificationCenterType}}
   @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}
-/>`,
+  @triggerFiltering={{this.triggerFiltering}} />`,
       );
 
       // when
@@ -151,7 +155,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
   module('Dropdown menu for status filtering', function () {
     test('it should render a dropdown menu to filter sessions on their status', async function (assert) {
       // given
-      const screen = await render(hbs`<Sessions::ListItems />`);
+      const screen = await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
 
       // when
       await click(
@@ -174,7 +178,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       this.set('status', 'finalized');
       this.set('updateSessionStatusFilter', (newValue) => this.set('status', newValue));
       const screen = await render(
-        hbs`<Sessions::ListItems @status={{this.status}} @onChangeSessionStatus={{this.updateSessionStatusFilter}} />`,
+        hbs`<Sessions::ListItems @status={{this.status}} @onChangeSessionStatus={{this.updateSessionStatusFilter}} @triggerFiltering={{this.triggerFiltering}} />`,
       );
 
       // when
@@ -194,7 +198,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
   module('Dropdown menu for version filtering', function () {
     test('it should render a dropdown menu to filter sessions on their status', async function (assert) {
       // given
-      const screen = await render(hbs`<Sessions::ListItems />`);
+      const screen = await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
 
       // when
       await click(
@@ -215,7 +219,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       this.set('version', 2);
       this.set('updateSessionVersionFilter', (newValue) => this.set('version', newValue));
       const screen = await render(
-        hbs`<Sessions::ListItems @version={{this.version}} @onChangeSessionVersion={{this.updateSessionVersionFilter}} />`,
+        hbs`<Sessions::ListItems @version={{this.version}} @onChangeSessionVersion={{this.updateSessionVersionFilter}} @triggerFiltering={{this.triggerFiltering}} />`,
       );
 
       // when
