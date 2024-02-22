@@ -10,6 +10,7 @@ import { ABORT_REASONS } from '../models/CertificationCourse.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
 import { config } from '../../../src/shared/config.js';
 import { AssessmentResultFactory } from '../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
+import { CertificationAssessmentHistory } from '../../../src/certification/scoring/domain/models/CertificationAssessmentHistory.js';
 
 const eventTypes = [AssessmentCompleted];
 const EMITTER = 'PIX-ALGO';
@@ -18,6 +19,7 @@ async function handleCertificationScoring({
   event,
   assessmentResultRepository,
   badgeAcquisitionRepository,
+  certificationAssessmentHistoryRepository,
   certificationAssessmentRepository,
   certificationCourseRepository,
   certificationChallengeForScoringRepository,
@@ -38,6 +40,7 @@ async function handleCertificationScoring({
         answerRepository,
         assessmentId: event.assessmentId,
         certificationAssessment,
+        certificationAssessmentHistoryRepository,
         assessmentResultRepository,
         certificationCourseRepository,
         certificationChallengeForScoringRepository,
@@ -103,6 +106,7 @@ async function _calculateCertificationScore({
 }
 
 async function _handleV3CertificationScoring({
+  certificationAssessmentHistoryRepository,
   certificationChallengeForScoringRepository,
   answerRepository,
   assessmentId,
@@ -150,6 +154,14 @@ async function _handleV3CertificationScoring({
   } else {
     certificationCourse.complete({ now: new Date() });
   }
+
+  const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({
+    algorithm,
+    challenges,
+    allAnswers,
+  });
+
+  await certificationAssessmentHistoryRepository.save(certificationAssessmentHistory);
 
   await _saveResult({
     certificationAssessment,
