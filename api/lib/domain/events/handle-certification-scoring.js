@@ -1,4 +1,3 @@
-import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentResult.js';
 import { CertificationScoringCompleted } from './CertificationScoringCompleted.js';
 import { CompetenceMark } from '../models/CompetenceMark.js';
 import bluebird from 'bluebird';
@@ -10,6 +9,7 @@ import { CertificationAssessmentScoreV3 } from '../../../src/certification/scori
 import { ABORT_REASONS } from '../models/CertificationCourse.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
 import { config } from '../../../src/shared/config.js';
+import { AssessmentResultFactory } from '../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
 
 const eventTypes = [AssessmentCompleted];
 const EMITTER = 'PIX-ALGO';
@@ -203,7 +203,7 @@ function _createAssessmentResult({
   certificationAssessmentScore,
   assessmentResultRepository,
 }) {
-  const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
+  const assessmentResult = AssessmentResultFactory.buildStandardAssessmentResult({
     pixScore: certificationAssessmentScore.nbPix,
     reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
     status: certificationAssessmentScore.status,
@@ -223,7 +223,7 @@ async function _saveResultAfterCertificationComputeError({
   certificationComputeError,
 }) {
   const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
-  const assessmentResult = AssessmentResult.buildAlgoErrorResult({
+  const assessmentResult = AssessmentResultFactory.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
     emitter: EMITTER,

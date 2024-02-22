@@ -559,7 +559,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             event,
           });
 
-          const assessmentResultToBeSaved = domainBuilder.buildAssessmentResult.fraud({
+          const assessmentResultToBeSaved = domainBuilder.certification.scoring.buildAssessmentResult.fraud({
             pixScore: scoreForEstimatedLevel,
             reproducibilityRate: 100,
             assessmentId: 123,
@@ -790,7 +790,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           .withArgs({ certificationAssessment, continueOnError: false })
           .resolves(certificationAssessmentScore);
 
-        const assessmentResultToBeSaved = domainBuilder.buildAssessmentResult.notTrustable({
+        const assessmentResultToBeSaved = domainBuilder.certification.scoring.buildAssessmentResult.notTrustable({
           emitter: 'PIX-ALGO-NEUTRALIZATION',
           pixScore: 30,
           reproducibilityRate: 80,
@@ -875,7 +875,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           .withArgs({ certificationAssessment, continueOnError: false })
           .resolves(certificationAssessmentScore);
 
-        const assessmentResultToBeSaved = domainBuilder.buildAssessmentResult.standard({
+        const assessmentResultToBeSaved = domainBuilder.certification.scoring.buildAssessmentResult.standard({
           emitter: 'PIX-ALGO-NEUTRALIZATION',
           pixScore: 30,
           reproducibilityRate: 80,
@@ -961,7 +961,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           .withArgs({ certificationAssessment, continueOnError: false })
           .resolves(certificationAssessmentScore);
 
-        const assessmentResultToBeSaved = domainBuilder.buildAssessmentResult.fraud({
+        const assessmentResultToBeSaved = domainBuilder.certification.scoring.buildAssessmentResult.fraud({
           pixScore: 30,
           reproducibilityRate: 80,
           assessmentId: 123,
