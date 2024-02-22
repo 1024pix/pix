@@ -1,7 +1,7 @@
 <RobotDialog>
   <Bubble @message={{t "pages.school.division-list.welcome" schoolName=@model.name}} />
 </RobotDialog>
-<div class="divisions">
+<div class="list list__divisions">
   {{#each @model.divisions as |division|}}
     <LinkTo @route="school.students" @query={{hash division=division}} class="divisions__item">
       <p>{{division}}</p>
