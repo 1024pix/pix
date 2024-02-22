@@ -1,9 +1,47 @@
 import { expect, databaseBuilder, catchErr, knex } from '../../../test-helper.js';
 import * as certificationRepository from '../../../../lib/infrastructure/repositories/certification-repository.js';
 import { CertificationCourseNotPublishableError } from '../../../../lib/domain/errors.js';
-import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
+import { AssessmentResult, status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 
 describe('Integration | Repository | Certification', function () {
+  describe('#getStatusesBySessionId', function () {
+    it('should get status information', async function () {
+      // given
+      const sessionId = 200;
+      databaseBuilder.factory.buildSession({ id: sessionId + 1 });
+      databaseBuilder.factory.buildSession({ id: sessionId });
+      _buildValidatedCertification({ id: 1, sessionId, isPublished: false });
+      _buildValidatedCertification({ id: 2, sessionId: sessionId + 1, isPublished: false });
+      _buildRejectedCertification({ id: 3, sessionId, isPublished: false });
+      _buildCancelledCertification({ id: 4, sessionId, isPublished: false });
+      await databaseBuilder.commit();
+
+      // when
+      const statuses = await certificationRepository.getStatusesBySessionId(sessionId);
+
+      // then
+
+      expect(statuses).to.have.length(3);
+      expect(statuses).to.deep.equal([
+        {
+          certificationId: 1,
+          isCancelled: false,
+          pixCertificationStatus: AssessmentResult.status.VALIDATED,
+        },
+        {
+          certificationId: 3,
+          isCancelled: false,
+          pixCertificationStatus: AssessmentResult.status.REJECTED,
+        },
+        {
+          certificationId: 4,
+          isCancelled: true,
+          pixCertificationStatus: null,
+        },
+      ]);
+    });
+  });
+
   describe('#publishCertificationCoursesBySessionId', function () {
     const sessionId = 200;
     beforeEach(function () {

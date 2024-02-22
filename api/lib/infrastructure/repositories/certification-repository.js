@@ -43,16 +43,37 @@ const publishCertificationCoursesBySessionId = async function (sessionId) {
     .merge(['pixCertificationStatus', 'isPublished', 'updatedAt']);
 };
 
+const getStatusesBySessionId = async function (sessionId) {
+  return knex('certification-courses')
+    .select({
+      certificationId: 'certification-courses.id',
+      isCancelled: 'certification-courses.isCancelled',
+      pixCertificationStatus: 'assessment-results.status',
+    })
+    .where('certification-courses.sessionId', sessionId)
+    .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
+    .leftJoin(
+      'certification-courses-last-assessment-results',
+      'certification-courses.id',
+      'certification-courses-last-assessment-results.certificationCourseId',
+    )
+    .leftJoin(
+      'assessment-results',
+      'assessment-results.id',
+      'certification-courses-last-assessment-results.lastAssessmentResultId',
+    );
+};
+
 const unpublishCertificationCoursesBySessionId = async function (sessionId) {
   await knex('certification-courses')
     .where({ sessionId })
     .update({ isPublished: false, pixCertificationStatus: null, updatedAt: new Date() });
 };
 
-export { publishCertificationCoursesBySessionId, unpublishCertificationCoursesBySessionId };
+export { publishCertificationCoursesBySessionId, unpublishCertificationCoursesBySessionId, getStatusesBySessionId };
 
 function _hasCertificationInError(certificationDTOs) {
-  return certificationDTOs.some((dto) => dto.assessmentResultStatus === status.ERROR);
+  return certificationDTOs.some((dto) => dto.assessmentResultStatus === status.ERROR && !dto.isCancelled);
 }
 
 function _hasCertificationWithNoAssessmentResultStatus(certificationDTOs) {
