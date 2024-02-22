@@ -1,75 +1,43 @@
 .import-students-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pix-spacing-10x);
 
   &__header {
-    margin: 0 0 var(--pix-spacing-8x);
+    @extend %pix-title-m;
   }
 
-  &__section {
+  &__error-panel {
     @extend %pix-shadow-xs;
+    @extend %pix-body-s;
 
-    display: flex;
-    flex-direction: column;
-    gap: var(--pix-spacing-6x);
-    align-items: center;
-    justify-content: space-between;
-    width:calc(50% - var(--pix-spacing-6x));
-    margin: var(--pix-spacing-4x);
-    padding: var(--pix-spacing-4x);
+    &--warning {
+      color:var(--pix-warning-700);
+    }
+
+    padding: var(--pix-spacing-6x);
+    color:var(--pix-error-700);
+    font-weight: var(--pix-font-medium);
+    text-align: left;
     background-color: var(--pix-neutral-0);
     border-radius: 8px;
   }
-}
 
-.import-students-page-header {
-  &__title {
-    @extend %pix-title-m;
+  &__error-panel-list {
+    &__item {
+      margin-bottom: var(--pix-spacing-2x);
 
-    margin: var(--pix-spacing-2x);
+      &:last-child {
+        margin: 0;
+      }
+    }
   }
 
-  &__subtitle {
-    @extend %pix-body-m;
-
-    margin: var(--pix-spacing-2x);
-    font-weight: var(--pix-font-medium);
-  }
-
-  &__details {
-    @extend %pix-body-m;
-
-    margin: var(--pix-spacing-2x);
-    color: var(--pix-neutral-20)0;
-    font-family: $font-roboto;
-  }
-}
-
-.import-students-page-section {
-  &__title {
-    @extend %pix-title-xs;
-
-    margin: var(--pix-spacing-2x);
-  }
-
-  &__details {
-    @extend %pix-body-m;
-
-    margin: var(--pix-spacing-4x);
-    color: var(--pix-neutral-20)0;
-    font-family: $font-roboto;
-    line-height: 22px;
-    letter-spacing: 0.15px;
-  }
-
-  &__button-and-type {
+  &__type-list {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    gap: var(--pix-spacing-8x);
+    align-items: stretch;
+    justify-content: center;
   }
-}
-
-.import-type-list {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  justify-content: center;
 }

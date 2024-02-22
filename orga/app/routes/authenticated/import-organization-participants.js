@@ -12,4 +12,10 @@ export default class ImportOrganizationParticipantsRoute extends Route {
       return this.router.replaceWith('application');
     }
   }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      ['errors', 'warnings', 'warningBanner'].forEach((args) => controller.set(args, null));
+    }
+  }
 }

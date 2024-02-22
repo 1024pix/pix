@@ -28,6 +28,54 @@ module('Unit | Component | import', (hooks) => {
     });
   });
 
+  module('get#errorDetailList', () => {
+    test('should return errors when has errors', function (assert) {
+      //when
+      component.args.errors = [Symbol('ERROR')];
+      component.args.warnings = null;
+
+      // then
+      assert.deepEqual(component.errorDetailList, component.args.errors);
+    });
+
+    test('should return warnings when has warnings', async function (assert) {
+      // when
+      component.args.errors = null;
+      component.args.warnings = [Symbol('WARNING')];
+      // then
+      assert.deepEqual(component.errorDetailList, component.args.warnings);
+    });
+  });
+
+  module('get#displayErrorImportPanel', () => {
+    test('should return false as default value', function (assert) {
+      //when
+      component.args.errors = null;
+      component.args.warnings = null;
+
+      // then
+      assert.false(component.displayErrorImportPanel);
+    });
+
+    test('should return true when has errors', function (assert) {
+      //when
+      component.args.errors = [Symbol('ERROR')];
+      component.args.warnings = null;
+
+      // then
+      assert.true(component.displayErrorImportPanel);
+    });
+
+    test('should return true when has warnings', function (assert) {
+      //when
+      component.args.errors = null;
+      component.args.warnings = [Symbol('WARNING')];
+
+      // then
+      assert.true(component.displayErrorImportPanel);
+    });
+  });
+
   module('get#supportedFormats', () => {
     test('should return .csv when organization isManagingStudent SCO and isAgriculuture to true', function (assert) {
       // when

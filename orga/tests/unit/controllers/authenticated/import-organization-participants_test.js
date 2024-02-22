@@ -49,7 +49,7 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun étudiant n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d’aide</a>.</div>',
+          this.intl.t('pages.organization-participants-import.error-panel.error-wrapper'),
         );
       });
 
@@ -64,7 +64,7 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun étudiant n’a été importé.<br/><strong>Error message</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>',
+          this.intl.t('pages.organization-participants-import.error-panel.error-wrapper'),
         );
       });
 
@@ -79,7 +79,7 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun étudiant n’a été importé.<br/><strong>Error message</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>',
+          this.intl.t('pages.organization-participants-import.error-panel.error-wrapper'),
         );
       });
     });
@@ -122,7 +122,7 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun élève n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d’aide</a>.</div>',
+          this.intl.t('pages.organization-participants-import.error-panel.error-wrapper'),
         );
       });
 
@@ -137,7 +137,7 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>',
+          this.intl.t('pages.organization-participants-import.error-panel.error-wrapper'),
         );
       });
 
@@ -152,7 +152,7 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>',
+          this.intl.t('pages.organization-participants-import.error-panel.error-wrapper'),
         );
       });
 
@@ -167,7 +167,7 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>',
+          this.intl.t('pages.organization-participants-import.error-panel.error-wrapper'),
         );
       });
 
@@ -180,10 +180,10 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
         await controller.importScoStudents(files);
 
         // then
-        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.toString();
+        const errorMessages = controller.errors;
 
         assert.true(
-          notificationMessage.includes(
+          errorMessages.includes(
             this.intl.t('api-error-messages.student-xml-import.sex-code-required', { nationalStudentId: '1234' }),
           ),
         );
@@ -214,7 +214,7 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun étudiant n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d’aide</a>.</div>',
+          this.intl.t('pages.organization-participants-import.error-panel.error-wrapper'),
         );
       });
 
@@ -229,7 +229,7 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun étudiant n’a été importé.<br/><strong>Error message</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>',
+          this.intl.t('pages.organization-participants-import.error-panel.error-wrapper'),
         );
       });
 
@@ -244,7 +244,7 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
 
         assert.strictEqual(
           notificationMessage,
-          '<div>Aucun étudiant n’a été importé.<br/><strong>Error message</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>',
+          this.intl.t('pages.organization-participants-import.error-panel.error-wrapper'),
         );
       });
     });

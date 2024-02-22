@@ -901,21 +901,22 @@
           "label": "Importer une nouvelle liste"
         }
       },
+      "error-panel": {
+        "title": "Liste des erreurs rencontrées",
+        "error-wrapper": "Aucun participant n’a été importé. Veuillez modifier votre fichier et l’importer à nouveau.",
+        "global-error": "Aucun participant n’a été importé. Veuillez réessayer ou nous contacter via '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'le formulaire du centre d’aide'</a>'."
+      },
       "file-type-separator": ", ",
       "global-success": "La liste a été importée avec succès.",
-      "global-success-with-warnings": "'<div>'La liste a été importée avec succès.'<br/><br/>'Cependant les valeurs suivantes n’ont pas été reconnues.'<br />'{warnings}'<br/><br/>'Elles ont été remplacées par “Non reconnu”. Si vous considérez qu’il manque des valeurs dans la liste limitative, veuillez nous contacter à '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
       "information": "L'import de votre fichier peut prendre quelques minutes. Certaines fonctionnalités sont temporairement inaccessibles.",
       "sco": {
-        "title": "Importer des élèves",
-        "error-wrapper": "'<div>'Aucun élève n’a été importé.'<br/><strong>'{message}'</strong><br/>' Veuillez vérifier ou modifier votre base élèves et importer à nouveau.'</div>'",
-        "global-error": "'<div>'Aucun élève n’a été importé.'<br/>'Veuillez réessayer ou nous contacter via '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'le formulaire du centre d’aide'</a>.</div>'"
+        "title": "Importer des élèves"
       },
       "sup": {
-        "title": "Importer des étudiants",
-        "error-wrapper": "'<div>'Aucun étudiant n’a été importé.'<br/><strong>'{message}'</strong><br/>' Veuillez modifier votre fichier et l’importer à nouveau.'</div>'",
-        "global-error": "'<div>'Aucun étudiant n’a été importé.'<br/>'Veuillez réessayer ou nous contacter via '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">'le formulaire du centre d’aide'</a>.</div>'"
+        "title": "Importer des étudiants"
       },
       "supported-formats": "(formats supportés : {types})",
+      "warning-banner": "Certaines valeurs n’ont pas été reconnues. Elles ont été remplacées par “Non reconnu”. Si vous considérez qu’il manque des valeurs dans la liste limitative, veuillez nous contacter à '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
       "warnings": {
         "diploma": "Diplômes non reconnus : {diplomas}; ",
         "study-scheme": "Régimes non reconnus : {studySchemes}; "
