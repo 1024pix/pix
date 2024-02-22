@@ -16,6 +16,7 @@ import { CertificationCourseRejected } from './CertificationCourseRejected.js';
 import { CertificationCourseUnrejected } from './CertificationCourseUnrejected.js';
 import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
 import { AssessmentResultFactory } from '../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
+import { CertificationAssessmentHistory } from '../../../src/certification/scoring/domain/models/CertificationAssessmentHistory.js';
 
 const eventTypes = [
   ChallengeNeutralized,
@@ -37,6 +38,7 @@ async function handleCertificationRescoring({
   answerRepository,
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
+  certificationAssessmentHistoryRepository,
 }) {
   checkEventTypes(event, eventTypes);
 
@@ -55,6 +57,7 @@ async function handleCertificationRescoring({
         certificationChallengeForScoringRepository,
         flashAlgorithmConfigurationRepository,
         flashAlgorithmService,
+        certificationAssessmentHistoryRepository,
       });
     }
 
@@ -90,6 +93,7 @@ async function _handleV3Certification({
   certificationChallengeForScoringRepository,
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
+  certificationAssessmentHistoryRepository,
 }) {
   const allAnswers = await answerRepository.findByAssessment(certificationAssessment.id);
   const certificationChallengesForScoring = await certificationChallengeForScoringRepository.getByCertificationCourseId(
@@ -150,6 +154,14 @@ async function _handleV3Certification({
     certificationCourse.cancel();
     certificationCourseRepository.update(certificationCourse);
   }
+
+  const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({
+    algorithm,
+    challenges: certificationChallengesForScoring,
+    allAnswers,
+  });
+
+  await certificationAssessmentHistoryRepository.save(certificationAssessmentHistory);
 
   await assessmentResultRepository.save({
     certificationCourseId: certificationAssessment.certificationCourseId,
