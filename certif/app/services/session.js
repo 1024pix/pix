@@ -1,7 +1,7 @@
 import { service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
+import { runTask } from 'ember-lifeline';
 import { FRENCH_INTERNATIONAL_LOCALE, FRENCH_FRANCE_LOCALE } from 'pix-certif/services/locale';
-import { later } from '@ember/runloop';
 
 export default class CurrentSessionService extends SessionService {
   @service currentDomain;
@@ -54,7 +54,7 @@ export default class CurrentSessionService extends SessionService {
 
   waitBeforeInvalidation(millisecondsToWait) {
     return new Promise((resolve) => {
-      later(() => resolve(), millisecondsToWait);
+      runTask(this, resolve, millisecondsToWait);
     });
   }
 }
