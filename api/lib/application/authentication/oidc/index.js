@@ -58,7 +58,7 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/oidc/authentication-url',
+      path: '/api/oidc/authorization-url',
       config: {
         auth: false,
         validate: {

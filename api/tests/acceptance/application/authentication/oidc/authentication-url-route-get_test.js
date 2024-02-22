@@ -9,7 +9,7 @@ describe('Acceptance | Route | oidc authentication url', function () {
     server = await createServer();
   });
 
-  describe('GET /api/oidc/authentication-url', function () {
+  describe('GET /api/oidc/authorization-url', function () {
     context('When the request returns 200', function () {
       it('returns the authentication url', async function () {
         // given
@@ -21,7 +21,7 @@ describe('Acceptance | Route | oidc authentication url', function () {
         // when
         const response = await server.inject({
           method: 'GET',
-          url: `/api/oidc/authentication-url?${query}`,
+          url: `/api/oidc/authorization-url?${query}`,
         });
 
         // then
