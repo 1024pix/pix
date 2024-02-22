@@ -2,8 +2,14 @@ import { domainBuilder, sinon, expect, catchErr } from '../../../test-helper.js'
 import { manageEmails, publishSession } from '../../../../lib/domain/services/session-publication-service.js';
 import { FinalizedSession, EmailingAttempt } from '../../../../lib/domain/models/index.js';
 
-import { SendingEmailToResultRecipientError, SendingEmailToRefererError } from '../../../../lib/domain/errors.js';
+import {
+  SendingEmailToResultRecipientError,
+  SendingEmailToRefererError,
+  CertificationCourseNotPublishableError,
+} from '../../../../lib/domain/errors.js';
 import { SessionAlreadyPublishedError } from '../../../../src/certification/session/domain/errors.js';
+
+import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
@@ -63,7 +69,8 @@ describe('Unit | UseCase | session-publication-service', function () {
     context('when the session exists', function () {
       beforeEach(function () {
         certificationRepository = {
-          publishCertificationCoursesBySessionId: sinon.stub(),
+          getStatusesBySessionId: sinon.stub(),
+          publishCertificationCourses: sinon.stub(),
         };
         sessionRepository = {
           updatePublishedAt: sinon.stub(),
@@ -100,8 +107,10 @@ describe('Unit | UseCase | session-publication-service', function () {
       context('when session is published', function () {
         it('should update the published date', async function () {
           // given
+          const certificationStatuses = [{ id: 1 }, { id: 2 }];
           const updatedSessionWithPublishedAt = { ...originalSession, publishedAt: now };
-          certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
+          certificationRepository.getStatusesBySessionId.withArgs(sessionId).resolves(certificationStatuses);
+          certificationRepository.publishCertificationCourses.withArgs(certificationStatuses).resolves();
           sessionRepository.updatePublishedAt
             .withArgs({ id: sessionId, publishedAt: now })
             .resolves(updatedSessionWithPublishedAt);
@@ -123,6 +132,89 @@ describe('Unit | UseCase | session-publication-service', function () {
           // then
           expect(finalizedSession.publishedAt).to.equal(now);
           expect(finalizedSessionRepository.save).to.have.been.calledWithExactly(finalizedSession);
+          expect(certificationRepository.publishCertificationCourses).to.have.been.calledWithExactly(
+            certificationStatuses,
+          );
+        });
+      });
+
+      context('when some certifications are in error', function () {
+        context('when the certification is not cancelled', function () {
+          it('should throw a CertificationCourseNotPublishableError', async function () {
+            // given
+            const session = domainBuilder.buildSession({ id: 'sessionId', publishedAt: null });
+            const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
+            sessionRepository.getWithCertificationCandidates.withArgs('sessionId').resolves(session);
+            certificationRepository.getStatusesBySessionId
+              .withArgs('sessionId')
+              .resolves([{ pixCertificationStatus: status.ERROR }]);
+
+            // when
+            const error = await catchErr(publishSession)({
+              sessionId: 'sessionId',
+              publishedAt: now,
+              certificationRepository,
+              finalizedSessionRepository: undefined,
+              sessionRepository,
+            });
+
+            // then
+            expect(error).to.be.instanceOf(CertificationCourseNotPublishableError);
+          });
+        });
+      });
+
+      context('when some certification are still started', function () {
+        context('when the certification is not cancelled', function () {
+          it('should throw a CertificationCourseNotPublishableError without publishing any certification nor setting pixCertificationStatus', async function () {
+            // given
+            const session = domainBuilder.buildSession({ id: 'sessionId', publishedAt: null });
+            const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
+            sessionRepository.getWithCertificationCandidates.withArgs('sessionId').resolves(session);
+            certificationRepository.getStatusesBySessionId
+              .withArgs('sessionId')
+              .resolves([{ pixCertificationStatus: null }]);
+
+            // when
+            const error = await catchErr(publishSession)({
+              sessionId: 'sessionId',
+              publishedAt: now,
+              certificationRepository,
+              finalizedSessionRepository: undefined,
+              sessionRepository,
+            });
+
+            // then
+            expect(error).to.be.instanceOf(CertificationCourseNotPublishableError);
+          });
+        });
+        context('when the certification is cancelled', function () {
+          it('should not throw', async function () {
+            // given
+            const session = domainBuilder.buildSession({ id: 'sessionId', publishedAt: null });
+            const sessionRepository = { getWithCertificationCandidates: sinon.stub(), updatePublishedAt: sinon.stub() };
+            sessionRepository.getWithCertificationCandidates.withArgs('sessionId').resolves(session);
+            certificationRepository.getStatusesBySessionId
+              .withArgs('sessionId')
+              .resolves([{ pixCertificationStatus: null, isCancelled: true }]);
+            sessionRepository.updatePublishedAt.resolves();
+            finalizedSessionRepository.get.resolves(domainBuilder.buildFinalizedSession());
+
+            // when/then
+            expect(
+              await publishSession({
+                sessionId: 'sessionId',
+                publishedAt: now,
+                certificationRepository,
+                finalizedSessionRepository,
+                sessionRepository,
+              }),
+            ).to.not.throw;
+
+            expect(certificationRepository.publishCertificationCourses).to.have.been.calledOnceWithExactly([
+              { pixCertificationStatus: null, isCancelled: true },
+            ]);
+          });
         });
       });
     });
