@@ -26,6 +26,20 @@ const organizationLearners = await importNamedExportsFromDirectory({
   ignoredFileNames: unwantedFiles,
 });
 
+/**
+ * Travail à continuer en scout-rule
+ * @see https://github.com/1024pix/pix/pull/8212
+ * @typedef {
+ *    {
+ *      buildTraining: BuildTraining,
+ *      buildDataProtectionOfficer: BuildDataProtectionOfficerFactory,
+ *    }
+ *  } Factory
+ */
+
+/**
+ * @type Factory
+ */
 export const factory = {
   ...databaseBuilders,
   prescription: {
