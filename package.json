@@ -91,6 +91,7 @@
   },
   "devDependencies": {
     "@1024pix/eslint-config": "^1.1.1",
+    "@1024pix/pix-ui": "github:1024pix/pix-ui#pix-11315-improve-pix-select-width",
     "eslint": "^8.46.0",
     "eslint-plugin-mocha": "^10.0.0",
     "husky": "^8.0.0",

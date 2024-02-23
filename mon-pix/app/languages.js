@@ -8,7 +8,7 @@ export default {
     languageSwitcherDisplayed: true,
   },
   nl: {
-    value: 'Nederlands',
-    languageSwitcherDisplayed: false,
+    value: 'Nederlaaaaands',
+    languageSwitcherDisplayed: true,
   },
 };
