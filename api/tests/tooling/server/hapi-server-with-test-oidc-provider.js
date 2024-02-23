@@ -44,7 +44,6 @@ async function createServerWithTestOidcProvider() {
 
   const oidcProviderServices = [
     new OidcAuthenticationService({
-      authenticationUrl: 'https://oidc.example.net/ea5ac20c-5076-4806-860a-b0aeb01645d4/oauth2/v2.0/authorize',
       clientId: 'client',
       clientSecret: 'secret',
       configKey: 'oidcExampleNet',
@@ -52,13 +51,11 @@ async function createServerWithTestOidcProvider() {
       hasLogoutUrl: false,
       identityProvider: 'OIDC_EXAMPLE_NET',
       jwtOptions: { expiresIn: 60 },
+      openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
       organizationName: 'OIDC Example',
       redirectUri: 'https://app.dev.pix.org/connexion/oidc-example-net',
       slug: 'oidc-example-net',
       source: 'oidcexamplenet',
-      tokenUrl: 'https://oidc.example.net/ea5ac20c-5076-4806-860a-b0aeb01645d4/oauth2/v2.0/token',
-      userInfoUrl: 'https://oidc.example.net/userinfo',
-      openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
     }),
   ];
 

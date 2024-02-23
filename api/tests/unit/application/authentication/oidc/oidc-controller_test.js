@@ -134,16 +134,15 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
     });
   });
 
-  describe('#getAuthenticationUrl', function () {
+  describe('#getAuthorizationUrl', function () {
     it('should call oidc authentication service to generate url', async function () {
       // given
       const request = {
         query: { identity_provider: identityProvider, redirect_uri: 'http:/exemple.net/' },
         yar: { set: sinon.stub(), commit: sinon.stub() },
       };
-      const getAuthenticationUrlStub = sinon.stub();
       const oidcAuthenticationService = {
-        getAuthenticationUrl: getAuthenticationUrlStub,
+        getAuthorizationUrl: sinon.stub(),
       };
       const authenticationServiceRegistryStub = {
         getOidcProviderServiceByCode: sinon.stub(),
@@ -156,13 +155,13 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const dependencies = {
         authenticationServiceRegistry: authenticationServiceRegistryStub,
       };
-      getAuthenticationUrlStub.returns('an authentication url');
+      oidcAuthenticationService.getAuthorizationUrl.returns('an authentication url');
 
       // when
-      await oidcController.getAuthenticationUrl(request, hFake, dependencies);
+      await oidcController.getAuthorizationUrl(request, hFake, dependencies);
 
       //then
-      expect(oidcAuthenticationService.getAuthenticationUrl).to.have.been.calledWithExactly({
+      expect(oidcAuthenticationService.getAuthorizationUrl).to.have.been.calledWithExactly({
         redirectUri: 'http:/exemple.net/',
       });
       expect(request.yar.set).to.have.been.calledTwice;
@@ -180,9 +179,8 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           },
           yar: { set: sinon.stub(), commit: sinon.stub() },
         };
-        const getAuthenticationUrlStub = sinon.stub();
         const oidcAuthenticationService = {
-          getAuthenticationUrl: getAuthenticationUrlStub,
+          getAuthorizationUrl: sinon.stub(),
         };
         const authenticationServiceRegistryStub = {
           getOidcProviderServiceByCode: sinon.stub(),
@@ -193,10 +191,10 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         const dependencies = {
           authenticationServiceRegistry: authenticationServiceRegistryStub,
         };
-        getAuthenticationUrlStub.returns('an authentication url');
+        oidcAuthenticationService.getAuthorizationUrl.returns('an authentication url');
 
         // when
-        await oidcController.getAuthenticationUrl(request, hFake, dependencies);
+        await oidcController.getAuthorizationUrl(request, hFake, dependencies);
 
         // then
         expect(authenticationServiceRegistryStub.getOidcProviderServiceByCode).to.have.been.calledWith({

@@ -121,15 +121,12 @@ const configuration = (function () {
     },
     cnav: {
       accessTokenLifespanMs: ms(process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d'),
-      authenticationUrl: process.env.CNAV_AUTHENTICATION_URL,
       clientId: process.env.CNAV_CLIENT_ID,
       clientSecret: process.env.CNAV_CLIENT_SECRET,
       isEnabled: isFeatureEnabled(process.env.CNAV_ENABLED),
       isEnabledForPixAdmin: false,
-      redirectUri: process.env.CNAV_REDIRECT_URI,
-      tokenUrl: process.env.CNAV_TOKEN_URL,
-      userInfoUrl: process.env.CNAV_OIDC_USER_INFO_URL,
       openidConfigurationUrl: process.env.CNAV_OPENID_CONFIGURATION_URL,
+      redirectUri: process.env.CNAV_REDIRECT_URI,
     },
     cpf: {
       idClient: '03VML243',
@@ -209,30 +206,24 @@ const configuration = (function () {
     },
     fwb: {
       accessTokenLifespanMs: ms(process.env.FWB_ACCESS_TOKEN_LIFESPAN || '7d'),
-      authenticationUrl: process.env.FWB_AUTHENTICATION_URL,
       claimsToStore: getArrayOfStrings(process.env.FWB_CLAIMS_TO_STORE),
       clientId: process.env.FWB_CLIENT_ID,
       clientSecret: process.env.FWB_CLIENT_SECRET,
       isEnabled: isFeatureEnabled(process.env.FWB_ENABLED),
       isEnabledForPixAdmin: false,
       logoutUrl: process.env.FWB_OIDC_LOGOUT_URL,
-      redirectUri: process.env.FWB_REDIRECT_URI,
-      temporaryStorage: {
-        idTokenLifespanMs: ms(process.env.FWB_ID_TOKEN_LIFESPAN || '7d'),
-      },
-      tokenUrl: process.env.FWB_TOKEN_URL,
-      userInfoUrl: process.env.FWB_USER_INFO_URL,
       openidConfigurationUrl: process.env.FWB_OPENID_CONFIGURATION_URL,
+      redirectUri: process.env.FWB_REDIRECT_URI,
+      temporaryStorage: { idTokenLifespanMs: ms(process.env.FWB_ID_TOKEN_LIFESPAN || '7d') },
     },
     google: {
       accessTokenLifespanMs: ms(process.env.GOOGLE_ACCESS_TOKEN_LIFESPAN || '7d'),
-      authenticationUrl: process.env.GOOGLE_AUTHENTICATION_URL,
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       isEnabled: false,
       isEnabledForPixAdmin: isFeatureEnabled(process.env.GOOGLE_ENABLED_FOR_PIX_ADMIN),
-      tokenUrl: process.env.GOOGLE_TOKEN_URL,
-      userInfoUrl: process.env.GOOGLE_USER_INFO_URL,
+      openidConfigurationUrl: process.env.GOOGLE_OPENID_CONFIGURATION_URL,
+      redirectUri: process.env.GOOGLE_REDIRECT_URI,
     },
     hapi: {
       options: {},
@@ -303,20 +294,15 @@ const configuration = (function () {
     },
     paysdelaloire: {
       accessTokenLifespanMs: ms(process.env.PAYSDELALOIRE_ACCESS_TOKEN_LIFESPAN || '7d'),
-      authenticationUrl: process.env.PAYSDELALOIRE_AUTHENTICATION_URL,
       clientId: process.env.PAYSDELALOIRE_CLIENT_ID,
       clientSecret: process.env.PAYSDELALOIRE_CLIENT_SECRET,
       endSessionUrl: process.env.PAYSDELALOIRE_END_SESSION_URL,
       isEnabled: isFeatureEnabled(process.env.PAYSDELALOIRE_ENABLED),
       isEnabledForPixAdmin: false,
+      openidConfigurationUrl: process.env.PAYSDELALOIRE_OPENID_CONFIGURATION_URL,
       postLogoutRedirectUri: process.env.PAYSDELALOIRE_POST_LOGOUT_REDIRECT_URI,
       redirectUri: process.env.PAYSDELALOIRE_REDIRECT_URI,
-      temporaryStorage: {
-        idTokenLifespanMs: ms(process.env.PAYSDELALOIRE_ID_TOKEN_LIFESPAN || '7d'),
-      },
-      tokenUrl: process.env.PAYSDELALOIRE_TOKEN_URL,
-      userInfoUrl: process.env.PAYSDELALOIRE_USER_INFO_URL,
-      openidConfigurationUrl: process.env.PAYSDELALOIRE_OPENID_CONFIGURATION_URL,
+      temporaryStorage: { idTokenLifespanMs: ms(process.env.PAYSDELALOIRE_ID_TOKEN_LIFESPAN || '7d') },
     },
     pgBoss: {
       connexionPoolMaxSize: _getNumber(process.env.PGBOSS_CONNECTION_POOL_MAX_SIZE, 2),
@@ -327,22 +313,17 @@ const configuration = (function () {
     poleEmploi: {
       accessTokenLifespanMs: ms(process.env.POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN || '7d'),
       afterLogoutUrl: process.env.POLE_EMPLOI_OIDC_AFTER_LOGOUT_URL,
-      authenticationUrl: process.env.POLE_EMPLOI_OIDC_AUTHENTICATION_URL,
       clientId: process.env.POLE_EMPLOI_CLIENT_ID,
       clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
       isEnabled: isFeatureEnabled(process.env.POLE_EMPLOI_ENABLED),
       isEnabledForPixAdmin: false,
       logoutUrl: process.env.POLE_EMPLOI_OIDC_LOGOUT_URL,
+      openidConfigurationUrl: process.env.POLE_EMPLOI_OPENID_CONFIGURATION_URL,
       poleEmploiSendingsLimit: _getNumber(process.env.POLE_EMPLOI_SENDING_LIMIT, 100),
       pushEnabled: isFeatureEnabled(process.env.PUSH_DATA_TO_POLE_EMPLOI_ENABLED),
-      sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
       redirectUri: process.env.POLE_EMPLOI_REDIRECT_URI,
-      temporaryStorage: {
-        idTokenLifespanMs: ms(process.env.POLE_EMPLOI_ID_TOKEN_LIFESPAN || '7d'),
-      },
-      tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
-      userInfoUrl: process.env.POLE_EMPLOI_OIDC_USER_INFO_URL,
-      openidConfigurationUrl: process.env.POLE_EMPLOI_OPENID_CONFIGURATION_URL,
+      sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
+      temporaryStorage: { idTokenLifespanMs: ms(process.env.POLE_EMPLOI_ID_TOKEN_LIFESPAN || '7d') },
     },
     port: parseInt(process.env.PORT, 10) || 3000,
     rootPath: path.normalize(__dirname + '/..'),
@@ -394,19 +375,14 @@ const configuration = (function () {
 
   if (process.env.NODE_ENV === 'test') {
     config.oidcExampleNet = {
-      authenticationUrl: 'https://oidc.example.net/authentication',
       clientId: 'client',
       clientSecret: 'secret',
       isEnabled: true,
-      temporaryStorage: {
-        idTokenLifespanMs: ms('1d'),
-      },
-      tokenUrl: 'https://oidc.example.net/token',
-      userInfoUrl: 'https://oidc.example.net/userinfo',
       openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
       organizationName: 'Oidc Example',
       postLogoutRedirectUri: 'https://app.dev.pix.local/connexion',
       redirectUri: 'https://app.dev.pix.local/connexion/oidc-example-net',
+      temporaryStorage: { idTokenLifespanMs: ms('1d') },
     };
 
     config.auditLogger.baseUrl = 'http://audit-logger.local';
@@ -463,10 +439,7 @@ const configuration = (function () {
     config.poleEmploi.isEnabled = true;
     config.poleEmploi.clientId = 'PIX_POLE_EMPLOI_CLIENT_ID';
     config.poleEmploi.clientSecret = 'PIX_POLE_EMPLOI_CLIENT_SECRET';
-    config.poleEmploi.tokenUrl = 'http://tokenUrl.fr';
     config.poleEmploi.sendingUrl = 'http://sendingUrl.fr';
-    config.poleEmploi.userInfoUrl = 'http://userInfoUrl.fr';
-    config.poleEmploi.authenticationUrl = 'http://authurl.fr';
     config.poleEmploi.logoutUrl = 'http://logout-url.fr';
     config.poleEmploi.afterLogoutUrl = 'http://after-logout.url';
     config.poleEmploi.temporaryStorage.redisUrl = null;
@@ -476,9 +449,6 @@ const configuration = (function () {
 
     config.cnav.isEnabled = true;
     config.cnav.clientId = 'PIX_CNAV_CLIENT_ID';
-    config.cnav.authenticationUrl = 'http://idp.cnav/auth';
-    config.cnav.userInfoUrl = 'http://userInfoUrl.fr';
-    config.cnav.tokenUrl = 'http://idp.cnav/token';
     config.cnav.clientSecret = 'PIX_CNAV_CLIENT_SECRET';
 
     config.fwb.isEnabled = false;
@@ -487,9 +457,6 @@ const configuration = (function () {
     config.google.isEnabled = false;
     config.google.isEnabledForPixAdmin = true;
     config.google.clientId = 'PIX_google_CLIENT_ID';
-    config.google.authenticationUrl = 'http://idp.google/auth';
-    config.google.userInfoUrl = 'http://userInfoUrl.fr';
-    config.google.tokenUrl = 'http://idp.google/token';
     config.google.clientSecret = 'PIX_GOOGLE_CLIENT_SECRET';
 
     config.saml.accessTokenLifespanMs = 1000;
