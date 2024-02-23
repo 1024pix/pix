@@ -54,6 +54,7 @@
         "welcome": "Bienvenue sur la page de l'école : <strong>{schoolName}</strong><br>Maintenant, choisis ta classe."
       },
       "division": {
+        "page-title": "Liste des élèves",
         "find-name": "Voici les élèves de la classe : <strong>{division}</strong><br>Clique sur ton prénom dans la liste.",
         "back-to-divisions": "Si ce n'est pas ta classe, <a href=\"{backUrl}\" class=\"internal-link\">clique ici pour retourner à la liste des classes</a>"
       }
