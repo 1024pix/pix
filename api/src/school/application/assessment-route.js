@@ -52,6 +52,22 @@ const register = async function (server) {
         tags: ['api'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/pix1d/assessments/{id}/current-activity',
+      config: {
+        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
+        handler: assessmentController.getCurrentActivity,
+        notes: ["- Récupération de l'activité courante"],
+        tags: ['api'],
+      },
+    },
   ]);
 };
 const name = 'assessment-pix1d-api';
