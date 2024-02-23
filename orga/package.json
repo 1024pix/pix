@@ -88,6 +88,7 @@
     "ember-dayjs": "^0.12.0",
     "ember-fetch": "^8.1.2",
     "ember-intl": "^6.4.1",
+    "ember-lifeline": "^7.0.0",
     "ember-load-initializers": "^2.1.2",
     "ember-page-title": "^8.0.0",
     "ember-qunit": "^8.0.0",
