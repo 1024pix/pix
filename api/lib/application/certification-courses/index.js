@@ -5,7 +5,38 @@ import { certificationCourseController } from './certification-course-controller
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 
 const register = async function (server) {
+  const adminRoutes = [
+    {
+      method: 'PATCH',
+      path: '/api/admin/certification-courses/{certificationCourseId}',
+      config: {
+        validate: {
+          params: Joi.object({
+            certificationCourseId: identifiersType.certificationCourseId,
+          }),
+        },
+        handler: certificationCourseController.update,
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        notes: [
+          'Cette route est utilisé par Pix Admin',
+          "Elle permet de modifier les informations d'un candidat de certification",
+        ],
+        tags: ['api', 'admin'],
+      },
+    },
+  ];
   server.route([
+    ...adminRoutes,
     {
       method: 'GET',
       path: '/api/admin/certifications/{id}/details',
@@ -92,11 +123,11 @@ const register = async function (server) {
     },
     {
       method: 'PATCH',
-      path: '/api/certification-courses/{id}',
+      path: '/api/certification-courses/{certificationCourseId}',
       config: {
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationCourseId,
+            certificationCourseId: identifiersType.certificationCourseId,
           }),
         },
         handler: certificationCourseController.update,
