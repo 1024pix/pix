@@ -1,4 +1,10 @@
-import { createServer, databaseBuilder, expect } from '../../../../test-helper.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  knex,
+} from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | passage-controller', function () {
   let server;
@@ -8,34 +14,76 @@ describe('Acceptance | Controller | passage-controller', function () {
   });
 
   describe('POST /api/passages', function () {
-    it('should create a new passage and response with a 201', async function () {
-      // given
-      const expectedResponse = {
-        type: 'passages',
-        attributes: {
-          'module-id': 'bien-ecrire-son-adresse-mail',
-        },
-      };
+    describe('when user is not authenticated', function () {
+      it('should create a new passage and response with a 201', async function () {
+        // given
+        const expectedResponse = {
+          type: 'passages',
+          attributes: {
+            'module-id': 'bien-ecrire-son-adresse-mail',
+          },
+        };
 
-      // when
-      const response = await server.inject({
-        method: 'POST',
-        url: '/api/passages',
-        payload: {
-          data: {
-            type: 'passages',
-            attributes: {
-              'module-id': 'bien-ecrire-son-adresse-mail',
+        // when
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/passages',
+          payload: {
+            data: {
+              type: 'passages',
+              attributes: {
+                'module-id': 'bien-ecrire-son-adresse-mail',
+              },
             },
           },
-        },
-      });
+        });
 
-      // then
-      expect(response.statusCode).to.equal(201);
-      expect(response.result.data.type).to.equal(expectedResponse.type);
-      expect(response.result.data.id).to.exist;
-      expect(response.result.data.attributes).to.deep.equal(expectedResponse.attributes);
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(response.result.data.type).to.equal(expectedResponse.type);
+        expect(response.result.data.id).to.exist;
+        expect(response.result.data.attributes).to.deep.equal(expectedResponse.attributes);
+      });
+    });
+
+    describe('when user is authenticated', function () {
+      it('should create a new passage and response with a 201', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        await databaseBuilder.commit();
+        const expectedResponse = {
+          type: 'passages',
+          attributes: {
+            'module-id': 'bien-ecrire-son-adresse-mail',
+          },
+        };
+
+        // when
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/passages',
+          payload: {
+            data: {
+              type: 'passages',
+              attributes: {
+                'module-id': 'bien-ecrire-son-adresse-mail',
+              },
+            },
+          },
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(user.id),
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(response.result.data.type).to.equal(expectedResponse.type);
+        expect(response.result.data.id).to.exist;
+        expect(response.result.data.attributes).to.deep.equal(expectedResponse.attributes);
+
+        const { userId } = await knex('passages').where({ id: response.result.data.id }).first();
+        expect(userId).to.equal(user.id);
+      });
     });
   });
 

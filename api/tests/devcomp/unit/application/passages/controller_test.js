@@ -8,10 +8,11 @@ describe('Unit | Devcomp | Application | Passages | Controller', function () {
       const serializedPassage = Symbol('serialized modules');
       const moduleId = Symbol('module-id');
       const passage = Symbol('passage');
+      const userId = Symbol('user-id');
       const usecases = {
         createPassage: sinon.stub(),
       };
-      usecases.createPassage.withArgs({ moduleId }).returns(passage);
+      usecases.createPassage.withArgs({ moduleId, userId }).returns(passage);
       const passageSerializer = {
         serialize: sinon.stub(),
       };
@@ -22,10 +23,16 @@ describe('Unit | Devcomp | Application | Passages | Controller', function () {
       const created = sinon.stub();
       hStub.response.withArgs(serializedPassage).returns({ created });
 
+      const request = { payload: { data: { attributes: { 'module-id': moduleId } } } };
+
+      const extractUserIdFromRequest = sinon.stub();
+      extractUserIdFromRequest.withArgs(request).returns(userId);
+
       // when
       await passageController.create({ payload: { data: { attributes: { 'module-id': moduleId } } } }, hStub, {
         passageSerializer,
         usecases,
+        extractUserIdFromRequest,
       });
 
       // then
