@@ -54,6 +54,7 @@
     "@ember/test-helpers": "^3.0.0",
     "@embroider/compat": "^3.0.0",
     "@embroider/core": "^3.0.0",
+    "@embroider/macros": "^1.13.5",
     "@embroider/webpack": "^3.0.0",
     "@faker-js/faker": "^8.0.0",
     "@formatjs/intl-getcanonicallocales": "^2.0.5",
