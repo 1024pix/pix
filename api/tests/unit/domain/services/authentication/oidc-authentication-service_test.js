@@ -318,15 +318,12 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(error).to.be.instanceOf(OidcError);
         expect(error.message).to.be.equal('Fails to generate endSessionUrl');
         expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
-          message: {
-            context: 'oidc',
-            data: {
-              organizationName: 'Oidc Example',
-            },
-            error: errorThrown,
-            event: 'get-redirect-logout-url',
-            team: 'acces',
-          },
+          context: 'oidc',
+          data: { organizationName: 'Oidc Example' },
+          error: { name: errorThrown.name },
+          event: 'get-redirect-logout-url',
+          message: errorThrown.message,
+          team: 'acces',
         });
       });
     });
@@ -399,6 +396,9 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const state = 'state';
         const errorThrown = new Error('Fails to get tokens');
 
+        errorThrown.error_uri = '/oauth2/token';
+        errorThrown.response = 'api call response here';
+
         const clientInstance = { callback: sinon.stub().rejects(errorThrown) };
         const Client = sinon.stub().returns(clientInstance);
 
@@ -425,19 +425,22 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(error).to.be.instanceOf(OidcError);
         expect(error.message).to.be.equal('Fails to get tokens');
         expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
-          message: {
-            context: 'oidc',
-            data: {
-              code,
-              nonce,
-              organizationName: 'Oidc Example',
-              sessionState,
-              state,
-            },
-            error: errorThrown,
-            event: 'exchange-code-for-tokens',
-            team: 'acces',
+          context: 'oidc',
+          data: {
+            code,
+            nonce,
+            organizationName: 'Oidc Example',
+            sessionState,
+            state,
           },
+          error: {
+            name: errorThrown.name,
+            errorUri: '/oauth2/token',
+            response: 'api call response here',
+          },
+          event: 'exchange-code-for-tokens',
+          message: errorThrown.message,
+          team: 'acces',
         });
       });
     });
@@ -512,15 +515,12 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(error).to.be.instanceOf(OidcError);
         expect(error.message).to.be.equal('Fails to generate authorization url');
         expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
-          message: {
-            context: 'oidc',
-            data: {
-              organizationName: 'Oidc Example',
-            },
-            error: errorThrown,
-            event: 'generate-authorization-url',
-            team: 'acces',
-          },
+          context: 'oidc',
+          data: { organizationName: 'Oidc Example' },
+          error: { name: errorThrown.name },
+          event: 'generate-authorization-url',
+          message: errorThrown.message,
+          team: 'acces',
         });
       });
     });
@@ -668,15 +668,12 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(error).to.be.instanceOf(OidcError);
         expect(error.message).to.be.equal('Fails to get user info');
         expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
-          message: {
-            context: 'oidc',
-            data: {
-              organizationName: 'Oidc Example',
-            },
-            error: errorThrown,
-            event: 'get-user-info-from-endpoint',
-            team: 'acces',
-          },
+          message: errorThrown.message,
+          context: 'oidc',
+          data: { organizationName: 'Oidc Example' },
+          error: { name: errorThrown.name },
+          event: 'get-user-info-from-endpoint',
+          team: 'acces',
         });
       });
     });
@@ -724,13 +721,18 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(error.message).to.be.equal(errorMessage);
         expect(error.code).to.be.equal(OIDC_ERRORS.USER_INFO.missingFields.code);
         expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
-          message: errorMessage,
-          missingFields: 'family_name',
-          userInfo: {
-            sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-            given_name: 'givenName',
-            family_name: undefined,
+          context: 'oidc',
+          data: {
+            missingFields: 'family_name',
+            userInfo: {
+              sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+              given_name: 'givenName',
+              family_name: undefined,
+            },
           },
+          event: 'find-missing-required-claims',
+          message: errorMessage,
+          team: 'acces',
         });
       });
     });
