@@ -92,8 +92,8 @@ module('Acceptance | School', function (hooks) {
       // then
       assert.strictEqual(currentURL(), '/schools/MINIPIXOU/students?division=CM2-B');
       assert.dom(screen.getByText(division)).exists();
-      assert.dom(screen.getByRole('button', { name: 'Sara Crewe' })).exists();
-      assert.dom(screen.getByRole('button', { name: 'Maya Labeille' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Sara C.' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Maya L.' })).exists();
     });
   });
 
@@ -109,8 +109,8 @@ module('Acceptance | School', function (hooks) {
       // then
       assert.strictEqual(currentURL(), '/schools/MINIPIXOU/students?division=CM2%20A');
       assert.dom(screen.getByText(division)).exists();
-      assert.dom(screen.getByRole('button', { name: 'Mickey Mouse' })).exists();
-      assert.dom(screen.getByRole('button', { name: 'Donald Duck' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Mickey M.' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Donald D.' })).exists();
     });
   });
 
@@ -121,7 +121,7 @@ module('Acceptance | School', function (hooks) {
       // when
       const screen = await visit('/schools/MINIPIXOU');
       await click(screen.getByRole('link', { name: 'CM2-B' }));
-      await click(screen.getByRole('button', { name: 'Maya Labeille' }));
+      await click(screen.getByRole('button', { name: 'Maya L.' }));
 
       // then
       assert.strictEqual(currentURL(), '/');
@@ -133,7 +133,7 @@ module('Acceptance | School', function (hooks) {
       // when
       const screen = await visit('/schools/MINIPIXOU');
       await click(screen.getByRole('link', { name: 'CM2-B' }));
-      await click(screen.getByRole('button', { name: 'Maya Labeille' }));
+      await click(screen.getByRole('button', { name: 'Maya L.' }));
 
       // then
       assert.deepEqual(currentLearner.learner, {
@@ -170,7 +170,7 @@ module('Acceptance | School', function (hooks) {
       this.server.create('school');
       const currentLearner = this.owner.lookup('service:currentLearner');
       const screen = await visit('/schools/MINIPIXOU/students?division=CM2%20A');
-      await click(screen.getByRole('button', { name: 'Mickey Mouse' }));
+      await click(screen.getByRole('button', { name: 'Mickey M.' }));
 
       // when
       await visit('/schools/MINIPIXOU/students?division=CM2%20A');
@@ -184,7 +184,7 @@ module('Acceptance | School', function (hooks) {
       const currentLearner = this.owner.lookup('service:currentLearner');
       // when
       const screen = await visit('/schools/MINIPIXOU/students?division=CM2%20A');
-      await click(screen.getByRole('button', { name: 'Mickey Mouse' }));
+      await click(screen.getByRole('button', { name: 'Mickey M.' }));
       await visit('/organization-code');
 
       // then
