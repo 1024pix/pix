@@ -108,7 +108,7 @@ module('Unit | Adapter | certification', function (hooks) {
         await adapter.updateRecord(store, { modelName: 'someModelName' }, { id: 123, adapterOptions: {} });
 
         // then
-        sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/certification-courses/123', 'PATCH');
+        sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/admin/certification-courses/123', 'PATCH');
         assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
       });
     });

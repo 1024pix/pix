@@ -9,8 +9,8 @@ export default class Certification extends ApplicationAdapter {
     return `${this.host}/${this.namespace}/admin/certification-courses/${id}/assessment-results`;
   }
 
-  urlForUpdateRecord(id) {
-    return `${this.host}/${this.namespace}/certification-courses/${id}`;
+  urlForUpdateRecord(certificationCourseId) {
+    return `${this.host}/${this.namespace}/admin/certification-courses/${certificationCourseId}`;
   }
 
   updateRecord(store, type, snapshot) {
