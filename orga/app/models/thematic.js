@@ -4,5 +4,5 @@ export default class Tube extends Model {
   @attr('string') name;
   @attr('number') index;
 
-  @hasMany('tube') tubes;
+  @hasMany('tube', { async: true, inverse: null }) tubes;
 }
