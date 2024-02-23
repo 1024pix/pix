@@ -23,7 +23,6 @@ const get = async function (idSession) {
       examiner: 'sessions.examiner',
       accessCode: 'sessions.accessCode',
       address: 'sessions.address',
-      certificationCenterName: 'certification-centers.name',
       version: 'sessions.version',
       certificationCandidates: knex.raw(`
         json_agg(json_build_object(
@@ -58,7 +57,6 @@ const get = async function (idSession) {
       this.on('certification-courses.userId', '=', 'certification-candidates.userId');
     })
     .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
     .leftJoin(
       'complementary-certification-subscriptions',
       'complementary-certification-subscriptions.certificationCandidateId',
@@ -70,7 +68,7 @@ const get = async function (idSession) {
       'complementary-certification-subscriptions.complementaryCertificationId',
     )
     .leftJoin('ongoing-live-alerts', 'ongoing-live-alerts.assessmentId', 'assessments.id')
-    .groupBy('sessions.id', 'certification-centers.id')
+    .groupBy('sessions.id')
     .where({ 'sessions.id': idSession })
     .first();
   if (!results) {

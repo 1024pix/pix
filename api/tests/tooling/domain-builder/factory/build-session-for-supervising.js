@@ -2,7 +2,6 @@ import { SessionForSupervising } from '../../../../lib/domain/read-models/Sessio
 
 const buildSessionForSupervising = function ({
   id = 123,
-  certificationCenterName = 'Centre de certif pix',
   certificationCenterId = 565,
   examiner = 'Monkey D Luffy',
   accessCode = 'ACCES1',
@@ -14,7 +13,6 @@ const buildSessionForSupervising = function ({
 } = {}) {
   return new SessionForSupervising({
     id,
-    certificationCenterName,
     examiner,
     certificationCenterId,
     accessCode,

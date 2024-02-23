@@ -13,7 +13,6 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
         const expectedPayload = {
           data: {
             attributes: {
-              'certification-center-name': 'Toto',
               address: 'centre de certification 1',
               'access-code': 'CODE12',
               date: '2017-01-20',
@@ -65,7 +64,6 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
           accessCode: 'CODE12',
           date: '2017-01-20',
           time: '14:30',
-          certificationCenterName: 'Toto',
           certificationCandidates: [
             new CertificationCandidateForSupervising({
               id: 1234,
@@ -105,7 +103,6 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
         const expectedPayload = {
           data: {
             attributes: {
-              'certification-center-name': 'Toto',
               address: 'centre de certification 1',
               'access-code': 'CODE12',
               date: '2017-01-20',
@@ -163,7 +160,6 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
           accessCode: 'CODE12',
           date: '2017-01-20',
           time: '14:30',
-          certificationCenterName: 'Toto',
           certificationCandidates: [
             new CertificationCandidateForSupervisingV3({
               id: 1234,
