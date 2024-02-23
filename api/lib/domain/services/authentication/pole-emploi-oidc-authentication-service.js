@@ -15,27 +15,24 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
       additionalRequiredProperties: ['logoutUrl', 'afterLogoutUrl', 'sendingUrl'],
-      authenticationUrl: config[configKey].authenticationUrl,
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
       hasLogoutUrl: true,
       identityProvider: POLE_EMPLOI.code,
       jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
+      openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
+      openidConfigurationUrl: config[configKey].openidConfigurationUrl,
       organizationName: 'France Travail',
       redirectUri: config[configKey].redirectUri,
       // Attention, les scopes serviceDigitauxExposition api_peconnect-servicesdigitauxv1 ne sont pas présents dans la documentation de Pole Emploi mais ils sont nécessaires à l'envoi des résultats
       scope: `application_${config[configKey].clientId} api_peconnect-individuv1 openid profile serviceDigitauxExposition api_peconnect-servicesdigitauxv1`,
       slug: 'pole-emploi',
       source: 'pole_emploi_connect',
-      tokenUrl: config[configKey].tokenUrl,
-      userInfoUrl: config[configKey].userInfoUrl,
-      openidConfigurationUrl: config[configKey].openidConfigurationUrl,
-      openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
     });
 
-    this.logoutUrl = config[configKey].logoutUrl;
     this.afterLogoutUrl = config[configKey].afterLogoutUrl;
+    this.logoutUrl = config[configKey].logoutUrl;
     this.temporaryStorageConfig = config[configKey].temporaryStorage;
   }
 

@@ -14,15 +14,7 @@ import { OIDC_ERRORS } from '../../constants.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 import { OidcError } from '../../../../src/shared/domain/errors.js';
 
-const DEFAULT_REQUIRED_PROPERTIES = [
-  'clientId',
-  'clientSecret',
-  'redirectUri',
-  'openidConfigurationUrl',
-  'authenticationUrl',
-  'userInfoUrl',
-  'tokenUrl',
-];
+const DEFAULT_REQUIRED_PROPERTIES = ['clientId', 'clientSecret', 'redirectUri', 'openidConfigurationUrl'];
 const DEFAULT_SCOPE = 'openid profile';
 const DEFAULT_REQUIRED_CLAIMS = ['sub', 'family_name', 'given_name'];
 
@@ -36,48 +28,42 @@ class OidcAuthenticationService {
   constructor(
     {
       additionalRequiredProperties,
-      authenticationUrl,
-      extraAuthorizationUrlParameters,
       claimsToStore,
       clientId,
       clientSecret,
       configKey,
       endSessionUrl,
+      extraAuthorizationUrlParameters,
       hasLogoutUrl = false,
       identityProvider,
       jwtOptions,
+      openidClientExtraMetadata,
+      openidConfigurationUrl,
       organizationName,
       postLogoutRedirectUri,
       redirectUri,
       scope = DEFAULT_SCOPE,
       slug,
       source,
-      tokenUrl,
-      userInfoUrl,
-      openidConfigurationUrl,
-      openidClientExtraMetadata,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
-    this.authenticationUrl = authenticationUrl;
-    this.extraAuthorizationUrlParameters = extraAuthorizationUrlParameters;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.configKey = configKey;
     this.endSessionUrl = endSessionUrl;
+    this.extraAuthorizationUrlParameters = extraAuthorizationUrlParameters;
     this.hasLogoutUrl = hasLogoutUrl;
     this.identityProvider = identityProvider;
     this.jwtOptions = jwtOptions;
+    this.openidClientExtraMetadata = openidClientExtraMetadata;
+    this.openidConfigurationUrl = openidConfigurationUrl;
     this.organizationName = organizationName;
     this.postLogoutRedirectUri = postLogoutRedirectUri;
     this.redirectUri = redirectUri;
     this.scope = scope;
     this.slug = slug;
     this.source = source;
-    this.tokenUrl = tokenUrl;
-    this.userInfoUrl = userInfoUrl;
-    this.openidConfigurationUrl = openidConfigurationUrl;
-    this.openidClientExtraMetadata = openidClientExtraMetadata;
 
     if (!lodash.isEmpty(claimsToStore)) {
       this.claimsToStore = claimsToStore;
@@ -206,7 +192,7 @@ class OidcAuthenticationService {
     });
   }
 
-  getAuthenticationUrl() {
+  getAuthorizationUrl() {
     const state = randomUUID();
     const nonce = randomUUID();
     const authorizationParameters = {

@@ -74,7 +74,7 @@ const reconcileUser = async function (
   return h.response({ access_token: result.accessToken, logout_url_uuid: result.logoutUrlUUID }).code(200);
 };
 
-const getAuthenticationUrl = async function (
+const getAuthorizationUrl = async function (
   request,
   h,
   dependencies = {
@@ -86,7 +86,7 @@ const getAuthenticationUrl = async function (
     identityProviderCode: identityProvider,
     audience,
   });
-  const { nonce, state, ...payload } = oidcAuthenticationService.getAuthenticationUrl({
+  const { nonce, state, ...payload } = oidcAuthenticationService.getAuthorizationUrl({
     redirectUri: request.query['redirect_uri'],
   });
 
@@ -165,7 +165,7 @@ const oidcController = {
   getRedirectLogoutUrl,
   findUserForReconciliation,
   reconcileUser,
-  getAuthenticationUrl,
+  getAuthorizationUrl,
   authenticateUser,
   createUser,
 };

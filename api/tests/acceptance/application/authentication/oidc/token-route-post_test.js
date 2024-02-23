@@ -26,7 +26,7 @@ describe('Acceptance | Route | oidc | token', function () {
       });
       const authUrlResponse = await server.inject({
         method: 'GET',
-        url: `/api/oidc/authentication-url?${query}`,
+        url: `/api/oidc/authorization-url?${query}`,
       });
       cookies = authUrlResponse.headers['set-cookie'];
 

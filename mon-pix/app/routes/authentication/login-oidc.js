@@ -117,7 +117,7 @@ export default class LoginOidcRoute extends Route {
     const response = await fetch(
       `${
         ENV.APP.API_HOST
-      }/api/oidc/authentication-url?identity_provider=${identityProvider}&redirect_uri=${encodeURIComponent(
+      }/api/oidc/authorization-url?identity_provider=${identityProvider}&redirect_uri=${encodeURIComponent(
         redirectUri,
       )}`,
     );
