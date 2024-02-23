@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 class OrganizationLearner {
   constructor({
     id,
@@ -8,8 +9,10 @@ class OrganizationLearner {
     username,
     authenticationMethods,
     group,
-    isCertifiable,
-    certifiableAt,
+    isCertifiableFromCampaign,
+    certifiableAtFromCampaign,
+    isCertifiableFromLearner,
+    certifiableAtFromLearner,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -19,8 +22,30 @@ class OrganizationLearner {
     this.group = group;
     this.username = username;
     this.authenticationMethods = authenticationMethods;
-    this.isCertifiable = isCertifiable;
-    this.certifiableAt = isCertifiable ? certifiableAt : null;
+
+    this._buildCertificability({
+      isCertifiableFromCampaign,
+      certifiableAtFromCampaign,
+      isCertifiableFromLearner,
+      certifiableAtFromLearner,
+    });
+  }
+  _buildCertificability({
+    isCertifiableFromCampaign,
+    certifiableAtFromCampaign,
+    isCertifiableFromLearner,
+    certifiableAtFromLearner,
+  }) {
+    const isCertifiableFromCampaignMostRecent =
+      certifiableAtFromLearner === null || dayjs(certifiableAtFromCampaign).isAfter(dayjs(certifiableAtFromLearner));
+
+    if (isCertifiableFromCampaignMostRecent) {
+      this.isCertifiable = isCertifiableFromCampaign;
+      this.certifiableAt = isCertifiableFromCampaign ? certifiableAtFromCampaign : null;
+    } else {
+      this.isCertifiable = isCertifiableFromLearner;
+      this.certifiableAt = certifiableAtFromLearner;
+    }
   }
 }
 

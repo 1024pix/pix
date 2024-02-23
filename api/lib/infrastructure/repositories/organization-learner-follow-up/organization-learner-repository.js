@@ -8,11 +8,13 @@ function _buildIsCertifiable(queryBuilder, organizationLearnerId) {
     .distinct('view-active-organization-learners.id')
     .select(
       'view-active-organization-learners.id as organizationLearnerId',
+      'view-active-organization-learners.isCertifiable as isCertifiableFromLearner',
+      'view-active-organization-learners.certifiableAt as certifiableAtFromLearner',
       knex.raw(
-        'FIRST_VALUE("campaign-participations"."isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiable"',
+        'FIRST_VALUE("campaign-participations"."isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiableFromCampaign"',
       ),
       knex.raw(
-        'FIRST_VALUE("campaign-participations"."sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAt"',
+        'FIRST_VALUE("campaign-participations"."sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAtFromCampaign"',
       ),
     )
     .from('view-active-organization-learners')
@@ -37,8 +39,10 @@ async function get(organizationLearnerId) {
       'view-active-organization-learners.lastName',
       'view-active-organization-learners.division',
       'view-active-organization-learners.group',
-      'subquery.isCertifiable',
-      'subquery.certifiableAt',
+      'subquery.isCertifiableFromLearner',
+      'subquery.certifiableAtFromLearner',
+      'subquery.isCertifiableFromCampaign',
+      'subquery.certifiableAtFromCampaign',
       knex.raw('array_remove(ARRAY_AGG("identityProvider"), NULL) AS "authenticationMethods"'),
       'users.email',
       'users.username',
@@ -55,8 +59,10 @@ async function get(organizationLearnerId) {
       'view-active-organization-learners.division',
       'view-active-organization-learners.group',
       'users.id',
-      'subquery.isCertifiable',
-      'subquery.certifiableAt',
+      'subquery.isCertifiableFromCampaign',
+      'subquery.certifiableAtFromCampaign',
+      'subquery.isCertifiableFromLearner',
+      'subquery.certifiableAtFromLearner',
     )
     .first();
   if (row) {

@@ -141,6 +141,36 @@ describe('Integration | Infrastructure | Repository | Organization Learner Follo
 
       context('isCertifiable', function () {
         context('When learner is certifiable', function () {
+          it('should take the participation certifiable value', async function () {
+            // given
+            const organizationId = databaseBuilder.factory.buildOrganization().id;
+            const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+              organizationId,
+            }).id;
+
+            const campaignId = databaseBuilder.factory.buildCampaign({
+              type: 'PROFILES_COLLECTION',
+              organizationId,
+            }).id;
+            const certifiableParticipation = databaseBuilder.factory.buildCampaignParticipation({
+              organizationLearnerId,
+              campaignId,
+              isCertifiable: true,
+              sharedAt: new Date('2023-02-01'),
+            });
+
+            await databaseBuilder.commit();
+
+            // when
+            const organizationLearner = await organizationLearnerFollowUpRepository.get(organizationLearnerId);
+
+            //then
+            expect(organizationLearner.isCertifiable).to.be.true;
+            expect(organizationLearner.certifiableAt).to.deep.equal(certifiableParticipation.sharedAt);
+
+            // then
+          });
+
           it('should return isCertifiable of the given id learner', async function () {
             const organizationId = databaseBuilder.factory.buildOrganization().id;
             const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
@@ -177,25 +207,29 @@ describe('Integration | Infrastructure | Repository | Organization Learner Follo
         context('When learner is not certifiable', function () {
           it('should return isCertifiable false', async function () {
             const organizationId = databaseBuilder.factory.buildOrganization().id;
-            const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+            const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
               organizationId,
-            });
-            const profileCollectionCampaign = databaseBuilder.factory.buildCampaign({
+              isCertifiable: false,
+              certifiableAt: null,
+            }).id;
+            const campaignId = databaseBuilder.factory.buildCampaign({
               type: 'PROFILES_COLLECTION',
               organizationId,
-            });
+            }).id;
+            const campaignParticipationSharedAt = new Date('2023-03-01');
             databaseBuilder.factory.buildCampaignParticipation({
               organizationLearnerId,
-              campaignId: profileCollectionCampaign.id,
+              campaignId,
               isCertifiable: false,
-              sharedAt: new Date('2023-03-01'),
+              certifiableAt: null,
+              sharedAt: campaignParticipationSharedAt,
             });
             await databaseBuilder.commit();
 
             const organizationLearner = await organizationLearnerFollowUpRepository.get(organizationLearnerId);
 
             expect(organizationLearner.isCertifiable).to.be.false;
-            expect(organizationLearner.certifiableAt).to.equal(null);
+            expect(organizationLearner.certifiableAt).to.deep.equal(campaignParticipationSharedAt);
           });
         });
 
@@ -223,9 +257,10 @@ describe('Integration | Infrastructure | Repository | Organization Learner Follo
             const organizationLearner = await organizationLearnerFollowUpRepository.get(organizationLearnerId);
 
             expect(organizationLearner.isCertifiable).to.be.null;
-            expect(organizationLearner.certifiableAt).to.equal(null);
+            expect(organizationLearner.certifiableAt).to.be.null;
           });
         });
+
         context('When the campaign is assessment type', function () {
           it('should return isCertifiable null', async function () {
             const organizationId = databaseBuilder.factory.buildOrganization().id;
