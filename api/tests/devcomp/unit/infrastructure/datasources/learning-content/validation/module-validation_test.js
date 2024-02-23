@@ -13,53 +13,60 @@ import { getQcuSample } from '../../../../../../../src/devcomp/infrastructure/da
 import { getQrocmSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/qrocm.sample.js';
 import { getTextSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/text.sample.js';
 import { getVideoSample } from '../../../../../../../src/devcomp/infrastructure/datasources/learning-content/samples/elements/video.sample.js';
+import { joiErrorParser } from './joi-error-parser.js';
 
 describe('Unit | Infrastructure | Datasources | Learning Content | Module Datasource | format validation', function () {
   it('should validate sample image structure', async function () {
-    // When
-    const result = await imageElementSchema.validateAsync(getImageSample());
-
-    // Then
-    expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
+    try {
+      await imageElementSchema.validateAsync(getImageSample(), { abortEarly: false });
+    } catch (joiError) {
+      const formattedError = joiErrorParser.format(joiError);
+      expect(joiError).to.equal(undefined, formattedError);
+    }
   });
 
   it('should validate sample qcm structure', async function () {
-    // When
-    const result = await qcmElementSchema.validateAsync(getQcmSample());
-
-    // Then
-    expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
+    try {
+      await qcmElementSchema.validateAsync(getQcmSample(), { abortEarly: false });
+    } catch (joiError) {
+      const formattedError = joiErrorParser.format(joiError);
+      expect(joiError).to.equal(undefined, formattedError);
+    }
   });
 
   it('should validate sample qcu structure', async function () {
-    // When
-    const result = await qcuElementSchema.validateAsync(getQcuSample());
-
-    // Then
-    expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
+    try {
+      await qcuElementSchema.validateAsync(getQcuSample(), { abortEarly: false });
+    } catch (joiError) {
+      const formattedError = joiErrorParser.format(joiError);
+      expect(joiError).to.equal(undefined, formattedError);
+    }
   });
 
   it('should validate sample qrocm structure', async function () {
-    // When
-    const result = await qrocmElementSchema.validateAsync(getQrocmSample());
-
-    // Then
-    expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
+    try {
+      await qrocmElementSchema.validateAsync(getQrocmSample(), { abortEarly: false });
+    } catch (joiError) {
+      const formattedError = joiErrorParser.format(joiError);
+      expect(joiError).to.equal(undefined, formattedError);
+    }
   });
 
   it('should validate sample text structure', async function () {
-    // When
-    const result = await textElementSchema.validateAsync(getTextSample());
-
-    // Then
-    expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
+    try {
+      await textElementSchema.validateAsync(getTextSample(), { abortEarly: false });
+    } catch (joiError) {
+      const formattedError = joiErrorParser.format(joiError);
+      expect(joiError).to.equal(undefined, formattedError);
+    }
   });
 
   it('should validate sample video structure', async function () {
-    // When
-    const result = await videoElementSchema.validateAsync(getVideoSample());
-
-    // Then
-    expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
+    try {
+      await videoElementSchema.validateAsync(getVideoSample(), { abortEarly: false });
+    } catch (joiError) {
+      const formattedError = joiErrorParser.format(joiError);
+      expect(joiError).to.equal(undefined, formattedError);
+    }
   });
 });
