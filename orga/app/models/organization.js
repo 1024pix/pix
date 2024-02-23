@@ -10,11 +10,11 @@ export default class Organization extends Model {
   @attr('string') documentationUrl;
   @attr('string') identityProviderForCampaigns;
 
-  @hasMany('campaign') campaigns;
-  @hasMany('target-profile') targetProfiles;
-  @hasMany('organization-invitation') organizationInvitations;
-  @hasMany('group') groups;
-  @hasMany('division') divisions;
+  @hasMany('campaign', { async: true, inverse: 'organization' }) campaigns;
+  @hasMany('target-profile', { async: true, inverse: null }) targetProfiles;
+  @hasMany('organization-invitation', { async: true, inverse: 'organization' }) organizationInvitations;
+  @hasMany('group', { async: true, inverse: null }) groups;
+  @hasMany('division', { async: true, inverse: null }) divisions;
 
   get isSco() {
     return this.type === 'SCO';

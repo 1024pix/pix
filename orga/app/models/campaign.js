@@ -31,15 +31,15 @@ export default class Campaign extends Model {
   @attr('number') totalStage;
   @attr('number') reachedStage;
 
-  @belongsTo('organization') organization;
-  @belongsTo('target-profile') targetProfile;
-  @belongsTo('campaign-collective-result') campaignCollectiveResult;
-  @belongsTo('campaign-analysis') campaignAnalysis;
+  @belongsTo('organization', { async: true, inverse: 'campaigns' }) organization;
+  @belongsTo('target-profile', { async: true, inverse: null }) targetProfile;
+  @belongsTo('campaign-collective-result', { async: true, inverse: null }) campaignCollectiveResult;
+  @belongsTo('campaign-analysis', { async: true, inverse: null }) campaignAnalysis;
 
-  @hasMany('badge') badges;
-  @hasMany('stage') stages;
-  @hasMany('divisions') divisions;
-  @hasMany('groups') groups;
+  @hasMany('badge', { async: true, inverse: null }) badges;
+  @hasMany('stage', { async: true, inverse: null }) stages;
+  @hasMany('divisions', { async: true, inverse: null }) divisions;
+  @hasMany('groups', { async: true, inverse: null }) groups;
 
   get hasBadges() {
     return this.targetProfileThematicResultCount > 0;

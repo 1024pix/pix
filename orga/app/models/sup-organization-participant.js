@@ -11,7 +11,8 @@ export default class SupOrganizationParticipant extends Model {
   @attr('string') campaignName;
   @attr('string') campaignType;
   @attr('string') participationStatus;
-  @belongsTo('organization') organization;
   @attr('boolean', { allowNull: true }) isCertifiable;
   @attr('string') certifiableAt;
+
+  @belongsTo('organization', { async: true, inverse: null }) organization;
 }

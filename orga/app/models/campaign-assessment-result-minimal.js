@@ -10,5 +10,5 @@ export default class CampaignAssessmentResultMinimal extends Model {
   @attr('string') prescriberTitle;
   @attr('string') prescriberDescription;
 
-  @hasMany('Badge') badges;
+  @hasMany('Badge', { async: true, inverse: null }) badges;
 }
