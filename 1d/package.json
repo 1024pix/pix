@@ -45,6 +45,7 @@
     "@ember/test-helpers": "^3.0.0",
     "@embroider/compat": "^3.0.0",
     "@embroider/core": "^3.0.0",
+    "@embroider/macros": "^1.13.5",
     "@embroider/webpack": "^3.0.0",
     "@fortawesome/ember-fontawesome": "^2.0.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.0",
@@ -97,9 +98,5 @@
   },
   "ember": {
     "edition": "octane"
-  },
-  "_comment": "À supprimer dès qu'on passera à la version ember-cli-mirage v3+",
-  "overrides": {
-    "@embroider/macros": "^1.11.0"
   }
 }
