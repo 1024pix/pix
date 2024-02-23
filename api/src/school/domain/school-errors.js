@@ -1,4 +1,4 @@
-import { DomainError } from '../../../lib/domain/errors.js';
+import { DomainError } from '../../shared/domain/errors.js';
 
 class ActivityNotFoundError extends DomainError {
   constructor(message = 'Erreur, activitée introuvable.', code) {
@@ -21,4 +21,11 @@ class MissionNotFoundError extends DomainError {
   }
 }
 
-export { ActivityNotFoundError, SchoolNotFoundError, MissionNotFoundError };
+class NotInProgressAssessmentError extends DomainError {
+  constructor(assessmentId) {
+    super(`Ce passage de mission est terminé : ${assessmentId}`);
+    this.code = assessmentId;
+  }
+}
+
+export { ActivityNotFoundError, SchoolNotFoundError, MissionNotFoundError, NotInProgressAssessmentError };

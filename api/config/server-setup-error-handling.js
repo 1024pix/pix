@@ -8,6 +8,7 @@ import { certificationDomainErrorMappingConfiguration } from '../src/certificati
 import { devcompDomainErrorMappingConfiguration } from '../src/devcomp/application/http-error-mapper-configuration.js';
 
 import { prescriptionDomainErrorMappingConfiguration } from '../src/prescription/shared/application/http-error-mapper-configuration.js';
+import { schoolDomainErrorMappingConfiguration } from '../src/school/application/http-error-mapper-configuration.js';
 
 import { domainErrorMapper } from '../src/shared/application/domain-error-mapper.js';
 
@@ -19,6 +20,7 @@ const setupErrorHandling = function (server) {
     ...certificationDomainErrorMappingConfiguration,
     ...devcompDomainErrorMappingConfiguration,
     ...prescriptionDomainErrorMappingConfiguration,
+    ...schoolDomainErrorMappingConfiguration,
   ];
 
   domainErrorMapper.configure(configuration);
