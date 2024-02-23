@@ -14,6 +14,8 @@ export const joiErrorParser = {
             for (const message of result.messages) {
               let errorLog = '';
               errorLog = errorLog.concat('\n');
+              errorLog = errorLog.concat('\nChemin : ', errorDetail.context.label);
+              errorLog = errorLog.concat('\n');
               errorLog = errorLog.concat('\n', severity[message.severity], `(${message.ruleId}): `, message.message);
               errorLog = errorLog.concat('\n', message.ruleUrl);
               errorLog = errorLog.concat('\n');
