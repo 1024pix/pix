@@ -73,4 +73,82 @@ Valeur concernée à rechercher : "b7ea7630-824"
 
     expect(joiErrorParser.format(error)).to.equal(expectedLog);
   });
+
+  it('should parse html error', async function () {
+    const error = {
+      details: [
+        {
+          message: 'htmlvalidationerror',
+          path: ['transitionTexts', 0, 'content'],
+          type: 'external',
+          context: {
+            value: {
+              valid: false,
+              results: [
+                {
+                  filePath: 'inline',
+                  messages: [
+                    {
+                      ruleId: 'no-raw-characters',
+                      severity: 2,
+                      message: 'Raw "&" must be encoded as "&amp;"',
+                      offset: 13,
+                      line: 2,
+                      column: 13,
+                      size: 1,
+                      selector: 'h1',
+                      ruleUrl: 'https://html-validate.org/rules/no-raw-characters.html',
+                    },
+                    {
+                      ruleId: 'void-content',
+                      severity: 2,
+                      message: 'End tag for <input> must be omitted',
+                      offset: 51,
+                      line: 3,
+                      column: 23,
+                      size: 6,
+                      selector: null,
+                      ruleUrl: 'https://html-validate.org/rules/void-content.html',
+                      context: 'input',
+                    },
+                  ],
+                  errorCount: 2,
+                  warningCount: 0,
+                  source: '<h1>Hello & goodbye!</h1><input type="text"></input>',
+                },
+              ],
+              errorCount: 2,
+              warningCount: 0,
+            },
+            label: 'transitionTexts[0].content',
+            key: 'content',
+          },
+        },
+      ],
+    };
+
+    const expectedLog = `
+============================================================
+
+
+Error(no-raw-characters): Raw "&" must be encoded as "&amp;"
+https://html-validate.org/rules/no-raw-characters.html
+
+Valeur concernée à rechercher :
+<h1>Hello & goodbye!</h1><input type="text"></input>
+
+────────────────────────────────────────────────────────────
+
+
+Error(void-content): End tag for <input> must be omitted
+https://html-validate.org/rules/void-content.html
+
+Valeur concernée à rechercher :
+<h1>Hello & goodbye!</h1><input type="text"></input>
+
+============================================================
+`;
+
+    expect(joiErrorParser.format(error)).to.equal(expectedLog);
+  });
 });
