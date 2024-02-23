@@ -25,7 +25,6 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
       time: '12:00:00',
       room: 'Salle 12',
       examiner: 'Star Lord',
-      certificationCenterName: 'Knowhere',
       address: 'centre de certification 1',
       certificationCandidates: [],
       accessCode: 'ACCES1',
@@ -54,7 +53,6 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
         time: '12:00:00',
         room: 'Salle 12',
         examiner: 'Star Lord',
-        certificationCenterName: 'Knowhere',
         certificationCandidates: [],
       });
 
@@ -87,7 +85,6 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
         time: '12:00:00',
         room: 'Salle 12',
         examiner: 'Star Lord',
-        certificationCenterName: 'Knowhere',
         certificationCandidates: [],
       });
 
@@ -115,7 +112,6 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
         time: '12:00:00',
         room: 'Salle 12',
         examiner: 'Star Lord',
-        certificationCenterName: 'Knowhere',
         certificationCandidates: [],
       });
 

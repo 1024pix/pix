@@ -33,7 +33,6 @@ describe('Integration | Repository | SessionForSupervising', function () {
         expect(actualSession).to.be.deepEqualInstance(
           new SessionForSupervising({
             id: session.id,
-            certificationCenterName: 'Toto',
             address: 'centre de certification 1',
             room: 'Salle A',
             examiner: 'Monsieur Examinateur',
@@ -256,7 +255,6 @@ describe('Integration | Repository | SessionForSupervising', function () {
         expect(actualSession).to.be.deepEqualInstance(
           new SessionForSupervising({
             id: session.id,
-            certificationCenterName: 'Toto',
             address: 'centre de certification 1',
             room: 'Salle A',
             examiner: 'Monsieur Examinateur',
