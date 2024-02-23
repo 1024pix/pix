@@ -1,5 +1,54 @@
 # Pix Changelog
 
+## v4.106.0 (23/02/2024)
+
+
+### :rocket: Amélioration
+- [#8150](https://github.com/1024pix/pix/pull/8150) [FEATURE] Amélioration du design de la page de la liste élèves (pix-11068).
+- [#8118](https://github.com/1024pix/pix/pull/8118) [FEATURE] Ajout et modification de contenu au module "Mots de passe sécurisés".
+- [#8140](https://github.com/1024pix/pix/pull/8140) [FEATURE] Enregistrer l'userId dans le passage lorsque c'est possible (PIX-11309).
+- [#8114](https://github.com/1024pix/pix/pull/8114) [FEATURE] Afficher les erreurs sur la page d'import des nouveaux participants/élèves/étudiants (PIX-10954).
+- [#8117](https://github.com/1024pix/pix/pull/8117) [FEATURE] Stocke l'état des imports (PIX-11344).
+- [#8129](https://github.com/1024pix/pix/pull/8129) [FEATURE] Supporter l'ajout de nouveau élements dans l'API sans les prendre en compte directement dans le front (PIX-11297).
+- [#8092](https://github.com/1024pix/pix/pull/8092) [FEATURE] Ajout en DB des configurations pour les niveaux par compétences (PIX-11272).
+- [#8128](https://github.com/1024pix/pix/pull/8128) [FEATURE] Ajouter un bandeau beta pour expérimentation (PIX-10992).
+- [#8119](https://github.com/1024pix/pix/pull/8119) [FEATURE] Créer le type de CF Modulix (PIX-11275) (PIX-11305).
+- [#8081](https://github.com/1024pix/pix/pull/8081) [FEATURE] Filtrer les parcours autonomes de la liste des participations de campagnes (PIX-10674).
+- [#8113](https://github.com/1024pix/pix/pull/8113) [FEATURE] Ajout d'un schéma dans le module ce-que-revele-ladresse-ip-publique-sur-vous (MODC-18).
+- [#8116](https://github.com/1024pix/pix/pull/8116) [FEATURE][ADMIN] Ajouter un formulaire pour rattacher une organisation fille à une organisation mère (PIX-10046).
+
+### :building_construction: Tech
+- [#8087](https://github.com/1024pix/pix/pull/8087) [TECH] Mise à jour du fichier sample.env pour la config docker.
+- [#8122](https://github.com/1024pix/pix/pull/8122) [TECH] :recycle: déplace les « identifiers types » dans le répertoire `src`.
+
+### :bug: Correction
+- [#8120](https://github.com/1024pix/pix/pull/8120) [BUGFIX] Le polyfill randomUUID est absent du packaging (PIX-10976).
+- [#8144](https://github.com/1024pix/pix/pull/8144) [BUGFIX] Empêche le job de calcul de résultat de s'effectuer si la participation n'est pas partagée (PIX-11350).
+- [#8132](https://github.com/1024pix/pix/pull/8132) [BUGFIX] Bug lors d'un enchainement de 2 QCM  (pix-11357).
+- [#8124](https://github.com/1024pix/pix/pull/8124) [BUGFIX] Corrige le lien vers la dernière participation partagée depuis l'activité d'un participant (PIX-11170).
+- [#8126](https://github.com/1024pix/pix/pull/8126) [BUGFIX] Revue de l'attribut rel sur les liens de tutos (PIX-11306) (PIX-11307).
+- [#8108](https://github.com/1024pix/pix/pull/8108) [BUGFIX] Empêcher de cliquer sur un autre bouton lorsque l'on partage ou tente d'améliorer son résultat sur Pix APP (PIX-11304).
+- [#8127](https://github.com/1024pix/pix/pull/8127) [BUGFIX] Correction et amélioration générateurs d'éléments Modulix.
+- [#8111](https://github.com/1024pix/pix/pull/8111) [BUGFIX] Afficher les bonnes icônes en version néerlandaise (PIX-11249).
+- [#7971](https://github.com/1024pix/pix/pull/7971) [BUGFIX] Absence de message d'erreur lors de la perte de connexion internet dans l'espace surveillant sur Pix Certif (PIX-11017).
+
+### :arrow_up: Montée de version
+- [#8149](https://github.com/1024pix/pix/pull/8149) [BUMP] Update dependency @1024pix/pix-ui to v44 (admin).
+- [#8154](https://github.com/1024pix/pix/pull/8154) [BUMP] Update nginx Docker tag to v1.25.4.
+- [#8152](https://github.com/1024pix/pix/pull/8152) [BUMP] Update dependency @1024pix/pix-ui to v44 (certif).
+- [#8148](https://github.com/1024pix/pix/pull/8148) [BUMP] Update dependency @1024pix/pix-ui to v44 (1d).
+- [#8143](https://github.com/1024pix/pix/pull/8143) [BUMP] Update dependency @1024pix/pix-ui to ^43.1.0 (admin).
+- [#8071](https://github.com/1024pix/pix/pull/8071) [BUMP] Update dependency eslint-plugin-ember to v12 (certif).
+- [#8147](https://github.com/1024pix/pix/pull/8147) [BUMP] Update dependency @1024pix/pix-ui to ^43.1.0 (orga).
+- [#8145](https://github.com/1024pix/pix/pull/8145) [BUMP] Update dependency @1024pix/pix-ui to ^43.1.0 (certif).
+- [#8141](https://github.com/1024pix/pix/pull/8141) [BUMP] Update dependency @1024pix/pix-ui to ^43.1.0 (1d).
+- [#8138](https://github.com/1024pix/pix/pull/8138) [BUMP] Update adobe/s3mock Docker tag to v3.4.0 (dossier racine).
+- [#8137](https://github.com/1024pix/pix/pull/8137) [BUMP] Update adobe/s3mock Docker tag to v3.4.0 (docker).
+- [#7997](https://github.com/1024pix/pix/pull/7997) [BUMP] Update dependency @1024pix/pix-ui to v43 (Pix-11330).
+- [#8135](https://github.com/1024pix/pix/pull/8135) [BUMP] Update adobe/s3mock Docker tag to v3.4.0 (.circleci).
+- [#8077](https://github.com/1024pix/pix/pull/8077) [BUMP] Update dependency eslint-plugin-ember to v12 (mon-pix).
+- [#8056](https://github.com/1024pix/pix/pull/8056) [BUMP] Update dependency eslint-plugin-ember to v12 (admin).
+
 ## v4.105.0 (21/02/2024)
 
 
