@@ -3,13 +3,17 @@ import bluebird from 'bluebird';
 import { factory } from './factory/index.js';
 import { databaseBuffer } from './database-buffer.js';
 
+/**
+ * @class DatabaseBuilder
+ * @property {Factory} factory
+ */
 class DatabaseBuilder {
   constructor({ knex, emptyFirst = true, beforeEmptyDatabase = () => undefined }) {
     this.knex = knex;
     this.databaseBuffer = databaseBuffer;
     this.tablesOrderedByDependencyWithDirtinessMap = [];
-    this.factory = factory;
     this.isFirstCommit = true;
+    this.factory = factory;
     this.emptyFirst = emptyFirst;
     this._beforeEmptyDatabase = beforeEmptyDatabase;
 

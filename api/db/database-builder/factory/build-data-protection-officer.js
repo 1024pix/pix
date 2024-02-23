@@ -2,6 +2,30 @@ import { databaseBuffer } from '../database-buffer.js';
 
 const TABLE_NAME = 'data-protection-officers';
 
+/**
+ * @typedef {{
+ *  id: number,
+ *  firstName: string,
+ *  lastName: string,
+ *  email: string,
+ *  certificationCenterId: number,
+ *  createdAt: Date,
+ *  updatedAt: Date,
+ * }} CertificationCenter
+ */
+
+/**
+ * @typedef {{
+ *  id: number,
+ *  firstName: string,
+ *  lastName: string,
+ *  email: string,
+ *  certificationCenterId: number,
+ *  createdAt: Date,
+ *  updatedAt: Date,
+ * }} Organization
+ */
+
 function buildCertificationCenterDataProtectionOfficer({
   id = databaseBuffer.getNextId(),
   firstName,
@@ -52,6 +76,12 @@ function buildOrganizationDataProtectionOfficer({
   });
 }
 
+/**
+ * @typedef {{
+ *    withCertificationCenterId: function(Partial<CertificationCenter>): CertificationCenter,
+ *    withOrganizationId: function(Partial<Organization>): Organization,
+ * }} BuildDataProtectionOfficerFactory
+ */
 export {
   buildCertificationCenterDataProtectionOfficer as withCertificationCenterId,
   buildOrganizationDataProtectionOfficer as withOrganizationId,

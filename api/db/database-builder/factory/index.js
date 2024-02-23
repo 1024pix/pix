@@ -21,6 +21,18 @@ const databaseBuilders = await importNamedExportsFromDirectory({
   ignoredFileNames: unwantedFiles,
 });
 
+/**
+ * @typedef {
+ *    {
+ *      buildTraining: BuildTraining,
+ *      buildDataProtectionOfficer: BuildDataProtectionOfficerFactory,
+ *    }
+ *  } Factory
+ */
+
+/**
+ * @type Factory
+ */
 export const factory = {
   ...databaseBuilders,
   campaignParticipationOverviewFactory,
