@@ -2,6 +2,10 @@ import { expect, knex } from '../../../../test-helper.js';
 import { SendSharedParticipationResultsToPoleEmploiJob } from '../../../../../lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
 
 describe('Integration | Infrastructure | Jobs | CampaignResult | SendSharedParticipationResultsToPoleEmploiJob', function () {
+  afterEach(function () {
+    return knex('pgboss.job').truncate();
+  });
+
   describe('#schedule', function () {
     it('creates the send results job', async function () {
       const job = new SendSharedParticipationResultsToPoleEmploiJob(knex);

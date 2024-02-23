@@ -2,6 +2,9 @@ import { expect, knex } from '../../../test-helper.js';
 import { JobPgBoss as Job } from '../../../../lib/infrastructure/jobs/JobPgBoss.js';
 
 describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
+  afterEach(function () {
+    return knex('pgboss.job').truncate();
+  });
   it('schedule a job and create in db with given config', async function () {
     // given
     const name = 'JobTest';
