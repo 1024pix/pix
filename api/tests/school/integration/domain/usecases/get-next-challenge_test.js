@@ -63,7 +63,7 @@ describe('Integration | Usecase | get-next-challenge', function () {
       const tubeDefi = learningContentBuilder.buildTube({
         id: tubeIdDefi,
         thematicId,
-        name: '@rechercher_en',
+        name: '@rechercher_de',
         skillIds: [skillDefi.id],
       });
 
@@ -101,6 +101,7 @@ describe('Integration | Usecase | get-next-challenge', function () {
       });
 
       const learningContent = {
+        thematics: [{ id: thematicId, tubeIds: [tubeDefi.id, tubeVal.id, tubeEn.id] }],
         tubes: [tubeDefi, tubeVal, tubeEn],
         skills: [skillDefi, skillVal1, skillVal2, skillEn1],
         challenges: [challengeDefi, challengeVal1, challengeAlterVal1, challengeVal2, challengeAlterVal2, challengeEn1],
@@ -466,6 +467,82 @@ describe('Integration | Usecase | get-next-challenge', function () {
         const updatedAssessment = await knex('assessments').where({ id: assessmentId }).first();
 
         expect(updatedAssessment.state).to.equal(Assessment.states.COMPLETED);
+      });
+    });
+
+    context('during activity', function () {
+      it('should store last challenge ID in assessment', async function () {
+        assessmentId = databaseBuilder.factory.buildMissionAssessment({ missionId }).assessmentId;
+
+        const currentActivity = databaseBuilder.factory.buildActivity({
+          assessmentId,
+          level: Activity.levels.VALIDATION,
+          status: Activity.status.SUCCEEDED,
+        });
+
+        databaseBuilder.factory.buildActivityAnswer({
+          activityId: currentActivity.id,
+          challengeId: challengeVal1.id,
+          result: 'ok',
+        });
+
+        databaseBuilder.factory.buildActivityAnswer({
+          activityId: currentActivity.id,
+          challengeId: challengeVal2.id,
+          result: 'ok',
+        });
+
+        await databaseBuilder.commit();
+        // when
+        await getNextChallenge({
+          assessmentId,
+          activityRepository,
+          assessmentRepository,
+          challengeRepository,
+          activityAnswerRepository,
+          missionAssessmentRepository,
+        });
+
+        // then
+        const updatedAssessment = await knex('assessments').where({ id: assessmentId }).first();
+
+        expect(updatedAssessment.lastChallengeId).to.equal(challengeDefi.id);
+      });
+    });
+
+    context('at last challenge of activity', function () {
+      it('should not change last challenge ID in assessment', async function () {
+        const assessment = databaseBuilder.factory.buildAssessment({ lastChallengeId: 'previousChallengeId' });
+        assessmentId = assessment.id;
+        databaseBuilder.factory.buildMissionAssessment({ missionId, assessmentId });
+
+        const activity = databaseBuilder.factory.buildActivity({
+          assessmentId,
+          level: Activity.levels.CHALLENGE,
+          status: Activity.status.STARTED,
+        });
+
+        databaseBuilder.factory.buildActivityAnswer({
+          activityId: activity.id,
+          challengeId: challengeDefi.id,
+          result: 'ok',
+        });
+
+        await databaseBuilder.commit();
+        // when
+        await getNextChallenge({
+          assessmentId,
+          activityRepository,
+          assessmentRepository,
+          challengeRepository,
+          activityAnswerRepository,
+          missionAssessmentRepository,
+        });
+
+        // then
+        const updatedAssessment = await knex('assessments').where({ id: assessmentId }).first();
+
+        expect(updatedAssessment.lastChallengeId).to.equal('previousChallengeId');
       });
     });
   });
