@@ -490,7 +490,10 @@
           "confirmation": "Quitter la surveillance",
           "exit-extra-information": "Quitter la surveillance de la session {sessionId}"
         },
+        "address": "Nom du site",
         "information": "Attention, assurez-vous que tous les candidats aient terminé leur test avant de quitter la surveillance. Pour reprendre la surveillance de cette session, vous devrez entrer à nouveau son numéro de session et son mot de passe.",
+        "invigilator": "Surveillant(s)",
+        "room": "Salle",
         "session-id": "Session {sessionId}"
       },
       "login": {
