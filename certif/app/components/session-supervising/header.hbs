@@ -20,24 +20,40 @@
     {{dayjs-format @session.time "HH:mm" inputFormat="HH:mm:ss" allow-empty=true}}
   </time>
 
-  <div>
-    <p class="session-supervising-header__line">
-      <span class="session-supervising-header__label">{{t "pages.session-supervising.header.address"}}</span>
-      {{@session.address}}
-    </p>
-    <p class="session-supervising-header__line">
-      <span class="session-supervising-header__label">{{t "pages.session-supervising.header.room"}}</span>
-      {{@session.room}}
-    </p>
-    <p class="session-supervising-header__line">
-      <span class="session-supervising-header__label">{{t "pages.session-supervising.header.invigilator"}}</span>
-      {{@session.examiner}}
-    </p>
-    <p class="session-supervising-header__line">
-      <span class="session-supervising-header__label">{{t "pages.session-supervising.header.access-code"}}</span>
-      {{@session.accessCode}}
-    </p>
-  </div>
+  <dl>
+    <div class="session-supervising-header__line">
+      <dt class="session-supervising-header__label">
+        {{t "pages.session-supervising.header.address"}}
+      </dt>
+      <dd>
+        {{@session.address}}
+      </dd>
+    </div>
+    <div class="session-supervising-header__line">
+      <dt class="session-supervising-header__label">
+        {{t "pages.session-supervising.header.room"}}
+      </dt>
+      <dd>
+        {{@session.room}}
+      </dd>
+    </div>
+    <div class="session-supervising-header__line">
+      <dt class="session-supervising-header__label">
+        {{t "pages.session-supervising.header.invigilator"}}
+      </dt>
+      <dd>
+        {{@session.examiner}}
+      </dd>
+    </div>
+    <div class="session-supervising-header__line">
+      <dt class="session-supervising-header__label">
+        {{t "pages.session-supervising.header.access-code"}}
+      </dt>
+      <dd>
+        {{@session.accessCode}}
+      </dd>
+    </div>
+  </dl>
 
   <SessionSupervising::ConfirmationModal
     @showModal={{this.isConfirmationModalDisplayed}}

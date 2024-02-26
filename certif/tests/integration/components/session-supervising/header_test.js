@@ -36,12 +36,23 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
     const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}}  />`);
 
     // then
+    const termsList = screen.getAllByRole('term');
+    const definitionsList = screen.getAllByRole('definition');
+
     assert.dom(screen.getByText('Session 12345')).exists();
-    assert.dom(screen.getByText('centre de certification 1')).exists();
-    assert.dom(screen.getByText('Salle 12')).exists();
-    assert.dom(screen.getByText('Star Lord')).exists();
-    assert.dom(screen.getByText('ACCES1')).exists();
     assert.dom(screen.getByText('01/01/2020 · 12:00')).exists();
+
+    assert.strictEqual(termsList[0].textContent.trim(), 'Nom du site');
+    assert.strictEqual(definitionsList[0].textContent.trim(), 'centre de certification 1');
+
+    assert.strictEqual(termsList[1].textContent.trim(), 'Salle');
+    assert.strictEqual(definitionsList[1].textContent.trim(), 'Salle 12');
+
+    assert.strictEqual(termsList[2].textContent.trim(), 'Surveillant(s)');
+    assert.strictEqual(definitionsList[2].textContent.trim(), 'Star Lord');
+
+    assert.strictEqual(termsList[3].textContent.trim(), "Code d'accès (candidats)");
+    assert.strictEqual(definitionsList[3].textContent.trim(), 'ACCES1');
   });
 
   module("when 'Quitter' button is clicked", function () {
