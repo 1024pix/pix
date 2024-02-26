@@ -5,7 +5,7 @@ class Text extends Element {
   constructor({ id, content }) {
     super({ id, type: 'text' });
 
-    assertNotNullOrUndefined(content, 'Le contenu est obligatoire pour un texte');
+    assertNotNullOrUndefined(content, 'The content is required for a text');
 
     this.content = content;
   }

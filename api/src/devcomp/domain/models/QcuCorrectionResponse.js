@@ -2,9 +2,9 @@ import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.
 
 class QcuCorrectionResponse {
   constructor({ status, feedback, solution }) {
-    assertNotNullOrUndefined(status, 'Le résultat est obligatoire pour une réponse de QCU');
-    assertNotNullOrUndefined(feedback, 'Le feedback est obligatoire pour une réponse de QCU');
-    assertNotNullOrUndefined(solution, "L'id de la proposition correcte est obligatoire pour une réponse de QCU");
+    assertNotNullOrUndefined(status, 'The result is required for a QCU response');
+    assertNotNullOrUndefined(feedback, 'The feedback is required for a QCU response');
+    assertNotNullOrUndefined(solution, 'The id of the correct proposal is required for a QCU response');
 
     this.status = status;
     this.feedback = feedback;

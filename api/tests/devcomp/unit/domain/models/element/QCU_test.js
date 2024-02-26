@@ -34,14 +34,14 @@ describe('Unit | Devcomp | Domain | Models | Element | QCU', function () {
 
   describe('A QCU without instruction', function () {
     it('should throw an error', function () {
-      expect(() => new QCU({ id: '123' })).to.throw("L'instruction est obligatoire pour un QCU");
+      expect(() => new QCU({ id: '123' })).to.throw('The instruction is required for a QCU');
     });
   });
 
   describe('A QCU with an empty list of proposals', function () {
     it('should throw an error', function () {
       expect(() => new QCU({ id: '123', instruction: 'toto', proposals: [] })).to.throw(
-        'Les propositions sont obligatoires pour un QCU',
+        'The proposals are required for a QCU',
       );
     });
   });
@@ -49,7 +49,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QCU', function () {
   describe('A QCU does not have a list of proposals', function () {
     it('should throw an error', function () {
       expect(() => new QCU({ id: '123', instruction: 'toto', proposals: 'toto' })).to.throw(
-        'Les propositions doivent apparaître dans une liste',
+        'The QCU proposals should be a list',
       );
     });
   });

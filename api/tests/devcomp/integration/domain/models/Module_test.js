@@ -29,7 +29,7 @@ describe('Integration | Devcomp | Domain | Models | Module', function () {
       const details = Symbol('details');
 
       expect(() => new Module({ id, slug, title, grains, transitionTexts, details })).to.throw(
-        'Tous les textes de transition doivent être lié à un grain présent dans le module',
+        'All the transition texts should be linked to a grain contained in the module.',
       );
     });
   });

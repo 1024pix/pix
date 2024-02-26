@@ -13,7 +13,7 @@ class PassageDoesNotExistError extends DomainError {
 }
 
 class UserNotAuthorizedToFindTrainings extends DomainError {
-  constructor(message = "Cet utilisateur n'est pas autorisé à récupérer les formations.") {
+  constructor(message = 'This user is not authorized to access the trainings.') {
     super(message);
   }
 }

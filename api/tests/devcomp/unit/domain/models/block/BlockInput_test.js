@@ -36,7 +36,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
 
   describe('If input is missing', function () {
     it('should throw an error', function () {
-      expect(() => new BlockInput({})).to.throw("L'input est obligatoire pour un bloc d'input");
+      expect(() => new BlockInput({})).to.throw('The input is required for an input block');
     });
   });
 
@@ -47,7 +47,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
           new BlockInput({
             input: 'symbole',
           }),
-      ).to.throw("Le type d'input est obligatoire pour un bloc d'input");
+      ).to.throw('The input type is required for an input block');
     });
   });
   describe('If size is missing', function () {
@@ -58,7 +58,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
             input: 'symbole',
             inputType: 'text',
           }),
-      ).to.throw("La taille est obligatoire pour un bloc d'input");
+      ).to.throw('The size is required for an input block');
     });
   });
   describe('If display is missing', function () {
@@ -70,7 +70,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
             inputType: 'text',
             size: 1,
           }),
-      ).to.throw("Le display est obligatoire pour un bloc d'input");
+      ).to.throw('The display is required for an input block');
     });
   });
   describe('If placeholder is missing', function () {
@@ -83,7 +83,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
             size: 1,
             display: 'inline',
           }),
-      ).to.throw("Le placeholder est obligatoire pour un bloc d'input");
+      ).to.throw('The placeholder is required for an input block');
     });
   });
   describe('If ariaLabel is missing', function () {
@@ -97,7 +97,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
             display: 'inline',
             placeholder: '',
           }),
-      ).to.throw("L'aria Label est obligatoire pour un bloc d'input");
+      ).to.throw('The aria Label is required for an input block');
     });
   });
   describe('If defaultValue is missing', function () {
@@ -112,7 +112,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
             placeholder: '',
             ariaLabel: 'Réponse 1',
           }),
-      ).to.throw("La valeur par défaut est obligatoire pour un bloc d'input");
+      ).to.throw('The default value is required for an input block');
     });
   });
   describe('If tolerances are missing', function () {
@@ -128,7 +128,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
             ariaLabel: 'Réponse 1',
             defaultValue: '',
           }),
-      ).to.throw("Les tolérances sont obligatoires pour un bloc d'input");
+      ).to.throw('The tolerances are required for an input block');
     });
   });
 
@@ -146,7 +146,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
             defaultValue: '',
             tolerances: ['t1'],
           }),
-      ).to.throw("Les solutions sont obligatoires pour un bloc d'input");
+      ).to.throw('The solutions are required for an input block');
     });
   });
 });

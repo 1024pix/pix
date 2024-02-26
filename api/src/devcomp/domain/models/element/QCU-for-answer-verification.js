@@ -11,7 +11,7 @@ class QCUForAnswerVerification extends QCU {
   constructor({ id, instruction, locales, proposals, solution, feedbacks, validator }) {
     super({ id, instruction, locales, proposals });
 
-    assertNotNullOrUndefined(solution, 'La solution est obligatoire pour un QCU de vérification');
+    assertNotNullOrUndefined(solution, 'The solution is required for a verification QCU');
 
     this.solutionValue = solution;
 

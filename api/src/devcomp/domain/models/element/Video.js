@@ -5,10 +5,10 @@ class Video extends Element {
   constructor({ id, title, url, subtitles, transcription }) {
     super({ id, type: 'video' });
 
-    assertNotNullOrUndefined(url, "L'URL est obligatoire pour un video");
-    assertNotNullOrUndefined(title, 'Le titre est obligatoire pour un video');
-    assertNotNullOrUndefined(subtitles, 'Les sous-titres sont obligatoire pour un video');
-    assertNotNullOrUndefined(transcription, 'Les transcriptions sont obligatoire pour un video');
+    assertNotNullOrUndefined(title, 'The title is required for a video');
+    assertNotNullOrUndefined(url, 'The URL is required for a video');
+    assertNotNullOrUndefined(subtitles, 'The subtitles are required for a video');
+    assertNotNullOrUndefined(transcription, 'The transcription is required for a video');
 
     this.url = url;
     this.title = title;

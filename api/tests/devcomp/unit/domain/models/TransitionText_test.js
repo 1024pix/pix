@@ -15,15 +15,13 @@ describe('Unit | Devcomp | Domain | Models | TransitionText', function () {
 
   describe('if a transition text does not have a content', function () {
     it('should throw an error', function () {
-      expect(() => new TransitionText({})).to.throw('Le contenu est obligatoire pour un texte de transition');
+      expect(() => new TransitionText({})).to.throw('The content is required for a transition text');
     });
   });
 
   describe('if a transition text does not have a grain id', function () {
     it('should throw an error', function () {
-      expect(() => new TransitionText({ content: '' })).to.throw(
-        "L'id de grain est obligatoire pour un texte de transition",
-      );
+      expect(() => new TransitionText({ content: '' })).to.throw('The grain id is required for a transition text');
     });
   });
 });
