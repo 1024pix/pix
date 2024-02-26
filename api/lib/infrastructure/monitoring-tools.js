@@ -36,6 +36,24 @@ function logInfoWithCorrelationIds(data) {
   );
 }
 
+/**
+ * In order to be displayed properly in Datadog,
+ * the parameter "data" should contain
+ * - a required property message as string
+ * - all other properties you need to pass to Datadog
+ *
+ * @example
+ * const data = {
+ *   message: 'Error message',
+ *   context: 'My Context',
+ *   data: { more: 'data', if: 'needed' },
+ *   event: 'Event which trigger this error',
+ *   team: 'My Team',
+ * };
+ * monitoringTools.logErrorWithCorrelationIds(data);
+ *
+ * @param {object} data
+ */
 function logErrorWithCorrelationIds(data) {
   const context = getCorrelationContext();
   logger.error(
