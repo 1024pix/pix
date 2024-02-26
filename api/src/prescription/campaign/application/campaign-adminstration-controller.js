@@ -75,12 +75,22 @@ const updateCampaignDetails = async function (request, h) {
   return h.response({}).code(204);
 };
 
+const updateCampaignCode = async function (request, h) {
+  const { campaignId } = request.params;
+  const { campaignCode } = request.payload;
+
+  await usecases.updateCampaignCode({ campaignId, campaignCode });
+
+  return h.response(null).code(204);
+};
+
 const campaignAdministrationController = {
   save,
   update,
   createCampaigns,
   swapCampaignCodes,
   updateCampaignDetails,
+  updateCampaignCode,
 };
 
 export { campaignAdministrationController };

@@ -203,4 +203,22 @@ describe('Unit | Application | Controller | Campaign administration', function (
       });
     });
   });
+
+  describe('#updateCampaignCode', function () {
+    it('should return a 204', async function () {
+      // given
+      const campaignId = Symbol('campaign-id');
+      const campaignCode = Symbol('campaign-code');
+      const request = { params: { campaignId }, payload: { campaignCode: campaignCode } };
+
+      sinon.stub(usecases, 'updateCampaignCode');
+
+      // when
+      const response = await campaignAdministrationController.updateCampaignCode(request, hFake);
+
+      // then
+      expect(response.statusCode).to.be.equal(204);
+      expect(usecases.updateCampaignCode).to.have.been.calledWithExactly({ campaignId, campaignCode });
+    });
+  });
 });
