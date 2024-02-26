@@ -1,14 +1,14 @@
 import { DomainError } from '../../shared/domain/errors.js';
 
 class ActivityNotFoundError extends DomainError {
-  constructor(message = 'Erreur, activitée introuvable.', code) {
+  constructor(message = 'Error, activity not found.', code) {
     super(message);
     this.code = code;
   }
 }
 
 class SchoolNotFoundError extends DomainError {
-  constructor(message = 'Erreur, École introuvable.', code) {
+  constructor(message = 'Error, School not found.', code) {
     super(message);
     this.code = code;
   }
@@ -16,14 +16,14 @@ class SchoolNotFoundError extends DomainError {
 
 class MissionNotFoundError extends DomainError {
   constructor(missionId) {
-    super(`Il n'existe pas de mission ayant pour id ${missionId}`);
+    super(`Mission not found for mission id ${missionId}`);
     this.code = missionId;
   }
 }
 
 class NotInProgressAssessmentError extends DomainError {
   constructor(assessmentId) {
-    super(`Ce passage de mission est terminé : ${assessmentId}`);
+    super(`Mission assessment closed for ${assessmentId}`);
     this.code = assessmentId;
   }
 }

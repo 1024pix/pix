@@ -200,6 +200,38 @@ describe('Integration | Usecase | get-next-challenge', function () {
       });
     });
 
+    context('when the user answered to the first challenge of an activity', function () {
+      it("should update assessment's lastChallengeId with the next challenge id", async function () {
+        const assessment = databaseBuilder.factory.buildPix1dAssessment();
+        databaseBuilder.factory.buildMissionAssessment({ missionId, assessmentId: assessment.id });
+        const activityVal = databaseBuilder.factory.buildActivity({
+          assessmentId: assessment.id,
+          level: Activity.levels.VALIDATION,
+          status: Activity.status.STARTED,
+          createdAt: new Date('2022-04-07'),
+        });
+
+        databaseBuilder.factory.buildActivityAnswer({
+          activityId: activityVal.id,
+          challengeId: challengeVal1.id,
+          result: 'ok',
+        });
+        await databaseBuilder.commit();
+
+        const nextChallenge = await getNextChallenge({
+          assessmentId: assessment.id,
+          activityRepository,
+          assessmentRepository,
+          challengeRepository,
+          activityAnswerRepository,
+          missionAssessmentRepository,
+        });
+
+        const assessmentAfterUpdate = await knex('assessments').where({ id: assessment.id }).first();
+        expect(assessmentAfterUpdate.lastChallengeId).to.equal(nextChallenge.id);
+      });
+    });
+
     context(
       'when the user answered to the first challenge of an activity with a specific alternative version',
       function () {

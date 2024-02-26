@@ -25,6 +25,7 @@ export async function getNextChallenge({
       locale,
     });
     if (challenge) {
+      await _updateAssessmentWithLastChallengeId(assessmentId, challenge.id, assessmentRepository);
       return challenge;
     } else {
       const lastAnswerStatus = getLastAnswerStatus(answers);
@@ -49,13 +50,16 @@ export async function getNextChallenge({
     await assessmentRepository.completeByAssessmentId(assessmentId);
     return null;
   } else {
-    await assessmentRepository.updateWhenNewChallengeIsAsked({
-      id: assessmentId,
-      lastChallengeId: nextChallenge.id,
-    });
-
+    await _updateAssessmentWithLastChallengeId(assessmentId, nextChallenge.id, assessmentRepository);
     return nextChallenge;
   }
+}
+
+async function _updateAssessmentWithLastChallengeId(assessmentId, lastChallengeId, assessmentRepository) {
+  await assessmentRepository.updateWhenNewChallengeIsAsked({
+    id: assessmentId,
+    lastChallengeId: lastChallengeId,
+  });
 }
 
 function _getActivityStatusFromAnswerStatus(answerStatus) {
