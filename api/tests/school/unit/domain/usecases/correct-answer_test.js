@@ -1,13 +1,13 @@
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { correctAnswer } from '../../../../src/shared/domain/usecases/correct-answer.js';
-import { Challenge } from '../../../../src/shared/domain/models/Challenge.js';
-import { ActivityAnswer } from '../../../../src/school/domain/models/ActivityAnswer.js';
-import { AnswerStatus } from '../../../../lib/domain/models/index.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
+import { correctAnswer } from '../../../../../src/school/domain/usecases/correct-answer.js';
+import { Challenge } from '../../../../../src/shared/domain/models/Challenge.js';
+import { ActivityAnswer } from '../../../../../src/school/domain/models/ActivityAnswer.js';
+import { AnswerStatus } from '../../../../../lib/domain/models/index.js';
 
 describe('Unit | Domain | Use Cases | correct-answer', function () {
   context('When there is assessmentId', function () {
     it('should save the answer', async function () {
-      const challengeRepository = { get: sinon.stub() };
+      const sharedChallengeRepository = { get: sinon.stub() };
       const activityAnswerRepository = { save: sinon.stub() };
       const activityRepository = { getLastActivity: sinon.stub() };
       const assessmentId = 'rec1234pix1d';
@@ -31,7 +31,7 @@ describe('Unit | Domain | Use Cases | correct-answer', function () {
       const savedAnswer = Symbol('answer');
 
       //given
-      challengeRepository.get.withArgs(challengeId).resolves(challenge);
+      sharedChallengeRepository.get.withArgs(challengeId).resolves(challenge);
       activityRepository.getLastActivity.withArgs(assessmentId).resolves({ id: activityId });
       activityAnswerRepository.save.resolves(savedAnswer);
 
@@ -40,7 +40,7 @@ describe('Unit | Domain | Use Cases | correct-answer', function () {
         activityAnswer,
         assessmentId,
         activityAnswerRepository,
-        challengeRepository,
+        sharedChallengeRepository,
         activityRepository,
       });
 
@@ -51,7 +51,7 @@ describe('Unit | Domain | Use Cases | correct-answer', function () {
   });
   context('When there is no assessmentId', function () {
     it('should save the answer', async function () {
-      const challengeRepository = { get: sinon.stub() };
+      const sharedChallengeRepository = { get: sinon.stub() };
       const activityAnswerRepository = { save: sinon.stub() };
       const activityRepository = { getLastActivity: sinon.stub() };
       const assessmentId = null;
@@ -75,7 +75,7 @@ describe('Unit | Domain | Use Cases | correct-answer', function () {
       const savedAnswer = Symbol('answer');
 
       //given
-      challengeRepository.get.withArgs(challengeId).resolves(challenge);
+      sharedChallengeRepository.get.withArgs(challengeId).resolves(challenge);
       activityAnswerRepository.save.resolves(savedAnswer);
 
       // when
@@ -83,7 +83,7 @@ describe('Unit | Domain | Use Cases | correct-answer', function () {
         activityAnswer,
         assessmentId,
         activityAnswerRepository,
-        challengeRepository,
+        sharedChallengeRepository,
         activityRepository,
       });
 

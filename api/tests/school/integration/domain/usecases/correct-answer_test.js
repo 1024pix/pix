@@ -1,5 +1,5 @@
 import { databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../test-helper.js';
-import { correctAnswer } from '../../../../../src/shared/domain/usecases/correct-answer.js';
+import { correctAnswer } from '../../../../../src/school/domain/usecases/correct-answer.js';
 import * as activityAnswerRepository from '../../../../../src/school/infrastructure/repositories/activity-answer-repository.js';
 import * as activityRepository from '../../../../../src/school/infrastructure/repositories/activity-repository.js';
 
@@ -12,7 +12,7 @@ describe('Integration | UseCases | correct-answer', function () {
       await databaseBuilder.commit();
 
       const challenge = domainBuilder.buildChallenge();
-      const challengeRepository = { get: sinon.stub().resolves(challenge) };
+      const sharedChallengeRepository = { get: sinon.stub().resolves(challenge) };
 
       const activityAnswer = domainBuilder.buildActivityAnswer({
         id: null,
@@ -23,7 +23,7 @@ describe('Integration | UseCases | correct-answer', function () {
       const record = await correctAnswer({
         activityAnswer,
         assessmentId,
-        challengeRepository,
+        sharedChallengeRepository,
         activityAnswerRepository,
         activityRepository,
       });
@@ -40,7 +40,7 @@ describe('Integration | UseCases | correct-answer', function () {
       // given
       const assessmentId = null;
       const challenge = domainBuilder.buildChallenge();
-      const challengeRepository = { get: sinon.stub().resolves(challenge) };
+      const sharedChallengeRepository = { get: sinon.stub().resolves(challenge) };
 
       const activityAnswer = domainBuilder.buildActivityAnswer({
         id: null,
@@ -51,7 +51,7 @@ describe('Integration | UseCases | correct-answer', function () {
       const record = await correctAnswer({
         activityAnswer,
         assessmentId,
-        challengeRepository,
+        sharedChallengeRepository,
         activityAnswerRepository,
         activityRepository,
       });

@@ -1,6 +1,6 @@
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 import { activityAnswerController } from '../../../../src/school/application/activity-answer-controller.js';
-import { sharedUsecases } from '../../../../src/shared/domain/usecases/index.js';
+import { usecases } from '../../../../src/school/domain/usecases/index.js';
 
 describe('Unit | Controller | activity-answer-controller', function () {
   describe('#save', function () {
@@ -27,7 +27,7 @@ describe('Unit | Controller | activity-answer-controller', function () {
       request = {
         payload: Symbol('request-payload'),
       };
-      sinon.stub(sharedUsecases, 'correctAnswer');
+      sinon.stub(usecases, 'correctAnswer');
       deserializedPayload = {
         activityAnswer: domainBuilder.buildActivityAnswer({
           id: undefined,
@@ -54,14 +54,14 @@ describe('Unit | Controller | activity-answer-controller', function () {
       });
 
       // then
-      expect(sharedUsecases.correctAnswer).to.have.been.calledWithExactly({
+      expect(usecases.correctAnswer).to.have.been.calledWithExactly({
         activityAnswer: deserializedPayload.activityAnswer,
         assessmentId,
       });
     });
 
     it('should return the serialized activity answer', async function () {
-      sharedUsecases.correctAnswer.resolves(createdAnswer);
+      usecases.correctAnswer.resolves(createdAnswer);
       const response = await activityAnswerController.save(request, hFake, {
         activityAnswerSerializer,
       });

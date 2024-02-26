@@ -13,6 +13,7 @@ import * as missionAssessmentRepository from '../../infrastructure/repositories/
 import * as missionRepository from '../../infrastructure/repositories/mission-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as schoolRepository from '../../infrastructure/repositories/school-repository.js';
+import * as sharedChallengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
 
 const dependencies = {
   activityAnswerRepository,
@@ -25,6 +26,7 @@ const dependencies = {
   missionRepository,
   organizationLearnerRepository,
   schoolRepository,
+  sharedChallengeRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

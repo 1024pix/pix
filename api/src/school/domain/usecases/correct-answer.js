@@ -1,14 +1,14 @@
-import { Examiner } from '../models/Examiner.js';
+import { Examiner } from '../../../shared/domain/models/Examiner.js';
 
 const correctAnswer = async function ({
   activityAnswer,
   assessmentId,
   activityAnswerRepository,
-  challengeRepository,
+  sharedChallengeRepository,
   activityRepository,
   examiner,
 } = {}) {
-  const challenge = await challengeRepository.get(activityAnswer.challengeId);
+  const challenge = await sharedChallengeRepository.get(activityAnswer.challengeId);
   const correctedAnswer = _evaluateAnswer({ challenge, activityAnswer, examiner });
   let activityId = null;
 
