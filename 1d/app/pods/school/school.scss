@@ -7,31 +7,14 @@
   min-height: 300px;
   margin: auto 50px 35px;
 
-  &__learners {
+  &__students {
     align-items: center;
     justify-content: normal;
     min-height: 0;
     margin: 30px auto 35px 170px;
   }
 
-  .divisions__item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-width: 150px;
-    height: 70px;
-    color: black;
-    background: #FFFFFF;
-    border-radius: 8px;
-    box-shadow: 0 0 1px 0 #3D68FF, 8px 8px 32px -8px rgb(61 104 255 / 20%);
-
-    &:hover {
-      background-color: var(--pix-primary-10);
-    }
-  }
-
-  .learners__item {
+  .students__item {
     width: 190px;
     height: 55px;
     color: var(--pix-neutral-900);
@@ -40,9 +23,29 @@
     border-radius: 30px;
     box-shadow: 0 0 1px 0 #3D68FF, 8px 8px 32px -8px rgb(61 104 255 / 20%);
   }
+
+  .divisions__item {
+    width: 190px;
+    height: 190px;
+    color: var(--pix-neutral-900);
+    background-color: var(--pix-neutral-0);
+    background-image: url('/images/division.svg');
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: 30px;
+    background-size: 145px;
+    border-radius: 50%;
+    box-shadow: 0 0 1px 0 #3D68FF, 8px 8px 32px -8px rgb(61 104 255 / 20%);
+
+    .item__title {
+      position: relative;
+      top: 140px;
+      font-weight: 800;
+    }
+  }
 }
 
- .pix-button.learners__item {
+ .pix-button.students__item, .divisions__item {
    &:hover, &:focus, &:active, &:focus-visible {
      background-color: var(--pix-primary-10);
    }
