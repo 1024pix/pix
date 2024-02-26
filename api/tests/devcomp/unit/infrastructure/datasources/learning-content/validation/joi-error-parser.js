@@ -22,16 +22,13 @@ function logHtmlErrors(errorDetail, objectErrorSeparator) {
   for (const result of report.results) {
     const line = result.source ?? '';
     for (const message of result.messages) {
-      let errorLog = '';
-      errorLog = errorLog.concat('\n');
-      errorLog = errorLog.concat('\nChemin : ', errorDetail.context.label);
-      errorLog = errorLog.concat('\n');
-      errorLog = errorLog.concat('\n', severity[message.severity], `(${message.ruleId}): `, message.message);
-      errorLog = errorLog.concat('\n', message.ruleUrl);
-      errorLog = errorLog.concat('\n');
-      errorLog = errorLog.concat('\n', 'Valeur concernée à rechercher :\n', line);
-      errorLog = errorLog.concat('\n');
-      errorLogs.push(errorLog);
+      const errorLog = [];
+      errorLog.push('\n');
+      errorLog.push(`Chemin : ${errorDetail.context.label}`);
+      errorLog.push(`\n${severity[message.severity]}(${message.ruleId}): ${message.message}`);
+      errorLog.push(`${message.ruleUrl}`);
+      errorLog.push(`\nValeur concernée à rechercher :\n${line}\n`);
+      errorLogs.push(errorLog.join('\n'));
     }
   }
   return errorLogs.join(objectErrorSeparator);
