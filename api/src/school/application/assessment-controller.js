@@ -1,6 +1,7 @@
 import * as challengeSerializer from '../../shared/infrastructure/serializers/jsonapi/challenge-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as assessmentSerializer from '../../../src/school/infrastructure/serializers/assessment.js';
+import * as activitySerializer from '../../../lib/infrastructure/serializers/jsonapi/activity-serializer.js';
 
 const getNextChallengeForPix1d = async function (request, h, dependencies = { challengeSerializer }) {
   const assessmentId = request.params.id;
@@ -20,10 +21,17 @@ const getById = async function (request, h, dependencies = { assessmentSerialize
   return dependencies.assessmentSerializer.serialize(assessment);
 };
 
+const getCurrentActivity = async function (request, h, dependencies = { activitySerializer }) {
+  const assessmentId = request.params.id;
+  const activity = await usecases.getCurrentActivity({ assessmentId });
+  return dependencies.activitySerializer.serialize(activity);
+};
+
 const assessmentController = {
   getNextChallengeForPix1d,
   createForPix1d,
   getById,
+  getCurrentActivity,
 };
 
 export { assessmentController };
