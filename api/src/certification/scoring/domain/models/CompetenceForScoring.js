@@ -25,7 +25,7 @@ export class CompetenceForScoring {
     this.competenceId = competenceId;
     this.areaCode = areaCode;
     this.competenceCode = competenceCode;
-    this.intervals = intervals;
+    this.intervals = this._extendExtremeIntervals(intervals);
   }
 
   getCompetenceMark(estimatedLevel) {
@@ -38,6 +38,38 @@ export class CompetenceForScoring {
       level,
       score: 0,
     });
+  }
+
+  _extendExtremeIntervals(intervals) {
+    const maximumCapacity = Math.max(...intervals.map(({ bounds }) => bounds.max));
+    const minimumCapacity = Math.min(...intervals.map(({ bounds }) => bounds.min));
+    return intervals
+      .map((interval) => {
+        if (interval.bounds.max !== maximumCapacity) {
+          return interval;
+        }
+
+        return {
+          ...interval,
+          bounds: {
+            ...interval.bounds,
+            max: Number.MAX_SAFE_INTEGER,
+          },
+        };
+      })
+      .map((interval) => {
+        if (interval.bounds.min !== minimumCapacity) {
+          return interval;
+        }
+
+        return {
+          ...interval,
+          bounds: {
+            ...interval.bounds,
+            min: Number.MIN_SAFE_INTEGER,
+          },
+        };
+      });
   }
 
   _findInterval(estimatedLevel) {

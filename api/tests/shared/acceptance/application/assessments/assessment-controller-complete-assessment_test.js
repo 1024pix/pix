@@ -402,13 +402,13 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
             {
               bounds: {
                 max: 0,
-                min: Number.MIN_SAFE_INTEGER,
+                min: -5,
               },
               competenceLevel: 0,
             },
             {
               bounds: {
-                max: Number.MAX_SAFE_INTEGER,
+                max: 5,
                 min: 0,
               },
               competenceLevel: 1,
@@ -697,6 +697,16 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
               .first();
 
             expect(assessmentResult.pixScore).to.exist;
+
+            const competenceMarks = await knex('competence-marks')
+              .where({
+                assessmentResultId: assessmentResult.id,
+              })
+              .orderBy('competenceId');
+
+            expect(competenceMarks).to.have.length(1);
+
+            expect(competenceMarks[0].level).to.equal(1);
           });
         });
       });
