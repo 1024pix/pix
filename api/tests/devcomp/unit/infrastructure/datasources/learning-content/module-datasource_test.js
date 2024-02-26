@@ -2,6 +2,7 @@ import moduleDatasource from '../../../../../../src/devcomp/infrastructure/datas
 import { expect } from '../../../../../test-helper.js';
 import { LearningContentResourceNotFound } from '../../../../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { moduleSchema } from './validation/module.js';
+import { joiErrorParser } from './validation/joi-error-parser.js';
 
 const modules = await moduleDatasource.list();
 
@@ -35,11 +36,13 @@ describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasou
       // eslint-disable-next-line mocha/no-setup-in-describe
       modules.forEach((module) => {
         it(`module "${module.slug}" should contain a valid structure`, async function () {
-          // When
-          const result = await moduleSchema.validateAsync(module);
+          try {
+            await moduleSchema.validateAsync(module, { abortEarly: false });
+          } catch (joiError) {
+            const formattedError = joiErrorParser.format(joiError);
 
-          // Then
-          expect(result.error).to.equal(undefined, result.error?.details.map((error) => error.message).join('. '));
+            expect(joiError).to.equal(undefined, formattedError);
+          }
         });
       });
     });
