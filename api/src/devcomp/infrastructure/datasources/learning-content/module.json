@@ -1189,7 +1189,7 @@
             {
               "id": "669c89e1-167e-40a3-a198-2ee226494b2e",
               "type": "qcu",
-              "instruction": "<p>consigne vf 1</p>",
+              "instruction": "<p>Si je perds mon mot de passe de mon service préféré de vidéo à la demande, ce n’est pas grave je peux le réinitialiser facilement.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -1209,7 +1209,7 @@
             {
               "id": "006acae6-1bca-420f-ba74-29e7e0369069",
               "type": "qcu",
-              "instruction": "<p>consigne vf 2</p>",
+              "instruction": "<p>Pour retenir mon mot de passe, ce qu’il faut faire, c’est en créer un de très solide, et l’utiliser pour tous mes services.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -1224,12 +1224,12 @@
                 "valid": "<p>Correct ! <span aria-hidden=\"true\">🎉</span> </p>",
                 "invalid": "<p>Incorrect !</p>"
               },
-              "solution": "1"
+              "solution": "2"
             },
             {
               "id": "68f45335-8aab-40f5-baff-9719ce8b582a",
               "type": "qcu",
-              "instruction": "<p>consigne vf 2</p>",
+              "instruction": "<p><strong>Ié1phqa1d2mpc!</strong> est un mot de passe créé à partir de la phrase de passe “Il était un petit homme qui avait une drôle de maison pirouette cacahuète!”</p>",
               "proposals": [
                 {
                   "id": "1",
