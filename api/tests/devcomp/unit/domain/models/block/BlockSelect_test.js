@@ -34,7 +34,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
 
   describe('If input is missing', function () {
     it('should throw an error', function () {
-      expect(() => new BlockSelect({})).to.throw("L'input est obligatoire pour un bloc de selection");
+      expect(() => new BlockSelect({})).to.throw('The input is required for a select block');
     });
   });
   describe('If display is missing', function () {
@@ -44,7 +44,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
           new BlockSelect({
             input: 'symbole',
           }),
-      ).to.throw('Le display est obligatoire pour un bloc de selection');
+      ).to.throw('The display is required for a select block');
     });
   });
   describe('If placeholder is missing', function () {
@@ -55,7 +55,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
             input: 'symbole',
             display: 'inline',
           }),
-      ).to.throw('Le placeholder est obligatoire pour un bloc de selection');
+      ).to.throw('The placeholder is required for a select block');
     });
   });
   describe('If ariaLabel is missing', function () {
@@ -67,7 +67,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
             display: 'inline',
             placeholder: 'a placeholder',
           }),
-      ).to.throw("L'aria Label est obligatoire pour un bloc de selection");
+      ).to.throw('The aria Label is required for a select block');
     });
   });
   describe('If defaultValue is missing', function () {
@@ -80,7 +80,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
             placeholder: 'a placeholder',
             ariaLabel: 'Réponse 1',
           }),
-      ).to.throw('La valeur par défaut est obligatoire pour un bloc de selection');
+      ).to.throw('The default value is required for a select block');
     });
   });
   describe('If tolerances are missing', function () {
@@ -94,7 +94,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
             ariaLabel: 'Réponse 1',
             defaultValue: 'default',
           }),
-      ).to.throw('Les tolérances sont obligatoires pour un bloc de selection');
+      ).to.throw('The tolerances are required for a select block');
     });
   });
   describe('If options are missing', function () {
@@ -109,7 +109,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
             defaultValue: 'default',
             tolerances: ['t1'],
           }),
-      ).to.throw('Les options sont obligatoires pour un bloc de selection');
+      ).to.throw('The options are required for a select block');
     });
   });
 
@@ -126,7 +126,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
             tolerances: ['t1'],
             options: [Symbol('option')],
           }),
-      ).to.throw('Les solutions sont obligatoires pour un bloc de selection');
+      ).to.throw('The solutions are required for a select block');
     });
   });
 });

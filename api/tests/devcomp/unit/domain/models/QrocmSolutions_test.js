@@ -72,7 +72,7 @@ describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
                 tolerances: ['t1', 't2'],
               },
             ]),
-        ).to.throw('Les solutions sont obligatoires pour toutes les solutions de QROCM');
+        ).to.throw('The solutions are required for each QROCM proposal in QROCM solutions');
       });
     });
 
@@ -93,7 +93,7 @@ describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
                 solutions: ['@'],
               },
             ]),
-        ).to.throw('Les tolérances sont obligatoires pour toutes les solutions de QROCM');
+        ).to.throw('The tolerances are required for each QROCM proposal in QROCM solutions');
       });
     });
 
@@ -115,7 +115,7 @@ describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
                 solutions: '@',
               },
             ]),
-        ).to.throw('Une solution de QROCM doit forcément posséder une liste de solutions');
+        ).to.throw('Each proposal in QROCM solutions should have a list of solutions');
       });
     });
 
@@ -137,7 +137,7 @@ describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
                 tolerances: 't1',
               },
             ]),
-        ).to.throw('Une solution de QROCM doit forcément posséder une liste de tolérances');
+        ).to.throw('A QROCM solution should have a list of tolerances');
       });
     });
   });

@@ -22,13 +22,15 @@ describe('Unit | Devcomp | Domain | Models | Feedbacks', function () {
 
   describe('An empty Feedbacks', function () {
     it('should throw an error', function () {
-      expect(() => new Feedbacks({})).to.throw('Le message de feedback valide est obligatoire');
+      expect(() => new Feedbacks({})).to.throw('The feedback message for the field valid is required');
     });
   });
 
   describe('A Feedbacks without invalid key', function () {
     it('should throw an error', function () {
-      expect(() => new Feedbacks({ valid: 'valid' })).to.throw('Le message de feedback invalide est obligatoire');
+      expect(() => new Feedbacks({ valid: 'valid' })).to.throw(
+        'The feedback message for the field invalid is required',
+      );
     });
   });
 });

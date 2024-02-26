@@ -3,9 +3,9 @@ import { NotFoundError } from '../../../shared/domain/errors.js';
 
 class Grain {
   constructor({ id, title, type, elements }) {
-    assertNotNullOrUndefined(id, "L'id est obligatoire pour un grain");
-    assertNotNullOrUndefined(title, 'Le titre est obligatoire pour un grain');
-    assertNotNullOrUndefined(elements, `Une liste d'éléments est obligatoire pour un grain`);
+    assertNotNullOrUndefined(id, 'The id is required for a grain');
+    assertNotNullOrUndefined(title, 'The title is required for a grain');
+    assertNotNullOrUndefined(elements, `A list of elements is required for a grain`);
     this.#assertElementsIsAnArray(elements);
 
     this.id = id;
@@ -26,7 +26,7 @@ class Grain {
 
   #assertElementsIsAnArray(elements) {
     if (!Array.isArray(elements)) {
-      throw new Error(`Un Grain doit forcément posséder une liste d'éléments`);
+      throw new Error(`A grain should have a list of elements`);
     }
   }
 }

@@ -24,20 +24,20 @@ describe('Unit | Devcomp | Domain | Models | Element | Image', function () {
 
   describe('An image without url', function () {
     it('should throw an error', function () {
-      expect(() => new Image({ id: 'id' })).to.throw("L'URL est obligatoire pour une image");
+      expect(() => new Image({ id: 'id' })).to.throw('The URL is required for an image');
     });
   });
 
   describe('An image without alt', function () {
     it('should throw an error', function () {
-      expect(() => new Image({ id: 'id', url: 'url' })).to.throw('Le contenu alt est obligatoire pour une image');
+      expect(() => new Image({ id: 'id', url: 'url' })).to.throw('The alt text is required for an image');
     });
   });
 
   describe('An image without an alternative Instruction', function () {
     it('should throw an error', function () {
       expect(() => new Image({ id: 'id', url: 'url', alt: 'alt' })).to.throw(
-        "L'instruction alternative est obligatoire pour une image",
+        'The alternative instruction is required for an image',
       );
     });
   });

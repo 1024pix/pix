@@ -27,19 +27,19 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
 
     describe('if a module does not have an id', function () {
       it('should throw an error', function () {
-        expect(() => new Module({})).to.throw("L'id est obligatoire pour un module");
+        expect(() => new Module({})).to.throw('The id is required for a module');
       });
     });
 
     describe('if a module does not have a title', function () {
       it('should throw an error', function () {
-        expect(() => new Module({ id: 1 })).to.throw('Le titre est obligatoire pour un module');
+        expect(() => new Module({ id: 1 })).to.throw('The title is required for a module');
       });
     });
 
     describe('if a module does not have a slug', function () {
       it('should throw an error', function () {
-        expect(() => new Module({ id: 1, title: '' })).to.throw('Le slug est obligatoire pour un module');
+        expect(() => new Module({ id: 1, title: '' })).to.throw('The slug is required for a module');
       });
     });
 
@@ -52,7 +52,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               slug: 'bien-ecrire-son-adresse-mail',
               title: 'Bien écrire son adresse mail',
             }),
-        ).to.throw('Une liste de grains est obligatoire pour un module');
+        ).to.throw('A list of grains is required for a module');
       });
     });
 
@@ -66,7 +66,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
               title: 'Bien écrire son adresse mail',
               grains: 'elements',
             }),
-        ).to.throw(`Un Module doit forcément posséder une liste de grains`);
+        ).to.throw(`A module should have a list of grains`);
       });
     });
 
