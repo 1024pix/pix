@@ -8,6 +8,8 @@ export default class Card extends Component {
   @service intl;
   @service store;
   @service currentUser;
+  @service metrics;
+  @service router;
 
   @tracked savingStatus;
   @tracked evaluationStatus;
@@ -97,5 +99,15 @@ export default class Card extends Component {
     } finally {
       this.evaluationStatus = tutorialEvaluation.isLiked ? buttonStatusTypes.recorded : buttonStatusTypes.unrecorded;
     }
+  }
+
+  @action
+  trackAccess() {
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Accès tuto',
+      'pix-event-action': `Click depuis : ${this.router.currentRouteName}`,
+      'pix-event-name': `Ouvre le tutoriel : ${this.args.tutorial.title}`,
+    });
   }
 }

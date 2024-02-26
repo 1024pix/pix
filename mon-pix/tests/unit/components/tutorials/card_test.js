@@ -205,4 +205,30 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
       assert.strictEqual(result, null);
     });
   });
+
+  module('#trackAccess', function () {
+    test('should push event on click', function (assert) {
+      // given
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+      const tutorialTitle = 'Mon super tutoriel';
+      component = createGlimmerComponent('tutorials/card', {
+        tutorial: { ...tutorial, title: tutorialTitle, link: 'https://exemple.net/' },
+      });
+      const currentRouteName = 'current.route.name';
+      component.router = { currentRouteName };
+
+      // when
+      component.trackAccess();
+
+      // then
+      sinon.assert.calledWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Accès tuto',
+        'pix-event-action': `Click depuis : ${currentRouteName}`,
+        'pix-event-name': `Ouvre le tutoriel : ${tutorialTitle}`,
+      });
+      assert.ok(true);
+    });
+  });
 });
