@@ -165,14 +165,10 @@ class OidcAuthenticationService {
     try {
       tokenSet = await this.client.callback(this.redirectUri, { code, state }, { nonce, state: sessionState });
     } catch (error) {
-      monitoringTools.logErrorWithCorrelationIds({
-        message: {
-          context: 'oidc',
-          data: { code, nonce, organizationName: this.organizationName, sessionState, state },
-          error,
-          event: 'exchange-code-for-tokens',
-          team: 'acces',
-        },
+      _monitorOidcError(error.message, {
+        data: { code, nonce, organizationName: this.organizationName, sessionState, state },
+        error,
+        event: 'exchange-code-for-tokens',
       });
       throw new OidcError({ message: error.message });
     }
@@ -211,14 +207,10 @@ class OidcAuthenticationService {
     try {
       redirectTarget = this.client.authorizationUrl(authorizationParameters);
     } catch (error) {
-      monitoringTools.logErrorWithCorrelationIds({
-        message: {
-          context: 'oidc',
-          data: { organizationName: this.organizationName },
-          error,
-          event: 'generate-authorization-url',
-          team: 'acces',
-        },
+      _monitorOidcError(error.message, {
+        data: { organizationName: this.organizationName },
+        error,
+        event: 'generate-authorization-url',
       });
       throw new OidcError({ message: error.message });
     }
@@ -300,14 +292,10 @@ class OidcAuthenticationService {
 
       return endSessionUrl;
     } catch (error) {
-      monitoringTools.logErrorWithCorrelationIds({
-        message: {
-          context: 'oidc',
-          data: { organizationName: this.organizationName },
-          error,
-          event: 'get-redirect-logout-url',
-          team: 'acces',
-        },
+      _monitorOidcError(error.message, {
+        data: { organizationName: this.organizationName },
+        error,
+        event: 'get-redirect-logout-url',
       });
       throw new OidcError({ message: error.message });
     }
@@ -319,14 +307,10 @@ class OidcAuthenticationService {
     try {
       userInfo = await this.client.userinfo(accessToken);
     } catch (error) {
-      monitoringTools.logErrorWithCorrelationIds({
-        message: {
-          context: 'oidc',
-          data: { organizationName: this.organizationName },
-          error,
-          event: 'get-user-info-from-endpoint',
-          team: 'acces',
-        },
+      _monitorOidcError(error.message, {
+        data: { organizationName: this.organizationName },
+        error,
+        event: 'get-user-info-from-endpoint',
       });
       throw new OidcError({ message: error.message });
     }
@@ -336,11 +320,15 @@ class OidcAuthenticationService {
       const message = `Un ou des champs obligatoires (${missingRequiredClaims.join(
         ',',
       )}) n'ont pas été renvoyés par votre fournisseur d'identité ${this.organizationName}.`;
-      monitoringTools.logErrorWithCorrelationIds({
-        message,
-        missingFields: missingRequiredClaims.join(', '),
-        userInfo,
+
+      _monitorOidcError(message, {
+        data: {
+          missingFields: missingRequiredClaims.join(', '),
+          userInfo,
+        },
+        event: 'find-missing-required-claims',
       });
+
       const error = OIDC_ERRORS.USER_INFO.missingFields;
       const meta = {
         shortCode: error.shortCode,
@@ -374,3 +362,21 @@ class OidcAuthenticationService {
 }
 
 export { OidcAuthenticationService };
+
+function _monitorOidcError(message, { data, error, event }) {
+  const monitoringData = {
+    message,
+    context: 'oidc',
+    data,
+    event,
+    team: 'acces',
+  };
+
+  if (error) {
+    monitoringData.error = { name: error.constructor.name };
+    error.error_uri && Object.assign(monitoringData.error, { errorUri: error.error_uri });
+    error.response && Object.assign(monitoringData.error, { response: error.response });
+  }
+
+  monitoringTools.logErrorWithCorrelationIds(monitoringData);
+}
