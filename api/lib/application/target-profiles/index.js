@@ -279,9 +279,22 @@ const register = async function (server) {
                 title: Joi.string().required().allow('').allow(null),
                 'is-certifiable': Joi.boolean().required(),
                 'is-always-visible': Joi.boolean().required(),
-                'campaign-threshold': Joi.number().min(0).max(100).allow(null),
-                'capped-tubes-criteria': Joi.array().allow(null),
-              }).required(),
+                'campaign-threshold': Joi.number().min(0).max(100),
+                'capped-tubes-criteria': Joi.array()
+                  .min(1)
+                  .items({
+                    name: Joi.string(),
+                    threshold: Joi.string().required(),
+                    cappedTubes: Joi.array()
+                      .min(1)
+                      .items({
+                        id: Joi.string(),
+                        level: Joi.number().min(0),
+                      }),
+                  }),
+              })
+                .or('campaign-threshold', 'capped-tubes-criteria')
+                .required(),
               type: Joi.string().required(),
             }).required(),
           }).required(),
