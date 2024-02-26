@@ -13,6 +13,13 @@ class SwapCampaignMismatchOrganizationError extends DomainError {
   }
 }
 
+class CampaignUniqueCodeError extends DomainError {
+  constructor(message = "Campaign's code must be unique") {
+    super(message);
+    this.code = 'CAMPAIGN_CODE_NOT_UNIQUE';
+  }
+}
+
 class IsForAbsoluteNoviceUpdateError extends DomainError {
   constructor(message = 'Update isForAbsoluteNovice campaign unauthorized') {
     super(message);
@@ -26,10 +33,18 @@ class MultipleSendingsUpdateError extends DomainError {
     this.code = 'CANT_UPDATE_ATTRIBUTE_WHEN_CAMPAIGN_HAS_PARTICIPATIONS';
   }
 }
+class CampaignCodeFormatError extends DomainError {
+  constructor(message = "Campaign's should contains invalid char. Only uppercase alphanumeric char are allowed ") {
+    super(message);
+    this.code = 'CAMPAIGN_CODE_BAD_FORMAT';
+  }
+}
 
 export {
   UnknownCampaignId,
   SwapCampaignMismatchOrganizationError,
   IsForAbsoluteNoviceUpdateError,
   MultipleSendingsUpdateError,
+  CampaignUniqueCodeError,
+  CampaignCodeFormatError,
 };
