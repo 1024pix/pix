@@ -1,14 +1,12 @@
 .list {
   display: flex;
   flex-wrap: wrap;
-  gap: 40px;
   align-items: center;
   justify-content: center;
   min-height: 300px;
   margin: auto 50px 35px;
 
   &__students {
-    align-items: center;
     justify-content: normal;
     min-height: 0;
     margin: 30px auto 35px 170px;
@@ -17,16 +15,23 @@
   .students__item {
     width: 190px;
     height: 55px;
+    margin: 20px;
     color: var(--pix-neutral-900);
     font-size: 1.125rem;
-    background: #FFFFFF;
+    background: var(--pix-neutral-0);
     border-radius: 30px;
     box-shadow: 0 0 1px 0 #3D68FF, 8px 8px 32px -8px rgb(61 104 255 / 20%);
+
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .divisions__item {
     width: 190px;
     height: 190px;
+    margin: 20px;
     color: var(--pix-neutral-900);
     background-color: var(--pix-neutral-0);
     background-image: url('/images/division.svg');
@@ -46,13 +51,13 @@
 }
 
  .pix-button.students__item, .divisions__item {
-   &:hover, &:focus, &:active, &:focus-visible {
+   &:hover, &:active{
      background-color: var(--pix-primary-10);
    }
 
    &:focus, &:focus-visible {
+     background-color: var(--pix-primary-10);
      outline:2px solid var(--pix-primary-300);
      outline-offset: 0;
    }
  }
-
