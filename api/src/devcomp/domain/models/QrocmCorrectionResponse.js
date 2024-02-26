@@ -2,9 +2,9 @@ import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.
 
 class QrocmCorrectionResponse {
   constructor({ status, feedback, solution }) {
-    assertNotNullOrUndefined(status, 'Le résultat est obligatoire pour une réponse de QROCM');
-    assertNotNullOrUndefined(feedback, 'Le feedback est obligatoire pour une réponse de QROCM');
-    assertNotNullOrUndefined(solution, 'La solution est obligatoire pour une réponse de QROCM');
+    assertNotNullOrUndefined(status, 'The result is required in a QROCM correction');
+    assertNotNullOrUndefined(feedback, 'The feedback is required in a QROCM correction');
+    assertNotNullOrUndefined(solution, 'The solution is required in a QROCM correction');
 
     this.status = status;
     this.feedback = feedback;

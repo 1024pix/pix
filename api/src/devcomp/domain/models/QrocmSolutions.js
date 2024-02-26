@@ -7,17 +7,17 @@ class QrocmSolutions {
       .forEach((proposal) => {
         assertNotNullOrUndefined(
           proposal.solutions,
-          'Les solutions sont obligatoires pour toutes les solutions de QROCM',
+          'The solutions are required for each QROCM proposal in QROCM solutions',
         );
         assertNotNullOrUndefined(
           proposal.tolerances,
-          'Les tolérances sont obligatoires pour toutes les solutions de QROCM',
+          'The tolerances are required for each QROCM proposal in QROCM solutions',
         );
         if (!Array.isArray(proposal.solutions)) {
-          throw new Error('Une solution de QROCM doit forcément posséder une liste de solutions');
+          throw new Error('Each proposal in QROCM solutions should have a list of solutions');
         }
         if (!Array.isArray(proposal.tolerances)) {
-          throw new Error('Une solution de QROCM doit forcément posséder une liste de tolérances');
+          throw new Error('A QROCM solution should have a list of tolerances');
         }
       });
 

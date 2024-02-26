@@ -13,7 +13,7 @@ class QROCMForAnswerVerification extends QROCM {
   constructor({ id, instruction, feedbacks, proposals, locales, validator }) {
     super({ id, instruction, proposals, locales });
 
-    assertNotNullOrUndefined(feedbacks, 'Les feedbacks sont obligatoires pour un QROCM de vérification');
+    assertNotNullOrUndefined(feedbacks, 'The feedbacks are required for a verification QROCM.');
 
     this.feedbacks = feedbacks;
 

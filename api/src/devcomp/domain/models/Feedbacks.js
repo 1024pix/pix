@@ -2,8 +2,8 @@ import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.
 
 class Feedbacks {
   constructor({ valid, invalid }) {
-    assertNotNullOrUndefined(valid, 'Le message de feedback valide est obligatoire');
-    assertNotNullOrUndefined(invalid, 'Le message de feedback invalide est obligatoire');
+    assertNotNullOrUndefined(valid, 'The feedback message for the field valid is required');
+    assertNotNullOrUndefined(invalid, 'The feedback message for the field invalid is required');
 
     this.valid = valid;
     this.invalid = invalid;

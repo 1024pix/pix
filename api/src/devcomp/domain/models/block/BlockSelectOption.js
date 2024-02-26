@@ -2,8 +2,8 @@ import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asser
 
 class BlockSelectOption {
   constructor({ id, content }) {
-    assertNotNullOrUndefined(id, "L'id est obligatoire pour une option de bloc select");
-    assertNotNullOrUndefined(content, 'Le contenu est obligatoire pour une option de bloc select');
+    assertNotNullOrUndefined(id, 'The id is required for a select block option');
+    assertNotNullOrUndefined(content, 'The content is required for a select block option');
 
     this.id = id;
     this.content = content;

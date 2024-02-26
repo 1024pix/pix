@@ -3,10 +3,10 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 
 class Module {
   constructor({ id, slug, title, grains, details, transitionTexts = [] }) {
-    assertNotNullOrUndefined(id, "L'id est obligatoire pour un module");
-    assertNotNullOrUndefined(title, 'Le titre est obligatoire pour un module');
-    assertNotNullOrUndefined(slug, 'Le slug est obligatoire pour un module');
-    assertNotNullOrUndefined(grains, 'Une liste de grains est obligatoire pour un module');
+    assertNotNullOrUndefined(id, 'The id is required for a module');
+    assertNotNullOrUndefined(title, 'The title is required for a module');
+    assertNotNullOrUndefined(slug, 'The slug is required for a module');
+    assertNotNullOrUndefined(grains, 'A list of grains is required for a module');
     this.#assertGrainsIsAnArray(grains);
     assertNotNullOrUndefined(details, 'The details are required for a module');
     this.#assertTransitionTextsLinkedToGrain(transitionTexts, grains);
@@ -24,13 +24,13 @@ class Module {
       ({ grainId }) => !!grains.find(({ id }) => grainId === id),
     );
     if (!isTransitionTextsLinkedToGrain) {
-      throw new Error('Tous les textes de transition doivent être lié à un grain présent dans le module');
+      throw new Error('All the transition texts should be linked to a grain contained in the module.');
     }
   }
 
   #assertGrainsIsAnArray(grains) {
     if (!Array.isArray(grains)) {
-      throw new Error('Un Module doit forcément posséder une liste de grains');
+      throw new Error('A module should have a list of grains');
     }
   }
 

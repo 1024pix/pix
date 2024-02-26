@@ -15,15 +15,13 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelectOption', functio
 
   describe('If id is missing', function () {
     it('should throw an error', function () {
-      expect(() => new BlockSelectOption({})).to.throw("L'id est obligatoire pour une option de bloc select");
+      expect(() => new BlockSelectOption({})).to.throw('The id is required for a select block option');
     });
   });
 
   describe('If content is missing', function () {
     it('should throw an error', function () {
-      expect(() => new BlockSelectOption({ id: '1' })).to.throw(
-        'Le contenu est obligatoire pour une option de bloc select',
-      );
+      expect(() => new BlockSelectOption({ id: '1' })).to.throw('The content is required for a select block option');
     });
   });
 });

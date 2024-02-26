@@ -83,7 +83,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
 
       // then
       expect(error).to.be.an.instanceOf(Error);
-      expect(error.message).to.equal("Une erreur s'est produite lors de l'interprétation des réponses.");
+      expect(error.message).to.equal('An error occurred because there is no solution found for an answer.');
     });
   });
 

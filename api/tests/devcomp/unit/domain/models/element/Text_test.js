@@ -22,7 +22,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Text', function () {
 
   describe('A text without content', function () {
     it('should throw an error', function () {
-      expect(() => new Text({ id: '1' })).to.throw('Le contenu est obligatoire pour un texte');
+      expect(() => new Text({ id: '1' })).to.throw('The content is required for a text');
     });
   });
 

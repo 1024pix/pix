@@ -2,15 +2,15 @@ import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asser
 
 class BlockInput {
   constructor({ input, inputType, size, display, placeholder, ariaLabel, defaultValue, tolerances, solutions }) {
-    assertNotNullOrUndefined(input, "L'input est obligatoire pour un bloc d'input");
-    assertNotNullOrUndefined(inputType, "Le type d'input est obligatoire pour un bloc d'input");
-    assertNotNullOrUndefined(size, "La taille est obligatoire pour un bloc d'input");
-    assertNotNullOrUndefined(display, "Le display est obligatoire pour un bloc d'input");
-    assertNotNullOrUndefined(placeholder, "Le placeholder est obligatoire pour un bloc d'input");
-    assertNotNullOrUndefined(ariaLabel, "L'aria Label est obligatoire pour un bloc d'input");
-    assertNotNullOrUndefined(defaultValue, "La valeur par défaut est obligatoire pour un bloc d'input");
-    assertNotNullOrUndefined(tolerances, "Les tolérances sont obligatoires pour un bloc d'input");
-    assertNotNullOrUndefined(solutions, "Les solutions sont obligatoires pour un bloc d'input");
+    assertNotNullOrUndefined(input, 'The input is required for an input block');
+    assertNotNullOrUndefined(inputType, 'The input type is required for an input block');
+    assertNotNullOrUndefined(size, 'The size is required for an input block');
+    assertNotNullOrUndefined(display, 'The display is required for an input block');
+    assertNotNullOrUndefined(placeholder, 'The placeholder is required for an input block');
+    assertNotNullOrUndefined(ariaLabel, 'The aria Label is required for an input block');
+    assertNotNullOrUndefined(defaultValue, 'The default value is required for an input block');
+    assertNotNullOrUndefined(tolerances, 'The tolerances are required for an input block');
+    assertNotNullOrUndefined(solutions, 'The solutions are required for an input block');
 
     this.type = 'input';
     this.input = input;

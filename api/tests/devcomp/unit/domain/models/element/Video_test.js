@@ -31,20 +31,20 @@ describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
 
   describe('An video without a title', function () {
     it('should throw an error', function () {
-      expect(() => new Video({ id: 'id' })).to.throw("L'URL est obligatoire pour un video");
+      expect(() => new Video({ id: 'id' })).to.throw('The title is required for a video');
     });
   });
 
   describe('An image without a url', function () {
     it('should throw an error', function () {
-      expect(() => new Video({ id: 'id', title: 'title' })).to.throw("L'URL est obligatoire pour un video");
+      expect(() => new Video({ id: 'id', title: 'title' })).to.throw('The URL is required for a video');
     });
   });
 
   describe('A video without subtitles', function () {
     it('should throw an error', function () {
       expect(() => new Video({ id: 'id', title: 'title', url: 'url' })).to.throw(
-        'Les sous-titres sont obligatoire pour un video',
+        'The subtitles are required for a video',
       );
     });
   });
@@ -52,7 +52,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Video', function () {
   describe('A video without a transcription', function () {
     it('should throw an error', function () {
       expect(() => new Video({ id: 'id', title: 'title', url: 'url', subtitles: 'subtitles' })).to.throw(
-        'Les transcriptions sont obligatoire pour un video',
+        'The transcription is required for a video',
       );
     });
   });

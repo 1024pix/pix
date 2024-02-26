@@ -84,7 +84,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
                 },
               ],
             }),
-        ).to.throw('Les feedbacks sont obligatoires pour un QROCM de vérification');
+        ).to.throw('The feedbacks are required for a verification QROCM.');
       });
     });
   });
