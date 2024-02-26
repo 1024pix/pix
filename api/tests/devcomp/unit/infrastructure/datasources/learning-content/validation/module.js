@@ -36,14 +36,16 @@ const moduleSchema = Joi.object({
         title: Joi.string().required(),
         elements: Joi.array()
           .items(
-            Joi.alternatives().try(
-              textElementSchema,
-              imageElementSchema,
-              qcuElementSchema,
-              qcmElementSchema,
-              qrocmElementSchema,
-              videoElementSchema,
-            ),
+            Joi.alternatives().conditional('.type', {
+              switch: [
+                { is: 'text', then: textElementSchema },
+                { is: 'image', then: imageElementSchema },
+                { is: 'qcu', then: qcuElementSchema },
+                { is: 'qcm', then: qcmElementSchema },
+                { is: 'qrocm', then: qrocmElementSchema },
+                { is: 'video', then: videoElementSchema },
+              ],
+            }),
           )
           .required(),
       }).required(),
