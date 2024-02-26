@@ -1138,7 +1138,7 @@
         {
           "id": "f14510d6-ee18-48be-8bb6-39a9427e3102",
           "type": "lesson",
-          "title": "Recommandations de gestion de mots de passe",
+          "title": "Conseils de gestion de mots de passe",
           "elements": [
             {
               "id": "6d8ea5ad-d394-4aa8-b8dc-82733df76bdb",
@@ -1150,8 +1150,33 @@
             {
               "id": "6eda6d92-1147-4c19-a7e5-f61a2228e33c",
               "type": "text",
-              "content": "<p>Recommandation 1</p><br><hr>"
+              "content": "<h3>Conseil n°1 : ne pas réutiliser le même mot de passe partout !</h3><p>Utiliser le même mot de passe pour tous ses services c'est comme utiliser la même clé pour toutes ses portes. C'est très pratique, mais si le mot de passe d'un des sites est exposé suite à une attaque, c'est toutes les portes qui sont ouvertes ! <span aria-hidden=\"true\">☠️</span></p><br><hr>"
+            },
+            {
+              "id": "5bc31fd2-686f-444a-b50d-475f90394ed5",
+              "type": "image",
+              "url": "https://i.imgur.com/NY5AFDo.jpeg",
+              "alt": "",
+              "alternativeText": ""
+            },
+            {
+              "id": "00d7f3c2-bd0e-4799-98d7-c1813a797c92",
+              "type": "text",
+              "content": "<h3>Conseil n°2 : un mot de passe doit rester secret</h3><p>Un mot de passe, c'est comme une brosse à dents, c'est personnel ! <span aria-hidden=\"true\">🪥</span> Par exemple, si vous avez besoin de prêter votre téléphone à quelqu'un, déverrouillez-le pour lui permettre d'accéder à une application, mais ne lui donnez pas votre code ! Cela lui permettrait d'y accéder n'importe quand, et ce n'est pas forcément ce que vous souhaitez. <span aria-hidden=\"true\">🤫</span> </p><br><hr>"
+            },
+            {
+              "id": "f40c6b79-7731-470a-a656-b6196a6f7ea8",
+              "type": "image",
+              "url": "https://i.imgur.com/XO70gfV.jpeg",
+              "alt": "",
+              "alternativeText": ""
+            },
+            {
+              "id": "dadd152e-350c-4710-8609-af5f92e69b2c",
+              "type": "text",
+              "content": "<h3>Conseil n°3 : Oublier son mot de passe, ce n'est pas grave !</h3><p>Oui, un mot de passe, ça s'oublie. Et si on l'oublie, on le change, c'est tout simple. La plupart des services proposent un service qui permet de définir un nouveau mot de passe en cas d'oubli. Pour cela, on doit fournir l'adresse mail utilisée à la création du compte. Le seul mot de passe important à mémoriser, c'est celui de sa boîte mail, puisqu'il permet de changer tous les autres ! <span aria-hidden=\"true\">💡</span></p>"
             }
+
 
 
           ]
