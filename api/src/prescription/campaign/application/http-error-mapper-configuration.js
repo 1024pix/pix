@@ -4,6 +4,8 @@ import {
   SwapCampaignMismatchOrganizationError,
   IsForAbsoluteNoviceUpdateError,
   MultipleSendingsUpdateError,
+  CampaignCodeFormatError,
+  CampaignUniqueCodeError,
 } from '../../campaign/domain/errors.js';
 
 const campaignDomainErrorMappingConfiguration = [
@@ -24,6 +26,14 @@ const campaignDomainErrorMappingConfiguration = [
   {
     name: MultipleSendingsUpdateError.name,
     httpErrorFn: (error) => new HttpErrors.ForbiddenError(error.message, error.code, error.meta),
+  },
+  {
+    name: CampaignUniqueCodeError.name,
+    httpErrorFn: (error) => new HttpErrors.ConflictError(error.message, error.code, error.meta),
+  },
+  {
+    name: CampaignCodeFormatError.name,
+    httpErrorFn: (error) => new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta),
   },
 ];
 
