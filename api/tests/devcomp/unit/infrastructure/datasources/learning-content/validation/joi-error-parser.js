@@ -35,11 +35,8 @@ function logHtmlErrors(errorDetail, objectErrorSeparator) {
 }
 
 function logSchemaErrors(errorDetail) {
-  let errorLog = '';
-  errorLog = errorLog.concat('\n');
-  errorLog = errorLog.concat(`Error: ${errorDetail.message}.`);
-  errorLog = errorLog.concat('\n');
-  errorLog = errorLog.concat(`Valeur concernée à rechercher : ${JSON.stringify(errorDetail.context.value)}`);
-  errorLog = errorLog.concat('\n');
-  return errorLog;
+  const errorLog = [];
+  errorLog.push(`\nError: ${errorDetail.message}.`);
+  errorLog.push(`Valeur concernée à rechercher : ${JSON.stringify(errorDetail.context.value)}\n`);
+  return errorLog.join('\n');
 }
