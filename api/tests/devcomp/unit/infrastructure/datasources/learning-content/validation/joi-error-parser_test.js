@@ -2,7 +2,7 @@ import { expect } from '../../../../../../test-helper.js';
 import { joiErrorParser } from './joi-error-parser.js';
 
 describe('Unit | Infrastructure | Datasources | Learning Content | Module Datasource | joi error parser', function () {
-  it('should parse sync error', async function () {
+  it('should parse schema errors', async function () {
     const error = {
       details: [
         {
@@ -74,7 +74,7 @@ Valeur concernée à rechercher : "b7ea7630-824"
     expect(joiErrorParser.format(error)).to.equal(expectedLog);
   });
 
-  it('should parse html error', async function () {
+  it('should parse html errors', async function () {
     const error = {
       details: [
         {
