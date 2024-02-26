@@ -41,7 +41,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
               instruction: 'toto',
               proposals: [Symbol('proposal1')],
             }),
-        ).to.throw('La solution est obligatoire pour un QCU de vérification');
+        ).to.throw('The solution is required for a verification QCU');
       });
     });
   });

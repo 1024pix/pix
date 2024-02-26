@@ -77,7 +77,7 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qroc
           Object.keys(solutions)[0]
         }`,
       );
-      throw new Error("Une erreur s'est produite lors de l'interprétation des réponses.");
+      throw new Error('An error occurred because there is no solution found for an answer.');
     }
     if (useLevenshteinRatio(enabledTreatments) && qrocBlocksTypes[answerKey] != 'select') {
       results[answerKey] = _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);

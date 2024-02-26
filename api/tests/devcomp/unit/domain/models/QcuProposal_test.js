@@ -20,13 +20,13 @@ describe('Unit | Devcomp | Domain | Models | QcuProposal', function () {
 
   describe('A QCU proposal without id', function () {
     it('should throw an error', function () {
-      expect(() => new QcuProposal({})).to.throw("L'id est obligatoire pour une proposition de QCU");
+      expect(() => new QcuProposal({})).to.throw('The id is required for a QCU proposal.');
     });
   });
 
   describe('A QCU proposal without content', function () {
     it('should throw an error', function () {
-      expect(() => new QcuProposal({ id: '1' })).to.throw('Le contenu est obligatoire pour une proposition de QCU');
+      expect(() => new QcuProposal({ id: '1' })).to.throw('The content is required for a QCU proposal.');
     });
   });
 });

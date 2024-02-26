@@ -5,7 +5,7 @@ class QCU extends Element {
   constructor({ id, instruction, locales, proposals }) {
     super({ id, type: 'qcu' });
 
-    assertNotNullOrUndefined(instruction, "L'instruction est obligatoire pour un QCU");
+    assertNotNullOrUndefined(instruction, 'The instruction is required for a QCU');
     this.#assertProposalsIsAnArray(proposals);
     this.#assertProposalsAreNotEmpty(proposals);
 
@@ -17,13 +17,13 @@ class QCU extends Element {
 
   #assertProposalsAreNotEmpty(proposals) {
     if (proposals.length === 0) {
-      throw new Error('Les propositions sont obligatoires pour un QCU');
+      throw new Error('The proposals are required for a QCU');
     }
   }
 
   #assertProposalsIsAnArray(proposals) {
     if (!Array.isArray(proposals)) {
-      throw new Error('Les propositions doivent apparaître dans une liste');
+      throw new Error('The QCU proposals should be a list');
     }
   }
 }

@@ -15,7 +15,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockText', function () {
 
   describe('If content is missing', function () {
     it('should throw an error', function () {
-      expect(() => new BlockText({})).to.throw('Le contenu est obligatoire pour un bloc de texte');
+      expect(() => new BlockText({})).to.throw('The content is required for a text block');
     });
   });
 });

@@ -5,9 +5,9 @@ class Image extends Element {
   constructor({ id, url, alt, alternativeText }) {
     super({ id, type: 'image' });
 
-    assertNotNullOrUndefined(url, "L'URL est obligatoire pour une image");
-    assertNotNullOrUndefined(alt, 'Le contenu alt est obligatoire pour une image');
-    assertNotNullOrUndefined(alternativeText, "L'instruction alternative est obligatoire pour une image");
+    assertNotNullOrUndefined(url, 'The URL is required for an image');
+    assertNotNullOrUndefined(alt, 'The alt text is required for an image');
+    assertNotNullOrUndefined(alternativeText, 'The alternative instruction is required for an image');
 
     this.url = url;
     this.alt = alt;

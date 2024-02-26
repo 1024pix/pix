@@ -2,8 +2,8 @@ import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.
 
 class QcuProposal {
   constructor({ id, content }) {
-    assertNotNullOrUndefined(id, "L'id est obligatoire pour une proposition de QCU");
-    assertNotNullOrUndefined(content, 'Le contenu est obligatoire pour une proposition de QCU');
+    assertNotNullOrUndefined(id, 'The id is required for a QCU proposal.');
+    assertNotNullOrUndefined(content, 'The content is required for a QCU proposal.');
 
     this.id = id;
     this.content = content;

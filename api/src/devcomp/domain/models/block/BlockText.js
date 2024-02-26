@@ -2,7 +2,7 @@ import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asser
 
 class BlockText {
   constructor({ content }) {
-    assertNotNullOrUndefined(content, 'Le contenu est obligatoire pour un bloc de texte');
+    assertNotNullOrUndefined(content, 'The content is required for a text block');
     this.content = content;
     this.type = 'text';
   }

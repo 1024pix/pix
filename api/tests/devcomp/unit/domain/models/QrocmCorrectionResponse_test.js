@@ -23,14 +23,14 @@ describe('Unit | Devcomp | Domain | Models | QrocmCorrectionResponse', function 
 
   describe('A QROCM correction response without status', function () {
     it('should throw an error', function () {
-      expect(() => new QrocmCorrectionResponse({})).to.throw('Le résultat est obligatoire pour une réponse de QROCM');
+      expect(() => new QrocmCorrectionResponse({})).to.throw('The result is required in a QROCM correction');
     });
   });
 
   describe('A QROCM correction response without feedback', function () {
     it('should throw an error', function () {
       expect(() => new QrocmCorrectionResponse({ status: AnswerStatus.OK })).to.throw(
-        'Le feedback est obligatoire pour une réponse de QROCM',
+        'The feedback is required in a QROCM correction',
       );
     });
   });
@@ -38,7 +38,7 @@ describe('Unit | Devcomp | Domain | Models | QrocmCorrectionResponse', function 
   describe('A QROCM correction response without solutions', function () {
     it('should throw an error', function () {
       expect(() => new QrocmCorrectionResponse({ status: AnswerStatus.OK, feedback: 'Bien joué !' })).to.throw(
-        'La solution est obligatoire pour une réponse de QROCM',
+        'The solution is required in a QROCM correction',
       );
     });
   });

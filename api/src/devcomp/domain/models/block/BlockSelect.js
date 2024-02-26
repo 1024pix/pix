@@ -2,14 +2,14 @@ import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asser
 
 class BlockSelect {
   constructor({ input, display, placeholder, ariaLabel, defaultValue, tolerances, options, solutions }) {
-    assertNotNullOrUndefined(input, "L'input est obligatoire pour un bloc de selection");
-    assertNotNullOrUndefined(display, 'Le display est obligatoire pour un bloc de selection');
-    assertNotNullOrUndefined(placeholder, 'Le placeholder est obligatoire pour un bloc de selection');
-    assertNotNullOrUndefined(ariaLabel, "L'aria Label est obligatoire pour un bloc de selection");
-    assertNotNullOrUndefined(defaultValue, 'La valeur par défaut est obligatoire pour un bloc de selection');
-    assertNotNullOrUndefined(tolerances, 'Les tolérances sont obligatoires pour un bloc de selection');
-    assertNotNullOrUndefined(options, 'Les options sont obligatoires pour un bloc de selection');
-    assertNotNullOrUndefined(solutions, 'Les solutions sont obligatoires pour un bloc de selection');
+    assertNotNullOrUndefined(input, 'The input is required for a select block');
+    assertNotNullOrUndefined(display, 'The display is required for a select block');
+    assertNotNullOrUndefined(placeholder, 'The placeholder is required for a select block');
+    assertNotNullOrUndefined(ariaLabel, 'The aria Label is required for a select block');
+    assertNotNullOrUndefined(defaultValue, 'The default value is required for a select block');
+    assertNotNullOrUndefined(tolerances, 'The tolerances are required for a select block');
+    assertNotNullOrUndefined(options, 'The options are required for a select block');
+    assertNotNullOrUndefined(solutions, 'The solutions are required for a select block');
 
     this.type = 'select';
     this.input = input;

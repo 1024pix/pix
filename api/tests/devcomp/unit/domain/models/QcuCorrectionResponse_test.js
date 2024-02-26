@@ -23,14 +23,14 @@ describe('Unit | Devcomp | Domain | Models | QcuCorrectionResponse', function ()
 
   describe('A QCU correction response without status', function () {
     it('should throw an error', function () {
-      expect(() => new QcuCorrectionResponse({})).to.throw('Le résultat est obligatoire pour une réponse de QCU');
+      expect(() => new QcuCorrectionResponse({})).to.throw('The result is required for a QCU response');
     });
   });
 
   describe('A QCU correction response without feedback', function () {
     it('should throw an error', function () {
       expect(() => new QcuCorrectionResponse({ status: AnswerStatus.OK })).to.throw(
-        'Le feedback est obligatoire pour une réponse de QCU',
+        'The feedback is required for a QCU response',
       );
     });
   });
@@ -38,7 +38,7 @@ describe('Unit | Devcomp | Domain | Models | QcuCorrectionResponse', function ()
   describe('A QCU correction response without proposal id', function () {
     it('should throw an error', function () {
       expect(() => new QcuCorrectionResponse({ status: AnswerStatus.OK, feedback: 'Bien joué !' })).to.throw(
-        "L'id de la proposition correcte est obligatoire pour une réponse de QCU",
+        'The id of the correct proposal is required for a QCU response',
       );
     });
   });
