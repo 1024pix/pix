@@ -14,7 +14,7 @@ describe('Unit | Certification | CompetenceForScoring', function () {
         {
           bounds: {
             max: -1,
-            min: Number.MIN_SAFE_INTEGER,
+            min: -5,
           },
           competenceLevel: 0,
         },
@@ -27,7 +27,7 @@ describe('Unit | Certification | CompetenceForScoring', function () {
         },
         {
           bounds: {
-            max: Number.MAX_SAFE_INTEGER,
+            max: 5,
             min: -1,
           },
           competenceLevel: 2,
@@ -87,7 +87,7 @@ describe('Unit | Certification | CompetenceForScoring', function () {
 
     describe('when the capacity is above the highest interval', function () {
       it('should return the CompetenceMark with a level of the highest interval', function () {
-        const estimatedLevel = 3;
+        const estimatedLevel = 6;
 
         const competenceForScoring = new CompetenceForScoring({
           competenceId,
@@ -103,6 +103,31 @@ describe('Unit | Certification | CompetenceForScoring', function () {
           area_code: areaCode,
           competence_code: competenceCode,
           level: 2,
+          score: 0,
+        });
+
+        expect(competenceMark).to.deep.equal(expectedCompetenceMark);
+      });
+    });
+
+    describe('when the capacity is below the lowest interval', function () {
+      it('should return the CompetenceMark with a level of the highest interval', function () {
+        const estimatedLevel = -6;
+
+        const competenceForScoring = new CompetenceForScoring({
+          competenceId,
+          areaCode,
+          competenceCode,
+          intervals,
+        });
+
+        const competenceMark = competenceForScoring.getCompetenceMark(estimatedLevel);
+
+        const expectedCompetenceMark = domainBuilder.buildCompetenceMark({
+          competenceId,
+          area_code: areaCode,
+          competence_code: competenceCode,
+          level: 0,
           score: 0,
         });
 
