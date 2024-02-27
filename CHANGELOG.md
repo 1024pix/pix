@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v4.107.1 (27/02/2024)
+
+
+### :building_construction: Tech
+- [#8161](https://github.com/1024pix/pix/pull/8161) [TECH] Mise à jour des dépendances PixOrga (PIX-11393).
+- [#8158](https://github.com/1024pix/pix/pull/8158) [TECH] Séparer le lint du test pour PixAPP (PIX-11392).
+
+### :bug: Correction
+- [#8205](https://github.com/1024pix/pix/pull/8205) [BUGFIX] Revert "[BUGFIX] Empêche le job de calcul de résultat de s'effectuer si la participation n'est pas partagée (PIX-11350)".
+- [#8133](https://github.com/1024pix/pix/pull/8133) [BUGFIX] Corrige le nettoyage intempestif de caractères lors de la recherche sur PixAdmin (PIX-11386).
+
 ## v4.107.0 (27/02/2024)
 
 
