@@ -53,6 +53,7 @@
     "@ember/test-helpers": "^3.0.0",
     "@embroider/compat": "^3.0.0",
     "@embroider/core": "^3.0.0",
+    "@embroider/macros": "^1.13.5",
     "@embroider/util": "^1.11.1",
     "@embroider/webpack": "^3.0.0",
     "@formatjs/intl": "^2.5.1",
