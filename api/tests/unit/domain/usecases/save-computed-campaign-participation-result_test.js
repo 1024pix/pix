@@ -1,24 +1,7 @@
-import { expect, catchErr, sinon } from '../../../test-helper.js';
+import { expect, sinon } from '../../../test-helper.js';
 import { saveComputedCampaignParticipationResult } from '../../../../lib/domain/usecases/save-computed-campaign-participation-result.js';
-import { CantCalculateCampaignParticipationResultError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | UseCases | SaveComputedCompaignParticipationResult', function () {
-  it('should throw an error if participation is not shared', async function () {
-    // given
-    const campaignParticipationRepository = {
-      get: sinon.stub().resolves({ isShared: () => false }),
-    };
-
-    // when
-    const error = await catchErr(saveComputedCampaignParticipationResult)({
-      campaignParticipationRepository,
-      campaignParticipationId: 1,
-    });
-
-    // then
-    expect(error).to.be.instanceof(CantCalculateCampaignParticipationResultError);
-  });
-
   it('should compute results and save', async function () {
     // given
     const participationResultsShared = Symbol('participation results shared');
@@ -26,13 +9,9 @@ describe('Unit | Domain | UseCases | SaveComputedCompaignParticipationResult', f
       get: sinon.stub().resolves(participationResultsShared),
       save: sinon.stub(),
     };
-    const campaignParticipationRepository = {
-      get: sinon.stub().resolves({ isShared: () => true }),
-    };
 
     // when
     await saveComputedCampaignParticipationResult({
-      campaignParticipationRepository,
       participantResultsSharedRepository,
       campaignParticipationId: 1,
     });
