@@ -6,7 +6,7 @@ export default class OrganizationInvitation extends Model {
   @attr('date') updatedAt;
   @attr('string') organizationName;
 
-  @belongsTo('organization') organization;
+  @belongsTo('organization', { async: true, inverse: 'organizationInvitations' }) organization;
 
   get isPending() {
     return this.status === 'pending';

@@ -1,9 +1,9 @@
 import Route from '@ember/routing/route';
-import { later } from '@ember/runloop';
+import { runTask } from 'ember-lifeline';
 
 export default class LoadingRoute extends Route {
   renderTemplate() {
-    later(
+    runTask(
       this,
       function () {
         this.render();

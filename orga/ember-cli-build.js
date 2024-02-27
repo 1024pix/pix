@@ -19,8 +19,15 @@ module.exports = function (defaults) {
     'ember-cli-template-lint': {
       testGenerator: 'qunit', // or 'mocha', etc.
     },
-    'ember-cli-babel': {
-      includePolyfill: true,
+    babel: {
+      plugins: [require.resolve('ember-auto-import/babel-plugin')],
+    },
+    '@embroider/macros': {
+      setConfig: {
+        '@ember-data/store': {
+          polyfillUUID: true,
+        },
+      },
     },
   });
 

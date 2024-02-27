@@ -8,6 +8,6 @@ export default class User extends Model {
   @attr('string') lang;
   @attr('boolean') cgu;
   @attr('boolean') pixOrgaTermsOfServiceAccepted;
-  @hasMany('membership') memberships;
-  @belongsTo('user-orga-setting') userOrgaSettings;
+  @hasMany('membership', { async: true, inverse: 'user' }) memberships;
+  @belongsTo('user-orga-setting', { async: true, inverse: 'user' }) userOrgaSettings;
 }
