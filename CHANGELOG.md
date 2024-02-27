@@ -1,5 +1,48 @@
 # Pix Changelog
 
+## v4.107.0 (27/02/2024)
+
+
+### :rocket: Amélioration
+- [#8172](https://github.com/1024pix/pix/pull/8172) [FEATURE] Améliorer les messages d'erreur lors de la validation des modules (PIX-11303).
+- [#8164](https://github.com/1024pix/pix/pull/8164) [FEATURE][API] Supprimer la contrainte sur la locale dans la table users (PIX-11231).
+
+### :building_construction: Tech
+- [#8194](https://github.com/1024pix/pix/pull/8194) [TECH] Avoir des erreurs serveurs en anglais (PIX-10792).
+- [#8171](https://github.com/1024pix/pix/pull/8171) [TECH] Restreindre l'accès à la dernière activité aux passages de mission en cours (PIX-11319).
+- [#8169](https://github.com/1024pix/pix/pull/8169) [TECH][API] Améliorer le passage des détails d'une erreur OIDC vers datadog (PIX-11391).
+- [#8136](https://github.com/1024pix/pix/pull/8136) [TECH] Renommer le terme AuthenticationUrl en AuthorizationUrl (PIX-11070).
+
+### :bug: Correction
+- [#8180](https://github.com/1024pix/pix/pull/8180) [BUGFIX] Réactivation des stats d'accès aux tutos (PIX-11408).
+- [#8166](https://github.com/1024pix/pix/pull/8166) [BUGFIX] Corrige le score par compétences pour les capacités très hautes et très basses (PIX-11395).
+- [#8155](https://github.com/1024pix/pix/pull/8155) [BUGFIX] Vide la table job de PGBOSS après chaque test (PIX-11301).
+- [#8160](https://github.com/1024pix/pix/pull/8160) [BUGFIX][API] Ajouter l'import manquant des traductions Néerlandaises (PIX-11218).
+
+### :arrow_up: Montée de version
+- [#8198](https://github.com/1024pix/pix/pull/8198) [BUMP] Lock file maintenance (certif).
+- [#8197](https://github.com/1024pix/pix/pull/8197) [BUMP] Lock file maintenance (1d).
+- [#8188](https://github.com/1024pix/pix/pull/8188) [BUMP] Update browser-tools orb to v1.4.7 (.circleci).
+- [#8187](https://github.com/1024pix/pix/pull/8187) [BUMP] Update dependency @1024pix/pix-ui to ^44.0.2 (orga).
+- [#8186](https://github.com/1024pix/pix/pull/8186) [BUMP] Update dependency @1024pix/pix-ui to ^44.0.2 (certif).
+- [#8185](https://github.com/1024pix/pix/pull/8185) [BUMP] Update dependency @1024pix/pix-ui to ^44.0.2 (admin).
+- [#8184](https://github.com/1024pix/pix/pull/8184) [BUMP] Lock file maintenance (audit-logger).
+- [#8183](https://github.com/1024pix/pix/pull/8183) [BUMP] Update dependency @1024pix/pix-ui to ^44.0.2 (1d).
+- [#8182](https://github.com/1024pix/pix/pull/8182) [BUMP] Lock file maintenance (admin).
+- [#8181](https://github.com/1024pix/pix/pull/8181) [BUMP] Update dependency @1024pix/pix-ui to ^44.0.1 (1d).
+- [#8178](https://github.com/1024pix/pix/pull/8178) [BUMP] Lock file maintenance (orga).
+- [#8177](https://github.com/1024pix/pix/pull/8177) [BUMP] Update dependency husky to v9 (dossier racine).
+- [#8176](https://github.com/1024pix/pix/pull/8176) [BUMP] Lock file maintenance (mon-pix).
+- [#8175](https://github.com/1024pix/pix/pull/8175) [BUMP] Update dependency file-type to v19 (api).
+- [#8174](https://github.com/1024pix/pix/pull/8174) [BUMP] Update dependency eslint-plugin-unicorn to v51 (api).
+- [#8165](https://github.com/1024pix/pix/pull/8165) [BUMP] Update dependency ember-cli-showdown to v9 (orga).
+- [#8163](https://github.com/1024pix/pix/pull/8163) [BUMP] Update dependency ember-cli-showdown to v9 (admin).
+- [#8156](https://github.com/1024pix/pix/pull/8156) [BUMP] Update dependency @1024pix/pix-ui to v44 (orga).
+
+### :coffee: Autre
+- [#8050](https://github.com/1024pix/pix/pull/8050) [REFACTOR] Améliorer la validation de charge utile de création des RT (PIX-10971).
+- [#8139](https://github.com/1024pix/pix/pull/8139) [FEAT] :safety_vest: Enregistre le `next-challenge.id` dans l'`assessment`.
+
 ## v4.106.0 (23/02/2024)
 
 
