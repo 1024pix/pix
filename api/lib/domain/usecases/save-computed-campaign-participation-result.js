@@ -6,7 +6,7 @@ const saveComputedCampaignParticipationResult = async function ({
   campaignParticipationId,
 }) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
-  if (!campaignParticipation.isShared()) throw new CantCalculateCampaignParticipationResultError();
+  if (!campaignParticipation.isShared) throw new CantCalculateCampaignParticipationResultError();
 
   const participantResultsShared = await participantResultsSharedRepository.get(campaignParticipationId);
   return participantResultsSharedRepository.save(participantResultsShared);
