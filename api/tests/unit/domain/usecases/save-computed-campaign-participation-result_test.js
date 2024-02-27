@@ -6,7 +6,7 @@ describe('Unit | Domain | UseCases | SaveComputedCompaignParticipationResult', f
   it('should throw an error if participation is not shared', async function () {
     // given
     const campaignParticipationRepository = {
-      get: sinon.stub().resolves({ isShared: () => false }),
+      get: sinon.stub().resolves({ isShared: false }),
     };
 
     // when
@@ -27,7 +27,7 @@ describe('Unit | Domain | UseCases | SaveComputedCompaignParticipationResult', f
       save: sinon.stub(),
     };
     const campaignParticipationRepository = {
-      get: sinon.stub().resolves({ isShared: () => true }),
+      get: sinon.stub().resolves({ isShared: true }),
     };
 
     // when
