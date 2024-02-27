@@ -136,7 +136,8 @@ class DatabaseBuilder {
 
   async _initTablesOrderedByDependencyWithDirtinessMap() {
     // See this link : https://stackoverflow.com/questions/51279588/sort-tables-in-order-of-dependency-postgres
-    const results = await this.knex.raw(`with recursive fk_tree as (
+    function _constructRawQuery(namespace) {
+      return `with recursive fk_tree as (
       select t.oid as reloid,
       t.relname as table_name,
       s.nspname as schema_name,
@@ -150,7 +151,7 @@ class DatabaseBuilder {
       from pg_constraint
       where contype = 'f'
       and conrelid = t.oid)
-      and s.nspname = 'public'
+      and s.nspname = '${namespace}'
       union all
       select ref.oid,
       ref.relname,
@@ -167,13 +168,27 @@ class DatabaseBuilder {
       select schema_name, table_name, level, row_number() over (partition by schema_name, table_name order by level desc) as
       last_table_row from fk_tree )
       select table_name
-      from all_tables at where last_table_row = 1 order by level DESC;`);
+      from all_tables at where last_table_row = 1 order by level DESC;`;
+    }
 
-    this.tablesOrderedByDependencyWithDirtinessMap = _.map(results.rows, ({ table_name }) => {
-      return {
+    /* eslint-disable knex/avoid-injections */
+    const publicResults = await this.knex.raw(_constructRawQuery('public'));
+    const pgbossResults = await this.knex.raw(_constructRawQuery('pgboss'));
+    /* eslint-enable knex/avoid-injections */
+
+    this.tablesOrderedByDependencyWithDirtinessMap = [];
+
+    publicResults.rows.forEach(({ table_name }) => {
+      this.tablesOrderedByDependencyWithDirtinessMap.push({
         table: table_name,
         isDirty: false,
-      };
+      });
+    });
+    pgbossResults.rows.forEach(({ table_name }) => {
+      this.tablesOrderedByDependencyWithDirtinessMap.push({
+        table: `pgboss.${table_name}`,
+        isDirty: false,
+      });
     });
   }
 
