@@ -61,10 +61,6 @@ describe('Acceptance | API | Campaign Participations', function () {
       };
     });
 
-    afterEach(function () {
-      return knex('pgboss.job').truncate();
-    });
-
     it('shares the campaign participation', async function () {
       // given
       const campaign = databaseBuilder.factory.buildCampaign();
