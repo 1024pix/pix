@@ -26,6 +26,7 @@ const databaseBuilders = await importNamedExportsFromDirectory({
  *    {
  *      buildTraining: BuildTraining,
  *      buildDataProtectionOfficer: BuildDataProtectionOfficerFactory,
+ *      buildUser: BuildUser,
  *    }
  *  } Factory
  */

@@ -12,7 +12,9 @@ export function buildScoOrganizationLearners(databaseBuilder) {
   _buildScoOrganizationLearnerWithMediacentre(databaseBuilder);
   _buildScoOrganizationLearnersWithoutConnectionType(databaseBuilder);
 }
-
+/**
+ * @param {DatabaseBuilder} databaseBuilder
+ */
 function _buildScoOrganizationLearnerWithAllConnectionTypes(databaseBuilder) {
   const user = databaseBuilder.factory.buildUser({
     firstName: 'Eliza',
