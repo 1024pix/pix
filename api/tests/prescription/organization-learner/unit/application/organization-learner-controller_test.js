@@ -1,6 +1,6 @@
-import { sinon, expect, hFake } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { organizationLearnerController } from '../../../../lib/application/organization-learners/organization-learner-controller.js';
+import { sinon, expect, hFake } from '../../../../test-helper.js';
+import { usecases } from '../../../../../src/prescription/organization-learner/domain/usecases/index.js';
+import { organizationLearnerController } from '../../../../../src/prescription/organization-learner/application/organization-learner-controller.js';
 
 describe('Unit | Application | Organization-Learner | organization-learner-controller', function () {
   describe('#getOrganizationLearner', function () {

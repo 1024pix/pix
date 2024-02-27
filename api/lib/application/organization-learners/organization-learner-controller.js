@@ -1,6 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
 import * as organizationLearnerIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-learner-identity-serializer.js';
-import * as organizationLearnerSerializer from '../../infrastructure/serializers/jsonapi/organization-learner-follow-up/organization-learner-serializer.js';
 
 const dissociate = async function (request, h) {
   const organizationLearnerId = request.params.id;
@@ -23,12 +22,6 @@ const findAssociation = async function (request, h, dependencies = { organizatio
   return h.response(dependencies.organizationLearnerIdentitySerializer.serialize(organizationLearner)).code(200);
 };
 
-const getLearner = async function (request, h, dependencies = { organizationLearnerSerializer }) {
-  const organizationLearnerId = request.params.id;
-  const learner = await usecases.getOrganizationLearner({ organizationLearnerId });
-  return h.response(dependencies.organizationLearnerSerializer.serialize(learner)).code(200);
-};
-
-const organizationLearnerController = { dissociate, findAssociation, getLearner };
+const organizationLearnerController = { dissociate, findAssociation };
 
 export { organizationLearnerController };
