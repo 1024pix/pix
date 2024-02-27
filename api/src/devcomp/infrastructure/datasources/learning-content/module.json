@@ -899,16 +899,16 @@
     {
       "id": "8bdec793-7508-41b4-9df2-e1cf96969680",
       "slug": "mots-de-passe-securises",
-      "title": "Mots de passe sécurisés",
+      "title": "Mots de passe solides",
       "details": {
         "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-        "description": "Comprendre et appliquer les essentiels de la sécurisation de vos mots de passe.",
+        "description": "Vous avez des mots de passe pour tout : comptes divers, appareils, sites Web. Si vous n'avez qu'un seul mot de passe et que ce mot de passe est votre date de naissance, ce module est fait pour vous.",
         "duration": 12,
         "level": "Débutant",
         "objectives": [
-          "Comprendre les enjeux",
+          "Comprendre l'intérêt d'avoir des mots de passe solides",
           "Connaître les principaux risques liés aux mots de passe",
-          "Savoir créer un mot de passe sécurisé"
+          "Savoir créer un mot de passe solide"
         ]
       },
       "transitionTexts": [
@@ -917,15 +917,15 @@
           "grainId": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8"
         },
         {
-          "content": "<p>C’est très clair : si tout le monde utilise le même mot de passe, ça ne sert pas à grand chose !<br>Regardons d’un peu plus près les situations dont il faut se protéger...</p>",
+          "content": "<p>C’est sûr : si tout le monde utilise le même mot de passe, ça ne sert pas à grand chose !<br>Regardons d’un peu plus près les situations dont il faut se protéger.</p>",
           "grainId": "831fd61c-54ae-4b21-bd3f-61f40887a869"
         },
         {
-          "content": "<p>Si vous utilisez des informations qui vous concernent (prénoms, date de naissance, etc.), il sera facile pour vos proches de le trouver.</p> <p>Une illustration : vous allez devoir deviner le mot de passe d’Austin !</p>",
+          "content": "<p>Si vous utilisez des informations qui vous concernent (comme votre prénom ou votre date de naissance), il sera facile de deviner votre mot de passe.</p> <p>Une illustration : vous allez devoir deviner le mot de passe d’Austin !</p>",
           "grainId": "1cda400f-008c-49db-b46b-6f783ccbc273"
         },
         {
-          "content": "<p>Pour créer un mot de passe sécurisé, c’est-à-dire difficile à trouver, certaines astuces peuvent aider. Examinons-les ensemble !</p>",
+          "content": "<p>Pour créer un mot de passe solide, c’est-à-dire difficile à trouver, certaines astuces peuvent aider. Examinons-les ensemble !</p>",
           "grainId": "1564f763-5ba5-48ef-b752-dac463319899"
         },
         {
@@ -933,7 +933,7 @@
           "grainId": "f6bd140c-4f63-4fe7-94f4-b4d7a51db7a5"
         },
         {
-          "content": "<p>Avec cette méthode, nous voilà équipés pour créer des mots de passe très solides ! Mais au delà de la création des mots de passe, il y a d'autres bonnes habitudes à adopter !</p>",
+          "content": "<p>Avec cette méthode, nous voilà équipés pour créer des mots de passe solides ! Mais au delà de la création des mots de passe, il y a d'autres bonnes habitudes à adopter !</p>",
           "grainId": "f14510d6-ee18-48be-8bb6-39a9427e3102"
         },
         {
@@ -966,7 +966,7 @@
                   "ariaLabel": "Mot de passe",
                   "defaultValue": "",
                   "tolerances": ["t1"],
-                  "solutions": ["123456", "123456789", "azerty", "admin", "1234561", "azertyuiop", "loulou", "000000", "doudou", "password", "marseille", "motdepasse", "12345678", "chouchou", "soleil", "cheval", "12345", "Password", "bonjour", "1234567891", "1234", "0000", "toto"]
+                  "solutions": ["123456", "123456789", "azerty", "admin", "1234561", "azertyuiop", "loulou", "000000", "doudou", "password", "marseille", "motdepasse", "12345678", "chouchou", "soleil", "cheval", "12345", "Password", "bonjour", "1234567891", "1234", "0000", "toto", "azerty123"]
                 }
               ],
               "feedbacks": {
@@ -984,17 +984,12 @@
             {
               "id": "826281e7-865f-462d-abc0-77537c42a2b4",
               "type": "text",
-              "content": "<h3><span aria-hidden=\"true\">🔮&nbsp;</span>Une personne a deviné votre mot de passe…</h3><p>Une personne qui vous connaît bien a accès à de nombreuses informations vous concernant.</p><p>Si vous utilisez des informations privées en guise de mot de passe, il est probable qu’une personne de votre entourage puisse deviner facilement votre mot de passe et ainsi accéder à des données privées. Et ce n’est peut être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.<span aria-hidden=\"true\"> 🙃</span></p>"
+              "content": "<h3><span aria-hidden=\"true\">🔮&nbsp;</span>Une personne a deviné votre mot de passe…</h3><p>Si vous utilisez des informations privées dans votre mot de passe, il est donc possible qu’une personne de votre entourage puisse le deviner facilement.</p><p>Elle pourra alors accéder à vos données personnelles et privées. Et ce n’est peut-être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.<span aria-hidden=\"true\"> 🙃</span></p>"
             },
             {
               "id": "9d0b7aff-a9da-453f-a6ba-c61fbaa7bb25",
               "type": "text",
-              "content": "<h3><span aria-hidden=\"true\">🤖&nbsp;</span>Un programme a deviné votre mot de passe…</h3><p>En 2023, un mot de passe de 8 caractères avec minuscules, majuscules, nombres et caractères spéciaux sera piraté en 5 minutes seulement ! <span aria-hidden=\"true\">😰 </span>Avec 12 caractères, cette durée passe à 226 ans ! <span aria-hidden=\"true\">😮 </span></p><p>En général, dans le cas d’attaques automatisées, votre attaquant ne vous connaît pas personnellement, et cherche certainement à revendre vos informations ou à vous soutirer de l’argent.</p>"
-            },
-            {
-              "id": "e17089d4-a166-4bf4-a18b-155caaebe081",
-              "type": "text",
-              "content": "<h3><span aria-hidden=\"true\">🔓&nbsp;</span>Votre mot de passe est compromis…</h3><p>Qu’il s’agisse d’une attaque automatisée ou d’une attaque ciblée vous concernant, si votre mot de passe a été deviné, les conséquences peuvent être graves. En particulier si le mot de passe compromis est celui de votre boîte mail <span aria-hidden=\"true\">😬</span></p>"
+              "content": "<h3><span aria-hidden=\"true\">🤖&nbsp;</span>Un programme informatique a deviné votre mot de passe…</h3><p>En 2023, un mot de passe de 8 caractères comme 4z€rTy1&amp;&amp; ou $0Leil@? sera piraté en 5 minutes seulement ! <span aria-hidden=\"true\">😰 </span>Par contre, avec 12 caractères, cette durée passe à 226 ans ! <span aria-hidden=\"true\">😮 </span></p><p>En général, dans ce cas, l'attaquant ne vous connaît pas personnellement. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
             }
           ]
         },
@@ -1011,7 +1006,7 @@
             {
               "id": "2695bb89-112c-49d1-80b2-469d824af58f",
               "type": "qrocm",
-              "instruction": "<p>À votre avis, quel pourrait être le mot de passe d'Austin ?</p>",
+              "instruction": "<p>À votre avis, quel peut être le mot de passe d'Austin ?</p>",
               "proposals": [
                 {
                   "input": "mot-de-passe",
@@ -1023,7 +1018,7 @@
                   "ariaLabel": "Mot de passe d'Austin",
                   "defaultValue": "",
                   "tolerances": ["t1"],
-                  "solutions": ["Bill15111984", "15111984Bill", "Bill151184", "151184Bill", "bill15111984", "15111984bill", "bill151184", "151184bill"]
+                  "solutions": ["Bill15111984", "15111984Bill", "Bill151184", "151184Bill", "bill15111984", "15111984bill", "bill151184", "151184bill", "Bill15novembre1984", "15novembre1984Bill", "Bill15novembre84", "15novembre84Bill", "bill15novembre1984", "15novembre1984bill", "bill15novembre84", "15novembre84bill","Bill15/11/1984", "15/11/1984Bill", "Bill15/11/84", "15/11/84Bill", "bill15/11/1984", "15/11/1984bill", "bill15/11/84", "15/11/84bill"]
                 }
               ],
               "feedbacks": {
@@ -1060,7 +1055,7 @@
             {
               "id": "c4505a09-864c-48f8-8077-013fae2db291",
               "type": "text",
-              "content": "<h3>Astuce n°2 : Pas d’infos personnelles</h3><p>Un bon mot de passe est secret et ne contient pas d’informations personnelles. Par définition personne ne doit le connaître, ni le deviner ! Ciao les dates de naissance et autres numéros de téléphone. Un mot de passe doit rester secret !<span aria-hidden=\"true\">🤫</span></p><hr>"
+              "content": "<h3>Astuce n°2 : pas d’informations personnelles</h3><p>Un bon mot de passe est secret et ne contient pas d’informations personnelles. Par définition personne ne doit le connaître ni le deviner ! Adieu dates de naissance et autres numéros de téléphone. Un mot de passe doit rester secret !<span aria-hidden=\"true\"> 🤫</span></p><hr>"
             },
             {
               "id": "0ef47e65-d31e-41b6-a5a5-0f3b00caf5be",
@@ -1072,7 +1067,7 @@
             {
               "id": "52f4050d-7ab9-41da-987b-d9172d5b3cb0",
               "type": "text",
-              "content": "<h3>Astuce n°3 : De la variété dans les caractères utilisés</h3><p>Un bon mot de passe contient des caractères divers ! Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter. <span aria-hidden=\"true\">💬</span></p><hr>"
+              "content": "<h3>Astuce n°3 : de la variété dans les caractères utilisés</h3><p>Un bon mot de passe contient des caractères divers ! Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter : =@$#!?. <span aria-hidden=\"true\">💬</span></p><hr>"
             },
             {
               "id": "95a1559a-71d8-4ef6-aa2c-e4d839d78d9b",
@@ -1084,7 +1079,7 @@
             {
               "id": "78cc559f-ea8a-48c8-860c-4615c0e816b8",
               "type": "text",
-              "content": "<h3>Astuce n°4 : Certains mots de passe sont plus importants que d’autres</h3><p>C’est le cas de celui de votre adresse email principale. C’est lui qui vous permet de changer tous les autres mots de passe. <span aria-hidden=\"true\">😌</span> Et oui, un mot de passe oublié, ça se change, et ce n’est pas grave ! Il faut par contre avoir un mot de passe solide pour sa boite mail. <span aria-hidden=\"true\">🔐</span></p>"
+              "content": "<h3>Astuce n°4 : certains mots de passe sont plus importants que d’autres</h3><p>Par exemple le mot de passe de votre adresse email principale est très important : il vous permet de changer tous les autres mots de passe. <span aria-hidden=\"true\">😌</span> </p><p>Et oui, un mot de passe oublié, ça se change, et ce n’est pas grave !<span aria-hidden=\"true\"> 🔐</span></p>"
             }
           ]
         },
@@ -1103,7 +1098,7 @@
             {
               "id": "fd4b05ee-8cda-4bfe-b18a-468f1a895f80",
               "type": "text",
-              "content": "<h3>Voici une méthode pour construire un mot de passe solide</h3><ol><li>Partez d'une phrase facile à retenir, qui a du sens pour vous. Elle doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore faire de la plongée!</em></li><li>Ensuite, prenez les premières lettres de chaque mot, gardez les nombres, la ponctuation, et le tour est joué !</li></ol>Le mot de passe corespondant est : <strong>J'a2c,3peej'afdlp!</strong><h3>Maintenant, à vous de jouer !</h3>"
+              "content": "<h3>Voici une méthode pour construire un mot de passe solide</h3><ol><li>Choisissez une phrase facile à retenir, qui a du sens pour vous. Attention, cette phrase doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore la plongée!</em></li><li>Ensuite, prenez la première lettre de chaque mot, gardez les nombres et la ponctuation : <strong>J'a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j'a</strong>dore <strong>l</strong>a <strong>p</strong>longée <strong>!</strong></li><li>En ne gardant que les lettres en gras, cela donne :<br><strong>J'a2c,3peej'alp!</strong></li></ol>"
             },
             {
               "id": "74fad4da-be99-4b9b-83af-ef90ca553b06",
@@ -1150,7 +1145,7 @@
             {
               "id": "6eda6d92-1147-4c19-a7e5-f61a2228e33c",
               "type": "text",
-              "content": "<h3>Conseil n°1 : ne pas réutiliser le même mot de passe partout !</h3><p>Utiliser le même mot de passe pour tous ses services c'est comme utiliser la même clé pour toutes ses portes. C'est très pratique, mais si le mot de passe d'un des sites est exposé suite à une attaque, c'est toutes les portes qui sont ouvertes ! <span aria-hidden=\"true\">☠️</span></p><hr>"
+              "content": "<h3>Conseil n°1 : ne pas réutiliser le même mot de passe partout !</h3><p>Toujours utiliser le même mot de passe c'est comme utiliser la même clé pour toutes ses portes. C'est très pratique, mais si le mot de passe est piraté, c'est toutes les portes qui sont ouvertes ! <span aria-hidden=\"true\">☠️</span></p><hr>"
             },
             {
               "id": "5bc31fd2-686f-444a-b50d-475f90394ed5",
@@ -1162,7 +1157,7 @@
             {
               "id": "00d7f3c2-bd0e-4799-98d7-c1813a797c92",
               "type": "text",
-              "content": "<h3>Conseil n°2 : un mot de passe doit rester secret</h3><p>Un mot de passe, c'est comme une brosse à dents, c'est personnel ! <span aria-hidden=\"true\">🪥</span> Par exemple, si vous avez besoin de prêter votre téléphone à quelqu'un, déverrouillez-le pour lui permettre d'accéder à une application, mais ne lui donnez pas votre code ! Cela lui permettrait d'y accéder n'importe quand, et ce n'est pas forcément ce que vous souhaitez. <span aria-hidden=\"true\">🤫</span> </p><hr>"
+              "content": "<h3>Conseil n°2 : un mot de passe doit rester secret</h3><p>Un mot de passe, c'est comme une brosse à dents, c'est personnel ! <span aria-hidden=\"true\">🪥</span></p><p>Par exemple, si vous prêtez votre téléphone à un ami, déverrouillez-le pour lui permettre d'accéder à une application, mais ne lui donnez pas votre code ! Sinon il pourra y accéder n'importe quand et ce n'est pas forcément ce que vous souhaitez. <span aria-hidden=\"true\">🤫</span> </p><hr>"
             },
             {
               "id": "f40c6b79-7731-470a-a656-b6196a6f7ea8",
@@ -1174,11 +1169,8 @@
             {
               "id": "dadd152e-350c-4710-8609-af5f92e69b2c",
               "type": "text",
-              "content": "<h3>Conseil n°3 : Oublier son mot de passe, ce n'est pas grave !</h3><p>Oui, un mot de passe, ça s'oublie. Et si on l'oublie, on le change, c'est tout simple. La plupart des services proposent un service qui permet de définir un nouveau mot de passe en cas d'oubli. Pour cela, on doit fournir l'adresse mail utilisée à la création du compte. Le seul mot de passe important à mémoriser, c'est celui de sa boîte mail, puisqu'il permet de changer tous les autres ! <span aria-hidden=\"true\">💡</span></p>"
+              "content": "<h3>Conseil n°3 : oublier son mot de passe, ce n'est pas grave !</h3><p>Oui, un mot de passe, ça s'oublie. Et si on l'oublie, il suffit de le changer. La plupart des sites permettent de définir un nouveau mot de passe en cas d'oubli. Pour cela, on doit fournir l'adresse mail utilisée à la création du compte. Le seul mot de passe important à mémoriser, c'est celui de sa boîte mail, puisqu'il permet de changer tous les autres ! <span aria-hidden=\"true\">💡</span></p>"
             }
-
-
-
           ]
         },
         {
@@ -1209,7 +1201,7 @@
             {
               "id": "006acae6-1bca-420f-ba74-29e7e0369069",
               "type": "qcu",
-              "instruction": "<p>Pour retenir mon mot de passe, ce qu’il faut faire, c’est en créer un de très solide, et l’utiliser pour tous mes services.</p>",
+              "instruction": "<p>Pour retenir mon mot de passe, je dois en créer un solide et l’utiliser pour tous mes services.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -1229,7 +1221,7 @@
             {
               "id": "68f45335-8aab-40f5-baff-9719ce8b582a",
               "type": "qcu",
-              "instruction": "<p><strong>Ié1phqa1d2mpc!</strong> est un mot de passe créé à partir de la phrase de passe “Il était un petit homme qui avait une drôle de maison pirouette cacahuète!”</p>",
+              "instruction": "<p>La phrase \"<em>Il était 1 petit homme qui avait 1 drôle 2 maison pirouette cacahuète !</em>\" permet de créer le mot de passe suivant : <strong>Ié1phqa1d2mpc!</strong></p>",
               "proposals": [
                 {
                   "id": "1",
@@ -1256,7 +1248,7 @@
             {
               "id": "2e695244-52c5-4277-8414-d18777d0d242",
               "type": "text",
-              "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Tous les mots de passe ne sont pas égaux : l'accès à votre boîte mail permet de contrôler de nombreux autres services, c'est donc un mot de passe très important. <span aria-hidden=\"true\">🚨</span></li><li>Un mot de passe solide, c'est un mot de passe : unique, long, composé de caractères variés, ne contenant pas d'informations personnelles et secret ! <span aria-hidden=\"true\">🎯</span></li><li>Une bonne méthode pour créer un mot de passe solide et mémorisable est la méthode de la phrase de passe. <span aria-hidden=\"true\">💡</span></li></ul>"
+              "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Tous les mots de passe ne sont pas égaux : l'accès à votre boîte mail permet de contrôler de nombreux autres services, c'est donc un mot de passe très important. <span aria-hidden=\"true\">🚨</span></li><li>Un mot de passe solide, c'est un mot de passe : unique, long, composé de caractères variés, ne contenant pas d'informations personnelles et secret ! <span aria-hidden=\"true\">🎯</span></li><li>Une bonne méthode pour créer un mot de passe solide et mémorisable est de partir d'une phrase facile à retenir. <span aria-hidden=\"true\">💡</span></li></ul>"
             }
           ]
         }
