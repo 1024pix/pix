@@ -941,7 +941,7 @@
           "grainId": "27c3d4e9-cdee-452f-8c63-f780b890776e"
         },
         {
-          "content": "<p>Gérer des mots de passe solides, c'est tout sauf simple. Mais sécuriser ses données, ce n'est pas une option dans un monde tel que le nôtre où le numérique est partout.</p>",
+          "content": "<p>Sécuriser ses mots de passe et les gérer, c'est tout sauf simple. Mais cette étape n'est pas une option dans un monde où le numérique est partout.</p><p>Voici une synthèse des points essentiels de ce module.",
           "grainId": "1ed4223a-2b8f-4c2c-8dcb-3d0567b562b0"
         }
       ],
@@ -1251,15 +1251,12 @@
         {
           "id": "1ed4223a-2b8f-4c2c-8dcb-3d0567b562b0",
           "type": "lesson",
-          "title": "Gérer ses mots de passe",
+          "title": "Sécuriser ses mots de passe : synthèse",
           "elements": [
             {
-              "id": "7a3de8e3-319c-4062-a41a-721d50a57ad5",
-              "type": "video",
-              "title": "Gérer ses mots de passe",
-              "url": "https://videos.pix.fr/modulix/placeholder-video.mp4",
-              "transcription": "",
-              "subtitles": "https://videos.pix.fr/modulix/placeholder-video.vtt"
+              "id": "2e695244-52c5-4277-8414-d18777d0d242",
+              "type": "text",
+              "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Tous les mots de passe ne sont pas égaux : l'accès à votre boîte mail permet de contrôler de nombreux autres services, c'est donc un mot de passe très important.</li><li>Un mot de passe solide, c'est un mot de passe : unique, long, composé de caractères variés, ne contenant pas d'informations personnelles et secret !</li><li>Une bonne méthode pour créer un mot de passe solide et mémorisable est la méthode de la phrase de passe.</li></ul>"
             }
           ]
         }
