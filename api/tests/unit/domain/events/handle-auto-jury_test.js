@@ -9,6 +9,7 @@ import {
   CertificationIssueReportCategory,
 } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
+import { CertificationAssessment } from '../../../../lib/domain/models/index.js';
 
 describe('Unit | Domain | Events | handle-auto-jury', function () {
   describe('when certification is V2', function () {
@@ -850,7 +851,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       );
     });
 
-    describe('when the certification is not completed', function () {
+    describe('when the certification is started', function () {
       it('returns a CertificationJuryDone event first in returned collection', async function () {
         // given
         const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
@@ -859,6 +860,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationCourseId: 4567,
           version: 3,
+          state: CertificationAssessment.states.STARTED,
         });
         const certificationCourse = domainBuilder.buildCertificationCourse({
           version: 3,
@@ -983,6 +985,110 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
           ],
         });
         expect(certificationAssessmentRepository.save).to.have.been.calledWithExactly(expectedCertificationAssessment);
+      });
+    });
+
+    describe('when the certification was ended by the supervisor', function () {
+      it('returns a CertificationJuryDone event first in returned collection', async function () {
+        // given
+        const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
+        const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationCourseId: 4567,
+          version: 3,
+          state: CertificationAssessment.states.ENDED_BY_SUPERVISOR,
+        });
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          version: 3,
+          sessionId: 1234,
+          id: 4567,
+          completedAt: null,
+          abortReason: ABORT_REASONS.CANDIDATE,
+        });
+        certificationCourseRepository.findCertificationCoursesBySessionId
+          .withArgs({ sessionId: 1234 })
+          .resolves([certificationCourse]);
+        certificationIssueReportRepository.findByCertificationCourseId
+          .withArgs(certificationCourse.getId())
+          .resolves([]);
+        certificationAssessmentRepository.getByCertificationCourseId
+          .withArgs({ certificationCourseId: certificationCourse.getId() })
+          .resolves(certificationAssessment);
+        certificationAssessmentRepository.save.resolves();
+        const event = new SessionFinalized({
+          sessionId: 1234,
+          finalizedAt: new Date(),
+          hasExaminerGlobalComment: false,
+          certificationCenterName: 'A certification center name',
+          sessionDate: '2021-01-29',
+          sessionTime: '14:00',
+        });
+
+        // when
+        const events = await handleAutoJury({
+          event,
+          certificationIssueReportRepository,
+          certificationAssessmentRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(events[0]).to.deepEqualInstance(
+          new CertificationJuryDone({
+            certificationCourseId: certificationCourse.getId(),
+          }),
+        );
+      });
+    });
+
+    describe('when the certification was ended due to finalization', function () {
+      it('does not return a CertificationJuryDone event', async function () {
+        // given
+        const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
+        const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationCourseId: 4567,
+          version: 3,
+          state: CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION,
+        });
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          version: 3,
+          sessionId: 1234,
+          id: 4567,
+          completedAt: null,
+          abortReason: ABORT_REASONS.CANDIDATE,
+        });
+        certificationCourseRepository.findCertificationCoursesBySessionId
+          .withArgs({ sessionId: 1234 })
+          .resolves([certificationCourse]);
+        certificationIssueReportRepository.findByCertificationCourseId
+          .withArgs(certificationCourse.getId())
+          .resolves([]);
+        certificationAssessmentRepository.getByCertificationCourseId
+          .withArgs({ certificationCourseId: certificationCourse.getId() })
+          .resolves(certificationAssessment);
+        certificationAssessmentRepository.save.resolves();
+        const event = new SessionFinalized({
+          sessionId: 1234,
+          finalizedAt: new Date(),
+          hasExaminerGlobalComment: false,
+          certificationCenterName: 'A certification center name',
+          sessionDate: '2021-01-29',
+          sessionTime: '14:00',
+        });
+
+        // when
+        const events = await handleAutoJury({
+          event,
+          certificationIssueReportRepository,
+          certificationAssessmentRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(events[0]).to.be.instanceOf(AutoJuryDone);
       });
     });
 

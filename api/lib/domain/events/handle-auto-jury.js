@@ -111,7 +111,7 @@ async function _handleAutoJuryV3({ certificationCourses, certificationAssessment
       certificationCourseId: certificationCourse.getId(),
     });
 
-    if (certificationAssessment.state === CertificationAssessment.states.STARTED) {
+    if (_v3CertificationShouldBeScored(certificationAssessment)) {
       const certificationJuryDoneEvent = new CertificationJuryDone({
         certificationCourseId: certificationCourse.getId(),
       });
@@ -135,6 +135,13 @@ async function _handleAutoJuryV3({ certificationCourses, certificationAssessment
       hasExaminerGlobalComment: event.hasExaminerGlobalComment,
     }),
   ];
+}
+
+function _v3CertificationShouldBeScored(certificationAssessment) {
+  return (
+    certificationAssessment.state === CertificationAssessment.states.STARTED ||
+    certificationAssessment.state === CertificationAssessment.states.ENDED_BY_SUPERVISOR
+  );
 }
 
 async function _autoCompleteUnfinishedTest({
