@@ -10,5 +10,6 @@ export default class OrganizationLearnerParticipation extends Model {
   @attr('number') participationCount;
   @attr('number') lastSharedOrCurrentCampaignParticipationId;
 
-  @belongsTo('OrganizationLearnerActivity') organizationLearnerActivity;
+  @belongsTo('OrganizationLearnerActivity', { async: true, inverse: 'organizationLearnerParticipations' })
+  organizationLearnerActivity;
 }

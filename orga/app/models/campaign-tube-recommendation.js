@@ -9,7 +9,7 @@ export default class CampaignTubeRecommendation extends Model {
   @attr() tubeDescription;
   @attr() averageScore;
 
-  @belongsTo('campaignAnalysis') campaignAnalysis;
+  @belongsTo('campaignAnalysis', { async: true, inverse: 'campaignTubeRecommendations' }) campaignAnalysis;
 
-  @hasMany('tutorial') tutorials;
+  @hasMany('tutorial', { async: true, inverse: null }) tutorials;
 }

@@ -1,19 +1,19 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
 
 import languages from 'pix-orga/languages';
 
 const FRENCH_LANGUAGE = 'fr';
 
 export default class LanguageSwitcher extends Component {
-  @tracked selectedLanguage = this.args.selectedLanguage;
+  get selectedLanguage() {
+    return this.args.selectedLanguage;
+  }
 
   availableLanguages = this.mapToOptions(languages);
 
   @action
   onChange(value) {
-    this.selectedLanguage = value;
     this.args.onLanguageChange(value);
   }
 

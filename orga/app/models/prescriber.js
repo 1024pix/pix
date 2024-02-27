@@ -8,8 +8,8 @@ export default class Prescriber extends Model {
   @attr('number') participantCount;
   @attr('string') lang;
   @attr() features;
-  @hasMany('membership') memberships;
-  @belongsTo('user-orga-setting') userOrgaSettings;
+  @hasMany('membership', { async: true, inverse: null }) memberships;
+  @belongsTo('user-orga-setting', { async: true, inverse: null }) userOrgaSettings;
 
   static get featureList() {
     return {
