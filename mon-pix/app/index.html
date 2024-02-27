@@ -1,28 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Pix</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-pix_app.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-pix_app.png" />
 
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#ffffff" />
 
     {{content-for "head"}}
 
-    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css">
-    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/mon-pix.css">
+    <link rel="preload" as="font" href="{{rootURL}}@1024pix/pix-ui/fonts/Roboto/Roboto-Regular.ttf" />
+    <link rel="preload" as="font" href="{{rootURL}}@1024pix/pix-ui/fonts/Roboto/Roboto-Medium.ttf" />
+    <link rel="preload" as="font" href="{{rootURL}}@1024pix/pix-ui/fonts/Nunito/Nunito-Bold.ttf" />
+
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css" />
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/mon-pix.css" />
 
     {{content-for "head-footer"}}
   </head>
   <body>
     {{content-for "body"}}
 
-    <div id="app-splash" style="width: 100vw; height: 100vh; text-align: center;">
+    <div id="app-splash" style="width: 100vw; height: 100vh; text-align: center">
       <div class="app-loader">
-        <p class="app-loader__image"><img src="/images/interwind.gif" alt=""></p>
+        <p class="app-loader__image"><img src="/images/interwind.gif" alt="" /></p>
       </div>
     </div>
 
