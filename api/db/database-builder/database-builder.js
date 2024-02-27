@@ -191,6 +191,7 @@ class DatabaseBuilder {
       });
     });
     pgbossResults.rows.forEach(({ table_name }) => {
+      if (table_name === 'version') return;
       this.tablesOrderedByDependencyWithDirtinessMap.push({
         table: `pgboss.${table_name}`,
         isDirty: false,
@@ -220,6 +221,7 @@ class DatabaseBuilder {
         const tableName = databaseHelpers.getTableNameFromInsertSqlQuery(queryData.sql);
 
         if (!_.isEmpty(tableName)) {
+          if (tableName === 'pgboss.version') return;
           this._setTableAsDirty(tableName);
         }
       }
