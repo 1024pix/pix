@@ -2,6 +2,7 @@ import _ from 'lodash';
 import bluebird from 'bluebird';
 import { factory } from './factory/index.js';
 import { databaseBuffer } from './database-buffer.js';
+import * as databaseHelpers from './database-helpers.js';
 
 class DatabaseBuilder {
   constructor({ knex, emptyFirst = true, beforeEmptyDatabase = () => undefined }) {
@@ -194,14 +195,11 @@ class DatabaseBuilder {
 
   #addListeners() {
     this.knex?.on('query', (queryData) => {
-      {
-        if (queryData.method?.toLowerCase() === 'insert') {
-          const tableNameRegExp = /insert into "(?<tableName>(?:\\.|[^"\\])*)"/g;
-          const tableName = tableNameRegExp.exec(queryData.sql)?.groups?.tableName;
+      if (queryData.method?.toLowerCase() === 'insert') {
+        const tableName = databaseHelpers.getTableNameFromInsertSqlQuery(queryData.sql);
 
-          if (!_.isEmpty(tableName)) {
-            this._setTableAsDirty(tableName);
-          }
+        if (!_.isEmpty(tableName)) {
+          this._setTableAsDirty(tableName);
         }
       }
     });
