@@ -1,6 +1,7 @@
+import { action } from '@ember/object';
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
-import { task, timeout } from 'ember-concurrency';
+import { debounceTask } from 'ember-lifeline';
 import config from 'pix-admin/config/environment';
 
 const DEFAULT_PAGE_NUMBER = 1;
@@ -15,16 +16,16 @@ export default class ListController extends Controller {
   @tracked name = null;
   @tracked type = null;
   @tracked externalId = null;
-  pendingFilters = {};
 
-  @(task(function* (fieldName, event) {
-    const value = event.target.value;
-    this.pendingFilters[fieldName] = value;
-    yield timeout(this.DEBOUNCE_MS);
-    // eslint-disable-next-line ember/classic-decorator-no-classic-methods
-    this.setProperties(this.pendingFilters);
-    this.pendingFilters = {};
+  updateFilters(filters) {
+    for (const filterKey of Object.keys(filters)) {
+      this[filterKey] = filters[filterKey];
+    }
     this.pageNumber = DEFAULT_PAGE_NUMBER;
-  }).restartable())
-  triggerFiltering;
+  }
+
+  @action
+  triggerFiltering(fieldName, event) {
+    debounceTask(this, 'updateFilters', { [fieldName]: event.target.value }, this.DEBOUNCE_MS);
+  }
 }

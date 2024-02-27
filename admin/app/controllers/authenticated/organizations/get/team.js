@@ -19,24 +19,21 @@ export default class GetTeamController extends Controller {
   @tracked lastName = null;
   @tracked email = null;
   @tracked organizationRole = null;
-  pendingFilters = {};
 
   @service accessControl;
   @service notifications;
   @service store;
 
-  updateFilters() {
-    // eslint-disable-next-line ember/classic-decorator-no-classic-methods
-    this.setProperties(this.pendingFilters);
-    this.pendingFilters = {};
+  updateFilters(filters) {
+    for (const filterKey of Object.keys(filters)) {
+      this[filterKey] = filters[filterKey];
+    }
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
   @action
   triggerFiltering(fieldName, event) {
-    const value = event.target.value;
-    this.pendingFilters[fieldName] = value;
-    debounceTask(this, 'updateFilters', this.DEBOUNCE_MS);
+    debounceTask(this, 'updateFilters', { [fieldName]: event.target.value }, this.DEBOUNCE_MS);
   }
 
   @action
