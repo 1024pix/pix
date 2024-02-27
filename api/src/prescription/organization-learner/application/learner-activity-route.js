@@ -4,6 +4,7 @@ const Joi = BaseJoi.extend(JoiDate);
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { learnerActivityController } from './learner-activity-controller.js';
+import { organizationLearnerController } from './organization-learner-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -28,6 +29,29 @@ const register = async function (server) {
             "- Récupération de l'activité du prescrit\n",
         ],
         tags: ['api', 'organization-learners-activity'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/organization-learners/{id}',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToLearnersOrganization,
+            assign: 'belongsToLearnersOrganization',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationLearnerId,
+          }),
+        },
+        handler: organizationLearnerController.getLearner,
+        notes: [
+          "- **Cette route est restreinte aux membres authentifiés d'une organisation**\n" +
+            "- Récupération d'un prescrit'\n",
+        ],
+        tags: ['api', 'organization-learners'],
       },
     },
   ]);

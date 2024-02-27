@@ -52,29 +52,6 @@ const register = async function (server) {
         tags: ['api', 'organization-learners'],
       },
     },
-    {
-      method: 'GET',
-      path: '/api/organization-learners/{id}',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserBelongsToLearnersOrganization,
-            assign: 'belongsToLearnersOrganization',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationLearnerId,
-          }),
-        },
-        handler: organizationLearnerController.getLearner,
-        notes: [
-          "- **Cette route est restreinte aux membres authentifiés d'une organisation**\n" +
-            "- Récupération d'un prescrit'\n",
-        ],
-        tags: ['api', 'organization-learners'],
-      },
-    },
   ]);
 };
 

@@ -2,7 +2,7 @@ import { sinon, expect, hFake } from '../../../../test-helper.js';
 import { usecases } from '../../../../../src/prescription/organization-learner/domain/usecases/index.js';
 import { learnerActivityController } from '../../../../../src/prescription/organization-learner/application/learner-activity-controller.js';
 
-describe('Unit | Application | Organization-Learner | organization-learner-controller', function () {
+describe('Unit | Application | Organization-Learner | organization-learner-activity-controller', function () {
   describe('#getOrganizationLearnerActivity', function () {
     it('should fetch and return the organization learner activity, serialized as JSONAPI', async function () {
       // given

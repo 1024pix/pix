@@ -106,7 +106,6 @@ import * as organizationInvitationRepository from '../../infrastructure/reposito
 import * as organizationInvitationService from '../services/organization-invitation-service.js';
 import * as organizationInvitedUserRepository from '../../infrastructure/repositories/organization-invited-user-repository.js';
 import * as organizationLearnerActivityRepository from '../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-activity-repository.js';
-import * as organizationLearnerFollowUpRepository from '../../infrastructure/repositories/organization-learner-follow-up/organization-learner-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as organizationMemberIdentityRepository from '../../infrastructure/repositories/organization-member-identity-repository.js';
 import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
@@ -309,7 +308,6 @@ const dependencies = {
   organizationInvitationService,
   organizationInvitedUserRepository,
   organizationLearnerActivityRepository,
-  organizationLearnerFollowUpRepository,
   organizationLearnerRepository,
   organizationMemberIdentityRepository,
   organizationRepository,

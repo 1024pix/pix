@@ -41,7 +41,7 @@ class OrganizationLearner {
 
     if (isCertifiableFromCampaignMostRecent) {
       this.isCertifiable = isCertifiableFromCampaign;
-      this.certifiableAt = isCertifiableFromCampaign ? certifiableAtFromCampaign : null;
+      this.certifiableAt = isCertifiableFromCampaign != null ? certifiableAtFromCampaign : null;
     } else {
       this.isCertifiable = isCertifiableFromLearner;
       this.certifiableAt = certifiableAtFromLearner;
