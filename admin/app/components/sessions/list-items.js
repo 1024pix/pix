@@ -10,6 +10,10 @@ export default class ListItems extends Component {
   @tracked selectedSessionStatusOption = null;
   @tracked selectedSessionVersionOption = null;
 
+  searchedId = this.args.id;
+  searchedCertificationCenterName = this.args.certificationCenterName;
+  searchedCertificationCenterExternalId = this.args.certificationCenterExternalId;
+
   constructor() {
     super(...arguments);
 

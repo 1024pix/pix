@@ -12,8 +12,8 @@
           <td class="table__column table__column--id">
             <input
               type="text"
-              value={{@id}}
-              oninput={{perform @triggerFiltering "id"}}
+              value={{this.searchedId}}
+              oninput={{fn @triggerFiltering "id"}}
               class="table-admin-input"
               aria-label="Filtrer les profils cible par un id"
             />
@@ -21,8 +21,8 @@
           <td>
             <input
               type="text"
-              value={{@name}}
-              oninput={{perform @triggerFiltering "name"}}
+              value={{this.searchedName}}
+              oninput={{fn @triggerFiltering "name"}}
               class="table-admin-input"
               aria-label="Filtrer les profils cible par un nom"
             />

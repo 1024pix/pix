@@ -16,7 +16,7 @@
             <input
               id="id"
               type="text"
-              value={{@id}}
+              value={{this.searchedId}}
               oninput={{fn @triggerFiltering "id"}}
               class="table-admin-input form-control"
             />
@@ -25,7 +25,7 @@
             <input
               id="name"
               type="text"
-              value={{@name}}
+              value={{this.searchedName}}
               oninput={{fn @triggerFiltering "name"}}
               class="table-admin-input form-control"
             />
@@ -34,7 +34,7 @@
             <input
               id="type"
               type="text"
-              value={{@type}}
+              value={{this.searchedType}}
               oninput={{fn @triggerFiltering "type"}}
               class="table-admin-input form-control"
             />
@@ -43,7 +43,7 @@
             <input
               id="externalId"
               type="text"
-              value={{@externalId}}
+              value={{this.searchedExternalId}}
               oninput={{fn @triggerFiltering "externalId"}}
               class="table-admin-input form-control"
             />
