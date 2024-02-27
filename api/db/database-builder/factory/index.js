@@ -27,12 +27,9 @@ const databaseBuilders = await importNamedExportsFromDirectory({
  *      buildTraining: BuildTraining,
  *      buildDataProtectionOfficer: BuildDataProtectionOfficerFactory,
  *      buildUser: BuildUser,
+ *      buildOrganizationLearner: BuildOrganizationLearner,
  *    }
  *  } Factory
- */
-
-/**
- * @type Factory
  */
 export const factory = {
   ...databaseBuilders,

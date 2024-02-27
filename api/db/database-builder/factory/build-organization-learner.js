@@ -3,6 +3,42 @@ import { buildUser } from './build-user.js';
 import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
 
+/**
+ * @typedef SeedOrganizationLearner
+ * @type {object}
+ *
+ * @property {number} id
+ * @property {string} firstName
+ * @property {string} preferredLastName
+ * @property {string} lastName
+ * @property {string} middleName
+ * @property {string} thirdName
+ * @property {string} sex
+ * @property {string} birthdate
+ * @property {string} birthCity
+ * @property {string} birthCityCode
+ * @property {string} birthCountryCode
+ * @property {string} birthProvinceCode
+ * @property {string} MEFCode
+ * @property {string} status
+ * @property {number} nationalStudentId
+ * @property {string} division
+ * @property {number} studentNumber
+ * @property {string} email
+ * @property {string} educationalTeam
+ * @property {string} department
+ * @property {string} group
+ * @property {string} diploma
+ * @property {boolean} isDisabled
+ * @property {Date} createdAt
+ * @property {Date} updatedAt
+ * @property {number} organizationId
+ * @property {number} userId
+ * @property {number} deletedBy
+ * @property {string} deletedAt
+ * @property {boolean} isCertifiable
+ * @property {Date} certifiableAt
+ */
 const buildOrganizationLearner = function ({
   id = databaseBuffer.getNextId(),
   firstName = 'first-name',
@@ -79,4 +115,9 @@ const buildOrganizationLearner = function ({
   });
 };
 
+/**
+ * @typedef {
+ *  function(Partial<SeedOrganizationLearner>): SeedOrganizationLearner
+ * } BuildOrganizationLearner
+ */
 export { buildOrganizationLearner };
