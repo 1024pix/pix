@@ -1,3 +1,4 @@
+/* eslint-disable knex/avoid-injections */
 import _ from 'lodash';
 import bluebird from 'bluebird';
 import { factory } from './factory/index.js';
@@ -94,7 +95,6 @@ class DatabaseBuilder {
     return bluebird.mapSeries(dirtyTablesSequencesInfo, async ({ tableName, sequenceName }) => {
       const sequenceRestartAtNumber = (await this._getTableMaxId(tableName)) + 1;
       if (sequenceRestartAtNumber !== 0) {
-        /* eslint-disable-next-line knex/avoid-injections */
         await this.knex.raw(`ALTER SEQUENCE "${sequenceName}" RESTART WITH ${sequenceRestartAtNumber};`);
       }
     });
@@ -186,10 +186,8 @@ class DatabaseBuilder {
       from all_tables at where last_table_row = 1 order by level DESC;`;
     }
 
-    /* eslint-disable knex/avoid-injections */
     const publicResults = await this.knex.raw(_constructRawQuery('public'));
     const pgbossResults = await this.knex.raw(_constructRawQuery('pgboss'));
-    /* eslint-enable knex/avoid-injections */
 
     this.tablesOrderedByDependencyWithDirtinessMap = [];
 
@@ -237,5 +235,6 @@ class DatabaseBuilder {
     });
   }
 }
+/* eslint-enable knex/avoid-injections */
 
 export { DatabaseBuilder };
