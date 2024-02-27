@@ -1,10 +1,12 @@
-const OK = 'ok';
-const KO = 'ko';
-const SKIPPED = 'aband';
-const TIMEDOUT = 'timedout';
-const FOCUSEDOUT = 'focusedOut';
-const PARTIALLY = 'partially';
-const UNIMPLEMENTED = 'unimplemented';
+const statuses = {
+  OK: 'ok',
+  KO: 'ko',
+  SKIPPED: 'aband',
+  TIMEDOUT: 'timedout',
+  FOCUSEDOUT: 'focusedOut',
+  PARTIALLY: 'partially',
+  UNIMPLEMENTED: 'unimplemented',
+};
 
 class AnswerStatus {
   constructor({ status } = {}) {
@@ -14,52 +16,52 @@ class AnswerStatus {
 
   /* PUBLIC INTERFACE */
   isFailed() {
-    return this.status !== OK;
+    return this.status !== statuses.OK;
   }
 
   isOK() {
-    return this.status === OK;
+    return this.status === statuses.OK;
   }
   isKO() {
-    return this.status === KO;
+    return this.status === statuses.KO;
   }
   isSKIPPED() {
-    return this.status === SKIPPED;
+    return this.status === statuses.SKIPPED;
   }
   isTIMEDOUT() {
-    return this.status === TIMEDOUT;
+    return this.status === statuses.TIMEDOUT;
   }
   isFOCUSEDOUT() {
-    return this.status === FOCUSEDOUT;
+    return this.status === statuses.FOCUSEDOUT;
   }
   isPARTIALLY() {
-    return this.status === PARTIALLY;
+    return this.status === statuses.PARTIALLY;
   }
   isUNIMPLEMENTED() {
-    return this.status === UNIMPLEMENTED;
+    return this.status === statuses.UNIMPLEMENTED;
   }
 
   /* PUBLIC CONSTRUCTORS */
   static get OK() {
-    return new AnswerStatus({ status: OK });
+    return new AnswerStatus({ status: statuses.OK });
   }
   static get KO() {
-    return new AnswerStatus({ status: KO });
+    return new AnswerStatus({ status: statuses.KO });
   }
   static get SKIPPED() {
-    return new AnswerStatus({ status: SKIPPED });
+    return new AnswerStatus({ status: statuses.SKIPPED });
   }
   static get TIMEDOUT() {
-    return new AnswerStatus({ status: TIMEDOUT });
+    return new AnswerStatus({ status: statuses.TIMEDOUT });
   }
   static get FOCUSEDOUT() {
-    return new AnswerStatus({ status: FOCUSEDOUT });
+    return new AnswerStatus({ status: statuses.FOCUSEDOUT });
   }
   static get PARTIALLY() {
-    return new AnswerStatus({ status: PARTIALLY });
+    return new AnswerStatus({ status: statuses.PARTIALLY });
   }
   static get UNIMPLEMENTED() {
-    return new AnswerStatus({ status: UNIMPLEMENTED });
+    return new AnswerStatus({ status: statuses.UNIMPLEMENTED });
   }
 
   /* METHODES DE TRANSITION */
@@ -91,5 +93,7 @@ class AnswerStatus {
     }
   }
 }
+
+AnswerStatus.statuses = statuses;
 
 export { AnswerStatus };
