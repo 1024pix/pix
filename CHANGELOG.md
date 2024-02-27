@@ -43,6 +43,12 @@
 - [#8050](https://github.com/1024pix/pix/pull/8050) [REFACTOR] Améliorer la validation de charge utile de création des RT (PIX-10971).
 - [#8139](https://github.com/1024pix/pix/pull/8139) [FEAT] :safety_vest: Enregistre le `next-challenge.id` dans l'`assessment`.
 
+## v4.106.1 (27/02/2024)
+
+### :bug: Correction
+- [#8144](https://github.com/1024pix/pix/pull/8144) [BUGFIX] Revert "[BUGFIX] Empêche le job de calcul de résultat de s'effectuer si la participation n'est pas partagée (PIX-11350)."
+
+
 ## v4.106.0 (23/02/2024)
 
 
