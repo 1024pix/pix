@@ -123,15 +123,21 @@ class DatabaseBuilder {
 
   async _emptyDatabase() {
     this._beforeEmptyDatabase();
-    const sortedTables = _.without(
+    const sortedTableNames = _.without(
       _.map(this.tablesOrderedByDependencyWithDirtinessMap, 'table'),
       'knex_migrations',
       'knex_migrations_lock',
       'view-active-organization-learners',
-    );
-    const tables = _.map(sortedTables, (tableToDelete) => `"${tableToDelete}"`).join();
-    // eslint-disable-next-line knex/avoid-injections
-    return this.knex.raw(`TRUNCATE ${tables}`);
+    )
+      .map((tableName) => {
+        return tableName
+          .split('.')
+          .map((element) => `"${element}"`)
+          .join('.');
+      })
+      .join();
+
+    return this.knex.raw(`TRUNCATE ${sortedTableNames}`);
   }
 
   async _initTablesOrderedByDependencyWithDirtinessMap() {
