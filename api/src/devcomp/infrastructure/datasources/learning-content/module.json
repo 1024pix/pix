@@ -2174,18 +2174,18 @@
       "title": "Les principes fondateurs de Wikipédia",
       "details": {
         "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-        "description": "Wikipédia est un site très connu, que vous avez sans doute déjà utilisé. Dans ce module, vous trouverez des explications sur les principes de Wikipédia et des méthodes pour l'utiliser efficacement.",
+        "description": "Wikipédia est un site très connu, que vous avez sans doute déjà utilisé. Dans ce module, vous trouverez des explications sur les principes de Wikipédia. Vous découvrirez aussi des méthodes pour l'utiliser efficacement.",
         "duration": 10,
         "level": "Intermédiaire",
-        "objectives": ["Connaître les principes fondateurs de Wikipédia", "Connaître des caractéristiques et fonctionnalités spécifiques à Wikipédia", "Trouver et évaluer des informations dans un article Wikipédia"]
+        "objectives": ["Comprendre les principes fondateurs de Wikipédia", "Connaître des caractéristiques et fonctionnalités spécifiques à Wikipédia", "Trouver et évaluer des informations dans un article Wikipédia"]
       },
       "transitionTexts": [
         {
-          "content": "<p>Vous avez fort probablement déjà utilisé une fois Wikipédia dans votre vie. Mais connaissez-vous par exemple la signification de son logo ? <span aria-hidden='true'>🌎</span>️ <span aria-hidden='true'>🧩</span>️</p>",
+          "content": "<p>Vous avez fort probablement déjà utilisé une fois Wikipédia dans votre vie. Mais connaissez-vous par exemple la signification de son logo ? <span aria-hidden=\"true\">🌎</span>️ <span aria-hidden=\"true\">🧩</span>️</p>",
           "grainId": "da95d2bc-e597-4366-a095-21f7ab0f4845"
         },
         {
-          "content": "<p> Wikipédia a toujours été un site particulier dans le paysage d'internet, notamment de par ses cinq principes fondateurs. </p>",
+          "content": "<p>Wikipédia repose sur 5 principes fondateurs qui font son identité et sa particularité en tant que site internet.</p>",
           "grainId": "b7f1f203-cf5d-4da8-bfa2-46e01a625f61"
         },
         {
@@ -2193,15 +2193,15 @@
           "grainId": "9a3926dd-750c-4b89-b1d0-9a286fe2d9e4"
         },
         {
-          "content": "<p>Des personnes du monde entier utilisent Wikipédia et y contribuent. Ainsi, les articles sont fréquemment disponibles dans plusieurs langues.</p>",
+          "content": "<p>Des personnes du monde entier utilisent Wikipédia et y contribuent. De cette manières, les articles sont fréquemment disponibles dans plusieurs langues.</p>",
           "grainId": "5f048ad8-d008-4956-840b-37e84138b433"
         },
         {
-          "content": "<p>Par ailleurs, comme n’importe quel site internet, Wikipédia a besoin d’argent pour fonctionner <span aria-hidden='true'>💰</span>️ </p>",
+          "content": "<p>Comme n’importe quel site internet, Wikipédia a besoin d’argent pour fonctionner <span aria-hidden=\"true\">💰</span>️ </p>",
           "grainId": "09b21f5f-b7e7-4c7a-9059-bdb2a2be246d"
         },
         {
-          "content": "<p>Après la théorie, un peu de pratique. Voici des méthodes pour trouver et évaluer des informations sur Wikipédia. </p>",
+          "content": "<p>Dans la vidéo suivante, vous allez découvrir différentes méthodes pour trouver des informations sur Wikipédia et évaluer leur qualité.</p>",
           "grainId": "d8ed222f-2a22-44a6-affe-fe6047689b2e"
         },
         {
@@ -2218,7 +2218,7 @@
             {
               "id": "30b9ada4-a87a-4dfb-baa2-d97925b0bba5",
               "type": "text",
-              "content": "<p>Depuis sa création en 2001, Wikipédia a fait évoluer son logo à trois reprises.<br> Désormais, le logo représente un globe composé de pièces de puzzle avec différents symboles.</p>"
+              "content": "<p>Depuis sa création en 2001, Wikipédia a fait évoluer son logo à trois reprises.<br> Aujourd'hui, le logo représente un globe composé de pièces de puzzle avec différents symboles.</p>"
             },
             {
               "id": "a4a95061-c1c4-475a-9cb8-c64928d40b8c",
@@ -2269,47 +2269,47 @@
             {
               "id": "afc8b60f-c2c1-405b-a6a4-a0e08e23ccc3",
               "type": "text",
-              "content": "<h4> Principe n°1 : Wikipédia est une encyclopédie en ligne&nbsp;<span aria-hidden='true'>📖</span>️</h4><p>Des connaissances du monde y sont rassemblées, classées et exposées méthodiquement. Ce n'est pas un jounal ou encore un réseau social.</p>"
+              "content": "<h4>1 - Wikipédia est une encyclopédie en ligne.&nbsp;<span aria-hidden=\"true\">📖</span>️</h4><p>Des connaissances du monde y sont rassemblées, classées et exposées méthodiquement. Ce n'est donc pas un jounal ou un réseau social.</p>"
             },
             {
               "id": "3bbf40bb-acd0-466f-a1ce-5c4bf9ccee8e",
               "type": "text",
-              "content": "<p><hr></p>"
+              "content": "<hr>"
             },
             {
               "id": "81710de7-1311-4980-81f5-87944e56de28",
               "type": "text",
-              "content": "<h4>Principe n°2 : Wikipédia propose des contenus les plus neutres possibles&nbsp;<span aria-hidden='true'>⚖️</span>️</h4>Une opinion ou un point de vue unique n’ont pas leur place. Si besoin, les divers points de vue sont présentés, sans jugement de valeur.</p>"
+              "content": "<h4>2 - Wikipédia propose des contenus les plus neutres possibles.&nbsp;<span aria-hidden=\"true\">⚖️</span>️</h4><p>Une opinion ou un point de vue unique n’ont pas leur place. Si besoin, les divers points de vue sont présentés, sans jugement de valeur.</p>"
             },
             {
               "id": "20ed0b8b-a858-440e-a587-4856f96ef5be",
               "type": "text",
-              "content": "<p><hr></p>"
+              "content": "<hr>"
             },
             {
               "id": "78385472-07b0-4229-bfb8-a10636690300",
               "type": "text",
-              "content": "<h4>Principe n°3 : Wikipédia est publié sous licence libre&nbsp;<span aria-hidden='true'>🪁</span>️</h4>En résumé, chacun peut créer, copier, modifier et partager le contenu qui se trouve sur Wikipédia. Certaines conditions doivent tout de même être respectées.</p>"
+              "content": "<h4>3 - Wikipédia est publié sous licence libre.&nbsp;<span aria-hidden=\"true\">🪁</span>️</h4><p>En résumé, chacun peut créer, copier, modifier et partager le contenu qui se trouve sur Wikipédia. Certaines conditions doivent tout de même être respectées.</p>"
             },
             {
               "id": "929661f0-ca4c-40fb-9df2-7832e97192e3",
               "type": "text",
-              "content": "<p><hr></p>"
+              "content": "<hr>"
             },
             {
               "id": "df11aa2c-1ebf-4a60-99a3-533dfc06756d",
               "type": "text",
-              "content": "<h4>Principe n°4 : Wikipédia est un projet collaboratif&nbsp;<span aria-hidden='true'>🙋🏽‍♂️</span>️<span aria-hidden='true'>🙋🏻‍♀️</span>️<span aria-hidden='true'>🙋🏿‍♀️</span>️<span aria-hidden='true'>🙋‍♂️</span>️</h4>C’est probablement sa caractéristique la plus remarquable. Cela signifie que tout le monde peut améliorer les contenus de Wikipédia ! Des règles claires de savoir-vivre doivent être respéctées.</p>"
+              "content": "<h4>4 - Wikipédia est un projet collaboratif.&nbsp;<span aria-hidden=\"true\">🙋🏽‍♂️</span>️<span aria-hidden=\"true\">🙋🏻‍♀️</span>️<span aria-hidden=\"true\">🙋🏿‍♀️</span>️<span aria-hidden=\"true\">🙋‍♂️</span>️</h4><p>C’est probablement sa caractéristique la plus remarquable. Tout le monde peut améliorer les contenus de Wikipédia ! Des règles claires de savoir-vivre sont à respécter.</p>"
             },
             {
               "id": "1edb38ba-7542-4198-a5de-c260ef6b95ea",
               "type": "text",
-              "content": "<p><hr></p>"
+              "content": "<hr>"
             },
             {
               "id": "ca62ac2d-950d-4c00-b14d-2ac9e7d509f2",
               "type": "text",
-              "content": "<h4>Principe n°5 : Wikipédia n’a pas d’autres règles fixes que celles présentées ci-dessus&nbsp;<span aria-hidden='true'>📜</span>️</h4><p>Il est toutefois possible de proposer et de créer des règles pour améliorer continuement Wikipédia, en accord avec ces principes."
+              "content": "<h4>5 - Wikipédia n’a pas d’autres règles fixes que celles présentées ci-dessus.&nbsp;<span aria-hidden=\"true\">📜</span>️</h4><p>Il est toutefois possible de proposer et de créer des règles pour améliorer continuement Wikipédia, en accord avec ces principes.</p>"
             }
           ]
         },
@@ -2346,7 +2346,7 @@
               ],
               "feedbacks": {
                 "valid": "<p>Correct. Vous avez bien identifié les principes de Wikipédia. </p>",
-                "invalid": "<p>Incorrect. Remonter la page pour relire la leçon <span aria-hidden='true'>⬆</span>️</p>"
+                "invalid": "<p>Incorrect. Remonter la page pour relire la leçon <span aria-hidden=\"true\">⬆</span>️</p>"
               },
               "solutions": [
                 "1",
@@ -2399,7 +2399,7 @@
             {
               "id": "46dec681-51e7-44f8-9422-9ccd77125f8b",
               "type": "qcu",
-              "instruction": "<p>Selon vous, comment est-ce que Wikipédia est financé ?</p>",
+              "instruction": "<p>Selon vous, par quel moyen Wikipédia est-il financé ?</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -2430,7 +2430,7 @@
             {
               "id": "10e352a0-0c46-4348-b392-dedc22a32960",
               "type": "text",
-              "content": "<p>À la suite de cette vidéo, vous devrez naviguer dans un sommaire et identifier la qualité d'un article Wikipédia donné.</p>"
+              "content": "<p>À la suite de cette vidéo, vous passerez à la pratique. Vous devrez naviguer dans le sommaire d'un article Wikipédia et en identifier la qualité.</p>"
             },
             {
               "id": "5d6862bf-899f-4f2e-ac63-185b9a209e1c",
@@ -2450,7 +2450,7 @@
             {
               "id": "01eb319e-8219-425a-b66f-00f8f73a4842",
               "type": "text",
-              "content": "<h4>Répondez aux questions ci-dessous en naviguant dans  <a href='https://fr.wikipedia.org/wiki/Charlie_Chaplin' target='blank'>l'article Wikipédia de Charlie Chaplin.</a></h4>"
+              "content": "<h4>Répondez aux questions ci-dessous en naviguant dans  <a href=\"https://fr.wikipedia.org/wiki/Charlie_Chaplin\" target=\"blank\">l'article Wikipédia de Charlie Chaplin.</a></h4>"
             },
             {
               "id": "cfcd33f1-3544-491d-95b4-0d028084ff32",
