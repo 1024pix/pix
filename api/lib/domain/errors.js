@@ -180,12 +180,6 @@ class CantImproveCampaignParticipationError extends DomainError {
   }
 }
 
-class CantCalculateCampaignParticipationResultError extends DomainError {
-  constructor(message = `Impossible de calculer le résultat de la participation car elle n'a pas été partagée.`) {
-    super(message);
-  }
-}
-
 class NoCampaignParticipationForUserAndCampaign extends DomainError {
   constructor(message = "L'utilisateur n'a pas encore participé à la campagne") {
     super(message);
@@ -1120,7 +1114,6 @@ export {
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   CantImproveCampaignParticipationError,
-  CantCalculateCampaignParticipationResultError,
   CertificateVerificationCodeGenerationTooManyTrials,
   CertificationBadgeForbiddenDeletionError,
   CertificationCandidateAlreadyLinkedToUserError,
