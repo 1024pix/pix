@@ -306,6 +306,7 @@ describe('Acceptance | Controller | training-controller', function () {
               'prerequisite-threshold': undefined,
               'target-profiles-count': 0,
               title: training.title,
+              'is-disabled': false,
             },
           },
         };

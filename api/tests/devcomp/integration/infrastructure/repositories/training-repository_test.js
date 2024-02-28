@@ -178,16 +178,19 @@ describe('Integration | Repository | training-repository', function () {
           prerequisiteThreshold: 0,
           goalThreshold: 100,
           targetProfilesCount: 2,
+          isDisabled: true,
         });
         const trainingSummary2 = domainBuilder.buildTrainingSummary({
           id: 2,
           prerequisiteThreshold: 10,
           goalThreshold: 90,
+          isDisabled: false,
         });
         const trainingSummary3 = domainBuilder.buildTrainingSummary({
           id: 3,
           prerequisiteThreshold: undefined,
           goalThreshold: undefined,
+          isDisabled: false,
         });
 
         createDatabaseRepresentationForTrainingSummary({ trainingSummary: trainingSummary1, databaseBuilder });
@@ -281,6 +284,7 @@ describe('Integration | Repository | training-repository', function () {
           id: 1,
           goalThreshold: 10,
           prerequisiteThreshold: 20,
+          isDisabled: true,
         });
         const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2, goalThreshold: 30 });
         const trainingSummaryLinkToAnotherTargetProfile = domainBuilder.buildTrainingSummary({ id: 3 });

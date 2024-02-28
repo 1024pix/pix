@@ -600,6 +600,7 @@ describe('Acceptance | Route | target-profiles', function () {
           attributes: {
             'goal-threshold': undefined,
             'prerequisite-threshold': undefined,
+            'is-disabled': false,
             'target-profiles-count': 1,
             title: 'title',
           },
