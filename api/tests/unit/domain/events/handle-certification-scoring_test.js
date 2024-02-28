@@ -11,6 +11,7 @@ import {
   generateChallengeList,
 } from '../../../certification/shared/fixtures/challenges.js';
 import { CertificationChallengeForScoring } from '../../../../src/certification/scoring/domain/models/CertificationChallengeForScoring.js';
+import { AssessmentResultFactory } from '../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
 
 const { handleCertificationScoring } = _forTestOnly.handlers;
 
@@ -103,7 +104,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         const otherError = new Error();
         beforeEach(function () {
           scoringCertificationService.calculateCertificationAssessmentScore.rejects(otherError);
-          sinon.stub(AssessmentResult, 'buildAlgoErrorResult');
+          sinon.stub(AssessmentResultFactory, 'buildAlgoErrorResult');
         });
 
         it('should not save any results', async function () {
@@ -118,7 +119,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           });
 
           // then
-          expect(AssessmentResult.buildAlgoErrorResult).to.not.have.been.called;
+          expect(AssessmentResultFactory.buildAlgoErrorResult).to.not.have.been.called;
           expect(assessmentResultRepository.save).to.not.have.been.called;
           expect(certificationCourseRepository.update).to.not.have.been.called;
         });
@@ -137,7 +138,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           });
 
           scoringCertificationService.calculateCertificationAssessmentScore.rejects(computeError);
-          sinon.stub(AssessmentResult, 'buildAlgoErrorResult').returns(errorAssessmentResult);
+          sinon.stub(AssessmentResultFactory, 'buildAlgoErrorResult').returns(errorAssessmentResult);
           assessmentResultRepository.save.resolves(errorAssessmentResult);
           certificationCourseRepository.get
             .withArgs(certificationAssessment.certificationCourseId)
@@ -175,7 +176,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           });
 
           // then
-          expect(AssessmentResult.buildAlgoErrorResult).to.have.been.calledWithExactly({
+          expect(AssessmentResultFactory.buildAlgoErrorResult).to.have.been.calledWithExactly({
             error: computeError,
             assessmentId: certificationAssessment.id,
             emitter: 'PIX-ALGO',

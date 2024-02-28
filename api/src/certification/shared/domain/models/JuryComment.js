@@ -40,6 +40,14 @@ class JuryComment {
     return this.#shouldBeTranslated() ? translate(this.#getKeyToTranslate()) : this.fallbackComment;
   }
 
+  clone() {
+    return new JuryComment({
+      commentByAutoJury: this.commentByAutoJury,
+      fallbackComment: this.fallbackComment,
+      context: this.context,
+    });
+  }
+
   #getKeyToTranslate() {
     return `jury.comment.${this.commentByAutoJury}.${this.context}`;
   }
