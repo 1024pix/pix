@@ -23,4 +23,8 @@ function generate(repository, pendingList = []) {
   });
 }
 
-export { generate };
+function validate(code) {
+  return /^[A-Z0-9]{9}$/.test(code);
+}
+
+export { generate, validate };
