@@ -756,6 +756,27 @@
     },
     "missions": {
       "title": "Missions",
+      "details": {
+        "title": "Détails d'une mission",
+        "banner": {
+          "message": {
+            "1": "Démarrer vos premières missions avec vos élèves, en récupérant le code",
+            "2": "Et partager le code ou l'URL à vos élèves !"
+          }
+        },
+        "competence": {
+          "title": "Compétence :"
+        },
+        "copy": {
+          "code": {
+            "default": "Copier le code",
+            "success": "Copié !"
+          }
+        },
+        "objective": {
+          "title": "Objectif :"
+        }
+      },
       "list": {
         "tab": {
           "caption": "Liste des missions",
