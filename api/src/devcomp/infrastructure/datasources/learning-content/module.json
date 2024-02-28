@@ -989,7 +989,7 @@
             {
               "id": "9d0b7aff-a9da-453f-a6ba-c61fbaa7bb25",
               "type": "text",
-              "content": "<h3><span aria-hidden=\"true\">🤖&nbsp;</span>Un programme informatique a deviné votre mot de passe…</h3><p>En 2023, un mot de passe de 8 caractères comme 4z€rTy1&amp;&amp; ou $0Leil@? sera piraté en 5 minutes seulement ! <span aria-hidden=\"true\">😰 </span>Par contre, avec 12 caractères, cette durée passe à 226 ans ! <span aria-hidden=\"true\">😮 </span></p><p>En général, dans ce cas, l'attaquant ne vous connaît pas personnellement. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
+              "content": "<h3><span aria-hidden=\"true\">🤖&nbsp;</span>Un programme informatique a deviné votre mot de passe…</h3><p>En 2023, un mot de passe de 8 caractères comme <code>4z€rTy1&amp;</code> ou <code>$0Leil@?</code> sera piraté en 5 minutes seulement ! <span aria-hidden=\"true\">😰 </span>Par contre, avec 12 caractères, cette durée passe à 226 ans ! <span aria-hidden=\"true\">😮 </span></p><p>En général, dans ce cas, l'attaquant ne vous connaît pas personnellement. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
             }
           ]
         },
@@ -1098,7 +1098,7 @@
             {
               "id": "fd4b05ee-8cda-4bfe-b18a-468f1a895f80",
               "type": "text",
-              "content": "<h3>Voici une méthode pour construire un mot de passe solide</h3><ol><li>Choisissez une phrase facile à retenir, qui a du sens pour vous. Attention, cette phrase doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore la plongée!</em></li><li>Ensuite, prenez la première lettre de chaque mot, gardez les nombres et la ponctuation : <strong>J'a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j'a</strong>dore <strong>l</strong>a <strong>p</strong>longée <strong>!</strong></li><li>En ne gardant que les lettres en gras, cela donne :<br><strong>J'a2c,3peej'alp!</strong></li></ol>"
+              "content": "<h3>Voici une méthode pour construire un mot de passe solide</h3><ol><li>Choisissez une phrase facile à retenir, qui a du sens pour vous. Attention, cette phrase doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore la plongée!</em></li><li>Ensuite, prenez la première lettre de chaque mot, gardez les nombres et la ponctuation : <strong>J'a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j'a</strong>dore <strong>l</strong>a <strong>p</strong>longée <strong>!</strong></li><li>En ne gardant que les lettres en gras, cela donne :<br><strong><code>J'a2c,3peej'alp!</code></strong></li></ol>"
             },
             {
               "id": "74fad4da-be99-4b9b-83af-ef90ca553b06",
@@ -1221,7 +1221,7 @@
             {
               "id": "68f45335-8aab-40f5-baff-9719ce8b582a",
               "type": "qcu",
-              "instruction": "<p>La phrase \"<em>Il était 1 petit homme qui avait 1 drôle 2 maison pirouette cacahuète !</em>\" permet de créer le mot de passe suivant : <strong>Ié1phqa1d2mpc!</strong></p>",
+              "instruction": "<p>La phrase \"<em>Il était 1 petit homme qui avait 1 drôle 2 maison Pirouette Cacahuète !</em>\" permet de créer le mot de passe suivant : <strong><code>Ié1phqa1d2mPC!</code></strong></p>",
               "proposals": [
                 {
                   "id": "1",
