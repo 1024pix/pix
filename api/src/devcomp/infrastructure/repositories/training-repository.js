@@ -160,6 +160,7 @@ async function update({ id, attributesToUpdate, domainTransaction = DomainTransa
     'locale',
     'editorName',
     'editorLogoUrl',
+    'isDisabled',
   ]);
   const knexConn = domainTransaction?.knexTransaction || knex;
   const [updatedTraining] = await knexConn(TABLE_NAME)
