@@ -2,6 +2,7 @@ import { expect, databaseBuilder, domainBuilder, catchErr } from '../../../../..
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import * as courseAssessmentResultRepository from '../../../../../../src/certification/course/infrastructure/repositories/course-assessment-result-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Certification | Course | Integration | Repository | course-assessment-result', function () {
   describe('#getLatestAssessmentResult', function () {
@@ -38,15 +39,23 @@ describe('Certification | Course | Integration | Repository | course-assessment-
           competenceId: 'recComp2',
           assessmentResultId: 6543,
         });
+        const commentForCandidate = domainBuilder.certification.shared.buildJuryComment.candidate({
+          fallbackComment: 'candidate',
+          commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+        });
+        const commentForOrganization = domainBuilder.certification.shared.buildJuryComment.organization({
+          fallbackComment: 'orga',
+          commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+        });
         const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
           id: 9876,
           pixScore: 33,
           reproducibilityRate: 29.1,
           status: AssessmentResult.status.VALIDATED,
           emitter: 'Jury Pix',
-          commentForCandidate: 'candidate',
+          commentForCandidate,
           commentByJury: 'jury',
-          commentForOrganization: 'orga',
+          commentForOrganization,
           createdAt: new Date('2021-10-29T03:06:00Z'),
           juryId,
           assessmentId: 2,
@@ -58,15 +67,20 @@ describe('Certification | Course | Integration | Repository | course-assessment-
           reproducibilityRate: 30,
           status: AssessmentResult.status.VALIDATED,
           emitter: 'some-emitter',
-          commentForCandidate: 'old comment for candidate',
+          commentForCandidate: null,
           commentByJury: 'jury',
-          commentForOrganization: 'orga',
+          commentForOrganization: null,
           createdAt: new Date('2020-10-29T03:06:00Z'),
           juryId,
           assessmentId: 2,
           competenceMarks: [competenceMark3],
         });
-        const lastAssessmentResultId = databaseBuilder.factory.buildAssessmentResult(expectedAssessmentResult).id;
+        const lastAssessmentResultId = databaseBuilder.factory.buildAssessmentResult({
+          ...expectedAssessmentResult,
+          commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+          commentForCandidate: 'candidate',
+          commentForOrganization: 'orga',
+        }).id;
         databaseBuilder.factory.buildAssessmentResult(olderAssessmentResult);
         databaseBuilder.factory.buildCompetenceMark(competenceMark1);
         databaseBuilder.factory.buildCompetenceMark(competenceMark2);

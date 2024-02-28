@@ -7,6 +7,7 @@ import { buildActivity } from './build-activity.js';
 import { buildArea } from './build-area.js';
 import { buildAssessment } from './build-assessment.js';
 import { buildAssessmentResult } from './build-assessment-result.js';
+import { buildAssessmentResult as buildCertificationScoringAssessmentResult } from './certification/scoring/build-assessment-result.js';
 import { buildAuthenticationMethod } from './build-authentication-method.js';
 import { buildBadge } from './build-badge.js';
 import { buildBadgeAcquisition } from './build-badge-acquisition.js';
@@ -175,16 +176,23 @@ import { buildCertificationSessionComplementaryCertification } from './certifica
 
 import { buildCampaign as boundedContextCampaignBuildCampaign } from './prescription/campaign/build-campaign.js';
 import { buildCampaignParticipation as boundedContextCampaignParticipationBuildCampaignParticipation } from './prescription/campaign-participation/build-campaign-participation.js';
+import { buildJuryComment } from './certification/shared/build-jury-comment.js';
 
 const certification = {
+  complementary: {
+    buildComplementaryCertificationBadge: buildComplementaryCertificationBadge,
+  },
+  scoring: {
+    buildAssessmentResult: buildCertificationScoringAssessmentResult,
+  },
   session: {
     buildCenter,
     buildCertificationSessionCandidate: buildCertificationSessionCandidate,
     buildCertificationSessionEnrolledCandidate: buildCertificationSessionEnrolledCandidate,
     buildCertificationSessionComplementaryCertification: buildCertificationSessionComplementaryCertification,
   },
-  complementary: {
-    buildComplementaryCertificationBadge: buildComplementaryCertificationBadge,
+  shared: {
+    buildJuryComment: buildJuryComment,
   },
 };
 
