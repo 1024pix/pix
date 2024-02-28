@@ -5,16 +5,26 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
   describe('#findIdsByOrganizationIdAndDivision', function () {
     it('retrieves no candidates when no one belongs to organization', async function () {
       // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
+      const sessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date('2024-01-01') }).id;
+      const userId = databaseBuilder.factory.buildUser().id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
       const anotherOrganizationId = databaseBuilder.factory.buildOrganization().id;
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: anOrganizationId,
         division: '3ème A',
       }).id;
-      databaseBuilder.factory.buildCertificationCandidate({
+      const candidate = databaseBuilder.factory.buildCertificationCandidate({
+        userId,
         sessionId,
         organizationLearnerId,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        lastName: candidate.lastName,
+        firstName: candidate.firstName,
+        isPublished: true,
+        userId: candidate.userId,
+        pixCertificationStatus: 'validated',
       });
       await databaseBuilder.commit();
 
@@ -30,26 +40,42 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
 
     it('retrieves the non disabled candidates that belong to the organization and division', async function () {
       // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
+      const sessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date('2024-01-01') }).id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
       const nonDisabledOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: anOrganizationId,
         division: '3ème A',
         isDisabled: false,
       }).id;
-      const nonDisabledCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+      const nonDisabledCandidate = databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
         organizationLearnerId: nonDisabledOrganizationLearnerId,
-      }).id;
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        lastName: nonDisabledCandidate.lastName,
+        firstName: nonDisabledCandidate.firstName,
+        isPublished: true,
+        userId: nonDisabledCandidate.userId,
+        pixCertificationStatus: 'validated',
+      });
 
       const disabledOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: anOrganizationId,
         division: '3ème A',
         isDisabled: true,
       }).id;
-      databaseBuilder.factory.buildCertificationCandidate({
+      const disabledCandidate = databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
         organizationLearnerId: disabledOrganizationLearnerId,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        lastName: disabledCandidate.lastName,
+        firstName: disabledCandidate.firstName,
+        isPublished: true,
+        userId: disabledCandidate.userId,
+        pixCertificationStatus: 'validated',
       });
       await databaseBuilder.commit();
 
@@ -60,12 +86,12 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
       });
 
       // then
-      expect(candidatesIds).to.deep.equal([nonDisabledCandidateId]);
+      expect(candidatesIds).to.deep.equal([nonDisabledCandidate.id]);
     });
 
     it('retrieves only the candidates that belongs to the given division', async function () {
       // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
+      const sessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date('2024-01-01') }).id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
       const aOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: anOrganizationId,
@@ -75,13 +101,30 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         organizationId: anOrganizationId,
         division: '3ème B',
       }).id;
-      const candidateId = databaseBuilder.factory.buildCertificationCandidate({
+      const candidateFromTheGivenDivision = databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
         organizationLearnerId: aOrganizationLearnerId,
-      }).id;
-      databaseBuilder.factory.buildCertificationCandidate({
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        lastName: candidateFromTheGivenDivision.lastName,
+        firstName: candidateFromTheGivenDivision.firstName,
+        isPublished: true,
+        userId: candidateFromTheGivenDivision.userId,
+        pixCertificationStatus: 'validated',
+      });
+
+      const candidateFromAnotherDivision = databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
         organizationLearnerId: anotherOrganizationLearnerId,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        lastName: candidateFromAnotherDivision.lastName,
+        firstName: candidateFromAnotherDivision.firstName,
+        isPublished: true,
+        userId: candidateFromAnotherDivision.userId,
+        pixCertificationStatus: 'validated',
       });
       await databaseBuilder.commit();
 
@@ -92,7 +135,7 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
       });
 
       // then
-      expect(candidatesIds).to.deep.equal([candidateId]);
+      expect(candidatesIds).to.deep.equal([candidateFromTheGivenDivision.id]);
     });
 
     it('retrieves last candidates ordered by lastname and firstname', async function () {
@@ -100,6 +143,7 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
       const sessionInThePastId = databaseBuilder.factory.buildSession({ publishedAt: '2020-01-01' }).id;
       const sessionId = databaseBuilder.factory.buildSession({ publishedAt: '2024-01-01' }).id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
+
       const aOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: anOrganizationId,
         division: '3ème A',
@@ -112,32 +156,64 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
         organizationId: anOrganizationId,
         division: '3ème A',
       }).id;
-      const thirdInAlphabeticOrderCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+
+      const thirdInAlphabeticOrderCandidate = databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Zen',
         firstName: 'Bob',
         sessionId,
         organizationLearnerId: aOrganizationLearnerId,
-      }).id;
-      const firstInAlphabeticOrderCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+      });
+      const firstInAlphabeticOrderCandidate = databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'Smith',
         lastName: 'Aaron',
         sessionId,
         organizationLearnerId: yetAnotherOrganizationLearnerId,
-      }).id;
-
-      databaseBuilder.factory.buildCertificationCandidate({
+      });
+      const firstInThePastCandidate = databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'Smith',
         lastName: 'Aaron',
         sessionId: sessionInThePastId,
         organizationLearnerId: yetAnotherOrganizationLearnerId,
-      }).id;
-
-      const secondInAlphabeticOrderCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+      });
+      const secondInAlphabeticOrderCandidate = databaseBuilder.factory.buildCertificationCandidate({
         firstName: 'Smith',
         lastName: 'Ben',
         sessionId,
         organizationLearnerId: anotherOrganizationLearnerId,
-      }).id;
+      });
+
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        lastName: thirdInAlphabeticOrderCandidate.lastName,
+        firstName: thirdInAlphabeticOrderCandidate.firstName,
+        isPublished: true,
+        userId: thirdInAlphabeticOrderCandidate.userId,
+        pixCertificationStatus: 'validated',
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        lastName: firstInAlphabeticOrderCandidate.lastName,
+        firstName: firstInAlphabeticOrderCandidate.firstName,
+        isPublished: true,
+        userId: firstInAlphabeticOrderCandidate.userId,
+        pixCertificationStatus: 'validated',
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId: sessionInThePastId,
+        lastName: firstInThePastCandidate.lastName,
+        firstName: firstInThePastCandidate.firstName,
+        isPublished: true,
+        userId: firstInThePastCandidate.userId,
+        pixCertificationStatus: 'validated',
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId,
+        lastName: secondInAlphabeticOrderCandidate.lastName,
+        firstName: secondInAlphabeticOrderCandidate.firstName,
+        isPublished: true,
+        userId: secondInAlphabeticOrderCandidate.userId,
+        pixCertificationStatus: 'validated',
+      });
 
       await databaseBuilder.commit();
 
@@ -149,9 +225,9 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
 
       // then
       expect(candidatesIds).to.deep.equal([
-        firstInAlphabeticOrderCandidateId,
-        secondInAlphabeticOrderCandidateId,
-        thirdInAlphabeticOrderCandidateId,
+        firstInAlphabeticOrderCandidate.id,
+        secondInAlphabeticOrderCandidate.id,
+        thirdInAlphabeticOrderCandidate.id,
       ]);
     });
 
@@ -169,14 +245,28 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
       };
       const sessionPublishedId = databaseBuilder.factory.buildSession({ publishedAt: '2024-01-01' }).id;
       const unpublishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
-      databaseBuilder.factory.buildCertificationCandidate({
+      const candidateFromUnpublishedSession = databaseBuilder.factory.buildCertificationCandidate({
         ...candidate,
         sessionId: unpublishedSessionId,
-      }).id;
-      const candidateIdFromPublishedSession = databaseBuilder.factory.buildCertificationCandidate({
+      });
+      const candidateFromPublishedSession = databaseBuilder.factory.buildCertificationCandidate({
         ...candidate,
         sessionId: sessionPublishedId,
-      }).id;
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId: unpublishedSessionId,
+        lastName: candidateFromUnpublishedSession.lastName,
+        firstName: candidateFromUnpublishedSession.firstName,
+        isPublished: false,
+        userId: candidateFromUnpublishedSession.userId,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId: sessionPublishedId,
+        lastName: candidateFromPublishedSession.lastName,
+        firstName: candidateFromPublishedSession.firstName,
+        isPublished: true,
+        userId: candidateFromPublishedSession.userId,
+      });
 
       await databaseBuilder.commit();
 
@@ -187,7 +277,50 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
       });
 
       // then
-      expect(candidatesIds).to.deep.equal([candidateIdFromPublishedSession]);
+      expect(candidatesIds).to.deep.equal([candidateFromPublishedSession.id]);
+    });
+
+    it('should not retrieve candidates who did not enter the session', async function () {
+      // given
+      const division = '3ème A';
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const candidate = {
+        firstName: 'Smith',
+        lastName: 'Aaron',
+        organizationLearnerId: databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organizationId,
+          division,
+        }).id,
+      };
+      const sessionIdOne = databaseBuilder.factory.buildSession({ publishedAt: '2024-02-01' }).id;
+      const sessionIdTwo = databaseBuilder.factory.buildSession({ publishedAt: '2024-01-01' }).id;
+      // This candidate has no related certification-course
+      databaseBuilder.factory.buildCertificationCandidate({
+        ...candidate,
+        sessionId: sessionIdOne,
+      });
+      const candidateThatEnteredTheSession = databaseBuilder.factory.buildCertificationCandidate({
+        ...candidate,
+        sessionId: sessionIdTwo,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId: candidateThatEnteredTheSession.sessionId,
+        lastName: candidateThatEnteredTheSession.lastName,
+        firstName: candidateThatEnteredTheSession.firstName,
+        isPublished: true,
+        userId: candidateThatEnteredTheSession.userId,
+        pixCertificationStatus: 'validated',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const candidatesIds = await scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision({
+        organizationId,
+        division,
+      });
+
+      // then
+      expect(candidatesIds).to.deep.equal([candidateThatEnteredTheSession.id]);
     });
   });
 });
