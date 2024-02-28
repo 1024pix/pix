@@ -80,7 +80,7 @@
           <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.direct-link"}}</dt>
           <dd class="campaign-settings-content__clipboard">
             <span class="content-text campaign-settings-content__text">{{this.campaignsRootUrl}}</span>
-            <Campaign::CopyPasteButton
+            <CopyPasteButton
               @clipBoardtext={{this.campaignsRootUrl}}
               @successMessage={{t "pages.campaign.copy.link.success"}}
               @defaultMessage={{t "pages.campaign.copy.link.default"}}

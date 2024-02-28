@@ -1,0 +1,10 @@
+.mission-header-title {
+  display: flex;
+  flex-direction: column;
+
+  &__informations {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+

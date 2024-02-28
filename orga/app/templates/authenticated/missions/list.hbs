@@ -13,7 +13,7 @@
       </thead>
       <tbody>
         {{#each @model as |mission|}}
-          <tr>
+          <tr class="tr--clickable" {{on "click" (fn this.goToMissionDetails mission.id)}}>
             <td>
               {{mission.name}}
             </td>

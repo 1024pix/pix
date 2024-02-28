@@ -9,12 +9,11 @@ describe('Unit | Router | mission-router', function () {
     it('should check pix1d activated', async function () {
       // given
       sinon.spy(securityPreHandlers, 'checkPix1dActivated');
-      sinon.stub(missionController, 'findAll').callsFake((request, h) => h.response('ok'));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      await httpTestServer.request('GET', '/api/pix1d/missions');
+      await httpTestServer.request('GET', '/api/pix1d/missions/1');
 
       // then
       expect(securityPreHandlers.checkPix1dActivated).to.have.been.calledOnce;
@@ -92,6 +91,37 @@ describe('Unit | Router | mission-router', function () {
 
       // when
       const response = await httpTestServer.request('GET', '/api/organizations/4/missions');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+  describe('GET /api/organizations/{id}/missions/${missionId}', function () {
+    it('should check user belongs to organization and pix1d is activated', async function () {
+      // given
+      const mock = sinon.mock(securityPreHandlers);
+      mock.expects('checkUserBelongsToOrganization').once().returns(true);
+      mock.expects('checkPix1dActivated').once().returns(true);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('GET', '/api/organizations/4/missions/1');
+
+      // then
+      mock.verify();
+    });
+
+    it('should return 200', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').resolves(true);
+      sinon.stub(securityPreHandlers, 'checkPix1dActivated').resolves(true);
+      sinon.stub(missionController, 'getById').callsFake((request, h) => h.response('ok'));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/organizations/4/missions/1');
 
       // then
       expect(response.statusCode).to.equal(200);
