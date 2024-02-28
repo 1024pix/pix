@@ -616,6 +616,7 @@ describe('Integration | Repository | training-repository', function () {
         link: 'https://example.net/mon-nouveau-lien',
         editorName: 'Mon nouvel editeur',
         editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/nouveau-logo.svg',
+        isDisabled: true,
         notExistingAttribute: 'notExistingValue',
       };
 
@@ -631,6 +632,7 @@ describe('Integration | Repository | training-repository', function () {
       expect(updatedTraining.editorName).to.be.equal(attributesToUpdate.editorName);
       expect(updatedTraining.editorLogoUrl).to.be.equal(attributesToUpdate.editorLogoUrl);
       expect(updatedTraining.updatedAt).to.be.above(currentTraining.updatedAt);
+      expect(updatedTraining.isDisabled).to.be.true;
     });
 
     it('should return updated training', async function () {
@@ -648,6 +650,7 @@ describe('Integration | Repository | training-repository', function () {
         link: 'https://example.net/mon-nouveau-lien',
         editorName: 'Mon nouvel editeur',
         editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/nouveau-logo.svg',
+        isDisabled: true,
       };
 
       // when
@@ -660,6 +663,7 @@ describe('Integration | Repository | training-repository', function () {
       expect(updatedTraining.editorName).to.be.equal(attributesToUpdate.editorName);
       expect(updatedTraining.editorLogoUrl).to.be.equal(attributesToUpdate.editorLogoUrl);
       expect(updatedTraining.targetProfileIds).to.deep.equal([targetProfile.id]);
+      expect(updatedTraining.isDisabled).to.be.true;
     });
 
     it('should not update other raws', async function () {
