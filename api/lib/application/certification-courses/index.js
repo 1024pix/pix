@@ -5,7 +5,35 @@ import { certificationCourseController } from './certification-course-controller
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 
 const register = async function (server) {
-  server.route([
+  const adminRoutes = [
+    {
+      method: 'PATCH',
+      path: '/api/admin/certification-courses/{certificationCourseId}',
+      config: {
+        validate: {
+          params: Joi.object({
+            certificationCourseId: identifiersType.certificationCourseId,
+          }),
+        },
+        handler: certificationCourseController.update,
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        notes: [
+          'Cette route est utilisé par Pix Admin',
+          "Elle permet de modifier les informations d'un candidat de certification",
+        ],
+        tags: ['api', 'admin'],
+      },
+    },
     {
       method: 'GET',
       path: '/api/admin/certifications/{id}/details',
@@ -91,12 +119,68 @@ const register = async function (server) {
       },
     },
     {
-      method: 'PATCH',
-      path: '/api/certification-courses/{id}',
+      method: 'POST',
+      path: '/api/admin/certification-courses/{id}/cancel',
       config: {
         validate: {
           params: Joi.object({
             id: identifiersType.certificationCourseId,
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: certificationCourseController.cancel,
+        tags: ['api'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/certification-courses/{id}/uncancel',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: certificationCourseController.uncancel,
+        tags: ['api'],
+      },
+    },
+  ];
+  server.route([
+    ...adminRoutes,
+    /**
+     * @deprecated
+     * Route in no longer maintained
+     * Use instead PATCH /api/admin/certification-courses/{certificationCourseId}
+     */
+    {
+      method: 'PATCH',
+      path: '/api/certification-courses/{certificationCourseId}',
+      config: {
+        validate: {
+          params: Joi.object({
+            certificationCourseId: identifiersType.certificationCourseId,
           }),
         },
         handler: certificationCourseController.update,
@@ -159,54 +243,6 @@ const register = async function (server) {
           }),
         },
         handler: certificationCourseController.get,
-        tags: ['api'],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/admin/certification-courses/{id}/cancel',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.certificationCourseId,
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: certificationCourseController.cancel,
-        tags: ['api'],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/admin/certification-courses/{id}/uncancel',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.certificationCourseId,
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: certificationCourseController.uncancel,
         tags: ['api'],
       },
     },
