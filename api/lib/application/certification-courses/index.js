@@ -169,6 +169,11 @@ const register = async function (server) {
   ];
   server.route([
     ...adminRoutes,
+    /**
+     * @deprecated
+     * Route in no longer maintained
+     * Use instead PATCH /api/admin/certification-courses/{certificationCourseId}
+     */
     {
       method: 'PATCH',
       path: '/api/certification-courses/{certificationCourseId}',
