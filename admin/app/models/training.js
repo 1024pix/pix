@@ -29,6 +29,7 @@ export default class Training extends Model {
   @attr('string') editorName;
   @attr('string') editorLogoUrl;
   @attr('boolean') isRecommendable;
+  @attr('boolean') isDisabled;
   @attr({
     defaultValue: () => ({
       days: 0,
