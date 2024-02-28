@@ -162,7 +162,7 @@ describe('Unit | Devcomp | Application | Trainings | Controller | training-contr
 
     beforeEach(function () {
       trainingSerializer = {
-        serialize: sinon.stub(),
+        serializeForAdmin: sinon.stub(),
         deserialize: sinon.stub(),
       };
       trainingSerializer.deserialize.returns(deserializedTraining);
@@ -212,7 +212,7 @@ describe('Unit | Devcomp | Application | Trainings | Controller | training-contr
           },
         };
         const expectedSerializedUser = { message: 'serialized user' };
-        trainingSerializer.serialize.returns(expectedSerializedUser);
+        trainingSerializer.serializeForAdmin.returns(expectedSerializedUser);
 
         // when
         const response = await trainingController.update(
@@ -227,7 +227,7 @@ describe('Unit | Devcomp | Application | Trainings | Controller | training-contr
         );
 
         // then
-        expect(trainingSerializer.serialize).to.have.been.calledWithExactly(updatedTraining);
+        expect(trainingSerializer.serializeForAdmin).to.have.been.calledWithExactly(updatedTraining);
         expect(response).to.deep.equal(expectedSerializedUser);
       });
     });

@@ -43,7 +43,7 @@ const update = async function (request, h, dependencies = { trainingSerializer }
   const { trainingId } = request.params;
   const training = await dependencies.trainingSerializer.deserialize(request.payload);
   const updatedTraining = await usecases.updateTraining({ training: { ...training, id: trainingId } });
-  return dependencies.trainingSerializer.serialize(updatedTraining);
+  return dependencies.trainingSerializer.serializeForAdmin(updatedTraining);
 };
 
 const createOrUpdateTrigger = async function (request, h, dependencies = { trainingTriggerSerializer }) {

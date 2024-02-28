@@ -13,6 +13,7 @@ const buildTrainingForAdmin = function ({
   editorName = 'Ministère education nationale',
   editorLogoUrl = 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
   trainingTriggers,
+  isDisabled = false,
 } = {}) {
   return new TrainingForAdmin({
     id,
@@ -25,6 +26,7 @@ const buildTrainingForAdmin = function ({
     editorName,
     editorLogoUrl,
     trainingTriggers,
+    isDisabled,
   });
 };
 
