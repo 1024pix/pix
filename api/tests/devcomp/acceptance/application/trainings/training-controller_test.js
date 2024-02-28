@@ -99,6 +99,7 @@ describe('Acceptance | Controller | training-controller', function () {
           },
           'editor-logo-url': trainingAttributes.editorLogoUrl,
           'editor-name': trainingAttributes.editorName,
+          'is-disabled': false,
         },
       };
 

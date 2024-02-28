@@ -74,6 +74,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
             },
             'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
             'editor-name': 'Ministère education nationale',
+            'is-disabled': false,
             'is-recommendable': true,
             link: 'https://example.net',
             locale: 'fr-fr',
