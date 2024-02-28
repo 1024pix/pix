@@ -386,7 +386,7 @@
         "subtitle": "(levels out of {maxReachableLevel})"
       },
       "complementary": {
-        "title": "Other certification(s) awarded",
+        "title": "Other certification awarded",
         "alternative": "Additional certification"
       },
       "exam-date": "Completion date:",
