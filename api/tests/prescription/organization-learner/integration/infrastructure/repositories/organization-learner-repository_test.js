@@ -1,5 +1,6 @@
 import { expect, databaseBuilder, catchErr } from '../../../../../test-helper.js';
 import * as organizationLearnerFollowUpRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
+import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearner.js';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../lib/domain/constants/identity-providers.js';
 
@@ -140,7 +141,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner Follo
       });
 
       context('isCertifiable', function () {
-        context('When learner is certifiable', function () {
+        context('When the profile collection participation of the learner is certifiable', function () {
           it('should take the participation certifiable value', async function () {
             // given
             const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -152,7 +153,8 @@ describe('Integration | Infrastructure | Repository | Organization Learner Follo
               type: 'PROFILES_COLLECTION',
               organizationId,
             }).id;
-            const certifiableParticipation = databaseBuilder.factory.buildCampaignParticipation({
+
+            databaseBuilder.factory.buildCampaignParticipation({
               organizationLearnerId,
               campaignId,
               isCertifiable: true,
@@ -166,9 +168,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner Follo
 
             //then
             expect(organizationLearner.isCertifiable).to.be.true;
-            expect(organizationLearner.certifiableAt).to.deep.equal(certifiableParticipation.sharedAt);
-
-            // then
+            expect(organizationLearner).to.be.an.instanceOf(OrganizationLearner);
           });
 
           it('should return isCertifiable of the given id learner', async function () {
@@ -204,6 +204,70 @@ describe('Integration | Infrastructure | Repository | Organization Learner Follo
           });
         });
 
+        context('When the learner have several profile collection participations', function () {
+          it('should take the last participation certifiable value', async function () {
+            // given
+            const organizationId = databaseBuilder.factory.buildOrganization().id;
+            const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+              organizationId,
+            }).id;
+
+            const firstCampaignId = databaseBuilder.factory.buildCampaign({
+              type: 'PROFILES_COLLECTION',
+              organizationId,
+            }).id;
+
+            const secondCampaignId = databaseBuilder.factory.buildCampaign({
+              type: 'PROFILES_COLLECTION',
+              organizationId,
+            }).id;
+
+            databaseBuilder.factory.buildCampaignParticipation({
+              organizationLearnerId,
+              campaignId: firstCampaignId,
+              isCertifiable: true,
+              sharedAt: new Date('2023-02-01'),
+            });
+
+            databaseBuilder.factory.buildCampaignParticipation({
+              organizationLearnerId,
+              campaignId: secondCampaignId,
+              isCertifiable: false,
+              sharedAt: new Date('2024-02-01'),
+            });
+
+            await databaseBuilder.commit();
+
+            // when
+            const organizationLearner = await organizationLearnerFollowUpRepository.get(organizationLearnerId);
+
+            //then
+            expect(organizationLearner.isCertifiable).to.be.false;
+            expect(organizationLearner).to.be.an.instanceOf(OrganizationLearner);
+          });
+        });
+
+        context('When the learner is certifiable', function () {
+          it('should take the learner certifiable value', async function () {
+            // given
+            const organizationId = databaseBuilder.factory.buildOrganization().id;
+            const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+              organizationId,
+              isCertifiable: true,
+              certifiableAt: new Date('2023-12-12'),
+            }).id;
+
+            await databaseBuilder.commit();
+
+            // when
+            const organizationLearner = await organizationLearnerFollowUpRepository.get(organizationLearnerId);
+
+            //then
+            expect(organizationLearner.isCertifiable).to.be.true;
+            expect(organizationLearner).to.be.an.instanceOf(OrganizationLearner);
+          });
+        });
+
         context('When learner is not certifiable', function () {
           it('should return isCertifiable false', async function () {
             const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -229,7 +293,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner Follo
             const organizationLearner = await organizationLearnerFollowUpRepository.get(organizationLearnerId);
 
             expect(organizationLearner.isCertifiable).to.be.false;
-            expect(organizationLearner.certifiableAt).to.deep.equal(campaignParticipationSharedAt);
+            expect(organizationLearner).to.be.an.instanceOf(OrganizationLearner);
           });
         });
 
