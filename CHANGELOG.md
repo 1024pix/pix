@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v4.107.2 (28/02/2024)
+
+
+### :bug: Correction
+- [#8214](https://github.com/1024pix/pix/pull/8214) [BUGFIX] Remise en place des propriétés de config.js nécessaires pour les envois de résutats de France Travail.
+
 ## v4.107.1 (27/02/2024)
 
 
