@@ -2,7 +2,7 @@ import * as missionSerializer from '../infrastructure/serializers/mission-serial
 import { usecases } from '../domain/usecases/index.js';
 
 const getById = async function (request, h, dependencies = { missionSerializer }) {
-  const { id: missionId } = request.params;
+  const { missionId } = request.params;
   const mission = await usecases.getMission({ missionId: parseInt(missionId) });
   return dependencies.missionSerializer.serialize(mission);
 };

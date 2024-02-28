@@ -20,7 +20,7 @@ describe('Integration | Controller | mission-controller', function () {
       const result = await missionController.getById(
         {
           params: {
-            id: mission.id,
+            missionId: mission.id,
           },
         },
         hFake,
