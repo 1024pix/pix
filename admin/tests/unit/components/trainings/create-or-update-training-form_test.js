@@ -59,5 +59,16 @@ module('Unit | Component | Trainings | CreateOrUpdateTrainingForm', function (ho
       // then
       assert.deepEqual(component.args.onSubmit.getCall(0).firstArg.editorLogoUrl, `${baseURL}new-logo.svg`);
     });
+
+    test('it should update isDisabled field', async function (assert) {
+      // given
+      component.toggleIsDisabled();
+
+      // when
+      await component.onSubmit(submitEvent);
+
+      // then
+      assert.true(component.args.onSubmit.getCall(0).firstArg.isDisabled);
+    });
   });
 });

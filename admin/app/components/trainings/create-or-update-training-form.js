@@ -17,8 +17,9 @@ class Form {
   @tracked locale;
   @tracked editorLogoUrl;
   @tracked editorName;
+  @tracked isDisabled;
 
-  constructor({ title, link, type, duration, locale, editorLogoUrl, editorName } = {}) {
+  constructor({ title, link, type, duration, locale, editorLogoUrl, editorName, isDisabled } = {}) {
     this.title = title || null;
     this.link = link || null;
     this.type = type || null;
@@ -26,6 +27,7 @@ class Form {
     this.locale = locale || null;
     this.editorLogoUrl = editorLogoUrl?.split('/').at(-1) || null;
     this.editorName = editorName || null;
+    this.isDisabled = isDisabled || false;
   }
 }
 
@@ -47,6 +49,11 @@ export default class CreateOrUpdateTrainingForm extends Component {
   }
 
   @action
+  toggleIsDisabled() {
+    set(this.form, 'isDisabled', !this.form.isDisabled);
+  }
+
+  @action
   updateSelect(key, value) {
     set(this.form, key, value);
   }
@@ -62,6 +69,7 @@ export default class CreateOrUpdateTrainingForm extends Component {
       duration: this.form.duration,
       locale: this.form.locale,
       editorName: this.form.editorName,
+      isDisabled: this.form.isDisabled,
     };
     training.editorLogoUrl = `https://images.pix.fr/contenu-formatif/editeur/${this.form.editorLogoUrl}`;
 
