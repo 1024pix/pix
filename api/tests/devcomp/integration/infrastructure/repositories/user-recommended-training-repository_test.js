@@ -100,6 +100,36 @@ describe('Integration | Repository | user-recommended-training-repository', func
       expect(result[0]).to.deep.equal(new UserRecommendedTraining({ ...training, duration: { hours: 6 } }));
     });
 
+    it('should not return disabled recommended trainings for given campaignParticipationId and locale', async function () {
+      // given
+      const { id: campaignParticipationId, userId } = databaseBuilder.factory.buildCampaignParticipation();
+      const training = databaseBuilder.factory.buildTraining();
+      const userRecommendedTrainingDisabled = {
+        userId,
+        trainingId: databaseBuilder.factory.buildTraining({ isDisabled: true }).id,
+        campaignParticipationId,
+      };
+      const userRecommendedTrainingEnabled = {
+        userId,
+        trainingId: training.id,
+        campaignParticipationId,
+      };
+      databaseBuilder.factory.buildUserRecommendedTraining(userRecommendedTrainingDisabled);
+      databaseBuilder.factory.buildUserRecommendedTraining(userRecommendedTrainingEnabled);
+      await databaseBuilder.commit();
+
+      // when
+      const result = await userRecommendedTrainingRepository.findByCampaignParticipationId({
+        campaignParticipationId,
+        locale: 'fr-fr',
+      });
+
+      // then
+      expect(result.length).to.equal(1);
+      expect(result[0]).to.be.instanceOf(UserRecommendedTraining);
+      expect(result[0]).to.deep.equal(new UserRecommendedTraining({ ...training, duration: { hours: 6 } }));
+    });
+
     it('should return an empty array when user has no recommended training for this campaignParticipation', async function () {
       // given
       const { id: campaignParticipationId, userId } = databaseBuilder.factory.buildCampaignParticipation();
