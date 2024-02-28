@@ -490,7 +490,10 @@
           "confirmation": "Exit the invigilation",
           "exit-extra-information": "Exit the session’s invigilation {sessionId}"
         },
+        "address": "Location name",
         "information": "Warning, make sure that all the candidates have finished their exam before exiting the invigilation. To resume the invigilation of this session, you will have to enter again it’s session number and it’s password.",
+        "invigilator": "Invigilator(s)",
+        "room": "Room",
         "session-id": "Session {sessionId}"
       },
       "login": {

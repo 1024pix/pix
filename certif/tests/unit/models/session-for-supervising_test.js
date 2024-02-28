@@ -8,7 +8,7 @@ module('Unit | Model | session-for-supervising', function (hooks) {
   test('it creates a SessionForSupervisingModel', function (assert) {
     const store = this.owner.lookup('service:store');
     const data = {
-      certificationCenterName: 'Centre des chocolats',
+      address: 'Centre de certification 1',
       examiner: 'Monsieur Marmotte',
       room: "Salle de mise en papier d'alu",
       accessCode: 'MARM01',
@@ -20,6 +20,6 @@ module('Unit | Model | session-for-supervising', function (hooks) {
   });
 
   function _pickModelData(sessionForSupervising) {
-    return pick(sessionForSupervising, ['certificationCenterName', 'examiner', 'room', 'accessCode', 'date', 'time']);
+    return pick(sessionForSupervising, ['address', 'examiner', 'room', 'accessCode', 'date', 'time']);
   }
 });

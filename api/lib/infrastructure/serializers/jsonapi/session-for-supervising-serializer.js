@@ -15,15 +15,7 @@ const serialize = function (sessions) {
 
       return cloneSession;
     },
-    attributes: [
-      'room',
-      'examiner',
-      'accessCode',
-      'date',
-      'time',
-      'certificationCenterName',
-      'certificationCandidates',
-    ],
+    attributes: ['room', 'examiner', 'accessCode', 'date', 'time', 'certificationCandidates', 'address'],
     typeForAttribute: (attribute) =>
       attribute === 'certificationCandidates' ? 'certification-candidate-for-supervising' : attribute,
     certificationCandidates: {
