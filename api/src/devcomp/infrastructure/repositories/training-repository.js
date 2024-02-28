@@ -184,7 +184,7 @@ async function findPaginatedByUserId({
     .select('trainings.*')
     .distinct('trainings.id')
     .join('user-recommended-trainings', 'trainings.id', 'trainingId')
-    .where({ userId, locale })
+    .where({ userId, locale, isDisabled: false })
     .orderBy('id', 'asc');
   const { results, pagination } = await fetchPage(query, page);
 
