@@ -565,7 +565,7 @@
           "certification-number": "Certification no."
         },
         "feedback-panel": {
-          "certification-number": "your certification no. (in the top-right of the screen)",
+          "certification-number": "your certification number (in the top-right of the screen)",
           "description": "To report a problem, please call your invigilator and provide the following information:",
           "problem": "the problem encountered",
           "question-number": "the question number (in the top-right of the screen)"

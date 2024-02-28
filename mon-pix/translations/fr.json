@@ -565,7 +565,7 @@
           "certification-number": "N° de certification"
         },
         "feedback-panel": {
-          "certification-number": "votre n° de certification (en haut à droite de l'écran)",
+          "certification-number": "votre numéro de certification (en haut à droite de l'écran)",
           "description": "Pour signaler un problème, appelez votre surveillant et communiquez-lui les informations suivantes :",
           "problem": "le problème rencontré",
           "question-number": "le numéro de la question (en haut à droite de l'écran)"
