@@ -53,4 +53,22 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
     // then
     assert.dom(screen.getByText('Non déclenchable')).exists();
   });
+
+  test('it should display "Actif" when training is not disabled', async function (assert) {
+    // given
+    this.set('training.isDisabled', false);
+    const screen = await render(hbs`<Trainings::TrainingDetailsCard @training={{this.training}} />`);
+
+    // then
+    assert.dom(screen.getByText('Actif')).exists();
+  });
+
+  test('it should display "En pause" when training is disabled', async function (assert) {
+    // given
+    this.set('training.isDisabled', true);
+    const screen = await render(hbs`<Trainings::TrainingDetailsCard @training={{this.training}} />`);
+
+    // then
+    assert.dom(screen.getByText('En pause')).exists();
+  });
 });
