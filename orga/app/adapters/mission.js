@@ -5,9 +5,6 @@ export default class MissionAdapter extends ApplicationAdapter {
     const { organizationId } = adapterOptions;
     return `${this.host}/${this.namespace}/organizations/${organizationId}/missions`;
   }
-  // urlForFindRecord(id) {
-  //   return `${this.host}/${this.namespace}/pix1d/missions/${id}`;
-  // }
   urlForQueryRecord(query) {
     const { organizationId, missionId } = query;
     delete query.organizationId;
