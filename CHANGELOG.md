@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v4.108.0 (28/02/2024)
+
+
+### :rocket: Amélioration
+- [#8216](https://github.com/1024pix/pix/pull/8216) [FEATURE] Ajout de la page mission détail dans Pix orga (PIX-11197).
+- [#8146](https://github.com/1024pix/pix/pull/8146) [FEATURE] Ajouter un commentaire automatique pour la fraude candidat lors de la certification (PIX-10531).
+- [#8191](https://github.com/1024pix/pix/pull/8191) [FEATURE] Améliorer le design de la liste des classes (Pix-11076).
+- [#8170](https://github.com/1024pix/pix/pull/8170) [FEATURE] Supprimer le pluriel dans la section de la certification complémentaire dans l'attestation Pix (PIX-11385).
+
+### :bug: Correction
+- [#8214](https://github.com/1024pix/pix/pull/8214) [BUGFIX] Remise en place des propriétés de config.js nécessaires pour les envois de résutats de France Travail.
+
 ## v4.107.2 (28/02/2024)
 
 
