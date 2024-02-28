@@ -1,55 +1,63 @@
 .list {
   display: flex;
   flex-wrap: wrap;
-  gap: 40px;
   align-items: center;
   justify-content: center;
   min-height: 300px;
   margin: auto 50px 35px;
 
-  &__learners {
-    align-items: center;
+  &__students {
     justify-content: normal;
     min-height: 0;
     margin: 30px auto 35px 170px;
   }
 
-  .divisions__item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-width: 150px;
-    height: 70px;
-    color: black;
-    background: #FFFFFF;
-    border-radius: 8px;
+  .students__item {
+    width: 190px;
+    height: 55px;
+    margin: 20px;
+    color: var(--pix-neutral-900);
+    font-size: 1.125rem;
+    background: var(--pix-neutral-0);
+    border-radius: 30px;
     box-shadow: 0 0 1px 0 #3D68FF, 8px 8px 32px -8px rgb(61 104 255 / 20%);
 
-    &:hover {
-      background-color: var(--pix-primary-10);
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
-  .learners__item {
+  .divisions__item {
     width: 190px;
-    height: 55px;
+    height: 190px;
+    margin: 20px;
     color: var(--pix-neutral-900);
-    font-size: 1.125rem;
-    background: #FFFFFF;
-    border-radius: 30px;
+    background-color: var(--pix-neutral-0);
+    background-image: url('/images/division.svg');
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: 30px;
+    background-size: 145px;
+    border-radius: 50%;
     box-shadow: 0 0 1px 0 #3D68FF, 8px 8px 32px -8px rgb(61 104 255 / 20%);
+
+    .item__title {
+      position: relative;
+      top: 140px;
+      font-weight: 800;
+    }
   }
 }
 
- .pix-button.learners__item {
-   &:hover, &:focus, &:active, &:focus-visible {
+ .pix-button.students__item, .divisions__item {
+   &:hover, &:active{
      background-color: var(--pix-primary-10);
    }
 
    &:focus, &:focus-visible {
+     background-color: var(--pix-primary-10);
      outline:2px solid var(--pix-primary-300);
      outline-offset: 0;
    }
  }
-
