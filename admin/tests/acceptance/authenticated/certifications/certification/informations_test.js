@@ -1093,7 +1093,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
           // when
           const screen = await visit(`/certifications/${certification.id}`);
-          await clickByName('Modifier commentaires jury');
+          await clickByName('Modifier le commentaire jury');
 
           // then
           assert.dom(screen.getByRole('textbox', { name: 'Notes internes Jury Pix :' })).exists();
@@ -1109,11 +1109,11 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
           // when
           const screen = await visit(`/certifications/${certification.id}`);
-          await clickByName('Modifier commentaires jury');
+          await clickByName('Modifier le commentaire jury');
           await clickByName('Annuler');
 
           // then
-          assert.dom(screen.getByRole('button', { name: 'Modifier commentaires jury' })).exists();
+          assert.dom(screen.getByRole('button', { name: 'Modifier le commentaire jury' })).exists();
         });
       });
 
@@ -1125,14 +1125,14 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
             // when
             const screen = await visit(`/certifications/${certification.id}`);
-            await clickByName('Modifier commentaires jury');
+            await clickByName('Modifier le commentaire jury');
             await fillByLabel('Notes internes Jury Pix :', 'Whatever jury said');
 
             await clickByName('Enregistrer');
 
             // then
-            assert.dom(screen.getByRole('button', { name: 'Modifier commentaires jury' })).exists();
-            assert.dom(screen.getByText('Les commentaires du jury ont bien été enregistrés.')).exists();
+            assert.dom(screen.getByRole('button', { name: 'Modifier le commentaire jury' })).exists();
+            assert.dom(screen.getByText('Le commentaire du jury a bien été enregistré.')).exists();
           });
         });
 
@@ -1147,14 +1147,14 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
             // when
             const screen = await visit(`/certifications/${certification.id}`);
-            await clickByName('Modifier commentaires jury');
+            await clickByName('Modifier le commentaire jury');
             await fillByLabel('Notes internes Jury Pix :', 'Whatever jury said');
 
             await clickByName('Enregistrer');
 
             // then
-            assert.dom(screen.queryByText('button', { name: 'Modifier commentaires jury' })).doesNotExist();
-            assert.dom(screen.getByText("Les commentaires du jury n'ont pas pu être enregistrés.")).exists();
+            assert.dom(screen.queryByText('button', { name: 'Modifier le commentaire jury' })).doesNotExist();
+            assert.dom(screen.getByText("Le commentaire du jury n'a pas pu être enregistré.")).exists();
           });
         });
       });
