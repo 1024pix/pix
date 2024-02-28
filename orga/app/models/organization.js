@@ -9,6 +9,7 @@ export default class Organization extends Model {
   @attr('boolean') isAgriculture;
   @attr('string') documentationUrl;
   @attr('string') identityProviderForCampaigns;
+  @attr('string') code;
 
   @hasMany('campaign', { async: true, inverse: 'organization' }) campaigns;
   @hasMany('target-profile', { async: true, inverse: null }) targetProfiles;
