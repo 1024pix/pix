@@ -519,6 +519,11 @@ function routes() {
     return schema.missions.all();
   });
 
+  this.get('/organizations/:organization_id/missions/:mission_id', (schema, request) => {
+    const missionId = request.params.mission_id;
+    return schema.missions.find(missionId);
+  });
+
   this.get('/frameworks/for-target-profile-submission', (schema) => {
     return schema.frameworks.all();
   });

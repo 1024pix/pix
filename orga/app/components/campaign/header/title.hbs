@@ -45,7 +45,7 @@
         </dt>
         <dd class="campaign-header-title__campaign-code">
           <span>{{@campaign.code}}</span>
-          <Campaign::CopyPasteButton
+          <CopyPasteButton
             @clipBoardtext={{@campaign.code}}
             @successMessage={{t "pages.campaign.copy.code.success"}}
             @defaultMessage={{t "pages.campaign.copy.code.default"}}

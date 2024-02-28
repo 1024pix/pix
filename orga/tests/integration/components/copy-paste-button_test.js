@@ -3,7 +3,7 @@ import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
 
-module('Integration | Component | Campaign::CopyPasteButton', function (hooks) {
+module('Integration | Component | CopyPasteButton', function (hooks) {
   setupRenderingTest(hooks);
 
   const successMessage = 'Ouiiiiiii !';
@@ -12,7 +12,7 @@ module('Integration | Component | Campaign::CopyPasteButton', function (hooks) {
     this.successMessage = successMessage;
     this.defaultMessage = defaultMessage;
 
-    const screen = await render(hbs`<Campaign::CopyPasteButton
+    const screen = await render(hbs`<CopyPasteButton
   @clipboardText='textToCopy'
   @successMessage={{this.successMessage}}
   @defaultMessage={{this.defaultMessage}}

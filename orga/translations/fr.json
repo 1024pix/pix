@@ -756,6 +756,15 @@
     },
     "missions": {
       "title": "Missions",
+      "details": {
+        "title": "Détails d'une mission",
+        "competence": {
+          "title": "Compétence :"
+        },
+        "objective": {
+          "title": "Objectifs :"
+        }
+      },
       "list": {
         "tab": {
           "caption": "Liste des missions",

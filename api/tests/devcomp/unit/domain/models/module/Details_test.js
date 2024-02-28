@@ -9,7 +9,7 @@ describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
       const description = 'Description';
       const duration = 12;
       const level = 'Débutant';
-      const objectives = ['Objective #1'];
+      const objectives = ['MissionInformation #1'];
 
       // when
       const details = new Details({ image, description, duration, level, objectives });

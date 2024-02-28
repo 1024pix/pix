@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
@@ -55,6 +55,24 @@ module('Acceptance | Missions List', function (hooks) {
       // then
       assert.deepEqual(currentURL(), '/missions');
       assert.dom(screen.getByText(this.intl.t('pages.missions.list.tab.empty-state'))).exists();
+    });
+
+    test('user should acces to detail when he click on a row', async function (assert) {
+      // given
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      const prescriber = createPrescriberByUser(user);
+      prescriber.features = { ...prescriber.features, MISSIONS_MANAGEMENT: true };
+      await authenticateSession(user.id);
+
+      server.create('mission', { id: 1, name: 'Super Mission', competenceName: 'Super competence' });
+
+      const screen = await visit('/missions');
+
+      // when
+      await click(screen.getByText('Super Mission'));
+
+      // then
+      assert.deepEqual(currentURL(), '/missions/1');
     });
   });
 });

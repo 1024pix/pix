@@ -80,6 +80,7 @@ Router.map(function () {
     this.route('places');
     this.route('missions', function () {
       this.route('list', { path: '/' });
+      this.route('details', { path: '/:mission_id' });
     });
   });
 
