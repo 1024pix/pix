@@ -38,19 +38,41 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/pix1d/missions/{id}',
+      path: '/api/pix1d/missions/{missionId}',
       config: {
         pre: [{ method: securityPreHandlers.checkPix1dActivated }],
         auth: false,
         validate: {
           params: Joi.object({
-            id: identifiersType.missionId,
+            missionId: identifiersType.missionId,
           }),
         },
         handler: missionController.getById,
         tags: ['api', 'pix1d', 'mission'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs de pix1d' + '- Elle permet de récupérer une mission du LCMS',
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/missions/{missionId}',
+      config: {
+        pre: [
+          { method: securityPreHandlers.checkUserBelongsToOrganization },
+          { method: securityPreHandlers.checkPix1dActivated },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+            missionId: identifiersType.missionId,
+          }),
+        },
+        handler: missionController.getById,
+        tags: ['api', 'pix1d', 'mission'],
+        notes: [
+          "- ** Cette route est restreinte aux membres d'une organisation pix1d" +
+            '- Elle permet de récupérer une mission du LCMS',
         ],
       },
     },
