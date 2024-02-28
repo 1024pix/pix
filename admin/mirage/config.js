@@ -423,7 +423,7 @@ function routes() {
   this.patch('/cache', () => {});
   this.post('/lcms/releases', () => {});
 
-  this.patch('/certification-courses/:id', (schema, request) => {
+  this.patch('/admin/certification-courses/:id', (schema, request) => {
     const certificationId = request.params.id;
     const params = JSON.parse(request.requestBody).data.attributes;
 

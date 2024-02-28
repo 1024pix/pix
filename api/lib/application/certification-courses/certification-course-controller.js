@@ -25,7 +25,7 @@ const getJuryCertification = async function (request, h, dependencies = { juryCe
 };
 
 const update = async function (request, h, dependencies = { certificationSerializer }) {
-  const certificationCourseId = request.params.id;
+  const certificationCourseId = request.params.certificationCourseId;
   const userId = request.auth.credentials.userId;
   const command = await dependencies.certificationSerializer.deserializeCertificationCandidateModificationCommand(
     request.payload,

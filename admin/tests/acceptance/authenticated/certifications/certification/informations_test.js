@@ -589,7 +589,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             // given
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             this.server.patch(
-              '/certification-courses/:id',
+              'admin/certification-courses/:id',
               () => ({
                 errors: [{ detail: "Candidate's first name must not be blank or empty" }],
               }),
@@ -612,7 +612,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             // given
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             this.server.patch(
-              '/certification-courses/:id',
+              'admin/certification-courses/:id',
               () => ({
                 errors: [{ detail: "Candidate's first name must not be blank or empty" }],
               }),
@@ -635,7 +635,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             // given
             await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             this.server.patch(
-              '/certification-courses/:id',
+              'admin/certification-courses/:id',
               () => ({
                 errors: [{ detail: "Candidate's first name must not be blank or empty" }],
               }),
