@@ -783,6 +783,28 @@ describe('Integration | Repository | training-repository', function () {
       expect(userRecommendedTrainings).to.be.lengthOf(0);
       expect(pagination).to.deep.equal({ page: 1, pageSize: 10, rowCount: 0, pageCount: 0 });
     });
+
+    it('should not return disabled trainings', async function () {
+      // given
+      const { userId, id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation();
+      const training1 = databaseBuilder.factory.buildTraining({ isDisabled: true });
+      databaseBuilder.factory.buildUserRecommendedTraining({
+        userId,
+        trainingId: training1.id,
+        campaignParticipationId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const { userRecommendedTrainings, pagination } = await trainingRepository.findPaginatedByUserId({
+        userId,
+        locale: 'fr-fr',
+      });
+
+      // then
+      expect(userRecommendedTrainings).to.be.lengthOf(0);
+      expect(pagination).to.deep.equal({ page: 1, pageSize: 10, rowCount: 0, pageCount: 0 });
+    });
   });
 });
 
