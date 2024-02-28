@@ -21,8 +21,6 @@ export default class Certification extends ApplicationAdapter {
       const payload = {
         data: {
           attributes: {
-            'comment-for-organization': attributes['comment-for-organization'],
-            'comment-for-candidate': attributes['comment-for-candidate'],
             'comment-by-jury': attributes['comment-by-jury'],
           },
         },

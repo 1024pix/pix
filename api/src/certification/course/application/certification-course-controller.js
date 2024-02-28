@@ -1,7 +1,7 @@
 import { usecases as sharedUsecases } from '../../shared/domain/usecases/index.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as events from '../../../../lib/domain/events/index.js';
-import * as assessmentResultSerializer from '../infrastructure/serializers/jsonapi/jury-comments-serializer.js';
+import * as juryCommentSerializer from '../infrastructure/serializers/jsonapi/jury-comment-serializer.js';
 import * as v3CertificationDetailsForAdministrationSerializer from '../infrastructure/serializers/jsonapi/v3-certification-course-details-for-administration-serializer.js';
 
 const reject = async function (request, h, dependencies = { events }) {
@@ -28,16 +28,14 @@ const unreject = async function (request, h, dependencies = { events }) {
   return h.response().code(200);
 };
 
-const updateJuryComments = async function (request, h, dependencies = { assessmentResultSerializer }) {
+const updateJuryComment = async function (request, h, dependencies = { juryCommentSerializer }) {
   const certificationCourseId = request.params.id;
-  const deserializedAssessmentResultComments = await dependencies.assessmentResultSerializer.deserialize(
-    request.payload,
-  );
+  const assessmentResultCommentByJury = await dependencies.juryCommentSerializer.deserialize(request.payload);
   const juryId = request.auth.credentials.userId;
 
-  await usecases.updateJuryComments({
+  await usecases.updateJuryComment({
     certificationCourseId,
-    assessmentResultComments: deserializedAssessmentResultComments,
+    assessmentResultCommentByJury,
     juryId,
   });
 
@@ -63,5 +61,5 @@ export const certificationCourseController = {
   reject,
   unreject,
   getCertificationV3Details,
-  updateJuryComments,
+  updateJuryComment,
 };
