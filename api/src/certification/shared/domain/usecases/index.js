@@ -155,7 +155,7 @@ const usecasesWithoutInjectedDependencies = {
   })),
   ...(await importNamedExportsFromDirectory({
     path: join(path, '../../../course/domain/usecases/'),
-    ignoredFileNames: ['index.js', 'update-jury-comments.js', 'get-sco-certification-results-by-division.js'],
+    ignoredFileNames: ['index.js', 'update-jury-comment.js', 'get-sco-certification-results-by-division.js'],
   })),
 };
 

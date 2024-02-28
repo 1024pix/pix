@@ -10,18 +10,15 @@ import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.j
 /**
  * @param {Object} params
  * @param {number} params.certificationCourseId
- * @param {Object} params.assessmentResultComments
- * @param {string} params.assessmentResultComments.commentByJury
- * @param {string} params.assessmentResultComments.commentForCandidate
- * @param {string} params.assessmentResultComments.commentForOrganization
+ * @param {string} params.assessmentResultCommentByJury
  * @param {number} params.juryId
  * @param {AssessmentResultRepository} params.assessmentResultRepository
  * @param {CourseAssessmentResultRepository} params.courseAssessmentResultRepository
  * @param {CompetenceMarkRepository} params.competenceMarkRepository
  */
-const updateJuryComments = async function ({
+const updateJuryComment = async function ({
   certificationCourseId,
-  assessmentResultComments,
+  assessmentResultCommentByJury,
   juryId,
   courseAssessmentResultRepository,
   assessmentResultRepository,
@@ -34,9 +31,7 @@ const updateJuryComments = async function ({
     });
 
     const updatedAssessmentResult = latestAssessmentResult.clone();
-    updatedAssessmentResult.commentByJury = assessmentResultComments.commentByJury;
-    updatedAssessmentResult.commentForCandidate = assessmentResultComments.commentForCandidate;
-    updatedAssessmentResult.commentForOrganization = assessmentResultComments.commentForOrganization;
+    updatedAssessmentResult.commentByJury = assessmentResultCommentByJury;
     updatedAssessmentResult.juryId = juryId;
     updatedAssessmentResult.emitter = AssessmentResult.emitters.PIX_JURY;
 
@@ -55,4 +50,4 @@ const updateJuryComments = async function ({
   });
 };
 
-export { updateJuryComments };
+export { updateJuryComment };

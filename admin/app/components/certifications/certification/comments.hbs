@@ -3,17 +3,15 @@
     <h2 class="certification-informations__card__title">Commentaires jury</h2>
     <Certifications::InfoField
       @value={{@certification.commentForCandidate}}
-      @edition={{this.editingComments}}
+      @edition={{false}}
       @label="Pour le candidat :"
       @fieldId="certification-commentForCandidate"
-      @isTextarea={{true}}
     />
     <Certifications::InfoField
       @value={{@certification.commentForOrganization}}
-      @edition={{this.editingComments}}
+      @edition={{false}}
       @label="Pour l'organisation :"
       @fieldId="certification-commentForOrganization"
-      @isTextarea={{true}}
     />
     <Certifications::InfoField
       @value={{@certification.commentByJury}}
@@ -22,12 +20,7 @@
       @fieldId="certification-commentByJury"
       @isTextarea={{true}}
     />
-    <Certifications::InfoField
-      @value={{@certification.juryId}}
-      @edition={{false}}
-      @label="Identifiant jury :"
-      @isTextarea={{true}}
-    />
+    <Certifications::InfoField @value={{@certification.juryId}} @edition={{false}} @label="Identifiant jury :" />
 
     {{#if this.editingComments}}
       <ul class="certification-information-comments">

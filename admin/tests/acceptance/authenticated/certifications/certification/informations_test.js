@@ -1096,8 +1096,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Modifier commentaires jury');
 
           // then
-          assert.dom(screen.getByRole('textbox', { name: 'Pour le candidat :' })).exists();
-          assert.dom(screen.getByRole('textbox', { name: "Pour l'organisation :" })).exists();
           assert.dom(screen.getByRole('textbox', { name: 'Notes internes Jury Pix :' })).exists();
           assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
           assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
@@ -1128,7 +1126,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             // when
             const screen = await visit(`/certifications/${certification.id}`);
             await clickByName('Modifier commentaires jury');
-            await fillByLabel('Pour le candidat :', 'Summers');
+            await fillByLabel('Notes internes Jury Pix :', 'Whatever jury said');
 
             await clickByName('Enregistrer');
 
@@ -1150,7 +1148,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             // when
             const screen = await visit(`/certifications/${certification.id}`);
             await clickByName('Modifier commentaires jury');
-            await fillByLabel('Pour le candidat :', 'Summers');
+            await fillByLabel('Notes internes Jury Pix :', 'Whatever jury said');
 
             await clickByName('Enregistrer');
 
