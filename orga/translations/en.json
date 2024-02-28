@@ -756,23 +756,10 @@
     },
     "missions": {
       "title": "Missions",
-      "created-on": "Created at",
       "details": {
         "title": "Mission's information",
-        "banner": {
-          "message": {
-            "1": "Start your first missions, by collecting the code",
-            "2": "And share the code or URL with your students!"
-          }
-        },
         "competence": {
           "title": "Competence :"
-        },
-        "copy": {
-          "code": {
-            "default": "Copy code",
-            "success": "Copied!"
-          }
         },
         "objective": {
           "title": "Objectives :"
