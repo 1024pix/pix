@@ -1669,14 +1669,14 @@
         "duration": 10,
         "level": "Intermédiaire",
         "objectives": [
-          "Vérifier une information en ligne",
-          "Connaître et appliquer une méthode de vérification d’une information",
-          "Repérer une information douteuse et agir en conséquence"
+          "Repérer une fausse information sur internet",
+          "Connaître une méthode de vérification d'informations",
+          "Vérifier une information en ligne"
         ]
       },
       "transitionTexts": [
         {
-          "content": "<p>Commençons par un jeu <span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, devinez si l’information proposée est vraie ou fausse. Bonne chance !</p>",
+          "content": "<p>Commençons par un jeu <span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, devinez si chaque information proposée est vraie ou fausse. Bonne chance !</p>",
           "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
         },
         {
@@ -1692,7 +1692,7 @@
           "grainId": "428ea826-6e21-4c56-a5a2-f97373f1e833"
         },
         {
-          "content": "<p>Maintenant, à vous d’étudier une situation <span aria-hidden=\"true\">🕵️</span>️<span aria-hidden=\"true\">🕵🏿‍♀️</span>️</p>",
+          "content": "<p>Maintenant, à vous d’étudier une nouvelle situation <span aria-hidden=\"true\">🕵️</span>️<span aria-hidden=\"true\">🕵🏿‍♀️</span>️</p>",
           "grainId": "9f56f75e-3e2d-4a6e-8623-9b74747b236d"
         }
       ],
@@ -1949,7 +1949,7 @@
             {
               "id": "1c39f509-cdc2-4d3e-85f8-7731739a793f",
               "type": "qcm",
-              "instruction": "<p>Sélectionnez ce qui permet de vérifier une information.</p>",
+              "instruction": "<p>Parmi les éléments suivants, sélectionnez ceux qui permettent de vérifier une information.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -1995,7 +1995,7 @@
             {
               "id": "81943b07-ecf0-408b-877c-55e1943df1fc",
               "type": "qcu",
-              "instruction": "<p>Choisir la raison principale de penser que cette information est fausse.</p>",
+              "instruction": "<p>Choisir la raison principale qui laisse penser que cette information est fausse.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -2036,7 +2036,7 @@
             {
               "id": "275ab2ee-feaa-4c5c-9372-116799077172",
               "type": "qcu",
-              "instruction": "<p>Choisir la raison principale de penser que cette information est fausse.</p>",
+              "instruction": "<p>Choisir la raison principale qui laisse penser que cette information est fausse.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -2077,7 +2077,7 @@
             {
               "id": "ee7b67b7-0cb0-4bb7-a771-c2421a588643",
               "type": "qcu",
-              "instruction": "<p>Choisir la raison principale de penser que cette information est fausse.</p>",
+              "instruction": "<p>Choisir la raison principale qui laisse penser que cette information est fausse.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -2085,7 +2085,7 @@
                 },
                 {
                   "id": "2",
-                  "content": "La date de l'information est erronée."
+                  "content": "Les dates sont incohérentes."
                 },
                 {
                   "id": "3",
@@ -2108,12 +2108,12 @@
             {
               "id": "ff55b19b-a35c-4f25-9e07-ce2e3d965784",
               "type": "text",
-              "content": "<p>Étudiez les indices présentés ci-dessous. Vous devrez les utiliser dans une mise en situation par la suite.</p>"
+              "content": "<p>Étudiez les indices présentés dans l'exemple ci-dessous. Ils vous aideront à identifier de fausses informations et faire les bons choix.</p>"
             },
             {
               "id": "c6cd87ae-13a2-4ff1-aa09-26f4aca4dddc",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/analyse-tweet.jpg",
+              "url": "https://i.imgur.com/QS0xFIn.png",
               "alt": "",
               "alternativeText": "Indice 1 : Un ton alarmiste, qui veut faire ressentir un sentiment d’urgence, doit amener à une posture de prudence.<br>Indice 2 : La demande explicite de partager une information est un indice que l’auteur cherche à rendre son contenu viral et “faire le buzz”.<br>Indice 3 : L’utilisation de majuscules et d’émojis angoissant sont utilisés pour interpeller. Cette manière d’écrire peut indiquer l’envie pour l’auteur d’être lu à tout prix. Les fautes d’orthographe indique que le contenu a été rédigé sans attention particulière."
             }
@@ -2132,9 +2132,9 @@
             {
               "id": "2c525ab3-23bf-4b43-867d-ea1fac54efad",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/story.jpg",
+              "url": "https://i.imgur.com/7six5bF.png",
               "alt": "",
-              "alternativeText": "Vos plantes vertes ne poussent pas ? Voici 3 super astuces.<br> Astuce 1 : Arrêtez d’arroser pendant 72 heures. Faites une remise à zéro en arrêtant l’eau. Surprenant mais ça marche vraiment.<br> Astuce 2 : Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien ! Votre plante va adorer.<br> Astuce 3 : Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
+              "alternativeText": "Vos plantes vertes ne poussent pas ? Voici 2 super astuces dont vous ne pourrez plus vous passer.<br> Astuce 1 : Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien ! Votre plante va adorer.<br> Astuce 2 : Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
             },
             {
               "id": "2a308355-f39f-498e-aef6-f1c0830f5b1f",
