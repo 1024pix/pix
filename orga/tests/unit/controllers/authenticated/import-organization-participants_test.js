@@ -18,6 +18,7 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
     controller = this.owner.lookup('controller:authenticated/import-organization-participants');
     controller.send = sinon.stub();
     controller.currentUser = currentUser;
+    controller.notifications = { sendError: sinon.stub(), sendSuccess: sinon.stub(), clearAll: sinon.stub() };
 
     const store = this.owner.lookup('service:store');
     const adapter = store.adapterFor('students-import');
@@ -103,6 +104,9 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
         await controller.importScoStudents(files);
 
         assert.ok(importScoStudentStub.calledWith(1, files, 'xml'));
+        assert.ok(controller.notifications.sendSuccess.calledOnce);
+        assert.ok(controller.notifications.sendError.notCalled);
+        assert.strictEqual(controller.warningBanner, null);
       });
     });
 

@@ -29,7 +29,7 @@ export default class ImportController extends Controller {
 
     try {
       const response = await adapter.addStudentsCsv(organizationId, files);
-      this._sendNotifications(response);
+      this._sendSupNotifications(response);
     } catch (errorResponse) {
       this._instantiateErrorsDetail(errorResponse);
     } finally {
@@ -43,18 +43,17 @@ export default class ImportController extends Controller {
 
     const adapter = this.store.adapterFor('students-import');
     const organizationId = this.currentUser.organization.id;
+    const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
 
     const confirmBeforeClose = (event) => {
       event.preventDefault();
       return (event.returnValue = '');
     };
-
     window.addEventListener('beforeunload', confirmBeforeClose);
-    try {
-      const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
-      const response = await adapter.importStudentsSiecle(organizationId, files, format);
 
-      this._sendNotifications(response);
+    try {
+      await adapter.importStudentsSiecle(organizationId, files, format);
+      this.notifications.sendSuccess(this.intl.t('pages.organization-participants-import.global-success'));
     } catch (errorResponse) {
       this._instantiateErrorsDetail(errorResponse);
     } finally {
@@ -72,7 +71,7 @@ export default class ImportController extends Controller {
 
     try {
       const response = await adapter.replaceStudentsCsv(organizationId, files);
-      this._sendNotifications(response);
+      this._sendSupNotifications(response);
     } catch (errorResponse) {
       this._instantiateErrorsDetail(errorResponse);
     } finally {
@@ -80,7 +79,7 @@ export default class ImportController extends Controller {
     }
   }
 
-  _sendNotifications(response) {
+  _sendSupNotifications(response) {
     const warningsArray = get(response, 'data.attributes.warnings', []);
 
     this.notifications.sendSuccess(this.intl.t('pages.organization-participants-import.global-success'));
