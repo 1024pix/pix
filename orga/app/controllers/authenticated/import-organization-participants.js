@@ -54,6 +54,7 @@ export default class ImportController extends Controller {
     try {
       await adapter.importStudentsSiecle(organizationId, files, format);
       this.notifications.sendSuccess(this.intl.t('pages.organization-participants-import.global-success'));
+      this.send('refreshDivisions');
     } catch (errorResponse) {
       this._instantiateErrorsDetail(errorResponse);
     } finally {

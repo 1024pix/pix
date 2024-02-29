@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { setupIntl } from 'ember-intl/test-support';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/organization-participants-import', function (hooks) {
+module('Unit | Controller | authenticated/import-organization-participant', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
   const files = Symbol('files');
@@ -87,6 +87,13 @@ module('Unit | Controller | authenticated/organization-participants-import', fun
   });
 
   module('#importScoStudents', function () {
+    module('refresh divisions', () => {
+      test('should refresh current divisions', async (assert) => {
+        await controller.importScoStudents(files);
+        assert.ok(controller.send.calledWithExactly('refreshDivisions'));
+      });
+    });
+
     module('when file is csv', function () {
       test('it sends the chosen csv file to the API', async function (assert) {
         currentUser.isAgriculture = true;
