@@ -6,6 +6,6 @@ export default class OrganizationCodeRoute extends Route {
   @service currentLearner;
   async beforeModel() {
     this.currentLearner.remove();
-    styleToolkit.backgroundBlob.apply('/images/background-blob-v1.svg');
+    styleToolkit.backgroundBlob.apply('/images/background-blob.svg');
   }
 }

@@ -8,7 +8,7 @@ export default class SchoolRoute extends Route {
 
   async beforeModel() {
     this.currentLearner.remove();
-    styleToolkit.backgroundBlob.apply('/images/background-blob-v1.svg');
+    styleToolkit.backgroundBlob.apply('/images/background-blob.svg');
   }
 
   async model(_params, transition) {
