@@ -1,6 +1,6 @@
 import { Mission } from '../../domain/models/Mission.js';
 import { missionDatasource } from '../datasources/learning-content/mission-datasource.js';
-import { getTranslatedKey } from '../../../../lib/domain/services/get-translated-text.js';
+import { getTranslatedKey } from '../../../shared/domain/services/get-translated-text.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
 import { MissionNotFoundError } from '../../domain/school-errors.js';
 

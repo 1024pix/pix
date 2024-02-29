@@ -4,7 +4,7 @@ import { Correction } from '../../domain/models/Correction.js';
 import { Hint } from '../../domain/models/Hint.js';
 import { challengeDatasource } from '../datasources/learning-content/challenge-datasource.js';
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
-import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
+import { getTranslatedKey } from '../../../src/shared/domain/services/get-translated-text.js';
 import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
 import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 
