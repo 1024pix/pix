@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import { styleToolkit } from '../../utils/layout';
 
 export default class IdentifiedRoute extends Route {
   @service router;
@@ -10,7 +9,6 @@ export default class IdentifiedRoute extends Route {
     if (!this.currentLearner.learner) {
       this.router.transitionTo('organization-code');
     }
-    styleToolkit.backgroundBlob.reset();
   }
 
   async model() {
