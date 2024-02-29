@@ -1,7 +1,6 @@
-import { expect } from '../../../../../test-helper.js';
-import * as serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/organization-learner-follow-up/organization-learner-serializer.js';
-import { OrganizationLearner } from '../../../../../../lib/domain/read-models/organization-learner-follow-up/OrganizationLearner.js';
-
+import { expect } from '../../../../../../test-helper.js';
+import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/organization-learner-serializer.js';
+import { OrganizationLearner } from '../../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearner.js';
 describe('Unit | Serializer | JSONAPI | organization-learner-serializer', function () {
   describe('#serialize', function () {
     it('should convert an organizationLearner model object into JSON API data', function () {

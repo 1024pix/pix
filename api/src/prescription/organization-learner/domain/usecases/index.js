@@ -5,6 +5,7 @@ import * as supOrganizationParticipantRepository from '../../infrastructure/repo
 import * as scoOrganizationParticipantRepository from '../../infrastructure/repositories/sco-organization-participant-repository.js';
 import * as organizationParticipantRepository from '../../infrastructure/repositories/organization-participant-repository.js';
 import * as organizationLearnerActivityRepository from '../../infrastructure/repositories/organization-learner-activity-repository.js';
+import * as organizationLearnerFollowUpRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
@@ -14,6 +15,7 @@ const dependencies = {
   scoOrganizationParticipantRepository,
   organizationParticipantRepository,
   organizationLearnerActivityRepository,
+  organizationLearnerFollowUpRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
