@@ -3,7 +3,7 @@ import bluebird from 'bluebird';
 import { Tube } from '../../domain/models/Tube.js';
 import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
-import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
+import { getTranslatedKey } from '../../../src/shared/domain/services/get-translated-text.js';
 
 function _toDomain({ tubeData, locale }) {
   const translatedPracticalTitle = getTranslatedKey(tubeData.practicalTitle_i18n, locale);
