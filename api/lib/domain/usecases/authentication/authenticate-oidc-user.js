@@ -1,14 +1,19 @@
+import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+
 const authenticateOidcUser = async function ({
   sessionState,
   state,
   code,
   redirectUri,
   nonce,
+  audience,
   oidcAuthenticationService,
   authenticationSessionService,
   authenticationMethodRepository,
   userRepository,
   userLoginRepository,
+  adminMemberRepository,
 }) {
   const sessionContent = await oidcAuthenticationService.exchangeCodeForTokens({
     code,
@@ -31,6 +36,8 @@ const authenticateOidcUser = async function ({
     const { firstName: givenName, lastName: familyName, email } = userInfo;
     return { authenticationKey, givenName, familyName, email, isAuthenticationComplete: false };
   }
+
+  await _assertUserWithPixAdminAccess({ audience, userId: user.id, adminMemberRepository });
 
   await _updateAuthenticationMethodWithComplement({
     userInfo,
@@ -70,4 +77,16 @@ async function _updateAuthenticationMethodWithComplement({
     userId,
     identityProvider: oidcAuthenticationService.identityProvider,
   });
+}
+
+async function _assertUserWithPixAdminAccess({ audience, userId, adminMemberRepository }) {
+  if (audience === PIX_ADMIN.AUDIENCE) {
+    const adminMember = await adminMemberRepository.get({ userId });
+    if (!adminMember?.hasAccessToAdminScope) {
+      throw new ForbiddenAccess(
+        'User does not have the rights to access the application',
+        'PIX_ADMIN_ACCESS_NOT_ALLOWED',
+      );
+    }
+  }
 }
