@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v4.109.0 (29/02/2024)
+
+
+### :rocket: Amélioration
+- [#8196](https://github.com/1024pix/pix/pull/8196) [FEATURE] change le code campagne depuis l'admin (PIX-11401).
+- [#8173](https://github.com/1024pix/pix/pull/8173) [FEATURE] Créer la route PATCH /api/admin/certification-courses/{id} (PIX-10820).
+- [#8162](https://github.com/1024pix/pix/pull/8162) [FEATURE] Afficher l'adresse où se déroule la session en tant que nom du site sur la page surveillant (PIX-11340).
+- [#8168](https://github.com/1024pix/pix/pull/8168) [FEATURE] Améliorer l'affichage des explications pour signaler une question lors d'une certification sur Pix App (PIX-11383).
+
+### :building_construction: Tech
+- [#8221](https://github.com/1024pix/pix/pull/8221) [TECH] Ajoute la version de l'application client dans un entête HTTP spécifique (PIX-11356).
+- [#8134](https://github.com/1024pix/pix/pull/8134) [TECH] migration du fichier `solution adapter` dans le répertoire `src`.
+
+### :bug: Correction
+- [#8223](https://github.com/1024pix/pix/pull/8223) [BUGFIX] supprime le message d'alerte du l'import sup après un import sco (PIX-11440).
+- [#8201](https://github.com/1024pix/pix/pull/8201) [BUGFIX] Le calcul automatique de la certificabilité n'était pas utilisé sur la page de détail d'un participant (PIX-11173).
+- [#8218](https://github.com/1024pix/pix/pull/8218) [BUGFIX] Récupérer les SSO OIDC dans le formulaire de modification d'une organisation qui ne l'étaient plus (PIX-11450).
+
+### :arrow_up: Montée de version
+- [#8220](https://github.com/1024pix/pix/pull/8220) [BUMP] Update dependency schemalint to v2 (api).
+
 ## v4.108.0 (28/02/2024)
 
 
