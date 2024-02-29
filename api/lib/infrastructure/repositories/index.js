@@ -7,7 +7,7 @@ import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.
 import * as tutorialRepository from './tutorial-repository.js';
 import * as userRecommendedTrainingRepository from '../../../src/devcomp/infrastructure/repositories/user-recommended-training-repository.js';
 
-import { fromDatasourceObject } from '../adapters/solution-adapter.js';
+import { fromDatasourceObject } from '../../../src/shared/infrastructure/adapters/solution-adapter.js';
 import { getCorrection } from '../../domain/services/solution-service-qrocm-dep.js';
 
 const repositoriesWithoutInjectedDependencies = {
