@@ -16,6 +16,7 @@ const MAX_NUMBER_OF_RETURNED_CHALLENGES = 5;
 export {
   getPossibleNextChallenges,
   getEstimatedLevelAndErrorRate,
+  getEstimatedLevelAndErrorRateHistory,
   getChallengesForNonAnsweredSkills,
   calculateTotalPixScoreAndScoreByCompetence,
   getReward,
@@ -48,11 +49,33 @@ function getEstimatedLevelAndErrorRate({
     return { estimatedLevel, errorRate: DEFAULT_ERROR_RATE };
   }
 
+  const estimatedLevelHistory = getEstimatedLevelAndErrorRateHistory({
+    allAnswers,
+    challenges,
+    estimatedLevel,
+    doubleMeasuresUntil,
+    variationPercent,
+    variationPercentUntil,
+  });
+
+  return estimatedLevelHistory.at(-1);
+}
+
+function getEstimatedLevelAndErrorRateHistory({
+  allAnswers,
+  challenges,
+  estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
+  doubleMeasuresUntil = 0,
+  variationPercent,
+  variationPercentUntil,
+}) {
   let latestEstimatedLevel = estimatedLevel;
 
   let likelihood = samples.map(() => DEFAULT_PROBABILITY_TO_ANSWER);
   let normalizedPosteriori;
   let answerIndex = 0;
+
+  const estimatedLevelHistory = [];
 
   while (answerIndex < allAnswers.length) {
     const variationPercentForCurrentAnswer = variationPercentUntil >= answerIndex ? variationPercent : undefined;
@@ -83,11 +106,14 @@ function getEstimatedLevelAndErrorRate({
 
       answerIndex += 2;
     }
+
+    estimatedLevelHistory.push({
+      estimatedLevel: latestEstimatedLevel,
+      errorRate: _computeCorrectedErrorRate(latestEstimatedLevel, normalizedPosteriori),
+    });
   }
 
-  const errorRate = _computeCorrectedErrorRate(latestEstimatedLevel, normalizedPosteriori);
-
-  return { estimatedLevel: latestEstimatedLevel, errorRate };
+  return estimatedLevelHistory;
 }
 
 function _shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex, answersLength }) {

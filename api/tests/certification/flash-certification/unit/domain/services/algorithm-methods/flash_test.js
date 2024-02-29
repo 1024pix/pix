@@ -495,6 +495,70 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     });
   });
 
+  describe('#getEstimatedLevelAndErrorRateHistory', function () {
+    context('when single measure', function () {
+      it('should return 0 when there is no answers', function () {
+        // given
+        const allAnswers = [];
+
+        // when
+        const result = flash.getEstimatedLevelAndErrorRateHistory({ allAnswers });
+
+        // then
+        expect(result).to.deep.equal([]);
+      });
+
+      it('should return the correct estimatedLevel when there is one answer', function () {
+        // given
+        const challenges = [
+          domainBuilder.buildChallenge({
+            discriminant: 1.86350005965093,
+            difficulty: 0.194712138508747,
+          }),
+        ];
+
+        const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
+
+        // when
+        const [{ estimatedLevel, errorRate }] = flash.getEstimatedLevelAndErrorRateHistory({ allAnswers, challenges });
+
+        // then
+        expect(estimatedLevel).to.be.closeTo(0.859419960298745, 0.00000000001);
+        expect(errorRate).to.be.closeTo(0.9327454634914153, 0.00000000001);
+      });
+
+      it('should return the correct estimatedLevel when there are two answers', function () {
+        // given
+        const challenges = [
+          domainBuilder.buildChallenge({
+            id: 'ChallengeFirstAnswers',
+            discriminant: 1.86350005965093,
+            difficulty: 0.194712138508747,
+          }),
+          domainBuilder.buildChallenge({
+            id: 'ChallengeSecondAnswers',
+            discriminant: 2.25422414740233,
+            difficulty: 0.823376599163319,
+          }),
+        ];
+
+        const allAnswers = [
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[1].id }),
+        ];
+
+        // when
+        const results = flash.getEstimatedLevelAndErrorRateHistory({ allAnswers, challenges });
+
+        // then
+        expect(results[0].estimatedLevel).to.be.closeTo(0.859419960298745, 0.00000000001);
+        expect(results[0].errorRate).to.be.closeTo(0.9327454634914153, 0.00000000001);
+        expect(results[1].estimatedLevel).to.be.closeTo(1.802340122865396, 0.00000000001);
+        expect(results[1].errorRate).to.be.closeTo(0.8549014053951466, 0.00000000001);
+      });
+    });
+  });
+
   describe('#getChallengesForNonAnsweredSkills', function () {
     it('should return the same list of challenges if there is no answers', function () {
       // given
