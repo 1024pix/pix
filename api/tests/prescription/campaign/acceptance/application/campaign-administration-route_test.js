@@ -337,4 +337,26 @@ describe('Acceptance | API | campaign-administration-route', function () {
       expect(updatedCampaign.multipleSendings).to.be.true;
     });
   });
+
+  describe('PATCH /api/admin/campaigns/{campaignId}/update-code', function () {
+    it('it updates campaign code', async function () {
+      const userId = databaseBuilder.factory.buildUser.withRole({ role: ROLES.SUPER_ADMIN }).id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ code: 'ABCEFG123' }).id;
+      await databaseBuilder.commit();
+      const authorization = generateValidRequestAuthorizationHeader(userId);
+      const payload = {
+        campaignCode: 'GOODCODE1',
+      };
+
+      const options = {
+        method: 'PATCH',
+        url: `/api/admin/campaigns/${campaignId}/update-code`,
+        headers: { authorization },
+        payload,
+      };
+
+      const response = await server.inject(options);
+      expect(response.statusCode).to.equal(204);
+    });
+  });
 });

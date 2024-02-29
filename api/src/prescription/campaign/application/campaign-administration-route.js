@@ -164,6 +164,33 @@ const register = async function (server) {
         tags: ['api', 'admin', 'campaigns'],
       },
     },
+    {
+      method: 'PATCH',
+      path: '/api/admin/campaigns/{campaignId}/update-code',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            campaignId: identifiersType.campaignId,
+          }),
+          payload: Joi.object({
+            campaignCode: Joi.string().trim().required(),
+          }),
+        },
+        handler: campaignAdministrationController.updateCampaignCode,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés ayant pour rôle SUPER_ADMIN**\n' +
+            "- Modifier le code d'une campagne\n" +
+            '- Elle ne retourne aucune valeur',
+        ],
+        tags: ['api', 'admin', 'campaigns'],
+      },
+    },
   ]);
 };
 

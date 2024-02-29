@@ -56,6 +56,23 @@
           },
           "success": "Campaign code switch success"
         }
+      },
+      "update-campaign-code": {
+        "title": "Update campaign code",
+        "description": "Allow to modify the campaign code from the campaign ID. The campaign's code must be unique and composed of 9 uppercase alphanumeric characters.",
+        "form": {
+          "button": "Update",
+          "campaignCode": "Campaign code",
+          "campaignId": "Campaign ID"
+        },
+        "notifications": {
+          "error": {
+            "campaign-code-format": "Campaign's code should contains only uppercase alpha numeric characters.",
+            "campaign-id-error": "Campaign id does not exist.",
+            "unique-code-error": "Campaign's code is not unique."
+          },
+          "success": "Campaign code update succeed."
+        }
       }
     },
     "certification-centers": {
