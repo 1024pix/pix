@@ -1,8 +1,9 @@
 import { assertEnumValue } from '../../../../shared/domain/models/asserts.js';
 
 /**
+ * @typedef {string} JuryCommentContext
  * @readonly
- * @enum {string}
+ * @enum {JuryCommentContext}
  */
 const JuryCommentContexts = Object.freeze({
   CANDIDATE: 'candidate',
@@ -10,8 +11,9 @@ const JuryCommentContexts = Object.freeze({
 });
 
 /**
+ * @typedef {string} AutoJuryCommentKey
  * @readonly
- * @enum {string}
+ * @enum {AutoJuryCommentKey}
  */
 const AutoJuryCommentKeys = Object.freeze({
   FRAUD: 'FRAUD',
@@ -21,9 +23,9 @@ const AutoJuryCommentKeys = Object.freeze({
 class JuryComment {
   /**
    * @param {Object} props
-   * @param {AutoJuryCommentKeys} props.commentByAutoJury
-   * @param {string} props.fallbackComment
-   * @param {JuryCommentContexts} props.context mandatory if AutoJuryCommentKeys given
+   * @param {AutoJuryCommentKey} [props.commentByAutoJury]
+   * @param {string} [props.fallbackComment]
+   * @param {JuryCommentContext} props.context mandatory if AutoJuryCommentKeys given
    */
   constructor({ commentByAutoJury, fallbackComment, context }) {
     this.commentByAutoJury = AutoJuryCommentKeys[commentByAutoJury];
