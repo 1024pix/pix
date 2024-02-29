@@ -8,13 +8,14 @@ const { FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | Controller | assessment-controller-get-next-challenge', function () {
   describe('#getNextChallenge', function () {
+    let assessmentRepository;
     let assessmentWithoutScore;
     let assessmentWithScore;
-    let scoredAsssessment;
-    let assessmentRepository;
     let certificationChallengeRepository;
-    let usecases;
+    let certificationCourseRepository;
     let dependencies;
+    let scoredAsssessment;
+    let usecases;
 
     beforeEach(function () {
       assessmentWithoutScore = new Assessment({
@@ -44,7 +45,8 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
 
       usecases = {
         getAssessment: sinon.stub(),
-        getNextChallengeForCertification: sinon.stub(),
+        getNextChallengeForV2Certification: sinon.stub(),
+        getNextChallengeForV3Certification: sinon.stub(),
         getNextChallengeForDemo: sinon.stub(),
         getNextChallengeForCampaignAssessment: sinon.stub(),
         getNextChallengeForCompetenceEvaluation: sinon.stub(),
@@ -52,8 +54,14 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       };
       usecases.getAssessment.resolves(scoredAsssessment);
       certificationChallengeRepository = { getNextNonAnsweredChallengeByCourseId: sinon.stub() };
+      certificationCourseRepository = { get: sinon.stub() };
 
-      dependencies = { usecases, certificationChallengeRepository, assessmentRepository };
+      dependencies = {
+        usecases,
+        certificationChallengeRepository,
+        certificationCourseRepository,
+        assessmentRepository,
+      };
     });
 
     // TODO: Que faire si l'assessment n'existe pas pas ?
@@ -87,7 +95,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
 
     describe('when the assessment is over', function () {
       beforeEach(function () {
-        usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
+        usecases.getNextChallengeForV2Certification.rejects(new AssessmentEndedError());
         usecases.getNextChallengeForDemo.rejects(new AssessmentEndedError());
         assessmentRepository.get.resolves(assessmentWithoutScore);
         usecases.getAssessment.resolves(scoredAsssessment);
@@ -160,40 +168,100 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         assessmentRepository.get.resolves(certificationAssessment);
       });
 
-      it('should call getNextChallengeForCertificationCourse in assessmentService', async function () {
-        // given
-        const locale = FRENCH_SPOKEN;
-        usecases.getNextChallengeForCertification.resolves();
+      context('when the certification is V2', function () {
+        let certificationCourseV2;
 
-        // when
-        await assessmentController.getNextChallenge(
-          {
-            params: { id: 12 },
-            headers: {
-              'accept-language': locale,
+        beforeEach(function () {
+          certificationCourseV2 = domainBuilder.buildCertificationCourse({ version: 2 });
+
+          certificationCourseRepository.get
+            .withArgs(certificationAssessment.certificationCourseId)
+            .resolves(certificationCourseV2);
+        });
+
+        it('should call getNextChallengeForCertificationCourse in assessmentService', async function () {
+          // given
+          const locale = FRENCH_SPOKEN;
+          usecases.getNextChallengeForV2Certification.resolves();
+
+          // when
+          await assessmentController.getNextChallenge(
+            {
+              params: { id: 12 },
+              headers: {
+                'accept-language': locale,
+              },
             },
-          },
-          null,
-          dependencies,
-        );
+            null,
+            dependencies,
+          );
 
-        // then
-        expect(usecases.getNextChallengeForCertification).to.have.been.calledOnce;
-        expect(usecases.getNextChallengeForCertification).to.have.been.calledWithExactly({
-          assessment: certificationAssessment,
-          locale,
+          // then
+          expect(usecases.getNextChallengeForV2Certification).to.have.been.calledOnce;
+          expect(usecases.getNextChallengeForV2Certification).to.have.been.calledWithExactly({
+            assessment: certificationAssessment,
+            locale,
+          });
+        });
+
+        it('should reply null data when unable to find the next challenge', async function () {
+          // given
+          usecases.getNextChallengeForV2Certification.rejects(new AssessmentEndedError());
+
+          // when
+          const response = await assessmentController.getNextChallenge({ params: { id: 12 } }, null, dependencies);
+
+          // then
+          expect(response).to.deep.equal({ data: null });
         });
       });
 
-      it('should reply null data when unable to find the next challenge', async function () {
-        // given
-        usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
+      context('when the certification is V3', function () {
+        let certificationCourseV3;
 
-        // when
-        const response = await assessmentController.getNextChallenge({ params: { id: 12 } }, null, dependencies);
+        beforeEach(function () {
+          certificationCourseV3 = domainBuilder.buildCertificationCourse({ version: 3 });
 
-        // then
-        expect(response).to.deep.equal({ data: null });
+          certificationCourseRepository.get
+            .withArgs(certificationAssessment.certificationCourseId)
+            .resolves(certificationCourseV3);
+        });
+
+        it('should call getNextChallengeForCertificationCourse in assessmentService', async function () {
+          // given
+          const locale = FRENCH_SPOKEN;
+          usecases.getNextChallengeForV3Certification.resolves();
+
+          // when
+          await assessmentController.getNextChallenge(
+            {
+              params: { id: 12 },
+              headers: {
+                'accept-language': locale,
+              },
+            },
+            null,
+            dependencies,
+          );
+
+          // then
+          expect(usecases.getNextChallengeForV3Certification).to.have.been.calledOnce;
+          expect(usecases.getNextChallengeForV3Certification).to.have.been.calledWithExactly({
+            assessment: certificationAssessment,
+            locale,
+          });
+        });
+
+        it('should reply null data when unable to find the next challenge', async function () {
+          // given
+          usecases.getNextChallengeForV3Certification.rejects(new AssessmentEndedError());
+
+          // when
+          const response = await assessmentController.getNextChallenge({ params: { id: 12 } }, null, dependencies);
+
+          // then
+          expect(response).to.deep.equal({ data: null });
+        });
       });
     });
 
