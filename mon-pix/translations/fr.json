@@ -1224,7 +1224,7 @@
         "direction": "Sélectionnez une seule réponse."
       },
       "qrocm": {
-        "direction": "Remplissez le(s) champ(s) vide(s)."
+        "direction": "Remplissez {count, plural, =1 {le champ vide} other {les champs vides}}."
       },
       "recap": {
         "title": "Bravo ! Module terminé",

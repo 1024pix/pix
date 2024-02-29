@@ -53,6 +53,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     // then
     assert.ok(screen);
     assert.dom(screen.getByText('Mon instruction')).exists({ count: 1 });
+    assert.ok(
+      screen.getByRole('group', {
+        legend: this.intl.t('pages.modulix.qrocm.direction', { count: qrocm.proposals.length }),
+      }),
+    );
     assert.dom(screen.getByText('Ma première proposition')).exists({ count: 1 });
     assert.ok(screen.getByRole('textbox', { name: 'input-aria' }));
     assert.dom(screen.getByText("l'identifiant")).exists({ count: 1 });

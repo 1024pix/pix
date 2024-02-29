@@ -1224,7 +1224,7 @@
         "direction": "Select a single answer."
       },
       "qrocm": {
-        "direction": "Fill in the blank(s)"
+        "direction": "Fill in the {count, plural, =1 {blank} other {blanks}}."
       },
       "recap": {
         "title": "Congratulations! Module completed",
