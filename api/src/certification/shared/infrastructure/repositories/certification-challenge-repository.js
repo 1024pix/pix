@@ -1,5 +1,5 @@
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
-import { logger } from '../../../../../lib/infrastructure/logger.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { AssessmentEndedError } from '../../../../../lib/domain/errors.js';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CertificationChallenge } from '../../../../../lib/domain/models/CertificationChallenge.js';

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-import { logger } from '../../lib/infrastructure/logger.js';
+import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 /**
  * Usage: node scripts/import-certification-cpf-cities path/file.csv

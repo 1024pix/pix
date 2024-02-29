@@ -14,7 +14,7 @@ import { TrainingTrigger, TrainingTriggerTube } from '../../../../../lib/domain/
 import { TrainingTriggerForAdmin } from '../../../../../src/devcomp/domain/read-models/TrainingTriggerForAdmin.js';
 import _ from 'lodash';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { logger } from '../../../../../lib/infrastructure/logger.js';
+import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 
 describe('Integration | Repository | training-trigger-repository', function () {
   let learningContent;

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import perf_hooks from 'perf_hooks';
 import * as url from 'url';
-import { logger } from '../lib/infrastructure/logger.js';
+import { logger } from '../src/shared/infrastructure/utils/logger.js';
 import { disconnect, knex } from '../db/knex-database-connection.js';
 
 dotenv.config();

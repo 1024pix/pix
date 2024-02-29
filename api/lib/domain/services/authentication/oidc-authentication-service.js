@@ -3,7 +3,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import { randomUUID } from 'crypto';
 import { Issuer } from 'openid-client';
 
-import { logger } from '../../../infrastructure/logger.js';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { OidcMissingFieldsError } from '../../errors.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';

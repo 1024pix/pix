@@ -5,7 +5,7 @@ import * as certificationIssueReportRepository from '../../src/certification/sha
 import * as certificationAssessmentRepository from '../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCourseRepository from '../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as challengeRepository from '../../src/shared/infrastructure/repositories/challenge-repository.js';
-import { logger } from '../../lib/infrastructure/logger.js';
+import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { SessionFinalized } from '../../lib/domain/events/SessionFinalized.js';
 import { eventDispatcher } from '../../lib/domain/events/index.js';
 import * as url from 'url';

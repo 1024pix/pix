@@ -9,7 +9,7 @@ import * as certificationIssueReportRepository from '../../src/certification/sha
 import * as certificationCourseRepository from '../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import { handleAutoJury } from '../../lib/domain/events/handle-auto-jury.js';
 import * as events from '../../lib/domain/events/index.js';
-import { logger } from '../../lib/infrastructure/logger.js';
+import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import * as url from 'url';
 
 const modulePath = url.fileURLToPath(import.meta.url);

@@ -1,4 +1,4 @@
-import { logger } from '../../logger.js';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { FileValidationError } from '../../../../lib/domain/errors.js';
 import { convertDateValue } from '../../../../src/shared/infrastructure/utils/date-utils.js';
 import { headers, emptySession, COMPLEMENTARY_CERTIFICATION_SUFFIX } from '../../utils/csv/sessions-import.js';

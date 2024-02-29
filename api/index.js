@@ -6,7 +6,7 @@ import { validateEnvironmentVariables } from './lib/infrastructure/validate-envi
 validateEnvironmentVariables();
 
 import { createServer } from './server.js';
-import { logger } from './lib/infrastructure/logger.js';
+import { logger } from './src/shared/infrastructure/utils/logger.js';
 import { disconnect } from './db/knex-database-connection.js';
 import { learningContentCache } from './lib/infrastructure/caches/learning-content-cache.js';
 import { temporaryStorage } from './lib/infrastructure/temporary-storage/index.js';

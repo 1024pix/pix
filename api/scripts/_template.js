@@ -6,7 +6,7 @@ import * as url from 'url';
 
 const { performance } = perf_hooks;
 
-import { logger } from '../lib/infrastructure/logger.js';
+import { logger } from '../src/shared/infrastructure/utils/logger.js';
 import { learningContentCache as cache } from '../lib/infrastructure/caches/learning-content-cache.js';
 import { knex, disconnect } from '../db/knex-database-connection.js';
 

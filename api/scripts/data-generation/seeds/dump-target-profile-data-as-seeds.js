@@ -10,7 +10,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import { knex, disconnect } from '../../../db/knex-database-connection.js';
-import { logger } from '../../../lib/infrastructure/logger.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { learningContentCache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 
 async function main() {

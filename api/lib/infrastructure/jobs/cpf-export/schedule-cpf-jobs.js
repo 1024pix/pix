@@ -1,5 +1,5 @@
 import { cpfExport } from './index.js';
-import { logger } from '../../logger.js';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { config } from '../../../config.js';
 const { plannerJob, sendEmailJob } = config.cpf;
 
