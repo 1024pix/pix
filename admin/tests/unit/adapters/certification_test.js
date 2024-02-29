@@ -31,10 +31,10 @@ module('Unit | Adapter | certification', function (hooks) {
     });
   });
 
-  module('#urlForUpdateComments', function () {
-    test('should build update comments url from certification course id', function (assert) {
+  module('#urlForUpdateJuryComment', function () {
+    test('should build update jury comment url from certification course id', function (assert) {
       // when
-      const url = adapter.urlForUpdateComments(1001);
+      const url = adapter.urlForUpdateJuryComment(1001);
 
       // then
       assert.ok(url.endsWith('/admin/certification-courses/1001/assessment-results'));
@@ -52,11 +52,11 @@ module('Unit | Adapter | certification', function (hooks) {
   });
 
   module('#updateRecord', function () {
-    module('when updateComments adapter option passed', function () {
-      test('it should trigger an ajax call with the updateComments url, data and method', async function (assert) {
+    module('when updateJuryComment adapter option passed', function () {
+      test('it should trigger an ajax call with the updateJuryComment url, data and method', async function (assert) {
         // given
         sinon
-          .stub(adapter, 'urlForUpdateComments')
+          .stub(adapter, 'urlForUpdateJuryComment')
           .returns('https://example.net/api/admin/certification-courses/123/assessment-results');
         const store = Symbol();
         const attributes = {
@@ -69,7 +69,7 @@ module('Unit | Adapter | certification', function (hooks) {
           { modelName: 'someModelName' },
           {
             id: 123,
-            adapterOptions: { updateComments: true },
+            adapterOptions: { updateJuryComment: true },
             serialize: sinon.stub().returns({ data: { attributes } }),
           },
         );

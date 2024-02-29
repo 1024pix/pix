@@ -98,11 +98,11 @@ export default class CertificationInformationsController extends Controller {
   }
 
   saveAssessmentResult() {
-    return this.certification.save({ adapterOptions: { updateComments: true } });
+    return this.certification.save({ adapterOptions: { updateJuryComment: true } });
   }
 
   saveCertificationCourse() {
-    return this.certification.save({ adapterOptions: { updateComments: false } });
+    return this.certification.save({ adapterOptions: { updateJuryComment: false } });
   }
 
   @action
@@ -228,13 +228,13 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  async onCommentsSave() {
+  async onJuryCommentSave() {
     try {
       await this.saveAssessmentResult();
-      this.notifications.success('Les commentaires du jury ont bien été enregistrés.');
+      this.notifications.success('Le commentaire du jury a bien été enregistré.');
       return true;
     } catch (e) {
-      this.notifications.error("Les commentaires du jury n'ont pas pu être enregistrés.");
+      this.notifications.error("Le commentaire du jury n'a pas pu être enregistré.");
       return false;
     }
   }

@@ -12,33 +12,33 @@ module('Unit | Component | certifications/certification/comments', function (hoo
     component = createGlimmerComponent('component:certifications/certification/comments');
   });
 
-  test('it does not close the edition panel when comments cannot be saved', async function (assert) {
+  test('it does not close the edition panel when comment cannot be saved', async function (assert) {
     // given
-    component.editingComments = true;
+    component.isEditingJuryComment = true;
     component.args = {
-      onCommentsSave: sinon.stub(),
+      onJuryCommentSave: sinon.stub(),
     };
 
     // when
-    await component.saveComments();
+    await component.saveJuryComment();
 
     // then
-    assert.true(component.editingComments);
+    assert.true(component.isEditingJuryComment);
   });
 
-  test('it closes the edition panel when comments are saved', async function (assert) {
+  test('it closes the edition panel when comment is saved', async function (assert) {
     // given
-    component.editingComments = true;
+    component.isEditingJuryComment = true;
     component.args = {
-      onCommentsSave: sinon.stub(),
+      onJuryCommentSave: sinon.stub(),
     };
 
-    component.args.onCommentsSave.resolves(true);
+    component.args.onJuryCommentSave.resolves(true);
 
     // when
-    await component.saveComments();
+    await component.saveJuryComment();
 
     // then
-    assert.false(component.editingComments);
+    assert.false(component.isEditingJuryComment);
   });
 });
