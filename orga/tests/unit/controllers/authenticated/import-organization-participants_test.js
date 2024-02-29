@@ -34,6 +34,13 @@ module('Unit | Controller | authenticated/import-organization-participant', func
       assert.ok(addStudentsCsvStub.calledWith(1, files));
     });
 
+    module('refresh groups', () => {
+      test('should refresh current groups', async (assert) => {
+        await controller.importSupStudents(files);
+        assert.ok(controller.send.calledWithExactly('refreshGroups'));
+      });
+    });
+
     module('manage CSV import errors', function (hooks) {
       hooks.beforeEach(function () {
         controller.notifications.sendError = sinon.spy();
@@ -207,6 +214,12 @@ module('Unit | Controller | authenticated/import-organization-participant', func
       await controller.replaceStudents(files);
 
       assert.ok(replaceStudentsCsvStub.calledWith(1, files));
+    });
+    module('refresh groups', () => {
+      test('should refresh current groups', async (assert) => {
+        await controller.replaceStudents(files);
+        assert.ok(controller.send.calledWithExactly('refreshGroups'));
+      });
     });
 
     module('manage CSV import errors', function (hooks) {

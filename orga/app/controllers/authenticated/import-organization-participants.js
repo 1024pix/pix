@@ -29,6 +29,7 @@ export default class ImportController extends Controller {
 
     try {
       const response = await adapter.addStudentsCsv(organizationId, files);
+      this.send('refreshGroups');
       this._sendSupNotifications(response);
     } catch (errorResponse) {
       this._instantiateErrorsDetail(errorResponse);
@@ -72,6 +73,7 @@ export default class ImportController extends Controller {
 
     try {
       const response = await adapter.replaceStudentsCsv(organizationId, files);
+      this.send('refreshGroups');
       this._sendSupNotifications(response);
     } catch (errorResponse) {
       this._instantiateErrorsDetail(errorResponse);

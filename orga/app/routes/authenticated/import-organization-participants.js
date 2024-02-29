@@ -24,4 +24,9 @@ export default class ImportOrganizationParticipantsRoute extends Route {
   async refreshDivisions() {
     await this.currentUser.organization.hasMany('divisions').reload();
   }
+
+  @action
+  async refreshGroups() {
+    await this.currentUser.organization.hasMany('groups').reload();
+  }
 }
