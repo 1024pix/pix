@@ -3,8 +3,10 @@ import { campaignAdministrationController } from '../../../../../src/prescriptio
 import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-administration-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import {
+  CampaignCodeFormatError,
   SwapCampaignMismatchOrganizationError,
   UnknownCampaignId,
+  CampaignUniqueCodeError,
 } from '../../../../../src/prescription/campaign/domain/errors.js';
 
 describe('Unit | Application | Router | campaign-administration-router ', function () {
@@ -276,6 +278,90 @@ describe('Unit | Application | Router | campaign-administration-router ', functi
 
       // then
       expect(response.statusCode).to.equal(403);
+    });
+  });
+
+  describe('PATCH /api/admin/campaigns/{campaignId}/update-code', function () {
+    beforeEach(function () {
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((_, h) => h.response(true));
+    });
+
+    it('should return 400 with an invalid campaign id', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      const payload = { code: 'CAMPAIGN' };
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/id/update-code', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 with a missing campaign code', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      const payload = { code: '' };
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/123/update-code', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 422 when campain id cannot be processed', async function () {
+      // given
+      sinon.stub(campaignAdministrationController, 'updateCampaignCode').throws(new UnknownCampaignId());
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        campaignCode: 'CAMPAIGN',
+      };
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/123/update-code', payload);
+
+      // then
+      expect(response.statusCode).to.equal(422);
+    });
+
+    it('should return 422 when campaign code cannot be processed', async function () {
+      // given
+      sinon.stub(campaignAdministrationController, 'updateCampaignCode').throws(new CampaignCodeFormatError());
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        campaignCode: 'CAMPAIGN',
+      };
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/123/update-code', payload);
+
+      // then
+      expect(response.statusCode).to.equal(422);
+    });
+
+    it('should return 409 when campaign code already exists', async function () {
+      // given
+      sinon.stub(campaignAdministrationController, 'updateCampaignCode').throws(new CampaignUniqueCodeError());
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        campaignCode: 'CAMPAIGN',
+      };
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaigns/123/update-code', payload);
+
+      // then
+      expect(response.statusCode).to.equal(409);
     });
   });
 });

@@ -64,6 +64,23 @@
           },
           "success": "Les codes campagnes ont bien été échangé."
         }
+      },
+      "update-campaign-code": {
+        "title": "Modifier le code d'une campagne",
+        "description": "Permet de modifier le code campagne à partir de l'identifiant d'une campagne. Le code campagne doit être unique et composé de 9 caractères alphanumériques en majuscules.",
+        "form": {
+          "button": "Modifier",
+          "campaignCode": "Nouveau code campagne",
+          "campaignId": "ID de le campagne"
+        },
+        "notifications": {
+          "error": {
+            "campaign-code-format": "Le code campagne doit être composé de 9 caractères alpha-numérique en majuscule.",
+            "campaign-id-error": "L'id de campagne n'existe pas.",
+            "unique-code-error": "Le code est déjà utilisé dans une autre campagne."
+          },
+          "success": "Le code campagne a bien été modifié."
+        }
       }
     },
     "certification-centers": {

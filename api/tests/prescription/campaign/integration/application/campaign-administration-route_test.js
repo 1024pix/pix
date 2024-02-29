@@ -52,4 +52,35 @@ describe('Integration | Application | Route | campaign administration router', f
       expect(response.statusCode).to.equal(403);
     });
   });
+
+  describe('PATCH /api/admin/campaigns/{campaignId}/update-code', function () {
+    it('should return 403 when user has not super admin role', async function () {
+      // given
+      const simpleUserId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const headers = {
+        authorization: generateValidRequestAuthorizationHeader(simpleUserId),
+      };
+
+      const payload = {
+        campaignCode: 'CAMPAIGN',
+      };
+
+      // when
+      const response = await httpTestServer.request(
+        'PATCH',
+        '/api/admin/campaigns/123/update-code',
+        payload,
+        null,
+        headers,
+      );
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
 });
