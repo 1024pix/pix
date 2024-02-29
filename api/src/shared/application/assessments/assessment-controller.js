@@ -10,10 +10,14 @@ import {
 } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { usecases as certificationUsecases } from '../../../certification/shared/domain/usecases/index.js';
 import * as certificationChallengeRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-repository.js';
+import * as certificationCourseRepository from '../../../certification/shared/infrastructure/repositories/certification-course-repository.js';
+
 import { usecases as devcompUsecases } from '../../../devcomp/domain/usecases/index.js';
 import * as competenceEvaluationSerializer from '../../../evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Examiner } from '../../domain/models/Examiner.js';
+import { ValidatorAlwaysOK } from '../../../../lib/domain/models/ValidatorAlwaysOK.js';
+import { CertificationVersion } from '../../domain/models/CertificationVersion.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
 import * as challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer.js';
@@ -56,6 +60,7 @@ const getNextChallenge = async function (
     usecases,
     assessmentRepository,
     certificationChallengeRepository,
+    certificationCourseRepository,
   },
 ) {
   const assessmentId = request.params.id;
@@ -194,7 +199,13 @@ async function _getChallengeByAssessmentType({ assessment, request, dependencies
   }
 
   if (assessment.isCertification()) {
-    return dependencies.usecases.getNextChallengeForCertification({ assessment, locale });
+    const certificationCourse = await dependencies.certificationCourseRepository.get(assessment.certificationCourseId);
+
+    if (certificationCourse.getVersion() === CertificationVersion.V3) {
+      return dependencies.usecases.getNextChallengeForV3Certification({ assessment, locale });
+    } else {
+      return dependencies.usecases.getNextChallengeForV2Certification({ assessment, locale });
+    }
   }
 
   if (assessment.isDemo()) {
