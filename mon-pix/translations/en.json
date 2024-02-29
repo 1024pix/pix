@@ -1202,8 +1202,8 @@
       "details": {
         "duration": "Duration",
         "durationValue": "≈{duration} min",
-        "explanationText1": "The Pix training modules are comprised of lessons and activities for you to train and develop your digital skills. The lessons take the form of videos, audios, images and texts. During an activity, your response is directly verified and you can retry! If needed you can always go back to previous lessons. A module would take around 10 minutes, on a specific subject with a level of difficulty from beginner to expert.",
-        "explanationText2": "This is actually a beta phase product, you can send us all of your suggestions for improvement.",
+        "explanationText1": "The Pix training modules are comprised of lessons and activities to practice and develop your digital skills. The lessons take the form of videos, audios, images and texts. The activities allow you to practice and verify your answers directly. Each module takes around 10 minutes to complete on a particular subject with a level of difficulty from beginner to expert.",
+        "explanationText2": "These training modules are actually in beta test phase. You can send us your suggestions for improvement in the questionnaire at the end of each module.",
         "explanationTitle": "What is a module?",
         "level": "Level",
         "objectives": "Objectives",
@@ -1230,7 +1230,7 @@
         "title": "Congratulations! Module completed",
         "backToModuleDetails": "Back to module details",
         "goToForm": "Répondre au questionnaire",
-        "subtitle": "Now you know '<span aria-hidden=\"true\">'👍'</span>'"
+        "subtitle": "You have achieved the following objectives:"
       },
       "verification-precondition-failed-alert": {
         "qcm": "To validate, select at least two answers.",
