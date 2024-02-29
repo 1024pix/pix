@@ -2195,7 +2195,7 @@
       },
       "transitionTexts": [
         {
-          "content": "<p>Vous avez fort probablement déjà utilisé une fois Wikipédia dans votre vie. Mais connaissez-vous par exemple la signification de son logo ? <span aria-hidden=\"true\">🌎</span>️ <span aria-hidden=\"true\">🧩</span>️</p>",
+          "content": "<p>Vous avez probablement déjà utilisé une fois Wikipédia dans votre vie. Mais connaissez-vous la signification de son logo ? <span aria-hidden=\"true\">🌎</span>️ <span aria-hidden=\"true\">🧩</span>️</p>",
           "grainId": "da95d2bc-e597-4366-a095-21f7ab0f4845"
         },
         {
@@ -2238,10 +2238,9 @@
               "id": "a4a95061-c1c4-475a-9cb8-c64928d40b8c",
               "type": "image",
               "url": "https://i.imgur.com/q1pokb5.png",
-              "alt": "Logos de Wikipédia de 2001 à 2010. Source : https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia. Licence : CC BY-SA 3.0 DEED",
+              "alt": "Logos de Wikipédia de 2001 à 2010.",
               "alternativeText": ""
             },
-
             {
               "id": "d5acb701-fd9c-40d4-b59d-fb2fd8f6b3fe",
               "type": "qcm",
