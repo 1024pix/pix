@@ -19,6 +19,24 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       expect(savedImport.createdBy).to.equal(userId);
     });
 
+    it('should save import state with errors', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      const organizationImport = OrganizationImport.create({ organizationId, createdBy: userId });
+      organizationImport.upload({
+        filename: undefined,
+        encoding: undefined,
+        errors: [new Error('Something went wrong')],
+      });
+
+      await organizationImportRepository.save(organizationImport);
+
+      const savedImport = await organizationImportRepository.getByOrganizationId(organizationId);
+      expect(savedImport.errors[0].message).to.equal('Something went wrong');
+    });
+
     it('should update import state', async function () {
       const organizationId = databaseBuilder.factory.buildOrganizationImport().organizationId;
       await databaseBuilder.commit();
