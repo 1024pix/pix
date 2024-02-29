@@ -31,7 +31,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       answerRepository,
       certificationCourseRepository,
       flashAlgorithmConfigurationRepository,
-      flashAlgorithmService;
+      flashAlgorithmService,
+      certificationAssessmentHistoryRepository;
 
     let baseFlashAlgorithmConfig;
 
@@ -59,6 +60,11 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       };
       flashAlgorithmService = {
         getEstimatedLevelAndErrorRate: sinon.stub(),
+        getEstimatedLevelAndErrorRateHistory: sinon.stub(),
+      };
+
+      certificationAssessmentHistoryRepository = {
+        save: sinon.stub(),
       };
 
       dependencies = {
@@ -69,6 +75,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         certificationCourseRepository,
         flashAlgorithmConfigurationRepository,
         flashAlgorithmService,
+        certificationAssessmentHistoryRepository,
       };
 
       baseFlashAlgorithmConfig = domainBuilder.buildFlashAlgorithmConfiguration({
@@ -97,6 +104,17 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const scoreForEstimatedLevel = 592;
           const { certificationCourseId } = certificationAssessment;
 
+          const capacityHistory = [
+            domainBuilder.buildCertificationChallengeCapacity({
+              certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
+              capacity: expectedEstimatedLevel,
+            }),
+          ];
+
+          const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
+            capacityHistory,
+          });
+
           certificationChallengeForScoringRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId })
             .resolves(certificationChallengesForScoring);
@@ -123,6 +141,21 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .returns({
               estimatedLevel: expectedEstimatedLevel,
             });
+
+          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+            .withArgs({
+              challenges: certificationChallengesForScoring,
+              allAnswers: answers,
+              estimatedLevel: sinon.match.number,
+              variationPercent: undefined,
+              variationPercentUntil: undefined,
+              doubleMeasuresUntil: undefined,
+            })
+            .returns([
+              {
+                estimatedLevel: expectedEstimatedLevel,
+              },
+            ]);
 
           const event = new CertificationJuryDone({
             certificationCourseId,
@@ -154,6 +187,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           });
 
           expect(result).to.deep.equal(expectedEvent);
+          expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
+            certificationAssessmentHistory,
+          );
         });
       });
 
@@ -176,6 +212,17 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedEstimatedLevel = 2;
           const scoreForEstimatedLevel = 592;
           const { certificationCourseId } = certificationAssessment;
+
+          const capacityHistory = [
+            domainBuilder.buildCertificationChallengeCapacity({
+              certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
+              capacity: expectedEstimatedLevel,
+            }),
+          ];
+
+          const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
+            capacityHistory,
+          });
 
           certificationChallengeForScoringRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId })
@@ -203,6 +250,21 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .returns({
               estimatedLevel: expectedEstimatedLevel,
             });
+
+          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+            .withArgs({
+              challenges: certificationChallengesForScoring,
+              allAnswers: answers,
+              estimatedLevel: sinon.match.number,
+              variationPercent: undefined,
+              variationPercentUntil: undefined,
+              doubleMeasuresUntil: undefined,
+            })
+            .returns([
+              {
+                estimatedLevel: expectedEstimatedLevel,
+              },
+            ]);
 
           const event = new CertificationJuryDone({
             certificationCourseId,
@@ -250,6 +312,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           });
 
           expect(result).to.deep.equal(expectedEvent);
+          expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
+            certificationAssessmentHistory,
+          );
         });
       });
     });
@@ -274,6 +339,17 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedEstimatedLevel = 2;
           const rawScore = 592;
           const { certificationCourseId } = certificationAssessment;
+
+          const capacityHistory = [
+            domainBuilder.buildCertificationChallengeCapacity({
+              certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
+              capacity: expectedEstimatedLevel,
+            }),
+          ];
+
+          const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
+            capacityHistory,
+          });
 
           certificationChallengeForScoringRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId })
@@ -303,6 +379,21 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .returns({
               estimatedLevel: expectedEstimatedLevel,
             });
+
+          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+            .withArgs({
+              challenges: certificationChallengesForScoring,
+              allAnswers: answers,
+              estimatedLevel: sinon.match.number,
+              variationPercent: undefined,
+              variationPercentUntil: undefined,
+              doubleMeasuresUntil: undefined,
+            })
+            .returns([
+              {
+                estimatedLevel: expectedEstimatedLevel,
+              },
+            ]);
 
           const event = new CertificationJuryDone({
             certificationCourseId,
@@ -334,6 +425,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           });
 
           expect(result).to.deep.equal(expectedEvent);
+          expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
+            certificationAssessmentHistory,
+          );
         });
       });
 
@@ -356,6 +450,17 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedEstimatedLevel = 2;
           const degradedScore = 474;
           const { certificationCourseId } = certificationAssessment;
+
+          const capacityHistory = [
+            domainBuilder.buildCertificationChallengeCapacity({
+              certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
+              capacity: expectedEstimatedLevel,
+            }),
+          ];
+
+          const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
+            capacityHistory,
+          });
 
           certificationChallengeForScoringRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId })
@@ -385,6 +490,21 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .returns({
               estimatedLevel: expectedEstimatedLevel,
             });
+
+          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+            .withArgs({
+              challenges: certificationChallengesForScoring,
+              allAnswers: answers,
+              estimatedLevel: sinon.match.number,
+              variationPercent: undefined,
+              variationPercentUntil: undefined,
+              doubleMeasuresUntil: undefined,
+            })
+            .returns([
+              {
+                estimatedLevel: expectedEstimatedLevel,
+              },
+            ]);
 
           const event = new CertificationJuryDone({
             certificationCourseId,
@@ -416,6 +536,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           });
 
           expect(result).to.deep.equal(expectedEvent);
+          expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
+            certificationAssessmentHistory,
+          );
         });
       });
     });
@@ -439,6 +562,17 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         const expectedEstimatedLevel = 2;
         const scoreForEstimatedLevel = 592;
         const { certificationCourseId } = certificationAssessment;
+
+        const capacityHistory = [
+          domainBuilder.buildCertificationChallengeCapacity({
+            certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
+            capacity: expectedEstimatedLevel,
+          }),
+        ];
+
+        const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
+          capacityHistory,
+        });
 
         certificationChallengeForScoringRepository.getByCertificationCourseId
           .withArgs({ certificationCourseId })
@@ -468,6 +602,21 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           .returns({
             estimatedLevel: expectedEstimatedLevel,
           });
+
+        flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+          .withArgs({
+            challenges: certificationChallengesForScoring,
+            allAnswers: answers,
+            estimatedLevel: sinon.match.number,
+            variationPercent: undefined,
+            variationPercentUntil: undefined,
+            doubleMeasuresUntil: undefined,
+          })
+          .returns([
+            {
+              estimatedLevel: expectedEstimatedLevel,
+            },
+          ]);
 
         const event = new CertificationJuryDone({
           certificationCourseId,
@@ -499,6 +648,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         });
 
         expect(result).to.deep.equal(expectedEvent);
+        expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
+          certificationAssessmentHistory,
+        );
       });
 
       describe('when certification is rejected for fraud', function () {
@@ -520,6 +672,17 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedEstimatedLevel = 2;
           const scoreForEstimatedLevel = 592;
           const { certificationCourseId } = certificationAssessment;
+
+          const capacityHistory = [
+            domainBuilder.buildCertificationChallengeCapacity({
+              certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
+              capacity: expectedEstimatedLevel,
+            }),
+          ];
+
+          const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
+            capacityHistory,
+          });
 
           certificationChallengeForScoringRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId })
@@ -549,6 +712,21 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .returns({
               estimatedLevel: expectedEstimatedLevel,
             });
+
+          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+            .withArgs({
+              challenges: certificationChallengesForScoring,
+              allAnswers: answers,
+              estimatedLevel: sinon.match.number,
+              variationPercent: undefined,
+              variationPercentUntil: undefined,
+              doubleMeasuresUntil: undefined,
+            })
+            .returns([
+              {
+                estimatedLevel: expectedEstimatedLevel,
+              },
+            ]);
 
           const event = new CertificationCourseRejected({
             certificationCourseId,
@@ -577,6 +755,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           });
 
           expect(result).to.deep.equal(expectedEvent);
+          expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
+            certificationAssessmentHistory,
+          );
         });
       });
 
@@ -598,6 +779,17 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedEstimatedLevel = 8;
           const cappedScoreForEstimatedLevel = 896;
           const { certificationCourseId } = certificationAssessment;
+
+          const capacityHistory = [
+            domainBuilder.buildCertificationChallengeCapacity({
+              certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
+              capacity: expectedEstimatedLevel,
+            }),
+          ];
+
+          const certificationAssessmentHistory = domainBuilder.buildCertificationAssessmentHistory({
+            capacityHistory,
+          });
 
           certificationChallengeForScoringRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId })
@@ -628,6 +820,21 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
               estimatedLevel: expectedEstimatedLevel,
             });
 
+          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+            .withArgs({
+              challenges: certificationChallengesForScoring,
+              allAnswers: answers,
+              estimatedLevel: sinon.match.number,
+              variationPercent: undefined,
+              variationPercentUntil: undefined,
+              doubleMeasuresUntil: undefined,
+            })
+            .returns([
+              {
+                estimatedLevel: expectedEstimatedLevel,
+              },
+            ]);
+
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
@@ -650,6 +857,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           });
 
           expect(assessmentResultRepository.save).to.have.been.calledWith(expectedResult);
+          expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
+            certificationAssessmentHistory,
+          );
         });
       });
     });

@@ -652,6 +652,53 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
 
             expect(assessmentResult.pixScore).to.exist;
           });
+
+          it('should register the certification challenge capacities', async function () {
+            // given
+            const limitDate = new Date('2020-01-01T00:00:00Z');
+            const certifiableUserId = databaseBuilder.factory.buildUser().id;
+
+            const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+              userId: certifiableUserId,
+              createdAt: limitDate,
+              version: 3,
+            }).id;
+            const certificationAssessment = databaseBuilder.factory.buildAssessment({
+              certificationCourseId,
+              userId: certifiableUserId,
+              state: Assessment.states.STARTED,
+              type: Assessment.types.CERTIFICATION,
+              createdAt: limitDate,
+            });
+
+            _buildValidAnswersAndCertificationChallenges({
+              assessmentId: certificationAssessment.id,
+              certificationCourseId,
+            });
+
+            await databaseBuilder.commit();
+
+            options.url = `/api/assessments/${certificationAssessment.id}/complete-assessment`;
+            options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);
+
+            // when
+            const response = await server.inject(options);
+
+            // then
+            expect(response.statusCode).to.equal(204);
+
+            const certificationChallengeCapacities = await knex('certification-challenge-capacities')
+              .join(
+                'certification-challenges',
+                'certification-challenges.id',
+                'certification-challenge-capacities.certificationChallengeId',
+              )
+              .where({
+                courseId: certificationCourseId,
+              });
+
+            expect(certificationChallengeCapacities.length).to.equal(9);
+          });
         });
 
         describe('when user estimatedLevel is too high', function () {

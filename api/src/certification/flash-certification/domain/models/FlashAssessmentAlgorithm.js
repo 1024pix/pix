@@ -106,6 +106,21 @@ class FlashAssessmentAlgorithm {
     });
   }
 
+  getEstimatedLevelAndErrorRateHistory({
+    allAnswers,
+    challenges,
+    initialCapacity = config.v3Certification.defaultCandidateCapacity,
+  }) {
+    return this.flashAlgorithmImplementation.getEstimatedLevelAndErrorRateHistory({
+      allAnswers,
+      challenges,
+      estimatedLevel: initialCapacity,
+      variationPercent: this._configuration.variationPercent,
+      variationPercentUntil: this._configuration.variationPercentUntil,
+      doubleMeasuresUntil: this._configuration.doubleMeasuresUntil,
+    });
+  }
+
   getReward({ estimatedLevel, discriminant, difficulty }) {
     return this.flashAlgorithmImplementation.getReward({ estimatedLevel, discriminant, difficulty });
   }

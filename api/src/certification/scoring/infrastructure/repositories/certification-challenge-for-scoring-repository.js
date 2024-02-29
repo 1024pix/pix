@@ -3,7 +3,12 @@ import { CertificationChallengeForScoring } from '../../domain/models/Certificat
 
 export const getByCertificationCourseId = async ({ certificationCourseId }) => {
   const certificationChallengesForScoringDTO = await knex('certification-challenges')
-    .select('challengeId', 'discriminant', 'difficulty')
+    .select({
+      challengeId: 'challengeId',
+      discriminant: 'discriminant',
+      difficulty: 'difficulty',
+      certificationChallengeId: 'id',
+    })
     .where({ courseId: certificationCourseId });
 
   return _toDomain(certificationChallengesForScoringDTO);

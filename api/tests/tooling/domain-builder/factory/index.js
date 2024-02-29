@@ -28,6 +28,7 @@ import { buildCampaignToStartParticipation } from './build-campaign-to-start-par
 import { buildCertifiableBadgeAcquisition } from './build-certifiable-badge-acquisition.js';
 import { buildCenter } from './certification/session/build-center.js';
 import { buildCertificationAssessment } from './build-certification-assessment.js';
+import { buildCertificationAssessmentHistory } from './certification/scoring/build-certification-assessment-history.js';
 import { buildCertificationAssessmentScore } from './build-certification-assessment-score.js';
 import { buildCertificationAssessmentScoreV3 } from './build-certification-assessment-score-v3.js';
 import { buildCertificationCandidate } from './build-certification-candidate.js';
@@ -46,6 +47,7 @@ import { buildCertificationCenterForAdmin } from './build-certification-center-f
 import { buildCertificationCenterInvitation } from './build-certification-center-invitation.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
 import { buildCertificationChallenge } from './build-certification-challenge.js';
+import { buildCertificationChallengeCapacity } from './certification/scoring/build-certification-challenge-capacity.js';
 import { buildCertificationChallengeWithType } from './build-certification-challenge-with-type.js';
 import { buildCertificationCourse } from './build-certification-course.js';
 import { buildCertificationCpfCity } from './build-certification-cpf-city.js';
@@ -236,12 +238,14 @@ export {
   buildCampaignToStartParticipation,
   buildCertifiableBadgeAcquisition,
   buildCertificationAssessment,
+  buildCertificationAssessmentHistory,
   buildCertificationAssessmentScore,
   buildCertificationAssessmentScoreV3,
   buildCertificationCandidate,
   buildCertificationCandidateForAttendanceSheet,
   buildCertificationCandidateForSupervising,
   buildCertificationCandidateSubscription,
+  buildCertificationChallengeCapacity,
   buildCertificationChallengeForScoring,
   buildCertificationEligibility,
   buildCertificationIssueReport,
