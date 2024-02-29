@@ -1218,13 +1218,13 @@
         }
       },
       "qcm": {
-        "direction": "Choisissez plusieurs réponses."
+        "direction": "Sélectionnez plusieurs réponses."
       },
       "qcu": {
-        "direction": "Choisissez une seule réponse."
+        "direction": "Sélectionnez une seule réponse."
       },
       "qrocm": {
-        "direction": "Remplissez les champs vides."
+        "direction": "Remplissez le(s) champ(s) vide(s)."
       },
       "recap": {
         "title": "Bravo ! Module terminé",
