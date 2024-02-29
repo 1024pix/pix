@@ -5,7 +5,7 @@ import { usecases as sessionUsecases } from '../../../../src/certification/sessi
 import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
 import { SessionPublicationBatchResult } from '../../../../lib/domain/models/index.js';
-import { logger } from '../../../../lib/infrastructure/logger.js';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
 import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';

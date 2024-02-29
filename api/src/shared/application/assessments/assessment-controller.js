@@ -5,7 +5,7 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { usecases as devcompUsecases } from '../../../devcomp/domain/usecases/index.js';
 import { usecases as certificationUsecases } from '../../../certification/shared/domain/usecases/index.js';
 import * as events from '../../../../lib/domain/events/index.js';
-import { logger } from '../../../../lib/infrastructure/logger.js';
+import { logger } from '../../infrastructure/utils/logger.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
 import * as challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer.js';

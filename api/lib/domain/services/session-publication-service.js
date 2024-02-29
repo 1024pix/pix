@@ -15,7 +15,7 @@ import lodash from 'lodash';
 
 const { some, uniqBy } = lodash;
 
-import { logger } from '../../infrastructure/logger.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { status } from '../../../src/shared/domain/models/AssessmentResult.js';
 
 /**

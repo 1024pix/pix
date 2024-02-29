@@ -7,7 +7,7 @@ import {
   skillDatasource,
   tubeDatasource,
 } from '../../../../lib/infrastructure/datasources/learning-content/index.js';
-import { logger } from '../../../../lib/infrastructure/logger.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { Activity } from '../../domain/models/Activity.js';
 import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
 

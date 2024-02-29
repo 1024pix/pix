@@ -11,7 +11,7 @@ import bluebird from 'bluebird';
 import lodash from 'lodash';
 
 const { maxBy } = lodash;
-import { logger } from '../../lib/infrastructure/logger.js';
+import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import { getNewSessionCode } from '../../src/certification/session/domain/services/session-code-service.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 import {

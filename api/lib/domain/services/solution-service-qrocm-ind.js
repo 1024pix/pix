@@ -1,7 +1,7 @@
 import jsYaml from 'js-yaml';
 import levenshtein from 'fast-levenshtein';
 import { _ } from '../../infrastructure/utils/lodash-utils.js';
-import { logger } from '../../infrastructure/logger.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { applyPreTreatments, applyTreatments } from './validation-treatments.js';
 import { YamlParsingError } from '../../domain/errors.js';
 import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../src/shared/domain/constants.js';

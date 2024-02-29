@@ -1,4 +1,4 @@
-import { logger } from '../../infrastructure/logger.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 
 const updateLastQuestionState = async function ({

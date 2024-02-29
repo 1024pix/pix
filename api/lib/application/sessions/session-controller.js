@@ -16,7 +16,7 @@ import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/cs
 import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
 import lodash from 'lodash';
 import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
-import { logger } from '../../infrastructure/logger.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 const { trim } = lodash;
 

@@ -6,7 +6,7 @@ import PgBoss from 'pg-boss';
 import _ from 'lodash';
 
 import { config } from './lib/config.js';
-import { logger } from './lib/infrastructure/logger.js';
+import { logger } from './src/shared/infrastructure/utils/logger.js';
 import { JobQueue } from './lib/infrastructure/jobs/JobQueue.js';
 import { ParticipationResultCalculationJob } from './lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob.js';
 import { SendSharedParticipationResultsToPoleEmploiJob } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
