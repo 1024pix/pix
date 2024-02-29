@@ -1221,10 +1221,10 @@
         "direction": "Select several answers."
       },
       "qcu": {
-        "direction": "Select one answer."
+        "direction": "Select a single answer."
       },
       "qrocm": {
-        "direction": "Fill in the empty fields."
+        "direction": "Fill in the blank(s)"
       },
       "recap": {
         "title": "Congratulations! Module completed",
