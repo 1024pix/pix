@@ -76,4 +76,22 @@ module('Unit | Route | authenticated/import-organization-participant', function 
       assert.true(reloadDivisionStub.calledOnce);
     });
   });
+  module('refreshGroups', function () {
+    test('should reload group relation on organization', function (assert) {
+      const reloadGroupStub = sinon.stub();
+      class CurrentUserStub extends Service {
+        organization = {
+          hasMany: sinon.stub(),
+        };
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+      const route = this.owner.lookup('route:authenticated.import-organization-participants');
+
+      route.currentUser.organization.hasMany.withArgs('groups').returns({ reload: reloadGroupStub });
+
+      route.refreshGroups();
+      assert.true(reloadGroupStub.calledOnce);
+    });
+  });
 });
