@@ -2608,7 +2608,7 @@
                   "ariaLabel": "Remplir avec le nombre de notes et références",
                   "defaultValue": "",
                   "tolerances": [
-                    ""
+                    "t1"
                   ],
                   "solutions": [
                     "1"
