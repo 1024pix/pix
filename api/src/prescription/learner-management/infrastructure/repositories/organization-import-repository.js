@@ -21,14 +21,22 @@ const get = async function (id) {
   return _toDomain(result);
 };
 
+function _toJson(errors) {
+  if (!errors) return null;
+  const errorsWithProperties = errors.map((err) => {
+    const properties = Object.getOwnPropertyNames(err);
+    return properties.reduce((acc, property) => ({ ...acc, [property]: err[property] }), {});
+  });
+  return JSON.stringify(errorsWithProperties);
+}
+
 const save = async function (organizationImport) {
+  const attributes = { ...organizationImport, errors: _toJson(organizationImport.errors) };
   if (organizationImport.id) {
-    const updatedRows = await knex('organization-imports')
-      .update(organizationImport)
-      .where({ id: organizationImport.id });
+    const updatedRows = await knex('organization-imports').update(attributes).where({ id: organizationImport.id });
     if (updatedRows === 0) throw new Error();
   } else {
-    await knex('organization-imports').insert(organizationImport);
+    await knex('organization-imports').insert(attributes);
   }
 };
 
