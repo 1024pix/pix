@@ -37,13 +37,19 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
           table: 'table3',
           isDirty: false,
         },
+        {
+          table: 'namespace1.table4',
+          isDirty: true,
+        },
       ];
 
       // when
       await databaseBuilder.clean();
 
       // then
-      expect(knex.raw).to.have.been.calledWithExactly('DELETE FROM ??;DELETE FROM ??;', ['table2', 'table1']);
+      expect(knex.raw).to.have.been.calledWithExactly(
+        'DELETE FROM "table2";DELETE FROM "table1";DELETE FROM "namespace1"."table4";',
+      );
     });
 
     it('should avoid deleting anything if not table are set for deletion in database buffer', async function () {
