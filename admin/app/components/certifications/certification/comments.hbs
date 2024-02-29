@@ -15,34 +15,34 @@
     />
     <Certifications::InfoField
       @value={{@certification.commentByJury}}
-      @edition={{this.editingComments}}
+      @edition={{this.isEditingJuryComment}}
       @label="Notes internes Jury Pix :"
       @fieldId="certification-commentByJury"
       @isTextarea={{true}}
     />
     <Certifications::InfoField @value={{@certification.juryId}} @edition={{false}} @label="Identifiant jury :" />
 
-    {{#if this.editingComments}}
+    {{#if this.isEditingJuryComment}}
       <ul class="certification-information-comments">
         <li>
           <PixButton
             @size="small"
             @backgroundColor="transparent-light"
             @isBorderVisible={{true}}
-            @triggerAction={{this.cancelCommentsEdit}}
+            @triggerAction={{this.cancelJuryCommentEdition}}
           >
             Annuler
           </PixButton>
         </li>
         <li>
-          <PixButton @size="small" @triggerAction={{this.saveComments}}>
+          <PixButton @size="small" @triggerAction={{this.saveJuryComment}}>
             Enregistrer
           </PixButton>
         </li>
       </ul>
     {{else}}
-      <PixButton @size="small" @triggerAction={{this.editComments}}>
-        Modifier commentaires jury
+      <PixButton @size="small" @triggerAction={{this.editJuryComment}}>
+        Modifier le commentaire jury
       </PixButton>
     {{/if}}
   </div>

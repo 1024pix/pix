@@ -401,7 +401,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       await controller.onCandidateInformationSave();
 
       // then
-      sinon.assert.calledWith(certification.save, { adapterOptions: { updateComments: false } });
+      sinon.assert.calledWith(certification.save, { adapterOptions: { updateJuryComment: false } });
       assert.ok(true);
     });
   });
@@ -583,8 +583,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
-  module('#onCommentsSave', function () {
-    test('it displays a success notification if comments are saved', async function (assert) {
+  module('#onJuryCommentSave', function () {
+    test('it displays a success notification if jury comment is saved', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
       controller.saveAssessmentResult = sinon.stub();
@@ -597,14 +597,14 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      await controller.onCommentsSave();
+      await controller.onJuryCommentSave();
 
       // then
       sinon.assert.calledOnce(notificationSuccessStub);
       assert.ok(controller);
     });
 
-    test('it displays an error notification if comments cannot be saved', async function (assert) {
+    test('it displays an error notification if jury comment cannot be saved', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
       controller.saveAssessmentResult = sinon.stub();
@@ -617,7 +617,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       this.owner.register('service:notifications', NotificationsStub);
 
       // when
-      await controller.onCommentsSave();
+      await controller.onJuryCommentSave();
 
       // then
       sinon.assert.calledOnce(notificationErrorStub);

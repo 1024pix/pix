@@ -3,23 +3,23 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class Comments extends Component {
-  @tracked editingComments = false;
+  @tracked isEditingJuryComment = false;
 
   @action
-  editComments() {
-    this.editingComments = true;
+  editJuryComment() {
+    this.isEditingJuryComment = true;
   }
 
   @action
-  async saveComments() {
-    const hasBeenSaved = await this.args.onCommentsSave();
+  async saveJuryComment() {
+    const hasBeenSaved = await this.args.onJuryCommentSave();
     if (hasBeenSaved) {
-      this.cancelCommentsEdit();
+      this.cancelJuryCommentEdition();
     }
   }
 
   @action
-  cancelCommentsEdit() {
-    this.editingComments = false;
+  cancelJuryCommentEdition() {
+    this.isEditingJuryComment = false;
   }
 }
