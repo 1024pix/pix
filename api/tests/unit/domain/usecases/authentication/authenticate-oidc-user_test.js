@@ -1,8 +1,11 @@
 import { POLE_EMPLOI } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
+import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
 import { authenticateOidcUser } from '../../../../../lib/domain/usecases/authentication/authenticate-oidc-user.js';
-import { expect, sinon } from '../../../../test-helper.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
+import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
+import * as appMessages from '../../../../../src/authorization/domain/constants.js';
 
 describe('Unit | UseCase | authenticate-oidc-user', function () {
   context('when identityProvider is generic', function () {
@@ -10,6 +13,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     let authenticationSessionService;
     let authenticationMethodRepository;
     let userRepository;
+    let adminMemberRepository;
     let userLoginRepository;
     const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
@@ -32,9 +36,67 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       };
 
       userRepository = { findByExternalIdentifier: sinon.stub() };
+      adminMemberRepository = {
+        get: sinon.stub(),
+      };
       userLoginRepository = {
         updateLastLoggedAt: sinon.stub().resolves(),
       };
+    });
+
+    context('check access by audience', function () {
+      context('when audience is pix-admin', function () {
+        context('when user has no role and is therefore not an admin member', function () {
+          it('should throw an error', async function () {
+            // given
+            const audience = appMessages.PIX_ADMIN.AUDIENCE;
+            _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+            userRepository.findByExternalIdentifier.resolves({ id: 10 });
+            adminMemberRepository.get.resolves(null);
+
+            // when
+            const error = await catchErr(authenticateOidcUser)({
+              audience,
+              oidcAuthenticationService,
+              userRepository,
+              adminMemberRepository,
+            });
+
+            // then
+            expect(error).to.be.an.instanceOf(ForbiddenAccess);
+            expect(error.message).to.be.equal('User does not have the rights to access the application');
+            expect(error.code).to.be.equal('PIX_ADMIN_ACCESS_NOT_ALLOWED');
+          });
+        });
+
+        context('when user has a role but admin membership is disabled', function () {
+          it('should throw an error', async function () {
+            // given
+            const audience = appMessages.PIX_ADMIN.AUDIENCE;
+            const adminMember = new AdminMember({
+              id: 567,
+              role: 'CERTIF',
+              disabledAt: new Date(),
+            });
+            _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+            userRepository.findByExternalIdentifier.resolves({ id: 10 });
+            adminMemberRepository.get.resolves(adminMember);
+
+            // when
+            const error = await catchErr(authenticateOidcUser)({
+              audience,
+              oidcAuthenticationService,
+              userRepository,
+              adminMemberRepository,
+            });
+
+            // then
+            expect(error).to.be.an.instanceOf(ForbiddenAccess);
+            expect(error.message).to.be.equal('User does not have the rights to access the application');
+            expect(error.code).to.be.equal('PIX_ADMIN_ACCESS_NOT_ALLOWED');
+          });
+        });
+      });
     });
 
     it('retrieves authentication token', async function () {
