@@ -14,6 +14,7 @@ export default class ApplicationAdapter extends JSONAPIAdapter {
     if (this.session.isAuthenticated) {
       headers['Authorization'] = `Bearer ${this.session.data.authenticated.access_token}`;
     }
+    headers['X-App-Version'] = ENV.APP.version;
     return headers;
   }
 
