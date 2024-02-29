@@ -8,7 +8,7 @@ import { LOCALE } from '../../../../src/shared/domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
-import { getTranslatedKey } from '../../../../lib/domain/services/get-translated-text.js';
+import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 
 function _toDomain({ competenceData, locale }) {
   const translatedCompetenceName = getTranslatedKey(competenceData.name_i18n, locale);
