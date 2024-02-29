@@ -52,13 +52,22 @@ class DatabaseBuilder {
 
   async clean() {
     let rawQuery = '';
-    const tablesToDelete = this._selectDirtyTables();
-    _.times(tablesToDelete.length, () => {
-      rawQuery += 'DELETE FROM ??;';
-    });
+
+    this._selectDirtyTables()
+      .map((tableName) => {
+        return tableName
+          .split('.')
+          .map((element) => `"${element}"`)
+          .join('.');
+      })
+      .forEach((tableName) => {
+        rawQuery += `DELETE FROM ${tableName};`;
+      });
+
     if (rawQuery !== '') {
-      await this.knex.raw(rawQuery, tablesToDelete);
+      await this.knex.raw(rawQuery);
     }
+
     this.databaseBuffer.purge();
     this._purgeDirtiness();
   }
