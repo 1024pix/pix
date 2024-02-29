@@ -6,6 +6,7 @@ export const styleToolkit = {
       bodyStyle.backgroundPositionX = 'right';
       bodyStyle.backgroundPositionY = 'bottom';
       bodyStyle.backgroundRepeat = 'no-repeat';
+      bodyStyle.backgroundAttachment = 'fixed';
       bodyStyle.minHeight = '100dvh';
     },
     reset: () => {
@@ -14,6 +15,7 @@ export const styleToolkit = {
       bodyStyle.backgroundPositionY = '';
       bodyStyle.backgroundRepeat = '';
       bodyStyle.minHeight = '';
+      bodyStyle.backgroundAttachment = '';
     },
   },
 };
