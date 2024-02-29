@@ -10,11 +10,13 @@ const importOrganizationLearnersFromSIECLE = async function (
   h,
   dependencies = { logErrorWithCorrelationIds },
 ) {
+  const authenticatedUserId = request.auth.credentials.userId;
   const organizationId = request.params.id;
   const { format } = request.query;
   try {
     if (format === 'xml') {
       await usecases.importOrganizationLearnersFromSIECLEXMLFormat({
+        userId: authenticatedUserId,
         organizationId,
         payload: request.payload,
       });
