@@ -1219,13 +1219,13 @@
       },
 
       "qcm": {
-        "direction": "Kies meerdere antwoorden."
+        "direction": "Selecteer meerdere antwoorden."
       },
       "qcu": {
-        "direction": "Kies slechts één antwoord."
+        "direction": "Selecteer één antwoord."
       },
       "qrocm": {
-        "direction": "Vul de lege velden in."
+        "direction": "Vul de lege veld(en) in."
       },
       "recap": {
         "title": "Goed gedaan ! Module voltooid",
