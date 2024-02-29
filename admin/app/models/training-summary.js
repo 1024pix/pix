@@ -5,4 +5,5 @@ export default class TrainingSummary extends Model {
   @attr('number') targetProfilesCount;
   @attr('number') prerequisiteThreshold;
   @attr('number') goalThreshold;
+  @attr('boolean') isDisabled;
 }
