@@ -1202,8 +1202,8 @@
       "details": {
         "duration": "Durée",
         "durationValue": "≈{duration} min",
-        "explanationText1": "Les modules de formations Pix sont composés de leçons et d’activités pour vous exercer et développer vos compétences numériques. Les leçons prennent la forme de vidéos, d'audios, d'images et de textes. Lors d’une activité, votre réponse est directement vérifiée et vous pouvez retenter ! Si besoin, vous pouvez toujours revenir en arrière. Un module dure environ 10 minutes, sur un sujet précis avec un niveau de difficulté de Débutant à Expert.",
-        "explanationText2": "Ce produit est actuellement en phase bêta, vous pouvez nous envoyer toutes vos suggestions d’amélioration ici.",
+        "explanationText1": "Les modules de formation Pix sont composés de leçons et d’activités pour vous exercer et développer vos compétences numériques. Les leçons prennent la forme de vidéos, d'audios, d'images et de textes. Les activités vous permettent de vous entraîner et de vérifier directement vos réponses. Un module dure environ 10 minutes, sur un sujet précis, avec un niveau de difficulté allant de débutant à expert.",
+        "explanationText2": "Ces modules de formation sont actuellement en phase de bêta-test. Vous pouvez nous envoyer toutes vos suggestions d’amélioration dans le questionnaire de fin de module.",
         "explanationTitle": "C'est quoi un module ?",
         "level": "Niveau",
         "objectives": "Objectifs",
@@ -1230,7 +1230,7 @@
         "title": "Bravo ! Module terminé",
         "backToModuleDetails": "Revenir aux détails du module",
         "goToForm": "Répondre au questionnaire",
-        "subtitle": "Vous savez maintenant '<span aria-hidden=\"true\">'👍'</span>'"
+        "subtitle": "Vous avez atteint les objectifs suivants :"
       },
       "verification-precondition-failed-alert": {
         "qcm": "Pour valider, sélectionnez au moins deux réponses.",
