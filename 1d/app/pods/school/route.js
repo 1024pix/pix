@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import { styleToolkit } from '../../utils/layout';
 
 export default class SchoolRoute extends Route {
   @service store;
@@ -7,6 +8,7 @@ export default class SchoolRoute extends Route {
 
   async beforeModel() {
     this.currentLearner.remove();
+    styleToolkit.backgroundBlob.apply('/images/background-blob-v1.svg');
   }
 
   async model(_params, transition) {
