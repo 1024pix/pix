@@ -984,7 +984,7 @@
     },
     "fill-in-certificate-verification-code": {
       "title": "Verify the authenticity of a Pix Certificate",
-      "description": "The Pix Certification assesses digital literacy and is recognised throughout Europe and in the business world.",
+      "description": "The Pix Certification assesses digital proficiency: please enter the \"verification code\" of the Pix certificate you wish to check.",
       "errors": {
         "missing-code": "Please enter the verification code in this format: P-XXXXXXXX",
         "not-found": "There is no corresponding Pix Certificate.",
