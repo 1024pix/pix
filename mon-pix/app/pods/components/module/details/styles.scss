@@ -23,6 +23,8 @@
 .module-details-image {
   &__illustration {
     display: block;
+    width: auto;
+    max-height: 100%;
     margin: 0 auto;
     padding-top: var(--pix-spacing-6x);
   }
