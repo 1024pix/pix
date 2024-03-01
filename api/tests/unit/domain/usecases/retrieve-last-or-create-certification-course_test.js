@@ -32,6 +32,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   const certificationBadgesService = {};
   const placementProfileService = {};
   const verifyCertificateCodeService = {};
+  const userRepository = {};
 
   const injectables = {
     assessmentRepository,
@@ -45,6 +46,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     certificationChallengesService,
     placementProfileService,
     verifyCertificateCodeService,
+    userRepository,
   };
 
   beforeEach(function () {
@@ -64,8 +66,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId = sinon.stub();
     certificationCourseRepository.save = sinon.stub();
     sessionRepository.get = sinon.stub();
+    userRepository.get = sinon.stub();
     placementProfileService.getPlacementProfile = sinon.stub();
-
     verifyCertificateCodeService.generateCertificateVerificationCode = sinon.stub().resolves(verificationCode);
     certificationCenterRepository.getBySessionId = sinon.stub();
   });
@@ -468,6 +470,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
               it('should create a v3 certification', async function () {
                 // given
+                const userId = 2;
                 const domainTransaction = Symbol('someDomainTransaction');
 
                 const foundSession = domainBuilder.buildSession.created({
@@ -504,8 +507,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
                 certificationBadgesService.findStillValidBadgeAcquisitions
-                  .withArgs({ userId: 2, domainTransaction })
+                  .withArgs({ userId, domainTransaction })
                   .resolves([]);
+
+                userRepository.get.withArgs(userId).resolves(domainBuilder.buildUser({ id: userId }));
 
                 // TODO: extraire jusqu'à la ligne 387 dans une fonction ?
                 const certificationCourseToSave = CertificationCourse.from({
