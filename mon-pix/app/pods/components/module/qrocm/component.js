@@ -20,6 +20,10 @@ export default class ModuleQrocm extends Component {
     });
   }
 
+  get nbOfProposals() {
+    return this.qrocm.proposals.length;
+  }
+
   @action
   onInputChanged(block, { target }) {
     this.#updateSelectedValues(block, target.value);

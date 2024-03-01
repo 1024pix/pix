@@ -27,7 +27,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
     assert.strictEqual(findAll('.element-qcm-header__instruction').length, 1);
     assert.strictEqual(findAll('.element-qcm-header__direction').length, 1);
     assert.ok(screen.getByText('Instruction'));
-    assert.ok(screen.getByText('Choisissez plusieurs réponses.'));
+    assert.ok(screen.getByRole('group', { legend: this.intl.t('pages.modulix.qcm.direction') }));
 
     assert.strictEqual(screen.getAllByRole('checkbox').length, qcmElement.proposals.length);
     assert.ok(screen.getByLabelText('checkbox1'));
