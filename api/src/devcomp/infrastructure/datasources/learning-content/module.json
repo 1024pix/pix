@@ -2277,7 +2277,7 @@
       },
       "transitionTexts": [
         {
-          "content": "<p>Vous avez fort probablement déjà utilisé une fois Wikipédia dans votre vie. Mais connaissez-vous par exemple la signification de son logo ? <span aria-hidden=\"true\">🌎</span>️ <span aria-hidden=\"true\">🧩</span>️</p>",
+          "content": "<p>Vous avez probablement déjà utilisé une fois Wikipédia dans votre vie. Mais connaissez-vous la signification de son logo ? <span aria-hidden=\"true\">🌎</span>️ <span aria-hidden=\"true\">🧩</span>️</p>",
           "grainId": "da95d2bc-e597-4366-a095-21f7ab0f4845"
         },
         {
@@ -2289,11 +2289,11 @@
           "grainId": "9a3926dd-750c-4b89-b1d0-9a286fe2d9e4"
         },
         {
-          "content": "<p>Des personnes du monde entier utilisent Wikipédia et y contribuent. De cette manières, les articles sont fréquemment disponibles dans plusieurs langues.</p>",
+          "content": "<p>Des personnes du monde entier utilisent Wikipédia et y contribuent. De cette manière, les articles sont fréquemment disponibles dans plusieurs langues.<br>Un petit jeu : saurez-vous dans combien de langues ?</p>",
           "grainId": "5f048ad8-d008-4956-840b-37e84138b433"
         },
         {
-          "content": "<p>Comme n’importe quel site internet, Wikipédia a besoin d’argent pour fonctionner <span aria-hidden=\"true\">💰</span>️ </p>",
+          "content": "<p>Comme n’importe quel site internet, Wikipédia a besoin d’argent pour fonctionner. <span aria-hidden=\"true\">💰</span>️<br>Un petit jeu : savez-vous comment ?</p>",
           "grainId": "09b21f5f-b7e7-4c7a-9059-bdb2a2be246d"
         },
         {
@@ -2320,14 +2320,14 @@
               "id": "a4a95061-c1c4-475a-9cb8-c64928d40b8c",
               "type": "image",
               "url": "https://i.imgur.com/q1pokb5.png",
-              "alt": "Logos de Wikipédia de 2001 à 2010. Source : https://fr.wikipedia.org/wiki/Logo_de_Wikip%C3%A9dia. Licence : CC BY-SA 3.0 DEED",
+              "alt": "Logos de Wikipédia de 2001 à 2010.",
               "alternativeText": ""
             },
 
             {
               "id": "d5acb701-fd9c-40d4-b59d-fb2fd8f6b3fe",
               "type": "qcm",
-              "instruction": "<p>Selon vous, quelles sont les deux phrases qui décrivent le mieux la signification du logo actuel de Wikipédia ?</p>",
+              "instruction": "<p>Selon vous, quelles sont les <strong>deux</strong> phrases qui décrivent le mieux la signification du logo actuel de Wikipédia ?</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -2460,7 +2460,7 @@
             {
               "id": "c99efced-e183-4f4f-aec7-07a5da13294a",
               "type": "qcu",
-              "instruction": "<p>Selon vous, dans combien de langues environ Wikipédia existe-t-il ?</p>",
+              "instruction": "<p>Dans le monde, il existe environ 7000 langues.<br>Selon vous, dans combien de langues environ Wikipédia existe-t-il ?</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -2546,7 +2546,7 @@
             {
               "id": "01eb319e-8219-425a-b66f-00f8f73a4842",
               "type": "text",
-              "content": "<h4>Répondez aux questions ci-dessous en naviguant dans  <a href=\"https://fr.wikipedia.org/wiki/Charlie_Chaplin\" target=\"blank\">l'article Wikipédia de Charlie Chaplin.</a></h4>"
+              "content": "<h4>Répondez aux questions ci-dessous en naviguant dans  <a href=\"https://fr.wikipedia.org/wiki/Inca_(Majorque)\" target=\"blank\">l'article Wikipédia de la commune d'Inca.</a></h4>"
             },
             {
               "id": "cfcd33f1-3544-491d-95b4-0d028084ff32",
@@ -2556,7 +2556,7 @@
             {
               "id": "ea12a08f-fa0b-4693-a1fd-8a5baf27f494",
               "type": "qrocm",
-              "instruction": "<p>Dans le sommaire de cet article, le nom de la première section est <strong>Début</strong>. Quel est le nom de la cinquième section ?</p>",
+              "instruction": "<p>Dans le sommaire de cet article, trouvez la section <strong>Début</strong>. Quel est le nom de la cinquième section ?</p>",
               "proposals": [
                 {
                   "type": "text",
@@ -2569,13 +2569,13 @@
                   "size": 20,
                   "display": "inline",
                   "placeholder": "",
-                  "ariaLabel": "Remplir le nom de la cinquième section du sommaire de l'article Wikipédia de Marie Curie",
+                  "ariaLabel": "Remplir le nom de la cinquième section du sommaire de l'article Wikipédia proposé",
                   "defaultValue": "",
                   "tolerances": [
                     "t1"
                   ],
                   "solutions": [
-                    "Reconnaissance"
+                    "Honneur"
                   ]
                 }
               ],
@@ -2586,6 +2586,42 @@
             },
             {
               "id": "c6526e70-ac27-47d3-9794-3e1e2d243334",
+              "type": "text",
+              "content": "<hr>"
+            },
+            {
+              "id": "649c29ee-0b22-4da3-ba2a-036bb3016425",
+              "type": "qrocm",
+              "instruction": "<p>Combien cet article a-t-il de Notes et références ? </p>",
+              "proposals": [
+                {
+                  "type": "text",
+                  "content": "<p>Nombre&nbsp;:</p>"
+                },
+                {
+                  "input": "nombre-ref",
+                  "type": "input",
+                  "inputType": "text",
+                  "size": 1,
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Remplir avec le nombre de notes et références",
+                  "defaultValue": "",
+                  "tolerances": [
+                    "t1"
+                  ],
+                  "solutions": [
+                    "1"
+                  ]
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct !</p>",
+                "invalid": "<p>Incorrect !</p>"
+              }
+            },
+            {
+              "id": "7c1830cb-1f48-4050-98c1-6ae34d14ee51",
               "type": "text",
               "content": "<hr>"
             },
@@ -2621,7 +2657,7 @@
                     }
                   ],
                   "solutions": [
-                    "1"
+                    "2"
                   ]
                 }
               ],
