@@ -58,4 +58,40 @@ module('Unit | Route | authenticated/import-organization-participant', function 
       assert.true(controller.set.calledWithExactly('warningBanner', null));
     });
   });
+  module('refreshDivisions', function () {
+    test('should reload division relation on organization', function (assert) {
+      const reloadDivisionStub = sinon.stub();
+      class CurrentUserStub extends Service {
+        organization = {
+          hasMany: sinon.stub(),
+        };
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+      const route = this.owner.lookup('route:authenticated.import-organization-participants');
+
+      route.currentUser.organization.hasMany.withArgs('divisions').returns({ reload: reloadDivisionStub });
+
+      route.refreshDivisions();
+      assert.true(reloadDivisionStub.calledOnce);
+    });
+  });
+  module('refreshGroups', function () {
+    test('should reload group relation on organization', function (assert) {
+      const reloadGroupStub = sinon.stub();
+      class CurrentUserStub extends Service {
+        organization = {
+          hasMany: sinon.stub(),
+        };
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+      const route = this.owner.lookup('route:authenticated.import-organization-participants');
+
+      route.currentUser.organization.hasMany.withArgs('groups').returns({ reload: reloadGroupStub });
+
+      route.refreshGroups();
+      assert.true(reloadGroupStub.calledOnce);
+    });
+  });
 });

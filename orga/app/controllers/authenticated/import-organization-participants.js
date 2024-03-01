@@ -29,6 +29,7 @@ export default class ImportController extends Controller {
 
     try {
       const response = await adapter.addStudentsCsv(organizationId, files);
+      this.send('refreshGroups');
       this._sendSupNotifications(response);
     } catch (errorResponse) {
       this._instantiateErrorsDetail(errorResponse);
@@ -54,6 +55,7 @@ export default class ImportController extends Controller {
     try {
       await adapter.importStudentsSiecle(organizationId, files, format);
       this.notifications.sendSuccess(this.intl.t('pages.organization-participants-import.global-success'));
+      this.send('refreshDivisions');
     } catch (errorResponse) {
       this._instantiateErrorsDetail(errorResponse);
     } finally {
@@ -71,6 +73,7 @@ export default class ImportController extends Controller {
 
     try {
       const response = await adapter.replaceStudentsCsv(organizationId, files);
+      this.send('refreshGroups');
       this._sendSupNotifications(response);
     } catch (errorResponse) {
       this._instantiateErrorsDetail(errorResponse);
