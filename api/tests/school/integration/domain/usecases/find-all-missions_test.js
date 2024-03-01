@@ -1,4 +1,4 @@
-import { expect, mockLearningContent } from '../../../../test-helper.js';
+import { databaseBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import { Mission } from '../../../../../src/school/domain/models/Mission.js';
@@ -31,6 +31,8 @@ describe('Integration | UseCases | find-all-missions', function () {
       competenceIds: ['competenceId'],
     });
 
+    const organizationId = databaseBuilder.factory.buildOrganization().id;
+
     const competence = {
       id: 'competenceId',
       index: '4.5',
@@ -55,9 +57,10 @@ describe('Integration | UseCases | find-all-missions', function () {
       areaCode: 3,
       learningObjectives: 'Il était une fois',
       validatedObjectives: 'Bravo ! tu as réussi !',
+      startedBy: '',
     });
     const expectedMissions = [expectedMission];
-    const returnedMissions = await usecases.findAllMissions();
+    const returnedMissions = await usecases.findAllMissions({ organizationId });
 
     expect(returnedMissions).to.deep.equal(expectedMissions);
   });

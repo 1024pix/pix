@@ -770,7 +770,8 @@
           "caption": "List of missions",
           "competences": "Targeted competence",
           "empty-state": "There is not any mission",
-          "name": "Mission"
+          "name": "Mission",
+          "started-by": "Started by"
         }
       }
     },

@@ -1,10 +1,11 @@
-import { Mission } from '../../../../../src/school/domain/models/Mission.js';
-import { expect, mockLearningContent } from '../../../../test-helper.js';
-import { getMission } from '../../../../../src/school/domain/usecases/get-mission.js';
-import * as missionRepository from '../../../../../src/school/infrastructure/repositories/mission-repository.js';
-import * as competenceRepository from '../../../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as areaRepository from '../../../../../src/shared/infrastructure/repositories/area-repository.js';
+import * as competenceRepository from '../../../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
+import * as missionRepository from '../../../../../src/school/infrastructure/repositories/mission-repository.js';
+import * as organizationLearnerRepository from '../../../../../src/school/infrastructure/repositories/organization-learner-repository.js';
+import { Mission } from '../../../../../src/school/domain/models/Mission.js';
+import { databaseBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
+import { getMission } from '../../../../../src/school/domain/usecases/get-mission.js';
 describe('Integration | UseCase | getMission', function () {
   it('Should return a mission', async function () {
     const mission = learningContentBuilder.buildMission({
@@ -22,6 +23,8 @@ describe('Integration | UseCase | getMission', function () {
       competenceIds: ['competenceId'],
     });
 
+    const organizationId = databaseBuilder.factory.buildOrganization().id;
+
     mockLearningContent({
       missions: [mission],
       areas: [area],
@@ -38,13 +41,16 @@ describe('Integration | UseCase | getMission', function () {
       areaCode: 3,
       learningObjectives: 'Il était une fois',
       validatedObjectives: 'Bravo ! tu as réussi !',
+      startedBy: '',
     });
 
     const returnedMission = await getMission({
       missionId: 12,
+      organizationId,
       missionRepository,
       areaRepository,
       competenceRepository,
+      organizationLearnerRepository,
     });
 
     expect(returnedMission).to.deep.equal(expectedMission);
