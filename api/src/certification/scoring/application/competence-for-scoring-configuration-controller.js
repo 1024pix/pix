@@ -1,4 +1,4 @@
-import { usecases } from '../../shared/domain/usecases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 
 const saveCompetenceForScoringConfiguration = async (request, h) => {
   const data = request.payload;
