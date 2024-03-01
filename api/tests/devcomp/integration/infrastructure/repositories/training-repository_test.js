@@ -178,16 +178,19 @@ describe('Integration | Repository | training-repository', function () {
           prerequisiteThreshold: 0,
           goalThreshold: 100,
           targetProfilesCount: 2,
+          isDisabled: true,
         });
         const trainingSummary2 = domainBuilder.buildTrainingSummary({
           id: 2,
           prerequisiteThreshold: 10,
           goalThreshold: 90,
+          isDisabled: false,
         });
         const trainingSummary3 = domainBuilder.buildTrainingSummary({
           id: 3,
           prerequisiteThreshold: undefined,
           goalThreshold: undefined,
+          isDisabled: false,
         });
 
         createDatabaseRepresentationForTrainingSummary({ trainingSummary: trainingSummary1, databaseBuilder });
@@ -281,6 +284,7 @@ describe('Integration | Repository | training-repository', function () {
           id: 1,
           goalThreshold: 10,
           prerequisiteThreshold: 20,
+          isDisabled: true,
         });
         const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2, goalThreshold: 30 });
         const trainingSummaryLinkToAnotherTargetProfile = domainBuilder.buildTrainingSummary({ id: 3 });
@@ -616,6 +620,7 @@ describe('Integration | Repository | training-repository', function () {
         link: 'https://example.net/mon-nouveau-lien',
         editorName: 'Mon nouvel editeur',
         editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/nouveau-logo.svg',
+        isDisabled: true,
         notExistingAttribute: 'notExistingValue',
       };
 
@@ -631,6 +636,7 @@ describe('Integration | Repository | training-repository', function () {
       expect(updatedTraining.editorName).to.be.equal(attributesToUpdate.editorName);
       expect(updatedTraining.editorLogoUrl).to.be.equal(attributesToUpdate.editorLogoUrl);
       expect(updatedTraining.updatedAt).to.be.above(currentTraining.updatedAt);
+      expect(updatedTraining.isDisabled).to.be.true;
     });
 
     it('should return updated training', async function () {
@@ -648,6 +654,7 @@ describe('Integration | Repository | training-repository', function () {
         link: 'https://example.net/mon-nouveau-lien',
         editorName: 'Mon nouvel editeur',
         editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/nouveau-logo.svg',
+        isDisabled: true,
       };
 
       // when
@@ -660,6 +667,7 @@ describe('Integration | Repository | training-repository', function () {
       expect(updatedTraining.editorName).to.be.equal(attributesToUpdate.editorName);
       expect(updatedTraining.editorLogoUrl).to.be.equal(attributesToUpdate.editorLogoUrl);
       expect(updatedTraining.targetProfileIds).to.deep.equal([targetProfile.id]);
+      expect(updatedTraining.isDisabled).to.be.true;
     });
 
     it('should not update other raws', async function () {
@@ -772,6 +780,28 @@ describe('Integration | Repository | training-repository', function () {
       // when
       const { userRecommendedTrainings, pagination } = await trainingRepository.findPaginatedByUserId({
         userId: '0293',
+        locale: 'fr-fr',
+      });
+
+      // then
+      expect(userRecommendedTrainings).to.be.lengthOf(0);
+      expect(pagination).to.deep.equal({ page: 1, pageSize: 10, rowCount: 0, pageCount: 0 });
+    });
+
+    it('should not return disabled trainings', async function () {
+      // given
+      const { userId, id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation();
+      const training1 = databaseBuilder.factory.buildTraining({ isDisabled: true });
+      databaseBuilder.factory.buildUserRecommendedTraining({
+        userId,
+        trainingId: training1.id,
+        campaignParticipationId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const { userRecommendedTrainings, pagination } = await trainingRepository.findPaginatedByUserId({
+        userId,
         locale: 'fr-fr',
       });
 

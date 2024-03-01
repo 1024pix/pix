@@ -31,6 +31,7 @@ describe('Unit | Serializer | JSONAPI | training-summary-serializer', function (
               'prerequisite-threshold': 2,
               'target-profiles-count': 1,
               title: 'Training Summary 1',
+              'is-disabled': false,
             },
           },
           {
@@ -41,6 +42,7 @@ describe('Unit | Serializer | JSONAPI | training-summary-serializer', function (
               'prerequisite-threshold': undefined,
               'target-profiles-count': 0,
               title: 'Training Summary 2',
+              'is-disabled': false,
             },
           },
         ],
