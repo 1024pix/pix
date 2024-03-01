@@ -4,7 +4,11 @@
  * @typedef {import('../../../lib/domain/usecases/index.js').SessionRepository} SessionRepository
  * @typedef {import('../../../lib/domain/usecases/index.js').MailService} MailService
  */
-import { SendingEmailToResultRecipientError, SendingEmailToRefererError } from '../../domain/errors.js';
+import {
+  SendingEmailToResultRecipientError,
+  SendingEmailToRefererError,
+  CertificationCourseNotPublishableError,
+} from '../../domain/errors.js';
 import { SessionAlreadyPublishedError } from '../../../src/certification/session/domain/errors.js';
 import * as mailService from '../../domain/services/mail-service.js';
 import lodash from 'lodash';
@@ -12,6 +16,7 @@ import lodash from 'lodash';
 const { some, uniqBy } = lodash;
 
 import { logger } from '../../infrastructure/logger.js';
+import { status } from '../../../src/shared/domain/models/AssessmentResult.js';
 
 /**
  * @param {Object} params
@@ -31,7 +36,15 @@ async function publishSession({
     throw new SessionAlreadyPublishedError();
   }
 
-  await certificationRepository.publishCertificationCoursesBySessionId(sessionId);
+  const certificationStatuses = await certificationRepository.getStatusesBySessionId(sessionId);
+
+  const hasCertificationInError = _hasCertificationInError(certificationStatuses);
+  const hasCertificationWithNoAssessmentResultStatus = _hasCertificationWithNoScoring(certificationStatuses);
+  if (hasCertificationInError || hasCertificationWithNoAssessmentResultStatus) {
+    throw new CertificationCourseNotPublishableError(sessionId);
+  }
+
+  await certificationRepository.publishCertificationCourses(certificationStatuses);
 
   await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
 
@@ -168,6 +181,18 @@ async function _updateFinalizedSession(finalizedSessionRepository, sessionId, pu
   const finalizedSession = await finalizedSessionRepository.get({ sessionId });
   finalizedSession.publish(publishedAt);
   await finalizedSessionRepository.save(finalizedSession);
+}
+
+function _hasCertificationInError(certificationStatus) {
+  return certificationStatus.some(
+    ({ pixCertificationStatus, isCancelled }) => pixCertificationStatus === status.ERROR && !isCancelled,
+  );
+}
+
+function _hasCertificationWithNoScoring(certificationStatuses) {
+  return certificationStatuses.some(
+    ({ pixCertificationStatus, isCancelled }) => pixCertificationStatus === null && !isCancelled,
+  );
 }
 
 export { publishSession, manageEmails };
