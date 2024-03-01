@@ -60,4 +60,34 @@ describe('Integration | Repository | organizationLearner', function () {
       );
     });
   });
+  describe('#getAllFromMissionIdAndOrganizationId', function () {
+    it('returns the missionAssessment corresponding to the missionId', async function () {
+      const missionId = 'flute78';
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+      });
+      databaseBuilder.factory.buildMissionAssessment({
+        missionId,
+        organizationLearnerId: organizationLearner.id,
+      });
+
+      const organizationLearnerFromOtherOrga = databaseBuilder.factory.buildOrganizationLearner();
+      databaseBuilder.factory.buildMissionAssessment({
+        missionId,
+        organizationLearnerId: organizationLearnerFromOtherOrga.id,
+      });
+      await databaseBuilder.commit();
+
+      const missionAssessments = await organizationLearnersRepository.getAllFromMissionIdAndOrganizationId(
+        missionId,
+        organizationId,
+      );
+
+      const expectedOrganizationLearner = new OrganizationLearner({ ...organizationLearner });
+
+      expect(missionAssessments).to.deep.equal([expectedOrganizationLearner]);
+    });
+  });
 });

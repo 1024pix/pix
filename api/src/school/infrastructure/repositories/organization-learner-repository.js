@@ -18,4 +18,15 @@ const getById = async function (organizationLearnerId) {
   });
 };
 
-export { getStudentsByOrganizationId, getById };
+async function getAllFromMissionIdAndOrganizationId(missionId, organizationId) {
+  const rawOrganizationLearners = await knex('organization-learners')
+    .join('mission-assessments', 'mission-assessments.organizationLearnerId', 'organization-learners.id')
+    .where({ organizationId })
+    .andWhere({ missionId });
+
+  return rawOrganizationLearners.map((rawOrganizationLearner) => {
+    return new OrganizationLearner({ ...rawOrganizationLearner });
+  });
+}
+
+export { getStudentsByOrganizationId, getById, getAllFromMissionIdAndOrganizationId };
