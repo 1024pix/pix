@@ -46,6 +46,7 @@ async function findPaginatedSummaries({ filter, page, domainTransaction = Domain
     .select(
       'trainings.id',
       'trainings.title',
+      'trainings.isDisabled',
       knexConn.raw('coalesce("targetProfilesCount", 0) as "targetProfilesCount"'),
     )
     .leftJoin(
@@ -80,6 +81,7 @@ async function findPaginatedSummariesByTargetProfileId({
       'trainings.id',
       'trainings.title',
       knexConn.raw('coalesce("targetProfilesCount", 0) as "targetProfilesCount"'),
+      'trainings.isDisabled',
     )
     .innerJoin('target-profile-trainings', `${TABLE_NAME}.id`, 'target-profile-trainings.trainingId')
     .leftJoin(
@@ -160,6 +162,7 @@ async function update({ id, attributesToUpdate, domainTransaction = DomainTransa
     'locale',
     'editorName',
     'editorLogoUrl',
+    'isDisabled',
   ]);
   const knexConn = domainTransaction?.knexTransaction || knex;
   const [updatedTraining] = await knexConn(TABLE_NAME)
@@ -183,7 +186,7 @@ async function findPaginatedByUserId({
     .select('trainings.*')
     .distinct('trainings.id')
     .join('user-recommended-trainings', 'trainings.id', 'trainingId')
-    .where({ userId, locale })
+    .where({ userId, locale, isDisabled: false })
     .orderBy('id', 'asc');
   const { results, pagination } = await fetchPage(query, page);
 

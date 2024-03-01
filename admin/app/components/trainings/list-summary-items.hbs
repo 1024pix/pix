@@ -9,6 +9,7 @@
           <th id="training-prerequisite-threshold" scope="col" class="col-status">Prérequis</th>
           <th id="training-goal-threshold" scope="col" class="col-status">Objectif à ne pas dépasser</th>
           <th id="training-target-profile-count" scope="col" class="col-status">Profils cibles associés</th>
+          <th id="training-state" scope="col" class="col-status">État</th>
         </tr>
         {{#if @triggerFiltering}}
           <tr>
@@ -30,6 +31,7 @@
                 aria-label="Filtrer les contenus formatifs par un titre"
               />
             </td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -55,6 +57,9 @@
               </td>
               <td headers="training-target-profiles-count">
                 {{summary.targetProfilesCount}}
+              </td>
+              <td headers="training-state">
+                <Trainings::StateTag @isDisabled={{summary.isDisabled}} />
               </td>
             </tr>
           {{/each}}

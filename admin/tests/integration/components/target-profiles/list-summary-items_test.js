@@ -16,6 +16,7 @@ module('Integration | Component | TargetProfiles::ListSummaryItems', function (h
       id: 123,
       name: 'Profile Cible',
       oudated: false,
+      isDisabled: true,
       createdAt: new Date('2021-01-01'),
     };
     const summaries = [summary];
@@ -39,5 +40,6 @@ module('Integration | Component | TargetProfiles::ListSummaryItems', function (h
     assert.dom(screen.getByText('Profile Cible')).exists();
     assert.dom(screen.getByText('Actif')).exists();
     assert.dom(screen.getByText('01/01/2021')).exists();
+    assert.dom(screen.getByText('Actif')).exists();
   });
 });

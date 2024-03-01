@@ -74,6 +74,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
             },
             'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
             'editor-name': 'Ministère education nationale',
+            'is-disabled': false,
             'is-recommendable': true,
             link: 'https://example.net',
             locale: 'fr-fr',
@@ -422,6 +423,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
             locale: 'fr-fr',
             'editor-name': 'Ministère education nationale',
             'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
+            'is-disabled': true,
           },
         },
       };
@@ -438,6 +440,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | training-ser
         type: 'webinaire',
         editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
         editorName: 'Ministère education nationale',
+        isDisabled: true,
       });
     });
 

@@ -99,6 +99,7 @@ describe('Acceptance | Controller | training-controller', function () {
           },
           'editor-logo-url': trainingAttributes.editorLogoUrl,
           'editor-name': trainingAttributes.editorName,
+          'is-disabled': false,
         },
       };
 
@@ -237,6 +238,7 @@ describe('Acceptance | Controller | training-controller', function () {
                   hours: 2,
                   minutes: 2,
                 },
+                'is-disabled': true,
               },
             },
           },
@@ -252,6 +254,7 @@ describe('Acceptance | Controller | training-controller', function () {
               duration: training.duration,
               editorName: updatedTraining.editorName,
               editorLogoUrl: updatedTraining.editorLogoUrl,
+              isDisabled: updatedTraining.isDisabled,
             },
           },
         };
@@ -271,6 +274,7 @@ describe('Acceptance | Controller | training-controller', function () {
         expect(response.result.data.attributes['editor-logo-url']).to.deep.equal(
           expectedResponse.data.attributes.editorLogoUrl,
         );
+        expect(response.result.data.attributes['is-disabled']).to.be.true;
       });
     });
   });
@@ -302,6 +306,7 @@ describe('Acceptance | Controller | training-controller', function () {
               'prerequisite-threshold': undefined,
               'target-profiles-count': 0,
               title: training.title,
+              'is-disabled': false,
             },
           },
         };

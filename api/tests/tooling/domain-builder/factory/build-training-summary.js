@@ -6,6 +6,7 @@ const buildTrainingSummary = function ({
   prerequisiteThreshold,
   goalThreshold,
   targetProfilesCount = 0,
+  isDisabled = false,
 } = {}) {
   return new TrainingSummary({
     id,
@@ -13,6 +14,7 @@ const buildTrainingSummary = function ({
     prerequisiteThreshold,
     goalThreshold,
     targetProfilesCount,
+    isDisabled,
   });
 };
 
