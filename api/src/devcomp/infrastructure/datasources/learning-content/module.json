@@ -604,11 +604,11 @@
       },
       "transitionTexts": [
         {
-          "content": "<p>Sur un ordinateur, on peut souvent brancher des appareils, comme une souris ou un clavier.<br>On peut aussi brancher une clé USB. Elle n’est pas toujours facile à brancher <span aria-hidden=\"true\">🤯</span></p>",
+          "content": "<p>Sur un ordinateur, on peut souvent brancher des appareils, comme une souris ou un clavier.<br>On peut aussi brancher une clé USB. Elle n’est pas toujours facile à brancher. <span aria-hidden=\"true\">🤯</span></p>",
           "grainId": "8bb146db-104c-41e2-aa79-14f7a06e0930"
         },
         {
-          "content": "<p>Une clé USB se branche sur un port de connexion USB.<br>Ce n'est pas la seule ! Il y a d'autres objets qui se branchent aussi via USB. Voici quelques explications <span aria-hidden=\"true\">📚</span>.</p>",
+          "content": "<p>Une clé USB se branche sur un port de connexion USB.<br> Mais il y a d'autres objets qui se branchent aussi via USB. Voici quelques explications. <span aria-hidden=\"true\">📚</span></p>",
           "grainId": "75091cc6-61ca-4b9e-a6a0-89701ed721a8"
         },
         {
@@ -616,8 +616,16 @@
           "grainId": "e7aa8e1d-c88a-42ff-bf58-fe4371a1ce6a"
         },
         {
-          "content": "<p>Le port USB n’est pas le seul port présent sur un ordinateur.</p>",
+          "content": "<p>Le port USB n’est pas le seul port présent sur un ordinateur. On vous les explique un par un. <span aria-hidden=\"true\">👇</span></p>",
           "grainId": "3b26ddd0-8d3b-4f84-bee3-58cbe4073798"
+        },
+        {
+          "content": "<p>Maintenant que vous en savez plus, vous allez sûrement pouvoir aider Maxime. <span aria-hidden=\"true\">👨🏽</span><br>Maxime veut équiper son ordinateur. Il a reçu un nouveau clavier pour son anniversaire <span aria-hidden=\"true\">🎂</span></p>",
+          "grainId": "259bb2d0-8815-4bab-885a-a54f7d6d9606"
+        },
+        {
+          "content": "<p>Pour finir ce module, à vous de jouer en reconnaissant les ports votre ordinateur.</p>",
+          "grainId": "57cea880-a324-4a1b-8cfe-a7c8d1b0f5b1"
         }
       ],
       "grains": [
@@ -629,7 +637,7 @@
             {
               "id": "df8684e9-e844-4a83-a556-b0a6fc955b7b",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/cle-USB.png",
+              "url": "https://i.imgur.com/GuLXBCj.jpeg",
               "alt": "Photo d'une clé USB",
               "alternativeText": ""
             },
@@ -673,7 +681,7 @@
             {
               "id": "1496c1da-e0ea-4c44-98c3-cdcfab871e04",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/chargeur-USB.png",
+              "url": "https://i.imgur.com/7IA3ghe.jpeg",
               "alt": "Photo d'un chargeur de téléphone portable avec une connexion USB",
               "alternativeText": ""
             },
@@ -690,7 +698,7 @@
             {
               "id": "b7f8feb2-b355-4fbd-99ec-48511303536f",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/souris-USB-1.png",
+              "url": "https://i.imgur.com/pjPFhtM.jpeg",
               "alt": "Photo d'une souris filaire avec une connexion USB",
               "alternativeText": ""
             },
@@ -707,7 +715,7 @@
             {
               "id": "cfca4266-f0cf-4dd9-81a5-f297b907334b",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/manette.png",
+              "url": "https://i.imgur.com/6r6ryOU.jpeg",
               "alt": "Photo d'une manette de jeu vidéo avec une connexion USB",
               "alternativeText": ""
             },
@@ -724,7 +732,7 @@
             {
               "id": "70bca95e-6aad-4fc9-b4eb-8499945879c2",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/webcam-USB.png",
+              "url": "https://i.imgur.com/hb2SFMR.jpeg",
               "alt": "Photo d'une webcam avec une connexion USB",
               "alternativeText": ""
             },
@@ -736,12 +744,12 @@
             {
               "id": "a4414cd9-2071-4bad-b805-a7516a04e83d",
               "type": "text",
-              "content": "<h4>À retenir : les appareils qui se branchent via USB ont souvent un symbole bien particulier : une flèche avec des ronds et des carrés. Ça aide à les reconnaître !</h4>"
+              "content": "<h4>Une astuce : les appareils qui se branchent via USB ont souvent un symbole bien particulier. C'est une flèche avec des ronds et des carrés. Ça aide à les reconnaître !</h4>"
             },
             {
               "id": "7a55d4a9-3bff-4604-9fa9-0898b7d109dc",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/symbole-USB-dessin.svg",
+              "url": "https://i.imgur.com/PA3PZST.jpeg",
               "alt": "Le symbole de l'USB",
               "alternativeText": ""
             }
@@ -755,12 +763,12 @@
             {
               "id": "270b0408-be92-484a-b9b2-5d302f01eecf",
               "type": "text",
-              "content": "<h4>Pour chaque affirmation, choisissez si elle est vraie ou fausse <span aria-hidden=\"true\">✅</span> <span aria-hidden=\"true\">❌</span></h4>"
+              "content": "<h4>Pour chaque affirmation, choisissez si elle est vraie ou fausse. <span aria-hidden=\"true\">✅</span> <span aria-hidden=\"true\">❌</span></h4>"
             },
             {
               "id": "6f276b50-a00c-49f7-b22c-23dbef0c2bf2",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/souris-USB-2.png",
+              "url": "https://i.imgur.com/gn9ppqZ.jpeg",
               "alt": "Une souris d'ordinateur",
               "alternativeText": ""
             },
@@ -792,7 +800,7 @@
             {
               "id": "49bb95aa-1074-45e9-8c85-c061efd07348",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/casque-jack.png",
+              "url": "https://i.imgur.com/FZ57Y8o.jpeg",
               "alt": "Un casque audio",
               "alternativeText": ""
             },
@@ -811,8 +819,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Attention ! regardez-bien l’extrémité du fil de ce casque audio. Il ne se branche pas en USB.</p>",
-                "invalid": "<p>Oui ! ce casque audio se branche à un port Jack.</p>"
+                "valid": "<p>Oui ! ce casque audio se branche à un port Jack.</p>",
+                "invalid": "<p>Attention ! regardez-bien l’extrémité du fil de ce casque audio. Il ne se branche pas en USB.</p>"
               },
               "solution": "2"
             },
@@ -824,7 +832,7 @@
             {
               "id": "36b959d4-add7-403d-9e7f-aa4f0bf777b8",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/symbole-USB-reel.png",
+              "url": "https://i.imgur.com/waJxYRr.jpeg",
               "alt": "",
               "alternativeText": ""
             },
@@ -856,21 +864,33 @@
           "title": "Les ports de connexion d'un ordinateur",
           "elements": [
             {
+              "id": "83a85de9-4a5e-41a4-b8e6-f583a817121e",
+              "type": "image",
+              "url": "https://i.imgur.com/WQgsiuV.jpeg",
+              "alt": "Schéma de l'ensemble des ports qui vont être présentés",
+              "alternativeText": ""
+            },
+            {
               "id": "e6730d81-c115-4821-a415-4f719a252746",
               "type": "text",
-              "content": "<h4>Voici les ports que l'on trouve souvent sur un ordinateur :</h4>"
+              "content": "<h4>Voici ci-dessus les ports que l'on trouve souvent sur un ordinateur.</h4>"
+            },
+            {
+              "id": "16d2d2ba-e314-4721-bdde-281c75d47b13",
+              "type": "text",
+              "content": "<hr>"
             },
             {
               "id": "c4bd304a-e9a9-4f6c-a661-2174a172a8c1",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/schema-port-alimentation.png",
+              "url": "https://i.imgur.com/eE3t59S.jpeg",
               "alt": "Schéma d'un port d'alimentation",
               "alternativeText": ""
             },
             {
               "id": "df4b59c7-b4d8-450c-985a-dc9bc9735f26",
               "type": "text",
-              "content": "<p>C’est un <strong>port de l’alimentation électrique</strong>.<br> Il sert à recharger son ordinateur ou à le connecter au réseau électrique <span aria-hidden=\"true\">🔌</span>. Sur les ordinateurs portables il y a beaucoup de variantes possibles et sur un ordinateur fixe il est plus gros.</p>"
+              "content": "<p>C’est un <strong>port d’alimentation électrique</strong>.<br> Il sert à recharger son ordinateur ou à le connecter au réseau électrique <span aria-hidden=\"true\">🔌</span>. Sur les ordinateurs portables il y a beaucoup de variantes possibles et sur un ordinateur fixe il est plus gros.</p>"
             },
             {
               "id": "02e82529-bcbc-4d0d-b9ad-e50d28bec4f3",
@@ -880,14 +900,14 @@
             {
               "id": "3c4bf49c-c157-412b-ac15-2b0f2a193ae7",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/schema-port-vga.png",
+              "url": "https://i.imgur.com/nfjujyv.jpeg",
               "alt": "Schéma d'un port VGA",
               "alternativeText": ""
             },
             {
               "id": "466f1f93-de01-4c1e-9624-2783a875fcf2",
               "type": "text",
-              "content": "<p>C’est un <strong>port VGA</strong>.<br> On le reconnaît grâce à sa forme et ses petits pointillés. Ce port sert à connecter un écran ou un vidéo-projecteur à l’ordinateur <span aria-hidden=\"true\">📽️</span>.</p>"
+              "content": "<p>C’est un <strong>port VGA</strong>.<br> On le reconnaît grâce à sa forme et ses petits pointillés. Ce port sert à connecter un écran ou un vidéo-projecteur à l’ordinateur <span aria-hidden=\"true\">📽️</span>. Il est de moins en moins utilisé.</p>"
             },
             {
               "id": "3a445423-faac-460b-b407-c8d80dfeb5d3",
@@ -897,7 +917,7 @@
             {
               "id": "ddb6295c-6549-4698-805b-d18154a0fcf9",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/schema-port-hdmi.png",
+              "url": "https://i.imgur.com/C7p4TbW.jpeg",
               "alt": "Schéma d'un port HDMI",
               "alternativeText": ""
             },
@@ -914,7 +934,7 @@
             {
               "id": "a66efa37-9da8-4e18-a483-43c59271e3d5",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/schema-port-usb.png",
+              "url": "https://i.imgur.com/x4JWIrP.jpeg",
               "alt": "Schéma d'un port USB",
               "alternativeText": ""
             },
@@ -931,14 +951,14 @@
             {
               "id": "7e24dbe8-7d09-4bc6-bb94-b01f16c4cd0b",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/schema-port-ethernet.png",
+              "url": "https://i.imgur.com/0xGKMk6.jpeg",
               "alt": "Schéma d'un port ethernet",
               "alternativeText": ""
             },
             {
               "id": "be359a9d-19d2-49a7-8699-8921156e554c",
               "type": "text",
-              "content": "<p>C’est un <strong>port ethernet</strong>.<br> Il est utilisé pour connecter l’ordinateur à internet grâce à un câble éthernet <span aria-hidden=\"true\">🌐</span>. Le câble ethernet relie l’ordinateur à la box internet.</p>"
+              "content": "<p>C’est un <strong>port ethernet</strong>. On dit aussi RJ45. <br> Il est utilisé pour connecter l’ordinateur à internet grâce à un câble ethernet <span aria-hidden=\"true\">🌐</span>. Le câble ethernet relie l’ordinateur à la box internet.</p>"
             },
             {
               "id": "53eca1dc-8f9f-46bc-a132-1c1e65fadb70",
@@ -948,31 +968,77 @@
             {
               "id": "9ea49b3f-a39f-4d0f-9879-611ffe218f3c",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/schema-port-jack.png",
+              "url": "https://i.imgur.com/kzql8CG.jpeg",
               "alt": "Schéma d'un port jack",
               "alternativeText": ""
             },
             {
               "id": "12ac3b9a-286c-4587-9a0d-6dc56e13caf9",
               "type": "text",
-              "content": "<p>C’est un <strong>port jack</strong>. On dit aussi <strong>prise jack</strong>.<br> Il est petit et rond. Il est souvent accompagné d’une image de casque <span aria-hidden=\"true\">🎧</span>. Il sert à connecter des appareils audios à l’ordinateur : écouteurs, casque, micro, etc.</p>"
-            },
+              "content": "<p>C’est un <strong>port jack</strong>. On dit aussi <strong>mini-jack</strong>.<br> Il est petit et rond. Il est souvent accompagné d’une image de casque <span aria-hidden=\"true\">🎧</span>. Il sert à connecter des appareils audios à l’ordinateur : écouteurs, casque, micro, etc.</p>"
+            }
+          ]
+        },
+        {
+          "id": "259bb2d0-8815-4bab-885a-a54f7d6d9606",
+          "type": "activity",
+          "title": "Vos ports de connexion",
+          "elements": [
             {
-              "id": "117eebac-f2be-4a14-808a-7adcceabf653",
+              "id": "efda82dc-1a96-488c-9d8d-a1bd5a8f1241",
               "type": "text",
-              "content": "<hr>"
+              "content": "<p>Voici ci-dessous l'ordinateur de Maxime :</p>"
             },
             {
-              "id": "0b38d068-36ac-4f77-97a6-a7b828495b6e",
-              "type": "text",
-              "content": "<p>Voici un ordinateur qui a tous les ports qui viennent d'être présentés : </p>"
-            },
-            {
-              "id": "83a85de9-4a5e-41a4-b8e6-f583a817121e",
+              "id": "0f6485ad-1db7-4154-8c9c-b4432f51234f",
               "type": "image",
-              "url": "https://images.pix.fr/modulix/ports-connexion-ordinateur/schema-port-complet.png",
-              "alt": "Schéma de l'ensemble des ports présentés",
+              "url": "https://i.imgur.com/PWlgjCM.jpeg",
+              "alt": "",
               "alternativeText": ""
+            },
+            {
+              "id": "9548df1b-3bb4-4d7f-93ce-965de364797e",
+              "type": "qcu",
+              "instruction": "<p>Sur quel port peut-il brancher son <strong>clavier USB</strong> ?</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "Port n°1"
+                },
+                {
+                  "id": "2",
+                  "content": "Port n°2"
+                },
+                {
+                  "id": "3",
+                  "content": "Port n°3"
+                },
+                {
+                  "id": "4",
+                  "content": "Port n°4"
+                },
+                {
+                  "id": "5",
+                  "content": "Port n°5"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct. Vous avez bien identifié le port USB.</p>",
+                "invalid": "<p>Incorrect. Remontez voir les différents ports pour trouver le port <strong>USB</strong>.</p>"
+              },
+              "solution": "4"
+            }
+          ]
+        },
+        {
+          "id": "57cea880-a324-4a1b-8cfe-a7c8d1b0f5b1",
+          "type": "activity",
+          "title": "Vos ports de connexion",
+          "elements": [
+            {
+              "id": "e6730d81-c115-4821-a415-4f719a252746",
+              "type": "text",
+              "content": "<h3>Trouvez et nommez tous les ports de connexion de votre ordinateur.</h3>"
             }
           ]
         }
