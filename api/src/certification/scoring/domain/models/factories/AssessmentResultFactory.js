@@ -28,21 +28,12 @@ export class AssessmentResultFactory {
   static buildNotTrustableAssessmentResult({ pixScore, reproducibilityRate, status, assessmentId, juryId, emitter }) {
     const commentForCandidate = new JuryComment({
       context: JuryCommentContexts.CANDIDATE,
-      fallbackComment:
-        'Un ou plusieurs problème(s) technique(s), signalé(s) à votre surveillant pendant la session de certification' +
-        ', a/ont affecté la qualité du test de certification. En raison du trop grand nombre de questions auxquelles vous ' +
-        "n'avez pas pu répondre dans de bonnes conditions, nous ne sommes malheureusement pas en mesure de calculer un " +
-        'score fiable et de fournir un certificat. La certification est annulée, le prescripteur de votre certification' +
-        '(le cas échéant), en est informé.',
+      commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
     });
 
     const commentForOrganization = new JuryComment({
       context: JuryCommentContexts.ORGANIZATION,
-      fallbackComment:
-        'Un ou plusieurs problème(s) technique(s), signalés par ce(cette) candidate au surveillant' +
-        'de la session de certification, a/ont affecté le bon déroulement du test de certification. Nous sommes dans ' +
-        "l'incapacité de le/la certifier, sa certification est donc annulée. Cette information est à prendre en compte " +
-        'et peut vous conduire à proposer une nouvelle session de certification pour ce(cette) candidat(e).',
+      commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
     });
 
     return new AssessmentResult({
