@@ -9,6 +9,7 @@ class Mission {
     learningObjectives,
     validatedObjectives,
     areaCode,
+    startedBy,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -19,6 +20,7 @@ class Mission {
     this.areaCode = areaCode;
     this.learningObjectives = learningObjectives;
     this.validatedObjectives = validatedObjectives;
+    this.startedBy = startedBy;
   }
 }
 

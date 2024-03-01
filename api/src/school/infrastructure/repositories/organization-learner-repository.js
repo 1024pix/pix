@@ -18,4 +18,15 @@ const getById = async function (organizationLearnerId) {
   });
 };
 
-export { getStudentsByOrganizationId, getById };
+async function getDivisionsWhichStartedMission(missionId, organizationId) {
+  const rawDivisions = await knex
+    .distinct('division')
+    .from('organization-learners')
+    .join('mission-assessments', 'mission-assessments.organizationLearnerId', 'organization-learners.id')
+    .where({ organizationId, missionId })
+    .andWhere('isDisabled', false);
+
+  return rawDivisions.map((rawDivision) => rawDivision.division).join(', ');
+}
+
+export { getStudentsByOrganizationId, getById, getDivisionsWhichStartedMission };

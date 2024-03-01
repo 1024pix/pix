@@ -770,7 +770,8 @@
           "caption": "Liste des missions",
           "competences": "Compétences travaillées",
           "empty-state": "Il n'y a pas de missions",
-          "name": "Mission"
+          "name": "Mission",
+          "started-by": "Commencé par"
         }
       }
     },

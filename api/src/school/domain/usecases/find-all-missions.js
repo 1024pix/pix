@@ -1,9 +1,23 @@
 import { injectComplementDataTo } from '../services/inject-complement-data-to-mission.js';
 
-async function findAllMissions({ missionRepository, areaRepository, competenceRepository }) {
+async function findAllMissions({
+  organizationId,
+  missionRepository,
+  areaRepository,
+  competenceRepository,
+  organizationLearnerRepository,
+}) {
   const missions = await missionRepository.findAllMissions();
   return Promise.all(
-    missions.map(async (mission) => await injectComplementDataTo(mission, areaRepository, competenceRepository)),
+    missions.map(async (mission) => {
+      return await injectComplementDataTo({
+        mission,
+        organizationId,
+        areaRepository,
+        competenceRepository,
+        organizationLearnerRepository,
+      });
+    }),
   );
 }
 

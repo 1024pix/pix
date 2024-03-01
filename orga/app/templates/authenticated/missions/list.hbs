@@ -9,6 +9,7 @@
         <tr>
           <Table::Header scope="col">{{t "pages.missions.list.tab.name"}}</Table::Header>
           <Table::Header scope="col">{{t "pages.missions.list.tab.competences"}}</Table::Header>
+          <Table::Header scope="col">{{t "pages.missions.list.tab.started-by"}}</Table::Header>
         </tr>
       </thead>
       <tbody>
@@ -19,6 +20,9 @@
             </td>
             <td>
               {{mission.competenceName}}
+            </td>
+            <td>
+              {{mission.startedBy}}
             </td>
           </tr>
         {{/each}}
