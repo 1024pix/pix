@@ -29,7 +29,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     assert.strictEqual(findAll('.element-qcu-header__instruction').length, 1);
     assert.strictEqual(findAll('.element-qcu-header__direction').length, 1);
     assert.ok(screen.getByText('Instruction'));
-    assert.ok(screen.getByText('Choisissez une seule réponse.'));
+    assert.ok(screen.getByRole('group', { legend: this.intl.t('pages.modulix.qcu.direction') }));
 
     assert.strictEqual(screen.getAllByRole('radio').length, qcuElement.proposals.length);
     assert.ok(screen.getByLabelText('radio1'));
