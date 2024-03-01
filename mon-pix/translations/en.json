@@ -1229,7 +1229,7 @@
       "recap": {
         "title": "Congratulations! Module completed",
         "backToModuleDetails": "Back to module details",
-        "goToForm": "Répondre au questionnaire",
+        "goToForm": "Answer the questionnaire",
         "subtitle": "You have achieved the following objectives:"
       },
       "verification-precondition-failed-alert": {
