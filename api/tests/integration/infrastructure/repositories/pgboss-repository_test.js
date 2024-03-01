@@ -3,10 +3,6 @@ import * as pgBossRepository from '../../../../lib/infrastructure/repositories/p
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Integration | Repository | PgBoss', function () {
-  afterEach(function () {
-    return knex('pgboss.job').truncate();
-  });
-
   describe('#insert', function () {
     it('should insert two jobs', async function () {
       await pgBossRepository.insert([

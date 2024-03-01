@@ -37,13 +37,19 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
           table: 'table3',
           isDirty: false,
         },
+        {
+          table: 'namespace1.table4',
+          isDirty: true,
+        },
       ];
 
       // when
       await databaseBuilder.clean();
 
       // then
-      expect(knex.raw).to.have.been.calledWithExactly('DELETE FROM ??;DELETE FROM ??;', ['table2', 'table1']);
+      expect(knex.raw).to.have.been.calledWithExactly(
+        'DELETE FROM "table2";DELETE FROM "table1";DELETE FROM "namespace1"."table4";',
+      );
     });
 
     it('should avoid deleting anything if not table are set for deletion in database buffer', async function () {
@@ -125,7 +131,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
         databaseBuilder.isFirstCommit = true;
       });
 
-      it('should init the database by cleaning tables according to dirtyness map order except for specific tables', async function () {
+      it('should init the database by cleaning tables according to dirtiness map order except for specific tables', async function () {
         // given
         const insertStub = sinon.stub().resolves();
         const trxStub = sinon.stub().returns({ insert: insertStub });
@@ -139,7 +145,8 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
         knex.raw.onCall(0).resolves({
           rows: [{ table_name: 'table2' }, { table_name: 'knex_migrations' }, { table_name: 'table1' }],
         });
-        knex.raw.onCall(1).resolves();
+        knex.raw.onCall(1).resolves({ rows: [] });
+        knex.raw.onCall(2).resolves();
         databaseBuilder.knex = knex;
         databaseBuilder.isFirstCommit = true;
 
