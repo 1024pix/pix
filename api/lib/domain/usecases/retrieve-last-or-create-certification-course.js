@@ -28,6 +28,7 @@ const retrieveLastOrCreateCertificationCourse = async function ({
   certificationCourseRepository,
   sessionRepository,
   certificationCenterRepository,
+  userRepository,
   certificationChallengesService,
   placementProfileService,
   certificationBadgesService,
@@ -68,6 +69,11 @@ const retrieveLastOrCreateCertificationCourse = async function ({
 
   const { version } = session;
 
+  if (version === CertificationVersion.V3) {
+    const user = await userRepository.get(userId);
+    _validateUserLanguage(user);
+  }
+
   return _startNewCertification({
     domainTransaction,
     sessionId,
@@ -87,6 +93,14 @@ const retrieveLastOrCreateCertificationCourse = async function ({
 };
 
 export { retrieveLastOrCreateCertificationCourse };
+
+function _validateUserLanguage(user) {
+  const isUserLanguageAvailableForCertification = user.isLanguageAvailableForV3Certification();
+
+  if (!isUserLanguageAvailableForCertification) {
+    return;
+  }
+}
 
 function _validateSessionAccess(session, accessCode) {
   if (session.accessCode !== accessCode) {
