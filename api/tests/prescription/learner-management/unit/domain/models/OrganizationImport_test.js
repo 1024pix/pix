@@ -86,6 +86,7 @@ describe('Unit | Models | OrganizationImport', function () {
       expect(organizationImport).to.includes({
         status: IMPORT_STATUSES.VALIDATED,
       });
+      expect(organizationImport.errors).to.be.null;
     });
 
     it('should validate an OrganizationImport with success and warnings', function () {
