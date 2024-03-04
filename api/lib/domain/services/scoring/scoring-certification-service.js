@@ -8,7 +8,7 @@ import { ReproducibilityRate } from '../../models/ReproducibilityRate.js';
 import { CompetenceMark } from '../../models/CompetenceMark.js';
 import { CertificationAssessmentScore } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
 import { AnswerCollectionForScoring } from '../../models/AnswerCollectionForScoring.js';
-import * as areaRepository from '../../../infrastructure/repositories/area-repository.js';
+import * as areaRepository from '../../../../src/shared/infrastructure/repositories/area-repository.js';
 import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {

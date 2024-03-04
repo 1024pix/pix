@@ -13,7 +13,7 @@ import * as activityAnswerRepository from '../../../src/school/infrastructure/re
 import * as adminMemberRepository from '../../../src/shared/infrastructure/repositories/admin-member-repository.js';
 import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
 import * as answerRepository from '../../../src/shared/infrastructure/repositories/answer-repository.js';
-import * as areaRepository from '../../infrastructure/repositories/area-repository.js';
+import * as areaRepository from '../../../src/shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';

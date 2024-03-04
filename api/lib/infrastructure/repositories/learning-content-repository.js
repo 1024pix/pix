@@ -5,7 +5,7 @@ import * as tubeRepository from './tube-repository.js';
 import * as thematicRepository from './thematic-repository.js';
 import * as campaignRepository from './campaign-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
-import * as areaRepository from './area-repository.js';
+import * as areaRepository from '../../../src/shared/infrastructure/repositories/area-repository.js';
 import * as frameworkRepository from './framework-repository.js';
 import * as skillRepository from './skill-repository.js';
 import { LearningContent } from '../../domain/models/LearningContent.js';

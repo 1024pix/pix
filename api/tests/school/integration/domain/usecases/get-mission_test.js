@@ -3,7 +3,7 @@ import { expect, mockLearningContent } from '../../../../test-helper.js';
 import { getMission } from '../../../../../src/school/domain/usecases/get-mission.js';
 import * as missionRepository from '../../../../../src/school/infrastructure/repositories/mission-repository.js';
 import * as competenceRepository from '../../../../../src/shared/infrastructure/repositories/competence-repository.js';
-import * as areaRepository from '../../../../../lib/infrastructure/repositories/area-repository.js';
+import * as areaRepository from '../../../../../src/shared/infrastructure/repositories/area-repository.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 describe('Integration | UseCase | getMission', function () {
   it('Should return a mission', async function () {
