@@ -1879,10 +1879,10 @@
     {
       "id": "65b761ab-3ebd-44a9-84b7-8b5e151aee76",
       "slug": "distinguer-vrai-faux-sur-internet",
-      "title": "Informations sur internet : distinguer le vrai du faux",
+      "title": "Les informations sur internet : distinguer le vrai du faux",
       "details": {
         "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-        "description": "Sur internet, de nombreuses informations circulent. Certaines sont vraies, d'autres sont fausses. Dans ce module, vous appliquerez des méthodes pour analyser une information et aiguiser votre esprit critique !",
+        "description": "Sur internet, de nombreuses informations circulent. Certaines sont vraies, d'autres sont fausses. Dans ce module, vous allez découvrir une méthode pour analyser l'information et aiguiser votre esprit critique !",
         "duration": 10,
         "level": "Intermédiaire",
         "objectives": [
@@ -1893,11 +1893,11 @@
       },
       "transitionTexts": [
         {
-          "content": "<p>Commençons par un jeu <span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, devinez si chaque information proposée est vraie ou fausse. Bonne chance !</p>",
+          "content": "<p>Commençons par un jeu. <span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, devinez si chaque information proposée est vraie ou fausse. Bonne chance !</p>",
           "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
         },
         {
-          "content": "<p>En lisant seulement le titre d’un article, c’est presque impossible d’être sûr de ce qui est vrai ou faux <span aria-hidden=\"true\">🤔</span>️<br>Pour vérifier une information, il y a une méthode à suivre <span aria-hidden=\"true\">📚</span>️</p>",
+          "content": "<p>En lisant seulement le titre d’un article, c’est presque impossible de savoir ce qui est vrai ou faux. <span aria-hidden=\"true\">🤔</span>️<br>Pour vérifier une information, il y a une méthode à suivre. <span aria-hidden=\"true\">📚</span>️Vous allez la découvrir dans la vidéo suivante.</p>",
           "grainId": "eb83569f-2e37-49ed-aa6f-31c420b673b9"
         },
         {
@@ -1905,11 +1905,11 @@
           "grainId": "c624de0b-658a-47e7-b780-c579a1033aba"
         },
         {
-          "content": "<p>Même si l’on a vérifié le “qui ? quand ? d'où ?”, il faut rester vigilant.<br>Des indices peuvent aussi aider à détecter de fausses informations&nbsp;👣 <br>Plus ils s’accumulent, plus l’information a des chances d’être fausse.</p>",
+          "content": "<p>Même si on a vérifié le “qui ? quand ? d'où ?”, il faut rester vigilant.<br>D'autres indices peuvent aider à détecter de fausses informations.&nbsp;👣 <br>Plus ils s’accumulent, plus l’information a des chances d’être fausse.</p>",
           "grainId": "428ea826-6e21-4c56-a5a2-f97373f1e833"
         },
         {
-          "content": "<p>Maintenant, à vous d’étudier une nouvelle situation <span aria-hidden=\"true\">🕵️</span>️<span aria-hidden=\"true\">🕵🏿‍♀️</span>️</p>",
+          "content": "<p>Maintenant, à vous d’étudier une nouvelle situation. <span aria-hidden=\"true\">🕵️</span>️<span aria-hidden=\"true\">🕵🏿‍♀️</span>️</p>",
           "grainId": "9f56f75e-3e2d-4a6e-8623-9b74747b236d"
         }
       ],
@@ -1941,8 +1941,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Bien joué. C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/l-hydne-herisson-un-champignon-utilise-dans-la-medecine-traditionnelle-chinoise-et-qui-renforcerait-la-memoire_169920\" target=\"_blank\">article de Sciences et Avenir</a></p>",
-                "invalid": "<p>Et pourtant, c'est vrai ! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/l-hydne-herisson-un-champignon-utilise-dans-la-medecine-traditionnelle-chinoise-et-qui-renforcerait-la-memoire_169920\" target=\"_blank\">article de Sciences et Avenir</a></p>"
+                "valid": "<p>Bien vu ! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/l-hydne-herisson-un-champignon-utilise-dans-la-medecine-traditionnelle-chinoise-et-qui-renforcerait-la-memoire_169920\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>",
+                "invalid": "<p>Et pourtant, c'est vrai ! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/l-hydne-herisson-un-champignon-utilise-dans-la-medecine-traditionnelle-chinoise-et-qui-renforcerait-la-memoire_169920\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
               },
               "solution": "1"
             },
@@ -1973,8 +1973,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Gagné. C'est le titre d'un <a href=\"https://www.slate.fr/story/253264/mariage-gateau-humiliation-publique-humour-separation-divorce\" target=\"_blank\">article de Slate</a></p>",
-                "invalid": "<p>Et pourtant, c'est vrai ! C'est le titre d'un <a href=\"https://www.slate.fr/story/253264/mariage-gateau-humiliation-publique-humour-separation-divorce\" target=\"_blank\">article de Slate</a></p>"
+                "valid": "<p>Bravo ! C'est le titre d'un <a href=\"https://www.slate.fr/story/253264/mariage-gateau-humiliation-publique-humour-separation-divorce\" target=\"_blank\">article de Slate</a>.</p>",
+                "invalid": "<p>Et pourtant, c'est vrai ! C'est le titre d'un <a href=\"https://www.slate.fr/story/253264/mariage-gateau-humiliation-publique-humour-separation-divorce\" target=\"_blank\">article de Slate</a>.</p>"
               },
               "solution": "1"
             },
@@ -2005,8 +2005,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Oui, fake news ! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a></p>",
-                "invalid": "<p>Attention, fake news ! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a></p>"
+                "valid": "<p>Oui, c'est une fake news ! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>",
+                "invalid": "<p>Attention, c'est une fake news ! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
               },
               "solution": "2"
             },
@@ -2037,8 +2037,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Oui ! C'est le titre d'un <a href=\"https://www.ouest-france.fr/leditiondusoir/2023-08-02/elle-vend-son-bar-tabac-pour-aller-tailler-les-sabots-de-cochons-domestiques-a-travers-la-france-b97b86c2-a64f-4d41-8f53-70c0640d1663\" target=\"_blank\">article du journal Ouest France</a></p>",
-                "invalid": "<p>Surprenant mais vrai ! C'est le titre d'un <a href=\"https://www.ouest-france.fr/leditiondusoir/2023-08-02/elle-vend-son-bar-tabac-pour-aller-tailler-les-sabots-de-cochons-domestiques-a-travers-la-france-b97b86c2-a64f-4d41-8f53-70c0640d1663\" target=\"_blank\">article du journal Ouest France</a></p>"
+                "valid": "<p>Oui ! C'est le titre d'un <a href=\"https://www.ouest-france.fr/leditiondusoir/2023-08-02/elle-vend-son-bar-tabac-pour-aller-tailler-les-sabots-de-cochons-domestiques-a-travers-la-france-b97b86c2-a64f-4d41-8f53-70c0640d1663\" target=\"_blank\">article du journal Ouest France</a>.</p>",
+                "invalid": "<p>Surprenant mais vrai ! C'est le titre d'un <a href=\"https://www.ouest-france.fr/leditiondusoir/2023-08-02/elle-vend-son-bar-tabac-pour-aller-tailler-les-sabots-de-cochons-domestiques-a-travers-la-france-b97b86c2-a64f-4d41-8f53-70c0640d1663\" target=\"_blank\">article du journal Ouest France</a>.</p>"
               },
               "solution": "1"
             }
@@ -2052,7 +2052,7 @@
             {
               "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
               "type": "text",
-              "content": "<p>À la fin de cette vidéo, des questions seront posées sur le vocabulaire \"anecdote\", \"rumeur\", \"opinion\" et sur la méthode de vérification d'une information.</p>"
+              "content": "<p>À la fin de cette vidéo, des questions vous seront posées sur la méthode de vérification d'une information et sur des mots de vocabulaire : \"une anecdote\", \"une rumeur\", \"une opinion\".</p>"
             },
             {
               "id": "3a9f2269-99ba-4631-b6fd-6802c88d5c26",
@@ -2072,7 +2072,7 @@
             {
               "id": "5c6ec12a-f5b4-4683-ae7a-11b79fddd0a5",
               "type": "text",
-              "content": "Dans chaque cas, choisir s'il s'agit d'une opinion, d'une rumeur ou d'une anecdote."
+              "content": "Dans chaque cas, choisissez s'il s'agit d'une opinion, d'une rumeur ou d'une anecdote."
             },
             {
               "id": "6cca7664-5201-4239-a272-b8b48808ede8",
@@ -2081,20 +2081,20 @@
               "proposals": [
                 {
                   "id": "1",
-                  "content": "opinion"
+                  "content": "une opinion"
                 },
                 {
                   "id": "2",
-                  "content": "rumeur"
+                  "content": "une rumeur"
                 },
                 {
                   "id": "3",
-                  "content": "anecdote"
+                  "content": "une anecdote"
                 }
               ],
               "feedbacks": {
                 "valid": "<p>Correct. C'est un point de vue qui est exprimé.</p>",
-                "invalid": "<p>Incorrect. Il faut repérer que c'est un point de vue qui est exprimé, donc une opinion.</p>"
+                "invalid": "<p>Incorrect. C'est un point de vue qui est exprimé, donc une opinion.</p>"
               },
               "solution": "1"
             },
@@ -2106,24 +2106,24 @@
             {
               "id": "ba752db6-c9c5-45d4-ab2b-c2a14204db5f",
               "type": "qcu",
-              "instruction": "<p>Dès qu'elle peut, Miranda achète des produits reconditionnés.</p>",
+              "instruction": "<p>Dès qu'elle le peut, Miranda achète des produits reconditionnés.</p>",
               "proposals": [
                 {
                   "id": "1",
-                  "content": "opinion"
+                  "content": "une opinion"
                 },
                 {
                   "id": "2",
-                  "content": "rumeur"
+                  "content": "une rumeur"
                 },
                 {
                   "id": "3",
-                  "content": "anecdote"
+                  "content": "une anecdote"
                 }
               ],
               "feedbacks": {
                 "valid": "<p>Correct. C'est un fait qui intéresse peu de gens. Miranda n'est pas un personnage public.</p>",
-                "invalid": "<p>Incorrect. C'est un fait qui intéresse peu de gens, c'est donc une anecdote</p>"
+                "invalid": "<p>Incorrect. C'est un fait qui intéresse peu de gens, c'est donc une anecdote.</p>"
               },
               "solution": "3"
             },
@@ -2135,24 +2135,24 @@
             {
               "id": "26b01131-fc75-4300-9ad3-fc19f718a88a",
               "type": "qcu",
-              "instruction": "<p>Yann a entendu dire qu'un nouveau réseau social révolutionnaire va bientôt arriver.</p>",
+              "instruction": "<p>Yann a entendu dire qu'un nouveau réseau social révolutionnaire allait bientôt arriver.</p>",
               "proposals": [
                 {
                   "id": "1",
-                  "content": "opinion"
+                  "content": "une opinion"
                 },
                 {
                   "id": "2",
-                  "content": "rumeur"
+                  "content": "une rumeur"
                 },
                 {
                   "id": "3",
-                  "content": "anecdote"
+                  "content": "une anecdote"
                 }
               ],
               "feedbacks": {
                 "valid": "<p>Correct. C'est une projection dans l'avenir, qui n'est soutenue par aucune source.</p>",
-                "invalid": "<p>Incorrect. C'est une projection dans l'avenir, qui n'est soutenue par aucune source.</p>"
+                "invalid": "<p>Incorrect. C'est une projection dans l'avenir, une rumeur, qui n'est soutenue par aucune source.</p>"
               },
               "solution": "2"
             }
@@ -2190,8 +2190,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct. Vous allez maintenant pouvoir appliquer cette méthode. </p>",
-                "invalid": "<p>Incorrect. Retourner voir la vidéo si besoin <span aria-hidden=\"true\">⬆</span>️!</p>"
+                "valid": "<p>Correct. Tous ces éléments font partie de la méthode de vérification d'une information. </p>",
+                "invalid": "<p>Incorrect. Retournez voir la vidéo si besoin <span aria-hidden=\"true\">⬆</span>️!</p>"
               },
               "solutions": ["2", "3", "5"]
             }
@@ -2212,7 +2212,7 @@
             {
               "id": "81943b07-ecf0-408b-877c-55e1943df1fc",
               "type": "qcu",
-              "instruction": "<p>Choisir la raison principale qui laisse penser que cette information est fausse.</p>",
+              "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -2253,7 +2253,7 @@
             {
               "id": "275ab2ee-feaa-4c5c-9372-116799077172",
               "type": "qcu",
-              "instruction": "<p>Choisir la raison principale qui laisse penser que cette information est fausse.</p>",
+              "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -2270,7 +2270,7 @@
               ],
               "feedbacks": {
                 "valid": "<p>Correct. FanDuRealMadrid annonce la venue de Mbappé dans son club favori alors que l’article utilisé comme source ne l’annonce pas du tout !</p>",
-                "invalid": "<p>Incorrect. L’article utilisé comme source ne ’annonce pas du tout la venue de Mbappé. Ce fan a sûrement été biaisé par ses envies.</p>"
+                "invalid": "<p>Incorrect. L’article utilisé comme source n’annonce pas du tout la venue de Mbappé. Ce fan a sûrement été influencé par ses envies.</p>"
               },
               "solution": "1"
             },
@@ -2294,7 +2294,7 @@
             {
               "id": "ee7b67b7-0cb0-4bb7-a771-c2421a588643",
               "type": "qcu",
-              "instruction": "<p>Choisir la raison principale qui laisse penser que cette information est fausse.</p>",
+              "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -2325,7 +2325,7 @@
             {
               "id": "ff55b19b-a35c-4f25-9e07-ce2e3d965784",
               "type": "text",
-              "content": "<p>Étudiez les indices présentés dans l'exemple ci-dessous. Ils vous aideront à identifier de fausses informations et faire les bons choix.</p>"
+              "content": "<p>Étudiez quelques uns des indices présentés dans l'exemple ci-dessous. Ils vous aideront à identifier de fausses informations.</p>"
             },
             {
               "id": "c6cd87ae-13a2-4ff1-aa09-26f4aca4dddc",
@@ -2344,7 +2344,7 @@
             {
               "id": "eb90d3ea-797f-4e4a-9675-e679b9f5bf3c",
               "type": "text",
-              "content": "<p>Stéphane a du mal à faire pousser sa nouvelle plante verte d’intérieur <span aria-hidden=\"true\">🪴</span>️. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve ces informations publiées par SuperJardinier le 28 août 2023 :</p>"
+              "content": "<p>Stéphane n'arrive pas à faire pousser sa nouvelle plante verte d’intérieur <span aria-hidden=\"true\">🪴</span>️. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier :</p>"
             },
             {
               "id": "2c525ab3-23bf-4b43-867d-ea1fac54efad",
