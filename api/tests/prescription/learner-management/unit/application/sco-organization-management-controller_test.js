@@ -60,7 +60,9 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     it('should call the usecase to import organizationLearners', async function () {
       // given
+      const userId = 1;
       request.i18n = getI18n();
+      request.auth = { credentials: { userId } };
       hFake.request = {
         path: '/api/organizations/145/sco-organization-learners/import-siecle',
       };
@@ -70,6 +72,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       // then
       expect(usecases.importOrganizationLearnersFromSIECLEXMLFormat).to.have.been.calledWithExactly({
+        userId,
         organizationId,
         payload,
       });

@@ -35,7 +35,7 @@ export class OrganizationImport {
       this.errors = [...errors, ...warnings];
     } else {
       this.status = IMPORT_STATUSES.VALIDATED;
-      this.errors = warnings;
+      this.errors = warnings.length > 0 ? warnings : null;
     }
     this.updatedAt = new Date();
   }
