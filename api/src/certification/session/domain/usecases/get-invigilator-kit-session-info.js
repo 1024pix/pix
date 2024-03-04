@@ -1,5 +1,5 @@
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
+ * @typedef {import('./index.js').SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
  */
 
 /**
