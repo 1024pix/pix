@@ -17,6 +17,7 @@ import * as assessmentRepository from '../../../src/shared/infrastructure/reposi
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
+import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
 import { injectDefaults } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
@@ -37,7 +38,6 @@ import * as complementaryCertificationCourseResultRepository from '../../infrast
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
-import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';

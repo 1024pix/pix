@@ -5,10 +5,10 @@ import { hideBin } from 'yargs/helpers';
 
 import { disconnect, knex } from '../../../db/knex-database-connection.js';
 import { Organization } from '../../../lib/domain/models/Organization.js';
-import * as organizationRepository from '../../../lib/infrastructure/repositories/organization-repository.js';
 import * as schoolRepository from '../../../src/school/infrastructure/repositories/school-repository.js';
 import { ORGANIZATION_FEATURE } from '../../shared/domain/constants.js';
 import * as codeGenerator from '../../shared/domain/services/code-generator.js';
+import * as organizationRepository from '../../shared/infrastructure/repositories/organization-repository.js';
 import { logger } from '../../shared/infrastructure/utils/logger.js';
 
 const STUDENT_NAMES = [

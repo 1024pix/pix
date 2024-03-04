@@ -7,7 +7,7 @@ import { OrganizationInvitation } from '../../../../lib/domain/models/Organizati
 import { mailService } from '../../../../lib/domain/services/mail-service.js';
 import { createOrUpdateOrganizationInvitation } from '../../../../lib/domain/services/organization-invitation-service.js';
 import * as organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository.js';
-import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
+import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { catchErr, databaseBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Integration | Service | Organization-Invitation Service', function () {
