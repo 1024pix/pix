@@ -12,6 +12,7 @@ import {
 } from '../../../certification/shared/fixtures/challenges.js';
 import { CertificationChallengeForScoring } from '../../../../src/certification/scoring/domain/models/CertificationChallengeForScoring.js';
 import { AssessmentResultFactory } from '../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 const { handleCertificationScoring } = _forTestOnly.handlers;
 
@@ -181,7 +182,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           expect(AssessmentResultFactory.buildAlgoErrorResult).to.have.been.calledWithExactly({
             error: computeError,
             assessmentId: certificationAssessment.id,
-            emitter: 'PIX-ALGO',
+            emitter: AssessmentResult.emitters.PIX_ALGO,
           });
           expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
             certificationCourseId: 1234,
@@ -246,7 +247,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
             status: certificationAssessmentScore.status,
             assessmentId: certificationAssessment.id,
-            emitter: 'PIX-ALGO',
+            emitter: AssessmentResult.emitters.PIX_ALGO,
           });
 
           expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
@@ -334,7 +335,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         );
       });
 
-      describe('when less than the minimum number of answers required by the config has been answered and the candidate abandoned', function () {
+      describe('when less than the minimum number of answers required by the config has been answered', function () {
         describe('when the candidate did not finish due to a lack of time', function () {
           it('should reject the certification', async function () {
             // given
@@ -424,7 +425,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
               status: status.REJECTED,
               assessmentId: certificationAssessment.id,
-              emitter: 'PIX-ALGO',
+              emitter: AssessmentResult.emitters.PIX_ALGO,
             });
 
             expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
@@ -536,7 +537,13 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
               status: status.REJECTED,
               assessmentId: certificationAssessment.id,
-              emitter: 'PIX-ALGO',
+              emitter: AssessmentResult.emitters.PIX_ALGO,
+              commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
+                commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS,
+              }),
+              commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+                commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS,
+              }),
             });
 
             expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
@@ -649,7 +656,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
               status: status.VALIDATED,
               assessmentId: certificationAssessment.id,
-              emitter: 'PIX-ALGO',
+              emitter: AssessmentResult.emitters.PIX_ALGO,
             });
             expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
               certificationCourseId: 1234,
@@ -757,7 +764,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
                 status: status.VALIDATED,
                 assessmentId: certificationAssessment.id,
-                emitter: 'PIX-ALGO',
+                emitter: AssessmentResult.emitters.PIX_ALGO,
               });
               expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
                 certificationCourseId: 1234,
@@ -859,7 +866,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
                 status: status.VALIDATED,
                 assessmentId: certificationAssessment.id,
-                emitter: 'PIX-ALGO',
+                emitter: AssessmentResult.emitters.PIX_ALGO,
               });
               expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
                 certificationCourseId: 1234,
@@ -965,7 +972,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
                 status: status.VALIDATED,
                 assessmentId: certificationAssessment.id,
-                emitter: 'PIX-ALGO',
+                emitter: AssessmentResult.emitters.PIX_ALGO,
               });
               expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
                 certificationCourseId: 1234,

@@ -71,4 +71,28 @@ export class AssessmentResultFactory {
       competenceMarks,
     });
   }
+
+  static buildLackOfAnswers({ pixScore, reproducibilityRate, status, assessmentId, juryId, emitter, competenceMarks }) {
+    const commentForCandidate = new JuryComment({
+      context: JuryCommentContexts.CANDIDATE,
+      commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS,
+    });
+
+    const commentForOrganization = new JuryComment({
+      context: JuryCommentContexts.ORGANIZATION,
+      commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS,
+    });
+
+    return new AssessmentResult({
+      emitter,
+      pixScore,
+      reproducibilityRate,
+      status,
+      assessmentId,
+      juryId,
+      competenceMarks,
+      commentForCandidate,
+      commentForOrganization,
+    });
+  }
 }

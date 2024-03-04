@@ -318,6 +318,10 @@
   },
   "jury": {
     "comment": {
+      "CANCELLED_DUE_TO_LACK_OF_ANSWERS": {
+        "candidate": "The number of questions answered during your certification exam is too low to allow us to deliver a Pix certification.",
+        "organization": "The number of questions answered by the candidate during their certification exam is too low to allow us to deliver a Pix certification."
+      },
       "CANCELLED_DUE_TO_NEUTRALIZATION": {
         "candidate": "At least one technical issue, reported to your invigilator during the certification session, has affected the quality of the certification exam. Due to the number of questions to which you have not been able to answer, we are not able to deliver a certification. It has been cancelled, the specifier of your certification exam (if applicable), has been informed.",
         "organization": "At least one technical issue, has affected the quality of the certification exam. We are not able to deliver a certification. It has thus been cancelled. This information may lead you to proposing another certification session for this candidate."

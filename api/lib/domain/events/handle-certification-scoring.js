@@ -11,9 +11,9 @@ import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certi
 import { config } from '../../../src/shared/config.js';
 import { AssessmentResultFactory } from '../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
 import { CertificationAssessmentHistory } from '../../../src/certification/scoring/domain/models/CertificationAssessmentHistory.js';
+import { AssessmentResult } from '../models/index.js';
 
 const eventTypes = [AssessmentCompleted];
-const EMITTER = 'PIX-ALGO';
 
 async function handleCertificationScoring({
   event,
@@ -166,6 +166,8 @@ async function _handleV3CertificationScoring({
   const assessmentResult = await _createV3AssessmentResult({
     certificationAssessment,
     certificationAssessmentScore,
+    allAnswers,
+    certificationCourse,
   });
 
   await _saveV3Result({
@@ -250,7 +252,7 @@ function _createV2AssessmentResult({
     reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
     status: certificationAssessmentScore.status,
     assessmentId: certificationAssessment.id,
-    emitter: EMITTER,
+    emitter: AssessmentResult.emitters.PIX_ALGO,
   });
   return assessmentResultRepository.save({
     certificationCourseId: certificationAssessment.certificationCourseId,
@@ -258,13 +260,28 @@ function _createV2AssessmentResult({
   });
 }
 
-function _createV3AssessmentResult({ certificationAssessment, certificationAssessmentScore }) {
+function _createV3AssessmentResult({
+  certificationAssessment,
+  certificationAssessmentScore,
+  allAnswers,
+  certificationCourse,
+}) {
+  if (_shouldCancelV3Certification({ allAnswers, certificationCourse })) {
+    return AssessmentResultFactory.buildLackOfAnswers({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      status: certificationAssessmentScore.status,
+      assessmentId: certificationAssessment.id,
+      emitter: AssessmentResult.emitters.PIX_ALGO,
+    });
+  }
+
   return AssessmentResultFactory.buildStandardAssessmentResult({
     pixScore: certificationAssessmentScore.nbPix,
     reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
     status: certificationAssessmentScore.status,
     assessmentId: certificationAssessment.id,
-    emitter: EMITTER,
+    emitter: AssessmentResult.emitters.PIX_ALGO,
   });
 }
 
@@ -278,7 +295,7 @@ async function _saveResultAfterCertificationComputeError({
   const assessmentResult = AssessmentResultFactory.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
-    emitter: EMITTER,
+    emitter: AssessmentResult.emitters.PIX_ALGO,
   });
   await assessmentResultRepository.save({
     certificationCourseId: certificationAssessment.certificationCourseId,

@@ -318,6 +318,10 @@
   },
   "jury": {
     "comment": {
+      "CANCELLED_DUE_TO_LACK_OF_ANSWERS": {
+        "candidate": "Le nombre de questions répondues pendant votre test de certification est insuffisant et ne nous permet pas de vous délivrer une certification Pix.",
+        "organization": "Le nombre de questions répondues par le candidat pendant son test de certification est insuffisant et ne nous permet pas de lui délivrer une certification Pix."
+      },
       "CANCELLED_DUE_TO_NEUTRALIZATION": {
         "candidate": "Un ou plusieurs problème(s) technique(s), signalé(s) à votre surveillant pendant la session de certification, a/ont affecté la qualité du test de certification. En raison du trop grand nombre de questions auxquelles vous n'avez pas pu répondre, nous ne sommes pas en mesure de délivrer une certification. Celle-ci est annulée, le prescripteur de votre certification (le cas échéant), en est informé.",
         "organization": "Un ou plusieurs problème(s) technique(s), a/ont affecté le bon déroulement du test de certification. Nous ne sommes pas en mesure de délivrer la certification, celle-ci est donc annulée. Cette information peut vous conduire à proposer une nouvelle session de certification pour ce(cette) candidat(e)."
