@@ -81,6 +81,7 @@ module.exports = function (environment) {
         defaultValue: 6,
         minValue: 6,
       }),
+      APP_VERSION: process.env.SOURCE_VERSION || 'development',
     },
 
     'ember-cli-notifications': {
