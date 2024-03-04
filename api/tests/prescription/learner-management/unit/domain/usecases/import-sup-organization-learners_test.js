@@ -12,12 +12,23 @@ const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeade
   .join(';');
 
 describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
-  let supOrganizationLearnerRepositoryStub, readableStream;
+  let supOrganizationLearnerRepositoryStub, importStorageStub, payload, readableStream, filename;
   beforeEach(function () {
-    readableStream = new ReadableStream();
+    filename = Symbol('FILE_NAME');
+    payload = { path: filename };
+    readableStream = Symbol('readableStream');
 
     supOrganizationLearnerRepositoryStub = { addStudents: sinon.stub() };
     supOrganizationLearnerRepositoryStub.addStudents.resolves();
+
+    importStorageStub = {
+      sendFile: sinon.stub(),
+      readFile: sinon.stub(),
+      deleteFile: sinon.stub(),
+    };
+
+    importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves(filename);
+    importStorageStub.readFile.withArgs(filename).resolves(readableStream);
   });
 
   context('when there is no organization learners for the organization', function () {
@@ -28,12 +39,12 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
       `.trim();
 
       const encodedInput = iconv.encode(input, 'utf8');
-      const readableStream = new ReadableStream();
 
       await importSupOrganizationLearners({
-        readableStream,
+        payload,
         organizationId: 2,
         i18n,
+        importStorage: importStorageStub,
         dependencies: { getDataBuffer: () => encodedInput },
         supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
       });
@@ -83,7 +94,8 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
     const encodedInput = iconv.encode(input, 'utf8');
 
     const warnings = await importSupOrganizationLearners({
-      readableStream,
+      payload,
+      importStorage: importStorageStub,
       organizationId: 2,
       i18n,
       dependencies: { getDataBuffer: () => encodedInput },
