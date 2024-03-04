@@ -18,6 +18,7 @@ const JuryCommentContexts = Object.freeze({
 const AutoJuryCommentKeys = Object.freeze({
   FRAUD: 'FRAUD',
   CANCELLED_DUE_TO_NEUTRALIZATION: 'CANCELLED_DUE_TO_NEUTRALIZATION',
+  REJECTED_DUE_TO_LACK_OF_ANSWERS: 'REJECTED_DUE_TO_LACK_OF_ANSWERS',
 });
 
 class JuryComment {
