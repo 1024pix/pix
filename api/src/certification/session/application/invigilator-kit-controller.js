@@ -1,4 +1,4 @@
-import { usecases } from '../../shared/domain/usecases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 import * as invigilatorKitPdf from '../infrastructure/utils/pdf/invigilator-kit-pdf.js';
 
 const getInvigilatorKitPdf = async function (request, h, dependencies = { invigilatorKitPdf }) {

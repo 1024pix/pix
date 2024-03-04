@@ -26,7 +26,6 @@ import * as certificationChallengeLiveAlertRepository from '../../../session/inf
 import * as cpfCertificationResultRepository from '../../../session/infrastructure/repositories/cpf-certification-result-repository.js';
 import * as cpfExportRepository from '../../../session/infrastructure/repositories/cpf-export-repository.js';
 import * as sessionForAttendanceSheetRepository from '../../../session/infrastructure/repositories/session-for-attendance-sheet-repository.js';
-import * as sessionForInvigilatorKitRepository from '../../../session/infrastructure/repositories/session-for-invigilator-kit-repository.js';
 import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
 import { cpfExportsStorage } from '../../../session/infrastructure/storage/cpf-exports-storage.js';
 import { cpfReceiptsStorage } from '../../../session/infrastructure/storage/cpf-receipts-storage.js';
@@ -38,7 +37,6 @@ import * as certificationCpfCityRepository from '../../../shared/infrastructure/
 import * as certificationCpfCountryRepository from '../../../shared/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationIssueReportRepository from '../../../shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
-import * as issueReportCategoryRepository from '../../../shared/infrastructure/repositories/issue-report-category-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationCpfService from '../services/certification-cpf-service.js';
 import * as mailService from '../services/mail-service.js';
@@ -72,7 +70,6 @@ import * as mailService from '../services/mail-service.js';
  * @typedef {mailService} MailService
  * @typedef {sessionCodeService} SessionCodeService
  * @typedef {sessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
- * @typedef {sessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
  * @typedef {cpfCertificationResultRepository} CpfCertificationResultRepository
  * @typedef {v3CertificationCourseDetailsForAdministrationRepository} V3CertificationCourseDetailsForAdministrationRepository
  * @typedef {sessionRepository} SessionRepository
@@ -111,7 +108,6 @@ const dependencies = {
   sessionsImportValidationService,
   temporarySessionsStorageForMassImportService,
   sessionForAttendanceSheetRepository,
-  sessionForInvigilatorKitRepository,
   cpfCertificationResultRepository,
   cpfExportRepository,
   sessionRepository,
@@ -135,6 +131,8 @@ const usecasesWithoutInjectedDependencies = {
       'index.js',
       'get-session-certification-candidates.js',
       'get-mass-import-template-information.js',
+      'assign-certification-officer-to-session.js',
+      'get-invigilator-kit-session-info.js',
     ],
   })),
   ...(await importNamedExportsFromDirectory({
