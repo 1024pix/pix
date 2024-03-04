@@ -53,17 +53,13 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      importStorageStub.sendFile.withArgs({ filepath: path }).resolves(filename);
-
       usecases.importSupOrganizationLearners
         .withArgs({
-          readableStream,
+          payload: request.payload,
           organizationId,
           i18n,
         })
         .resolves(warnings);
-
-      importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
 
       supOrganizationLearnerWarningSerializerStub.serialize
         .withArgs({ id: organizationId, warnings })
@@ -71,9 +67,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       const response = await supOrganizationManagementController.importSupOrganizationLearners(request, hFake, {
-        makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        importStorage: importStorageStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
         unlink: unlinkStub,
       });
@@ -82,7 +76,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       expect(response.statusCode).to.be.equal(200);
       expect(response.source).to.be.equal(serializedResponse);
 
-      expect(importStorageStub.deleteFile).to.have.been.calledWith({ filename });
       expect(unlinkStub).to.have.been.calledWith(path);
     });
 
@@ -93,13 +86,9 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      importStorageStub.sendFile.withArgs({ filepath: path }).resolves(filename);
-
-      importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
-
       usecases.importSupOrganizationLearners
         .withArgs({
-          readableStream,
+          payload: request.payload,
           organizationId,
           i18n,
         })
@@ -108,12 +97,10 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       // when
       await catchErr(supOrganizationManagementController.importSupOrganizationLearners)(request, hFake, {
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        importStorage: importStorageStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
         unlink: unlinkStub,
       });
 
-      expect(importStorageStub.deleteFile).to.have.been.calledWith({ filename });
       expect(unlinkStub).to.have.been.calledWith(path);
     });
 
@@ -124,13 +111,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      importStorageStub.sendFile.withArgs({ filepath: path }).resolves(filename);
-
-      importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
-
-      makeOrganizationLearnerParserStub
-        .withArgs(readableStream, organizationId, i18n)
-        .returns(supOrganizationLearnerParser);
 
       supOrganizationLearnerWarningSerializerStub.serialize
         .withArgs({ id: organizationId, warnings })
@@ -141,9 +121,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       const response = await supOrganizationManagementController.importSupOrganizationLearners(request, hFake, {
-        makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        importStorage: importStorageStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
         unlink: unlinkStub,
       });
@@ -151,7 +129,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       // then
       expect(response.statusCode).to.be.equal(200);
 
-      expect(importStorageStub.deleteFile).to.have.been.calledWith({ filename });
       expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(error);
     });
   });

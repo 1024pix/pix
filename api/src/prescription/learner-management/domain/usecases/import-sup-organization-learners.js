@@ -1,20 +1,29 @@
 import { SupOrganizationLearnerParser } from '../../infrastructure/serializers/csv/sup-organization-learner-parser.js';
 
 const importSupOrganizationLearners = async function ({
-  readableStream,
+  payload,
   organizationId,
   i18n,
   supOrganizationLearnerRepository,
+  importStorage,
   dependencies = { getDataBuffer },
 }) {
-  const buffer = await dependencies.getDataBuffer(readableStream);
-  const parser = new SupOrganizationLearnerParser(buffer, organizationId, i18n);
+  const filename = await importStorage.sendFile({ filepath: payload.path });
 
-  const { learners, warnings } = parser.parse();
+  try {
+    const readableStream = await importStorage.readFile({ filename });
 
-  await supOrganizationLearnerRepository.addStudents(learners);
+    const buffer = await dependencies.getDataBuffer(readableStream);
+    const parser = new SupOrganizationLearnerParser(buffer, organizationId, i18n);
 
-  return warnings;
+    const { learners, warnings } = parser.parse();
+
+    await supOrganizationLearnerRepository.addStudents(learners);
+
+    return warnings;
+  } finally {
+    await importStorage.deleteFile({ filename });
+  }
 };
 
 function getDataBuffer(readableStream) {

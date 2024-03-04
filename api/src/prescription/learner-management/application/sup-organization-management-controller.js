@@ -12,24 +12,21 @@ const importSupOrganizationLearners = async function (
   h,
   dependencies = {
     supOrganizationLearnerWarningSerializer,
-    importStorage,
     logErrorWithCorrelationIds,
     unlink: fs.unlink,
   },
 ) {
   const organizationId = request.params.id;
 
-  const filename = await dependencies.importStorage.sendFile({ filepath: request.payload.path });
-
   let warnings;
-  try {
-    const readableStream = await dependencies.importStorage.readFile({ filename });
 
-    warnings = await usecases.importSupOrganizationLearners({ readableStream, organizationId, i18n: request.i18n });
+  try {
+    warnings = await usecases.importSupOrganizationLearners({
+      payload: request.payload,
+      organizationId,
+      i18n: request.i18n,
+    });
   } finally {
-    await dependencies.importStorage.deleteFile({ filename });
-    // see https://hapi.dev/api/?v=21.3.3#-routeoptionspayloadoutput
-    // add a catch to avoid an error if unlink fails
     try {
       dependencies.unlink(request.payload.path);
     } catch (err) {
