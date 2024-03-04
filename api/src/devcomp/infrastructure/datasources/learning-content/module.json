@@ -6,7 +6,7 @@
       "title": "Bien écrire son adresse mail",
       "details": {
         "image": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg",
-        "description": "Bien écrire son adresse mail est important. Dans ce module, vous allez apprendre à rédiger correctement une adresse e-mail pour mieux communiquer et éviter les erreurs courantes.",
+        "description": "Bien écrire son adresse mail est important. Dans ce module, vous allez apprendre à écrire correctement une adresse e-mail pour mieux communiquer et éviter les erreurs courantes.",
         "duration": 12,
         "level": "Débutant",
         "objectives": [
@@ -21,7 +21,7 @@
           "grainId": "34d225e8-5d52-4ebd-9acd-8bde8438cfc9"
         },
         {
-          "content": "<p>Et oui ! Naomi le sait : les adresses mail respectent un certain format.</p><p>Étudions en détails l’adresse mail de Mickaël. <span aria-hidden=\"true\">👨‍🏫👩‍🏫</span></p>",
+          "content": "<p>Et oui ! Naomi le sait : les adresses mails respectent un certain format.</p><p>Étudions en détails l’adresse mail de Mickaël. <span aria-hidden=\"true\">👨‍🏫👩‍🏫</span></p>",
           "grainId": "af860b1e-0566-4b06-bcb4-a68a5151d621"
         },
         {
@@ -81,7 +81,7 @@
             {
               "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
               "type": "text",
-              "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie n°1 : l’identifiant. Il a été choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p><span aria-hidden=\"true\">✅</span> Par exemple&nbsp;: mika671 ou G3oDu671</p><p class=\"pix-list-inline\"><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits&nbsp;:</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
+              "content": "<h3 class=\"screen-reader-only\">L'identifiant</h3><h4>Partie n°1 : l’identifiant choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque, même avec des majuscules !</p><p><span aria-hidden=\"true\">✅</span> Par exemple : mika671 ou G3oDu671</p><p class=\"pix-list-inline\"><span aria-hidden=\"true\">❌</span> Mais certains caractères sont interdits :</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
             },
             {
               "id": "8137ddf4-f689-4297-8beb-a8de0c64b14d",
@@ -98,7 +98,7 @@
             {
               "id": "ad8ad08a-3ff7-4228-8233-6cd5ce0f4812",
               "type": "text",
-              "content": "<h3 class=\"screen-reader-only\">L'arobase</h3><h4>Au centre : l’arobase. Il sépare l’identifiant et le fournisseur d’adresse mail.</h4><p><span aria-hidden=\"true\">🇬🇧</span> En anglais, ce symbole se lit <i lang=\"en\">“at”</i> qui veut dire “chez”.</p><p><span aria-hidden=\"true\">🤔</span> Le saviez-vous&nbsp;: c’est un symbole qui était utilisé bien avant l’informatique ! Par exemple, pour compter des quantités.</p>"
+              "content": "<h3 class=\"screen-reader-only\">L'arobase</h3><h4>Au centre : l’arobase qui sépare l’identifiant du fournisseur d’adresse mail.</h4><p><span aria-hidden=\"true\">🇬🇧</span> En anglais, ce symbole se lit <i lang=\"en\">“at”</i> et veut dire “chez”.</p><p><span aria-hidden=\"true\">🤔</span> Le saviez-vous&nbsp;? L'arobase est un symbole qui était utilisé bien avant l’informatique, pour compter des quantités par exemple.</p>"
             },
             {
               "id": "887ad2ce-26e0-4277-a0b0-45d51a1b7a12",
@@ -163,7 +163,7 @@
               "proposals": [
                 {
                   "type": "text",
-                  "content": "<p>Première partie&nbsp;:</p>"
+                  "content": "<p>Partie n°1&nbsp;:</p>"
                 },
                 {
                   "input": "premiere-partie",
@@ -187,7 +187,7 @@
                 },
                 {
                   "type": "text",
-                  "content": "<p>Deuxième partie&nbsp;:</p>"
+                  "content": "<p>Partie n°2&nbsp;:</p>"
                 },
                 {
                   "input": "seconde-partie",
@@ -211,8 +211,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct ! <span aria-hidden=\"true\">🎉</span>&nbsp;Vous avez retrouvé le bon format d’une adresse mail</p>",
-                "invalid": "<p>Incorrect ! pour avoir de l’aide, revenez en arrière <span aria-hidden=\"true\">⬆️</span></p>"
+                "valid": "<p>Correct ! <span aria-hidden=\"true\">🎉</span>&nbsp;Vous avez retrouvé le bon format d’une adresse mail.</p>",
+                "invalid": "<p>Incorrect ! Pour avoir de l’aide, revenez en arrière. <span aria-hidden=\"true\">⬆️</span></p>"
               }
             }
           ]
@@ -248,7 +248,7 @@
               ],
               "feedbacks": {
                 "valid": "<p class=\"pix-list-inline\">Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>",
-                "invalid": "<p class=\"pix-list-inline\">Et si ! les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
+                "invalid": "<p class=\"pix-list-inline\">Et si ! Les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
               },
               "solution": "1"
             },
@@ -272,8 +272,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>",
-                "invalid": "<p>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
+                "valid": "<p>Et oui ! Cette adresse est correctement écrite. On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>",
+                "invalid": "<p>Et si ! Cette adresse est correctement écrite. On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
               },
               "solution": "1"
             },
@@ -297,8 +297,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @.</p>",
-                "invalid": "<p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @.</p>"
+                "valid": "<p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @ entre les deux.</p>",
+                "invalid": "<p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @ entre les deux.</p>"
               },
               "solution": "1"
             },
@@ -322,8 +322,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Bien vu ! Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses</p><ul><li>de chez Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>et La Poste (laposte.net).</li></ul>",
-                "invalid": "<p>Il y a d’autres fournisseurs d’adresses mail que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses</p><ul><li>de chez Microsoft (hotmail.com)</li><li>de chez Free (free.fr)</li><li>ou de chez La Poste (laposte.net).</li></ul>"
+                "valid": "<p>Bien vu ! Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>",
+                "invalid": "<p>Il y a d’autres fournisseurs d’adresses mails que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses de chez</p><ul><li>Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>La Poste (laposte.net).</li></ul>"
               },
               "solution": "2"
             }
@@ -337,7 +337,7 @@
             {
               "id": "b0fcb950-b5b1-4384-886e-79fb852d5bb7",
               "type": "text",
-              "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Il peut y avoir des chiffres dans l’identifiant d’une adresse mail. Ils peuvent être n’importe où dans l’adresse. <br></li><li>Il y a une seule @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
+              "content": "<h3>Ce qu’il faut retenir :</h3><ul><li>Il peut y avoir des chiffres dans l’identifiant d’une adresse mail. Ils peuvent être n’importe où dans l’identifiant. <br></li><li>Il y a une seule @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br><span aria-hidden=\"true\">✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
             }
           ]
         },
@@ -349,7 +349,7 @@
             {
               "id": "8709ad92-093e-447a-a7b6-3223e6171196",
               "type": "qrocm",
-              "instruction": "<p>Écrivez l'adresse mail de Naomi. On sait que :</p><ul><li>son identifiant est : naomizao457</li><li>son fournisseur d’adresse mail est Yahoo</li></ul>",
+              "instruction": "<p>Écrivez l'adresse mail de Naomi à partir des informations suivantes :</p><ul><li>Son identifiant est : naomizao457</li><li>Son fournisseur d’adresse mail est : Yahoo</li></ul>",
               "proposals": [
                 {
                   "type": "text",
@@ -369,8 +369,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct ! <span aria-hidden=\"true\">🎉</span> Tout est en ordre : identifiant, arobase, fournisseur d'adresse mail</p>",
-                "invalid": "<p class=\"pix-list-inline\">Et non, essaie à nouveau <span aria-hidden=\"true\">⏮️</span> ! Voici de l'aide pour réussir :</p><ul><li>L'ordre à suivre est : identifiant, arobase, fournisseur d'adresse mail</li></ul><p>Les adresses mail fournies par Yahoo se terminent par yahoo.com</p>"
+                "valid": "<p>Correct ! <span aria-hidden=\"true\">🎉</span> Tout est dans l'ordre : l'identifiant, l'arobase puis le fournisseur d'adresse mail</p>",
+                "invalid": "<p class=\"pix-list-inline\">Et non, essayez à nouveau ! <span aria-hidden=\"true\">⏮️</span> ! Voici de l'aide pour trouver l'adresse mail.</p><ul><li>L'ordre à suivre est : l'identifiant, l'arobase puis le fournisseur d'adresse mail.</li></ul><p>Les adresses mails fournies par Yahoo se terminent par yahoo.com.</p>"
               }
             }
           ]
