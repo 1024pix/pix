@@ -1,5 +1,5 @@
 import { domainBuilder, expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/activity-serializer.js';
+import * as serializer from '../../../../../src/school/infrastructure/serializers/activity-serializer.js';
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 
 describe('Unit | Serializer | JSONAPI | activity-serializer', function () {
