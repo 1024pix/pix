@@ -44,11 +44,7 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
-                request,
-                h,
-              ),
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
