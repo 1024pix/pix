@@ -4,7 +4,7 @@ import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { TrainingTriggerForAdmin } from '../../domain/read-models/TrainingTriggerForAdmin.js';
 import { TrainingTriggerTube } from '../../domain/models/TrainingTriggerTube.js';
-import * as areaRepository from '../../../../lib/infrastructure/repositories/area-repository.js';
+import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository.js';

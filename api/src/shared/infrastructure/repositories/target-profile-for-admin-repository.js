@@ -5,7 +5,7 @@ import { LOCALE } from '../../domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
-import * as areaRepository from '../../../../lib/infrastructure/repositories/area-repository.js';
+import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from './competence-repository.js';
 import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository.js';
