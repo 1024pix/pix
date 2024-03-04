@@ -1,5 +1,45 @@
 # Pix Changelog
 
+## v4.110.0 (04/03/2024)
+
+
+### :rocket: Amélioration
+- [#8233](https://github.com/1024pix/pix/pull/8233) [FEATURE] Ajout de commentaire jury automatique en cas d'annulation de certification pour trop de challenges neutralisés pour la V2 (PIX-10532).
+- [#8219](https://github.com/1024pix/pix/pull/8219) [FEATURE] Ajout images et derniers grains ports-connexions-essentiels (MODC-11)(MODC-13).
+- [#8217](https://github.com/1024pix/pix/pull/8217) [FEATURE] Pouvoir mettre en pause des contenus formatifs sur Pix Admin (PIX-6509).
+- [#8228](https://github.com/1024pix/pix/pull/8228) [FEATURE] Revue des clés de trad Modulix.
+- [#8230](https://github.com/1024pix/pix/pull/8230) [FEATURE] Màj de contenu après revue Minico - module principes-fondateurs-wikipedia.
+- [#8130](https://github.com/1024pix/pix/pull/8130) [FEATURE] Intégration retour A Tricot, module bien-ecrire-son-adresse-mail (MODC-37)(MODC-40).
+- [#8115](https://github.com/1024pix/pix/pull/8115) [FEATURE] Enregistrer les capacités d'un candidat tout au long de sa certif v3 (PIX-11262).
+
+### :building_construction: Tech
+- [#8190](https://github.com/1024pix/pix/pull/8190) [TECH] Vérifie l'état du parcours avant la demande de correction d'une réponse (PIX-11318).
+- [#8234](https://github.com/1024pix/pix/pull/8234) [TECH] Séparation de l'injection du scoring et de shared (PIX-11472).
+- [#8203](https://github.com/1024pix/pix/pull/8203) [TECH] Modifier l'expression régulière pour le nettoyage automatique de la base de données de test (PIX-11399).
+- [#8222](https://github.com/1024pix/pix/pull/8222) [TECH] Déplacement du service de récupération de texte traduit.
+- [#8215](https://github.com/1024pix/pix/pull/8215) [TECH] Renommage de la mise à jour des commentaires de certification sur admin en commentaire jury.
+
+### :bug: Correction
+- [#8232](https://github.com/1024pix/pix/pull/8232) [BUGFIX] rafraichit les divisions après un import (PIX-11463).
+- [#8151](https://github.com/1024pix/pix/pull/8151) [BUGFIX] Permettre de publier un certification en erreur si elle est annulée  (PIX-11374).
+- [#8224](https://github.com/1024pix/pix/pull/8224) [BUGFIX] Remonter le dernier résultat publié d'un élève quand il est bien entré en session (PIX-11398).
+- [#8200](https://github.com/1024pix/pix/pull/8200) [BUGFIX] Créer une session de certification sur d'anciens navigateurs (PIX-11269).
+- [#8229](https://github.com/1024pix/pix/pull/8229) [BUGFIX] Répare le dégradé de fond sur la page des CGU de PixOrga (PIX-11464).
+
+### :arrow_up: Montée de version
+- [#8256](https://github.com/1024pix/pix/pull/8256) [BUMP] Update dependency @1024pix/pix-ui to ^44.1.0 (orga).
+- [#8255](https://github.com/1024pix/pix/pull/8255) [BUMP] Update dependency @1024pix/pix-ui to ^44.0.4 (certif).
+- [#8252](https://github.com/1024pix/pix/pull/8252) [BUMP] Update dependency @1024pix/pix-ui to ^44.0.4 (admin).
+- [#8251](https://github.com/1024pix/pix/pull/8251) [BUMP] Update dependency @1024pix/pix-ui to ^44.0.4 (1d).
+- [#8109](https://github.com/1024pix/pix/pull/8109) [BUMP] Update dependency node to v20.11.1.
+- [#8248](https://github.com/1024pix/pix/pull/8248) [BUMP] Lock file maintenance (admin).
+- [#8247](https://github.com/1024pix/pix/pull/8247) [BUMP] Lock file maintenance (1d).
+- [#8246](https://github.com/1024pix/pix/pull/8246) [BUMP] Update dependency @1024pix/pix-ui to ^44.0.3 (orga).
+- [#8245](https://github.com/1024pix/pix/pull/8245) [BUMP] Update dependency @1024pix/pix-ui to ^44.0.3 (certif).
+- [#8244](https://github.com/1024pix/pix/pull/8244) [BUMP] Update dependency @1024pix/pix-ui to ^44.0.3 (admin).
+- [#8243](https://github.com/1024pix/pix/pull/8243) [BUMP] Update dependency @1024pix/pix-ui to ^44.0.3 (1d).
+- [#8235](https://github.com/1024pix/pix/pull/8235) [BUMP] Update browser-tools orb to v1.4.8 (.circleci).
+
 ## v4.109.0 (29/02/2024)
 
 
