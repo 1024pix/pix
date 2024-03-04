@@ -379,7 +379,7 @@ describe('Acceptance | API | Certification Center', function () {
       it('should return 200 HTTP status', async function () {
         // given
         const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
-        const organization = databaseBuilder.factory.buildOrganization({ externalId });
+        const organization = databaseBuilder.factory.buildOrganization({ externalId, type: 'SCO' });
         const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
         _buildOrganizationLearners(organization, { firstName: 'Laura', lastName: 'certifForEver', division: '2ndB' });
         await databaseBuilder.commit();

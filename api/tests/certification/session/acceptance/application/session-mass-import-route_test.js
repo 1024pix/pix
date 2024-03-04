@@ -279,7 +279,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
         certificationCenterId,
         complementaryCertificationId,
       });
-      databaseBuilder.factory.buildOrganization({ externalId: '1234AB', isManagingStudents: false, type: 'SUP' });
+      databaseBuilder.factory.buildOrganization({ externalId: '1234AB', isManagingStudents: false, type: 'SCO' });
       databaseBuilder.factory.buildCertificationCenterMembership({
         userId,
         certificationCenterId,
