@@ -4,7 +4,6 @@ import { expect, hFake, sinon, catchErr } from '../../../../test-helper.js';
 
 describe('Unit | Controller | sup-organization-management-controller', function () {
   let organizationId;
-  let supOrganizationLearnerParser;
   let path;
   let filename;
   let readableStream;
@@ -22,7 +21,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
   beforeEach(function () {
     organizationId = Symbol('organizationId');
-    supOrganizationLearnerParser = Symbol('supOrgnaizationLearnerParser');
     path = Symbol('path');
     filename = Symbol('filename');
     readableStream = Symbol('readableStream');
@@ -41,7 +39,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     supOrganizationLearnerWarningSerializerStub = { serialize: sinon.stub() };
     logErrorWithCorrelationIdsStub = sinon.stub();
     unlinkStub = sinon.stub();
-    makeOrganizationLearnerParserStub = sinon.stub();
     requestResponseUtilsStub = { extractUserIdFromRequest: sinon.stub() };
   });
 
@@ -147,15 +144,12 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
 
-      makeOrganizationLearnerParserStub
-        .withArgs(readableStream, organizationId, i18n)
-        .returns(supOrganizationLearnerParser);
-
       usecases.replaceSupOrganizationLearners
         .withArgs({
+          readableStream,
           organizationId,
+          i18n,
           userId,
-          supOrganizationLearnerParser,
         })
         .resolves(warnings);
 
@@ -166,7 +160,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       // when
       const response = await supOrganizationManagementController.replaceSupOrganizationLearners(request, hFake, {
         requestResponseUtils: requestResponseUtilsStub,
-        makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
         importStorage: importStorageStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
@@ -195,7 +188,14 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
 
-      makeOrganizationLearnerParserStub.rejects();
+      usecases.replaceSupOrganizationLearners
+        .withArgs({
+          readableStream,
+          organizationId,
+          i18n,
+          userId,
+        })
+        .rejects();
 
       // when
       await catchErr(supOrganizationManagementController.replaceSupOrganizationLearners)(request, hFake, {
@@ -224,15 +224,12 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
 
-      makeOrganizationLearnerParserStub
-        .withArgs(readableStream, organizationId, i18n)
-        .returns(supOrganizationLearnerParser);
-
       usecases.replaceSupOrganizationLearners
         .withArgs({
+          readableStream,
           organizationId,
+          i18n,
           userId,
-          supOrganizationLearnerParser,
         })
         .resolves(warnings);
 
@@ -246,7 +243,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       // when
       const response = await supOrganizationManagementController.replaceSupOrganizationLearners(request, hFake, {
         requestResponseUtils: requestResponseUtilsStub,
-        makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
         importStorage: importStorageStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
