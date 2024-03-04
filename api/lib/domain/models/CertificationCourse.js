@@ -216,7 +216,7 @@ class CertificationCourse {
     return this._abortReason === ABORT_REASONS.CANDIDATE;
   }
 
-  isAbortReasonCandidateUnrelated() {
+  isAbortReasonTechnical() {
     return this._abortReason === ABORT_REASONS.TECHNICAL;
   }
 

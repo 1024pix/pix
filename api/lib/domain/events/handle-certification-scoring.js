@@ -9,12 +9,12 @@ import { CertificationVersion } from '../../../src/shared/domain/models/Certific
 import { CertificationComputeError } from '../errors.js';
 import { ABORT_REASONS } from '../models/CertificationCourse.js';
 import { CompetenceMark } from '../models/CompetenceMark.js';
+import { AssessmentResult } from '../models/index.js';
 import { AssessmentCompleted } from './AssessmentCompleted.js';
 import { CertificationScoringCompleted } from './CertificationScoringCompleted.js';
 import { checkEventTypes } from './check-event-types.js';
 
 const eventTypes = [AssessmentCompleted];
-const EMITTER = 'PIX-ALGO';
 
 async function handleCertificationScoring({
   event,
@@ -150,7 +150,7 @@ async function _handleV3CertificationScoring({
     competencesForScoring,
   });
 
-  if (_shouldCancelV3Certification({ allAnswers, certificationCourse })) {
+  if (_shouldCancelWhenV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse })) {
     certificationCourse.cancel();
   } else {
     certificationCourse.complete({ now: new Date() });
@@ -167,6 +167,8 @@ async function _handleV3CertificationScoring({
   const assessmentResult = await _createV3AssessmentResult({
     certificationAssessment,
     certificationAssessmentScore,
+    allAnswers,
+    certificationCourse,
   });
 
   await _saveV3Result({
@@ -186,11 +188,21 @@ async function _handleV3CertificationScoring({
   });
 }
 
-function _shouldCancelV3Certification({ allAnswers, certificationCourse }) {
+function _shouldCancelWhenV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse }) {
   return (
-    !certificationCourse.isAbortReasonCandidateRelated() &&
-    allAnswers.length < config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification
+    certificationCourse.isAbortReasonTechnical() && _candidateDidNotAnswerEnoughV3CertificationQuestions({ allAnswers })
   );
+}
+
+function _shouldRejectWhenV3CertificationCandidateDidNotAnswerToEnoughQuestions({ allAnswers, certificationCourse }) {
+  if (certificationCourse.isAbortReasonTechnical()) {
+    return false;
+  }
+  return _candidateDidNotAnswerEnoughV3CertificationQuestions({ allAnswers });
+}
+
+function _candidateDidNotAnswerEnoughV3CertificationQuestions({ allAnswers }) {
+  return allAnswers.length < config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification;
 }
 
 async function _saveV2Result({
@@ -251,7 +263,7 @@ function _createV2AssessmentResult({
     reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
     status: certificationAssessmentScore.status,
     assessmentId: certificationAssessment.id,
-    emitter: EMITTER,
+    emitter: AssessmentResult.emitters.PIX_ALGO,
   });
   return assessmentResultRepository.save({
     certificationCourseId: certificationAssessment.certificationCourseId,
@@ -259,13 +271,28 @@ function _createV2AssessmentResult({
   });
 }
 
-function _createV3AssessmentResult({ certificationAssessment, certificationAssessmentScore }) {
+function _createV3AssessmentResult({
+  certificationAssessment,
+  certificationAssessmentScore,
+  allAnswers,
+  certificationCourse,
+}) {
+  if (_shouldRejectWhenV3CertificationCandidateDidNotAnswerToEnoughQuestions({ allAnswers, certificationCourse })) {
+    return AssessmentResultFactory.buildLackOfAnswers({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      status: certificationAssessmentScore.status,
+      assessmentId: certificationAssessment.id,
+      emitter: AssessmentResult.emitters.PIX_ALGO,
+    });
+  }
+
   return AssessmentResultFactory.buildStandardAssessmentResult({
     pixScore: certificationAssessmentScore.nbPix,
     reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
     status: certificationAssessmentScore.status,
     assessmentId: certificationAssessment.id,
-    emitter: EMITTER,
+    emitter: AssessmentResult.emitters.PIX_ALGO,
   });
 }
 
@@ -279,7 +306,7 @@ async function _saveResultAfterCertificationComputeError({
   const assessmentResult = AssessmentResultFactory.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
-    emitter: EMITTER,
+    emitter: AssessmentResult.emitters.PIX_ALGO,
   });
   await assessmentResultRepository.save({
     certificationCourseId: certificationAssessment.certificationCourseId,
