@@ -11,9 +11,6 @@
 
 
 body {
-  // Simuler l'affichage d'une tablette
-  max-width: 1194px;
-  margin: auto;
   color: var(--pix-neutral-900);
   font-weight: 600;
   font-family: $font-nunito;
@@ -28,7 +25,11 @@ b {
 .app {
   display: flex;
   flex-direction: column;
+
+  // Simuler l'affichage d'une tablette
+  max-width: 1194px;
   min-height: 100vh;
+  margin: auto;
 }
 
 footer {
@@ -41,4 +42,3 @@ footer {
     width: 128px;
   }
 }
-
