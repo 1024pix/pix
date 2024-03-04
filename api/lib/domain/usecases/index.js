@@ -55,6 +55,7 @@ import * as assessmentResultRepository from '../../../src/shared/infrastructure/
 import * as badgeRepository from '../../../src/shared/infrastructure/repositories/badge-repository.js';
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
+import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as userLoginRepository from '../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
@@ -135,7 +136,6 @@ import * as organizationInvitationRepository from '../../infrastructure/reposito
 import * as organizationInvitedUserRepository from '../../infrastructure/repositories/organization-invited-user-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as organizationMemberIdentityRepository from '../../infrastructure/repositories/organization-member-identity-repository.js';
-import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
 import * as organizationTagRepository from '../../infrastructure/repositories/organization-tag-repository.js';
 import * as organizationsToAttachToTargetProfileRepository from '../../infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
 import * as participantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';

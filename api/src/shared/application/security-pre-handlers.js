@@ -27,10 +27,10 @@ import * as checkUserIsMemberOfCertificationCenterSessionUsecase from '../../../
 import * as checkUserOwnsCertificationCourseUseCase from '../../../lib/application/usecases/checkUserOwnsCertificationCourse.js';
 import { NotFoundError } from '../../../lib/domain/errors.js';
 import { Organization } from '../../../lib/domain/models/index.js';
-import * as organizationRepository from '../../../lib/infrastructure/repositories/organization-repository.js';
 import { PIX_ADMIN } from '../../authorization/domain/constants.js';
 import * as certificationIssueReportRepository from '../../certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import { ForbiddenAccess } from '../domain/errors.js';
+import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
 import * as checkOrganizationHasFeatureUseCase from './usecases/checkOrganizationHasFeature.js';
 import * as checkUserIsMemberOfAnOrganizationUseCase from './validator/checkUserIsMemberOfAnOrganization.js';
 
