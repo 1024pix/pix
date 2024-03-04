@@ -15,17 +15,16 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as certificateRepository from '../../../course/infrastructure/repositories/certificate-repository.js';
 import * as v3CertificationCourseDetailsForAdministrationRepository from '../../../course/infrastructure/repositories/v3-certification-course-details-for-administration-repository.js';
+import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
+import * as flashAlgorithmConfigurationRepository from '../../../flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as sessionCodeService from '../../../session/domain/services/session-code-service.js';
 import * as sessionsImportValidationService from '../../../session/domain/services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../../../session/domain/services/temporary-sessions-storage-for-mass-import-service.js';
 import * as sessionValidator from '../../../session/domain/validators/session-validator.js';
 import * as candidateRepository from '../../../session/infrastructure/repositories/candidate-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
-import * as certificationOfficerRepository from '../../../session/infrastructure/repositories/certification-officer-repository.js';
 import * as cpfCertificationResultRepository from '../../../session/infrastructure/repositories/cpf-certification-result-repository.js';
 import * as cpfExportRepository from '../../../session/infrastructure/repositories/cpf-export-repository.js';
-import * as finalizedSessionRepository from '../../../session/infrastructure/repositories/finalized-session-repository.js';
-import * as jurySessionRepository from '../../../session/infrastructure/repositories/jury-session-repository.js';
 import * as sessionForAttendanceSheetRepository from '../../../session/infrastructure/repositories/session-for-attendance-sheet-repository.js';
 import * as sessionForInvigilatorKitRepository from '../../../session/infrastructure/repositories/session-for-invigilator-kit-repository.js';
 import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
@@ -63,14 +62,13 @@ import * as mailService from '../services/mail-service.js';
  * @typedef {challengeRepository} ChallengeRepository
  * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
- * @typedef {certificationOfficerRepository} CertificationOfficerRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {competenceRepository} CompetenceRepository
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {cpfExportRepository} CpfExportRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {flashAlgorithmService} FlashAlgorithmService
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
- * @typedef {jurySessionRepository} JurySessionRepository
  * @typedef {mailService} MailService
  * @typedef {sessionCodeService} SessionCodeService
  * @typedef {sessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
@@ -96,7 +94,6 @@ const dependencies = {
   certificationCourseRepository,
   certificationCpfService,
   certificationIssueReportRepository,
-  certificationOfficerRepository,
   certificationReportRepository,
   certificateRepository,
   challengeRepository,
@@ -106,8 +103,9 @@ const dependencies = {
   competenceRepository,
   complementaryCertificationRepository,
   finalizedSessionRepository,
+  flashAlgorithmService,
+  flashAlgorithmConfigurationRepository,
   issueReportCategoryRepository,
-  jurySessionRepository,
   mailService,
   sessionCodeService,
   sessionsImportValidationService,
