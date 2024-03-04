@@ -1,11 +1,11 @@
-{{page-title "Home"}}
-
-<RobotDialog>
-  <Bubble @message={{t "pages.home.code-instruction"}} />
-</RobotDialog>
+{{page-title (t "pages.home.page-title")}}
 
 <form onSubmit={{this.goToSchool}} class="school-code">
+  <p class="school-code__welcome">{{t "pages.home.welcome"}}</p>
+  <p class="school-code__instructions">{{t "pages.home.code-instruction"}}</p>
+  <label for="organization-code" class="school-code__label">{{t "pages.home.code-label"}}</label>
   <PixInputCode
+    id="organization-code"
     @ariaLabel={{t "pages.home.field-description"}}
     @legend={{t "pages.home.code-description"}}
     @numInputs={{9}}

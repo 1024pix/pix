@@ -1,5 +1,6 @@
 {
   "pages": {
+    "pix1d": "Pix 1D",
     "challenge": {
       "actions": {
         "skip": "Je passe",
@@ -15,10 +16,12 @@
       }
     },
     "home": {
-      "title": "Bienvenue chez Pix1D",
-      "field-description": "Champ numéro",
-      "code-instruction": "Rentre le code de ton école pour accéder à ta classe",
+      "page-title": "Page d'accueil",
+      "welcome": "Bienvenue chez Pix1D !",
+      "code-instruction": "Saisis le code de ton école pour accéder à ta classe",
+      "code-label": "Code de l'école",
       "code-description": "Le code de l'école est composé de 6 chiffres et 3 lettres.",
+      "field-description": "Champ numéro",
       "go-to-school": "Je valide le code"
     },
     "not-found": {
