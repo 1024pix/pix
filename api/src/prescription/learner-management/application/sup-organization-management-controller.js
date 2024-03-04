@@ -11,7 +11,6 @@ const importSupOrganizationLearners = async function (
   request,
   h,
   dependencies = {
-    makeOrganizationLearnerParser,
     supOrganizationLearnerWarningSerializer,
     importStorage,
     logErrorWithCorrelationIds,
@@ -26,12 +25,7 @@ const importSupOrganizationLearners = async function (
   try {
     const readableStream = await dependencies.importStorage.readFile({ filename });
 
-    const supOrganizationLearnerParser = await dependencies.makeOrganizationLearnerParser(
-      readableStream,
-      organizationId,
-      request.i18n,
-    );
-    warnings = await usecases.importSupOrganizationLearners({ supOrganizationLearnerParser });
+    warnings = await usecases.importSupOrganizationLearners({ readableStream, organizationId, i18n: request.i18n });
   } finally {
     await dependencies.importStorage.deleteFile({ filename });
     // see https://hapi.dev/api/?v=21.3.3#-routeoptionspayloadoutput

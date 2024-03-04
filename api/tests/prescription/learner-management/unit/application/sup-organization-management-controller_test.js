@@ -57,15 +57,13 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       usecases.importSupOrganizationLearners
         .withArgs({
-          supOrganizationLearnerParser,
+          readableStream,
+          organizationId,
+          i18n,
         })
         .resolves(warnings);
 
       importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
-
-      makeOrganizationLearnerParserStub
-        .withArgs(readableStream, organizationId, i18n)
-        .returns(supOrganizationLearnerParser);
 
       supOrganizationLearnerWarningSerializerStub.serialize
         .withArgs({ id: organizationId, warnings })
@@ -99,11 +97,16 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
 
-      makeOrganizationLearnerParserStub.rejects();
+      usecases.importSupOrganizationLearners
+        .withArgs({
+          readableStream,
+          organizationId,
+          i18n,
+        })
+        .rejects();
 
       // when
       await catchErr(supOrganizationManagementController.importSupOrganizationLearners)(request, hFake, {
-        makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
         importStorage: importStorageStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
