@@ -6,22 +6,31 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CandidateRepository} CandidateRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CenterRepository} CenterRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CertificationOfficerRepository} CertificationOfficerRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').FinalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').JurySessionRepository} JurySessionRepository
  **/
-import { sessionRepositories } from '../../../session/infrastructure/repositories/index.js';
-import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
-import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
+import { sessionRepositories } from '../../infrastructure/repositories/index.js';
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
  * @typedef {candidateRepository} CandidateRepository
  * @typedef {centerRepository} CenterRepository
+ * @typedef {certificationOfficerRepository} CertificationOfficerRepository
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {finalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {jurySessionRepository} JurySessionRepository
  **/
 const dependencies = {
-  candidateRepository,
-  centerRepository,
+  candidateRepository: sessionRepositories.candidateRepository,
+  centerRepository: sessionRepositories.centerRepository,
+  certificationOfficerRepository: sessionRepositories.certificationOfficerRepository,
   complementaryCertificationRepository: sessionRepositories.complementaryCertificationRepository,
+  finalizedSessionRepository: sessionRepositories.finalizedSessionRepository,
+  jurySessionRepository: sessionRepositories.jurySessionRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -37,7 +46,6 @@ const usecasesWithoutInjectedDependencies = {
     ignoredFileNames: [
       'index.js',
       'add-certification-candidate-to-session.js',
-      'assign-certification-officer-to-jury-session.js',
       'create-session.js',
       'create-sessions.js',
       'delete-session.js',
