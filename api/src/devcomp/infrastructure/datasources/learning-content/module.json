@@ -2737,7 +2737,7 @@
       ]
     },
     {
-      "id": "uuid-mod",
+      "id": "68f92c57-9e66-4258-a2f4-b71fad7ab004",
       "slug": "sources-informations",
       "title": "Les sources d'informations",
       "details": {
@@ -2785,13 +2785,13 @@
               "type": "video",
               "title": "Discussion entre Elias et Léna (1 sur 2)",
               "url": "https://videos.pix.fr/modulix/sources-information/chat-1.mp4",
-              "subtitles": "",
-              "transcription": "<p><ul><li>Elias : Les Jeux Olympiques d’hiver de 2029 auront lieu dans le désert !</li><li>Léna : T’es sûr ? Comment tu le sais ?</li><li>Elias : C’est Sandy qui me l’a dit.</li></ul></p>"
+              "subtitles": "-",
+              "transcription": "<ul><li>Elias : Les Jeux Olympiques d’hiver de 2029 auront lieu dans le désert !</li><li>Léna : T’es sûr ? Comment tu le sais ?</li><li>Elias : C’est Sandy qui me l’a dit.</li></ul>"
             },
             {
               "id": "10710a38-dddb-458e-aa6e-c757fd74f243",
               "type": "text",
-              "content": "<p><span aria-hidden=\"true\">❓</span>️ Selon vous, est-ce que l'information donnée par Elias est plutôt vraie ou plutôt fausse ?</p>"
+              "content": "<p><span aria-hidden=\"true\">❓</span>️ Posez-vous cette question : est-ce que l'information donnée par Elias est plutôt vraie ou plutôt fausse ?</p>"
             },
             {
               "id": "fde494a5-02ab-4b2b-a6c0-ebbdfa59a9c2",
@@ -2808,8 +2808,8 @@
               "type": "video",
               "title": "Discussion entre Elias et Léna (2 sur 2)",
               "url": "https://videos.pix.fr/modulix/sources-information/chat-2.mp4",
-              "subtitles": "",
-              "transcription": "<p><ul><li>Léna : Et c’est vrai du coup ?</li><li>Elias : Sandy l’a vu sur internet !</li><li>Léna : Tu peux m’envoyer le lien stp ?</li><li>Elias : Oui, c’est un article de FranceInfo</li><li>Elias : https://www.francetvinfo.fr/sports/l-arabie-saoudite-designee-pour-accueillir-les-jeux-asiatiques-d-hiver-en-2029_5396737.html</li></ul></p>"
+              "subtitles": "-",
+              "transcription": "<ul><li>Léna : Et c’est vrai du coup ?</li><li>Elias : Sandy l’a vu sur internet !</li><li>Léna : Tu peux m’envoyer le lien stp ?</li><li>Elias : Oui, c’est un article de FranceInfo</li><li>Elias : https://www.francetvinfo.fr/sports/l-arabie-saoudite-designee-pour-accueillir-les-jeux-asiatiques-d-hiver-en-2029_5396737.html</li></ul>"
             },
             {
               "id": "8aca8852-a771-4ee2-b686-a2fb6b4f57c5",
@@ -2891,8 +2891,8 @@
               "type": "video",
               "title": "Une vidéo",
               "url": "https://videos.pix.fr/modulix/sources-information/itw-saturne.mp4",
-              "subtitles": "",
-              "transcription": "<p><ul><li> <strong>Journaliste Dupont</strong> : Flash info, bonjour ! ici le journaliste Dupont pour la radio d'à côté Lundi dernier, aux alentours de vingt et une heures, Mme. Sarah a vu une soucoupe volante dans le ciel. Croyance ou réalité ? <br>Je suis aujourd'hui avec la professeur Saturne, experte en astrophysique, auteur du livre Les soucoupes volantes existent-elles. Bonjour professeur, merci d'être avec nous.</li><li><strong>Professeur Saturne</strong> : Bonjour, merci pour votre invitation. Alors, ce que Madame Sarah a vu, c'est pas une soucoupe, c'est une aurore boréale. Mon équipe et moi l'avons observé au télescope de l'université. Nous étudions les aurores boréales depuis plusieurs années maintenant et il arrive souvent que les gens confondent.</li><li><strong>Journaliste Dupont</strong> : Merci professeur Saturne pour votre témoignage. Merci aux auditeurs fidèles qui suivent notre émission à vous les studios.</p>"
+              "subtitles": "-",
+              "transcription": "<ul><li> <strong>Journaliste Dupont</strong> : Flash info, bonjour ! ici le journaliste Dupont pour la radio d'à côté Lundi dernier, aux alentours de vingt et une heures, Mme. Sarah a vu une soucoupe volante dans le ciel. Croyance ou réalité ? <br>Je suis aujourd'hui avec la professeur Saturne, experte en astrophysique, auteur du livre Les soucoupes volantes existent-elles. Bonjour professeur, merci d'être avec nous.</li> <li><strong>Professeur Saturne</strong> : Bonjour, merci pour votre invitation. Alors, ce que Madame Sarah a vu, c'est pas une soucoupe, c'est une aurore boréale. Mon équipe et moi l'avons observé au télescope de l'université. Nous étudions les aurores boréales depuis plusieurs années maintenant et il arrive souvent que les gens confondent.</li><li><strong>Journaliste Dupont</strong> : Merci professeur Saturne pour votre témoignage. Merci aux auditeurs fidèles qui suivent notre émission à vous les studios.</li></ul>"
             },
             {
               "id": "fa0b94f1-5139-4c55-a8bb-c7a4257c1a40",
