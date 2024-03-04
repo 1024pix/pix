@@ -11,6 +11,7 @@ import { CertificationComputeError } from '../errors.js';
 import { ABORT_REASONS } from '../models/CertificationCourse.js';
 import { CertificationResult } from '../models/CertificationResult.js';
 import { CompetenceMark } from '../models/CompetenceMark.js';
+import { AssessmentResult } from '../models/index.js';
 import { CertificationCourseRejected } from './CertificationCourseRejected.js';
 import { CertificationCourseUnrejected } from './CertificationCourseUnrejected.js';
 import { CertificationJuryDone } from './CertificationJuryDone.js';
@@ -26,7 +27,6 @@ const eventTypes = [
   CertificationCourseRejected,
   CertificationCourseUnrejected,
 ];
-const EMITTER = 'PIX-ALGO';
 
 async function handleCertificationRescoring({
   event,
@@ -130,18 +130,29 @@ async function _handleV3Certification({
       assessmentId: certificationAssessment.id,
       juryId: event.juryId,
     });
+  } else if (
+    _shouldRejectWhenV3CertificationCandidateDidNotAnswerToEnoughQuestions({ allAnswers, certificationCourse })
+  ) {
+    assessmentResult = AssessmentResultFactory.buildLackOfAnswers({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      status: certificationAssessmentScore.status,
+      assessmentId: certificationAssessment.id,
+      emitter: AssessmentResult.emitters.PIX_ALGO,
+      juryId: event.juryId,
+    });
   } else {
     assessmentResult = AssessmentResultFactory.buildStandardAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       status: certificationAssessmentScore.status,
       assessmentId: certificationAssessment.id,
-      emitter: EMITTER,
+      emitter: AssessmentResult.emitters.PIX_ALGO,
       juryId: event.juryId,
     });
   }
 
-  if (_shouldCancelV3Certification({ allAnswers, certificationCourse })) {
+  if (_shouldCancelWhenV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse })) {
     assessmentResult.commentForCandidate = new JuryComment({
       context: JuryCommentContexts.CANDIDATE,
       fallbackComment:
@@ -176,11 +187,21 @@ async function _handleV3Certification({
   });
 }
 
-function _shouldCancelV3Certification({ allAnswers, certificationCourse }) {
+function _shouldCancelWhenV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse }) {
   return (
-    allAnswers.length < config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification &&
-    !certificationCourse.isAbortReasonCandidateRelated()
+    certificationCourse.isAbortReasonTechnical() && _candidateDidNotAnswerEnoughV3CertificationQuestions({ allAnswers })
   );
+}
+
+function _shouldRejectWhenV3CertificationCandidateDidNotAnswerToEnoughQuestions({ allAnswers, certificationCourse }) {
+  if (certificationCourse.isAbortReasonTechnical()) {
+    return false;
+  }
+  return _candidateDidNotAnswerEnoughV3CertificationQuestions({ allAnswers });
+}
+
+function _candidateDidNotAnswerEnoughV3CertificationQuestions({ allAnswers }) {
+  return allAnswers.length < config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification;
 }
 
 async function _handleV2Certification({
