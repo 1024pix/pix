@@ -11,6 +11,7 @@ import { importNamedExportsFromDirectory } from '../../../../shared/infrastructu
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationOfficerRepository} CertificationOfficerRepository
  * @typedef {import('../../infrastructure/repositories/index.js').FinalizedSessionRepository} FinalizedSessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').JurySessionRepository} JurySessionRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').SessionForInvigilatorKitRepository} sessionForInvigilatorKitRepository
  **/
 import { sessionRepositories } from '../../infrastructure/repositories/index.js';
 
@@ -23,6 +24,7 @@ import { sessionRepositories } from '../../infrastructure/repositories/index.js'
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {jurySessionRepository} JurySessionRepository
+ * @typedef {sessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
  **/
 const dependencies = {
   candidateRepository: sessionRepositories.candidateRepository,
@@ -31,6 +33,7 @@ const dependencies = {
   complementaryCertificationRepository: sessionRepositories.complementaryCertificationRepository,
   finalizedSessionRepository: sessionRepositories.finalizedSessionRepository,
   jurySessionRepository: sessionRepositories.jurySessionRepository,
+  sessionForInvigilatorKitRepository: sessionRepositories.sessionForInvigilatorKitRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -54,7 +57,6 @@ const usecasesWithoutInjectedDependencies = {
       'finalize-session.js',
       'get-attendance-sheet.js',
       'get-cpf-presigned-urls.js',
-      'get-invigilator-kit-session-info.js',
       'integrate-cpf-processing-receipts.js',
       'update-session.js',
       'upload-cpf-files.js',
