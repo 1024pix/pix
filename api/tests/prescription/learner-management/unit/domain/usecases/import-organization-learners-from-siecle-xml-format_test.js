@@ -6,6 +6,7 @@ import { SiecleParser } from '../../../../../../src/prescription/learner-managem
 
 import fs from 'fs/promises';
 import { SiecleFileStreamer } from '../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
+import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 
 describe('Unit | UseCase | import-organization-learners-from-siecle-xml', function () {
   const organizationUAI = '123ABC';
@@ -15,6 +16,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
   let parseUAJStub;
   let organizationLearnerRepositoryStub;
   let organizationRepositoryStub;
+  let organizationImportRepositoryStub;
   let siecleServiceStub;
   let siecleFileStreamerSymbol;
   let payload = { path: 'file.xml' };
@@ -28,6 +30,16 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
     sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
       return callback(domainTransaction);
     });
+
+    organizationImportRepositoryStub = {
+      get: sinon.stub(),
+      getByOrganizationId: sinon.stub(),
+      save: sinon.stub(),
+    };
+
+    organizationImportRepositoryStub.getByOrganizationId.callsFake(() =>
+      OrganizationImport.create({ organizationId, createdBy: 2 }),
+    );
 
     importStorageStub = {
       sendFile: sinon.stub(),
@@ -87,6 +99,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
           organizationId,
           payload,
           organizationRepository: organizationRepositoryStub,
+          organizationImportRepository: organizationImportRepositoryStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
@@ -118,6 +131,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
         payload,
         format,
         organizationRepository: organizationRepositoryStub,
+        organizationImportRepository: organizationImportRepositoryStub,
         organizationLearnerRepository: organizationLearnerRepositoryStub,
         siecleService: siecleServiceStub,
         importStorage: importStorageStub,
@@ -153,6 +167,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
         organizationId,
         payload,
         organizationRepository: organizationRepositoryStub,
+        organizationImportRepository: organizationImportRepositoryStub,
         organizationLearnerRepository: organizationLearnerRepositoryStub,
         siecleService: siecleServiceStub,
         importStorage: importStorageStub,
@@ -184,6 +199,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
           organizationId,
           payload,
           organizationRepository: organizationRepositoryStub,
+          organizationImportRepository: organizationImportRepositoryStub,
           organizationLearnerRepository: organizationLearnerRepositoryStub,
           siecleService: siecleServiceStub,
           importStorage: importStorageStub,
@@ -192,6 +208,122 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
         // then
         expect(error).to.be.instanceOf(SiecleXmlImportError);
         expect(error.code).to.equal('EMPTY');
+      });
+    });
+  });
+
+  context('save import state in database', function () {
+    describe('success case', function () {
+      it('should save uploaded, validated and imported state each after each', async function () {
+        // given
+        const extractedOrganizationLearnersInformations = [
+          { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' },
+          { lastName: 'UpdatedStudent2', nationalStudentId: 'INE2' },
+          { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
+        ];
+        organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
+        parseStub.resolves(extractedOrganizationLearnersInformations);
+
+        const organizationLearnersToUpdate = [
+          { lastName: 'Student1', nationalStudentId: 'INE1' },
+          { lastName: 'Student2', nationalStudentId: 'INE2' },
+        ];
+        organizationLearnerRepositoryStub.findByOrganizationId.resolves(organizationLearnersToUpdate);
+
+        // when
+        await importOrganizationLearnersFromSIECLEXMLFormat({
+          organizationId,
+          payload,
+          format,
+          organizationRepository: organizationRepositoryStub,
+          organizationImportRepository: organizationImportRepositoryStub,
+          organizationLearnerRepository: organizationLearnerRepositoryStub,
+          siecleService: siecleServiceStub,
+          importStorage: importStorageStub,
+        });
+
+        // then
+
+        const firstSaveCall = organizationImportRepositoryStub.save.getCall(0).args[0];
+        const secondSaveCall = organizationImportRepositoryStub.save.getCall(1).args[0];
+        const thirdSaveCall = organizationImportRepositoryStub.save.getCall(2).args[0];
+
+        expect(firstSaveCall.status).to.equal('UPLOADED');
+        expect(secondSaveCall.status).to.equal('VALIDATED');
+        expect(thirdSaveCall.status).to.equal('IMPORTED');
+      });
+    });
+    describe('errors case', function () {
+      describe('when there is an upload error', function () {
+        it('should save UPLOAD_ERROR status', async function () {
+          //given
+          importStorageStub.sendFile.rejects();
+
+          // when
+          await catchErr(importOrganizationLearnersFromSIECLEXMLFormat)({
+            organizationId,
+            payload,
+            format,
+            organizationRepository: organizationRepositoryStub,
+            organizationImportRepository: organizationImportRepositoryStub,
+            organizationLearnerRepository: organizationLearnerRepositoryStub,
+            siecleService: siecleServiceStub,
+            importStorage: importStorageStub,
+          });
+
+          //then
+          expect(organizationImportRepositoryStub.save.getCall(0).args[0].status).to.equal('UPLOAD_ERROR');
+        });
+      });
+
+      describe('when there is a validation error', function () {
+        it('should save VALIDATION_ERROR status', async function () {
+          //given
+          parseStub.rejects();
+
+          // when
+          await catchErr(importOrganizationLearnersFromSIECLEXMLFormat)({
+            organizationId,
+            payload,
+            format,
+            organizationRepository: organizationRepositoryStub,
+            organizationImportRepository: organizationImportRepositoryStub,
+            organizationLearnerRepository: organizationLearnerRepositoryStub,
+            siecleService: siecleServiceStub,
+            importStorage: importStorageStub,
+          });
+
+          //then
+          expect(organizationImportRepositoryStub.save.getCall(1).args[0].status).to.equal('VALIDATION_ERROR');
+        });
+      });
+      describe('when there is an import error', function () {
+        it('should save IMPORT_ERROR status', async function () {
+          //given
+          const extractedOrganizationLearnersInformations = [
+            { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' },
+            { lastName: 'UpdatedStudent2', nationalStudentId: 'INE2' },
+            { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
+          ];
+          organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
+          parseStub.resolves(extractedOrganizationLearnersInformations);
+          organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners.rejects();
+
+          // when
+          await catchErr(importOrganizationLearnersFromSIECLEXMLFormat)({
+            organizationId,
+            payload,
+            format,
+            organizationRepository: organizationRepositoryStub,
+            organizationImportRepository: organizationImportRepositoryStub,
+            organizationLearnerRepository: organizationLearnerRepositoryStub,
+            siecleService: siecleServiceStub,
+            importStorage: importStorageStub,
+          });
+
+          //then
+          expect(organizationImportRepositoryStub.save.getCall(2).args[0].status).to.equal('IMPORT_ERROR');
+        });
       });
     });
   });

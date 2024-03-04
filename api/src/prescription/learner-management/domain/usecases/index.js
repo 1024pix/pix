@@ -8,6 +8,7 @@ import * as campaignParticipationRepository from '../../infrastructure/repositor
 import { importStorage } from '../../infrastructure/storage/import-storage.js';
 
 import * as organizationRepository from '../../../../../lib/infrastructure/repositories/organization-repository.js';
+import * as organizationImportRepository from '../../infrastructure/repositories/organization-import-repository.js';
 
 import * as organizationLearnersCsvService from '../services/organization-learners-csv-service.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -19,6 +20,7 @@ const dependencies = {
   campaignParticipationRepository,
   organizationRepository,
   organizationLearnersCsvService,
+  organizationImportRepository,
   importStorage,
 };
 
