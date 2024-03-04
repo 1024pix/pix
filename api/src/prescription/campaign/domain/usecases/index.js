@@ -22,7 +22,7 @@ import * as userRepository from '../../../../shared/infrastructure/repositories/
 
 import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
-import * as codeGenerator from '../../../../../lib/domain/services/code-generator.js';
+import * as codeGenerator from '../../../../shared/domain/services/code-generator.js';
 import * as knowledgeElementSnapshotRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';

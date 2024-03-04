@@ -12,7 +12,7 @@ import {
   OrganizationTagNotFound,
   TargetProfileInvalidError,
 } from '../errors.js';
-import * as codeGenerator from '../services/code-generator.js';
+import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../infrastructure/constants.js';
 
 const { isEmpty, uniqBy } = lodash;
