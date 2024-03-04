@@ -1,7 +1,7 @@
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').JurySessionRepository} JurySessionRepository
- * @typedef {import('../../../shared/domain/usecases/index.js').FinalizedSessionRepository} FinalizedSessionRepository
- * @typedef {import('../../../shared/domain/usecases/index.js').CertificationOfficerRepository} CertificationOfficerRepository
+ * @typedef {import('../../domain/usecases/index.js').JurySessionRepository} JurySessionRepository
+ * @typedef {import('../../domain/usecases/index.js').FinalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {import('../../domain/usecases/index.js').CertificationOfficerRepository} CertificationOfficerRepository
  */
 
 /**
