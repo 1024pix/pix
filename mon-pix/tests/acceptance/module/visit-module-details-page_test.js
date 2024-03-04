@@ -3,12 +3,14 @@ import { setupApplicationTest } from 'ember-qunit';
 import { currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
 module('Acceptance | Module | Routes | details', function (hooks) {
   setupApplicationTest(hooks);
+  setupIntl(hooks);
   setupMirage(hooks);
 
-  test('should visit and include the module title, header and footer', async function (assert) {
+  test('should visit and include the module title, skiplinks and footer', async function (assert) {
     // given
     const module = server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
@@ -31,7 +33,8 @@ module('Acceptance | Module | Routes | details', function (hooks) {
     assert.strictEqual(currentURL(), '/modules/bien-ecrire-son-adresse-mail/details');
     assert.ok(document.title.includes(module.title));
     assert.dom(screen.getByRole('alert')).exists();
-    assert.dom(screen.getByRole('banner')).exists();
+    assert.dom(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-content') })).exists();
+    assert.dom(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-footer') })).exists();
     assert.dom(screen.getByRole('contentinfo')).exists();
   });
 
