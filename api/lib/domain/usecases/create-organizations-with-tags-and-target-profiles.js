@@ -15,22 +15,22 @@ import { OrganizationForAdmin } from '../models/index.js';
 import { Organization } from '../models/Organization.js';
 import { OrganizationTag } from '../models/OrganizationTag.js';
 
-const { isEmpty, uniqBy } = lodash;
-
 const SEPARATOR = '_';
+
+const { isEmpty, uniqBy } = lodash;
 
 const createOrganizationsWithTagsAndTargetProfiles = async function ({
   organizations,
   domainTransaction = DomainTransaction,
+  dataProtectionOfficerRepository,
+  organizationInvitationRepository,
   organizationRepository,
+  organizationTagRepository,
+  schoolRepository,
   tagRepository,
   targetProfileShareRepository,
-  organizationTagRepository,
-  organizationInvitationRepository,
-  dataProtectionOfficerRepository,
   organizationValidator,
   organizationInvitationService,
-  schoolRepository,
 }) {
   if (isEmpty(organizations)) {
     throw new ObjectValidationError('Les organisations ne sont pas renseignées.');
