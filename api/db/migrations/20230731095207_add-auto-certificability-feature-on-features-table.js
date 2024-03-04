@@ -8,7 +8,7 @@
 // contact @team-captains, because automatic migrations are not active on `pix-datawarehouse-production`
 // this may prevent data replication to succeed the day after your migration is deployed on `pix-api-production`
 
-import { ORGANIZATION_FEATURE } from '../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../src/shared/domain/constants.js';
 const TABLE_NAME = 'features';
 
 const up = function (knex) {

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { expect, domainBuilder, databaseBuilder, knex, catchErr, sinon } from '../../../test-helper.js';
 import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
-import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 
 import {
   NotFoundError,

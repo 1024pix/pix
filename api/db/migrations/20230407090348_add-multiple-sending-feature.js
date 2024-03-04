@@ -1,5 +1,5 @@
 const TABLE_NAME = 'features';
-import { ORGANIZATION_FEATURE } from '../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../src/shared/domain/constants.js';
 
 const up = function (knex) {
   return knex(TABLE_NAME).insert({

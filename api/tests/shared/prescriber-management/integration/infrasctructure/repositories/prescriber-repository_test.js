@@ -8,7 +8,7 @@ import { Membership } from '../../../../../../lib/domain/models/Membership.js';
 import { UserOrgaSettings } from '../../../../../../lib/domain/models/UserOrgaSettings.js';
 import { Organization } from '../../../../../../lib/domain/models/Organization.js';
 import { Tag } from '../../../../../../lib/domain/models/Tag.js';
-import * as apps from '../../../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
 import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Integration | Infrastructure | Repository | Prescriber', function () {
@@ -339,12 +339,10 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
         it('should return features for current organization', async function () {
           // given
           const multipleSendingFeature = databaseBuilder.factory.buildFeature(
-            apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
+            ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
           );
-          const placesManagementFeature = databaseBuilder.factory.buildFeature(
-            apps.ORGANIZATION_FEATURE.PLACES_MANAGEMENT,
-          );
-          databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
+          const placesManagementFeature = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.PLACES_MANAGEMENT);
+          databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
 
           databaseBuilder.factory.buildOrganizationFeature({
             featureId: multipleSendingFeature.id,
@@ -361,9 +359,9 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
 
           // then
           expect(foundPrescriber.features).to.deep.equal({
-            [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
-            [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
-            [apps.ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key]: true,
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+            [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+            [ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key]: true,
           });
         });
       });
