@@ -8,13 +8,13 @@ import {
   OrganizationNotAuthorizedMultipleSendingAssessmentToCreateCampaignError,
 } from '../../../../../../lib/domain/errors.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import * as apps from '../../../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
 
 describe('Unit | Domain | Models | CampaignCreator', function () {
   let organizationFeatures;
   beforeEach(function () {
     organizationFeatures = {};
-    organizationFeatures[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] = true;
+    organizationFeatures[ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] = true;
   });
 
   describe('#constructor', function () {
@@ -30,7 +30,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
 
     describe('#isMultipleSendingsAssessmentEnabled', function () {
       it('should instanciate CampaignCreator multiple sendings assessment for campaign to true', function () {
-        organizationFeatures[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] = true;
+        organizationFeatures[ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] = true;
 
         const creator = new CampaignCreator({ availableTargetProfileIds: [], organizationFeatures });
 
@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
       });
 
       it('should instanciate CampaignCreator multiple sendings assessment for campaign to false', function () {
-        organizationFeatures[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] = false;
+        organizationFeatures[ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] = false;
 
         const creator = new CampaignCreator({ availableTargetProfileIds: [], organizationFeatures });
 
@@ -93,7 +93,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
 
       describe('multiple sending case', function () {
         it('throws an error when multipleSendings is not available', async function () {
-          organizationFeatures[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] = false;
+          organizationFeatures[ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] = false;
           const availableTargetProfileIds = [1, 2];
           const creator = new CampaignCreator({ availableTargetProfileIds, organizationFeatures });
           const campaignData = {

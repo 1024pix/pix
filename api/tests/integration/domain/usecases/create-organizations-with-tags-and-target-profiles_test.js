@@ -22,7 +22,7 @@ import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 
 const { omit } = lodash;
 

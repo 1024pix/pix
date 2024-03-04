@@ -1,6 +1,6 @@
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
-import * as apps from '../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../src/shared/domain/constants.js';
 
 async function enableComputeCertificabilityOnScoOrganizationsThatManageStudents() {
   const organizationIds = (
@@ -12,7 +12,7 @@ async function enableComputeCertificabilityOnScoOrganizationsThatManageStudents(
 
   const { id: featureId } = await knex('features')
     .select('id')
-    .where({ key: apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key })
+    .where({ key: ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key })
     .first();
 
   await knex('organization-features')

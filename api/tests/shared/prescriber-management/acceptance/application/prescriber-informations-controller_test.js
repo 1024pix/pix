@@ -6,7 +6,7 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
-import { constants as apps } from '../../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 
 describe('Acceptance | Controller | prescriber-informations-controller', function () {
   let user;
@@ -32,8 +32,8 @@ describe('Acceptance | Controller | prescriber-informations-controller', functio
           'participant-count': 0,
           lang: user.lang,
           features: {
-            [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
-            [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+            [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
           },
         },
         relationships: {
@@ -138,8 +138,8 @@ describe('Acceptance | Controller | prescriber-informations-controller', functio
         currentOrganizationId: organization.id,
         userId: user.id,
       }).id;
-      databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
-      databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
+      databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
+      databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
       await databaseBuilder.commit();
 
       options = {
