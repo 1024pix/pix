@@ -3,7 +3,7 @@ import { expect, domainBuilder } from '../../../../../../test-helper.js';
 import * as serializer from '../../../../../../../src/shared/prescriber-management/infrastructure/serializers/jsonapi/prescriber-serializer.js';
 import { Membership } from '../../../../../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../../lib/domain/constants/identity-providers.js';
-import * as apps from '../../../../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../../../src/shared/domain/constants.js';
 
 describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
   describe('#serialize', function () {
@@ -41,8 +41,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
           memberships: [membership],
           userOrgaSettings,
           features: {
-            [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
-            [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+            [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
           },
         });
 
@@ -89,8 +89,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
           memberships: [membership],
           userOrgaSettings,
           features: {
-            [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
-            [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+            [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
           },
         });
 
@@ -128,8 +128,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
           memberships: [membership],
           userOrgaSettings,
           features: {
-            [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
-            [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+            [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
           },
         });
 
@@ -179,8 +179,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
           memberships: [membership],
           userOrgaSettings,
           features: {
-            [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
-            [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+            [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
           },
         });
 
@@ -221,8 +221,8 @@ function createExpectedPrescriberSerializedWithOneMoreField({
         'participant-count': prescriber.participantCount,
         lang: prescriber.lang,
         features: {
-          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: prescriber.features.MULTIPLE_SENDING_ASSESSMENT,
-          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]:
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: prescriber.features.MULTIPLE_SENDING_ASSESSMENT,
+          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]:
             prescriber.features.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
         },
       },
@@ -330,8 +330,8 @@ function createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSe
         'participant-count': prescriber.participantCount,
         lang: prescriber.lang,
         features: {
-          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: prescriber.features.MULTIPLE_SENDING_ASSESSMENT,
-          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]:
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: prescriber.features.MULTIPLE_SENDING_ASSESSMENT,
+          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]:
             prescriber.features.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
         },
       },

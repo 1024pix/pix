@@ -1,4 +1,4 @@
-import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import {
   FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID,
   FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID,

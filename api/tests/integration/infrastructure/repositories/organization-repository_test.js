@@ -4,7 +4,7 @@ import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Organization, OrganizationForAdmin } from '../../../../lib/domain/models/index.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
-import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 
 describe('Integration | Repository | Organization', function () {
   describe('#create', function () {

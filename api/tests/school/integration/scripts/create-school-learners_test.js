@@ -6,7 +6,7 @@ import {
 } from '../../../../src/school/scripts/create-school-learners.js';
 import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
-import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 
 describe('Integration | Script | create school learners', function () {
   describe('#buildSchool', function () {

@@ -2,7 +2,7 @@ import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
 import { Organization, OrganizationForAdmin } from '../../../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
-import * as apps from '../../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {
   describe('#serialize', function () {
@@ -25,7 +25,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
         identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
         features: {
-          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
         },
         name: 'motherSco',
       });
@@ -42,7 +42,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
         identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
         features: {
-          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
         },
         parentOrganizationId: parentOrganization.id,
         parentOrganizationName: parentOrganization.name,
@@ -159,8 +159,8 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         dataProtectionOfficerLastName: 'Ptipeu',
         dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
         features: {
-          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
-          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
         },
       };
 
@@ -209,9 +209,9 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         dataProtectionOfficerLastName: organizationAttributes.dataProtectionOfficerLastName,
         dataProtectionOfficerEmail: organizationAttributes.dataProtectionOfficerEmail,
         features: {
-          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]:
+          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]:
             organizationAttributes.features.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
-          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]:
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]:
             organizationAttributes.features.MULTIPLE_SENDING_ASSESSMENT,
         },
       });

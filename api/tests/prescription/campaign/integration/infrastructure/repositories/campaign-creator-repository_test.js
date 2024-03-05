@@ -1,6 +1,6 @@
 import { expect, databaseBuilder } from '../../../../../test-helper.js';
 import * as campaignCreatorRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-creator-repository.js';
-import * as apps from '../../../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
 
 describe('Integration | Repository | CampaignCreatorRepository', function () {
   describe('#get', function () {
@@ -22,9 +22,7 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
 
     context('multiple assessment feature', function () {
       it('returns true when feature is available', async function () {
-        const featureId = databaseBuilder.factory.buildFeature(
-          apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
-        ).id;
+        const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
         databaseBuilder.factory.buildMembership({ organizationId, userId });
