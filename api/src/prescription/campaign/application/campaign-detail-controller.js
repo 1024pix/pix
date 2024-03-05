@@ -4,10 +4,10 @@ import { usecases } from '../domain/usecases/index.js';
 import * as campaignReportSerializer from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 
 import { tokenService } from '../../../shared/domain/services/token-service.js';
-import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
+import { extractParameters } from '../../../shared/infrastructure/utils/query-params-utils.js';
 import { escapeFileName } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import * as campaignParticipantsActivitySerializer from '../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
-import { extractParameters } from '../../../../lib/infrastructure/utils/query-params-utils.js';
 
 const { PassThrough } = stream;
 

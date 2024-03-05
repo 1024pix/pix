@@ -10,7 +10,7 @@ import * as organizationInvitationSerializer from '../../infrastructure/serializ
 import * as organizationMemberIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
-import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
+import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import {
   extractUserIdFromRequest,
   extractLocaleFromRequest,
