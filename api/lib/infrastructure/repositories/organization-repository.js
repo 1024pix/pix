@@ -104,6 +104,7 @@ const batchCreateOrganizations = async function (
         .returning('*');
 
       const enabledFeatures = _.keys(organization.features).filter((key) => organization.features[key] === true);
+
       for (const featureKey of enabledFeatures) {
         const feature = featuresByKey[featureKey];
         await knexConn('organization-features').insert({
@@ -111,7 +112,11 @@ const batchCreateOrganizations = async function (
           featureId: feature.id,
         });
       }
-      return createdOrganization;
+
+      return {
+        createdOrganization,
+        organizationToCreate: organization,
+      };
     },
     {
       concurrency: CONCURRENCY_HEAVY_OPERATIONS,

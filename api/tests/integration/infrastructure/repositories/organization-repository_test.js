@@ -983,6 +983,7 @@ describe('Integration | Repository | Organization', function () {
 
   describe('#batchCreateOrganizations', function () {
     let computeOrganizationLearnerCertificabilityId;
+
     beforeEach(async function () {
       computeOrganizationLearnerCertificabilityId = databaseBuilder.factory.buildFeature(
         ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
@@ -1029,6 +1030,43 @@ describe('Integration | Repository | Organization', function () {
       expect(foundOrganizations[0].provinceCode).to.equal(organization.provinceCode);
       expect(foundOrganizations[0].createdBy).to.equal(organization.createdBy);
       expect(foundOrganizations[0].documentationUrl).to.equal(organization.documentationUrl);
+    });
+
+    context('when organization is added', function () {
+      it('returns organization data to create and created organization', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationsToCreate = [
+          domainBuilder.buildOrganizationForAdmin({
+            id: null,
+            externalId: '1237457A',
+            name: 'Orga 1',
+            createdBy: userId,
+          }),
+        ];
+
+        await databaseBuilder.commit();
+
+        // when
+        const createdOrganizations = await organizationRepository.batchCreateOrganizations(organizationsToCreate);
+
+        // then
+        expect(createdOrganizations).to.have.lengthOf(1);
+
+        const { createdOrganization, organizationToCreate } = createdOrganizations[0];
+        expect(organizationToCreate).to.include({
+          id: null,
+          externalId: '1237457A',
+          name: 'Orga 1',
+          createdBy: userId,
+        });
+        expect(createdOrganization).to.include({
+          id: createdOrganization.id,
+          externalId: '1237457A',
+          name: 'Orga 1',
+          createdBy: userId,
+        });
+      });
     });
 
     it('should enable compute organization learner certificability feature for sco organization managing students', async function () {
