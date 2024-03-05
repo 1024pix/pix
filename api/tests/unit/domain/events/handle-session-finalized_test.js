@@ -76,8 +76,8 @@ describe('Unit | Domain | Events | handle-session-finalized', function () {
       hasSupervisorAccess: true,
       juryCertificationSummaries: [juryCertificationSummary],
     });
-    expect(finalizedSessionRepository.save).to.have.been.calledWithExactly(
-      new FinalizedSession({
+    expect(finalizedSessionRepository.save).to.have.been.calledWithExactly({
+      finalizedSession: new FinalizedSession({
         sessionId: event.sessionId,
         finalizedAt: event.finalizedAt,
         certificationCenterName: event.certificationCenterName,
@@ -87,6 +87,6 @@ describe('Unit | Domain | Events | handle-session-finalized', function () {
         hasSupervisorAccess: true,
         publishedAt: null,
       }),
-    );
+    });
   });
 });

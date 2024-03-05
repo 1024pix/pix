@@ -14,7 +14,7 @@ describe('Integration | Repository | CertificationOfficer', function () {
 
     it('should return the found certificationOfficer', async function () {
       // when
-      const certificationOfficer = await certificationOfficerRepository.get(userInDb.id);
+      const certificationOfficer = await certificationOfficerRepository.get({ userId: userInDb.id });
 
       // then
       expect(certificationOfficer).to.be.an.instanceOf(CertificationOfficer);
@@ -28,7 +28,7 @@ describe('Integration | Repository | CertificationOfficer', function () {
       const nonExistentUserId = 678;
 
       // when
-      const result = await catchErr(certificationOfficerRepository.get)(nonExistentUserId);
+      const result = await catchErr(certificationOfficerRepository.get)({ userId: nonExistentUserId });
 
       // then
       expect(result).to.be.instanceOf(UserNotFoundError);

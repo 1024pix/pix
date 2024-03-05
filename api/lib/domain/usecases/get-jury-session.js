@@ -1,5 +1,5 @@
 const getJurySession = async function ({ sessionId, jurySessionRepository, supervisorAccessRepository }) {
-  const jurySession = await jurySessionRepository.get(sessionId);
+  const jurySession = await jurySessionRepository.get({ id: sessionId });
   const hasSupervisorAccess = await supervisorAccessRepository.sessionHasSupervisorAccess({ sessionId });
   return {
     jurySession,

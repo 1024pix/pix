@@ -17,7 +17,7 @@ const save = async function (certificationIssueReport) {
   return new CertificationIssueReport(data);
 };
 
-const get = async function (id) {
+const get = async function ({ id }) {
   const certificationIssueReport = await knex('certification-issue-reports').where({ id }).first();
   if (!certificationIssueReport) {
     throw new NotFoundError(`Certification issue report ${id} does not exist`);
@@ -25,14 +25,14 @@ const get = async function (id) {
   return new CertificationIssueReport(certificationIssueReport);
 };
 
-const findByCertificationCourseId = async function (certificationCourseId) {
+const findByCertificationCourseId = async function ({ certificationCourseId }) {
   const certificationIssueReports = await knex('certification-issue-reports').where({ certificationCourseId });
   return certificationIssueReports.map(
     (certificationIssueReport) => new CertificationIssueReport(certificationIssueReport),
   );
 };
 
-const remove = async function (id) {
+const remove = async function ({ id }) {
   return knex('certification-issue-reports').where({ id }).del();
 };
 

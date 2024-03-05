@@ -28,7 +28,7 @@ async function handleSessionFinalized({
     juryCertificationSummaries,
   });
 
-  await finalizedSessionRepository.save(finalizedSession);
+  await finalizedSessionRepository.save({ finalizedSession });
 }
 
 handleSessionFinalized.eventTypes = eventTypes;

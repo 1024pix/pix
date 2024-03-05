@@ -17,12 +17,12 @@ const assignCertificationOfficerToJurySession = async function ({
   finalizedSessionRepository,
   certificationOfficerRepository,
 } = {}) {
-  const certificationOfficer = await certificationOfficerRepository.get(certificationOfficerId);
+  const certificationOfficer = await certificationOfficerRepository.get({ userId: certificationOfficerId });
   const finalizedSession = await finalizedSessionRepository.get({ sessionId });
 
   finalizedSession.assignCertificationOfficer({ certificationOfficerName: certificationOfficer.getFullName() });
 
-  await finalizedSessionRepository.save(finalizedSession);
+  await finalizedSessionRepository.save({ finalizedSession });
 
   await jurySessionRepository.assignCertificationOfficer({
     id: finalizedSession.sessionId,

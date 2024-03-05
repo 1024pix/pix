@@ -5,13 +5,13 @@ const manuallyResolveCertificationIssueReport = async function ({
   resolution,
   certificationIssueReportRepository,
 }) {
-  const certificationIssueReport = await certificationIssueReportRepository.get(certificationIssueReportId);
+  const certificationIssueReport = await certificationIssueReportRepository.get({ id: certificationIssueReportId });
   if (certificationIssueReport.hasBeenAutomaticallyResolved) {
     throw new CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually();
   }
 
   certificationIssueReport.resolveManually(resolution);
-  await certificationIssueReportRepository.save(certificationIssueReport);
+  await certificationIssueReportRepository.save({ certificationIssueReport });
 };
 
 export { manuallyResolveCertificationIssueReport };

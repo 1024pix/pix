@@ -181,7 +181,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         .withArgs({ sessionId: 1234 })
         .resolves([certificationCourse]);
       certificationIssueReportRepository.findByCertificationCourseId
-        .withArgs(certificationCourse.getId())
+        .withArgs({ certificationCourseId: certificationCourse.getId() })
         .resolves([certificationIssueReport1]);
       certificationAssessmentRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId: certificationCourse.getId() })

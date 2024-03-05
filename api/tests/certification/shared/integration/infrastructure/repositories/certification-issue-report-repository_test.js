@@ -115,7 +115,7 @@ describe('Integration | Repository | Certification Issue Report', function () {
       await databaseBuilder.commit();
 
       // when
-      await certificationIssueReportRepository.remove(certificationIssueReportToDeleteId);
+      await certificationIssueReportRepository.remove({ id: certificationIssueReportToDeleteId });
 
       // then
       const exists = await knex('certification-issue-reports')
@@ -132,7 +132,7 @@ describe('Integration | Repository | Certification Issue Report', function () {
       await databaseBuilder.commit();
 
       // when
-      const result = await certificationIssueReportRepository.get(issueReport.id);
+      const result = await certificationIssueReportRepository.get({ id: issueReport.id });
 
       // then
       const expectedIssueReport = domainBuilder.buildCertificationIssueReport({
@@ -149,7 +149,7 @@ describe('Integration | Repository | Certification Issue Report', function () {
         const unknownCertificationIssueReportId = 999999;
 
         // when
-        const error = await catchErr(certificationIssueReportRepository.get)(unknownCertificationIssueReportId);
+        const error = await catchErr(certificationIssueReportRepository.get)({ id: unknownCertificationIssueReportId });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -184,9 +184,9 @@ describe('Integration | Repository | Certification Issue Report', function () {
       await databaseBuilder.commit();
 
       // when
-      const results = await certificationIssueReportRepository.findByCertificationCourseId(
-        targetCertificationCourse.id,
-      );
+      const results = await certificationIssueReportRepository.findByCertificationCourseId({
+        certificationCourseId: targetCertificationCourse.id,
+      });
 
       // then
       const expectedIssueReports = [
