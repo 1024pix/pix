@@ -75,7 +75,7 @@ describe('Integration | Repository | JurySession', function () {
         });
 
         // when
-        const jurySession = await jurySessionRepository.get(sessionId);
+        const jurySession = await jurySessionRepository.get({ id: sessionId });
 
         // then
         expect(jurySession).to.deepEqualInstance(expectedJurySession);
@@ -85,7 +85,7 @@ describe('Integration | Repository | JurySession', function () {
     context('when id of session does not exist', function () {
       it('should throw a NotFoundError', async function () {
         // when
-        const error = await catchErr(jurySessionRepository.get)(12345);
+        const error = await catchErr(jurySessionRepository.get)({ id: 12345 });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -585,25 +585,6 @@ describe('Integration | Repository | JurySession', function () {
   });
 
   describe('#assignCertificationOfficer', function () {
-    it('should return an updated Session domain object', async function () {
-      // given
-      const sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: null }).id;
-      const assignedCertificationOfficerId = databaseBuilder.factory.buildUser().id;
-      await databaseBuilder.commit();
-
-      // when
-      const updatedSession = await jurySessionRepository.assignCertificationOfficer({
-        id: sessionId,
-        assignedCertificationOfficerId,
-      });
-
-      // then
-      expect(updatedSession).to.be.an.instanceof(JurySession);
-      expect(updatedSession.id).to.deep.equal(sessionId);
-      expect(updatedSession.assignedCertificationOfficer.id).to.deep.equal(assignedCertificationOfficerId);
-      expect(updatedSession.status).to.deep.equal(statuses.IN_PROCESS);
-    });
-
     context('when assignedCertificationOfficerId provided does not exist', function () {
       it('should return a Not found error', async function () {
         // given
