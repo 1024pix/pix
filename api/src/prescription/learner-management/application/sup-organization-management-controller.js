@@ -3,7 +3,6 @@ import fs from 'fs';
 import { usecases } from '../domain/usecases/index.js';
 import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import * as supOrganizationLearnerWarningSerializer from '../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer.js';
-import { importStorage } from '../infrastructure/storage/import-storage.js';
 import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
 
 const importSupOrganizationLearners = async function (
@@ -42,9 +41,8 @@ const replaceSupOrganizationLearners = async function (
   request,
   h,
   dependencies = {
-    requestResponseUtils,
     supOrganizationLearnerWarningSerializer,
-    importStorage,
+    requestResponseUtils,
     logErrorWithCorrelationIds,
     unlink: fs.unlink,
   },
@@ -52,20 +50,15 @@ const replaceSupOrganizationLearners = async function (
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const organizationId = request.params.id;
 
-  const filename = await dependencies.importStorage.sendFile({ filepath: request.payload.path });
-
   let warnings;
   try {
-    const readableStream = await dependencies.importStorage.readFile({ filename });
-
     warnings = await usecases.replaceSupOrganizationLearners({
-      readableStream,
+      payload: request.payload,
       i18n: request.i18n,
       organizationId,
       userId,
     });
   } finally {
-    await dependencies.importStorage.deleteFile({ filename });
     // see https://hapi.dev/api/?v=21.3.3#-routeoptionspayloadoutput
     // add a catch to avoid an error if unlink fails
     try {
