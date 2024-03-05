@@ -5,7 +5,7 @@ import * as campaignAssessmentParticipationSerializer from '../../infrastructure
 import * as campaignAssessmentParticipationResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js';
 import * as campaignProfileSerializer from '../../infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
 import * as trainingSerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
-import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
+import { extractLocaleFromRequest } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const getAnalysis = async function (request, h, dependencies = { campaignAnalysisSerializer }) {

@@ -1,6 +1,6 @@
 import * as scorecardSerializer from '../../infrastructure/serializers/jsonapi/scorecard-serializer.js';
 import * as tutorialSerializer from '../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer.js';
-import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { evaluationUsecases } from '../../../evaluation/domain/usecases/index.js';
 

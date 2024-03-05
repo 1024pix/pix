@@ -10,7 +10,7 @@ import * as certificationCenterInvitationSerializer from '../../infrastructure/s
 
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import lodash from 'lodash';
-import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
+import { extractLocaleFromRequest } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 
 const { map } = lodash;
 

@@ -8,7 +8,7 @@ import {
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
 } from '../domain/errors.js';
 import jsonapiSerializer from 'jsonapi-serializer';
-import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/request-response-utils.js';
+import { extractLocaleFromRequest } from '../infrastructure/utils/request-response-utils.js';
 import _ from 'lodash';
 import * as translations from '../../../translations/index.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';

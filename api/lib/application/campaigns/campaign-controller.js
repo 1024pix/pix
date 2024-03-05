@@ -9,7 +9,7 @@ import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/di
 import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group-serializer.js';
 
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
-import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
+import { extractLocaleFromRequest } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 
 const getByCode = async function (request) {
   const filters = extractParameters(request.query).filter;

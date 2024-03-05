@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 import { usecases } from '../domain/usecases/index.js';
-import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../../shared/infrastructure/utils/request-response-utils.js';
 import * as supOrganizationLearnerWarningSerializer from '../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer.js';
 import { SupOrganizationLearnerParser } from '../infrastructure/serializers/csv/sup-organization-learner-parser.js';
 import { importStorage } from '../infrastructure/storage/import-storage.js';

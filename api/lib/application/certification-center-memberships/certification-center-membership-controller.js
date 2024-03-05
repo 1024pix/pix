@@ -1,5 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
-import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
 import { BadRequestError, ForbiddenError } from '../http-errors.js';
 import { getCertificationCenterId } from '../../infrastructure/repositories/certification-center-membership-repository.js';

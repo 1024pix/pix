@@ -7,7 +7,7 @@ import * as certifiedProfileSerializer from '../../infrastructure/serializers/js
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
-import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
+import { extractLocaleFromRequest } from '../../../src/shared/infrastructure/utils/request-response-utils.js';
 
 const getCertificationDetails = async function (request, h, dependencies = { certificationDetailsSerializer }) {
   const certificationCourseId = request.params.id;
