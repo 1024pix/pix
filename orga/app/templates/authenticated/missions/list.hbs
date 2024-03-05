@@ -4,12 +4,12 @@
 {{#if @model}}
   <div class="panel">
     <table class="table content-text content-text--small participation-list__table">
-      <caption class="screen-reader-only">{{t "pages.missions.list.tab.caption"}}</caption>
+      <caption class="screen-reader-only">{{t "pages.missions.list.caption"}}</caption>
       <thead>
         <tr>
-          <Table::Header scope="col">{{t "pages.missions.list.tab.name"}}</Table::Header>
-          <Table::Header scope="col">{{t "pages.missions.list.tab.competences"}}</Table::Header>
-          <Table::Header scope="col">{{t "pages.missions.list.tab.started-by"}}</Table::Header>
+          <Table::Header scope="col">{{t "pages.missions.list.headers.name"}}</Table::Header>
+          <Table::Header scope="col">{{t "pages.missions.list.headers.competences"}}</Table::Header>
+          <Table::Header scope="col">{{t "pages.missions.list.headers.started-by"}}</Table::Header>
         </tr>
       </thead>
       <tbody>
@@ -22,7 +22,11 @@
               {{mission.competenceName}}
             </td>
             <td>
-              {{mission.startedBy}}
+              {{#if (eq mission.startedBy "")}}
+                {{t "pages.missions.list.no-division"}}
+              {{else}}
+                {{mission.startedBy}}
+              {{/if}}
             </td>
           </tr>
         {{/each}}
@@ -32,6 +36,6 @@
 
 {{else}}
   <div class="table__empty content-text">
-    {{t "pages.missions.list.tab.empty-state"}}
+    {{t "pages.missions.list.empty-state"}}
   </div>
 {{/if}}
