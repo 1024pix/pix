@@ -4,7 +4,7 @@ import {
   challengeDatasource,
   skillDatasource,
   tubeDatasource,
-} from '../../../../lib/infrastructure/datasources/learning-content/index.js';
+} from '../../../../src/shared/infrastructure/datasources/learning-content/index.js';
 import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
 import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';

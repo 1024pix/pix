@@ -7,7 +7,7 @@ import * as skillAdapter from '../../../../lib/infrastructure/adapters/skill-ada
 import {
   challengeDatasource,
   skillDatasource,
-} from '../../../../lib/infrastructure/datasources/learning-content/index.js';
+} from '../../../../src/shared/infrastructure/datasources/learning-content/index.js';
 import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
 import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
 

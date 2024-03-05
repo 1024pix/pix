@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/isEmpty.js';
 
-import { LearningContentResourceNotFound } from '../../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import * as datasource from './datasource.js';
+import { LearningContentResourceNotFound } from './LearningContentResourceNotFound.js';
 
 const VALIDATED_CHALLENGE = 'validé';
 // donnée temporaire pour pix1d le temps d'arriver en « prod »

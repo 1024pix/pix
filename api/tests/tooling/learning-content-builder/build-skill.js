@@ -1,4 +1,4 @@
-import * as skillDatasource from '../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
+import * as skillDatasource from '../../../src/shared/infrastructure/datasources/learning-content/skill-datasource.js';
 
 const buildSkill = function buildSkill({
   id = 'recSK123',

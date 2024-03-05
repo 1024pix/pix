@@ -1,5 +1,5 @@
 import { cacheController } from '../../../../lib/application/cache/cache-controller.js';
-import * as learningContentDatasources from '../../../../lib/infrastructure/datasources/learning-content/index.js';
+import * as learningContentDatasources from '../../../../src/shared/infrastructure/datasources/learning-content/index.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
@@ -28,6 +28,7 @@ describe('Unit | Controller | cache-controller', function () {
     ]) {
       it(`should reply 204 when patching ${entity}`, async function () {
         // given
+
         // eslint-disable-next-line import/namespace
         sinon.stub(learningContentDatasources[`${entity}Datasource`], 'refreshLearningContentCacheRecord').resolves();
         const request = {
