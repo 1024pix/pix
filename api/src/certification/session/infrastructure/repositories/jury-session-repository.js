@@ -3,6 +3,7 @@ import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../../db/pgsql
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { JurySession, statuses } from '../../../../../lib/domain/models/JurySession.js';
 import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import { CertificationOfficer } from '../../domain/models/CertificationOfficer.js';
 
 const COLUMNS = Object.freeze([
@@ -17,7 +18,7 @@ const ALIASED_COLUMNS = Object.freeze({
   juryCommentAuthorLastName: 'jury-comment-authors.lastName',
 });
 
-const get = async function (id) {
+const get = async function ({ id }) {
   const jurySessionDTO = await knex
     .select(COLUMNS)
     .select(ALIASED_COLUMNS)
@@ -57,13 +58,18 @@ const findPaginatedFiltered = async function ({ filters, page }) {
 
 const assignCertificationOfficer = async function ({ id, assignedCertificationOfficerId }) {
   try {
-    await knex('sessions').where({ id }).update({ assignedCertificationOfficerId }).returning('*');
-    return this.get(id);
+    const updatedLines = await knex('sessions').where({ id }).update({ assignedCertificationOfficerId });
+    if (updatedLines === 0) {
+      throw new NotFoundError(`La session d'id ${id} n'existe pas.`);
+    }
   } catch (error) {
     if (error.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
       throw new NotFoundError(`L'utilisateur d'id ${assignedCertificationOfficerId} n'existe pas`);
     }
-    throw new NotFoundError(`La session d'id ${id} n'existe pas.`);
+    if (error instanceof NotFoundError) {
+      throw error;
+    }
+    logger.error(error);
   }
 };
 
