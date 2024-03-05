@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Tutorial } from '../../domain/models/Tutorial.js';
 import * as userSavedTutorialRepository from './user-saved-tutorial-repository.js';
 import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.js';
-import { tutorialDatasource } from '../datasources/learning-content/tutorial-datasource.js';
+import { tutorialDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/tutorial-datasource.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { TutorialForUser } from '../../domain/read-models/TutorialForUser.js';
 import { LOCALE } from '../../../src/shared/domain/constants.js';

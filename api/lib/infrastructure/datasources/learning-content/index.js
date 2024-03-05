@@ -6,7 +6,7 @@ import { frameworkDatasource } from './framework-datasource.js';
 import { skillDatasource } from './skill-datasource.js';
 import { thematicDatasource } from '../../../../src/shared/infrastructure/datasources/learning-content/thematic-datasource.js';
 import { tubeDatasource } from './tube-datasource.js';
-import { tutorialDatasource } from './tutorial-datasource.js';
+import { tutorialDatasource } from '../../../../src/shared/infrastructure/datasources/learning-content/tutorial-datasource.js';
 
 export {
   areaDatasource,
