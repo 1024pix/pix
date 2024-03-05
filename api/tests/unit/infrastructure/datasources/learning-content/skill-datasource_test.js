@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { learningContentCache } from '../../../../../lib/infrastructure/caches/learning-content-cache.js';
-import { skillDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
+import { skillDatasource } from '../../../../../src/shared/infrastructure/datasources/learning-content/skill-datasource.js';
 import { lcms } from '../../../../../lib/infrastructure/lcms.js';
 import { expect, sinon } from '../../../../test-helper.js';
 

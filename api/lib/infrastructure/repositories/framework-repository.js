@@ -2,7 +2,8 @@ import _ from 'lodash';
 
 import { NotFoundError } from '../../domain/errors.js';
 import { Framework } from '../../domain/models/Framework.js';
-import { frameworkDatasource } from '../datasources/learning-content/framework-datasource.js';
+
+import { frameworkDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/framework-datasource.js';
 
 async function list() {
   const frameworkDataObjects = await frameworkDatasource.list();

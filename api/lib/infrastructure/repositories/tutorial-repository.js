@@ -1,15 +1,16 @@
 import _ from 'lodash';
 
-import { LOCALE } from '../../../src/shared/domain/constants.js';
-import { NotFoundError } from '../../domain/errors.js';
 import { Tutorial } from '../../domain/models/Tutorial.js';
+import * as userSavedTutorialRepository from './user-saved-tutorial-repository.js';
+import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.js';
+import { tutorialDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/tutorial-datasource.js';
+import { NotFoundError } from '../../domain/errors.js';
 import { TutorialForUser } from '../../domain/read-models/TutorialForUser.js';
-import { tutorialDatasource } from '../datasources/learning-content/tutorial-datasource.js';
+
+import { LOCALE } from '../../../src/shared/domain/constants.js';
 import * as paginateModule from '../utils/paginate.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import * as skillRepository from './skill-repository.js';
-import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.js';
-import * as userSavedTutorialRepository from './user-saved-tutorial-repository.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
