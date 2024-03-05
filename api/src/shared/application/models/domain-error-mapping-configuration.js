@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { validateEntity } from '../../../../lib/domain/validators/entity-validator.js';
+import { validateEntity } from '../../domain/validators/entity-validator.js';
 
 const schema = Joi.object({
   name: Joi.string().required(),

@@ -1,7 +1,7 @@
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-import { validateEntity } from '../validators/entity-validator.js';
+import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
 import _ from 'lodash';
 
 const validationSchema = Joi.object({
