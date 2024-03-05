@@ -7,7 +7,7 @@
 // If your migrations target `answers` or `knowledge-elements`
 // contact @team-captains, because automatic migrations are not active on `pix-datawarehouse-production`
 // this may prevent data replication to succeed the day after your migration is deployed on `pix-api-production`
-import { ORGANIZATION_FEATURE } from '../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../src/shared/domain/constants.js';
 
 const up = async function (knex) {
   await knex('features').insert({

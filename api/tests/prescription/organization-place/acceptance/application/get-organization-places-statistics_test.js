@@ -7,7 +7,7 @@ import {
 
 import * as categories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import { Membership } from '../../../../../lib/domain/models/index.js';
-import { ORGANIZATION_FEATURE } from '../../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 
 describe('Acceptance | Route | Get Organizations Places Statistics', function () {
   describe('GET /api/organizations/{id}/places-statistics', function () {

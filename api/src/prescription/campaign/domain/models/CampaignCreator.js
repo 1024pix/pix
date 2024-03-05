@@ -5,13 +5,13 @@ import {
   UserNotAuthorizedToCreateCampaignError,
   OrganizationNotAuthorizedMultipleSendingAssessmentToCreateCampaignError,
 } from '../../../../../lib/domain/errors.js';
-import * as apps from '../../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 
 class CampaignCreator {
   constructor({ availableTargetProfileIds, organizationFeatures }) {
     this.availableTargetProfileIds = availableTargetProfileIds;
     this.isMultipleSendingsAssessmentEnable =
-      organizationFeatures[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key];
+      organizationFeatures[ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key];
   }
 
   createCampaign(campaignAttributes) {

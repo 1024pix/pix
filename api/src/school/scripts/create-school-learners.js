@@ -9,7 +9,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import bluebird from 'bluebird';
 import * as url from 'url';
-import { ORGANIZATION_FEATURE } from '../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../shared/domain/constants.js';
 
 const STUDENT_NAMES = [
   { firstName: 'Ichigo', lastName: 'Hara-Masuda' },

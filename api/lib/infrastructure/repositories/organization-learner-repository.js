@@ -12,7 +12,7 @@ import * as studentRepository from './student-repository.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { fetchPage } from '../utils/knex-utils.js';
 import { DomainTransaction } from '../DomainTransaction.js';
-import { ORGANIZATION_FEATURE } from '../../domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../src/shared/domain/constants.js';
 
 function _shouldStudentToImportBeReconciled(
   allOrganizationLearnersInSameOrganization,

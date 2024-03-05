@@ -6,8 +6,7 @@ import { OrganizationForAdmin } from '../../../../lib/domain/models/organization
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
-import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
-import * as apps from '../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 
 describe('Integration | Repository | Organization-for-admin', function () {
   let clock;
@@ -401,7 +400,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
           archivedBy: archivist.id,
           archivedAt,
         });
-        databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
+        databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
 
         await databaseBuilder.commit();
 
