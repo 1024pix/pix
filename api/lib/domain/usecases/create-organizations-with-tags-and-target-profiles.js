@@ -4,24 +4,21 @@ import lodash from 'lodash';
 import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../infrastructure/constants.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import {
-  ManyOrganizationsFoundError,
-  ObjectValidationError,
-  OrganizationAlreadyExistError,
-  OrganizationTagNotFound,
-  TargetProfileInvalidError,
-} from '../errors.js';
+import { ObjectValidationError, OrganizationTagNotFound, TargetProfileInvalidError } from '../errors.js';
 import { OrganizationForAdmin } from '../models/index.js';
 import { Organization } from '../models/Organization.js';
 import { OrganizationTag } from '../models/OrganizationTag.js';
 
 const SEPARATOR = '_';
 
-const { isEmpty, uniqBy } = lodash;
+const { isEmpty } = lodash;
 
 const createOrganizationsWithTagsAndTargetProfiles = async function ({
+  // parameters
   organizations,
   domainTransaction = DomainTransaction,
+
+  // dependencies
   dataProtectionOfficerRepository,
   organizationInvitationRepository,
   organizationRepository,
@@ -36,13 +33,9 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
     throw new ObjectValidationError('Les organisations ne sont pas renseignées.');
   }
 
-  _checkIfOrganizationsDataAreUnique(organizations);
-
   for (const organization of organizations) {
     organizationValidator.validate(organization);
   }
-
-  await _checkIfOrganizationsAlreadyExistInDatabase(organizations, organizationRepository);
 
   const organizationsData = _mapOrganizationsData(organizations);
 
@@ -143,30 +136,6 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
 };
 
 export { createOrganizationsWithTagsAndTargetProfiles };
-
-function _checkIfOrganizationsDataAreUnique(organizations) {
-  const uniqOrganizations = uniqBy(organizations, 'externalId');
-
-  if (uniqOrganizations.length !== organizations.length) {
-    throw new ManyOrganizationsFoundError(
-      `Plusieurs organisations (${uniqOrganizations.length}) ont le même externalId.`,
-    );
-  }
-}
-
-async function _checkIfOrganizationsAlreadyExistInDatabase(organizations, organizationRepository) {
-  const foundOrganizations = await organizationRepository.findByExternalIdsFetchingIdsOnly(
-    organizations.map((organization) => organization.externalId),
-  );
-
-  if (!isEmpty(foundOrganizations)) {
-    const foundOrganizationIds = foundOrganizations.map((foundOrganization) => foundOrganization.externalId);
-    const message = `Les organisations avec les externalIds suivants : ${foundOrganizationIds.join(
-      ', ',
-    )} existent déjà.`;
-    throw new OrganizationAlreadyExistError(message);
-  }
-}
 
 function _mapOrganizationsData(organizations) {
   const mapOrganizationByExternalId = new Map();
