@@ -22,7 +22,9 @@ describe('Unit | UseCase | delete-certification-issue-report', function () {
       remove: sinon.stub(),
       get: sinon.stub(),
     };
-    certificationIssueReportRepository.get.withArgs(certificationIssueReportId).resolves(certificationIssueReport);
+    certificationIssueReportRepository.get
+      .withArgs({ id: certificationIssueReportId })
+      .resolves(certificationIssueReport);
     sinon.stub(sessionRepository, 'isFinalized');
   });
 

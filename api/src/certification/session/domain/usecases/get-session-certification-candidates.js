@@ -21,7 +21,7 @@ const getSessionCertificationCandidates = async function ({
   candidateRepository,
   complementaryCertificationRepository,
 }) {
-  const candidates = await candidateRepository.findBySessionId(sessionId);
+  const candidates = await candidateRepository.findBySessionId({ sessionId });
 
   const complementaryCertifications = await getUniqComplementaryCertifications({
     candidates,

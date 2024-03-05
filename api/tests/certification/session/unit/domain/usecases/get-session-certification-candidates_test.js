@@ -21,7 +21,7 @@ describe('Unit | UseCase | get-session-certification-candidates', function () {
       domainBuilder.certification.session.buildCertificationSessionComplementaryCertification({
         id: candidate.complementaryCertificationId,
       });
-    candidateRepository.findBySessionId.withArgs(sessionId).resolves([candidate]);
+    candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([candidate]);
     complementaryCertificationRepository.getById
       .withArgs({
         complementaryCertificationId: candidate.complementaryCertificationId,
@@ -52,7 +52,7 @@ describe('Unit | UseCase | get-session-certification-candidates', function () {
       const candidate = domainBuilder.certification.session.buildCertificationSessionCandidate({
         complementaryCertificationId: undefined,
       });
-      candidateRepository.findBySessionId.withArgs(sessionId).resolves([candidate]);
+      candidateRepository.findBySessionId.withArgs({ sessionId }).resolves([candidate]);
       const expectedCandidate = domainBuilder.certification.session.buildCertificationSessionEnrolledCandidate({
         isLinked: true,
       });

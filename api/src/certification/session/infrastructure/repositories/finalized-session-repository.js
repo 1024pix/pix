@@ -5,7 +5,7 @@ import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { FinalizedSession } from '../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
-const save = async function (finalizedSession) {
+const save = async function ({ finalizedSession }) {
   await knex('finalized-sessions').insert(_toDTO(finalizedSession)).onConflict('sessionId').merge();
   return finalizedSession;
 };

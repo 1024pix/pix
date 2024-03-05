@@ -29,7 +29,7 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
     context('when there are some certification candidates with the given session id', function () {
       it('should fetch, alphabetically sorted, the certification candidates with a specific session ID', async function () {
         // when
-        const actualCandidates = await candidateRepository.findBySessionId(sessionId);
+        const actualCandidates = await candidateRepository.findBySessionId({ sessionId });
 
         // then
         expect(actualCandidates[0].firstName).to.equal('James');
@@ -76,7 +76,7 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
         await databaseBuilder.commit();
 
         // when
-        const candidates = await candidateRepository.findBySessionId(sessionId);
+        const candidates = await candidateRepository.findBySessionId({ sessionId });
 
         // then
         const firstCandidate = candidates[0];
@@ -100,7 +100,7 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
     context('when there is no certification candidates with the given session ID', function () {
       it('should return an empty array', async function () {
         // when
-        const actualCandidates = await candidateRepository.findBySessionId(-1);
+        const actualCandidates = await candidateRepository.findBySessionId({ sessionId: -1 });
 
         // then
         expect(actualCandidates).to.deep.equal([]);

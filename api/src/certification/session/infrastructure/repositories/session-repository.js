@@ -30,7 +30,7 @@ const isFinalized = async function (id) {
   return Boolean(session);
 };
 
-const isPublished = async function (id) {
+const isPublished = async function ({ id }) {
   const isPublished = await knex.select(1).from('sessions').where({ id }).whereNotNull('publishedAt').first();
   return Boolean(isPublished);
 };
