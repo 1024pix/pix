@@ -1,4 +1,4 @@
-import * as areaRepository from './area-repository.js';
+import * as areaRepository from '../../../src/shared/infrastructure/repositories/area-repository.js';
 import { CompetenceTree } from '../../domain/models/CompetenceTree.js';
 
 const get = async function ({ locale, dependencies = { areaRepository } } = {}) {
