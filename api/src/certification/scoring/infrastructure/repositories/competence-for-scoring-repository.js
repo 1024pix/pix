@@ -1,5 +1,5 @@
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
-import * as areaRepository from '../../../../../lib/infrastructure/repositories/area-repository.js';
+import * as areaRepository from '../../../../shared/infrastructure/repositories/area-repository.js';
 import { CompetenceForScoring } from '../../domain/models/CompetenceForScoring.js';
 import { knex } from '../../../../../db/knex-database-connection.js';
 

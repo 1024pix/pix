@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import * as answerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
-import * as areaRepository from '../../../../lib/infrastructure/repositories/area-repository.js';
+import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';

@@ -1,9 +1,9 @@
-import { Area } from '../../domain/models/Area.js';
-import { areaDatasource } from '../datasources/learning-content/area-datasource.js';
-import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
-import { getTranslatedKey } from '../../../src/shared/domain/services/get-translated-text.js';
+import { Area } from '../../../../lib/domain/models/Area.js';
+import { areaDatasource } from '../../../../lib/infrastructure/datasources/learning-content/area-datasource.js';
+import * as competenceRepository from './competence-repository.js';
+import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import _ from 'lodash';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 function _toDomain({ areaData, locale }) {
   const translatedTitle = getTranslatedKey(areaData.title_i18n, locale);

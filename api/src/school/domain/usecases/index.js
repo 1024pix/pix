@@ -5,7 +5,7 @@ import { injectDependencies } from '../../../shared/infrastructure/utils/depende
 
 import * as activityAnswerRepository from '../../infrastructure/repositories/activity-answer-repository.js';
 import * as activityRepository from '../../infrastructure/repositories/activity-repository.js';
-import * as areaRepository from '../../../../lib/infrastructure/repositories/area-repository.js';
+import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
