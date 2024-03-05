@@ -1,6 +1,6 @@
 import { httpAgent } from './http/http-agent.js';
 import { config } from '../config.js';
-import { logger } from './logger.js';
+import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const { lcms: lcmsConfig } = config;
 const getLatestRelease = async function () {

@@ -1,6 +1,6 @@
 import * as LearningContentDatasources from '../../infrastructure/datasources/learning-content/index.js';
 import * as learningContentDatasource from '../../infrastructure/datasources/learning-content/datasource.js';
-import { logger } from '../../infrastructure/logger.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import _ from 'lodash';
 
 const refreshCacheEntries = function (_, h, dependencies = { learningContentDatasource }) {

@@ -1,4 +1,4 @@
-import { logger } from '../../../lib/infrastructure/logger.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { disconnect } from '../../../db/knex-database-connection.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as url from 'url';
