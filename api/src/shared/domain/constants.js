@@ -7,7 +7,7 @@ const LOCALE = {
   DUTCH_SPOKEN: 'nl',
 };
 
-const SUPPORTED_LOCALES = ['en', 'fr', 'fr-BE', 'fr-FR'];
+const SUPPORTED_LOCALES = ['en', 'fr', 'fr-BE', 'fr-FR', 'nl-BE'];
 
 const ORGANIZATION_FEATURE = {
   MISSIONS_MANAGEMENT: {
