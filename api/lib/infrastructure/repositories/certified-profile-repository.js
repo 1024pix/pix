@@ -12,7 +12,7 @@ import {
 import { NotFoundError } from '../../domain/errors.js';
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
 import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
-import { competenceDatasource } from '../datasources/learning-content/competence-datasource.js';
+import { competenceDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/competence-datasource.js';
 import { areaDatasource } from '../datasources/learning-content/area-datasource.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 
