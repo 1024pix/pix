@@ -34,7 +34,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
     await databaseBuilder.commit();
   });
 
-  describe('validation error cases', function () {
+  describe('#errors', function () {
     context('when provided CSV file is empty', function () {
       it('throws an error', async function () {
         // given
@@ -700,7 +700,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
     });
   });
 
-  describe('when organization type id SCO-1D', function () {
+  describe('when organization type is SCO-1D', function () {
     it('should add mission management feature to organization', async function () {
       // given
       databaseBuilder.factory.buildTag({ name: 'TAG1' });
