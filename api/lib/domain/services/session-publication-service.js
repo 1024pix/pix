@@ -181,7 +181,7 @@ function _failedAttemptsEmail(emailingAttempts) {
 async function _updateFinalizedSession(finalizedSessionRepository, sessionId, publishedAt) {
   const finalizedSession = await finalizedSessionRepository.get({ sessionId });
   finalizedSession.publish(publishedAt);
-  await finalizedSessionRepository.save(finalizedSession);
+  await finalizedSessionRepository.save({ finalizedSession });
 }
 
 function _hasCertificationInError(certificationStatus) {

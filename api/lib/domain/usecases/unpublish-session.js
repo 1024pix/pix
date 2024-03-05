@@ -22,5 +22,5 @@ export { unpublishSession };
 async function _updateFinalizedSession(finalizedSessionRepository, sessionId) {
   const finalizedSession = await finalizedSessionRepository.get({ sessionId });
   finalizedSession.unpublish();
-  await finalizedSessionRepository.save(finalizedSession);
+  await finalizedSessionRepository.save({ finalizedSession });
 }

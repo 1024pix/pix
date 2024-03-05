@@ -96,7 +96,7 @@ describe('Integration | Repository | Session', function () {
         await databaseBuilder.commit();
 
         // when
-        const isPublished = await sessionRepository.isPublished(40);
+        const isPublished = await sessionRepository.isPublished({ id: 40 });
 
         // then
         expect(isPublished).to.be.equal(true);
@@ -110,7 +110,7 @@ describe('Integration | Repository | Session', function () {
         await databaseBuilder.commit();
 
         // when
-        const isPublished = await sessionRepository.isPublished(40);
+        const isPublished = await sessionRepository.isPublished({ id: 40 });
 
         // then
         expect(isPublished).to.be.equal(false);
