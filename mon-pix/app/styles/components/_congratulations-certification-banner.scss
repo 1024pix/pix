@@ -8,7 +8,7 @@
   height: fit-content;
   padding: 24px 16px;
   color: $pix-neutral-10;
-  background: $pix-content-dark;
+  background: var(--pix-certif-500);
   border-radius: 6px;
   text-rendering: optimizelegibility;
 
@@ -40,7 +40,7 @@
 }
 
 @mixin textBannerStyle {
-  color: $pix-neutral-10;
+  color: var(--pix-neutral-0);
   font-weight: $font-normal;
   font-family: $font-open-sans;
   line-height: 2rem;
