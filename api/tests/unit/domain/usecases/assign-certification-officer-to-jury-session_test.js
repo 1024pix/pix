@@ -7,18 +7,21 @@ describe('Unit | UseCase | assign-certification-officer-to-session', function ()
     const returnedSessionId = Symbol('returnedSessionId');
     const sessionId = 1;
     const certificationOfficerId = 2;
+    const finalizedSession = domainBuilder.buildFinalizedSession();
 
     const jurySessionRepository = {
       assignCertificationOfficer: sinon.stub(),
+      get: sinon.stub(),
     };
-    jurySessionRepository.assignCertificationOfficer.resolves(returnedSessionId);
+    jurySessionRepository.assignCertificationOfficer
+      .withArgs({ id: sessionId, assignedCertificationOfficerId: certificationOfficerId })
+      .resolves();
+    jurySessionRepository.get.withArgs({ id: finalizedSession.sessionId }).resolves(returnedSessionId);
 
     const finalizedSessionRepository = {
       get: sinon.stub(),
       save: sinon.stub(),
     };
-
-    const finalizedSession = domainBuilder.buildFinalizedSession();
 
     finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
 
