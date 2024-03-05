@@ -1,7 +1,7 @@
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-import { validateEntity } from '../../../../../lib/domain/validators/entity-validator.js';
+import { validateEntity } from '../../../../shared/domain/validators/entity-validator.js';
 
 const validationSchema = Joi.object({
   count: Joi.number().required().allow(null),

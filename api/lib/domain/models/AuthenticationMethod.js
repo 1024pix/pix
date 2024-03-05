@@ -1,7 +1,7 @@
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-import { validateEntity } from '../validators/entity-validator.js';
+import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { POLE_EMPLOI, CNAV, FWB, PAYSDELALOIRE } from '../constants/oidc-identity-providers.js';
 
