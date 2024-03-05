@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v4.111.0 (05/03/2024)
+
+
+### :rocket: Amélioration
+- [#8238](https://github.com/1024pix/pix/pull/8238) [FEATURE] Eviter le CLS dû au chargement de l'illustration d'un Module.
+- [#8226](https://github.com/1024pix/pix/pull/8226) [FEATURE] Ajout du nouveau fond d'écran pour les 3 page d'identification (Pix-11077).
+- [#8227](https://github.com/1024pix/pix/pull/8227) [FEATURE] Stocke l'état de l'import SIECLE au fur et à mesure des étapes (PIX-11345).
+- [#8239](https://github.com/1024pix/pix/pull/8239) [FEATURE] Enlever la barre de navigation sur la page /details de Modulix (PIX-11480).
+
+### :building_construction: Tech
+- [#8159](https://github.com/1024pix/pix/pull/8159) [TECH] Ajouter le workflow de prise en charge de dépréciation d'Ember.js sur Pix App .
+- [#8236](https://github.com/1024pix/pix/pull/8236) [TECH] :recycle: Déplacement du `logger` dans le répertoire `src`.
+- [#8249](https://github.com/1024pix/pix/pull/8249) [TECH] :recycle: déplacement de `area-repository` vers le répertoire `src/shared`.
+- [#8254](https://github.com/1024pix/pix/pull/8254) [TECH] :recycle: Déplace `activity-serializer.js` ver `src/school`.
+
+### :bug: Correction
+- [#8199](https://github.com/1024pix/pix/pull/8199) [BUGFIX] Activer le scoring pour les certifications v3 terminées par le surveillant (PIX-11421).
+- [#8263](https://github.com/1024pix/pix/pull/8263) [BUGFIX] Rétablir la création de RT d'un profil-cible (PIX-11508).
+
+### :arrow_up: Montée de version
+- [#8266](https://github.com/1024pix/pix/pull/8266) [BUMP] Update dependency query-string to v9 (admin).
+- [#8268](https://github.com/1024pix/pix/pull/8268) [BUMP] Update dependency query-string to v9 (orga).
+- [#8265](https://github.com/1024pix/pix/pull/8265) [BUMP] Update dependency @1024pix/pix-ui to ^44.1.0 (certif).
+- [#8260](https://github.com/1024pix/pix/pull/8260) [BUMP] Update dependency @1024pix/pix-ui to ^44.1.0 (admin).
+- [#8259](https://github.com/1024pix/pix/pull/8259) [BUMP] Update dependency @1024pix/pix-ui to ^44.1.0 (1d).
+
 ## v4.110.0 (04/03/2024)
 
 
