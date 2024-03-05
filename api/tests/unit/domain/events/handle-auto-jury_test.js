@@ -9,6 +9,7 @@ import {
   CertificationIssueReportCategory,
 } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
+import { CertificationAssessment } from '../../../../lib/domain/models/index.js';
 
 describe('Unit | Domain | Events | handle-auto-jury', function () {
   describe('when certification is V2', function () {
@@ -729,6 +730,14 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
   });
 
   describe('when certification is V3', function () {
+    let certificationCourseRepository, certificationIssueReportRepository, certificationAssessmentRepository;
+
+    beforeEach(function () {
+      certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
+      certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+      certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+    });
+
     it('fails when event is not of correct type', async function () {
       // given
       const event = 'not an event of the correct type';
@@ -743,9 +752,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
     it('returns an AutoJuryDone event as last event', async function () {
       // given
       const now = Date.now();
-      const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
-      const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub() };
-      const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         version: 3,
         certificationAnswersByDate: [
@@ -803,9 +810,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
 
     it('returns a CertificationJuryDone event first in returned collection', async function () {
       // given
-      const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
-      const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-      const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
       const challenge = domainBuilder.buildCertificationChallengeWithType({
         challengeId: 'recChal123',
       });
@@ -850,33 +854,15 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       );
     });
 
-    describe('when the certification is not completed', function () {
+    describe('when the certification is started', function () {
       it('returns a CertificationJuryDone event first in returned collection', async function () {
         // given
-        const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
-        const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-        const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationCourseId: 4567,
-          version: 3,
+        const { certificationCourse } = _initializeV3CourseAndAssessment({
+          certificationState: CertificationAssessment.states.STARTED,
+          certificationAssessmentRepository,
+          certificationCourseRepository,
+          certificationIssueReportRepository,
         });
-        const certificationCourse = domainBuilder.buildCertificationCourse({
-          version: 3,
-          sessionId: 1234,
-          id: 4567,
-          completedAt: null,
-          abortReason: ABORT_REASONS.CANDIDATE,
-        });
-        certificationCourseRepository.findCertificationCoursesBySessionId
-          .withArgs({ sessionId: 1234 })
-          .resolves([certificationCourse]);
-        certificationIssueReportRepository.findByCertificationCourseId
-          .withArgs(certificationCourse.getId())
-          .resolves([]);
-        certificationAssessmentRepository.getByCertificationCourseId
-          .withArgs({ certificationCourseId: certificationCourse.getId() })
-          .resolves(certificationAssessment);
-        certificationAssessmentRepository.save.resolves();
         const event = new SessionFinalized({
           sessionId: 1234,
           finalizedAt: new Date(),
@@ -904,9 +890,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
 
       it('should save certification assessment', async function () {
         // given
-        const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
-        const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
         const challenge = domainBuilder.buildCertificationChallengeWithType({
           id: 123,
           associatedSkillName: 'cueillir des fleurs',
@@ -986,12 +969,76 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
     });
 
+    describe('when the certification was ended by the supervisor', function () {
+      it('returns a CertificationJuryDone event first in returned collection', async function () {
+        // given
+        const { certificationCourse } = _initializeV3CourseAndAssessment({
+          certificationState: CertificationAssessment.states.ENDED_BY_SUPERVISOR,
+          certificationAssessmentRepository,
+          certificationCourseRepository,
+          certificationIssueReportRepository,
+        });
+
+        const event = new SessionFinalized({
+          sessionId: 1234,
+          finalizedAt: new Date(),
+          hasExaminerGlobalComment: false,
+          certificationCenterName: 'A certification center name',
+          sessionDate: '2021-01-29',
+          sessionTime: '14:00',
+        });
+
+        // when
+        const events = await handleAutoJury({
+          event,
+          certificationIssueReportRepository,
+          certificationAssessmentRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(events[0]).to.deepEqualInstance(
+          new CertificationJuryDone({
+            certificationCourseId: certificationCourse.getId(),
+          }),
+        );
+      });
+    });
+
+    describe('when the certification was ended due to finalization', function () {
+      it('does not return a CertificationJuryDone event', async function () {
+        // given
+        _initializeV3CourseAndAssessment({
+          certificationState: CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION,
+          certificationAssessmentRepository,
+          certificationCourseRepository,
+          certificationIssueReportRepository,
+        });
+        const event = new SessionFinalized({
+          sessionId: 1234,
+          finalizedAt: new Date(),
+          hasExaminerGlobalComment: false,
+          certificationCenterName: 'A certification center name',
+          sessionDate: '2021-01-29',
+          sessionTime: '14:00',
+        });
+
+        // when
+        const events = await handleAutoJury({
+          event,
+          certificationIssueReportRepository,
+          certificationAssessmentRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(events[0]).to.be.instanceOf(AutoJuryDone);
+      });
+    });
+
     describe('when certificationCourse is completed', function () {
       it('should not return a CertificationJuryDone', async function () {
         // given
-        const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
-        const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           version: 3,
           certificationCourseId: 4567,
@@ -1040,9 +1087,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
     describe('when there is no impacted certification', function () {
       it('does not return a CertificationJuryDone event', async function () {
         // given
-        const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
-        const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub() };
-        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
         const challenge = domainBuilder.buildCertificationChallengeWithType({
           challengeId: 'recChal123',
           isNeutralized: false,
@@ -1089,3 +1133,35 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
     });
   });
 });
+
+function _initializeV3CourseAndAssessment({
+  certificationState,
+  certificationAssessmentRepository,
+  certificationCourseRepository,
+  certificationIssueReportRepository,
+}) {
+  const certificationAssessment = domainBuilder.buildCertificationAssessment({
+    certificationCourseId: 4567,
+    version: 3,
+    state: certificationState,
+  });
+  const certificationCourse = domainBuilder.buildCertificationCourse({
+    version: 3,
+    sessionId: 1234,
+    id: 4567,
+    completedAt: null,
+    abortReason: ABORT_REASONS.CANDIDATE,
+  });
+  certificationCourseRepository.findCertificationCoursesBySessionId
+    .withArgs({ sessionId: 1234 })
+    .resolves([certificationCourse]);
+  certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([]);
+  certificationAssessmentRepository.getByCertificationCourseId
+    .withArgs({ certificationCourseId: certificationCourse.getId() })
+    .resolves(certificationAssessment);
+  certificationAssessmentRepository.save.resolves();
+
+  return {
+    certificationCourse,
+  };
+}
