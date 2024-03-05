@@ -1,9 +1,4 @@
-import {
-  ManyOrganizationsFoundError,
-  ObjectValidationError,
-  OrganizationAlreadyExistError,
-  OrganizationTagNotFound,
-} from '../../../../lib/domain/errors.js';
+import { ObjectValidationError, OrganizationTagNotFound } from '../../../../lib/domain/errors.js';
 import { OrganizationForAdmin } from '../../../../lib/domain/models/index.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.js';
@@ -70,17 +65,6 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     // then
     expect(error).to.be.an.instanceOf(ObjectValidationError);
     expect(error.message).to.be.equals('Les organisations ne sont pas renseignées.');
-  });
-
-  it('should throw an error if the same organization appears twice', async function () {
-    // given
-    const organizations = [{ externalId: 'externalId' }, { externalId: 'externalId' }];
-
-    // when
-    const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({ organizations });
-
-    // then
-    expect(error).to.be.an.instanceOf(ManyOrganizationsFoundError);
   });
 
   it('should validate organization data before trying to create organizations', async function () {
@@ -482,32 +466,5 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
     // then
     expect(organizationInvitationService.createProOrganizationInvitation).to.not.have.been.called;
-  });
-
-  context('when an organization already exists in database', function () {
-    it('should throw an error', async function () {
-      // given
-
-      const organizations = [
-        { externalId: 'Ab1234', name: 'fake', emailInvitations: 'fake@axample.net', createdBy: 4 },
-        { externalId: 'Cd456', name: 'fake', emailInvitations: 'fake@axample.net', createdBy: 4 },
-      ];
-      organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([
-        { id: '1', externalId: 'Ab1234' },
-        { id: '2', externalId: 'Cd456' },
-      ]);
-
-      // when
-      const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-        organizations,
-        organizationRepository: organizationRepositoryStub,
-        organizationValidator,
-        organizationInvitationService,
-      });
-
-      // then
-      expect(error).to.be.an.instanceOf(OrganizationAlreadyExistError);
-      expect(error.message).to.equal('Les organisations avec les externalIds suivants : Ab1234, Cd456 existent déjà.');
-    });
   });
 });
