@@ -128,7 +128,7 @@ describe('Unit | UseCase | session-publication-service', function () {
 
           // then
           expect(finalizedSession.publishedAt).to.equal(now);
-          expect(finalizedSessionRepository.save).to.have.been.calledWithExactly(finalizedSession);
+          expect(finalizedSessionRepository.save).to.have.been.calledWithExactly({ finalizedSession });
           expect(certificationRepository.publishCertificationCourses).to.have.been.calledWithExactly(
             certificationStatuses,
           );

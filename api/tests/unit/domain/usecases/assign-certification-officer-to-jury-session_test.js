@@ -27,7 +27,7 @@ describe('Unit | UseCase | assign-certification-officer-to-session', function ()
 
     const certificationOfficerRepository = { get: sinon.stub() };
     const certificationOfficer = domainBuilder.buildCertificationOfficer();
-    certificationOfficerRepository.get.withArgs(2).resolves(certificationOfficer);
+    certificationOfficerRepository.get.withArgs({ userId: 2 }).resolves(certificationOfficer);
 
     // when
     const actualSessionId = await assignCertificationOfficerToJurySession({
@@ -43,7 +43,7 @@ describe('Unit | UseCase | assign-certification-officer-to-session', function ()
       id: finalizedSession.sessionId,
       assignedCertificationOfficerId: certificationOfficer.id,
     });
-    expect(finalizedSessionRepository.save).to.have.been.calledWithExactly(finalizedSession);
+    expect(finalizedSessionRepository.save).to.have.been.calledWithExactly({ finalizedSession });
     expect(actualSessionId).to.equal(returnedSessionId);
   });
 });

@@ -43,7 +43,7 @@ describe('Integration | Repository | Session-for-invigilator-kit', function () {
         });
 
         // when
-        const actualSession = await sessionForInvigilatorKitRepository.get(session.id);
+        const actualSession = await sessionForInvigilatorKitRepository.get({ id: session.id });
 
         // then
         expect(actualSession).to.deepEqualInstance(expectedSessionValues);

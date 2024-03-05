@@ -1,7 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { SessionForInvigilatorKit } from '../../domain/read-models/SessionForInvigilatorKit.js';
 
-const get = async function (idSession) {
+const get = async function ({ id }) {
   const results = await knex
     .select(
       'sessions.id',
@@ -15,7 +15,7 @@ const get = async function (idSession) {
       'sessions.version',
     )
     .from('sessions')
-    .where({ 'sessions.id': idSession })
+    .where({ 'sessions.id': id })
     .first();
 
   return _toDomain(results);
