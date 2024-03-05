@@ -78,18 +78,7 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
 
     await organizationTagRepository.batchCreate(organizationsTags, domainTransaction);
 
-    const pendingCodes = [];
-    await bluebird.map(
-      createdOrganizations.filter((organization) => organization.type === 'SCO-1D'),
-      async (organization) => {
-        const code = await codeGenerator.generate(schoolRepository, pendingCodes);
-        await schoolRepository.save({ organizationId: organization.id, code, domainTransaction });
-        pendingCodes.push(code);
-      },
-      {
-        concurrency: CONCURRENCY_HEAVY_OPERATIONS,
-      },
-    );
+    await _updateSchoolsWithCodes({ createdOrganizations, domainTransaction, schoolRepository });
 
     const organizationsTargetProfiles = createdOrganizations.flatMap(({ id, externalId }) => {
       return organizationsData
@@ -163,4 +152,19 @@ function _mapOrganizationsData(organizations) {
   }
 
   return mapOrganizationByExternalId;
+}
+
+async function _updateSchoolsWithCodes({ createdOrganizations, domainTransaction, schoolRepository }) {
+  const pendingCodes = [];
+  await bluebird.map(
+    createdOrganizations.filter((organization) => organization.type === 'SCO-1D'),
+    async (organization) => {
+      const code = await codeGenerator.generate(schoolRepository, pendingCodes);
+      await schoolRepository.save({ organizationId: organization.id, code, domainTransaction });
+      pendingCodes.push(code);
+    },
+    {
+      concurrency: CONCURRENCY_HEAVY_OPERATIONS,
+    },
+  );
 }
