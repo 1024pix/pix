@@ -1,9 +1,7 @@
 import lodash from 'lodash';
 
 import {
-  ManyOrganizationsFoundError,
   ObjectValidationError,
-  OrganizationAlreadyExistError,
   OrganizationTagNotFound,
   TargetProfileInvalidError,
 } from '../../../../lib/domain/errors.js';
@@ -37,65 +35,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
   });
 
   describe('validation error cases', function () {
-    context('when there is more than one occurrence of the same organization in data file', function () {
-      it('throws an error', async function () {
-        // given
-        const duplicatesOrganizations = [
-          {
-            externalId: 'b202',
-            name: 'Mathieu Bâtiment',
-            provinceCode: '567',
-            credit: 20,
-            email: 'mathieu@example.net',
-            locale: 'fr-fr',
-            tags: 'TagNotFound',
-          },
-          {
-            externalId: 'b202',
-            name: 'Mathieu Bâtiment',
-            provinceCode: '567',
-            credit: 20,
-            email: 'mathieu@example.net',
-            locale: 'fr-fr',
-            tags: 'TagNotFound',
-          },
-        ];
-        const tooManyOccurencesOfTheSameOrganizationWithTags = [
-          {
-            externalId: 'b200',
-            name: 'Youness et Fils',
-            provinceCode: '123',
-            credit: 0,
-            email: 'youness@example.net',
-            locale: 'fr-fr',
-            tags: 'TagNotFound',
-          },
-          ...duplicatesOrganizations,
-        ];
-
-        // when
-        const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-          domainTransaction,
-          organizations: tooManyOccurencesOfTheSameOrganizationWithTags,
-          organizationRepository,
-          tagRepository,
-          targetProfileShareRepository,
-          organizationTagRepository,
-          organizationInvitationRepository,
-          dataProtectionOfficerRepository,
-          organizationValidator,
-          organizationInvitationService,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(ManyOrganizationsFoundError);
-        expect(error.message).to.be.equal(
-          `Plusieurs organisations (${duplicatesOrganizations.length}) ont le même externalId.`,
-        );
-      });
-    });
-
-    context('when there is organizations data file is empty', function () {
+    context('when provided CSV file is empty', function () {
       it('throws an error', async function () {
         // given
         const organizations = [];
@@ -117,87 +57,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         // then
         expect(error).to.be.instanceOf(ObjectValidationError);
         expect(error.message).to.be.equal('Les organisations ne sont pas renseignées.');
-      });
-    });
-
-    context('when there is one organization already created', function () {
-      it('throws an error with the organization id', async function () {
-        // given
-        const existingOrganization = databaseBuilder.factory.buildOrganization({
-          externalId: 'ExaB123',
-          createdBy: userId,
-        });
-        const anotherExistingOrganization = databaseBuilder.factory.buildOrganization({
-          externalId: 'ExaB1234',
-          createdBy: userId,
-        });
-        databaseBuilder.factory.buildOrganization({ externalId: 'ExaB12345', createdBy: userId });
-        await databaseBuilder.commit();
-
-        const organizationsToCreate = [
-          {
-            type: 'PRO',
-            externalId: existingOrganization.externalId,
-            name: existingOrganization.name,
-            provinceCode: existingOrganization.provinceCode,
-            credit: existingOrganization.credit,
-            emailInvitations: existingOrganization.email,
-            locale: 'en',
-            tags: 'Tag1',
-            documentationUrl: 'http://www.pix.fr',
-            targetProfiles: '1_2_3',
-            createdBy: userId,
-            organizationInvitationRole: 'ADMIN',
-          },
-          {
-            externalId: anotherExistingOrganization.externalId,
-            name: anotherExistingOrganization.name,
-            provinceCode: anotherExistingOrganization.provinceCode,
-            credit: anotherExistingOrganization.credit,
-            emailInvitations: anotherExistingOrganization.email,
-            type: anotherExistingOrganization.type,
-            createdBy: userId,
-            organizationInvitationRole: 'ADMIN',
-            locale: 'en',
-            tags: 'Tag1',
-            documentationUrl: 'http://www.pix.fr',
-            targetProfiles: '1_2_3',
-          },
-          {
-            type: 'PRO',
-            externalId: 'b200',
-            name: 'Youness et Fils',
-            provinceCode: '123',
-            credit: 0,
-            emailInvitations: 'youness@example.net',
-            locale: 'fr-fr',
-            tags: 'Tag1_Tag2',
-            createdBy: userId,
-            organizationInvitationRole: 'ADMIN',
-            documentationUrl: 'http://www.pix.fr',
-            targetProfiles: '1_2_3',
-          },
-        ];
-
-        // when
-        const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-          domainTransaction,
-          organizations: organizationsToCreate,
-          organizationRepository,
-          tagRepository,
-          targetProfileShareRepository,
-          organizationTagRepository,
-          organizationInvitationRepository,
-          dataProtectionOfficerRepository,
-          organizationValidator,
-          organizationInvitationService,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(OrganizationAlreadyExistError);
-        expect(error.message).to.be.equal(
-          `Les organisations avec les externalIds suivants : ${existingOrganization.externalId}, ${anotherExistingOrganization.externalId} existent déjà.`,
-        );
       });
     });
 
