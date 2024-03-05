@@ -1,7 +1,7 @@
 import Redis from 'ioredis';
 import Redlock from 'redlock';
 
-import { logger } from '../logger.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 class RedisClient {
   constructor(redisUrl, { name, prefix } = {}) {

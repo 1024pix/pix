@@ -5,7 +5,7 @@ const { using } = bluebird;
 import Redlock from 'redlock';
 import { Cache } from './Cache.js';
 import { RedisClient } from '../utils/RedisClient.js';
-import { logger } from '../logger.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { config } from '../../config.js';
 import { applyPatch } from './apply-patch.js';
 

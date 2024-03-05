@@ -5,7 +5,7 @@ import { readFile, writeFile } from 'fs/promises';
 import { performance } from 'perf_hooks';
 import { read as readXlsx, utils as xlsxUtils } from 'xlsx';
 
-import { logger } from '../../../lib/infrastructure/logger.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 

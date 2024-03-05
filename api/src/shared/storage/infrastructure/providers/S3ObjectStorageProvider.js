@@ -1,7 +1,7 @@
 import * as clientS3 from '@aws-sdk/client-s3';
 import * as libStorage from '@aws-sdk/lib-storage';
 import * as s3RequestPresigner from '@aws-sdk/s3-request-presigner';
-import { logger } from '../../../../../lib/infrastructure/logger.js';
+import { logger } from '../../../infrastructure/utils/logger.js';
 
 class S3ObjectStorageProvider {
   #dependencies;

@@ -13,7 +13,7 @@ import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTrans
 import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
-import { logger } from '../../../../../lib/infrastructure/logger.js';
+import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
 import { OidcError } from '../../../../../src/shared/domain/errors.js';

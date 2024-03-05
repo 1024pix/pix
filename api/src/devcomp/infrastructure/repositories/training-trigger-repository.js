@@ -9,7 +9,7 @@ import * as competenceRepository from '../../../shared/infrastructure/repositori
 import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository.js';
 import { TrainingTrigger } from '../../domain/models/TrainingTrigger.js';
-import { logger } from '../../../../lib/infrastructure/logger.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 
 const TABLE_NAME = 'training-triggers';
 

@@ -7,7 +7,7 @@ import {
 
 import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
 import { KnowledgeElement } from '../models/KnowledgeElement.js';
-import { logger } from '../../infrastructure/logger.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 const correctAnswerThenUpdateAssessment = async function ({

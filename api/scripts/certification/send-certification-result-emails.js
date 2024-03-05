@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import bluebird from 'bluebird';
-import { logger } from '../../lib/infrastructure/logger.js';
+import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import * as sessionRepository from '../../src/certification/session/infrastructure/repositories/session-repository.js';
 import * as certificationCenterRepository from '../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as mailService from '../../lib/domain/services/mail-service.js';

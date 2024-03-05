@@ -1,5 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
-import { logger } from '../../infrastructure/logger.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 const createRelease = async function (request, h) {
   usecases

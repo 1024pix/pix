@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import _ from 'lodash';
 import { knex, disconnect } from '../../../db/knex-database-connection.js';
-import { logger } from '../../../lib/infrastructure/logger.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { learningContentCache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 import { autoMigrateTargetProfile } from './common.js';
 import * as url from 'url';

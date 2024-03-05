@@ -15,7 +15,7 @@ import {
 } from '../../../../scripts/prod/compute-badge-acquisitions.js';
 
 import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
-import { logger } from '../../../../lib/infrastructure/logger.js';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import * as badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
