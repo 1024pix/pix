@@ -41,8 +41,13 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleRecap', function (ho
       const formLink = screen.getByRole('link', { name: this.intl.t('pages.modulix.recap.goToForm') });
 
       // then
+      const passage = server.schema.passages.all().models[0];
       assert.ok(formLink);
       assert.ok(screen.getByRole('link', { name: this.intl.t('pages.modulix.recap.backToModuleDetails') }));
+      assert.strictEqual(
+        formLink.getAttribute('href'),
+        `https://form-eu.123formbuilder.com/71180/modulix-experimentation?2850087=${passage.id}`,
+      );
     });
 
     test('should navigate to details page by clicking on back to module details button', async function (assert) {
