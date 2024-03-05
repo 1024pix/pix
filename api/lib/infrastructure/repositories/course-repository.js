@@ -1,7 +1,8 @@
+import { Course } from '../../domain/models/Course.js';
+import { courseDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/course-datasource.js';
+
 import { LearningContentResourceNotFound } from '../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { NotFoundError } from '../../domain/errors.js';
-import { Course } from '../../domain/models/Course.js';
-import { courseDatasource } from '../datasources/learning-content/course-datasource.js';
 
 function _toDomain(courseDataObject) {
   return new Course({

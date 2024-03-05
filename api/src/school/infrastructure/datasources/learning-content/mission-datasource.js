@@ -1,4 +1,4 @@
-import * as datasource from '../../../../../lib/infrastructure/datasources/learning-content/datasource.js';
+import * as datasource from '../../../../shared/infrastructure/datasources/learning-content/datasource.js';
 
 const missionDatasource = datasource.extend({
   modelName: 'missions',

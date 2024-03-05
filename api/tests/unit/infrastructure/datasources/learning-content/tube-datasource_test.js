@@ -1,9 +1,8 @@
 import _ from 'lodash';
-
-import { learningContentCache } from '../../../../../lib/infrastructure/caches/learning-content-cache.js';
-import { tubeDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/tube-datasource.js';
-import { lcms } from '../../../../../lib/infrastructure/lcms.js';
 import { expect, sinon } from '../../../../test-helper.js';
+import { lcms } from '../../../../../lib/infrastructure/lcms.js';
+import { learningContentCache } from '../../../../../lib/infrastructure/caches/learning-content-cache.js';
+import { tubeDatasource } from '../../../../../src/shared/infrastructure/datasources/learning-content/tube-datasource.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | TubeDatasource', function () {
   beforeEach(function () {

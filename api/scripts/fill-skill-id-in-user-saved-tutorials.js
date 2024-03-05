@@ -3,15 +3,16 @@ import dotenv from 'dotenv';
 dotenv.config();
 import lodash from 'lodash';
 const { groupBy } = lodash;
-import * as url from 'url';
-
 import { disconnect, knex } from '../db/knex-database-connection.js';
-import { KnowledgeElement } from '../lib/domain/models/KnowledgeElement.js';
 import { UserSavedTutorial } from '../lib/domain/models/UserSavedTutorial.js';
+import { KnowledgeElement } from '../lib/domain/models/KnowledgeElement.js';
 import { UserSavedTutorialWithTutorial } from '../lib/domain/models/UserSavedTutorialWithTutorial.js';
-import { skillDatasource } from '../lib/infrastructure/datasources/learning-content/skill-datasource.js';
-import { tutorialDatasource } from '../lib/infrastructure/datasources/learning-content/tutorial-datasource.js';
 import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
+import {
+  tutorialDatasource,
+  skillDatasource,
+} from '../src/shared/infrastructure/datasources/learning-content/index.js';
+import * as url from 'url';
 
 async function getAllUserSavedTutorialsWithoutSkillId() {
   const userSavedTutorials = await knex('user-saved-tutorials').whereNull('skillId');

@@ -5,8 +5,10 @@ import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
 import { getTranslatedKey } from '../../../src/shared/domain/services/get-translated-text.js';
 import { Correction } from '../../domain/models/Correction.js';
 import { Hint } from '../../domain/models/Hint.js';
-import { challengeDatasource } from '../datasources/learning-content/challenge-datasource.js';
-import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
+import {
+  challengeDatasource,
+  skillDatasource,
+} from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
 
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 
