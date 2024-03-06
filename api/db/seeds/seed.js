@@ -2,6 +2,7 @@ import { DatabaseBuilder } from '../database-builder/database-builder.js';
 
 import { commonBuilder } from './data/common/common-builder.js';
 import { featuresBuilder } from './data/common/feature-builder.js';
+import { tagsBuilder } from './data/common/tag-builder.js';
 import { organizationBuilder } from './data/common/organization-builder.js';
 
 import { teamDevcompDataBuilder } from './data/team-devcomp/data-builder.js';
@@ -16,6 +17,7 @@ const seed = async function (knex) {
   const databaseBuilder = new DatabaseBuilder({ knex });
   // This is needed when you have to re-seed database that is fully migrated (ex: on Scalingo you can't drop database)
   await featuresBuilder({ databaseBuilder });
+  await tagsBuilder({ databaseBuilder });
   await organizationBuilder({ databaseBuilder });
   await commonBuilder({ databaseBuilder });
 
