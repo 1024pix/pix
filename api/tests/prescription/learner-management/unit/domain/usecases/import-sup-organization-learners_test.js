@@ -4,6 +4,7 @@ import iconv from 'iconv-lite';
 import { importSupOrganizationLearners } from '../../../../../../src/prescription/learner-management/domain/usecases/import-sup-organization-learners.js';
 import { SupOrganizationLearnerImportHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
+import { Readable } from 'stream';
 
 const i18n = getI18n();
 
@@ -12,11 +13,10 @@ const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeade
   .join(';');
 
 describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
-  let supOrganizationLearnerRepositoryStub, importStorageStub, payload, readableStream, filename;
+  let supOrganizationLearnerRepositoryStub, importStorageStub, payload, filename;
   beforeEach(function () {
     filename = Symbol('FILE_NAME');
     payload = { path: filename };
-    readableStream = Symbol('readableStream');
 
     supOrganizationLearnerRepositoryStub = { addStudents: sinon.stub() };
     supOrganizationLearnerRepositoryStub.addStudents.resolves();
@@ -28,7 +28,6 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
     };
 
     importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves(filename);
-    importStorageStub.readFile.withArgs(filename).resolves(readableStream);
   });
 
   context('when there is no organization learners for the organization', function () {
@@ -38,14 +37,20 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
           O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
       `.trim();
 
-      const encodedInput = iconv.encode(input, 'utf8');
+      importStorageStub.readFile.withArgs({ filename }).resolves(
+        new Readable({
+          read() {
+            this.push(iconv.encode(input, 'utf8'));
+            this.push(null);
+          },
+        }),
+      );
 
       await importSupOrganizationLearners({
         payload,
         organizationId: 2,
         i18n,
         importStorage: importStorageStub,
-        dependencies: { getDataBuffer: () => encodedInput },
         supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
       });
 
@@ -91,14 +96,20 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
         `.trim();
 
-    const encodedInput = iconv.encode(input, 'utf8');
+    importStorageStub.readFile.withArgs({ filename }).resolves(
+      new Readable({
+        read() {
+          this.push(iconv.encode(input, 'utf8'));
+          this.push(null);
+        },
+      }),
+    );
 
     const warnings = await importSupOrganizationLearners({
       payload,
       importStorage: importStorageStub,
       organizationId: 2,
       i18n,
-      dependencies: { getDataBuffer: () => encodedInput },
       supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
     });
 

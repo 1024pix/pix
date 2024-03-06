@@ -7,13 +7,12 @@ const replaceSupOrganizationLearners = async function ({
   userId,
   supOrganizationLearnerRepository,
   importStorage,
-  dependencies = { getDataBuffer },
 }) {
   const filename = await importStorage.sendFile({ filepath: payload.path });
 
   try {
     const readableStream = await importStorage.readFile({ filename });
-    const buffer = await dependencies.getDataBuffer(readableStream);
+    const buffer = await getDataBuffer(readableStream);
     const parser = SupOrganizationLearnerParser.create(buffer, organizationId, i18n);
 
     const { learners, warnings } = parser.parse(parser.getFileEncoding());
