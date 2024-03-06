@@ -136,6 +136,7 @@ const usecasesWithoutInjectedDependencies = {
       'get-invigilator-kit-session-info.js',
       'validate-live-alert.js',
       'dismiss-live-alert.js',
+      'unfinalize-session.js',
     ],
   })),
   ...(await importNamedExportsFromDirectory({
