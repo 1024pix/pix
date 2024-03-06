@@ -7,9 +7,6 @@ import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 const translate = i18n.__;
 
-const REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS =
-  "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix.";
-
 describe('Integration | Application | UseCases | certification-results | get-division-certification-results-csv', function () {
   context('#getDivisionCertificationResultsCsv', function () {
     context('when at least one candidate has passed a certification', function () {
@@ -76,7 +73,7 @@ describe('Integration | Application | UseCases | certification-results | get-div
             pixScore: 66,
             sessionId: 777,
             commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
-              fallbackComment: REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
+              commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
             }),
             competencesWithMark: competencesWithMark,
             complementaryCertificationCourseResults: [],
@@ -92,7 +89,7 @@ describe('Integration | Application | UseCases | certification-results | get-div
           const expectedContent =
             '\uFEFF' +
             '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Date de passage de la certification"\n' +
-            `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS}";777;"02/02/2020"`;
+            `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${translate('jury.comment.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS.organization')}";777;"02/02/2020"`;
           expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
         });
       });
