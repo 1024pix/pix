@@ -802,4 +802,65 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
       expect(savedSchools[0].organizationId).to.equal(savedSco1dOrganizations[0].id);
     });
   });
+
+  context('when multiple organizations have the same "externalId"', function () {
+    it('adds the organizations with the same "externalId"', async function () {
+      // given
+      const externalId = 'PIX_EXT_ID';
+
+      databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
+      databaseBuilder.factory.buildTag({ name: 'TAG1' });
+      databaseBuilder.factory.buildOrganization({ type: 'PRO', externalId });
+      await databaseBuilder.commit();
+
+      const organizations = [
+        {
+          type: 'SCO',
+          externalId,
+          name: 'Lycée René Descartes',
+          locale: 'fr-fr',
+          createdBy: userId,
+          tags: 'TAG1',
+          targetProfiles: '123',
+          credit: 10,
+          provinceCode: '123',
+        },
+        {
+          type: 'SCO-1D',
+          externalId,
+          name: 'École Renée Descartes',
+          locale: 'fr-fr',
+          createdBy: userId,
+          tags: 'TAG1',
+          targetProfiles: '123',
+          credit: 1230,
+          provinceCode: '123',
+        },
+      ];
+
+      // when
+      await createOrganizationsWithTagsAndTargetProfiles({
+        domainTransaction,
+        organizations,
+        organizationRepository,
+        tagRepository,
+        targetProfileShareRepository,
+        organizationTagRepository,
+        organizationInvitationRepository,
+        dataProtectionOfficerRepository,
+        organizationValidator,
+        organizationInvitationService,
+        schoolRepository,
+      });
+
+      // then
+      const createdOrganizations = await knex('organizations').select();
+      expect(createdOrganizations).to.have.lengthOf(3);
+
+      const [proOrganization, scoOrganization, sco1dOrganization] = createdOrganizations;
+      expect(proOrganization).to.include({ externalId, type: 'PRO' });
+      expect(scoOrganization).to.include({ externalId, type: 'SCO' });
+      expect(sco1dOrganization).to.include({ externalId, type: 'SCO-1D' });
+    });
+  });
 });
