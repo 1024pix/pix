@@ -4,6 +4,7 @@ import lodash from 'lodash';
 import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../infrastructure/constants.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
 import { ObjectValidationError, OrganizationTagNotFound, TargetProfileInvalidError } from '../errors.js';
 import { OrganizationForAdmin } from '../models/index.js';
 import { Organization } from '../models/Organization.js';
@@ -109,22 +110,27 @@ function _transformOrganizationsCsvData(organizationsCsvData) {
 }
 
 async function _updateSchoolsWithCodes({ createdOrganizations, domainTransaction, schoolRepository }) {
-  const pendingCodes = [];
-  const filteredOrganizations = createdOrganizations.filter(
-    ({ createdOrganization }) => createdOrganization.type === 'SCO-1D',
-  );
+  try {
+    const pendingCodes = [];
+    const filteredOrganizations = createdOrganizations.filter(
+      ({ createdOrganization }) => createdOrganization.type === 'SCO-1D',
+    );
 
-  await bluebird.map(
-    filteredOrganizations,
-    async ({ createdOrganization }) => {
-      const code = await codeGenerator.generate(schoolRepository, pendingCodes);
-      await schoolRepository.save({ organizationId: createdOrganization.id, code, domainTransaction });
-      pendingCodes.push(code);
-    },
-    {
-      concurrency: CONCURRENCY_HEAVY_OPERATIONS,
-    },
-  );
+    await bluebird.map(
+      filteredOrganizations,
+      async ({ createdOrganization }) => {
+        const code = await codeGenerator.generate(schoolRepository, pendingCodes);
+        await schoolRepository.save({ organizationId: createdOrganization.id, code, domainTransaction });
+        pendingCodes.push(code);
+      },
+      {
+        concurrency: CONCURRENCY_HEAVY_OPERATIONS,
+      },
+    );
+  } catch (error) {
+    _monitorError(error.message, { error, event: 'add-school-organizations-codes' });
+    throw error;
+  }
 }
 
 async function _addDataProtectionOfficers({
@@ -132,57 +138,71 @@ async function _addDataProtectionOfficers({
   domainTransaction,
   dataProtectionOfficerRepository,
 }) {
-  const dataProtectionOfficers = createdOrganizations
-    .map(({ createdOrganization, organizationToCreate }) => {
-      const { dataProtectionOfficer } = organizationToCreate;
-      const hasDataProtectionOfficer = Boolean(
-        dataProtectionOfficer?.firstName || dataProtectionOfficer?.lastName || dataProtectionOfficer?.email,
-      );
+  try {
+    const dataProtectionOfficers = createdOrganizations
+      .map(({ createdOrganization, organizationToCreate }) => {
+        const { dataProtectionOfficer } = organizationToCreate;
+        const hasDataProtectionOfficer = Boolean(
+          dataProtectionOfficer?.firstName || dataProtectionOfficer?.lastName || dataProtectionOfficer?.email,
+        );
 
-      return hasDataProtectionOfficer
-        ? { organizationId: createdOrganization.id, ...dataProtectionOfficer }
-        : undefined;
-    })
-    .filter(Boolean);
+        return hasDataProtectionOfficer
+          ? { organizationId: createdOrganization.id, ...dataProtectionOfficer }
+          : undefined;
+      })
+      .filter(Boolean);
 
-  await dataProtectionOfficerRepository.batchAddDataProtectionOfficerToOrganization(
-    dataProtectionOfficers,
-    domainTransaction,
-  );
+    await dataProtectionOfficerRepository.batchAddDataProtectionOfficerToOrganization(
+      dataProtectionOfficers,
+      domainTransaction,
+    );
+  } catch (error) {
+    _monitorError(error.message, { error, event: 'add-organizations-data-protection-officers' });
+    throw error;
+  }
 }
 
 async function _addTags({ allTags, createdOrganizations, domainTransaction, organizationTagRepository }) {
-  const organizationsTags = createdOrganizations.flatMap(({ createdOrganization, organizationToCreate }) => {
-    return organizationToCreate.tags.map((tagName) => {
-      const foundTag = allTags.find((tagInDB) => tagInDB.name === tagName.toUpperCase());
+  try {
+    const organizationsTags = createdOrganizations.flatMap(({ createdOrganization, organizationToCreate }) => {
+      return organizationToCreate.tags.map((tagName) => {
+        const foundTag = allTags.find((tagInDB) => tagInDB.name === tagName.toUpperCase());
 
-      if (!foundTag) {
-        throw new OrganizationTagNotFound(
-          `Le tag ${tagName} de l'organisation ${createdOrganization.name} n'existe pas.`,
-        );
-      }
+        if (!foundTag) {
+          throw new OrganizationTagNotFound(
+            `Le tag ${tagName} de l'organisation ${createdOrganization.name} n'existe pas.`,
+          );
+        }
 
-      return new OrganizationTag({ organizationId: createdOrganization.id, tagId: foundTag.id });
+        return new OrganizationTag({ organizationId: createdOrganization.id, tagId: foundTag.id });
+      });
     });
-  });
 
-  await organizationTagRepository.batchCreate(organizationsTags, domainTransaction);
+    await organizationTagRepository.batchCreate(organizationsTags, domainTransaction);
+  } catch (error) {
+    _monitorError(error.message, { error, event: 'add-organizations-tags' });
+    throw error;
+  }
 }
 
 async function _addTargetProfiles({ createdOrganizations, domainTransaction, targetProfileShareRepository }) {
-  const organizationsTargetProfiles = createdOrganizations.flatMap(({ createdOrganization, organizationToCreate }) => {
-    return organizationToCreate.targetProfiles.map((targetProfileId) => ({
-      organizationId: createdOrganization.id,
-      targetProfileId,
-    }));
-  });
-
   try {
+    const organizationsTargetProfiles = createdOrganizations.flatMap(
+      ({ createdOrganization, organizationToCreate }) => {
+        return organizationToCreate.targetProfiles.map((targetProfileId) => ({
+          organizationId: createdOrganization.id,
+          targetProfileId,
+        }));
+      },
+    );
+
     await targetProfileShareRepository.batchAddTargetProfilesToOrganization(
       organizationsTargetProfiles,
       domainTransaction,
     );
   } catch (error) {
+    _monitorError(error.message, { error, event: 'add-organizations-target-profiles' });
+
     if (error.constraint === 'target_profile_shares_targetprofileid_foreign') {
       const targetProfileId = error.detail.match(/\d+/g);
       throw new TargetProfileInvalidError(`Le profil cible ${targetProfileId} n'existe pas.`);
@@ -198,26 +218,50 @@ async function _sendInvitationEmails({
   organizationRepository,
   organizationInvitationService,
 }) {
-  const createdOrganizationsWithEmail = createdOrganizations
-    .map(({ createdOrganization, organizationToCreate }) => {
-      const { emailInvitations, role, locale } = organizationToCreate;
-      const { id, name } = createdOrganization;
+  try {
+    const createdOrganizationsWithEmail = createdOrganizations
+      .map(({ createdOrganization, organizationToCreate }) => {
+        const { emailInvitations, role, locale } = organizationToCreate;
+        const { id, name } = createdOrganization;
 
-      return {
-        organizationId: id,
-        name,
-        email: emailInvitations,
-        role,
-        locale,
-      };
-    })
-    .filter((organization) => Boolean(organization.email));
+        return {
+          organizationId: id,
+          name,
+          email: emailInvitations,
+          role,
+          locale,
+        };
+      })
+      .filter((organization) => Boolean(organization.email));
 
-  await bluebird.mapSeries(createdOrganizationsWithEmail, (organizationWithEmail) =>
-    organizationInvitationService.createProOrganizationInvitation({
-      organizationRepository,
-      organizationInvitationRepository,
-      ...organizationWithEmail,
-    }),
-  );
+    await bluebird.mapSeries(createdOrganizationsWithEmail, (organizationWithEmail) =>
+      organizationInvitationService.createProOrganizationInvitation({
+        organizationRepository,
+        organizationInvitationRepository,
+        ...organizationWithEmail,
+      }),
+    );
+  } catch (error) {
+    _monitorError(error.message, { error, event: 'send-organizations-invitation-emails' });
+    throw error;
+  }
+}
+
+function _monitorError(message, { data, error, event } = {}) {
+  const monitoringData = {
+    message,
+    context: 'create-organizations-with-tags-and-target-profiles',
+    event,
+    team: 'acces',
+  };
+
+  if (data) {
+    monitoringData.data = data;
+  }
+
+  if (error) {
+    monitoringData.error = { name: error.constructor.name };
+  }
+
+  monitoringTools.logErrorWithCorrelationIds(monitoringData);
 }
