@@ -1,24 +1,21 @@
 import { Serializer as JSONAPISerializer } from 'jsonapi-serializer';
 
-import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
 import * as events from '../../../../lib/domain/events/index.js';
-import { ValidatorAlwaysOK } from '../../../../lib/domain/models/ValidatorAlwaysOK.js';
+import { ValidatorAlwaysOK } from '../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
 } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as certificationVersionRepository from '../../../certification/course/infrastructure/repositories/certification-version-repository.js';
+import { CertificationVersion } from '../../../certification/shared/domain/models/CertificationVersion.js';
 import { usecases as certificationUsecases } from '../../../certification/shared/domain/usecases/index.js';
 import * as certificationChallengeRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-repository.js';
-import * as certificationCourseRepository from '../../../certification/shared/infrastructure/repositories/certification-course-repository.js';
-import * as certificationVersionRepository from '../../../certification/course/infrastructure/repositories/certification-version-repository.js';
-
 import { usecases as devcompUsecases } from '../../../devcomp/domain/usecases/index.js';
 import * as competenceEvaluationSerializer from '../../../evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { DomainTransaction } from '../../domain/DomainTransaction.js';
+import { AssessmentEndedError } from '../../domain/errors.js';
 import { Examiner } from '../../domain/models/Examiner.js';
-import { ValidatorAlwaysOK } from '../../../../lib/domain/models/ValidatorAlwaysOK.js';
-import { CertificationVersion } from '../../domain/models/CertificationVersion.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
 import * as challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer.js';
@@ -61,7 +58,6 @@ const getNextChallenge = async function (
     usecases,
     assessmentRepository,
     certificationChallengeRepository,
-    certificationCourseRepository,
     certificationVersionRepository,
   },
 ) {
