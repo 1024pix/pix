@@ -1,9 +1,9 @@
-import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { getNextChallengeForV2Certification } from '../../../../../../src/certification/course/domain/usecases/get-next-challenge-for-v2-certification.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-v2-certification', function () {
-  describe('#getNextChallengeForCertification', function () {
+  describe('#getNextChallengeForV2Certification', function () {
     let certificationChallengeRepository;
     let challengeRepository;
     let certificationCourseRepository;
