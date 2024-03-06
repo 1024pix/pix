@@ -1563,6 +1563,11 @@
               "content": "<p>Pour chaque affirmation, répondez par vrai ou par faux.<br> On supposera que les adresses IP publiques sont v4 et qu'aucun VPN n'est utilisé.</p>"
             },
             {
+              "id": "e31de344-eb96-4ecb-91eb-7f6a23197fa4",
+              "type": "text",
+              "content": "<hr>"
+            },
+            {
               "id": "a2db1a10-063c-4f72-b676-956bb3d0837b",
               "type": "qcu",
               "instruction": "<p>L’adresse IP publique donne une information sur la zone géographique de la connexion.</p>",
