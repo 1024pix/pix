@@ -62,30 +62,39 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.getByText('Date de création : 10/12/2021')).exists();
       });
 
-      test("displays user's information without creation date", async function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const user = store.createRecord('user', {
-          firstName: 'John',
-          lastName: 'Snow',
-          email: 'john.snow@winterfell.got',
-          username: 'kingofthenorth',
-          lang: 'fr',
-          locale: 'fr-FR',
+      [
+        { locale: 'en', lang: 'en' },
+        { locale: 'fr', lang: 'fr' },
+        { locale: 'fr-BE', lang: 'fr' },
+        { locale: 'fr-FR', lang: 'fr' },
+        { locale: 'nl-BE', lang: 'nl' },
+      ].forEach((expected) => {
+        test("displays user's information without creation date", async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const user = store.createRecord('user', {
+            firstName: 'John',
+            lastName: 'Snow',
+            email: 'john.snow@winterfell.got',
+            username: 'kingofthenorth',
+            lang: expected.lang,
+            locale: expected.locale,
+          });
+          this.set('user', user);
+
+          // when
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+          // await this.pauseTest()
+
+          // then
+          assert.dom(screen.getByText(`Prénom : ${this.user.firstName}`)).exists();
+          assert.dom(screen.getByText(`Nom : ${this.user.lastName}`)).exists();
+          assert.dom(screen.getByText(`Adresse e-mail : ${this.user.email}`)).exists();
+          assert.dom(screen.getByText(`Identifiant : ${this.user.username}`)).exists();
+          assert.dom(screen.getByText(`Langue : ${expected.lang}`)).exists();
+          assert.dom(screen.getByText(`Locale : ${expected.locale}`)).exists();
+          assert.dom(screen.getByText('Date de création :')).exists();
         });
-        this.set('user', user);
-
-        // when
-        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
-
-        // then
-        assert.dom(screen.getByText(`Prénom : ${this.user.firstName}`)).exists();
-        assert.dom(screen.getByText(`Nom : ${this.user.lastName}`)).exists();
-        assert.dom(screen.getByText(`Adresse e-mail : ${this.user.email}`)).exists();
-        assert.dom(screen.getByText(`Identifiant : ${this.user.username}`)).exists();
-        assert.dom(screen.getByText('Langue : fr')).exists();
-        assert.dom(screen.getByText('Locale : fr-FR')).exists();
-        assert.dom(screen.getByText('Date de création :')).exists();
       });
 
       module('terms of service', function () {
@@ -273,7 +282,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
       });
 
-      test('displays user’s language, first name and last name in edit mode', async function (assert) {
+      test('displays user’s first name and last name with available languages and locales in edit mode', async function (assert) {
         // given
         this.set('user', user);
 
@@ -289,6 +298,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         await screen.findByRole('listbox');
         assert.dom(screen.getByRole('option', { name: 'Français' })).exists();
         assert.dom(screen.getByRole('option', { name: 'Anglais' })).exists();
+        assert.dom(screen.getByRole('option', { name: 'Néerlandais' })).exists();
 
         await clickByName('Locale :');
         await waitFor(async () => {
@@ -297,6 +307,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           assert.dom(screen.getByRole('option', { name: 'fr' })).exists();
           assert.dom(screen.getByRole('option', { name: 'fr-BE' })).exists();
           assert.dom(screen.getByRole('option', { name: 'fr-FR' })).exists();
+          assert.dom(screen.getByRole('option', { name: 'nl-BE' })).exists();
         });
       });
 
