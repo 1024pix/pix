@@ -129,7 +129,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
           certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
-            .withArgs(assessment.id)
+            .withArgs({ assessmentId: assessment.id })
             .resolves([]);
 
           certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
@@ -207,7 +207,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
             answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
             certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
-              .withArgs(assessment.id)
+              .withArgs({ assessmentId: assessment.id })
               .resolves([]);
 
             certificationCourseRepository.get
@@ -293,7 +293,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
           certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
-            .withArgs(assessment.id)
+            .withArgs({ assessmentId: assessment.id })
             .resolves([nonAnsweredCertificationChallenge.challengeId]);
 
           certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
@@ -389,7 +389,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
           certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
-            .withArgs(assessment.id)
+            .withArgs({ assessmentId: assessment.id })
             .resolves([nonAnsweredCertificationChallenge.challengeId]);
 
           certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
@@ -448,7 +448,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
           certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
-            .withArgs(assessment.id)
+            .withArgs({ assessmentId: assessment.id })
             .resolves([]);
 
           certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
@@ -546,7 +546,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
               answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
               certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
-                .withArgs(assessment.id)
+                .withArgs({ assessmentId: assessment.id })
                 .resolves([]);
 
               certificationCourseRepository.get

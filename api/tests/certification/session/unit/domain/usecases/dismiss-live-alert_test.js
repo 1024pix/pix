@@ -1,6 +1,6 @@
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 import { dismissLiveAlert } from '../../../../../../src/certification/session/domain/usecases/dismiss-live-alert.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | dismiss-live-alert', function () {

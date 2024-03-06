@@ -6,7 +6,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 
-const save = async function (certificationIssueReport) {
+const save = async function ({ certificationIssueReport }) {
   const [data] = await knex
     .from('certification-issue-reports')
     .insert(omit(certificationIssueReport, ['isImpactful']))

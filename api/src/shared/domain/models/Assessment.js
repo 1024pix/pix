@@ -1,5 +1,5 @@
 import { ObjectValidationError } from '../../../../lib/domain/errors.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../certification/session/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { Answer } from '../../../evaluation/domain/models/Answer.js';
 
 const courseIdMessage = {

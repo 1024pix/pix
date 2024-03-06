@@ -1,5 +1,5 @@
 import { certificationReportController } from '../../../../../src/certification/session/application/certification-report-controller.js';
-import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { usecases } from '../../../../../src/certification/session/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | certification-report-controller', function () {
