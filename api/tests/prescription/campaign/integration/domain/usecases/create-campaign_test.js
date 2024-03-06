@@ -9,7 +9,7 @@ import { createCampaign } from '../../../../../../src/prescription/campaign/doma
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 
-import * as codeGenerator from '../../../../../../lib/domain/services/code-generator.js';
+import * as codeGenerator from '../../../../../../src/shared/domain/services/code-generator.js';
 
 describe('Integration | UseCases | create-campaign', function () {
   let userId;
