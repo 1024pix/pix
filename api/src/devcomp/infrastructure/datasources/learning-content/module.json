@@ -349,7 +349,7 @@
             {
               "id": "8709ad92-093e-447a-a7b6-3223e6171196",
               "type": "qrocm",
-              "instruction": "<p>Écrivez l'adresse mail de Naomi à partir des informations suivantes :</p><ul><li>Son identifiant est : naomizao457</li><li>Son fournisseur d’adresse mail est : Yahoo</li></ul>",
+              "instruction": "<p>Écrivez l'adresse mail de Naomi à partir des informations suivantes :</p><ul><li>Son identifiant est <code>naomizao457</code></li><li>Son fournisseur d’adresse mail est Yahoo</li></ul>",
               "proposals": [
                 {
                   "type": "text",
