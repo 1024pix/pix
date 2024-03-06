@@ -273,7 +273,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
       });
 
-      test('displays user’s language, locale, first name and last name in edit mode', async function (assert) {
+      test('displays user’s first name and last name with available languages and locales in edit mode', async function (assert) {
         // given
         this.set('user', user);
 
