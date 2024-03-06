@@ -5,6 +5,7 @@ export default class ReferencesService extends Service {
     return [
       { value: 'fr', label: 'Français' },
       { value: 'en', label: 'Anglais' },
+      { value: 'nl', label: 'Néerlandais' },
     ];
   }
 
