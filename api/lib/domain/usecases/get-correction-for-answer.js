@@ -1,6 +1,5 @@
 import { AssessmentNotCompletedError, NotFoundError } from '../errors.js';
 import { LearningContentResourceNotFound } from '../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
-import { InternalServerError } from '../../application/http-errors.js';
 
 const getCorrectionForAnswer = async function ({
   assessmentRepository,
@@ -31,8 +30,9 @@ const getCorrectionForAnswer = async function ({
   } catch (error) {
     if (error instanceof LearningContentResourceNotFound) {
       throw new NotFoundError();
+    } else {
+      throw error;
     }
-    throw new InternalServerError();
   }
 
   return response;

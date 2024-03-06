@@ -4,7 +4,8 @@ import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
 import { AssessmentNotCompletedError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
 import { LearningContentResourceNotFound } from '../../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
-import { InternalServerError } from '../../../../lib/application/http-errors.js';
+
+class OtherError extends Error {}
 
 describe('Unit | UseCase | getCorrectionForAnswer', function () {
   const assessmentRepository = { get: () => undefined };
@@ -166,7 +167,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', function () {
 
         correctionRepository.getByChallengeId
           .withArgs({ challengeId, answerValue: answer.value, userId: assessment.userId, locale })
-          .rejects(new Error());
+          .rejects(new OtherError('A message'));
 
         // when
         const error = await catchErr(getCorrectionForAnswer)({
@@ -179,7 +180,9 @@ describe('Unit | UseCase | getCorrectionForAnswer', function () {
         });
 
         // then
-        expect(error).to.be.an.instanceOf(InternalServerError);
+        expect(error).to.be.an.instanceOf(OtherError);
+        expect(error.message).to.equal('A message');
+        expect(error.stack).to.not.be.empty;
       });
     });
   });
