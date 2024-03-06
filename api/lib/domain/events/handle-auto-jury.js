@@ -177,9 +177,9 @@ async function _autoResolveCertificationIssueReport({
   resolutionStrategies,
   logger,
 }) {
-  const certificationIssueReports = await certificationIssueReportRepository.findByCertificationCourseId(
-    certificationCourse.getId(),
-  );
+  const certificationIssueReports = await certificationIssueReportRepository.findByCertificationCourseId({
+    certificationCourseId: certificationCourse.getId(),
+  });
   if (certificationIssueReports.length === 0) {
     return null;
   }

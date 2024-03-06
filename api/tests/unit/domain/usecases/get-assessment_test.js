@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Assessment } from '../../../../lib/domain/models/index.js';
 import { getAssessment } from '../../../../lib/domain/usecases/get-assessment.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-assessment', function () {
@@ -189,8 +189,9 @@ describe('Unit | UseCase | get-assessment', function () {
             assessmentId: assessment.id,
           });
           certificationChallengeLiveAlertRepository.getByAssessmentId
-            .withArgs(assessment.id)
+            .withArgs({ assessmentId: assessment.id })
             .resolves([ongoingLiveAlert]);
+
           // when
           const result = await getAssessment({
             assessmentId: assessment.id,

@@ -110,7 +110,7 @@ const _getAlreadyAnsweredChallengeIds = async ({ assessmentId, answerRepository 
 };
 
 const _getValidatedLiveAlertChallengeIds = async ({ assessmentId, certificationChallengeLiveAlertRepository }) => {
-  return certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId(assessmentId);
+  return certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId({ assessmentId });
 };
 
 export { getNextChallengeForCertification };

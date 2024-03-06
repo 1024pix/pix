@@ -1,4 +1,4 @@
-import { usecases } from '../../shared/domain/usecases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 
 const dismissLiveAlert = async function (request, h) {
   const { id: sessionId, candidateId: userId } = request.params;

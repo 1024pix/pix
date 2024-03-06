@@ -1,4 +1,4 @@
-import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 

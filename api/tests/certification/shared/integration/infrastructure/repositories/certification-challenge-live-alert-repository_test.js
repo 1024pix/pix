@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
-import * as certificationChallengeLiveAlertRepository from '../../../../../../src/certification/session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
+import * as certificationChallengeLiveAlertRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import { databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 const assessmentIdWithNoAlerts = 123;
@@ -77,7 +77,9 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
     describe('when no liveAlert is linked to the assessment id', function () {
       it('should return an empty array', async function () {
         // given / when
-        const liveAlerts = await certificationChallengeLiveAlertRepository.getByAssessmentId(assessmentIdWithNoAlerts);
+        const liveAlerts = await certificationChallengeLiveAlertRepository.getByAssessmentId({
+          assessmentId: assessmentIdWithNoAlerts,
+        });
 
         // then
         expect(liveAlerts).to.have.length(0);
@@ -98,7 +100,9 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
         await databaseBuilder.commit();
 
         // when
-        const liveAlerts = await certificationChallengeLiveAlertRepository.getByAssessmentId(assessmentIdWithLiveAlert);
+        const liveAlerts = await certificationChallengeLiveAlertRepository.getByAssessmentId({
+          assessmentId: assessmentIdWithLiveAlert,
+        });
 
         // then
         expect(liveAlerts).to.have.length(1);
@@ -131,9 +135,9 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
 
         // when
         const liveAlertValidatedChallengeIds =
-          await certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId(
-            assessmentIdWithLiveAlert,
-          );
+          await certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId({
+            assessmentId: assessmentIdWithLiveAlert,
+          });
 
         // then
         expect(liveAlertValidatedChallengeIds).to.deep.equal([challengeId]);
@@ -158,9 +162,9 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
 
         // when
         const liveAlertValidatedChallengeIds =
-          await certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId(
-            assessmentIdWithLiveAlert,
-          );
+          await certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId({
+            assessmentId: assessmentIdWithLiveAlert,
+          });
 
         // then
         expect(liveAlertValidatedChallengeIds).to.have.length(0);
@@ -193,9 +197,9 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
 
         // when
         const liveAlertValidatedChallengeIds =
-          await certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId(
-            assessmentIdWithLiveAlert,
-          );
+          await certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId({
+            assessmentId: assessmentIdWithLiveAlert,
+          });
 
         // then
         expect(liveAlertValidatedChallengeIds).to.deep.equal([challengeId]);
