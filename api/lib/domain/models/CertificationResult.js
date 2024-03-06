@@ -143,13 +143,6 @@ class CertificationResult {
     return this.status === status.STARTED;
   }
 
-  hasBeenRejectedAutomatically() {
-    return (
-      this.status === status.REJECTED &&
-      (this.emitter === emitters.PIX_ALGO || this.emitter === emitters.PIX_ALGO_AUTO_JURY)
-    );
-  }
-
   getUniqComplementaryCertificationCourseResultLabels() {
     return [
       ...new Set(
