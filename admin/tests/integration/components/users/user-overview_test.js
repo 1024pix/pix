@@ -71,7 +71,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           email: 'john.snow@winterfell.got',
           username: 'kingofthenorth',
           lang: 'fr',
-          locale: 'fr-FR',
+          locale: 'nl-BE',
         });
         this.set('user', user);
 
@@ -84,7 +84,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.getByText(`Adresse e-mail : ${this.user.email}`)).exists();
         assert.dom(screen.getByText(`Identifiant : ${this.user.username}`)).exists();
         assert.dom(screen.getByText('Langue : fr')).exists();
-        assert.dom(screen.getByText('Locale : fr-FR')).exists();
+        assert.dom(screen.getByText('Locale : nl-BE')).exists();
         assert.dom(screen.getByText('Date de création :')).exists();
       });
 
@@ -273,7 +273,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
       });
 
-      test('displays user’s language, first name and last name in edit mode', async function (assert) {
+      test('displays user’s language, locale, first name and last name in edit mode', async function (assert) {
         // given
         this.set('user', user);
 
@@ -297,6 +297,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           assert.dom(screen.getByRole('option', { name: 'fr' })).exists();
           assert.dom(screen.getByRole('option', { name: 'fr-BE' })).exists();
           assert.dom(screen.getByRole('option', { name: 'fr-FR' })).exists();
+          assert.dom(screen.getByRole('option', { name: 'nl-BE' })).exists();
         });
       });
 
