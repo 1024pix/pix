@@ -11,6 +11,7 @@ import {
 import { usecases as certificationUsecases } from '../../../certification/shared/domain/usecases/index.js';
 import * as certificationChallengeRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationCourseRepository from '../../../certification/shared/infrastructure/repositories/certification-course-repository.js';
+import * as certificationVersionRepository from '../../../certification/course/infrastructure/repositories/certification-version-repository.js';
 
 import { usecases as devcompUsecases } from '../../../devcomp/domain/usecases/index.js';
 import * as competenceEvaluationSerializer from '../../../evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
@@ -61,6 +62,7 @@ const getNextChallenge = async function (
     assessmentRepository,
     certificationChallengeRepository,
     certificationCourseRepository,
+    certificationVersionRepository,
   },
 ) {
   const assessmentId = request.params.id;
@@ -199,9 +201,11 @@ async function _getChallengeByAssessmentType({ assessment, request, dependencies
   }
 
   if (assessment.isCertification()) {
-    const certificationCourse = await dependencies.certificationCourseRepository.get(assessment.certificationCourseId);
+    const certificationCourseVersion = await dependencies.certificationVersionRepository.getByCertificationCourseId({
+      certificationCourseId: assessment.certificationCourseId,
+    });
 
-    if (certificationCourse.getVersion() === CertificationVersion.V3) {
+    if (certificationCourseVersion === CertificationVersion.V3) {
       return dependencies.usecases.getNextChallengeForV3Certification({ assessment, locale });
     } else {
       return dependencies.usecases.getNextChallengeForV2Certification({ assessment, locale });
