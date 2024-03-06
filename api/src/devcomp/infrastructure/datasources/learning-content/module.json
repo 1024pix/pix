@@ -2915,7 +2915,7 @@
               "type": "video",
               "title": "Une vidéo",
               "url": "https://videos.pix.fr/modulix/sources-informations/itw-saturne.mp4",
-              "subtitles": "-",
+              "subtitles": "https://videos.pix.fr/modulix/sources-informations/itw-saturne.vtt",
               "transcription": "<ul><li> <strong>Journaliste Dupont</strong> : Flash info, bonjour ! ici le journaliste Dupont pour la radio d'à côté Lundi dernier, aux alentours de vingt et une heures, Mme. Sarah a vu une soucoupe volante dans le ciel. Croyance ou réalité ? <br>Je suis aujourd'hui avec la professeur Saturne, experte en astrophysique, auteur du livre Les soucoupes volantes existent-elles. Bonjour professeur, merci d'être avec nous.</li> <li><strong>Professeur Saturne</strong> : Bonjour, merci pour votre invitation. Alors, ce que Madame Sarah a vu, c'est pas une soucoupe, c'est une aurore boréale. Mon équipe et moi l'avons observé au télescope de l'université. Nous étudions les aurores boréales depuis plusieurs années maintenant et il arrive souvent que les gens confondent.</li><li><strong>Journaliste Dupont</strong> : Merci professeur Saturne pour votre témoignage. Merci aux auditeurs fidèles qui suivent notre émission à vous les studios.</li></ul>"
             },
             {
