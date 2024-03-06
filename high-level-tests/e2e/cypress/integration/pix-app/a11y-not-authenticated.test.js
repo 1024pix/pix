@@ -28,7 +28,8 @@ describe("a11y", () => {
       { url: "/nonconnecte" },
       { url: "/recuperer-mon-compte", skipFailures: true },
       { url: "/verification-certificat" },
-      { url: "/modules/bien-ecrire-son-adresse-mail" },
+      { url: "/modules/didacticiel-modulix/details" },
+      { url: "/modules/didacticiel-modulix/passage" },
     ];
 
     notAuthenticatedPages.forEach(({ url, skipFailures = false }) => {
