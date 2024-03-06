@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { status } from '../../../../shared/domain/models/AssessmentResult.js';
+import { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } from '../../../../../lib/domain/constants.js';
 
 class CertificationAssessmentScore {
   constructor({
@@ -32,6 +33,10 @@ class CertificationAssessmentScore {
 
   getPercentageCorrectAnswers() {
     return this.percentageCorrectAnswers;
+  }
+
+  hasInsufficientCorrectAnswers() {
+    return this.percentageCorrectAnswers < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED;
   }
 }
 

@@ -249,6 +249,15 @@ async function _saveV3Result({
 }
 
 function _createV2AssessmentResult({ certificationAssessment, certificationAssessmentScore }) {
+  if (certificationAssessmentScore.hasInsufficientCorrectAnswers()) {
+    return AssessmentResultFactory.buildInsufficientCorrectAnswers({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      status: certificationAssessmentScore.status,
+      assessmentId: certificationAssessment.id,
+    });
+  }
+
   return AssessmentResultFactory.buildStandardAssessmentResult({
     pixScore: certificationAssessmentScore.nbPix,
     reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),

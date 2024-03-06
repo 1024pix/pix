@@ -138,4 +138,35 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
       expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
     });
   });
+
+  describe('#buildInsufficientCorrectAnswers', function () {
+    it('should return an insufficient correct answers AssessmentResult', function () {
+      // when
+      const actualAssessmentResult = AssessmentResultFactory.buildInsufficientCorrectAnswers({
+        pixScore: 0,
+        reproducibilityRate: 49,
+        assessmentId: 123,
+        status: AssessmentResult.status.REJECTED,
+      });
+
+      // then
+      const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
+        status: AssessmentResult.status.REJECTED,
+        pixScore: 0,
+        reproducibilityRate: 49,
+        assessmentId: 123,
+        emitter: 'PIX-ALGO',
+        commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
+          commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
+        }),
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
+        }),
+      });
+      expectedAssessmentResult.id = undefined;
+      expectedAssessmentResult.createdAt = undefined;
+      expectedAssessmentResult.juryId = undefined;
+      expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
+    });
+  });
 });
