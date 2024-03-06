@@ -1,5 +1,4 @@
 import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
-import { JuryComment, JuryCommentContexts } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 const buildCertificationResult = function ({
   id = 123,
@@ -13,17 +12,10 @@ const buildCertificationResult = function ({
   status = CertificationResult.status.REJECTED,
   pixScore = 0,
   emitter = 'PIX-ALGO',
-  commentForOrganization = 'comment organization',
-  commentByAutoJury,
+  commentForOrganization,
   competencesWithMark = [],
   complementaryCertificationCourseResults = [],
 } = {}) {
-  const juryCommentForOrganization = new JuryComment({
-    fallbackComment: commentForOrganization,
-    commentByAutoJury,
-    context: JuryCommentContexts.ORGANIZATION,
-  });
-
   return new CertificationResult({
     id,
     firstName,
@@ -36,7 +28,7 @@ const buildCertificationResult = function ({
     status,
     pixScore,
     emitter,
-    commentForOrganization: juryCommentForOrganization,
+    commentForOrganization,
     competencesWithMark,
     complementaryCertificationCourseResults,
   });
@@ -119,7 +111,6 @@ buildCertificationResult.cancelled = function ({
   sessionId,
   pixScore,
   emitter,
-  commentByAutoJury,
   commentForOrganization,
   competencesWithMark,
   complementaryCertificationCourseResults,
@@ -136,7 +127,6 @@ buildCertificationResult.cancelled = function ({
     status: CertificationResult.status.CANCELLED,
     pixScore,
     emitter,
-    commentByAutoJury,
     commentForOrganization,
     competencesWithMark,
     complementaryCertificationCourseResults,

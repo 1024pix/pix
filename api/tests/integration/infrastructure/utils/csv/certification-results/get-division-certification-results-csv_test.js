@@ -1,17 +1,19 @@
 import dayjs from 'dayjs';
 
 import { getDivisionCertificationResultsCsv } from '../../../../../../lib/infrastructure/utils/csv/certification-results/get-division-certification-results-csv.js';
+import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
+const translate = i18n.__;
 
-const REJECTED_AUTOMATICALLY_COMMENT =
-  "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix";
+const REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS =
+  "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix.";
 
 describe('Integration | Application | UseCases | certification-results | get-division-certification-results-csv', function () {
   context('#getDivisionCertificationResultsCsv', function () {
     context('when at least one candidate has passed a certification', function () {
-      it('returns a csv without session informations', async function () {
+      it('returns a csv without session information', async function () {
         // given
         const competencesWithMark = [
           domainBuilder.buildCompetenceMark({ competence_code: '1.1', level: 0 }),
@@ -21,7 +23,7 @@ describe('Integration | Application | UseCases | certification-results | get-div
           domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
         ];
 
-        const certifResult = domainBuilder.buildCertificationResult.validated({
+        const certificationResult = domainBuilder.buildCertificationResult.validated({
           id: 123,
           lastName: 'Oxford',
           firstName: 'Lili',
@@ -30,13 +32,15 @@ describe('Integration | Application | UseCases | certification-results | get-div
           externalId: 'LOLORD',
           createdAt: new Date('2020-01-01'),
           pixScore: 55,
-          commentForOrganization: 'RAS',
+          commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+            fallbackComment: 'RAS',
+          }),
           competencesWithMark: competencesWithMark,
           sessionId: 777,
           complementaryCertificationCourseResults: [],
         });
 
-        const certificationResults = [certifResult];
+        const certificationResults = [certificationResult];
 
         // when
         const result = await getDivisionCertificationResultsCsv({ division: 777, certificationResults, i18n });
@@ -51,42 +55,86 @@ describe('Integration | Application | UseCases | certification-results | get-div
         expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
       });
     });
-    context('when certification has been rejected automatically', function () {
-      it('should return correct csvContent with automatically rejected comment for organization', async function () {
-        // given
 
-        const competencesWithMark = [
-          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
-          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
-        ];
+    context('when certification has been rejected', function () {
+      context('when the reason is insufficient correct answers', function () {
+        it('should return correct comment for organization in csvContent', async function () {
+          // given
+          const competencesWithMark = [
+            domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+            domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+          ];
 
-        const certifResult = domainBuilder.buildCertificationResult.rejected({
-          id: 456,
-          lastName: 'Cambridge',
-          firstName: 'Tom',
-          birthdate: '1993-05-21',
-          birthplace: 'TheMoon',
-          externalId: 'TOTODGE',
-          createdAt: new Date('2020-02-02'),
-          pixScore: 66,
-          sessionId: 777,
-          commentForOrganization: null,
-          competencesWithMark: competencesWithMark,
-          complementaryCertificationCourseResults: [],
+          const certificationResult = domainBuilder.buildCertificationResult.rejected({
+            id: 456,
+            lastName: 'Cambridge',
+            firstName: 'Tom',
+            birthdate: '1993-05-21',
+            birthplace: 'TheMoon',
+            externalId: 'TOTODGE',
+            createdAt: new Date('2020-02-02'),
+            pixScore: 66,
+            sessionId: 777,
+            commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+              fallbackComment: REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
+            }),
+            competencesWithMark: competencesWithMark,
+            complementaryCertificationCourseResults: [],
+          });
+          const certificationResults = [certificationResult];
+
+          // when
+          const result = await getDivisionCertificationResultsCsv({ division: 777, certificationResults, i18n });
+
+          // then
+          const expectedDate = dayjs().format('YYYYMMDD');
+          const expectedFilename = `${expectedDate}_resultats_777.csv`;
+          const expectedContent =
+            '\uFEFF' +
+            '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Date de passage de la certification"\n' +
+            `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS}";777;"02/02/2020"`;
+          expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
         });
-        const certificationResults = [certifResult];
+      });
 
-        // when
-        const result = await getDivisionCertificationResultsCsv({ division: 777, certificationResults, i18n });
+      context('when the reason is not enough answers', function () {
+        it('should return correct comment for organization in csvContent', async function () {
+          // given
+          const competencesWithMark = [
+            domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+            domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+          ];
 
-        // then
-        const expectedDate = dayjs().format('YYYYMMDD');
-        const expectedFilename = `${expectedDate}_resultats_777.csv`;
-        const expectedContent =
-          '\uFEFF' +
-          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Date de passage de la certification"\n' +
-          `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${REJECTED_AUTOMATICALLY_COMMENT}";777;"02/02/2020"`;
-        expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
+          const certificationResult = domainBuilder.buildCertificationResult.rejected({
+            id: 456,
+            lastName: 'Cambridge',
+            firstName: 'Tom',
+            birthdate: '1993-05-21',
+            birthplace: 'TheMoon',
+            externalId: 'TOTODGE',
+            createdAt: new Date('2020-02-02'),
+            pixScore: 66,
+            sessionId: 777,
+            commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+              commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_LACK_OF_ANSWERS,
+            }),
+            competencesWithMark: competencesWithMark,
+            complementaryCertificationCourseResults: [],
+          });
+          const certificationResults = [certificationResult];
+
+          // when
+          const result = await getDivisionCertificationResultsCsv({ division: 777, certificationResults, i18n });
+
+          // then
+          const expectedDate = dayjs().format('YYYYMMDD');
+          const expectedFilename = `${expectedDate}_resultats_777.csv`;
+          const expectedContent =
+            '\uFEFF' +
+            '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Date de passage de la certification"\n' +
+            `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${translate('jury.comment.REJECTED_DUE_TO_LACK_OF_ANSWERS.organization')}";777;"02/02/2020"`;
+          expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
+        });
       });
     });
 
@@ -97,7 +145,7 @@ describe('Integration | Application | UseCases | certification-results | get-div
           domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
           domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
         ];
-        const certifResult = domainBuilder.buildCertificationResult.cancelled({
+        const certificationResult = domainBuilder.buildCertificationResult.cancelled({
           id: 123,
           lastName: 'Oxford',
           firstName: 'Lili',
@@ -107,12 +155,14 @@ describe('Integration | Application | UseCases | certification-results | get-div
           createdAt: new Date('2020-01-01'),
           pixScore: 55,
           sessionId: 777,
-          commentForOrganization: 'RAS',
+          commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+            fallbackComment: 'RAS',
+          }),
           competencesWithMark: competencesWithMark,
           complementaryCertificationCourseResults: [],
         });
 
-        const certificationResults = [certifResult];
+        const certificationResults = [certificationResult];
 
         // when
         const result = await getDivisionCertificationResultsCsv({ division: 777, certificationResults, i18n });

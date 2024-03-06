@@ -1,10 +1,12 @@
 import { getSessionCertificationResultsCsv } from '../../../../../../lib/infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
+import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
+const translate = i18n.__;
 
-const REJECTED_AUTOMATICALLY_COMMENT =
-  "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix";
+const REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS =
+  "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix.";
 
 describe('Integration | Application | UseCases | certification-results | get-session-certification-results-csv', function () {
   context('#getSessionCertificationResultsCsv', function () {
@@ -29,7 +31,9 @@ describe('Integration | Application | UseCases | certification-results | get-ses
           externalId: 'LOLORD',
           createdAt: new Date('2020-01-01'),
           pixScore: 55,
-          commentForOrganization: 'RAS',
+          commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+            fallbackComment: 'RAS',
+          }),
           competencesWithMark: competencesWithMark,
           complementaryCertificationCourseResults: [],
         });
@@ -48,8 +52,50 @@ describe('Integration | Application | UseCases | certification-results | get-ses
         expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
       });
 
-      context('when certification has been rejected automatically', function () {
-        it('should return correct csvContent with automatically rejected comment for organization', async function () {
+      context('when certification has been rejected', function () {
+        context('when the reason is insufficient correct answers', function () {
+          it('should return correct csvContent with auto jury comment for organization', async function () {
+            // given
+            const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+
+            const competencesWithMark = [
+              domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+              domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+            ];
+
+            const automaticallyRejectedCertificationResult = domainBuilder.buildCertificationResult.rejected({
+              id: 456,
+              lastName: 'Cambridge',
+              firstName: 'Tom',
+              birthdate: '1993-05-21',
+              birthplace: 'TheMoon',
+              externalId: 'TOTODGE',
+              createdAt: new Date('2020-02-02'),
+              pixScore: 66,
+              commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+                fallbackComment: REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
+              }),
+              competencesWithMark: competencesWithMark,
+              complementaryCertificationCourseResults: [],
+            });
+            const certificationResults = [automaticallyRejectedCertificationResult];
+
+            // when
+            const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
+
+            // then
+            const expectedFilename = '20210101_1430_resultats_session_777.csv';
+            const expectedContent =
+              '\uFEFF' +
+              '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+              `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS}";777;"CentreCertif";"02/02/2020"`;
+            expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
+          });
+        });
+      });
+
+      context('when the reason is not enough answers', function () {
+        it('should return correct csvContent with auto jury comment for organization', async function () {
           // given
           const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
 
@@ -67,7 +113,9 @@ describe('Integration | Application | UseCases | certification-results | get-ses
             externalId: 'TOTODGE',
             createdAt: new Date('2020-02-02'),
             pixScore: 66,
-            commentForOrganization: null,
+            commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+              commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_LACK_OF_ANSWERS,
+            }),
             competencesWithMark: competencesWithMark,
             complementaryCertificationCourseResults: [],
           });
@@ -81,213 +129,223 @@ describe('Integration | Application | UseCases | certification-results | get-ses
           const expectedContent =
             '\uFEFF' +
             '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
-            `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${REJECTED_AUTOMATICALLY_COMMENT}";777;"CentreCertif";"02/02/2020"`;
+            `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${translate('jury.comment.REJECTED_DUE_TO_LACK_OF_ANSWERS.organization')}";777;"CentreCertif";"02/02/2020"`;
           expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
         });
       });
     });
+  });
 
-    context('when certification is cancelled', function () {
-      it('should return correct csvContent with cancelled status and dashes as Pix scores', async function () {
-        // given
-        const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
-        const competencesWithMark = [
-          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
-          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
-          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
-        ];
-        const certifResult = domainBuilder.buildCertificationResult.cancelled({
-          id: 123,
-          lastName: 'Oxford',
-          firstName: 'Lili',
-          birthdate: '1990-01-04',
-          birthplace: 'Torreilles',
-          externalId: 'LOLORD',
-          createdAt: new Date('2020-01-01'),
-          pixScore: 55,
-          commentForOrganization: 'RAS',
-          competencesWithMark: competencesWithMark,
-          complementaryCertificationCourseResults: [],
-        });
-
-        const certificationResults = [certifResult];
-
-        // when
-        const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
-
-        // then
-        const expectedFilename = '20210101_1430_resultats_session_777.csv';
-        const expectedContent =
-          '\uFEFF' +
-          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
-          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"RAS";777;"CentreCertif";"01/01/2020"';
-        expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
+  context('when certification is cancelled', function () {
+    it('should return correct csvContent with cancelled status and dashes as Pix scores', async function () {
+      // given
+      const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+      const competencesWithMark = [
+        domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+        domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+        domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+      ];
+      const certifResult = domainBuilder.buildCertificationResult.cancelled({
+        id: 123,
+        lastName: 'Oxford',
+        firstName: 'Lili',
+        birthdate: '1990-01-04',
+        birthplace: 'Torreilles',
+        externalId: 'LOLORD',
+        createdAt: new Date('2020-01-01'),
+        pixScore: 55,
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          fallbackComment: 'RAS',
+        }),
+        competencesWithMark: competencesWithMark,
+        complementaryCertificationCourseResults: [],
       });
+
+      const certificationResults = [certifResult];
+
+      // when
+      const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
+
+      // then
+      const expectedFilename = '20210101_1430_resultats_session_777.csv';
+      const expectedContent =
+        '\uFEFF' +
+        '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+        '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"RAS";777;"CentreCertif";"01/01/2020"';
+      expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
+    });
+  });
+
+  context('when at least one certification course is in error', function () {
+    it('should return correct csvContent with error status and dashes as Pix scores', async function () {
+      // given
+      const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+      const competencesWithMark = [
+        domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+        domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+      ];
+      const certifResult = domainBuilder.buildCertificationResult.error({
+        id: 123,
+        lastName: 'Oxford',
+        firstName: 'Lili',
+        birthdate: '1990-01-04',
+        birthplace: 'Torreilles',
+        externalId: 'LOLORD',
+        createdAt: new Date('2020-01-01'),
+        pixScore: 55,
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          fallbackComment: 'RAS',
+        }),
+        competencesWithMark: competencesWithMark,
+        complementaryCertificationCourseResults: [],
+      });
+
+      const certificationResults = [certifResult];
+
+      // when
+      const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
+
+      // then
+      const expectedFilename = '20210101_1430_resultats_session_777.csv';
+      const expectedContent =
+        '\uFEFF' +
+        '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+        '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"En erreur";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"RAS";777;"CentreCertif";"01/01/2020"';
+      expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
+    });
+  });
+
+  context(`when at least one candidate has passed PIX_EMPLOI_CLEA_V3 certification`, function () {
+    it(`should return correct csvContent with the PIX_EMPLOI_CLEA_V3 information`, async function () {
+      // given
+      const expectedHeader = 'Certification skateboard numérique';
+      const label = 'skateboard numérique';
+      const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+      const competencesWithMark = [
+        domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+        domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+      ];
+      const certifResult = domainBuilder.buildCertificationResult.validated({
+        id: 123,
+        lastName: 'Oxford',
+        firstName: 'Lili',
+        birthdate: '1990-01-04',
+        birthplace: 'Torreilles',
+        externalId: 'LOLORD',
+        createdAt: new Date('2020-01-01'),
+        pixScore: 55,
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          fallbackComment: 'RAS',
+        }),
+        competencesWithMark: competencesWithMark,
+        complementaryCertificationCourseResults: [
+          domainBuilder.buildComplementaryCertificationCourseResult({ acquired: true, label }),
+        ],
+      });
+
+      const certificationResults = [certifResult];
+
+      // when
+      const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
+
+      // then
+      const expectedFilename = '20210101_1430_resultats_session_777.csv';
+      const expectedContent =
+        '\uFEFF' +
+        `"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"${expectedHeader}";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n` +
+        '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Validée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
+      expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
     });
 
-    context('when at least one certification course is in error', function () {
-      it('should return correct csvContent with error status and dashes as Pix scores', async function () {
-        // given
-        const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
-        const competencesWithMark = [
-          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
-          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
-        ];
-        const certifResult = domainBuilder.buildCertificationResult.error({
-          id: 123,
-          lastName: 'Oxford',
-          firstName: 'Lili',
-          birthdate: '1990-01-04',
-          birthplace: 'Torreilles',
-          externalId: 'LOLORD',
-          createdAt: new Date('2020-01-01'),
-          pixScore: 55,
-          commentForOrganization: 'RAS',
-          competencesWithMark: competencesWithMark,
-          complementaryCertificationCourseResults: [],
-        });
-
-        const certificationResults = [certifResult];
-
-        // when
-        const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
-
-        // then
-        const expectedFilename = '20210101_1430_resultats_session_777.csv';
-        const expectedContent =
-          '\uFEFF' +
-          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
-          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"En erreur";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"RAS";777;"CentreCertif";"01/01/2020"';
-        expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
+    it(`should return a cancelled complementary certification when certification pix is cancelled`, async function () {
+      // given
+      const expectedHeader = 'Certification skateboard numérique';
+      const label = 'skateboard numérique';
+      const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+      const competencesWithMark = [
+        domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+        domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+      ];
+      const certifResult = domainBuilder.buildCertificationResult.cancelled({
+        id: 123,
+        lastName: 'Oxford',
+        firstName: 'Lili',
+        birthdate: '1990-01-04',
+        birthplace: 'Torreilles',
+        externalId: 'LOLORD',
+        createdAt: new Date('2020-01-01'),
+        pixScore: 55,
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          fallbackComment: 'RAS',
+        }),
+        competencesWithMark: competencesWithMark,
+        complementaryCertificationCourseResults: [
+          domainBuilder.buildComplementaryCertificationCourseResult({ acquired: true, label }),
+        ],
       });
+
+      const certificationResults = [certifResult];
+
+      // when
+      const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
+
+      // then
+      const expectedFilename = '20210101_1430_resultats_session_777.csv';
+      const expectedContent =
+        '\uFEFF' +
+        `"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"${expectedHeader}";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n` +
+        '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Annulée";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"RAS";777;"CentreCertif";"01/01/2020"';
+      expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
     });
+  });
 
-    context(`when at least one candidate has passed PIX_EMPLOI_CLEA_V3 certification`, function () {
-      it(`should return correct csvContent with the PIX_EMPLOI_CLEA_V3 information`, async function () {
-        // given
-        const expectedHeader = 'Certification skateboard numérique';
-        const label = 'skateboard numérique';
-        const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
-        const competencesWithMark = [
-          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
-          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
-        ];
-        const certifResult = domainBuilder.buildCertificationResult.validated({
-          id: 123,
-          lastName: 'Oxford',
-          firstName: 'Lili',
-          birthdate: '1990-01-04',
-          birthplace: 'Torreilles',
-          externalId: 'LOLORD',
-          createdAt: new Date('2020-01-01'),
-          pixScore: 55,
-          commentForOrganization: 'RAS',
-          competencesWithMark: competencesWithMark,
-          complementaryCertificationCourseResults: [
-            domainBuilder.buildComplementaryCertificationCourseResult({ acquired: true, label }),
-          ],
-        });
-
-        const certificationResults = [certifResult];
-
-        // when
-        const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
-
-        // then
-        const expectedFilename = '20210101_1430_resultats_session_777.csv';
-        const expectedContent =
-          '\uFEFF' +
-          `"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"${expectedHeader}";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n` +
-          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Validée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
-        expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
+  context('when there are several complementary certifications', function () {
+    it('should return correct csvContent with complementary informations', async function () {
+      // given
+      const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+      const competencesWithMark = [
+        domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+        domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+      ];
+      const certifResult = domainBuilder.buildCertificationResult.validated({
+        id: 123,
+        lastName: 'Oxford',
+        firstName: 'Lili',
+        birthdate: '1990-01-04',
+        birthplace: 'Torreilles',
+        externalId: 'LOLORD',
+        createdAt: new Date('2020-01-01'),
+        pixScore: 55,
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          fallbackComment: 'RAS',
+        }),
+        competencesWithMark: competencesWithMark,
+        complementaryCertificationCourseResults: [
+          domainBuilder.buildComplementaryCertificationCourseResult({
+            id: 1,
+            acquired: false,
+            label: 'Pix+ Bandjo Maître',
+          }),
+          domainBuilder.buildComplementaryCertificationCourseResult({
+            id: 2,
+            acquired: true,
+            label: 'Pix+ Bandjo Expert',
+          }),
+        ],
       });
 
-      it(`should return a cancelled complementary certification when certification pix is cancelled`, async function () {
-        // given
-        const expectedHeader = 'Certification skateboard numérique';
-        const label = 'skateboard numérique';
-        const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
-        const competencesWithMark = [
-          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
-          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
-        ];
-        const certifResult = domainBuilder.buildCertificationResult.cancelled({
-          id: 123,
-          lastName: 'Oxford',
-          firstName: 'Lili',
-          birthdate: '1990-01-04',
-          birthplace: 'Torreilles',
-          externalId: 'LOLORD',
-          createdAt: new Date('2020-01-01'),
-          pixScore: 55,
-          commentForOrganization: 'RAS',
-          competencesWithMark: competencesWithMark,
-          complementaryCertificationCourseResults: [
-            domainBuilder.buildComplementaryCertificationCourseResult({ acquired: true, label }),
-          ],
-        });
+      const certificationResults = [certifResult];
 
-        const certificationResults = [certifResult];
+      // when
+      const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
 
-        // when
-        const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
-
-        // then
-        const expectedFilename = '20210101_1430_resultats_session_777.csv';
-        const expectedContent =
-          '\uFEFF' +
-          `"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"${expectedHeader}";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n` +
-          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Annulée";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"RAS";777;"CentreCertif";"01/01/2020"';
-        expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
-      });
-    });
-
-    context('when there are several complementary certifications', function () {
-      it('should return correct csvContent with complementary informations', async function () {
-        // given
-        const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
-        const competencesWithMark = [
-          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
-          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
-        ];
-        const certifResult = domainBuilder.buildCertificationResult.validated({
-          id: 123,
-          lastName: 'Oxford',
-          firstName: 'Lili',
-          birthdate: '1990-01-04',
-          birthplace: 'Torreilles',
-          externalId: 'LOLORD',
-          createdAt: new Date('2020-01-01'),
-          pixScore: 55,
-          commentForOrganization: 'RAS',
-          competencesWithMark: competencesWithMark,
-          complementaryCertificationCourseResults: [
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              id: 1,
-              acquired: false,
-              label: 'Pix+ Bandjo Maître',
-            }),
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              id: 2,
-              acquired: true,
-              label: 'Pix+ Bandjo Expert',
-            }),
-          ],
-        });
-
-        const certificationResults = [certifResult];
-
-        // when
-        const result = await getSessionCertificationResultsCsv({ session, certificationResults, i18n });
-
-        // then
-        const expectedFilename = '20210101_1430_resultats_session_777.csv';
-        const expectedContent =
-          '\uFEFF' +
-          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Certification Pix+ Bandjo Maître";"Certification Pix+ Bandjo Expert";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
-          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Rejetée";"Validée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
-        expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
-      });
+      // then
+      const expectedFilename = '20210101_1430_resultats_session_777.csv';
+      const expectedContent =
+        '\uFEFF' +
+        '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Certification Pix+ Bandjo Maître";"Certification Pix+ Bandjo Expert";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+        '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Rejetée";"Validée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
+      expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
     });
   });
 });
