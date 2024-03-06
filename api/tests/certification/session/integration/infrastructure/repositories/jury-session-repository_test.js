@@ -601,6 +601,7 @@ describe('Integration | Repository | JurySession', function () {
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal(`L'utilisateur d'id ${unknownUserId} n'existe pas`);
       });
     });
 
@@ -620,6 +621,7 @@ describe('Integration | Repository | JurySession', function () {
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal(`La session d'id ${unknownSessionId} n'existe pas.`);
       });
     });
   });
