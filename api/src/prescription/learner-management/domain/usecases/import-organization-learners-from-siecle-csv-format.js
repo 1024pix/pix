@@ -28,7 +28,7 @@ const importOrganizationLearnersFromSIECLECSVFormat = async function ({
     const readableStream = await importStorage.readFile({ filename });
     const buffer = await getDataBuffer(readableStream);
     const parser = OrganizationLearnerParser.buildParser(buffer, organization.id, i18n);
-    const result = parser.parse();
+    const result = parser.parse(parser.getFileEncoding());
     organizationLearnerData = result.learners;
   } finally {
     await importStorage.deleteFile({ filename });

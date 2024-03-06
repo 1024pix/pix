@@ -35,7 +35,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-        parser.parse();
+        parser.parse(parser.getFileEncoding());
 
         expect(learnerSet.learners).to.have.lengthOf(2);
       });
@@ -55,7 +55,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-        parser.parse();
+        parser.parse(parser.getFileEncoding());
 
         expect(learnerSet.learners[0].col2).to.equal('2010-01-20');
         expect(learnerSet.learners[1].col2).to.equal('2010-01-20');
@@ -86,7 +86,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-          const parsingError = await catchErr(parser.parse, parser)();
+          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
           expect(parsingError.code).to.equal('FIELD_MIN_LENGTH');
           expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel', limit: 12 });
@@ -106,7 +106,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-          const parsingError = await catchErr(parser.parse, parser)();
+          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
           expect(parsingError.code).to.equal('FIELD_MAX_LENGTH');
           expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel', limit: 8 });
@@ -125,7 +125,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-          const parsingError = await catchErr(parser.parse, parser)();
+          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
           expect(parsingError.code).to.equal('FIELD_REQUIRED');
           expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
@@ -145,7 +145,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-          const parsingError = await catchErr(parser.parse, parser)();
+          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
           expect(parsingError.code).to.equal('FIELD_BAD_VALUES');
           expect(parsingError.meta).to.deep.equal({
@@ -169,7 +169,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-          const parsingError = await catchErr(parser.parse, parser)();
+          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
           expect(parsingError.code).to.equal('FIELD_LENGTH');
           expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel', limit: 2 });
@@ -188,7 +188,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-          const parsingError = await catchErr(parser.parse, parser)();
+          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
           expect(parsingError.code).to.equal('FIELD_DATE_FORMAT');
           expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
@@ -207,7 +207,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-          const parsingError = await catchErr(parser.parse, parser)();
+          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
           expect(parsingError.code).to.equal('FIELD_DATE_FORMAT');
           expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
@@ -226,7 +226,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-          const parsingError = await catchErr(parser.parse, parser)();
+          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
           expect(parsingError.code).to.equal('FIELD_EMAIL_FORMAT');
           expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
@@ -248,7 +248,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-        const parsingError = await catchErr(parser.parse, parser)();
+        const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
         expect(parsingError.meta.line).to.equal(4);
       });
@@ -267,7 +267,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-      const error = await catchErr(parser.parse, parser)();
+      const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
       expect(error.code).to.equal('BAD_CSV_FORMAT');
     });
@@ -280,7 +280,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-      const error = await catchErr(parser.parse, parser)();
+      const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
       expect(error.code).to.equal('HEADER_UNKNOWN');
     });
@@ -291,7 +291,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-      const error = await catchErr(parser.parse, parser)();
+      const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
       expect(error.code).to.equal('HEADER_REQUIRED');
       expect(error.meta.field).to.equal('Column 1');
@@ -311,28 +311,28 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
     it('should parse UTF-8 encoding', function () {
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
-      parser.parse();
+      parser.parse(parser.getFileEncoding());
       expect(learnerSet.learners[0].firstName).to.equal('Éçéà niño véga');
     });
 
     it('should parse win1252 encoding (CSV WIN/MSDOS)', function () {
       const encodedInput = iconv.encode(input, 'win1252');
       const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
-      parser.parse();
+      parser.parse(parser.getFileEncoding());
       expect(learnerSet.learners[0].firstName).to.equal('Éçéà niño véga');
     });
 
     it('should parse macintosh encoding', function () {
       const encodedInput = iconv.encode(input, 'macintosh');
       const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
-      parser.parse();
+      parser.parse(parser.getFileEncoding());
       expect(learnerSet.learners[0].firstName).to.equal('Éçéà niño véga');
     });
 
     it('should throw an error if encoding not supported', async function () {
       const encodedInput = iconv.encode(input, 'utf16');
       const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
-      const error = await catchErr(parser.parse, parser)();
+      const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
       expect(error.code).to.equal('ENCODING_NOT_SUPPORTED');
     });

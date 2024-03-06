@@ -2,7 +2,7 @@ import { expect, sinon } from '../../../../../test-helper.js';
 import { replaceSupOrganizationLearners } from '../../../../../../src/prescription/learner-management/domain/usecases/replace-sup-organization-learner.js';
 import { SupOrganizationLearnerParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-parser.js';
 
-describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
+describe('Unit | UseCase | ReplaceSupOrganizationLearner', function () {
   let readableStream,
     filename,
     payload,
@@ -43,6 +43,7 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
     const warnings = Symbol('warnings');
 
     supOrganizationLearnerParserCreateStub.withArgs(buffer, organizationId, i18n).returns({
+      getFileEncoding: sinon.stub(),
       parse: sinon.stub().returns({ learners, warnings }),
     });
 
@@ -70,6 +71,7 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
   it('should return warnings about the import', async function () {
     const expectedWarnings = Symbol('warnings');
     supOrganizationLearnerParserCreateStub.withArgs(buffer, organizationId, i18n).returns({
+      getFileEncoding: sinon.stub(),
       parse: sinon.stub().returns({ learners, warnings: expectedWarnings }),
     });
 
@@ -91,6 +93,7 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
   });
   it('should delete file on s3', async function () {
     supOrganizationLearnerParserCreateStub.withArgs(buffer, organizationId, i18n).returns({
+      getFileEncoding: sinon.stub(),
       parse: sinon.stub().returns({ learners, warnings: {} }),
     });
     const supOrganizationLearnerRepository = {
