@@ -46,4 +46,22 @@ buildAssessmentResult.fraud = function ({ pixScore, reproducibilityRate, assessm
   return AssessmentResultFactory.buildFraud({ pixScore, reproducibilityRate, assessmentId, juryId, competenceMarks });
 };
 
+buildAssessmentResult.insufficientCorrectAnswers = function ({
+  pixScore,
+  reproducibilityRate,
+  assessmentId,
+  juryId,
+  competenceMarks,
+  emitter,
+} = {}) {
+  return AssessmentResultFactory.buildInsufficientCorrectAnswers({
+    pixScore,
+    reproducibilityRate,
+    assessmentId,
+    juryId,
+    competenceMarks,
+    emitter,
+  });
+};
+
 export { buildAssessmentResult };
