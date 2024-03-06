@@ -1,12 +1,13 @@
 import { expect, domainBuilder } from '../../../../../test-helper.js';
 
 import { getSessionCertificationResultsCsv } from '../../../../../../lib/infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
+import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
-const REJECTED_AUTOMATICALLY_COMMENT =
-  "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix";
+const REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS =
+  "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix.";
 
 describe('Integration | Application | UseCases | certification-results | get-session-certification-results-csv', function () {
   context('#getSessionCertificationResultsCsv', function () {
@@ -50,8 +51,8 @@ describe('Integration | Application | UseCases | certification-results | get-ses
         expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
       });
 
-      context('when certification has been rejected automatically', function () {
-        it('should return correct csvContent with automatically rejected comment for organization', async function () {
+      context('when certification has been rejected', function () {
+        it('should return correct csvContent with auto jury comment for organization', async function () {
           // given
           const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
 
@@ -69,7 +70,7 @@ describe('Integration | Application | UseCases | certification-results | get-ses
             externalId: 'TOTODGE',
             createdAt: new Date('2020-02-02'),
             pixScore: 66,
-            commentForOrganization: null,
+            commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
             competencesWithMark: competencesWithMark,
             complementaryCertificationCourseResults: [],
           });
@@ -83,7 +84,7 @@ describe('Integration | Application | UseCases | certification-results | get-ses
           const expectedContent =
             '\uFEFF' +
             '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
-            `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${REJECTED_AUTOMATICALLY_COMMENT}";777;"CentreCertif";"02/02/2020"`;
+            `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS}";777;"CentreCertif";"02/02/2020"`;
           expect(result).to.deep.equal({ filename: expectedFilename, content: expectedContent });
         });
       });

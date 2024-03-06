@@ -87,6 +87,7 @@ buildCertificationResult.rejected = function ({
   pixScore,
   emitter,
   commentForOrganization,
+  commentByAutoJury,
   competencesWithMark,
   complementaryCertificationCourseResults,
 }) {
@@ -103,6 +104,7 @@ buildCertificationResult.rejected = function ({
     pixScore,
     emitter,
     commentForOrganization,
+    commentByAutoJury,
     competencesWithMark,
     complementaryCertificationCourseResults,
   });

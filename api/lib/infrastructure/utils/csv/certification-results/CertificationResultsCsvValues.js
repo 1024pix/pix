@@ -84,10 +84,6 @@ class CertificationResultsCsvValues {
   }
 
   getCommentForOrganization(certificationResult) {
-    if (certificationResult.hasBeenRejectedAutomatically()) {
-      return this.getTranslation(CertificationResultsCsvValues.VALUES.REJECTED_AUTOMATICALLY_COMMENT);
-    }
-
     return certificationResult.commentForOrganization.getComment(this.translate);
   }
 

@@ -338,24 +338,6 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       });
     });
 
-    context('when complementary certification is rejected', function () {
-      it('should return that the certification has been automatically invalidated', function () {
-        // given
-        const certificationResult = domainBuilder.buildCertificationResult.rejected({
-          ...aCertificationResultData,
-          emitter: CertificationResult.emitters.PIX_ALGO,
-        });
-
-        // when
-        const result = new CertificationResultsCsvValues(i18n).getCommentForOrganization(certificationResult);
-
-        // then
-        expect(result).to.equal(
-          "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix",
-        );
-      });
-    });
-
     it('should return the comment', function () {
       // given
       const certificationResult = domainBuilder.buildCertificationResult.validated(aCertificationResultData);
