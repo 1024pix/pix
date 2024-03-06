@@ -26,10 +26,10 @@ module('Acceptance | Campaign Parameters', function (hooks) {
     const screen = await visitScreen(`/campagnes/${campaign.id}/parametres`);
 
     // when
-    await clickByName('Archiver');
+    await clickByName(this.intl.t('pages.campaign-settings.actions.archive'));
 
     // then
-    assert.dom(screen.getByText(this.intl.t('pages.campaign.archived'))).exists();
+    assert.ok(await screen.findByText(this.intl.t('pages.campaign.archived')));
   });
 
   test('it should display error notification when something bad happened', async function (assert) {
@@ -40,9 +40,9 @@ module('Acceptance | Campaign Parameters', function (hooks) {
     const screen = await visitScreen(`/campagnes/${campaign.id}/parametres`);
 
     // when
-    await clickByName('Archiver');
+    await clickByName(this.intl.t('pages.campaign-settings.actions.archive'));
 
     // then
-    assert.dom(screen.getByText(this.intl.t('api-error-messages.global'))).exists();
+    assert.ok(await screen.findByText(this.intl.t('api-error-messages.global')));
   });
 });
