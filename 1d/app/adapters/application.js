@@ -7,7 +7,7 @@ export default class Application extends JSONAPIAdapter {
 
   get headers() {
     return {
-      'X-App-Version': ENV.APP.version,
+      'X-App-Version': ENV.APP.APP_VERSION,
     };
   }
 }

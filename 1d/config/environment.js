@@ -25,6 +25,7 @@ module.exports = function (environment) {
       EMBED_ALLOWED_ORIGINS: (
         process.env.EMBED_ALLOWED_ORIGINS || 'https://epreuves.pix.fr,https://1024pix.github.io'
       ).split(','),
+      APP_VERSION: process.env.SOURCE_VERSION || 'development',
     },
     'ember-cli-mirage': {
       usingProxy: true,
