@@ -369,9 +369,19 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct ! <span aria-hidden=\"true\">🎉</span> Tout est dans l'ordre : l'identifiant, l'arobase puis le fournisseur d'adresse mail</p>",
-                "invalid": "<p class=\"pix-list-inline\">Et non, essayez à nouveau ! <span aria-hidden=\"true\">⏮️</span> ! Voici de l'aide pour trouver l'adresse mail.</p><ul><li>L'ordre à suivre est : l'identifiant, l'arobase puis le fournisseur d'adresse mail.</li></ul><p>Les adresses mails fournies par Yahoo se terminent par yahoo.com.</p>"
+                "valid": "<p>Correct. <span aria-hidden=\"true\">🎉</span> Tout est dans l'ordre : l'identifiant, l'arobase puis le fournisseur d'adresse mail</p>",
+                "invalid": "<p> Incorrect. Pour réussir la prochaine fois, lisez les indices ci-dessous <span aria-hidden=\"true\">👇</span> </p>"
               }
+            },
+            {
+              "id": "6c69a919-4fc6-4039-9abc-ad70c49be7d8",
+              "type": "text",
+              "content": "<hr>Si vous êtes bloqué, vous pouvez lire les indices ci-dessous."
+            },
+            {
+              "id": "0856af53-1060-478f-8416-ddbc5ed3940c",
+              "type": "text",
+              "content": "<h3>Indice n°1 :</h3><p>L'ordre à suivre est : l'identifiant, l'arobase puis le fournisseur d'adresse mail.</p><h3>Indice n°2 :</h3><p>Les adresses mails fournies par Yahoo se terminent par yahoo.com.</p>"
             }
           ]
         }
