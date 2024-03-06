@@ -85,7 +85,8 @@ const batchCreateOrganizations = async function (
 
   return bluebird.map(
     organizations,
-    async (organization) => {
+    async (organizationCsvData) => {
+      const { organization } = organizationCsvData;
       const [createdOrganization] = await knexConn(ORGANIZATIONS_TABLE_NAME)
         .insert(
           _.pick(organization, [
@@ -115,7 +116,7 @@ const batchCreateOrganizations = async function (
 
       return {
         createdOrganization,
-        organizationToCreate: organization,
+        organizationToCreate: organizationCsvData,
       };
     },
     {
