@@ -6,6 +6,38 @@ import sinon from 'sinon';
 module('Unit | Component | Module | Video', function (hooks) {
   setupTest(hooks);
 
+  module('#hasSubtitles', function () {
+    test('should return true if video has a transcription', function (assert) {
+      // given
+      const video = {
+        title: '',
+        url: '',
+        subtitles: 'hello',
+        transcription: '',
+      };
+
+      const component = createPodsComponent('module/video', { video });
+
+      // when & then
+      assert.true(component.hasSubtitles);
+    });
+
+    test('should return false if video has an empty transcription', function (assert) {
+      // given
+      const video = {
+        title: '',
+        url: '',
+        subtitles: '',
+        transcription: '',
+      };
+
+      const component = createPodsComponent('module/video', { video });
+
+      // when & then
+      assert.false(component.hasSubtitles);
+    });
+  });
+
   module(`#hasTranscription`, function () {
     test(`should return true if video has a transcription`, function (assert) {
       // given
