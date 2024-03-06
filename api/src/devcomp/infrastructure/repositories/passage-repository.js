@@ -1,9 +1,9 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Passage } from '../../domain/models/Passage.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 
-const save = async function ({ moduleId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+const save = async ({ moduleId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) => {
   const knexConn = domainTransaction?.knexTransaction || knex;
   const [passage] = await knexConn('passages')
     .insert({
@@ -17,7 +17,7 @@ const save = async function ({ moduleId, userId, domainTransaction = DomainTrans
   return _toDomain(passage);
 };
 
-const get = async function ({ passageId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+const get = async ({ passageId, domainTransaction = DomainTransaction.emptyTransaction() }) => {
   const knexConn = domainTransaction?.knexTransaction || knex;
   const passage = await knexConn('passages').where({ id: passageId }).first();
   if (!passage) {
@@ -27,8 +27,21 @@ const get = async function ({ passageId, domainTransaction = DomainTransaction.e
   return _toDomain(passage);
 };
 
-function _toDomain({ id, moduleId, userId, createdAt, updatedAt }) {
-  return new Passage({ id, moduleId, userId, createdAt, updatedAt });
+const update = async ({ passage, domainTransaction = DomainTransaction.emptyTransaction() }) => {
+  const knexConn = domainTransaction?.knexTransaction || knex;
+  const [updatedPassage] = await knexConn('passages')
+    .where({ id: passage.id })
+    .update({
+      ...passage,
+      updatedAt: new Date(),
+    })
+    .returning('*');
+
+  return _toDomain(updatedPassage);
+};
+
+function _toDomain({ id, moduleId, userId, createdAt, updatedAt, terminatedAt }) {
+  return new Passage({ id, moduleId, userId, createdAt, updatedAt, terminatedAt });
 }
 
-export { get, save };
+export { get, save, update };
