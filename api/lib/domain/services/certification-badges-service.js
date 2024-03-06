@@ -1,3 +1,6 @@
+/**
+ * @typedef {import ('../models/CertifiableBadgeAcquisition.js').CertifiableBadgeAcquisition} CertifiableBadgeAcquisition
+ */
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
@@ -23,6 +26,15 @@ const findLatestBadgeAcquisitions = async function ({
   return _findBadgeAcquisitions({ userId, domainTransaction, limitDate, shouldGetOutdated: true, dependencies });
 };
 
+/**
+ * @param {Object} params
+ * @param {Object} params.dependencies
+ * @param {certifiableBadgeAcquisitionRepository} params.dependencies.certifiableBadgeAcquisitionRepository
+ * @param {knowledgeElementRepository} params.dependencies.knowledgeElementRepository
+ * @param {badgeForCalculationRepository} params.dependencies.badgeForCalculationRepository
+ *
+ * @returns {Array<CertifiableBadgeAcquisition>} acquired complementary certification badges by a user
+ */
 const _findBadgeAcquisitions = async function ({
   userId,
   domainTransaction,

@@ -188,10 +188,13 @@ function requirePoleEmploiNotifier() {
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
+ * @typedef {certificationBadgesService} CertificationBadgesService
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationRepository} CertificationRepository
+ * @typedef {complementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {mailService} MailService
+ * @typedef {placementProfileService} PlacementProfileService
  * @typedef {sessionPublicationService} SessionPublicationService
  * @typedef {sessionRepository} SessionRepository
  */

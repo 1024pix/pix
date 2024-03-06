@@ -8,6 +8,11 @@ import * as correctionRepository from './correction-repository.js';
 import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.js';
 import * as tutorialRepository from './tutorial-repository.js';
 
+/**
+ * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
+ *
+ * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
+ */
 const repositoriesWithoutInjectedDependencies = {
   correctionRepository,
   trainingRepository,
@@ -17,6 +22,11 @@ const repositoriesWithoutInjectedDependencies = {
   userRecommendedTrainingRepository,
 };
 
+/**
+ * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
+ *
+ * @typedef {complementaryCertificationApi} ComplementaryCertificationApi
+ */
 const dependencies = {
   fromDatasourceObject,
   getCorrection,

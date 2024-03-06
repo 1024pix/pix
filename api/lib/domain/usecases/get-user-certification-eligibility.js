@@ -1,10 +1,23 @@
+/**
+ * @typedef {import ('../../domain/usecases/index.js').CertificationBadgesService} CertificationBadgesService
+ * @typedef {import ('../../domain/usecases/index.js').ComplementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
+ * @typedef {import ('../../domain/usecases/index.js').PlacementProfileService} PlacementProfileService
+ */
 import { CertificationEligibility } from '../read-models/CertificationEligibility.js';
 
+/**
+ * @param {Object} params
+ * @param {CertificationBadgesService} params.certificationBadgesService
+ * @param {ComplementaryCertificationCourseRepository} params.complementaryCertificationCourseRepository
+ * @param {PlacementProfileService} params.placementProfileService
+ *
+ * @returns {CertificationEligibility}
+ */
 const getUserCertificationEligibility = async function ({
   userId,
+  limitDate = new Date(),
   placementProfileService,
   certificationBadgesService,
-  limitDate = new Date(),
   complementaryCertificationCourseRepository,
 }) {
   const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate });
