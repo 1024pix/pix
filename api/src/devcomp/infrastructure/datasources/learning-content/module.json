@@ -1766,6 +1766,11 @@
               "solution": "1"
             },
             {
+              "id": "4d3fc4dc-3a53-4ef0-9bfd-eac3dd9a3e36",
+              "type": "text",
+              "content": "<hr>"
+            },
+            {
               "id": "6f0e2bdd-c56f-45d4-ab0a-1497b9cfdc1e",
               "type": "qcu",
               "instruction": "<p>Cette adresse permet les échanges entre une box internet et les appareils connectés à cette box.</p>",
@@ -1784,6 +1789,11 @@
                 "invalid": "<p>Incorrect. L'adresse IP publique permet les échanges entre une box internet et les sites visités.</p>"
               },
               "solution": "2"
+            },
+            {
+              "id": "4547715b-b5eb-48be-b14c-4ddff4d3802d",
+              "type": "text",
+              "content": "<hr>"
             },
             {
               "id": "952234bc-4ec1-4ebd-9208-6cc261a1efd8",
