@@ -4,6 +4,7 @@ import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.js';
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', function () {
@@ -53,6 +54,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     };
 
     organizationInvitationService.createProOrganizationInvitation.resolves();
+    sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
   });
 
   context('#errors', function () {
@@ -126,6 +128,13 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
         // then
         expect(error).to.be.instanceOf(OrganizationTagNotFound);
         expect(error.message).to.be.equal("Le tag TagNotFound de l'organisation organization A n'existe pas.");
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+          message: `Le tag TagNotFound de l'organisation organization A n'existe pas.`,
+          context: 'create-organizations-with-tags-and-target-profiles',
+          error: { name: 'OrganizationTagNotFound' },
+          event: 'add-organizations-tags',
+          team: 'acces',
+        });
       });
     });
   });
