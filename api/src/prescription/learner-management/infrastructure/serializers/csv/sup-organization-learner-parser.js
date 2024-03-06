@@ -9,6 +9,10 @@ const ERRORS = {
 };
 
 class SupOrganizationLearnerParser extends CsvOrganizationLearnerParser {
+  static create(input, organizationId, i18n) {
+    return new SupOrganizationLearnerParser(input, organizationId, i18n);
+  }
+
   constructor(input, organizationId, i18n) {
     const LearnerSet = new SupOrganizationLearnerSet(i18n);
 
