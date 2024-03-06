@@ -6,6 +6,44 @@ const FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID = COMMON_OFFSET_ID + 2;
 const FEATURE_PLACES_MANAGEMENT_ID = COMMON_OFFSET_ID + 3;
 const FEATURE_MISSIONS_MANAGEMENT_ID = COMMON_OFFSET_ID + 4;
 
+//TAGS
+const AGRICULTURE_TAG = {
+  id: 1,
+  name: 'AGRICULTURE',
+};
+const PUBLIC_TAG = {
+  id: 2,
+  name: 'PUBLIC',
+};
+const PRIVE_TAG = {
+  id: 3,
+  name: 'PRIVE',
+};
+const POLE_EMPLOI_TAG = {
+  id: 4,
+  name: 'POLE_EMPLOI',
+};
+const CFA_TAG = {
+  id: 5,
+  name: 'CFA',
+};
+const AEFE_TAG = {
+  id: 6,
+  name: 'AEFE',
+};
+const MEDNUM_TAG = {
+  id: 7,
+  name: 'MEDNUM',
+};
+const COLLEGE_TAG = {
+  id: 8,
+  name: 'COLLEGE',
+};
+const LYCEE_TAG = {
+  id: 9,
+  name: 'LYCEE',
+};
+
 //USERS
 const SCO_ORGANIZATION_USER_ID = COMMON_OFFSET_ID;
 const SUP_ORGANIZATION_USER_ID = COMMON_OFFSET_ID + 1;
@@ -36,4 +74,13 @@ export {
   PRO_ORGANIZATION_ID,
   SCO_MANAGING_ORGANIZATION_ID,
   SUP_MANAGING_ORGANIZATION_ID,
+  AGRICULTURE_TAG,
+  PUBLIC_TAG,
+  PRIVE_TAG,
+  POLE_EMPLOI_TAG,
+  CFA_TAG,
+  AEFE_TAG,
+  MEDNUM_TAG,
+  COLLEGE_TAG,
+  LYCEE_TAG,
 };
