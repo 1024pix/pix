@@ -1696,7 +1696,7 @@
               ],
               "feedbacks": {
                 "valid": "<p>Correct. <span aria-hidden=\"true\">🎉</span></p>",
-                "invalid": "<p>Incorrect. Pour trouver la réponse, vous pouvez faire une recherche sur internet avec les mots-clés \"localisation adresse IP\".</p>"
+                "invalid": "<p>Incorrect. Pour réussir, utilisez un site internet dédié. Pour le trouver, faites une recherche sur internet avec les mots-clés \"localisation adresse IP\".</p>"
               }
             },
             {
