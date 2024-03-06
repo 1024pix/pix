@@ -95,4 +95,26 @@ export class AssessmentResultFactory {
       commentForOrganization,
     });
   }
+
+  static buildInsufficientCorrectAnswers({ pixScore, reproducibilityRate, assessmentId, emitter }) {
+    const commentForCandidate = new JuryComment({
+      context: JuryCommentContexts.CANDIDATE,
+      commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
+    });
+
+    const commentForOrganization = new JuryComment({
+      context: JuryCommentContexts.ORGANIZATION,
+      commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
+    });
+
+    return new AssessmentResult({
+      emitter,
+      commentForCandidate,
+      commentForOrganization,
+      pixScore,
+      reproducibilityRate,
+      status: AssessmentResult.status.REJECTED,
+      assessmentId,
+    });
+  }
 }
