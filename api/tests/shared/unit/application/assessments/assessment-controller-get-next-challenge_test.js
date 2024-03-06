@@ -12,7 +12,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
     let assessmentWithoutScore;
     let assessmentWithScore;
     let certificationChallengeRepository;
-    let certificationCourseRepository;
+    let certificationVersionRepository;
     let dependencies;
     let scoredAsssessment;
     let usecases;
@@ -54,13 +54,13 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       };
       usecases.getAssessment.resolves(scoredAsssessment);
       certificationChallengeRepository = { getNextNonAnsweredChallengeByCourseId: sinon.stub() };
-      certificationCourseRepository = { get: sinon.stub() };
+      certificationVersionRepository = { getByCertificationCourseId: sinon.stub() };
 
       dependencies = {
         usecases,
         certificationChallengeRepository,
-        certificationCourseRepository,
         assessmentRepository,
+        certificationVersionRepository,
       };
     });
 
@@ -169,14 +169,10 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       });
 
       context('when the certification is V2', function () {
-        let certificationCourseV2;
-
         beforeEach(function () {
-          certificationCourseV2 = domainBuilder.buildCertificationCourse({ version: 2 });
-
-          certificationCourseRepository.get
-            .withArgs(certificationAssessment.certificationCourseId)
-            .resolves(certificationCourseV2);
+          certificationVersionRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId: certificationAssessment.certificationCourseId })
+            .resolves(2);
         });
 
         it('should call getNextChallengeForCertificationCourse in assessmentService', async function () {
@@ -217,14 +213,10 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       });
 
       context('when the certification is V3', function () {
-        let certificationCourseV3;
-
         beforeEach(function () {
-          certificationCourseV3 = domainBuilder.buildCertificationCourse({ version: 3 });
-
-          certificationCourseRepository.get
-            .withArgs(certificationAssessment.certificationCourseId)
-            .resolves(certificationCourseV3);
+          certificationVersionRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId: certificationAssessment.certificationCourseId })
+            .resolves(3);
         });
 
         it('should call getNextChallengeForCertificationCourse in assessmentService', async function () {
