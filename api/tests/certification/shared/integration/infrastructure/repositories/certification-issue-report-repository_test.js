@@ -31,7 +31,9 @@ describe('Integration | Repository | Certification Issue Report', function () {
         });
 
         // when
-        const savedCertificationIssueReport = await certificationIssueReportRepository.save(certificationIssueReport);
+        const savedCertificationIssueReport = await certificationIssueReportRepository.save({
+          certificationIssueReport,
+        });
 
         // then
         const expectedSavedCertificationIssueReport = domainBuilder.buildCertificationIssueReport({
@@ -86,7 +88,9 @@ describe('Integration | Repository | Certification Issue Report', function () {
         };
 
         // when
-        const savedCertificationIssueReport = await certificationIssueReportRepository.save(updatedIssueReport);
+        const savedCertificationIssueReport = await certificationIssueReportRepository.save({
+          certificationIssueReport: updatedIssueReport,
+        });
 
         // then
         const expectedSavedCertificationIssueReport = domainBuilder.buildCertificationIssueReport({

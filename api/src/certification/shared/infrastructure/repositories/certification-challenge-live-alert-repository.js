@@ -13,7 +13,7 @@ const save = async function ({ certificationChallengeLiveAlert }) {
     .merge();
 };
 
-const getByAssessmentId = async (assessmentId) => {
+const getByAssessmentId = async ({ assessmentId }) => {
   const certificationChallengeLiveAlertsDto = await knex('certification-challenge-live-alerts').where({
     assessmentId,
   });
@@ -21,7 +21,7 @@ const getByAssessmentId = async (assessmentId) => {
   return certificationChallengeLiveAlertsDto.map(_toDomain);
 };
 
-const getLiveAlertValidatedChallengeIdsByAssessmentId = async (assessmentId) => {
+const getLiveAlertValidatedChallengeIdsByAssessmentId = async ({ assessmentId }) => {
   const liveAlertValidatedChallengeIds = await knex('certification-challenge-live-alerts').select('challengeId').where({
     assessmentId,
     status: CertificationChallengeLiveAlertStatus.VALIDATED,

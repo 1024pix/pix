@@ -47,7 +47,7 @@ async function _addDemoRelatedAttributes(assessment, courseRepository) {
 
 async function _addCertificationRelatedAttributes(assessment, liveAlertRepository) {
   if (assessment.type === Assessment.types.CERTIFICATION) {
-    const liveAlerts = await liveAlertRepository.getByAssessmentId(assessment.id);
+    const liveAlerts = await liveAlertRepository.getByAssessmentId({ assessmentId: assessment.id });
 
     assessment.attachLiveAlerts(liveAlerts);
   }

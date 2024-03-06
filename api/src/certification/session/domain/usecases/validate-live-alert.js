@@ -1,11 +1,9 @@
 /**
  * @typedef {import('../../../shared/domain/usecases/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  *
- *
  * @typedef {import('../../../shared/domain/usecases/index.js').AssessmentRepository} AssessmentRepository
  *
  * @typedef {import('../../../shared/domain/usecases/index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
- *
  *
  * @typedef {import('../../../shared/domain/usecases/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
  */
@@ -58,7 +56,7 @@ export const validateLiveAlert = async ({
     'Le signalement a été validé par le surveillant pendant la session. Une nouvelle question a été proposée au candidat';
   certificationIssueReport.resolveAutomatically(ISSUE_REPORT_RESOLUTION);
 
-  await certificationIssueReportRepository.save(certificationIssueReport);
+  await certificationIssueReportRepository.save({ certificationIssueReport });
 
   await certificationChallengeLiveAlertRepository.save({
     certificationChallengeLiveAlert,
