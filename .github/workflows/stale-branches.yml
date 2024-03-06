@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: "Manage Stale Branches"
         id: branch_cleaner
-        uses: crazy-matt/manage-stale-branches@1.0.1
+        uses: crazy-matt/manage-stale-branches@1.1.0
         with:
           gh_token: ${{ env.PIX_SERVICE_ACTIONS_TOKEN }}
           stale_older_than: 60
