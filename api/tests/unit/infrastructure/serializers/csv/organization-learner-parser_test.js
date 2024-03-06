@@ -216,6 +216,16 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
               status: 'AP',
             });
           });
+          it('should throw a CsvImportError if national student id is missing', async function () {
+            const input = `${organizationLearnerCsvColumns}
+            ;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
+            `;
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
+            const error = await catchErr(parser.parse, parser)();
+            expect(error.code).to.equal('FIELD_REQUIRED');
+            expect(error.meta).to.deep.equal({ field: 'Identifiant unique*', line: 2 });
+          });
         });
 
         context('When csv has duplicates on national identifier', function () {
