@@ -13,3 +13,16 @@ export async function waitForDialog() {
     }
   });
 }
+
+export async function waitForDialogDisappearance() {
+  const screen = await getScreen();
+
+  await waitUntil(() => {
+    try {
+      screen.getByRole('dialog');
+      return false;
+    } catch {
+      return true;
+    }
+  });
+}
