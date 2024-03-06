@@ -8,7 +8,7 @@ import * as studentCertificationSerializer from '../../infrastructure/serializer
 import * as sessionSummarySerializer from '../../infrastructure/serializers/jsonapi/session-summary-serializer.js';
 import * as certificationCenterInvitationSerializer from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 
-import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
+import { extractParameters } from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import lodash from 'lodash';
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 

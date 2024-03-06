@@ -1,7 +1,7 @@
 import { usecases } from '../domain/usecases/index.js';
 import * as supOrganizationParticipantsSerializer from '../infrastructure/serializers/jsonapi/sup-organization-participants-serializer.js';
 import { mapCertificabilityByLabel } from './../../shared/application/helpers.js';
-import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
 
 const findPaginatedFilteredSupParticipants = async function (
   request,

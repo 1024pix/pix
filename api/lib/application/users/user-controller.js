@@ -20,7 +20,7 @@ import * as userOrganizationForAdminSerializer from '../../infrastructure/serial
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
 import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
 
-import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
+import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { usecases as devcompUsecases } from '../../../src/devcomp/domain/usecases/index.js';

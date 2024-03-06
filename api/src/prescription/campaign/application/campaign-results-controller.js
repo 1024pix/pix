@@ -3,7 +3,7 @@ import * as campaignProfilesCollectionParticipationSummarySerializer from '../in
 
 import { certificabilityByLabel } from '../../shared/application/helpers.js';
 
-import { extractParameters } from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import { extractParameters } from '../../../shared/infrastructure/utils/query-params-utils.js';
 
 import { usecases } from '../domain/usecases/index.js';
 

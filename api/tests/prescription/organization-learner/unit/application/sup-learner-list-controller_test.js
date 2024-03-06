@@ -3,7 +3,7 @@ import { expect, hFake, sinon } from '../../../../test-helper.js';
 import { SupOrganizationParticipant } from '../../../../../src/prescription/organization-learner/domain/read-models/SupOrganizationParticipant.js';
 import { supLearnerListController } from '../../../../../src/prescription/organization-learner/application/sup-learner-list-controller.js';
 import { usecases } from '../../../../../src/prescription/organization-learner/domain/usecases/index.js';
-import * as queryParamsUtils from '../../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as queryParamsUtils from '../../../../../src/shared/infrastructure/utils/query-params-utils.js';
 
 describe('Unit | Application | sup-learner-list-controller', function () {
   describe('#findPaginatedFilteredSupParticipants', function () {

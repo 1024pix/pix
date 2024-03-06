@@ -1,5 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
-import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
+import { extractParameters } from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import * as campaignDetailsManagementSerializer from '../../infrastructure/serializers/jsonapi/campaign-details-management-serializer.js';
 import * as participationForCampaignManagementSerializer from '../../infrastructure/serializers/jsonapi/participation-for-campaign-management-serializer.js';
 
