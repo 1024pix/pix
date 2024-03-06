@@ -80,11 +80,17 @@ async function _handleV2CertificationScoring({
     });
     const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
     certificationCourse.complete({ now: new Date() });
+    const assessmentResult = await _createV2AssessmentResult({
+      certificationAssessment,
+      certificationAssessmentScore,
+    });
+
     await _saveV2Result({
+      assessmentResult,
       certificationAssessmentScore,
       certificationAssessment,
-      assessmentResultRepository,
       certificationCourse,
+      assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
     });
@@ -206,26 +212,20 @@ function _candidateDidNotAnswerEnoughV3CertificationQuestions({ allAnswers }) {
 }
 
 async function _saveV2Result({
-  certificationAssessment,
+  assessmentResult,
   certificationAssessmentScore,
-  assessmentResultRepository,
+  certificationAssessment,
   certificationCourse,
+  assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
 }) {
-  const assessmentResult = await _createV2AssessmentResult({
-    certificationAssessment,
-    certificationAssessmentScore,
-    assessmentResultRepository,
+  const newAssessmentResult = await assessmentResultRepository.save({
+    certificationCourseId: certificationAssessment.certificationCourseId,
+    assessmentResult,
   });
 
-  await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
-    const competenceMarkDomain = new CompetenceMark({
-      ...competenceMark,
-      assessmentResultId: assessmentResult.id,
-    });
-    return competenceMarkRepository.save(competenceMarkDomain);
-  });
+  await _saveCompetenceMarks({ certificationAssessmentScore, newAssessmentResult, competenceMarkRepository });
   return certificationCourseRepository.update(certificationCourse);
 }
 
@@ -253,21 +253,23 @@ async function _saveV3Result({
   return certificationCourseRepository.update(certificationCourse);
 }
 
-function _createV2AssessmentResult({
-  certificationAssessment,
-  certificationAssessmentScore,
-  assessmentResultRepository,
-}) {
-  const assessmentResult = AssessmentResultFactory.buildStandardAssessmentResult({
+function _createV2AssessmentResult({ certificationAssessment, certificationAssessmentScore }) {
+  return AssessmentResultFactory.buildStandardAssessmentResult({
     pixScore: certificationAssessmentScore.nbPix,
     reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
     status: certificationAssessmentScore.status,
     assessmentId: certificationAssessment.id,
     emitter: AssessmentResult.emitters.PIX_ALGO,
   });
-  return assessmentResultRepository.save({
-    certificationCourseId: certificationAssessment.certificationCourseId,
-    assessmentResult,
+}
+
+async function _saveCompetenceMarks({ certificationAssessmentScore, newAssessmentResult, competenceMarkRepository }) {
+  await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
+    const competenceMarkDomain = new CompetenceMark({
+      ...competenceMark,
+      assessmentResultId: newAssessmentResult.id,
+    });
+    return competenceMarkRepository.save(competenceMarkDomain);
   });
 }
 
