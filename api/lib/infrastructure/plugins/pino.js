@@ -10,6 +10,8 @@ function requestSerializer(req) {
   const enhancedReq = {
     ...req,
     version: config.version,
+    clientVersion: req.headers['x-app-version'] || '-',
+    clientVersionMismatched: config.version !== req.headers['x-app-version'],
   };
 
   if (!config.hapi.enableRequestMonitoring) return enhancedReq;
