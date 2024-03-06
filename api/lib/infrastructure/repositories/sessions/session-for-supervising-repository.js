@@ -1,5 +1,5 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import { CertificationCandidateForSupervising } from '../../../../src/certification/supervision/domain/models/CertificationCandidateForSupervising.js';
 import { CertificationCandidateForSupervisingV3 } from '../../../../src/certification/supervision/domain/models/CertificationCandidateForSupervisingV3.js';
 import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';

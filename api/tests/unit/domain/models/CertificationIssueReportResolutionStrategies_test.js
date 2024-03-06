@@ -90,7 +90,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
 
@@ -151,7 +153,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
   });
@@ -226,7 +230,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
           // then
           expect(certificationIssueReport.isResolved()).to.be.true;
-          expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+          expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+            certificationIssueReport,
+          });
         });
       });
 
@@ -298,7 +304,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
           // then
           expect(certificationIssueReport.isResolved()).to.be.true;
-          expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+          expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+            certificationIssueReport,
+          });
         });
       });
     });
@@ -356,7 +364,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
 
@@ -431,7 +441,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
 
@@ -502,7 +514,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
   });
@@ -582,7 +596,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
 
@@ -639,7 +655,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
 
@@ -708,7 +726,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
 
@@ -783,7 +803,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
   });
@@ -863,7 +885,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
 
@@ -920,7 +944,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
 
@@ -989,7 +1015,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
 
@@ -1064,7 +1092,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
   });
@@ -1148,7 +1178,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           // then
           expect(certificationIssueReport.isResolved()).to.be.true;
           expect(certificationIssueReport.resolution).to.equal('Cette question a été neutralisée automatiquement');
-          expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+          expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+            certificationIssueReport,
+          });
         });
       });
 
@@ -1229,7 +1261,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           // then
           expect(certificationIssueReport.isResolved()).to.be.true;
           expect(certificationIssueReport.resolution).to.equal('Cette réponse a été acceptée automatiquement');
-          expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+          expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+            certificationIssueReport,
+          });
         });
       });
     });
@@ -1288,7 +1322,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
         expect(certificationIssueReport.resolution).to.equal(`Aucune question ne correspond au numéro 1`);
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
 
@@ -1360,7 +1396,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         expect(certificationIssueReport.resolution).to.equal(
           "Cette question n'a pas été neutralisée car ce n'est pas une question focus",
         );
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly({
+          certificationIssueReport,
+        });
       });
     });
   });

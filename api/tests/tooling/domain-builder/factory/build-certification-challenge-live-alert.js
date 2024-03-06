@@ -1,7 +1,7 @@
 import {
   CertificationChallengeLiveAlert,
   CertificationChallengeLiveAlertStatus,
-} from '../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
+} from '../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 
 const buildCertificationChallengeLiveAlert = function ({
   id = 456,

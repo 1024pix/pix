@@ -22,7 +22,6 @@ import * as sessionsImportValidationService from '../../../session/domain/servic
 import * as temporarySessionsStorageForMassImportService from '../../../session/domain/services/temporary-sessions-storage-for-mass-import-service.js';
 import * as sessionValidator from '../../../session/domain/validators/session-validator.js';
 import * as candidateRepository from '../../../session/infrastructure/repositories/candidate-repository.js';
-import * as certificationChallengeLiveAlertRepository from '../../../session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as cpfCertificationResultRepository from '../../../session/infrastructure/repositories/cpf-certification-result-repository.js';
 import * as cpfExportRepository from '../../../session/infrastructure/repositories/cpf-export-repository.js';
 import * as sessionForAttendanceSheetRepository from '../../../session/infrastructure/repositories/session-for-attendance-sheet-repository.js';
@@ -33,10 +32,12 @@ import * as attendanceSheetPdfUtils from '../../../session/infrastructure/utils/
 import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
+import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationCpfCityRepository from '../../../shared/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../shared/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationIssueReportRepository from '../../../shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
+import * as issueReportCategoryRepository from '../../../shared/infrastructure/repositories/issue-report-category-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationCpfService from '../services/certification-cpf-service.js';
 import * as mailService from '../services/mail-service.js';
@@ -133,6 +134,8 @@ const usecasesWithoutInjectedDependencies = {
       'get-mass-import-template-information.js',
       'assign-certification-officer-to-session.js',
       'get-invigilator-kit-session-info.js',
+      'validate-live-alert.js',
+      'dismiss-live-alert.js',
     ],
   })),
   ...(await importNamedExportsFromDirectory({
