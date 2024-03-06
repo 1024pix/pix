@@ -10,7 +10,7 @@ module('Acceptance | Module | Routes | recap', function (hooks) {
   setupIntl(hooks);
   setupMirage(hooks);
 
-  test('can visit /modules/:slug/recap', async function (assert) {
+  test("can't visit /modules/:slug/recap", async function (assert) {
     // given
     server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
@@ -20,20 +20,6 @@ module('Acceptance | Module | Routes | recap', function (hooks) {
     await visit('/modules/bien-ecrire-son-adresse-mail/recap');
 
     // then
-    assert.strictEqual(currentURL(), '/modules/bien-ecrire-son-adresse-mail/recap');
-  });
-
-  test('should include the right page title', async function (assert) {
-    // given
-    server.create('module', {
-      id: 'bien-ecrire-son-adresse-mail',
-    });
-
-    // when
-    const screen = await visit('/modules/bien-ecrire-son-adresse-mail/recap');
-
-    // then
-    assert.ok(document.title.includes(this.intl.t('pages.modulix.recap.title')));
-    assert.ok(screen.getByRole('heading', { level: 1, name: this.intl.t('pages.modulix.recap.title') }));
+    assert.strictEqual(currentURL(), '/modules/bien-ecrire-son-adresse-mail/details');
   });
 });
