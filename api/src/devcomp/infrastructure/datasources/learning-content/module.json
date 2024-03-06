@@ -1823,9 +1823,24 @@
           "title": "Trouvez votre IP publique",
           "elements": [
             {
-              "id": "786e42f3-e33b-46e0-be56-59fa9f26d3bf",
-              "type": "text",
-              "content": "<h4>Pour finir ce module, trouvez votre adresse IP publique actuelle.<span aria-hidden=\"true\">🕵️‍♂️</span>️<span aria-hidden=\"true\">🕵🏽‍♀️</span>️</h4>"
+              "id": "eed9177c-4bc9-401c-928f-13585df010f7",
+              "type": "qcu",
+              "instruction": "<p>Pour finir ce module, cherchez votre adresse IP publique actuelle.<span aria-hidden=\"true\">🕵️‍♂️</span>️<span aria-hidden=\"true\">🕵🏽‍♀️</span>️</p><p>Pensez-vous avoir réussi à la trouver ?</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "oui"
+                },
+                {
+                  "id": "2",
+                  "content": "non"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p> Pour vérifier votre réponse, suivez le lien vers <a href=\"http://monip.org/\" target=\"_blank\">ce site</a></p>",
+                "invalid": "<p>Suivez le lien vers <a href=\"http://monip.org/\" target=\"_blank\">ce site</a> pour la trouver.</p>"
+              },
+              "solution": "1"
             },
             {
               "id": "0f89410d-2ff5-4e14-8400-945ab0353616",
@@ -1836,11 +1851,6 @@
               "id": "83c57d2b-c2d8-46fe-9b1c-051a58dcf890",
               "type": "text",
               "content": "<h3>Indice n°1 :</h3><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p><h3>Indice n°2 :</h3><p>Pour votre recherche, utilisez les mots-clés \"trouver\" et \"mon adresse IP\".</p>"
-            },
-            {
-              "id": "1203cc2d-fc07-4641-88f8-2b3d42020b39",
-              "type": "text",
-              "content": "<p><span aria-hidden=\"true\">🗝️</span>️ Pour vérifier votre réponse, suivez le lien vers <a href=\"http://monip.org/\" target=\"_blank\">ce site</a>.</p>"
             }
           ]
         }
