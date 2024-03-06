@@ -85,7 +85,7 @@
   p.certification-joiner__validation-error {
     margin-top: 6px;
     margin-bottom: 0;
-    color: $pix-warning-60;
+    color: var(--pix-error-500);
     font-size: 0.875rem;
   }
 
@@ -113,7 +113,7 @@
   .certification-course-page {
     &__errors {
       margin: 5px;
-      color: $pix-warning-60;
+      color: var(--pix-error-500);
       font-size: 0.875rem;
       text-align: start;
 
@@ -127,7 +127,7 @@
 
       a,
       a:visited {
-        color: $pix-warning-60;
+        color: var(--pix-error-500);
         text-decoration: underline;
       }
     }
