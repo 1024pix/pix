@@ -368,58 +368,6 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     });
   });
 
-  context('#hasBeenRejectedAutomatically', function () {
-    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [
-      {
-        emitter: CERTIFICATION_RESULT_EMITTER_PIXALGO,
-        status: CERTIFICATION_RESULT_STATUS_REJECTED,
-        expectedResult: true,
-      },
-      {
-        emitter: CERTIFICATION_RESULT_EMITTER_AUTOJURY,
-        status: CERTIFICATION_RESULT_STATUS_REJECTED,
-        expectedResult: true,
-      },
-      {
-        emitter: CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION,
-        status: CERTIFICATION_RESULT_STATUS_REJECTED,
-        expectedResult: false,
-      },
-      {
-        emitter: CERTIFICATION_RESULT_EMITTER_PIXALGO,
-        status: CERTIFICATION_RESULT_STATUS_STARTED,
-        expectedResult: false,
-      },
-      {
-        emitter: CERTIFICATION_RESULT_EMITTER_AUTOJURY,
-        status: CERTIFICATION_RESULT_STATUS_STARTED,
-        expectedResult: false,
-      },
-      {
-        emitter: CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION,
-
-        status: CERTIFICATION_RESULT_STATUS_STARTED,
-        expectedResult: false,
-      },
-    ].forEach(function ({ expectedResult, emitter, status }) {
-      it(`should return ${expectedResult} when status is ${status} and emitter is ${emitter}`, async function () {
-        // given
-        const certificationResult = domainBuilder.buildCertificationResult({
-          emitter,
-          status,
-        });
-
-        // when
-        const hasBeenRejectedAutomatically = certificationResult.hasBeenRejectedAutomatically();
-
-        // then
-        expect(hasBeenRejectedAutomatically).to.equal(expectedResult);
-      });
-    });
-  });
-
   context('#getUniqComplementaryCertificationCourseResultLabels', function () {
     it('should return an array of unique labels', function () {
       // given
