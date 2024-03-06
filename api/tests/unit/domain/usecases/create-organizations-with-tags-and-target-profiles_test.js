@@ -97,8 +97,18 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
         organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
         tagRepositoryStub.findAll.resolves(allTags);
         organizationRepositoryStub.batchCreateOrganizations.resolves([
-          domainBuilder.buildOrganization(firstOrganization),
-          domainBuilder.buildOrganization(secondOrganization),
+          {
+            createdOrganization: domainBuilder.buildOrganization(firstOrganization),
+            organizationToCreate: {
+              ...firstOrganization,
+              tags: firstOrganization.tags?.split('_') ?? [],
+              targetProfiles: firstOrganization.targetProfiles?.split('_') ?? [],
+            },
+          },
+          {
+            createdOrganization: domainBuilder.buildOrganization(secondOrganization),
+            organizationToCreate: secondOrganization,
+          },
         ]);
 
         // when
@@ -122,20 +132,28 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
 
   it('validates organization data before trying to create organizations', async function () {
     // given
-    const organizations = [
-      {
-        name: '',
-        externalId: 'AB1234',
-        emailInvitations: 'fake@axample.net',
-        createdBy: 4,
-        tags: 'tag1_tag2',
-        targetProfiles: '123',
-      },
-    ];
+    const organization = {
+      name: '',
+      externalId: 'AB1234',
+      emailInvitations: 'fake@axample.net',
+      createdBy: 4,
+      tags: 'tag1_tag2',
+      targetProfiles: '123',
+    };
+    const organizations = [organization];
 
     // when
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateOrganizations.resolves(organizations);
+    organizationRepositoryStub.batchCreateOrganizations.resolves([
+      {
+        createdOrganization: domainBuilder.buildOrganization(organization),
+        organizationToCreate: {
+          ...organization,
+          tags: organization.tags?.split('_') ?? [],
+          targetProfiles: organization.targetProfiles?.split('_') ?? [],
+        },
+      },
+    ]);
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
@@ -188,9 +206,53 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       email: organizationSCO.emailForSCOActivation,
     });
 
-    const expectedProOrganizationToInsert = [organizationPROToCreate, organizationSCOToCreate];
+    const expectedProOrganizationToInsert = [
+      {
+        organization: organizationPROToCreate,
+        tags: organizationPRO.tags?.split('_') ?? [],
+        targetProfiles: organizationPRO.targetProfiles?.split('_') ?? [],
+        role: undefined,
+        dataProtectionOfficer: {
+          email: undefined,
+          firstName: undefined,
+          lastName: undefined,
+        },
+        emailInvitations: organizationPRO.emailInvitations,
+        locale: undefined,
+      },
+      {
+        organization: organizationSCOToCreate,
+        tags: organizationSCO.tags?.split('_') ?? [],
+        targetProfiles: organizationSCO.targetProfiles?.split('_') ?? [],
+        role: undefined,
+        dataProtectionOfficer: {
+          email: undefined,
+          firstName: undefined,
+          lastName: undefined,
+        },
+        emailInvitations: organizationSCO.emailInvitations,
+        locale: undefined,
+      },
+    ];
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateOrganizations.resolves([organizationPROToCreate, organizationSCOToCreate]);
+    organizationRepositoryStub.batchCreateOrganizations.resolves([
+      {
+        createdOrganization: organizationPROToCreate,
+        organizationToCreate: {
+          ...organizationPRO,
+          tags: organizationPRO.tags?.split('_') ?? [],
+          targetProfiles: organizationPRO.targetProfiles?.split('_') ?? [],
+        },
+      },
+      {
+        createdOrganization: organizationSCOToCreate,
+        organizationToCreate: {
+          ...organizationSCO,
+          tags: organizationSCO.tags?.split('_') ?? [],
+          targetProfiles: organizationSCO.targetProfiles?.split('_') ?? [],
+        },
+      },
+    ]);
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
@@ -245,8 +307,22 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
     organizationRepositoryStub.batchCreateOrganizations.resolves([
-      domainBuilder.buildOrganization(firstOrganization),
-      domainBuilder.buildOrganization(secondOrganization),
+      {
+        createdOrganization: domainBuilder.buildOrganization(firstOrganization),
+        organizationToCreate: {
+          ...firstOrganization,
+          tags: firstOrganization.tags?.split('_') ?? [],
+          targetProfiles: firstOrganization.targetProfiles?.split('_') ?? [],
+        },
+      },
+      {
+        createdOrganization: domainBuilder.buildOrganization(secondOrganization),
+        organizationToCreate: {
+          ...secondOrganization,
+          tags: secondOrganization.tags?.split('_') ?? [],
+          targetProfiles: secondOrganization.targetProfiles?.split('_') ?? [],
+        },
+      },
     ]);
 
     // when
@@ -292,8 +368,22 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
     organizationRepositoryStub.batchCreateOrganizations.resolves([
-      domainBuilder.buildOrganization(firstOrganization),
-      domainBuilder.buildOrganization(secondOrganization),
+      {
+        createdOrganization: domainBuilder.buildOrganization(firstOrganization),
+        organizationToCreate: {
+          ...firstOrganization,
+          tags: firstOrganization.tags?.split('_') ?? [],
+          targetProfiles: firstOrganization.targetProfiles?.split('_') ?? [],
+        },
+      },
+      {
+        createdOrganization: domainBuilder.buildOrganization(secondOrganization),
+        organizationToCreate: {
+          ...secondOrganization,
+          tags: secondOrganization.tags?.split('_') ?? [],
+          targetProfiles: secondOrganization.targetProfiles?.split('_') ?? [],
+        },
+      },
     ]);
 
     // when
@@ -346,8 +436,27 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
     organizationRepositoryStub.batchCreateOrganizations.resolves([
-      domainBuilder.buildOrganization(firstOrganization),
-      domainBuilder.buildOrganization(secondOrganization),
+      {
+        createdOrganization: domainBuilder.buildOrganization(firstOrganization),
+        organizationToCreate: {
+          ...firstOrganization,
+          tags: firstOrganization.tags?.split('_') ?? [],
+          targetProfiles: firstOrganization.targetProfiles?.split('_') ?? [],
+          dataProtectionOfficer: {
+            email: firstOrganization.DPOEmail,
+            firstName: firstOrganization.DPOFirstName,
+            lastName: firstOrganization.DPOLastName,
+          },
+        },
+      },
+      {
+        createdOrganization: domainBuilder.buildOrganization(secondOrganization),
+        organizationToCreate: {
+          ...secondOrganization,
+          tags: secondOrganization.tags?.split('_') ?? [],
+          targetProfiles: secondOrganization.targetProfiles?.split('_') ?? [],
+        },
+      },
     ]);
 
     // when
@@ -398,8 +507,24 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
     organizationRepositoryStub.batchCreateOrganizations.resolves([
-      domainBuilder.buildOrganization(firstOrganizationWithAdminRole),
-      domainBuilder.buildOrganization(secondOrganizationWithMemberRole),
+      {
+        createdOrganization: domainBuilder.buildOrganization(firstOrganizationWithAdminRole),
+        organizationToCreate: {
+          ...firstOrganizationWithAdminRole,
+          tags: firstOrganizationWithAdminRole.tags?.split('_') ?? [],
+          targetProfiles: firstOrganizationWithAdminRole.targetProfiles?.split('_') ?? [],
+          role: firstOrganizationWithAdminRole.organizationInvitationRole,
+        },
+      },
+      {
+        createdOrganization: domainBuilder.buildOrganization(secondOrganizationWithMemberRole),
+        organizationToCreate: {
+          ...secondOrganizationWithMemberRole,
+          tags: secondOrganizationWithMemberRole.tags?.split('_') ?? [],
+          targetProfiles: secondOrganizationWithMemberRole.targetProfiles?.split('_') ?? [],
+          role: secondOrganizationWithMemberRole.organizationInvitationRole,
+        },
+      },
     ]);
 
     // when
@@ -454,7 +579,14 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
       tagRepositoryStub.findAll.resolves(allTags);
       organizationRepositoryStub.batchCreateOrganizations.resolves([
-        domainBuilder.buildOrganization(organizationWithoutEmail),
+        {
+          createdOrganization: domainBuilder.buildOrganization(organizationWithoutEmail),
+          organizationToCreate: {
+            ...organizationWithoutEmail,
+            tags: organizationWithoutEmail.tags?.split('_') ?? [],
+            targetProfiles: organizationWithoutEmail.targetProfiles?.split('_') ?? [],
+          },
+        },
       ]);
 
       // when
