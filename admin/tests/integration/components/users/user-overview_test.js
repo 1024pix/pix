@@ -70,7 +70,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           lastName: 'Snow',
           email: 'john.snow@winterfell.got',
           username: 'kingofthenorth',
-          lang: 'fr',
+          lang: 'nl',
           locale: 'nl-BE',
         });
         this.set('user', user);
@@ -83,7 +83,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.getByText(`Nom : ${this.user.lastName}`)).exists();
         assert.dom(screen.getByText(`Adresse e-mail : ${this.user.email}`)).exists();
         assert.dom(screen.getByText(`Identifiant : ${this.user.username}`)).exists();
-        assert.dom(screen.getByText('Langue : fr')).exists();
+        assert.dom(screen.getByText('Langue : nl')).exists();
         assert.dom(screen.getByText('Locale : nl-BE')).exists();
         assert.dom(screen.getByText('Date de création :')).exists();
       });
@@ -289,6 +289,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         await screen.findByRole('listbox');
         assert.dom(screen.getByRole('option', { name: 'Français' })).exists();
         assert.dom(screen.getByRole('option', { name: 'Anglais' })).exists();
+        assert.dom(screen.getByRole('option', { name: 'Néerlandais' })).exists();
 
         await clickByName('Locale :');
         await waitFor(async () => {
