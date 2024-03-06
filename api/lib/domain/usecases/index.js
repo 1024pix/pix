@@ -8,6 +8,8 @@ import * as pixAuthenticationService from '../../../src/authentication/domain/se
 import * as refreshTokenService from '../../../src/authentication/domain/services/refresh-token-service.js';
 import * as complementaryCertificationCourseRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-course-repository.js';
 import { endAssessmentBySupervisor } from '../../../src/certification/course/domain/usecases/end-assessment-by-supervisor.js';
+import { getNextChallengeForV2Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v2-certification.js';
+import { getNextChallengeForV3Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v3-certification.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import { pickChallengeService } from '../../../src/certification/flash-certification/domain/services/pick-challenge-service.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
@@ -177,9 +179,6 @@ import * as passwordValidator from '../validators/password-validator.js';
 import * as userValidator from '../validators/user-validator.js';
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
 import { getCampaignManagement as getCampaignDetailsManagement } from './get-campaign-details-management.js';
-import { getNextChallengeForV2Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v2-certification.js';
-import { getNextChallengeForV3Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v3-certification.js';
-import { endAssessmentBySupervisor } from '../../../src/certification/course/domain/usecases/end-assessment-by-supervisor.js';
 
 function requirePoleEmploiNotifier() {
   if (config.poleEmploi.pushEnabled) {

@@ -1,6 +1,6 @@
-import { expect, databaseBuilder } from '../../../../../test-helper.js';
-import { CertificationVersion } from '../../../../../../src/shared/domain/models/CertificationVersion.js';
 import * as certificationVersionRepository from '../../../../../../src/certification/course/infrastructure/repositories/certification-version-repository.js';
+import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Certification | Course | Integration | Repository | course-assessment-result', function () {
   describe('#getByCertificationCourseId', function () {

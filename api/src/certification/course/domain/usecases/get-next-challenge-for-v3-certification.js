@@ -12,7 +12,7 @@ const getNextChallengeForV3Certification = async function ({
   locale,
   pickChallengeService,
 }) {
-  const certificationCourse = await certificationCourseRepository.get(assessment.certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({ id: assessment.certificationCourseId });
 
   const alreadyAnsweredChallengeIds = await _getAlreadyAnsweredChallengeIds({
     assessmentId: assessment.id,
@@ -100,7 +100,7 @@ const _getAlreadyAnsweredChallengeIds = async ({ assessmentId, answerRepository 
 };
 
 const _getValidatedLiveAlertChallengeIds = async ({ assessmentId, certificationChallengeLiveAlertRepository }) => {
-  return certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId(assessmentId);
+  return certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId({ assessmentId });
 };
 
 export { getNextChallengeForV3Certification };
