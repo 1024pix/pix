@@ -123,14 +123,6 @@ class SessionPublicationBatchError extends BaseHttpError {
   }
 }
 
-class InternalServerError extends BaseHttpError {
-  constructor(message, title) {
-    super(message);
-    this.title = title || 'Internal Server Error';
-    this.status = 500;
-  }
-}
-
 class TooManyRequestsError extends BaseHttpError {
   constructor(message) {
     super(message);
@@ -155,7 +147,6 @@ const HttpErrors = {
   BaseHttpError,
   ConflictError,
   ForbiddenError,
-  InternalServerError,
   MissingQueryParamError,
   NotFoundError,
   PasswordShouldChangeError,
@@ -175,7 +166,6 @@ export {
   BaseHttpError,
   ConflictError,
   ForbiddenError,
-  InternalServerError,
   MissingQueryParamError,
   NotFoundError,
   PasswordShouldChangeError,
