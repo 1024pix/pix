@@ -11,6 +11,7 @@ import * as complementaryCertificationRepository from './complementary-certifica
 import * as finalizedSessionRepository from './finalized-session-repository.js';
 import * as jurySessionRepository from './jury-session-repository.js';
 import * as sessionForInvigilatorKitRepository from './session-for-invigilator-kit-repository.js';
+import * as sessionRepository from './session-repository.js';
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
@@ -26,6 +27,7 @@ import * as sessionForInvigilatorKitRepository from './session-for-invigilator-k
  * @typedef {sessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
+ * @typedef {sessionRepository} SessionRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   assessmentRepository,
@@ -39,6 +41,7 @@ const repositoriesWithoutInjectedDependencies = {
   sessionForInvigilatorKitRepository,
   issueReportCategoryRepository,
   certificationIssueReportRepository,
+  sessionRepository,
 };
 
 /**
