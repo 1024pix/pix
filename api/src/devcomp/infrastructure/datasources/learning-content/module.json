@@ -1717,16 +1717,16 @@
           "title": "Schéma IP publique vs. IP locales !",
           "elements": [
             {
-              "id": "1b524302-7175-4923-8810-835201d3d443",
-              "type": "text",
-              "content": "<p> Dans le réseau local, ce sont des adresses IP <strong>privées</strong> (ou locales) qui sont utilisées par les appareils. Sur internet, ce sont des adresses IP <strong>publiques</strong>. </p>"
-            },
-            {
               "id": "f42fa86c-3936-485a-8ea3-cabed25153f9",
               "type": "image",
               "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/schema-ip-publique-vs-privee.svg",
               "alt": "Image décrite dans l'alternative textuelle",
               "alternativeText": "Schéma représentant d'une part un réseau local, composé d'un ordinateur, d'un ordinateur portable, d'une imprimante et d'une box internet. Chacun de ces appareils a une adresse IP privée. La box internet assure la communication avec des sites internet, avec une adresse IP publique. Les sites internet ont également une IP publique."
+            },
+            {
+              "id": "1b524302-7175-4923-8810-835201d3d443",
+              "type": "text",
+              "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, par exemple chez soi, les appareils (ordinateur, imprimante, box, etc.) utilisent pour des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent de communiquer des informations. </p>"
             }
           ]
         },
