@@ -18,7 +18,7 @@ import {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
 } from '../prod/generate-knowledge-element-snapshots-for-campaigns.js';
-import { generate } from '../../lib/domain/services/code-generator.js';
+import { generate } from '../../src/shared/domain/services/code-generator.js';
 import dayjs from 'dayjs';
 
 const { SHARED, TO_SHARE } = CampaignParticipationStatuses;

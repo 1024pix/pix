@@ -1,6 +1,6 @@
 import { expect, sinon } from '../../../test-helper.js';
 import randomString from 'randomstring';
-import * as codeGenerator from '../../../../lib/domain/services/code-generator.js';
+import * as codeGenerator from '../../../../src/shared/domain/services/code-generator.js';
 
 describe('Unit | Domain | Services | code generator', function () {
   describe('#createCode', function () {
