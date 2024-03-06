@@ -1,5 +1,5 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
-import { PassageDoesNotExistError } from '../errors.js';
+import { PassageDoesNotExistError, PassageTerminatedError } from '../errors.js';
 
 async function verifyAndSaveAnswer({
   userResponse,
@@ -10,6 +10,10 @@ async function verifyAndSaveAnswer({
   elementAnswerRepository,
 }) {
   const passage = await _getPassage({ passageId, passageRepository });
+  if (passage.terminatedAt) {
+    throw new PassageTerminatedError();
+  }
+
   const module = await moduleRepository.getBySlugForVerification({ slug: passage.moduleId });
 
   const grain = module.getGrainByElementId(elementId);
