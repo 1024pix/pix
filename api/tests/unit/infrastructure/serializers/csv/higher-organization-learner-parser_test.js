@@ -18,7 +18,7 @@ describe('Unit | Infrastructure | SupOrganizationLearnerParser', function () {
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new SupOrganizationLearnerParser(encodedInput, 123, i18n);
 
-        const supOrganizationLearnerSet = parser.parse();
+        const supOrganizationLearnerSet = parser.parse(parser.getFileEncoding());
 
         expect(supOrganizationLearnerSet.learners).to.be.empty;
       });
@@ -32,7 +32,7 @@ describe('Unit | Infrastructure | SupOrganizationLearnerParser', function () {
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new SupOrganizationLearnerParser(encodedInput, 456, i18n);
 
-        const supOrganizationLearnerSet = parser.parse();
+        const supOrganizationLearnerSet = parser.parse(parser.getFileEncoding());
         const learners = supOrganizationLearnerSet.learners;
         expect(learners).to.have.lengthOf(2);
       });
@@ -45,7 +45,7 @@ describe('Unit | Infrastructure | SupOrganizationLearnerParser', function () {
         const organizationId = 789;
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new SupOrganizationLearnerParser(encodedInput, organizationId, i18n);
-        const supOrganizationLearnerSet = parser.parse();
+        const supOrganizationLearnerSet = parser.parse(parser.getFileEncoding());
         const learners = _.sortBy(supOrganizationLearnerSet.learners, 'preferredLastName');
         expect(learners[0]).to.deep.equal({
           firstName: 'Beatrix',
@@ -93,7 +93,7 @@ describe('Unit | Infrastructure | SupOrganizationLearnerParser', function () {
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new SupOrganizationLearnerParser(encodedInput, organizationId, i18n);
 
-      const error = await catchErr(parser.parse, parser)();
+      const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
       expect(error.code).to.equal('STUDENT_NUMBER_UNIQUE');
       expect(error.meta).to.deep.equal({ line: 3, field: 'Numéro étudiant' });
@@ -106,7 +106,7 @@ describe('Unit | Infrastructure | SupOrganizationLearnerParser', function () {
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new SupOrganizationLearnerParser(encodedInput, organizationId, i18n);
 
-      const error = await catchErr(parser.parse, parser)();
+      const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
       expect(error.code).to.equal('STUDENT_NUMBER_FORMAT');
       expect(error.meta).to.deep.equal({ line: 2, field: 'Numéro étudiant' });

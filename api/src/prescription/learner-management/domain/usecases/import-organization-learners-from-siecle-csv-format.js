@@ -5,6 +5,7 @@ import bluebird from 'bluebird';
 import lodash from 'lodash';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../shared/infrastructure/constants.js';
+import { OrganizationLearnerParser } from '../../infrastructure/serializers/csv/organization-learner-parser.js';
 
 const ERRORS = {
   EMPTY: 'EMPTY',
@@ -14,7 +15,6 @@ const ERRORS = {
 const importOrganizationLearnersFromSIECLECSVFormat = async function ({
   organizationId,
   payload,
-  organizationLearnersCsvService,
   organizationLearnerRepository,
   organizationRepository,
   importStorage,
@@ -26,11 +26,10 @@ const importOrganizationLearnersFromSIECLECSVFormat = async function ({
   const filename = await importStorage.sendFile({ filepath: payload.path });
   try {
     const readableStream = await importStorage.readFile({ filename });
-    organizationLearnerData = await organizationLearnersCsvService.extractOrganizationLearnersInformation(
-      readableStream,
-      organization,
-      i18n,
-    );
+    const buffer = await getDataBuffer(readableStream);
+    const parser = OrganizationLearnerParser.buildParser(buffer, organization.id, i18n);
+    const result = parser.parse(parser.getFileEncoding());
+    organizationLearnerData = result.learners;
   } finally {
     await importStorage.deleteFile({ filename });
   }
@@ -59,5 +58,16 @@ const importOrganizationLearnersFromSIECLECSVFormat = async function ({
     });
   });
 };
-
+function getDataBuffer(readableStream) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    readableStream.on('data', (data) => {
+      chunks.push(data);
+    });
+    readableStream.on('error', (err) => reject(err));
+    readableStream.once('end', () => {
+      resolve(Buffer.concat(chunks));
+    });
+  });
+}
 export { importOrganizationLearnersFromSIECLECSVFormat };

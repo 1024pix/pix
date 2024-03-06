@@ -35,7 +35,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new OrganizationLearnerParser(encodedInput, organizationId, i18n);
 
-          const error = await catchErr(parser.parse, parser)();
+          const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
           expect(error.code).to.equal('HEADER_REQUIRED');
         });
@@ -48,7 +48,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new OrganizationLearnerParser(encodedInput, organizationId, i18n);
 
-        const error = await catchErr(parser.parse, parser)();
+        const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
         expect(error.code).to.equal('ENCODING_NOT_SUPPORTED');
       });
@@ -62,7 +62,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
 
-        const { learners } = parser.parse();
+        const { learners } = parser.parse(parser.getFileEncoding());
 
         expect(learners).to.be.empty;
       });
@@ -78,7 +78,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new OrganizationLearnerParser(encodedInput, 456, i18n);
 
-          const { learners } = parser.parse();
+          const { learners } = parser.parse(parser.getFileEncoding());
           expect(learners).to.have.lengthOf(2);
         });
 
@@ -91,7 +91,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new OrganizationLearnerParser(encodedInput, organizationId, i18n);
 
-          const { learners } = parser.parse();
+          const { learners } = parser.parse(parser.getFileEncoding());
           expect(learners[0]).to.includes({
             nationalStudentId: '123F',
             firstName: 'Beatrix',
@@ -135,7 +135,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
             const encodedInput = iconv.encode(input, 'utf8');
             const parser = new OrganizationLearnerParser(encodedInput, 456, i18n);
 
-            const { learners } = parser.parse();
+            const { learners } = parser.parse(parser.getFileEncoding());
             expect(learners[0].division).to.equal('Division 1');
           });
 
@@ -146,7 +146,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
             const encodedInput = iconv.encode(input, 'utf8');
             const parser = new OrganizationLearnerParser(encodedInput, 456, i18n);
 
-            const { learners } = parser.parse();
+            const { learners } = parser.parse(parser.getFileEncoding());
             expect(learners[0].division).to.equal('Division 1');
           });
         });
@@ -159,7 +159,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
             const encodedInput = iconv.encode(input, 'utf8');
             const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
 
-            const { learners } = parser.parse();
+            const { learners } = parser.parse(parser.getFileEncoding());
             expect(learners[0]).to.includes({
               nationalStudentId: '0123456789F',
               status: 'AP',
@@ -178,7 +178,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
 
-          const error = await catchErr(parser.parse, parser)();
+          const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
           //then
           expect(error.code).to.equal('INSEE_CODE_INVALID');
@@ -194,7 +194,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
 
-          const error = await catchErr(parser.parse, parser)();
+          const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
           //then
           expect(error).to.be.an.instanceOf(CsvImportError);
@@ -210,11 +210,21 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
             const encodedInput = iconv.encode(input, 'utf8');
             const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
 
-            const { learners } = parser.parse();
+            const { learners } = parser.parse(parser.getFileEncoding());
             expect(learners[0]).to.includes({
               nationalStudentId: '0123456789F',
               status: 'AP',
             });
+          });
+          it('should throw a CsvImportError if national student id is missing', async function () {
+            const input = `${organizationLearnerCsvColumns}
+            ;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
+            `;
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
+            const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+            expect(error.code).to.equal('FIELD_REQUIRED');
+            expect(error.meta).to.deep.equal({ field: 'Identifiant unique*', line: 2 });
           });
         });
 
@@ -229,7 +239,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
               const encodedInput = iconv.encode(input, 'utf8');
               const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
 
-              const error = await catchErr(parser.parse, parser)();
+              const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
               //then
               expect(error.code).to.equal('IDENTIFIER_UNIQUE');

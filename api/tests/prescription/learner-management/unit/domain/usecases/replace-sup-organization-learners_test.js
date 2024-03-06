@@ -1,29 +1,100 @@
 import { expect, sinon } from '../../../../../test-helper.js';
 import { replaceSupOrganizationLearners } from '../../../../../../src/prescription/learner-management/domain/usecases/replace-sup-organization-learner.js';
-import { SupOrganizationLearnerParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-parser.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
+import { SupOrganizationLearnerImportHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
+import iconv from 'iconv-lite';
+import { Readable } from 'stream';
 
-describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
-  let readableStream,
-    filename,
+describe('Unit | UseCase | ReplaceSupOrganizationLearner', function () {
+  let filename,
     payload,
     importStorageStub,
     supOrganizationLearnerRepositoryStub,
-    supOrganizationLearnerParserCreateStub,
-    learners,
+    csvStream,
+    expectedLearners,
+    expectedWarnings,
     userId,
-    buffer,
-    i18n,
     organizationId;
 
   beforeEach(function () {
-    readableStream = Symbol('readableStream');
     supOrganizationLearnerRepositoryStub = { replaceStudents: sinon.stub() };
     supOrganizationLearnerRepositoryStub.replaceStudents.resolves();
-    supOrganizationLearnerParserCreateStub = sinon.stub(SupOrganizationLearnerParser, 'create');
-    learners = Symbol('learners');
+    csvStream = new Readable({
+      read() {
+        const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeader(getI18n()).columns
+          .map((column) => column.name)
+          .join(';');
+
+        const csvData = `${supOrganizationLearnerImportHeader}
+          Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
+          O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
+          `.trim();
+        this.push(iconv.encode(csvData, 'utf8'));
+        this.push(null);
+      },
+    });
+    expectedLearners = [
+      {
+        firstName: 'Beatrix',
+        middleName: 'The',
+        thirdName: 'Bride',
+        lastName: 'Kiddo',
+        preferredLastName: 'Black Mamba',
+        studentNumber: '12346',
+        email: 'thebride@example.net',
+        birthdate: '1970-01-01',
+        diploma: 'Non reconnu',
+        department: 'Assassination Squad',
+        educationalTeam: 'Hattori Hanzo',
+        group: 'Deadly Viper Assassination Squad',
+        studyScheme: 'Non reconnu',
+        organizationId: 1,
+      },
+      {
+        firstName: 'O-Ren',
+        middleName: undefined,
+        thirdName: undefined,
+        lastName: 'Ishii',
+        preferredLastName: 'Cottonmouth',
+        studentNumber: '789',
+        email: 'ishii@example.net',
+        birthdate: '1980-01-01',
+        diploma: 'Non reconnu',
+        department: 'Assassination Squad',
+        educationalTeam: 'Bill',
+        group: 'Deadly Viper Assassination Squad',
+        studyScheme: 'Non reconnu',
+        organizationId: 1,
+      },
+    ];
+    expectedWarnings = [
+      {
+        studentNumber: '12346',
+        field: 'study-scheme',
+        value: 'hello darkness my old friend',
+        code: 'unknown',
+      },
+      {
+        studentNumber: '12346',
+        field: 'diploma',
+        value: 'Master',
+        code: 'unknown',
+      },
+      {
+        studentNumber: '789',
+        field: 'study-scheme',
+        value: undefined,
+        code: 'unknown',
+      },
+      {
+        studentNumber: '789',
+        field: 'diploma',
+        value: 'DUT',
+        code: 'unknown',
+      },
+    ];
+
     userId = Symbol('userId');
-    buffer = Symbol('buffer');
-    i18n = Symbol('i81n');
     organizationId = 1;
 
     filename = Symbol('FILE_NAME');
@@ -36,75 +107,46 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
       deleteFile: sinon.stub(),
     };
     importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves(filename);
-    importStorageStub.readFile.withArgs(filename).resolves(readableStream);
+    importStorageStub.readFile.withArgs({ filename }).resolves(csvStream);
   });
 
   it('parses the csv received and replace the SupOrganizationLearner', async function () {
-    const warnings = Symbol('warnings');
-
-    supOrganizationLearnerParserCreateStub.withArgs(buffer, organizationId, i18n).returns({
-      parse: sinon.stub().returns({ learners, warnings }),
-    });
-
-    const supOrganizationLearnerRepository = {
-      replaceStudents: sinon.stub(),
-    };
-
     await replaceSupOrganizationLearners({
       payload,
       organizationId,
       userId,
-      i18n,
-      supOrganizationLearnerRepository,
+      i18n: getI18n(),
+      supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
       importStorage: importStorageStub,
-      dependencies: { getDataBuffer: sinon.stub().resolves(buffer) },
     });
 
-    expect(supOrganizationLearnerRepository.replaceStudents).to.have.been.calledWithExactly(
+    expect(supOrganizationLearnerRepositoryStub.replaceStudents).to.have.been.calledWithExactly(
       organizationId,
-      learners,
+      expectedLearners,
       userId,
     );
   });
 
   it('should return warnings about the import', async function () {
-    const expectedWarnings = Symbol('warnings');
-    supOrganizationLearnerParserCreateStub.withArgs(buffer, organizationId, i18n).returns({
-      parse: sinon.stub().returns({ learners, warnings: expectedWarnings }),
-    });
-
-    const supOrganizationLearnerRepository = {
-      replaceStudents: sinon.stub(),
-    };
-
     const warnings = await replaceSupOrganizationLearners({
       payload,
       organizationId,
       userId,
-      i18n,
-      supOrganizationLearnerRepository,
+      i18n: getI18n(),
+      supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
       importStorage: importStorageStub,
-      dependencies: { getDataBuffer: sinon.stub().resolves(buffer) },
     });
-
-    expect(warnings).to.equal(expectedWarnings);
+    expect(warnings).to.deep.equals(expectedWarnings);
   });
-  it('should delete file on s3', async function () {
-    supOrganizationLearnerParserCreateStub.withArgs(buffer, organizationId, i18n).returns({
-      parse: sinon.stub().returns({ learners, warnings: {} }),
-    });
-    const supOrganizationLearnerRepository = {
-      replaceStudents: sinon.stub(),
-    };
 
+  it('should delete file on s3', async function () {
     await replaceSupOrganizationLearners({
       payload,
       organizationId,
       userId,
-      i18n,
-      supOrganizationLearnerRepository,
+      i18n: getI18n(),
+      supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
       importStorage: importStorageStub,
-      dependencies: { getDataBuffer: sinon.stub().resolves(buffer) },
     });
     expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({ filename: payload.path });
   });
