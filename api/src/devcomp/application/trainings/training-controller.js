@@ -5,7 +5,7 @@ import * as targetProfileSummaryForAdminSerializer from '../../../../lib/infrast
 import { usecases } from '../../domain/usecases/index.js';
 import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
 
 const findPaginatedTrainingSummaries = async function (
   request,

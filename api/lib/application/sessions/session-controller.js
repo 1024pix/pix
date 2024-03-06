@@ -10,7 +10,7 @@ import * as certificationCandidateSerializer from '../../../src/certification/se
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as jurySessionRepository from '../../../src/certification/session/infrastructure/repositories/jury-session-repository.js';
-import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
+import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';

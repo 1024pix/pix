@@ -8,7 +8,7 @@ import * as campaignCollectiveResultSerializer from '../../infrastructure/serial
 import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
 import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group-serializer.js';
 
-import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
+import { extractParameters } from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 const getByCode = async function (request) {
