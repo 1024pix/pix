@@ -84,7 +84,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         sessionId,
         status: CertificationResult.status.REJECTED,
         pixScore: 0,
-        commentForOrganization: 'Un commentaire orga 2',
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          fallbackComment: 'Un commentaire orga 2',
+        }),
         competencesWithMark: [],
         complementaryCertificationCourseResults: [],
       });
@@ -99,7 +101,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         sessionId,
         status: CertificationResult.status.CANCELLED,
         pixScore: null,
-        commentForOrganization: null,
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          fallbackComment: null,
+        }),
         competencesWithMark: [],
         complementaryCertificationCourseResults: [],
         emitter: null,
@@ -115,7 +119,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         sessionId,
         status: CertificationResult.status.VALIDATED,
         pixScore: 123,
-        commentForOrganization: 'Un commentaire orga 1',
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          fallbackComment: 'Un commentaire orga 1',
+        }),
         competencesWithMark: [
           domainBuilder.buildCompetenceMark({
             id: 123,
@@ -249,7 +255,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           birthdate: '2001-05-21',
           birthplace: 'Paris',
           createdAt: new Date('2022-01-01T00:00:00Z'),
-          commentForOrganization: 'Some comment for organization',
+          commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+            fallbackComment: 'Some comment for organization',
+          }),
           competencesWithMark: [
             domainBuilder.buildCompetenceMark({
               id: competenceMarkId,
@@ -282,7 +290,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           birthdate: '2001-05-21',
           birthplace: 'Paris',
           createdAt: new Date('2022-01-01T00:00:00Z'),
-          commentForOrganization: 'Some comment for organization',
+          commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+            fallbackComment: 'Some comment for organization',
+          }),
           competencesWithMark: [
             domainBuilder.buildCompetenceMark({
               id: otherCompetenceMarkId,
@@ -366,7 +376,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           birthdate: '2001-05-21',
           birthplace: 'Paris',
           createdAt: new Date('2022-01-01T00:00:00Z'),
-          commentForOrganization: 'Some comment for organization',
+          commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+            fallbackComment: 'Some comment for organization',
+          }),
           competencesWithMark: [
             domainBuilder.buildCompetenceMark({
               id: oneCompetenceMarkId,
@@ -585,7 +597,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         sessionId,
         status: CertificationResult.status.REJECTED,
         pixScore: 0,
-        commentForOrganization: 'Un commentaire orga 2',
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          fallbackComment: 'Un commentaire orga 2',
+        }),
         competencesWithMark: [],
         complementaryCertificationCourseResults: [],
       });
@@ -600,7 +614,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         sessionId,
         status: CertificationResult.status.CANCELLED,
         pixScore: null,
-        commentForOrganization: null,
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          fallbackComment: null,
+        }),
         competencesWithMark: [],
         complementaryCertificationCourseResults: [],
         emitter: null,
@@ -616,8 +632,10 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         sessionId,
         status: CertificationResult.status.VALIDATED,
         pixScore: 123,
-        commentForOrganization: 'Un commentaire orga 1',
-        commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          fallbackComment: 'Un commentaire orga 1',
+          commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+        }),
         competencesWithMark: [
           domainBuilder.buildCompetenceMark({
             id: 123,
@@ -787,7 +805,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           birthdate: '2001-05-21',
           birthplace: 'Paris',
           createdAt: new Date('2022-01-01T00:00:00Z'),
-          commentForOrganization: 'Some comment for organization',
+          commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+            fallbackComment: 'Some comment for organization',
+          }),
           competencesWithMark: [
             domainBuilder.buildCompetenceMark({
               id: competenceMarkId,
