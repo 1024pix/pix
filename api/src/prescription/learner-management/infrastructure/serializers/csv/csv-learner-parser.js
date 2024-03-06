@@ -37,8 +37,7 @@ class CsvOrganizationLearnerParser {
     this.learnerSet = learnerSet;
   }
 
-  parse() {
-    const encoding = this._getFileEncoding();
+  parse(encoding) {
     const { learnerLines, fields } = this._parse(encoding);
 
     if (!encoding) {
@@ -62,7 +61,7 @@ class CsvOrganizationLearnerParser {
    * To check it, we decode and parse the first line of the file with supported encodings.
    * If there is one with at least "First name" or "Student number" correctly parsed and decoded.
    */
-  _getFileEncoding() {
+  getFileEncoding() {
     const supported_encodings = ['utf-8', 'win1252', 'macintosh'];
     const checkedColumns = this._getEncodingColumns();
     for (const encoding of supported_encodings) {

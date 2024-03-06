@@ -16,7 +16,7 @@ const replaceSupOrganizationLearners = async function ({
     const buffer = await dependencies.getDataBuffer(readableStream);
     const parser = SupOrganizationLearnerParser.create(buffer, organizationId, i18n);
 
-    const { learners, warnings } = parser.parse();
+    const { learners, warnings } = parser.parse(parser.getFileEncoding());
 
     await supOrganizationLearnerRepository.replaceStudents(organizationId, learners, userId);
 
