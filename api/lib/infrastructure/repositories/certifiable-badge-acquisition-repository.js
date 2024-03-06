@@ -6,6 +6,9 @@ import { DomainTransaction } from '../DomainTransaction.js';
 
 const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
 
+/**
+ * @returns {Array<CertifiableBadgeAcquisition>} highest complementary certification badges a user acquired
+ */
 const findHighestCertifiable = async function ({
   userId,
   limitDate = new Date(),
