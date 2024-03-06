@@ -14,6 +14,7 @@ export default class ReferencesService extends Service {
       { value: 'fr', label: 'fr' },
       { value: 'fr-BE', label: 'fr-BE' },
       { value: 'fr-FR', label: 'fr-FR' },
+      { value: 'nl-BE', label: 'nl-BE' },
     ];
   }
 }
