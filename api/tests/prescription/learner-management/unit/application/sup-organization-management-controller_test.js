@@ -4,16 +4,12 @@ import { expect, hFake, sinon, catchErr } from '../../../../test-helper.js';
 
 describe('Unit | Controller | sup-organization-management-controller', function () {
   let organizationId;
-  let supOrganizationLearnerParser;
   let path;
-  let filename;
-  let readableStream;
   let i18n;
   let warnings;
   let serializedResponse;
   let userId;
 
-  let importStorageStub;
   let supOrganizationLearnerWarningSerializerStub;
   let logErrorWithCorrelationIdsStub;
   let unlinkStub;
@@ -22,26 +18,17 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
   beforeEach(function () {
     organizationId = Symbol('organizationId');
-    supOrganizationLearnerParser = Symbol('supOrgnaizationLearnerParser');
     path = Symbol('path');
-    filename = Symbol('filename');
-    readableStream = Symbol('readableStream');
     i18n = Symbol('i18n');
     warnings = Symbol('warnings');
     serializedResponse = Symbol('serializedResponse');
     userId = Symbol('userId');
 
-    importStorageStub = {
-      sendFile: sinon.stub(),
-      readFile: sinon.stub(),
-      deleteFile: sinon.stub(),
-    };
     sinon.stub(usecases, 'importSupOrganizationLearners');
     sinon.stub(usecases, 'replaceSupOrganizationLearners');
     supOrganizationLearnerWarningSerializerStub = { serialize: sinon.stub() };
     logErrorWithCorrelationIdsStub = sinon.stub();
     unlinkStub = sinon.stub();
-    makeOrganizationLearnerParserStub = sinon.stub();
     requestResponseUtilsStub = { extractUserIdFromRequest: sinon.stub() };
   });
 
@@ -53,19 +40,13 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      importStorageStub.sendFile.withArgs({ filepath: path }).resolves(filename);
-
       usecases.importSupOrganizationLearners
         .withArgs({
-          supOrganizationLearnerParser,
+          payload: request.payload,
+          organizationId,
+          i18n,
         })
         .resolves(warnings);
-
-      importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
-
-      makeOrganizationLearnerParserStub
-        .withArgs(readableStream, organizationId, i18n)
-        .returns(supOrganizationLearnerParser);
 
       supOrganizationLearnerWarningSerializerStub.serialize
         .withArgs({ id: organizationId, warnings })
@@ -73,9 +54,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       const response = await supOrganizationManagementController.importSupOrganizationLearners(request, hFake, {
-        makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        importStorage: importStorageStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
         unlink: unlinkStub,
       });
@@ -84,7 +63,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       expect(response.statusCode).to.be.equal(200);
       expect(response.source).to.be.equal(serializedResponse);
 
-      expect(importStorageStub.deleteFile).to.have.been.calledWith({ filename });
       expect(unlinkStub).to.have.been.calledWith(path);
     });
 
@@ -95,22 +73,21 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      importStorageStub.sendFile.withArgs({ filepath: path }).resolves(filename);
-
-      importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
-
-      makeOrganizationLearnerParserStub.rejects();
+      usecases.importSupOrganizationLearners
+        .withArgs({
+          payload: request.payload,
+          organizationId,
+          i18n,
+        })
+        .rejects();
 
       // when
       await catchErr(supOrganizationManagementController.importSupOrganizationLearners)(request, hFake, {
-        makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        importStorage: importStorageStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
         unlink: unlinkStub,
       });
 
-      expect(importStorageStub.deleteFile).to.have.been.calledWith({ filename });
       expect(unlinkStub).to.have.been.calledWith(path);
     });
 
@@ -121,13 +98,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         params,
         i18n,
       };
-      importStorageStub.sendFile.withArgs({ filepath: path }).resolves(filename);
-
-      importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
-
-      makeOrganizationLearnerParserStub
-        .withArgs(readableStream, organizationId, i18n)
-        .returns(supOrganizationLearnerParser);
 
       supOrganizationLearnerWarningSerializerStub.serialize
         .withArgs({ id: organizationId, warnings })
@@ -138,9 +108,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       const response = await supOrganizationManagementController.importSupOrganizationLearners(request, hFake, {
-        makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        importStorage: importStorageStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
         unlink: unlinkStub,
       });
@@ -148,7 +116,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       // then
       expect(response.statusCode).to.be.equal(200);
 
-      expect(importStorageStub.deleteFile).to.have.been.calledWith({ filename });
       expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(error);
     });
   });
@@ -163,19 +130,12 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       requestResponseUtilsStub.extractUserIdFromRequest.withArgs(request).returns(userId);
 
-      importStorageStub.sendFile.withArgs({ filepath: path }).resolves(filename);
-
-      importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
-
-      makeOrganizationLearnerParserStub
-        .withArgs(readableStream, organizationId, i18n)
-        .returns(supOrganizationLearnerParser);
-
       usecases.replaceSupOrganizationLearners
         .withArgs({
+          payload: request.payload,
           organizationId,
+          i18n,
           userId,
-          supOrganizationLearnerParser,
         })
         .resolves(warnings);
 
@@ -186,9 +146,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       // when
       const response = await supOrganizationManagementController.replaceSupOrganizationLearners(request, hFake, {
         requestResponseUtils: requestResponseUtilsStub,
-        makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        importStorage: importStorageStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
         unlink: unlinkStub,
       });
@@ -197,7 +155,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       expect(response.statusCode).to.be.equal(200);
       expect(response.source).to.be.equal(serializedResponse);
 
-      expect(importStorageStub.deleteFile).to.have.been.calledWith({ filename });
       expect(unlinkStub).to.have.been.calledWith(path);
     });
 
@@ -211,23 +168,24 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       requestResponseUtilsStub.extractUserIdFromRequest.withArgs(request).returns(userId);
 
-      importStorageStub.sendFile.withArgs({ filepath: path }).resolves(filename);
-
-      importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
-
-      makeOrganizationLearnerParserStub.rejects();
+      usecases.replaceSupOrganizationLearners
+        .withArgs({
+          payload: request.payload,
+          organizationId,
+          i18n,
+          userId,
+        })
+        .rejects();
 
       // when
       await catchErr(supOrganizationManagementController.replaceSupOrganizationLearners)(request, hFake, {
         requestResponseUtils: requestResponseUtilsStub,
         makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        importStorage: importStorageStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
         unlink: unlinkStub,
       });
 
-      expect(importStorageStub.deleteFile).to.have.been.calledWith({ filename });
       expect(unlinkStub).to.have.been.calledWith(path);
     });
 
@@ -240,19 +198,12 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       };
       requestResponseUtilsStub.extractUserIdFromRequest.withArgs(request).returns(userId);
 
-      importStorageStub.sendFile.withArgs({ filepath: path }).resolves(filename);
-
-      importStorageStub.readFile.withArgs({ filename }).resolves(readableStream);
-
-      makeOrganizationLearnerParserStub
-        .withArgs(readableStream, organizationId, i18n)
-        .returns(supOrganizationLearnerParser);
-
       usecases.replaceSupOrganizationLearners
         .withArgs({
+          payload: request.payload,
           organizationId,
+          i18n,
           userId,
-          supOrganizationLearnerParser,
         })
         .resolves(warnings);
 
@@ -266,9 +217,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       // when
       const response = await supOrganizationManagementController.replaceSupOrganizationLearners(request, hFake, {
         requestResponseUtils: requestResponseUtilsStub,
-        makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
-        importStorage: importStorageStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
         unlink: unlinkStub,
       });
@@ -276,7 +225,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       // then
       expect(response.statusCode).to.be.equal(200);
 
-      expect(importStorageStub.deleteFile).to.have.been.calledWith({ filename });
       expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(error);
     });
   });
