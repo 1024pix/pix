@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../../db/pgsql-errors.js';
+import { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } from '../../../../../db/pgsql-errors.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { JurySession, statuses } from '../../../../../lib/domain/models/JurySession.js';
 import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
@@ -63,7 +63,7 @@ const assignCertificationOfficer = async function ({ id, assignedCertificationOf
       throw new NotFoundError(`La session d'id ${id} n'existe pas.`);
     }
   } catch (error) {
-    if (error.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
+    if (error.code === PGSQL_FOREIGN_KEY_VIOLATION_ERROR) {
       throw new NotFoundError(`L'utilisateur d'id ${assignedCertificationOfficerId} n'existe pas`);
     }
     if (error instanceof NotFoundError) {
