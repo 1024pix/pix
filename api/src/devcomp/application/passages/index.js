@@ -54,6 +54,24 @@ const register = async function (server) {
         tags: ['api', 'passages', 'element', 'réponse'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/passages/{passageId}/terminate',
+      config: {
+        auth: false,
+        validate: {
+          params: Joi.object({
+            passageId: identifiersType.passageId.required(),
+          }).required(),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        handler: handlerWithDependencies(passageController.terminate),
+        notes: ['- Permet de marquer un passage comme terminé'],
+        tags: ['api', 'passages'],
+      },
+    },
   ]);
 };
 
