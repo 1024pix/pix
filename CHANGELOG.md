@@ -1,5 +1,59 @@
 # Pix Changelog
 
+## v4.112.0 (07/03/2024)
+
+
+### :rocket: Amélioration
+- [#8321](https://github.com/1024pix/pix/pull/8321) [FEATURE] Terminer un passage (PIX-11511).
+- [#8298](https://github.com/1024pix/pix/pull/8298) [FEATURE] Permettre des sous-titres vidéo vides sur Modulix (PIX-10997).
+- [#8242](https://github.com/1024pix/pix/pull/8242) [FEATURE] Affiche les classes ayant déjà commencé la mission (Pix -11201).
+- [#8285](https://github.com/1024pix/pix/pull/8285) [FEATURE][ADMIN] Ajouter la gestion de la langue nl et la locale nl-BE sur la page d'un utilisateur (PIX-11537).
+- [#8262](https://github.com/1024pix/pix/pull/8262) [FEATURE] Ajout module sources-informations (MODC-15).
+- [#8276](https://github.com/1024pix/pix/pull/8276) [FEATURE] Fournir la passageId au formulaire de feedback à la fin d'un Module (PIX-11445) .
+- [#8275](https://github.com/1024pix/pix/pull/8275) [FEATURE] [API] Ajouter nl-BE dans SUPPORTED_LOCALES (PIX-11232).
+- [#8104](https://github.com/1024pix/pix/pull/8104) [FEATURE] Créer une route pour tester l'algorithme Smart Random (PIX-11177).
+
+### :building_construction: Tech
+- [#8312](https://github.com/1024pix/pix/pull/8312) [TECH] Ajoute le tracking d'accès aux Contenus Formatifs dans le code (PIX-11413).
+- [#8291](https://github.com/1024pix/pix/pull/8291) [TECH] Ajoute une organisation avec import FREGATA dans les seeds (PIX-11541).
+- [#8272](https://github.com/1024pix/pix/pull/8272) [TECH] Mis a jour les test e2e a11y avec les endpoints modulix (PIX-11299).
+- [#8270](https://github.com/1024pix/pix/pull/8270) [TECH] Corriger le manque de contraste sur les textes dans certaines pages liées à la certification (PIX-11409).
+- [#8287](https://github.com/1024pix/pix/pull/8287) [TECH] extrait la détection de  l'encoding du parser (Pix-11518).
+- [#8282](https://github.com/1024pix/pix/pull/8282) [TECH] :recycle: Déplacement de `entity-validator.js` vers `src`.
+- [#8281](https://github.com/1024pix/pix/pull/8281) [TECH] :recycle: Déplacement de `query-params-utils.js` vers `src`.
+- [#8267](https://github.com/1024pix/pix/pull/8267) [TECH] Déporter l'utilisation du S3 dans le usecase pour le SUP (PIX-11503).
+- [#8274](https://github.com/1024pix/pix/pull/8274) [TECH] :recycle: Renvoie l'erreur reçue plutôt qu'une erreur maison générique.
+- [#8250](https://github.com/1024pix/pix/pull/8250) [TECH] :recycle: Déplacement du service `code-generator` vers `src`.
+- [#8271](https://github.com/1024pix/pix/pull/8271) [TECH] :construction_worker: Détecte les branches suceptible d'être périmées.
+- [#8258](https://github.com/1024pix/pix/pull/8258) [TECH] Utiliser la variable recommandée par l'hébergeur pour alimenter le header de version.
+- [#8253](https://github.com/1024pix/pix/pull/8253) [TECH] :recycle: Déplace la constante `ORGANIZATION_FEATURE` dans le fichier `src/shared/domain/constants.js`.
+
+### :arrow_up: Montée de version
+- [#8318](https://github.com/1024pix/pix/pull/8318) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.2 (certif).
+- [#8317](https://github.com/1024pix/pix/pull/8317) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.2 (admin).
+- [#8316](https://github.com/1024pix/pix/pull/8316) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.2 (1d).
+- [#8315](https://github.com/1024pix/pix/pull/8315) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.2 (orga).
+- [#8314](https://github.com/1024pix/pix/pull/8314) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.2 (mon-pix).
+- [#8313](https://github.com/1024pix/pix/pull/8313) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.2 (load-testing).
+- [#8311](https://github.com/1024pix/pix/pull/8311) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.2 (dossier racine).
+- [#8310](https://github.com/1024pix/pix/pull/8310) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.2 (certif).
+- [#8306](https://github.com/1024pix/pix/pull/8306) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.2 (audit-logger).
+- [#8305](https://github.com/1024pix/pix/pull/8305) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.2 (api).
+- [#8303](https://github.com/1024pix/pix/pull/8303) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.2 (1d).
+- [#8304](https://github.com/1024pix/pix/pull/8304) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.2 (admin).
+- [#8301](https://github.com/1024pix/pix/pull/8301) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.1 (certif).
+- [#8302](https://github.com/1024pix/pix/pull/8302) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.1 (orga).
+- [#8300](https://github.com/1024pix/pix/pull/8300) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.1 (admin).
+- [#8299](https://github.com/1024pix/pix/pull/8299) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.1 (1d).
+- [#8297](https://github.com/1024pix/pix/pull/8297) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.0 (orga).
+- [#8296](https://github.com/1024pix/pix/pull/8296) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.0 (certif).
+- [#8293](https://github.com/1024pix/pix/pull/8293) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.0 (admin).
+- [#8292](https://github.com/1024pix/pix/pull/8292) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.0 (1d).
+- [#8283](https://github.com/1024pix/pix/pull/8283) [BUMP] Update crazy-matt/manage-stale-branches action to v1.1.0 (workflows).
+
+### :coffee: Autre
+- [#8319](https://github.com/1024pix/pix/pull/8319) Updated translations from Phrase.
+
 ## v4.111.0 (05/03/2024)
 
 
