@@ -1,8 +1,11 @@
 import Component from '@glimmer/component';
 import { service } from '@ember/service';
+import { action } from '@ember/object';
 
 export default class Card extends Component {
   @service intl;
+  @service metrics;
+  @service router;
 
   get durationFormatted() {
     const days = this.args.training.duration.days ? `${this.args.training.duration.days}j ` : '';
@@ -66,5 +69,15 @@ export default class Card extends Component {
     const min = 1;
     const max = 3;
     return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  @action
+  trackAccess() {
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Accès Contenu Formatif',
+      'pix-event-action': `Click depuis : ${this.router.currentRouteName}`,
+      'pix-event-name': `Ouvre le cf : ${this.args.training.title}`,
+    });
   }
 }
