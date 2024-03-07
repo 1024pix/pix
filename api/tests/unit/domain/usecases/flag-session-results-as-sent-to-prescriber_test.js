@@ -34,7 +34,7 @@ describe('Unit | UseCase | flag-session-results-as-sent-to-prescriber', function
 
       it('should return a NON updated session with a flag to indicate that results has already been sent', async function () {
         // given
-        sessionRepository.get.withArgs(sessionId).resolves(alreadyFlaggedResultsAsSentSession);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(alreadyFlaggedResultsAsSentSession);
 
         // when
         const { resultsFlaggedAsSent, session } = await flagSessionResultsAsSentToPrescriber({
@@ -57,7 +57,7 @@ describe('Unit | UseCase | flag-session-results-as-sent-to-prescriber', function
         updatedSession = Symbol('updatedSession');
         clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
         notFlaggedSession = new Session({ resultsSentToPrescriberAt: null });
-        sessionRepository.get.withArgs(sessionId).resolves(notFlaggedSession);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(notFlaggedSession);
       });
 
       afterEach(function () {

@@ -16,7 +16,7 @@ const deleteSession = async function ({ sessionId, sessionRepository, certificat
     throw new SessionStartedDeletionError();
   }
 
-  await sessionRepository.remove(sessionId);
+  await sessionRepository.remove({ id: sessionId });
 };
 
 export { deleteSession };

@@ -35,12 +35,12 @@ const addCertificationCandidateToSession = async function ({
 }) {
   certificationCandidate.sessionId = sessionId;
 
-  const session = await sessionRepository.get(sessionId);
+  const session = await sessionRepository.get({ id: sessionId });
   if (!session.canEnrolCandidate()) {
     throw new CertificationCandidateOnFinalizedSessionError();
   }
 
-  const isSco = await sessionRepository.isSco({ sessionId });
+  const isSco = await sessionRepository.isSco({ id: sessionId });
 
   try {
     certificationCandidate.validate(isSco);

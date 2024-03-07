@@ -8,7 +8,7 @@ const flagSessionResultsAsSentToPrescriber = async function ({ sessionId, sessio
     throw new NotFoundError(NOT_FOUND_SESSION);
   }
 
-  let session = await sessionRepository.get(sessionId);
+  let session = await sessionRepository.get({ id: sessionId });
 
   if (!session.areResultsFlaggedAsSent()) {
     session = await sessionRepository.flagResultsAsSentToPrescriber({
