@@ -1,3 +1,4 @@
+import { constants } from '../../../../lib/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -5,7 +6,6 @@ import {
   generateValidRequestAuthorizationHeader,
   sinon,
 } from '../../../test-helper.js';
-import { constants } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Controller | users-controller-get-current-user', function () {
   let options;

@@ -58,4 +58,4 @@ const updateLastLoggedAt = async function ({ userId }) {
     .merge();
 };
 
-export { findByUserId, create, update, findByUsername, updateLastLoggedAt };
+export { create, findByUserId, findByUsername, update, updateLastLoggedAt };

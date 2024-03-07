@@ -1,6 +1,4 @@
-import * as tooling from '../common/tooling/index.js';
-import * as campaignTooling from '../common/tooling/campaign-tooling.js';
-
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
@@ -8,7 +6,8 @@ import {
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../common/common-builder.js';
 import { COLLEGE_TAG } from '../common/constants.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import * as campaignTooling from '../common/tooling/campaign-tooling.js';
+import * as tooling from '../common/tooling/index.js';
 import { getV3CertificationChallenges } from '../common/tooling/learning-content.js';
 import { createCompetenceScoringConfiguration } from './create-competence-scoring-configuration.js';
 

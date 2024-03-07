@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
-import { BadRequestError, sendJsonApiError } from '../http-errors.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { targetProfileController } from './target-profile-controller.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { BadRequestError, sendJsonApiError } from '../http-errors.js';
+import { targetProfileController } from './target-profile-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -407,4 +407,4 @@ const register = async function (server) {
 };
 
 const name = 'target-profiles-api';
-export { register, name };
+export { name, register };

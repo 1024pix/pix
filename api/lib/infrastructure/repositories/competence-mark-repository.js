@@ -1,5 +1,5 @@
-import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 function _toDomain(competenceMark) {
@@ -46,4 +46,4 @@ const findByCertificationCourseId = async function (certificationCourseId) {
   return competenceMarks.map(_toDomain);
 };
 
-export { save, findByCertificationCourseId };
+export { findByCertificationCourseId, save };

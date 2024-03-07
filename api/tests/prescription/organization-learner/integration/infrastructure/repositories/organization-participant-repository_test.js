@@ -1,9 +1,9 @@
-import { expect, databaseBuilder } from '../../../../../test-helper.js';
 import * as organizationParticipantRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-participant-repository.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 function buildLearnerWithParticipation({
   organizationId,

@@ -1,7 +1,8 @@
-import { certificationCenterController } from './certification-center-controller.js';
-import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import Joi from 'joi';
+
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { certificationCenterController } from './certification-center-controller.js';
 
 const register = async function (server) {
   const adminRoutes = [
@@ -412,4 +413,4 @@ const register = async function (server) {
 };
 
 const name = 'certification-centers-api';
-export { register, name };
+export { name, register };

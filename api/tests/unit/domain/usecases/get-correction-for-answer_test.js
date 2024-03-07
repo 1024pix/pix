@@ -1,9 +1,9 @@
-import { getCorrectionForAnswer } from '../../../../lib/domain/usecases/get-correction-for-answer.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
 import { AssessmentNotCompletedError, NotFoundError } from '../../../../lib/domain/errors.js';
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+import { getCorrectionForAnswer } from '../../../../lib/domain/usecases/get-correction-for-answer.js';
+import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { LearningContentResourceNotFound } from '../../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 class OtherError extends Error {}
 

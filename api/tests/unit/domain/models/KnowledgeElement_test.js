@@ -1,6 +1,7 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { AnswerStatus, KnowledgeElement } from '../../../../lib/domain/models/index.js';
 import dayjs from 'dayjs';
+
+import { AnswerStatus, KnowledgeElement } from '../../../../lib/domain/models/index.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const KE_STATUS_VALIDATED = KnowledgeElement.StatusType.VALIDATED;
 const KE_STATUS_INVALIDATED = KnowledgeElement.StatusType.INVALIDATED;

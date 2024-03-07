@@ -1,6 +1,6 @@
-import { expect } from '../../../../test-helper.js';
 import { AnswerStatus } from '../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
 import * as service from '../../../../../src/devcomp/domain/services/solution-service-qcm.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Services | SolutionServiceQCM ', function () {
   describe('if solution type is QCM', function () {

@@ -1,6 +1,6 @@
 import { AnswerStatus } from '../../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
-import { Validator } from '../../../../../../src/devcomp/domain/models/validator/Validator.js';
 import { Validation } from '../../../../../../src/devcomp/domain/models/validator/Validation.js';
+import { Validator } from '../../../../../../src/devcomp/domain/models/validator/Validator.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Validator | Validator', function () {

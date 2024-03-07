@@ -1,6 +1,6 @@
+import { DomainError } from '../domain/errors.js';
 import * as errorManager from './error-manager.js';
 import { BaseHttpError } from './http-errors.js';
-import { DomainError } from '../domain/errors.js';
 
 function handleDomainAndHttpErrors(
   request,

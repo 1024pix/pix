@@ -1,7 +1,7 @@
-import { catchErr, expect, databaseBuilder, mockLearningContent, domainBuilder } from '../../../test-helper.js';
-import * as participantResultRepository from '../../../../lib/infrastructure/repositories/participant-result-repository.js';
-import { KnowledgeElement, CampaignParticipationStatuses, Assessment } from '../../../../lib/domain/models/index.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { Assessment, CampaignParticipationStatuses, KnowledgeElement } from '../../../../lib/domain/models/index.js';
+import * as participantResultRepository from '../../../../lib/infrastructure/repositories/participant-result-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

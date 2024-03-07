@@ -1,7 +1,7 @@
-import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
+import { checkData, prepareCampaigns } from '../../../../scripts/prod/create-profiles-collection-campaigns.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
-import { prepareCampaigns, checkData } from '../../../../scripts/prod/create-profiles-collection-campaigns.js';
+import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
+import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Scripts | create-profile-collection-campaigns', function () {
   describe('#prepareCampaigns', function () {

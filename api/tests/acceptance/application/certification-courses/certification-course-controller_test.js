@@ -1,21 +1,20 @@
+import { config } from '../../../../lib/config.js';
+import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
+import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { CertificationIssueReportCategory } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import {
-  expect,
+  createServer,
   databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
   knex,
   learningContentBuilder,
   mockLearningContent,
-  generateValidRequestAuthorizationHeader,
-  insertUserWithRoleSuperAdmin,
-  createServer,
 } from '../../../test-helper.js';
-
-import { CertificationIssueReportCategory } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
-import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
-import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
-import { config } from '../../../../lib/config.js';
-import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 describe('Acceptance | API | Certification Course', function () {
   let server;

@@ -15,4 +15,4 @@ const down = function (knex) {
   return knex.schema.createTable(TABLE_NAME, table);
 };
 
-export { up, down };
+export { down, up };

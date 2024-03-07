@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method-repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { NotFoundError } from '../errors.js';
@@ -46,4 +47,4 @@ function usernameObfuscation(username) {
   )}${ASTERISK_OBFUSCATION}${_.last(name)}`;
 }
 
-export { usernameObfuscation, emailObfuscation, getUserAuthenticationMethodWithObfuscation };
+export { emailObfuscation, getUserAuthenticationMethodWithObfuscation, usernameObfuscation };

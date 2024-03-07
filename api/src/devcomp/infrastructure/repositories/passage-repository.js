@@ -1,7 +1,7 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { Passage } from '../../domain/models/Passage.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import { Passage } from '../../domain/models/Passage.js';
 
 const save = async ({ moduleId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) => {
   const knexConn = domainTransaction?.knexTransaction || knex;

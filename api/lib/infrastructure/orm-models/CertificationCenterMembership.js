@@ -1,7 +1,7 @@
-import { Bookshelf } from '../bookshelf.js';
-
 import './CertificationCenter.js';
 import './User.js';
+
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'CertificationCenterMembership';
 

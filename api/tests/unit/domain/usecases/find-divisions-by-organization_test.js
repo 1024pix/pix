@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { findDivisionsByOrganization } from '../../../../lib/domain/usecases/find-divisions-by-organization.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | find-divisions-by-organization', function () {
   describe('when user has access to organization', function () {

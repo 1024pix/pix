@@ -1,9 +1,9 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
-import { expect, sinon, hFake } from '../../../test-helper.js';
 import { knex } from '../../../../db/knex-database-connection.js';
-import { redisMonitor } from '../../../../lib/infrastructure/utils/redis-monitor.js';
 import { healthcheckController } from '../../../../lib/application/healthcheck/healthcheck-controller.js';
+import { redisMonitor } from '../../../../lib/infrastructure/utils/redis-monitor.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | healthcheckController', function () {
   describe('#get', function () {

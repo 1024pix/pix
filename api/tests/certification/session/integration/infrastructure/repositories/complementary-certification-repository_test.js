@@ -1,8 +1,8 @@
-import { expect, databaseBuilder, catchErr } from '../../../../../test-helper.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { sessionRepositories } from '../../../../../../src/certification/session/infrastructure/repositories/index.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session/domain/models/ComplementaryCertification.js';
+import { sessionRepositories } from '../../../../../../src/certification/session/infrastructure/repositories/index.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Certification | Session | Repository | Complementary certification', function () {
   describe('#getById', function () {

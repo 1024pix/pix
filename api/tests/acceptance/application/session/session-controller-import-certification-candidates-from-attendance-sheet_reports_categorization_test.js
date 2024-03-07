@@ -1,3 +1,7 @@
+import fs from 'fs';
+import * as url from 'url';
+
+import { clearResolveMx, setResolveMx } from '../../../../src/shared/mail/infrastructure/services/mail-check.js';
 import {
   createServer,
   databaseBuilder,
@@ -5,9 +9,6 @@ import {
   generateValidRequestAuthorizationHeader,
   sinon,
 } from '../../../test-helper.js';
-import { clearResolveMx, setResolveMx } from '../../../../src/shared/mail/infrastructure/services/mail-check.js';
-import fs from 'fs';
-import * as url from 'url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

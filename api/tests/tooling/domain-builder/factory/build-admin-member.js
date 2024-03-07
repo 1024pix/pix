@@ -1,5 +1,5 @@
-import { AdminMember } from '../../../../src/shared/domain/models/AdminMember.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+import { AdminMember } from '../../../../src/shared/domain/models/AdminMember.js';
 
 const { ROLES } = PIX_ADMIN;
 

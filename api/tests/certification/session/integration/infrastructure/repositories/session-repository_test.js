@@ -1,11 +1,12 @@
-import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 import _ from 'lodash';
+
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import { CertificationAssessment } from '../../../../../../lib/domain/models/CertificationAssessment.js';
+import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { Session, statuses } from '../../../../../../src/certification/session/domain/models/Session.js';
 import * as sessionRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-repository.js';
-import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { CertificationAssessment } from '../../../../../../lib/domain/models/CertificationAssessment.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Session', function () {
   describe('#save', function () {

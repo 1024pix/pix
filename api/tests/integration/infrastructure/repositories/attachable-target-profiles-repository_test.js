@@ -1,5 +1,5 @@
-import { databaseBuilder, expect } from '../../../test-helper.js';
 import * as attachableTargetProfileRepository from '../../../../lib/infrastructure/repositories/attachable-target-profiles-repository.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | attachable-target-profiles', function () {
   describe('#find', function () {

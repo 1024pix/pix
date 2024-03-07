@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { disableCertificationCenterMembershipFromPixAdmin } from '../../../../lib/domain/usecases/disable-certification-center-membership-from-pix-admin.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | disable-certification-center-membership-from-pix-admin', function () {
   let certificationCenterMembershipRepository;

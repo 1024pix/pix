@@ -1,11 +1,12 @@
-import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
-import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
-import stream from 'stream';
 import * as uuidService from 'crypto';
-import lodash from 'lodash';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc.js';
 import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc.js';
+import lodash from 'lodash';
+import stream from 'stream';
+
+import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { PassThrough, Readable } = stream;
 

@@ -2,9 +2,6 @@ import lodash from 'lodash';
 const { omit } = lodash;
 import jsonwebtoken from 'jsonwebtoken';
 
-import { catchErr, expect, sinon } from '../../../../test-helper.js';
-
-import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
 import { config as settings } from '../../../../../src/shared/config.js';
 import {
   ForbiddenAccess,
@@ -13,6 +10,8 @@ import {
   InvalidSessionResultTokenError,
   InvalidTemporaryKeyError,
 } from '../../../../../src/shared/domain/errors.js';
+import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Services | Token Service', function () {
   describe('#createTokenForCampaignResults', function () {

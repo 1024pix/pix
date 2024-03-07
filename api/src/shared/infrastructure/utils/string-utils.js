@@ -72,12 +72,12 @@ function toArrayOfFixedLengthStringsConservingWords(str, maxLength) {
 }
 
 export {
-  isNumeric,
-  splitIntoWordsAndRemoveBackspaces,
   cleanStringAndParseFloat,
   getArrayOfStrings,
   getArrayOfUpperStrings,
-  normalizeAndSortChars,
+  isNumeric,
   normalize,
+  normalizeAndSortChars,
+  splitIntoWordsAndRemoveBackspaces,
   toArrayOfFixedLengthStringsConservingWords,
 };

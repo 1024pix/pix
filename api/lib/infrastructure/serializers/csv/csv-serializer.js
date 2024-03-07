@@ -1,8 +1,9 @@
-import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
+import lodash from 'lodash';
+
 import { FileValidationError } from '../../../../lib/domain/errors.js';
 import { convertDateValue } from '../../../../src/shared/infrastructure/utils/date-utils.js';
-import { headers, emptySession, COMPLEMENTARY_CERTIFICATION_SUFFIX } from '../../utils/csv/sessions-import.js';
-import lodash from 'lodash';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
+import { COMPLEMENTARY_CERTIFICATION_SUFFIX, emptySession, headers } from '../../utils/csv/sessions-import.js';
 
 const { isEmpty } = lodash;
 
@@ -414,9 +415,9 @@ function serializeLine(lineArray) {
 }
 
 export {
-  serializeLine,
-  deserializeForSessionsImport,
-  deserializeForOrganizationsImport,
   deserializeForCampaignsImport,
+  deserializeForOrganizationsImport,
+  deserializeForSessionsImport,
   parseForCampaignsImport,
+  serializeLine,
 };

@@ -1,9 +1,8 @@
-import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { CampaignParticipationStarted } from '../../../../../../lib/domain/events/CampaignParticipationStarted.js';
 import { KnowledgeElement } from '../../../../../../lib/domain/models/KnowledgeElement.js';
-
-import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { CampaignParticipant } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
+import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | start-campaign-participation', function () {
   const userId = 19837482;

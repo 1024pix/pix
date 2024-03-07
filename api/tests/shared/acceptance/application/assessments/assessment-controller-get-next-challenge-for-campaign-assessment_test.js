@@ -1,3 +1,4 @@
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
   createServer,
   databaseBuilder,
@@ -8,8 +9,6 @@ import {
   mockLearningContent,
   sinon,
 } from '../../../../test-helper.js';
-
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 const competenceId = 'recCompetence';
 const skillWeb1Id = 'recAcquisWeb1';

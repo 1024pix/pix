@@ -1,5 +1,4 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-
 import {
   CAMPAIGN_PARTICIPATION_ID_COLUMN,
   STAGE_ACQUISITIONS_TABLE_NAME,
@@ -107,9 +106,9 @@ const saveStages = async (stages, userId, campaignParticipationId, knexConnectio
 };
 
 export {
-  getByCampaignParticipations,
   getByCampaignIdAndUserId,
-  saveStages,
   getByCampaignParticipation,
+  getByCampaignParticipations,
   getStageIdsByCampaignParticipation,
+  saveStages,
 };

@@ -1,10 +1,10 @@
-import { catchErr, expect, sinon } from '../../../test-helper.js';
-import { User } from '../../../../lib/domain/models/User.js';
 import {
   PasswordResetDemandNotFoundError,
   UserNotAuthorizedToUpdatePasswordError,
 } from '../../../../lib/domain/errors.js';
+import { User } from '../../../../lib/domain/models/User.js';
 import { updateUserPassword } from '../../../../lib/domain/usecases/update-user-password.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | update-user-password', function () {
   const userId = 1;

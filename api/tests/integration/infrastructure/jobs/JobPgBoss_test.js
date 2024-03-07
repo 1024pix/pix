@@ -1,5 +1,5 @@
-import { expect, knex } from '../../../test-helper.js';
 import { JobPgBoss as Job } from '../../../../lib/infrastructure/jobs/JobPgBoss.js';
+import { expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Jobs | JobPgBoss', function () {
   it('schedule a job and create in db with given config', async function () {

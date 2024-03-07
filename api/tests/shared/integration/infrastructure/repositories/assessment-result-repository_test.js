@@ -1,9 +1,9 @@
-import { expect, knex, databaseBuilder, domainBuilder, catchErr } from '../../../../test-helper.js';
+import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { MissingAssessmentId } from '../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import * as assessmentResultRepository from '../../../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
-import { MissingAssessmentId } from '../../../../../src/shared/domain/errors.js';
-import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Repository | AssessmentResult', function () {
   describe('#save', function () {

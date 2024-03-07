@@ -28,4 +28,4 @@ class NotInProgressAssessmentError extends DomainError {
   }
 }
 
-export { ActivityNotFoundError, SchoolNotFoundError, MissionNotFoundError, NotInProgressAssessmentError };
+export { ActivityNotFoundError, MissionNotFoundError, NotInProgressAssessmentError, SchoolNotFoundError };

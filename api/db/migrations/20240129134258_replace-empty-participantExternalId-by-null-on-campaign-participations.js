@@ -18,4 +18,4 @@ const down = async function () {
   // Do nothing because it's a bugfix, so we don't want this to be rollbacked
 };
 
-export { up, down };
+export { down, up };

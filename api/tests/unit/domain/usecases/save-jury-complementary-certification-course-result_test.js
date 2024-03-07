@@ -1,7 +1,7 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { saveJuryComplementaryCertificationCourseResult } from '../../../../lib/domain/usecases/save-jury-complementary-certification-course-result.js';
-import { NotFoundError, InvalidJuryLevelError } from '../../../../lib/domain/errors.js';
+import { InvalidJuryLevelError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { saveJuryComplementaryCertificationCourseResult } from '../../../../lib/domain/usecases/save-jury-complementary-certification-course-result.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | save-jury-complementary-certification-course-results', function () {
   describe('#saveJuryComplementaryCertificationCourseResult', function () {

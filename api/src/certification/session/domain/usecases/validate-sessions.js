@@ -2,10 +2,11 @@
  * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
  */
 
+import bluebird from 'bluebird';
+
+import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { Session } from '../models/Session.js';
 import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
-import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
-import bluebird from 'bluebird';
 
 /**
  * @param {Object} params

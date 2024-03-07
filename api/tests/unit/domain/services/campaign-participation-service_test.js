@@ -1,5 +1,4 @@
 import { expect } from '../../../test-helper.js';
-
 import * as campaignParticipationService from './../../../../lib/domain/services/campaign-participation-service.js';
 
 describe('Unit | Service | Campaign Participation Service', function () {

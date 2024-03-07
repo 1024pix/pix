@@ -1,9 +1,9 @@
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import {
-  FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID,
   FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID,
-  FEATURE_PLACES_MANAGEMENT_ID,
   FEATURE_MISSIONS_MANAGEMENT_ID,
+  FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID,
+  FEATURE_PLACES_MANAGEMENT_ID,
 } from './constants.js';
 
 const featuresBuilder = async function ({ databaseBuilder }) {

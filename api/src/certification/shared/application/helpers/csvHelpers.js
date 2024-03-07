@@ -53,4 +53,4 @@ async function parseCsvWithHeader(filePath, options = optionsWithHeader) {
   return parsedCsvData;
 }
 
-export { parseCsvWithHeader, parseCsv, readCsvFile };
+export { parseCsv, parseCsvWithHeader, readCsvFile };

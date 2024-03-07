@@ -1,7 +1,7 @@
-import { expect, sinon } from '../../../../../test-helper.js';
-import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { CpfExportsStorage } from '../../../../../../src/certification/session/infrastructure/storage/cpf-exports-storage.js';
 import { config } from '../../../../../../src/shared/config.js';
+import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Storage | CpfExportsStorage', function () {
   it('should create a S3 client', async function () {

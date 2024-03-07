@@ -1,8 +1,8 @@
-import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
-import * as moduleUnderTest from '../../../../../src/certification/session/application/unfinalize-route.js';
-import { expect, sinon } from '../../../../test-helper.js';
 import { unfinalizeController } from '../../../../../src/certification/session/application/unfinalize-controller.js';
+import * as moduleUnderTest from '../../../../../src/certification/session/application/unfinalize-route.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { expect, sinon } from '../../../../test-helper.js';
+import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Router | session-unfinalize', function () {
   describe('PATCH /api/admin/sessions/{id}/unfinalize', function () {

@@ -1,15 +1,16 @@
-import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
-import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
-import * as cpfCertificationXmlExportService from '../../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
 import { createUnzip } from 'node:zlib';
 
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc.js';
 import fs from 'fs';
 import lodash from 'lodash';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc.js';
-import timezone from 'dayjs/plugin/timezone.js';
 import stream from 'stream';
 import * as url from 'url';
+
+import * as cpfCertificationXmlExportService from '../../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
+import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { noop } = lodash;
 

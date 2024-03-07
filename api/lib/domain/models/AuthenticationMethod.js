@@ -1,9 +1,9 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
-import { POLE_EMPLOI, CNAV, FWB, PAYSDELALOIRE } from '../constants/oidc-identity-providers.js';
+import { CNAV, FWB, PAYSDELALOIRE, POLE_EMPLOI } from '../constants/oidc-identity-providers.js';
 
 class PixAuthenticationComplement {
   constructor({ password, shouldChangePassword } = {}) {

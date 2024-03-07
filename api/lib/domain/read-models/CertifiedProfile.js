@@ -44,4 +44,4 @@ class CertifiedProfile {
   }
 }
 
-export { CertifiedProfile, CertifiedArea, CertifiedCompetence, CertifiedTube, CertifiedSkill };
+export { CertifiedArea, CertifiedCompetence, CertifiedProfile, CertifiedSkill, CertifiedTube };

@@ -1,13 +1,13 @@
-import { expect, databaseBuilder, domainBuilder } from '../../../../../test-helper.js';
+import { ABORT_REASONS } from '../../../../../../lib/domain/models/CertificationCourse.js';
 import * as v3CertificationCourseDetailsForAdministrationRepository from '../../../../../../src/certification/course/infrastructure/repositories/v3-certification-course-details-for-administration-repository.js';
-import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { ABORT_REASONS } from '../../../../../../lib/domain/models/CertificationCourse.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | v3-certification-course-details-for-administration', function () {
   describe('#getV3DetailsByCertificationCourseId', function () {

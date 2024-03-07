@@ -15,4 +15,4 @@ const register = async function (server) {
 };
 
 const name = 'feature-toggles-api';
-export { register, name };
+export { name, register };

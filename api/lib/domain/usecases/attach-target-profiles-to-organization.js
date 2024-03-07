@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { NotFoundError } from '../errors.js';
 
 const attachTargetProfilesToOrganization = async function ({

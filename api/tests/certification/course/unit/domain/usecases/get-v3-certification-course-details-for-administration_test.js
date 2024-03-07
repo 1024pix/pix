@@ -1,6 +1,6 @@
 import { getV3CertificationCourseDetailsForAdministration } from '../../../../../../src/certification/course/domain/usecases/get-v3-certification-course-details-for-administration.js';
-import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-certification-course-details-for-administration', function () {
   it('should return the details with the associated competence name', async function () {

@@ -1,6 +1,7 @@
 import sax from 'sax';
 import saxPath from 'saxpath';
 import xml2js from 'xml2js';
+
 import { _ } from '../../../../../shared/infrastructure/utils/lodash-utils.js';
 import { CpfImportStatus } from '../../../domain/models/CpfImportStatus.js';
 import { CpfInfos } from '../../../domain/models/CpfInfos.js';

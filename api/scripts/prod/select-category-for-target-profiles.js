@@ -5,10 +5,11 @@ import bluebird from 'bluebird';
 import lodash from 'lodash';
 const { groupBy, sum, has, partition, negate } = lodash;
 
-import { readCsvFile, parseCsvData } from '../helpers/csvHelpers.js';
-import { categories } from '../../lib/domain/models/TargetProfile.js';
-import { knex, disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { categories } from '../../lib/domain/models/TargetProfile.js';
+import { parseCsvData, readCsvFile } from '../helpers/csvHelpers.js';
 
 const TARGET_PROFILE_ID_COLUMN = 'targetProfileId';
 const CATEGORY_COLUMN = 'category';

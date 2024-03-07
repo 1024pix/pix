@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
 import _ from 'lodash';
-import { CertificationCandidate } from '../../../domain/models/index.js';
+
 import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { CertificationCandidate } from '../../../domain/models/index.js';
 
 const FRANCE_COUNTRY_CODE = '99100';
 

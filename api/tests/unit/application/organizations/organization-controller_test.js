@@ -1,8 +1,7 @@
-import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
-
-import { Organization, OrganizationInvitation, Membership } from '../../../../lib/domain/models/index.js';
 import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
+import { Membership, Organization, OrganizationInvitation } from '../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Application | Organizations | organization-controller', function () {

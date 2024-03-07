@@ -12,4 +12,4 @@ const down = async function () {
   // and at this point in GitHub table is not read anymore by the code
 };
 
-export { up, down };
+export { down, up };

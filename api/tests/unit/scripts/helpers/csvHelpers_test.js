@@ -1,17 +1,15 @@
-import { expect, catchErr } from '../../../test-helper.js';
-import { NotFoundError, FileValidationError } from '../../../../lib/domain/errors.js';
-
-import {
-  parseCsv,
-  readCsvFile,
-  parseCsvWithHeader,
-  checkCsvHeader,
-  parseCsvWithHeaderAndRequiredFields,
-} from '../../../../scripts/helpers/csvHelpers.js';
-
-import { batchOrganizationOptionsWithHeader } from '../../../../scripts/create-organizations-with-tags-and-target-profiles.js';
-
 import * as url from 'url';
+
+import { FileValidationError, NotFoundError } from '../../../../lib/domain/errors.js';
+import { batchOrganizationOptionsWithHeader } from '../../../../scripts/create-organizations-with-tags-and-target-profiles.js';
+import {
+  checkCsvHeader,
+  parseCsv,
+  parseCsvWithHeader,
+  parseCsvWithHeaderAndRequiredFields,
+  readCsvFile,
+} from '../../../../scripts/helpers/csvHelpers.js';
+import { catchErr, expect } from '../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Unit | Scripts | Helpers | csvHelpers.js', function () {

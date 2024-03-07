@@ -1,7 +1,7 @@
-import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { config } from '../../../../shared/config.js';
-import { CpfReceipt } from '../../domain/models/CpfReceipt.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
+import { CpfReceipt } from '../../domain/models/CpfReceipt.js';
 import { deserialize } from '../deserializers/xml/cpf-receipt-file-deserializer.js';
 
 class CpfReceiptsStorage {
@@ -38,4 +38,4 @@ class CpfReceiptsStorage {
 }
 
 const cpfReceiptsStorage = new CpfReceiptsStorage();
-export { cpfReceiptsStorage, CpfReceiptsStorage };
+export { CpfReceiptsStorage, cpfReceiptsStorage };

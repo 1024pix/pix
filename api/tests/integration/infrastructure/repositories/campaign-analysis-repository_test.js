@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
-import * as campaignAnalysisRepository from '../../../../lib/infrastructure/repositories/campaign-analysis-repository.js';
+
 import { CampaignAnalysis } from '../../../../lib/domain/read-models/CampaignAnalysis.js';
+import * as campaignAnalysisRepository from '../../../../lib/infrastructure/repositories/campaign-analysis-repository.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
 

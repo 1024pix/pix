@@ -1,5 +1,5 @@
-import { expect } from '../../test-helper.js';
 import { TimeSeries } from '../../../scripts/arborescence-monitoring/time-series.js';
+import { expect } from '../../test-helper.js';
 
 describe('Unit | Scripts | time-series.js', function () {
   describe('#add', function () {

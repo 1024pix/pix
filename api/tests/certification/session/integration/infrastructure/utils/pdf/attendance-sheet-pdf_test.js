@@ -1,12 +1,13 @@
-import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
-import { isSameBinary } from '../../../../../../tooling/binary-comparator.js';
-import { getAttendanceSheetPdfBuffer } from '../../../../../../../src/certification/session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
-import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
-import * as url from 'url';
 import { writeFile } from 'fs/promises';
 import i18n from 'i18n';
-import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
 import path from 'path';
+import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
+import * as url from 'url';
+
+import { getAttendanceSheetPdfBuffer } from '../../../../../../../src/certification/session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
+import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
+import { isSameBinary } from '../../../../../../tooling/binary-comparator.js';
+import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const directory = path.resolve(path.join(__dirname, '../../../../../../../translations'));

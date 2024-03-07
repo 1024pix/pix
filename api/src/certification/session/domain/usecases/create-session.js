@@ -6,9 +6,9 @@
  * @typedef {import ('../../../shared/domain/usecases/index.js').SessionCodeService} SessionCodeService
  */
 
-import { Session } from '../models/Session.js';
-import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
+import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
+import { Session } from '../models/Session.js';
 
 /**
  * @param {Object} params

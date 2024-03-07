@@ -1,9 +1,10 @@
 /* eslint-disable knex/avoid-injections */
-import _ from 'lodash';
 import bluebird from 'bluebird';
-import { factory } from './factory/index.js';
+import _ from 'lodash';
+
 import { databaseBuffer } from './database-buffer.js';
 import * as databaseHelpers from './database-helpers.js';
+import { factory } from './factory/index.js';
 
 class DatabaseBuilder {
   constructor({ knex, emptyFirst = true, beforeEmptyDatabase = () => undefined }) {

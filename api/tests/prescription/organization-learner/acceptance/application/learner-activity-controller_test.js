@@ -1,10 +1,10 @@
-import {
-  expect,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-  createServer,
-} from '../../../../test-helper.js';
 import { Membership } from '../../../../../lib/domain/models/index.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | organization-learners-management', function () {
   let server;

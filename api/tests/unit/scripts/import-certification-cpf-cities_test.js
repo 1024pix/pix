@@ -1,6 +1,7 @@
-import { expect, sinon } from '../../test-helper.js';
-import { buildCities, getCitiesWithDistricts } from '../../../scripts/certification/import-certification-cpf-cities.js';
 import lodash from 'lodash';
+
+import { buildCities, getCitiesWithDistricts } from '../../../scripts/certification/import-certification-cpf-cities.js';
+import { expect, sinon } from '../../test-helper.js';
 
 const { noop } = lodash;
 

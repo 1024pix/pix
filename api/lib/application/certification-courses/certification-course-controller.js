@@ -1,12 +1,11 @@
-import * as certificationDetailsSerializer from '../../infrastructure/serializers/jsonapi/certification-details-serializer.js';
-import * as certificationSerializer from '../../infrastructure/serializers/jsonapi/certification-serializer.js';
-import * as juryCertificationSerializer from '../../infrastructure/serializers/jsonapi/jury-certification-serializer.js';
-import * as certificationCourseSerializer from '../../infrastructure/serializers/jsonapi/certification-course-serializer.js';
-import * as certifiedProfileRepository from '../../infrastructure/repositories/certified-profile-repository.js';
-import * as certifiedProfileSerializer from '../../infrastructure/serializers/jsonapi/certified-profile-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-
+import * as certifiedProfileRepository from '../../infrastructure/repositories/certified-profile-repository.js';
+import * as certificationCourseSerializer from '../../infrastructure/serializers/jsonapi/certification-course-serializer.js';
+import * as certificationDetailsSerializer from '../../infrastructure/serializers/jsonapi/certification-details-serializer.js';
+import * as certificationSerializer from '../../infrastructure/serializers/jsonapi/certification-serializer.js';
+import * as certifiedProfileSerializer from '../../infrastructure/serializers/jsonapi/certified-profile-serializer.js';
+import * as juryCertificationSerializer from '../../infrastructure/serializers/jsonapi/jury-certification-serializer.js';
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 const getCertificationDetails = async function (request, h, dependencies = { certificationDetailsSerializer }) {

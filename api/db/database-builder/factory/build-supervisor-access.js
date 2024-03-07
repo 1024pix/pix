@@ -1,7 +1,8 @@
-import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
-import { buildUser } from './build-user.js';
+
+import { databaseBuffer } from '../database-buffer.js';
 import { buildSession } from './build-session.js';
+import { buildUser } from './build-user.js';
 
 const buildSupervisorAccess = function ({
   id = databaseBuffer.getNextId(),

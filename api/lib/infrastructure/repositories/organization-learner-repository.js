@@ -1,18 +1,17 @@
+import { knex } from '../../../db/knex-database-connection.js';
+import { ORGANIZATION_FEATURE } from '../../../src/shared/domain/constants.js';
 import {
   NotFoundError,
+  OrganizationLearnerCertificabilityNotUpdatedError,
   OrganizationLearnerNotFound,
   UserCouldNotBeReconciledError,
   UserNotFoundError,
-  OrganizationLearnerCertificabilityNotUpdatedError,
 } from '../../domain/errors.js';
 import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
 import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
-import * as studentRepository from './student-repository.js';
-
-import { knex } from '../../../db/knex-database-connection.js';
-import { fetchPage } from '../utils/knex-utils.js';
 import { DomainTransaction } from '../DomainTransaction.js';
-import { ORGANIZATION_FEATURE } from '../../../src/shared/domain/constants.js';
+import { fetchPage } from '../utils/knex-utils.js';
+import * as studentRepository from './student-repository.js';
 
 function _shouldStudentToImportBeReconciled(
   allOrganizationLearnersInSameOrganization,
@@ -420,25 +419,25 @@ const countActiveWithAtLeastOneParticipationByOrganizationId = async function (o
 };
 
 export {
-  findByIds,
-  countByOrganizationsWhichNeedToComputeCertificability,
-  findByOrganizationsWhichNeedToComputeCertificability,
-  findByOrganizationId,
-  findByOrganizationIdAndUpdatedAtOrderByDivision,
-  findByUserId,
-  isOrganizationLearnerIdLinkedToUserAndSCOOrganization,
   _reconcileOrganizationLearners,
-  findByOrganizationIdAndBirthdate,
-  reconcileUserToOrganizationLearner,
-  reconcileUserByNationalStudentIdAndOrganizationId,
-  getOrganizationLearnerForAdmin,
-  dissociateUserFromOrganizationLearner,
+  countActiveWithAtLeastOneParticipationByOrganizationId,
+  countByOrganizationsWhichNeedToComputeCertificability,
   dissociateAllStudentsByUserId,
+  dissociateUserFromOrganizationLearner,
+  findByIds,
+  findByOrganizationId,
+  findByOrganizationIdAndBirthdate,
+  findByOrganizationIdAndUpdatedAtOrderByDivision,
+  findByOrganizationsWhichNeedToComputeCertificability,
+  findByUserId,
   findOneByUserIdAndOrganizationId,
   get,
   getLatestOrganizationLearner,
-  updateUserIdWhereNull,
+  getOrganizationLearnerForAdmin,
   isActive,
+  isOrganizationLearnerIdLinkedToUserAndSCOOrganization,
+  reconcileUserByNationalStudentIdAndOrganizationId,
+  reconcileUserToOrganizationLearner,
   updateCertificability,
-  countActiveWithAtLeastOneParticipationByOrganizationId,
+  updateUserIdWhereNull,
 };

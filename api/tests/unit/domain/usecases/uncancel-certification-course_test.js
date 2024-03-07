@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { uncancelCertificationCourse } from '../../../../lib/domain/usecases/uncancel-certification-course.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | uncancel-certification-course', function () {
   it('should uncancel the certification course', async function () {

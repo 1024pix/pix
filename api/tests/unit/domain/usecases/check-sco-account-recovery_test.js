@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { StudentInformationForAccountRecovery } from '../../../../lib/domain/read-models/StudentInformationForAccountRecovery.js';
 import { checkScoAccountRecovery } from '../../../../lib/domain/usecases/check-sco-account-recovery.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | check-sco-account-recovery', function () {
   let organizationLearnerRepository;

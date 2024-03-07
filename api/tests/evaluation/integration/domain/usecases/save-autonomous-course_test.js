@@ -1,18 +1,18 @@
-import {
-  catchErr,
-  databaseBuilder,
-  domainBuilder,
-  expect,
-  mockLearningContent,
-  learningContentBuilder,
-  sinon,
-} from '../../../../test-helper.js';
+import { constants } from '../../../../../lib/domain/constants.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import {
   NotFoundError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
 } from '../../../../../src/shared/domain/errors.js';
-import { constants } from '../../../../../lib/domain/constants.js';
+import {
+  catchErr,
+  databaseBuilder,
+  domainBuilder,
+  expect,
+  learningContentBuilder,
+  mockLearningContent,
+  sinon,
+} from '../../../../test-helper.js';
 
 describe('Integration | Usecases | Save autonomous course', function () {
   beforeEach(async function () {

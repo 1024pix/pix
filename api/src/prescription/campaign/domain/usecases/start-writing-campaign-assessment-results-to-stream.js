@@ -1,18 +1,18 @@
-import _ from 'lodash';
 import bluebird from 'bluebird';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc.js';
 import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc.js';
+import _ from 'lodash';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import {
-  CONCURRENCY_HEAVY_OPERATIONS,
-  CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
-} from '../../../../../lib/infrastructure/constants.js';
 import { CampaignTypeError } from '../../../../../lib/domain/errors.js';
-import * as csvSerializer from '../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
 import { CampaignLearningContent } from '../../../../../lib/domain/models/CampaignLearningContent.js';
+import {
+  CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
+  CONCURRENCY_HEAVY_OPERATIONS,
+} from '../../../../../lib/infrastructure/constants.js';
+import * as csvSerializer from '../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
 
 const startWritingCampaignAssessmentResultsToStream = async function ({
   campaignId,

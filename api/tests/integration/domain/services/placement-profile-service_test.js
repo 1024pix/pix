@@ -1,7 +1,7 @@
-import { expect, databaseBuilder, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
-import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
+import { databaseBuilder, expect, learningContentBuilder, mockLearningContent } from '../../../test-helper.js';
 
 const { ENGLISH_SPOKEN } = LOCALE;
 

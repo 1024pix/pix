@@ -1,6 +1,6 @@
 import { HttpErrors } from '../../shared/application/http-errors.js';
-import { ModuleDoesNotExistError, PassageDoesNotExistError, PassageTerminatedError } from '../domain/errors.js';
 import { DomainErrorMappingConfiguration } from '../../shared/application/models/domain-error-mapping-configuration.js';
+import { ModuleDoesNotExistError, PassageDoesNotExistError, PassageTerminatedError } from '../domain/errors.js';
 
 const devcompDomainErrorMappingConfiguration = [
   {

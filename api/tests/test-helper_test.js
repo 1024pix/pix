@@ -1,4 +1,4 @@
-import { expect, catchErr, parseJsonStream } from './test-helper.js';
+import { catchErr, expect, parseJsonStream } from './test-helper.js';
 
 describe('Test helpers', function () {
   describe('#catchErr', function () {

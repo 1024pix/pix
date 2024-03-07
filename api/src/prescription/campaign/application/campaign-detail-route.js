@@ -1,9 +1,9 @@
 import Joi from 'joi';
-import { campaignDetailController } from './campaign-detail-controller.js';
+
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
-
 import { CampaignParticipationStatuses } from '../../shared/domain/constants.js';
+import { campaignDetailController } from './campaign-detail-controller.js';
 
 const campaignParticipationStatuses = Object.values(CampaignParticipationStatuses);
 
@@ -111,4 +111,4 @@ const register = async function (server) {
 };
 
 const name = 'campaigns-detail-api';
-export { register, name };
+export { name, register };

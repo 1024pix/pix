@@ -1,9 +1,9 @@
-import { sinon, expect, hFake } from '../../../test-helper.js';
 import { campaignParticipationController } from '../../../../lib/application/campaign-participations/campaign-participation-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 

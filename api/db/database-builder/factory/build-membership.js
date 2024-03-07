@@ -1,8 +1,9 @@
-import { databaseBuffer } from '../database-buffer.js';
-import { buildUser } from './build-user.js';
-import { buildOrganization } from './build-organization.js';
-import { Membership } from '../../../lib/domain/models/Membership.js';
 import _ from 'lodash';
+
+import { Membership } from '../../../lib/domain/models/Membership.js';
+import { databaseBuffer } from '../database-buffer.js';
+import { buildOrganization } from './build-organization.js';
+import { buildUser } from './build-user.js';
 
 const buildMembership = function ({
   id = databaseBuffer.getNextId(),

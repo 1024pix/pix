@@ -1,5 +1,5 @@
-import { expect } from '../../../../../test-helper.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Campaign', function () {
   describe('#updateFields', function () {

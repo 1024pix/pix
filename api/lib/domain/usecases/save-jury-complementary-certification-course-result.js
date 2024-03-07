@@ -1,4 +1,4 @@
-import { NotFoundError, InvalidJuryLevelError } from '../errors.js';
+import { InvalidJuryLevelError, NotFoundError } from '../errors.js';
 import { ComplementaryCertificationCourseResult } from '../models/ComplementaryCertificationCourseResult.js';
 
 const saveJuryComplementaryCertificationCourseResult = async function ({

@@ -1,11 +1,11 @@
-import { expect, catchErr, sinon } from '../../../test-helper.js';
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import { YamlParsingError } from '../../../../lib/domain/errors.js';
 import {
+  getCorrection,
   getCorrectionDetails,
   match,
-  getCorrection,
 } from '../../../../lib/domain/services/solution-service-qrocm-dep.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 const ANSWER_OK = AnswerStatus.OK;
 const ANSWER_KO = AnswerStatus.KO;

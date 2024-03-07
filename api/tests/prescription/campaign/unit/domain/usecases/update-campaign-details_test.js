@@ -1,6 +1,6 @@
-import { expect, catchErr, domainBuilder, sinon } from '../../../../../test-helper.js';
 import { updateCampaignDetails } from '../../../../../../src/prescription/campaign/domain/usecases/update-campaign-details.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | update-campaign-details', function () {
   let campaignAdministrationRepository, campaignManagementRepository;

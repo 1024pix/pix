@@ -1,7 +1,7 @@
 import { getById } from '../../../../../../src/certification/complementary-certification/application/api/complementary-certification-api.js';
-import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/complementary-certification/application/api/models/ComplementaryCertification.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Application | Certification | ComplementaryCertification | API', function () {
   context('#getById', function () {

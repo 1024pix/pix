@@ -1,6 +1,6 @@
-import { expect, hFake, sinon } from '../../../../test-helper.js';
-import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 import { certificationReportsController } from '../../../../../src/certification/course/application/certification-reports-controller.js';
+import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | certification-reports-controller', function () {
   describe('#getCertificationReports', function () {

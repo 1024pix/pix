@@ -1,6 +1,7 @@
+import dayjs from 'dayjs';
+
 import { usecases } from '../../shared/domain/usecases/index.js';
 import * as certificationAttestationPdf from '../infrastructure/utils/pdf/certification-attestation-pdf.js';
-import dayjs from 'dayjs';
 
 const getPDFAttestation = async function (request, h, dependencies = { certificationAttestationPdf }) {
   const userId = request.auth.credentials.userId;

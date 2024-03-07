@@ -1,12 +1,11 @@
+import { knex } from '../../../db/knex-database-connection.js';
+import { CampaignParticipant } from '../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
+import { CampaignToStartParticipation } from '../../../src/prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
+import { PreviousCampaignParticipation } from '../../../src/prescription/campaign-participation/domain/models/PreviousCampaignParticipation.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 import { OrganizationLearnerForStartingParticipation } from '../../domain/read-models/OrganizationLearnerForStartingParticipation.js';
 import { UserIdentity } from '../../domain/read-models/UserIdentity.js';
 import * as campaignRepository from '../repositories/campaign-repository.js';
-import { knex } from '../../../db/knex-database-connection.js';
-
-import { CampaignParticipant } from '../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
-import { NotFoundError } from '../../../src/shared/domain/errors.js';
-import { CampaignToStartParticipation } from '../../../src/prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
-import { PreviousCampaignParticipation } from '../../../src/prescription/campaign-participation/domain/models/PreviousCampaignParticipation.js';
 
 async function get({ userId, campaignId, domainTransaction }) {
   const userIdentity = await _getUserIdentityForTrainee(userId, domainTransaction);

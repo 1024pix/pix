@@ -1,9 +1,10 @@
+import _ from 'lodash';
+
+import { Assessment, CampaignTypes } from '../../../lib/domain/models/index.js';
+import { databaseBuffer } from '../database-buffer.js';
 import { buildOrganization } from './build-organization.js';
 import { buildTargetProfile } from './build-target-profile.js';
 import { buildUser } from './build-user.js';
-import { CampaignTypes, Assessment } from '../../../lib/domain/models/index.js';
-import { databaseBuffer } from '../database-buffer.js';
-import _ from 'lodash';
 
 const buildCampaign = function ({
   id = databaseBuffer.getNextId(),

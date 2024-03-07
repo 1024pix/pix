@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { databaseBuilder, domainBuilder, expect, knex } from '../../../../test-helper.js';
-import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
-import * as activityAnswerRepository from '../../../../../src/school/infrastructure/repositories/activity-answer-repository.js';
+
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
+import * as activityAnswerRepository from '../../../../../src/school/infrastructure/repositories/activity-answer-repository.js';
+import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
+import { databaseBuilder, domainBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Repository | activityAnswerRepository', function () {
   describe('#findByActivity', function () {

@@ -1,6 +1,6 @@
-import _ from 'lodash';
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
+import _ from 'lodash';
 const Joi = BaseJoi.extend(JoiDate);
 import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';

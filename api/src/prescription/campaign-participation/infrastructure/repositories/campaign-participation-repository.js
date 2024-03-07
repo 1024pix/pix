@@ -1,10 +1,9 @@
+import { Campaign } from '../../../../../lib/domain/models/Campaign.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
-import { Campaign } from '../../../../../lib/domain/models/Campaign.js';
-
-import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
 import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
+import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
 
 const updateWithSnapshot = async function (campaignParticipation) {
   const domainTransaction = ApplicationTransaction.getTransactionAsDomainTransaction();
@@ -52,4 +51,4 @@ const get = async function (id, domainTransaction) {
   });
 };
 
-export { get, updateWithSnapshot, update };
+export { get, update, updateWithSnapshot };

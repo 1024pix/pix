@@ -29,4 +29,4 @@ async function getDivisionsWhichStartedMission(missionId, organizationId) {
   return rawDivisions.map((rawDivision) => rawDivision.division).join(', ');
 }
 
-export { getStudentsByOrganizationId, getById, getDivisionsWhichStartedMission };
+export { getById, getDivisionsWhichStartedMission, getStudentsByOrganizationId };

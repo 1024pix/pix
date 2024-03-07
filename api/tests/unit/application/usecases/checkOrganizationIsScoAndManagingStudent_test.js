@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import * as useCase from '../../../../lib/application/usecases/checkOrganizationIsScoAndManagingStudent.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Use Case | checkOrganizationIsScoAndManagingStudent', function () {
   context('When organization is SCO managing students', function () {

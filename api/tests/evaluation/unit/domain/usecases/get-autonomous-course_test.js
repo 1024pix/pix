@@ -1,6 +1,6 @@
-import { catchErr, expect, sinon } from '../../../../test-helper.js';
-import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { getAutonomousCourse } from '../../../../../src/evaluation/domain/usecases/get-autonomous-course.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | get-autonomous-course', function () {
   let autonomousCourseRepository;

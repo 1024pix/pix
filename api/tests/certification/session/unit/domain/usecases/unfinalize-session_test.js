@@ -1,7 +1,7 @@
-import { catchErr, expect, sinon } from '../../../../../test-helper.js';
-import { unfinalizeSession } from '../../../../../../src/certification/session/domain/usecases/unfinalize-session.js';
 import { knex } from '../../../../../../db/knex-database-connection.js';
 import { SessionAlreadyPublishedError } from '../../../../../../src/certification/session/domain/errors.js';
+import { unfinalizeSession } from '../../../../../../src/certification/session/domain/usecases/unfinalize-session.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | unfinalize-session', function () {
   let sessionRepository;

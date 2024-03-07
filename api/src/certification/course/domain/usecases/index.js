@@ -1,14 +1,13 @@
 // eslint-disable import/no-restricted-paths
-import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
-import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
-
-import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
-import * as competenceMarkRepository from '../../../../../lib/infrastructure/repositories/competence-mark-repository.js';
-import * as courseAssessmentResultRepository from '../../infrastructure/repositories/course-assessment-result-repository.js';
 import * as certificationResultRepository from '../../../../../lib/infrastructure/repositories/certification-result-repository.js';
+import * as competenceMarkRepository from '../../../../../lib/infrastructure/repositories/competence-mark-repository.js';
+import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
+import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
+import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as courseAssessmentResultRepository from '../../infrastructure/repositories/course-assessment-result-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 
 /**

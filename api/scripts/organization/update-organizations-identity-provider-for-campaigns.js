@@ -1,13 +1,13 @@
 import { fileURLToPath } from 'node:url';
 
-import _ from 'lodash';
 import bluebird from 'bluebird';
+import _ from 'lodash';
 
-import { checkCsvHeader, parseCsvWithHeader } from '../helpers/csvHelpers.js';
 import { disconnect } from '../../db/knex-database-connection.js';
 import { updateOrganizationIdentityProviderForCampaigns } from '../../lib/domain/usecases/update-organization-identity-provider-for-campaigns.js';
-import * as organizationForAdminRepository from '../../lib/infrastructure/repositories/organization-for-admin-repository.js';
 import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
+import * as organizationForAdminRepository from '../../lib/infrastructure/repositories/organization-for-admin-repository.js';
+import { checkCsvHeader, parseCsvWithHeader } from '../helpers/csvHelpers.js';
 
 const modulePath = fileURLToPath(import.meta.url);
 const IS_LAUNCHED_FROM_CLI = process.argv[1] === modulePath;

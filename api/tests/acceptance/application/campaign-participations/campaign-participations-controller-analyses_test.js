@@ -1,12 +1,11 @@
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-
 import {
-  expect,
-  databaseBuilder,
-  mockLearningContent,
-  learningContentBuilder,
-  generateValidRequestAuthorizationHeader,
   createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../test-helper.js';
 
 describe('Acceptance | API | Campaign Participations | Analyses', function () {

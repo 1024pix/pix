@@ -1,9 +1,10 @@
-import { expect, catchErr, sinon } from '../../test-helper.js';
+import lodash from 'lodash';
+
 import {
   buildCountries,
   checkTransformUnicity,
 } from '../../../scripts/certification/import-certification-cpf-countries.js';
-import lodash from 'lodash';
+import { catchErr, expect, sinon } from '../../test-helper.js';
 
 const { noop } = lodash;
 

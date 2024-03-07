@@ -1,7 +1,7 @@
-import { expect, sinon, domainBuilder, HttpTestServer } from '../../../../test-helper.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { usecases } from '../../../../../src/shared/prescriber-management/domain/usecases/index.js';
 import * as moduleUnderTest from '../../../../../src/shared/prescriber-management/application/prescriber-informations-route.js';
+import { usecases } from '../../../../../src/shared/prescriber-management/domain/usecases/index.js';
+import { domainBuilder, expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Controller | prescriber-informations-controller', function () {
   let sandbox;

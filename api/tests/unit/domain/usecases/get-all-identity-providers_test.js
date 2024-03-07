@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { getAllIdentityProviders } from '../../../../lib/domain/usecases/get-all-identity-providers.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-all-identity-providers', function () {
   it('returns oidc providers from authenticationServiceRegistry', function () {

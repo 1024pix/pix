@@ -1,7 +1,8 @@
+import { randomUUID } from 'crypto';
+import _ from 'lodash';
+
 import { databaseBuffer } from '../database-buffer.js';
 import { buildTargetProfile } from './build-target-profile.js';
-import _ from 'lodash';
-import { randomUUID } from 'crypto';
 
 function buildBadge({
   id = databaseBuffer.getNextId(),

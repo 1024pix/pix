@@ -1,10 +1,11 @@
-import { expect, sinon } from '../../../../../test-helper.js';
-import { importOrganizationLearnersFromSIECLECSVFormat } from '../../../../../../src/prescription/learner-management/domain/usecases/import-organization-learners-from-siecle-csv-format.js';
-import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
-import { getI18n } from '../../../../../tooling/i18n/i18n.js';
-import { OrganizationLearnerImportHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-import-header.js';
-import { Readable } from 'stream';
 import iconv from 'iconv-lite';
+import { Readable } from 'stream';
+
+import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
+import { importOrganizationLearnersFromSIECLECSVFormat } from '../../../../../../src/prescription/learner-management/domain/usecases/import-organization-learners-from-siecle-csv-format.js';
+import { OrganizationLearnerImportHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-import-header.js';
+import { expect, sinon } from '../../../../../test-helper.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 describe('Unit | UseCase | import-organization-learners-from-siecle-csv', function () {
   const organizationId = 1234;

@@ -1,8 +1,8 @@
-import { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { STAGE_ACQUISITIONS_TABLE_NAME } from '../../../../db/migrations/20230721114848_create-stage_acquisitions-table.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { databaseBuilder, expect, knex, learningContentBuilder, mockLearningContent } from '../../../test-helper.js';
 
 describe('Integration | Usecase | Handle Stage Acquisition', function () {
   let userId, assessment, stages, campaignParticipationId, targetProfileId, listSkill, learningContent;

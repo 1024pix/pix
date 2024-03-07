@@ -1,8 +1,8 @@
-import { expect } from '../../../../test-helper.js';
 import {
   getEnabledTreatments,
   useLevenshteinRatio,
 } from '../../../../../src/devcomp/domain/services/services-utils.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Services | services-utils', function () {
   describe('#getEnabledTreatments', function () {

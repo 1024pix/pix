@@ -1,13 +1,12 @@
-import { sinon, expect } from '../../../test-helper.js';
-
-import * as mailService from '../../../../lib/domain/services/mail-service.js';
-import { mailer } from '../../../../src/shared/mail/infrastructure/services/mailer.js';
-import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { config as settings } from '../../../../lib/config.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
-import fr from '../../../../translations/fr.json' assert { type: 'json' };
+import * as mailService from '../../../../lib/domain/services/mail-service.js';
+import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
+import { mailer } from '../../../../src/shared/mail/infrastructure/services/mailer.js';
 import en from '../../../../translations/en.json' assert { type: 'json' };
+import fr from '../../../../translations/fr.json' assert { type: 'json' };
 import nl from '../../../../translations/nl.json' assert { type: 'json' };
+import { expect, sinon } from '../../../test-helper.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 const mainTranslationsMapping = {
   fr,

@@ -1,5 +1,6 @@
-import { CertificationCandidateAlreadyLinkedToUserError } from '../../domain/errors.js';
 import bluebird from 'bluebird';
+
+import { CertificationCandidateAlreadyLinkedToUserError } from '../../domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const importCertificationCandidatesFromCandidatesImportSheet = async function ({

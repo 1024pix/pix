@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import * as targetProfileForUpdateRepository from '../../../../lib/infrastructure/repositories/target-profile-for-update-repository.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | Target-profile-for-update', function () {
   describe('#update', function () {

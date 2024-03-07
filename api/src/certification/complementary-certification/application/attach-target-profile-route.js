@@ -1,8 +1,9 @@
-import { attachTargetProfileController } from './attach-target-profile-controller.js';
-import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import Joi from 'joi';
-import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+
 import { erreurDoc } from '../../../../lib/infrastructure/open-api-doc/pole-emploi/erreur-doc.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { attachTargetProfileController } from './attach-target-profile-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -76,4 +77,4 @@ const register = async function (server) {
 };
 
 const name = 'attach-target-profile-api';
-export { register, name };
+export { name, register };

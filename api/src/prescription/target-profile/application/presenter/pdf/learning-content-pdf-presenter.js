@@ -1,10 +1,12 @@
-import pdfLibFontKit from '@pdf-lib/fontkit';
 import 'dayjs/locale/fr.js';
+
+import pdfLibFontKit from '@pdf-lib/fontkit';
+import { PDFDocument } from 'pdf-lib';
+
+import * as coverPageBuilder from './builder/cover-page-builder.js';
+import * as learningContentBuilder from './builder/learning-content-builder.js';
 import { FontManager } from './manager/font-manager.js';
 import * as TemplatePageManager from './manager/template-page-manager.js';
-import * as learningContentBuilder from './builder/learning-content-builder.js';
-import * as coverPageBuilder from './builder/cover-page-builder.js';
-import { PDFDocument } from 'pdf-lib';
 
 const present = async function (learningContent, title, language) {
   const pdfDocument = await _initializeNewPDFDocument(pdfLibFontKit);

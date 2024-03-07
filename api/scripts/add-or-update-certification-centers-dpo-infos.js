@@ -1,14 +1,14 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
+import bluebird from 'bluebird';
+import _ from 'lodash';
 import * as url from 'url';
 
-import _ from 'lodash';
-import bluebird from 'bluebird';
-import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
 import { disconnect } from '../db/knex-database-connection.js';
 import { updateCertificationCenterDataProtectionOfficerInformation } from '../lib/domain/usecases/update-certification-center-data-protection-officer-information.js';
 import * as dataProtectionOfficerRepository from '../lib/infrastructure/repositories/data-protection-officer-repository.js';
+import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const IS_LAUNCHED_FROM_CLI = process.argv[1] === modulePath;

@@ -1,7 +1,7 @@
+import _ from 'lodash';
+
 import * as campaignParticipationService from '../services/campaign-participation-service.js';
 import { CompetenceResult } from './CompetenceResult.js';
-
-import _ from 'lodash';
 
 class CampaignParticipationResult {
   constructor({

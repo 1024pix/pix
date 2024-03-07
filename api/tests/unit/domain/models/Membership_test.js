@@ -1,6 +1,6 @@
-import { expect } from '../../../test-helper.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { InvalidMembershipOrganizationRoleError } from '../../../../lib/domain/errors.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | Membership', function () {
   describe('#validateRole', function () {

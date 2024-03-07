@@ -9,7 +9,7 @@ const down = function () {
   return;
 };
 
-export { up, down };
+export { down, up };
 
 async function updateWithDefaultImageUrl(knex) {
   await knex(TABLE_NAME).whereNull('imageUrl').update({

@@ -1,6 +1,6 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../../../test-helper.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | update-campaign', function () {
   let originalCampaign;

@@ -1,13 +1,11 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../../../test-helper.js';
-import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
-
 import {
   AlreadySharedCampaignParticipationError,
   UserNotAuthorizedToAccessEntityError,
 } from '../../../../../../lib/domain/errors.js';
-
+import { usecases } from '../../../../../../src/prescription/campaign-participation/domain/usecases/index.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { beginCampaignParticipationImprovement } = usecases;
 

@@ -1,9 +1,10 @@
 import jsYaml from 'js-yaml';
-import { applyPreTreatments, applyTreatments } from './validation-treatments.js';
+
+import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
 import { YamlParsingError } from '../../domain/errors.js';
 import { getEnabledTreatments, useLevenshteinRatio } from './services-utils.js';
 import { validateAnswer } from './string-comparison-service.js';
-import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
+import { applyPreTreatments, applyTreatments } from './validation-treatments.js';
 
 function applyTreatmentsToSolutions(solutions, enabledTreatments) {
   return Object.fromEntries(
@@ -119,4 +120,4 @@ const getCorrection = function ({
   return getCorrectionDetails(treatedAnswers, treatedSolutions, enabledTreatments, solutions);
 };
 
-export { match, getCorrection, getCorrectionDetails };
+export { getCorrection, getCorrectionDetails, match };

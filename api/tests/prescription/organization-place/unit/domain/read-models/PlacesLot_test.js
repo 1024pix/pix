@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../../../test-helper.js';
 import { PlacesLot } from '../../../../../../src/prescription/organization-place/domain/read-models/PlacesLot.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | ReadModels | PlacesLot', function () {
   let clock;

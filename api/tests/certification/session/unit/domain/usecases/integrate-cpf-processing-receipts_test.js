@@ -1,9 +1,9 @@
+import { CpfImportStatus } from '../../../../../../src/certification/session/domain/models/CpfImportStatus.js';
+import { CpfInfos } from '../../../../../../src/certification/session/domain/models/CpfInfos.js';
+import { CpfReceipt } from '../../../../../../src/certification/session/domain/models/CpfReceipt.js';
+import { integrateCpfProccessingReceipts } from '../../../../../../src/certification/session/domain/usecases/integrate-cpf-processing-receipts.js';
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
 import { expect, sinon } from '../../../../../test-helper.js';
-import { integrateCpfProccessingReceipts } from '../../../../../../src/certification/session/domain/usecases/integrate-cpf-processing-receipts.js';
-import { CpfReceipt } from '../../../../../../src/certification/session/domain/models/CpfReceipt.js';
-import { CpfInfos } from '../../../../../../src/certification/session/domain/models/CpfInfos.js';
-import { CpfImportStatus } from '../../../../../../src/certification/session/domain/models/CpfImportStatus.js';
 
 describe('Unit | UseCase | integrate-cpf-processing-receipts ', function () {
   context('#integrateCpfProccessingReceipts', function () {

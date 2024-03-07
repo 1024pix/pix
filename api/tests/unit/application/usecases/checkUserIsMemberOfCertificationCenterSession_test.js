@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import * as usecase from '../../../../lib/application/usecases/checkUserIsMemberOfCertificationCenterSession.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Use Case | CheckUserIsMemberOfCertificationCenterSession', function () {
   let certificationCourseRepositoryStub;

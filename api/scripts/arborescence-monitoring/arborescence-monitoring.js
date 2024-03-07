@@ -1,9 +1,9 @@
+import { parseTimeSeriesMetrics } from './add-metrics-to-gist.js';
+import { getDoughnutChartUrl } from './quickcharts/doughnut.js';
+import { getSankeyChartUrl } from './quickcharts/sankey.js';
+import { getTimeSeriesChartUrl } from './quickcharts/time-series.js';
 import { formatMessageForSlack } from './slack.js';
 import { boundedContextDirectories, countFilesInPath } from './stats.js';
-import { parseTimeSeriesMetrics } from './add-metrics-to-gist.js';
-import { getTimeSeriesChartUrl } from './quickcharts/time-series.js';
-import { getSankeyChartUrl } from './quickcharts/sankey.js';
-import { getDoughnutChartUrl } from './quickcharts/doughnut.js';
 
 async function main() {
   const doughnutChart = await _getDoughnut();

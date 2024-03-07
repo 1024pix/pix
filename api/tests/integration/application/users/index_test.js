@@ -1,7 +1,7 @@
-import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import { userController } from '../../../../lib/application/users/user-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/users/index.js';
+import { userController } from '../../../../lib/application/users/user-controller.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Users | Routes', function () {
   const methodGET = 'GET';

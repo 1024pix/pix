@@ -1,9 +1,10 @@
+import _ from 'lodash';
+
+import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
+import { databaseBuffer } from '../database-buffer.js';
 import { buildAnswer } from './build-answer.js';
 import { buildAssessment } from './build-assessment.js';
 import { buildUser } from './build-user.js';
-import { databaseBuffer } from '../database-buffer.js';
-import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
-import _ from 'lodash';
 
 const buildKnowledgeElement = function ({
   id = databaseBuffer.getNextId(),

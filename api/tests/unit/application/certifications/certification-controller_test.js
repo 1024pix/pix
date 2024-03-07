@@ -1,8 +1,8 @@
-import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
 import { certificationController } from '../../../../lib/application/certifications/certification-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
 import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
+import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Controller | certifications-controller', function () {

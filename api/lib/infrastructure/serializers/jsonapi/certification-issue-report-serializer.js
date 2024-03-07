@@ -24,4 +24,4 @@ const deserialize = function (request) {
   };
 };
 
-export { serialize, deserialize };
+export { deserialize, serialize };

@@ -1,5 +1,5 @@
-import { Activity } from '../models/Activity.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import { Activity } from '../models/Activity.js';
 
 export const pix1dService = { getNextActivityLevel };
 

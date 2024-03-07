@@ -1,7 +1,7 @@
-import { expect, hFake, sinon } from '../../../test-helper.js';
-import { usecases } from '../../../../src/school/domain/usecases/index.js';
 import { organizationLearnerController } from '../../../../src/school/application/organization-learner-controller.js';
 import { OrganizationLearner } from '../../../../src/school/domain/models/OrganizationLearner.js';
+import { usecases } from '../../../../src/school/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | organization-learner-controller', function () {
   describe('#getById', function () {

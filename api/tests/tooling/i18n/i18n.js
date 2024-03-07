@@ -1,7 +1,8 @@
-import path from 'path';
-import { options } from '../../../lib/infrastructure/plugins/i18n.js';
 import { I18n } from 'i18n';
+import path from 'path';
 import * as url from 'url';
+
+import { options } from '../../../lib/infrastructure/plugins/i18n.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 function getI18n() {

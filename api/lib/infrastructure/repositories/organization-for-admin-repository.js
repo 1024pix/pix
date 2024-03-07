@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
-import { NotFoundError, MissingAttributesError } from '../../domain/errors.js';
-import { OrganizationForAdmin } from '../../domain/models/organizations-administration/OrganizationForAdmin.js';
-import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
-import { Tag } from '../../domain/models/Tag.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { MissingAttributesError, NotFoundError } from '../../domain/errors.js';
+import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
+import { OrganizationForAdmin } from '../../domain/models/organizations-administration/OrganizationForAdmin.js';
+import { Tag } from '../../domain/models/Tag.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';

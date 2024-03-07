@@ -1,3 +1,4 @@
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,8 +7,6 @@ import {
   insertUserWithRoleSuperAdmin,
   sinon,
 } from '../../../test-helper.js';
-
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 
 describe('Acceptance | Route | Certification Centers', function () {
   let server;

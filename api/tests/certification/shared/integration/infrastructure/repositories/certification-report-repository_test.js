@@ -1,10 +1,11 @@
 import _ from 'lodash';
-import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
-import { CertificationReport } from '../../../../../../src/certification/shared/domain/models/CertificationReport.js';
-import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import * as certificationReportRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-report-repository.js';
+
 import { CertificationCourseUpdateError } from '../../../../../../src/certification/shared/domain/errors.js';
 import { CertificationIssueReportCategory } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { CertificationReport } from '../../../../../../src/certification/shared/domain/models/CertificationReport.js';
+import * as certificationReportRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-report-repository.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | CertificationReport', function () {
   describe('#findBySessionId', function () {

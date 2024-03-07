@@ -1,6 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { asyncLocalStorage } from './utils/async-local-storage.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { asyncLocalStorage } from './utils/async-local-storage.js';
 
 class ApplicationTransaction {
   static getConnection(domainTransaction = DomainTransaction.emptyTransaction()) {

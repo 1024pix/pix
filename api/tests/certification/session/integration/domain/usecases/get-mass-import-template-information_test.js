@@ -1,7 +1,7 @@
-import { catchErr, expect, databaseBuilder } from '../../../../../test-helper.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { usecases } from '../../../../../../src/certification/session/domain/usecases/index.js';
 import { CenterTypes } from '../../../../../../src/certification/session/domain/models/CenterTypes.js';
+import { usecases } from '../../../../../../src/certification/session/domain/usecases/index.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Certification | Session | UseCase | get-mass-import-template-information ', function () {
   describe('#getMassImportTemplateInformation', function () {

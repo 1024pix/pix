@@ -1,15 +1,15 @@
-import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Challenge } from '../../../../lib/domain/models/index.js';
-import { missionDatasource } from '../datasources/learning-content/mission-datasource.js';
 import {
   challengeDatasource,
   skillDatasource,
   tubeDatasource,
 } from '../../../../lib/infrastructure/datasources/learning-content/index.js';
+import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
+import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { Activity } from '../../domain/models/Activity.js';
-import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
+import { missionDatasource } from '../datasources/learning-content/mission-datasource.js';
 
 /**
  *
@@ -120,7 +120,7 @@ function _getPix1dLevelName(activityLevel) {
   return levelName;
 }
 
-export { getChallengeFor1d, getActivityChallengesFor1d };
+export { getActivityChallengesFor1d, getChallengeFor1d };
 
 function _toDomainCollection({ challengeDataObjects }) {
   const challenges = challengeDataObjects.map((challengeDataObject) => {

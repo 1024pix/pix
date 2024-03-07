@@ -1,16 +1,16 @@
-import _ from 'lodash';
 import bluebird from 'bluebird';
+import _ from 'lodash';
 
-import { UserCompetence } from '../models/UserCompetence.js';
-import { PlacementProfile } from '../models/PlacementProfile.js';
+import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
-import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
+import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../infrastructure/repositories/knowledge-element-snapshot-repository.js';
-import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
+import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
+import { PlacementProfile } from '../models/PlacementProfile.js';
+import { UserCompetence } from '../models/UserCompetence.js';
 import * as scoringService from './scoring/scoring-service.js';
-import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 
 async function getPlacementProfile({
   userId,

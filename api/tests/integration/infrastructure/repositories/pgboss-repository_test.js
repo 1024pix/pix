@@ -1,6 +1,6 @@
-import { expect, knex, sinon } from '../../../test-helper.js';
-import * as pgBossRepository from '../../../../lib/infrastructure/repositories/pgboss-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as pgBossRepository from '../../../../lib/infrastructure/repositories/pgboss-repository.js';
+import { expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | PgBoss', function () {
   describe('#insert', function () {

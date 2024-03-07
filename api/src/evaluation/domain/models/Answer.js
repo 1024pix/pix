@@ -1,5 +1,6 @@
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import _ from 'lodash';
+
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 
 class Answer {
   constructor({

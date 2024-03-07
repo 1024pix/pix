@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | search-attachable-target-profiles', function () {
   it('should get attachable target profiles', async function () {

@@ -1,5 +1,12 @@
-import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
-import { HttpErrors } from './http-errors.js';
+import jsonapiSerializer from 'jsonapi-serializer';
+import _ from 'lodash';
+
+import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/request-response-utils.js';
+import * as translations from '../../../translations/index.js';
+import { AdminMemberError } from '../../authorization/domain/errors.js';
+import { CsvWithNoSessionDataError, SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
+import { SiecleXmlImportError } from '../../prescription/learner-management/domain/errors.js';
+import { OrganizationCantGetPlacesStatisticsError } from '../../prescription/organization-place/domain/errors.js';
 import * as DomainErrors from '../domain/errors.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
@@ -7,15 +14,9 @@ import {
   OidcError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
 } from '../domain/errors.js';
-import jsonapiSerializer from 'jsonapi-serializer';
-import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/request-response-utils.js';
-import _ from 'lodash';
-import * as translations from '../../../translations/index.js';
-import { AdminMemberError } from '../../authorization/domain/errors.js';
+import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { domainErrorMapper } from './domain-error-mapper.js';
-import { CsvWithNoSessionDataError, SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
-import { OrganizationCantGetPlacesStatisticsError } from '../../prescription/organization-place/domain/errors.js';
-import { SiecleXmlImportError } from '../../prescription/learner-management/domain/errors.js';
+import { HttpErrors } from './http-errors.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
@@ -159,4 +160,4 @@ function handle(request, h, error) {
   return h.response(errorSerializer.serialize(httpError)).code(httpError.status);
 }
 
-export { handle, _mapToHttpError };
+export { _mapToHttpError, handle };

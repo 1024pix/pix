@@ -1,10 +1,10 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../../test-helper.js';
+import { constants } from '../../../../../lib/domain/constants.js';
 import { saveAutonomousCourse } from '../../../../../src/evaluation/domain/usecases/save-autonomous-course.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
   NotFoundError,
 } from '../../../../../src/shared/domain/errors.js';
-import { constants } from '../../../../../lib/domain/constants.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | save-autonomous-course', function () {
   let autonomousCourse;

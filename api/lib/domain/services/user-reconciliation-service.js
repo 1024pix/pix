@@ -3,19 +3,18 @@ import fp from 'lodash/fp.js';
 
 const { pipe } = fp;
 import randomString from 'randomstring';
-import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 
+import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../src/shared/domain/constants.js';
+import { areTwoStringsCloseEnough } from '../../../src/shared/domain/services/string-comparison-service.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import {
   AlreadyRegisteredUsernameError,
   NotFoundError,
-  OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
+  OrganizationLearnerAlreadyLinkedToUserError,
 } from '../errors.js';
-
 import { isOneStringCloseEnoughFromMultipleStrings } from './string-comparison-service.js';
-import { areTwoStringsCloseEnough } from '../../../src/shared/domain/services/string-comparison-service.js';
 import { normalizeAndRemoveAccents, removeSpecialCharacters } from './validation-treatments.js';
-import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../src/shared/domain/constants.js';
 
 const STRICT_MATCH_RATIO = 0;
 
@@ -231,10 +230,10 @@ async function createUsernameByUser({ user: { firstName, lastName, birthdate }, 
 }
 
 export {
-  generateUsernameUntilAvailable,
+  assertStudentHasAnAlreadyReconciledAccount,
   createUsernameByUser,
   findMatchingCandidateIdForGivenUser,
-  findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser,
   findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo,
-  assertStudentHasAnAlreadyReconciledAccount,
+  findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser,
+  generateUsernameUntilAvailable,
 };

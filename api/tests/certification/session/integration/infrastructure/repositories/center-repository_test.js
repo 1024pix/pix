@@ -1,7 +1,7 @@
-import { databaseBuilder, domainBuilder, expect, catchErr } from '../../../../../test-helper.js';
+import { CertificationCenter } from '../../../../../../lib/domain/models/CertificationCenter.js';
 import * as centerRepository from '../../../../../../src/certification/session/infrastructure/repositories/center-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
-import { CertificationCenter } from '../../../../../../lib/domain/models/CertificationCenter.js';
+import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Certification |  Center | Repository | center-repository', function () {
   describe('#getById', function () {

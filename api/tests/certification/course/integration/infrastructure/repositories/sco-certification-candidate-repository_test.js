@@ -1,5 +1,5 @@
-import { databaseBuilder, expect } from '../../../../../test-helper.js';
 import * as scoCertificationCandidateRepository from '../../../../../../src/certification/course/infrastructure/repositories/sco-certification-candidate-repository.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Certification | Course | Integration | Repository | SCOCertificationCandidate', function () {
   describe('#findIdsByOrganizationIdAndDivision', function () {

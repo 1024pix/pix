@@ -1,8 +1,9 @@
+import lodash from 'lodash';
+
+import { knex } from '../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Assessment } from '../../domain/models/Assessment.js';
-import lodash from 'lodash';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { knex } from '../../../../db/knex-database-connection.js';
 
 const { groupBy, map, head, uniqBy, omit } = lodash;
 
@@ -139,22 +140,22 @@ const setAssessmentsAsStarted = async function ({
 };
 
 export {
-  getWithAnswers,
-  get,
-  findLastCompletedAssessmentsForEachCompetenceByUser,
-  getByAssessmentIdAndUserId,
-  save,
-  findNotAbortedCampaignAssessmentsByUserId,
+  _updateStateById,
   abortByAssessmentId,
   completeByAssessmentId,
   endBySupervisorByAssessmentId,
+  findLastCompletedAssessmentsForEachCompetenceByUser,
+  findNotAbortedCampaignAssessmentsByUserId,
+  get,
+  getByAssessmentIdAndUserId,
   getByCertificationCandidateId,
+  getWithAnswers,
   ownedByUser,
-  _updateStateById,
-  updateLastQuestionDate,
-  updateWhenNewChallengeIsAsked,
-  updateLastQuestionState,
+  save,
   setAssessmentsAsStarted,
+  updateLastQuestionDate,
+  updateLastQuestionState,
+  updateWhenNewChallengeIsAsked,
 };
 
 function _selectLastAssessmentForEachCompetence(assessments) {

@@ -1,3 +1,4 @@
+import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,7 +7,6 @@ import {
   knex,
   mockLearningContent,
 } from '../../../../test-helper.js';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 
 const { FRENCH_FRANCE, ENGLISH_SPOKEN } = LOCALE;
 

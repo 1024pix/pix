@@ -1,8 +1,8 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { AssessmentEndedError } from '../../../../../lib/domain/errors.js';
+import { CertificationChallenge } from '../../../../../lib/domain/models/CertificationChallenge.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
-import { AssessmentEndedError } from '../../../../../lib/domain/errors.js';
-import { knex } from '../../../../../db/knex-database-connection.js';
-import { CertificationChallenge } from '../../../../../lib/domain/models/CertificationChallenge.js';
 
 const logContext = {
   zone: 'certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId',
@@ -64,4 +64,4 @@ const getNextChallengeByCourseIdForV3 = async function (courseId, ignoredChallen
   return new CertificationChallenge(certificationChallenge);
 };
 
-export { save, getNextNonAnsweredChallengeByCourseId, getNextChallengeByCourseIdForV3 };
+export { getNextChallengeByCourseIdForV3, getNextNonAnsweredChallengeByCourseId, save };

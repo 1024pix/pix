@@ -1,7 +1,7 @@
-import { expect, databaseBuilder, mockLearningContent } from '../../../../../test-helper.js';
 import { CampaignProfilesCollectionParticipationSummary } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
 import * as campaignProfilesCollectionParticipationSummaryRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 
 const { STARTED, TO_SHARE } = CampaignParticipationStatuses;
 

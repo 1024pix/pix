@@ -1,15 +1,15 @@
-import { sinon, expect, catchErr, domainBuilder } from '../../../test-helper.js';
-import { handleAutoJury } from '../../../../lib/domain/events/handle-auto-jury.js';
-import { SessionFinalized } from '../../../../lib/domain/events/SessionFinalized.js';
 import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
 import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
-import {
-  CertificationIssueReportSubcategories,
-  CertificationIssueReportCategory,
-} from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { handleAutoJury } from '../../../../lib/domain/events/handle-auto-jury.js';
+import { SessionFinalized } from '../../../../lib/domain/events/SessionFinalized.js';
 import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
 import { CertificationAssessment } from '../../../../lib/domain/models/index.js';
+import {
+  CertificationIssueReportCategory,
+  CertificationIssueReportSubcategories,
+} from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Events | handle-auto-jury', function () {
   describe('when certification is V2', function () {

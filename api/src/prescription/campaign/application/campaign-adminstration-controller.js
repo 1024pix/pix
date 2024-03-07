@@ -1,9 +1,10 @@
 import _ from 'lodash';
+
+import * as checkAdminMemberHasRoleSuperAdminUseCase from '../../../../lib/application/usecases/checkAdminMemberHasRoleSuperAdmin.js';
+import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
+import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../../../src/prescription/campaign/domain/usecases/index.js';
 import * as campaignReportSerializer from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
-import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
-import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
-import * as checkAdminMemberHasRoleSuperAdminUseCase from '../../../../lib/application/usecases/checkAdminMemberHasRoleSuperAdmin.js';
 
 const createCampaigns = async function (request, h, dependencies = { csvSerializer }) {
   const campaignsToCreate = await dependencies.csvSerializer.deserializeForCampaignsImport(request.payload.path);

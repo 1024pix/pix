@@ -3,9 +3,10 @@
  *
  * @typedef {import('../../../shared/domain/usecases/index.js').CpfCertificationResultRepository} CpfCertificationResultRepository
  */
-import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import bluebird from 'bluebird';
+
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../../lib/infrastructure/constants.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 
 /**
  * @param {Object} params

@@ -1,11 +1,11 @@
 import _ from 'lodash';
+
+import { knex } from '../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../lib/domain/errors.js';
 import { CampaignAssessmentParticipation } from '../../../lib/domain/read-models/CampaignAssessmentParticipation.js';
-import { knex } from '../../../db/knex-database-connection.js';
-import * as knowledgeElementRepository from './knowledge-element-repository.js';
-import * as campaignRepository from './campaign-repository.js';
-
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
+import * as campaignRepository from './campaign-repository.js';
+import * as knowledgeElementRepository from './knowledge-element-repository.js';
 
 const getByCampaignIdAndCampaignParticipationId = async function ({ campaignId, campaignParticipationId }) {
   const result = await _fetchCampaignAssessmentAttributesFromCampaignParticipation(campaignId, campaignParticipationId);

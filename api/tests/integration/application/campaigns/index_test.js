@@ -1,6 +1,6 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import { campaignController } from '../../../../lib/application/campaigns/campaign-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/campaigns/index.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Route | campaignRouter', function () {
   let httpTestServer;

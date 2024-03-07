@@ -1,10 +1,11 @@
-import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
-import { isSameBinary } from '../../../../../../tooling/binary-comparator.js';
-import { getInvigilatorKitPdfBuffer } from '../../../../../../../src/certification/session/infrastructure/utils/pdf/invigilator-kit-pdf.js';
+import { writeFile } from 'fs/promises';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import * as url from 'url';
-import { writeFile } from 'fs/promises';
+
+import { getInvigilatorKitPdfBuffer } from '../../../../../../../src/certification/session/infrastructure/utils/pdf/invigilator-kit-pdf.js';
 import { LOCALE } from '../../../../../../../src/shared/domain/constants.js';
+import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
+import { isSameBinary } from '../../../../../../tooling/binary-comparator.js';
 
 const { FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 

@@ -1,5 +1,5 @@
-import { DomainErrorMappingConfiguration } from '../../shared/application/models/domain-error-mapping-configuration.js';
 import { HttpErrors } from '../../shared/application/http-errors.js';
+import { DomainErrorMappingConfiguration } from '../../shared/application/models/domain-error-mapping-configuration.js';
 import { NotInProgressAssessmentError } from '../domain/school-errors.js';
 
 const schoolDomainErrorMappingConfiguration = [

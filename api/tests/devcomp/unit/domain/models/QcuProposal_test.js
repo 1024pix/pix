@@ -1,5 +1,5 @@
-import { expect } from '../../../../test-helper.js';
 import { QcuProposal } from '../../../../../src/devcomp/domain/models/QcuProposal.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | QcuProposal', function () {
   describe('#constructor', function () {

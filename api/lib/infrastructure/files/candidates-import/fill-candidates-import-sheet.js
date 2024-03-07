@@ -1,20 +1,17 @@
-import * as writeOdsUtils from '../../utils/ods/write-ods-utils.js';
-import * as readOdsUtils from '../../utils/ods/read-ods-utils.js';
-
-import {
-  EXTRA_EMPTY_CANDIDATE_ROWS,
-  IMPORT_CANDIDATES_TEMPLATE_VALUES,
-  IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
-  IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS,
-} from './candidates-import-placeholders.js';
+import _ from 'lodash';
+import * as url from 'url';
 
 import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
-
-import _ from 'lodash';
+import * as readOdsUtils from '../../utils/ods/read-ods-utils.js';
+import * as writeOdsUtils from '../../utils/ods/write-ods-utils.js';
 import { CandidateData } from './CandidateData.js';
+import {
+  EXTRA_EMPTY_CANDIDATE_ROWS,
+  IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS,
+  IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
+  IMPORT_CANDIDATES_TEMPLATE_VALUES,
+} from './candidates-import-placeholders.js';
 import { SessionData } from './SessionData.js';
-
-import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const INFORMATIVE_HEADER_ROW = 8;

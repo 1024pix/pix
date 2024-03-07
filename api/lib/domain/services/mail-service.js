@@ -1,14 +1,12 @@
 import dayjs from 'dayjs';
 
+import { LOCALE } from '../../../src/shared/domain/constants.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { mailer } from '../../../src/shared/mail/infrastructure/services/mailer.js';
-import { config } from '../../config.js';
-
-import frTranslations from '../../../translations/fr.json' assert { type: 'json' };
 import enTranslations from '../../../translations/en.json' assert { type: 'json' };
+import frTranslations from '../../../translations/fr.json' assert { type: 'json' };
 import nlTranslations from '../../../translations/nl.json' assert { type: 'json' };
-
-import { LOCALE } from '../../../src/shared/domain/constants.js';
+import { config } from '../../config.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN } = LOCALE;
 
@@ -516,16 +514,16 @@ const mailService = {
   sendNotificationToOrganizationMembersForTargetProfileDetached,
 };
 export {
+  mailService,
   sendAccountCreationEmail,
   sendAccountRecoveryEmail,
-  sendCertificationResultEmail,
-  sendOrganizationInvitationEmail,
-  sendScoOrganizationInvitationEmail,
   sendCertificationCenterInvitationEmail,
-  sendResetPasswordDemandEmail,
-  sendVerificationCodeEmail,
+  sendCertificationResultEmail,
   sendCpfEmail,
   sendNotificationToCertificationCenterRefererForCleaResults,
   sendNotificationToOrganizationMembersForTargetProfileDetached,
-  mailService,
+  sendOrganizationInvitationEmail,
+  sendResetPasswordDemandEmail,
+  sendScoOrganizationInvitationEmail,
+  sendVerificationCodeEmail,
 };

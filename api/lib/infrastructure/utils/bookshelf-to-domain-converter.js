@@ -1,7 +1,8 @@
 import _ from 'lodash';
+
 import * as Models from '../../domain/models/index.js';
 
-export { buildDomainObjects, buildDomainObject };
+export { buildDomainObject, buildDomainObjects };
 
 function buildDomainObjects(BookshelfClass, bookshelfObjects) {
   return bookshelfObjects.map((bookshelfObject) => buildDomainObject(BookshelfClass, bookshelfObject));

@@ -1,6 +1,7 @@
-import { TEAM_EVALUATION_OFFSET_ID } from '../constants.js';
-import * as tooling from '../../common/tooling/index.js';
 import dayjs from 'dayjs';
+
+import * as tooling from '../../common/tooling/index.js';
+import { TEAM_EVALUATION_OFFSET_ID } from '../constants.js';
 
 export default async function initUser(databaseBuilder) {
   const ALL_PURPOSE_ID = TEAM_EVALUATION_OFFSET_ID + 2;

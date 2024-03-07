@@ -18,4 +18,4 @@ function sendNotificationToOrganizationMembersForTargetProfileDetached({ email, 
 const mailService = {
   sendNotificationToOrganizationMembersForTargetProfileDetached,
 };
-export { sendNotificationToOrganizationMembersForTargetProfileDetached, mailService };
+export { mailService, sendNotificationToOrganizationMembersForTargetProfileDetached };

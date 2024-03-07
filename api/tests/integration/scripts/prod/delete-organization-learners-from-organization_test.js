@@ -1,5 +1,5 @@
-import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 import { deleteOrganizationLearnersFromOrganization } from '../../../../scripts/prod/delete-organization-learners-from-organization.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Script | Prod | Delete Organization Learners From Organization', function () {
   describe('#deleteOrganizationLearnersFromOrganization', function () {

@@ -1,12 +1,7 @@
-import * as moduleRepository from '../../../../src/devcomp/infrastructure/repositories/module-repository.js';
-import moduleDatasource from '../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
 import { BlockInput } from '../../../../src/devcomp/domain/models/block/BlockInput.js';
 import { BlockSelect } from '../../../../src/devcomp/domain/models/block/BlockSelect.js';
 import { BlockText } from '../../../../src/devcomp/domain/models/block/BlockText.js';
-import { Grain } from '../../../../src/devcomp/domain/models/Grain.js';
 import { Image } from '../../../../src/devcomp/domain/models/element/Image.js';
-import { Module } from '../../../../src/devcomp/domain/models/module/Module.js';
-import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { QCM } from '../../../../src/devcomp/domain/models/element/QCM.js';
 import { QCMForAnswerVerification } from '../../../../src/devcomp/domain/models/element/QCM-for-answer-verification.js';
 import { QCU } from '../../../../src/devcomp/domain/models/element/QCU.js';
@@ -14,10 +9,15 @@ import { QCUForAnswerVerification } from '../../../../src/devcomp/domain/models/
 import { QROCM } from '../../../../src/devcomp/domain/models/element/QROCM.js';
 import { QROCMForAnswerVerification } from '../../../../src/devcomp/domain/models/element/QROCM-for-answer-verification.js';
 import { Text } from '../../../../src/devcomp/domain/models/element/Text.js';
-import { TransitionText } from '../../../../src/devcomp/domain/models/TransitionText.js';
 import { Video } from '../../../../src/devcomp/domain/models/element/Video.js';
-import { catchErr, expect, sinon } from '../../../test-helper.js';
+import { Grain } from '../../../../src/devcomp/domain/models/Grain.js';
+import { Module } from '../../../../src/devcomp/domain/models/module/Module.js';
+import { TransitionText } from '../../../../src/devcomp/domain/models/TransitionText.js';
+import moduleDatasource from '../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
+import * as moduleRepository from '../../../../src/devcomp/infrastructure/repositories/module-repository.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {
   describe('#getBySlug', function () {

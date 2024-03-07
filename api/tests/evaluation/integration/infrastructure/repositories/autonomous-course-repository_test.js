@@ -1,7 +1,7 @@
-import { databaseBuilder, expect, knex, mockLearningContent, sinon } from '../../../../test-helper.js';
-import { repositories } from '../../../../../src/evaluation/infrastructure/repositories/index.js';
 import { constants } from '../../../../../lib/domain/constants.js';
 import { AutonomousCourse } from '../../../../../src/evaluation/domain/models/AutonomousCourse.js';
+import { repositories } from '../../../../../src/evaluation/infrastructure/repositories/index.js';
+import { databaseBuilder, expect, knex, mockLearningContent, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Repository | Autonomous Course', function () {
   describe('#save', function () {

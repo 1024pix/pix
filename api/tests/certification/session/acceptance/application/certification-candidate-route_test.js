@@ -1,13 +1,12 @@
-import {
-  expect,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-  createServer,
-} from '../../../../test-helper.js';
-
-import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../../test-helper.js';
 const { ROLES } = PIX_ADMIN;
 
 describe('Acceptance | Controller | Session | certification-candidate-route', function () {

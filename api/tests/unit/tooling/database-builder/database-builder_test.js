@@ -1,7 +1,7 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
-import { expect, sinon, catchErr, knex } from '../../../test-helper.js';
 import { DatabaseBuilder } from '../../../../db/database-builder/database-builder.js';
+import { catchErr, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
   describe('#clean', function () {

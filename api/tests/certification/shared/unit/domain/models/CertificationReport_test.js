@@ -1,8 +1,9 @@
-import { expect, EMPTY_BLANK_AND_NULL, domainBuilder, catchErr } from '../../../../../test-helper.js';
+import lodash from 'lodash';
+
+import { InvalidCertificationReportForFinalization } from '../../../../../../src/certification/shared/domain/errors.js';
 import { CertificationReport } from '../../../../../../src/certification/shared/domain/models/CertificationReport.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { InvalidCertificationReportForFinalization } from '../../../../../../src/certification/shared/domain/errors.js';
-import lodash from 'lodash';
+import { catchErr, domainBuilder, EMPTY_BLANK_AND_NULL, expect } from '../../../../../test-helper.js';
 const { keys } = lodash;
 describe('Unit | Domain | Models | CertificationReport', function () {
   describe('#constructor', function () {

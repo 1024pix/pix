@@ -1,6 +1,6 @@
-import { httpAgent } from '../http/http-agent.js';
 import { config } from '../../config.js';
 import { AuditLoggerApiError } from '../../domain/errors.js';
+import { httpAgent } from '../http/http-agent.js';
 
 const { auditLogger } = config;
 const basicAuthorizationToken = btoa(`pix-api:${auditLogger.clientSecret}`);

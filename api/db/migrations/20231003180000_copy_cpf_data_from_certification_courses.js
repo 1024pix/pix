@@ -38,4 +38,4 @@ const down = async function (knex) {
   return knex.table('certification-courses-cpf-infos').delete();
 };
 
-export { up, down };
+export { down, up };

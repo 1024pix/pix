@@ -1,6 +1,7 @@
-import { OrganizationLearner } from '../../../../../lib/domain/models/index.js';
 import _ from 'lodash';
+
 import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../lib/domain/errors.js';
+import { OrganizationLearner } from '../../../../../lib/domain/models/index.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 
 const removeByIds = function ({ organizationLearnerIds, userId, domainTransaction }) {
@@ -62,4 +63,4 @@ const addOrUpdateOrganizationOfOrganizationLearners = async function (
   }
 };
 
-export { removeByIds, disableAllOrganizationLearnersInOrganization, addOrUpdateOrganizationOfOrganizationLearners };
+export { addOrUpdateOrganizationOfOrganizationLearners, disableAllOrganizationLearnersInOrganization, removeByIds };

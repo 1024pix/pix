@@ -1,7 +1,7 @@
+import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
+import { SessionFinalized } from '../../../../lib/domain/events/SessionFinalized.js';
 import { expect } from '../../../test-helper.js';
 import { buildEventDispatcherAndHandlersForTest } from '../../../tooling/events/event-dispatcher-builder.js';
-import { SessionFinalized } from '../../../../lib/domain/events/SessionFinalized.js';
-import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
 
 describe('Event Choreography | Finalized session', function () {
   it('Should trigger the automated jury', async function () {

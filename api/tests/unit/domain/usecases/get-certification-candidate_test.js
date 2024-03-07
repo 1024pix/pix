@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { getCertificationCandidate } from '../../../../lib/domain/usecases/get-certification-candidate.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-certification-candidate', function () {
   it('should get the certification candidate', async function () {

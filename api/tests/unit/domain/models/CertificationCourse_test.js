@@ -1,7 +1,7 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
-import { generateChallengeList } from '../../../certification/shared/fixtures/challenges.js';
 import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
+import { generateChallengeList } from '../../../certification/shared/fixtures/challenges.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationCourse', function () {
   describe('#cancel #isCancelled', function () {

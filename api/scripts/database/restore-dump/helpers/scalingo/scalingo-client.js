@@ -1,4 +1,5 @@
 import { clientFromToken } from 'scalingo';
+
 import { ScalingoDBClient } from './db-client.js';
 
 class ScalingoClient {

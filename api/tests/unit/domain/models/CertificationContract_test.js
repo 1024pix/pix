@@ -1,7 +1,8 @@
-import { expect, domainBuilder, catchErr } from '../../../test-helper.js';
+import _ from 'lodash';
+
 import { CertificationComputeError } from '../../../../lib/domain/errors.js';
 import { CertificationContract } from '../../../../lib/domain/models/CertificationContract.js';
-import _ from 'lodash';
+import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationContract', function () {
   context('#assertThatWeHaveEnoughAnswers', function () {

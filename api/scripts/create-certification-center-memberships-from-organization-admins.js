@@ -1,10 +1,10 @@
-import _ from 'lodash';
 import bluebird from 'bluebird';
-
-import { parseCsvWithHeader } from './helpers/csvHelpers.js';
-import { Membership } from '../lib/domain/models/Membership.js';
-import { knex, disconnect } from '../db/knex-database-connection.js';
+import _ from 'lodash';
 import * as url from 'url';
+
+import { disconnect, knex } from '../db/knex-database-connection.js';
+import { Membership } from '../lib/domain/models/Membership.js';
+import { parseCsvWithHeader } from './helpers/csvHelpers.js';
 
 async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId) {
   const certificationCenterIdWithMemberships = await knex('certification-centers')
@@ -105,10 +105,10 @@ async function main() {
 })();
 
 export {
-  getCertificationCenterIdWithMembershipsUserIdByExternalId,
-  getAdminMembershipsUserIdByOrganizationExternalId,
   buildCertificationCenterMemberships,
-  fetchCertificationCenterMembershipsByExternalId,
-  prepareDataForInsert,
   createCertificationCenterMemberships,
+  fetchCertificationCenterMembershipsByExternalId,
+  getAdminMembershipsUserIdByOrganizationExternalId,
+  getCertificationCenterIdWithMembershipsUserIdByExternalId,
+  prepareDataForInsert,
 };

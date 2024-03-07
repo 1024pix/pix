@@ -1,6 +1,6 @@
-import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import { CertificationCenterInvitation } from '../../../../../lib/domain/models/CertificationCenterInvitation.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-center-invitation-serializer', function () {
   describe('#serialize', function () {

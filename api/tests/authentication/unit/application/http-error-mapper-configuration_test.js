@@ -1,12 +1,12 @@
-import { expect } from '../../../test-helper.js';
-import { HttpErrors } from '../../../../src/shared/application/http-errors.js';
+import { authenticationDomainErrorMappingConfiguration } from '../../../../src/authentication/application/http-error-mapper-configuration.js';
 import {
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
 } from '../../../../src/authentication/domain/errors.js';
-import { authenticationDomainErrorMappingConfiguration } from '../../../../src/authentication/application/http-error-mapper-configuration.js';
+import { HttpErrors } from '../../../../src/shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../../../src/shared/application/models/domain-error-mapping-configuration.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Authentication | Application | HttpErrorMapperConfiguration', function () {
   it('contains a list of HttpErrorMapper instances', function () {

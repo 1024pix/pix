@@ -1,12 +1,11 @@
-import {
-  expect,
-  databaseBuilder,
-  insertUserWithRoleSuperAdmin,
-  generateValidRequestAuthorizationHeader,
-  createServer,
-} from '../../../test-helper.js';
-
 import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
+} from '../../../test-helper.js';
 
 describe('Acceptance | API | complementary-certification-controller', function () {
   let server;

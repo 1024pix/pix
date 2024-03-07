@@ -1,9 +1,9 @@
-import { expect, sinon, domainBuilder, catchErr, hFake } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../lib/application/http-errors.js';
 import {
   verifyCertificationSessionAuthorization,
   verifySessionAuthorization,
 } from '../../../../lib/application/preHandlers/authorization.js';
+import { catchErr, domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Pre-handler | Authorization', function () {
   const userId = 1;

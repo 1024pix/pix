@@ -1,6 +1,6 @@
-import { UserAnonymized } from '../../../../lib/domain/events/UserAnonymized.js';
-import { sinon, expect } from '../../../test-helper.js';
 import { ObjectValidationError } from '../../../../lib/domain/errors.js';
+import { UserAnonymized } from '../../../../lib/domain/events/UserAnonymized.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Events | UserAnonymized', function () {
   let clock;

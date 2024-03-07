@@ -1,5 +1,5 @@
-import { CompetenceMark } from './CompetenceMark.js';
 import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
+import { CompetenceMark } from './CompetenceMark.js';
 
 class JuryCertification {
   /**

@@ -1,11 +1,11 @@
-import _ from 'lodash';
 import jsonapiSerializer from 'jsonapi-serializer';
+import _ from 'lodash';
 
 const { Serializer, Deserializer } = jsonapiSerializer;
 
-import { WrongDateFormatError } from '../../../domain/errors.js';
 import { NO_EXAMINER_COMMENT } from '../../../../src/certification/shared/domain/models/CertificationReport.js';
 import { isValidDate } from '../../../../src/shared/infrastructure/utils/date-utils.js';
+import { WrongDateFormatError } from '../../../domain/errors.js';
 import { CertificationCourse } from '../../../domain/models/CertificationCourse.js';
 
 const serializeFromCertificationCourse = function (certificationCourse) {
@@ -73,7 +73,7 @@ const deserialize = function (json) {
   });
 };
 
-export { serializeFromCertificationCourse, deserializeCertificationCandidateModificationCommand, deserialize };
+export { deserialize, deserializeCertificationCandidateModificationCommand, serializeFromCertificationCourse };
 
 function _isOmitted(aString) {
   return _.isUndefined(aString);

@@ -1,6 +1,6 @@
-import { sinon, expect, hFake } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { passwordController } from '../../../../lib/application/passwords/password-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | PasswordController', function () {
   describe('#createResetDemand', function () {

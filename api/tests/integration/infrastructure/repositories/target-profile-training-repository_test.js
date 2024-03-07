@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, sinon } from '../../../test-helper.js';
 import * as targetProfileTrainingRepository from '../../../../lib/infrastructure/repositories/target-profile-training-repository.js';
+import { databaseBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | target-profile-training-repository', function () {
   describe('#create', function () {

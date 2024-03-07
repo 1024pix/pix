@@ -1,11 +1,10 @@
+import iconv from 'iconv-lite';
 import _ from 'lodash';
+import sax from 'sax';
 
 import { FileValidationError } from '../../../../../../lib/domain/errors.js';
-import { SiecleXmlImportError } from '../../../domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../../../../../lib/infrastructure/monitoring-tools.js';
-
-import iconv from 'iconv-lite';
-import sax from 'sax';
+import { SiecleXmlImportError } from '../../../domain/errors.js';
 
 /*
   https://github.com/1024pix/pix/pull/3470#discussion_r707319744

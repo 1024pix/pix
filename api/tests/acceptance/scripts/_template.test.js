@@ -1,5 +1,5 @@
-import { expect, catchErr, databaseBuilder } from '../../test-helper.js';
 import { doSomething } from '../../../scripts/_template.js';
+import { catchErr, databaseBuilder, expect } from '../../test-helper.js';
 
 describe('#doSomething', function () {
   describe('#if throwError is false', function () {

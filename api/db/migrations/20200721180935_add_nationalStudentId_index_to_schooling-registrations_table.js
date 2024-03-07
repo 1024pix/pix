@@ -8,4 +8,4 @@ const down = function (knex) {
   return knex.raw('DROP INDEX "schooling-registrations_nationalstudentid_index";');
 };
 
-export { up, down };
+export { down, up };

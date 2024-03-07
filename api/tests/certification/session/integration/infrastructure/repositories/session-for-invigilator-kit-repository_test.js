@@ -1,6 +1,6 @@
-import { databaseBuilder, expect } from '../../../../../test-helper.js';
-import * as sessionForInvigilatorKitRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-for-invigilator-kit-repository.js';
 import { SessionForInvigilatorKit } from '../../../../../../src/certification/session/domain/read-models/SessionForInvigilatorKit.js';
+import * as sessionForInvigilatorKitRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-for-invigilator-kit-repository.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Session-for-invigilator-kit', function () {
   describe('#get', function () {

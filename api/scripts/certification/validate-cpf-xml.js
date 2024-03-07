@@ -1,7 +1,8 @@
+import { readFile } from 'fs/promises';
 // eslint-disable-next-line n/no-unpublished-import
 import { parseXml } from 'libxmljs2';
-import { readFile } from 'fs/promises';
 import * as url from 'url';
+
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

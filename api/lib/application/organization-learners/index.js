@@ -1,10 +1,10 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { organizationLearnerController } from './organization-learner-controller.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { organizationLearnerController } from './organization-learner-controller.js';
 
 const register = async function (server) {
   const adminRoutes = [
@@ -56,4 +56,4 @@ const register = async function (server) {
 };
 
 const name = 'organization-learners-api';
-export { register, name };
+export { name, register };

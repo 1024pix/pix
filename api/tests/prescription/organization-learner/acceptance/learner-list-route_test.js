@@ -1,3 +1,4 @@
+import { Membership } from '../../../../lib/domain/models/Membership.js';
 import {
   createServer,
   databaseBuilder,
@@ -5,8 +6,6 @@ import {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 describe('Acceptance | Application | learner-list-route', function () {
   let server;

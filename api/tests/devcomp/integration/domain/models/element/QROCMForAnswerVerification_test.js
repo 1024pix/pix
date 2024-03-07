@@ -1,6 +1,6 @@
-import { expect } from '../../../../../test-helper.js';
 import { QROCMForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QROCM-for-answer-verification.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Integration | Devcomp | Domain | Models | Element | QROCMForAnswerVerification', function () {
   it('should return a valid answer when using tolerances with a right user response', function () {

@@ -23,4 +23,4 @@ function getValidOidcProviderCodes() {
   return [POLE_EMPLOI.code, CNAV.code, FWB.code, GOOGLE.code, PAYSDELALOIRE.code];
 }
 
-export { getValidOidcProviderCodes, POLE_EMPLOI, CNAV, FWB, GOOGLE, PAYSDELALOIRE };
+export { CNAV, FWB, getValidOidcProviderCodes, GOOGLE, PAYSDELALOIRE, POLE_EMPLOI };

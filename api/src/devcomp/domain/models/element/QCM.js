@@ -1,5 +1,5 @@
-import { Element } from './Element.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
+import { Element } from './Element.js';
 
 class QCM extends Element {
   constructor({ id, instruction, locales, proposals }) {

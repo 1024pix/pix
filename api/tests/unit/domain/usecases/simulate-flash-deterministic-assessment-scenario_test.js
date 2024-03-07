@@ -1,8 +1,9 @@
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { simulateFlashDeterministicAssessmentScenario } from '../../../../src/certification/flash-certification/domain/usecases/simulate-flash-deterministic-assessment-scenario.js';
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
-import { config } from '../../../../src/shared/config.js';
 import _ from 'lodash';
+
+import { simulateFlashDeterministicAssessmentScenario } from '../../../../src/certification/flash-certification/domain/usecases/simulate-flash-deterministic-assessment-scenario.js';
+import { config } from '../../../../src/shared/config.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const locale = 'fr-fr';
 

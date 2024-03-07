@@ -1,11 +1,10 @@
-import { readFile } from 'fs/promises';
-
-import { PDFDocument, rgb } from 'pdf-lib';
-
 import pdfLibFontkit from '@pdf-lib/fontkit';
+import { readFile } from 'fs/promises';
+import { PDFDocument, rgb } from 'pdf-lib';
 import * as url from 'url';
-import { LOCALE } from '../../../../../shared/domain/constants.js';
+
 import { PIX_CERTIF } from '../../../../../../lib/domain/constants.js';
+import { LOCALE } from '../../../../../shared/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 

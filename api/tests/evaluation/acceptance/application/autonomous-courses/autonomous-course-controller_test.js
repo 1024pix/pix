@@ -1,15 +1,15 @@
+import { constants } from '../../../../../lib/domain/constants.js';
 import {
+  createServer,
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
-  sinon,
-  mockLearningContent,
+  insertUserWithRoleSuperAdmin,
   knex,
   learningContentBuilder,
-  insertUserWithRoleSuperAdmin,
-  createServer,
+  mockLearningContent,
+  sinon,
 } from '../../../../test-helper.js';
-import { constants } from '../../../../../lib/domain/constants.js';
 
 describe('Acceptance | API | Autonomous Course', function () {
   let server;

@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { findFinalizedSessionsToPublish } from '../../../../lib/domain/usecases/find-finalized-sessions-to-publish.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | findFinalizedSessionsToPublish', function () {
   let finalizedSessionRepository;

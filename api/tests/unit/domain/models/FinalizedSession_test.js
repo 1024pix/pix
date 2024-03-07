@@ -1,8 +1,8 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
 import { FinalizedSession } from '../../../../lib/domain/models/FinalizedSession.js';
 import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
-import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { CertificationIssueReportCategory } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | FinalizedSession', function () {
   context('#isPublishable', function () {

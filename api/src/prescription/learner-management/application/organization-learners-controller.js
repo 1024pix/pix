@@ -1,5 +1,5 @@
-import { usecases } from '../domain/usecases/index.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { usecases } from '../domain/usecases/index.js';
 
 const deleteOrganizationLearners = async function (request, h) {
   const authenticatedUserId = request.auth.credentials.userId;

@@ -1,8 +1,8 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import {
   CERTIFICATION_CENTER_MEMBERSHIP_ROLES,
   CertificationCenterMembership,
 } from '../../../../lib/domain/models/CertificationCenterMembership.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationCenterMembership', function () {
   const now = new Date('2023-09-12');

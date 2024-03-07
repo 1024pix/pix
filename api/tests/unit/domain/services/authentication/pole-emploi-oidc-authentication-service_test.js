@@ -1,9 +1,10 @@
-import { expect, sinon } from '../../../../test-helper.js';
+import { Issuer } from 'openid-client';
+
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import { PoleEmploiOidcAuthenticationService } from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
 import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
-import { Issuer } from 'openid-client';
 import { config as settings } from '../../../../../src/shared/config.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 

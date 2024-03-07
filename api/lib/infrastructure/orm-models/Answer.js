@@ -1,6 +1,6 @@
-import { Bookshelf } from '../bookshelf.js';
-
 import './Assessment.js';
+
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'Answer';
 

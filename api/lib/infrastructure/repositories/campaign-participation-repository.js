@@ -1,11 +1,11 @@
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
-import { Campaign } from '../../domain/models/Campaign.js';
-import { DomainTransaction } from '../DomainTransaction.js';
-import { NotFoundError } from '../../domain/errors.js';
 import { constants } from '../../domain/constants.js';
+import { NotFoundError } from '../../domain/errors.js';
+import { Campaign } from '../../domain/models/Campaign.js';
+import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
+import { DomainTransaction } from '../DomainTransaction.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -163,15 +163,15 @@ const remove = async function ({ id, deletedAt, deletedBy, domainTransaction }) 
 };
 
 export {
-  hasAssessmentParticipations,
-  getCodeOfLastParticipationToProfilesCollectionCampaignForUser,
-  get,
+  countParticipationsByStatus,
   findLatestOngoingByUserId,
   findOneByCampaignIdAndUserId,
-  isRetrying,
-  getAllParticipationsByCampaignId,
-  countParticipationsByStatus,
+  get,
   getAllCampaignParticipationsInCampaignForASameLearner,
+  getAllParticipationsByCampaignId,
+  getCodeOfLastParticipationToProfilesCollectionCampaignForUser,
+  hasAssessmentParticipations,
+  isRetrying,
   remove,
 };
 

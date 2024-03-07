@@ -1,8 +1,8 @@
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-import * as moduleUnderTest from '../../../../../src/certification/session/application/attendance-sheet-route.js';
-import { attendanceSheetController } from '../../../../../src/certification/session/application/attendance-sheet-controller.js';
 import { authorization } from '../../../../../lib/application/preHandlers/authorization.js';
+import { attendanceSheetController } from '../../../../../src/certification/session/application/attendance-sheet-controller.js';
+import * as moduleUnderTest from '../../../../../src/certification/session/application/attendance-sheet-route.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Router | attendance-sheet-route', function () {
   describe('GET /api/sessions/{id}/attendance-sheet', function () {

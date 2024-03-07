@@ -1,7 +1,7 @@
-import { Bookshelf } from '../bookshelf.js';
-
 import './Assessment.js';
 import './User.js';
+
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'CompetenceEvaluation';
 

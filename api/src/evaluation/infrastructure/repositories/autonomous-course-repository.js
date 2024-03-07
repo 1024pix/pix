@@ -76,4 +76,4 @@ const findAllPaginated = async function ({ page, campaignApi }) {
   });
   return { autonomousCourses, meta };
 };
-export { save, get, update, findAllPaginated };
+export { findAllPaginated, get, save, update };

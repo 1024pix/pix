@@ -1,8 +1,7 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
-
-import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { updateMembership } from '../../../../lib/domain/usecases/update-membership.js';
+import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | UseCases | update-membership', function () {
   it('should update membership', async function () {

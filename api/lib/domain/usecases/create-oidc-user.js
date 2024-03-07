@@ -1,5 +1,5 @@
-import { UserToCreate } from '../models/UserToCreate.js';
 import { AuthenticationKeyExpired, UserAlreadyExistsWithAuthenticationMethodError } from '../errors.js';
+import { UserToCreate } from '../models/UserToCreate.js';
 
 const createOidcUser = async function ({
   identityProvider,

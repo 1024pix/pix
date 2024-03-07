@@ -88,4 +88,4 @@ const down = async function (knex) {
   });
 };
 
-export { up, down };
+export { down, up };

@@ -1,15 +1,14 @@
-import { usecases } from '../../domain/usecases/index.js';
-
-import * as certificationCenterSerializer from '../../infrastructure/serializers/jsonapi/certification-center-serializer.js';
-import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
-import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
-import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
-import * as studentCertificationSerializer from '../../infrastructure/serializers/jsonapi/student-certification-serializer.js';
-import * as sessionSummarySerializer from '../../infrastructure/serializers/jsonapi/session-summary-serializer.js';
-import * as certificationCenterInvitationSerializer from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
+import lodash from 'lodash';
 
 import { extractParameters } from '../../../src/shared/infrastructure/utils/query-params-utils.js';
-import lodash from 'lodash';
+import { usecases } from '../../domain/usecases/index.js';
+import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
+import * as certificationCenterInvitationSerializer from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
+import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
+import * as certificationCenterSerializer from '../../infrastructure/serializers/jsonapi/certification-center-serializer.js';
+import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
+import * as sessionSummarySerializer from '../../infrastructure/serializers/jsonapi/session-summary-serializer.js';
+import * as studentCertificationSerializer from '../../infrastructure/serializers/jsonapi/student-certification-serializer.js';
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 const { map } = lodash;

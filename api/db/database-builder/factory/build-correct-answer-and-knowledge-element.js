@@ -1,5 +1,5 @@
-import { buildAssessment } from './build-assessment.js';
 import { buildAnswer } from './build-answer.js';
+import { buildAssessment } from './build-assessment.js';
 import { buildKnowledgeElement } from './build-knowledge-element.js';
 
 const buildCorrectAnswerAndKnowledgeElement = async function ({

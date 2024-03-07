@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
-import { Skill } from '../models/Skill.js';
 import _ from 'lodash';
+
+import { Skill } from '../models/Skill.js';
 
 const statuses = {
   VALIDATED: 'validated',

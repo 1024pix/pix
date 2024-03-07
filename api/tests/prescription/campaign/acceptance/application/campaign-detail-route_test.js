@@ -1,3 +1,4 @@
+import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,7 +7,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
-import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 import { Membership } from '../../../../../lib/domain/models/Membership.js';

@@ -8,4 +8,4 @@ const down = function (knex) {
   return knex(TABLE_NAME).where('organizationRole', '=', 'ADMIN').update({ organizationRole: 'OWNER' });
 };
 
-export { up, down };
+export { down, up };

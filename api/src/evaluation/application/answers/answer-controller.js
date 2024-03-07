@@ -1,9 +1,8 @@
-import * as answerSerializer from '../../infrastructure/serializers/jsonapi/answer-serializer.js';
-import * as correctionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/correction-serializer.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { evaluationUsecases } from '../../domain/usecases/index.js';
-
+import * as correctionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/correction-serializer.js';
 import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import { evaluationUsecases } from '../../domain/usecases/index.js';
+import * as answerSerializer from '../../infrastructure/serializers/jsonapi/answer-serializer.js';
 
 const save = async function (request, h, dependencies = { answerSerializer, requestResponseUtils }) {
   const answer = dependencies.answerSerializer.deserialize(request.payload);

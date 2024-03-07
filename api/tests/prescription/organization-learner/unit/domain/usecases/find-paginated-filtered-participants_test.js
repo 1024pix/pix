@@ -1,5 +1,5 @@
-import { sinon, expect } from '../../../../../test-helper.js';
 import { findPaginatedFilteredParticipants } from '../../../../../../src/prescription/organization-learner/domain/usecases/find-paginated-filtered-participants.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCases | get-paginated-participants-for-an-organization', function () {
   it('should call organizationParticipantRepository', async function () {

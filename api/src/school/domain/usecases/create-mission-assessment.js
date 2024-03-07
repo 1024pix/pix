@@ -1,5 +1,5 @@
-import { Assessment } from '../models/Assessment.js';
 import { MissionAssessment } from '../../infrastructure/models/mission-assessment.js';
+import { Assessment } from '../models/Assessment.js';
 
 const createMissionAssessment = async function ({
   missionId,

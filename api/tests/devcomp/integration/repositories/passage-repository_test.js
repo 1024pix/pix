@@ -1,7 +1,7 @@
-import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
-import * as passageRepository from '../../../../src/devcomp/infrastructure/repositories/passage-repository.js';
 import { Passage } from '../../../../src/devcomp/domain/models/Passage.js';
+import * as passageRepository from '../../../../src/devcomp/infrastructure/repositories/passage-repository.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | DevComp | Repositories | PassageRepository', function () {
   describe('#save', function () {

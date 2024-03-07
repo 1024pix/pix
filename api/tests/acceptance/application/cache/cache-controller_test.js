@@ -1,4 +1,7 @@
 import Redis from 'ioredis';
+
+import { LearningContentCache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,8 +9,6 @@ import {
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
 } from '../../../test-helper.js';
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-import { LearningContentCache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
 
 const { ROLES } = PIX_ADMIN;
 

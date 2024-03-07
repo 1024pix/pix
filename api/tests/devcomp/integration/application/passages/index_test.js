@@ -1,11 +1,11 @@
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-import * as moduleUnderTest from '../../../../../src/devcomp/application/passages/index.js';
 import { passageController } from '../../../../../src/devcomp/application/passages/controller.js';
+import * as moduleUnderTest from '../../../../../src/devcomp/application/passages/index.js';
 import {
   ModuleDoesNotExistError,
   PassageDoesNotExistError,
   PassageTerminatedError,
 } from '../../../../../src/devcomp/domain/errors.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Devcomp | Application | Passage | Router | passage-router', function () {
   describe('POST /api/passages/', function () {

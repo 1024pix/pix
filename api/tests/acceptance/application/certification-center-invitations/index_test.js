@@ -1,3 +1,4 @@
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,8 +7,6 @@ import {
   insertUserWithRoleSuperAdmin,
   knex,
 } from '../../../test-helper.js';
-
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 
 const CERTIFICATION_CENTER_INVITATIONS_TABLE_NAME = 'certification-center-invitations';
 

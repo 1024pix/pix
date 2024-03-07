@@ -1,3 +1,4 @@
+import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -5,8 +6,6 @@ import {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
 
 describe('Acceptance | Application | sco-leaner-list-route', function () {
   let server;

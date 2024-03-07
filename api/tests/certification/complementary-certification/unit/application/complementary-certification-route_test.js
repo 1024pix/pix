@@ -1,7 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import * as moduleUnderTest from '../../../../../src/certification/complementary-certification/application/complementary-certification-route.js';
 import { complementaryCertificationController } from '../../../../../src/certification/complementary-certification/application/complementary-certification-controller.js';
+import * as moduleUnderTest from '../../../../../src/certification/complementary-certification/application/complementary-certification-route.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Certification | ComplementaryCertification | complementary-certification-route', function () {
   describe('/api/admin/complementary-certifications/{id}/target-profiles', function () {

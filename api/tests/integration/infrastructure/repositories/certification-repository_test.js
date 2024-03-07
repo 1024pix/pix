@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, knex, sinon } from '../../../test-helper.js';
 import * as certificationRepository from '../../../../lib/infrastructure/repositories/certification-repository.js';
 import { AssessmentResult, status } from '../../../../src/shared/domain/models/AssessmentResult.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | Certification', function () {
   describe('#getStatusesBySessionId', function () {

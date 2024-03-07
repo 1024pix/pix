@@ -2,18 +2,17 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import * as fs from 'fs';
+import fp from 'lodash/fp.js';
 import { resolve } from 'path';
 import { performance } from 'perf_hooks';
 import { fileURLToPath } from 'url';
 import { readFile, set_fs, utils as xlsxUtils } from 'xlsx';
-import fp from 'lodash/fp.js';
 
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
-import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 import { disconnect } from '../../../db/knex-database-connection.js';
-
-import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
+import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 import * as stageCollectionRepository from '../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
+import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 set_fs(fs);
 

@@ -1,6 +1,6 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { organizationInvitationController } from '../../../../lib/application/organization-invitations/organization-invitation-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/organization-invitations/index.js';
+import { organizationInvitationController } from '../../../../lib/application/organization-invitations/organization-invitation-controller.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Router | organization-invitation-router', function () {
   describe('POST /api/organization-invitations/{id}/response', function () {

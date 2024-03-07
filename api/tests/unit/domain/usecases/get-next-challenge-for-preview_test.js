@@ -1,6 +1,6 @@
-import { expect } from '../../../test-helper.js';
-import { getNextChallengeForPreview } from '../../../../lib/domain/usecases/get-next-challenge-for-preview.js';
 import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
+import { getNextChallengeForPreview } from '../../../../lib/domain/usecases/get-next-challenge-for-preview.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-preview', function () {
   describe('#getNextChallengeForPreview', function () {

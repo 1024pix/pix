@@ -1,42 +1,40 @@
-import { expect, hFake, sinon } from '../../test-helper.js';
-
+import { handle } from '../../../lib/application/error-manager.js';
+import { HttpErrors } from '../../../lib/application/http-errors.js';
+import { SESSION_SUPERVISING } from '../../../lib/domain/constants/session-supervising.js';
 import {
   AccountRecoveryDemandExpired,
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   AuthenticationKeyExpired,
-  DifferentExternalIdentifierError,
-  InvalidExternalAPIResponseError,
-  MissingUserAccountError,
-  UnexpectedUserAccountError,
-  MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
-  UserHasAlreadyLeftSCO,
-  InvalidVerificationCodeError,
-  InvalidSessionSupervisingLoginError,
-  EmailModificationDemandNotFoundOrExpiredError,
+  CampaignTypeError,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
-  UncancellableOrganizationInvitationError,
+  CertificationCandidateNotFoundError,
+  CertificationCandidateOnFinalizedSessionError,
+  CertificationEndedByFinalizationError,
+  DifferentExternalIdentifierError,
+  EmailModificationDemandNotFoundOrExpiredError,
+  InvalidExternalAPIResponseError,
+  InvalidIdentityProviderError,
+  InvalidJuryLevelError,
+  InvalidSessionSupervisingLoginError,
+  InvalidVerificationCodeError,
+  MissingUserAccountError,
+  MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
+  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
   OidcMissingFieldsError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
   OrganizationLearnerCannotBeDissociatedError,
-  UserShouldNotBeReconciledOnAnotherAccountError,
-  CertificationCandidateOnFinalizedSessionError,
-  CertificationEndedByFinalizationError,
-  CampaignTypeError,
-  InvalidJuryLevelError,
-  InvalidIdentityProviderError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
-  CertificationCandidateNotFoundError,
-  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
   UnableToAttachChildOrganizationToParentOrganizationError,
+  UncancellableOrganizationInvitationError,
+  UnexpectedUserAccountError,
+  UserHasAlreadyLeftSCO,
+  UserShouldNotBeReconciledOnAnotherAccountError,
 } from '../../../lib/domain/errors.js';
-
-import { HttpErrors } from '../../../lib/application/http-errors.js';
-import { handle } from '../../../lib/application/error-manager.js';
-import { SESSION_SUPERVISING } from '../../../lib/domain/constants/session-supervising.js';
+import { expect, hFake, sinon } from '../../test-helper.js';
 
 describe('Unit | Application | ErrorManager', function () {
   describe('#_mapToHttpError', function () {
