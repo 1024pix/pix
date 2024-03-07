@@ -2,7 +2,7 @@ import { pickAnswerStatusService } from '../../../../../lib/domain/services/pick
 import { random } from '../../../../../lib/infrastructure/utils/random.js';
 import * as moduleUnderTest from '../../../../../src/certification/flash-certification/application/scenario-simulator-route.js';
 import { pickChallengeService } from '../../../../../src/certification/flash-certification/domain/services/pick-challenge-service.js';
-import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { usecases } from '../../../../../src/certification/flash-certification/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { domainBuilder, expect, HttpTestServer, parseJsonStream, sinon } from '../../../../test-helper.js';
 
