@@ -2,9 +2,9 @@
   "api-error-messages": {
     "join-error": {
       "r11": "Je hebt al een Pix-account met het e-mailadres'<br>'{ value }'<br><br>'Om verder te gaan, log je in op dit account of vraag je een docent om hulp.'<br><br>'(Voor de docent: zie de 'Probleemoplossingskit' in Pix Orga > Documentatie - Code R11)",
-      "r12": "U hebt al een Pix-account gebruikt met de identificatiecode in de vorm voornaam.achternaam gevolgd door 4 cijfers:'<br>'{ value }'<br><br>'Om verder te gaan, logt u in op dit account of vraagt u een docent om hulp.'<br><br>'(Voor de docent: zie de 'Probleemoplossingskit' in Pix Orga > Documentatie - Code R12)",
+      "r12": "Je hebt al een Pix-account gebruikt met de identificatiecode in de vorm voornaam.achternaam gevolgd door 4 cijfers:'<br>'{ value }'<br><br>'Om verder te gaan, log je in op dit account of vraag je een docent om hulp.'<br><br>'(Voor de docent: zie de 'Probleemoplossingskit' in Pix Orga > Documentatie - Code R12)",
       "r13": "Je hebt al een Pix-account via de ENT op een andere school.'<br><br>'Om verder te gaan, neem je contact op met een docent die je toegang kan geven tot dit account via Pix Orga.'<br><br>'(Voor de docent: zie de 'Problemen oplossen kit' in Pix Orga > Documentatie - Code R13)",
-      "r31": "Je hebt al een Pix-account met het e-mailadres'<br>'{ value }'<br><br>'Om verder te gaan, log je in op dit account of vraag je een leraar om hulp.'<br><br>'(Voor de leraar: zie de 'Probleemoplossingskit' in Pix Orga > Documentatie - Code R31)",
+      "r31": "Je hebt al een Pix-account met het e-mailadres'<br>'{ value }'<br><br>'Om verder te gaan, log je in op dit account of vraag je een docent om hulp.'<br><br>'(Voor de leraar: zie de 'Probleemoplossingskit' in Pix Orga > Documentatie - Code R31)",
       "r32": "Je hebt al een Pix-account gebruikt met de identificatiecode in de vorm voornaam.achternaam gevolgd door 4 cijfers:'<br>'{ value }'<br><br>'Om verder te gaan, log je in bij dit account of vraag je een docent om hulp.'<br><br>'(Voor de docent: zie de 'Probleemoplossingskit' in Pix Orga > Documentatie - Code R32)",
       "r33": "Je hebt al een Pix-account via ENT. Gebruik deze om deel te nemen aan de cursus.",
       "r70": "Er is een fout opgetreden. Log uit en probeer het opnieuw.",
@@ -23,10 +23,10 @@
     },
     "register-error": {
       "s50": "Deze identifier bestaat al",
-      "s51": "U hebt al een Pix-account met het e-mailadres'<br>'{ value }'<br><br>'Om verder te gaan, logt u in op dit account of vraagt u een docent om hulp.'<br><br>'(Voor de docent: zie de 'Kit voor probleemoplossing' in Pix Orga > Documentatie - Code R51)",
+      "s51": "Je hebt al een Pix-account met het e-mailadres'<br>'{ value }'<br><br>'Om verder te gaan, log je in op dit account of vraag je een docent om hulp.'<br><br>'(Voor de docent: zie de 'Probleemoplossingskit' in Pix Orga > Documentatie - Code R51)",
       "s52": "Je hebt al een Pix-account gebruikt met de identificatiecode in de vorm voornaam.achternaam gevolgd door 4 cijfers:'<br>'{ value }'<br><br>'Om verder te gaan, log je in bij dit account of vraag je een docent om hulp.'<br><br>'(Voor de docent: zie de 'Probleemoplossingskit' in Pix Orga > Documentatie - Code R52)",
       "s53": "Je hebt al een Pix-account via ENT.'<br>'Gebruik deze om deel te nemen aan de cursus.",
-      "s61": "Je hebt al een Pix-account met het e-mailadres'<br>'{ value }'<br><br>'Om verder te gaan, log je in op dit account of vraag je een leraar om hulp.'<br><br>'(Voor de leraar: zie de 'Probleemoplossingskit' in Pix Orga > Documentatie - Code R61)",
+      "s61": "Je hebt al een Pix-account met het e-mailadres'<br>'{ value }'<br><br>'Om verder te gaan, log je in op dit account of vraag je een docent om hulp.'<br><br>'(Voor de docent: zie de 'Probleemoplossingskit' in Pix Orga > Documentatie - Code R61)",
       "s62": "Je hebt al een Pix-account gebruikt met de identificatiecode in de vorm voornaam.achternaam gevolgd door 4 cijfers:'<br>'{ value }'<br><br>'Om verder te gaan, log je in bij dit account of vraag je een docent om hulp.'<br><br>'(Voor de docent: zie de 'Probleemoplossingskit' in Pix Orga > Documentatie - Code R62)",
       "s63": "Je hebt al een Pix-account via de ENT op een andere school.'<br><br>'Om verder te gaan, neem je contact op met een docent die je toegang kan geven tot dit account via Pix Orga.'<br><br>'(Voor de docent: zie de 'Probleemoplossingskit' in Pix Orga > Documentatie - Code R63)"
     }
@@ -84,7 +84,7 @@
     },
     "new-information-banner": {
       "close-label": "Sluit de banner",
-      "lvl-seven": "Level 7 is eindelijk beschikbaar! Je kunt meer te weten komen via '<'a href=\"{lvlSevenUrl}\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'dit nieuws'</a>'."
+      "lvl-seven": "Pix wordt geleidelijk aan vertaald naar het Nederlands!De vertaling van al onze vaardigheden zal binnenkort beschikbaar zijn."
     },
     "or": "of",
     "pagination": {
@@ -141,7 +141,7 @@
     "showcase-homepage": "Startpagina Pix.{ tld }",
     "user": {
       "account": "Mijn account",
-      "certifications": "Mijn certificeringen",
+      "certifications": "Mijn certificaten",
       "sign-out": "Log uit.",
       "tests": "Mijn carrièrepaden"
     },
@@ -303,7 +303,7 @@
         "texts": {
           "title": "Start de test:",
           "first-course": "Is dit je eerste Pix-test?",
-          "legal-informations": "Of je nu een Pix account hebt of niet, de gegevens over je voortgang worden naar ons verstuurd.'<br>'Deze informatie wordt door Pix gebruikt om de service te verbeteren."
+          "legal-informations": "Of je nu een Pix-account hebt of niet, de gegevens over je voortgang worden naar ons verstuurd.'<br>'Deze informatie wordt door Pix gebruikt om de service te verbeteren."
         }
       }
     },
@@ -336,7 +336,7 @@
           "description": "Je zult internetopzoekingen moeten doen, je digitale werkomgeving moeten gebruiken, je kennis moeten testen, enz."
         },
         "legal": "Door op \"Ik begin\" te klikken, wordt informatie over je voortgang tijdens de cursus naar de cursusorganisator gestuurd zodat zij je kunnen ondersteunen. Als je aan het einde van de cursus op de knop \"Stuur mijn resultaten\" klikt, worden je resultaten naar de organisator gestuurd.",
-        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' begin je reis"
+        "title-with-username": "'<span>'{userFirstName}'</span>','<br>' begin je test"
       },
       "profiles-collection": {
         "title": "Stuur je profiel",
@@ -376,7 +376,7 @@
     "certificate": {
       "title": "Pix-certificaat",
       "attestation": "Mijn certificaat downloaden",
-      "back-link": "Terug naar mijn certificeringen",
+      "back-link": "Terug naar mijn certificaten",
       "candidate-birth": "Geboren op {birthdate}",
       "candidate-birth-complete": "Geboren op {birthdate} te {birthplace}.",
       "certification-center": "Certificeringscentrum :",
@@ -386,7 +386,7 @@
         "subtitle": "(niveaus op {maxReachableLevel})"
       },
       "complementary": {
-        "title": "Andere behaalde certificering",
+        "title": "Andere behaalde certificering(en)",
         "alternative": "Aanvullende certificering"
       },
       "exam-date": "Datum bezoek :",
@@ -426,7 +426,7 @@
       "title": "Doe mee aan een certificeringssessie",
       "congratulation-banner": {
         "complementary-certification": {
-          "eligible": "U komt ook in aanmerking { count, plural, =1 {voor aanvullende certificering} other {voor aanvullende certificeringen} } :",
+          "eligible": "Je komt ook in aanmerking { count, plural, =1 {à la certification complémentaire} other {aux certifications complémentaires} } :",
           "outdated": "<strong>Je komt niet langer in aanmerking voor de {complementaryCertificationName}-certificering na de evolutie ervan.</strong><br />Neem contact op met je school of de organisatie die je de cursus heeft aangeboden om opnieuw een campagne te doen en zo weer in aanmerking te komen. Je voortgang is bewaard gebleven en je hoeft alleen nog maar de nieuwe evenementen te spelen, wat snel zou moeten gaan."
         },
         "link": {
@@ -507,7 +507,7 @@
         "session-not-accessible": "De certificeringssessie is niet langer toegankelijk."
       },
       "first-title": "Je staat op het punt om aan je certificeringstest te beginnen",
-      "link-to-user-certification": "Bekijk mijn certificeringen",
+      "link-to-user-certification": "Bekijk mijn certificaten",
       "non-eligible-subscription": "Je komt niet in aanmerking voor {nonEligibleSubscriptionLabel}. Je kunt echter wel je Pix-certificering behalen.",
       "subscription": "Je bent geregistreerd voor de volgende aanvullende certificering naast de Pix-certificering:"
     },
@@ -637,7 +637,7 @@
                 },
                 "embed-not-displayed": {
                   "label": "De simulator/toepassing wordt niet weergegeven",
-                  "solution": "Uw internetverbinding kan te zwak zijn.'<br>'Laad de pagina opnieuw door op de verversknop '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' naast de adresbalk te drukken. Wacht even, misschien verschijnt de simulator.'<br><br>'Zo niet, kunt u het dan op een ander tijdstip of vanaf een andere locatie met een betere verbinding opnieuw proberen?"
+                  "solution": "Je internetverbinding is misschien te zwak.'<br>'Laad de pagina opnieuw door op de verversknop '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' naast de adresbalk te drukken. Wacht even, misschien verschijnt de simulator.'<br><br>'Zo niet, kun je het dan op een ander tijdstip of vanaf een andere locatie met een betere verbinding opnieuw proberen?"
                 },
                 "embed-other": "De simulator/toepassing heeft een ander probleem",
                 "link-other": "De link werkt niet of heeft een ander probleem",
@@ -650,7 +650,7 @@
                 "other-site-improvement": "Ik heb een suggestie om het platform te verbeteren",
                 "picture-not-displayed": {
                   "label": "De afbeelding wordt niet weergegeven",
-                  "solution": "Uw internetverbinding kan te zwak zijn.'<br> 'Laad de pagina opnieuw door op de verversknop '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' naast de adresbalk te drukken. Wacht even, misschien verschijnt de afbeelding. '<br><br>'Zo niet, kunt u het dan op een ander tijdstip of vanaf een andere locatie met een betere verbinding opnieuw proberen?"
+                  "solution": "Je internetverbinding is misschien te zwak.'<br> 'Laad de pagina opnieuw door op de verversknop '<img class=\"tuto-icon\" src=\"/images/icons/icon-reload.svg\" alt=\"\" />' naast de adresbalk te drukken. Wacht even, misschien verschijnt de afbeelding. '<br><br>'Zo niet, kun je het dan op een ander tijdstip of vanaf een andere locatie met een betere verbinding opnieuw proberen?"
                 },
                 "picture-other": "De afbeelding heeft nog een probleem",
                 "question-improvement": "Ik wil graag een verbetering van de vraag voorstellen",
@@ -667,16 +667,16 @@
               "empty-message": "Je moet een bericht invoeren.",
               "max-characters": "Je bericht is beperkt tot 10.000 tekens."
             },
-            "success": "'<p>'Uw opmerking is doorgegeven aan het Pix-projectteam.'</p><p>'Mercix!'</p>'"
+            "success": "'<p>'Jouw opmerking is doorgegeven aan het Pix-projectteam.'</p><p>'Mercix!'</p>'"
           }
         },
         "information": {
-          "data-usage": "'<p>'Pix verwerkt de gegevens op dit gebied om de ondervonden moeilijkheden te beheren en te analyseren en om te profiteren van uw feedback. Je hebt rechten op je gegevens die je kunt uitoefenen door contact op te nemen met: <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Meer informatie over uw gegevensbescherming en uw rechten.'</a></p>'",
+          "data-usage": "'<p>'Pix verwerkt de gegevens op dit gebied om de ondervonden moeilijkheden te beheren en te analyseren en om te profiteren van jouw feedback. Je hebt rechten over je gegevens die je kunt uitoefenen door contact op te nemen met: <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Meer informatie over jouw gegevensbescherming en rechten.'</a></p>'",
           "guidance": "'</p><p>'* Wees voorzichtig met wat je in dit gedeelte schrijft: blijf objectief en feitelijk ten behoeve van jezelf en anderen.'</p><p>'Voer met name geen informatie in over jezelf of derden met betrekking tot gezondheid, religie, politieke, vakbonds- of filosofische opvattingen, etnische afkomst, sancties en overtuigingen.'</p>'"
         },
         "modal": {
           "title": "Bevestiging van waarschuwing",
-          "content": "'<p><strong>'Weet u zeker dat u dit probleem wilt melden?'</strong></p><p>'Bedankt voor uw melding, die zorgvuldig zal worden bekeken door het Pix-team. We houden rekening met al je feedback om onze services en gebruikerservaring voortdurend te verbeteren. We kunnen u geen persoonlijk antwoord geven. Hartelijk dank voor uw medewerking.'</p>'"
+          "content": "'<p><strong>'Weet je zeker dat je dit probleem wilt melden?'</strong></p><p>'Bedankt voor je melding, die zorgvuldig zal worden bekeken door het Pix-team. We houden rekening met al je feedback om onze diensten en gebruikerservaring voortdurend te verbeteren. We kunnen je geen persoonlijk antwoord geven. Hartelijk dank voor je medewerking.'</p>'"
         }
       },
       "feedback-panel-v3": {
@@ -692,9 +692,9 @@
         "waiting-information": "Wachten op de supervisor..."
       },
       "has-focused-out-of-window": {
-        "certification": "We hebben een paginawissel geconstateerd. Je antwoord wordt als fout gerekend. Als je gedwongen werd om van pagina te wisselen, informeer dan je supervisor en beantwoord de vraag in zijn of haar aanwezigheid.",
-        "default": "We hebben een paginawijziging gedetecteerd. In certificering zou uw antwoord niet worden gevalideerd.",
-        "v3-certification": "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse. Si vous avez été contraint de changer de page, prévenez votre surveillant afin qu'il puisse le constater et le signaler, le cas échéant."
+        "certification": "We hebben een paginawissel geconstateerd. Je antwoord wordt als fout gerekend.'<br>'Als je gedwongen werd om van pagina te wisselen, informeer dan je supervisor en beantwoord de vraag in zijn of haar aanwezigheid.",
+        "default": "We hebben een paginawijziging gedetecteerd.'<br> 'In certificering zou uw antwoord niet worden gevalideerd.",
+        "v3-certification": "We hebben een paginawijziging gedetecteerd. Je antwoord wordt als fout geteld. Als je gedwongen werd om van pagina te veranderen, vertel dit dan aan je supervisor zodat hij of zij dit kan zien en rapporteren, indien nodig."
       },
       "illustration": {
         "placeholder": "De huidige afbeelding laden"
@@ -784,8 +784,8 @@
         "header": "Uw antwoorden"
       },
       "completion-percentage": {
-        "caption": "vooruitgang in de reis",
-        "label": "'<p class=\"sr-only\">'Je hebt '</p>'{completionPercentage}%'<p class=\"sr-only\">' van je reis voltooid.'</p>'"
+        "caption": "vooruitgang",
+        "label": "'<p class=\"sr-only\">'Je hebt '</p>'{completionPercentage}%'<p class=\"sr-only\">' van je test voltooid.'</p>'"
       }
     },
     "comparison-window": {
@@ -810,7 +810,7 @@
         },
         "feedback": {
           "correct": "Juist antwoord",
-          "wrong": "Onjuist antwoord. '<br>'Het juiste antwoord is :"
+          "wrong": "Onjuist antwoord. '<br>'Het juiste antwoord is:"
         },
         "focusedOut": {
           "title": "Je hebt de beproeving doorstaan",
@@ -915,7 +915,7 @@
         "title": "Test",
         "resume": {
           "action": "Ga verder met",
-          "text": "<h2>Vergeet niet de laatste hand te leggen aan het indienen van je profiel!</h2>"
+          "text": "<h2>Vergeet niet het indienen van je profiel te voltooien!</h2>"
         },
         "subtitle": "Ga door met uw huidige tests of stuur uw resultaten op",
         "tests-link": "Al mijn carrièrepaden"
@@ -935,7 +935,7 @@
           "text": "Om er meer over te weten",
           "url": "https://pix.fr/actualites/decouvrez-votre-nouveau-tableau-de-bord"
         },
-        "message": "<h2>Hallo { firstname }, ontdek je dashboard.</h2><p>Snel en eenvoudig toegang tot jouw cursussen en vaardigheidstests die al zijn gestart.<br/>Ontdek hoe jouw Pix-score zich ontwikkelt en controleer of jouw profiel klaar is voor Pix-certificering.</p>"
+        "message": "<h2>Welkom bij Pix in het Nederlands!</h2><p>De vertaling van al onze vaardigheden is binnenkort beschikbaar.</p>"
       },
       "recommended-competences": {
         "title": "Aanbevolen vaardigheden",
@@ -952,7 +952,7 @@
       }
     },
     "error": {
-      "content-text": "'<p>'We nodigen u uit om deze pagina opnieuw te laden of terug te keren naar de startpagina.'</p><p>'U kunt ook contact met ons opnemen via '<a href=\"https://support.pix.fr/support/tickets/new\">'het helpcentrumformulier'</a>' onder vermelding van de foutcode hieronder in de beschrijving.'</p><p>'Onze excuses voor het ongemak.'</p><p>'Het Pix-team.'</p>'",
+      "content-text": "'<p>'Laad deze pagina opnieuw of keer terug naar de startpagina.'</p><p>'Je kunt ook contact met ons opnemen via '<a href=\"https://support.pix.fr/support/tickets/new\">'het helpcentrumformulier'</a>' onder vermelding van de foutcode hieronder in de beschrijving.'</p><p>'Onze excuses voor het ongemak.'</p><p>'Het Pix-team.'</p>'",
       "first-title": "Oeps, er is een fout gemaakt!"
     },
     "fill-in-campaign-code": {
@@ -984,7 +984,7 @@
     },
     "fill-in-certificate-verification-code": {
       "title": "Een Pix-certificaat controleren",
-      "description": "Pix certificering getuigt van een niveau van beheersing van digitale vaardigheden, erkend door de staat en de professionele wereld.",
+      "description": "Een Pix-certificaat getuigt van een vaardigheidsniveau in digitale vaardigheden: voer hieronder de \\\"verificatiecode\\\" in voor het Pix-certificaat dat je wilt controleren.",
       "errors": {
         "missing-code": "Voer de verificatiecode in.",
         "not-found": "Er is geen bijbehorend Pix-certificaat.",
@@ -1124,7 +1124,7 @@
           "cgu": "Ik ga akkoord met de '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'gebruiksvoorwaarden van Pix'</a>'.",
           "email": {
             "error": "Uw e-mailadres is ongeldig.",
-            "help": "(bijv. nom@exemple.fr)",
+            "help": "(voorbeeld: naam.voornaam@voorbeeld.org)",
             "label": "E-mail adres"
           },
           "firstname": {
@@ -1191,23 +1191,23 @@
         },
         "element": {
           "alternativeText": "Geef het tekstalternatief weer",
-          "transcription": "Bekijk transcript"
+          "transcription": "Transcriptie weergeven"
         },
         "grain": {
           "continue": "Ga verder met",
-          "skip": "Ga naar",
-          "terminate": "Eindigen"
+          "skip": "Overslaan",
+          "terminate": "Afwerking"
         }
       },
       "details": {
         "duration": "Duur",
         "durationValue": "≈{duration} min",
-        "explanationText1": "Pix training modules bestaan uit lessen en activiteiten om je te helpen je digitale vaardigheden te oefenen en te ontwikkelen. De lessen hebben de vorm van video's, audio, afbeeldingen en tekst. Met de activiteiten kun je direct je antwoorden oefenen en controleren. Elke module duurt ongeveer 10 minuten, gaat over een specifiek onderwerp en heeft een moeilijkheidsgraad van beginner tot expert.",
+        "explanationText1": "Pix trainingsmodules bestaan uit lessen en activiteiten om je te helpen je digitale vaardigheden te oefenen en te ontwikkelen. De lessen bestaan uit video's, audio, afbeeldingen en tekst. Met de activiteiten kun je direct oefenen en je antwoorden controleren. Elke module duurt ongeveer 10 minuten, gaat over een specifiek onderwerp en heeft een moeilijkheidsgraad van beginner tot expert.",
         "explanationText2": "Deze trainingsmodules bevinden zich momenteel in de beta-testfase. Je kunt ons suggesties voor verbetering sturen via de vragenlijst aan het einde van elke module.",
         "explanationTitle": "Wat is een module?",
-        "level": "Niveau",
+        "level": "Level",
         "objectives": "Doelstellingen",
-        "startModule": "Start de module"
+        "startModule": "De module starten"
       },
       "modals": {
         "alternativeText": {
@@ -1217,26 +1217,25 @@
           "title": "Transcriptie"
         }
       },
-
       "qcm": {
         "direction": "Selecteer meerdere antwoorden."
       },
       "qcu": {
-        "direction": "Selecteer één antwoord."
+        "direction": "Kies slechts één antwoord."
       },
       "qrocm": {
-        "direction": "Vul de lege {count, plural, =1 {veld} other {velden}} in."
+        "direction": "Vul de lege velden in."
       },
       "recap": {
-        "title": "Goed gedaan ! Module voltooid",
-        "backToModuleDetails": "Keer terug naar moduledetails",
-        "goToForm": "Répondre au questionnaire",
+        "title": "Gefeliciteerd! Module voltooid",
+        "backToModuleDetails": "Terug naar moduledetails",
+        "goToForm": "Beantwoord de vragenlijst",
         "subtitle": "Je hebt de volgende doelen bereikt:"
       },
       "verification-precondition-failed-alert": {
         "qcm": "Selecteer ten minste twee antwoorden om te bevestigen.",
         "qcu": "Selecteer een antwoord om te bevestigen.",
-        "qrocm": "Vul alle antwoordvelden in om te valideren."
+        "qrocm": "Vul alle antwoordvelden in om te bevestigen."
       }
     },
     "not-connected": {
@@ -1313,7 +1312,7 @@
       },
       "total-score-helper": {
         "title": "Waarom 1024 pixels?",
-        "explanation": "'<p>'Dit is het maximale aantal pix dat we kunnen bereiken wanneer alle 8 niveaus van de Pix-opslagplaats beschikbaar zijn.'</p><p>'Vandaag is '<span class=\"hexagon-score-information__text--strong\">'het maximum {maxReachablePixScore} pix'</span>', wat overeenkomt met niveau {maxReachableLevel}.'</p>'",
+        "explanation": "'<p>'Dit is het maximale aantal pix dat men kan bereiken wanneer alle 8 niveaus van het Pix-referentiesysteem beschikbaar zijn.'</p><p>'Vandaag is '<span class=\"hexagon-score-information__text--strong\">'het maximum {maxReachablePixScore} pix'</span>', wat overeenkomt met niveau {maxReachableLevel}.'</p>'",
         "icon": "Informatie over pix",
         "label": "Tooltip openen"
       }
@@ -1374,7 +1373,7 @@
         "send": "Ik stuur mijn profiel",
         "shared": "Bedankt, je profiel is verzonden!"
       },
-      "instructions": "Je verzendt de score en vaardigheidsniveaus op je Pix-profiel. '<br>' Eventuele wijzigingen aan je profiel nadat je deze informatie hebt verzonden zullen niet worden doorgestuurd.'<br>' Vergeet niet te controleren voor het verzenden!"
+      "instructions": "Je gaat de score en vaardigheidsniveaus op je Pix-profiel zetten. '<br>' Eventuele wijzigingen aan je profiel nadat je deze informatie hebt verzonden zullen niet worden doorgestuurd.'<br>' Vergeet niet te controleren voor het verzenden!"
     },
     "shared-certification": {
       "title": "Delen van certificaten",
@@ -1429,7 +1428,7 @@
       "fields": {
         "email": {
           "error": "Uw e-mailadres is ongeldig.",
-          "help": "(bijv. nom@exemple.fr)",
+          "help": "(voorbeeld: naam.voornaam@voorbeeld.org)",
           "label": "E-mail adres"
         },
         "firstname": {
@@ -1534,7 +1533,7 @@
         "title": "Vaardigheden",
         "caption": "Details van je resultaten in de vorm van percentages en sterren volgens vaardigheden",
         "masteryPercentage": "{rate, number, ::percent} succes",
-        "starsAcquired": "{acquired, plural, =0 {geen sterren verworven} other {# sterren verworven}} op {total}"
+        "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} other {# étoile acquise}} op {total}"
       },
       "trainings": {
         "title": "Wil je meer weten?",
@@ -1552,8 +1551,8 @@
     },
     "timed-challenge-instructions": {
       "action": "De test starten",
-      "primary": "Je hebt '<span class=\"timed-challenge-instructies__time\">'{time}'</span>' om de volgende vraag te halen.",
-      "secondary": "Je kunt daarna doorgaan met antwoorden, maar de vraag zal niet als geslaagd worden beschouwd."
+      "primary": "Je hebt '<span class=\"timed-challenge-instructies__time\">'{time}'</span>' of de vraag te voltooien / op te lossen.",
+      "secondary": "Als je doorgaat wordt de opdracht niet als voltooid beschouwd."
     },
     "training": {
       "editor": "Inhoud van de training voorgesteld door",
@@ -1717,7 +1716,7 @@
           "part1": "Tijdens het uitvoeren van je tests worden tutorials aanbevolen: klik op het bladwijzerpictogram",
           "part2": "om degene die je hier wilt vinden te registreren!"
         },
-        "image-link": "images/illustrations/user-tutorials/illustration-en.svg"
+        "image-link": "images/illustrations/user-tutorials/illustration-fr.svg"
       },
       "filter": "Filter",
       "label": "handleidingen",
