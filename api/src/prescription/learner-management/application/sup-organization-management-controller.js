@@ -1,7 +1,6 @@
 import fs from 'fs';
 
 import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
-import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as supOrganizationLearnerWarningSerializer from '../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer.js';
 
@@ -15,7 +14,7 @@ const importSupOrganizationLearners = async function (
   },
 ) {
   const organizationId = request.params.id;
-
+  const authenticatedUserId = request.auth.credentials.userId;
   let warnings;
 
   try {
@@ -23,6 +22,7 @@ const importSupOrganizationLearners = async function (
       payload: request.payload,
       organizationId,
       i18n: request.i18n,
+      userId: authenticatedUserId,
     });
   } finally {
     try {
@@ -42,12 +42,11 @@ const replaceSupOrganizationLearners = async function (
   h,
   dependencies = {
     supOrganizationLearnerWarningSerializer,
-    requestResponseUtils,
     logErrorWithCorrelationIds,
     unlink: fs.unlink,
   },
 ) {
-  const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
+  const userId = request.auth.credentials.userId;
   const organizationId = request.params.id;
 
   let warnings;
