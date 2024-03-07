@@ -13,13 +13,15 @@ describe('Integration | Controller | mission-controller', function () {
         areaCode: 1,
         learningObjectives: 'learningObjectives',
         validatedObjectives: 'validatedObjectives',
+        startedBy: '',
       });
-      sinon.stub(usecases, 'getMission').withArgs({ missionId: mission.id }).resolves(mission);
+      sinon.stub(usecases, 'getMission').resolves(mission);
 
       // when
       const result = await missionController.getById(
         {
           params: {
+            id: 'organizationId',
             missionId: mission.id,
           },
         },
@@ -34,9 +36,14 @@ describe('Integration | Controller | mission-controller', function () {
           'learning-objectives': mission.learningObjectives,
           'validated-objectives': mission.validatedObjectives,
           'competence-name': mission.competenceName,
+          'started-by': '',
         },
         id: mission.id.toString(),
         type: 'missions',
+      });
+      expect(usecases.getMission).to.have.been.calledWithExactly({
+        organizationId: 'organizationId',
+        missionId: mission.id,
       });
     });
   });
@@ -44,11 +51,11 @@ describe('Integration | Controller | mission-controller', function () {
   describe('#findAll', function () {
     it('should find all missions', async function () {
       // given
-      const mission = new Mission({ id: 1, name: 'TAG1', color: 'Green' });
+      const mission = new Mission({ id: 1, name: 'TAG1', color: 'Green', startedBy: 'CM1' });
       sinon.stub(usecases, 'findAllMissions').resolves([mission]);
 
       // when
-      const result = await missionController.findAll(hFake);
+      const result = await missionController.findAll({ params: { id: 'organizationId' } }, hFake);
 
       // then
       expect(result.data).to.deep.equal([
@@ -59,6 +66,7 @@ describe('Integration | Controller | mission-controller', function () {
             'learning-objectives': mission.learningObjectives,
             'validated-objectives': mission.validatedObjectives,
             'competence-name': mission.competenceName,
+            'started-by': mission.startedBy,
           },
           id: mission.id.toString(),
           type: 'missions',

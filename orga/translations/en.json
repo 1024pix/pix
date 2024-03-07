@@ -766,12 +766,14 @@
         }
       },
       "list": {
-        "tab": {
-          "caption": "List of missions",
+        "caption": "List of missions",
+        "empty-state": "There is not any mission",
+        "headers": {
           "competences": "Targeted competence",
-          "empty-state": "There is not any mission",
-          "name": "Mission"
-        }
+          "name": "Mission",
+          "started-by": "Started by"
+        },
+        "no-division": "No division yet"
       }
     },
     "organization-learner": {

@@ -1,8 +1,19 @@
-async function injectComplementDataTo(mission, areaRepository, competenceRepository) {
+async function injectComplementDataTo({
+  mission,
+  organizationId,
+  areaRepository,
+  competenceRepository,
+  organizationLearnerRepository,
+}) {
   const areaCode = await areaRepository.getAreaCodeByCompetenceId(mission.competenceId);
   const { name, index } = await competenceRepository.get({ id: mission.competenceId });
 
-  return { ...mission, areaCode, competenceName: `${index} ${name}` };
+  let divisions = null;
+  if (organizationId) {
+    divisions = await organizationLearnerRepository.getDivisionsWhichStartedMission(mission.id, organizationId);
+  }
+
+  return { ...mission, areaCode, competenceName: `${index} ${name}`, startedBy: divisions };
 }
 
 export { injectComplementDataTo };
