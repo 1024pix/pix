@@ -47,11 +47,9 @@ const PIX_EDU_1ER_DEGRE_FI_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 73;
 const PIX_EDU_1ER_DEGRE_FC_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 83;
 const PIX_EDU_2ND_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 74;
 const PIX_EDU_2ND_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 75;
-const COLLEGE_TAG_ID = 8;
 
 export {
   commonBuilder,
-  COLLEGE_TAG_ID,
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
@@ -87,9 +85,6 @@ async function commonBuilder({ databaseBuilder }) {
   _createCertifAdmin(databaseBuilder);
   _createSupportAdmin(databaseBuilder);
   _createMetierAdmin(databaseBuilder);
-
-  // common tag
-  _createTags(databaseBuilder);
 
   // complementary certifications
   _createComplementaryCertifications(databaseBuilder);
@@ -143,18 +138,6 @@ function _createCertifAdmin(databaseBuilder) {
     rawPassword: DEFAULT_PASSWORD,
   });
   databaseBuilder.factory.buildPixAdminRole({ userId: REAL_PIX_SUPER_ADMIN_ID + 3, role: ROLES.CERTIF });
-}
-
-function _createTags(databaseBuilder) {
-  databaseBuilder.factory.buildTag({ id: 1, name: 'AGRICULTURE' });
-  databaseBuilder.factory.buildTag({ id: 2, name: 'PUBLIC' });
-  databaseBuilder.factory.buildTag({ id: 3, name: 'PRIVE' });
-  databaseBuilder.factory.buildTag({ id: 4, name: 'POLE EMPLOI' });
-  databaseBuilder.factory.buildTag({ id: 5, name: 'CFA' });
-  databaseBuilder.factory.buildTag({ id: 6, name: 'AEFE' });
-  databaseBuilder.factory.buildTag({ id: 7, name: 'MEDNUM' });
-  databaseBuilder.factory.buildTag({ id: COLLEGE_TAG_ID, name: 'COLLEGE' });
-  databaseBuilder.factory.buildTag({ id: 9, name: 'LYCEE' });
 }
 
 function _createComplementaryCertifications(databaseBuilder) {

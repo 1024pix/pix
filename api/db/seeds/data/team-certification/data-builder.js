@@ -3,11 +3,11 @@ import * as campaignTooling from '../common/tooling/campaign-tooling.js';
 
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
-  COLLEGE_TAG_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../common/common-builder.js';
+import { COLLEGE_TAG } from '../common/constants.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { getV3CertificationChallenges } from '../common/tooling/learning-content.js';
 import { createCompetenceScoringConfiguration } from './create-competence-scoring-configuration.js';
@@ -235,7 +235,7 @@ async function _createScoOrganization({ databaseBuilder }) {
     configOrganization: {
       learnerCount: 8,
     },
-    tagIds: [COLLEGE_TAG_ID],
+    tagIds: [COLLEGE_TAG.id],
   });
 }
 
