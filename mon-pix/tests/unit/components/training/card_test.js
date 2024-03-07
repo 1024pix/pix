@@ -186,4 +186,30 @@ module('Unit | Component | Training | card', function (hooks) {
       assert.strictEqual(result, 'primary');
     });
   });
+
+  module('#trackAccess', function () {
+    test('should push event on click', function (assert) {
+      // given
+      const metrics = this.owner.lookup('service:metrics');
+      metrics.add = sinon.stub();
+      const trainingTitle = 'Mon super CF';
+      const component = createGlimmerComponent('training/card', {
+        training: { title: trainingTitle, link: 'https://exemple.net/' },
+      });
+      const currentRouteName = 'current.route.name';
+      component.router = { currentRouteName };
+
+      // when
+      component.trackAccess();
+
+      // then
+      sinon.assert.calledWithExactly(metrics.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Accès Contenu Formatif',
+        'pix-event-action': `Click depuis : ${currentRouteName}`,
+        'pix-event-name': `Ouvre le cf : ${trainingTitle}`,
+      });
+      assert.ok(true);
+    });
+  });
 });
