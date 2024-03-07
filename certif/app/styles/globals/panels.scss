@@ -13,7 +13,7 @@
     display: flex;
     align-items: center;
     margin: 0 12px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-weight: 500;
     font-size: 0.9rem;
     font-family: $font-roboto;
@@ -25,12 +25,18 @@
     transition: all ease-in-out 0.2s;
 
     &:hover {
-      color: $pix-communication-dark;
+      color: var(--pix-primary-500);
+    }
+
+    &:focus-visible {
+      background-color: var(--pix-primary-10);
+      outline:2px solid var(--pix-primary-300);
+      outline-offset: 0;
     }
   }
 
   &-item.active {
-    color: $pix-communication-dark;
-    border-bottom: 2px solid $pix-communication-dark;
+    color: var(--pix-primary-500);
+    border-bottom: 2px solid var(--pix-primary-500);
   }
 }

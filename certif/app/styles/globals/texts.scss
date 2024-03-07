@@ -1,17 +1,17 @@
 .label-text {
-  color: $pix-neutral-35;
+  color: var(--pix-neutral-100);
   font-weight: 400;
   font-size: 0.8125rem;
   font-family: $font-roboto;
 }
 
 .content-text {
-  color: $pix-neutral-60;
+  color: var(--pix-neutral-500);
   font-size: 1rem;
   font-family: $font-roboto;
 
   &--bold {
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     font-weight: 700;
   }
 
@@ -26,7 +26,8 @@
 }
 
 .link {
-  color: $pix-primary-60;
+  color: var(--pix-primary-500);
+  font-size: 0.875rem;
   text-decoration: underline;
   background-color: inherit;
   border: none;
@@ -35,7 +36,13 @@
   &:hover,
   &:focus,
   &:active {
-    color: $pix-tertiary-80;
+    color: var(--pix-primary-700);
+  }
+
+  &:focus, &:focus-visible {
+    background-color: var(--pix-primary-10);
+    outline:2px solid var(--pix-primary-300);
+    outline-offset: 0;
   }
 }
 

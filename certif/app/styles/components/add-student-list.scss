@@ -5,8 +5,8 @@
 
   &__filters {
     padding: 18px 24px;
-    color: $pix-neutral-60;
-    background-color: $pix-neutral-0;
+    color: var(--pix-neutral-500);
+    background-color: var(--pix-neutral-0);
 
     label {
       margin-right: 16px;
@@ -18,45 +18,45 @@
 
       &__list-button {
         display: flex;
-        color: $pix-neutral-60;
+        color: var(--pix-neutral-500);
       }
     }
   }
 
   thead tr {
-    background: $pix-neutral-10;
-    border-bottom: 4px solid $pix-neutral-10;
+    background: var(--pix-neutral-20);
+    border-bottom: 4px solid var(--pix-neutral-20);
     border-radius: 4px;
-    outline: 4px solid $pix-neutral-0;
+    outline: 4px solid var(--pix-neutral-0);
     outline-offset: -4px;
   }
 
   tr.add-student-list__row--disabled {
-    border-top-color: $pix-neutral-20;
-    border-bottom: 2px solid $pix-neutral-20;
+    border-top-color: var(--pix-neutral-20);
+    border-bottom: 2px solid var(--pix-neutral-20);
 
     &:hover {
-      background: $pix-neutral-15;
+      background: var(--pix-neutral-20);
       cursor: default;
     }
   }
 
   &__row {
-    color: $pix-neutral-60;
-    background-color: $pix-neutral-0;
+    color: var(--pix-neutral-500);
+    background-color: var(--pix-neutral-0);
 
     &:hover {
       cursor: pointer;
     }
 
     &--disabled {
-      background: $pix-neutral-15;
-      border-top: 1px solid $pix-neutral-50;
-      border-bottom: 1px solid $pix-neutral-50;
+      background: var(--pix-neutral-20);
+      border-top: 1px solid var(--pix-neutral-20);
+      border-bottom: 1px solid var(--pix-neutral-20);
 
       .add-student-list__column-checkbox .checkbox {
-        background-color: $pix-neutral-40;
-        border-color: $pix-neutral-40;
+        background-color: var(--pix-neutral-500);
+        border-color: var(--pix-neutral-500);
         pointer-events: none;
 
         &:hover {
@@ -89,9 +89,9 @@
     justify-content: space-between;
     width: 100vw;
     height: 68px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-family: $font-roboto;
-    background-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-0);
     box-shadow: -2px 2px 9px 0 rgb(0 0 0 / 22%);
 
     .bottom-action-bar__informations {
@@ -112,7 +112,7 @@
         width: 1px;
         height: 30px;
         margin: 0 16px;
-        background: $pix-neutral-25;
+        background: var(--pix-neutral-100);
       }
     }
 

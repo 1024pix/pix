@@ -3,9 +3,9 @@
 
   &__title-completed {
     display: flex;
-    background: $pix-success-10;
+    background: var(--pix-success-100);
     margin: 8px;
-    color: $pix-success-70;
+    color: var(--pix-success-700);
     font-size: 0.875rem;
     font-weight: normal;
     padding: 20px 0 20px 24px;
@@ -17,9 +17,9 @@
 
   &__title-uncompleted {
     display: flex;
-    background: $pix-warning-10;
+    background: var(--pix-warning-100);
     margin: 8px;
-    color: $pix-warning-60;
+    color: var(--pix-warning-700);
     font-weight: bold;
     padding: 20px 0 20px 24px;
   }
@@ -49,9 +49,10 @@
     flex-direction: column;
 
     .add-button {
-      color: $pix-neutral-70;
+      color: var(--pix-neutral-800);
       display: flex;
       gap: 4px;
+      width: fit-content;
       align-items: center;
 
       svg {
@@ -60,7 +61,7 @@
     }
 
     p {
-      color: $pix-neutral-70;
+      color: var(--pix-neutral-800);
       font-weight: 700;
     }
   }

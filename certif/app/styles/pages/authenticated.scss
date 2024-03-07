@@ -17,7 +17,7 @@
   display: flex;
   flex-direction: column;
   min-height: inherit;
-  background: $pix-neutral-0;
+  background: var(--pix-neutral-0);
   box-shadow: 0 2px 8px 0 rgb(0 0 0 / 10%);
 
   &__logo {
@@ -39,26 +39,26 @@
         align-items: center;
         height: 40px;
         padding-left: 20px;
-        color: $pix-neutral-80;
+        color: var(--pix-neutral-800);
         text-decoration: none;
 
         &-icon {
           width: 15px;
           margin-right: 8px;
-          color: $pix-neutral-80;
+          color: var(--pix-neutral-800);
         }
 
         &.active {
-          background-color: $pix-neutral-15;
+          background-color: var(--pix-neutral-20);
         }
 
         &:active {
-          background-color: $pix-neutral-20;
+          background-color: var(--pix-neutral-20);
         }
       }
 
       li:hover {
-        background-color: $pix-neutral-15;
+        background-color: var(--pix-neutral-20);
       }
     }
   }
@@ -71,7 +71,7 @@
 
   &__topbar {
     min-height: $navbar-height;
-    background-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-0);
   }
 }
 

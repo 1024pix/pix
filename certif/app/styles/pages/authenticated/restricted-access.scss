@@ -23,9 +23,9 @@
   }
 
   &__opening-dates {
-    background: $pix-neutral-60;
+    background: var(--pix-neutral-500);
     border-radius: 8px;
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     font-family: $font-open-sans;
     font-size: 1.5rem;
     font-weight: 600;

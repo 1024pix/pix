@@ -23,7 +23,7 @@
 
   &__no-referer-container-grey {
     padding: 16px;
-    background: $pix-neutral-5;
+    background: var(--pix-neutral-20);
     display: flex;
   }
 
@@ -31,12 +31,12 @@
     font-weight: 500;
     font-size: 1.25rem;
     font-family: $font-open-sans;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     margin: 0 0 4px;
   }
 
   &__no-referer-description {
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-500);
     margin: 16px 0;
   }
 
@@ -50,7 +50,7 @@
 
     svg {
       font-size: 2.5rem;
-      color: $pix-neutral-50;
+      color: var(--pix-neutral-500);
     }
   }
 }

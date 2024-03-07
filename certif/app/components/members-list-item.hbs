@@ -59,7 +59,6 @@
             aria-label="{{t 'common.actions.cancel'}}"
             @triggerAction={{this.cancelUpdateRoleOfMember}}
             @withBackground={{false}}
-            @color="dark-grey"
           />
         </div>
       {{/if}}
@@ -69,7 +68,7 @@
     <td>
       {{#if @member.isReferer}}
         <div class="members-list-item__is-referer">
-          <PixTag class="members-list-item__tag" @color="blue-light">
+          <PixTag class="members-list-item__tag" @color="primary">
             {{t "pages.team.pix-referer"}}
           </PixTag>
           <PixTooltip class="members-list-item__tool-tip" @isWide="true" @position="left">

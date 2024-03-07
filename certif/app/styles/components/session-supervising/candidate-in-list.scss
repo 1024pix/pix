@@ -18,12 +18,12 @@
   }
 
   &__details {
-    color: $pix-neutral-22;
+    color: var(--pix-neutral-100);
     font-size: 0.75rem;
   }
 
   &__full-name {
-    color: $pix-warning-40;
+    color: var(--pix-secondary-500);
     margin-bottom: 4px;
     text-transform: capitalize;
   }
@@ -50,23 +50,23 @@
     }
 
     &--ongoing-alert {
-      background-color: $pix-error-10;
-      color: $pix-error-70;
+      background-color: var(--pix-error-100);
+      color: var(--pix-error-700);
     }
 
     &--started {
-      background-color: $pix-success-5;
-      color: $pix-success-80;
+      background-color: var(--pix-success-50);
+      color: var(--pix-success-900);
     }
 
     &--completed {
-      background-color: $pix-primary-10;
-      color: $pix-primary-70;
+      background-color: var(--pix-primary-100);
+      color: var(--pix-primary-700);
     }
 
     &--authorized-to-resume {
-      background-color: $pix-tertiary-5;
-      color: $pix-tertiary-80;
+      background-color: var(--pix-tertiary-100);
+      color: var(--pix-tertiary-900);
     }
 
     > .pix-tag--compact {
@@ -77,12 +77,12 @@
   }
 
   &__start-time {
-    color: $pix-neutral-15;
+    color: var(--pix-neutral-20);
     font-size: 0.75rem;
   }
 
   &__menu {
-    border-left: solid $pix-neutral-60 1px;
+    border-left: solid var(--pix-neutral-500) 1px;
     padding: 2px;
   }
 
@@ -95,7 +95,7 @@
 
 .session-supervising-candidate-in-list-details {
   &__enrolment {
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     font-size: 0.875rem;
     font-weight: normal;
     line-height: 1.3125rem;
@@ -118,9 +118,9 @@
   margin-top: $pix-spacing-xs;
   padding: $pix-spacing-xxs $pix-spacing-xs;
   gap: $pix-spacing-xs;
-  background: #{$pix-neutral-0}#{1a};
+  background: #{var(--pix-neutral-0)}#{1a};
   border-radius: 8px;
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
   width: fit-content;
 
   &__text {
@@ -131,7 +131,7 @@
       display: inline-block;
       color: transparent;
       width: 1px;
-      background-color: $pix-neutral-0;
+      background-color: var(--pix-neutral-0);
       border-radius: 25px;
     }
 
@@ -145,7 +145,7 @@
     }
 
     &__extra-time-percentage {
-      color: $pix-secondary-certif-30;
+      color: var(--pix-secondary-500);
     }
   }
 }
