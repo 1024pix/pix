@@ -1,6 +1,7 @@
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
 import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
+import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 
 describe('Unit | Domain | Services | authentication registry', function () {
   describe('#getAllOidcProviderServices', function () {
@@ -90,7 +91,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
         // when
         const service = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
           identityProviderCode: 'PROVIDER_FOR_ADMIN',
-          audience: 'admin',
+          audience: PIX_ADMIN.AUDIENCE,
         });
 
         // then
