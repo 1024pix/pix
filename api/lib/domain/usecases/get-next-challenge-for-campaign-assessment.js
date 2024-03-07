@@ -25,7 +25,8 @@ const getNextChallengeForCampaignAssessment = async function ({
       locale,
     });
 
-    const configuration = (await flashAlgorithmConfigurationRepository.get()) ?? _createDefaultAlgorithmConfiguration();
+    const configuration =
+      (await flashAlgorithmConfigurationRepository.getMostRecent()) ?? _createDefaultAlgorithmConfiguration();
 
     const assessmentAlgorithm = new FlashAssessmentAlgorithm({
       flashAlgorithmImplementation: flashAlgorithmService,
