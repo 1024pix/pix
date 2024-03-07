@@ -1897,8 +1897,16 @@
           "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
         },
         {
-          "content": "<p>En lisant seulement le titre d’un article, c’est presque impossible de savoir ce qui est vrai ou faux. <span aria-hidden=\"true\">🤔</span>️<br>Pour vérifier une information, il y a une méthode à suivre. <span aria-hidden=\"true\">📚</span>️Vous allez la découvrir dans la vidéo suivante.</p>",
+          "content": "<p>En lisant seulement le titre d’un article, c’est presque impossible de savoir si une information est vraie ou fausse. <span aria-hidden=\"true\">🤔</span>️<br>Parfois, ce ne sont pas des informations mais des opinions !<span aria-hidden=\"true\">📚</span>️ Vous allez découvrir la différence dans la vidéo suivante.</p>",
           "grainId": "eb83569f-2e37-49ed-aa6f-31c420b673b9"
+        },
+        {
+          "content": "<p>Vous savez maintenant mieux repérer une information. Mais une information peut être fausse ...<br>Voyons ensemble la méthode qu'il faut appliquer pour vérifier une information. <span aria-hidden=\"true\">🗒️</span>️</p>",
+          "grainId": "ed22ab38-ec6d-47df-88ea-4894f1cd6c8a"
+        },
+        {
+          "content": "<p>Vérifiez que vous avez retenu l'essentiel de cette méthode en répondant à la question suivante.</p>",
+          "grainId": "46309f55-22e6-4b0f-bfc4-2bad94f9cbd7"
         },
         {
           "content": "<p>Maintenant, à vous de jouer sur des exemples concrets.</p>",
@@ -2052,15 +2060,15 @@
             {
               "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
               "type": "text",
-              "content": "<p>À la fin de cette vidéo, des questions vous seront posées sur la méthode de vérification d'une information et sur des mots de vocabulaire : \"une anecdote\", \"une rumeur\", \"une opinion\".</p>"
+              "content": "<p>À la fin de cette vidéo, des questions vous seront posées sur des mots de vocabulaire : \"une anecdote\", \"une rumeur\", \"une opinion\".</p>"
             },
             {
               "id": "3a9f2269-99ba-4631-b6fd-6802c88d5c26",
               "type": "video",
               "title": "-",
-              "url": "https://videos.pix.fr/modulix/placeholder-video.mp4",
-              "subtitles": "https://videos.pix.fr/modulix/placeholder-video.vtt",
-              "transcription": "<p>[TODO]</p>"
+              "url": "https://videos.pix.fr/modulix/distinguer-vrai-faux-sur-internet/vocabulaire.mp4",
+              "subtitles": "-",
+              "transcription": "<p>-</p>"
             }
           ]
         },
@@ -2159,6 +2167,38 @@
           ]
         },
         {
+          "id": "ed22ab38-ec6d-47df-88ea-4894f1cd6c8a",
+          "type": "lesson",
+          "title": "Méthode pour vérifier une information (leçon)",
+          "elements": [
+            {
+              "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
+              "type": "text",
+              "content": "<h3>Question n°1 : qui est l’auteur de cette information ? <span aria-hidden=\"true\">🖋️</span>️</h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple selon si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
+            },
+            {
+              "id": "42276690-f134-4b88-ac0f-c26ad62370ec",
+              "type": "text",
+              "content": "<hr>"
+            },
+            {
+              "id": "8aa4a733-4a92-4007-897d-ab884a7add85",
+              "type": "text",
+              "content": "<h3>Question n°2 : quelle est la date de l’information ? <span aria-hidden=\"true\">📅</span>️</h3><p>C’est simple à vérifier et très important ! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
+            },
+            {
+              "id": "056ef18b-2f2f-4518-acca-93bb59b2d151",
+              "type": "text",
+              "content": "<hr>"
+            },
+            {
+              "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
+              "type": "text",
+              "content": "<h3>Question n°3 : d’où provient cette information ? <span aria-hidden=\"true\">ℹ️</span>️</h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Vérifiez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
+            }
+          ]
+        },
+        {
           "id": "46309f55-22e6-4b0f-bfc4-2bad94f9cbd7",
           "type": "activity",
           "title": "Méthode pour vérifier une information (activité)",
@@ -2166,7 +2206,7 @@
             {
               "id": "1c39f509-cdc2-4d3e-85f8-7731739a793f",
               "type": "qcm",
-              "instruction": "<p>Parmi les éléments suivants, sélectionnez ceux qui permettent de vérifier une information.</p>",
+              "instruction": "<p>Parmi les éléments suivants, lesquels permettent de vérifier une information ?</p>",
               "proposals": [
                 {
                   "id": "1",
