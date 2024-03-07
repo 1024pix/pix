@@ -1595,7 +1595,7 @@
             {
               "id": "74b6d2c6-a332-4f48-9896-e3bd52fb9bdc",
               "type": "qcu",
-              "instruction": "<p>Une adresse IP publique est donnée par la box internet, c'est-à-dire le point d’accès internet.</p>",
+              "instruction": "<p>Une adresse IP publique est donnée par le point d’accès internet (box internet, 3G/4G, etc.).</p>",
               "proposals": [
                 {
                   "id": "1",
