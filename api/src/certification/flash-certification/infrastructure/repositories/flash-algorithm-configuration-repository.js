@@ -8,7 +8,7 @@ const save = async function (flashAlgorithmConfiguration) {
   return knex(TABLE_NAME).insert(flashAlgorithmConfiguration.toDTO());
 };
 
-const get = async function () {
+const getMostRecent = async function () {
   const flashAlgorithmConfiguration = await knex(TABLE_NAME).orderBy('createdAt', 'desc').first();
 
   if (!flashAlgorithmConfiguration) {
@@ -37,4 +37,4 @@ const getMostRecentBeforeDate = async (date) => {
   return FlashAssessmentAlgorithmConfiguration.fromDTO(firstFlashAlgoConfiguration);
 };
 
-export { save, get, getMostRecentBeforeDate };
+export { save, getMostRecent, getMostRecentBeforeDate };
