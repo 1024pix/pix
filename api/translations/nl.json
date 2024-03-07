@@ -318,17 +318,21 @@
   },
   "jury": {
     "comment": {
+      "CANCELLED_DUE_TO_LACK_OF_ANSWERS": {
+        "candidate": "Het aantal vragen tijdens je certificeringsexamen is te laag om een Pix-certificering te kunnen afgeven.",
+        "organization": "Het aantal vragen dat de kandidaat beantwoordt tijdens het certificeringsexamen is te laag om een Pix-certificering af te leveren."
+      },
       "CANCELLED_DUE_TO_NEUTRALIZATION": {
-        "candidate": "At least one technical issue, reported to your invigilator during the certification session, has affected the quality of the certification exam. Due to the number of questions to which you have not been able to answer, we are not able to deliver a certification. It has been cancelled, the specifier of your certification exam (if applicable), has been informed.",
-        "organization": "At least one technical issue, has affected the quality of the certification exam. We are not able to deliver a certification. It has thus been cancelled. This information may lead you to proposing another certification session for this candidate."
+        "candidate": "Ten minste één technisch probleem, gemeld aan je surveillant tijdens de certificeringssessie, heeft de kwaliteit van het certificeringsexamen beïnvloed. Vanwege het aantal vragen dat u niet heeft kunnen beantwoorden, kunnen we geen certificering afgeven. Het is geannuleerd, de specificeerder van uw certificeringsexamen (indien van toepassing) is op de hoogte gesteld.",
+        "organization": "Ten minste één technisch probleem heeft de kwaliteit van het certificeringsexamen beïnvloed. We zijn niet in staat om een certificering af te leveren. Het is dus geannuleerd. Deze informatie kan ertoe leiden dat u een andere certificeringssessie voor deze kandidaat voorstelt."
       },
       "FRAUD": {
-        "candidate": "The Pix certification exam conditions have not been respected. Your certification exam has been reported for fraud and has consequently been invalidated.",
-        "organization": "A fraud has been detected : after analysis, we have decided on rejecting this certification exam."
+        "candidate": "De Pix-certificeringsexamenvoorwaarden zijn niet nageleefd. Je certificeringsexamen is gerapporteerd wegens fraude en daardoor ongeldig verklaard.",
+        "organization": "Er is fraude ontdekt: na analyse hebben we besloten om dit certificeringsexamen af te wijzen."
       },
-      "REJECTED_DUE_TO_LACK_OF_ANSWERS": {
-        "candidate": "The number of questions answered during your certification exam is too low to allow us to deliver a Pix certification.",
-        "organization": "The number of questions answered by the candidate during their certification exam is too low to allow us to deliver a Pix certification."
+      "REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS": {
+        "candidate": "Als je meer dan 50% van de gestelde vragen fout hebt beantwoord, is je hele certificering ongeldig en krijg je een score van 0 pix.",
+        "organization": "Als de kandidaat meer dan 50% van de gestelde vragen fout heeft beantwoord, is zijn hele certificering ongeldig en krijgt hij een score van 0 pix."
       }
     }
   },
