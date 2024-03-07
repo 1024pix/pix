@@ -754,7 +754,7 @@
             {
               "id": "a4414cd9-2071-4bad-b805-a7516a04e83d",
               "type": "text",
-              "content": "<h4>Voici une astuce qui pourra vous aider : les appareils qui se branchent via USB ont souvent un symbole bien particulier, une flèche avec des ronds et des carrés. Ce symbole permet de reconnaître ces appareils.</h4>"
+              "content": "<p><span aria-hidden=\"true\">💡</span> Voici une astuce qui pourra vous aider : les appareils qui se branchent via USB ont souvent un symbole bien particulier, une flèche avec des ronds et des carrés. Ce symbole permet de reconnaître ces appareils.</p>"
             },
             {
               "id": "7a55d4a9-3bff-4604-9fa9-0898b7d109dc",
