@@ -158,4 +158,40 @@ describe('Acceptance | Controller | passage-controller', function () {
       );
     });
   });
+
+  describe('POST /api/passages/{passageId}/terminate', function () {
+    context('when passage is already terminated', function () {
+      it('should return a 412', async function () {
+        const passage = databaseBuilder.factory.buildPassage({ terminatedAt: new Date() });
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'POST',
+          url: `/api/passages/${passage.id}/terminate`,
+        };
+
+        const response = await server.inject(options);
+
+        expect(response.statusCode).to.equal(412);
+      });
+    });
+
+    context('when passage is not terminated', function () {
+      it('should return a 200 and terminate passage', async function () {
+        const passage = databaseBuilder.factory.buildPassage();
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'POST',
+          url: `/api/passages/${passage.id}/terminate`,
+        };
+
+        const response = await server.inject(options);
+
+        expect(response.statusCode).to.equal(200);
+        const { terminatedAt } = await knex('passages').where({ id: passage.id }).first();
+        expect(terminatedAt).to.be.not.null;
+      });
+    });
+  });
 });
