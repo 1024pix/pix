@@ -7,6 +7,10 @@ class Passage {
     this.updatedAt = updatedAt;
     this.terminatedAt = terminatedAt;
   }
+
+  terminate() {
+    this.terminatedAt = new Date();
+  }
 }
 
 export { Passage };
