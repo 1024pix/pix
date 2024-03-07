@@ -6,6 +6,12 @@ import { LOCALE } from '../../../shared/domain/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { smartRandomSimulatorController } from './smart-random-simulator-controller.js';
 
+const skillValidationObject = Joi.object({
+  id: identifiersType.skillId,
+  difficulty: Joi.number().integer().min(1).max(8).required(),
+  name: Joi.string().required(),
+});
+
 const register = async function (server) {
   server.route([
     {
@@ -28,7 +34,7 @@ const register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                'knowledge-elements': Joi.array()
+                knowledgeElements: Joi.array()
                   .items({
                     source: Joi.string()
                       .valid(KnowledgeElement.SourceType.DIRECT, KnowledgeElement.SourceType.INFERRED)
@@ -40,37 +46,32 @@ const register = async function (server) {
                         KnowledgeElement.StatusType.RESET,
                       )
                       .required(),
-                    'answer-id': identifiersType.answerId,
-                    'skill-id': identifiersType.skillId,
+                    answerId: identifiersType.answerId,
+                    skillId: identifiersType.skillId,
                   })
-                  .min(1)
                   .required(),
-                answers: Joi.array().items({
-                  result: Joi.string()
-                    .valid(
-                      AnswerStatus.statuses.OK,
-                      AnswerStatus.statuses.KO,
-                      AnswerStatus.statuses.SKIPPED,
-                      AnswerStatus.statuses.FOCUSEDOUT,
-                      AnswerStatus.statuses.PARTIALLY,
-                    )
-                    .required(),
-                  'challenge-id': identifiersType.challengeId,
-                }),
-                skills: Joi.array()
+                answers: Joi.array()
                   .items({
-                    id: identifiersType.skillId,
-                    difficulty: Joi.number().integer().min(1).max(8).required(),
-                    name: Joi.string().required(),
+                    id: Joi.number().required(),
+                    result: Joi.string()
+                      .valid(
+                        AnswerStatus.statuses.OK,
+                        AnswerStatus.statuses.KO,
+                        AnswerStatus.statuses.SKIPPED,
+                        AnswerStatus.statuses.FOCUSEDOUT,
+                        AnswerStatus.statuses.PARTIALLY,
+                      )
+                      .required(),
+                    challengeId: identifiersType.challengeId,
                   })
                   .required(),
+                skills: Joi.array().items(skillValidationObject).min(1).required(),
                 challenges: Joi.array()
                   .items({
                     id: identifiersType.challengeId,
-                    skill: {
-                      id: identifiersType.skillId,
-                      name: Joi.string().required(),
-                    },
+                    skill: skillValidationObject.required(),
+                    timer: Joi.number().integer(),
+                    focused: Joi.boolean().optional(),
                     locales: Joi.array()
                       .items(
                         Joi.string().valid(
@@ -82,14 +83,18 @@ const register = async function (server) {
                       )
                       .required(),
                   })
+                  .min(1)
                   .required(),
                 locale: Joi.string()
                   .valid(LOCALE.FRENCH_FRANCE, LOCALE.FRENCH_SPOKEN, LOCALE.ENGLISH_SPOKEN, LOCALE.DUTCH_SPOKEN)
                   .required(),
-                'assessment-id': identifiersType.assessmentId,
+                assessmentId: identifiersType.assessmentId,
               },
             },
           }),
+          options: {
+            allowUnknown: true,
+          },
         },
         handler: smartRandomSimulatorController.getNextChallenge,
         notes: [

@@ -19,25 +19,26 @@ describe('Acceptance | API | Smart Random Simulator', function () {
     return {
       data: {
         attributes: {
-          'knowledge-elements': [
+          knowledgeElements: [
             {
               source: 'direct',
               status: 'validated',
-              'answer-id': 12345678,
-              'skill-id': 'rec45678765',
+              answerId: 12345678,
+              skillId: 'rec45678765',
             },
           ],
           answers: [
             {
+              id: '1245',
               result: 'ok',
-              'challenge-id': 'rec1234567',
+              challengeId: 'rec1234567',
             },
           ],
           skills: [
             {
               id: 'recoaijndozia123',
-              difficulty: 3,
               name: '@skillname3',
+              difficulty: 3,
             },
           ],
           challenges: [
@@ -46,12 +47,13 @@ describe('Acceptance | API | Smart Random Simulator', function () {
               skill: {
                 id: 'recoaijndozia123',
                 name: '@skillname3',
+                difficulty: 3,
               },
               locales: withChallengesMatchingUserLocale ? ['fr-fr'] : ['en'],
             },
           ],
           locale: 'fr-fr',
-          'assessment-id': 12346,
+          assessmentId: 12346,
         },
       },
     };
