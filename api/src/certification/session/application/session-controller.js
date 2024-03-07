@@ -1,5 +1,6 @@
 import * as events from '../../../../lib/domain/events/index.js';
-import { usecases } from '../../shared/domain/usecases/index.js';
+import { usecases as sessionUsecases } from '../../session/domain/usecases/index.js';
+import { usecases as sharedUseCases } from '../../shared/domain/usecases/index.js';
 import * as certificationReportSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-report-serializer.js';
 import * as sessionSerializer from '../infrastructure/serializers/jsonapi/session-serializer.js';
 
@@ -7,7 +8,7 @@ const createSession = async function (request, _h, dependencies = { sessionSeria
   const userId = request.auth.credentials.userId;
   const session = dependencies.sessionSerializer.deserialize(request.payload);
 
-  const newSession = await usecases.createSession({ userId, session });
+  const newSession = await sharedUseCases.createSession({ userId, session });
 
   return dependencies.sessionSerializer.serialize({ session: newSession });
 };
@@ -17,7 +18,7 @@ const update = async function (request, h, dependencies = { sessionSerializer })
   const session = dependencies.sessionSerializer.deserialize(request.payload);
   session.id = request.params.id;
 
-  const updatedSession = await usecases.updateSession({ userId, session });
+  const updatedSession = await sharedUseCases.updateSession({ userId, session });
 
   return dependencies.sessionSerializer.serialize({ session: updatedSession });
 };
@@ -25,7 +26,7 @@ const update = async function (request, h, dependencies = { sessionSerializer })
 const remove = async function (request, h) {
   const sessionId = request.params.id;
 
-  await usecases.deleteSession({ sessionId });
+  await sharedUseCases.deleteSession({ sessionId });
 
   return h.response().code(204);
 };
@@ -41,7 +42,7 @@ const finalize = async function (request, h, dependencies = { certificationRepor
       .map((data) => dependencies.certificationReportSerializer.deserialize({ data })),
   );
 
-  const event = await usecases.finalizeSession({
+  const event = await sessionUsecases.finalizeSession({
     sessionId,
     examinerGlobalComment,
     hasIncident,

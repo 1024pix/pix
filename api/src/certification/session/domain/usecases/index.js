@@ -18,10 +18,7 @@ import { assessmentRepository, sessionRepositories } from '../../infrastructure/
  * @typedef {import('../../infrastructure/repositories/index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
-<<<<<<< HEAD
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationReportRepository} CertificationReportRepository
-=======
->>>>>>> 6c3336b432 (:recycle: api: Move unfinalize injection to session)
  **/
 
 /**
@@ -39,6 +36,7 @@ import { assessmentRepository, sessionRepositories } from '../../infrastructure/
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {sessionRepository} SessionRepository
+ * @typedef {certificationReportRepository} CertificationReportRepository
  **/
 const dependencies = {
   assessmentRepository,
@@ -53,6 +51,7 @@ const dependencies = {
   issueReportCategoryRepository: sessionRepositories.issueReportCategoryRepository,
   certificationIssueReportRepository: sessionRepositories.certificationIssueReportRepository,
   sessionRepository: sessionRepositories.sessionRepository,
+  certificationReportRepository: sessionRepositories.certificationReportRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -72,7 +71,6 @@ const usecasesWithoutInjectedDependencies = {
       'create-sessions.js',
       'delete-session.js',
       'delete-unlinked-certification-candidate.js',
-      'finalize-session.js',
       'get-attendance-sheet.js',
       'get-cpf-presigned-urls.js',
       'integrate-cpf-processing-receipts.js',
