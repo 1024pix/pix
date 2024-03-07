@@ -2,7 +2,7 @@
   max-width: 500px;
   margin-bottom: $pix-spacing-s;
   padding: 20px 30px;
-  background-color: $pix-neutral-0;
+  background-color: var(--pix-neutral-0);
   border-radius: 10px;
 
   @include device-is('tablet') {
@@ -29,7 +29,7 @@
   &__invitation-error {
     margin: 10px 0 16px;
     padding: 9px;
-    color: $pix-error-70;
+    color: var(--pix-error-700);
     font-size: 0.875rem;
     text-align: center;
     border-radius: 3px;
@@ -49,7 +49,7 @@
     @extend %pix-body-s;
 
     margin-top: var(--pix-spacing-4x);
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     text-align: center;
   }
 
@@ -58,20 +58,6 @@
   }
 
   &__forgotten-password {
-    color: $pix-communication-dark;
-    font-size: 0.875rem;
     text-align: left;
-
-    a {
-      text-decoration: none;
-
-      &:hover,
-      &:active,
-      &:focus,
-      &:visited {
-        color: $pix-communication-dark;
-        text-decoration: underline;
-      }
-    }
   }
 }

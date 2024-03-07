@@ -2,7 +2,7 @@
   width: 35%;
 
   &__title {
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: 600;
     font-size: 1.25rem;
     font-family: $font-open-sans;
@@ -35,7 +35,7 @@
 
   &__description {
     margin: 16px 24px;
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     font-weight: 400;
     font-size: 0.75rem;
   }

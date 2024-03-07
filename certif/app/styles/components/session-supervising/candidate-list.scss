@@ -1,5 +1,5 @@
 .session-supervising-candidate-list-background {
-  background: $pix-neutral-100;
+  background: var(--pix-neutral-900);
   border-radius: 18px 18px 0 0;
   flex-grow: 1;
   padding: 32px 16px;
@@ -18,7 +18,7 @@
     &__description {
       display: flex;
       justify-content: flex-start;
-      color: $pix-neutral-15;
+      color: var(--pix-neutral-20);
       font-size: 0.875rem;
       font-weight: normal;
       min-height: 14px;
@@ -30,7 +30,7 @@
       font-weight: 600;
       margin: 0 0 8px;
       font-family: $font-open-sans;
-      color: $pix-neutral-15;
+      color: var(--pix-neutral-20);
       font-size: 1.25rem;
     }
 
@@ -38,12 +38,8 @@
       list-style: none;
       padding: 0;
 
-      > li:nth-child(odd) {
-        background: $pix-neutral-80;
-      }
-
-      > li:nth-child(even) {
-        background: $pix-neutral-90;
+      > li {
+        background: var(--pix-neutral-800);
       }
     }
 
@@ -53,7 +49,7 @@
     }
 
     &__empty-message {
-      color: $pix-neutral-15;
+      color: var(--pix-neutral-20);
       font-family: $font-open-sans;
       font-size: 1.125rem;
       font-weight: 600;
@@ -64,7 +60,7 @@
 
     &__search {
       align-items: center;
-      background-color: white;
+      background-color: var(--pix-neutral-0);
       border: 1px solid #7A869A;
       border-radius: 4px;
       box-sizing: border-box;
@@ -78,7 +74,7 @@
     &__candidates-count {
       display: flex;
       justify-content: flex-start;
-      color: $pix-neutral-15;
+      color: var(--pix-neutral-20);
       font-size: 0.875rem;
       font-weight: normal;
       height: 14px;
@@ -87,13 +83,13 @@
     }
 
     .search-icon {
-      color: $pix-neutral-30;
+      color: var(--pix-neutral-100);
     }
 
     .search-input {
       border: none;
       box-shadow: none;
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
       font-family: $font-roboto;
       font-size: 1rem;
       padding: 0 10px;

@@ -1,5 +1,5 @@
 .session-supervising-header {
-  background: $pix-neutral-10;
+  background: var(--pix-neutral-20);
   padding: 16px;
 
   @include device-is("tablet") {
@@ -27,7 +27,7 @@
   }
 
   &__date {
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-500);
     display: block;
     font-size: 0.875rem;
     margin-bottom: 16px;
@@ -35,8 +35,8 @@
 
   &__line {
     align-items: center;
-    border-bottom: 1px solid $pix-neutral-22;
-    color: $pix-neutral-70;
+    border-bottom: 1px solid var(--pix-neutral-100);
+    color: var(--pix-neutral-800);
     display: flex;
     font-size: 0.875rem;
     font-weight: 500;
@@ -45,7 +45,7 @@
   }
 
   &__label {
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     display: inline-block;
     flex-shrink: 0;
     font-weight: normal;

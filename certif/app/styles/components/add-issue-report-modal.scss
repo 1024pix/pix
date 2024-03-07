@@ -39,7 +39,7 @@
 
     input[id|='input-radio-for-category'] {
       margin: 0;
-      background-color: $pix-communication-light;
+      background-color: var(--pix-communication-light);
       transform: scale(1.2);
       cursor: pointer;
 
@@ -52,12 +52,12 @@
       box-sizing: border-box;
       margin-left: 8px;
       padding: 2px  8px;
-      border: 1.2px solid $pix-neutral-60;
+      border: 1.2px solid var(--pix-neutral-500);
       border-radius: 4px;
 
       &:focus {
         border-color: transparent;
-        outline: 2px solid $pix-communication-dark;
+        outline: 2px solid var(--pix-primary-500);
         -moz-outline-radius: 4px;
       }
 
@@ -67,7 +67,7 @@
 
       &:not(:placeholder-shown):invalid {
         border: none;
-        outline: 2px solid $pix-information-dark;
+        outline: 2px solid var(--pix-information-dark);
         -moz-outline-radius: 4px;
       }
     }

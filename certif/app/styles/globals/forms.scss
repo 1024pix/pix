@@ -2,7 +2,7 @@
   display: inline-block;
   margin-left: 1px;
   padding-bottom: 5px;
-  color: $pix-neutral-70;
+  color: var(--pix-neutral-800);
   font-weight: 500;
   font-size: 0.94rem;
 }
@@ -10,14 +10,15 @@
 .input {
   height: 40px;
   padding-left: 15px;
-  color: $pix-neutral-80;
+  color: var(--pix-neutral-800);
   font-size: 1rem;
-  border: 2px solid $pix-neutral-20;
+  border: 1px solid var(--pix-neutral-500);
   border-radius: 4px;
   outline: none;
 
   &:focus {
-    border: 2px solid $pix-communication-dark;
+    border-color: var(--pix-primary-500);
+    outline: 2px solid var(--pix-primary-300);
   }
 
   &--small {
@@ -72,20 +73,20 @@ input[type='number'] {
 
 .textarea {
   padding: 8px;
-  color: $pix-neutral-80;
+  color: var(--pix-neutral-800);
   font-size: 1rem;
-  border: 2px solid $pix-neutral-20;
+  border: 1px solid var(--pix-neutral-500);
   border-radius: 4px;
   outline: none;
   resize: none;
 
   &:focus {
-    border: 2px solid $pix-communication-dark;
+    border: 2px solid var(--pix-primary-500);
   }
 }
 
 .error-message {
-  color: $pix-error-70;
+  color: var(--pix-error-700);
   font-size: 0.875rem;
   font-family: $font-roboto;
 
@@ -101,7 +102,7 @@ input[type='number'] {
   }
 
   &--showed-as-link {
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-size: 0.875rem;
     font-family: $font-roboto;
     text-decoration: underline;
@@ -109,26 +110,15 @@ input[type='number'] {
     border: none;
 
     &:hover {
-      color: $pix-communication-dark;
+      color: var(--pix-primary-500);
       cursor: pointer;
     }
-  }
-}
 
-.icon-button {
-  padding: 6px 8px;
-  color: $pix-neutral-45;
-  font-size: 1rem;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-
-  &:hover,
-  &:active {
-    background-color: $pix-neutral-20;
-    border-radius: 16px;
-    transition: background-color 0.2s ease;
+    &:focus {
+      background-color: var(--pix-primary-10);
+      outline:2px solid var(--pix-primary-300);
+      outline-offset: 0;
+    }
   }
 }
 

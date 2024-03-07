@@ -31,7 +31,7 @@
   &__date {
     margin-right: 40px;
     padding-right: 40px;
-    border-right: 1px solid $pix-neutral-20;
+    border-right: 1px solid var(--pix-neutral-20);
   }
 
   &__text {
@@ -57,7 +57,7 @@
   }
 
   &:not(:last-child) {
-    border-bottom: 1px solid $pix-neutral-20;
+    border-bottom: 1px solid var(--pix-neutral-100);
   }
 }
 
@@ -70,7 +70,7 @@
     margin: 16px 0;
     padding: 0 24px;
     white-space: nowrap;
-    border-right: 1px solid $pix-neutral-20;
+    border-right: 1px solid var(--pix-neutral-100);
 
     &:last-child {
       border-right: 0;
@@ -80,7 +80,7 @@
   &--copyable {
     margin: 16px 0 16px 8px;
     padding: 8px 16px;
-    background: $pix-neutral-5;
+    background: var(--pix-neutral-20);
     border: 0;
     border-radius: 4px;
   }
@@ -95,13 +95,13 @@
     justify-content: center;
     min-height: 32px;
     margin: 0;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: 500;
     font-size: 0.875rem;
   }
 
   &__sub-label {
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-500);
     font-weight: normal;
     font-size: 0.813rem;
   }
@@ -142,12 +142,12 @@
   &__clea-results-download-grey {
     display: flex;
     padding: 16px;
-    background: $pix-neutral-5;
+    background: var(--pix-neutral-20);
   }
 
   &__clea-results-download-title {
     margin: 0 0 8px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: 500;
     font-size: 20px;
     font-family: $font-open-sans;
@@ -155,7 +155,7 @@
 
   &__clea-results-download-description {
     margin-bottom: 12px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-size: 0.875rem;
   }
 
@@ -168,7 +168,7 @@
     padding: 2px;
 
     svg {
-      color: $pix-neutral-40;
+      color: var(--pix-neutral-500);
       font-size: 40px;
     }
   }
@@ -190,7 +190,7 @@
 
   &__controls-title {
     margin-right: 8px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: 500;
     font-size: 0.875rem;
   }
