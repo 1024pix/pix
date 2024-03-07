@@ -5,14 +5,12 @@ import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js'
 import { FlashAssessmentAlgorithmConfiguration } from '../models/FlashAssessmentAlgorithmConfiguration.js';
 
 export async function simulateFlashDeterministicAssessmentScenario({
-  challengeRepository,
   locale,
   pickChallenge,
   pickAnswerStatus,
   stopAtChallenge,
   initialCapacity,
   useObsoleteChallenges,
-  flashAlgorithmService,
   warmUpLength = 0,
   forcedCompetences = [],
   challengesBetweenSameCompetence = 0,
@@ -22,6 +20,8 @@ export async function simulateFlashDeterministicAssessmentScenario({
   doubleMeasuresUntil = 0,
   variationPercent,
   variationPercentUntil,
+  challengeRepository,
+  flashAlgorithmService,
 }) {
   const challenges = await challengeRepository.findFlashCompatible({ locale, useObsoleteChallenges });
 
