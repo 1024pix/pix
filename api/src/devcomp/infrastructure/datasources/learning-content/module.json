@@ -874,16 +874,16 @@
           "title": "Les ports de connexion d'un ordinateur",
           "elements": [
             {
+              "id": "e6730d81-c115-4821-a415-4f719a252746",
+              "type": "text",
+              "content": "<h4>Voici ci-dessus les ports que l'on trouve souvent sur un ordinateur.</h4>"
+            },
+            {
               "id": "83a85de9-4a5e-41a4-b8e6-f583a817121e",
               "type": "image",
               "url": "https://i.imgur.com/WQgsiuV.jpeg",
               "alt": "Schéma de l'ensemble des ports qui vont être présentés",
               "alternativeText": ""
-            },
-            {
-              "id": "e6730d81-c115-4821-a415-4f719a252746",
-              "type": "text",
-              "content": "<h4>Voici ci-dessus les ports que l'on trouve souvent sur un ordinateur.</h4>"
             },
             {
               "id": "16d2d2ba-e314-4721-bdde-281c75d47b13",
@@ -934,7 +934,7 @@
             {
               "id": "86851d7d-0ce8-48a3-b8ac-433da8134dec",
               "type": "text",
-              "content": "<p>Ce port est un <strong>port HDMI</strong>.<br> On peut le reconnaître grâce à sa forme. Il porte souvent l'inscription “HDMI” juste à côté. Ce port sert principalement à connecter un écran ou un vidéo-projecteur à l’ordinateur, comme le port VGA. <span aria-hidden=\"true\">📽️</span></p>"
+              "content": "<p>Ce port est un <strong>port HDMI</strong>.<br> On peut le reconnaître grâce à sa forme. Il porte souvent l'inscription \"HDMI\" juste à côté. Ce port sert principalement à connecter un écran ou un vidéo-projecteur à l’ordinateur, comme le port VGA. <span aria-hidden=\"true\">📽️</span></p>"
             },
             {
               "id": "4ad6f499-244f-4f74-9112-feaebdd62305",
