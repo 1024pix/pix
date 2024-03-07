@@ -1418,7 +1418,7 @@
       "title": "L'adresse IP publique : ce qu'elle révèle sur vous",
       "details": {
         "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-        "description": "Découvrez dans ce module ce qu'est une adresse IP publique (v4) et les informations et les traces numériques qu'elle porte.",
+        "description": "Découvrez dans ce module ce qu'est une adresse IP publique et les informations et les traces numériques qu'elle porte.",
         "duration": 10,
         "level": "Intermédiaire",
         "objectives": [
@@ -1437,7 +1437,7 @@
           "grainId": "4f4ada91-e239-4991-9fc8-ab491aabc424"
         },
         {
-          "content": "<p>Vous en savez désormais plus sur les adresses IP publiques.&nbsp;<span aria-hidden=\"true\">👩‍💻</span>️<span aria-hidden=\"true\">👨🏿‍💻</span>️ Récapitulons ensemble. </p>",
+          "content": "<p>Vous en savez désormais plus sur les adresses IP publiques.&nbsp;<span aria-hidden=\"true\">👩‍💻</span>️<span aria-hidden=\"true\">👨🏿‍💻</span>️ Vérifions ensemble. </p>",
           "grainId": "eba0b676-c0c4-4b32-b5e4-dd94d13766a5"
         },
         {
@@ -1798,7 +1798,7 @@
             {
               "id": "952234bc-4ec1-4ebd-9208-6cc261a1efd8",
               "type": "qcu",
-              "instruction": "<p>Cette adresse est spécifique à chaque appareil connecté à une même box internet.</p>",
+              "instruction": "<p>Cette adresse est unique pour chaque appareil connecté à une même box internet.</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -1837,8 +1837,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p> Pour vérifier votre réponse, suivez le lien vers <a href=\"http://monip.org/\" target=\"_blank\">ce site</a></p>",
-                "invalid": "<p>Suivez le lien vers <a href=\"http://monip.org/\" target=\"_blank\">ce site</a> pour la trouver.</p>"
+                "valid": "<p> Pour vérifier votre réponse, suivez le lien vers <a href=\"http://monip.org/\" target=\"_blank\">http://monip.org/</a>.</p>",
+                "invalid": "<p>Suivez le lien vers <a href=\"http://monip.org/\" target=\"_blank\">http://monip.org/</a> pour la trouver.</p>"
               },
               "solution": "1"
             },
