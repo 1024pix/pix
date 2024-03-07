@@ -103,6 +103,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-qunit": "^8.0.0",
+    "joi": "^17.12.2",
     "loader.js": "^4.7.0",
     "lodash": "^4.17.21",
     "npm-run-all2": "^6.0.0",
