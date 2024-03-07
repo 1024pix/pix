@@ -23,6 +23,7 @@ const importOrganizationLearnersFromSIECLE = async function (
       });
     } else if (format === 'csv') {
       await usecases.importOrganizationLearnersFromSIECLECSVFormat({
+        userId: authenticatedUserId,
         organizationId,
         payload: request.payload,
         i18n: request.i18n,
