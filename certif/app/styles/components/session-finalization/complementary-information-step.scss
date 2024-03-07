@@ -3,3 +3,13 @@
   display: flex;
   flex-direction: column;
 }
+
+
+.session-finalization-complementary-information-step-content__link {
+  text-decoration: underline;
+
+  &:focus, &:focus-visible {
+    outline:2px solid var(--pix-info-700);
+    outline-offset: 0;
+  }
+}

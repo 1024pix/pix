@@ -346,7 +346,7 @@
         "title": "Informations complémentaires (facultatif)",
         "candidates-joining-issue": {
           "label": "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
-          "link": "Vous trouverez '<'a class=\"link\" href=\"{joiningIssueSheetUrl}\" target=\"_blank\" rel=\"noreferrer noopener\"'>'ici un document pour vous aider à résoudre ce type de problème de connexion pour les prochaines sessions (PDF, 131ko).'</a>'"
+          "link": "Vous trouverez '<'a class=\"session-finalization-complementary-information-step-content__link\" href=\"{joiningIssueSheetUrl}\" target=\"_blank\" rel=\"noreferrer noopener\"'>'ici un document pour vous aider à résoudre ce type de problème de connexion pour les prochaines sessions (PDF, 131ko).'</a>'"
         },
         "description": "Vous pouvez indiquer, le cas échéant, les événements survenus lors de la session. Il n'est pas nécessaire de renseigner les candidats absents.",
         "incident": "Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats."
