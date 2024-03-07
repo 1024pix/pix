@@ -113,7 +113,7 @@ describe('Unit | UseCase | create-session', function () {
             createdBy: userId,
           });
 
-          expect(sessionRepository.save).to.have.been.calledWithExactly(expectedSession);
+          expect(sessionRepository.save).to.have.been.calledWithExactly({ session: expectedSession });
         });
       });
 
@@ -149,7 +149,7 @@ describe('Unit | UseCase | create-session', function () {
             createdBy: userId,
           });
 
-          expect(sessionRepository.save).to.have.been.calledWithExactly(expectedSession);
+          expect(sessionRepository.save).to.have.been.calledWithExactly({ session: expectedSession });
         });
       });
     });

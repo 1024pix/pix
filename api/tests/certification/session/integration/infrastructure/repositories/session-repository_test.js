@@ -42,7 +42,7 @@ describe('Integration | Repository | Session', function () {
 
     it('should persist the session in db', async function () {
       // when
-      await sessionRepository.save(session);
+      await sessionRepository.save({ session });
 
       // then
       const sessionSaved = await knex('sessions').select();
@@ -51,7 +51,7 @@ describe('Integration | Repository | Session', function () {
 
     it('should return the saved Session', async function () {
       // when
-      const savedSession = await sessionRepository.save(session);
+      const savedSession = await sessionRepository.save({ session });
 
       // then
       expect(savedSession).to.be.an.instanceOf(Session);
@@ -73,7 +73,7 @@ describe('Integration | Repository | Session', function () {
 
     it('should return true if the session status is finalized', async function () {
       // when
-      const isFinalized = await sessionRepository.isFinalized(finalizedSessionId);
+      const isFinalized = await sessionRepository.isFinalized({ id: finalizedSessionId });
 
       // then
       expect(isFinalized).to.be.equal(true);
@@ -81,7 +81,7 @@ describe('Integration | Repository | Session', function () {
 
     it('should return false if the session status is not finalized', async function () {
       // when
-      const isFinalized = await sessionRepository.isFinalized(notFinalizedSessionId);
+      const isFinalized = await sessionRepository.isFinalized({ id: notFinalizedSessionId });
 
       // then
       expect(isFinalized).to.be.equal(false);
@@ -154,7 +154,7 @@ describe('Integration | Repository | Session', function () {
 
     it('should return session informations in a session Object', async function () {
       // when
-      const actualSession = await sessionRepository.get(session.id);
+      const actualSession = await sessionRepository.get({ id: session.id });
 
       // then
       expect(actualSession).to.be.instanceOf(Session);
@@ -163,7 +163,7 @@ describe('Integration | Repository | Session', function () {
 
     it('should return a Not found error when no session was found', async function () {
       // when
-      const error = await catchErr(sessionRepository.get)(2);
+      const error = await catchErr(sessionRepository.get)({ id: 2 });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -190,7 +190,7 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
+      const actualSession = await sessionRepository.getWithCertificationCandidates({ id: session.id });
 
       // then
       const expectedSession = domainBuilder.buildSession(session);
@@ -219,7 +219,7 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
+      const actualSession = await sessionRepository.getWithCertificationCandidates({ id: session.id });
 
       // then
       const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
@@ -238,7 +238,7 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
+      const actualSession = await sessionRepository.getWithCertificationCandidates({ id: session.id });
 
       // then
       expect(actualSession.certificationCandidates).to.deep.equal([]);
@@ -280,7 +280,7 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
+      const actualSession = await sessionRepository.getWithCertificationCandidates({ id: session.id });
 
       // then
       const [firstCandidateFromSession, secondCandidateFromSession] = actualSession.certificationCandidates;
@@ -308,7 +308,7 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
+      const actualSession = await sessionRepository.getWithCertificationCandidates({ id: session.id });
 
       // then
       const [firstCandidateFromSession, secondCandidateFromSession] = actualSession.certificationCandidates;
@@ -322,7 +322,7 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(sessionRepository.get)(session.id + 1);
+      const error = await catchErr(sessionRepository.get)({ id: session.id + 1 });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -348,7 +348,7 @@ describe('Integration | Repository | Session', function () {
 
     it('should return a Session domain object', async function () {
       // when
-      const sessionSaved = await sessionRepository.updateSessionInfo(session);
+      const sessionSaved = await sessionRepository.updateSessionInfo({ session });
 
       // then
       expect(sessionSaved).to.be.an.instanceof(Session);
@@ -358,7 +358,7 @@ describe('Integration | Repository | Session', function () {
       // given
 
       // when
-      const sessionSaved = await sessionRepository.updateSessionInfo(session);
+      const sessionSaved = await sessionRepository.updateSessionInfo({ session });
 
       // then
       expect(sessionSaved.id).to.equal(session.id);
@@ -391,10 +391,10 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
 
       // when
-      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
+      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession({
         userId,
         sessionId,
-      );
+      });
 
       // then
       expect(hasMembership).to.be.true;
@@ -412,10 +412,10 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
 
       // when
-      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
+      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession({
         userId,
         sessionId,
-      );
+      });
 
       // then
       expect(hasMembership).to.be.false;
@@ -439,10 +439,10 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
 
       // when
-      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
-        userIdNotAllowed,
+      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession({
+        userId: userIdNotAllowed,
         sessionId,
-      );
+      });
 
       // then
       expect(hasMembership).to.be.false;
@@ -495,7 +495,7 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
 
       // when
-      await sessionRepository.unfinalize({ sessionId: 99 });
+      await sessionRepository.unfinalize({ id: 99 });
 
       // then
       const dbSession = await knex('sessions').select('*').where({ id: 99 }).first();
@@ -515,7 +515,7 @@ describe('Integration | Repository | Session', function () {
 
         // when
         await DomainTransaction.execute(async (domainTransaction) => {
-          await sessionRepository.unfinalize({ sessionId: 99, domainTransaction });
+          await sessionRepository.unfinalize({ id: 99, domainTransaction });
           return domainTransaction.knexTransaction.rollback();
         });
 
@@ -529,7 +529,7 @@ describe('Integration | Repository | Session', function () {
       it('should throw a not found error', async function () {
         // given
         // when
-        const error = await catchErr(sessionRepository.unfinalize)({ sessionId: 99 });
+        const error = await catchErr(sessionRepository.unfinalize)({ id: 99 });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -600,7 +600,7 @@ describe('Integration | Repository | Session', function () {
 
         // when
         const result = await sessionRepository.isSco({
-          sessionId: session.id,
+          id: session.id,
         });
 
         // then
@@ -628,7 +628,7 @@ describe('Integration | Repository | Session', function () {
 
         // when
         const result = await sessionRepository.isSco({
-          sessionId: session.id,
+          id: session.id,
         });
 
         // then
@@ -649,7 +649,7 @@ describe('Integration | Repository | Session', function () {
           await databaseBuilder.commit();
 
           // when
-          await sessionRepository.remove(sessionId);
+          await sessionRepository.remove({ id: sessionId });
 
           // then
           const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
@@ -675,7 +675,7 @@ describe('Integration | Repository | Session', function () {
             await databaseBuilder.commit();
 
             // when
-            await sessionRepository.remove(sessionId);
+            await sessionRepository.remove({ id: sessionId });
 
             // then
             const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
@@ -698,7 +698,7 @@ describe('Integration | Repository | Session', function () {
           await databaseBuilder.commit();
 
           // when
-          await sessionRepository.remove(sessionId);
+          await sessionRepository.remove({ id: sessionId });
 
           // then
           const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
@@ -716,7 +716,7 @@ describe('Integration | Repository | Session', function () {
           await databaseBuilder.commit();
 
           // when
-          await sessionRepository.remove(sessionId);
+          await sessionRepository.remove({ id: sessionId });
 
           // then
           const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
@@ -731,7 +731,7 @@ describe('Integration | Repository | Session', function () {
         const sessionId = 123456;
 
         // when
-        const error = await catchErr(sessionRepository.remove)(sessionId);
+        const error = await catchErr(sessionRepository.remove)({ id: sessionId });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -772,7 +772,7 @@ describe('Integration | Repository | Session', function () {
           await databaseBuilder.commit();
 
           // when
-          const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(sessionId);
+          const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired({ id: sessionId });
 
           // then
           expect(hasSomeCleaAcquired).to.be.true;
@@ -811,7 +811,7 @@ describe('Integration | Repository | Session', function () {
         await databaseBuilder.commit();
 
         // when
-        const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(sessionId);
+        const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired({ id: sessionId });
 
         // then
         expect(hasSomeCleaAcquired).to.be.false;
@@ -847,7 +847,7 @@ describe('Integration | Repository | Session', function () {
         await databaseBuilder.commit();
 
         // when
-        const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(sessionId);
+        const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired({ id: sessionId });
 
         // then
         expect(hasSomeCleaAcquired).to.be.false;
@@ -864,7 +864,7 @@ describe('Integration | Repository | Session', function () {
         await databaseBuilder.commit();
 
         // when
-        const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(sessionId);
+        const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired({ id: sessionId });
 
         // then
         expect(hasSomeCleaAcquired).to.be.false;
@@ -879,7 +879,7 @@ describe('Integration | Repository | Session', function () {
         await databaseBuilder.commit();
 
         // when
-        const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(sessionId);
+        const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired({ id: sessionId });
 
         // then
         expect(hasSomeCleaAcquired).to.be.false;
@@ -902,7 +902,7 @@ describe('Integration | Repository | Session', function () {
         await databaseBuilder.commit();
 
         // when
-        const hasNoStartedCertification = await sessionRepository.hasNoStartedCertification(sessionId);
+        const hasNoStartedCertification = await sessionRepository.hasNoStartedCertification({ id: sessionId });
 
         // then
         expect(hasNoStartedCertification).to.be.false;
@@ -917,7 +917,7 @@ describe('Integration | Repository | Session', function () {
         await databaseBuilder.commit();
 
         // when
-        const hasNoStartedCertification = await sessionRepository.hasNoStartedCertification(sessionId);
+        const hasNoStartedCertification = await sessionRepository.hasNoStartedCertification({ id: sessionId });
 
         // then
         expect(hasNoStartedCertification).to.be.true;
@@ -981,8 +981,9 @@ describe('Integration | Repository | Session', function () {
         await databaseBuilder.commit();
 
         // when
-        const unfinishedCertificationsCount =
-          await sessionRepository.countUncompletedCertificationsAssessment(sessionId);
+        const unfinishedCertificationsCount = await sessionRepository.countUncompletedCertificationsAssessment({
+          id: sessionId,
+        });
 
         // then
         expect(unfinishedCertificationsCount).to.equal(3);
@@ -1008,8 +1009,9 @@ describe('Integration | Repository | Session', function () {
         await databaseBuilder.commit();
 
         // when
-        const unfinishedCertificationsCount =
-          await sessionRepository.countUncompletedCertificationsAssessment(sessionId);
+        const unfinishedCertificationsCount = await sessionRepository.countUncompletedCertificationsAssessment({
+          id: sessionId,
+        });
 
         // then
         expect(unfinishedCertificationsCount).to.equal(0);

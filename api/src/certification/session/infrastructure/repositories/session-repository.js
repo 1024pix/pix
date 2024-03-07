@@ -10,10 +10,10 @@ import { ComplementaryCertification } from '../../../session/domain/models/Compl
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { Session } from '../../domain/models/Session.js';
 
-const save = async function (sessionData, { knexTransaction } = DomainTransaction.emptyTransaction()) {
-  const knexConn = knexTransaction ?? knex;
-  sessionData = _.omit(sessionData, ['certificationCandidates']);
-  const [savedSession] = await knexConn('sessions').insert(sessionData).returning('*');
+const save = async function ({ session, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction.knexTransaction ?? knex;
+  session = _.omit(session, ['certificationCandidates']);
+  const [savedSession] = await knexConn('sessions').insert(session).returning('*');
 
   return new Session(savedSession);
 };
@@ -25,7 +25,7 @@ const saveSessions = async function (sessionsData) {
   return knex.batchInsert('sessions', sessions);
 };
 
-const isFinalized = async function (id) {
+const isFinalized = async function ({ id }) {
   const session = await knex.select('id').from('sessions').where({ id }).whereNotNull('finalizedAt').first();
   return Boolean(session);
 };
@@ -35,8 +35,8 @@ const isPublished = async function ({ id }) {
   return Boolean(isPublished);
 };
 
-const get = async function (sessionId) {
-  const foundSession = await knex.select('*').from('sessions').where({ id: sessionId }).first();
+const get = async function ({ id }) {
+  const foundSession = await knex.select('*').from('sessions').where({ id }).first();
   if (!foundSession) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
   }
@@ -53,8 +53,8 @@ const isSessionExistingBySessionAndCertificationCenterIds = async function ({ se
   return Boolean(session);
 };
 
-const getWithCertificationCandidates = async function (sessionId) {
-  const session = await knex.from('sessions').where({ 'sessions.id': sessionId }).first();
+const getWithCertificationCandidates = async function ({ id }) {
+  const session = await knex.from('sessions').where({ id }).first();
 
   if (!session) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
@@ -79,13 +79,13 @@ const getWithCertificationCandidates = async function (sessionId) {
       'complementary-certification-subscriptions.complementaryCertificationId',
     )
     .groupBy('certification-candidates.id', 'complementary-certifications.id')
-    .where({ sessionId })
+    .where({ sessionId: id })
     .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
 
   return _toDomain({ ...session, certificationCandidates });
 };
 
-const updateSessionInfo = async function (session) {
+const updateSessionInfo = async function ({ session }) {
   const sessionDataToUpdate = _.pick(session, [
     'address',
     'room',
@@ -100,7 +100,7 @@ const updateSessionInfo = async function (session) {
   return new Session(updatedSession);
 };
 
-const doesUserHaveCertificationCenterMembershipForSession = async function (userId, sessionId) {
+const doesUserHaveCertificationCenterMembershipForSession = async function ({ userId, sessionId }) {
   const sessions = await knex
     .select('sessions.id')
     .from('sessions')
@@ -126,10 +126,10 @@ const finalize = async function ({ id, examinerGlobalComment, hasIncident, hasJo
   return new Session(finalizedSession);
 };
 
-const unfinalize = async function ({ sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+const unfinalize = async function ({ id, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction ?? knex;
   const updates = await knexConn('sessions')
-    .where({ id: sessionId })
+    .where({ id })
     .update({ finalizedAt: null, assignedCertificationOfficerId: null });
   if (updates === 0) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
@@ -146,21 +146,23 @@ const updatePublishedAt = async function ({ id, publishedAt }) {
   return new Session(publishedSession);
 };
 
-const isSco = async function ({ sessionId }) {
+const isSco = async function ({ id }) {
   const result = await knex
     .select('certification-centers.type')
     .from('sessions')
-    .where('sessions.id', '=', sessionId)
+    .where('sessions.id', '=', id)
     .innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
     .first();
 
   return result.type === CertificationCenter.types.SCO;
 };
 
-const remove = async function (sessionId) {
+const remove = async function ({ id }) {
   await knex.transaction(async (trx) => {
-    const certificationCandidateIdsInSession = await knex('certification-candidates').where({ sessionId }).pluck('id');
-    const supervisorAccessIds = await knex('supervisor-accesses').where({ sessionId }).pluck('id');
+    const certificationCandidateIdsInSession = await knex('certification-candidates')
+      .where({ sessionId: id })
+      .pluck('id');
+    const supervisorAccessIds = await knex('supervisor-accesses').where({ sessionId: id }).pluck('id');
 
     if (supervisorAccessIds) {
       await trx('supervisor-accesses').whereIn('id', supervisorAccessIds).del();
@@ -172,14 +174,14 @@ const remove = async function (sessionId) {
         .del();
       await trx('certification-candidates').whereIn('id', certificationCandidateIdsInSession).del();
     }
-    const nbSessionsDeleted = await trx('sessions').where('id', sessionId).del();
+    const nbSessionsDeleted = await trx('sessions').where('id', id).del();
     if (nbSessionsDeleted === 0) throw new NotFoundError();
   });
 
   return;
 };
 
-const hasSomeCleaAcquired = async function (sessionId) {
+const hasSomeCleaAcquired = async function ({ id }) {
   const result = await knex
     .select(1)
     .from('sessions')
@@ -199,7 +201,7 @@ const hasSomeCleaAcquired = async function (sessionId) {
       'complementary-certification-course-results.complementaryCertificationCourseId',
       'complementary-certification-courses.id',
     )
-    .where('sessions.id', sessionId)
+    .where('sessions.id', id)
     .whereNotNull('sessions.publishedAt')
     .where('complementary-certification-course-results.acquired', true)
     .where('complementary-certifications.key', ComplementaryCertificationKeys.CLEA)
@@ -207,18 +209,18 @@ const hasSomeCleaAcquired = async function (sessionId) {
   return Boolean(result);
 };
 
-const hasNoStartedCertification = async function (sessionId) {
-  const result = await knex.select(1).from('certification-courses').where('sessionId', sessionId).first();
+const hasNoStartedCertification = async function ({ id }) {
+  const result = await knex.select(1).from('certification-courses').where('sessionId', id).first();
   return !result;
 };
 
-const countUncompletedCertificationsAssessment = async function (sessionId) {
+const countUncompletedCertificationsAssessment = async function ({ id }) {
   const { count } = await knex
     .count('certification-courses.id')
     .from('certification-courses')
     .join('assessments', 'certification-courses.id', 'certificationCourseId')
     .whereIn('state', CertificationAssessment.uncompletedAssessmentStates)
-    .andWhere({ sessionId })
+    .andWhere({ sessionId: id })
     .first();
   return count;
 };

@@ -15,7 +15,7 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
     const expectedSession = domainBuilder.buildSession({
       certificationCandidates: [],
     });
-    sessionRepository.getWithCertificationCandidates.withArgs(123).resolves(expectedSession);
+    sessionRepository.getWithCertificationCandidates.withArgs({ id: 123 }).resolves(expectedSession);
     certificationResultRepository.findByCertificationCandidateIds
       .withArgs({ certificationCandidateIds: [] })
       .resolves([]);
@@ -47,7 +47,7 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
       date: '2019-06-06',
       time: '12:05:30',
     });
-    sessionRepository.getWithCertificationCandidates.withArgs(123).resolves(expectedSession);
+    sessionRepository.getWithCertificationCandidates.withArgs({ id: 123 }).resolves(expectedSession);
     const certificationResult = domainBuilder.buildCertificationResult({ firstName: 'Buffy' });
     certificationResultRepository.findByCertificationCandidateIds
       .withArgs({ certificationCandidateIds: [789] })

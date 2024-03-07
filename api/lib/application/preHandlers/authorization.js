@@ -35,10 +35,10 @@ const authorization = { verifySessionAuthorization, verifyCertificationSessionAu
 export { authorization, verifyCertificationSessionAuthorization, verifySessionAuthorization };
 
 async function _isAuthorizedToAccessSession({ userId, sessionId, sessionRepository }) {
-  const hasMembershipAccess = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
+  const hasMembershipAccess = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession({
     userId,
     sessionId,
-  );
+  });
 
   if (!hasMembershipAccess) {
     throw new NotFoundError(
