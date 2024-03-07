@@ -4,7 +4,7 @@ const getCleaCertifiedCandidateBySession = async function ({
   sessionRepository,
 }) {
   const cleaCertifiedCandidateData = await cleaCertifiedCandidateRepository.getBySessionId(sessionId);
-  const session = await sessionRepository.get(sessionId);
+  const session = await sessionRepository.get({ id: sessionId });
 
   return { session, cleaCertifiedCandidateData };
 };

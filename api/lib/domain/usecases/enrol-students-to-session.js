@@ -16,7 +16,7 @@ const enrolStudentsToSession = async function ({
   countryRepository,
   sessionRepository,
 } = {}) {
-  const session = await sessionRepository.get(sessionId);
+  const session = await sessionRepository.get({ id: sessionId });
   const referentCertificationCenterMemberships = await certificationCenterMembershipRepository.findByUserId(referentId);
 
   if (!_doesSessionBelongToSameCertificationCenterAsReferent(referentCertificationCenterMemberships, session)) {

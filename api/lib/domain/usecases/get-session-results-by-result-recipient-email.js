@@ -6,7 +6,7 @@ const getSessionResultsByResultRecipientEmail = async function ({
   sessionRepository,
   certificationResultRepository,
 }) {
-  const session = await sessionRepository.getWithCertificationCandidates(sessionId);
+  const session = await sessionRepository.getWithCertificationCandidates({ id: sessionId });
   const certificationCandidateIdsForResultRecipient = _(session.certificationCandidates)
     .filter({ resultRecipientEmail })
     .map('id')

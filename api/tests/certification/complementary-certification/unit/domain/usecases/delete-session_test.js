@@ -18,7 +18,7 @@ describe('Unit | UseCase | delete-session', function () {
       });
 
       // then
-      expect(sessionRepository.remove).to.have.been.calledWithExactly(123);
+      expect(sessionRepository.remove).to.have.been.calledWithExactly({ id: 123 });
     });
   });
 

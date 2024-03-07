@@ -30,7 +30,7 @@ describe('Unit | Pre-handler | Authorization', function () {
       it('should reply with true', async function () {
         // given
         sessionRepository.doesUserHaveCertificationCenterMembershipForSession
-          .withArgs(userId, sessionId)
+          .withArgs({ userId, sessionId })
           .resolves(true);
 
         // when
@@ -45,7 +45,7 @@ describe('Unit | Pre-handler | Authorization', function () {
       it('should throw a NotFoundError', async function () {
         // given
         sessionRepository.doesUserHaveCertificationCenterMembershipForSession
-          .withArgs(userId, sessionId)
+          .withArgs({ userId, sessionId })
           .resolves(false);
 
         // when
@@ -71,7 +71,9 @@ describe('Unit | Pre-handler | Authorization', function () {
           },
         };
         certificationCourseRepository.getSessionId.withArgs(77).resolves(99);
-        sessionRepository.doesUserHaveCertificationCenterMembershipForSession.withArgs(userId, 99).resolves(true);
+        sessionRepository.doesUserHaveCertificationCenterMembershipForSession
+          .withArgs({ userId, sessionId: 99 })
+          .resolves(true);
 
         // when
         const response = await verifyCertificationSessionAuthorization(request, hFake, dependencies);
@@ -93,7 +95,9 @@ describe('Unit | Pre-handler | Authorization', function () {
           },
         };
         certificationCourseRepository.getSessionId.withArgs(77).resolves(99);
-        sessionRepository.doesUserHaveCertificationCenterMembershipForSession.withArgs(userId, 99).resolves(false);
+        sessionRepository.doesUserHaveCertificationCenterMembershipForSession
+          .withArgs({ userId, sessionId: 99 })
+          .resolves(false);
 
         // when
         const error = await catchErr(verifyCertificationSessionAuthorization)(request, hFake, dependencies);

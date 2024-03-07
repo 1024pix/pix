@@ -21,8 +21,8 @@ describe('Unit | UseCase | get-session', function () {
       // given
       const sessionId = 123;
       const sessionToFind = domainBuilder.buildSession({ id: sessionId });
-      sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
-      sessionRepository.hasSomeCleaAcquired.withArgs(sessionId).resolves(false);
+      sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+      sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
       supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
       // when
@@ -37,8 +37,8 @@ describe('Unit | UseCase | get-session', function () {
         // given
         const sessionId = 123;
         const sessionToFind = domainBuilder.buildSession({ id: sessionId });
-        sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
-        sessionRepository.hasSomeCleaAcquired.withArgs(sessionId).resolves(false);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+        sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
         // when
@@ -54,8 +54,8 @@ describe('Unit | UseCase | get-session', function () {
         // given
         const sessionId = 123;
         const sessionToFind = domainBuilder.buildSession({ id: sessionId });
-        sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
-        sessionRepository.hasSomeCleaAcquired.withArgs(sessionId).resolves(false);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+        sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(false);
 
         // when
@@ -71,8 +71,8 @@ describe('Unit | UseCase | get-session', function () {
         // given
         const sessionId = 123;
         const sessionToFind = domainBuilder.buildSession({ id: sessionId });
-        sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
-        sessionRepository.hasSomeCleaAcquired.withArgs(sessionId).resolves(true);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+        sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(true);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
         // when
@@ -92,8 +92,8 @@ describe('Unit | UseCase | get-session', function () {
         // given
         const sessionId = 123;
         const sessionToFind = domainBuilder.buildSession({ id: sessionId });
-        sessionRepository.get.withArgs(sessionId).resolves(sessionToFind);
-        sessionRepository.hasSomeCleaAcquired.withArgs(sessionId).resolves(false);
+        sessionRepository.get.withArgs({ id: sessionId }).resolves(sessionToFind);
+        sessionRepository.hasSomeCleaAcquired.withArgs({ id: sessionId }).resolves(false);
         supervisorAccessRepository.sessionHasSupervisorAccess.resolves(true);
 
         // when
@@ -113,7 +113,7 @@ describe('Unit | UseCase | get-session', function () {
     it('should throw an error the session', async function () {
       // given
       const sessionId = 123;
-      sessionRepository.get.withArgs(sessionId).rejects(new NotFoundError());
+      sessionRepository.get.withArgs({ id: sessionId }).rejects(new NotFoundError());
 
       // when
       const err = await catchErr(getSession)({ sessionId, sessionRepository, supervisorAccessRepository });
