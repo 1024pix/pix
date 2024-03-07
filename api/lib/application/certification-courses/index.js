@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { certificationCourseController } from './certification-course-controller.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { certificationCourseController } from './certification-course-controller.js';
 
 const register = async function (server) {
   const adminRoutes = [
@@ -250,4 +250,4 @@ const register = async function (server) {
 };
 
 const name = 'certification-courses-api';
-export { register, name };
+export { name, register };

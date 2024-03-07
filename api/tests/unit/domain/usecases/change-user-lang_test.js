@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { changeUserLang } from '../../../../lib/domain/usecases/change-user-lang.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | change-user-lang', function () {
   let userRepository;

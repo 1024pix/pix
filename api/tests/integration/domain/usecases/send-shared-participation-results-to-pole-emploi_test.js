@@ -1,13 +1,12 @@
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import {
-  expect,
   databaseBuilder,
+  expect,
   knex,
-  mockLearningContent,
   learningContentBuilder,
+  mockLearningContent,
   sinon,
 } from '../../../test-helper.js';
-
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Integration | Domain | UseCases | send-shared-participation-results-to-pole-emploi', function () {
   let campaignParticipationId, userId, responseCode;

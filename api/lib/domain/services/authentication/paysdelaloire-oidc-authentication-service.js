@@ -1,7 +1,6 @@
 import { config } from '../../../../src/shared/config.js';
-
-import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { PAYSDELALOIRE } from '../../constants/oidc-identity-providers.js';
+import { OidcAuthenticationService } from './oidc-authentication-service.js';
 
 const configKey = PAYSDELALOIRE.configKey;
 

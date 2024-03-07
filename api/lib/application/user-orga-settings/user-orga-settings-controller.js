@@ -1,5 +1,5 @@
-import * as userOrgaSettingsSerializer from '../../infrastructure/serializers/jsonapi/user-orga-settings-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
+import * as userOrgaSettingsSerializer from '../../infrastructure/serializers/jsonapi/user-orga-settings-serializer.js';
 
 const createOrUpdate = async function (request, h, dependencies = { userOrgaSettingsSerializer }) {
   const userId = request.params.id;

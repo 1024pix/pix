@@ -1,6 +1,6 @@
 import { Mission } from '../../../../../src/school/domain/models/Mission.js';
-import { sinon, expect } from '../../../../test-helper.js';
 import { injectComplementDataTo } from '../../../../../src/school/domain/services/inject-complement-data-to-mission.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Service | injectComplementDataToMission', function () {
   let areaRepository, competenceRepository, organizationLearnerRepository;

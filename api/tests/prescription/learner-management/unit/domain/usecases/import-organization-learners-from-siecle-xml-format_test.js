@@ -1,12 +1,12 @@
-import { expect, sinon, catchErr } from '../../../../../test-helper.js';
-import { importOrganizationLearnersFromSIECLEXMLFormat } from '../../../../../../src/prescription/learner-management/domain/usecases/import-organization-learners-from-siecle-xml-format.js';
-import { SiecleXmlImportError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
-import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
-import { SiecleParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/xml/siecle-parser.js';
-
 import fs from 'fs/promises';
-import { SiecleFileStreamer } from '../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
+
+import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
+import { SiecleXmlImportError } from '../../../../../../src/prescription/learner-management/domain/errors.js';
 import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
+import { importOrganizationLearnersFromSIECLEXMLFormat } from '../../../../../../src/prescription/learner-management/domain/usecases/import-organization-learners-from-siecle-xml-format.js';
+import { SiecleParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/xml/siecle-parser.js';
+import { SiecleFileStreamer } from '../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | import-organization-learners-from-siecle-xml', function () {
   const organizationUAI = '123ABC';

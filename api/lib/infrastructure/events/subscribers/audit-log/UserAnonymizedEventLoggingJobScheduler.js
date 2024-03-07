@@ -1,5 +1,5 @@
-import { UserAnonymized } from '../../../../domain/events/UserAnonymized.js';
 import { config } from '../../../../config.js';
+import { UserAnonymized } from '../../../../domain/events/UserAnonymized.js';
 
 export class UserAnonymizedEventLoggingJobScheduler {
   constructor({ userAnonymizedEventLoggingJob }) {

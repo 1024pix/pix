@@ -1,7 +1,7 @@
-import { buildUser } from './build-user.js';
-import { buildAssessment } from './build-assessment.js';
 import { buildAnswer } from './build-answer.js';
+import { buildAssessment } from './build-assessment.js';
 import { buildKnowledgeElement } from './build-knowledge-element.js';
+import { buildUser } from './build-user.js';
 
 const buildCertifiableUser = function ({ competencesAssociatedSkillsAndChallenges, limitDate }) {
   const certifiableUser = buildUser();

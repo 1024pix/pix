@@ -9,4 +9,4 @@ const down = async function () {
   return;
 };
 
-export { up, down };
+export { down, up };

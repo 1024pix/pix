@@ -29,4 +29,4 @@ const down = async function (knex) {
   return knex(CERTIFICATION_ISSUE_REPORTS).whereIn('certificationCourseId', idsToDelete).delete();
 };
 
-export { up, down };
+export { down, up };

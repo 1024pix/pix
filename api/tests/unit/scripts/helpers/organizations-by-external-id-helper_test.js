@@ -1,8 +1,8 @@
-import { expect, sinon } from '../../../test-helper.js';
 import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
 } from '../../../../scripts/helpers/organizations-by-external-id-helper.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Scripts | organizations-by-external-id-helper.js', function () {
   describe('#organizeOrganizationsByExternalId', function () {

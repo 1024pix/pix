@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
-import { AUTONOMOUS_COURSES_ID } from '../constants.js';
-import { PRO_ORGANIZATION_USER_ID, ALL_ORGANIZATION_USER_ID } from '../../common/constants.js';
+
 import { REAL_PIX_SUPER_ADMIN_ID } from '../../common/common-builder.js';
+import { ALL_ORGANIZATION_USER_ID, PRO_ORGANIZATION_USER_ID } from '../../common/constants.js';
 import * as tooling from '../../common/tooling/index.js';
+import { AUTONOMOUS_COURSES_ID } from '../constants.js';
 
 export default async function initUser(databaseBuilder) {
   // 1. Create autonomous-courses specific organization

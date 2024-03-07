@@ -1,8 +1,9 @@
-import { logErrorWithCorrelationIds } from '../../../../../../lib/infrastructure/monitoring-tools.js';
-import xmlBufferTostring from 'xml-buffer-tostring';
 import buffer from 'buffer';
 import * as fs from 'fs/promises';
+import xmlBufferTostring from 'xml-buffer-tostring';
+
 import { FileValidationError } from '../../../../../../lib/domain/errors.js';
+import { logErrorWithCorrelationIds } from '../../../../../../lib/infrastructure/monitoring-tools.js';
 
 const { xmlEncoding } = xmlBufferTostring;
 const { Buffer } = buffer;

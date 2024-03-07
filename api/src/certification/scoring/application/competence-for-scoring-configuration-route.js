@@ -1,6 +1,7 @@
+import Joi from 'joi';
+
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { competenceForScoringConfigurationController } from './competence-for-scoring-configuration-controller.js';
-import Joi from 'joi';
 
 const register = async (server) => {
   server.route([
@@ -45,4 +46,4 @@ const register = async (server) => {
 
 const name = 'competence-for-scoring-configuration';
 
-export { register, name };
+export { name, register };

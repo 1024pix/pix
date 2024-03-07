@@ -1,9 +1,8 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { getCompetenceLevel } from '../../../../src/evaluation/domain/services/get-competence-level.js';
 import { improveCompetenceEvaluation } from '../../../../src/evaluation/domain/usecases/improve-competence-evaluation.js';
-
 import * as competenceEvaluationRepository from '../../../../src/evaluation/infrastructure/repositories/competence-evaluation-repository.js';
 import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
-import { getCompetenceLevel } from '../../../../src/evaluation/domain/services/get-competence-level.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCase | Improve Competence Evaluation', function () {
   const competenceId = 'recCompetenceId';

@@ -1,12 +1,10 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
-
-import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
-import * as certificationCenterRepository from '../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
-import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
-
+import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { createCertificationCenterMembershipForScoOrganizationAdminMember } from '../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization-admin-member.js';
-import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
+import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
+import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
+import * as certificationCenterRepository from '../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCases | create-certification-center-membership-for-sco-organization-member', function () {
   describe('when the organizationRole is ADMIN', function () {

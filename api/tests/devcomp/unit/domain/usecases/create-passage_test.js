@@ -1,7 +1,7 @@
-import { catchErr, expect, sinon } from '../../../../test-helper.js';
-import { createPassage } from '../../../../../src/devcomp/domain/usecases/create-passage.js';
 import { ModuleDoesNotExistError } from '../../../../../src/devcomp/domain/errors.js';
+import { createPassage } from '../../../../../src/devcomp/domain/usecases/create-passage.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {
   describe('when module does not exist', function () {

@@ -1,6 +1,5 @@
-import { createServer, databaseBuilder, expect } from '../../../../test-helper.js';
-
 import { Assessment } from '../../../../../lib/domain/models/index.js';
+import { createServer, databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | assessment-controller', function () {
   let server;

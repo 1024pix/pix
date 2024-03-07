@@ -1,8 +1,8 @@
-import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import { JuryCertification } from '../../../../lib/domain/models/JuryCertification.js';
+import { JuryComment, JuryCommentContexts } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import { buildCertificationIssueReport } from './build-certification-issue-report.js';
 import { buildCompetenceMark } from './build-competence-mark.js';
-import { JuryComment, JuryCommentContexts } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 
 const buildJuryCertification = function ({
   certificationCourseId = 123,

@@ -16,4 +16,4 @@ function assertLanguageAvailability(languageCode) {
   }
 }
 
-export { LANGUAGES_CODE, AVAILABLE_LANGUAGES, assertLanguageAvailability };
+export { assertLanguageAvailability, AVAILABLE_LANGUAGES, LANGUAGES_CODE };

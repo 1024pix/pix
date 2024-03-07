@@ -20,4 +20,4 @@ class SiecleXmlImportError extends DomainError {
   }
 }
 
-export { OrganizationLearnersCouldNotBeSavedError, OrganizationDoesNotHaveFeatureEnabledError, SiecleXmlImportError };
+export { OrganizationDoesNotHaveFeatureEnabledError, OrganizationLearnersCouldNotBeSavedError, SiecleXmlImportError };

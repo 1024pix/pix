@@ -1,9 +1,10 @@
 import Joi from 'joi';
-import { config } from '../../../../lib/config.js';
-import { assessmentController } from './assessment-controller.js';
-import { securityPreHandlers } from '../../application/security-pre-handlers.js';
+
 import { assessmentAuthorization } from '../../../../lib/application/preHandlers/assessment-authorization.js';
+import { config } from '../../../../lib/config.js';
+import { securityPreHandlers } from '../../application/security-pre-handlers.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { assessmentController } from './assessment-controller.js';
 
 const { featureToggles } = config;
 
@@ -220,4 +221,4 @@ const register = async function (server) {
 };
 
 const name = 'assessments-api';
-export { register, name };
+export { name, register };

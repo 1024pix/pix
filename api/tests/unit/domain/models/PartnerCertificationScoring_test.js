@@ -1,6 +1,6 @@
+import { ObjectValidationError } from '../../../../lib/domain/errors.js';
 import { PartnerCertificationScoring } from '../../../../lib/domain/models/PartnerCertificationScoring.js';
 import { expect } from '../../../test-helper.js';
-import { ObjectValidationError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Models | PartnerCertificationScoring', function () {
   describe('constructor', function () {

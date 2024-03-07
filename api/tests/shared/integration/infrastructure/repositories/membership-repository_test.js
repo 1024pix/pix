@@ -1,7 +1,7 @@
-import { expect, databaseBuilder } from '../../../../test-helper.js';
-import * as membershipRepository from '../../../../../src/shared/infrastructure/repositories/membership-repository.js';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import { Organization } from '../../../../../lib/domain/models/Organization.js';
+import * as membershipRepository from '../../../../../src/shared/infrastructure/repositories/membership-repository.js';
+import { databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | membership-repository', function () {
   describe('#findByUser', function () {

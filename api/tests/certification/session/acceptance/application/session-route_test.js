@@ -1,18 +1,17 @@
-import {
-  expect,
-  knex,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-  learningContentBuilder,
-  mockLearningContent,
-  createServer,
-} from '../../../../test-helper.js';
-
+import { AnswerStatus, Assessment, CertificationResult } from '../../../../../lib/domain/models/index.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
-import { AnswerStatus, Assessment, CertificationResult } from '../../../../../lib/domain/models/index.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  knex,
+  learningContentBuilder,
+  mockLearningContent,
+} from '../../../../test-helper.js';
 
 const examinerGlobalComment = 'It was a fine session my dear';
 

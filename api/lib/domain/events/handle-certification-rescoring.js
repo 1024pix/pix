@@ -1,22 +1,23 @@
+import bluebird from 'bluebird';
+
+import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
+import { CertificationAssessmentHistory } from '../../../src/certification/scoring/domain/models/CertificationAssessmentHistory.js';
+import { CertificationAssessmentScoreV3 } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScoreV3.js';
+import { AssessmentResultFactory } from '../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
+import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
+import { config } from '../../../src/shared/config.js';
+import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
+import { CertificationComputeError } from '../errors.js';
+import { ABORT_REASONS } from '../models/CertificationCourse.js';
 import { CertificationResult } from '../models/CertificationResult.js';
 import { CompetenceMark } from '../models/CompetenceMark.js';
-import { CertificationRescoringCompleted } from './CertificationRescoringCompleted.js';
-import bluebird from 'bluebird';
-import { CertificationComputeError } from '../errors.js';
-import { ChallengeNeutralized } from './ChallengeNeutralized.js';
-import { ChallengeDeneutralized } from './ChallengeDeneutralized.js';
-import { CertificationJuryDone } from './CertificationJuryDone.js';
-import { checkEventTypes } from './check-event-types.js';
-import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
-import { CertificationAssessmentScoreV3 } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScoreV3.js';
-import { ABORT_REASONS } from '../models/CertificationCourse.js';
-import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
-import { config } from '../../../src/shared/config.js';
 import { CertificationCourseRejected } from './CertificationCourseRejected.js';
 import { CertificationCourseUnrejected } from './CertificationCourseUnrejected.js';
-import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
-import { AssessmentResultFactory } from '../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
-import { CertificationAssessmentHistory } from '../../../src/certification/scoring/domain/models/CertificationAssessmentHistory.js';
+import { CertificationJuryDone } from './CertificationJuryDone.js';
+import { CertificationRescoringCompleted } from './CertificationRescoringCompleted.js';
+import { ChallengeDeneutralized } from './ChallengeDeneutralized.js';
+import { ChallengeNeutralized } from './ChallengeNeutralized.js';
+import { checkEventTypes } from './check-event-types.js';
 
 const eventTypes = [
   ChallengeNeutralized,

@@ -1,16 +1,16 @@
-import { expect, databaseBuilder, knex, sinon, mockLearningContent } from '../../../test-helper.js';
 import _ from 'lodash';
 
+import { CertificationScoringCompleted } from '../../../../lib/domain/events/CertificationScoringCompleted.js';
 import { handleComplementaryCertificationsScoring } from '../../../../lib/domain/events/handle-complementary-certifications-scoring.js';
-import * as assessmentResultRepository from '../../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
-import * as certificationCourseRepository from '../../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
-import * as certificationAssessmentRepository from '../../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../../../lib/infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../../../lib/infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
-import { CertificationScoringCompleted } from '../../../../lib/domain/events/CertificationScoringCompleted.js';
+import * as certificationAssessmentRepository from '../../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
+import * as certificationCourseRepository from '../../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import { config as settings } from '../../../../src/shared/config.js';
 import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
+import * as assessmentResultRepository from '../../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
+import { databaseBuilder, expect, knex, mockLearningContent, sinon } from '../../../test-helper.js';
 
 describe('Integration | Event | Handle Complementary Certifications Scoring', function () {
   describe('#handleComplementaryCertificationsScoring', function () {

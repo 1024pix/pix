@@ -19,4 +19,4 @@ const down = async function (knex) {
     .where({ label: 'CléA Numérique' });
 };
 
-export { up, down };
+export { down, up };

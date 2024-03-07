@@ -12,4 +12,4 @@ const down = function (knex) {
   return knex(TABLE_NAME).where({ key: ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key }).delete();
 };
 
-export { up, down };
+export { down, up };

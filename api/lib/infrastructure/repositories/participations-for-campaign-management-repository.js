@@ -1,7 +1,7 @@
 import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../domain/errors.js';
 import { ParticipationForCampaignManagement } from '../../domain/models/ParticipationForCampaignManagement.js';
 import { fetchPage } from '../utils/knex-utils.js';
-import { NotFoundError } from '../../domain/errors.js';
 
 const findPaginatedParticipationsForCampaignManagement = async function ({ campaignId, page }) {
   const query = knex('campaign-participations')

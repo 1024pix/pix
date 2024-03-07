@@ -1,4 +1,5 @@
 import bluebird from 'bluebird';
+
 import { knex } from '../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 

@@ -1,13 +1,12 @@
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import {
+  createServer,
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
   learningContentBuilder,
-  databaseBuilder,
-  createServer,
+  mockLearningContent,
 } from '../../../test-helper.js';
-
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 
 describe('Acceptance | Controller | user-tutorial-controller', function () {
   const userId = 4444;

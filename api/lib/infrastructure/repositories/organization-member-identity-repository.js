@@ -1,5 +1,5 @@
-import { OrganizationMemberIdentity } from '../../domain/models/OrganizationMemberIdentity.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { OrganizationMemberIdentity } from '../../domain/models/OrganizationMemberIdentity.js';
 
 const findAllByOrganizationId = async function ({ organizationId }) {
   const sortedMembers = await knex('users')

@@ -1,5 +1,5 @@
-import { buildTrainingTrigger } from './build-training-trigger.js';
 import { databaseBuffer } from '../database-buffer.js';
+import { buildTrainingTrigger } from './build-training-trigger.js';
 
 const buildTrainingTriggerTube = function ({
   id = databaseBuffer.getNextId(),

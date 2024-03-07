@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -10,7 +11,6 @@ import {
   mockLearningContent,
   sinon,
 } from '../../../test-helper.js';
-import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

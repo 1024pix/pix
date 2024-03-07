@@ -1,6 +1,6 @@
-import { expect } from '../../../../test-helper.js';
 import { QrocmCorrectionResponse } from '../../../../../src/devcomp/domain/models/QrocmCorrectionResponse.js';
 import { AnswerStatus } from '../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | QrocmCorrectionResponse', function () {
   describe('#constructor', function () {

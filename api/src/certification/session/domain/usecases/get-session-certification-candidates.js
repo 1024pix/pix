@@ -3,9 +3,10 @@
  * @typedef {import('./index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {import('../../../../shared/domain/errors.js').NotFoundError} NotFoundError
  */
-import { EnrolledCandidate } from '../read-models/EnrolledCandidate.js';
 import bluebird from 'bluebird';
+
 import { constants as infraConstants } from '../../../../../lib/infrastructure/constants.js';
+import { EnrolledCandidate } from '../read-models/EnrolledCandidate.js';
 
 /**
  * @function

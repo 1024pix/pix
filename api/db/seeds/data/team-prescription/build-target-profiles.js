@@ -1,11 +1,11 @@
-import { createTargetProfile, createBadge, createStages } from '../common/tooling/target-profile-tooling.js';
+import { SCO_MANAGING_ORGANIZATION_ID } from '../common/constants.js';
+import { createBadge, createStages, createTargetProfile } from '../common/tooling/target-profile-tooling.js';
 import {
-  TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
-  TARGET_PROFILE_BADGES_STAGES_ID,
   BADGES_CAMP_ID,
   BADGES_TUBES_CAMP_ID,
+  TARGET_PROFILE_BADGES_STAGES_ID,
+  TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
 } from './constants.js';
-import { SCO_MANAGING_ORGANIZATION_ID } from '../common/constants.js';
 
 async function _createTargetProfileWithoutBadgesStages(databaseBuilder) {
   const configTargetProfile = {

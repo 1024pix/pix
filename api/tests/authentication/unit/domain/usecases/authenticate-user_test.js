@@ -1,17 +1,15 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../../test-helper.js';
-import { authenticateUser } from '../../../../../src/authentication/domain/usecases/authenticate-user.js';
-import { User } from '../../../../../lib/domain/models/User.js';
-import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
-
+import { PIX_CERTIF } from '../../../../../lib/domain/constants.js';
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
-
-import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
+import { User } from '../../../../../lib/domain/models/User.js';
 import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
 } from '../../../../../src/authentication/domain/errors.js';
+import { authenticateUser } from '../../../../../src/authentication/domain/usecases/authenticate-user.js';
 import { PIX_ADMIN, PIX_ORGA } from '../../../../../src/authorization/domain/constants.js';
-import { PIX_CERTIF } from '../../../../../lib/domain/constants.js';
+import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
+import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Authentication | Domain | UseCases | authenticate-user', function () {
   let refreshTokenService;

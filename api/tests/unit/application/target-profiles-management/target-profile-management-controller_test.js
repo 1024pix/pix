@@ -1,6 +1,6 @@
-import { sinon, expect, hFake } from '../../../test-helper.js';
 import { targetProfilesManagementController } from '../../../../lib/application/target-profiles-management/target-profile-management-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | Target Profiles Management | target-profile-management-controller', function () {
   describe('#detachOrganizations', function () {

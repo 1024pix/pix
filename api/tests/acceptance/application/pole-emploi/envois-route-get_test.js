@@ -1,9 +1,9 @@
 import {
-  expect,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeaderForApplication,
-  generateValidRequestAuthorizationHeader,
   createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  generateValidRequestAuthorizationHeaderForApplication,
 } from '../../../test-helper.js';
 
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;

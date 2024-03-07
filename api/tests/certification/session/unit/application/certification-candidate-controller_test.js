@@ -1,7 +1,7 @@
-import { expect, hFake, sinon } from '../../../../test-helper.js';
 import { certificationCandidateController } from '../../../../../src/certification/session/application/certification-candidate-controller.js';
-import { usecases as sharedUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 import { usecases } from '../../../../../src/certification/session/domain/usecases/index.js';
+import { usecases as sharedUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | certification-candidate-controller', function () {
   describe('#add', function () {

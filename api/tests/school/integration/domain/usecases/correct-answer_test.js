@@ -1,20 +1,20 @@
+import { ChallengeNotAskedError, NotFoundError } from '../../../../../lib/domain/errors.js';
+import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
+import { NotInProgressAssessmentError } from '../../../../../src/school/domain/school-errors.js';
+import { correctAnswer } from '../../../../../src/school/domain/usecases/correct-answer.js';
+import * as activityAnswerRepository from '../../../../../src/school/infrastructure/repositories/activity-answer-repository.js';
+import * as activityRepository from '../../../../../src/school/infrastructure/repositories/activity-repository.js';
+import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
+import * as sharedChallengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import {
+  catchErr,
   databaseBuilder,
   domainBuilder,
   expect,
   knex,
-  catchErr,
   mockLearningContent,
 } from '../../../../test-helper.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
-import { correctAnswer } from '../../../../../src/school/domain/usecases/correct-answer.js';
-import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
-import * as activityAnswerRepository from '../../../../../src/school/infrastructure/repositories/activity-answer-repository.js';
-import * as activityRepository from '../../../../../src/school/infrastructure/repositories/activity-repository.js';
-import * as sharedChallengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
-import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
-import { NotFoundError, ChallengeNotAskedError } from '../../../../../lib/domain/errors.js';
-import { NotInProgressAssessmentError } from '../../../../../src/school/domain/school-errors.js';
 
 describe('Integration | UseCases | correct-answer', function () {
   context('when there is assessmentId', function () {

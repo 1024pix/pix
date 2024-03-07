@@ -1,9 +1,9 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import { completeAssessment } from '../../../../lib/domain/usecases/complete-assessment.js';
-import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
-import * as campaignParticipationBCRepository from '../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as campaignParticipationBCRepository from '../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 const { TO_SHARE, STARTED } = CampaignParticipationStatuses;
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';

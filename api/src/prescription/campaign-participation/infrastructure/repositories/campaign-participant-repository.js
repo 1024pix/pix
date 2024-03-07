@@ -1,21 +1,18 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
-import * as knexUtils from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import pick from 'lodash/pick.js';
 
-import { OrganizationLearnerForStartingParticipation } from '../../../../../lib/domain/read-models/OrganizationLearnerForStartingParticipation.js';
-import { UserIdentity } from '../../../../../lib/domain/read-models/UserIdentity.js';
-import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
 import {
   AlreadyExistingCampaignParticipationError,
   OrganizationLearnersCouldNotBeSavedError,
 } from '../../../../../lib/domain/errors.js';
-
+import { OrganizationLearnerForStartingParticipation } from '../../../../../lib/domain/read-models/OrganizationLearnerForStartingParticipation.js';
+import { UserIdentity } from '../../../../../lib/domain/read-models/UserIdentity.js';
+import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaign-repository.js';
+import * as knexUtils from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CampaignParticipant } from '../../domain/models/CampaignParticipant.js';
 import { CampaignToStartParticipation } from '../../domain/models/CampaignToStartParticipation.js';
 import { PreviousCampaignParticipation } from '../../domain/models/PreviousCampaignParticipation.js';
-
-import { NotFoundError } from '../../../../shared/domain/errors.js';
-
-import pick from 'lodash/pick.js';
 
 async function save(campaignParticipant, domainTransaction) {
   const newlyCreatedOrganizationLearnerId = await _createNewOrganizationLearner(

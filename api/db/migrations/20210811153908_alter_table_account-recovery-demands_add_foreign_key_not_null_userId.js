@@ -10,4 +10,4 @@ const down = async function (knex) {
   await knex.raw('ALTER TABLE "account-recovery-demands" DROP CONSTRAINT "account_recovery_demands_userid_foreign"');
 };
 
-export { up, down };
+export { down, up };

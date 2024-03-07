@@ -1,6 +1,6 @@
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { updateCertificationCenterMembership } from '../../../../lib/domain/usecases/update-certification-center-membership.js';
 import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
+import { updateCertificationCenterMembership } from '../../../../lib/domain/usecases/update-certification-center-membership.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | update-certification-center-membership', function () {
   const now = new Date('2023-09-12');

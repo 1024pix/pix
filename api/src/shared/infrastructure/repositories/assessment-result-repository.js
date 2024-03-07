@@ -1,10 +1,11 @@
 import _ from 'lodash';
+
 import { knex } from '../../../../db/knex-database-connection.js';
-import { AssessmentResultNotCreatedError, MissingAssessmentId } from '../../domain/errors.js';
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
 import { JuryComment, JuryCommentContexts } from '../../../certification/shared/domain/models/JuryComment.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { AssessmentResultNotCreatedError, MissingAssessmentId } from '../../domain/errors.js';
+import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
 
 function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   const competenceMarks = competencesMarksDTO.map((competenceMark) => new CompetenceMark(competenceMark));
@@ -124,7 +125,7 @@ const getByCertificationCourseId = async function ({ certificationCourseId }) {
   return AssessmentResult.buildStartedAssessmentResult({ assessmentId: null });
 };
 
-export { save, findLatestLevelAndPixScoreByAssessmentId, getByCertificationCourseId };
+export { findLatestLevelAndPixScoreByAssessmentId, getByCertificationCourseId, save };
 
 const _getCommentByAutoJury = (assessmentResult) => {
   if (

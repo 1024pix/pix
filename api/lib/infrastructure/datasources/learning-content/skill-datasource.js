@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import * as datasource from './datasource.js';
 
 const ACTIVE_STATUS = 'actif';
@@ -83,4 +84,4 @@ const skillDatasource = datasource.extend({
   },
 });
 
-export { skillDatasource, ACTIVE_STATUS };
+export { ACTIVE_STATUS, skillDatasource };

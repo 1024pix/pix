@@ -1,11 +1,12 @@
-import { expect, databaseBuilder, mockLearningContent, learningContentBuilder, sinon } from '../../../test-helper.js';
+import { databaseBuilder, expect, learningContentBuilder, mockLearningContent, sinon } from '../../../test-helper.js';
 
 const { campaignParticipationOverviewFactory } = databaseBuilder.factory;
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import * as campaignParticipationOverviewRepository from '../../../../lib/infrastructure/repositories/campaign-participation-overview-repository.js';
 import _ from 'lodash';
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+
 import { constants } from '../../../../lib/domain/constants.js';
+import * as campaignParticipationOverviewRepository from '../../../../lib/infrastructure/repositories/campaign-participation-overview-repository.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
 let userId;
 

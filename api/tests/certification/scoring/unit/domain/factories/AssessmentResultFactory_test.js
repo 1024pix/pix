@@ -1,7 +1,7 @@
-import { expect, domainBuilder } from '../../../../../test-helper.js';
-import { AssessmentResultFactory } from '../../../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
 import { AssessmentResult } from '../../../../../../lib/domain/models/index.js';
+import { AssessmentResultFactory } from '../../../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResultFactory', function () {
   describe('#buildAlgoErrorResult', function () {

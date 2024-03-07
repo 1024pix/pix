@@ -1,12 +1,13 @@
-import _ from 'lodash';
 import dayjs from 'dayjs';
-import * as learningContent from './learning-content.js';
-import * as profileTooling from './profile-tooling.js';
-import * as generic from './generic.js';
+import _ from 'lodash';
+
+import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import { getPlacementProfile } from '../../../../../lib/domain/services/placement-profile-service.js';
 import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { getPlacementProfile } from '../../../../../lib/domain/services/placement-profile-service.js';
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import * as generic from './generic.js';
+import * as learningContent from './learning-content.js';
+import * as profileTooling from './profile-tooling.js';
 
 export { createAssessmentCampaign, createProfilesCollectionCampaign };
 

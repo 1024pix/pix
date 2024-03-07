@@ -1,3 +1,5 @@
+import lodash from 'lodash';
+
 import {
   createServer,
   databaseBuilder,
@@ -6,7 +8,6 @@ import {
   insertUserWithRoleSuperAdmin,
   knex,
 } from '../../../../test-helper.js';
-import lodash from 'lodash';
 
 const { omit } = lodash;
 

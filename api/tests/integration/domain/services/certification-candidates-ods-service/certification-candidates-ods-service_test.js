@@ -1,18 +1,19 @@
-import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../../test-helper.js';
-import * as certificationCandidatesOdsService from '../../../../../lib/domain/services/certification-candidates-ods-service.js';
-import * as certificationCpfService from '../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
-import * as certificationCpfCountryRepository from '../../../../../src/certification/shared/infrastructure/repositories/certification-cpf-country-repository.js';
-import * as certificationCpfCityRepository from '../../../../../src/certification/shared/infrastructure/repositories/certification-cpf-city-repository.js';
-import * as certificationCenterRepository from '../../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
-import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
-import { CertificationCandidate } from '../../../../../lib/domain/models/index.js';
-import { CertificationCandidatesError } from '../../../../../lib/domain/errors.js';
 import fs from 'fs';
 import _ from 'lodash';
-import { getI18n } from '../../../../tooling/i18n/i18n.js';
 import * as url from 'url';
+
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
+import { CertificationCandidatesError } from '../../../../../lib/domain/errors.js';
+import { CertificationCandidate } from '../../../../../lib/domain/models/index.js';
+import * as certificationCandidatesOdsService from '../../../../../lib/domain/services/certification-candidates-ods-service.js';
+import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
 import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import * as certificationCpfService from '../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
+import * as certificationCenterRepository from '../../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
+import * as certificationCpfCityRepository from '../../../../../src/certification/shared/infrastructure/repositories/certification-cpf-city-repository.js';
+import * as certificationCpfCountryRepository from '../../../../../src/certification/shared/infrastructure/repositories/certification-cpf-country-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../../test-helper.js';
+import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 const { promises } = fs;
 

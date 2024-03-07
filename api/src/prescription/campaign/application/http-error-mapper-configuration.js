@@ -1,11 +1,11 @@
 import { HttpErrors } from '../../../shared/application/http-errors.js';
 import {
-  UnknownCampaignId,
-  SwapCampaignMismatchOrganizationError,
-  IsForAbsoluteNoviceUpdateError,
-  MultipleSendingsUpdateError,
   CampaignCodeFormatError,
   CampaignUniqueCodeError,
+  IsForAbsoluteNoviceUpdateError,
+  MultipleSendingsUpdateError,
+  SwapCampaignMismatchOrganizationError,
+  UnknownCampaignId,
 } from '../../campaign/domain/errors.js';
 
 const campaignDomainErrorMappingConfiguration = [

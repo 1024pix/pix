@@ -1,7 +1,7 @@
-import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 import * as organizationController from '../../../../lib/application/organizations-administration/organization-administration-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Organizations | organization-administration-controller', function () {
   describe('#updateOrganizationInformation', function () {

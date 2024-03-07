@@ -1,10 +1,11 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
-import { AlreadyExistingEntityError } from '../../domain/errors.js';
-import * as knexUtils from '../utils/knex-utils.js';
-import { DomainTransaction } from '../DomainTransaction.js';
 import { CampaignParticipationKnowledgeElementSnapshots } from '../../../src/prescription/shared/domain/read-models/CampaignParticipationKnowledgeElementSnapshots.js';
+import { AlreadyExistingEntityError } from '../../domain/errors.js';
+import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import * as knexUtils from '../utils/knex-utils.js';
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
   if (!snapshot) return null;
@@ -97,4 +98,4 @@ const findMultipleUsersFromUserIdsAndSnappedAtDates = async function (userIdsAnd
   });
 };
 
-export { save, findByUserIdsAndSnappedAtDates, findMultipleUsersFromUserIdsAndSnappedAtDates };
+export { findByUserIdsAndSnappedAtDates, findMultipleUsersFromUserIdsAndSnappedAtDates, save };

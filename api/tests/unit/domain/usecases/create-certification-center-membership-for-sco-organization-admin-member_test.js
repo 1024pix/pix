@@ -1,10 +1,10 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { createCertificationCenterMembershipForScoOrganizationAdminMember } from '../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization-admin-member.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 import {
   CERTIFICATION_CENTER_MEMBERSHIP_ROLES,
   CertificationCenterMembership,
 } from '../../../../lib/domain/models/CertificationCenterMembership.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { createCertificationCenterMembershipForScoOrganizationAdminMember } from '../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization-admin-member.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-certification-center-membership-for-sco-organization-member', function () {
   const now = new Date('2023-11-01');

@@ -1,7 +1,7 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
 import { DataProtectionOfficer } from '../../../../lib/domain/models/DataProtectionOfficer.js';
 import { updateCertificationCenterDataProtectionOfficerInformation } from '../../../../lib/domain/usecases/update-certification-center-data-protection-officer-information.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | UseCases | update-certification-center-data-protection-officer-information', function () {
   it('should add data protection officer information for a certification center', async function () {

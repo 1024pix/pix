@@ -1,8 +1,9 @@
+import _ from 'lodash';
+
+import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
+import { databaseBuffer } from '../database-buffer.js';
 import { buildAssessment } from './build-assessment.js';
 import { buildUser } from './build-user.js';
-import { databaseBuffer } from '../database-buffer.js';
-import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
-import _ from 'lodash';
 
 const buildCompetenceEvaluation = function ({
   id = databaseBuffer.getNextId(),

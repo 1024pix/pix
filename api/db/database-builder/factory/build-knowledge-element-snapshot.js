@@ -1,7 +1,8 @@
+import _ from 'lodash';
+
+import { databaseBuffer } from '../database-buffer.js';
 import { buildKnowledgeElement } from './build-knowledge-element.js';
 import { buildUser } from './build-user.js';
-import { databaseBuffer } from '../database-buffer.js';
-import _ from 'lodash';
 
 const buildKnowledgeElementSnapshot = function ({
   id = databaseBuffer.getNextId(),

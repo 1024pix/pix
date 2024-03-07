@@ -179,4 +179,4 @@ const register = async function (server) {
 };
 
 const name = 'oidc-authentication-api';
-export { register, name };
+export { name, register };

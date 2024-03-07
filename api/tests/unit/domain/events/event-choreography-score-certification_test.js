@@ -1,6 +1,6 @@
+import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
 import { expect } from '../../../test-helper.js';
 import { buildEventDispatcherAndHandlersForTest } from '../../../tooling/events/event-dispatcher-builder.js';
-import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
 
 describe('Event Choreography | Score Certification', function () {
   it('Should trigger Certification Scoring handler on Assessment Completed event', async function () {

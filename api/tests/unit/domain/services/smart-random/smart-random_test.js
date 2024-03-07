@@ -1,7 +1,8 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
-import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
-import * as SmartRandom from '../../../../../lib/domain/services/algorithm-methods/smart-random.js';
 import _ from 'lodash';
+
+import * as SmartRandom from '../../../../../lib/domain/services/algorithm-methods/smart-random.js';
+import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 const KNOWLEDGE_ELEMENT_STATUS = {
   VALIDATED: 'validated',

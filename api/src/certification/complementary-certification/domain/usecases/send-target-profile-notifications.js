@@ -1,4 +1,5 @@
 import bluebird from 'bluebird';
+
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 const EVENT_NAME = 'attach-target-profile-certif';

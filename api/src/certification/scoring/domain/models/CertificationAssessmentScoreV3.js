@@ -1,6 +1,6 @@
-import { status as CertificationStatus } from '../../../../shared/domain/models/AssessmentResult.js';
-import { config } from '../../../../shared/config.js';
 import { ABORT_REASONS } from '../../../../../lib/domain/models/CertificationCourse.js';
+import { config } from '../../../../shared/config.js';
+import { status as CertificationStatus } from '../../../../shared/domain/models/AssessmentResult.js';
 
 const MINIMUM_ESTIMATED_LEVEL = -8;
 const MAXIMUM_ESTIMATED_LEVEL = 8;

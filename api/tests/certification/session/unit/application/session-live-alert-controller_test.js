@@ -1,6 +1,6 @@
-import { expect, hFake, sinon } from '../../../../test-helper.js';
-import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 import { sessionLiveAlertController } from '../../../../../src/certification/session/application/session-live-alert-controller.js';
+import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('#dismissLiveAlert', function () {
   it('should call dismissLiveAlert', async function () {

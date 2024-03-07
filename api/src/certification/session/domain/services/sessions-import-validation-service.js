@@ -1,9 +1,10 @@
-import * as sessionValidator from '../validators/session-validator.js';
-import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
-import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
 import dayjs from 'dayjs';
+
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
+import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
 import * as mailCheck from '../../../../shared/mail/infrastructure/services/mail-check.js';
+import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
+import * as sessionValidator from '../validators/session-validator.js';
 
 const validateSession = async function ({
   session,
@@ -218,11 +219,11 @@ const validateCandidateEmails = async function ({ candidate, line, dependencies 
 };
 
 export {
-  validateSession,
   getUniqueCandidates,
   getValidatedCandidateBirthInformation,
-  validateCandidateEmails,
   getValidatedComplementaryCertificationForMassImport,
+  validateCandidateEmails,
+  validateSession,
 };
 
 function _hasMoreThanOneComplementaryCertifications(complementaryCertifications) {

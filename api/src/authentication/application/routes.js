@@ -1,4 +1,5 @@
 import Joi from 'joi';
+
 import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
 import { authenticationController as AuthenticationController } from './authentication-controller.js';
 

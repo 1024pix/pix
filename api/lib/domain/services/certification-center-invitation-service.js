@@ -1,10 +1,10 @@
-import * as maillingService from './mail-service.js';
-import { CertificationCenterInvitation } from '../models/index.js';
 import {
   SendingEmailError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
 } from '../errors.js';
+import { CertificationCenterInvitation } from '../models/index.js';
+import * as maillingService from './mail-service.js';
 
 const createOrUpdateCertificationCenterInvitation = function ({
   certificationCenterInvitationRepository,

@@ -1,6 +1,6 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
-import * as complementaryCertificationHabilitationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-habilitation-repository.js';
 import { knex } from '../../../../lib/infrastructure/bookshelf.js';
+import * as complementaryCertificationHabilitationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-habilitation-repository.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | complementary-certification-habilitation-repository', function () {
   context('#save', function () {

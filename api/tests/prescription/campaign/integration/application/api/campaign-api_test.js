@@ -1,6 +1,5 @@
-import { expect, databaseBuilder } from '../../../../../test-helper.js';
-
 import * as campaignApi from '../../../../../../src/prescription/campaign/application/api/campaigns-api.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Application | campaign-api', function () {
   describe('#findAllForOrganization', function () {

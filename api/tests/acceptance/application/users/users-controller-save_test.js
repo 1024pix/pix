@@ -1,7 +1,7 @@
 import lodash from 'lodash';
-import { createServer, domainBuilder, expect, nock } from '../../../test-helper.js';
 
 import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
+import { createServer, domainBuilder, expect, nock } from '../../../test-helper.js';
 
 const { pick } = lodash;
 

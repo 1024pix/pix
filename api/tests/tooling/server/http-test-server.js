@@ -1,8 +1,8 @@
 import Hapi from '@hapi/hapi';
 
-import { handleFailAction } from '../../../lib/validate.js';
-import { authentication } from '../../../lib/infrastructure/authentication.js';
 import { setupErrorHandling } from '../../../config/server-setup-error-handling.js';
+import { authentication } from '../../../lib/infrastructure/authentication.js';
+import { handleFailAction } from '../../../lib/validate.js';
 
 const routesConfig = {
   routes: {

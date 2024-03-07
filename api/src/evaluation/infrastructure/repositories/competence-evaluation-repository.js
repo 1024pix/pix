@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { knex } from '../../../../db/knex-database-connection.js';
-import { CompetenceEvaluation } from '../../domain/models/CompetenceEvaluation.js';
-import { Assessment } from '../../../shared/domain/models/Assessment.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import { Assessment } from '../../../shared/domain/models/Assessment.js';
+import { CompetenceEvaluation } from '../../domain/models/CompetenceEvaluation.js';
 
 const save = async function ({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction || knex;
@@ -115,14 +115,14 @@ const existsByCompetenceIdAndUserId = async function ({
 };
 
 export {
-  save,
-  updateStatusByUserIdAndCompetenceId,
-  updateAssessmentId,
+  existsByCompetenceIdAndUserId,
+  findByAssessmentId,
+  findByUserId,
   getByAssessmentId,
   getByCompetenceIdAndUserId,
-  findByUserId,
-  findByAssessmentId,
-  existsByCompetenceIdAndUserId,
+  save,
+  updateAssessmentId,
+  updateStatusByUserIdAndCompetenceId,
 };
 
 async function _getByCompetenceIdAndUserId({ competenceId, userId, forUpdate = false, knexConn }) {

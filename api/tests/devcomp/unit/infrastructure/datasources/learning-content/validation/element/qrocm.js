@@ -1,5 +1,6 @@
 import Joi from 'joi';
-import { uuidSchema, proposalIdSchema, htmlSchema } from '../utils.js';
+
+import { htmlSchema, proposalIdSchema, uuidSchema } from '../utils.js';
 
 const blockInputSchema = Joi.object({
   input: Joi.string().required(),

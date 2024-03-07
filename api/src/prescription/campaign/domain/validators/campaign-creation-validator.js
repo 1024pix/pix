@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import lodash from 'lodash';
+
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import { CampaignTypes } from '../../../shared/domain/constants.js';
 

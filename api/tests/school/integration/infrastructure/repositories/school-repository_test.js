@@ -1,8 +1,8 @@
-import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
-import * as schoolRepository from '../../../../../src/school/infrastructure/repositories/school-repository.js';
+import { Organization } from '../../../../../lib/domain/models/index.js';
 import { School } from '../../../../../src/school/domain/models/School.js';
 import { SchoolNotFoundError } from '../../../../../src/school/domain/school-errors.js';
-import { Organization } from '../../../../../lib/domain/models/index.js';
+import * as schoolRepository from '../../../../../src/school/infrastructure/repositories/school-repository.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Repository | School', function () {
   describe('#save', function () {

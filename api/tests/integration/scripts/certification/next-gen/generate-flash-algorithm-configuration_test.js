@@ -1,6 +1,7 @@
-import { expect, knex } from '../../../../test-helper.js';
-import { main } from '../../../../../scripts/certification/next-gen/generate-flash-algorithm-configuration.js';
 import _ from 'lodash';
+
+import { main } from '../../../../../scripts/certification/next-gen/generate-flash-algorithm-configuration.js';
+import { expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Scripts | Certification | generate-flash-algorithm-configuration', function () {
   const TABLE_NAME = 'flash-algorithm-configurations';

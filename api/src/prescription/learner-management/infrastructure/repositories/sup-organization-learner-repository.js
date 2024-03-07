@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { OrganizationLearnersCouldNotBeSavedError } from '../../domain/errors.js';
+
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { OrganizationLearnersCouldNotBeSavedError } from '../../domain/errors.js';
 import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
 
 const ATTRIBUTES_TO_SAVE = [
@@ -57,11 +58,11 @@ const replaceStudents = async function (organizationId, supOrganizationLearners,
 };
 
 export {
-  updateStudentNumber,
-  findOneByStudentNumberAndBirthdate,
-  findOneByStudentNumber,
   addStudents,
+  findOneByStudentNumber,
+  findOneByStudentNumberAndBirthdate,
   replaceStudents,
+  updateStudentNumber,
 };
 
 async function _deleteOrganizationLearnersNotInList(queryBuilder, organizationId, studentNumberList, userId) {

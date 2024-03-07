@@ -53,4 +53,4 @@ const deserialize = function (payload) {
   }).deserialize(payload);
 };
 
-export { serialize, deserialize };
+export { deserialize, serialize };

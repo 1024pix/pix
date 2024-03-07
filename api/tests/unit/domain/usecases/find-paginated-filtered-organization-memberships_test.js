@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { Membership as Memberships } from '../../../../lib/domain/models/Membership.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | find-paginated-filtered-organizations-memberships', function () {
   it('should result organizations with filtering and pagination', async function () {

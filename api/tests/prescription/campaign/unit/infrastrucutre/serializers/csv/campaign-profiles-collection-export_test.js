@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../../../../test-helper.js';
 import { CampaignProfilesCollectionExport } from '../../../../../../../src/prescription/campaign/infrastructure/serializers/csv/campaign-profiles-collection-export.js';
+import { expect, sinon } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | CSV | campaign-profiles-collection-export', function () {
   describe('#export', function () {

@@ -1,8 +1,9 @@
 import Joi from 'joi';
-import { campaignAdministrationController } from './campaign-adminstration-controller.js';
-import { sendJsonApiError, PayloadTooLargeError } from '../../../../lib/application/http-errors.js';
+
+import { PayloadTooLargeError, sendJsonApiError } from '../../../../lib/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { campaignAdministrationController } from './campaign-adminstration-controller.js';
 const TWENTY_MEGABYTES = 1048576 * 20;
 
 const ERRORS = {
@@ -195,4 +196,4 @@ const register = async function (server) {
 };
 
 const name = 'campaigns-administration-api';
-export { register, name };
+export { name, register };

@@ -1,16 +1,16 @@
-import { expect } from '../../../../../test-helper.js';
-import { Module } from '../../../../../../src/devcomp/domain/models/module/Module.js';
-import * as moduleSerializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/module-serializer.js';
-import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.js';
-import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
-import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
-import { QROCM } from '../../../../../../src/devcomp/domain/models/element/QROCM.js';
-import { BlockText } from '../../../../../../src/devcomp/domain/models/block/BlockText.js';
 import { BlockInput } from '../../../../../../src/devcomp/domain/models/block/BlockInput.js';
 import { BlockSelect } from '../../../../../../src/devcomp/domain/models/block/BlockSelect.js';
 import { BlockSelectOption } from '../../../../../../src/devcomp/domain/models/block/BlockSelectOption.js';
-import { Video } from '../../../../../../src/devcomp/domain/models/element/Video.js';
+import { BlockText } from '../../../../../../src/devcomp/domain/models/block/BlockText.js';
+import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
 import { QCM } from '../../../../../../src/devcomp/domain/models/element/QCM.js';
+import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
+import { QROCM } from '../../../../../../src/devcomp/domain/models/element/QROCM.js';
+import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.js';
+import { Video } from '../../../../../../src/devcomp/domain/models/element/Video.js';
+import { Module } from '../../../../../../src/devcomp/domain/models/module/Module.js';
+import * as moduleSerializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/module-serializer.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerializer', function () {
   describe('#serialize', function () {

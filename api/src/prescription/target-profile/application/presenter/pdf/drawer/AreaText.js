@@ -1,7 +1,7 @@
-import { Text } from './Text.js';
 import * as ColorManager from '../manager/color-manager.js';
 import { FontManager } from '../manager/font-manager.js';
 import * as TemplatePageManager from '../manager/template-page-manager.js';
+import { Text } from './Text.js';
 
 const MARGIN_TOP_AREA = 5;
 const MARGIN_BOTTOM_AREA = 50;

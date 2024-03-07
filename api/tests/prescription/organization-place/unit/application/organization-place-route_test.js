@@ -1,10 +1,10 @@
-import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
-import * as moduleUnderTest from '../../../../../src/prescription/organization-place/application/organization-place-route.js';
-import { expect, sinon } from '../../../../test-helper.js';
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import { usecases } from '../../../../../src/prescription/organization-place/domain/usecases/index.js';
 import { organizationPlaceController } from '../../../../../src/prescription/organization-place/application/organization-place-controller.js';
+import * as moduleUnderTest from '../../../../../src/prescription/organization-place/application/organization-place-route.js';
 import * as organizationPlacesCategories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
+import { usecases } from '../../../../../src/prescription/organization-place/domain/usecases/index.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { expect, sinon } from '../../../../test-helper.js';
+import { HttpTestServer } from '../../../../tooling/server/http-test-server.js';
 
 describe('Unit | Router | organization-place-route', function () {
   describe('GET /api/admin/organizations/{id}/places', function () {

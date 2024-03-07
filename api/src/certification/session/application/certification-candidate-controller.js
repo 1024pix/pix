@@ -1,6 +1,6 @@
-import * as certificationCandidateSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import * as sessionCertificationCandidateSerializer from '../../session/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import { usecases as sharedUsecases } from '../../shared/domain/usecases/index.js';
+import * as certificationCandidateSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
 
 const addCandidate = async function (request, h, dependencies = { certificationCandidateSerializer }) {

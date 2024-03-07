@@ -1,7 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { OrganizationLearnerParticipation } from '../../domain/read-models/OrganizationLearnerParticipation.js';
-import { OrganizationLearnerActivity } from '../../domain/read-models/OrganizationLearnerActivity.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { OrganizationLearnerActivity } from '../../domain/read-models/OrganizationLearnerActivity.js';
+import { OrganizationLearnerParticipation } from '../../domain/read-models/OrganizationLearnerParticipation.js';
 
 async function get(organizationLearnerId) {
   const organizationLearnerParticipations = await knex('campaign-participations')

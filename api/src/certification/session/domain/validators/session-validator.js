@@ -1,11 +1,12 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
-import { statuses } from '../models/Session.js';
-import { types } from '../../../../../lib/domain/models/CertificationCenter.js';
+import BaseJoi from 'joi';
+
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
+import { types } from '../../../../../lib/domain/models/CertificationCenter.js';
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
-import { identifiersType } from '../../../../shared/domain/types/identifiers-type.js';
 import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
+import { identifiersType } from '../../../../shared/domain/types/identifiers-type.js';
+import { statuses } from '../models/Session.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 
@@ -109,4 +110,4 @@ const validateAndNormalizeFilters = function (filters) {
   return value;
 };
 
-export { validate, validateForMassSessionImport, validateAndNormalizeFilters };
+export { validate, validateAndNormalizeFilters, validateForMassSessionImport };

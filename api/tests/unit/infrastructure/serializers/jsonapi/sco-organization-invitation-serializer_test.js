@@ -1,5 +1,5 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/sco-organization-invitation-serializer.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | sco-organization-invitation-serializer', function () {
   describe('#serialize', function () {

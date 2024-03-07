@@ -1,7 +1,6 @@
-import { expect, hFake, sinon } from '../../../../test-helper.js';
-
 import { targetProfileController } from '../../../../../src/prescription/target-profile/application/target-profile-controller.js';
 import { usecases } from '../../../../../src/prescription/target-profile/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Target Profile | target-profile-controller', function () {
   describe('#findTargetProfiles', function () {

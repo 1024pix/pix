@@ -1,16 +1,15 @@
 import {
-  UserNotFoundError,
-  UnexpectedUserAccountError,
-  UserAlreadyExistsWithAuthenticationMethodError,
-} from '../errors.js';
-
-import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
-import {
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
 } from '../../../src/authentication/domain/errors.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
+import {
+  UnexpectedUserAccountError,
+  UserAlreadyExistsWithAuthenticationMethodError,
+  UserNotFoundError,
+} from '../errors.js';
+import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
 async function authenticateExternalUser({
   username,

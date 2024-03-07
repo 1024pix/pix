@@ -1,6 +1,6 @@
-import { expect } from '../../../../../test-helper.js';
-import { CampaignParticipantActivity } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignParticipantActivity.js';
 import { CampaignParticipationStatuses } from '../../../../../../lib/domain/models/index.js';
+import { CampaignParticipantActivity } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignParticipantActivity.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | CampaignResults | CampaignParticipantActivity', function () {
   describe('constructor', function () {

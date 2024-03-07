@@ -1,11 +1,11 @@
 import {
-  expect,
-  learningContentBuilder,
+  createServer,
   databaseBuilder,
-  mockLearningContent,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-  createServer,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../../test-helper.js';
 
 describe('Acceptance | Route | target-profile', function () {

@@ -1,4 +1,9 @@
 import lodash from 'lodash';
+
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -8,10 +13,6 @@ import {
   knex,
   sinon,
 } from '../../../test-helper.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 
 const { map: _map, omit: _omit } = lodash;
 

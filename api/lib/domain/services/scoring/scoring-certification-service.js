@@ -1,15 +1,16 @@
 import _ from 'lodash';
+
+import { CertificationAssessmentScore } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
+import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
+import * as areaRepository from '../../../../src/shared/infrastructure/repositories/area-repository.js';
+import { AnswerCollectionForScoring } from '../../models/AnswerCollectionForScoring.js';
 import { CertificationContract } from '../../models/CertificationContract.js';
-import * as scoringService from './scoring-service.js';
-import * as placementProfileService from '../placement-profile-service.js';
 import { CertifiedLevel } from '../../models/CertifiedLevel.js';
 import { CertifiedScore } from '../../models/CertifiedScore.js';
-import { ReproducibilityRate } from '../../models/ReproducibilityRate.js';
 import { CompetenceMark } from '../../models/CompetenceMark.js';
-import { CertificationAssessmentScore } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
-import { AnswerCollectionForScoring } from '../../models/AnswerCollectionForScoring.js';
-import * as areaRepository from '../../../../src/shared/infrastructure/repositories/area-repository.js';
-import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
+import { ReproducibilityRate } from '../../models/ReproducibilityRate.js';
+import * as placementProfileService from '../placement-profile-service.js';
+import * as scoringService from './scoring-service.js';
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(({ challengeId }) => _.some(certificationChallenges, { challengeId }));

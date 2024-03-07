@@ -16,4 +16,4 @@ const deserialize = function (payload) {
   }).deserialize(payload);
 };
 
-export { serializeId, serialize, deserialize };
+export { deserialize, serialize, serializeId };

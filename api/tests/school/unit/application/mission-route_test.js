@@ -1,8 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-
-import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { missionController } from '../../../../src/school/application/mission-controller.js';
 import * as moduleUnderTest from '../../../../src/school/application/mission-route.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Router | mission-router', function () {
   describe('GET /api/pix1d/missions/${missionId}', function () {

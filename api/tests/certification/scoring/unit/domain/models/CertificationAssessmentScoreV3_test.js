@@ -1,11 +1,11 @@
 import _ from 'lodash';
 
-import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { ABORT_REASONS } from '../../../../../../lib/domain/models/CertificationCourse.js';
 import { AnswerStatus } from '../../../../../../lib/domain/models/index.js';
 import { CertificationAssessmentScoreV3 } from '../../../../../../src/certification/scoring/domain/models/CertificationAssessmentScoreV3.js';
-import { status } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { config } from '../../../../../../src/shared/config.js';
-import { ABORT_REASONS } from '../../../../../../lib/domain/models/CertificationCourse.js';
+import { status } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { buildCompetenceForScoring } from '../../../../../tooling/domain-builder/factory/index.js';
 
 describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function () {

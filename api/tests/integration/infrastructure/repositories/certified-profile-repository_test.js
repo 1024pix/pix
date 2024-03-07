@@ -1,8 +1,8 @@
-import { expect, databaseBuilder, mockLearningContent, domainBuilder, catchErr } from '../../../test-helper.js';
-import { CertifiedProfile } from '../../../../lib/domain/read-models/CertifiedProfile.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import * as certifiedProfileRepository from '../../../../lib/infrastructure/repositories/certified-profile-repository.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { CertifiedProfile } from '../../../../lib/domain/read-models/CertifiedProfile.js';
+import * as certifiedProfileRepository from '../../../../lib/infrastructure/repositories/certified-profile-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 describe('Integration | Repository | Certified Profile', function () {
   describe('#get', function () {

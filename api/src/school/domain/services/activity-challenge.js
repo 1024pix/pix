@@ -1,7 +1,7 @@
-import { challengeService } from './challenge.js';
 import { Activity } from '../models/Activity.js';
-import { getLastAnswerStatus } from './last-answer-status.js';
 import { pix1dService } from './algorithm-method.js';
+import { challengeService } from './challenge.js';
+import { getLastAnswerStatus } from './last-answer-status.js';
 
 const FIRST_CHALLENGE_NB = 1;
 
@@ -74,4 +74,4 @@ function _convertAlternativeVersionToUndefined(alternativeVersion) {
   return alternativeVersion;
 }
 
-export { getNextActivityChallenge, getChallengeForCurrentActivity };
+export { getChallengeForCurrentActivity, getNextActivityChallenge };

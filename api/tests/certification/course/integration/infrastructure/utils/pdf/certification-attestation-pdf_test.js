@@ -1,11 +1,13 @@
-import { domainBuilder, expect, nock, catchErr, sinon } from '../../../../../../test-helper.js';
+import { readFile, writeFile } from 'node:fs/promises';
+
 import dayjs from 'dayjs';
-import { isSameBinary } from '../../../../../../tooling/binary-comparator.js';
+import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
+import * as url from 'url';
+
 import { getCertificationAttestationsPdfBuffer } from '../../../../../../../src/certification/course/infrastructure/utils/pdf/certification-attestation-pdf.js';
 import { CertificationAttestationGenerationError } from '../../../../../../../src/shared/domain/errors.js';
-import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
-import { readFile, writeFile } from 'node:fs/promises';
-import * as url from 'url';
+import { catchErr, domainBuilder, expect, nock, sinon } from '../../../../../../test-helper.js';
+import { isSameBinary } from '../../../../../../tooling/binary-comparator.js';
 import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

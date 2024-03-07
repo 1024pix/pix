@@ -1,6 +1,6 @@
-import { databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
-import * as userLoginRepository from '../../../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import { UserLogin } from '../../../../../src/authentication/domain/models/UserLogin.js';
+import * as userLoginRepository from '../../../../../src/shared/infrastructure/repositories/user-login-repository.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 const USER_LOGINS_TABLE_NAME = 'user-logins';
 

@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder, MockDate } from '../../../../../test-helper.js';
 import { getTargetProfileContentAsJson } from '../../../../../../src/prescription/target-profile/domain/usecases/get-target-profile-content-as-json.js';
+import { domainBuilder, expect, MockDate, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-target-profile-content-as-json', function () {
   let targetProfileForAdminRepository;

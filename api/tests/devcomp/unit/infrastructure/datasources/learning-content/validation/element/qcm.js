@@ -1,5 +1,6 @@
 import Joi from 'joi';
-import { uuidSchema, proposalIdSchema, htmlSchema } from '../utils.js';
+
+import { htmlSchema, proposalIdSchema, uuidSchema } from '../utils.js';
 
 const qcmElementSchema = Joi.object({
   id: uuidSchema,

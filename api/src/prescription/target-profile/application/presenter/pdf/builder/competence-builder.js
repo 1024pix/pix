@@ -2,11 +2,11 @@ import lodash from 'lodash';
 
 const { sortBy } = lodash;
 
-import * as thematicBuilder from './thematic-builder.js';
 import { CompetenceText } from '../drawer/CompetenceText.js';
-import { PositionManager } from '../manager/position-manager.js';
 import * as ColorManager from '../manager/color-manager.js';
 import { FontManager } from '../manager/font-manager.js';
+import { PositionManager } from '../manager/position-manager.js';
+import * as thematicBuilder from './thematic-builder.js';
 
 const build = function (positionY, page, competence, areaColor, dryRun = false) {
   positionY = positionY - FontManager.competenceFontHeight;

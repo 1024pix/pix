@@ -1,7 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 import { campaignDetailController } from '../../../../../src/prescription/campaign/application/campaign-detail-controller.js';
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-detail-route.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Application | Route | campaign detail router', function () {
   let httpTestServer;

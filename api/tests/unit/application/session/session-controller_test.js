@@ -1,13 +1,13 @@
-import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
+import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
 import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { usecases as sessionUsecases } from '../../../../src/certification/session/domain/usecases/index.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
 import { SessionPublicationBatchResult } from '../../../../lib/domain/models/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases as sessionUsecases } from '../../../../src/certification/session/domain/usecases/index.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
-import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
 import * as queryParamsUtils from '../../../../src/shared/infrastructure/utils/query-params-utils.js';
+import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Controller | sessionController', function () {

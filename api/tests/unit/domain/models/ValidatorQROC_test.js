@@ -1,7 +1,7 @@
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import { Validation } from '../../../../lib/domain/models/Validation.js';
 import { ValidatorQROC } from '../../../../lib/domain/models/ValidatorQROC.js';
-import { expect, domainBuilder, sinon } from '../../../test-helper.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ValidatorQROC', function () {
   let solutionServiceQROCStub;

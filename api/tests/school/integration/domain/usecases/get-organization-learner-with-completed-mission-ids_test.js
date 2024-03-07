@@ -1,9 +1,9 @@
-import { databaseBuilder, expect } from '../../../../test-helper.js';
 import { Assessment } from '../../../../../lib/domain/models/index.js';
-import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
-import { getOrganizationLearnerWithCompletedMissionIds } from '../../../../../src/school/domain/usecases/get-organization-learner-with-completed-mission-ids.js';
-import * as organizationLearnerRepository from '../../../../../src/school/infrastructure/repositories/organization-learner-repository.js';
 import { OrganizationLearner } from '../../../../../src/school/domain/models/OrganizationLearner.js';
+import { getOrganizationLearnerWithCompletedMissionIds } from '../../../../../src/school/domain/usecases/get-organization-learner-with-completed-mission-ids.js';
+import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
+import * as organizationLearnerRepository from '../../../../../src/school/infrastructure/repositories/organization-learner-repository.js';
+import { databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Usecase | get-organization-learner-with-completed-mission-ids', function () {
   describe('#getOrganizationLearnerWithCompletedMissionIds', function () {

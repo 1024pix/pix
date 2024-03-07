@@ -1,8 +1,9 @@
 import Joi from 'joi';
+
 import {
   imageElementSchema,
-  qcuElementSchema,
   qcmElementSchema,
+  qcuElementSchema,
   qrocmElementSchema,
   textElementSchema,
   videoElementSchema,

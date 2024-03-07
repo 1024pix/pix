@@ -1,5 +1,5 @@
-import * as tooling from '../common/tooling/index.js';
 import { ALL_ORGANIZATION_USER_ID, FEATURE_MISSIONS_MANAGEMENT_ID } from '../common/constants.js';
+import * as tooling from '../common/tooling/index.js';
 
 const TEAM_1D_OFFSET_ID = 9000;
 

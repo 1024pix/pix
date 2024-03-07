@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { OrganizationCantGetPlacesStatisticsError } from '../../../../prescription/organization-place/domain/errors.js';
 
 export class PlaceStatistics {

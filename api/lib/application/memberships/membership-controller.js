@@ -1,6 +1,6 @@
+import { usecases } from '../../domain/usecases/index.js';
 import * as membershipSerializer from '../../infrastructure/serializers/jsonapi/membership-serializer.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
-import { usecases } from '../../domain/usecases/index.js';
 import { BadRequestError } from '../http-errors.js';
 
 const create = async function (request, h, dependencies = { membershipSerializer }) {

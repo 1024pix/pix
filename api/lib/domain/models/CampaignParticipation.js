@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 
 class CampaignParticipation {

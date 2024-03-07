@@ -1,7 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Badge } from '../../../../shared/domain/models/Badge.js';
 import { ComplementaryCertificationBadge } from '../../domain/models/ComplementaryCertificationBadge.js';
-import { NotFoundError } from '../../../../shared/domain/errors.js';
 
 const getAllIdsByTargetProfileId = async function ({ targetProfileId }) {
   const complementaryCertificationBadgesIds = await knex('badges')
@@ -77,4 +77,4 @@ function _toDomain(complementaryCertificationBadgeDTO) {
   return new ComplementaryCertificationBadge(complementaryCertificationBadgeDTO);
 }
 
-export { getAllIdsByTargetProfileId, detachByIds, attach, findAttachableBadgesByIds, getAllWithSameTargetProfile };
+export { attach, detachByIds, findAttachableBadgesByIds, getAllIdsByTargetProfileId, getAllWithSameTargetProfile };

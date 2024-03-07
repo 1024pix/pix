@@ -14,11 +14,11 @@ const ERROR_RATE_CLASS_INTERVAL = 9 / 80;
 const MAX_NUMBER_OF_RETURNED_CHALLENGES = 5;
 
 export {
-  getPossibleNextChallenges,
+  calculateTotalPixScoreAndScoreByCompetence,
+  getChallengesForNonAnsweredSkills,
   getEstimatedLevelAndErrorRate,
   getEstimatedLevelAndErrorRateHistory,
-  getChallengesForNonAnsweredSkills,
-  calculateTotalPixScoreAndScoreByCompetence,
+  getPossibleNextChallenges,
   getReward,
 };
 

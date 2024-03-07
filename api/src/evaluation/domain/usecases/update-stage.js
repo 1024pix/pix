@@ -47,4 +47,4 @@ function isStageNotUpdatable({ payloadStage, stage, targetProfile }) {
   return targetProfile.hasLinkedCampaign && isLevelOrTresholdUpdated;
 }
 
-export { updateStage, isStageNotUpdatable };
+export { isStageNotUpdatable, updateStage };

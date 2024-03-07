@@ -5,13 +5,13 @@ import * as dotenv from 'dotenv';
 
 dotenv.config({ path: `${__dirname}/../.env` });
 
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+import { disconnect } from '../../db/knex-database-connection.js';
+import * as certificationBadgesService from '../../lib/domain/services/certification-badges-service.js';
+import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
 import { usecases } from '../../lib/domain/usecases/index.js';
 import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
-import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
-import * as certificationBadgesService from '../../lib/domain/services/certification-badges-service.js';
-import { disconnect } from '../../db/knex-database-connection.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
+import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 /**
  * DESCRIPTION

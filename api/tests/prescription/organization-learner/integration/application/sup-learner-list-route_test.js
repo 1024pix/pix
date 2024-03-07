@@ -1,7 +1,7 @@
-import { expect, sinon, HttpTestServer } from '../../../../test-helper.js';
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { supLearnerListController } from '../../../../../src/prescription/organization-learner/application/sup-learner-list-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/organization-learner/application/sup-learner-list-route.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Application | Routes | Sup Learner List', function () {
   describe('GET /api/organizations/:id/sup-participants', function () {

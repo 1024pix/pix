@@ -2,9 +2,9 @@ import lodash from 'lodash';
 
 const { sortBy } = lodash;
 
-import * as competenceBuilder from './competence-builder.js';
 import { AreaText } from '../drawer/AreaText.js';
 import { LegalMentionText } from '../drawer/LegalMentionText.js';
+import * as competenceBuilder from './competence-builder.js';
 
 const MARGIN_TOP_WITHOUT_AREA = 15;
 const MARGIN_BOTTOM_LIMIT = 5;

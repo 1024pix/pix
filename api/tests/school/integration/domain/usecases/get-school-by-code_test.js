@@ -1,7 +1,7 @@
-import { databaseBuilder, expect } from '../../../../test-helper.js';
-import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import { OrganizationLearner } from '../../../../../src/school/domain/models/OrganizationLearner.js';
 import { School } from '../../../../../src/school/domain/models/School.js';
+import { usecases } from '../../../../../src/school/domain/usecases/index.js';
+import { databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | UseCase | get-school-by-code', function () {
   context('when the school exists', function () {

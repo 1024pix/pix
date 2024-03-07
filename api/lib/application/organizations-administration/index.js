@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
-import { sendJsonApiError, PayloadTooLargeError } from '../http-errors.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { organizationAdministrationController as organizationController } from './organization-administration-controller.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { PayloadTooLargeError, sendJsonApiError } from '../http-errors.js';
+import { organizationAdministrationController as organizationController } from './organization-administration-controller.js';
 
 const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
@@ -84,4 +84,4 @@ const register = async function (server) {
 };
 
 const name = 'organizations-administration-api';
-export { register, name };
+export { name, register };

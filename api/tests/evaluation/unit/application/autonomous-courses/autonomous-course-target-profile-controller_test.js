@@ -1,6 +1,6 @@
-import { expect, sinon, hFake, domainBuilder } from '../../../../test-helper.js';
 import { autonomousCourseTargetProfileController } from '../../../../../src/evaluation/application/autonomous-courses/autonomous-course-target-profile-controller.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | autonomous-course-target-profile-controller', function () {
   describe('#get', function () {

@@ -1,9 +1,9 @@
-import { usecases } from '../../../../../src/certification/course/domain/usecases/index.js';
-import { usecases as sharedUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
-import { certificationCourseController } from '../../../../../src/certification/course/application/certification-course-controller.js';
-import { sinon, hFake, expect } from '../../../../test-helper.js';
 import { CertificationCourseRejected } from '../../../../../lib/domain/events/CertificationCourseRejected.js';
 import { CertificationCourseUnrejected } from '../../../../../lib/domain/events/CertificationCourseUnrejected.js';
+import { certificationCourseController } from '../../../../../src/certification/course/application/certification-course-controller.js';
+import { usecases } from '../../../../../src/certification/course/domain/usecases/index.js';
+import { usecases as sharedUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
   describe('reject', function () {

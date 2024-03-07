@@ -1,8 +1,8 @@
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import {
   AssessmentResult,
   status as assessmentResultStatuses,
 } from '../../../../src/shared/domain/models/AssessmentResult.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
 const buildAssessmentResult = function ({
   id = 123,

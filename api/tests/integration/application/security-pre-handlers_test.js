@@ -1,14 +1,13 @@
+import { config as settings } from '../../../lib/config.js';
+import { PIX_ADMIN } from '../../../src/authorization/domain/constants.js';
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import {
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
   HttpTestServer,
   sinon,
 } from '../../test-helper.js';
-
-import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { config as settings } from '../../../lib/config.js';
-import { PIX_ADMIN } from '../../../src/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 

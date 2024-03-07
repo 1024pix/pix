@@ -1,26 +1,23 @@
-import { expect, hFake, sinon } from '../../../test-helper.js';
-
+import { authenticationDomainErrorMappingConfiguration } from '../../../../src/authentication/application/http-error-mapper-configuration.js';
+import { AdminMemberError } from '../../../../src/authorization/domain/errors.js';
 import {
+  CsvWithNoSessionDataError,
+  SessionStartedDeletionError,
+} from '../../../../src/certification/session/domain/errors.js';
+import { domainErrorMapper } from '../../../../src/shared/application/domain-error-mapper.js';
+import { handle } from '../../../../src/shared/application/error-manager.js';
+import { HttpErrors, UnauthorizedError } from '../../../../src/shared/application/http-errors.js';
+import {
+  CertificationAttestationGenerationError,
   EntityValidationError,
   LocaleFormatError,
   LocaleNotSupportedError,
-  NotFoundError,
-  UserNotAuthorizedToAccessEntityError,
-  CertificationAttestationGenerationError,
   NoCertificationAttestationForDivisionError,
+  NotFoundError,
   OidcError,
+  UserNotAuthorizedToAccessEntityError,
 } from '../../../../src/shared/domain/errors.js';
-
-import { HttpErrors, UnauthorizedError } from '../../../../src/shared/application/http-errors.js';
-import { handle } from '../../../../src/shared/application/error-manager.js';
-import { AdminMemberError } from '../../../../src/authorization/domain/errors.js';
-
-import {
-  SessionStartedDeletionError,
-  CsvWithNoSessionDataError,
-} from '../../../../src/certification/session/domain/errors.js';
-import { domainErrorMapper } from '../../../../src/shared/application/domain-error-mapper.js';
-import { authenticationDomainErrorMappingConfiguration } from '../../../../src/authentication/application/http-error-mapper-configuration.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Shared | Unit | Application | ErrorManager', function () {
   describe('#handle', function () {

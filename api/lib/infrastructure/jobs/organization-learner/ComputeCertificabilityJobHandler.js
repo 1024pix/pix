@@ -1,5 +1,5 @@
-import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
 import { usecases } from '../../../domain/usecases/index.js';
+import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
 
 class ComputeCertificabilityJobHandler {
   async handle(event) {

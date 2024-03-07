@@ -18,4 +18,4 @@ const down = async function (knex) {
     .where({ [COLUMN_NAME]: 'OUTDATED' });
 };
 
-export { up, down };
+export { down, up };

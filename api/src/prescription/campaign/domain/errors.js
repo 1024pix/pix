@@ -41,10 +41,10 @@ class CampaignCodeFormatError extends DomainError {
 }
 
 export {
-  UnknownCampaignId,
-  SwapCampaignMismatchOrganizationError,
+  CampaignCodeFormatError,
+  CampaignUniqueCodeError,
   IsForAbsoluteNoviceUpdateError,
   MultipleSendingsUpdateError,
-  CampaignUniqueCodeError,
-  CampaignCodeFormatError,
+  SwapCampaignMismatchOrganizationError,
+  UnknownCampaignId,
 };

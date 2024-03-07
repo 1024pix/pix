@@ -29,4 +29,4 @@ const down = async function down(knex) {
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(formatAlterTableEnumSql(TABLE_NAME, COLUMN_NAME, ['SCO', 'SUP', 'PRO']));
 };
-export { up, down };
+export { down, up };

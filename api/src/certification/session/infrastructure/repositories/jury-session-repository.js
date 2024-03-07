@@ -1,9 +1,9 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../../db/pgsql-errors.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { JurySession, statuses } from '../../../../../lib/domain/models/JurySession.js';
+import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { CertificationOfficer } from '../../domain/models/CertificationOfficer.js';
-import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../../db/pgsql-errors.js';
 
 const COLUMNS = Object.freeze([
   'sessions.*',
@@ -67,7 +67,7 @@ const assignCertificationOfficer = async function ({ id, assignedCertificationOf
   }
 };
 
-export { get, findPaginatedFiltered, assignCertificationOfficer };
+export { assignCertificationOfficer, findPaginatedFiltered, get };
 
 function _toDomain(jurySessionFromDB) {
   let assignedCertificationOfficer = null;

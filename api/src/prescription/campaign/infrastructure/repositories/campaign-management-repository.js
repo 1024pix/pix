@@ -1,7 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CampaignManagement } from '../../domain/models/CampaignManagement.js';
 import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignManagement } from '../../domain/models/CampaignManagement.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -77,7 +77,7 @@ const findPaginatedCampaignManagements = async function ({ organizationId, page 
   return { models: campaignManagement, meta: { ...pagination } };
 };
 
-export { get, findPaginatedCampaignManagements };
+export { findPaginatedCampaignManagements, get };
 
 async function _countParticipationsByStatus(campaignId, campaignType) {
   const row = await knex('campaign-participations')

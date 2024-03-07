@@ -46,4 +46,4 @@ class CertificationCenterMembership {
   }
 }
 
-export { CertificationCenterMembership, CERTIFICATION_CENTER_MEMBERSHIP_ROLES };
+export { CERTIFICATION_CENTER_MEMBERSHIP_ROLES, CertificationCenterMembership };

@@ -1,7 +1,7 @@
-import { expect, sinon, HttpTestServer } from '../../../../test-helper.js';
 import { autonomousCourseController } from '../../../../../src/evaluation/application/autonomous-courses/autonomous-course-controller.js';
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import * as autonomousCoursesRouter from '../../../../../src/evaluation/application/autonomous-courses/index.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Badges | Routes', function () {
   describe('GET /api/admin/autonomous-courses', function () {

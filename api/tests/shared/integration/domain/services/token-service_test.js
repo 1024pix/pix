@@ -1,6 +1,6 @@
-import { expect } from '../../../../test-helper.js';
-import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
 import { config as settings } from '../../../../../src/shared/config.js';
+import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Integration | Shared | Domain | Services | Token Service', function () {
   describe('#createAccessTokenForSaml', function () {

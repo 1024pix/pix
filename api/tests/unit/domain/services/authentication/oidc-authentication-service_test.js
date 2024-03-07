@@ -1,22 +1,19 @@
+import jsonwebtoken from 'jsonwebtoken';
 import { Issuer } from 'openid-client';
 
-import { expect, sinon, catchErr, catchErrSync } from '../../../../test-helper.js';
-
 import { config as settings } from '../../../../../lib/config.js';
-import { OidcAuthenticationService } from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
-import jsonwebtoken from 'jsonwebtoken';
-
-import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
-
-import { OidcMissingFieldsError } from '../../../../../lib/domain/errors.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
-import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
-import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
-import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
-import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
+import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import { OidcMissingFieldsError } from '../../../../../lib/domain/errors.js';
+import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
+import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
+import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
+import { OidcAuthenticationService } from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { OidcError } from '../../../../../src/shared/domain/errors.js';
+import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
+import { catchErr, catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   beforeEach(function () {

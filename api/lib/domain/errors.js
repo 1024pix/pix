@@ -1,5 +1,5 @@
-import { SESSION_SUPERVISING } from './constants/session-supervising.js';
 import { AssessmentEndedError } from '../../src/shared/domain/errors.js';
+import { SESSION_SUPERVISING } from './constants/session-supervising.js';
 
 class DomainError extends Error {
   constructor(message, code, meta) {
@@ -1119,8 +1119,8 @@ export {
   CancelledInvitationError,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
-  CantImproveCampaignParticipationError,
   CantCalculateCampaignParticipationResultError,
+  CantImproveCampaignParticipationError,
   CertificateVerificationCodeGenerationTooManyTrials,
   CertificationBadgeForbiddenDeletionError,
   CertificationCandidateAlreadyLinkedToUserError,
@@ -1191,8 +1191,8 @@ export {
   OrganizationLearnerCertificabilityNotUpdatedError,
   OrganizationLearnerDisabledError,
   OrganizationLearnerNotFound,
-  OrganizationLearnersCouldNotBeSavedError,
   OrganizationLearnersConstraintError,
+  OrganizationLearnersCouldNotBeSavedError,
   OrganizationNotAuthorizedMultipleSendingAssessmentToCreateCampaignError,
   OrganizationNotFoundError,
   OrganizationTagNotFound,

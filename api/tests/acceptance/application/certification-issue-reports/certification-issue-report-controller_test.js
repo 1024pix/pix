@@ -1,10 +1,10 @@
 import {
-  expect,
+  createServer,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
-  createServer,
 } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | certification-issue-report-controller', function () {

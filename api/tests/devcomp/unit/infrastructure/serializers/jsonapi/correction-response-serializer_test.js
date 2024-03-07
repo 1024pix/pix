@@ -1,7 +1,7 @@
-import { expect } from '../../../../../test-helper.js';
-import { QcuCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcuCorrectionResponse.js';
 import { AnswerStatus } from '../../../../../../lib/domain/models/index.js';
+import { QcuCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcuCorrectionResponse.js';
 import * as correctionResponseSerializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/correction-response-serializer.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | CorrectionResponseSerializer', function () {
   describe('#serialize', function () {

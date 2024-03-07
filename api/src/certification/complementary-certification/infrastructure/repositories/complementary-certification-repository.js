@@ -1,6 +1,6 @@
-import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 
 function _toDomain(row) {
   return new ComplementaryCertification({
@@ -30,4 +30,4 @@ const getById = async function ({ id }) {
   return _toDomain(complementaryCertification);
 };
 
-export { findAll, getByLabel, getById };
+export { findAll, getById, getByLabel };

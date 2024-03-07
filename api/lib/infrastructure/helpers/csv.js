@@ -6,8 +6,9 @@ import lodash from 'lodash';
 
 const { isEmpty, difference } = lodash;
 
-import { FileValidationError, NotFoundError } from '../../domain/errors.js';
 import papa from 'papaparse';
+
+import { FileValidationError, NotFoundError } from '../../domain/errors.js';
 
 const ERRORS = {
   MISSING_REQUIRED_FIELD_NAMES: 'MISSING_REQUIRED_FIELD_NAMES',
@@ -88,4 +89,4 @@ async function parseCsvData(cleanedData, options) {
 
 const csvHelper = { checkCsvHeader, parseCsvWithHeader, parseCsvData, readCsvFile };
 
-export { checkCsvHeader, parseCsvWithHeader, parseCsvData, csvHelper };
+export { checkCsvHeader, csvHelper, parseCsvData, parseCsvWithHeader };

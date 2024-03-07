@@ -1,13 +1,12 @@
-import {
-  expect,
-  sinon,
-  HttpTestServer,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-} from '../../../../test-helper.js';
-
 import { targetProfileController } from '../../../../../src/prescription/target-profile/application/target-profile-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/target-profile/application/target-profile-route.js';
+import {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  HttpTestServer,
+  sinon,
+} from '../../../../test-helper.js';
 
 describe('Integration | Application | target-profile-route', function () {
   describe('GET /organizations/{id}/target-profiles', function () {

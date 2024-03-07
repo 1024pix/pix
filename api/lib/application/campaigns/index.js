@@ -1,9 +1,10 @@
 import Joi from 'joi';
+
+import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
+import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { campaignController } from './campaign-controller.js';
 import { campaignManagementController } from './campaign-management-controller.js';
 import { campaignStatsController } from './campaign-stats-controller.js';
-import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 
 const register = async function (server) {
   server.route([
@@ -246,4 +247,4 @@ const register = async function (server) {
 };
 
 const name = 'campaigns-api';
-export { register, name };
+export { name, register };

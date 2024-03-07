@@ -1,8 +1,8 @@
-import { Mission } from '../../domain/models/Mission.js';
-import { missionDatasource } from '../datasources/learning-content/mission-datasource.js';
-import { getTranslatedKey } from '../../../shared/domain/services/get-translated-text.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
+import { getTranslatedKey } from '../../../shared/domain/services/get-translated-text.js';
+import { Mission } from '../../domain/models/Mission.js';
 import { MissionNotFoundError } from '../../domain/school-errors.js';
+import { missionDatasource } from '../datasources/learning-content/mission-datasource.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
@@ -36,4 +36,4 @@ async function findAllMissions(locale = { locale: FRENCH_FRANCE }) {
   return missionDataList.map((missionData) => _toDomain(missionData, locale));
 }
 
-export { get, findAllMissions };
+export { findAllMissions, get };

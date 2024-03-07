@@ -1,7 +1,7 @@
-import { catchErr, expect, sinon } from '../../../../../test-helper.js';
-import { PlaceStatistics } from '../../../../../../src/prescription/organization-place/domain/read-models/PlaceStatistics.js';
-import { PlacesLot } from '../../../../../../src/prescription/organization-place/domain/read-models/PlacesLot.js';
 import { OrganizationCantGetPlacesStatisticsError } from '../../../../../../src/prescription/organization-place/domain/errors.js';
+import { PlacesLot } from '../../../../../../src/prescription/organization-place/domain/read-models/PlacesLot.js';
+import { PlaceStatistics } from '../../../../../../src/prescription/organization-place/domain/read-models/PlaceStatistics.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
   let clock;

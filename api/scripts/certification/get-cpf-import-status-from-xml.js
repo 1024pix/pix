@@ -1,7 +1,8 @@
 import * as url from 'url';
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
+
 import { disconnect } from '../../db/knex-database-connection.js';
 import { usecases } from '../../src/certification/shared/domain/usecases/index.js';
+import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;

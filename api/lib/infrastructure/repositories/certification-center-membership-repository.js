@@ -1,21 +1,19 @@
 import _ from 'lodash';
 
-import * as knexUtils from '../utils/knex-utils.js';
-import { BookshelfCertificationCenterMembership } from '../orm-models/CertificationCenterMembership.js';
-import * as bookshelfToDomainConverter from '../../infrastructure/utils/bookshelf-to-domain-converter.js';
-
+import { knex } from '../../../db/knex-database-connection.js';
 import {
-  CertificationCenterMembershipCreationError,
   AlreadyExistingMembershipError,
+  CertificationCenterMembershipCreationError,
   CertificationCenterMembershipDisableError,
   NotFoundError,
 } from '../../domain/errors.js';
-
-import { knex } from '../../../db/knex-database-connection.js';
 import { CertificationCenter } from '../../domain/models/CertificationCenter.js';
-import { User } from '../../domain/models/User.js';
 import { CertificationCenterMembership } from '../../domain/models/CertificationCenterMembership.js';
+import { User } from '../../domain/models/User.js';
+import * as bookshelfToDomainConverter from '../../infrastructure/utils/bookshelf-to-domain-converter.js';
 import { DomainTransaction } from '../DomainTransaction.js';
+import { BookshelfCertificationCenterMembership } from '../orm-models/CertificationCenterMembership.js';
+import * as knexUtils from '../utils/knex-utils.js';
 
 const CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME = 'certification-center-memberships';
 
@@ -326,9 +324,9 @@ export {
   findActiveAdminsByCertificationCenterId,
   findActiveByCertificationCenterIdSortedByRole,
   findByCertificationCenterIdAndUserId,
-  findOneWithCertificationCenterIdAndUserId,
   findById,
   findByUserId,
+  findOneWithCertificationCenterIdAndUserId,
   getCertificationCenterId,
   getRefererByCertificationCenterId,
   isAdminOfCertificationCenter,

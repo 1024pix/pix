@@ -1,13 +1,13 @@
-import { readFile } from 'fs/promises';
-import { PDFDocument, rgb } from 'pdf-lib';
-
 import pdfLibFontkit from '@pdf-lib/fontkit';
-import * as url from 'url';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat.js';
+import { readFile } from 'fs/promises';
+import { PDFDocument, rgb } from 'pdf-lib';
+import * as url from 'url';
 dayjs.extend(localizedFormat);
 
 import _ from 'lodash';
+
 import { LOCALE } from '../../../../../shared/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;

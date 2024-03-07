@@ -1,6 +1,6 @@
+import { NotFoundError } from '../../../shared/domain/errors.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
 import { CompetenceEvaluation } from '../models/CompetenceEvaluation.js';
-import { NotFoundError } from '../../../shared/domain/errors.js';
 
 const startOrResumeCompetenceEvaluation = async function ({
   competenceId,

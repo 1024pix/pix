@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../../test-helper.js';
 import { areaDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/area-datasource.js';
 import { lcms } from '../../../../../lib/infrastructure/lcms.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource', function () {
   describe('#findByRecordIds', function () {

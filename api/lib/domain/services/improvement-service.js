@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+
 import { constants } from '../constants.js';
 
 function _keepKnowledgeElementsRecentOrValidated({ currentUserKnowledgeElements, assessment, minimumDelayInDays }) {

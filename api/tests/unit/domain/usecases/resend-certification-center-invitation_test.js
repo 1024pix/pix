@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { resendCertificationCenterInvitation } from '../../../../lib/domain/usecases/resend-certification-center-invitation.js';
+import { expect, sinon } from '../../../test-helper.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | Domain | UseCases | resendCertificationCenterInvitation', function () {

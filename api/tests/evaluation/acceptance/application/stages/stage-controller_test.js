@@ -1,11 +1,11 @@
 import {
+  createServer,
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
   knex,
   learningContentBuilder,
   mockLearningContent,
-  createServer,
 } from '../../../../test-helper.js';
 
 describe('Acceptance | API | Stages', function () {

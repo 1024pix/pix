@@ -1,4 +1,4 @@
-import { assertNotNullOrUndefined, assertEnumValue } from '../../../../../src/shared/domain/models/asserts.js';
+import { assertEnumValue, assertNotNullOrUndefined } from '../../../../../src/shared/domain/models/asserts.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Models | asserts', function () {

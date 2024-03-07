@@ -1,13 +1,12 @@
-import {
-  expect,
-  sinon,
-  HttpTestServer,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-} from '../../../../test-helper.js';
-
 import { campaignResultsController } from '../../../../../src/prescription/campaign/application/campaign-results-controller.js';
 import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-results-route.js';
+import {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  HttpTestServer,
+  sinon,
+} from '../../../../test-helper.js';
 
 describe('Integration | Application | campaign-results-route', function () {
   describe('GET /api/campaigns/{id}/assessment-results', function () {

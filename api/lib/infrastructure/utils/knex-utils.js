@@ -58,9 +58,9 @@ function getChunkSizeForParameterBinding(objectAboutToBeBinded) {
 }
 
 export {
+  DEFAULT_PAGINATION,
   fetchPage,
-  isUniqConstraintViolated,
   foreignKeyConstraintViolated,
   getChunkSizeForParameterBinding,
-  DEFAULT_PAGINATION,
+  isUniqConstraintViolated,
 };

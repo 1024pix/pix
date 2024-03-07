@@ -1,10 +1,10 @@
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
 } from '../../../test-helper.js';
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 

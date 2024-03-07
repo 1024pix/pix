@@ -1,8 +1,7 @@
-import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { challengeService } from '../../../../../src/school/domain/services/challenge.js';
-
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
+import { challengeService } from '../../../../../src/school/domain/services/challenge.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Service | Challenge', function () {
   describe('#getChallenge', function () {

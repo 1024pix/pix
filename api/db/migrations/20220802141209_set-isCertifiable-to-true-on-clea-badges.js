@@ -12,4 +12,4 @@ const down = function (knex) {
   return knex(TABLE_NAME).update({ isCertifiable: false }).whereIn('key', CLEA_KEYS);
 };
 
-export { up, down };
+export { down, up };

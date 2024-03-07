@@ -1,6 +1,6 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer.js';
 import { MAX_REACHABLE_LEVEL } from '../../../../../lib/domain/constants.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | profile', function () {
   describe('#serialize()', function () {

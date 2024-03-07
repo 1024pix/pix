@@ -1,6 +1,7 @@
-import { KnowledgeElement } from '../../models/KnowledgeElement.js';
 import _ from 'lodash';
 import fp from 'lodash/fp.js';
+
+import { KnowledgeElement } from '../../models/KnowledgeElement.js';
 
 const { pipe } = fp;
 export { findMaxRewardingSkills, getPredictedLevel };

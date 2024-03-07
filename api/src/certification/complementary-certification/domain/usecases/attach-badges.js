@@ -1,9 +1,10 @@
 /**
  * @typedef {import ('../../domain/usecases/index.js').ComplementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
  */
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import lodash from 'lodash';
+
 import { MissingAttributesError, NotFoundError } from '../../../../../lib/domain/errors.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { InvalidBadgeLevelError } from '../errors.js';
 import { BadgeToAttach } from '../models/BadgeToAttach.js';
 

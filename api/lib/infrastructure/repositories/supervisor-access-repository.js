@@ -24,4 +24,4 @@ const isUserSupervisorForSessionCandidate = async function ({ supervisorId, cert
   return Boolean(result);
 };
 
-export { create, isUserSupervisorForSession, sessionHasSupervisorAccess, isUserSupervisorForSessionCandidate };
+export { create, isUserSupervisorForSession, isUserSupervisorForSessionCandidate, sessionHasSupervisorAccess };

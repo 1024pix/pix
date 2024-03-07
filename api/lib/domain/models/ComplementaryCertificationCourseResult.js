@@ -61,4 +61,4 @@ class ComplementaryCertificationCourseResult {
 ComplementaryCertificationCourseResult.sources = sources;
 ComplementaryCertificationCourseResult.juryOptions = juryOptions;
 
-export { ComplementaryCertificationCourseResult, sources, juryOptions };
+export { ComplementaryCertificationCourseResult, juryOptions, sources };

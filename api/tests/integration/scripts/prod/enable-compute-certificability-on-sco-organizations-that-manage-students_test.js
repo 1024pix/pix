@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import { enableComputeCertificabilityOnScoOrganizationsThatManageStudents } from '../../../../scripts/prod/enable-compute-certificability-on-sco-organizations-that-manage-students.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Scripts | enable-compute-certificability-on-sco-organizations-that-manages-students_test.js', function () {
   it('should enable COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY feature on organizations of type SCO with isManagingStudents to true', async function () {

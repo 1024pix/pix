@@ -1,6 +1,6 @@
-import { expect, sinon, hFake } from '../../../../test-helper.js';
 import { autonomousCourseController } from '../../../../../src/evaluation/application/autonomous-courses/autonomous-course-controller.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | autonomous-course-controller', function () {
   describe('#save', function () {

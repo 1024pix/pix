@@ -1,10 +1,10 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import {
-  SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionAlreadyFinalizedError,
+  SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithoutStartedCertificationError,
 } from '../../../../src/certification/session/domain/errors.js';
 import { SiecleXmlImportError } from '../../../../src/prescription/learner-management/domain/errors.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | API | Controller Error', function () {
   let server;

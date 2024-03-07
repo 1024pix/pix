@@ -1,11 +1,10 @@
-import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../../../test-helper.js';
-
+import {
+  IsForAbsoluteNoviceUpdateError,
+  MultipleSendingsUpdateError,
+} from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
-import {
-  MultipleSendingsUpdateError,
-  IsForAbsoluteNoviceUpdateError,
-} from '../../../../../../src/prescription/campaign/domain/errors.js';
+import { catchErr, databaseBuilder, expect, knex, mockLearningContent } from '../../../../../test-helper.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

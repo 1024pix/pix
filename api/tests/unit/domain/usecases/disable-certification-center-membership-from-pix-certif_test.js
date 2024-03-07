@@ -1,7 +1,7 @@
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { ForbiddenError } from '../../../../lib/application/http-errors.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { disableCertificationCenterMembershipFromPixCertif } from '../../../../lib/domain/usecases/disable-certification-center-membership-from-pix-certif.js';
-import { ForbiddenError } from '../../../../lib/application/http-errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | disable-certification-center-membership', function () {
   let certificationCenterMembershipRepository;

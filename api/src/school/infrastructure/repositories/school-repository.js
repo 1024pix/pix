@@ -1,7 +1,7 @@
 import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { School } from '../../domain/models/School.js';
 import { SchoolNotFoundError } from '../../domain/school-errors.js';
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 
 const save = async function ({ organizationId, code, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction ?? knex;
@@ -31,4 +31,4 @@ const getById = async function (organizationId) {
   return result.code;
 };
 
-export { save, isCodeAvailable, getByCode, getById };
+export { getByCode, getById, isCodeAvailable, save };

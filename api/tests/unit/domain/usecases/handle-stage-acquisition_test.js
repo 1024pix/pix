@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { handleStageAcquisition } from '../../../../lib/domain/usecases/stages/handle-stage-acquisition.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | handleStageAcquisition', function () {
   // Repositories

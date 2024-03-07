@@ -1,11 +1,10 @@
-import { CampaignForCreation } from './CampaignForCreation.js';
-import { CampaignTypes } from '../../../shared/domain/constants.js';
-
 import {
-  UserNotAuthorizedToCreateCampaignError,
   OrganizationNotAuthorizedMultipleSendingAssessmentToCreateCampaignError,
+  UserNotAuthorizedToCreateCampaignError,
 } from '../../../../../lib/domain/errors.js';
 import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { CampaignTypes } from '../../../shared/domain/constants.js';
+import { CampaignForCreation } from './CampaignForCreation.js';
 
 class CampaignCreator {
   constructor({ availableTargetProfileIds, organizationFeatures }) {

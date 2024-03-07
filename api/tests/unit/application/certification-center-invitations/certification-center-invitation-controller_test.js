@@ -1,9 +1,9 @@
-import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
 import { certificationCenterInvitationController } from '../../../../lib/application/certification-center-invitations/certification-center-invitation-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { certificationCenterInvitationSerializer } from '../../../../lib/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Certification-center-Invitations | Certification-center-invitation-controller', function () {
   describe('#acceptCertificationCenterInvitation', function () {

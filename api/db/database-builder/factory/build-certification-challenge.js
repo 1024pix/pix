@@ -1,6 +1,7 @@
-import { buildCertificationCourse } from './build-certification-course.js';
-import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
+
+import { databaseBuffer } from '../database-buffer.js';
+import { buildCertificationCourse } from './build-certification-course.js';
 
 const buildCertificationChallenge = function ({
   id = databaseBuffer.getNextId(),

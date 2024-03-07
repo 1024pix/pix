@@ -1,6 +1,6 @@
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { CertificationOfficer } from '../../domain/models/CertificationOfficer.js';
-import { knex } from '../../../../../db/knex-database-connection.js';
 
 const get = async function (certificationOfficerId) {
   const certificationOfficer = await knex('users')

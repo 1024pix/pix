@@ -2,18 +2,19 @@ import lodash from 'lodash';
 
 const { _ } = lodash;
 
-import { knex } from '../../../../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
-import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import {
   Assessment,
   CertificationCourse,
   ComplementaryCertificationCourse,
 } from '../../../../../lib/domain/models/index.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import * as certificationChallengeRepository from './certification-challenge-repository.js';
-import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 import { config } from '../../../../shared/config.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
+import * as certificationChallengeRepository from './certification-challenge-repository.js';
 
 async function save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction || knex;
@@ -213,13 +214,13 @@ async function findCertificationCoursesBySessionId({ sessionId }) {
 }
 
 export {
-  save,
+  findCertificationCoursesBySessionId,
+  findOneCertificationCourseByUserIdAndSessionId,
   get,
   getSessionId,
-  findOneCertificationCourseByUserIdAndSessionId,
-  update,
   isVerificationCodeAvailable,
-  findCertificationCoursesBySessionId,
+  save,
+  update,
 };
 
 function _adaptModelToDb(certificationCourse) {

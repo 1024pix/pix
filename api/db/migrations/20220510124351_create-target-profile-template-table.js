@@ -27,4 +27,4 @@ const down = async function (knex) {
   await knex.schema.dropTable(TEMPLATE_TABLE_NAME);
 };
 
-export { up, down };
+export { down, up };

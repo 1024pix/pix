@@ -1,5 +1,5 @@
-import { Group } from '../../domain/models/Group.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { Group } from '../../domain/models/Group.js';
 
 async function findByCampaignId(campaignId) {
   const groups = await knex('view-active-organization-learners')

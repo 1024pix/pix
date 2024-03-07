@@ -42,4 +42,4 @@ function _buildCertificationCenterMembership({
   };
 }
 
-export { CERTIFICATION_POINT_OF_CONTACT_BUILDER_MEMBERSHIP_DEFAULT_ID, buildCertificationPointOfContact };
+export { buildCertificationPointOfContact, CERTIFICATION_POINT_OF_CONTACT_BUILDER_MEMBERSHIP_DEFAULT_ID };

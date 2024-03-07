@@ -11,4 +11,4 @@ const down = function (knex) {
   return knex.schema.dropView(VIEW_NAME);
 };
 
-export { up, down };
+export { down, up };

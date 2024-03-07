@@ -1,10 +1,10 @@
 import { HttpErrors } from '../../shared/application/http-errors.js';
+import { DomainErrorMappingConfiguration } from '../../shared/application/models/domain-error-mapping-configuration.js';
 import {
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
 } from '../domain/errors.js';
-import { DomainErrorMappingConfiguration } from '../../shared/application/models/domain-error-mapping-configuration.js';
 
 const authenticationDomainErrorMappingConfiguration = [
   {

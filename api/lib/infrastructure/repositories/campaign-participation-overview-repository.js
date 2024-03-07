@@ -1,8 +1,8 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { fetchPage } from '../utils/knex-utils.js';
-import { constants } from '../../domain/constants.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
+import { constants } from '../../domain/constants.js';
 import { CampaignParticipationOverview } from '../../domain/read-models/CampaignParticipationOverview.js';
+import { fetchPage } from '../utils/knex-utils.js';
 
 const findByUserIdWithFilters = async function ({ userId, states, page }) {
   const queryBuilder = _findByUserId({ userId });

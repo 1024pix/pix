@@ -1,3 +1,4 @@
+import * as organizationPlacesCategories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import {
   createServer,
   databaseBuilder,
@@ -5,7 +6,6 @@ import {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
-import * as organizationPlacesCategories from '../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 
 describe('Acceptance | Route | Create Organization Places Lot', function () {
   describe('POST /api/admin/organizations/{id}/places', function () {

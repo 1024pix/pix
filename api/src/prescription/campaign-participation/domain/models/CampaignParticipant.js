@@ -2,11 +2,10 @@ import {
   AlreadyExistingCampaignParticipationError,
   NotEnoughDaysPassedBeforeResetCampaignParticipationError,
 } from '../../../../../lib/domain/errors.js';
-import { ForbiddenAccess, EntityValidationError } from '../../../../shared/domain/errors.js';
-
-import { CampaignParticipation } from './CampaignParticipation.js';
-import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { OrganizationLearner } from '../../../../../lib/domain/models/OrganizationLearner.js';
+import { EntityValidationError, ForbiddenAccess } from '../../../../shared/domain/errors.js';
+import { Assessment } from '../../../../shared/domain/models/Assessment.js';
+import { CampaignParticipation } from './CampaignParticipation.js';
 
 const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindre la campagne";
 const couldNotImproveCampaignErrorMessage = 'Vous ne pouvez pas repasser la campagne';

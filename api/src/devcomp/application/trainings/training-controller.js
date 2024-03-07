@@ -1,11 +1,11 @@
+import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
+import * as targetProfileSummaryForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
+import { usecases } from '../../domain/usecases/index.js';
 import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
 import * as trainingSummarySerializer from '../../infrastructure/serializers/jsonapi/training-summary-serializer.js';
 import * as trainingTriggerSerializer from '../../infrastructure/serializers/jsonapi/training-trigger-serializer.js';
-import * as targetProfileSummaryForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
-import { usecases } from '../../domain/usecases/index.js';
-import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
 
 const findPaginatedTrainingSummaries = async function (
   request,

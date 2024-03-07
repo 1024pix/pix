@@ -1,5 +1,5 @@
-import _ from 'lodash';
 import { Assertion } from 'chai';
+import _ from 'lodash';
 
 const deepEqualInstanceOmitting = function () {
   Assertion.addMethod('deepEqualInstanceOmitting', function (referenceInstance, omittedAttributes) {

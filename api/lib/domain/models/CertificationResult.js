@@ -1,7 +1,8 @@
 import _ from 'lodash';
+
+import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
 import { CompetenceMark } from './CompetenceMark.js';
 import { ComplementaryCertificationCourseResult } from './ComplementaryCertificationCourseResult.js';
-import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
 
 /**
  * @readonly

@@ -1,9 +1,9 @@
 import {
+  createServer,
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
   insertUserWithRoleSuperAdmin,
-  createServer,
 } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | finalized-session-controller-find-finalized-sessions-to-publish', function () {

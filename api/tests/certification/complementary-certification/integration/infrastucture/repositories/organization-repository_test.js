@@ -1,5 +1,5 @@
-import { expect, databaseBuilder } from '../../../../../test-helper.js';
 import * as organizationRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/organization-repository.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Certification | Complementary-certification | Organization', function () {
   describe('#getOrganizationUserEmailByCampaignTargetProfileId', function () {

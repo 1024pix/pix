@@ -1,8 +1,9 @@
 import Joi from 'joi';
+
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { LOCALE } from '../../../shared/domain/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationAttestationController } from './certification-attestation-controller.js';
-import { LOCALE } from '../../../shared/domain/constants.js';
-import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 const { FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 
 const register = async function (server) {
@@ -99,4 +100,4 @@ const register = async function (server) {
 };
 
 const name = 'certification-attestation-api';
-export { register, name };
+export { name, register };

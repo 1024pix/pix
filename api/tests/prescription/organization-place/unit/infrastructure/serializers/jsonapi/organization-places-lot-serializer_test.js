@@ -1,6 +1,6 @@
-import { expect } from '../../../../../../test-helper.js';
-import * as organizationPlacesLotSerializer from '../../../../../../../src/prescription/organization-place/infrastructure/serializers/jsonapi/organization-places-lot-serializer.js';
 import { FREE_RATE } from '../../../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
+import * as organizationPlacesLotSerializer from '../../../../../../../src/prescription/organization-place/infrastructure/serializers/jsonapi/organization-places-lot-serializer.js';
+import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | organization-places-lot-serializer', function () {
   describe('#deserialize', function () {

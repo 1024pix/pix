@@ -1,12 +1,4 @@
-import {
-  createServer,
-  databaseBuilder,
-  expect,
-  generateValidRequestAuthorizationHeader,
-  generateValidRequestAuthorizationHeaderForApplication,
-} from '../../../test-helper.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-
 import {
   buildOrganization,
   buildOrganizationLearner,
@@ -14,6 +6,13 @@ import {
   buildValidatedPublishedCertificationData,
   mockLearningContentCompetences,
 } from '../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  generateValidRequestAuthorizationHeaderForApplication,
+} from '../../../test-helper.js';
 
 describe('Acceptance | API | Certifications', function () {
   let server, options;

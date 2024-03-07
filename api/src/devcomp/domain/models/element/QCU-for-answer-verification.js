@@ -1,10 +1,11 @@
-import { QCU } from './QCU.js';
-import { Feedbacks } from '../Feedbacks.js';
-import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
-import { ValidatorQCU } from '../validator/ValidatorQCU.js';
-import { QcuCorrectionResponse } from '../QcuCorrectionResponse.js';
 import Joi from 'joi';
+
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
+import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
+import { Feedbacks } from '../Feedbacks.js';
+import { QcuCorrectionResponse } from '../QcuCorrectionResponse.js';
+import { ValidatorQCU } from '../validator/ValidatorQCU.js';
+import { QCU } from './QCU.js';
 
 class QCUForAnswerVerification extends QCU {
   userResponse;

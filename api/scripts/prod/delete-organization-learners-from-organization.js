@@ -1,7 +1,8 @@
 import * as url from 'url';
-import { usecases } from '../../src/prescription/learner-management/domain/usecases/index.js';
-import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
+
 import { disconnect } from '../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
+import { usecases } from '../../src/prescription/learner-management/domain/usecases/index.js';
 
 async function deleteOrganizationLearnersFromOrganization(organizationId, date) {
   if (date && isNaN(Date.parse(date))) {

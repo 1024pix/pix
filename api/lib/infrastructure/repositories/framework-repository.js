@@ -1,7 +1,8 @@
+import _ from 'lodash';
+
+import { NotFoundError } from '../../domain/errors.js';
 import { Framework } from '../../domain/models/Framework.js';
 import { frameworkDatasource } from '../datasources/learning-content/framework-datasource.js';
-import { NotFoundError } from '../../domain/errors.js';
-import _ from 'lodash';
 
 async function list() {
   const frameworkDataObjects = await frameworkDatasource.list();
@@ -31,4 +32,4 @@ async function findByRecordIds(frameworkIds) {
   return _.orderBy(frameworks, (framework) => framework.name.toLowerCase());
 }
 
-export { list, getByName, findByRecordIds };
+export { findByRecordIds, getByName, list };

@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { getSessionResults } from '../../../../lib/domain/usecases/get-session-results.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-session-results', function () {
   const sessionRepository = { get: null };

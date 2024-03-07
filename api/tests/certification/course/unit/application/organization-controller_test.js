@@ -1,7 +1,6 @@
-import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
-
 import { organizationController } from '../../../../../src/certification/course/application/organization-controller.js';
 import { usecases } from '../../../../../src/certification/course/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 describe('Certification | Course | Unit | Application | Organizations | organization-controller', function () {

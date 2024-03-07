@@ -1,10 +1,8 @@
-import { expect, sinon } from '../../../../test-helper.js';
-
 import { POLE_EMPLOI } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
-
-import { authenticateOidcUser } from '../../../../../lib/domain/usecases/authentication/authenticate-oidc-user.js';
-import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
+import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
+import { authenticateOidcUser } from '../../../../../lib/domain/usecases/authentication/authenticate-oidc-user.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | authenticate-oidc-user', function () {
   context('when identityProvider is generic', function () {

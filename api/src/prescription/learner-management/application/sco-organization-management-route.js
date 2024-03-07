@@ -1,8 +1,8 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { sendJsonApiError, PayloadTooLargeError } from '../../../../lib/application/http-errors.js';
+import { PayloadTooLargeError, sendJsonApiError } from '../../../../lib/application/http-errors.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { scoOrganizationManagementController } from './sco-organization-management-controller.js';
@@ -59,4 +59,4 @@ const register = async function (server) {
 
 const name = 'sco-organization-management';
 
-export { register, name };
+export { name, register };

@@ -1,6 +1,6 @@
-import { expect, databaseBuilder } from '../../../../../test-helper.js';
 import * as campaignCreatorRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-creator-repository.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | CampaignCreatorRepository', function () {
   describe('#get', function () {

@@ -1,15 +1,13 @@
-import { expect, catchErr } from '../../../../../test-helper.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import * as url from 'url';
 
 import { CsvWithNoSessionDataError } from '../../../../../../src/certification/session/domain/errors.js';
-
 import {
   parseCsv,
-  readCsvFile,
   parseCsvWithHeader,
+  readCsvFile,
 } from '../../../../../../src/certification/shared/application/helpers/csvHelpers.js';
-
-import * as url from 'url';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, expect } from '../../../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Certification | Shared | Integration | Application | Helpers | csvHelpers.js', function () {

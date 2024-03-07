@@ -1,14 +1,13 @@
-import { sinon, expect, catchErr, domainBuilder } from '../../../../../test-helper.js';
-import { finalizeSession } from '../../../../../../src/certification/session/domain/usecases/finalize-session.js';
-
+import { SessionFinalized } from '../../../../../../lib/domain/events/SessionFinalized.js';
 import {
   SessionAlreadyFinalizedError,
-  SessionWithoutStartedCertificationError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
+  SessionWithoutStartedCertificationError,
 } from '../../../../../../src/certification/session/domain/errors.js';
+import { finalizeSession } from '../../../../../../src/certification/session/domain/usecases/finalize-session.js';
 import { InvalidCertificationReportForFinalization } from '../../../../../../src/certification/shared/domain/errors.js';
-import { SessionFinalized } from '../../../../../../lib/domain/events/SessionFinalized.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | finalize-session', function () {
   let sessionId;

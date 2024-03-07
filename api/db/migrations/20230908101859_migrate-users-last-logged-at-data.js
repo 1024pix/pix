@@ -23,4 +23,4 @@ const down = async function () {
   // do nothing, because it's impossible to rollback
 };
 
-export { up, down };
+export { down, up };

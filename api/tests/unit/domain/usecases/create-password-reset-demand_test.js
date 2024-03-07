@@ -1,6 +1,6 @@
-import { expect, sinon, catchErr } from '../../../test-helper.js';
 import { UserNotFoundError } from '../../../../lib/domain/errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 const { createPasswordResetDemand } = usecases;
 

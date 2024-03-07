@@ -1,8 +1,8 @@
-import { catchErr, expect, sinon } from '../../../../../test-helper.js';
+import { UserNotAuthorizedToCreateCampaignError } from '../../../../../../lib/domain/errors.js';
+import { CampaignCreator } from '../../../../../../src/prescription/campaign/domain/models/CampaignCreator.js';
 import { createCampaign } from '../../../../../../src/prescription/campaign/domain/usecases/create-campaign.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { CampaignCreator } from '../../../../../../src/prescription/campaign/domain/models/CampaignCreator.js';
-import { UserNotAuthorizedToCreateCampaignError } from '../../../../../../lib/domain/errors.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | create-campaign', function () {
   let campaignAdministrationRepository;
