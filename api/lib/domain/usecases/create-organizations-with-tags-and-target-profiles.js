@@ -98,7 +98,7 @@ function _transformOrganizationsCsvData(organizationsCsvData) {
         email: organizationCsvData.DPOEmail,
       },
       emailInvitations: organizationCsvData.emailInvitations,
-      tags: organizationCsvData.tags.split(SEPARATOR),
+      tags: isEmpty(organizationCsvData.tags) ? [] : organizationCsvData.tags.split(SEPARATOR),
       targetProfiles: isEmpty(organizationCsvData.targetProfiles)
         ? []
         : organizationCsvData.targetProfiles.split(SEPARATOR).filter((targetProfile) => !!targetProfile.trim()),
