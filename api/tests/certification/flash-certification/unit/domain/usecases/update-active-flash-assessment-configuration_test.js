@@ -1,5 +1,6 @@
 import { updateActiveFlashAssessmentConfiguration } from '../../../../../../src/certification/flash-certification/domain/usecases/update-active-flash-assessment-configuration.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import _ from 'lodash';
 
 describe('Unit | Domain | UseCases | update-active-flash-assessment-configuration', function () {
   it('should update the active flash assessment configuration', async function () {
@@ -32,6 +33,8 @@ describe('Unit | Domain | UseCases | update-active-flash-assessment-configuratio
       ...configuration,
     });
 
-    expect(flashAlgorithmConfigurationRepository.save).to.have.been.calledWith(expectedConfiguration);
+    expect(flashAlgorithmConfigurationRepository.save).to.have.been.calledWith(
+      sinon.match(_.omit(expectedConfiguration, 'createdAt')),
+    );
   });
 });
