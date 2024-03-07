@@ -2371,14 +2371,14 @@
       "title": "Les principes fondateurs de Wikipédia",
       "details": {
         "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-        "description": "Wikipédia est un site très connu, que vous avez sans doute déjà utilisé. Dans ce module, vous trouverez des explications sur les principes de Wikipédia. Vous découvrirez aussi des méthodes pour l'utiliser efficacement.",
+        "description": "Wikipédia est un site très connu, que vous avez sans doute déjà utilisé. Dans ce module, vous trouverez des explications sur les principes de Wikipédia. Vous découvrirez aussi des méthodes pour l'utiliser.",
         "duration": 10,
         "level": "Intermédiaire",
-        "objectives": ["Comprendre les principes fondateurs de Wikipédia", "Connaître des caractéristiques et fonctionnalités spécifiques à Wikipédia", "Trouver et évaluer des informations dans un article Wikipédia"]
+        "objectives": ["Comprendre les principes fondateurs de Wikipédia", "Connaître certaines caractéristiques et fonctionnalités de Wikipédia", "Trouver des informations dans un article Wikipédia"]
       },
       "transitionTexts": [
         {
-          "content": "<p>Vous avez probablement déjà utilisé une fois Wikipédia dans votre vie. Mais connaissez-vous la signification de son logo ? <span aria-hidden=\"true\">🌎</span>️ <span aria-hidden=\"true\">🧩</span>️</p>",
+          "content": "<p>Vous avez probablement déjà utilisé Wikipédia. Mais connaissez-vous la signification de son logo ? <span aria-hidden=\"true\">🌎</span>️ <span aria-hidden=\"true\">🧩</span>️</p>",
           "grainId": "da95d2bc-e597-4366-a095-21f7ab0f4845"
         },
         {
@@ -2394,7 +2394,7 @@
           "grainId": "5f048ad8-d008-4956-840b-37e84138b433"
         },
         {
-          "content": "<p>Comme n’importe quel site internet, Wikipédia a besoin d’argent pour fonctionner. <span aria-hidden=\"true\">💰</span>️<br>Un petit jeu : savez-vous comment ?</p>",
+          "content": "<p>Comme tout site internet, Wikipédia a besoin d’argent pour fonctionner. <span aria-hidden=\"true\">💰</span>️</p>",
           "grainId": "09b21f5f-b7e7-4c7a-9059-bdb2a2be246d"
         },
         {
@@ -2428,7 +2428,7 @@
             {
               "id": "d5acb701-fd9c-40d4-b59d-fb2fd8f6b3fe",
               "type": "qcm",
-              "instruction": "<p>Selon vous, quelles sont les <strong>deux</strong> phrases qui décrivent le mieux la signification du logo actuel de Wikipédia ?</p>",
+              "instruction": "<p>Une devinette : selon vous, quelles sont les <strong>deux</strong> phrases qui décrivent le mieux la signification du logo actuel de Wikipédia ?</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -2436,7 +2436,7 @@
                 },
                 {
                   "id": "2",
-                  "content": "Le globe est incomplet car Wikipédia est et sera toujours ouvert."
+                  "content": "Le globe est incomplet car Wikipédia sera toujours ouvert."
                 },
                 {
                   "id": "3",
@@ -2444,12 +2444,12 @@
                 },
                 {
                   "id": "4",
-                  "content": "Les symboles représentent la diversité des langues existantes sur Wikipédia."
+                  "content": "Les symboles représentent les différentes langues qui existent sur Wikipédia."
                 }
               ],
               "feedbacks": {
                 "valid": "<p>Correct !</p>",
-                "invalid": "<p>Incorrect. La construction permanente et la diversité des langues de Wikipédia sont symbolisés prioritairement à travers ce logo.</p>"
+                "invalid": "<p>Incorrect. La construction permanente et les différentes langues de Wikipédia sont symbolisées prioritairement à travers ce logo.</p>"
               },
               "solutions": [
                 "1",
@@ -2466,7 +2466,7 @@
             {
               "id": "afc8b60f-c2c1-405b-a6a4-a0e08e23ccc3",
               "type": "text",
-              "content": "<h4>1 - Wikipédia est une encyclopédie en ligne.&nbsp;<span aria-hidden=\"true\">📖</span>️</h4><p>Des connaissances du monde y sont rassemblées, classées et exposées méthodiquement. Ce n'est donc pas un jounal ou un réseau social.</p>"
+              "content": "<h4>1 - Wikipédia est une encyclopédie en ligne.&nbsp;<span aria-hidden=\"true\">📖</span>️</h4><p>Des connaissances du monde entier y sont rassemblées, classées et exposées méthodiquement. Wikipédia n'est donc ni un journal ni un réseau social.</p>"
             },
             {
               "id": "3bbf40bb-acd0-466f-a1ce-5c4bf9ccee8e",
@@ -2476,7 +2476,7 @@
             {
               "id": "81710de7-1311-4980-81f5-87944e56de28",
               "type": "text",
-              "content": "<h4>2 - Wikipédia propose des contenus les plus neutres possibles.&nbsp;<span aria-hidden=\"true\">⚖️</span>️</h4><p>Une opinion ou un point de vue unique n’ont pas leur place. Si besoin, les divers points de vue sont présentés, sans jugement de valeur.</p>"
+              "content": "<h4>2 - Wikipédia propose des contenus les plus neutres possible.&nbsp;<span aria-hidden=\"true\">⚖️</span>️</h4><p>Une opinion ou un point de vue unique n’ont pas leur place. Si besoin, les divers points de vue sont présentés, sans jugement de valeur.</p>"
             },
             {
               "id": "20ed0b8b-a858-440e-a587-4856f96ef5be",
@@ -2496,7 +2496,7 @@
             {
               "id": "df11aa2c-1ebf-4a60-99a3-533dfc06756d",
               "type": "text",
-              "content": "<h4>4 - Wikipédia est un projet collaboratif.&nbsp;<span aria-hidden=\"true\">🙋🏽‍♂️</span>️<span aria-hidden=\"true\">🙋🏻‍♀️</span>️<span aria-hidden=\"true\">🙋🏿‍♀️</span>️<span aria-hidden=\"true\">🙋‍♂️</span>️</h4><p>C’est probablement sa caractéristique la plus remarquable. Tout le monde peut améliorer les contenus de Wikipédia ! Des règles claires de savoir-vivre sont à respécter.</p>"
+              "content": "<h4>4 - Wikipédia est un projet collaboratif.&nbsp;<span aria-hidden=\"true\">🙋🏽‍♂️</span>️<span aria-hidden=\"true\">🙋🏻‍♀️</span>️<span aria-hidden=\"true\">🙋🏿‍♀️</span>️<span aria-hidden=\"true\">🙋‍♂️</span>️</h4><p>C’est probablement sa caractéristique la plus remarquable. Tout le monde peut améliorer les contenus de Wikipédia ! Des règles claires de savoir-vivre sont à respecter.</p>"
             },
             {
               "id": "1edb38ba-7542-4198-a5de-c260ef6b95ea",
@@ -2506,7 +2506,7 @@
             {
               "id": "ca62ac2d-950d-4c00-b14d-2ac9e7d509f2",
               "type": "text",
-              "content": "<h4>5 - Wikipédia n’a pas d’autres règles fixes que celles présentées ci-dessus.&nbsp;<span aria-hidden=\"true\">📜</span>️</h4><p>Il est toutefois possible de proposer et de créer des règles pour améliorer continuement Wikipédia, en accord avec ces principes.</p>"
+              "content": "<h4>5 - Wikipédia n’a pas d’autres principes fixes que ceux présentés ci-dessus.&nbsp;<span aria-hidden=\"true\">📜</span>️</h4><p>Il est toutefois possible de proposer et de créer des règles pour améliorer continuellement Wikipédia, en accord avec ses principes.</p>"
             }
           ]
         },
@@ -2518,32 +2518,32 @@
             {
               "id": "b15e1ab7-9f62-458b-8bfe-f039028a808b",
               "type": "qcm",
-              "instruction": "<p>Sélectionner les mots-clés qui correspondent aux principes fondateurs de Wikipédia.</p>",
+              "instruction": "<p>Parmi les mots suivants, quels sont ceux qui correspondent aux principes fondateurs de Wikipédia&nbsp;?</p>",
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Collaboratif"
+                  "content": "collaboratif"
                 },
                 {
                   "id": "2",
-                  "content": "Académique"
+                  "content": "académique"
                 },
                 {
                   "id": "3",
-                  "content": "Neutre"
+                  "content": "neutre"
                 },
                 {
                   "id": "4",
-                  "content": "Libre"
+                  "content": "libre"
                 },
                 {
                   "id": "5",
-                  "content": "Exhaustif"
+                  "content": "exhaustif"
                 }
               ],
               "feedbacks": {
                 "valid": "<p>Correct. Vous avez bien identifié les principes de Wikipédia. </p>",
-                "invalid": "<p>Incorrect. Remonter la page pour relire la leçon <span aria-hidden=\"true\">⬆</span>️</p>"
+                "invalid": "<p>Incorrect. Remonter la page pour relire la leçon. <span aria-hidden=\"true\">⬆</span>️</p>"
               },
               "solutions": [
                 "1",
@@ -2581,8 +2581,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct. Il y a une représentation inégales entre ces langues : on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>",
-                "invalid": "<p>Incorrect. La réponse est 250.<br>Il y a une représentation inégales entre ces langues : on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
+                "valid": "<p>Correct. Il y a une représentation inégale entre ces langues : on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>",
+                "invalid": "<p>Incorrect. La réponse est 250.<br>Il y a une représentation inégale entre ces langues : on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
               },
               "solution": "2"
             }
@@ -2612,8 +2612,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Oui. Wikipédia est gérée par une association à but non lucratif, financée par des donations d’utilisateurs.</p>",
-                "invalid": "<p>Incorrect. Sinon, son principe de neutralité serait mis en défaut. Wikipédia est gérée par une association à but non lucratif, financée par des donations d’utilisateurs.</p>"
+                "valid": "<p>Oui. Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>",
+                "invalid": "<p>Incorrect. Dans ce cas, le principe de neutralité ne serait pas respecté. Wikipédia est géré par une association à but non lucratif, financé par des donations d’utilisateurs.</p>"
               },
               "solution": "3"
             }
@@ -2682,7 +2682,7 @@
               ],
               "feedbacks": {
                 "valid": "<p>Correct !</p>",
-                "invalid": "<p>Incorrect !</p>"
+                "invalid": "<p>Incorrect.</p>"
               }
             },
             {
@@ -2693,7 +2693,7 @@
             {
               "id": "649c29ee-0b22-4da3-ba2a-036bb3016425",
               "type": "qrocm",
-              "instruction": "<p>Combien cet article a-t-il de Notes et références ? </p>",
+              "instruction": "<p>Dans cet article, combien y a-t-il de Notes et références ? </p>",
               "proposals": [
                 {
                   "type": "text",
@@ -2718,7 +2718,7 @@
               ],
               "feedbacks": {
                 "valid": "<p>Correct !</p>",
-                "invalid": "<p>Incorrect !</p>"
+                "invalid": "<p>Incorrect.</p>"
               }
             },
             {
@@ -2764,7 +2764,7 @@
               ],
               "feedbacks": {
                 "valid": "<p>Correct !</p>",
-                "invalid": "<p>Incorrect !</p>"
+                "invalid": "<p>Incorrect.</p>"
               }
             }
           ]
