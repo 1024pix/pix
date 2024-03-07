@@ -11,7 +11,9 @@ import {
   SUP_ORGANIZATION_USER_ID,
   SUP_MANAGING_ORGANIZATION_ID,
   SCO_MANAGING_ORGANIZATION_ID,
+  SCO_FREGATA_MANAGING_ORGANIZATION_ID,
   FEATURE_PLACES_MANAGEMENT_ID,
+  AGRICULTURE_TAG,
 } from './constants.js';
 
 import { organization } from './tooling/index.js';
@@ -39,6 +41,19 @@ async function _createScoOrganization(databaseBuilder) {
     adminIds: [SCO_ORGANIZATION_USER_ID],
     memberIds: [ALL_ORGANIZATION_USER_ID],
     featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
+  });
+
+  await organization.createOrganization({
+    databaseBuilder,
+    organizationId: SCO_FREGATA_MANAGING_ORGANIZATION_ID,
+    type: 'SCO',
+    name: 'SCO Orga - FREGATA Managing Students',
+    isManagingStudents: true,
+    externalId: 'SCO_FREGATA_MANAGING',
+    adminIds: [SCO_ORGANIZATION_USER_ID],
+    memberIds: [ALL_ORGANIZATION_USER_ID],
+    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
+    tagIds: [AGRICULTURE_TAG.id],
   });
 }
 
