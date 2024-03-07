@@ -1,6 +1,8 @@
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 import * as flashAlgorithmConfigurationRepository from '../../../../../../../api/src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithmConfiguration.js';
-import { databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
+import dayjs from 'dayjs';
+import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 
 describe('Integration | Infrastructure | Repository | FlashAlgorithmConfigurationRepository', function () {
   describe('#save', function () {
@@ -208,6 +210,90 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
 
         // then
         expect(configResult).to.be.instanceOf(FlashAssessmentAlgorithmConfiguration);
+      });
+    });
+  });
+
+  describe('#getMostRecentBeforeDate', function () {
+    const firstConfigDate = new Date('2020-01-01T08:00:00Z');
+    const firstConfigVariationPercent = 0.1;
+
+    const secondConfigDate = new Date('2021-01-01T08:00:00Z');
+    const secondConfigVariationPercent = 0.2;
+
+    const thirdConfigDate = new Date('2022-01-01T08:00:00Z');
+    const thirdConfigVariationPercent = 0.3;
+
+    describe('when there are saved configurations', function () {
+      let firstConfiguration;
+      let thirdConfiguration;
+
+      beforeEach(async function () {
+        firstConfiguration = databaseBuilder.factory.buildFlashAlgorithmConfiguration({
+          createdAt: firstConfigDate,
+          variationPercent: firstConfigVariationPercent,
+        });
+        databaseBuilder.factory.buildFlashAlgorithmConfiguration({
+          createdAt: secondConfigDate,
+          variationPercent: secondConfigVariationPercent,
+        });
+        thirdConfiguration = databaseBuilder.factory.buildFlashAlgorithmConfiguration({
+          createdAt: thirdConfigDate,
+          variationPercent: thirdConfigVariationPercent,
+        });
+        await databaseBuilder.commit();
+      });
+
+      describe('when date is more recent than the latest configuration', function () {
+        it('should return the latest configuration', async function () {
+          // given
+          const date = dayjs(thirdConfigDate).add(7, 'day').toDate();
+
+          // when
+          const configResult = await flashAlgorithmConfigurationRepository.getMostRecentBeforeDate(date);
+
+          // then
+          expect(configResult.toDTO()).to.deep.equal(thirdConfiguration);
+        });
+      });
+
+      describe('when date is between the first and second configuration', function () {
+        it('should return the first configuration', async function () {
+          // given
+          const date = dayjs(firstConfigDate).add(7, 'day').toDate();
+
+          // when
+          const configResult = await flashAlgorithmConfigurationRepository.getMostRecentBeforeDate(date);
+
+          // then
+          expect(configResult.toDTO()).to.deep.equal(firstConfiguration);
+        });
+      });
+
+      describe('when date is older than the first configuration', function () {
+        it('should return the first configuration', async function () {
+          // given
+          const date = dayjs(firstConfigDate).subtract(7, 'day').toDate();
+
+          // when
+          const configResult = await flashAlgorithmConfigurationRepository.getMostRecentBeforeDate(date);
+
+          // then
+          expect(configResult.toDTO()).to.deep.equal(firstConfiguration);
+        });
+      });
+    });
+
+    describe('when there is no saved configuration', function () {
+      it('should throw a not found error', async function () {
+        // given
+        const configDate = new Date('2020-01-01T08:00:00Z');
+
+        // when
+        const error = await catchErr(flashAlgorithmConfigurationRepository.getMostRecentBeforeDate)(configDate);
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });
