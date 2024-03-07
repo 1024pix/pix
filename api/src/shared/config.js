@@ -361,7 +361,7 @@ const configuration = (function () {
       redisUrl: process.env.REDIS_URL,
     },
     v3Certification: {
-      numberOfChallengesPerCourse: process.env.V3_CERTIFICATION_NUMBER_OF_CHALLENGES_PER_COURSE || 20,
+      numberOfChallengesPerCourse: parseInt(process.env.V3_CERTIFICATION_NUMBER_OF_CHALLENGES_PER_COURSE, 10) || 20,
       defaultProbabilityToPickChallenge: parseInt(process.env.DEFAULT_PROBABILITY_TO_PICK_CHALLENGE, 10) || 51,
       defaultCandidateCapacity: -3,
       challengesBetweenSameCompetence: 2,
