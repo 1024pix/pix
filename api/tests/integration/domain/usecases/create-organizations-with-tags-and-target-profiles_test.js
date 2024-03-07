@@ -113,10 +113,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
             message: 'Le nom n’est pas renseigné.',
           },
           {
-            attribute: 'tags',
-            message: 'Les tags ne sont pas renseignés.',
-          },
-          {
             attribute: 'locale',
             message: "La locale doit avoir l'une des valeurs suivantes : en, fr, fr-be, fr-fr, nl-be",
           },
