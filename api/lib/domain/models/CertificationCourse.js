@@ -244,6 +244,10 @@ class CertificationCourse {
     return this._maxReachableLevelOnCertificationDate;
   }
 
+  getStartDate() {
+    return this._createdAt;
+  }
+
   getNumberOfChallenges() {
     if (this.isV3()) {
       return this._numberOfChallenges;
