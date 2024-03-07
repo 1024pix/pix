@@ -1,5 +1,6 @@
 import { getReadyIdentityProviders } from '../../../../lib/domain/usecases/get-ready-identity-providers.js';
 import { expect, sinon } from '../../../test-helper.js';
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 
 describe('Unit | UseCase | get-ready-identity-providers', function () {
   describe('when an audience is provided', function () {
@@ -16,7 +17,7 @@ describe('Unit | UseCase | get-ready-identity-providers', function () {
 
         // when
         const identityProviders = getReadyIdentityProviders({
-          audience: 'admin',
+          audience: PIX_ADMIN.AUDIENCE,
           authenticationServiceRegistry: authenticationServiceRegistryStub,
         });
 
