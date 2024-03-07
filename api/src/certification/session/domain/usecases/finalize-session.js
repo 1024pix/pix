@@ -32,11 +32,13 @@ const finalizeSession = async function ({
   hasIncident,
   hasJoiningIssue,
 }) {
-  const isSessionAlreadyFinalized = await sessionRepository.isFinalized(sessionId);
+  const isSessionAlreadyFinalized = await sessionRepository.isFinalized({ id: sessionId });
 
-  const hasNoStartedCertification = await sessionRepository.hasNoStartedCertification(sessionId);
+  const hasNoStartedCertification = await sessionRepository.hasNoStartedCertification({ id: sessionId });
 
-  const uncompletedCertificationCount = await sessionRepository.countUncompletedCertificationsAssessment(sessionId);
+  const uncompletedCertificationCount = await sessionRepository.countUncompletedCertificationsAssessment({
+    id: sessionId,
+  });
 
   const abortReasonCount = _countAbortReasons(certificationReports);
 

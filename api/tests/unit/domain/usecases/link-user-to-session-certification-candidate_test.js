@@ -24,7 +24,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
       const sessionRepository = {
         get: sinon.stub(),
       };
-      sessionRepository.get.withArgs(42).resolves(domainBuilder.buildSession.finalized());
+      sessionRepository.get.withArgs({ id: 42 }).resolves(domainBuilder.buildSession.finalized());
 
       // when
       const err = await catchErr(linkUserToSessionCertificationCandidate)({
@@ -46,7 +46,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
     beforeEach(function () {
       sessionRepository.get = sinon.stub();
-      sessionRepository.get.withArgs(42).resolves(domainBuilder.buildSession.created());
+      sessionRepository.get.withArgs({ id: 42 }).resolves(domainBuilder.buildSession.created());
     });
 
     context('when there is a problem with the personal info', function () {

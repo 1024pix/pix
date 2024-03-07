@@ -30,7 +30,7 @@ describe('Unit | UseCase | delete-certification-issue-report', function () {
 
   it('should throw a ForbiddenAccess error when session is already finalized', async function () {
     // given
-    sessionRepository.isFinalized.withArgs(sessionId).resolves(true);
+    sessionRepository.isFinalized.withArgs({ id: sessionId }).resolves(true);
 
     // when
     const error = await catchErr(deleteCertificationIssueReport)({
@@ -48,8 +48,8 @@ describe('Unit | UseCase | delete-certification-issue-report', function () {
   it('should return deletion result', async function () {
     // given
     const deletionResult = Symbol('someValue');
-    sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
-    certificationIssueReportRepository.remove.withArgs(certificationIssueReportId).resolves(deletionResult);
+    sessionRepository.isFinalized.withArgs({ id: sessionId }).resolves(false);
+    certificationIssueReportRepository.remove.withArgs({ id: certificationIssueReportId }).resolves(deletionResult);
 
     // when
     const actualDeletionResult = await deleteCertificationIssueReport({

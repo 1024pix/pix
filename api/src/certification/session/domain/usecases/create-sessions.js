@@ -82,7 +82,7 @@ async function _saveNewSessionReturningId({ sessionRepository, sessionDTO, domai
     ...sessionDTO,
     version: isV3Pilot ? CertificationVersion.V3 : CertificationVersion.V2,
   });
-  return await sessionRepository.save(sessionToSave, domainTransaction);
+  return await sessionRepository.save({ session: sessionToSave, domainTransaction });
 }
 
 async function _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction }) {

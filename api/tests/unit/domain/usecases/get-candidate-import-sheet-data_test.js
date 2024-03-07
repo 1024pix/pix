@@ -19,14 +19,16 @@ describe('Unit | UseCase | get-candidate-import-sheet-data', function () {
     // given
     const userId = 123;
     const sessionId = 456;
-    sessionRepository.doesUserHaveCertificationCenterMembershipForSession.withArgs(userId, sessionId).resolves(true);
+    sessionRepository.doesUserHaveCertificationCenterMembershipForSession
+      .withArgs({ userId, sessionId })
+      .resolves(true);
     const session = domainBuilder.buildSession({
       certificationCandidates: [
         domainBuilder.buildCertificationCandidate(),
         domainBuilder.buildCertificationCandidate(),
       ],
     });
-    sessionRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(session);
+    sessionRepository.getWithCertificationCandidates.withArgs({ id: sessionId }).resolves(session);
     const complementaryCertification1 = domainBuilder.buildComplementaryCertification({ name: 'Pix+Droit' });
     const complementaryCertification2 = domainBuilder.buildComplementaryCertification({ name: 'Pix+Penché' });
     const certificationCenter = domainBuilder.buildCertificationCenter({

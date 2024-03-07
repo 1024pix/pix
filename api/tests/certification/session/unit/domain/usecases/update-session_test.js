@@ -25,8 +25,8 @@ describe('Unit | UseCase | update-session', function () {
       get: sinon.stub(),
       updateSessionInfo: sinon.stub(),
     };
-    sessionRepository.get.withArgs(originalSession.id).resolves(originalSession);
-    sessionRepository.updateSessionInfo.callsFake((updatedSession) => updatedSession);
+    sessionRepository.get.withArgs({ id: originalSession.id }).resolves(originalSession);
+    sessionRepository.updateSessionInfo.callsFake(({ session: updatedSession }) => updatedSession);
     sessionValidator = { validate: sinon.stub() };
     sessionValidator.validate.withArgs(originalSession).returns();
   });
@@ -56,7 +56,7 @@ describe('Unit | UseCase | update-session', function () {
 
       // then
       return promise.then((resultSession) => {
-        expect(sessionRepository.updateSessionInfo).to.have.been.calledWithExactly(updatedSession);
+        expect(sessionRepository.updateSessionInfo).to.have.been.calledWithExactly({ session: updatedSession });
         expect(resultSession.address).to.equal(updatedSession.address);
       });
     });
@@ -85,7 +85,7 @@ describe('Unit | UseCase | update-session', function () {
 
       // then
       return promise.then((resultSession) => {
-        expect(sessionRepository.updateSessionInfo).to.have.been.calledWithExactly(updatedSession);
+        expect(sessionRepository.updateSessionInfo).to.have.been.calledWithExactly({ session: updatedSession });
         expect(resultSession.address).to.equal(updatedSession.address);
       });
     });
@@ -94,7 +94,7 @@ describe('Unit | UseCase | update-session', function () {
   context('when an error occurred', function () {
     it('should throw an error when the session could not be retrieved', function () {
       // given
-      sessionRepository.get.withArgs(originalSession.id).rejects();
+      sessionRepository.get.withArgs({ id: originalSession.id }).rejects();
 
       // when
       const promise = updateSession({
@@ -124,7 +124,7 @@ describe('Unit | UseCase | update-session', function () {
 
     it('should throw an error when the session could not be updated', function () {
       // given
-      sessionRepository.updateSessionInfo.withArgs(originalSession).rejects();
+      sessionRepository.updateSessionInfo.withArgs({ session: originalSession }).rejects();
 
       // when
       const promise = updateSession({

@@ -32,7 +32,7 @@ async function publishSession({
   finalizedSessionRepository,
   sessionRepository,
 }) {
-  const session = await sessionRepository.getWithCertificationCandidates(sessionId);
+  const session = await sessionRepository.getWithCertificationCandidates({ id: sessionId });
   if (session.isPublished()) {
     throw new SessionAlreadyPublishedError();
   }
@@ -108,7 +108,7 @@ async function manageEmails({
  * @param {MailService} params.mailService
  */
 async function _manageCleaEmails({ session, certificationCenterRepository, sessionRepository, mailService }) {
-  const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(session.id);
+  const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired({ id: session.id });
   if (!hasSomeCleaAcquired) {
     logger.debug(`No CLEA certifications in session ${session.id}`);
     return;

@@ -24,7 +24,7 @@ const linkUserToSessionCertificationCandidate = async function ({
   organizationLearnerRepository,
   sessionRepository,
 }) {
-  const session = await sessionRepository.get(sessionId);
+  const session = await sessionRepository.get({ id: sessionId });
   if (!session.isAccessible()) {
     throw new SessionNotAccessible();
   }

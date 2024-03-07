@@ -49,7 +49,7 @@ const createSession = async function ({
     createdBy: userId,
   });
 
-  return sessionRepository.save(domainSession);
+  return sessionRepository.save({ session: domainSession });
 };
 
 export { createSession };

@@ -33,7 +33,7 @@ const retrieveLastOrCreateCertificationCourse = async function ({
   certificationBadgesService,
   verifyCertificateCodeService,
 }) {
-  const session = await sessionRepository.get(sessionId);
+  const session = await sessionRepository.get({ id: sessionId });
 
   _validateSessionAccess(session, accessCode);
   _validateSessionIsActive(session);

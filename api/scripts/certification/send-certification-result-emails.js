@@ -44,7 +44,7 @@ async function main() {
     let session;
 
     try {
-      session = await sessionRepository.getWithCertificationCandidates(parseInt(sessionId));
+      session = await sessionRepository.getWithCertificationCandidates({ id: parseInt(sessionId) });
     } catch (e) {
       logger.error({ e });
       return;

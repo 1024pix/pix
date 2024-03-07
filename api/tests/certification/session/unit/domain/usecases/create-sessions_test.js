@@ -89,7 +89,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
 
           // then
           const expectedSession = new Session({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
-          expect(sessionRepository.save).to.have.been.calledOnceWith(expectedSession, domainTransaction);
+          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
           expect(certificationCandidateRepository.saveInSession).to.not.have.been.called;
         });
       });
@@ -134,7 +134,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
 
           // then
           const expectedSession = new Session({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
-          expect(sessionRepository.save).to.have.been.calledOnceWith(expectedSession, domainTransaction);
+          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
           expect(certificationCandidateRepository.saveInSession).to.have.been.calledOnceWith({
             sessionId: 1234,
             certificationCandidate,
@@ -186,7 +186,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
             version: CertificationVersion.V3,
             createdBy: sessionCreatorId,
           });
-          expect(sessionRepository.save).to.have.been.calledOnceWith(expectedSession, domainTransaction);
+          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
         });
       });
 
@@ -234,7 +234,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
             version: CertificationVersion.V2,
             createdBy: sessionCreatorId,
           });
-          expect(sessionRepository.save).to.have.been.calledOnceWith(expectedSession, domainTransaction);
+          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
         });
       });
     });
