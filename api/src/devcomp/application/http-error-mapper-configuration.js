@@ -1,5 +1,5 @@
 import { HttpErrors } from '../../shared/application/http-errors.js';
-import { ModuleDoesNotExistError, PassageDoesNotExistError } from '../domain/errors.js';
+import { ModuleDoesNotExistError, PassageDoesNotExistError, PassageTerminatedError } from '../domain/errors.js';
 import { DomainErrorMappingConfiguration } from '../../shared/application/models/domain-error-mapping-configuration.js';
 
 const devcompDomainErrorMappingConfiguration = [
@@ -13,6 +13,12 @@ const devcompDomainErrorMappingConfiguration = [
     name: PassageDoesNotExistError.name,
     httpErrorFn: (error) => {
       return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
+    },
+  },
+  {
+    name: PassageTerminatedError.name,
+    httpErrorFn: (error) => {
+      return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
     },
   },
 ].map((domainErrorMappingConfiguration) => new DomainErrorMappingConfiguration(domainErrorMappingConfiguration));

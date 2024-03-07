@@ -12,10 +12,16 @@ class PassageDoesNotExistError extends DomainError {
   }
 }
 
+class PassageTerminatedError extends DomainError {
+  constructor(message = 'This passage is terminated') {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToFindTrainings extends DomainError {
   constructor(message = 'This user is not authorized to access the trainings.') {
     super(message);
   }
 }
 
-export { ModuleDoesNotExistError, PassageDoesNotExistError, UserNotAuthorizedToFindTrainings };
+export { ModuleDoesNotExistError, PassageDoesNotExistError, PassageTerminatedError, UserNotAuthorizedToFindTrainings };

@@ -1,7 +1,11 @@
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 import * as moduleUnderTest from '../../../../../src/devcomp/application/passages/index.js';
 import { passageController } from '../../../../../src/devcomp/application/passages/controller.js';
-import { ModuleDoesNotExistError, PassageDoesNotExistError } from '../../../../../src/devcomp/domain/errors.js';
+import {
+  ModuleDoesNotExistError,
+  PassageDoesNotExistError,
+  PassageTerminatedError,
+} from '../../../../../src/devcomp/domain/errors.js';
 
 describe('Integration | Devcomp | Application | Passage | Router | passage-router', function () {
   describe('POST /api/passages/', function () {
@@ -49,6 +53,29 @@ describe('Integration | Devcomp | Application | Passage | Router | passage-route
 
         // then
         expect(response.statusCode).to.equal(422);
+      });
+    });
+
+    describe('when controller throw a PassageTerminatedError', function () {
+      it('should return a 412', async function () {
+        // given
+        sinon.stub(passageController, 'verifyAndSaveAnswer').throws(new PassageTerminatedError());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+        const payload = {
+          data: {
+            attributes: {
+              'element-id': '69257809-d0fe-44c0-9a47-cbd89d9cbdc6',
+              'user-response': ['user-response'],
+            },
+          },
+        };
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/passages/123/answers', payload);
+
+        // then
+        expect(response.statusCode).to.equal(412);
       });
     });
   });

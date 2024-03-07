@@ -85,6 +85,7 @@ export default class ModulePassage extends Component {
 
   @action
   terminateModule() {
+    this.args.passage.terminate();
     return this.router.transitionTo('module.recap', this.args.module);
   }
 }

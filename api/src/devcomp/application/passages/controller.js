@@ -15,6 +15,12 @@ const verifyAndSaveAnswer = async function (request, h, { usecases, elementAnswe
   return h.response(serializedElementAnswer).created();
 };
 
-const passageController = { create, verifyAndSaveAnswer };
+const terminate = async function (request, h, { usecases, passageSerializer }) {
+  const { passageId } = request.params;
+  const updatedPassage = await usecases.terminatePassage({ passageId });
+  return passageSerializer.serialize(updatedPassage);
+};
+
+const passageController = { create, verifyAndSaveAnswer, terminate };
 
 export { passageController };

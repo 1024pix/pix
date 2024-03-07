@@ -86,4 +86,30 @@ describe('Unit | Devcomp | Application | Passages | Controller', function () {
       expect(result).to.equal(serializedElementAnswer);
     });
   });
+
+  describe('#terminate', function () {
+    it('should call terminate use-case and return serialized passage', async function () {
+      // given
+      const serializedPassage = Symbol('serialized modules');
+      const passageId = Symbol('passage-id');
+      const passage = Symbol('passage');
+      const usecases = {
+        terminatePassage: sinon.stub(),
+      };
+      usecases.terminatePassage.withArgs({ passageId }).returns(passage);
+      const passageSerializer = {
+        serialize: sinon.stub(),
+      };
+      passageSerializer.serialize.withArgs(passage).returns(serializedPassage);
+
+      // when
+      const returned = await passageController.terminate({ params: { passageId } }, null, {
+        passageSerializer,
+        usecases,
+      });
+
+      // then
+      expect(returned).to.deep.equal(serializedPassage);
+    });
+  });
 });
