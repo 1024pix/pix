@@ -1,6 +1,6 @@
 import { verifyAndSaveAnswer } from '../../../../../src/devcomp/domain/usecases/verify-and-save-answer.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
-import { PassageDoesNotExistError } from '../../../../../src/devcomp/domain/errors.js';
+import { PassageDoesNotExistError, PassageTerminatedError } from '../../../../../src/devcomp/domain/errors.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function () {
@@ -23,6 +23,34 @@ describe('Unit | Devcomp | Domain | UseCases | verify-and-save-answer', function
     });
 
     describe('when passage is found', function () {
+      it('should not verify if passage is terminated', async function () {
+        // given
+        const elementId = Symbol('elementId');
+        const passageId = Symbol('passageId');
+        const userResponse = Symbol('userResponse');
+        const moduleRepository = {};
+        const elementAnswerRepository = {};
+
+        const passageRepository = {
+          get: sinon.stub(),
+        };
+        const moduleId = Symbol('moduleId');
+        passageRepository.get.withArgs({ passageId }).resolves({ moduleId, terminatedAt: new Date('2023-12-31') });
+
+        // when
+        const error = await catchErr(verifyAndSaveAnswer)({
+          userResponse,
+          elementId,
+          passageId,
+          passageRepository,
+          moduleRepository,
+          elementAnswerRepository,
+        });
+
+        // then
+        expect(error).to.be.instanceof(PassageTerminatedError);
+      });
+
       it('should verify, save and return persisted corrected answer', async function () {
         // given
         const elementId = Symbol('elementId');

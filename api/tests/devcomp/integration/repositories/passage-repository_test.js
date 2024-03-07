@@ -67,6 +67,49 @@ describe('Integration | DevComp | Repositories | PassageRepository', function ()
     });
   });
 
+  describe('#update', function () {
+    let clock;
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(new Date('2024-01-02'), 'Date');
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('should update a passage', async function () {
+      // given
+      const passage = databaseBuilder.factory.buildPassage({
+        id: 1,
+        moduleId: 'my-module',
+        userId: null,
+        createdAt: new Date('2023-01-01'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const returnedPassage = await passageRepository.update({
+        passage: { ...passage, terminatedAt: new Date('2024-01-02') },
+      });
+
+      // then
+      expect(returnedPassage).to.be.instanceOf(Passage);
+      expect(returnedPassage.moduleId).to.equal(passage.moduleId);
+      expect(returnedPassage.userId).to.equal(passage.userId);
+      expect(returnedPassage.createdAt).to.deep.equal(passage.createdAt);
+      expect(returnedPassage.updatedAt).to.deep.equal(new Date('2024-01-02'));
+      expect(returnedPassage.terminatedAt).to.deep.equal(new Date('2024-01-02'));
+
+      const savedPassage = await knex('passages').where({ id: returnedPassage.id }).first();
+      expect(savedPassage.moduleId).to.equal(passage.moduleId);
+      expect(savedPassage.userId).to.equal(passage.userId);
+      expect(savedPassage.createdAt).to.deep.equal(passage.createdAt);
+      expect(savedPassage.updatedAt).to.deep.equal(new Date('2024-01-02'));
+      expect(savedPassage.terminatedAt).to.deep.equal(new Date('2024-01-02'));
+    });
+  });
+
   describe('#get', function () {
     describe('when passage exists', function () {
       it('should return the found passage', async function () {
@@ -85,6 +128,7 @@ describe('Integration | DevComp | Repositories | PassageRepository', function ()
             userId: passage.userId,
             createdAt: passage.createdAt,
             updatedAt: passage.updatedAt,
+            terminatedAt: passage.terminatedAt,
           }),
         );
       });

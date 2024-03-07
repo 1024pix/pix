@@ -6,6 +6,7 @@ const buildPassage = ({
   userId = null,
   createdAt = new Date('2024-01-01'),
   updatedAt = new Date('2024-01-01'),
+  terminatedAt = null,
 } = {}) => {
   const values = {
     id,
@@ -13,6 +14,7 @@ const buildPassage = ({
     userId,
     createdAt,
     updatedAt,
+    terminatedAt,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'passages',
