@@ -94,18 +94,6 @@ input[type='number'] {
   }
 }
 
-.select {
-  height: 46px;
-  font-size: 1rem;
-  background-color: white;
-  border: 2px $pix-neutral-20 solid;
-  outline: none;
-
-  &:focus {
-    border: 2px solid $pix-communication-dark;
-  }
-}
-
 .button {
   &--disabled {
     opacity: 0.7;
