@@ -1,5 +1,6 @@
 <div class="element-video">
   <div class="element-video__container">
+    {{! template-lint-disable require-media-caption }}
     <video
       {{did-insert this.launchPlyr}}
       id={{@video.id}}
@@ -10,7 +11,9 @@
       crossorigin
     >
       <source src={{@video.url}} type="video/mp4" />
-      <track kind="captions" label="Français" src={{@video.subtitles}} srclang="fr" default />
+      {{#if this.hasSubtitles}}
+        <track kind="captions" label="Français" src={{@video.subtitles}} srclang="fr" default />
+      {{/if}}
     </video>
   </div>
 

@@ -9,6 +9,10 @@ export default class ModuleVideo extends Component {
   @tracked modalIsOpen = false;
   @service metrics;
 
+  get hasSubtitles() {
+    return this.args.video.subtitles.length > 0;
+  }
+
   get hasTranscription() {
     return this.args.video.transcription.length > 0;
   }

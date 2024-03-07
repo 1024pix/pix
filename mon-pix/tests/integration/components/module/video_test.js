@@ -9,7 +9,7 @@ module('Integration | Component | Module | Video', function (hooks) {
 
   test('should display a video', async function (assert) {
     // given
-    const url = 'https://videos.pix.fr/modulix/chat_animation_2.webm';
+    const url = 'https://videos.pix.fr/modulix/placeholder-video.mp4';
 
     const videoElement = {
       url,
@@ -29,9 +29,49 @@ module('Integration | Component | Module | Video', function (hooks) {
     assert.ok(document.getElementsByClassName('pix-video-player'));
   });
 
+  test('should be able to use the subtitles track when provided', async function (assert) {
+    // given
+    const url = 'https://videos.pix.fr/modulix/placeholder-video.mp4';
+
+    const videoElement = {
+      url,
+      title: 'title',
+      subtitles: 'https://videos.pix.fr/modulix/placeholder-video.vtt',
+      transcription: 'transcription',
+    };
+
+    this.set('video', videoElement);
+
+    //  when
+    await render(hbs`<Module::Video @video={{this.video}}/>`);
+
+    // then
+    assert.dom('video > track').exists();
+  });
+
+  test('should not be able to use the subtitles track when there is none', async function (assert) {
+    // given
+    const url = 'https://videos.pix.fr/modulix/placeholder-video.mp4';
+
+    const videoElement = {
+      url,
+      title: 'title',
+      subtitles: '',
+      transcription: 'transcription',
+    };
+
+    this.set('video', videoElement);
+
+    //  when
+    await render(hbs`<Module::Video @video={{this.video}}/>`);
+
+    // then
+    assert.dom('video > track').doesNotExist();
+  });
+
   test('should be able to use the modal for transcription', async function (assert) {
     // given
-    const url = 'https://videos.pix.fr/modulix/chat_animation_2.webm';
+    const url = 'https://videos.pix.fr/modulix/placeholder-video.mp4';
 
     const videoElement = {
       url,
@@ -53,7 +93,7 @@ module('Integration | Component | Module | Video', function (hooks) {
 
   test('should not be able to open the modal if there is no transcription', async function (assert) {
     // given
-    const url = 'https://videos.pix.fr/modulix/chat_animation_2.webm';
+    const url = 'https://videos.pix.fr/modulix/placeholder-video.mp4';
 
     const video = {
       url,
