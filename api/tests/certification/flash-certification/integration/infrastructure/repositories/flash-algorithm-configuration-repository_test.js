@@ -115,7 +115,7 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
     });
   });
 
-  describe('#get', function () {
+  describe('#getMostRecent', function () {
     describe('when there is a saved configuration', function () {
       it('should return a flash algorithm configuration', async function () {
         // given
@@ -143,7 +143,7 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
         await databaseBuilder.commit();
 
         // when
-        const configResult = await flashAlgorithmConfigurationRepository.get();
+        const configResult = await flashAlgorithmConfigurationRepository.getMostRecent();
 
         // then
         expect(configResult.toDTO()).to.deep.equal(expectedFlashAlgorithmConfiguration.toDTO());
@@ -196,7 +196,7 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
         await databaseBuilder.commit();
 
         // when
-        const configResult = await flashAlgorithmConfigurationRepository.get();
+        const configResult = await flashAlgorithmConfigurationRepository.getMostRecent();
 
         // then
         expect(configResult.toDTO()).to.deep.equal(expectedFlashAlgorithmConfiguration.toDTO());
@@ -206,7 +206,7 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
     describe('when there is no saved configuration', function () {
       it('should return default configuration', async function () {
         // when
-        const configResult = await flashAlgorithmConfigurationRepository.get();
+        const configResult = await flashAlgorithmConfigurationRepository.getMostRecent();
 
         // then
         expect(configResult).to.be.instanceOf(FlashAssessmentAlgorithmConfiguration);
