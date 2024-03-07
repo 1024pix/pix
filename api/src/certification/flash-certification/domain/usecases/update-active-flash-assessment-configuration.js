@@ -9,6 +9,7 @@ export const updateActiveFlashAssessmentConfiguration = async ({
     new FlashAssessmentAlgorithmConfiguration({
       ...previousConfiguration,
       ...configuration,
+      createdAt: new Date(),
     }),
   );
 };
