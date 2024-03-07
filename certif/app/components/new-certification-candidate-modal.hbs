@@ -241,10 +241,9 @@
           @value={{@candidateData.resultRecipientEmail}}
           {{on "input" (fn @updateCandidateData @candidateData "resultRecipientEmail")}}
         />
-        <div class="new-certification-candidate-modal__form__field__info-panel">
-          <FaIcon @icon="info-circle" />
-          <span>{{t "pages.sessions.detail.candidates.add-modal.info-panel" htmlSafe=true}}</span>
-        </div>
+        <PixMessage class="new-certification-candidate-modal__form__field__info-panel" @withIcon={{true}}>
+          {{t "pages.sessions.detail.candidates.add-modal.info-panel" htmlSafe=true}}
+        </PixMessage>
       </div>
 
       <div id="email-container" class="new-certification-candidate-modal__form__field">
