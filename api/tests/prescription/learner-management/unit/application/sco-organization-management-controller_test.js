@@ -4,7 +4,6 @@ import { FileValidationError } from '../../../../../lib/domain/errors.js';
 import { scoOrganizationManagementController } from '../../../../../src/prescription/learner-management/application/sco-organization-management-controller.js';
 import { usecases } from '../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { catchErr, expect, hFake, sinon } from '../../../../test-helper.js';
-import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 describe('Unit | Application | Organizations | organization-controller', function () {
   describe('#importorganizationLearnersFromSIECLE', function () {
@@ -24,13 +23,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
     beforeEach(function () {
       sinon.stub(fs, 'unlink').resolves();
       sinon.stub(usecases, 'importOrganizationLearnersFromSIECLEXMLFormat');
+      sinon.stub(usecases, 'importOrganizationLearnersFromSIECLECSVFormat');
       usecases.importOrganizationLearnersFromSIECLEXMLFormat.resolves();
       dependencies = { logErrorWithCorrelationIds: sinon.stub() };
     });
 
     it('should delete uploaded file', async function () {
       // given
-      request.i18n = getI18n();
       hFake.request = {
         path: '/api/organizations/145/sco-organization-learners/import-siecle',
       };
@@ -45,7 +44,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // given
       const error = new Error();
       fs.unlink.rejects(error);
-      request.i18n = getI18n();
       hFake.request = {
         path: '/api/organizations/145/sco-organization-learners/import-siecle',
       };
@@ -58,10 +56,9 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(dependencies.logErrorWithCorrelationIds).to.have.been.calledWith(error);
     });
 
-    it('should call the usecase to import organizationLearners', async function () {
+    it('should call the usecase to import organizationLearners xml', async function () {
       // given
       const userId = 1;
-      request.i18n = getI18n();
       request.auth = { credentials: { userId } };
       hFake.request = {
         path: '/api/organizations/145/sco-organization-learners/import-siecle',
@@ -75,6 +72,28 @@ describe('Unit | Application | Organizations | organization-controller', functio
         userId,
         organizationId,
         payload,
+      });
+    });
+    it('should call the usecase to import organizationLearners csv', async function () {
+      // given
+      const userId = 1;
+      request.auth = { credentials: { userId } };
+      request.query.format = 'csv';
+      const i18n = Symbol('i18n');
+      request.i18n = i18n;
+      hFake.request = {
+        path: '/api/organizations/145/sco-organization-learners/import-siecle',
+      };
+
+      // when
+      await scoOrganizationManagementController.importOrganizationLearnersFromSIECLE(request, hFake, dependencies);
+
+      // then
+      expect(usecases.importOrganizationLearnersFromSIECLECSVFormat).to.have.been.calledWithExactly({
+        userId,
+        organizationId,
+        payload,
+        i18n,
       });
     });
     context('when file format is not supported', function () {
