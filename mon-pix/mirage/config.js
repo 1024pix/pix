@@ -35,6 +35,7 @@ import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
 import loadModuleRoutes from './routes/modules/index';
+import loadPassageRoutes from './routes/passages/index';
 
 export default function makeServer(config) {
   const finalConfig = {
@@ -69,6 +70,7 @@ function routes() {
   loadAccountRecoveryRoutes(this);
   loadUserTutorialsRoutes(this);
   loadModuleRoutes(this);
+  loadPassageRoutes(this);
 
   this.get('/assessments/:id/competence-evaluations', getCompetenceEvaluationsByAssessment);
 
