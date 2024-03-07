@@ -2739,21 +2739,21 @@
     {
       "id": "68f92c57-9e66-4258-a2f4-b71fad7ab004",
       "slug": "sources-informations",
-      "title": "Les sources d'informations",
+      "title": "Les sources d'information",
       "details": {
         "image": "https://images.pix.fr/modulix/placeholder-details.svg",
         "description": "Sur internet et les réseaux sociaux, il est parfois difficile de savoir si une information est vraie ou fausse. Dans ce module, vous allez découvrir pourquoi il est important de s’intéresser à la source d’une information pour démêler le vrai du faux.",
         "duration": 10,
         "level": "Débutant",
-        "objectives": ["Rechercher la source d’une information", "Connaître les différents types de sources d’information", "Repérer si une source d’information est sérieuse/fiable"]
+        "objectives": ["Rechercher la source d’une information", "Connaître les différents types de sources d’information", "Repérer si une source d’information est fiable"]
       },
       "transitionTexts": [
         {
-          "content": "<p>Léna et Elias discutent par SMS des Jeux Olympiques de 2029.<span aria-hidden=\"true\">🏅</span>️ Léna cherche à savoir si l’information donnée par Elias est vraie ou fausse.</p>",
+          "content": "<p>Léna et Elias discutent par SMS des Jeux asiatiques de 2029.<span aria-hidden=\"true\">🏅</span>️ Léna cherche à savoir si l’information donnée par Elias est vraie ou fausse.</p>",
           "grainId": "652a469a-36b8-41ae-8cc5-1853b35d08ef"
         },
         {
-          "content": "<p>Elias a posé plusieurs questions à Léna pour trouver l’origine de l’information. C’est ce que l’on appelle la <strong>source d’une information</strong> <span aria-hidden=\"true\">ℹ️</span>️<br>On vous explique tout dans la leçon suivante.</p>",
+          "content": "<p>Léna a posé plusieurs questions à Elias pour trouver l’origine de l’information. C’est ce qu’on appelle la <strong>source d’une information. </strong> <span aria-hidden=\"true\">ℹ️</span>️<br>On vous explique tout dans la leçon suivante.</p>",
           "grainId": "54cc6a3f-9603-4863-9ba4-052210425be2"
         },
         {
@@ -2782,7 +2782,7 @@
             {
               "id": "30b9ada4-a87a-4dfb-baa2-d97925b0bba5",
               "type": "text",
-              "content": "<p>Lancez la vidéo pour voir leur discussion.<br>Après la vidéo, vous devrez vous demandez si l’information d’Elias est plutôt vraie ou plutôt fausse.</p>"
+              "content": "<p>Lancez la vidéo pour voir leur discussion.<br>En regardant cette vidéo, posez-vous la question suivante&nbsp;: <strong>est-ce que l'information donnée par Elias est plutôt vraie ou plutôt fausse&nbsp;?</strong></p>"
             },
             {
               "id": "646da25e-81c2-44ef-a5da-ae0a43666389",
@@ -2793,9 +2793,9 @@
               "transcription": "<ul><li>Elias : Les Jeux Olympiques d’hiver de 2029 auront lieu dans le désert !</li><li>Léna : T’es sûr ? Comment tu le sais ?</li><li>Elias : C’est Sandy qui me l’a dit.</li></ul>"
             },
             {
-              "id": "10710a38-dddb-458e-aa6e-c757fd74f243",
+              "id": "a2f57d43-a8a1-4659-8730-f5cd39c350e0",
               "type": "text",
-              "content": "<p><span aria-hidden=\"true\">❓</span>️ Posez-vous cette question : est-ce que l'information donnée par Elias est plutôt vraie ou plutôt fausse ?</p>"
+              "content": "<p><span aria-hidden=\"true\">👉</span>️ C'est assez dur de savoir. On ne sait pas comment Sandy a obtenu cette information.</p>"
             },
             {
               "id": "fde494a5-02ab-4b2b-a6c0-ebbdfa59a9c2",
@@ -2803,9 +2803,9 @@
               "content": "<hr>"
             },
             {
-              "id": "a2f57d43-a8a1-4659-8730-f5cd39c350e0",
+              "id": "500e4777-098d-4e6d-b1bd-cef2ffab221a",
               "type": "text",
-              "content": "<p><span aria-hidden=\"true\">👉</span>️ C'est assez dur de savoir. On ne sait pas comment Sandy a obtenu cette information.<br>Voici la suite de la discussion entre Elias et Léna. Après la vidéo, vous devrez choisir si l’information d’Elias est plutôt vraie ou plutôt fausse.</p>"
+              "content": "<p>Voici la suite de la discussion entre Elias et Léna. Après la vidéo, vous devrez choisir si l’information d’Elias est plutôt vraie ou plutôt fausse.</p>"
             },
             {
               "id": "b78ca338-28c5-4a95-9513-3824997aa841",
@@ -2855,7 +2855,7 @@
             {
               "id": "81f2c1af-aeef-4d68-93a9-f4dd3cf1f8bc",
               "type": "text",
-              "content": "<h3>C'est quoi une source d'information ?</h3><p><span aria-hidden=\"true\">👉</span>️ La source est l’origine de l’information. C’est quelqu’un qui donne des détails sur une information car il en a été témoin.</p><p><span aria-hidden=\"true\">✅</span>️ Exemple : si ma voisine Madame Sarah me dit qu'il y a une soucoupe volante dans le ciel, c'est elle la source de cette information.</p>"
+              "content": "<h3>C'est quoi une source d'information ?</h3><p><span aria-hidden=\"true\">👉</span>️ La source est l’origine de l’information. C’est quelqu’un qui donne des détails sur une information.</p><p><span aria-hidden=\"true\">✅</span>️ Exemple : si ma voisine Madame Sarah me dit qu'il y a une soucoupe volante dans le ciel, c'est elle la source de cette information.</p>"
             },
             {
               "id": "a91f12e7-a297-4dc0-9f81-2a0ccbaba3f8",
@@ -2865,7 +2865,7 @@
             {
               "id": "e3ebd36a-c8b9-4990-af63-061329824708",
               "type": "text",
-              "content": "<h3>Comment savoir si l'on peut croire une source ?</h3><span aria-hidden=\"true\">👉</span>️ Il faut se poser quelques questions sur cette source : <ul><li>la source est-elle experte du sujet ?</li><li>la source est-elle influencée par ses émotions ou ses intérêts ?</li></ul><p><span aria-hidden=\"true\">✅</span>️ Exemple : Madame Sarah a l'impression d'avoir vu une soucoupe dans le ciel. Elle a interprété ce qu'elle a vu. Ce n'est peut-être pas une source fiable.</p>"
+              "content": "<h3>Comment savoir si on peut croire une source ?</h3><span aria-hidden=\"true\">👉</span>️ Il faut se poser quelques questions sur cette source : <ul><li>la source est-elle experte du sujet ?</li><li>la source est-elle influencée par ses émotions ou ses intérêts ?</li></ul><p><span aria-hidden=\"true\">✅</span>️ Exemple : Madame Sarah a l'impression d'avoir vu une soucoupe dans le ciel. Elle a interprété ce qu'elle a vu. Ce n'est peut-être pas une source fiable.</p>"
             }
           ]
         },
@@ -2967,7 +2967,7 @@
             {
               "id": "9723333b-6378-4dbd-84a2-92a8fc1cc41a",
               "type": "text",
-              "content": "<h3>Certaines sources d'information sont <strong>fiables</strong>. <span aria-hidden=\"true\">👍</span>️</h3><p>Le but de ces sources est d'informer et de partager des informations qui ont beaucoup de chances d'être vraies.</p>"
+              "content": "<h3>Certaines sources d'information sont <strong>fiables</strong>. <span aria-hidden=\"true\">👍</span>️</h3><p>Le but de ces sources est d'informer et de partager des informations vérifiées, qui ont donc beaucoup de chances d'être vraies.</p>"
             },
             {
               "id": "2fe6bf3f-c77c-4e21-a57e-8be804171e00",
@@ -2987,7 +2987,7 @@
             {
               "id": "e22b6b68-a154-4b5a-a896-5b36eb6127a3",
               "type": "text",
-              "content": "<h3>Certaines sources d'information sont <strong>contestables</strong>. <span aria-hidden=\"true\">🤨</span>️</h3><p>Le but de ces sources est d'influencer ou de manipuler et de partager des informations. Cela peut les aider notamment à gagner de l'argent ou du pouvoir.</p>"
+              "content": "<h3>Certaines sources d'information sont <strong>contestables</strong>. <span aria-hidden=\"true\">🤨</span>️</h3><p>Le but de ces sources est d'influencer ou de manipuler les gens. Mais le partage de ces informations a pour principal objectif de gagner de l'argent ou du pouvoir. Ces informations peuvent donc être remises en question.</p>"
             }
           ]
         },
@@ -2999,7 +2999,7 @@
             {
               "id": "714fd0bb-9252-4c53-a1a2-ce4168e76a1b",
               "type": "text",
-              "content": "<p>Pour chaque publication, choisir si elle est fiable, humoristique ou parodique.</p>"
+              "content": "<p>Pour chaque publication, choisissez si elle est fiable, humoristique ou parodique.</p>"
             },
             {
               "id": "d1fa2ea9-1a79-440a-81e4-b2fbee429740",
@@ -3016,7 +3016,7 @@
             {
               "id": "69460323-29ca-4859-9581-fd67bc4cc84b",
               "type": "qcu",
-              "instruction": "<p>Quel est le type de cette source ?</p>",
+              "instruction": "<p>Quel mot décrit le mieux cette source ?</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -3052,7 +3052,7 @@
             {
               "id": "ff187918-225d-49de-99dd-2a316ccd09bf",
               "type": "qcu",
-              "instruction": "<p>Quel est le type de cette source ?</p>",
+              "instruction": "<p>Quel mot décrit le mieux cette source ?</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -3088,7 +3088,7 @@
             {
               "id": "9e252501-ecb0-46dc-ae3e-f5646e7cc252",
               "type": "qcu",
-              "instruction": "<p>Quel est le type de cette source ?</p>",
+              "instruction": "<p>Quel mot décrit le mieux cette source ?</p>",
               "proposals": [
                 {
                   "id": "1",
