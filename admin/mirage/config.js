@@ -1,24 +1,20 @@
 import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
-import { Response, createServer } from 'miragejs';
+import { createServer, Response } from 'miragejs';
 
+import { createAdminMember } from './handlers/admin-members';
 import {
-  attachOrganizationsFromExistingTargetProfile,
-  attachTargetProfiles,
-  attachTargetProfileToOrganizations,
-  createTargetProfile,
-  findOrganizationTargetProfileSummaries,
-  findPaginatedTargetProfileOrganizations,
-  findPaginatedFilteredTargetProfileSummaries,
-  findTargetProfileBadges,
-  updateTargetProfileStageCollection,
-  outdate,
-  updateTargetProfile,
-  createBadge,
-  markTargetProfileAsSimplifiedAccess,
-} from './handlers/target-profiles';
-import { createOrganizationMembership } from './handlers/organization-memberships';
-import { createStage } from './handlers/stages';
+  createAutonomousCourse,
+  findAutonomousCourseTargetProfiles,
+  getAutonomousCourseDetails,
+  getPaginatedAutonomousCourses,
+  updateAutonomousCourse,
+} from './handlers/autonomous-courses';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
+import { findFrameworkAreas } from './handlers/frameworks';
+import { getPaginatedJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
+import { getToBePublishedSessions } from './handlers/get-to-be-published-sessions';
+import { getWithRequiredActionSessions } from './handlers/get-with-required-action-sessions';
+import { createOrganizationMembership } from './handlers/organization-memberships';
 import {
   archiveOrganization,
   findPaginatedOrganizationMemberships,
@@ -26,27 +22,31 @@ import {
   getOrganizationPlaces,
   getOrganizationPlacesCapacity,
 } from './handlers/organizations';
-import { getPaginatedJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
-import { createAdminMember } from './handlers/admin-members';
+import { createStage } from './handlers/stages';
+import {
+  attachOrganizationsFromExistingTargetProfile,
+  attachTargetProfiles,
+  attachTargetProfileToOrganizations,
+  createBadge,
+  createTargetProfile,
+  findOrganizationTargetProfileSummaries,
+  findPaginatedFilteredTargetProfileSummaries,
+  findPaginatedTargetProfileOrganizations,
+  findTargetProfileBadges,
+  markTargetProfileAsSimplifiedAccess,
+  outdate,
+  updateTargetProfile,
+  updateTargetProfileStageCollection,
+} from './handlers/target-profiles';
 import {
   attachTargetProfilesToTraining,
   createOrUpdateTrainingTrigger,
   createTraining,
   findPaginatedTrainingSummaries,
-  getTraining,
   getTargetProfileSummariesForTraining,
+  getTraining,
   updateTraining,
 } from './handlers/trainings';
-import { findFrameworkAreas } from './handlers/frameworks';
-import { getWithRequiredActionSessions } from './handlers/get-with-required-action-sessions';
-import { getToBePublishedSessions } from './handlers/get-to-be-published-sessions';
-import {
-  findAutonomousCourseTargetProfiles,
-  createAutonomousCourse,
-  getAutonomousCourseDetails,
-  updateAutonomousCourse,
-  getPaginatedAutonomousCourses,
-} from './handlers/autonomous-courses';
 
 export default function makeServer(config) {
   const finalConfig = {

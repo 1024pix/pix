@@ -1,7 +1,8 @@
-import { module, test } from 'qunit';
-import { render, fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | certification-centers/creation-form', function (hooks) {

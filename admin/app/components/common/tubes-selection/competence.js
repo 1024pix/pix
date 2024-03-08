@@ -1,5 +1,6 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import Component from '@glimmer/component';
+
 import { isTubeSelected } from '../../../helpers/is-tube-selected';
 
 export default class Competence extends Component {

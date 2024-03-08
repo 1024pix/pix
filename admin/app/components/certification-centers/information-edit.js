@@ -1,6 +1,7 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
+
 import { types } from '../../models/certification-center';
 
 export default class InformationEdit extends Component {

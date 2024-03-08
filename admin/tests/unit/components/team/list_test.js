@@ -1,6 +1,7 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | team | list', function (hooks) {

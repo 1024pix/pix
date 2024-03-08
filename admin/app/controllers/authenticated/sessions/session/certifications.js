@@ -1,10 +1,9 @@
-import some from 'lodash/some';
-
-import { service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
 import Controller from '@ember/controller';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { action, computed } from '@ember/object';
+import { service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import some from 'lodash/some';
 
 const DEFAULT_PAGE_NUMBER = 1;
 export default class ListController extends Controller {

@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import { click } from '@ember/test-helpers';
-import sinon from 'sinon';
 import { render } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Integration | Component | Organizations | Places | List', function (hooks) {
   setupRenderingTest(hooks);

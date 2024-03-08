@@ -1,9 +1,10 @@
-import { module, test } from 'qunit';
-import { currentURL, click } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
+import { module, test } from 'qunit';
+
 import { createLearningContent } from '../../../../../mirage/helpers/create-learning-content';
 
 module('Acceptance | Target profile creation', function (hooks) {

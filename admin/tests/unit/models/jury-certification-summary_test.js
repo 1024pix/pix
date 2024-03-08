@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { certificationStatuses } from 'pix-admin/models/certification';
+import { module, test } from 'qunit';
 
 module('Unit | Model | jury-certification-summary', function (hooks) {
   setupTest(hooks);

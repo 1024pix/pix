@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
-import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import get from 'lodash/get';
 
 export default class AuthenticatedOrganizationsGetChildrenController extends Controller {

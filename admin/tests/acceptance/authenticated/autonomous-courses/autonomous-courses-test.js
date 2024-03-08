@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import setupIntl from '../../../helpers/setup-intl';
 import { fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
-import { currentURL, click } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+
+import setupIntl from '../../../helpers/setup-intl';
 
 module('Acceptance | Autonomous courses', function (hooks) {
   setupApplicationTest(hooks);

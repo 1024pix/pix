@@ -1,6 +1,7 @@
-import { memberAction } from 'ember-api-actions';
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { service } from '@ember/service';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import { memberAction } from 'ember-api-actions';
+
 import formatList from '../utils/format-select-options';
 
 export const categories = {

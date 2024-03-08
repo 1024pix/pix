@@ -1,8 +1,9 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import isEmailValid from '../../../../utils/email-validator';
 import { tracked } from '@glimmer/tracking';
+
+import isEmailValid from '../../../../utils/email-validator';
 
 export default class AuthenticatedCertificationCentersGetTeamController extends Controller {
   @service notifications;
