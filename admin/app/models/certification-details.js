@@ -6,6 +6,8 @@ import { memberAction } from 'ember-api-actions';
 import groupBy from 'lodash/groupBy';
 import sortBy from 'lodash/sortBy';
 
+const PIX_PLUS_INDEX = '';
+
 export default class CertificationDetails extends Model {
   @attr() competencesWithMark;
   @attr() totalScore;
@@ -35,6 +37,13 @@ export default class CertificationDetails extends Model {
         answers: answersByCompetence[competenceWithMark.index],
       };
     });
+    if (this.#includePixPlusCompetences(answersByCompetence)) {
+      competences.push({
+        index: PIX_PLUS_INDEX,
+        name: 'Pix +',
+        answers: answersByCompetence[PIX_PLUS_INDEX],
+      });
+    }
 
     return sortBy(competences, 'index');
   }
@@ -74,4 +83,8 @@ export default class CertificationDetails extends Model {
       };
     },
   });
+
+  #includePixPlusCompetences(answersByCompetence) {
+    return answersByCompetence[PIX_PLUS_INDEX];
+  }
 }
