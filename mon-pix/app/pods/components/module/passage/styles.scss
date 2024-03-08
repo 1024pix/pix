@@ -54,6 +54,10 @@
     opacity: 0.6;
   }
 
+  code {
+    font-family: var(--pix-font-family-monospace);
+  }
+
   &__title {
     @extend %pix-title-m;
 
