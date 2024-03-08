@@ -966,6 +966,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
           const organizationLearners = await knex('organization-learners').where({ organizationId });
           expect(organizationLearners).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
+          expect(response.result.errors).lengthOf(1);
           expect(response.result.errors[0].code).to.equal('FIELD_REQUIRED');
           expect(response.result.errors[0].meta.field).to.equal('Nom de famille*');
         });
