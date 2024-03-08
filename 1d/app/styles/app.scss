@@ -29,7 +29,11 @@ b {
   // Simuler l'affichage d'une tablette
   max-width: 1194px;
   min-height: 100vh;
-  margin: auto;
+  margin: auto 10%;
+
+  @include device-is('large-screen') {
+    margin: auto;
+  }
 }
 
 footer {
