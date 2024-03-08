@@ -1,6 +1,7 @@
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { click, fillIn, triggerKeyEvent } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { clickByName, visit } from '@1024pix/ember-testing-library';
+
 import { setupApplicationTest } from '../helpers';
 
 module('Acceptance | Displaying a QROCM challenge', function (hooks) {

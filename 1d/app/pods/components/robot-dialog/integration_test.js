@@ -1,6 +1,7 @@
-import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
 import { setupRenderingTest } from '../../../helpers/tests';
 
 module('Integration | Component | Robot dialog', function (hooks) {

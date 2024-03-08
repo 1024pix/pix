@@ -1,5 +1,6 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
+
 import { setupApplicationTest } from '../helpers';
 
 module('Acceptance | Challenge', function (hooks) {

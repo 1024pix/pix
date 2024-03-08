@@ -1,6 +1,7 @@
-import { module, test } from 'qunit';
-import { setupTest } from '../../helpers/index';
 import * as markdownConverter from '1d/utils/markdown-converter';
+import { module, test } from 'qunit';
+
+import { setupTest } from '../../helpers/index';
 
 module('Unit | Utils | MarkdownConverter', function (hooks) {
   setupTest(hooks);

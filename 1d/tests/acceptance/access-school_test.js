@@ -1,8 +1,9 @@
 import { clickByText, visit } from '@1024pix/ember-testing-library';
-import { module, test } from 'qunit';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
-import identifyLearner from '../helpers/identify-learner';
+import { module, test } from 'qunit';
+
 import { setupApplicationTest } from '../../tests/helpers';
+import identifyLearner from '../helpers/identify-learner';
 
 module('Acceptance | School', function (hooks) {
   setupApplicationTest(hooks);

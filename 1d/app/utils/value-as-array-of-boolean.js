@@ -1,13 +1,13 @@
-import flow from 'lodash/fp/flow';
-import split from 'lodash/fp/split';
-import map from 'lodash/fp/map';
-import filter from 'lodash/fp/filter';
-import sortBy from 'lodash/fp/sortBy';
-import isString from 'lodash/isString';
-import trim from 'lodash/trim';
 import compact from 'lodash/fp/compact';
+import filter from 'lodash/fp/filter';
+import flow from 'lodash/fp/flow';
+import map from 'lodash/fp/map';
+import sortBy from 'lodash/fp/sortBy';
 import sortedUniq from 'lodash/fp/sortedUniq';
+import split from 'lodash/fp/split';
+import isString from 'lodash/isString';
 import last from 'lodash/last';
+import trim from 'lodash/trim';
 
 export default function valueAsArrayOfBoolean(value, length) {
   return flow(

@@ -1,7 +1,7 @@
+import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import showdown from 'showdown';
 import xss from 'xss';
-import { htmlSafe } from '@ember/template';
 
 function modifyWhiteList() {
   return {
