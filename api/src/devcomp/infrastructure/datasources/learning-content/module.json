@@ -1071,7 +1071,7 @@
       },
       "transitionTexts": [
         {
-          "content": "<p>Un mot de passe sert à protéger vos données. Il faut donc qu’il soit compliqué à trouver. Sinon, n’importe qui va le trouver et pourra lire vos emails, accéder à vos appareils numériques, voir vos photos, etc.</p>",
+          "content": "<p>Un mot de passe sert à protéger vos données. Il faut donc qu’il soit compliqué à trouver.&nbsp;<span aria-hidden=\"true\">🔐</span><br>Sinon, n’importe qui va le trouver et pourra lire vos emails, voir vos photos ou envoyer des messages à votre place.</p>",
           "grainId": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8"
         },
         {
@@ -1112,7 +1112,7 @@
             {
               "id": "d8d3f524-10c7-4190-986b-f1e309efb124",
               "type": "qrocm",
-              "instruction": "<p>À votre avis, quel est le mot de passe le plus utilisé en France ?</p>",
+              "instruction": "<p>Certains mots de passe sont très utilisés et donc facile à deviner. <br>À votre avis, quel est le mot de passe le plus utilisé en France ?</p>",
               "proposals": [
                 {
                   "input": "mot-de-passe",
@@ -1128,8 +1128,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Bien vu ! Voici la liste des 5 pires mots de passe : 123456 ; 123456789 ; azerty ; 1234561 ; qwerty</p>",
-                "invalid": "<p>Dommage ! Voici la liste des 5 pires mots de passe : 123456 ; 123456789 ; azerty ; 1234561 ; qwerty</p>"
+                "valid": "<p>Bien vu ! Voici la liste des 5 mots de passe les plus utilisés : 123456 ; 123456789 ; azerty ; 1234561 ; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>",
+                "invalid": "<p>Dommage ! Voici la liste des 5 mots de passe les plus utilisés : 123456 ; 123456789 ; azerty ; 1234561 ; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>"
               }
             }
           ]
