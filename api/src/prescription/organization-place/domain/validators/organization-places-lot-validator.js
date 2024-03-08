@@ -1,5 +1,5 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import * as categories from '../constants/organization-places-categories.js';

@@ -1,9 +1,9 @@
-import { expect, catchErr, databaseBuilder } from '../../test-helper.js';
+import { SCOPES } from '../../../lib/domain/models/BadgeDetails.js';
 import {
   checkBadgeExistence,
   checkCriteriaFormat,
 } from '../../../scripts/create-badge-criteria-for-specified-badge.js';
-import { SCOPES } from '../../../lib/domain/models/BadgeDetails.js';
+import { catchErr, databaseBuilder, expect } from '../../test-helper.js';
 
 describe('Integration | Scripts | create-badge-criteria-for-specified-badge', function () {
   describe('#checkBadgeExistence', function () {

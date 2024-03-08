@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../test-helper.js';
 import { EventDispatcherLogger } from '../../../lib/infrastructure/events/EventDispatcherLogger.js';
+import { expect, sinon } from '../../test-helper.js';
 
 describe('Integration | Infrastructure | EventHandlerLogger', function () {
   context('when logging on event dispatch start is enabled', function () {

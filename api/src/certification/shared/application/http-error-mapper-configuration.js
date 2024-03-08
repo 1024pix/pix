@@ -1,6 +1,6 @@
 import { HttpErrors } from '../../../shared/application/http-errors.js';
-import { InvalidCertificationReportForFinalization, CertificationCourseUpdateError } from '../domain/errors.js';
 import { DomainErrorMappingConfiguration } from '../../../shared/application/models/domain-error-mapping-configuration.js';
+import { CertificationCourseUpdateError, InvalidCertificationReportForFinalization } from '../domain/errors.js';
 
 const certificationDomainErrorMappingConfiguration = [
   {

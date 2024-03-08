@@ -1,4 +1,4 @@
-import { expect, domainBuilder, sinon } from '../../../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-complementary-certification-for-target-profile-attachment', function () {
   it('should get the complementary certification', async function () {

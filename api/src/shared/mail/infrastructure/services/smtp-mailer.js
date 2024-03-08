@@ -1,4 +1,5 @@
 import { createTransport } from 'nodemailer';
+
 import { config } from '../../../config.js';
 
 export class SmtpMailer {

@@ -1,7 +1,8 @@
-import * as url from 'url';
-import { expect, databaseBuilder, knex, sinon } from '../../../test-helper.js';
-import { archiveCampaigns } from '../../../../scripts/prod/archive-campaigns.js';
 import lodash from 'lodash';
+import * as url from 'url';
+
+import { archiveCampaigns } from '../../../../scripts/prod/archive-campaigns.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 const { noop } = lodash;
 

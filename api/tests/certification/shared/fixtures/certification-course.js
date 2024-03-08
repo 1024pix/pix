@@ -1,5 +1,7 @@
-import { databaseBuilder, domainBuilder, mockLearningContent } from '../../../test-helper.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/index.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { databaseBuilder, domainBuilder, mockLearningContent } from '../../../test-helper.js';
 import {
   buildArea,
   buildChallenge,
@@ -9,8 +11,6 @@ import {
   buildTube,
 } from '../../../tooling/domain-builder/factory/index.js';
 import { buildLearningContent } from '../../../tooling/learning-content-builder/index.js';
-import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/index.js';
 
 const createLearningContent = () => {
   const framework = buildFramework({ id: 'frameworkId', name: 'someFramework' });

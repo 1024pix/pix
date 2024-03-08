@@ -1,6 +1,6 @@
-import { expect, domainBuilder, sinon } from '../../../../test-helper.js';
 import { config as settings } from '../../../../../lib/config.js';
 import * as certificationPointOfContactSerializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-point-of-contact-serializer.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serializer', function () {
   describe('#serialize()', function () {

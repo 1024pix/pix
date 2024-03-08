@@ -1,6 +1,6 @@
-import { sinon, expect, domainBuilder, hFake } from '../../../../test-helper.js';
 import { competenceEvaluationController } from '../../../../../src/evaluation/application/competence-evaluations/competence-evaluation-controller.js';
 import { evaluationUsecases as usecases } from '../../../../../src/evaluation/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Controller | Competence-Evaluation', function () {
   describe('#startOrResume', function () {

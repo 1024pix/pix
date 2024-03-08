@@ -8,4 +8,4 @@ const up = async function (knex) {
 
 const down = autonomousCoursesTableCreation;
 
-export { up, down };
+export { down, up };

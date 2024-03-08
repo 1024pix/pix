@@ -1,9 +1,10 @@
+import crypto from 'crypto';
 import _ from 'lodash';
+
 import { knex } from '../../../../../db/knex-database-connection.js';
 import * as skillRepository from '../../../../../lib/infrastructure/repositories/skill-repository.js';
-import { Campaign } from '../../domain/models/Campaign.js';
-import crypto from 'crypto';
 import { UnknownCampaignId } from '../../domain/errors.js';
+import { Campaign } from '../../domain/models/Campaign.js';
 
 const get = async function (id) {
   const campaign = await knex('campaigns').where({ id }).first();
@@ -115,4 +116,4 @@ const isFromSameOrganization = async function ({ firstCampaignId, secondCampaign
   return firstCampaign.organizationId === secondCampaign.organizationId;
 };
 
-export { save, update, get, isCodeAvailable, swapCampaignCodes, isFromSameOrganization };
+export { get, isCodeAvailable, isFromSameOrganization, save, swapCampaignCodes, update };

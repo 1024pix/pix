@@ -1,5 +1,5 @@
-import { databaseBuilder, expect } from '../../../../../test-helper.js';
 import * as targetProfileRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/target-profile-repository.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#getByCampaignId', function () {

@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 import { CampaignParticipationInfo } from '../../../../../lib/domain/read-models/CampaignParticipationInfo.js';
+import { Assessment } from '../../../../shared/domain/models/Assessment.js';
 
 const findByCampaignId = async function (campaignId) {
   const results = await knex

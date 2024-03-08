@@ -180,13 +180,13 @@ class UserNotAuthorizedToAccessEntityError extends DomainError {
 }
 
 export {
-  DomainError,
   AlreadyExistingEntityError,
   AssessmentEndedError,
   AssessmentResultNotCreatedError,
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
   CertificationAttestationGenerationError,
   CsvImportError,
+  DomainError,
   EntityValidationError,
   ForbiddenAccess,
   InvalidExternalUserTokenError,

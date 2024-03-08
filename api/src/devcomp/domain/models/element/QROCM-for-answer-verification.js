@@ -1,10 +1,11 @@
-import { QROCM } from './QROCM.js';
+import Joi from 'joi';
+
+import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 import { QrocmCorrectionResponse } from '../QrocmCorrectionResponse.js';
-import { ValidatorQROCMInd } from '../validator/ValidatorQROCMInd.js';
 import { QrocmSolutions } from '../QrocmSolutions.js';
-import Joi from 'joi';
-import { EntityValidationError } from '../../../../shared/domain/errors.js';
+import { ValidatorQROCMInd } from '../validator/ValidatorQROCMInd.js';
+import { QROCM } from './QROCM.js';
 
 class QROCMForAnswerVerification extends QROCM {
   #solution;

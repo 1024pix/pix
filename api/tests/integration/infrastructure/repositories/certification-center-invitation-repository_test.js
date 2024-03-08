@@ -1,5 +1,5 @@
-import { databaseBuilder, knex, expect, sinon } from '../../../test-helper.js';
 import * as certificationCenterInvitationRepository from '../../../../lib/infrastructure/repositories/certification-center-invitation-repository.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repositories | CertificationCenterInvitationRepository', function () {
   describe('#updateModificationDate', function () {

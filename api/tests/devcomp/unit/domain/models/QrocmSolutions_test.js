@@ -1,5 +1,5 @@
-import { expect } from '../../../../test-helper.js';
 import { QrocmSolutions } from '../../../../../src/devcomp/domain/models/QrocmSolutions.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
   describe('#constructor', function () {

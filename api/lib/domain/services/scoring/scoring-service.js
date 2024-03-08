@@ -1,6 +1,6 @@
-import { PIX_COUNT_BY_LEVEL, MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../constants.js';
-
 import _ from 'lodash';
+
+import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE, PIX_COUNT_BY_LEVEL } from '../../constants.js';
 
 function calculateScoringInformationForCompetence({
   knowledgeElements,
@@ -55,4 +55,4 @@ function calculatePixScore(knowledgeElements) {
     .sumBy('pixScoreForCompetence');
 }
 
-export { calculateScoringInformationForCompetence, getBlockedLevel, getBlockedPixScore, calculatePixScore };
+export { calculatePixScore, calculateScoringInformationForCompetence, getBlockedLevel, getBlockedPixScore };

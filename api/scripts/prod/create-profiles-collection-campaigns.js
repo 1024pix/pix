@@ -1,11 +1,12 @@
 import bluebird from 'bluebird';
-import { knex, disconnect } from '../../db/knex-database-connection.js';
-import { CampaignTypes } from '../../src/prescription/shared/domain/constants.js';
-import * as codeGenerator from '../../src/shared/domain/services/code-generator.js';
+import * as url from 'url';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
 import * as campaignUpdateValidator from '../../src/prescription/campaign/domain/validators/campaign-update-validator.js';
 import * as campaignRepository from '../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
+import { CampaignTypes } from '../../src/prescription/shared/domain/constants.js';
+import * as codeGenerator from '../../src/shared/domain/services/code-generator.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
-import * as url from 'url';
 
 function checkData(campaignData) {
   return campaignData.map(({ name, organizationId, customLandingPageText, creatorId }, index) => {
@@ -93,4 +94,4 @@ async function main() {
   }
 })();
 
-export { prepareCampaigns, checkData };
+export { checkData, prepareCampaigns };

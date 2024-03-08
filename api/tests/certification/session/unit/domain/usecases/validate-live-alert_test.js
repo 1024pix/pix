@@ -1,11 +1,11 @@
-import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 import { validateLiveAlert } from '../../../../../../src/certification/session/domain/usecases/validate-live-alert.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | validate-live-alert', function () {
   let certificationChallengeLiveAlertRepository;

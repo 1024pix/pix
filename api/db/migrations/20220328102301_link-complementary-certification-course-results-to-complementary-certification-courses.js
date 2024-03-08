@@ -6,6 +6,7 @@ const CERTIFICATION_COURSE_ID = 'certificationCourseId';
 import lodash from 'lodash';
 const { uniqBy } = lodash;
 import bluebird from 'bluebird';
+
 import { badges } from '../constants.js';
 const {
   PIX_EMPLOI_CLEA,
@@ -162,4 +163,4 @@ const down = async function (knex) {
   });
 };
 
-export { up, down };
+export { down, up };

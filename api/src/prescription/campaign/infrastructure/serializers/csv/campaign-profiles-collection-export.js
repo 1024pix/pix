@@ -1,11 +1,12 @@
-import _ from 'lodash';
 import bluebird from 'bluebird';
-import * as csvSerializer from '../../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
+import _ from 'lodash';
+
 import {
-  CONCURRENCY_HEAVY_OPERATIONS,
   CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
+  CONCURRENCY_HEAVY_OPERATIONS,
 } from '../../../../../../lib/infrastructure/constants.js';
 import { CampaignProfilesCollectionResultLine } from '../../../../../../lib/infrastructure/exports/campaigns/campaign-profiles-collection-result-line.js';
+import * as csvSerializer from '../../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
 class CampaignProfilesCollectionExport {
   constructor(outputStream, organization, campaign, competences, translate) {
     this.stream = outputStream;

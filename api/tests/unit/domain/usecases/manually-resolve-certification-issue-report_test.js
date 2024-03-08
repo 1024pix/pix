@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { manuallyResolveCertificationIssueReport } from '../../../../lib/domain/usecases/manually-resolve-certification-issue-report.js';
 import { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } from '../../../../lib/domain/errors.js';
+import { manuallyResolveCertificationIssueReport } from '../../../../lib/domain/usecases/manually-resolve-certification-issue-report.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | manually-resolve-certification-issue-report', function () {
   describe('when certification issue report is not resolved', function () {

@@ -1,7 +1,7 @@
-import { Bookshelf } from '../bookshelf.js';
-
 import './User.js';
 import './Organization.js';
+
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'OrganizationLearner';
 

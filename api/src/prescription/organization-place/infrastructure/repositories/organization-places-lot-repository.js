@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { DeletedError, NotFoundError } from '../../../../../lib/domain/errors.js';
 import { OrganizationPlacesLotManagement } from '../../domain/read-models/OrganizationPlacesLotManagement.js';
-import { NotFoundError, DeletedError } from '../../../../../lib/domain/errors.js';
 import { PlacesLot } from '../../domain/read-models/PlacesLot.js';
 
 const findByOrganizationId = async function (organizationId) {
@@ -72,4 +72,4 @@ const remove = async function ({ id, deletedBy }) {
   }
 };
 
-export { findByOrganizationId, findAllByOrganizationId, get, create, remove };
+export { create, findAllByOrganizationId, findByOrganizationId, get, remove };

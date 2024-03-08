@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
 import { Course } from '../../../../lib/domain/models/Course.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | Course', function () {
   describe('#nbChallenges', function () {

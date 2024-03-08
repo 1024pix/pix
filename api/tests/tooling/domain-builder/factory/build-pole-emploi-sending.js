@@ -1,5 +1,6 @@
-import { buildCampaignParticipation } from './build-campaign-participation.js';
 import lodash from 'lodash';
+
+import { buildCampaignParticipation } from './build-campaign-participation.js';
 const { isUndefined } = lodash;
 import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSending.js';
 

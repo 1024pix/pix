@@ -1,3 +1,4 @@
+import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 import {
   createServer,
   databaseBuilder,
@@ -5,7 +6,6 @@ import {
   generateValidRequestAuthorizationHeader,
   knex,
 } from '../../../../test-helper.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 
 describe('Certification | Session | Acceptance | Controller | session-live-alert-controller', function () {
   let server;

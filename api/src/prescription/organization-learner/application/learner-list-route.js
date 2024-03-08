@@ -1,9 +1,9 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { learnerListController } from './learner-list-controller.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { learnerListController } from './learner-list-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -43,4 +43,4 @@ const register = async function (server) {
 
 const name = 'learner-list-api';
 
-export { register, name };
+export { name, register };

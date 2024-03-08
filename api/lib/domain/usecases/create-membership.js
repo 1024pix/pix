@@ -1,5 +1,5 @@
-import { roles } from '../models/Membership.js';
 import { OrganizationArchivedError } from '../errors.js';
+import { roles } from '../models/Membership.js';
 
 const createMembership = async function ({ userId, organizationId, membershipRepository, organizationRepository }) {
   const organization = await organizationRepository.get(organizationId);

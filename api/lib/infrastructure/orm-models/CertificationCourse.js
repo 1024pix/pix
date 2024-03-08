@@ -1,10 +1,10 @@
-import { Bookshelf } from '../bookshelf.js';
-
 import './Assessment.js';
 import './CertificationChallenge.js';
 import './CertificationIssueReport.js';
 import './ComplementaryCertificationCourse.js';
 import './Session.js';
+
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'CertificationCourse';
 

@@ -4,7 +4,7 @@
  * @typedef {import ('../../domain/usecases/index.js').AssessmentResultRepository} AssessmentResultRepository
  */
 
-import { CompetenceMark, AssessmentResult } from '../../../../../lib/domain/models/index.js';
+import { AssessmentResult, CompetenceMark } from '../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 /**

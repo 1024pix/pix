@@ -1,5 +1,5 @@
-import { expect } from '../../../../../test-helper.js';
 import { OrganizationParticipant } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationParticipant.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | OrganizationParticipant', function () {
   it('should return certificability from learner', function () {

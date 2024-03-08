@@ -1,6 +1,7 @@
 import Joi from 'joi';
-import { feedbackController } from './feedback-controller.js';
+
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { feedbackController } from './feedback-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -49,4 +50,4 @@ const register = async function (server) {
 };
 
 const name = 'feedbacks-api';
-export { register, name };
+export { name, register };

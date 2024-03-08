@@ -1,7 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { AdminMember } from '../../domain/models/AdminMember.js';
-
 import { AdminMemberError } from '../../../authorization/domain/errors.js';
+import { AdminMember } from '../../domain/models/AdminMember.js';
 
 const TABLE_NAME = 'pix-admin-roles';
 
@@ -78,4 +77,4 @@ const deactivate = async function ({ id }) {
   }
 };
 
-export { findAll, getById, get, update, save, deactivate };
+export { deactivate, findAll, get, getById, save, update };

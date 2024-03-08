@@ -1,12 +1,11 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
-
 import {
   AlreadyRegisteredUsernameError,
   NotFoundError,
-  OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
+  OrganizationLearnerAlreadyLinkedToUserError,
 } from '../../../../lib/domain/errors.js';
+import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Service | user-reconciliation-service', function () {
   let organizationLearners;

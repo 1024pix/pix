@@ -1,5 +1,5 @@
-import { expect } from '../../../../../test-helper.js';
 import { AnswerStatus } from '../../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Validator | AnswerStatus', function () {
   context('AnswerStatus#isOK', function () {

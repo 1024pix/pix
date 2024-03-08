@@ -1,9 +1,8 @@
-import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
-import * as campaignParticipantRepository from '../../../../lib/infrastructure/repositories/campaign-participant-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-
+import * as campaignParticipantRepository from '../../../../lib/infrastructure/repositories/campaign-participant-repository.js';
 import { CampaignToStartParticipation } from '../../../../src/prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | CampaignParticipant', function () {
   describe('get', function () {

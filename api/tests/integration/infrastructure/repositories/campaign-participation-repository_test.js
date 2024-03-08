@@ -1,12 +1,12 @@
-import { expect, knex, databaseBuilder, catchErr, sinon } from '../../../test-helper.js';
-import { Campaign } from '../../../../lib/domain/models/Campaign.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
-import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
-import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { constants } from '../../../../lib/domain/constants.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { Campaign } from '../../../../lib/domain/models/Campaign.js';
+import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
+import { CampaignParticipationStatuses, CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 

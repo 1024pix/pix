@@ -29,4 +29,4 @@ const findByCertificationCenterId = async function (certificationCenterId) {
     .where(`${COMPLEMENTARY_CERTIFICATION_HABILITATIONS_TABLE_NAME}.certificationCenterId`, certificationCenterId);
 };
 
-export { save, deleteByCertificationCenterId, findByCertificationCenterId };
+export { deleteByCertificationCenterId, findByCertificationCenterId, save };

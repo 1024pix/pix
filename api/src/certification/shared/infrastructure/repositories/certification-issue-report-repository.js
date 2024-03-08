@@ -3,8 +3,8 @@ import lodash from 'lodash';
 const { omit } = lodash;
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 
 const save = async function (certificationIssueReport) {
   const [data] = await knex
@@ -36,4 +36,4 @@ const remove = async function (id) {
   return knex('certification-issue-reports').where({ id }).del();
 };
 
-export { save, get, findByCertificationCourseId, remove };
+export { findByCertificationCourseId, get, remove, save };

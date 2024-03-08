@@ -24,4 +24,4 @@ const down = function () {
   return;
 };
 
-export { up, down };
+export { down, up };

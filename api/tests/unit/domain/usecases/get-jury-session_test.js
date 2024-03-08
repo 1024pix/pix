@@ -1,6 +1,6 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { getJurySession } from '../../../../lib/domain/usecases/get-jury-session.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { getJurySession } from '../../../../lib/domain/usecases/get-jury-session.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-jury-session', function () {
   let jurySessionRepository;

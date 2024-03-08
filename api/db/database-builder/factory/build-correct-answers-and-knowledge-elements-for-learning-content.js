@@ -1,5 +1,6 @@
-import { buildCorrectAnswerAndKnowledgeElement } from './build-correct-answer-and-knowledge-element.js';
 import _ from 'lodash';
+
+import { buildCorrectAnswerAndKnowledgeElement } from './build-correct-answer-and-knowledge-element.js';
 
 const buildCorrectAnswersAndKnowledgeElementsForLearningContent = function ({
   learningContent,

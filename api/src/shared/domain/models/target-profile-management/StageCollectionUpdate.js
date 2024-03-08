@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { InvalidStageError } from '../../../../../lib/domain/errors.js';
 
 const DEFAULT_VALUE_FIRST_SKILL = -1;

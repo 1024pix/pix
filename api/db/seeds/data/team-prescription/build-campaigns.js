@@ -1,15 +1,15 @@
+import dayjs from 'dayjs';
+
 import {
+  PRO_ORGANIZATION_ID,
+  PRO_ORGANIZATION_USER_ID,
   SCO_MANAGING_ORGANIZATION_ID,
   SCO_ORGANIZATION_USER_ID,
   SUP_MANAGING_ORGANIZATION_ID,
   SUP_ORGANIZATION_USER_ID,
-  PRO_ORGANIZATION_ID,
-  PRO_ORGANIZATION_USER_ID,
 } from '../common/constants.js';
-
-import { TARGET_PROFILE_NO_BADGES_NO_STAGES_ID, TARGET_PROFILE_BADGES_STAGES_ID } from './constants.js';
-import { createProfilesCollectionCampaign, createAssessmentCampaign } from '../common/tooling/campaign-tooling.js';
-import dayjs from 'dayjs';
+import { createAssessmentCampaign, createProfilesCollectionCampaign } from '../common/tooling/campaign-tooling.js';
+import { TARGET_PROFILE_BADGES_STAGES_ID, TARGET_PROFILE_NO_BADGES_NO_STAGES_ID } from './constants.js';
 
 async function _createScoCampaigns(databaseBuilder) {
   await createAssessmentCampaign({

@@ -1,15 +1,16 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import { NoSkillsInCampaignError, NotFoundError } from '../../domain/errors.js';
-import * as tubeRepository from './tube-repository.js';
-import * as thematicRepository from './thematic-repository.js';
-import * as campaignRepository from './campaign-repository.js';
-import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as areaRepository from '../../../src/shared/infrastructure/repositories/area-repository.js';
-import * as frameworkRepository from './framework-repository.js';
-import * as skillRepository from './skill-repository.js';
+import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
+import { NoSkillsInCampaignError, NotFoundError } from '../../domain/errors.js';
 import { LearningContent } from '../../domain/models/LearningContent.js';
 import * as learningContentConversionService from '../../domain/services/learning-content/learning-content-conversion-service.js';
+import * as campaignRepository from './campaign-repository.js';
+import * as frameworkRepository from './framework-repository.js';
+import * as skillRepository from './skill-repository.js';
+import * as thematicRepository from './thematic-repository.js';
+import * as tubeRepository from './tube-repository.js';
 
 async function findByCampaignId(campaignId, locale) {
   const skills = await campaignRepository.findSkills({ campaignId });
@@ -139,4 +140,4 @@ async function _getLearningContentByFrameworks(frameworks, locale) {
   return frameworks;
 }
 
-export { findByCampaignId, findByTargetProfileId, findByFrameworkNames };
+export { findByCampaignId, findByFrameworkNames, findByTargetProfileId };

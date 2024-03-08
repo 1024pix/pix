@@ -1,8 +1,8 @@
-import { expect, databaseBuilder, sinon } from '../../../test-helper.js';
 import {
-  getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
+  getEligibleCampaignParticipations,
 } from '../../../../scripts/prod/generate-knowledge-element-snapshots-for-campaigns.js';
+import { databaseBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campaigns.js', function () {
   describe('#getEligibleCampaignParticipations', function () {

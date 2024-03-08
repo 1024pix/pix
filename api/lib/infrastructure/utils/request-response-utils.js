@@ -1,13 +1,14 @@
 import accept from '@hapi/accept';
-import { tokenService } from '../../../src/shared/domain/services/token-service.js';
+
 import { LOCALE } from '../../../src/shared/domain/constants.js';
 import { LANGUAGES_CODE } from '../../../src/shared/domain/services/language-service.js';
+import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 const { DUTCH } = LANGUAGES_CODE;
 const requestResponseUtils = { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest };
 
-export { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest, requestResponseUtils };
+export { escapeFileName, extractLocaleFromRequest, extractUserIdFromRequest, requestResponseUtils };
 
 function escapeFileName(fileName) {
   return fileName

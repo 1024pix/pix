@@ -1,11 +1,8 @@
+import { extractParameters } from '../../../shared/infrastructure/utils/query-params-utils.js';
+import { certificabilityByLabel } from '../../shared/application/helpers.js';
+import { usecases } from '../domain/usecases/index.js';
 import * as campaignAssessmentResultMinimalSerializer from '../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js';
 import * as campaignProfilesCollectionParticipationSummarySerializer from '../infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer.js';
-
-import { certificabilityByLabel } from '../../shared/application/helpers.js';
-
-import { extractParameters } from '../../../shared/infrastructure/utils/query-params-utils.js';
-
-import { usecases } from '../domain/usecases/index.js';
 
 const findAssessmentParticipationResults = async function (request) {
   const campaignId = request.params.id;

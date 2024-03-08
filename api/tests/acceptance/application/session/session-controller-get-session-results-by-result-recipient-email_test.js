@@ -1,6 +1,7 @@
-import { createServer, databaseBuilder, expect } from '../../../test-helper.js';
 import jsonwebtoken from 'jsonwebtoken';
+
 import { config as settings } from '../../../../lib/config.js';
+import { createServer, databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | session-controller-get-session-results-by-result-recipient-email', function () {
   describe('GET /api/sessions/download-results/{token}', function () {

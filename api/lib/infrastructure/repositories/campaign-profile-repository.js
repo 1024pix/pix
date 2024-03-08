@@ -1,9 +1,9 @@
-import { CampaignProfile } from '../../../lib/domain/read-models/CampaignProfile.js';
-import * as placementProfileService from '../../domain/services/placement-profile-service.js';
-import { NotFoundError } from '../../../lib/domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
+import { NotFoundError } from '../../../lib/domain/errors.js';
+import { CampaignProfile } from '../../../lib/domain/read-models/CampaignProfile.js';
 import * as areaRepository from '../../../src/shared/infrastructure/repositories/area-repository.js';
+import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
+import * as placementProfileService from '../../domain/services/placement-profile-service.js';
 
 const findProfile = async function ({ campaignId, campaignParticipationId, locale }) {
   const profile = await _fetchCampaignProfileAttributesFromCampaignParticipation(campaignId, campaignParticipationId);

@@ -1,5 +1,6 @@
-import { Bookshelf } from '../bookshelf.js';
 import './CertificationCandidate.js';
+
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'Session';
 

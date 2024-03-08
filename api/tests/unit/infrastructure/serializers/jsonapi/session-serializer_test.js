@@ -1,7 +1,6 @@
-import { EMPTY_BLANK_AND_NULL, expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/session-serializer.js';
-
 import { Session, statuses } from '../../../../../src/certification/session/domain/models/Session.js';
+import { EMPTY_BLANK_AND_NULL, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | session-serializer', function () {
   describe('#serialize()', function () {

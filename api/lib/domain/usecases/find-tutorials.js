@@ -1,7 +1,8 @@
-import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
-import { Scorecard } from '../../../src/evaluation/domain/models/Scorecard.js';
-import { KnowledgeElement } from '../models/KnowledgeElement.js';
 import _ from 'lodash';
+
+import { Scorecard } from '../../../src/evaluation/domain/models/Scorecard.js';
+import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import { KnowledgeElement } from '../models/KnowledgeElement.js';
 
 const findTutorials = async function ({
   authenticatedUserId,

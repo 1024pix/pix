@@ -1,6 +1,7 @@
-import { expect, nock } from '../../../test-helper.js';
-import * as script from '../../../../scripts/certification/import-certifications-from-csv.js';
 import * as url from 'url';
+
+import * as script from '../../../../scripts/certification/import-certifications-from-csv.js';
+import { expect, nock } from '../../../test-helper.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

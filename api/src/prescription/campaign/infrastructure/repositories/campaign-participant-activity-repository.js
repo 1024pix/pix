@@ -1,8 +1,8 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CampaignParticipantActivity } from '../../domain/read-models/CampaignParticipantActivity.js';
-import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
+import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
+import { CampaignParticipantActivity } from '../../domain/read-models/CampaignParticipantActivity.js';
 
 const campaignParticipantActivityRepository = {
   async findPaginatedByCampaignId({ page = { size: 25 }, campaignId, filters = {} }) {

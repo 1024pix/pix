@@ -1,6 +1,6 @@
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { updateAuthenticationComplement } from '../../../../lib/domain/usecases/update-authentication-complement.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { updateAuthenticationComplement } from '../../../../lib/domain/usecases/update-authentication-complement.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('unit | domain | usecases | update-authentication-complement', function () {
   it('updates authentication complement', async function () {

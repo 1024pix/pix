@@ -1,4 +1,4 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | chai-custom-helpers | deepEqualInstance', function () {
   it('should fail assertion when both objects are not of the same instance', function () {

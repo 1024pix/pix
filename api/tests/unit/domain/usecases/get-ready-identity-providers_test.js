@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { getReadyIdentityProviders } from '../../../../lib/domain/usecases/get-ready-identity-providers.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-ready-identity-providers', function () {
   describe('when an audience is provided', function () {

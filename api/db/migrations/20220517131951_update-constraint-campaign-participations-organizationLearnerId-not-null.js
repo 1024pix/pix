@@ -34,4 +34,4 @@ const down = async function (knex) {
   return knex.raw(`DROP INDEX ${NEW_CONSTRAINT_NAME};`);
 };
 
-export { up, down };
+export { down, up };

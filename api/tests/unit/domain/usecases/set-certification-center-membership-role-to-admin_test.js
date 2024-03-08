@@ -1,8 +1,7 @@
-import { catchErr, expect, sinon } from '../../../test-helper.js';
-
-import { setCertificationCenterMembershipRoleToAdmin } from '../../../../lib/domain/usecases/set-certification-center-membership-role-to-admin.js';
-import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
+import { setCertificationCenterMembershipRoleToAdmin } from '../../../../lib/domain/usecases/set-certification-center-membership-role-to-admin.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | UseCases | set-certification-center-memberships-role-to-admin', function () {
   let certificationCenterMembershipRepository, clock;

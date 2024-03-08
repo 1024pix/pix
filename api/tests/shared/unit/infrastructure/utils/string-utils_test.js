@@ -1,14 +1,14 @@
-import { expect } from '../../../../test-helper.js';
 import {
-  isNumeric,
   cleanStringAndParseFloat,
   getArrayOfStrings,
   getArrayOfUpperStrings,
-  splitIntoWordsAndRemoveBackspaces,
-  normalizeAndSortChars,
+  isNumeric,
   normalize,
+  normalizeAndSortChars,
+  splitIntoWordsAndRemoveBackspaces,
   toArrayOfFixedLengthStringsConservingWords,
 } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | infrastructure | Utils | string-utils', function () {
   const zeroWidthSpaceChar = '​';

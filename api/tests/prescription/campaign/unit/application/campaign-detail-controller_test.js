@@ -1,6 +1,6 @@
-import { sinon, expect, hFake, domainBuilder } from '../../../../test-helper.js';
 import { campaignDetailController } from '../../../../../src/prescription/campaign/application/campaign-detail-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Controller | Campaign detail', function () {
   describe('#getById', function () {

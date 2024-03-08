@@ -18,4 +18,4 @@ const deserialize = function (jsonAPI) {
   });
 };
 
-export { serialize, deserialize };
+export { deserialize, serialize };

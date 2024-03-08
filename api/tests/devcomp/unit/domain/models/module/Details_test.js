@@ -1,5 +1,5 @@
-import { expect } from '../../../../../test-helper.js';
 import { Details } from '../../../../../../src/devcomp/domain/models/module/Details.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Module | Details', function () {
   describe('#constructor', function () {

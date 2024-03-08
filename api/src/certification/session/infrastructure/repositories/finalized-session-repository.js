@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { FinalizedSession } from '../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
@@ -55,7 +56,7 @@ const findFinalizedSessionsWithRequiredAction = async function ({ version } = {}
   return publishableFinalizedSessions.map(_toDomainObject);
 };
 
-export { save, get, remove, findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction };
+export { findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction, get, remove, save };
 
 function _toDomainObject({ date, time, ...finalizedSession }) {
   return new FinalizedSession({

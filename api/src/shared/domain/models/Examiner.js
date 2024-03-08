@@ -1,5 +1,5 @@
-import { logger } from '../../infrastructure/utils/logger.js';
 import { Answer } from '../../../evaluation/domain/models/Answer.js';
+import { logger } from '../../infrastructure/utils/logger.js';
 import { AnswerStatus } from './AnswerStatus.js';
 
 /**

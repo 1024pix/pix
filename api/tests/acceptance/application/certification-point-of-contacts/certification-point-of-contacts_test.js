@@ -1,8 +1,8 @@
 import {
-  expect,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
   createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
 } from '../../../test-helper.js';
 
 describe('Acceptance | Route | CertificationPointOfContact', function () {

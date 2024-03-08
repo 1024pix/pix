@@ -1,14 +1,15 @@
-import { usecases } from '../../shared/domain/usecases/index.js';
-import { extractLocaleFromRequest } from '../../../../lib/infrastructure/utils/request-response-utils.js';
-import { random } from '../../../../lib/infrastructure/utils/random.js';
-import { scenarioSimulatorBatchSerializer } from '../../../../lib/infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
-import { parseCsv } from '../../../../scripts/helpers/csvHelpers.js';
-import { pickAnswerStatusService } from '../../../../lib/domain/services/pick-answer-status-service.js';
-import { HttpErrors } from '../../../../lib/application/http-errors.js';
 import _ from 'lodash';
-import { pickChallengeService } from '../domain/services/pick-challenge-service.js';
 import { Readable } from 'stream';
+
+import { HttpErrors } from '../../../../lib/application/http-errors.js';
+import { pickAnswerStatusService } from '../../../../lib/domain/services/pick-answer-status-service.js';
+import { scenarioSimulatorBatchSerializer } from '../../../../lib/infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
+import { random } from '../../../../lib/infrastructure/utils/random.js';
+import { extractLocaleFromRequest } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import { parseCsv } from '../../../../scripts/helpers/csvHelpers.js';
+import { usecases } from '../../shared/domain/usecases/index.js';
 import { FlashAssessmentSuccessRateHandler } from '../domain/models/FlashAssessmentSuccessRateHandler.js';
+import { pickChallengeService } from '../domain/services/pick-challenge-service.js';
 
 async function simulateFlashAssessmentScenario(
   request,

@@ -1,9 +1,9 @@
-import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer.js';
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { CertificationCourse } from '../../../../../lib/domain/models/CertificationCourse.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer.js';
 import { CertificationIssueReport } from '../../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-course-serializer', function () {
   describe('#serialize', function () {

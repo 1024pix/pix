@@ -1,7 +1,7 @@
+import { Mission } from '../../../../../src/school/domain/models/Mission.js';
+import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import { databaseBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
-import { usecases } from '../../../../../src/school/domain/usecases/index.js';
-import { Mission } from '../../../../../src/school/domain/models/Mission.js';
 
 describe('Integration | UseCases | find-all-missions', function () {
   it('return empty array without missions from LCMS', async function () {

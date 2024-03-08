@@ -1,9 +1,9 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
 import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../../src/shared/domain/types/identifiers-type.js';
-import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Router | organization-router', function () {
   describe('GET /api/admin/organizations', function () {

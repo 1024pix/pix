@@ -18,4 +18,4 @@ const deserializeForCreateOrganizationInvitationAndSendEmail = function (payload
   });
 };
 
-export { serialize, deserializeForCreateOrganizationInvitationAndSendEmail };
+export { deserializeForCreateOrganizationInvitationAndSendEmail, serialize };

@@ -1,5 +1,5 @@
-import { usecases } from '../../domain/usecases/index.js';
 import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../domain/usecases/index.js';
 import { TargetProfile } from './TargetProfile.js';
 
 /**

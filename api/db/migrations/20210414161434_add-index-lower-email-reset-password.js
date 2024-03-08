@@ -17,4 +17,4 @@ const down = async function (knex) {
   return knex.raw(`DROP INDEX "${INDEX_NAME}"`);
 };
 
-export { up, down };
+export { down, up };

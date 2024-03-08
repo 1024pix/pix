@@ -1,5 +1,5 @@
-import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
+import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
 
 class Grain {
   constructor({ id, title, type, elements }) {

@@ -6,4 +6,4 @@ const down = function (knex) {
   return knex('badge-criteria').update({ scope: 'SomePartnerCompetences' }).where({ scope: 'SkillSet' });
 };
 
-export { up, down };
+export { down, up };

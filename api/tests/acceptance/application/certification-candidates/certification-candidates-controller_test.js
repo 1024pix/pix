@@ -1,3 +1,4 @@
+import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 import {
   createServer,
   databaseBuilder,
@@ -5,8 +6,6 @@ import {
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Acceptance | API | Certifications candidates', function () {
   describe('POST /api/certification-candidates/:id/authorize-to-start', function () {

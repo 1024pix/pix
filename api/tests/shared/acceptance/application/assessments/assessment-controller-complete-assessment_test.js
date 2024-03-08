@@ -1,3 +1,7 @@
+import _ from 'lodash';
+
+import { Assessment, TrainingTrigger } from '../../../../../lib/domain/models/index.js';
+import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import {
   createServer,
   databaseBuilder,
@@ -7,10 +11,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
-
-import { Assessment, TrainingTrigger } from '../../../../../lib/domain/models/index.js';
-import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
-import _ from 'lodash';
 
 describe('Acceptance | Controller | assessment-controller-complete-assessment', function () {
   let options;

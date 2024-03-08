@@ -1,6 +1,6 @@
+import * as events from '../../../../lib/domain/events/index.js';
 import { usecases as sharedUsecases } from '../../shared/domain/usecases/index.js';
 import { usecases } from '../domain/usecases/index.js';
-import * as events from '../../../../lib/domain/events/index.js';
 import * as juryCommentSerializer from '../infrastructure/serializers/jsonapi/jury-comment-serializer.js';
 import * as v3CertificationDetailsForAdministrationSerializer from '../infrastructure/serializers/jsonapi/v3-certification-course-details-for-administration-serializer.js';
 

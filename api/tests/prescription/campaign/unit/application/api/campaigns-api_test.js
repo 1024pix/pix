@@ -1,10 +1,10 @@
-import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
-import * as campaignApi from '../../../../../../src/prescription/campaign/application/api/campaigns-api.js';
-import { expect, sinon, catchErr } from '../../../../../test-helper.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../../../../../../lib/domain/errors.js';
 import { Campaign } from '../../../../../../lib/domain/models/Campaign.js';
 import { CampaignReport } from '../../../../../../lib/domain/read-models/CampaignReport.js';
+import * as campaignApi from '../../../../../../src/prescription/campaign/application/api/campaigns-api.js';
+import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | API | Campaigns', function () {
   describe('#save', function () {

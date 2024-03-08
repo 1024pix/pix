@@ -1,17 +1,16 @@
-import {
-  expect,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-  mockLearningContent,
-  learningContentBuilder,
-  insertUserWithRoleSuperAdmin,
-  createServer,
-} from '../../../test-helper.js';
-
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { generateCertificateVerificationCode } from '../../../../lib/domain/services/verify-certificate-code-service.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { generateCertificateVerificationCode } from '../../../../lib/domain/services/verify-certificate-code-service.js';
 import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
+  learningContentBuilder,
+  mockLearningContent,
+} from '../../../test-helper.js';
 
 describe('Acceptance | API | Certifications', function () {
   let server, options;

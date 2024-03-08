@@ -1,8 +1,8 @@
-import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 import _ from 'lodash';
 
 import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
 import * as competenceMarkRepository from '../../../../lib/infrastructure/repositories/competence-mark-repository.js';
+import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | CompetenceMark', function () {
   describe('#save', function () {

@@ -1,5 +1,5 @@
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase from '../../../../lib/application/usecases/check-user-is-admin-of-certification-center-with-certification-center-invitation-id.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | UseCases | checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase', function () {
   let certificationCenterInvitation,

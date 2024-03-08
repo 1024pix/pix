@@ -1,13 +1,14 @@
 import _ from 'lodash';
-import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
+
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { Tutorial } from '../../../../lib/domain/models/Tutorial.js';
 import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as tutorialRepository from '../../../../lib/infrastructure/repositories/tutorial-repository.js';
-import { TutorialForUser } from '../../../../lib/domain/read-models/TutorialForUser.js';
 import { UserSavedTutorial } from '../../../../lib/domain/models/UserSavedTutorial.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { TutorialForUser } from '../../../../lib/domain/read-models/TutorialForUser.js';
+import * as tutorialRepository from '../../../../lib/infrastructure/repositories/tutorial-repository.js';
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 const { ENGLISH_SPOKEN } = LOCALE;
 

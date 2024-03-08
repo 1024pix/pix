@@ -3,6 +3,7 @@ import { SiecleXmlImportError } from '../errors.js';
 const { isEmpty, chunk } = lodash;
 import bluebird from 'bluebird';
 import lodash from 'lodash';
+
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../shared/infrastructure/constants.js';
 import { OrganizationLearnerParser } from '../../infrastructure/serializers/csv/organization-learner-parser.js';

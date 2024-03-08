@@ -1,7 +1,7 @@
 import querystring from 'querystring';
 
-import { createServer, expect, sinon } from '../../../test-helper.js';
 import { authenticationController } from '../../../../lib/application/authentication/authentication-controller.js';
+import { createServer, expect, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Route | AuthenticationRouter', function () {
   let server;

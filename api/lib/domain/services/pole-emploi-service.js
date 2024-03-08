@@ -25,4 +25,4 @@ function decodeCursor(strbase64) {
   return JSON.parse(string);
 }
 
-export { generateLink, generateCursor, decodeCursor };
+export { decodeCursor, generateCursor, generateLink };

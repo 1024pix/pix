@@ -1,13 +1,14 @@
-import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
-import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
+import { fileURLToPath } from 'node:url';
+
 import { tokenService } from '../../../shared/domain/services/token-service.js';
-import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
-import * as refreshTokenService from '../services/refresh-token-service.js';
-import * as pixAuthenticationService from '../services/pix-authentication-service.js';
-import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
 import * as adminMemberRepository from '../../../shared/infrastructure/repositories/admin-member-repository.js';
+import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
+import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
+import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
+import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as pixAuthenticationService from '../services/pix-authentication-service.js';
+import * as refreshTokenService from '../services/refresh-token-service.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
 

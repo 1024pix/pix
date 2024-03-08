@@ -1,5 +1,5 @@
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { UserToCreate } from '../models/UserToCreate.js';
 
@@ -115,4 +115,4 @@ function _buildGARAuthenticationMethod({ externalIdentifier, user }) {
   });
 }
 
-export { createUserWithPassword, updateUsernameAndAddPassword, createAndReconcileUserToOrganizationLearner };
+export { createAndReconcileUserToOrganizationLearner, createUserWithPassword, updateUsernameAndAddPassword };

@@ -1,7 +1,7 @@
-import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
-import * as certifiableProfileForLearningContentRepository from '../../../../lib/infrastructure/repositories/certifiable-profile-for-learning-content-repository.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { CertifiableProfileForLearningContent } from '../../../../lib/domain/models/CertifiableProfileForLearningContent.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import * as certifiableProfileForLearningContentRepository from '../../../../lib/infrastructure/repositories/certifiable-profile-for-learning-content-repository.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | certifiable-profile-for-learning-content', function () {
   describe('#get', function () {

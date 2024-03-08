@@ -1,7 +1,7 @@
-import * as sessionSerializer from '../infrastructure/serializers/jsonapi/session-serializer.js';
+import * as events from '../../../../lib/domain/events/index.js';
 import { usecases } from '../../shared/domain/usecases/index.js';
 import * as certificationReportSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-report-serializer.js';
-import * as events from '../../../../lib/domain/events/index.js';
+import * as sessionSerializer from '../infrastructure/serializers/jsonapi/session-serializer.js';
 
 const createSession = async function (request, _h, dependencies = { sessionSerializer }) {
   const userId = request.auth.credentials.userId;

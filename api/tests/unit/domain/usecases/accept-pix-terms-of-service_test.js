@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { acceptPixLastTermsOfService } from '../../../../lib/domain/usecases/accept-pix-last-terms-of-service.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | accept-pix-last-terms-of-service', function () {
   let userRepository;

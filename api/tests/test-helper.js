@@ -1,35 +1,34 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable n/no-unpublished-import */
-import * as url from 'url';
-import * as domainBuilder from './tooling/domain-builder/factory/index.js';
-import { HttpTestServer } from './tooling/server/http-test-server.js';
+import 'dayjs/locale/fr.js';
+
+import { Assertion, AssertionError, expect, use as chaiUse, util as chaiUtil } from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+import chaiSorted from 'chai-sorted';
+import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat.js';
 import * as dotenv from 'dotenv';
 import _ from 'lodash';
 import MockDate from 'mockdate';
-
-import dayjs from 'dayjs';
-import 'dayjs/locale/fr.js';
-import localizedFormat from 'dayjs/plugin/localizedFormat.js';
-import { expect, use as chaiUse, util as chaiUtil, Assertion, AssertionError } from 'chai';
-import sinon, { restore } from 'sinon';
-import chaiAsPromised from 'chai-as-promised';
-import chaiSorted from 'chai-sorted';
-import sinonChai from 'sinon-chai';
-import * as customChaiHelpers from './tooling/chai-custom-helpers/index.js';
-import { LearningContentCache } from '../lib/infrastructure/caches/learning-content-cache.js';
-
-import { config } from '../lib/config.js';
-import { disconnect, knex } from '../db/knex-database-connection.js';
-import { DatabaseBuilder } from '../db/database-builder/database-builder.js';
 import nock from 'nock';
-import { buildLearningContent as learningContentBuilder } from './tooling/learning-content-builder/index.js';
+import sinon, { restore } from 'sinon';
+import sinonChai from 'sinon-chai';
+import * as url from 'url';
 
-import * as tokenService from '../src/shared/domain/services/token-service.js';
+import { DatabaseBuilder } from '../db/database-builder/database-builder.js';
+import { disconnect, knex } from '../db/knex-database-connection.js';
+import { config } from '../lib/config.js';
 import { Membership } from '../lib/domain/models/index.js';
+import { LearningContentCache } from '../lib/infrastructure/caches/learning-content-cache.js';
 import { PIX_ADMIN } from '../src/authorization/domain/constants.js';
-import { createTempFile, removeTempFile } from './tooling/temporary-file.js';
+import * as tokenService from '../src/shared/domain/services/token-service.js';
+import * as customChaiHelpers from './tooling/chai-custom-helpers/index.js';
+import * as domainBuilder from './tooling/domain-builder/factory/index.js';
+import { buildLearningContent as learningContentBuilder } from './tooling/learning-content-builder/index.js';
 import { increaseCurrentTestTimeout } from './tooling/mocha-tools.js';
 import { createServerWithTestOidcProvider } from './tooling/server/hapi-server-with-test-oidc-provider.js';
+import { HttpTestServer } from './tooling/server/http-test-server.js';
+import { createTempFile, removeTempFile } from './tooling/temporary-file.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

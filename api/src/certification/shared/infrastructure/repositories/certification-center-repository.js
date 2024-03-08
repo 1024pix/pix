@@ -1,9 +1,10 @@
 import _ from 'lodash';
-import { BookshelfCertificationCenter } from '../../../../../lib/infrastructure/orm-models/CertificationCenter.js';
+
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
-import { ComplementaryCertification } from '../../../complementary-certification/domain/models/ComplementaryCertification.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
+import { BookshelfCertificationCenter } from '../../../../../lib/infrastructure/orm-models/CertificationCenter.js';
+import { ComplementaryCertification } from '../../../complementary-certification/domain/models/ComplementaryCertification.js';
 
 function _toDomain(bookshelfCertificationCenter) {
   const dbCertificationCenter = bookshelfCertificationCenter.toJSON();
@@ -139,4 +140,4 @@ const getRefererEmails = async function (certificationCenterId) {
   return refererEmails;
 };
 
-export { get, getBySessionId, save, findPaginatedFiltered, findByExternalId, getRefererEmails };
+export { findByExternalId, findPaginatedFiltered, get, getBySessionId, getRefererEmails, save };

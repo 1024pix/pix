@@ -1,6 +1,5 @@
-import { expect, databaseBuilder } from '../../../../../test-helper.js';
-
 import * as targetProfileApi from '../../../../../../src/prescription/target-profile/application/api/target-profile-api.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Acceptance | Application | target-profile-api', function () {
   it('should not fail', async function () {

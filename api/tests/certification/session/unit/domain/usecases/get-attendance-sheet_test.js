@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../../../test-helper.js';
 import { getAttendanceSheet } from '../../../../../../src/certification/session/domain/usecases/get-attendance-sheet.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-attendance-sheet', function () {
   describe('getAttendanceSheet', function () {

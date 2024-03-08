@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { deleteSessionJuryComment } from '../../../../lib/domain/usecases/delete-session-jury-comment.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | delete-session-jury-comment', function () {
   it('should delete the session jury comment', async function () {

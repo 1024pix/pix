@@ -70,4 +70,4 @@ const deserialize = async function (json) {
   return campaignParticipation;
 };
 
-export { serialize, deserialize };
+export { deserialize, serialize };

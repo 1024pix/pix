@@ -1,6 +1,6 @@
 import { competenceForScoringConfigurationController } from '../../../../../src/certification/scoring/application/competence-for-scoring-configuration-controller.js';
-import { sinon, expect, hFake } from '../../../../test-helper.js';
 import { usecases } from '../../../../../src/certification/scoring/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Application | CompetenceForScoringConfigurationController', function () {
   describe('#saveCompetenceForScoringConfiguration', function () {

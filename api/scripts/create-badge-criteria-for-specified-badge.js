@@ -1,13 +1,14 @@
-import Joi from 'joi';
 import bluebird from 'bluebird';
+import { readFile } from 'fs/promises';
+import Joi from 'joi';
+import * as url from 'url';
+
+import { disconnect } from '../db/knex-database-connection.js';
 import { NotFoundError } from '../lib/domain/errors.js';
 import { SCOPES } from '../lib/domain/models/BadgeDetails.js';
-import * as badgeRepository from '../src/shared/infrastructure/repositories/badge-repository.js';
-import * as badgeCriteriaRepository from '../lib/infrastructure/repositories/badge-criteria-repository.js';
 import { DomainTransaction } from '../lib/infrastructure/DomainTransaction.js';
-import { disconnect } from '../db/knex-database-connection.js';
-import { readFile } from 'fs/promises';
-import * as url from 'url';
+import * as badgeCriteriaRepository from '../lib/infrastructure/repositories/badge-criteria-repository.js';
+import * as badgeRepository from '../src/shared/infrastructure/repositories/badge-repository.js';
 
 // Usage: node scripts/create-badge-criteria-for-specified-badge path/data.json
 // data.json

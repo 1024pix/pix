@@ -1,12 +1,13 @@
-import { BadgeResult } from './BadgeResult.js';
-import { CompetenceResult } from './CompetenceResult.js';
+import dayjs from 'dayjs';
+
+import { getNewAcquiredStages } from '../../../../src/evaluation/domain/services/stages/get-new-acquired-stages-service.js';
 import {
   MAX_MASTERY_RATE,
   MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
   MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING,
 } from '../../constants.js';
-import dayjs from 'dayjs';
-import { getNewAcquiredStages } from '../../../../src/evaluation/domain/services/stages/get-new-acquired-stages-service.js';
+import { BadgeResult } from './BadgeResult.js';
+import { CompetenceResult } from './CompetenceResult.js';
 
 class AssessmentResult {
   constructor({

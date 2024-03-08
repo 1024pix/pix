@@ -1,5 +1,5 @@
-import { ValidatorQCM } from '../../../../../../src/devcomp/domain/models/validator/ValidatorQCM.js';
 import { Validation } from '../../../../../../src/devcomp/domain/models/validator/Validation.js';
+import { ValidatorQCM } from '../../../../../../src/devcomp/domain/models/validator/ValidatorQCM.js';
 import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import * as devcompDomainBuilder from '../../../../tooling/domain-builder/factory/index.js';

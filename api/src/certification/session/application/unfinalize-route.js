@@ -1,7 +1,8 @@
-import { unfinalizeController } from './unfinalize-controller.js';
-import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import Joi from 'joi';
+
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { unfinalizeController } from './unfinalize-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -35,4 +36,4 @@ const register = async function (server) {
 };
 
 const name = 'unfinalize-api';
-export { register, name };
+export { name, register };

@@ -1,10 +1,10 @@
-import { usecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
 import { usecases as libUsecases } from '../../../../../../lib/domain/usecases/index.js';
-import { expect, sinon, catchErr } from '../../../../../test-helper.js';
-import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { TargetProfileForSpecifier } from '../../../../../../src/prescription/target-profile/domain/read-models/TargetProfileForSpecifier.js';
 import * as targetProfileApi from '../../../../../../src/prescription/target-profile/application/api/target-profile-api.js';
 import { TargetProfile } from '../../../../../../src/prescription/target-profile/application/api/TargetProfile.js';
+import { TargetProfileForSpecifier } from '../../../../../../src/prescription/target-profile/domain/read-models/TargetProfileForSpecifier.js';
+import { usecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 
 describe('Unit | API | TargetProfile', function () {
   describe('#getById', function () {

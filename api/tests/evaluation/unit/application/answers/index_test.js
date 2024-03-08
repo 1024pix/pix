@@ -1,7 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-import * as moduleUnderTest from '../../../../../src/evaluation/application/answers/index.js';
-import { answerController } from '../../../../../src/evaluation/application/answers/answer-controller.js';
 import { config } from '../../../../../lib/config.js';
+import { answerController } from '../../../../../src/evaluation/application/answers/answer-controller.js';
+import * as moduleUnderTest from '../../../../../src/evaluation/application/answers/index.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 const { features } = config;
 

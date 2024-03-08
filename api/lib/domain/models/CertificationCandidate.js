@@ -1,14 +1,13 @@
+import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 import lodash from 'lodash';
 
-import BaseJoi from 'joi';
-import JoiDate from '@joi/date';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
 import {
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
   CertificationCandidatesError,
 } from '../errors.js';
-
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
 
 const Joi = BaseJoi.extend(JoiDate);
 const { isNil, endsWith } = lodash;

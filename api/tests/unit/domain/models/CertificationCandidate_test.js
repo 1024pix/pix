@@ -1,13 +1,11 @@
-import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
-import { CertificationCandidate } from '../../../../lib/domain/models/index.js';
-
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
 import {
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
   CertificationCandidatesError,
 } from '../../../../lib/domain/errors.js';
-
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
+import { CertificationCandidate } from '../../../../lib/domain/models/index.js';
+import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 const FIRST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code;

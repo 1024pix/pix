@@ -1,14 +1,15 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import {
-  PrivateCertificate,
-  ShareableCertificate,
-  ResultCompetenceTree,
-  CompetenceMark,
-  AssessmentResult,
-} from '../../domain/models/index.js';
-import { CertifiedBadge } from '../../../lib/domain/read-models/CertifiedBadge.js';
 import { NotFoundError } from '../../../lib/domain/errors.js';
+import { CertifiedBadge } from '../../../lib/domain/read-models/CertifiedBadge.js';
+import {
+  AssessmentResult,
+  CompetenceMark,
+  PrivateCertificate,
+  ResultCompetenceTree,
+  ShareableCertificate,
+} from '../../domain/models/index.js';
 import * as competenceTreeRepository from './competence-tree-repository.js';
 
 const getPrivateCertificate = async function (id, { locale } = {}) {
@@ -66,7 +67,7 @@ const getShareableCertificateByVerificationCode = async function (verificationCo
   return _toDomainForShareableCertificate({ shareableCertificateDTO, competenceTree, certifiedBadges });
 };
 
-export { getPrivateCertificate, findPrivateCertificatesByUserId, getShareableCertificateByVerificationCode };
+export { findPrivateCertificatesByUserId, getPrivateCertificate, getShareableCertificateByVerificationCode };
 
 async function _getCertifiedBadges(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex

@@ -1,5 +1,6 @@
-import { knex, disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { ORGANIZATION_FEATURE } from '../../src/shared/domain/constants.js';
 
 async function enableComputeCertificabilityOnScoOrganizationsThatManageStudents() {

@@ -1,12 +1,13 @@
-import jsYaml from 'js-yaml';
 import levenshtein from 'fast-levenshtein';
-import { _ } from '../../infrastructure/utils/lodash-utils.js';
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
-import { applyPreTreatments, applyTreatments } from './validation-treatments.js';
-import { YamlParsingError } from '../../domain/errors.js';
+import jsYaml from 'js-yaml';
+
 import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../src/shared/domain/constants.js';
-import { useLevenshteinRatio } from './services-utils.js';
 import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
+import { YamlParsingError } from '../../domain/errors.js';
+import { _ } from '../../infrastructure/utils/lodash-utils.js';
+import { useLevenshteinRatio } from './services-utils.js';
+import { applyPreTreatments, applyTreatments } from './validation-treatments.js';
 
 function _applyTreatmentsToSolutions(solutions, enabledTreatments, qrocBlocksTypes = {}) {
   return _.forEach(solutions, (solution, solutionKey) => {
@@ -114,4 +115,4 @@ function match({ answerValue, solution }) {
   };
 }
 
-export { _applyTreatmentsToSolutions, _applyTreatmentsToAnswers, _compareAnswersAndSolutions, _formatResult, match };
+export { _applyTreatmentsToAnswers, _applyTreatmentsToSolutions, _compareAnswersAndSolutions, _formatResult, match };

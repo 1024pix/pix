@@ -1,6 +1,6 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
 import { JuryCertification } from '../../../../lib/domain/models/JuryCertification.js';
 import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | JuryCertification', function () {
   describe('#from', function () {

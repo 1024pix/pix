@@ -1,3 +1,6 @@
+import { StageWithLinkedCampaignError } from '../../../../../src/evaluation/domain/errors.js';
+import { Stage } from '../../../../../src/evaluation/domain/models/Stage.js';
+import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import {
   catchErr,
   databaseBuilder,
@@ -6,9 +9,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
-import { Stage } from '../../../../../src/evaluation/domain/models/Stage.js';
-import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-import { StageWithLinkedCampaignError } from '../../../../../src/evaluation/domain/errors.js';
 
 function _buildLearningContent() {
   const learningContent = domainBuilder.buildCampaignLearningContent.withSimpleContent();

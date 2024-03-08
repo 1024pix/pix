@@ -1,11 +1,12 @@
-import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../test-helper.js';
 import _ from 'lodash';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
+import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', function () {
   describe('#getWithAnswers', function () {

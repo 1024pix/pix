@@ -1,10 +1,11 @@
 import _ from 'lodash';
+
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { ResultCompetenceTree, CompetenceMark, AssessmentResult } from '../../../../../lib/domain/models/index.js';
-import { CertificationAttestation } from '../../domain/models/CertificationAttestation.js';
+import { AssessmentResult, CompetenceMark, ResultCompetenceTree } from '../../../../../lib/domain/models/index.js';
+import { CertifiedBadge } from '../../../../../lib/domain/read-models/CertifiedBadge.js';
 import * as competenceTreeRepository from '../../../../../lib/infrastructure/repositories/competence-tree-repository.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { CertifiedBadge } from '../../../../../lib/domain/read-models/CertifiedBadge.js';
+import { CertificationAttestation } from '../../domain/models/CertificationAttestation.js';
 
 const findByDivisionForScoIsManagingStudentsOrganization = async function ({ organizationId, division }) {
   const certificationCourseDTOs = await _selectCertificationAttestations()

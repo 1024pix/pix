@@ -1,7 +1,7 @@
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 import * as courseService from '../../../../lib/domain/services/course-service.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Service | Course Service', function () {
   describe('#getCourse', function () {

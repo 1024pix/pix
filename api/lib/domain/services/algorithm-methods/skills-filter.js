@@ -1,12 +1,11 @@
 import _ from 'lodash';
-
 import fp from 'lodash/fp.js';
 
 const { pipe } = fp;
 import {
-  MAX_LEVEL_TO_BE_AN_EASY_TUBE,
-  MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL,
   DEFAULT_LEVEL_FOR_FIRST_CHALLENGE,
+  MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL,
+  MAX_LEVEL_TO_BE_AN_EASY_TUBE,
 } from '../../constants.js';
 
 export { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge };

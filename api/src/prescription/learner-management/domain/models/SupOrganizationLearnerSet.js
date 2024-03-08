@@ -1,7 +1,7 @@
-import { SupOrganizationLearner } from './SupOrganizationLearner.js';
-import { checkValidation } from '../validators/sup-organization-learner-set-validator.js';
-import { areTwoStringsCloseEnough } from '../../../../shared/domain/services/string-comparison-service.js';
 import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../../shared/domain/constants.js';
+import { areTwoStringsCloseEnough } from '../../../../shared/domain/services/string-comparison-service.js';
+import { checkValidation } from '../validators/sup-organization-learner-set-validator.js';
+import { SupOrganizationLearner } from './SupOrganizationLearner.js';
 
 const STUDY_SCHEMES = [
   'csv-import-values.sup-organization-learner.study-schemes.initial-training',

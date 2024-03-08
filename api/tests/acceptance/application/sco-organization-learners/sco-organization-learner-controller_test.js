@@ -1,3 +1,4 @@
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,7 +7,6 @@ import {
   generateValidRequestAuthorizationHeader,
   knex,
 } from '../../../test-helper.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 describe('Acceptance | Controller | sco-organization-learners', function () {
   let server;

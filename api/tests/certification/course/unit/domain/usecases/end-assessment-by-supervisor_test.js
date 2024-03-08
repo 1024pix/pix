@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder } from '../../../../../test-helper.js';
 import { CertificationAssessment } from '../../../../../../lib/domain/models/index.js';
 import { endAssessmentBySupervisor } from '../../../../../../src/certification/course/domain/usecases/end-assessment-by-supervisor.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | end-assessment-by-supervisor', function () {
   let certificationAssessmentRepository;

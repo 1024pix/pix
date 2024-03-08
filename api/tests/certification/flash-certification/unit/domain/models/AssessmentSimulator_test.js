@@ -1,5 +1,5 @@
-import { expect, domainBuilder, sinon } from '../../../../../test-helper.js';
 import { Answer, AnswerStatus, AssessmentSimulator } from '../../../../../../lib/domain/models/index.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | AssessmentSimulator', function () {
   describe('#run', function () {

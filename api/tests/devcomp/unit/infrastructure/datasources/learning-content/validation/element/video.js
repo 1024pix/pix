@@ -1,4 +1,5 @@
 import Joi from 'joi';
+
 import { htmlSchema, uuidSchema } from '../utils.js';
 
 const videoElementSchema = Joi.object({

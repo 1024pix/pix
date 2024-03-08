@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder } from '../../../../../test-helper.js';
-import { getInvigilatorKitSessionInfo } from '../../../../../../src/certification/session/domain/usecases/get-invigilator-kit-session-info.js';
 import { SessionForInvigilatorKit } from '../../../../../../src/certification/session/domain/read-models/SessionForInvigilatorKit.js';
+import { getInvigilatorKitSessionInfo } from '../../../../../../src/certification/session/domain/usecases/get-invigilator-kit-session-info.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-invigilator-kit-info', function () {
   describe('getInvigilatorKitSessionInfo', function () {

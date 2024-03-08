@@ -1,7 +1,8 @@
-import { usecases } from '../domain/usecases/index.js';
-import { escapeFileName } from '../../../../lib/infrastructure/utils/request-response-utils.js';
-import * as learningContentPDFPresenter from './presenter/pdf/learning-content-pdf-presenter.js';
 import dayjs from 'dayjs';
+
+import { escapeFileName } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import { usecases } from '../domain/usecases/index.js';
+import * as learningContentPDFPresenter from './presenter/pdf/learning-content-pdf-presenter.js';
 
 const getContentAsJsonFile = async function (request, h) {
   const targetProfileId = request.params.id;

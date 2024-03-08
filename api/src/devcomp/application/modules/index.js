@@ -1,6 +1,7 @@
 import Joi from 'joi';
-import { modulesController } from './controller.js';
+
 import { handlerWithDependencies } from '../../infrastructure/utils/handlerWithDependencies.js';
+import { modulesController } from './controller.js';
 
 const register = async function (server) {
   server.route([
@@ -21,4 +22,4 @@ const register = async function (server) {
 };
 
 const name = 'modules-api';
-export { register, name };
+export { name, register };

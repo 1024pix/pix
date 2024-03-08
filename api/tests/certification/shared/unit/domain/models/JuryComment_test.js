@@ -1,6 +1,6 @@
 import {
-  JuryComment,
   AutoJuryCommentKeys,
+  JuryComment,
   JuryCommentContexts,
 } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { expect } from '../../../../../test-helper.js';

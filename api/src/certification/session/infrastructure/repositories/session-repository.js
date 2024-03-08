@@ -2,13 +2,13 @@ import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { Session } from '../../domain/models/Session.js';
-import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
+import { CertificationAssessment } from '../../../../../lib/domain/models/CertificationAssessment.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { ComplementaryCertification } from '../../../session/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
-import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CertificationAssessment } from '../../../../../lib/domain/models/CertificationAssessment.js';
+import { Session } from '../../domain/models/Session.js';
 
 const save = async function (sessionData, { knexTransaction } = DomainTransaction.emptyTransaction()) {
   const knexConn = knexTransaction ?? knex;
@@ -224,25 +224,25 @@ const countUncompletedCertificationsAssessment = async function (sessionId) {
 };
 
 export {
-  save,
-  saveSessions,
-  isFinalized,
-  isPublished,
-  get,
-  isSessionExisting,
-  isSessionExistingBySessionAndCertificationCenterIds,
-  getWithCertificationCandidates,
-  updateSessionInfo,
+  countUncompletedCertificationsAssessment,
   doesUserHaveCertificationCenterMembershipForSession,
   finalize,
-  unfinalize,
   flagResultsAsSentToPrescriber,
-  updatePublishedAt,
-  isSco,
-  remove,
-  hasSomeCleaAcquired,
+  get,
+  getWithCertificationCandidates,
   hasNoStartedCertification,
-  countUncompletedCertificationsAssessment,
+  hasSomeCleaAcquired,
+  isFinalized,
+  isPublished,
+  isSco,
+  isSessionExisting,
+  isSessionExistingBySessionAndCertificationCenterIds,
+  remove,
+  save,
+  saveSessions,
+  unfinalize,
+  updatePublishedAt,
+  updateSessionInfo,
 };
 
 function _toDomain(results) {

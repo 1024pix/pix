@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
 import { CleaCertifiedCandidate } from '../../../../lib/domain/read-models/CleaCertifiedCandidate.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CleaCertifiedCandidate', function () {
   describe('#isBornInAForeignCountry', function () {

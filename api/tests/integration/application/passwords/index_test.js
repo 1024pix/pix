@@ -1,6 +1,6 @@
-import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import { passwordController } from '../../../../lib/application/passwords/password-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/passwords/index.js';
+import { passwordController } from '../../../../lib/application/passwords/password-controller.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Password | Routes', function () {
   let httpTestServer;

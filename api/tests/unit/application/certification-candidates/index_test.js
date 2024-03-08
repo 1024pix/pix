@@ -1,7 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import * as moduleUnderTest from '../../../../lib/application/certification-candidates/index.js';
 import { certificationCandidatesController } from '../../../../lib/application/certification-candidates/certification-candidates-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/certification-candidates/index.js';
 import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | CertificationCandidates | Routes', function () {
   describe('GET certification-candidates/{id}/authorize-to-start', function () {

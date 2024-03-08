@@ -1,7 +1,7 @@
 import { usecases } from '../../domain/usecases/index.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-management/target-profile-repository.js';
-import * as targetProfileDetachOrganizationsSerializer from '../../infrastructure/serializers/jsonapi/target-profiles-management/target-profile-detach-organizations-serializer.js';
 import { deserializer } from '../../infrastructure/serializers/jsonapi/deserializer.js';
+import * as targetProfileDetachOrganizationsSerializer from '../../infrastructure/serializers/jsonapi/target-profiles-management/target-profile-detach-organizations-serializer.js';
 
 const detachOrganizations = async function (
   request,

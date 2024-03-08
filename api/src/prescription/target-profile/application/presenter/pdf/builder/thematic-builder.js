@@ -2,11 +2,11 @@ import lodash from 'lodash';
 
 const { sortBy } = lodash;
 
-import * as tubeBuilder from './tube-builder.js';
 import { ThematicText } from '../drawer/ThematicText.js';
-import { PositionManager } from '../manager/position-manager.js';
-import { FontManager } from '../manager/font-manager.js';
 import * as ColorManager from '../manager/color-manager.js';
+import { FontManager } from '../manager/font-manager.js';
+import { PositionManager } from '../manager/position-manager.js';
+import * as tubeBuilder from './tube-builder.js';
 
 const build = function (positionY, page, thematic, dryRun) {
   if (!dryRun) {
@@ -41,4 +41,4 @@ const _drawThematicBackground = function (positionY, page, thematic) {
   });
 };
 
-export { build, _drawContent, _drawThematicBackground };
+export { _drawContent, _drawThematicBackground, build };

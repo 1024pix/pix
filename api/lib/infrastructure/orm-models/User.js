@@ -1,5 +1,3 @@
-import { Bookshelf } from '../bookshelf.js';
-
 import './Assessment.js';
 import './KnowledgeElement.js';
 import './Membership.js';
@@ -7,6 +5,8 @@ import './CertificationCenterMembership.js';
 import './UserOrgaSettings.js';
 import './OrganizationLearner.js';
 import './AuthenticationMethod.js';
+
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'User';
 

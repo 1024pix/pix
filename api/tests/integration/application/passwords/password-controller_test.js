@@ -1,10 +1,8 @@
-import { domainBuilder, expect, sinon, HttpTestServer } from '../../../test-helper.js';
-
-import { PasswordResetDemandNotFoundError, UserNotFoundError } from '../../../../lib/domain/errors.js';
-
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as moduleUnderTest from '../../../../lib/application/passwords/index.js';
+import { PasswordResetDemandNotFoundError, UserNotFoundError } from '../../../../lib/domain/errors.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { ForbiddenAccess, InvalidTemporaryKeyError } from '../../../../src/shared/domain/errors.js';
+import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Passwords | password-controller', function () {
   let httpTestServer;

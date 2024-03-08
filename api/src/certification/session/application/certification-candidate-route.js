@@ -1,8 +1,8 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
-import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationCandidateController } from './certification-candidate-controller.js';
 
 const register = async function (server) {
@@ -114,4 +114,4 @@ const register = async function (server) {
 };
 
 const name = 'certification-candidate';
-export { register, name };
+export { name, register };

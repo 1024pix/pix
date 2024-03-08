@@ -1,4 +1,4 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | Campaign', function () {
   describe('#organizationId', function () {

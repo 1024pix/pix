@@ -1,17 +1,16 @@
 import _ from 'lodash';
-import { CertificationCandidate } from '../models/CertificationCandidate.js';
 
 import {
   CertificationCandidateByPersonalInfoNotFoundError,
-  MatchingReconciledStudentNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  UserAlreadyLinkedToCandidateInSessionError,
+  MatchingReconciledStudentNotFoundError,
   SessionNotAccessible,
   UnexpectedUserAccountError,
+  UserAlreadyLinkedToCandidateInSessionError,
 } from '../errors.js';
-
-import { UserLinkedToCertificationCandidate } from '../events/UserLinkedToCertificationCandidate.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../events/UserAlreadyLinkedToCertificationCandidate.js';
+import { UserLinkedToCertificationCandidate } from '../events/UserLinkedToCertificationCandidate.js';
+import { CertificationCandidate } from '../models/CertificationCandidate.js';
 
 const linkUserToSessionCertificationCandidate = async function ({
   userId,

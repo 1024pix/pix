@@ -1,3 +1,4 @@
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,7 +7,6 @@ import {
   knex,
   mockLearningContent,
 } from '../../../../test-helper.js';
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 describe('Acceptance | API | assessment-controller-pause-assessment', function () {
   describe('POST /api/assessments/{id}/alert', function () {

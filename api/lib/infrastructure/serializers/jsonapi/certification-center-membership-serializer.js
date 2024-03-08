@@ -1,4 +1,5 @@
 import jsonapiSerializer from 'jsonapi-serializer';
+
 import { CertificationCenterMembership } from '../../../domain/models/index.js';
 
 const { Serializer } = jsonapiSerializer;
@@ -73,4 +74,4 @@ const deserialize = function (payload) {
   });
 };
 
-export { deserialize, serialize, serializeMembers, serializeForAdmin };
+export { deserialize, serialize, serializeForAdmin, serializeMembers };

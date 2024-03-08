@@ -1,10 +1,10 @@
-import { randomUUID } from 'crypto';
-
-import { RedisClient } from '../../../../lib/infrastructure/utils/RedisClient.js';
-import { config } from '../../../../lib/config.js';
-import { expect } from '../../../test-helper.js';
 import bluebird from 'bluebird';
+import { randomUUID } from 'crypto';
 import Redis from 'ioredis';
+
+import { config } from '../../../../lib/config.js';
+import { RedisClient } from '../../../../lib/infrastructure/utils/RedisClient.js';
+import { expect } from '../../../test-helper.js';
 
 const { using } = bluebird;
 

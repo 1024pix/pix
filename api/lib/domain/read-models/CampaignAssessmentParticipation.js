@@ -1,6 +1,7 @@
-import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
-import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 import _ from 'lodash';
+
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

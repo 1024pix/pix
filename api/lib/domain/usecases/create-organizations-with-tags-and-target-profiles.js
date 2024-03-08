@@ -1,10 +1,9 @@
 import bluebird from 'bluebird';
 import lodash from 'lodash';
-import { Organization } from '../models/Organization.js';
-import { OrganizationTag } from '../models/OrganizationTag.js';
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import { OrganizationForAdmin } from '../models/index.js';
 
+import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
+import { CONCURRENCY_HEAVY_OPERATIONS } from '../../infrastructure/constants.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import {
   ManyOrganizationsFoundError,
   ObjectValidationError,
@@ -12,8 +11,9 @@ import {
   OrganizationTagNotFound,
   TargetProfileInvalidError,
 } from '../errors.js';
-import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
-import { CONCURRENCY_HEAVY_OPERATIONS } from '../../infrastructure/constants.js';
+import { OrganizationForAdmin } from '../models/index.js';
+import { Organization } from '../models/Organization.js';
+import { OrganizationTag } from '../models/OrganizationTag.js';
 
 const { isEmpty, uniqBy } = lodash;
 

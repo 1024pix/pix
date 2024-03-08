@@ -1,10 +1,8 @@
 import bcrypt from 'bcrypt';
 
-import { catchErr, expect } from '../../../../test-helper.js';
-
-import * as encryptionService from '../../../../../src/shared/domain/services/encryption-service.js';
-
 import { PasswordNotMatching } from '../../../../../src/authentication/domain/errors.js';
+import * as encryptionService from '../../../../../src/shared/domain/services/encryption-service.js';
+import { catchErr, expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Services | Encryption', function () {
   describe('#checkPassword', function () {

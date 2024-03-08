@@ -1,14 +1,13 @@
-import { expect, catchErr } from '../../../../../test-helper.js';
-
-import { CampaignCreator } from '../../../../../../src/prescription/campaign/domain/models/CampaignCreator.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-import { CampaignForCreation } from '../../../../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
 import {
-  UserNotAuthorizedToCreateCampaignError,
   OrganizationNotAuthorizedMultipleSendingAssessmentToCreateCampaignError,
+  UserNotAuthorizedToCreateCampaignError,
 } from '../../../../../../lib/domain/errors.js';
-import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { CampaignCreator } from '../../../../../../src/prescription/campaign/domain/models/CampaignCreator.js';
+import { CampaignForCreation } from '../../../../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../src/shared/domain/constants.js';
+import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CampaignCreator', function () {
   let organizationFeatures;

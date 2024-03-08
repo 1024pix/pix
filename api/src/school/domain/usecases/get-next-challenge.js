@@ -1,7 +1,7 @@
+import { Activity } from '../models/Activity.js';
 import { getCurrentActivity } from '../services/activity.js';
 import { getChallengeForCurrentActivity, getNextActivityChallenge } from '../services/activity-challenge.js';
 import { getLastAnswerStatus } from '../services/last-answer-status.js';
-import { Activity } from '../models/Activity.js';
 
 export async function getNextChallenge({
   assessmentId,

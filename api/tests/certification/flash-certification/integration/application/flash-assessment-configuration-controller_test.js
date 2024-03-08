@@ -1,6 +1,6 @@
 import { flashAssessmentConfigurationController } from '../../../../../src/certification/flash-certification/application/flash-assessment-configuration-controller.js';
-import { domainBuilder, sinon, expect, hFake } from '../../../../test-helper.js';
 import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Application | FlashAssessmentConfigurationController', function () {
   describe('#getActiveFlashAssessmentConfiguration', function () {

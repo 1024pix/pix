@@ -1,6 +1,6 @@
 import { FinalizedSession } from '../models/FinalizedSession.js';
-import { checkEventTypes } from './check-event-types.js';
 import { AutoJuryDone } from './AutoJuryDone.js';
+import { checkEventTypes } from './check-event-types.js';
 
 const eventTypes = [AutoJuryDone];
 

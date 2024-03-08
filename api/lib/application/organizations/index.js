@@ -1,11 +1,11 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError } from '../http-errors.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { organizationController } from './organization-controller.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { BadRequestError, NotFoundError, PayloadTooLargeError, sendJsonApiError } from '../http-errors.js';
+import { organizationController } from './organization-controller.js';
 
 const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
@@ -646,4 +646,4 @@ const register = async function (server) {
 };
 
 const name = 'organization-api';
-export { register, name };
+export { name, register };

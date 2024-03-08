@@ -1,3 +1,4 @@
+import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
 import {
   createServer,
   databaseBuilder,
@@ -5,7 +6,6 @@ import {
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
 } from '../../../test-helper.js';
-import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
 
 describe('Acceptance | Controller | tutorial-evaluations-controller', function () {
   let server;

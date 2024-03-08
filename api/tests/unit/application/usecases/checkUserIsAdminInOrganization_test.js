@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import * as useCase from '../../../../lib/application/usecases/checkUserIsAdminInOrganization.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Use Case | CheckUserIsAdminInOrganization', function () {
   let membershipRepositoryStub;

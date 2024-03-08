@@ -1,7 +1,7 @@
+import { KnowledgeElement } from '../../../../lib/domain/models/index.js';
+import { getMasteryPercentage } from '../../../../lib/domain/services/get-mastery-percentage-service.js';
 import { expect } from '../../../test-helper.js';
 import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
-import { getMasteryPercentage } from '../../../../lib/domain/services/get-mastery-percentage-service.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/index.js';
 
 describe('Unit | Service | Compute mastery percentage', function () {
   let dataSets;

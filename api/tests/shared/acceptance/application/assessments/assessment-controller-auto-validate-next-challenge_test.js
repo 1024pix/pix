@@ -1,3 +1,5 @@
+import { config as settings } from '../../../../../lib/config.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
   createServer,
   databaseBuilder,
@@ -8,9 +10,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
-
-import { config as settings } from '../../../../../lib/config.js';
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 const lastChallengeAnswer = 'last challenge answer';
 const lastChallengeId = 'lastChallengeId';

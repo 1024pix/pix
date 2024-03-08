@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { NoOrganizationToAttach } from '../errors.js';
 
 class OrganizationsToAttachToTargetProfile {

@@ -1,11 +1,10 @@
+import bluebird from 'bluebird';
+import _ from 'lodash';
 import url from 'url';
 
-import _ from 'lodash';
-import bluebird from 'bluebird';
-
 import { disconnect } from '../../db/knex-database-connection.js';
-import { checkCsvHeader, parseCsvWithHeader } from '../helpers/csvHelpers.js';
 import { usecases } from '../../lib/domain/usecases/index.js';
+import { checkCsvHeader, parseCsvWithHeader } from '../helpers/csvHelpers.js';
 
 const MODULE_PATH = url.fileURLToPath(import.meta.url);
 const IS_LAUNCHED_FROM_CLI = process.argv[1] === MODULE_PATH;

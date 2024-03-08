@@ -1,5 +1,5 @@
 import { getActiveFlashAssessmentConfiguration } from '../../../../../../src/certification/flash-certification/domain/usecases/get-active-flash-assessment-configuration.js';
-import { domainBuilder, sinon, expect } from '../../../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('#getActiveFlashAssessmentConfiguration', function () {
   it('should return the last configuration', async function () {

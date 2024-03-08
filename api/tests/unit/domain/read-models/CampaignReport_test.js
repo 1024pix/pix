@@ -1,5 +1,5 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
 import { CampaignTypes } from '../../../../src/prescription/shared/domain/constants.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CampaignReport', function () {
   it('should define target profile informations', function () {

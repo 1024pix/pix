@@ -1,5 +1,5 @@
-import { expect } from '../../../../../../test-helper.js';
 import * as organizationPlaceStatisticsSerializer from '../../../../../../../src/prescription/organization-place/infrastructure/serializers/jsonapi/organization-places-statistics-serializer.js';
+import { expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | organization-places-statistics-serializer', function () {
   describe('#serialize', function () {

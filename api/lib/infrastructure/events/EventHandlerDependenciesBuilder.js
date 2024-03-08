@@ -1,7 +1,7 @@
 import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
+import { UserAnonymizedEventLoggingJob } from '../jobs/audit-log/UserAnonymizedEventLoggingJob.js';
 import { ParticipationResultCalculationJob } from '../jobs/campaign-result/ParticipationResultCalculationJob.js';
 import { SendSharedParticipationResultsToPoleEmploiJob } from '../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
-import { UserAnonymizedEventLoggingJob } from '../jobs/audit-log/UserAnonymizedEventLoggingJob.js';
 
 function build(classToInstanciate, domainTransaction) {
   const dependencies = _buildDependencies(domainTransaction);

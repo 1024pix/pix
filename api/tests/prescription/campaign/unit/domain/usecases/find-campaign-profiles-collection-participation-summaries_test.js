@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../../../test-helper.js';
-import { findCampaignProfilesCollectionParticipationSummaries } from '../../../../../../src/prescription/campaign/domain/usecases/find-campaign-profiles-collection-participation-summaries.js';
 import { CampaignProfilesCollectionParticipationSummary } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
+import { findCampaignProfilesCollectionParticipationSummaries } from '../../../../../../src/prescription/campaign/domain/usecases/find-campaign-profiles-collection-participation-summaries.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | find-campaign-profiles-collection-participation-summaries', function () {
   let campaignId;

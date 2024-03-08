@@ -1,5 +1,5 @@
-import { expect, domainBuilder, databaseBuilder } from '../../../test-helper.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../../../lib/infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | complementary certification scoring criteria', function () {
   describe('#findByCertificationCourseId', function () {

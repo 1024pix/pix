@@ -1,7 +1,8 @@
 import Joi from 'joi';
+
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { stageController } from './stage-controller.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { stageController } from './stage-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -52,4 +53,4 @@ const register = async function (server) {
 };
 
 const name = 'stage-api';
-export { register, name };
+export { name, register };

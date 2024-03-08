@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { findAllTags } from '../../../../lib/domain/usecases/find-all-tags.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | find-all-tags', function () {
   let tagRepository;

@@ -1,8 +1,9 @@
-import { nock } from '../../../../../test-helper.js';
-import { uploadCpfFiles } from '../../../../../../src/certification/session/domain/usecases/upload-cpf-files.js';
 import { Readable } from 'stream';
-import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
+
+import { uploadCpfFiles } from '../../../../../../src/certification/session/domain/usecases/upload-cpf-files.js';
 import { cpfExportsStorage } from '../../../../../../src/certification/session/infrastructure/storage/cpf-exports-storage.js';
+import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
+import { nock } from '../../../../../test-helper.js';
 
 describe('Integration | UseCase | upload-cpf-files', function () {
   after(function () {

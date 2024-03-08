@@ -1,7 +1,7 @@
-import { expect, databaseBuilder, mockLearningContent } from '../../../test-helper.js';
-import { campaignParticipationResultRepository } from '../../../../lib/infrastructure/repositories/campaign-participation-result-repository.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { campaignParticipationResultRepository } from '../../../../lib/infrastructure/repositories/campaign-participation-result-repository.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
+import { databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

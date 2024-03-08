@@ -1,11 +1,11 @@
 import {
+  createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   MockDate,
   mockLearningContent,
-  createServer,
 } from '../../../../test-helper.js';
 
 describe('Acceptance | Route | admin-target-profile', function () {

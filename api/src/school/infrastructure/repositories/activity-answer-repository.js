@@ -1,5 +1,6 @@
-import _ from 'lodash';
 import jsYaml from 'js-yaml';
+import _ from 'lodash';
+
 import { knex } from '../../../../db/knex-database-connection.js';
 import * as answerStatusDatabaseAdapter from '../../../shared/infrastructure/adapters/answer-status-database-adapter.js';
 import { ActivityAnswer } from '../../domain/models/ActivityAnswer.js';

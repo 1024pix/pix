@@ -9,4 +9,4 @@ const down = function (knex) {
   return knex.table(TABLE_NAME).insert(ROW);
 };
 
-export { up, down };
+export { down, up };

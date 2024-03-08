@@ -1,6 +1,6 @@
-import { expect, domainBuilder, sinon } from '../../../test-helper.js';
-import { getCertificationCenterForAdmin } from '../../../../lib/domain/usecases/get-certification-center-for-admin.js';
 import { CertificationCenterForAdmin } from '../../../../lib/domain/models/CertificationCenterForAdmin.js';
+import { getCertificationCenterForAdmin } from '../../../../lib/domain/usecases/get-certification-center-for-admin.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-certification-center-for-admin', function () {
   let certificationCenterForAdmin;

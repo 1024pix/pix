@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
-import { trainingController as trainingsController } from './training-controller.js';
-import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { BadRequestError, NotFoundError, sendJsonApiError } from '../../../../lib/application/http-errors.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { sendJsonApiError, NotFoundError, BadRequestError } from '../../../../lib/application/http-errors.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { trainingController as trainingsController } from './training-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -274,4 +274,4 @@ const register = async function (server) {
 };
 
 const name = 'trainings-api';
-export { register, name };
+export { name, register };

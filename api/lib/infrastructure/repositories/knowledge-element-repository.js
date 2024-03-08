@@ -1,8 +1,9 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
-import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
 
 const tableName = 'knowledge-elements';
 
@@ -171,17 +172,17 @@ const findInvalidatedAndDirectByUserId = async function (userId) {
 };
 
 export {
-  save,
   batchSave,
+  countValidatedByCompetencesForOneUserWithinCampaign,
+  countValidatedByCompetencesForUsersWithinCampaign,
+  findInvalidatedAndDirectByUserId,
+  findSnapshotForUsers,
+  findSnapshotGroupedByCompetencesForUsers,
   findUniqByUserId,
-  findUniqByUserIds,
   findUniqByUserIdAndAssessmentId,
   findUniqByUserIdAndCompetenceId,
   findUniqByUserIdGroupedByCompetenceId,
-  findSnapshotGroupedByCompetencesForUsers,
-  countValidatedByCompetencesForUsersWithinCampaign,
-  countValidatedByCompetencesForOneUserWithinCampaign,
+  findUniqByUserIds,
   findValidatedGroupedByTubesWithinCampaign,
-  findSnapshotForUsers,
-  findInvalidatedAndDirectByUserId,
+  save,
 };

@@ -1,13 +1,12 @@
+import { SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
+import * as badgeForCalculationRepository from '../../../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
 import {
-  expect,
   databaseBuilder,
   domainBuilder,
-  mockLearningContent,
+  expect,
   learningContentBuilder,
+  mockLearningContent,
 } from '../../../test-helper.js';
-
-import * as badgeForCalculationRepository from '../../../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
-import { SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
 
 describe('Integration | Repository | BadgeForCalculation', function () {
   const campaignSkillsId = [

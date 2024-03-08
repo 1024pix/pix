@@ -12,4 +12,4 @@ const down = async function (knex) {
   await knex.raw('ALTER TABLE "competence-marks" ALTER COLUMN "score" DROP NOT NULL');
 };
 
-export { up, down };
+export { down, up };

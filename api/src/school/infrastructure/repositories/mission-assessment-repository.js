@@ -23,4 +23,4 @@ const getAllCompletedMissionIds = async function (organizationLearnerId) {
   return raw.map((element) => element.missionId);
 };
 
-export { save, getByAssessmentId, getAllCompletedMissionIds };
+export { getAllCompletedMissionIds, getByAssessmentId, save };

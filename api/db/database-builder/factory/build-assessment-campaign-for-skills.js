@@ -1,6 +1,6 @@
+import { CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
 import { buildCampaign } from './build-campaign.js';
 import { buildCampaignSkill } from './build-campaign-skill.js';
-import { CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
 
 const buildAssessmentCampaignForSkills = function (attributes, skillSet) {
   attributes.type = CampaignTypes.ASSESSMENT;

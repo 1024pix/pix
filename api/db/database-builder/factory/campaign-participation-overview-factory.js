@@ -1,10 +1,10 @@
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { buildAssessment } from './build-assessment.js';
 import { buildCampaign } from './build-campaign.js';
 import { buildCampaignParticipation } from './build-campaign-participation.js';
 import { buildCampaignSkill } from './build-campaign-skill.js';
 import { buildUser } from './build-user.js';
-import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
-import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
@@ -166,4 +166,4 @@ const buildDeleted = function ({
   return campaignParticipation;
 };
 
-export { build, buildOnGoing, buildToShare, buildEnded, buildArchived, buildDeleted };
+export { build, buildArchived, buildDeleted, buildEnded, buildOnGoing, buildToShare };

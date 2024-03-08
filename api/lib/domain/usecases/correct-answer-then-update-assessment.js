@@ -1,14 +1,13 @@
-import {
-  ChallengeNotAskedError,
-  CertificationEndedBySupervisorError,
-  CertificationEndedByFinalizationError,
-  AnswerEvaluationError,
-} from '../errors.js';
-
-import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
-import { KnowledgeElement } from '../models/KnowledgeElement.js';
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
+import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
+import {
+  AnswerEvaluationError,
+  CertificationEndedByFinalizationError,
+  CertificationEndedBySupervisorError,
+  ChallengeNotAskedError,
+} from '../errors.js';
+import { KnowledgeElement } from '../models/KnowledgeElement.js';
 
 const correctAnswerThenUpdateAssessment = async function ({
   answer,

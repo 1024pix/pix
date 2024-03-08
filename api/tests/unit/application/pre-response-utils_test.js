@@ -1,7 +1,7 @@
-import { expect, sinon, hFake } from '../../test-helper.js';
 import { BaseHttpError } from '../../../lib/application/http-errors.js';
 import { handleDomainAndHttpErrors } from '../../../lib/application/pre-response-utils.js';
 import { DomainError } from '../../../lib/domain/errors.js';
+import { expect, hFake, sinon } from '../../test-helper.js';
 
 describe('Unit | Application | PreResponse-utils', function () {
   describe('#handleDomainAndHttpErrors', function () {

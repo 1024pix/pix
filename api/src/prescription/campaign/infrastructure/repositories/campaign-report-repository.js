@@ -1,12 +1,13 @@
-import { knex } from '../../../../../db/knex-database-connection.js';
-import { CampaignReport } from '../../../../../lib/domain/read-models/CampaignReport.js';
-import { TargetProfileForSpecifier } from '../../../target-profile/domain/read-models/TargetProfileForSpecifier.js';
-import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/index.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import _ from 'lodash';
+
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/index.js';
+import { CampaignReport } from '../../../../../lib/domain/read-models/CampaignReport.js';
 import * as skillRepository from '../../../../../lib/infrastructure/repositories/skill-repository.js';
-import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
+import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import { TargetProfileForSpecifier } from '../../../target-profile/domain/read-models/TargetProfileForSpecifier.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -141,4 +142,4 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName,
   }
 }
 
-export { get, findMasteryRatesAndValidatedSkillsCount, findPaginatedFilteredByOrganizationId };
+export { findMasteryRatesAndValidatedSkillsCount, findPaginatedFilteredByOrganizationId, get };

@@ -1,7 +1,8 @@
 import Joi from 'joi';
-import { campaignResultsController } from './campaign-results-controller.js';
+
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { campaignResultsController } from './campaign-results-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -62,4 +63,4 @@ const register = async function (server) {
 };
 
 const name = 'campaigns-participation-api';
-export { register, name };
+export { name, register };

@@ -1,10 +1,11 @@
 import levenshtein from 'fast-levenshtein';
+
+import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../shared/domain/constants.js';
+import { AnswerStatus } from '../../../shared/domain/models/AnswerStatus.js';
 import { _ } from '../../../shared/infrastructure/utils/lodash-utils.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
-import { applyTreatments } from './validation-treatments.js';
-import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../shared/domain/constants.js';
 import { useLevenshteinRatio } from './services-utils.js';
-import { AnswerStatus } from '../../../shared/domain/models/AnswerStatus.js';
+import { applyTreatments } from './validation-treatments.js';
 
 function match({ answerValue, solution }) {
   const solutionValue = solution.value;
@@ -98,4 +99,4 @@ function _formatResult(resultDetails) {
   return result;
 }
 
-export { _applyTreatmentsToSolutions, _applyTreatmentsToAnswers, _compareAnswersAndSolutions, _formatResult, match };
+export { _applyTreatmentsToAnswers, _applyTreatmentsToSolutions, _compareAnswersAndSolutions, _formatResult, match };

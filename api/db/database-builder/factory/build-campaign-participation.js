@@ -1,9 +1,10 @@
-import { buildCampaign } from './build-campaign.js';
-import { buildUser } from './build-user.js';
-import { buildOrganizationLearner } from './build-organization-learner.js';
-import { databaseBuffer } from '../database-buffer.js';
-import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 import _ from 'lodash';
+
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
+import { databaseBuffer } from '../database-buffer.js';
+import { buildCampaign } from './build-campaign.js';
+import { buildOrganizationLearner } from './build-organization-learner.js';
+import { buildUser } from './build-user.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

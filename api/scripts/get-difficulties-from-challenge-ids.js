@@ -1,8 +1,8 @@
-import yargs from 'yargs';
-import { readFile } from 'fs/promises';
-import { hideBin } from 'yargs/helpers';
 import dotenv from 'dotenv';
+import { readFile } from 'fs/promises';
 import Redis from 'ioredis';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 dotenv.config();
 

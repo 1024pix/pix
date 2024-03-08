@@ -1,6 +1,6 @@
-import { expect, domainBuilder } from '../../../../../../test-helper.js';
 import * as flash from '../../../../../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import { AnswerStatus } from '../../../../../../../src/shared/domain/models/AnswerStatus.js';
+import { domainBuilder, expect } from '../../../../../../test-helper.js';
 
 describe('Integration | Domain | Algorithm-methods | Flash', function () {
   describe('#getPossibleNextChallenge', function () {

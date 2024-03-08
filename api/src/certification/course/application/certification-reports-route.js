@@ -1,4 +1,5 @@
 import Joi from 'joi';
+
 import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationReportsController } from './certification-reports-controller.js';
@@ -32,4 +33,4 @@ const register = async function (server) {
 };
 
 const name = 'certification-reports';
-export { register, name };
+export { name, register };

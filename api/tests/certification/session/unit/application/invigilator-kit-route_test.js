@@ -1,8 +1,8 @@
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-import * as moduleUnderTest from '../../../../../src/certification/session/application/invigilator-kit-route.js';
-import { invigilatorKitController } from '../../../../../src/certification/session/application/invigilator-kit-controller.js';
 import { authorization } from '../../../../../lib/application/preHandlers/authorization.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { invigilatorKitController } from '../../../../../src/certification/session/application/invigilator-kit-controller.js';
+import * as moduleUnderTest from '../../../../../src/certification/session/application/invigilator-kit-route.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Router | invigilator-kit-route', function () {
   describe('GET /api/sessions/{id}/supervisor-kit', function () {

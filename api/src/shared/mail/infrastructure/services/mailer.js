@@ -1,10 +1,11 @@
 import Debug from 'debug';
-import { BrevoProvider } from '../providers/BrevoProvider.js';
+
 import { config } from '../../../config.js';
 import { logger } from '../../../infrastructure/utils/logger.js';
-import * as mailCheck from '../services/mail-check.js';
 import { EmailingAttempt } from '../../domain/models/EmailingAttempt.js';
 import { MailingProviderInvalidEmailError } from '../../domain/models/MailingProviderInvalidEmailError.js';
+import { BrevoProvider } from '../providers/BrevoProvider.js';
+import * as mailCheck from '../services/mail-check.js';
 
 const { mailing } = config;
 const debugEmail = Debug('pix:mailer:email');
@@ -102,4 +103,4 @@ class Mailer {
 
 const mailer = new Mailer();
 
-export { mailer, Mailer };
+export { Mailer, mailer };

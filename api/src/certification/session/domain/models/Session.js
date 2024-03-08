@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { config } from '../../../../../lib/config.js';
 import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
 
@@ -112,7 +113,7 @@ class Session {
 
 Session.statuses = statuses;
 
-export { Session, statuses, NO_EXAMINER_GLOBAL_COMMENT };
+export { NO_EXAMINER_GLOBAL_COMMENT, Session, statuses };
 
 function _randomCharacter() {
   return _.sample(availableCharactersForPasswordGeneration);

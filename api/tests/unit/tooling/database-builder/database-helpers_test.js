@@ -1,7 +1,7 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
-import { expect } from '../../../test-helper.js';
 import * as databaseHelpers from '../../../../db/database-builder/database-helpers.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Tooling | DatabaseBuilder | database-helpers', function () {
   describe('#getTableNameFromInsertSqlQuery', function () {

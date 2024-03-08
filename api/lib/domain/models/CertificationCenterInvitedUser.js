@@ -1,4 +1,4 @@
-import { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } from '../errors.js';
+import { AlreadyAcceptedOrCancelledInvitationError, NotFoundError } from '../errors.js';
 import { CertificationCenterInvitation } from './CertificationCenterInvitation.js';
 
 class CertificationCenterInvitedUser {

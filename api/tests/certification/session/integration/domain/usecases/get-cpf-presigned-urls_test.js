@@ -1,8 +1,8 @@
-import { databaseBuilder, expect } from '../../../../../test-helper.js';
-import { getPreSignedUrls } from '../../../../../../src/certification/session/domain/usecases/get-cpf-presigned-urls.js';
-import { cpfExportsStorage } from '../../../../../../src/certification/session/infrastructure/storage/cpf-exports-storage.js';
-import * as cpfExportRepository from '../../../../../../src/certification/session/infrastructure/repositories/cpf-export-repository.js';
 import { CpfImportStatus } from '../../../../../../src/certification/session/domain/models/CpfImportStatus.js';
+import { getPreSignedUrls } from '../../../../../../src/certification/session/domain/usecases/get-cpf-presigned-urls.js';
+import * as cpfExportRepository from '../../../../../../src/certification/session/infrastructure/repositories/cpf-export-repository.js';
+import { cpfExportsStorage } from '../../../../../../src/certification/session/infrastructure/storage/cpf-exports-storage.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | UseCase | get-cpf-presigned-urls ', function () {
   context('#getPreSignedUrls', function () {

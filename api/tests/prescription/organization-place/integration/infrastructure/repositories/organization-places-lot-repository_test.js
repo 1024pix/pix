@@ -1,11 +1,11 @@
-import { expect, databaseBuilder, catchErr, sinon } from '../../../../../test-helper.js';
 import { knex } from '../../../../../../db/knex-database-connection.js';
-import * as organizationPlacesLotRepository from '../../../../../../src/prescription/organization-place/infrastructure/repositories/organization-places-lot-repository.js';
-import { OrganizationPlacesLotManagement } from '../../../../../../src/prescription/organization-place/domain/read-models/OrganizationPlacesLotManagement.js';
-import { OrganizationPlacesLot } from '../../../../../../src/prescription/organization-place/domain/models/OrganizationPlacesLot.js';
+import { DeletedError, NotFoundError } from '../../../../../../lib/domain/errors.js';
 import * as categories from '../../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
-import { NotFoundError, DeletedError } from '../../../../../../lib/domain/errors.js';
+import { OrganizationPlacesLot } from '../../../../../../src/prescription/organization-place/domain/models/OrganizationPlacesLot.js';
+import { OrganizationPlacesLotManagement } from '../../../../../../src/prescription/organization-place/domain/read-models/OrganizationPlacesLotManagement.js';
 import { PlacesLot } from '../../../../../../src/prescription/organization-place/domain/read-models/PlacesLot.js';
+import * as organizationPlacesLotRepository from '../../../../../../src/prescription/organization-place/infrastructure/repositories/organization-places-lot-repository.js';
+import { catchErr, databaseBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Organization Places Lot', function () {
   describe('#findByOrganizationId', function () {

@@ -1,5 +1,5 @@
-import { buildSkill } from './build-skill.js';
 import { CertificationChallenge } from '../../../../lib/domain/models/CertificationChallenge.js';
+import { buildSkill } from './build-skill.js';
 
 const buildCertificationChallenge = function ({
   id = 123,

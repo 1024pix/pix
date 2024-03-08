@@ -1,9 +1,10 @@
 import _ from 'lodash';
-import { expect, databaseBuilder, catchErr, sinon, knex } from '../../../test-helper.js';
+
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import * as organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | OrganizationInvitationRepository', function () {
   describe('#create', function () {

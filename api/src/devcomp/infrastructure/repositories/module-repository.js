@@ -1,25 +1,25 @@
+import { NotFoundError } from '../../../shared/domain/errors.js';
+import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { BlockInput } from '../../domain/models/block/BlockInput.js';
 import { BlockSelect } from '../../domain/models/block/BlockSelect.js';
 import { BlockSelectOption } from '../../domain/models/block/BlockSelectOption.js';
 import { BlockText } from '../../domain/models/block/BlockText.js';
-import { Details } from '../../domain/models/module/Details.js';
-import { Grain } from '../../domain/models/Grain.js';
 import { Image } from '../../domain/models/element/Image.js';
-import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
-import { Module } from '../../domain/models/module/Module.js';
-import { NotFoundError } from '../../../shared/domain/errors.js';
 import { QCM } from '../../domain/models/element/QCM.js';
 import { QCMForAnswerVerification } from '../../domain/models/element/QCM-for-answer-verification.js';
 import { QCU } from '../../domain/models/element/QCU.js';
 import { QCUForAnswerVerification } from '../../domain/models/element/QCU-for-answer-verification.js';
 import { QROCM } from '../../domain/models/element/QROCM.js';
 import { QROCMForAnswerVerification } from '../../domain/models/element/QROCM-for-answer-verification.js';
+import { Text } from '../../domain/models/element/Text.js';
+import { Video } from '../../domain/models/element/Video.js';
+import { Grain } from '../../domain/models/Grain.js';
+import { Details } from '../../domain/models/module/Details.js';
+import { Module } from '../../domain/models/module/Module.js';
 import { QcmProposal } from '../../domain/models/QcmProposal.js';
 import { QcuProposal } from '../../domain/models/QcuProposal.js';
-import { Text } from '../../domain/models/element/Text.js';
 import { TransitionText } from '../../domain/models/TransitionText.js';
-import { Video } from '../../domain/models/element/Video.js';
-import { logger } from '../../../shared/infrastructure/utils/logger.js';
 
 async function getBySlug({ slug, moduleDatasource }) {
   try {

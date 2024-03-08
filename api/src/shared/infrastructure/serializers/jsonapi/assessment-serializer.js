@@ -1,6 +1,7 @@
-import { Assessment } from '../../../domain/models/Assessment.js';
-import { Progression } from '../../../../evaluation/domain/models/Progression.js';
 import jsonapiSerializer from 'jsonapi-serializer';
+
+import { Progression } from '../../../../evaluation/domain/models/Progression.js';
+import { Assessment } from '../../../domain/models/Assessment.js';
 
 const { Serializer } = jsonapiSerializer;
 
@@ -100,7 +101,7 @@ const deserialize = function (json) {
   });
 };
 
-export { serialize, deserialize };
+export { deserialize, serialize };
 
 function _includeCourse(assessments) {
   if (Array.isArray(assessments)) {

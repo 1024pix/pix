@@ -1,8 +1,9 @@
-import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './ScheduleComputeOrganizationLearnersCertificabilityJob.js';
-import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
-import { knex } from '../../../../db/knex-database-connection.js';
-import dayjs from 'dayjs';
 import cronParser from 'cron-parser';
+import dayjs from 'dayjs';
+
+import { knex } from '../../../../db/knex-database-connection.js';
+import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
+import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 
 class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
   constructor({ organizationLearnerRepository, pgBossRepository, config, logger }) {

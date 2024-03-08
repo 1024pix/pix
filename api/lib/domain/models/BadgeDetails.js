@@ -51,4 +51,4 @@ class CappedTube {
   }
 }
 
-export { BadgeDetails, BadgeCriterion, CappedTube, SCOPES };
+export { BadgeCriterion, BadgeDetails, CappedTube, SCOPES };

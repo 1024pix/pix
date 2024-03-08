@@ -1,12 +1,12 @@
-import { expect, sinon, domainBuilder } from '../../../../test-helper.js';
 import {
   Assessment,
-  CompetenceEvaluation,
   CampaignParticipationStatuses,
+  CompetenceEvaluation,
 } from '../../../../../lib/domain/models/index.js';
+import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
 import * as scorecardService from '../../../../../src/evaluation/domain/services/scorecard-service.js';
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
 

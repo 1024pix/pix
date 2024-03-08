@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../../../test-helper.js';
-import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { getCertificationAttestation } from '../../../../../../src/certification/course/domain/usecases/get-certification-attestation.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-certification-attestation', function () {
   let certificateRepository;

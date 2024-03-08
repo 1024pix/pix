@@ -1,5 +1,5 @@
 import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
-import { expect, domainBuilder, sinon } from '../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CampaignParticipation', function () {
   describe('#getTargetProfileId', function () {

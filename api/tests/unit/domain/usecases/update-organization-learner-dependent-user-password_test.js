@@ -1,6 +1,6 @@
-import { sinon, expect, catchErr } from '../../../test-helper.js';
-import { UserNotFoundError, UserNotAuthorizedToUpdatePasswordError } from '../../../../lib/domain/errors.js';
+import { UserNotAuthorizedToUpdatePasswordError, UserNotFoundError } from '../../../../lib/domain/errors.js';
 import { updateOrganizationLearnerDependentUserPassword } from '../../../../lib/domain/usecases/update-organization-learner-dependent-user-password.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | update-organization-learner-dependent-user-password', function () {
   const userId = 1;

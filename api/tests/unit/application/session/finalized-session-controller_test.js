@@ -1,6 +1,6 @@
-import { expect, sinon, hFake } from '../../../test-helper.js';
 import { finalizedSessionController } from '../../../../lib/application/sessions/finalized-session-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | finalized-session', function () {
   let request;

@@ -1,8 +1,8 @@
-import { sinon, expect, knex, databaseBuilder, catchErr } from '../../../../../test-helper.js';
-import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
-import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
+import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
+import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { ApplicationTransaction } from '../../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
 

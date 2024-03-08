@@ -1,5 +1,6 @@
-import jsonapiSerializer from 'jsonapi-serializer';
 import bluebird from 'bluebird';
+import jsonapiSerializer from 'jsonapi-serializer';
+
 import { constants as infraConstants } from '../../../../../../lib/infrastructure/constants.js';
 
 const { Deserializer } = jsonapiSerializer;

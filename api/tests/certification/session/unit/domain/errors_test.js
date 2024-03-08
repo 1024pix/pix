@@ -1,5 +1,5 @@
-import { expect } from '../../../../test-helper.js';
 import * as errors from '../../../../../src/certification/session/domain/errors.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Certification | session | Unit | Domain | Errors', function () {
   it('should export a SessionAlreadyFinalizedError', function () {

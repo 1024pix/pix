@@ -1,6 +1,6 @@
 import { Grain } from '../../../../../src/devcomp/domain/models/Grain.js';
-import { catchErrSync, expect } from '../../../../test-helper.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Grain', function () {
   describe('#constructor', function () {

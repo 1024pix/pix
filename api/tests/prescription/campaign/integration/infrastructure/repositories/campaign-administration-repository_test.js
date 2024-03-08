@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import { catchErr, databaseBuilder, expect, knex, mockLearningContent, sinon } from '../../../../../test-helper.js';
 
-import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
-import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
-import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
 import { UnknownCampaignId } from '../../../../../../src/prescription/campaign/domain/errors.js';
+import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
+import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
+import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { catchErr, databaseBuilder, expect, knex, mockLearningContent, sinon } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Campaign Administration', function () {
   describe('#isCodeAvailable', function () {

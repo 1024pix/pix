@@ -1,8 +1,8 @@
 import {
-  expect,
-  generateValidRequestAuthorizationHeader,
   createServer,
   databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
 
 describe('Acceptance | API | Smart Random Simulator', function () {

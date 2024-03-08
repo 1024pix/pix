@@ -1,17 +1,17 @@
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { _forTestOnly } from '../../../../lib/domain/events/index.js';
-import { AssessmentResult, status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { CertificationComputeError } from '../../../../lib/domain/errors.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
-import { ABORT_REASONS, CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
 import { CertificationScoringCompleted } from '../../../../lib/domain/events/CertificationScoringCompleted.js';
+import { _forTestOnly } from '../../../../lib/domain/events/index.js';
+import { ABORT_REASONS, CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
+import { CertificationChallengeForScoring } from '../../../../src/certification/scoring/domain/models/CertificationChallengeForScoring.js';
+import { AssessmentResultFactory } from '../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
 import { config } from '../../../../src/shared/config.js';
+import { AssessmentResult, status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import {
   generateAnswersForChallenges,
   generateChallengeList,
 } from '../../../certification/shared/fixtures/challenges.js';
-import { CertificationChallengeForScoring } from '../../../../src/certification/scoring/domain/models/CertificationChallengeForScoring.js';
-import { AssessmentResultFactory } from '../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { handleCertificationScoring } = _forTestOnly.handlers;
 

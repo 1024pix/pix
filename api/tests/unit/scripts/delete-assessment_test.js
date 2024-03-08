@@ -1,5 +1,5 @@
+import { AssessmentEraser, ScriptQueryBuilder } from '../../../scripts/delete-assessment.js';
 import { expect, sinon } from '../../test-helper.js';
-import { ScriptQueryBuilder, AssessmentEraser } from '../../../scripts/delete-assessment.js';
 
 describe('Delete Assessment Script', function () {
   describe('ScriptQueryBuilder', function () {

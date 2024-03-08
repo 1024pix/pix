@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../../../test-helper.js';
 import { getCertificationAttestationsForSession } from '../../../../../../src/certification/course/domain/usecases/get-certification-attestations-for-session.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | get-certification-attestation-for-session', function () {
   let certificateRepository, certificationCourseRepository;

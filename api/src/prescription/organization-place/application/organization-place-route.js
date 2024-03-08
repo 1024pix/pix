@@ -1,8 +1,9 @@
+import Joi from 'joi';
+
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { organizationPlaceController } from './organization-place-controller.js';
-import Joi from 'joi';
-import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
 
 const register = async (server) => {
   server.route([
@@ -149,4 +150,4 @@ const register = async (server) => {
 
 const name = 'organization-place-api';
 
-export { register, name };
+export { name, register };

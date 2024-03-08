@@ -1,6 +1,6 @@
 import { Module } from '../../../../../../src/devcomp/domain/models/module/Module.js';
-import { catchErrSync, expect } from '../../../../../test-helper.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErrSync, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
   describe('#constructor', function () {

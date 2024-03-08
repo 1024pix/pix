@@ -1,11 +1,11 @@
-import { catchErr, expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
+import { _forTestOnly } from '../../../../lib/domain/events/index.js';
 import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSending.js';
 import { PoleEmploiPayload } from '../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
-import { _forTestOnly } from '../../../../lib/domain/events/index.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 const { handlePoleEmploiParticipationFinished } = _forTestOnly.handlers;
-import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
 import * as httpErrorsHelper from '../../../../lib/infrastructure/http/errors-helper.js';
+import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
 import * as monitoringTools from '../../../../lib/infrastructure/monitoring-tools.js';
 
 describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', function () {

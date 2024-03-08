@@ -1,19 +1,19 @@
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { _forTestOnly } from '../../../../lib/domain/events/index.js';
-import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
-import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
-import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
-import { AssessmentResult, CertificationAssessment, CertificationResult } from '../../../../lib/domain/models/index.js';
 import { CertificationComputeError } from '../../../../lib/domain/errors.js';
-import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
+import { CertificationCourseRejected } from '../../../../lib/domain/events/CertificationCourseRejected.js';
+import { CertificationCourseUnrejected } from '../../../../lib/domain/events/CertificationCourseUnrejected.js';
+import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
+import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
+import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
+import { _forTestOnly } from '../../../../lib/domain/events/index.js';
+import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
+import { AssessmentResult, CertificationAssessment, CertificationResult } from '../../../../lib/domain/models/index.js';
 import { config } from '../../../../src/shared/config.js';
+import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import {
   generateAnswersForChallenges,
   generateChallengeList,
 } from '../../../certification/shared/fixtures/challenges.js';
-import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
-import { CertificationCourseUnrejected } from '../../../../lib/domain/events/CertificationCourseUnrejected.js';
-import { CertificationCourseRejected } from '../../../../lib/domain/events/CertificationCourseRejected.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { handleCertificationRescoring } = _forTestOnly.handlers;
 

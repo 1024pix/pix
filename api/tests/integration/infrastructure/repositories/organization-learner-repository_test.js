@@ -1,21 +1,19 @@
+import dayjs from 'dayjs';
 import _ from 'lodash';
-
-import { expect, domainBuilder, databaseBuilder, knex, catchErr, sinon } from '../../../test-helper.js';
-import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
-import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
-import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 
 import {
   NotFoundError,
+  OrganizationLearnerCertificabilityNotUpdatedError,
   OrganizationLearnerNotFound,
   UserCouldNotBeReconciledError,
   UserNotFoundError,
-  OrganizationLearnerCertificabilityNotUpdatedError,
 } from '../../../../lib/domain/errors.js';
-
-import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
+import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import dayjs from 'dayjs';
+import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | organization-learner-repository', function () {
   describe('#findByIds', function () {

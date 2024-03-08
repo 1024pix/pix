@@ -1,10 +1,11 @@
+import dayjs from 'dayjs';
+
 import {
   T2,
   T3,
 } from '../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import { REAL_PIX_SUPER_ADMIN_ID } from '../common/common-builder.js';
 import { PRO_ORGANIZATION_ID } from '../common/constants.js';
-import dayjs from 'dayjs';
 
 function _buildPlaceLotsForProOrganization(databaseBuilder) {
   databaseBuilder.factory.buildOrganizationPlace({

@@ -1,3 +1,4 @@
+import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import {
   createServer,
   databaseBuilder,
@@ -5,7 +6,6 @@ import {
   generateValidRequestAuthorizationHeader,
   knex,
 } from '../../../test-helper.js';
-import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 
 describe('PATCH /api/admin/sessions/:id/unpublish', function () {
   let server;

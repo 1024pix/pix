@@ -1,5 +1,5 @@
-import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { CertificationAssessmentHistory } from '../../../../../../src/certification/scoring/domain/models/CertificationAssessmentHistory.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationAssessmentHistory', function () {
   describe('#fromChallengesAndAnswers', function () {

@@ -44,4 +44,4 @@ const register = async function (server) {
 };
 
 const name = 'cache-api';
-export { register, name };
+export { name, register };

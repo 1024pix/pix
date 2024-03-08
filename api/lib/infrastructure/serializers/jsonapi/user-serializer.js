@@ -90,4 +90,4 @@ const deserialize = function (json) {
   });
 };
 
-export { serialize, deserialize };
+export { deserialize, serialize };

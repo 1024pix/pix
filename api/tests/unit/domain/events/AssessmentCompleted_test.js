@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Events | AssessmentCompleted', function () {
   describe('#isCertificationType', function () {

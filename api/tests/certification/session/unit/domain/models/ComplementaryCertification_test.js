@@ -1,5 +1,5 @@
-import { expect, domainBuilder } from '../../../../../test-helper.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session/domain/models/ComplementaryCertification.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Certification | Session | Domain | Models | ComplementaryCertification', function () {
   it('should return a complementary certification', function () {

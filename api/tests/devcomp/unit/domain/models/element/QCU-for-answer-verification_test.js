@@ -1,8 +1,8 @@
-import { expect, sinon } from '../../../../../test-helper.js';
 import { QCUForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QCU-for-answer-verification.js';
-import { QcuCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcuCorrectionResponse.js';
 import { Feedbacks } from '../../../../../../src/devcomp/domain/models/Feedbacks.js';
+import { QcuCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcuCorrectionResponse.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification', function () {
   describe('#constructor', function () {
