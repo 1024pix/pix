@@ -1164,7 +1164,7 @@
             {
               "id": "7ef31e68-e798-4a92-86a0-ad61ebd9b915",
               "type": "text",
-              "content": "<p>Austin est producteur de miel dans les Vosges. Il a utilisé les deux informations suivantes pour créer son mot de passe&nbsp;:</p><ul><li>Il est né le <strong>15 novembre 1984</strong>.</li><li>Il a un enfant qui s’appelle <strong>Bill</strong>.</li></ul>"
+              "content": "<p>Austin est producteur de miel dans les Vosges.<br>Il a utilisé les deux informations suivantes pour créer son mot de passe&nbsp;:</p><ul><li>Il est né le <strong>15 novembre 1984</strong>.</li><li>Il a un enfant qui s’appelle <strong>Bill</strong>.</li></ul>"
             },
             {
               "id": "2695bb89-112c-49d1-80b2-469d824af58f",
@@ -1181,12 +1181,12 @@
                   "ariaLabel": "Mot de passe d'Austin",
                   "defaultValue": "",
                   "tolerances": ["t1"],
-                  "solutions": ["Bill15111984", "15111984Bill", "Bill151184", "151184Bill", "bill15111984", "15111984bill", "bill151184", "151184bill", "Bill15novembre1984", "15novembre1984Bill", "Bill15novembre84", "15novembre84Bill", "bill15novembre1984", "15novembre1984bill", "bill15novembre84", "15novembre84bill","Bill15/11/1984", "15/11/1984Bill", "Bill15/11/84", "15/11/84Bill", "bill15/11/1984", "15/11/1984bill", "bill15/11/84", "15/11/84bill"]
+                  "solutions": ["Bill15111984", "15111984Bill", "Bill151184", "151184Bill", "bill15111984", "15111984bill", "bill151184", "151184bill", "Bill15novembre1984", "15novembre1984Bill", "Bill15novembre84", "15novembre84Bill", "bill15novembre1984", "15novembre1984bill", "bill15novembre84", "15novembre84bill","Bill15/11/1984", "15/11/1984Bill", "Bill15/11/84", "15/11/84Bill", "bill15/11/1984", "15/11/1984bill", "bill15/11/84", "15/11/84bill", "Bill151119", "151119Bill", "Bill1511", "1511Bill", "bill1511", "1511bill", "bill1511", "1511bill", "Bill15novembre", "15novembreBill", "Bill15novembre", "15novembreBill", "bill15novembre", "15novembrebill", "bill15novembre", "15novembrebill","Bill15/11", "15/11Bill", "Bill15/11", "15/11Bill", "bill15/11", "15/11bill", "bill15/11", "15/11bill"]
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct ! Et oui ! C’est un <strong>mot de passe faible</strong>, c’est-à-dire  facile à trouver.</p>",
-                "invalid": "<p>Incorrect ! Avez-vous bien écrit la date de naissance d’Austin en chiffres (15111984) ? Et pensé au prénom de son enfant (Bill) ?</p>"
+                "valid": "<p>Correct. C’est un <strong>mot de passe faible</strong>, c’est-à-dire  facile à trouver.</p>",
+                "invalid": "<p>Incorrect. Plusieurs réponses sont possibles. Avez-vous utilisé la date de naissance d’Austin, par exemple 151184 ? Et utilisé le prénom de son fils Bill ?</p>"
               }
             }
           ]
