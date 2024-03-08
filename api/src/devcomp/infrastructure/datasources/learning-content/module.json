@@ -1142,7 +1142,7 @@
             {
               "id": "826281e7-865f-462d-abc0-77537c42a2b4",
               "type": "text",
-              "content": "<h3>Une personne peut deviner votre mot de passe&nbsp;<span aria-hidden=\"true\">🧑‍💻&nbsp;🔮&nbsp;</span></h3><p>Si vous utilisez des informations privées dans votre mot de passe, il est donc possible qu’une personne de votre entourage puisse le deviner facilement.</p><p>Elle pourra alors accéder à vos données personnelles et privées. Et ce n’est peut-être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.</p>"
+              "content": "<h3>Une personne peut deviner votre mot de passe.&nbsp;<span aria-hidden=\"true\">🧑‍💻&nbsp;🔮&nbsp;</span></h3><p>Si vous utilisez des informations privées dans votre mot de passe, il est donc possible qu’une personne de votre entourage puisse le deviner facilement.</p><p>Elle pourra alors accéder à vos données personnelles et privées. Et ce n’est peut-être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.</p>"
             },
             {
               "id": "aae5ea61-68b7-4089-90a1-6ecc707664c9",
@@ -1152,7 +1152,7 @@
             {
               "id": "9d0b7aff-a9da-453f-a6ba-c61fbaa7bb25",
               "type": "text",
-              "content": "<h3>Un logiciel informatique peut pirater votre mot de passe&nbsp;<span aria-hidden=\"true\">🤖&nbsp;🏴‍☠️&nbsp;</span></h3><p>Les ordinateurs peuvent trouver des mots de passe en testant beaucoup de combinaisons. En 2023, un mot de passe court comme <code>$0Leil@?</code> peut être piraté en 5 minutes seulement. Mais en ajoutant 4 lettres, cette durée passe à 226 ans ! <p>En général, le pirate ne vous connaît pas. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
+              "content": "<h3>Un logiciel informatique peut pirater votre mot de passe.&nbsp;<span aria-hidden=\"true\">🤖&nbsp;🏴‍☠️&nbsp;</span></h3><p>Les ordinateurs peuvent trouver des mots de passe en testant beaucoup de combinaisons. En 2023, un mot de passe court comme <code>$0Leil@?</code> peut être piraté en 5 minutes seulement. Mais en ajoutant 4 lettres, cette durée passe à 226 ans ! <p>En général, le pirate ne vous connaît pas. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
             }
           ]
         },
@@ -1199,7 +1199,7 @@
             {
               "id": "02bb0017-a74d-4c78-8502-3c57d9f12209",
               "type": "text",
-              "content": "<h3>Astuce n°1 : un bon mot de passe est long !</h3><p>D’ailleurs pensez “phrase de passe” plutôt que “mot de passe” … Pas la peine d’inventer un monologue non plus. <span aria-hidden=\"true\">😉</span> À partir de 12 caractères, le mot de passe atteint une longueur correcte. <span aria-hidden=\"true\">👍</span></p>"
+              "content": "<h3>Astuce n°1 : créer un mot de passe long. <span aria-hidden=\"true\">📝</span></h3><p>D’ailleurs pensez “phrase de passe” plutôt que “mot de passe” … Pas la peine d’inventer un monologue non plus. À partir de 12 caractères, le mot de passe atteint une longueur correcte.</p>"
             },
             {
               "id": "7f89a519-a5ce-4484-9952-eb6869b94291",
@@ -1209,7 +1209,7 @@
             {
               "id": "c4505a09-864c-48f8-8077-013fae2db291",
               "type": "text",
-              "content": "<h3>Astuce n°2 : pas d’informations personnelles</h3><p>Un bon mot de passe est secret et ne contient pas d’informations personnelles. Par définition personne ne doit le connaître ni le deviner ! Adieu dates de naissance et autres numéros de téléphone. Un mot de passe doit rester secret !<span aria-hidden=\"true\"> 🤫</span></p>"
+              "content": "<h3>Astuce n°2 : n'utilisez pas d’informations personnelles. <span aria-hidden=\"true\">🤫</span></h3><p>Un bon mot de passe est secret et ne contient pas d’informations personnelles. Par définition personne ne doit le connaître ni le deviner ! Adieu dates de naissance et autres numéros de téléphone. Un mot de passe doit rester secret !</p>"
             },
             {
               "id": "cd9081d8-ead4-48a5-ace0-b1909b409e1c",
@@ -1219,17 +1219,7 @@
             {
               "id": "52f4050d-7ab9-41da-987b-d9172d5b3cb0",
               "type": "text",
-              "content": "<h3>Astuce n°3 : de la variété dans les caractères utilisés</h3><p>Un bon mot de passe contient des caractères divers ! Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter : =@$#!?. <span aria-hidden=\"true\">💬</span></p>"
-            },
-            {
-              "id": "34e9435d-3c6f-40da-8455-1a8d98492971",
-              "type": "text",
-              "content": "<hr>"
-            },
-            {
-              "id": "78cc559f-ea8a-48c8-860c-4615c0e816b8",
-              "type": "text",
-              "content": "<h3>Astuce n°4 : certains mots de passe sont plus importants que d’autres</h3><p>Par exemple le mot de passe de votre adresse email principale est très important : il vous permet de changer tous les autres mots de passe. <span aria-hidden=\"true\">😌</span> </p><p>Et oui, un mot de passe oublié, ça se change, et ce n’est pas grave !<span aria-hidden=\"true\"> 🔐</span></p>"
+              "content": "<h3>Astuce n°3 : varier les caractères utilisés. <span aria-hidden=\"true\">🔣</span></h3><p>Un bon mot de passe contient des caractères divers ! Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter : <code>=</code> ; <code>@</code> ; <code>$</code> ; <code>#</code> ; <code>!</code> ; <code>?</code></code>.</p>"
             }
           ]
         },
