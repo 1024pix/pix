@@ -1,7 +1,8 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import ENV from 'pix-admin/config/environment';
+import { module, test } from 'qunit';
+
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | certification-centers/information-view', function (hooks) {
   setupTest(hooks);

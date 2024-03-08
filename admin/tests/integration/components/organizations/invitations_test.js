@@ -1,11 +1,11 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@1024pix/ember-testing-library';
-import { click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
-import dayjs from 'dayjs';
-import sinon from 'sinon';
 import Service from '@ember/service';
+import { click } from '@ember/test-helpers';
+import dayjs from 'dayjs';
+import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Integration | Component | organization-invitations', function (hooks) {
   setupRenderingTest(hooks);

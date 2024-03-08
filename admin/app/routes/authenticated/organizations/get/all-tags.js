@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import sortBy from 'lodash/sortBy';
 import map from 'lodash/map';
+import sortBy from 'lodash/sortBy';
 
 export default class AllTags extends Route {
   @service store;

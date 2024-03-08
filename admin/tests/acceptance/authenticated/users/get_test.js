@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import { click, currentURL } from '@ember/test-helpers';
 import { clickByName, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { module, test } from 'qunit';
 
 module('Acceptance | authenticated/users/get', function (hooks) {
   setupApplicationTest(hooks);

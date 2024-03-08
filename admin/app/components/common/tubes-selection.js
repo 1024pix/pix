@@ -1,8 +1,8 @@
-import { action } from '@ember/object';
-import Component from '@glimmer/component';
-import { service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
 import { A as EmberArray } from '@ember/array';
+import { action } from '@ember/object';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 const MAX_TUBE_LEVEL = 8;
 

@@ -1,8 +1,8 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { statusToDisplayName } from 'pix-admin/models/session';
 import map from 'lodash/map';
+import { statusToDisplayName } from 'pix-admin/models/session';
 
 export default class ListItems extends Component {
   @tracked selectedCertificationCenterTypeOption = null;

@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import ENV from 'pix-admin/config/environment';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Unit | Adapter | certification-center-invitation', function (hooks) {

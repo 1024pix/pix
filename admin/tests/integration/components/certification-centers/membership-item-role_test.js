@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import hbs from 'htmlbars-inline-precompile';
 import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
-import sinon from 'sinon';
 import { click } from '@ember/test-helpers';
+import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 

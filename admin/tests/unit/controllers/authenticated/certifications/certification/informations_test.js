@@ -1,10 +1,10 @@
+import EmberObject from '@ember/object';
+import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-qunit';
 
-import EmberObject from '@ember/object';
 import setupIntl from '../../../../../helpers/setup-intl';
-import Service from '@ember/service';
 
 module('Unit | Controller | authenticated/certifications/certification/informations', function (hooks) {
   setupTest(hooks);

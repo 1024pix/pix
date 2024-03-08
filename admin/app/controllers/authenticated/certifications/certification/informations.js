@@ -4,11 +4,10 @@ import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 /* eslint-enable ember/no-computed-properties-in-native-classes */
 import { service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 import ENV from 'pix-admin/config/environment';
-
-import { tracked } from '@glimmer/tracking';
 
 export default class CertificationInformationsController extends Controller {
   // Domain constants

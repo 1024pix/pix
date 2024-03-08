@@ -1,10 +1,10 @@
-import { module, test } from 'qunit';
 import { clickByText, fillByLabel, visit } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
 import dayjs from 'dayjs';
-import sinon from 'sinon';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Acceptance | organization invitations management', function (hooks) {
   setupApplicationTest(hooks);

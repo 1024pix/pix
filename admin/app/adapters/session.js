@@ -1,5 +1,6 @@
-import ApplicationAdapter from './application';
 import queryString from 'query-string';
+
+import ApplicationAdapter from './application';
 
 export default class SessionAdapter extends ApplicationAdapter {
   urlForQuery() {

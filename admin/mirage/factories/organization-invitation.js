@@ -1,4 +1,4 @@
-import { Factory, association } from 'miragejs';
+import { association, Factory } from 'miragejs';
 
 export default Factory.extend({
   email() {

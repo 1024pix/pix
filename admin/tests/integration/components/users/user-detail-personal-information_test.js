@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
-import { hbs } from 'ember-cli-htmlbars';
+import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import sinon from 'sinon';
-import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | users | user-detail-personal-information', function (hooks) {

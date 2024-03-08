@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { clickByText } from '@1024pix/ember-testing-library';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { clickByText } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | organization-invitations-action', function (hooks) {
   setupRenderingTest(hooks);

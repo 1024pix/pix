@@ -1,12 +1,14 @@
-import Application from '@ember/application';
-import Resolver from './resolver';
-import loadInitializers from 'ember-load-initializers';
-import config from 'pix-admin/config/environment';
-import Inflector from 'ember-inflector';
-import { library, dom } from '@fortawesome/fontawesome-svg-core';
-import { fapixTachometer, fapixPersonExport } from './custom-icons';
 import 'flatpickr';
 import 'flatpickr/dist/l10n';
+
+import Application from '@ember/application';
+import { dom, library } from '@fortawesome/fontawesome-svg-core';
+import Inflector from 'ember-inflector';
+import loadInitializers from 'ember-load-initializers';
+import config from 'pix-admin/config/environment';
+
+import { fapixPersonExport, fapixTachometer } from './custom-icons';
+import Resolver from './resolver';
 
 class App extends Application {
   modulePrefix = config.modulePrefix;

@@ -1,8 +1,8 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { debounceTask } from 'ember-lifeline';
 import config from 'pix-admin/config/environment';
-import { action } from '@ember/object';
 
 const DEFAULT_PAGE_NUMBER = 1;
 

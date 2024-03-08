@@ -1,7 +1,8 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { isTubeSelected } from '../../../helpers/is-tube-selected';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+
+import { isTubeSelected } from '../../../helpers/is-tube-selected';
 
 const MAX_TUBE_LEVEL = 8;
 

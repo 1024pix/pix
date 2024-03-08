@@ -1,10 +1,10 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { click } from '@ember/test-helpers';
-import { render, clickByName, fillByLabel } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import { click } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Integration | Component | organizations/information-section', function (hooks) {
   setupRenderingTest(hooks);

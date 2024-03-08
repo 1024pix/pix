@@ -1,9 +1,10 @@
-import sinon from 'sinon';
-import { module, test } from 'qunit';
+import { clickByName, render } from '@1024pix/ember-testing-library';
+import { triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
-import { triggerEvent } from '@ember/test-helpers';
-import { clickByName, render } from '@1024pix/ember-testing-library';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
 import setupIntl from '../../../helpers/setup-intl';
 
 module('Integration | Component | AutonomousCourses::CreateAutonomousCourseForm', function (hooks) {
