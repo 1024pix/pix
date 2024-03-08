@@ -5,9 +5,12 @@ export default class CreateAssessmentRoute extends Route {
   @service store;
   @service router;
 
+  model(params) {
+    return this.store.findRecord('course', params.course_id);
+  }
+
   async afterModel(course) {
-    const store = this.store;
-    const assessment = await store.createRecord('assessment', { course, type: 'DEMO' }).save();
+    const assessment = await this.store.createRecord('assessment', { course, type: 'DEMO' }).save();
     return this.router.replaceWith('assessments.resume', assessment.id);
   }
 }
