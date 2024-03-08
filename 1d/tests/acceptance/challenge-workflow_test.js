@@ -1,6 +1,7 @@
 import { clickByName, visit } from '@1024pix/ember-testing-library';
-import { module, test } from 'qunit';
 import { click } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+
 import { setupApplicationTest } from '../helpers';
 
 module('Acceptance | Challenge workflow', function (hooks) {

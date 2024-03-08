@@ -1,7 +1,7 @@
+import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import Controller from '@ember/controller';
 
 export default class Home extends Controller {
   @service router;
