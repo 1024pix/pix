@@ -14,7 +14,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
   let logErrorWithCorrelationIdsStub;
   let unlinkStub;
   let makeOrganizationLearnerParserStub;
-  let requestResponseUtilsStub;
 
   beforeEach(function () {
     organizationId = Symbol('organizationId');
@@ -29,19 +28,20 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     supOrganizationLearnerWarningSerializerStub = { serialize: sinon.stub() };
     logErrorWithCorrelationIdsStub = sinon.stub();
     unlinkStub = sinon.stub();
-    requestResponseUtilsStub = { extractUserIdFromRequest: sinon.stub() };
   });
 
   context('#importSupOrganizationLearners', function () {
     it('should call importSupOrganizationLearners usecase and return 200', async function () {
       const params = { id: organizationId };
       const request = {
+        auth: { credentials: { userId } },
         payload: { path },
         params,
         i18n,
       };
       usecases.importSupOrganizationLearners
         .withArgs({
+          userId,
           payload: request.payload,
           organizationId,
           i18n,
@@ -69,12 +69,14 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     it('should cleanup files on error', async function () {
       const params = { id: organizationId };
       const request = {
+        auth: { credentials: { userId } },
         payload: { path },
         params,
         i18n,
       };
       usecases.importSupOrganizationLearners
         .withArgs({
+          userId,
           payload: request.payload,
           organizationId,
           i18n,
@@ -94,6 +96,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     it('should log an error if unlink fails', async function () {
       const params = { id: organizationId };
       const request = {
+        auth: { credentials: { userId } },
         payload: { path },
         params,
         i18n,
@@ -123,12 +126,11 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     it('should call replaceSupOrganizationLearner usecase and return 200', async function () {
       const params = { id: organizationId };
       const request = {
+        auth: { credentials: { userId } },
         payload: { path },
         params,
         i18n,
       };
-
-      requestResponseUtilsStub.extractUserIdFromRequest.withArgs(request).returns(userId);
 
       usecases.replaceSupOrganizationLearners
         .withArgs({
@@ -145,7 +147,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       const response = await supOrganizationManagementController.replaceSupOrganizationLearners(request, hFake, {
-        requestResponseUtils: requestResponseUtilsStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
         unlink: unlinkStub,
@@ -161,12 +162,11 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     it('should cleanup files on error', async function () {
       const params = { id: organizationId };
       const request = {
+        auth: { credentials: { userId } },
         payload: { path },
         params,
         i18n,
       };
-
-      requestResponseUtilsStub.extractUserIdFromRequest.withArgs(request).returns(userId);
 
       usecases.replaceSupOrganizationLearners
         .withArgs({
@@ -179,7 +179,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       await catchErr(supOrganizationManagementController.replaceSupOrganizationLearners)(request, hFake, {
-        requestResponseUtils: requestResponseUtilsStub,
         makeOrganizationLearnerParser: makeOrganizationLearnerParserStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
@@ -192,11 +191,11 @@ describe('Unit | Controller | sup-organization-management-controller', function 
     it('should log an error if unlink fails', async function () {
       const params = { id: organizationId };
       const request = {
+        auth: { credentials: { userId } },
         payload: { path },
         params,
         i18n,
       };
-      requestResponseUtilsStub.extractUserIdFromRequest.withArgs(request).returns(userId);
 
       usecases.replaceSupOrganizationLearners
         .withArgs({
@@ -216,7 +215,6 @@ describe('Unit | Controller | sup-organization-management-controller', function 
 
       // when
       const response = await supOrganizationManagementController.replaceSupOrganizationLearners(request, hFake, {
-        requestResponseUtils: requestResponseUtilsStub,
         supOrganizationLearnerWarningSerializer: supOrganizationLearnerWarningSerializerStub,
         logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub,
         unlink: unlinkStub,

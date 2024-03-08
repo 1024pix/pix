@@ -1,11 +1,11 @@
 import iconv from 'iconv-lite';
 import { Readable } from 'stream';
 
+import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import { importSupOrganizationLearners } from '../../../../../../src/prescription/learner-management/domain/usecases/import-sup-organization-learners.js';
 import { SupOrganizationLearnerImportHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
-import { expect, sinon } from '../../../../../test-helper.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
-
 const i18n = getI18n();
 
 const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeader(i18n).columns
@@ -13,9 +13,10 @@ const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeade
   .join(';');
 
 describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
-  let supOrganizationLearnerRepositoryStub, importStorageStub, payload, filename;
+  const organizationId = 1234;
+  let organizationImportRepositoryStub, supOrganizationLearnerRepositoryStub, importStorageStub, payload, filename;
   beforeEach(function () {
-    filename = Symbol('FILE_NAME');
+    filename = Symbol('file.csv');
     payload = { path: filename };
 
     supOrganizationLearnerRepositoryStub = { addStudents: sinon.stub() };
@@ -27,10 +28,21 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
       deleteFile: sinon.stub(),
     };
 
-    importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves(filename);
+    organizationImportRepositoryStub = {
+      getByOrganizationId: sinon.stub(),
+      save: sinon.stub(),
+    };
+
+    organizationImportRepositoryStub.getByOrganizationId.callsFake(
+      () => new OrganizationImport({ organizationId, createdBy: 2, encoding: 'utf-8' }),
+    );
   });
 
-  context('when there is no organization learners for the organization', function () {
+  context('when there is no errors', function () {
+    beforeEach(function () {
+      importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves(filename);
+    });
+
     it('parses the csv received and creates the SupOrganizationLearner', async function () {
       const input = `${supOrganizationLearnerImportHeader}
           Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
@@ -52,6 +64,17 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
         i18n,
         importStorage: importStorageStub,
         supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
+        organizationImportRepository: organizationImportRepositoryStub,
+        dependencies: {
+          createReadStream: sinon.stub().returns(
+            new Readable({
+              read() {
+                this.push(iconv.encode(input, 'utf8'));
+                this.push(null);
+              },
+            }),
+          ),
+        },
       });
 
       expect(supOrganizationLearnerRepositoryStub.addStudents).to.have.been.calledWithExactly([
@@ -89,33 +112,215 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
         },
       ]);
     });
+
+    it('should return warnings about the import', async function () {
+      const input = `${supOrganizationLearnerImportHeader}
+              Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
+          `.trim();
+
+      importStorageStub.readFile.withArgs({ filename }).resolves(
+        new Readable({
+          read() {
+            this.push(iconv.encode(input, 'utf8'));
+            this.push(null);
+          },
+        }),
+      );
+
+      const warnings = await importSupOrganizationLearners({
+        payload,
+        importStorage: importStorageStub,
+        organizationId: 2,
+        i18n,
+        supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
+        organizationImportRepository: organizationImportRepositoryStub,
+        dependencies: {
+          createReadStream: sinon.stub().returns(
+            new Readable({
+              read() {
+                this.push(iconv.encode(input, 'utf8'));
+                this.push(null);
+              },
+            }),
+          ),
+        },
+      });
+
+      expect(warnings).to.deep.equal([
+        { studentNumber: '123456', field: 'study-scheme', value: 'BAD', code: 'unknown' },
+        { studentNumber: '123456', field: 'diploma', value: 'BAD', code: 'unknown' },
+      ]);
+    });
   });
 
-  it('should return warnings about the import', async function () {
-    const input = `${supOrganizationLearnerImportHeader}
-            Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
+  context('save import state in database', function () {
+    describe('success case', function () {
+      it('should save uploaded, validated and imported state each after each', async function () {
+        // given
+        importStorageStub.sendFile.withArgs({ filepath: payload.path }).resolves(filename);
+
+        const csv = `${supOrganizationLearnerImportHeader}
+        Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
         `.trim();
 
-    importStorageStub.readFile.withArgs({ filename }).resolves(
-      new Readable({
-        read() {
-          this.push(iconv.encode(input, 'utf8'));
-          this.push(null);
-        },
-      }),
-    );
+        importStorageStub.readFile.withArgs({ filename }).resolves(
+          new Readable({
+            read() {
+              this.push(iconv.encode(csv, 'utf8'));
+              this.push(null);
+            },
+          }),
+        );
 
-    const warnings = await importSupOrganizationLearners({
-      payload,
-      importStorage: importStorageStub,
-      organizationId: 2,
-      i18n,
-      supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
+        // when
+        await importSupOrganizationLearners({
+          organizationId,
+          payload,
+          supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
+          importStorage: importStorageStub,
+          organizationImportRepository: organizationImportRepositoryStub,
+          dependencies: {
+            createReadStream: sinon.stub().returns(
+              new Readable({
+                read() {
+                  this.push(iconv.encode(csv, 'utf8'));
+                  this.push(null);
+                },
+              }),
+            ),
+          },
+          i18n,
+        });
+
+        // then
+
+        const firstSaveCall = organizationImportRepositoryStub.save.getCall(0).args[0];
+        const secondSaveCall = organizationImportRepositoryStub.save.getCall(1).args[0];
+        const thirdSaveCall = organizationImportRepositoryStub.save.getCall(2).args[0];
+
+        expect(firstSaveCall.status).to.equal('UPLOADED');
+        expect(secondSaveCall.status).to.equal('VALIDATED');
+        expect(thirdSaveCall.status).to.equal('IMPORTED');
+      });
     });
 
-    expect(warnings).to.deep.equal([
-      { studentNumber: '123456', field: 'study-scheme', value: 'BAD', code: 'unknown' },
-      { studentNumber: '123456', field: 'diploma', value: 'BAD', code: 'unknown' },
-    ]);
+    describe('errors case', function () {
+      describe('when there is an upload error', function () {
+        it('should save UPLOAD_ERROR status', async function () {
+          // given
+          const csv = `${supOrganizationLearnerImportHeader}`;
+          importStorageStub.sendFile.withArgs({ filepath: filename }).rejects();
+
+          // when
+          await catchErr(importSupOrganizationLearners)({
+            organizationId,
+            payload,
+            supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
+            importStorage: importStorageStub,
+            organizationImportRepository: organizationImportRepositoryStub,
+            dependencies: {
+              createReadStream: sinon.stub().returns(
+                new Readable({
+                  read() {
+                    this.push(iconv.encode(csv, 'utf8'));
+                    this.push(null);
+                  },
+                }),
+              ),
+            },
+            i18n,
+          });
+
+          // then
+
+          expect(organizationImportRepositoryStub.save.getCall(0).args[0].status).to.equal('UPLOAD_ERROR');
+        });
+      });
+      describe('when there is an validation error', function () {
+        it('should save VALIDATION_ERROR status', async function () {
+          // given
+          importStorageStub.sendFile.withArgs({ filepath: filename }).resolves(filename);
+          const csv = `${supOrganizationLearnerImportHeader}
+          Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
+          Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
+          `.trim();
+
+          importStorageStub.readFile.withArgs({ filename }).resolves(
+            new Readable({
+              read() {
+                this.push(iconv.encode(csv, 'utf8'));
+                this.push(null);
+              },
+            }),
+          );
+          // when
+          await catchErr(importSupOrganizationLearners)({
+            organizationId,
+            payload,
+            supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
+            importStorage: importStorageStub,
+            organizationImportRepository: organizationImportRepositoryStub,
+            dependencies: {
+              createReadStream: sinon.stub().returns(
+                new Readable({
+                  read() {
+                    this.push(iconv.encode(csv, 'utf8'));
+                    this.push(null);
+                  },
+                }),
+              ),
+            },
+            i18n,
+          });
+
+          // then
+          expect(organizationImportRepositoryStub.save.getCall(1).args[0].status).to.equal('VALIDATION_ERROR');
+        });
+      });
+      describe('when there is an import error', function () {
+        it('should save IMPORT_ERROR status', async function () {
+          // given
+          importStorageStub.sendFile.withArgs({ filepath: filename }).resolves(filename);
+
+          const csv = `${supOrganizationLearnerImportHeader}
+          Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
+          `.trim();
+
+          importStorageStub.readFile.withArgs({ filename }).resolves(
+            new Readable({
+              read() {
+                this.push(iconv.encode(csv, 'utf8'));
+                this.push(null);
+              },
+            }),
+          );
+          supOrganizationLearnerRepositoryStub.addStudents.rejects('errors');
+
+          // when
+          await catchErr(importSupOrganizationLearners)({
+            organizationId,
+            payload,
+            supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
+            importStorage: importStorageStub,
+            organizationImportRepository: organizationImportRepositoryStub,
+            dependencies: {
+              createReadStream: sinon.stub().returns(
+                new Readable({
+                  read() {
+                    this.push(iconv.encode(csv, 'utf8'));
+                    this.push(null);
+                  },
+                }),
+              ),
+            },
+            i18n,
+          });
+
+          // then
+
+          expect(organizationImportRepositoryStub.save.getCall(2).args[0].status).to.equal('IMPORT_ERROR');
+        });
+      });
+    });
   });
 });
