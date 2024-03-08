@@ -151,6 +151,42 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
         { studentNumber: '123456', field: 'diploma', value: 'BAD', code: 'unknown' },
       ]);
     });
+
+    it('should delete file on s3', async function () {
+      const input = `${supOrganizationLearnerImportHeader}
+              Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;
+          `.trim();
+
+      importStorageStub.readFile.withArgs({ filename }).resolves(
+        new Readable({
+          read() {
+            this.push(iconv.encode(input, 'utf8'));
+            this.push(null);
+          },
+        }),
+      );
+
+      await importSupOrganizationLearners({
+        payload,
+        importStorage: importStorageStub,
+        organizationId: 2,
+        i18n,
+        supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
+        organizationImportRepository: organizationImportRepositoryStub,
+        dependencies: {
+          createReadStream: sinon.stub().returns(
+            new Readable({
+              read() {
+                this.push(iconv.encode(input, 'utf8'));
+                this.push(null);
+              },
+            }),
+          ),
+        },
+      });
+
+      expect(importStorageStub.deleteFile).to.have.been.calledWithExactly({ filename: payload.path });
+    });
   });
 
   context('save import state in database', function () {
