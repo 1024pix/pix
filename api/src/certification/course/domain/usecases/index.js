@@ -17,7 +17,7 @@ import * as scoCertificationCandidateRepository from '../../infrastructure/repos
  * @typedef {courseAssessmentResultRepository} CourseAssessmentResultRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {certificationResultRepository} CertificationResultRepository
- * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository *
+ * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
  **/
 const dependencies = {
   assessmentResultRepository,
