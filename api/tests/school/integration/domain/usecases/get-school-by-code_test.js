@@ -1,11 +1,11 @@
-import { OrganizationLearner } from '../../../../../src/school/domain/models/OrganizationLearner.js';
 import { School } from '../../../../../src/school/domain/models/School.js';
+import { OrganizationLearnerDTO } from '../../../../../src/school/domain/read-models/OrganizationLearnerDTO.js';
 import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import { databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | UseCase | get-school-by-code', function () {
   context('when the school exists', function () {
-    it('should return the school with students', async function () {
+    it('should return the school with students with display names', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
       const code = 'QUOICOUBE';
       const school = databaseBuilder.factory.buildSchool({ code, organizationId: organization.id });
@@ -16,7 +16,7 @@ describe('Integration | UseCase | get-school-by-code', function () {
         id: organization.id,
         name: organization.name,
         code: school.code,
-        organizationLearners: [new OrganizationLearner(rawStudent)],
+        organizationLearners: [new OrganizationLearnerDTO({ ...rawStudent, displayName: rawStudent.firstName })],
       });
 
       const schoolWithStudents = await usecases.getSchoolByCode({ code });
