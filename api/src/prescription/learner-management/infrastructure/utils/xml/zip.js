@@ -2,6 +2,7 @@ import _ from 'lodash';
 const { isObject, values } = _;
 import fs from 'fs';
 const fsPromises = fs.promises;
+import { randomUUID } from 'crypto';
 import { fileTypeFromFile } from 'file-type';
 import StreamZip from 'node-stream-zip';
 import os from 'os';
@@ -37,7 +38,7 @@ function _createTempDir() {
 }
 
 async function _unzipFile(directory, path) {
-  const extractedFileName = Path.join(directory, 'organization-learners.xml');
+  const extractedFileName = Path.join(directory, `organization-learners-${randomUUID()}.xml`);
   const zip = new StreamZip.async({ file: path });
   const fileName = await _getFileToExtractName(zip);
   try {
