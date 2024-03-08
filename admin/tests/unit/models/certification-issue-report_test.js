@@ -1,14 +1,13 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import map from 'lodash/map';
 import ENV from 'pix-admin/config/environment';
-
 import {
+  categoryToLabel,
   certificationIssueReportCategories,
   certificationIssueReportSubcategories,
-  categoryToLabel,
   subcategoryToLabel,
 } from 'pix-admin/models/certification-issue-report';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Unit | Model | certification issue report', function (hooks) {

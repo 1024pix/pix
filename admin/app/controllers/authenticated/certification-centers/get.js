@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+
 import { types } from '../../../models/certification-center';
 
 export default class AuthenticatedCertificationCentersGetController extends Controller {

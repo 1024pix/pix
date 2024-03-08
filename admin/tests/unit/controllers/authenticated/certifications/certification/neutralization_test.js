@@ -1,6 +1,6 @@
+import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-qunit';
 
 module('Unit | Controller | authenticated/certifications/certification/neutralization', function (hooks) {
   setupTest(hooks);

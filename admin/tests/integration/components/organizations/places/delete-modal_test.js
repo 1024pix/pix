@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import { render, clickByText } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
-import { hbs } from 'ember-cli-htmlbars';
-import sinon from 'sinon';
+import { clickByText, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Integration | Component | Organizations | Places | Delete-modal', function (hooks) {
   setupRenderingTest(hooks);

@@ -1,6 +1,6 @@
+import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import Controller from '@ember/controller';
 import get from 'lodash/get';
 
 export default class GetController extends Controller {

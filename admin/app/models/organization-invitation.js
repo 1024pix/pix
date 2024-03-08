@@ -1,6 +1,6 @@
-import Model, { belongsTo, attr } from '@ember-data/model';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { equal } from '@ember/object/computed';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class OrganizationInvitation extends Model {
   @attr email;

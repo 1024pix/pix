@@ -1,5 +1,5 @@
-import JSONAPISerializer from '@ember-data/serializer/json-api';
 import { service } from '@ember/service';
+import JSONAPISerializer from '@ember-data/serializer/json-api';
 
 export default class CertificationDetails extends JSONAPISerializer {
   @service featureToggles;

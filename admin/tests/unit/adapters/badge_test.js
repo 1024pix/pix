@@ -1,6 +1,6 @@
-import sinon from 'sinon';
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Adapters | badge', function (hooks) {
   setupTest(hooks);

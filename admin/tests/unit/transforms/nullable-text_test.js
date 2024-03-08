@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import NullableTextTransform from 'pix-admin/transforms/nullable-text';
+import { module, test } from 'qunit';
 
 module('Unit | Transformer | Nullable Text', function (hooks) {
   setupTest(hooks);

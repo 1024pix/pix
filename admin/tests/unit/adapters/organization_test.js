@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import sinon from 'sinon';
 import ENV from 'pix-admin/config/environment';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Adapters | organization', function (hooks) {
   setupTest(hooks);

@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Unit | Controller | authenticated/target-profile/target-profile/stages/stage', function (hooks) {
   setupTest(hooks);

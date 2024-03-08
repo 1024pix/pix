@@ -1,9 +1,10 @@
 import { action } from '@ember/object';
-import Component from '@glimmer/component';
 import { service } from '@ember/service';
-import { optionsLocaleList, optionsTypeList } from '../../models/training';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import set from 'lodash/set';
+
+import { optionsLocaleList, optionsTypeList } from '../../models/training';
 
 class Form {
   @tracked title;

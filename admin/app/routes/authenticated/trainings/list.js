@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
-import isEmpty from 'lodash/isEmpty';
 import { service } from '@ember/service';
+import isEmpty from 'lodash/isEmpty';
 
 export default class ListRoute extends Route {
   @service accessControl;

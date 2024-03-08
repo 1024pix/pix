@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { render, fillByLabel } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Integration | Component | organizations/information-section-edit', function (hooks) {
   setupRenderingTest(hooks);

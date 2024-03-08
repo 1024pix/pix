@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
-import { clickByName, visit, fillByLabel } from '@1024pix/ember-testing-library';
-import { currentURL, click } from '@ember/test-helpers';
+import { module, test } from 'qunit';
 
 module('Acceptance | Organizations | Create', function (hooks) {
   setupApplicationTest(hooks);

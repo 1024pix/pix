@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import hbs from 'htmlbars-inline-precompile';
-import { render as renderScreen, clickByName } from '@1024pix/ember-testing-library';
-import sinon from 'sinon';
-import dayjs from 'dayjs';
+import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import dayjs from 'dayjs';
+import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 

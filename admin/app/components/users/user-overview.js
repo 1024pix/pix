@@ -1,9 +1,8 @@
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { service } from '@ember/service';
 import dayjs from 'dayjs';
-
 import ENV from 'pix-admin/config/environment';
 
 export default class UserOverview extends Component {

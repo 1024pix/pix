@@ -1,6 +1,7 @@
+import Service from '@ember/service';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import Service from '@ember/service';
+
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
 module('Unit | Controller | authenticated/sessions/session/informations', function (hooks) {
