@@ -1075,7 +1075,7 @@
           "grainId": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8"
         },
         {
-          "content": "<p>C’est sûr : si tout le monde utilise le même mot de passe, ça ne sert pas à grand chose !<br>Regardons d’un peu plus près les situations dont il faut se protéger.</p>",
+          "content": "<p>C’est sûr : si tout le monde utilise le même mot de passe, ça ne sert pas à grand chose !<br>Regardons de plus près les risques dont il faut se protéger.</p>",
           "grainId": "831fd61c-54ae-4b21-bd3f-61f40887a869"
         },
         {
@@ -1083,16 +1083,20 @@
           "grainId": "1cda400f-008c-49db-b46b-6f783ccbc273"
         },
         {
-          "content": "<p>Pour créer un mot de passe solide, c’est-à-dire difficile à trouver, certaines astuces peuvent aider. Examinons-les ensemble !</p>",
+          "content": "<p>Pour créer un mot de passe solide, c’est-à-dire difficile à trouver, il y a certaines règles. Regardons-les ensemble !</p>",
           "grainId": "1564f763-5ba5-48ef-b752-dac463319899"
         },
         {
-          "content": "<p>Quand vous créer un mot de passe, essayez d'appliquer ces astuces. Vérifions que vous avez compris l'essentiel avec quelques questions.</p>",
+          "content": "<p>Vérifions que vous avez compris l'essentiel avec quelques questions.</p>",
           "grainId": "27c3d4e9-cdee-452f-8c63-f780b890776e"
         },
         {
-          "content": "<p>Au delà de la création des mots de passe, il y a d'autres bonnes habitudes à adopter !</p>",
+          "content": "<p>Quand vous créer un mot de passe, essayez d'appliquer ces règles. En plus de ces règles, voici quelques astuces.&nbsp;<span aria-hidden=\"true\">💡</span></p>",
           "grainId": "f14510d6-ee18-48be-8bb6-39a9427e3102"
+        },
+        {
+          "content": "<p>Maintenant que vous en savez plus, vous allez pouvoir aider Dimitri. <span aria-hidden=\"true\">🧑🏻‍💼</span><br> Dimitri veut créer un mot de passe solide. </p>",
+          "grainId": "6336bac0-c272-40cc-a002-ee724a5ec4c8"
         },
         {
           "content": "<p>Sécuriser ses mots de passe et les gérer, c'est tout sauf simple. Mais cette étape n'est pas une option dans un monde où le numérique est partout.</p><p>Voici une synthèse des points essentiels de ce module.</p>",
@@ -1108,7 +1112,7 @@
             {
               "id": "d8d3f524-10c7-4190-986b-f1e309efb124",
               "type": "qrocm",
-              "instruction": "<p>Certains mots de passe sont très utilisés et donc facile à deviner. <br>À votre avis, quel est le mot de passe le plus utilisé en France ?</p>",
+              "instruction": "<p>Certains mots de passe sont très utilisés et donc faciles à deviner. <br>À votre avis, quel est le mot de passe le plus utilisé en France ?</p>",
               "proposals": [
                 {
                   "input": "mot-de-passe",
@@ -1195,7 +1199,7 @@
             {
               "id": "02bb0017-a74d-4c78-8502-3c57d9f12209",
               "type": "text",
-              "content": "<h3>Astuce n°1 : créez un mot de passe long. <span aria-hidden=\"true\">📝</span></h3><p>Un mot de passe long sera dur à deviner ou à pirater. Gardez une longueur raisonnable : à partir de 12 caractères, le mot de passe est assez long.</p>"
+              "content": "<h3>Règle n°1 : créez un mot de passe long. <span aria-hidden=\"true\">📝</span></h3><p>Un mot de passe long sera dur à deviner ou à pirater. Gardez une longueur raisonnable : à partir de 12 caractères, le mot de passe est assez long.</p>"
             },
             {
               "id": "7f89a519-a5ce-4484-9952-eb6869b94291",
@@ -1205,7 +1209,7 @@
             {
               "id": "52f4050d-7ab9-41da-987b-d9172d5b3cb0",
               "type": "text",
-              "content": "<h3>Astuce n°2 : variez les caractères utilisés. <span aria-hidden=\"true\">🔣</span></h3><p>Un bon mot de passe contient des caractères divers car ça augmente le nombre de combinaisons possibles. Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter : <code>=</code> ; <code>@</code> ; <code>$</code> ; <code>#</code> ; <code>!</code> ; <code>?</code></code>.</p>"
+              "content": "<h3>Règle n°2 : variez les caractères utilisés. <span aria-hidden=\"true\">🔣</span></h3><p>Un bon mot de passe contient des caractères divers car ça augmente le nombre de combinaisons possibles. Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter : <code>=</code> ; <code>@</code> ; <code>$</code> ; <code>#</code> ; <code>!</code> ; <code>?</code></code>.</p>"
             },
             {
               "id": "2895432c-72a3-44be-ae0e-52041f5b847e",
@@ -1215,7 +1219,7 @@
             {
               "id": "c4505a09-864c-48f8-8077-013fae2db291",
               "type": "text",
-              "content": "<h3>Astuce n°3 : n'utilisez pas d’informations personnelles. <span aria-hidden=\"true\">🤫</span></h3><p>Comme ça, ce sera impossible pour les gens de le deviner. N'utilisez donc pas de dates de naissance et de numéros de téléphone. Un mot de passe doit être secret !</p>"
+              "content": "<h3>Règle n°3 : n'utilisez pas d’informations personnelles. <span aria-hidden=\"true\">🤫</span></h3><p>Comme ça, ce sera impossible pour les gens de le deviner. N'utilisez donc pas de dates de naissance et de numéros de téléphone. Un mot de passe doit être secret !</p>"
             }
           ]
         },
@@ -1299,17 +1303,70 @@
         {
           "id": "f14510d6-ee18-48be-8bb6-39a9427e3102",
           "type": "lesson",
-          "title": "Conseils de gestion de mots de passe",
+          "title": "Astuces de gestion de mots de passe",
           "elements": [
             {
               "id": "6eda6d92-1147-4c19-a7e5-f61a2228e33c",
               "type": "text",
-              "content": "<h3>Conseil n°1 : ne pas réutiliser le même mot de passe partout !</h3><p>Toujours utiliser le même mot de passe c'est comme utiliser la même clé pour toutes ses portes. C'est très pratique, mais si le mot de passe est piraté, c'est toutes les portes qui sont ouvertes ! <span aria-hidden=\"true\">☠️</span></p><hr>"
+              "content": "<h3>Astuce n°1 : n'utilisez pas le même mot de passe partout !</h3><p>Toujours utiliser le même mot de passe c'est comme utiliser la même clé pour toutes ses portes. C'est très pratique, mais si le mot de passe est piraté, c'est toutes les portes qui sont ouvertes ! <span aria-hidden=\"true\">☠️</span></p>"
+            },
+            {
+              "id": "b8bc3e1e-bf21-4b3b-8dce-0a0213aefb1b",
+              "type": "text",
+              "content": "<hr>"
+            },
+            {
+              "id": "f6edeae6-fbfb-4dce-b556-1bb7928d5ff5",
+              "type": "text",
+              "content": "<h3>Astuce n°2 : utilisez une phrase qui vous plaît et gardez certains caractères. </h3><p>Par exemple : la phrase \"<strong>J'a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j'a</strong>dore <strong>l</strong>a <strong>p</strong>longée <strong>!</strong>\" vous donne le mot de passe : <strong>Ja2c3peejalp!</strong></p>"
+            },
+            {
+              "id": "95098e06-e113-46ba-afa0-b7890d5cf467",
+              "type": "text",
+              "content": "<hr>"
             },
             {
               "id": "dadd152e-350c-4710-8609-af5f92e69b2c",
               "type": "text",
-              "content": "<h3>Conseil n°2 : oublier son mot de passe, ce n'est pas grave !</h3><p>Oui, un mot de passe, ça s'oublie. Et si on l'oublie, il suffit de le changer. La plupart des sites permettent de définir un nouveau mot de passe en cas d'oubli. Pour cela, on doit fournir l'adresse mail utilisée à la création du compte. Le seul mot de passe important à mémoriser, c'est celui de sa boîte mail, puisqu'il permet de changer tous les autres ! <span aria-hidden=\"true\">💡</span></p>"
+              "content": "<h3>Astuce n°3 : créez un nouveau mot de passe si vous l'avez oublié.</h3><p>Oui, un mot de passe, ça s'oublie. Et si on l'oublie, il suffit de le changer. La plupart des sites permettent de définir un nouveau mot de passe en cas d'oubli. Pour cela, on doit fournir l'adresse mail utilisée à la création du compte. Le seul mot de passe important à mémoriser, c'est celui de sa boîte mail, puisqu'il permet de changer tous les autres ! <span aria-hidden=\"true\">💡</span></p>"
+            }
+          ]
+        },
+        {
+          "id": "6336bac0-c272-40cc-a002-ee724a5ec4c8",
+          "type": "lesson",
+          "title": "Les conseils à donner à un ami",
+          "elements": [
+            {
+              "id": "5db8677e-2c9e-4f36-b932-4989459af149",
+              "type": "qcm",
+              "instruction": "<p>Quels conseils donner à quelqu'un pour créer un mot de passe solide ?</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "Créer un mot de passe qui est long."
+                },
+                {
+                  "id": "2",
+                  "content": "Utiliser un mot de passe qu'il utilise déjà."
+                },
+                {
+                  "id": "3",
+                  "content": "Choisir avec un ami pour s'en souvenir plus facilement."
+                },
+                {
+                  "id": "4",
+                  "content": "Se servir d'une phrase pour se souvenir plus facilement de son mot de passe."
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Correct !</p>",
+                "invalid": "<p>Incorrect !</p>"
+              },
+              "solutions": [
+                "1",
+                "4"
+              ]
             }
           ]
         },
