@@ -1079,7 +1079,7 @@
           "grainId": "831fd61c-54ae-4b21-bd3f-61f40887a869"
         },
         {
-          "content": "<p>Si vous utilisez des informations qui vous concernent (comme votre prénom ou votre date de naissance), il sera facile de deviner votre mot de passe.</p> <p>Une illustration : vous allez devoir deviner le mot de passe d’Austin !</p>",
+          "content": "<p>Un exemple : Austin a utilisé des informations personnelles pour créer son mot de passe. Vous allez pouvoir le deviner facilement. À vous de jouer.&nbsp;<span aria-hidden=\"true\">🕵🏻‍♂️</span>&nbsp;<span aria-hidden=\"true\">🕵🏿‍♀️</span></p>",
           "grainId": "1cda400f-008c-49db-b46b-6f783ccbc273"
         },
         {
@@ -1142,12 +1142,17 @@
             {
               "id": "826281e7-865f-462d-abc0-77537c42a2b4",
               "type": "text",
-              "content": "<h3><span aria-hidden=\"true\">🔮&nbsp;</span>Une personne a deviné votre mot de passe…</h3><p>Si vous utilisez des informations privées dans votre mot de passe, il est donc possible qu’une personne de votre entourage puisse le deviner facilement.</p><p>Elle pourra alors accéder à vos données personnelles et privées. Et ce n’est peut-être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.<span aria-hidden=\"true\"> 🙃</span></p>"
+              "content": "<h3><span aria-hidden=\"true\">🧑‍💻&nbsp;🔮&nbsp;</span>Une personne peut deviner votre mot de passe…</h3><p>Si vous utilisez des informations privées dans votre mot de passe, il est donc possible qu’une personne de votre entourage puisse le deviner facilement.</p><p>Elle pourra alors accéder à vos données personnelles et privées. Et ce n’est peut-être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.</p>"
+            },
+            {
+              "id": "aae5ea61-68b7-4089-90a1-6ecc707664c9",
+              "type": "text",
+              "content": "<hr>"
             },
             {
               "id": "9d0b7aff-a9da-453f-a6ba-c61fbaa7bb25",
               "type": "text",
-              "content": "<h3><span aria-hidden=\"true\">🤖&nbsp;</span>Un programme informatique a deviné votre mot de passe…</h3><p>En 2023, un mot de passe de 8 caractères comme <code>4z€rTy1&amp;</code> ou <code>$0Leil@?</code> sera piraté en 5 minutes seulement ! <span aria-hidden=\"true\">😰 </span>Par contre, avec 12 caractères, cette durée passe à 226 ans ! <span aria-hidden=\"true\">😮 </span></p><p>En général, dans ce cas, l'attaquant ne vous connaît pas personnellement. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
+              "content": "<h3><span aria-hidden=\"true\">🤖&nbsp;🏴‍☠️&nbsp;</span>Un logiciel informatique peut pirater votre mot de passe…</h3><p>Les ordinateurs peuvent trouver des mots de passe en testant beaucoup de combinaisons. En 2023, un mot de passe court comme <code>$0Leil@?</code> peut être piraté en 5 minutes seulement. Mais en ajoutant 4 lettres, cette durée passe à 226 ans ! <p>En général, le pirate ne vous connaît pas. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
             }
           ]
         },
