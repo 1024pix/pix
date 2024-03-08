@@ -1,10 +1,8 @@
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { User } from '../../../../lib/domain/models/User.js';
-
 import { PasswordResetDemandNotFoundError, UserNotFoundError } from '../../../../lib/domain/errors.js';
-
+import { User } from '../../../../lib/domain/models/User.js';
 import { getUserByResetPasswordDemand } from '../../../../lib/domain/usecases/get-user-by-reset-password-demand.js';
 import { InvalidTemporaryKeyError } from '../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-user-by-reset-password-demand', function () {
   const temporaryKey = 'ABCDEF123';

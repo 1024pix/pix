@@ -1,7 +1,8 @@
-import { adminMemberController } from './admin-member-controller.js';
+import Joi from 'joi';
+
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import Joi from 'joi';
+import { adminMemberController } from './admin-member-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -124,4 +125,4 @@ const register = async function (server) {
 };
 
 const name = 'admin-members-api';
-export { register, name };
+export { name, register };

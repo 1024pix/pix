@@ -1,9 +1,10 @@
-import { expect, sinon, catchErr } from '../../../../test-helper.js';
+import _ from 'lodash';
+
+import { CompetenceEvaluation } from '../../../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import { evaluationUsecases as usecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import _ from 'lodash';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { CompetenceEvaluation } from '../../../../../src/evaluation/domain/models/CompetenceEvaluation.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | start-or-resume-competence-evaluation', function () {
   const userId = 123;

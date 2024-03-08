@@ -32,4 +32,4 @@ class DomainErrorMapper {
 
 const domainErrorMapper = new DomainErrorMapper();
 
-export { domainErrorMapper, DomainErrorMapper };
+export { DomainErrorMapper, domainErrorMapper };

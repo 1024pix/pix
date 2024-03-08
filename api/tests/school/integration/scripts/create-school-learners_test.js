@@ -1,12 +1,12 @@
-import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
+import { Organization } from '../../../../lib/domain/models/Organization.js';
 import {
   buildLearners,
   buildSchoolOrganization,
   showSchools,
 } from '../../../../src/school/scripts/create-school-learners.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
-import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Script | create school learners', function () {
   describe('#buildSchool', function () {

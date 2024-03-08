@@ -1,3 +1,5 @@
+import lodash from 'lodash';
+
 import {
   createServer,
   databaseBuilder,
@@ -7,7 +9,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
-import lodash from 'lodash';
 
 const { omit } = lodash;
 

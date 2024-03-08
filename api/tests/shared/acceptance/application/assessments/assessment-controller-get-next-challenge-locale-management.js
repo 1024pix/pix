@@ -1,3 +1,5 @@
+import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,9 +8,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
-
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 

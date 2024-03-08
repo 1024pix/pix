@@ -1,7 +1,8 @@
-import { expect, catchErr } from '../../../test-helper.js';
+import * as url from 'url';
+
 import { FileValidationError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { checkCsvHeader } from '../../../../scripts/helpers/csvHelpers.js';
-import * as url from 'url';
+import { catchErr, expect } from '../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Scripts | Helpers | csvHelpers.js', function () {

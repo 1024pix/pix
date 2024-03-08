@@ -1,5 +1,5 @@
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { ElementAnswer } from '../../domain/models/ElementAnswer.js';
 
 const save = async function ({

@@ -1,19 +1,18 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import {
-  retrieveOrganizationLearner,
-  retrieveAndValidateAccountRecoveryDemand,
-} from '../../../../lib/domain/services/sco-account-recovery-service.js';
+import dayjs from 'dayjs';
 
+import { config } from '../../../../lib/config.js';
 import {
   AccountRecoveryDemandExpired,
   AlreadyRegisteredEmailError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
-  UserNotFoundError,
   UserHasAlreadyLeftSCO,
+  UserNotFoundError,
 } from '../../../../lib/domain/errors.js';
-
-import { config } from '../../../../lib/config.js';
-import dayjs from 'dayjs';
+import {
+  retrieveAndValidateAccountRecoveryDemand,
+  retrieveOrganizationLearner,
+} from '../../../../lib/domain/services/sco-account-recovery-service.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { features } = config;
 

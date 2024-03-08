@@ -1,5 +1,5 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
 import * as prescriberRoleRepository from '../../../../lib/infrastructure/repositories/prescriber-role-repository.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | prescriber-role-repository', function () {
   describe('#getForCampaign', function () {

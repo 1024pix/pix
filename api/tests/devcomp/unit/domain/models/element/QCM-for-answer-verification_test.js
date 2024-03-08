@@ -1,9 +1,9 @@
-import { expect, sinon } from '../../../../../test-helper.js';
 import { QCMForAnswerVerification } from '../../../../../../src/devcomp/domain/models/element/QCM-for-answer-verification.js';
-import { QcmCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcmCorrectionResponse.js';
 import { Feedbacks } from '../../../../../../src/devcomp/domain/models/Feedbacks.js';
-import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { QcmCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcmCorrectionResponse.js';
 import { ValidatorQCM } from '../../../../../../src/devcomp/domain/models/validator/ValidatorQCM.js';
+import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification', function () {
   describe('#constructor', function () {

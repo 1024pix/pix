@@ -1,9 +1,10 @@
-import path from 'path';
-import fs from 'fs';
 import axios from 'axios';
+import fs from 'fs';
 import papa from 'papaparse';
-import { disconnect } from '../../db/knex-database-connection.js';
+import path from 'path';
 import * as url from 'url';
+
+import { disconnect } from '../../db/knex-database-connection.js';
 
 const CSV_HEADERS = {
   ID: 'ID de certification',

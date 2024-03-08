@@ -1,7 +1,7 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../../test-helper.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { getProgression } from '../../../../../src/evaluation/domain/usecases/get-progression.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-progression', function () {
   const assessmentId = 1234;

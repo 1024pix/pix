@@ -1,6 +1,6 @@
-import { expect, sinon, catchErr } from '../../../../../test-helper.js';
-import { swapCampaignCodes } from '../../../../../../src/prescription/campaign/domain/usecases/swap-campaign-code.js';
 import { SwapCampaignMismatchOrganizationError } from '../../../../../../src/prescription/campaign/domain/errors.js';
+import { swapCampaignCodes } from '../../../../../../src/prescription/campaign/domain/usecases/swap-campaign-code.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | swap-campaign-code', function () {
   let campaignAdministrationRepository;

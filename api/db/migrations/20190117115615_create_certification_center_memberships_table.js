@@ -14,4 +14,4 @@ const down = function (knex) {
   return knex.schema.dropTable(CERTIFICATION_CENTER_MEMBERSHIPS);
 };
 
-export { up, down };
+export { down, up };

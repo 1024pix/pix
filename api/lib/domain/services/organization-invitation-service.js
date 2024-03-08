@@ -1,12 +1,12 @@
 import randomString from 'randomstring';
-import { Membership } from '../models/Membership.js';
-import * as mailService from '../../domain/services/mail-service.js';
 
+import * as mailService from '../../domain/services/mail-service.js';
 import {
   SendingEmailError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
 } from '../errors.js';
+import { Membership } from '../models/Membership.js';
 
 const _generateCode = () => {
   return randomString.generate({ length: 10, capitalization: 'uppercase' });
@@ -136,4 +136,4 @@ const createScoOrganizationInvitation = async ({
   return organizationInvitation;
 };
 
-export { createOrUpdateOrganizationInvitation, createScoOrganizationInvitation, createProOrganizationInvitation };
+export { createOrUpdateOrganizationInvitation, createProOrganizationInvitation, createScoOrganizationInvitation };

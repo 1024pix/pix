@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../../test-helper.js';
 import { passageController } from '../../../../../src/devcomp/application/passages/controller.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Application | Passages | Controller', function () {
   describe('#create', function () {

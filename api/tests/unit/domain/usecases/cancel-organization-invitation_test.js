@@ -1,7 +1,7 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
 import { NotFoundError, UncancellableOrganizationInvitationError } from '../../../../lib/domain/errors.js';
-import { cancelOrganizationInvitation } from '../../../../lib/domain/usecases/cancel-organization-invitation.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { cancelOrganizationInvitation } from '../../../../lib/domain/usecases/cancel-organization-invitation.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | cancel-organization-invitation', function () {
   let organizationInvitationRepository;

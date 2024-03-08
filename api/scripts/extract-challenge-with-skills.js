@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import * as challengeRepository from '../src/shared/infrastructure/repositories/challenge-repository.js';
+
 import * as skillsRepository from '../lib/infrastructure/repositories/skill-repository.js';
+import * as challengeRepository from '../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competencesRepository from '../src/shared/infrastructure/repositories/competence-repository.js';
 
 async function findChallengesWithSkills() {

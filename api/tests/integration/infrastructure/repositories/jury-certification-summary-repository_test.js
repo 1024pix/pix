@@ -1,15 +1,13 @@
-import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
-
+import * as juryCertificationSummaryRepository from '../../../../lib/infrastructure/repositories/jury-certification-summary-repository.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
   ImpactfulSubcategories,
 } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
-
-import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
-import * as juryCertificationSummaryRepository from '../../../../lib/infrastructure/repositories/jury-certification-summary-repository.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | JuryCertificationSummary', function () {
   describe('#findBySessionId', function () {

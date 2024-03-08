@@ -1,7 +1,7 @@
-import { expect, sinon, domainBuilder } from '../../../../../test-helper.js';
 import { OrganizationPlacesLot } from '../../../../../../src/prescription/organization-place/domain/models/OrganizationPlacesLot.js';
-import { createOrganizationPlacesLot } from '../../../../../../src/prescription/organization-place/domain/usecases/create-organization-places-lot.js';
 import { OrganizationPlacesLotManagement as organizationPlacesLotManagement } from '../../../../../../src/prescription/organization-place/domain/read-models/OrganizationPlacesLotManagement.js';
+import { createOrganizationPlacesLot } from '../../../../../../src/prescription/organization-place/domain/usecases/create-organization-places-lot.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | create-organization-places-lot', function () {
   let organizationPlacesLotRepository, organizationRepository, organization;

@@ -1,15 +1,14 @@
-import {
-  expect,
-  databaseBuilder,
-  domainBuilder,
-  catchErr,
-  learningContentBuilder,
-  mockLearningContent,
-} from '../../../test-helper.js';
-
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import * as certificateRepository from '../../../../lib/infrastructure/repositories/certificate-repository.js';
 import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
+import {
+  catchErr,
+  databaseBuilder,
+  domainBuilder,
+  expect,
+  learningContentBuilder,
+  mockLearningContent,
+} from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | Certificate_private', function () {
   const minimalLearningContent = [

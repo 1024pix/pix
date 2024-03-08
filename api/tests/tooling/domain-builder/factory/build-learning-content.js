@@ -1,10 +1,10 @@
 import { LearningContent } from '../../../../lib/domain/models/LearningContent.js';
-import { buildSkill } from './build-skill.js';
-import { buildTube } from './build-tube.js';
-import { buildThematic } from './build-thematic.js';
-import { buildCompetence } from './build-competence.js';
 import { buildArea } from './build-area.js';
+import { buildCompetence } from './build-competence.js';
 import { buildFramework } from './build-framework.js';
+import { buildSkill } from './build-skill.js';
+import { buildThematic } from './build-thematic.js';
+import { buildTube } from './build-tube.js';
 
 function buildLearningContent(frameworks) {
   frameworks = frameworks || [buildFramework({ id: 'frameworkId', name: 'someFramework' })];

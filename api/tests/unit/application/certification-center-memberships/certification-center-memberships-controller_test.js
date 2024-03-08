@@ -1,6 +1,6 @@
-import { expect, sinon, hFake } from '../../../test-helper.js';
 import { certificationCenterMembershipController } from '../../../../lib/application/certification-center-memberships/certification-center-membership-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | certification-center-memberships | certification-center-membership-controller', function () {
   describe('#acceptCertificationCenterMembership', function () {

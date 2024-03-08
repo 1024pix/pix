@@ -3,15 +3,16 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import bluebird from 'bluebird';
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-import * as sessionRepository from '../../src/certification/session/infrastructure/repositories/session-repository.js';
-import * as certificationCenterRepository from '../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
+import i18n from 'i18n';
+import path from 'path';
+import * as url from 'url';
+
+import { disconnect } from '../../db/knex-database-connection.js';
 import * as mailService from '../../lib/domain/services/mail-service.js';
 import { manageEmails } from '../../lib/domain/services/session-publication-service.js';
-import { disconnect } from '../../db/knex-database-connection.js';
-import * as url from 'url';
-import path from 'path';
-import i18n from 'i18n';
+import * as sessionRepository from '../../src/certification/session/infrastructure/repositories/session-repository.js';
+import * as certificationCenterRepository from '../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
+import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 /**

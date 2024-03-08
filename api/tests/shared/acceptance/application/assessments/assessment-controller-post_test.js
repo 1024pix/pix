@@ -1,10 +1,10 @@
+import { BookshelfAssessment } from '../../../../../lib/infrastructure/orm-models/Assessment.js';
 import {
   createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
-import { BookshelfAssessment } from '../../../../../lib/infrastructure/orm-models/Assessment.js';
 
 describe('Acceptance | API | Assessments POST', function () {
   let server;

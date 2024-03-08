@@ -1,12 +1,12 @@
 import _ from 'lodash';
 
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
-import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
 
 describe('Acceptance | Controller | prescriber-informations-controller', function () {
   let user;

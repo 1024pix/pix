@@ -1,3 +1,4 @@
+import { Membership } from '../../../../lib/domain/models/Membership.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,8 +7,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 describe('Acceptance | API | Campaign Controller', function () {
   let campaign;

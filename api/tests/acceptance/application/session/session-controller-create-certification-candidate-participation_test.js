@@ -1,10 +1,11 @@
+import _ from 'lodash';
+
 import {
   createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
 } from '../../../test-helper.js';
-import _ from 'lodash';
 
 describe('Acceptance | Controller | session-controller-create-certification-candidate-participation', function () {
   let server;

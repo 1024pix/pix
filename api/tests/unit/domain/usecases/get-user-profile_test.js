@@ -1,8 +1,9 @@
-import { sinon, expect, domainBuilder } from '../../../test-helper.js';
-import { Scorecard } from '../../../../src/evaluation/domain/models/Scorecard.js';
-import { getUserProfile } from '../../../../lib/domain/usecases/get-user-profile.js';
-import { constants } from '../../../../lib/domain/constants.js';
 import _ from 'lodash';
+
+import { constants } from '../../../../lib/domain/constants.js';
+import { getUserProfile } from '../../../../lib/domain/usecases/get-user-profile.js';
+import { Scorecard } from '../../../../src/evaluation/domain/models/Scorecard.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 function assertScorecard(userScorecard, expectedUserScorecard) {
   expect(userScorecard.earnedPix).to.equal(expectedUserScorecard.earnedPix);

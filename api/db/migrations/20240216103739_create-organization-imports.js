@@ -26,4 +26,4 @@ const down = async function (knex) {
   await knex.schema.raw(`DROP TYPE "organization-imports-statuses"`);
 };
 
-export { up, down };
+export { down, up };

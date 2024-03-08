@@ -1,6 +1,7 @@
 import url from 'url';
-import { logger } from '../src/shared/infrastructure/utils/logger.js';
+
 import { parseCsvWithHeader } from '../lib/infrastructure/helpers/csv.js';
+import { logger } from '../src/shared/infrastructure/utils/logger.js';
 const swaggerUrl = `https://app.pix.fr/api/swagger.json`;
 
 /**

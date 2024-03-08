@@ -1,7 +1,7 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../../../test-helper.js';
-import { abortCertificationCourse } from '../../../../../../src/certification/course/domain/usecases/abort-certification-course.js';
 import { CertificationCourse } from '../../../../../../lib/domain/models/CertificationCourse.js';
+import { abortCertificationCourse } from '../../../../../../src/certification/course/domain/usecases/abort-certification-course.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | abort-certification-course', function () {
   let certificationCourseRepository;

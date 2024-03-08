@@ -1,9 +1,10 @@
-import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { _forTestOnly } from '../../../../lib/domain/events/index.js';
-import { config as settings } from '../../../../lib/config.js';
-import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import range from 'lodash/range.js';
+
+import { config as settings } from '../../../../lib/config.js';
+import { _forTestOnly } from '../../../../lib/domain/events/index.js';
+import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { handleComplementaryCertificationsScoring } = _forTestOnly.handlers;
 

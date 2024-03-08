@@ -1,3 +1,4 @@
+import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -5,7 +6,6 @@ import {
   generateValidRequestAuthorizationHeader,
   knex,
 } from '../../../../test-helper.js';
-import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 
 describe('Acceptance | Application | flash-assessment-configuration-route', function () {
   let server;

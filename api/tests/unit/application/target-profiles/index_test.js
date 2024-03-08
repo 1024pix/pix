@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
-import { targetProfileController } from '../../../../lib/application/target-profiles/target-profile-controller.js';
+
 import * as moduleUnderTest from '../../../../lib/application/target-profiles/index.js';
+import { targetProfileController } from '../../../../lib/application/target-profiles/target-profile-controller.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Target Profiles | Routes', function () {
   describe('GET /api/admin/target-profile-summaries', function () {

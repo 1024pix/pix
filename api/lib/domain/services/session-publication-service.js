@@ -4,19 +4,20 @@
  * @typedef {import('../../../lib/domain/usecases/index.js').SessionRepository} SessionRepository
  * @typedef {import('../../../lib/domain/usecases/index.js').MailService} MailService
  */
-import {
-  SendingEmailToResultRecipientError,
-  SendingEmailToRefererError,
-  CertificationCourseNotPublishableError,
-} from '../../domain/errors.js';
-import { SessionAlreadyPublishedError } from '../../../src/certification/session/domain/errors.js';
-import * as mailService from '../../domain/services/mail-service.js';
 import lodash from 'lodash';
+
+import { SessionAlreadyPublishedError } from '../../../src/certification/session/domain/errors.js';
+import {
+  CertificationCourseNotPublishableError,
+  SendingEmailToRefererError,
+  SendingEmailToResultRecipientError,
+} from '../../domain/errors.js';
+import * as mailService from '../../domain/services/mail-service.js';
 
 const { some, uniqBy } = lodash;
 
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { status } from '../../../src/shared/domain/models/AssessmentResult.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 /**
  * @param {Object} params
@@ -195,4 +196,4 @@ function _hasCertificationWithNoScoring(certificationStatuses) {
   );
 }
 
-export { publishSession, manageEmails };
+export { manageEmails, publishSession };

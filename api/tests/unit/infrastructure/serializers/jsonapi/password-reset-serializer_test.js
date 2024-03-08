@@ -1,5 +1,5 @@
-import { expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | password-reset-serializer', function () {
   describe('#serialize', function () {

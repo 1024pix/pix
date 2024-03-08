@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
 import { paginate } from '../../../../lib/infrastructure/utils/paginate.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Utils | paginate', function () {
   describe('#paginate', function () {

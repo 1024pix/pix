@@ -9,4 +9,4 @@ const down = function (knex) {
   return knex.schema.renameTable(NEW_TABLE_NAME, OLD_TABLE_NAME);
 };
 
-export { up, down };
+export { down, up };

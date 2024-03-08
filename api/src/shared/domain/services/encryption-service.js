@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
-import { config } from '../../../../src/shared/config.js';
 
+import { config } from '../../../../src/shared/config.js';
 import { PasswordNotMatching } from '../../../authentication/domain/errors.js';
 const { bcryptNumberOfSaltRounds } = config;
 const hashPassword = function (password) {
@@ -19,4 +19,4 @@ const checkPassword = async function ({ password, passwordHash }) {
   }
 };
 
-export { hashPassword, hashPasswordSync, checkPassword };
+export { checkPassword, hashPassword, hashPasswordSync };

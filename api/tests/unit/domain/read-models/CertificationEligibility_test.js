@@ -1,5 +1,5 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
 import { CertificationEligibility } from '../../../../lib/domain/read-models/CertificationEligibility.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | CertificationEligibility', function () {
   describe('static #notCertifiable', function () {

@@ -1,7 +1,7 @@
-import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
 import { accountRecoveryController } from '../../../../lib/application/account-recovery/account-recovery-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | account-recovery-controller', function () {
   describe('#sendEmailForAccountRecovery', function () {

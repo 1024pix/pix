@@ -1,5 +1,5 @@
-import * as AutonomousCourseTargetProfilesSerializer from '../../infrastructure/serializers/jsonapi/autonomous-course-target-profiles-serializer.js';
 import { evaluationUsecases as usecases } from '../../domain/usecases/index.js';
+import * as AutonomousCourseTargetProfilesSerializer from '../../infrastructure/serializers/jsonapi/autonomous-course-target-profiles-serializer.js';
 
 const get = function (
   request,

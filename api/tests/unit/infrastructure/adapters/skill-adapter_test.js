@@ -1,6 +1,6 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
-import * as skillAdapter from '../../../../lib/infrastructure/adapters/skill-adapter.js';
 import { Skill } from '../../../../lib/domain/models/Skill.js';
+import * as skillAdapter from '../../../../lib/infrastructure/adapters/skill-adapter.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Infrastructure | Adapter | skillAdapter', function () {
   describe('#fromDatasourceObject', function () {

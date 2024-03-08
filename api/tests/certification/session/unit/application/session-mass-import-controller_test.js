@@ -1,8 +1,8 @@
-import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
-import { usecases as sharedUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
-import { usecases } from '../../../../../src/certification/session/domain/usecases/index.js';
 import { sessionMassImportController } from '../../../../../src/certification/session/application/session-mass-import-controller.js';
+import { usecases } from '../../../../../src/certification/session/domain/usecases/index.js';
+import { usecases as sharedUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | mass-import-controller', function () {
   describe('#validateSessions', function () {

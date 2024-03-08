@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { KnowledgeElement } from './KnowledgeElement.js';
 
 class CertifiableProfileForLearningContent {

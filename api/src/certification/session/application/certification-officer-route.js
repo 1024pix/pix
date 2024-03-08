@@ -1,7 +1,8 @@
-import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
-import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
+
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { certificationOfficerController } from './certification-officer-controller.js';
 
 const Joi = BaseJoi.extend(JoiDate);
@@ -40,4 +41,4 @@ const register = async function (server) {
 
 const name = 'session-certification-officer-api';
 
-export { register, name };
+export { name, register };

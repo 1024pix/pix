@@ -60,4 +60,4 @@ const down = async function (knex) {
   await knex.schema.renameTable(TARGET_PROFILE_TUBES_TABLE_NAME, OLD_TEMPLATE_TUBES_TABLE_NAME);
 };
 
-export { up, down };
+export { down, up };

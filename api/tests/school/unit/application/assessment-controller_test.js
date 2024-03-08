@@ -1,7 +1,7 @@
-import { expect, hFake, sinon } from '../../../test-helper.js';
 import { assessmentController } from '../../../../src/school/application/assessment-controller.js';
-import { usecases } from '../../../../src/school/domain/usecases/index.js';
 import { Activity } from '../../../../src/school/domain/models/Activity.js';
+import { usecases } from '../../../../src/school/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | assessment-controller', function () {
   describe('#getNextChallengeForPix1d', function () {

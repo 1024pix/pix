@@ -1,12 +1,12 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { config } from '../../../../../lib/config.js';
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
-import { Prescriber } from '../../domain/read-models/Prescriber.js';
-import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
-import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
+import { Membership } from '../../../../../lib/domain/models/index.js';
 import { Organization } from '../../../../../lib/domain/models/Organization.js';
 import { Tag } from '../../../../../lib/domain/models/Tag.js';
-import { Membership } from '../../../../../lib/domain/models/index.js';
+import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
+import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
+import { Prescriber } from '../../domain/read-models/Prescriber.js';
 
 function _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organizations) {
   return new Prescriber({

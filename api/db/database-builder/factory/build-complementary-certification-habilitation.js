@@ -1,7 +1,8 @@
 import _ from 'lodash';
+
+import { databaseBuffer } from '../database-buffer.js';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildComplementaryCertification } from './build-complementary-certification.js';
-import { databaseBuffer } from '../database-buffer.js';
 
 const buildComplementaryCertificationHabilitation = function ({
   id = databaseBuffer.getNextId(),

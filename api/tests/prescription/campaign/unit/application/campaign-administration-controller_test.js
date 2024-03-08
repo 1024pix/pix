@@ -1,6 +1,6 @@
-import { sinon, expect, hFake } from '../../../../test-helper.js';
 import { campaignAdministrationController } from '../../../../../src/prescription/campaign/application/campaign-adminstration-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Controller | Campaign administration', function () {
   describe('#save', function () {

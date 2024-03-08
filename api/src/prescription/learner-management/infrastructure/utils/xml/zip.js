@@ -2,10 +2,10 @@ import _ from 'lodash';
 const { isObject, values } = _;
 import fs from 'fs';
 const fsPromises = fs.promises;
-import Path from 'path';
-import os from 'os';
-import StreamZip from 'node-stream-zip';
 import { fileTypeFromFile } from 'file-type';
+import StreamZip from 'node-stream-zip';
+import os from 'os';
+import Path from 'path';
 
 import { FileValidationError } from '../../../../../../lib/domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../../../../../lib/infrastructure/monitoring-tools.js';

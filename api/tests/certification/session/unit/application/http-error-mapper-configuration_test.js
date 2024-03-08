@@ -1,14 +1,14 @@
-import { expect } from '../../../../test-helper.js';
-import { HttpErrors } from '../../../../../src/shared/application/http-errors.js';
-import {
-  SessionWithoutStartedCertificationError,
-  SessionWithAbortReasonOnCompletedCertificationCourseError,
-  SessionAlreadyFinalizedError,
-  CertificationCandidateForbiddenDeletionError,
-  SessionAlreadyPublishedError,
-} from '../../../../../src/certification/session/domain/errors.js';
 import { sessionDomainErrorMappingConfiguration } from '../../../../../src/certification/session/application/http-error-mapper-configuration.js';
+import {
+  CertificationCandidateForbiddenDeletionError,
+  SessionAlreadyFinalizedError,
+  SessionAlreadyPublishedError,
+  SessionWithAbortReasonOnCompletedCertificationCourseError,
+  SessionWithoutStartedCertificationError,
+} from '../../../../../src/certification/session/domain/errors.js';
+import { HttpErrors } from '../../../../../src/shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../../../../src/shared/application/models/domain-error-mapping-configuration.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Certification | Session | Application | HttpErrorMapperConfiguration', function () {
   it('contains a list of HttpErrorMapper instances', function () {

@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { unarchiveCampaign } from '../../../../lib/domain/usecases/unarchive-campaign.js';
 import { CampaignForArchiving as Campaign } from '../../../../lib/domain/models/CampaignForArchiving.js';
+import { unarchiveCampaign } from '../../../../lib/domain/usecases/unarchive-campaign.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | unarchive-campaign', function () {
   let campaignForArchivingRepository;

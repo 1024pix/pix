@@ -1,8 +1,7 @@
-import { databaseBuilder, expect } from '../../../test-helper.js';
-
-import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
 import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 const { findCertificationCenterMembershipsByCertificationCenter } = usecases;
 

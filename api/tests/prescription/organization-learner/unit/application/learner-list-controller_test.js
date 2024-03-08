@@ -1,9 +1,7 @@
-import { expect, hFake, sinon, domainBuilder } from '../../../../test-helper.js';
-
-import { usecases } from '../../../../../src/prescription/organization-learner/domain/usecases/index.js';
 import { learnerListController } from '../../../../../src/prescription/organization-learner/application/learner-list-controller.js';
-
+import { usecases } from '../../../../../src/prescription/organization-learner/domain/usecases/index.js';
 import * as queryParamsUtils from '../../../../../src/shared/infrastructure/utils/query-params-utils.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | learner-list-controller', function () {
   describe('#findPaginatedFilteredParticipants', function () {

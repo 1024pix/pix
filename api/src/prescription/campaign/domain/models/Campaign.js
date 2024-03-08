@@ -1,5 +1,5 @@
-import { MultipleSendingsUpdateError, IsForAbsoluteNoviceUpdateError } from '../errors.js';
 import { CampaignTypes } from '../../../shared/domain/constants.js';
+import { IsForAbsoluteNoviceUpdateError, MultipleSendingsUpdateError } from '../errors.js';
 
 class Campaign {
   constructor({

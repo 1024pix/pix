@@ -1,12 +1,12 @@
 import _ from 'lodash';
-import {
-  expect,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-  createServer,
-} from '../../../test-helper.js';
 
 import { Membership } from '../../../../lib/domain/models/Membership.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Controller | membership-controller', function () {
   let server;

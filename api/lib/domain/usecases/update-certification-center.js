@@ -1,10 +1,11 @@
 import bluebird from 'bluebird';
-import * as certificationCenterCreationValidator from '../validators/certification-center-creation-validator.js';
+
 import {
   ComplementaryCertification,
   ComplementaryCertificationHabilitation,
   DataProtectionOfficer,
 } from '../models/index.js';
+import * as certificationCenterCreationValidator from '../validators/certification-center-creation-validator.js';
 
 async function _addOrUpdateDataProtectionOfficer({ certificationCenter, dataProtectionOfficerRepository }) {
   const dataProtectionOfficer = new DataProtectionOfficer({

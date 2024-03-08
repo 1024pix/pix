@@ -1,5 +1,5 @@
-import { Assessment } from '../models/index.js';
 import { NotFoundError } from '../errors.js';
+import { Assessment } from '../models/index.js';
 
 const getAssessment = async function ({
   assessmentId,

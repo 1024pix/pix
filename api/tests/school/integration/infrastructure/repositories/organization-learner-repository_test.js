@@ -1,6 +1,6 @@
-import { databaseBuilder, expect } from '../../../../test-helper.js';
-import * as organizationLearnersRepository from '../../../../../src/school/infrastructure/repositories/organization-learner-repository.js';
 import { OrganizationLearner } from '../../../../../src/school/domain/models/OrganizationLearner.js';
+import * as organizationLearnersRepository from '../../../../../src/school/infrastructure/repositories/organization-learner-repository.js';
+import { databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Repository | organizationLearner', function () {
   describe('#getStudentsByOrganizationId', function () {

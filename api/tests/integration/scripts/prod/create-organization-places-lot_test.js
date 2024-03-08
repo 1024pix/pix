@@ -1,6 +1,6 @@
-import { expect, catchErr } from '../../../test-helper.js';
-import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import { prepareOrganizationPlacesLot } from '../../../../scripts/prod/create-organization-places-lot.js';
+import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
+import { catchErr, expect } from '../../../test-helper.js';
 
 describe('Integration | Scripts | create-organization-places-lot', function () {
   describe('#prepareOrganizationPlacesLot', function () {

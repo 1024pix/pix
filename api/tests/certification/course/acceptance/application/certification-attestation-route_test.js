@@ -1,3 +1,10 @@
+import { readFile } from 'node:fs/promises';
+
+import * as url from 'url';
+
+import { AssessmentResult, Membership } from '../../../../../lib/domain/models/index.js';
+import { generateCertificateVerificationCode } from '../../../../../lib/domain/services/verify-certificate-code-service.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
   createServer,
   databaseBuilder,
@@ -8,11 +15,6 @@ import {
   mockLearningContent,
   nock,
 } from '../../../../test-helper.js';
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { generateCertificateVerificationCode } from '../../../../../lib/domain/services/verify-certificate-code-service.js';
-import { AssessmentResult, Membership } from '../../../../../lib/domain/models/index.js';
-import { readFile } from 'node:fs/promises';
-import * as url from 'url';
 
 describe('Acceptance | Route | certification-attestation', function () {
   beforeEach(async function () {

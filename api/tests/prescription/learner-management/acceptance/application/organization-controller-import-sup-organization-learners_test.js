@@ -1,3 +1,5 @@
+import { Membership } from '../../../../../lib/domain/models/Membership.js';
+import { SupOrganizationLearnerImportHeader } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 import {
   createServer,
   databaseBuilder,
@@ -5,8 +7,6 @@ import {
   generateValidRequestAuthorizationHeader,
   knex,
 } from '../../../../test-helper.js';
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { SupOrganizationLearnerImportHeader } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 const i18n = getI18n();

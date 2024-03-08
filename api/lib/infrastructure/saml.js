@@ -56,4 +56,4 @@ const parsePostResponse = async function (payload) {
   return extract.attributes;
 };
 
-export { getServiceProviderMetadata, createLoginRequest, parsePostResponse };
+export { createLoginRequest, getServiceProviderMetadata, parsePostResponse };

@@ -9,4 +9,4 @@ const down = function (knex) {
   return knex.raw('ALTER TABLE ?? ALTER COLUMN ?? DROP NOT NULL', [TABLE, ORGANIZATION_ID_COLUMN]);
 };
 
-export { up, down };
+export { down, up };

@@ -1,7 +1,7 @@
-import { expect, sinon } from '../../../../test-helper.js';
 import { CampaignParticipationResultsShared } from '../../../../../lib/domain/events/CampaignParticipationResultsShared.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { ParticipationResultCalculationJobHandler } from '../../../../../lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Jobs | saveComputedCampaignParticipationResult', function () {
   context('#handle', function () {

@@ -1,7 +1,8 @@
 import querystring from 'querystring';
-import { expect, databaseBuilder, knex, createServer } from '../../../test-helper.js';
-import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
+
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
+import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
+import { createServer, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | authentication-controller', function () {
   describe('POST /api/token-from-external-user', function () {

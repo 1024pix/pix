@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { config } from '../../../../../lib/config.js';
 
 function _randomLetter() {

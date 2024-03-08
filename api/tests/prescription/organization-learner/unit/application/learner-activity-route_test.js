@@ -1,8 +1,8 @@
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-import * as moduleUnderTest from '../../../../../src/prescription/organization-learner/application/learner-activity-route.js';
 import { learnerActivityController } from '../../../../../src/prescription/organization-learner/application/learner-activity-controller.js';
+import * as moduleUnderTest from '../../../../../src/prescription/organization-learner/application/learner-activity-route.js';
 import { organizationLearnerController } from '../../../../../src/prescription/organization-learner/application/organization-learner-controller.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Router | organization-router', function () {
   describe('GET /api/organization-learners/{id}/activity', function () {

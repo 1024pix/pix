@@ -6,15 +6,15 @@
  * @typedef {import('../../../shared/domain/usecases/index.js').CertificationReportRepository} CertificationReportRepository
  */
 
-import {
-  SessionAlreadyFinalizedError,
-  SessionWithoutStartedCertificationError,
-  SessionWithAbortReasonOnCompletedCertificationCourseError,
-  SessionWithMissingAbortReasonError,
-} from '../errors.js';
+import bluebird from 'bluebird';
 
 import { SessionFinalized } from '../../../../../lib/domain/events/SessionFinalized.js';
-import bluebird from 'bluebird';
+import {
+  SessionAlreadyFinalizedError,
+  SessionWithAbortReasonOnCompletedCertificationCourseError,
+  SessionWithMissingAbortReasonError,
+  SessionWithoutStartedCertificationError,
+} from '../errors.js';
 
 /**
  * @param {Object} params

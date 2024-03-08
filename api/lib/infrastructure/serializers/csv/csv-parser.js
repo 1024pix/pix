@@ -1,5 +1,6 @@
-import papa from 'papaparse';
 import iconv from 'iconv-lite';
+import papa from 'papaparse';
+
 import { CsvImportError } from '../../../../src/shared/domain/errors.js';
 
 const ERRORS = {

@@ -1,6 +1,6 @@
-import { expect, catchErr } from '../../../../test-helper.js';
-import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import * as service from '../../../../../src/devcomp/domain/services/solution-service-qrocm-ind.js';
+import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
+import { catchErr, expect } from '../../../../test-helper.js';
 
 const ANSWER_OK = AnswerStatus.OK;
 const ANSWER_KO = AnswerStatus.KO;

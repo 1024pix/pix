@@ -1,9 +1,9 @@
+import { constants } from '../../../../lib/domain/constants.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
   NotFoundError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
 } from '../../../shared/domain/errors.js';
-import { constants } from '../../../../lib/domain/constants.js';
 
 /**
  * @param {AutonomousCourse} autonomousCourse

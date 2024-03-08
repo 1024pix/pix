@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, knex } from '../../test-helper.js';
 import { up as migrationToTest } from '../../../db/migrations/20240129134258_replace-empty-participantExternalId-by-null-on-campaign-participations.js';
+import { databaseBuilder, expect, knex } from '../../test-helper.js';
 
 describe('Integration | Migration | replace-empty-participantExternalId-by-null-on-campaign-participations', function () {
   it('should set to null participantExternalId when it is empty', async function () {

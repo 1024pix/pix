@@ -1,5 +1,5 @@
-import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import { IMPORT_STATUSES } from '../../../../../../src/prescription/learner-management/domain/constants.js';
+import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Models | OrganizationImport', function () {

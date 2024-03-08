@@ -1,5 +1,5 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
 import * as studentRepository from '../../../../lib/infrastructure/repositories/student-repository.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | student-repository', function () {
   describe('#findReconciledStudentsByNationalStudentId', function () {

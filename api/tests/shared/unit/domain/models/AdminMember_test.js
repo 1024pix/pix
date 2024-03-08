@@ -1,5 +1,5 @@
-import { expect } from '../../../../test-helper.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import { expect } from '../../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 

@@ -1,6 +1,6 @@
-import { expect, domainBuilder, sinon } from '../../../test-helper.js';
-import { createCertificationCenter } from '../../../../lib/domain/usecases/create-certification-center.js';
 import { DataProtectionOfficer } from '../../../../lib/domain/models/DataProtectionOfficer.js';
+import { createCertificationCenter } from '../../../../lib/domain/usecases/create-certification-center.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-certification-center', function () {
   describe('#createCertificationCenter', function () {

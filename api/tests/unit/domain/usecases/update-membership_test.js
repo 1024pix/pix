@@ -1,7 +1,7 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { InvalidMembershipOrganizationRoleError } from '../../../../lib/domain/errors.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { updateMembership } = usecases;
 

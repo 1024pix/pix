@@ -1,7 +1,8 @@
-import { expect, sinon } from '../../../../../test-helper.js';
+import _ from 'lodash';
+
 import { uploadCpfFiles } from '../../../../../../src/certification/session/domain/usecases/upload-cpf-files.js';
 import { cpfExportsStorage } from '../../../../../../src/certification/session/infrastructure/storage/cpf-exports-storage.js';
-import _ from 'lodash';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | upload-cpf-files', function () {
   let logger;

@@ -1,12 +1,12 @@
-import dayjs from 'dayjs';
 import { randomUUID } from 'crypto';
+import dayjs from 'dayjs';
 
 import { config } from '../../../config.js';
-import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
-import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 import { POLE_EMPLOI } from '../../constants/oidc-identity-providers.js';
+import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
+import { OidcAuthenticationService } from './oidc-authentication-service.js';
 
 const configKey = POLE_EMPLOI.configKey;
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');

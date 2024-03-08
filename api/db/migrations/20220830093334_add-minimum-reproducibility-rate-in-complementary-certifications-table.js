@@ -21,4 +21,4 @@ const down = async function (knex) {
   await knex(TABLE_NAME).update(COLUMN, null).whereIn('key', ['DROIT', 'EDU_1ER_DEGRE', 'EDU_2ND_DEGRE']);
 };
 
-export { up, down };
+export { down, up };

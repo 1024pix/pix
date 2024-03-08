@@ -1,7 +1,8 @@
 import _ from 'lodash';
-import * as competenceRepository from '../../../../../src/shared/infrastructure/repositories/competence-repository.js';
-import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
+
 import { skillDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
+import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
+import * as competenceRepository from '../../../../../src/shared/infrastructure/repositories/competence-repository.js';
 
 let ALL_COMPETENCES, ALL_ACTIVE_SKILLS, ALL_CHALLENGES, ACTIVE_SKILLS_BY_COMPETENCE, ACTIVE_SKILLS_BY_TUBE;
 let VALIDATED_CHALLENGES_BY_SKILL;
@@ -97,12 +98,12 @@ async function findActiveSkillsByFrameworkName(frameworkName) {
 }
 
 export {
+  findActiveSkillsByCompetenceId,
+  findActiveSkillsByFrameworkName,
+  findActiveSkillsByTubeId,
+  findCompetence,
+  findFirstValidatedChallengeBySkillId,
   getAllCompetences,
   getCoreCompetences,
-  findActiveSkillsByCompetenceId,
-  findActiveSkillsByTubeId,
-  findFirstValidatedChallengeBySkillId,
-  findCompetence,
-  findActiveSkillsByFrameworkName,
   getV3CertificationChallenges,
 };

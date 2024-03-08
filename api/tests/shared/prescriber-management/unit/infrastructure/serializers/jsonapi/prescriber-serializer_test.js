@@ -1,9 +1,8 @@
-import { expect, domainBuilder } from '../../../../../../test-helper.js';
-
-import * as serializer from '../../../../../../../src/shared/prescriber-management/infrastructure/serializers/jsonapi/prescriber-serializer.js';
-import { Membership } from '../../../../../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../../lib/domain/constants/identity-providers.js';
+import { Membership } from '../../../../../../../lib/domain/models/index.js';
 import { ORGANIZATION_FEATURE } from '../../../../../../../src/shared/domain/constants.js';
+import * as serializer from '../../../../../../../src/shared/prescriber-management/infrastructure/serializers/jsonapi/prescriber-serializer.js';
+import { domainBuilder, expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
   describe('#serialize', function () {

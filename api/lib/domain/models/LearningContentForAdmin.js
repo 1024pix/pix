@@ -167,4 +167,4 @@ class SkillForAdmin {
   }
 }
 
-export { AreaForAdmin, CompetenceForAdmin, ThematicForAdmin, TubeForAdmin, SkillForAdmin };
+export { AreaForAdmin, CompetenceForAdmin, SkillForAdmin, ThematicForAdmin, TubeForAdmin };

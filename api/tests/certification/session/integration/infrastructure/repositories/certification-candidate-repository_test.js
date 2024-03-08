@@ -1,13 +1,14 @@
-import { databaseBuilder, expect, knex, domainBuilder, catchErr } from '../../../../../test-helper.js';
-import { BookshelfCertificationCandidate } from '../../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
-import * as certificationCandidateRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-candidate-repository.js';
-import {
-  NotFoundError,
-  CertificationCandidateMultipleUserLinksWithinSessionError,
-} from '../../../../../../lib/domain/errors.js';
-import { ComplementaryCertification } from '../../../../../../src/certification/session/domain/models/ComplementaryCertification.js';
 import _ from 'lodash';
+
+import {
+  CertificationCandidateMultipleUserLinksWithinSessionError,
+  NotFoundError,
+} from '../../../../../../lib/domain/errors.js';
+import { BookshelfCertificationCandidate } from '../../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
+import { ComplementaryCertification } from '../../../../../../src/certification/session/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import * as certificationCandidateRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-candidate-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | CertificationCandidate', function () {
   describe('#saveInSession', function () {

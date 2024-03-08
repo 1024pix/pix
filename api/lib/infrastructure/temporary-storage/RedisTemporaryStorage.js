@@ -2,8 +2,8 @@ import lodash from 'lodash';
 
 const { trim } = lodash;
 
-import { TemporaryStorage } from './TemporaryStorage.js';
 import { RedisClient } from '../utils/RedisClient.js';
+import { TemporaryStorage } from './TemporaryStorage.js';
 
 const EXPIRATION_PARAMETER = 'ex';
 const KEEPTTL_PARAMETER = 'keepttl';

@@ -1,7 +1,7 @@
+import { Text } from '../../../../../src/devcomp/domain/models/element/Text.js';
+import { Grain } from '../../../../../src/devcomp/domain/models/Grain.js';
 import { Module } from '../../../../../src/devcomp/domain/models/module/Module.js';
 import { expect } from '../../../../test-helper.js';
-import { Grain } from '../../../../../src/devcomp/domain/models/Grain.js';
-import { Text } from '../../../../../src/devcomp/domain/models/element/Text.js';
 
 describe('Integration | Devcomp | Domain | Models | Module', function () {
   describe('When a transition text is related to a missing grain', function () {

@@ -3,8 +3,8 @@
  * @typedef {import('../../../shared/domain/usecases/index.js').FinalizedSessionRepository} FinalizedSessionRepository
  */
 
-import { SessionAlreadyPublishedError } from '../errors.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { SessionAlreadyPublishedError } from '../errors.js';
 
 /**
  * @param {Object} params

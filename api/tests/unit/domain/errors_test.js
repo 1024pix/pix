@@ -1,6 +1,6 @@
-import { expect } from '../../test-helper.js';
 import * as errors from '../../../lib/domain/errors.js';
 import { NotEnoughDaysPassedBeforeResetCampaignParticipationError } from '../../../lib/domain/errors.js';
+import { AdminMemberError } from '../../../src/authorization/domain/errors.js';
 import {
   CsvImportError,
   EntityValidationError,
@@ -9,7 +9,7 @@ import {
   LocaleFormatError,
   LocaleNotSupportedError,
 } from '../../../src/shared/domain/errors.js';
-import { AdminMemberError } from '../../../src/authorization/domain/errors.js';
+import { expect } from '../../test-helper.js';
 
 describe('Unit | Domain | Errors', function () {
   it('should export a AdminMemberError', function () {

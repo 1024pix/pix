@@ -1,12 +1,13 @@
-import { checkEventTypes } from './check-event-types.js';
-import { SessionFinalized } from './SessionFinalized.js';
+import bluebird from 'bluebird';
+
+import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { CertificationIssueReportResolutionAttempt } from '../models/CertificationIssueReportResolutionAttempt.js';
+import { CertificationIssueReportResolutionStrategies } from '../models/CertificationIssueReportResolutionStrategies.js';
+import { CertificationAssessment } from '../models/index.js';
 import { AutoJuryDone } from './AutoJuryDone.js';
 import { CertificationJuryDone } from './CertificationJuryDone.js';
-import bluebird from 'bluebird';
-import { CertificationIssueReportResolutionStrategies } from '../models/CertificationIssueReportResolutionStrategies.js';
-import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
-import { CertificationAssessment } from '../models/index.js';
+import { checkEventTypes } from './check-event-types.js';
+import { SessionFinalized } from './SessionFinalized.js';
 
 const eventTypes = [SessionFinalized];
 

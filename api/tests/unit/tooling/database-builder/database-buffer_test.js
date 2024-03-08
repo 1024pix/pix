@@ -1,7 +1,7 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
-import { expect } from '../../../test-helper.js';
 import { databaseBuffer } from '../../../../db/database-builder/database-buffer.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Tooling | DatabaseBuilder | database-buffer', function () {
   afterEach(function () {

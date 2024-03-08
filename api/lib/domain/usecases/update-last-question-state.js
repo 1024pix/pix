@@ -1,5 +1,5 @@
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 const updateLastQuestionState = async function ({
   assessmentId,

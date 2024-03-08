@@ -1,15 +1,13 @@
-import { expect, databaseBuilder, mockLearningContent } from '../../../../../test-helper.js';
 import _ from 'lodash';
 
+import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
+import { createCampaign } from '../../../../../../src/prescription/campaign/domain/usecases/create-campaign.js';
 import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import * as campaignCreatorRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-creator-repository.js';
-import * as userRepository from '../../../../../../src/shared/infrastructure/repositories/user-repository.js';
-
-import { createCampaign } from '../../../../../../src/prescription/campaign/domain/usecases/create-campaign.js';
-import { Campaign } from '../../../../../../src/prescription/campaign/domain/models/Campaign.js';
 import { CampaignTypes } from '../../../../../../src/prescription/shared/domain/constants.js';
-
 import * as codeGenerator from '../../../../../../src/shared/domain/services/code-generator.js';
+import * as userRepository from '../../../../../../src/shared/infrastructure/repositories/user-repository.js';
+import { databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 
 describe('Integration | UseCases | create-campaign', function () {
   let userId;

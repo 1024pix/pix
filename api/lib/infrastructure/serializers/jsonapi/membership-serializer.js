@@ -176,4 +176,4 @@ const deserialize = function (json) {
   });
 };
 
-export { serialize, serializeForAdmin, deserialize };
+export { deserialize, serialize, serializeForAdmin };

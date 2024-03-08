@@ -1,3 +1,5 @@
+import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -5,9 +7,6 @@ import {
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
 } from '../../../../test-helper.js';
-
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 

@@ -1,6 +1,6 @@
-import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import * as moduleUnderTest from '../../../../lib/application/campaign-participations/index.js';
 import { campaignParticipationController } from '../../../../lib/application/campaign-participations/campaign-participation-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/campaign-participations/index.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Route | campaignParticipationRouter', function () {
   let httpTestServer;

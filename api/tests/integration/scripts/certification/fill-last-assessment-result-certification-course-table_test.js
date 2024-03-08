@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, knex, sinon } from '../../../test-helper.js';
 import { addLastAssessmentResultCertificationCourse } from '../../../../scripts/certification/fill-last-assessment-result-certification-course-table.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 const ASSOC_TABLE_NAME = 'certification-courses-last-assessment-results';
 

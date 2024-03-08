@@ -1,5 +1,5 @@
-import { usecases } from '../../domain/usecases/index.js';
 import * as poleEmploiService from '../../domain/services/pole-emploi-service.js';
+import { usecases } from '../../domain/usecases/index.js';
 import { UnprocessableEntityError } from '../http-errors.js';
 
 const getSendings = async function (request, h, dependencies = { poleEmploiService }) {

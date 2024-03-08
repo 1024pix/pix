@@ -1,7 +1,7 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../../test-helper.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 const { updateOrganizationInformation } = usecases;
 
 describe('Unit | UseCase | organizations-administration | update-organization-information', function () {

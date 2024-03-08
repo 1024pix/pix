@@ -86,4 +86,4 @@ const deserialize = function (json) {
   return result;
 };
 
-export { serialize, deserialize };
+export { deserialize, serialize };

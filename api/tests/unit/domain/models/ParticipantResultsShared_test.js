@@ -1,8 +1,9 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
-import { ParticipantResultsShared } from '../../../../lib/domain/models/ParticipantResultsShared.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
 import lodash from 'lodash';
+
+import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { ParticipantResultsShared } from '../../../../lib/domain/models/ParticipantResultsShared.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 const { noop } = lodash;
 
 describe('Unit | Domain | Models | ParticipantResultsShared', function () {

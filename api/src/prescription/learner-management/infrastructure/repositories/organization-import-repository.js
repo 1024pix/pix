@@ -40,4 +40,4 @@ const save = async function (organizationImport) {
   }
 };
 
-export { save, get, getByOrganizationId };
+export { get, getByOrganizationId, save };

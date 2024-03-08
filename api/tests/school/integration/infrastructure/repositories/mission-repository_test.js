@@ -1,7 +1,7 @@
-import { catchErr, expect, mockLearningContent } from '../../../../test-helper.js';
-import * as missionRepository from '../../../../../src/school/infrastructure/repositories/mission-repository.js';
 import { Mission } from '../../../../../src/school/domain/models/Mission.js';
 import { MissionNotFoundError } from '../../../../../src/school/domain/school-errors.js';
+import * as missionRepository from '../../../../../src/school/infrastructure/repositories/mission-repository.js';
+import { catchErr, expect, mockLearningContent } from '../../../../test-helper.js';
 
 describe('Integration | Repository | mission-repository', function () {
   describe('#get', function () {

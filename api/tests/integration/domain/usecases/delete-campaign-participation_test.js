@@ -1,8 +1,7 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { deleteCampaignParticipation } from '../../../../lib/domain/usecases/delete-campaign-participation.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
-
-import { deleteCampaignParticipation } from '../../../../lib/domain/usecases/delete-campaign-participation.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCases | delete-campaign-participation', function () {
   it('should delete all campaignParticipations', async function () {

@@ -1,9 +1,10 @@
-import { expect, databaseBuilder, knex, domainBuilder, sinon, catchErr } from '../../../../../test-helper.js';
 import lodash from 'lodash';
 
+import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
+
 const { omit } = lodash;
-import * as complementaryCertificationBadgeRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
+import * as complementaryCertificationBadgeRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Integration | Infrastructure | Repository | Certification | Complementary-certification | complementary-certification-badge-repository', function () {

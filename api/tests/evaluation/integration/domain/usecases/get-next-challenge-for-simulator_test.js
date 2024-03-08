@@ -1,7 +1,7 @@
-import { domainBuilder, expect } from '../../../../test-helper.js';
-import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { SimulationParameters } from '../../../../../src/evaluation/domain/models/SimulationParameters.js';
+import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { Challenge } from '../../../../../src/shared/domain/models/Challenge.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Usecases | Get next challenge for simulator', function () {
   context('when there is still some challenges to pick', function () {

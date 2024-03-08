@@ -1,11 +1,12 @@
-import { databaseBuffer } from '../database-buffer.js';
-import { buildComplementaryCertificationCourse } from './build-complementary-certification-course.js';
-import { buildComplementaryCertification } from './build-complementary-certification.js';
-import { buildCertificationCourse } from './build-certification-course.js';
 import _ from 'lodash';
+
 import { ComplementaryCertificationCourseResult } from '../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import { databaseBuffer } from '../database-buffer.js';
 import { buildBadge } from './build-badge.js';
+import { buildCertificationCourse } from './build-certification-course.js';
+import { buildComplementaryCertification } from './build-complementary-certification.js';
 import { buildComplementaryCertificationBadge } from './build-complementary-certification-badge.js';
+import { buildComplementaryCertificationCourse } from './build-complementary-certification-course.js';
 
 const buildComplementaryCertificationCourseResult = function ({
   id,

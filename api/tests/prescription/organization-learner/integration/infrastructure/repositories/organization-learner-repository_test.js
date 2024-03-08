@@ -1,8 +1,8 @@
-import { expect, databaseBuilder, catchErr } from '../../../../../test-helper.js';
-import * as organizationLearnerFollowUpRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
-import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearner.js';
-import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../lib/domain/constants/identity-providers.js';
+import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearner.js';
+import * as organizationLearnerFollowUpRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
+import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | Organization Learner Follow Up | Organization Learner', function () {
   describe('#get', function () {

@@ -1,8 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { certificationCenterController } from '../../../../lib/application/certification-centers/certification-center-controller.js';
-
 import * as moduleUnderTest from '../../../../lib/application/certification-centers/index.js';
+import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Router | certification-center-router', function () {
   describe('GET /api/certification-centers/{certificationCenterId}/divisions', function () {

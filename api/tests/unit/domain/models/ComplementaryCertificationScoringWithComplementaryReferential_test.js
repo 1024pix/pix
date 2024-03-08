@@ -1,5 +1,5 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
 import { ComplementaryCertificationScoringWithComplementaryReferential } from '../../../../lib/domain/models/ComplementaryCertificationScoringWithComplementaryReferential.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ComplementaryCertificationScoringWithComplementaryReferential', function () {
   context('#constructor', function () {

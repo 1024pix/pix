@@ -1,11 +1,11 @@
+import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import {
   createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 

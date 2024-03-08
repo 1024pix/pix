@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../../../test-helper.js';
-import { getOrganizationPlacesStatistics } from '../../../../../../src/prescription/organization-place/domain/usecases/get-organization-places-statistics.js';
 import { PlaceStatistics } from '../../../../../../src/prescription/organization-place/domain/read-models/PlaceStatistics.js';
+import { getOrganizationPlacesStatistics } from '../../../../../../src/prescription/organization-place/domain/usecases/get-organization-places-statistics.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-organization-places-statistics', function () {
   it('should get the organization places statistics', async function () {

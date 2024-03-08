@@ -1,6 +1,6 @@
-import { PIX_EDU_SMALL_TARGET_PROFILE_ID } from './constants.js';
 import { SCO_ORGANIZATION_ID, SCO_ORGANIZATION_USER_ID } from '../common/constants.js';
 import { createAssessmentCampaign } from '../common/tooling/campaign-tooling.js';
+import { PIX_EDU_SMALL_TARGET_PROFILE_ID } from './constants.js';
 
 async function _createScoCampaigns(databaseBuilder) {
   await createAssessmentCampaign({

@@ -1,7 +1,8 @@
+import _ from 'lodash';
+
+import { databaseBuffer } from '../database-buffer.js';
 import { buildCertificationCourse } from './build-certification-course.js';
 import { buildIssueReportCategory } from './build-issue-report-category.js';
-import _ from 'lodash';
-import { databaseBuffer } from '../database-buffer.js';
 
 const buildCertificationIssueReport = function ({
   id = databaseBuffer.getNextId(),

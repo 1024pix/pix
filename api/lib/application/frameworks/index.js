@@ -1,7 +1,8 @@
 import Joi from 'joi';
-import { frameworksController as frameworkController } from './frameworks-controller.js';
+
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
+import { frameworksController as frameworkController } from './frameworks-controller.js';
 
 const register = async function (server) {
   const adminRoutes = [
@@ -87,4 +88,4 @@ const register = async function (server) {
 };
 
 const name = 'frameworks-api';
-export { register, name };
+export { name, register };

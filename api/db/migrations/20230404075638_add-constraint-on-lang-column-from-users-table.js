@@ -6,4 +6,4 @@ const down = async function (knex) {
   return knex.raw('ALTER TABLE "users" DROP CONSTRAINT "users_lang_check"');
 };
 
-export { up, down };
+export { down, up };

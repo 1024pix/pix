@@ -1,6 +1,6 @@
-import { expect } from '../../../test-helper.js';
-import { EuropeanNumericLevelFactory } from '../../../../lib/domain/read-models/EuropeanNumericLevelFactory.js';
 import { EuropeanNumericLevel } from '../../../../lib/domain/read-models/EuropeanNumericLevel.js';
+import { EuropeanNumericLevelFactory } from '../../../../lib/domain/read-models/EuropeanNumericLevelFactory.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function () {
   describe('static #buildFromCompetenceMarks', function () {

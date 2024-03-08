@@ -1,6 +1,7 @@
-import { buildCertificationCourse } from './build-certification-course.js';
-import { CertificationReport } from '../../../src/certification/shared/domain/models/CertificationReport.js';
 import _ from 'lodash';
+
+import { CertificationReport } from '../../../src/certification/shared/domain/models/CertificationReport.js';
+import { buildCertificationCourse } from './build-certification-course.js';
 
 const buildCertificationReport = function ({
   firstName = 'Bobby',

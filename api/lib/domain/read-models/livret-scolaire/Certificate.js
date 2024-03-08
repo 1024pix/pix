@@ -1,4 +1,4 @@
-import { VALIDATED, PENDING } from './CertificateStatus.js';
+import { PENDING, VALIDATED } from './CertificateStatus.js';
 
 class Certificate {
   constructor({

@@ -1,8 +1,8 @@
-import { sinon, expect, hFake } from '../../../../test-helper.js';
-import { scorecardController } from '../../../../../src/evaluation/application/scorecards/scorecard-controller.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
-import { evaluationUsecases } from '../../../../../src/evaluation//domain/usecases/index.js';
 import * as requestResponseUtils from '../../../../../lib/infrastructure/utils/request-response-utils.js';
+import { evaluationUsecases } from '../../../../../src/evaluation//domain/usecases/index.js';
+import { scorecardController } from '../../../../../src/evaluation/application/scorecards/scorecard-controller.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | scorecard-controller', function () {
   const authenticatedUserId = '12';

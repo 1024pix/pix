@@ -1,3 +1,10 @@
+import _ from 'lodash';
+
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { TrainingTrigger, TrainingTriggerTube } from '../../../../../lib/domain/models/index.js';
+import { TrainingTriggerForAdmin } from '../../../../../src/devcomp/domain/read-models/TrainingTriggerForAdmin.js';
+import * as trainingTriggerRepository from '../../../../../src/devcomp/infrastructure/repositories/training-trigger-repository.js';
+import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import {
   catchErr,
   databaseBuilder,
@@ -8,13 +15,6 @@ import {
   mockLearningContent,
   sinon,
 } from '../../../../test-helper.js';
-
-import * as trainingTriggerRepository from '../../../../../src/devcomp/infrastructure/repositories/training-trigger-repository.js';
-import { TrainingTrigger, TrainingTriggerTube } from '../../../../../lib/domain/models/index.js';
-import { TrainingTriggerForAdmin } from '../../../../../src/devcomp/domain/read-models/TrainingTriggerForAdmin.js';
-import _ from 'lodash';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 
 describe('Integration | Repository | training-trigger-repository', function () {
   let learningContent;

@@ -1,6 +1,6 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
 import { saveAdminMember } from '../../../../lib/domain/usecases/save-admin-member.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 

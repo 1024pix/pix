@@ -1,5 +1,5 @@
-import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 
 const getPixSourceResultByComplementaryCertificationCourseId = async function ({ complementaryCertificationCourseId }) {
   const result = await knex
@@ -49,8 +49,8 @@ const removeExternalJuryResult = async function ({ complementaryCertificationCou
 };
 
 export {
-  getPixSourceResultByComplementaryCertificationCourseId,
   getAllowedJuryLevelIdsByComplementaryCertificationBadgeId,
-  save,
+  getPixSourceResultByComplementaryCertificationCourseId,
   removeExternalJuryResult,
+  save,
 };

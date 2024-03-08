@@ -1,6 +1,7 @@
-import { buildAssessment } from './build-assessment.js';
-import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
+
+import { databaseBuffer } from '../database-buffer.js';
+import { buildAssessment } from './build-assessment.js';
 
 const buildAnswer = function ({
   id = databaseBuffer.getNextId(),

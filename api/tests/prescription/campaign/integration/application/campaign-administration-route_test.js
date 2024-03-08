@@ -1,12 +1,12 @@
+import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-administration-route.js';
+import { campaignAdministrationController } from '../../../../../src/prescription/campaign/application/campaign-adminstration-controller.js';
 import {
   databaseBuilder,
   expect,
+  generateValidRequestAuthorizationHeader,
   HttpTestServer,
   sinon,
-  generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
-import { campaignAdministrationController } from '../../../../../src/prescription/campaign/application/campaign-adminstration-controller.js';
-import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-administration-route.js';
 
 describe('Integration | Application | Route | campaign administration router', function () {
   let httpTestServer;

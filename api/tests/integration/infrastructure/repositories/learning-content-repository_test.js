@@ -1,3 +1,5 @@
+import { NoSkillsInCampaignError, NotFoundError } from '../../../../lib/domain/errors.js';
+import * as learningContentRepository from '../../../../lib/infrastructure/repositories/learning-content-repository.js';
 import {
   catchErr,
   databaseBuilder,
@@ -6,9 +8,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { NoSkillsInCampaignError, NotFoundError } from '../../../../lib/domain/errors.js';
-import * as learningContentRepository from '../../../../lib/infrastructure/repositories/learning-content-repository.js';
 
 describe('Integration | Repository | learning-content', function () {
   let learningContent;

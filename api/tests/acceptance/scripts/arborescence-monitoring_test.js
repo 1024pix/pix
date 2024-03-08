@@ -1,7 +1,8 @@
-import { expect } from '../../test-helper.js';
 import * as Path from 'path';
 import * as url from 'url';
+
 import { countFilesInPath } from '../../../scripts/arborescence-monitoring/stats.js';
+import { expect } from '../../test-helper.js';
 
 describe('Acceptance | Scripts | arborescence-monitoring.js', function () {
   describe('#countFilesInPath', function () {

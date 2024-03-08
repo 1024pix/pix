@@ -1,7 +1,8 @@
+import _ from 'lodash';
+
+import { knex } from '../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
-import { knex } from '../../../db/knex-database-connection.js';
-import _ from 'lodash';
 
 const create = async function ({ organizationId, email, code, role }) {
   const status = OrganizationInvitation.StatusType.PENDING;
@@ -84,11 +85,11 @@ const updateModificationDate = async function (id) {
 
 export {
   create,
+  findOnePendingByOrganizationIdAndEmail,
+  findPendingByOrganizationId,
   get,
   getByIdAndCode,
   markAsAccepted,
   markAsCancelled,
-  findPendingByOrganizationId,
-  findOnePendingByOrganizationIdAndEmail,
   updateModificationDate,
 };

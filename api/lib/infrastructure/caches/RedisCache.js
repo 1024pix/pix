@@ -3,11 +3,12 @@ import bluebird from 'bluebird';
 const { using } = bluebird;
 
 import Redlock from 'redlock';
-import { Cache } from './Cache.js';
-import { RedisClient } from '../utils/RedisClient.js';
+
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { config } from '../../config.js';
+import { RedisClient } from '../utils/RedisClient.js';
 import { applyPatch } from './apply-patch.js';
+import { Cache } from './Cache.js';
 
 const REDIS_LOCK_PREFIX = 'locks:';
 export const PATCHES_KEY = 'patches';

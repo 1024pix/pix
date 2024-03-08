@@ -1,5 +1,5 @@
-import { complementaryCertificationController } from './complementary-certification-controller.js';
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { complementaryCertificationController } from './complementary-certification-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -31,4 +31,4 @@ const register = async function (server) {
 };
 
 const name = 'src-complementary-certifications-api';
-export { register, name };
+export { name, register };

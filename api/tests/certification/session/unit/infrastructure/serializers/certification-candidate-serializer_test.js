@@ -1,7 +1,7 @@
-import { expect, domainBuilder } from '../../../../../test-helper.js';
-import * as serializer from '../../../../../../src/certification/session/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import { EnrolledCandidate } from '../../../../../../src/certification/session/domain/read-models/EnrolledCandidate.js';
+import * as serializer from '../../../../../../src/certification/session/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', function () {
   let certificationCandidate, complementaryCertification;

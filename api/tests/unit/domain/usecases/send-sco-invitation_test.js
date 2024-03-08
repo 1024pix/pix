@@ -1,12 +1,11 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { sendScoInvitation } from '../../../../lib/domain/usecases/send-sco-invitation.js';
-
 import {
-  OrganizationNotFoundError,
-  OrganizationWithoutEmailError,
   ManyOrganizationsFoundError,
   OrganizationArchivedError,
+  OrganizationNotFoundError,
+  OrganizationWithoutEmailError,
 } from '../../../../lib/domain/errors.js';
+import { sendScoInvitation } from '../../../../lib/domain/usecases/send-sco-invitation.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | send-sco-invitation', function () {
   let organizationRepository, organizationInvitationRepository, organizationInvitationService;

@@ -1,5 +1,5 @@
-import * as tagSerializer from '../../infrastructure/serializers/jsonapi/tag-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
+import * as tagSerializer from '../../infrastructure/serializers/jsonapi/tag-serializer.js';
 
 const create = async function (request, h, dependencies = { tagSerializer }) {
   const tagName = request.payload.data.attributes['name'].toUpperCase();

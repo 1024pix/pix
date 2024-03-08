@@ -1,10 +1,11 @@
-import { QCM } from './QCM.js';
-import { Feedbacks } from '../Feedbacks.js';
-import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
-import { ValidatorQCM } from '../validator/ValidatorQCM.js';
-import { QcmCorrectionResponse } from '../QcmCorrectionResponse.js';
 import Joi from 'joi';
+
 import { EntityValidationError } from '../../../../shared/domain/errors.js';
+import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
+import { Feedbacks } from '../Feedbacks.js';
+import { QcmCorrectionResponse } from '../QcmCorrectionResponse.js';
+import { ValidatorQCM } from '../validator/ValidatorQCM.js';
+import { QCM } from './QCM.js';
 
 class QCMForAnswerVerification extends QCM {
   userResponse;

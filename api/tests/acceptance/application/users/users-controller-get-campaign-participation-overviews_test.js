@@ -1,3 +1,4 @@
+import { constants } from '../../../../lib/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -7,7 +8,6 @@ import {
   mockLearningContent,
   sinon,
 } from '../../../test-helper.js';
-import { constants } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Controller | users-controller-get-campaign-participation-overviews', function () {
   let server;

@@ -1,4 +1,5 @@
 import jsonapiSerializer from 'jsonapi-serializer';
+
 import { _ } from '../../../../../shared/infrastructure/utils/lodash-utils.js';
 const { Deserializer } = jsonapiSerializer;
 

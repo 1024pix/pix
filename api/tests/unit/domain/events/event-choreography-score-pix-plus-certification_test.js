@@ -1,8 +1,8 @@
+import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
+import { CertificationRescoringCompleted } from '../../../../lib/domain/events/CertificationRescoringCompleted.js';
+import { CertificationScoringCompleted } from '../../../../lib/domain/events/CertificationScoringCompleted.js';
 import { expect } from '../../../test-helper.js';
 import { buildEventDispatcherAndHandlersForTest } from '../../../tooling/events/event-dispatcher-builder.js';
-import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
-import { CertificationScoringCompleted } from '../../../../lib/domain/events/CertificationScoringCompleted.js';
-import { CertificationRescoringCompleted } from '../../../../lib/domain/events/CertificationRescoringCompleted.js';
 
 describe('Event Choreography | Score Pix+ Certification', function () {
   it('chains Certification Scoring and Pix+ Certification Scoring on Certification Scoring Completed', async function () {

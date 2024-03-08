@@ -1,16 +1,13 @@
-import { domainBuilder, sinon, expect, catchErr } from '../../../test-helper.js';
-import { manageEmails, publishSession } from '../../../../lib/domain/services/session-publication-service.js';
-import { FinalizedSession, EmailingAttempt } from '../../../../lib/domain/models/index.js';
-
 import {
-  SendingEmailToResultRecipientError,
-  SendingEmailToRefererError,
   CertificationCourseNotPublishableError,
+  SendingEmailToRefererError,
+  SendingEmailToResultRecipientError,
 } from '../../../../lib/domain/errors.js';
+import { EmailingAttempt, FinalizedSession } from '../../../../lib/domain/models/index.js';
+import { manageEmails, publishSession } from '../../../../lib/domain/services/session-publication-service.js';
 import { SessionAlreadyPublishedError } from '../../../../src/certification/session/domain/errors.js';
-
 import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
-
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | UseCase | session-publication-service', function () {

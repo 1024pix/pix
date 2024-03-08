@@ -1,6 +1,6 @@
-import { expect } from '../../../../test-helper.js';
-import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
 import { FwbOidcAuthenticationService } from '../../../../../lib/domain/services/authentication/fwb-oidc-authentication-service.js';
+import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
+import { expect } from '../../../../test-helper.js';
 
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 

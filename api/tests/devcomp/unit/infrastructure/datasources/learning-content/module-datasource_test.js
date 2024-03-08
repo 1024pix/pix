@@ -1,8 +1,8 @@
 import moduleDatasource from '../../../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
-import { expect } from '../../../../../test-helper.js';
 import { LearningContentResourceNotFound } from '../../../../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
-import { moduleSchema } from './validation/module.js';
+import { expect } from '../../../../../test-helper.js';
 import { joiErrorParser } from './validation/joi-error-parser.js';
+import { moduleSchema } from './validation/module.js';
 
 const modules = await moduleDatasource.list();
 

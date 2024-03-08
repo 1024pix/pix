@@ -1,14 +1,14 @@
-import { expect, databaseBuilder, catchErr } from '../../../../test-helper.js';
+import { Stage } from '../../../../../src/evaluation/domain/models/Stage.js';
 import {
   get,
-  getByCampaignIds,
   getByCampaignId,
+  getByCampaignIds,
   getByCampaignParticipationId,
   getByTargetProfileIds,
   update,
 } from '../../../../../src/evaluation/infrastructure/repositories/stage-repository.js';
-import { Stage } from '../../../../../src/evaluation/domain/models/Stage.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Repository | Stage Acquisition', function () {
   describe('get', function () {

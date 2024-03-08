@@ -1,10 +1,10 @@
-import { checkEventTypes } from './check-event-types.js';
-import { CampaignParticipationStarted } from './CampaignParticipationStarted.js';
 import { PoleEmploiPayload } from '../../infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
-import { PoleEmploiSending } from '../models/PoleEmploiSending.js';
-import { httpAgent } from '../../infrastructure/http/http-agent.js';
 import * as httpErrorsHelper from '../../infrastructure/http/errors-helper.js';
+import { httpAgent } from '../../infrastructure/http/http-agent.js';
 import * as monitoringTools from '../../infrastructure/monitoring-tools.js';
+import { PoleEmploiSending } from '../models/PoleEmploiSending.js';
+import { CampaignParticipationStarted } from './CampaignParticipationStarted.js';
+import { checkEventTypes } from './check-event-types.js';
 
 const eventTypes = [CampaignParticipationStarted];
 

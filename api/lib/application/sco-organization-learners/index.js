@@ -1,13 +1,14 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { sendJsonApiError, UnprocessableEntityError, BadRequestError } from '../http-errors.js';
-import { scoOrganizationLearnerController } from './sco-organization-learner-controller.js';
 import XRegExp from 'xregexp';
+
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { config } from '../../config.js';
+import { BadRequestError, sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
+import { scoOrganizationLearnerController } from './sco-organization-learner-controller.js';
 
 const { passwordValidationPattern } = config.account;
 
@@ -304,4 +305,4 @@ const register = async function (server) {
 };
 
 const name = 'sco-organization-learners-api';
-export { register, name };
+export { name, register };

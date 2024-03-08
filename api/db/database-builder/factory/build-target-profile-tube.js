@@ -1,5 +1,5 @@
-import { buildTargetProfile } from './build-target-profile.js';
 import { databaseBuffer } from '../database-buffer.js';
+import { buildTargetProfile } from './build-target-profile.js';
 
 const buildTargetProfileTube = function ({
   id = databaseBuffer.getNextId(),

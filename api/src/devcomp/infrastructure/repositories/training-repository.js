@@ -1,14 +1,15 @@
-import { Training } from '../../domain/models/Training.js';
-import { TrainingSummary } from '../../domain/read-models/TrainingSummary.js';
+import lodash from 'lodash';
+
 import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { UserRecommendedTraining } from '../../domain/read-models/UserRecommendedTraining.js';
-import { fetchPage } from '../../../../lib/infrastructure/utils/knex-utils.js';
-import lodash from 'lodash';
-import * as trainingTriggerRepository from './training-trigger-repository.js';
-import { TrainingForAdmin } from '../../domain/read-models/TrainingForAdmin.js';
 import { TrainingTrigger } from '../../../../lib/domain/models/index.js';
+import { fetchPage } from '../../../../lib/infrastructure/utils/knex-utils.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { Training } from '../../domain/models/Training.js';
+import { TrainingForAdmin } from '../../domain/read-models/TrainingForAdmin.js';
+import { TrainingSummary } from '../../domain/read-models/TrainingSummary.js';
+import { UserRecommendedTraining } from '../../domain/read-models/UserRecommendedTraining.js';
+import * as trainingTriggerRepository from './training-trigger-repository.js';
 
 const { pick } = lodash;
 
@@ -197,14 +198,14 @@ async function findPaginatedByUserId({
 }
 
 export {
-  get,
-  getWithTriggersForAdmin,
+  create,
+  findPaginatedByUserId,
   findPaginatedSummaries,
   findPaginatedSummariesByTargetProfileId,
   findWithTriggersByCampaignParticipationIdAndLocale,
-  create,
+  get,
+  getWithTriggersForAdmin,
   update,
-  findPaginatedByUserId,
 };
 
 function _toDomain(training, targetProfileTrainings) {

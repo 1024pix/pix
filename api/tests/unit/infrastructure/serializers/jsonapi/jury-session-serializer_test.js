@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
   describe('#serializeForPaginatedList()', function () {

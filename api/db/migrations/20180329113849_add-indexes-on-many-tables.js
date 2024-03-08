@@ -27,4 +27,4 @@ const down = function (knex) {
   return Promise.all(promises);
 };
 
-export { up, down };
+export { down, up };

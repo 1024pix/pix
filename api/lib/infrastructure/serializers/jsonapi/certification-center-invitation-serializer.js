@@ -26,4 +26,4 @@ const deserializeForAdmin = function (payload) {
 
 const certificationCenterInvitationSerializer = { serialize, serializeForAdmin, deserializeForAdmin };
 
-export { certificationCenterInvitationSerializer, serialize, serializeForAdmin, deserializeForAdmin };
+export { certificationCenterInvitationSerializer, deserializeForAdmin, serialize, serializeForAdmin };

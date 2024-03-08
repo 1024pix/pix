@@ -1,7 +1,8 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { getOrganizationLearnersCsvTemplate } from '../../../../lib/domain/usecases/get-organization-learners-csv-template.js';
 import _ from 'lodash';
+
 import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { getOrganizationLearnersCsvTemplate } from '../../../../lib/domain/usecases/get-organization-learners-csv-template.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | UseCase | get-organization-learners-csv-template', function () {

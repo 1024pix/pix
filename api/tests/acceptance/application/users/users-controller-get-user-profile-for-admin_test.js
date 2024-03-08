@@ -1,3 +1,4 @@
+import { constants } from '../../../../lib/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,7 +7,6 @@ import {
   insertUserWithRoleSuperAdmin,
   mockLearningContent,
 } from '../../../test-helper.js';
-import { constants } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Controller | users-controller-get-user-profile-for-admin', function () {
   let options;

@@ -18,4 +18,4 @@ const register = async function (server) {
 };
 
 const name = 'certification-cpf-countries';
-export { register, name };
+export { name, register };

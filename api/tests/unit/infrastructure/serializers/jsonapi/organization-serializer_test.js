@@ -1,7 +1,7 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-serializer.js';
 import { Organization } from '../../../../../lib/domain/models/Organization.js';
 import { Tag } from '../../../../../lib/domain/models/Tag.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-serializer.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | organization-serializer', function () {
   describe('#serialize', function () {

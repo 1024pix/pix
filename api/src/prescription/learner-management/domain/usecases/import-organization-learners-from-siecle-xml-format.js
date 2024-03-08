@@ -1,17 +1,18 @@
-import { SiecleXmlImportError } from '../errors.js';
-
 import fs from 'fs/promises';
+
+import { SiecleXmlImportError } from '../errors.js';
 
 const { isEmpty, chunk } = lodash;
 
 import bluebird from 'bluebird';
 import lodash from 'lodash';
+
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../shared/infrastructure/constants.js';
 import { SiecleParser } from '../../infrastructure/serializers/xml/siecle-parser.js';
+import { detectEncoding } from '../../infrastructure/utils/xml/detect-encoding.js';
 import { SiecleFileStreamer } from '../../infrastructure/utils/xml/siecle-file-streamer.js';
 import * as zip from '../../infrastructure/utils/xml/zip.js';
-import { detectEncoding } from '../../infrastructure/utils/xml/detect-encoding.js';
 import { OrganizationImport } from '../models/OrganizationImport.js';
 
 const ERRORS = {

@@ -1,7 +1,8 @@
-import { NotFoundError } from '../../../../shared/domain/errors.js';
-import isEmpty from 'lodash/isEmpty.js';
-import compact from 'lodash/compact.js';
 import bluebird from 'bluebird';
+import compact from 'lodash/compact.js';
+import isEmpty from 'lodash/isEmpty.js';
+
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 
 const getCertificationAttestationsForSession = async function ({
   sessionId,

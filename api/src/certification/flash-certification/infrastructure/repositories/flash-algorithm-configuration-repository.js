@@ -17,4 +17,4 @@ const get = async function () {
   return FlashAssessmentAlgorithmConfiguration.fromDTO(flashAlgorithmConfiguration);
 };
 
-export { save, get };
+export { get, save };

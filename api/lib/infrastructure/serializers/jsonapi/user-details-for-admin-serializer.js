@@ -162,4 +162,4 @@ const deserialize = function (json) {
   });
 };
 
-export { serialize, serializeForUpdate, deserialize };
+export { deserialize, serialize, serializeForUpdate };

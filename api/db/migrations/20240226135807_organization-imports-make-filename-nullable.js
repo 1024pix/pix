@@ -11,4 +11,4 @@ const down = async function () {
   // No existing data at this stage
 };
 
-export { up, down };
+export { down, up };

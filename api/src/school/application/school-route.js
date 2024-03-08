@@ -1,7 +1,8 @@
 import Joi from 'joi';
-import { schoolController } from './school-controller.js';
+
 import { securityPreHandlers } from '../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../shared/domain/types/identifiers-type.js';
+import { schoolController } from './school-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -28,4 +29,4 @@ const register = async function (server) {
 };
 
 const name = 'school-api';
-export { register, name };
+export { name, register };

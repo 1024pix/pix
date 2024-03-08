@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, mockLearningContent, hFake } from '../../../../test-helper.js';
 import { stageCollectionController } from '../../../../../src/evaluation/application/stage-collections/stage-collection-controller.js';
 import * as stageCollectionRepository from '../../../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
+import { databaseBuilder, expect, hFake, mockLearningContent } from '../../../../test-helper.js';
 
 describe('Integration | Application | stage-collection-controller', function () {
   context('update', function () {

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { knex } from '../../../../../db/knex-database-connection.js';
 import {
   CertificationChallengeLiveAlert,
@@ -68,9 +69,9 @@ const _toDomain = (certificationChallengeLiveAlertDto) => {
 
 const _toDTO = (certificationChallengeLiveAlertDto) => certificationChallengeLiveAlertDto;
 export {
-  save,
   getByAssessmentId,
-  getOngoingBySessionIdAndUserId,
   getLiveAlertValidatedChallengeIdsByAssessmentId,
   getOngoingByChallengeIdAndAssessmentId,
+  getOngoingBySessionIdAndUserId,
+  save,
 };

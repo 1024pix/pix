@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
-import { passageController } from './controller.js';
 import { handlerWithDependencies } from '../../infrastructure/utils/handlerWithDependencies.js';
+import { passageController } from './controller.js';
 
 const register = async function (server) {
   server.route([
@@ -76,4 +76,4 @@ const register = async function (server) {
 };
 
 const name = 'passages-api';
-export { register, name };
+export { name, register };

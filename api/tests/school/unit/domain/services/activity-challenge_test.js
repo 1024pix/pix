@@ -1,12 +1,12 @@
-import { expect, sinon } from '../../../../test-helper.js';
+import { Answer } from '../../../../../lib/domain/models/index.js';
+import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import {
   getChallengeForCurrentActivity,
   getNextActivityChallenge,
 } from '../../../../../src/school/domain/services/activity-challenge.js';
-import { challengeService } from '../../../../../src/school/domain/services/challenge.js';
 import { pix1dService } from '../../../../../src/school/domain/services/algorithm-method.js';
-import { Answer } from '../../../../../lib/domain/models/index.js';
-import { Activity } from '../../../../../src/school/domain/models/Activity.js';
+import { challengeService } from '../../../../../src/school/domain/services/challenge.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Service | ActivityChallenge', function () {
   describe('#getChallengeForCurrentActivity', function () {

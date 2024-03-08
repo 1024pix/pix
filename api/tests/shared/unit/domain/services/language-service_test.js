@@ -1,6 +1,5 @@
 import { LanguageNotSupportedError } from '../../../../../src/shared/domain/errors.js';
 import * as languageService from '../../../../../src/shared/domain/services/language-service.js';
-
 import { catchErrSync, expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Services | Language Service', function () {

@@ -1,7 +1,7 @@
-import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
 import { sessionForSupervisingController } from '../../../../lib/application/sessions/session-for-supervising-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as sessionForSupervisingSerializer from '../../../../lib/infrastructure/serializers/jsonapi/session-for-supervising-serializer.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | session-for-supervising', function () {
   describe('#get', function () {

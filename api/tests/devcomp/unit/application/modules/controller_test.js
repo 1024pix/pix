@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../../test-helper.js';
 import { modulesController } from '../../../../../src/devcomp/application/modules/controller.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Application | Modules | Module Controller', function () {
   describe('#getBySlug', function () {

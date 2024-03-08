@@ -1,9 +1,8 @@
-import { expect, databaseBuilder, mockLearningContent } from '../../../../../test-helper.js';
+import * as campaignRepository from '../../../../../../lib/infrastructure/repositories/campaign-repository.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import * as campaignReportRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-report-repository.js';
-
 import * as badgeRepository from '../../../../../../src/shared/infrastructure/repositories/badge-repository.js';
-import * as campaignRepository from '../../../../../../lib/infrastructure/repositories/campaign-repository.js';
+import { databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 
 describe('Integration | UseCase | get-campaign', function () {
   context('Type Assessment', function () {

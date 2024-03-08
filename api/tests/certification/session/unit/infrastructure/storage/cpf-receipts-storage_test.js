@@ -1,11 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import * as url from 'url';
-import { expect, sinon } from '../../../../../test-helper.js';
-import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
+
+import { CpfReceipt } from '../../../../../../src/certification/session/domain/models/CpfReceipt.js';
 import { CpfReceiptsStorage } from '../../../../../../src/certification/session/infrastructure/storage/cpf-receipts-storage.js';
 import { config } from '../../../../../../src/shared/config.js';
-import { CpfReceipt } from '../../../../../../src/certification/session/domain/models/CpfReceipt.js';
+import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

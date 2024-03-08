@@ -2,8 +2,9 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer, Deserializer } = jsonapiSerializer;
 
-import { CertificationCandidate } from '../../../../../../lib/domain/models/CertificationCandidate.js';
 import _ from 'lodash';
+
+import { CertificationCandidate } from '../../../../../../lib/domain/models/CertificationCandidate.js';
 
 /**
  *@deprecated this serializer has been deprecated due to API migration, please migrate current usages to session/infrastructure/serializers/jsonapi/certification-candidate-serializer.js
@@ -55,4 +56,4 @@ const deserialize = async function (json) {
   });
 };
 
-export { serialize, deserialize };
+export { deserialize, serialize };

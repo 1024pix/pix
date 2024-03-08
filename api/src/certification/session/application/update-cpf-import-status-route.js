@@ -1,6 +1,7 @@
 import Joi from 'joi';
-import { udpdateCpfImportStatusController } from './update-cpf-import-status-controller.js';
+
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { udpdateCpfImportStatusController } from './update-cpf-import-status-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -39,4 +40,4 @@ const register = async function (server) {
 };
 
 const name = 'update-cpf-import-status-api';
-export { register, name };
+export { name, register };

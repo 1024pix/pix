@@ -1,14 +1,13 @@
-import {
-  generateValidRequestAuthorizationHeader,
-  expect,
-  knex,
-  insertUserWithRoleSuperAdmin,
-  databaseBuilder,
-  createServer,
-} from '../../../../test-helper.js';
-
-import { createSuccessfulCertificationCourse } from '../../../shared/fixtures/certification-course.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import {
+  createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
+  knex,
+} from '../../../../test-helper.js';
+import { createSuccessfulCertificationCourse } from '../../../shared/fixtures/certification-course.js';
 
 describe('Acceptance | Route | certification-course', function () {
   describe('POST /api/admin/certification-courses/{id}/reject', function () {

@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { CampaignToJoin } from '../../domain/read-models/CampaignToJoin.js';
 import { NotFoundError } from '../../domain/errors.js';
+import { CampaignToJoin } from '../../domain/read-models/CampaignToJoin.js';
 
 const getByCode = async function (code) {
   const result = await knex('campaigns')

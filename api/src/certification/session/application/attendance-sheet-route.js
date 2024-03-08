@@ -1,7 +1,8 @@
 import Joi from 'joi';
+
+import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { attendanceSheetController } from './attendance-sheet-controller.js';
-import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
 
 const register = async function (server) {
   server.route([
@@ -32,4 +33,4 @@ const register = async function (server) {
 };
 
 const name = 'attendance-sheet-api';
-export { register, name };
+export { name, register };

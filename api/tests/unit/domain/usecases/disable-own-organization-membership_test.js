@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { disableOwnOrganizationMembership } from '../../../../lib/domain/usecases/disable-own-organization-membership.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | disable-own-membership', function () {
   let membershipRepository;

@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { targetProfileController } from './target-profile-controller.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { targetProfileController } from './target-profile-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -33,4 +33,4 @@ const register = async function (server) {
 };
 
 const name = 'orga-target-profiles-api';
-export { register, name };
+export { name, register };

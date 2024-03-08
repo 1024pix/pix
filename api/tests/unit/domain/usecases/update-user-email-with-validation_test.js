@@ -1,14 +1,12 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-
 import {
   AlreadyRegisteredEmailError,
+  EmailModificationDemandNotFoundOrExpiredError,
   InvalidVerificationCodeError,
   UserNotAuthorizedToUpdateEmailError,
-  EmailModificationDemandNotFoundOrExpiredError,
 } from '../../../../lib/domain/errors.js';
-
 import { EmailModificationDemand } from '../../../../lib/domain/models/EmailModificationDemand.js';
 import { updateUserEmailWithValidation } from '../../../../lib/domain/usecases/update-user-email-with-validation.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | update-user-email-with-validation', function () {
   let userEmailRepository;

@@ -1,9 +1,8 @@
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
-
-import * as moduleUnderTest from '../../../../../src/certification/session/application/session-route.js';
-import { sessionController } from '../../../../../src/certification/session/application/session-controller.js';
 import { authorization } from '../../../../../lib/application/preHandlers/authorization.js';
+import { sessionController } from '../../../../../src/certification/session/application/session-controller.js';
+import * as moduleUnderTest from '../../../../../src/certification/session/application/session-route.js';
+import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Router | session-route', function () {
   describe('POST /api/certification-centers/{certificationCenterId}/session', function () {

@@ -132,4 +132,4 @@ const deserialize = function (payload) {
   }).deserialize(payload);
 };
 
-export { serializeForAdmin, serialize, deserialize };
+export { deserialize, serialize, serializeForAdmin };

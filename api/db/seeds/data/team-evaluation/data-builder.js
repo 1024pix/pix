@@ -1,13 +1,13 @@
-import {
-  SCO_ORGANIZATION_USER_ID,
-  SCO_ORGANIZATION_ID,
-  TARGET_PROFILE_PIX_ID,
-  ASSESSMENT_CAMPAIGN_PIX_ID,
-} from './constants.js';
 import * as tooling from '../common/tooling/index.js';
+import createAutonomousCourses from './autonomous-courses/create-autonomous-courses.js';
+import {
+  ASSESSMENT_CAMPAIGN_PIX_ID,
+  SCO_ORGANIZATION_ID,
+  SCO_ORGANIZATION_USER_ID,
+  TARGET_PROFILE_PIX_ID,
+} from './constants.js';
 import evalCampaignWithBadgesUser from './users/eval-campaign-with-badges.js';
 import evalCampaignWithStagesUser from './users/eval-campaign-with-stages.js';
-import createAutonomousCourses from './autonomous-courses/create-autonomous-courses.js';
 
 export async function teamEvaluationDataBuilder({ databaseBuilder }) {
   createScoOrganization(databaseBuilder);

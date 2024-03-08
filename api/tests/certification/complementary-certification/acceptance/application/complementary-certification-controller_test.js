@@ -1,9 +1,9 @@
 import {
-  expect,
-  databaseBuilder,
-  insertUserWithRoleSuperAdmin,
-  generateValidRequestAuthorizationHeader,
   createServer,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
 
 describe('Acceptance | API | complementary-certification-controller', function () {

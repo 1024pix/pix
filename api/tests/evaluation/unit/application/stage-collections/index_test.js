@@ -1,6 +1,6 @@
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-import { stageCollectionController } from '../../../../../src/evaluation/application/stage-collections/stage-collection-controller.js';
 import * as moduleUnderTest from '../../../../../src/evaluation/application/scorecards/index.js';
+import { stageCollectionController } from '../../../../../src/evaluation/application/stage-collections/stage-collection-controller.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Router | stage-collections', function () {
   describe('PATCH /api/admin/stage-collections/{id}', function () {

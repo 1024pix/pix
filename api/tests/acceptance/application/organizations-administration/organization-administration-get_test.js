@@ -1,3 +1,4 @@
+import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
@@ -5,7 +6,6 @@ import {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 
 describe('Acceptance | Routes | organization-administration-controller', function () {
   let server;

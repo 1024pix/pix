@@ -1,14 +1,15 @@
 import _ from 'lodash';
+
+import { config } from '../../../../lib/config.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Challenge } from '../../../../lib/domain/models/index.js';
 import * as skillAdapter from '../../../../lib/infrastructure/adapters/skill-adapter.js';
-import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
-import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { config } from '../../../../lib/config.js';
 import {
   challengeDatasource,
   skillDatasource,
 } from '../../../../lib/infrastructure/datasources/learning-content/index.js';
+import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
+import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
 
 const get = async function (id) {
   try {
@@ -113,17 +114,17 @@ export async function getManyTypes(ids) {
 }
 
 export {
+  findActiveFlashCompatible,
+  findFlashCompatible,
+  findOperative,
+  findOperativeBySkills,
+  findOperativeFlashCompatible,
+  findValidated,
+  findValidatedByCompetenceId,
+  findValidatedBySkillId,
   get,
   getMany,
   list,
-  findValidated,
-  findOperative,
-  findValidatedByCompetenceId,
-  findOperativeBySkills,
-  findFlashCompatible,
-  findActiveFlashCompatible,
-  findOperativeFlashCompatible,
-  findValidatedBySkillId,
 };
 
 function _assertLocaleIsDefined(locale) {

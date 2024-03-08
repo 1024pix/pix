@@ -1,3 +1,6 @@
+import lodash from 'lodash';
+
+import * as temporarySessionsStorageForMassImportService from '../../../../../src/certification/session/domain/services/temporary-sessions-storage-for-mass-import-service.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,9 +9,6 @@ import {
   knex,
   sinon,
 } from '../../../../test-helper.js';
-import * as temporarySessionsStorageForMassImportService from '../../../../../src/certification/session/domain/services/temporary-sessions-storage-for-mass-import-service.js';
-
-import lodash from 'lodash';
 
 const { omit } = lodash;
 

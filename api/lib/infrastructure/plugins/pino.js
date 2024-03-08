@@ -1,8 +1,9 @@
-import { stdSerializers } from 'pino';
 import crypto from 'crypto';
+import { stdSerializers } from 'pino';
+
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 import { config } from '../../config.js';
 import { monitoringTools } from '../monitoring-tools.js';
-import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 const serializersSym = Symbol.for('pino.serializers');
 
@@ -86,4 +87,4 @@ const options = {
   instance: logger,
 };
 
-export { plugin, options };
+export { options, plugin };

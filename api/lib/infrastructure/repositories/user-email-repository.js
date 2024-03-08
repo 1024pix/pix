@@ -26,4 +26,4 @@ const getEmailModificationDemandByUserId = async function (userId) {
   });
 };
 
-export { saveEmailModificationDemand, getEmailModificationDemandByUserId };
+export { getEmailModificationDemandByUserId, saveEmailModificationDemand };

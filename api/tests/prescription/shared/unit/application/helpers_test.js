@@ -1,5 +1,5 @@
-import { expect } from '../../../../test-helper.js';
 import { mapCertificabilityByLabel } from '../../../../../src/prescription/shared/application/helpers.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Application | helpers', function () {
   it('map the certificability eligible value', async function () {

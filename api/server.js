@@ -1,46 +1,38 @@
 import Hapi from '@hapi/hapi';
 import Oppsy from 'oppsy';
 
-import { config } from './lib/config.js';
-import { routes } from './lib/routes.js';
-import { plugins } from './lib/infrastructure/plugins/index.js';
-import { swaggers } from './lib/swaggers.js';
-import { authentication } from './lib/infrastructure/authentication.js';
-import { handleFailAction } from './lib/validate.js';
-import { monitoringTools } from './lib/infrastructure/monitoring-tools.js';
-import { deserializer } from './lib/infrastructure/serializers/jsonapi/deserializer.js';
+import { setupErrorHandling } from './config/server-setup-error-handling.js';
+import { setupOidcAuthenticationServiceRegistry } from './config/setup-oidc-authentication-service-registry.js';
 import { knex } from './db/knex-database-connection.js';
-
-// bounded context migration
-import { sharedRoutes } from './src/shared/routes.js';
-
-import { evaluationRoutes } from './src/evaluation/routes.js';
-
-import { certificationSessionRoutes } from './src/certification/session/routes.js';
+import { config } from './lib/config.js';
+import { authentication } from './lib/infrastructure/authentication.js';
+import { monitoringTools } from './lib/infrastructure/monitoring-tools.js';
+import { plugins } from './lib/infrastructure/plugins/index.js';
+import { deserializer } from './lib/infrastructure/serializers/jsonapi/deserializer.js';
+import { routes } from './lib/routes.js';
+import { swaggers } from './lib/swaggers.js';
+import { handleFailAction } from './lib/validate.js';
+import { authenticationRoutes } from './src/authentication/application/routes.js';
 import {
   attachTargetProfileRoutes,
   complementaryCertificationRoutes,
 } from './src/certification/complementary-certification/routes.js';
-import { flashCertificationRoutes } from './src/certification/flash-certification/routes.js';
 import { certificationCourseRoutes } from './src/certification/course/routes.js';
+import { flashCertificationRoutes } from './src/certification/flash-certification/routes.js';
 import { scoringRoutes } from './src/certification/scoring/routes.js';
-import { setupErrorHandling } from './config/server-setup-error-handling.js';
-
+import { certificationSessionRoutes } from './src/certification/session/routes.js';
+import { devcompRoutes } from './src/devcomp/routes.js';
+import { evaluationRoutes } from './src/evaluation/routes.js';
+import { campaignRoutes } from './src/prescription/campaign/routes.js';
+import { campaignParticipationsRoutes } from './src/prescription/campaign-participation/routes.js';
 import { learnerManagementRoutes } from './src/prescription/learner-management/routes.js';
 import { organizationLearnerRoutes } from './src/prescription/organization-learner/routes.js';
 import { organizationPlaceRoutes } from './src/prescription/organization-place/routes.js';
 import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
-import { campaignRoutes } from './src/prescription/campaign/routes.js';
-import { campaignParticipationsRoutes } from './src/prescription/campaign-participation/routes.js';
-
-import { prescriberManagementRoutes } from './src/shared/prescriber-management/routes.js';
-
-import { devcompRoutes } from './src/devcomp/routes.js';
-
 import { schoolRoutes } from './src/school/routes.js';
-
-import { authenticationRoutes } from './src/authentication/application/routes.js';
-import { setupOidcAuthenticationServiceRegistry } from './config/setup-oidc-authentication-service-registry.js';
+import { prescriberManagementRoutes } from './src/shared/prescriber-management/routes.js';
+// bounded context migration
+import { sharedRoutes } from './src/shared/routes.js';
 
 const certificationRoutes = [
   certificationSessionRoutes,

@@ -1,10 +1,11 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import { ObjectValidationError } from '../../domain/errors.js';
 import { NotFoundError } from '../../../src/shared/domain/errors.js';
-import { DomainTransaction } from '../DomainTransaction.js';
-import { TargetProfile } from '../../domain/models/index.js';
 import { Badge } from '../../../src/shared/domain/models/Badge.js';
+import { ObjectValidationError } from '../../domain/errors.js';
+import { TargetProfile } from '../../domain/models/index.js';
+import { DomainTransaction } from '../DomainTransaction.js';
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
 const create = async function ({ targetProfileForCreation, domainTransaction }) {
@@ -106,4 +107,4 @@ const hasTubesWithLevels = async function (
   }
 };
 
-export { create, get, findByIds, update, findOrganizationIds, hasTubesWithLevels };
+export { create, findByIds, findOrganizationIds, get, hasTubesWithLevels, update };

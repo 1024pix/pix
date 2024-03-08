@@ -1,9 +1,10 @@
 import Joi from 'joi';
-import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { smartRandomSimulatorController } from './smart-random-simulator-controller.js';
+
 import { AnswerStatus, KnowledgeElement } from '../../../../lib/domain/models/index.js';
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { smartRandomSimulatorController } from './smart-random-simulator-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -102,4 +103,4 @@ const register = async function (server) {
 };
 
 const name = 'smart-random-simulator-api';
-export { register, name };
+export { name, register };

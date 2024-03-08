@@ -1,6 +1,7 @@
-import * as knexUtils from '../utils/knex-utils.js';
-import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import lodash from 'lodash';
+
+import { AlreadyExistingEntityError } from '../../domain/errors.js';
+import * as knexUtils from '../utils/knex-utils.js';
 
 const { omit } = lodash;
 
@@ -39,4 +40,4 @@ const findByIds = async function (tagIds, domainTransaction) {
   return rows.map((row) => new Tag(row));
 };
 
-export { create, findByName, findAll, findByIds };
+export { create, findAll, findByIds, findByName };

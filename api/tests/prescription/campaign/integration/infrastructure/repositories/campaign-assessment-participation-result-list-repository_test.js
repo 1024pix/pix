@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, mockLearningContent, learningContentBuilder } from '../../../../../test-helper.js';
 import * as campaignAssessmentParticipationResultListRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { databaseBuilder, expect, learningContentBuilder, mockLearningContent } from '../../../../../test-helper.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

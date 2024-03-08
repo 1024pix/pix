@@ -1,5 +1,5 @@
-import { SendSharedParticipationResultsToPoleEmploiJob } from './SendSharedParticipationResultsToPoleEmploiJob.js';
 import { usecases } from '../../../domain/usecases/index.js';
+import { SendSharedParticipationResultsToPoleEmploiJob } from './SendSharedParticipationResultsToPoleEmploiJob.js';
 
 class SendSharedParticipationResultsToPoleEmploiHandler {
   async handle(event) {

@@ -1,7 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { OrganizationLearner } from '../../domain/read-models/OrganizationLearner.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
+import { OrganizationLearner } from '../../domain/read-models/OrganizationLearner.js';
 
 function _buildIsCertifiable(queryBuilder, organizationLearnerId) {
   queryBuilder

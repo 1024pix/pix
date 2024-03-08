@@ -20,4 +20,4 @@ const down = async function (knex) {
   await knex('features').where({ key: ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key }).delete();
 };
 
-export { up, down };
+export { down, up };

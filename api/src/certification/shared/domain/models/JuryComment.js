@@ -59,4 +59,4 @@ class JuryComment {
   }
 }
 
-export { JuryComment, JuryCommentContexts, AutoJuryCommentKeys };
+export { AutoJuryCommentKeys, JuryComment, JuryCommentContexts };

@@ -37,7 +37,7 @@ const hasRecommendedTrainings = async function ({ userId, domainTransaction = Do
   return Boolean(result);
 };
 
-export { save, findByCampaignParticipationId, hasRecommendedTrainings };
+export { findByCampaignParticipationId, hasRecommendedTrainings, save };
 
 function _toDomain(training) {
   return new UserRecommendedTraining({ ...training });

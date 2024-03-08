@@ -1,9 +1,10 @@
-import { expect, sinon } from '../../../../../test-helper.js';
-import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-import { GetObjectCommand, ListObjectsV2Command, DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, GetObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
+import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider', function () {
   const S3_CONFIG = {

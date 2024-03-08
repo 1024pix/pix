@@ -1,7 +1,8 @@
-import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
-import { buildAssessment } from './build-assessment.js';
+
 import { Assessment } from '../../../lib/domain/models/index.js';
+import { databaseBuffer } from '../database-buffer.js';
+import { buildAssessment } from './build-assessment.js';
 
 const buildCertificationChallengeLiveAlert = function ({
   id = databaseBuffer.getNextId(),

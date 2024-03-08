@@ -1,6 +1,7 @@
 import Joi from 'joi';
-import { learnerParticipationController } from './learner-participation-controller.js';
+
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { learnerParticipationController } from './learner-participation-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -70,4 +71,4 @@ const register = async function (server) {
 };
 
 const name = 'learner-participation-api';
-export { register, name };
+export { name, register };

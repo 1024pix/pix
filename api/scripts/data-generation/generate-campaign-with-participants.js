@@ -5,21 +5,22 @@ import * as dotenv from 'dotenv';
 
 dotenv.config({ path: `${__dirname}/../../.env` });
 
+import dayjs from 'dayjs';
 import _ from 'lodash';
-import { knex, disconnect } from '../../db/knex-database-connection.js';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
-import * as competenceRepository from '../../src/shared/infrastructure/repositories/competence-repository.js';
-import * as skillRepository from '../../lib/infrastructure/repositories/skill-repository.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
+import * as skillRepository from '../../lib/infrastructure/repositories/skill-repository.js';
 import * as campaignAdministrationRepository from '../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { CampaignParticipationStatuses } from '../../src/prescription/shared/domain/constants.js';
+import { generate } from '../../src/shared/domain/services/code-generator.js';
+import * as competenceRepository from '../../src/shared/infrastructure/repositories/competence-repository.js';
 import { computeParticipantResultsShared as computeParticipationResults } from '../prod/compute-participation-results.js';
 import {
-  getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
+  getEligibleCampaignParticipations,
 } from '../prod/generate-knowledge-element-snapshots-for-campaigns.js';
-import { generate } from '../../src/shared/domain/services/code-generator.js';
-import dayjs from 'dayjs';
 
 const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
 

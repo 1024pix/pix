@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, mockLearningContent } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
+import { databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Integration | UseCase | get-campaign-profile', function () {

@@ -1,6 +1,6 @@
-import { usecases } from '../../../../../src/prescription/learner-management/domain/usecases/index.js';
 import { supOrganizationManagementController } from '../../../../../src/prescription/learner-management/application/sup-organization-management-controller.js';
-import { expect, hFake, sinon, catchErr } from '../../../../test-helper.js';
+import { usecases } from '../../../../../src/prescription/learner-management/domain/usecases/index.js';
+import { catchErr, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | sup-organization-management-controller', function () {
   let organizationId;

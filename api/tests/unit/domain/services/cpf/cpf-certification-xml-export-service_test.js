@@ -1,13 +1,14 @@
-import { domainBuilder, expect, sinon, streamToPromise } from '../../../../test-helper.js';
-import stream from 'stream';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc.js';
+import { readFile } from 'fs/promises';
 // eslint-disable-next-line n/no-unpublished-import
 import { parseXml } from 'libxmljs2';
-import { readFile } from 'fs/promises';
+import stream from 'stream';
 import * as url from 'url';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc.js';
-import timezone from 'dayjs/plugin/timezone.js';
+
 import * as cpfCertificationXmlExportService from '../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
+import { domainBuilder, expect, sinon, streamToPromise } from '../../../../test-helper.js';
 
 const { PassThrough } = stream;
 

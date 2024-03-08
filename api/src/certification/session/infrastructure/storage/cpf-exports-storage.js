@@ -1,7 +1,8 @@
-import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-import { config } from '../../../../shared/config.js';
 import bluebird from 'bluebird';
+
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../../lib/infrastructure/constants.js';
+import { config } from '../../../../shared/config.js';
+import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 
 class CpfExportsStorage {
   #client;
@@ -26,4 +27,4 @@ class CpfExportsStorage {
 }
 
 const cpfExportsStorage = new CpfExportsStorage();
-export { cpfExportsStorage, CpfExportsStorage };
+export { CpfExportsStorage, cpfExportsStorage };

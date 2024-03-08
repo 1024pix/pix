@@ -3,13 +3,14 @@ import * as url from 'url';
 
 dotenv.config();
 import _ from 'lodash';
-import { calculateScoringInformationForCompetence } from '../lib/domain/services/scoring/scoring-service.js';
+
 import { buildKnowledgeElement } from '../db/database-builder/factory/build-knowledge-element.js';
-import * as tubeRepository from '../lib/infrastructure/repositories/tube-repository.js';
-import * as skillRepository from '../lib/infrastructure/repositories/skill-repository.js';
-import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
-import { learningContentCache as cache } from '../lib/infrastructure/caches/learning-content-cache.js';
 import { disconnect } from '../db/knex-database-connection.js';
+import { calculateScoringInformationForCompetence } from '../lib/domain/services/scoring/scoring-service.js';
+import { learningContentCache as cache } from '../lib/infrastructure/caches/learning-content-cache.js';
+import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
+import * as skillRepository from '../lib/infrastructure/repositories/skill-repository.js';
+import * as tubeRepository from '../lib/infrastructure/repositories/tube-repository.js';
 
 async function getUserSkillsGroupedByTubeId(elements) {
   const ids = _.map(elements, (current) => current.skillId);
@@ -122,10 +123,10 @@ async function main(userId) {
 
 export {
   compareUserScoreWithLatestRelease,
-  getUserValidatedKnowledgeElements,
-  getUserSkillsGroupedByTubeId,
   getHardestSkillByTubeId,
   getTubeByIds,
+  getUserSkillsGroupedByTubeId,
+  getUserValidatedKnowledgeElements,
 };
 
 const modulePath = url.fileURLToPath(import.meta.url);

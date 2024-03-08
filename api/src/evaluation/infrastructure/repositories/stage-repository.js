@@ -109,4 +109,4 @@ const update = async ({ id, attributesToUpdate }) => {
   return new Stage(stageToUpdate);
 };
 
-export { get, getByCampaignIds, getByCampaignId, getByCampaignParticipationId, getByTargetProfileIds, update };
+export { get, getByCampaignId, getByCampaignIds, getByCampaignParticipationId, getByTargetProfileIds, update };

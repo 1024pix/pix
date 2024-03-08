@@ -1,7 +1,8 @@
 import Joi from 'joi';
-import { Event } from './Event.js';
-import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
+
 import { PIX_ADMIN } from '../../../src/authorization/domain/constants.js';
+import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
+import { Event } from './Event.js';
 
 const { ROLES } = PIX_ADMIN;
 

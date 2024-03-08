@@ -1,10 +1,10 @@
-import { expect, sinon, catchErr } from '../../../../../test-helper.js';
-import { updateCampaignCode } from '../../../../../../src/prescription/campaign/domain/usecases/update-campaign-code.js';
 import {
   CampaignCodeFormatError,
   CampaignUniqueCodeError,
   UnknownCampaignId,
 } from '../../../../../../src/prescription/campaign/domain/errors.js';
+import { updateCampaignCode } from '../../../../../../src/prescription/campaign/domain/usecases/update-campaign-code.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | update-campaign-code', function () {
   let campaignAdministrationRepository, codeGenerator;

@@ -17,4 +17,4 @@ const down = function (knex) {
   return knex.schema.dropTable(KNOWLEDGE_ELEMENTS_TABLE_NAME);
 };
 
-export { up, down };
+export { down, up };

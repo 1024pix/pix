@@ -1,5 +1,6 @@
-import { MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY } from '../constants.js';
 import _ from 'lodash';
+
+import { MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY } from '../constants.js';
 
 class PlacementProfile {
   constructor({ profileDate, userId, userCompetences } = {}) {

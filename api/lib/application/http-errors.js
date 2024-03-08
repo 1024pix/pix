@@ -170,11 +170,11 @@ const HttpErrors = {
 };
 
 export {
-  HttpErrors,
   BadRequestError,
   BaseHttpError,
   ConflictError,
   ForbiddenError,
+  HttpErrors,
   ImproveCompetenceEvaluationForbiddenError,
   MissingQueryParamError,
   NotFoundError,
@@ -184,7 +184,7 @@ export {
   sendJsonApiError,
   ServiceUnavailableError,
   SessionPublicationBatchError,
+  TooManyRequestsError,
   UnauthorizedError,
   UnprocessableEntityError,
-  TooManyRequestsError,
 };

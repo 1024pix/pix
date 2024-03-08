@@ -1,6 +1,7 @@
-import { buildAssessmentResult } from './build-assessment-result.js';
-import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
+
+import { databaseBuffer } from '../database-buffer.js';
+import { buildAssessmentResult } from './build-assessment-result.js';
 
 const buildCompetenceMark = function ({
   id = databaseBuffer.getNextId(),

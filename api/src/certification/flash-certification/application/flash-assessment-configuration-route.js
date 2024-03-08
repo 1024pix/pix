@@ -1,6 +1,7 @@
-import { flashAssessmentConfigurationController } from './flash-assessment-configuration-controller.js';
-import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import Joi from 'joi';
+
+import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
+import { flashAssessmentConfigurationController } from './flash-assessment-configuration-controller.js';
 
 const register = async (server) => {
   server.route([
@@ -58,4 +59,4 @@ const register = async (server) => {
 
 const name = 'flash-assessment-configuration';
 
-export { register, name };
+export { name, register };

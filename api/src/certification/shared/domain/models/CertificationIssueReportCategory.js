@@ -66,8 +66,8 @@ const DeprecatedSubcategories = [
 export {
   CertificationIssueReportCategories as CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-  ImpactfulCategories,
-  ImpactfulSubcategories,
   DeprecatedCategories,
   DeprecatedSubcategories,
+  ImpactfulCategories,
+  ImpactfulSubcategories,
 };

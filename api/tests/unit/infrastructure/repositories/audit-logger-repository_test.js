@@ -1,8 +1,8 @@
-import { catchErr, expect, sinon } from '../../../test-helper.js';
 import { config } from '../../../../lib/config.js';
-import { auditLoggerRepository } from '../../../../lib/infrastructure/repositories/audit-logger-repository.js';
-import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
 import { AuditLoggerApiError } from '../../../../lib/domain/errors.js';
+import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
+import { auditLoggerRepository } from '../../../../lib/infrastructure/repositories/audit-logger-repository.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 const { auditLogger } = config;
 

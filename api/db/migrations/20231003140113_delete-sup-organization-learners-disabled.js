@@ -61,4 +61,4 @@ const down = async function () {
   // Do nothing, because it's impossible to rollback
 };
 
-export { up, down, deleteSupOrganizationLearnersDisabled };
+export { deleteSupOrganizationLearnersDisabled, down, up };

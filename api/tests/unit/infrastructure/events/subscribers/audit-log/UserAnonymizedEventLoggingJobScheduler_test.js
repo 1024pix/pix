@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../../../test-helper.js';
-import { UserAnonymizedEventLoggingJobScheduler } from '../../../../../../lib/infrastructure/events/subscribers/audit-log/UserAnonymizedEventLoggingJobScheduler.js';
 import { config } from '../../../../../../lib/config.js';
+import { UserAnonymizedEventLoggingJobScheduler } from '../../../../../../lib/infrastructure/events/subscribers/audit-log/UserAnonymizedEventLoggingJobScheduler.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Events | Subscribers | UserAnonymizedEventLoggingJobScheduler', function () {
   describe('#handle', function () {

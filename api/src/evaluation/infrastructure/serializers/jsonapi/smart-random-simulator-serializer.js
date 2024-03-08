@@ -1,7 +1,8 @@
 import jsonapiSerializer from 'jsonapi-serializer';
-import { SimulationParameters } from '../../../domain/models/SimulationParameters.js';
-import { Answer } from '../../../domain/models/Answer.js';
+
 import { Challenge, KnowledgeElement, Skill } from '../../../../../lib/domain/models/index.js';
+import { Answer } from '../../../domain/models/Answer.js';
+import { SimulationParameters } from '../../../domain/models/SimulationParameters.js';
 
 const { Deserializer } = jsonapiSerializer;
 

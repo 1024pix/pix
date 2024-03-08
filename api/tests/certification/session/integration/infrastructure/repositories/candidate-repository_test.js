@@ -1,6 +1,7 @@
-import { expect, databaseBuilder } from '../../../../../test-helper.js';
-import * as candidateRepository from '../../../../../../src/certification/session/infrastructure/repositories/candidate-repository.js';
 import _ from 'lodash';
+
+import * as candidateRepository from '../../../../../../src/certification/session/infrastructure/repositories/candidate-repository.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Certification | Session | Repository | Candidate', function () {
   describe('#findBySessionId', function () {

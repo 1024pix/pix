@@ -1,4 +1,5 @@
 import Joi from 'joi';
+
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
 import { organizationController } from './organization-controller.js';
@@ -36,4 +37,4 @@ const register = async function (server) {
 };
 
 const name = 'organization';
-export { register, name };
+export { name, register };

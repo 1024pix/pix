@@ -1,8 +1,8 @@
-import { certificationController } from './certification-controller.js';
 import Joi from 'joi';
 
-import { responseObjectErrorDoc } from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
 import { certificationsResultsDoc } from '../../infrastructure/open-api-doc/livret-scolaire/certifications-results-doc.js';
+import { responseObjectErrorDoc } from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
+import { certificationController } from './certification-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -43,4 +43,4 @@ const register = async function (server) {
 };
 
 const name = 'certifications-lsu-lsl-api';
-export { register, name };
+export { name, register };

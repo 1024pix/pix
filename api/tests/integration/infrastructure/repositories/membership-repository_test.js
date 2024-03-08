@@ -1,10 +1,11 @@
-import { expect, knex, databaseBuilder, catchErr, sinon } from '../../../test-helper.js';
 import _ from 'lodash';
-import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
+
 import { MembershipCreationError, MembershipUpdateError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { User } from '../../../../lib/domain/models/User.js';
+import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | membership-repository', function () {
   let clock;

@@ -1,8 +1,8 @@
-import { expect, sinon, domainBuilder } from '../../../../../test-helper.js';
+import { CompetenceMark } from '../../../../../../lib/domain/models/index.js';
 import { updateJuryComment } from '../../../../../../src/certification/course/domain/usecases/update-jury-comment.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
-import { CompetenceMark } from '../../../../../../lib/domain/models/index.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | update-jury-comment', function () {
   let domainTransaction;

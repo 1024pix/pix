@@ -1,16 +1,15 @@
 // eslint-disable import/no-restricted-paths
-import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
-
-import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
-import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
+import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  **/
 import { sessionRepositories } from '../../../session/infrastructure/repositories/index.js';
+import * as candidateRepository from '../../infrastructure/repositories/candidate-repository.js';
+import * as centerRepository from '../../infrastructure/repositories/center-repository.js';
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies

@@ -1,18 +1,16 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-
-import {
-  createOrUpdateOrganizationInvitation,
-  createScoOrganizationInvitation,
-  createProOrganizationInvitation,
-} from '../../../../lib/domain/services/organization-invitation-service.js';
-
 import {
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
 } from '../../../../lib/domain/errors.js';
 import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import {
+  createOrUpdateOrganizationInvitation,
+  createProOrganizationInvitation,
+  createScoOrganizationInvitation,
+} from '../../../../lib/domain/services/organization-invitation-service.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Service | Organization-Invitation Service', function () {
   const userEmailAddress = 'user@example.net';

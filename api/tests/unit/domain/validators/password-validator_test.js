@@ -1,6 +1,6 @@
-import { expect, catchErr } from '../../../test-helper.js';
-import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import * as passwordValidator from '../../../../lib/domain/validators/password-validator.js';
+import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
+import { catchErr, expect } from '../../../test-helper.js';
 
 function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError) {
   expect(entityValidationErrors).to.be.instanceOf(EntityValidationError);

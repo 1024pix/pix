@@ -1,11 +1,11 @@
-import { expect } from '../../../../test-helper.js';
-import { HttpErrors } from '../../../../../src/shared/application/http-errors.js';
+import { certificationDomainErrorMappingConfiguration } from '../../../../../src/certification/shared/application/http-error-mapper-configuration.js';
 import {
   CertificationCourseUpdateError,
   InvalidCertificationReportForFinalization,
 } from '../../../../../src/certification/shared/domain/errors.js';
-import { certificationDomainErrorMappingConfiguration } from '../../../../../src/certification/shared/application/http-error-mapper-configuration.js';
+import { HttpErrors } from '../../../../../src/shared/application/http-errors.js';
 import { DomainErrorMappingConfiguration } from '../../../../../src/shared/application/models/domain-error-mapping-configuration.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Certification | Shared | Application | HttpErrorMapperConfiguration', function () {
   it('contains a list of HttpErrorMapper instances', function () {

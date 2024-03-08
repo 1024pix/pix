@@ -1,6 +1,7 @@
+import dayjs from 'dayjs';
+
 import { usecases } from '../../domain/usecases/index.js';
 import { getCleaCertifiedCandidateCsv } from '../../infrastructure/utils/csv/certification-results/get-clea-certified-candidate-csv.js';
-import dayjs from 'dayjs';
 
 const getCleaCertifiedCandidateDataCsv = async function (request, h, dependencies = { getCleaCertifiedCandidateCsv }) {
   const sessionId = request.params.id;

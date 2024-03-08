@@ -1,7 +1,8 @@
 import Joi from 'joi';
+
 import { securityPreHandlers } from '../../application/security-pre-handlers.js';
-import { badgesController } from './badges-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { badgesController } from './badges-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -80,4 +81,4 @@ const register = async function (server) {
 };
 
 const name = 'badges-api';
-export { register, name };
+export { name, register };

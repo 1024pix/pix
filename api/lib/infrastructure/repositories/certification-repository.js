@@ -43,4 +43,4 @@ const unpublishCertificationCoursesBySessionId = async function (sessionId) {
     .update({ isPublished: false, pixCertificationStatus: null, updatedAt: new Date() });
 };
 
-export { publishCertificationCourses, unpublishCertificationCoursesBySessionId, getStatusesBySessionId };
+export { getStatusesBySessionId, publishCertificationCourses, unpublishCertificationCoursesBySessionId };

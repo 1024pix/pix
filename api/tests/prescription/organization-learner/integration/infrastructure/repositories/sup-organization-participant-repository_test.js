@@ -1,11 +1,12 @@
 import _ from 'lodash';
-import { expect, databaseBuilder } from '../../../../../test-helper.js';
-import * as supOrganizationParticipantRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/sup-organization-participant-repository.js';
+
 import { SupOrganizationParticipant } from '../../../../../../src/prescription/organization-learner/domain/read-models/SupOrganizationParticipant.js';
+import * as supOrganizationParticipantRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/sup-organization-participant-repository.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../../src/prescription/shared/domain/constants.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | sup-organization-participant-repository', function () {
   describe('#findPaginatedFilteredSupParticipants', function () {

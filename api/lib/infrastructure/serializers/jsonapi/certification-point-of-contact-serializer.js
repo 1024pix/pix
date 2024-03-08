@@ -1,5 +1,5 @@
-import _ from 'lodash';
 import jsonapiSerializer from 'jsonapi-serializer';
+import _ from 'lodash';
 
 const { Serializer } = jsonapiSerializer;
 

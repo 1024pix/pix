@@ -1,5 +1,9 @@
-import _ from 'lodash';
+import { EventEmitter } from 'events';
 import iconv from 'iconv-lite';
+import _ from 'lodash';
+
+import { Membership } from '../../../../../lib/domain/models/Membership.js';
+import { OrganizationLearnerImportHeader } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-import-header.js';
 import {
   createServer,
   databaseBuilder,
@@ -7,9 +11,6 @@ import {
   generateValidRequestAuthorizationHeader,
   knex,
 } from '../../../../test-helper.js';
-import { EventEmitter } from 'events';
-import { Membership } from '../../../../../lib/domain/models/Membership.js';
-import { OrganizationLearnerImportHeader } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-import-header.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 EventEmitter.defaultMaxListeners = 60;

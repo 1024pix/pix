@@ -1,7 +1,7 @@
-import { terminatePassage } from '../../../../../src/devcomp/domain/usecases/terminate-passage.js';
-import { catchErr, expect, sinon } from '../../../../test-helper.js';
 import { PassageDoesNotExistError, PassageTerminatedError } from '../../../../../src/devcomp/domain/errors.js';
+import { terminatePassage } from '../../../../../src/devcomp/domain/usecases/terminate-passage.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | UseCases | terminate-passage', function () {
   describe('#terminatePassage', function () {

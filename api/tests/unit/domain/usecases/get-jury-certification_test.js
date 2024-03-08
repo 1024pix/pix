@@ -1,5 +1,5 @@
-import { sinon, expect, domainBuilder } from '../../../test-helper.js';
 import { getJuryCertification } from '../../../../lib/domain/usecases/get-jury-certification.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Usecase | get-jury-certification', function () {
   it('should return the jury certification', async function () {
