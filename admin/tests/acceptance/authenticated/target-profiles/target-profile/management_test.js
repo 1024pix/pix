@@ -1,10 +1,11 @@
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
-import setupIntl from '../../../../helpers/setup-intl';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { module, test } from 'qunit';
-import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { click, currentURL } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
+import { module, test } from 'qunit';
+
+import setupIntl from '../../../../helpers/setup-intl';
 
 module('Acceptance | Target Profile Management', function (hooks) {
   setupApplicationTest(hooks);

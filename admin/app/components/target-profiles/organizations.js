@@ -1,8 +1,8 @@
 import { action } from '@ember/object';
-import Component from '@glimmer/component';
 import { service } from '@ember/service';
-import uniq from 'lodash/uniq';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import uniq from 'lodash/uniq';
 
 export default class Organizations extends Component {
   @service store;

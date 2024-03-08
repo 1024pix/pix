@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import formatSelectOptions from 'pix-admin/utils/format-select-options';
+import { module, test } from 'qunit';
 
 module('Unit | Utils | format select options', function (hooks) {
   setupTest(hooks);

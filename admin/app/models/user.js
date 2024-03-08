@@ -1,6 +1,6 @@
-import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class User extends Model {
   @attr() firstName;

@@ -1,5 +1,5 @@
-import { JSONAPISerializer } from 'miragejs';
 import Inflector from 'ember-inflector';
+import { JSONAPISerializer } from 'miragejs';
 
 export default JSONAPISerializer.extend({
   typeKeyForModel(model) {

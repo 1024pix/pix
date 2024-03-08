@@ -1,5 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import setupIntl from '../../../../../helpers/setup-intl';
 
 module('Unit | Controller | authenticated/certifications/certification/informations', function (hooks) {

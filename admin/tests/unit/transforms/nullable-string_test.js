@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import NullableStringTransform from 'pix-admin/transforms/nullable-string';
+import { module, test } from 'qunit';
 
 module('Unit | Transformer | Nullable String', function (hooks) {
   setupTest(hooks);

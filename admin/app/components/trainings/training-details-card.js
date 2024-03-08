@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+
 import { localeCategories } from '../../models/training';
 
 export default class TrainingDetailsCard extends Component {

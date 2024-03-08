@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
-import { render, getByText, queryByText, getByTextWithHtml } from '@1024pix/ember-testing-library';
+import { getByText, getByTextWithHtml, queryByText, render } from '@1024pix/ember-testing-library';
+import { fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
-import { fillIn } from '@ember/test-helpers';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | complementary-certifications/attach-badges/list', function (hooks) {
   setupIntlRenderingTest(hooks);

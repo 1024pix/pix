@@ -1,6 +1,6 @@
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import ENV from 'pix-admin/config/environment';
-import { service } from '@ember/service';
 
 export default class OrganizationInformationSection extends Component {
   @service oidcIdentityProviders;

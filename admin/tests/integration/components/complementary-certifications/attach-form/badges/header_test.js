@@ -1,7 +1,8 @@
-import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { module, test } from 'qunit';
+
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | ComplementaryCertifications::AttachBadges::Badges::Header', function (hooks) {

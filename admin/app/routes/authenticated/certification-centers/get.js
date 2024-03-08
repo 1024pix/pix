@@ -1,7 +1,6 @@
-import RSVP from 'rsvp';
-
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import RSVP from 'rsvp';
 
 export default class CertificationCentersGetRoute extends Route {
   @service store;

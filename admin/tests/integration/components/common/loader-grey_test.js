@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { module, test } from 'qunit';
 
 module('Integration | Component |  common/loader-grey', function (hooks) {
   setupRenderingTest(hooks);

@@ -1,11 +1,11 @@
-import { module, test } from 'qunit';
+import { clickByName, fillByLabel, getByTextWithHtml, visit, within } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit, within, getByTextWithHtml } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
-import { waitForDialogClose } from '../../../../helpers/wait-for';
-
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
+import { waitForDialogClose } from '../../../../helpers/wait-for';
 
 module('Acceptance | authenticated/sessions/session/informations', function (hooks) {
   setupApplicationTest(hooks);

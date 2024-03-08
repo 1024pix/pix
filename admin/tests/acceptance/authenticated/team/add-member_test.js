@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import { click, fillIn } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit } from '@1024pix/ember-testing-library';
+import { click, fillIn } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
+import { module, test } from 'qunit';
 
 module('Acceptance | Team | Add member', function (hooks) {
   setupApplicationTest(hooks);

@@ -1,4 +1,4 @@
-import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
+import { applyPagination, getPaginationFromQueryParams } from './pagination-utils';
 
 function findPaginatedTrainingSummaries(schema, request) {
   let trainingSummaries = schema.trainingSummaries.all().models;

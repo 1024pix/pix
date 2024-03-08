@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Integration | Component | Organizations | Places | Capacity', function (hooks) {
   setupRenderingTest(hooks);

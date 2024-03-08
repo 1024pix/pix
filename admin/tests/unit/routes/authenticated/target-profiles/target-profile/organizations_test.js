@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Unit | Route | authenticated/target-profiles/target-profile/organizations', function (hooks) {
   setupTest(hooks);

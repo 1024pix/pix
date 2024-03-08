@@ -1,9 +1,10 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+
+import { AnswerStatus } from '../../../models/certification-challenges-for-administration';
 import { subcategoryToCode, subcategoryToLabel } from '../../../models/certification-issue-report';
 import { abortReasons, assessmentStates } from '../../../models/v3-certification-course-details-for-administration';
-import { AnswerStatus } from '../../../models/certification-challenges-for-administration';
 
 const successColor = 'success';
 const errorColor = 'error';
