@@ -1049,6 +1049,26 @@
               "id": "e6730d81-c115-4821-a415-4f719a252746",
               "type": "text",
               "content": "<h3>Trouvez et nommez tous les ports de connexion de votre ordinateur.</h3>"
+            },
+            {
+              "id": "e6c1fdff-e2a3-4108-a1f8-245dc7e3668f",
+              "type": "qcu",
+              "instruction": "<p>Pensez-vous avoir réussi à les trouver ?</p>",
+              "proposals": [
+                {
+                  "id": "1",
+                  "content": "oui"
+                },
+                {
+                  "id": "2",
+                  "content": "non"
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Vous pouvez vérifiez votre réponse avec les schémas présentés et demandez une vérification par quelqu'un si c'est possible.</p>",
+                "invalid": "<p>Remontez la page et aidez-vous des schémas présentés ou demandez de l'aide à quelqu'un si cela est possible.</p>"
+              },
+              "solution": "1"
             }
           ]
         }
