@@ -17,11 +17,11 @@ export default class CampaignParticipationResult extends Model {
 
   // includes
   @hasMany('campaignParticipationBadges', {
-    async: true,
+    async: false,
     inverse: 'campaignParticipationResult',
   })
   campaignParticipationBadges;
-  @hasMany('competenceResult', { async: true, inverse: 'campaignParticipationResult' }) competenceResults;
+  @hasMany('competenceResult', { async: false, inverse: 'campaignParticipationResult' }) competenceResults;
   @belongsTo('reachedStage', { async: false, inverse: 'campaignParticipationResult' }) reachedStage;
 
   get hasReachedStage() {
