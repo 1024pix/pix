@@ -1,6 +1,6 @@
 import { CsvImportError } from '../../../../../shared/domain/errors.js';
 import { SupOrganizationLearnerSet } from '../../../domain/models/SupOrganizationLearnerSet.js';
-import { CsvOrganizationLearnerParser } from './csv-learner-parser.js';
+import { CsvOrganizationLearnerParser } from './csv-organization-learner-parser.js';
 import { SupOrganizationLearnerImportHeader } from './sup-organization-learner-import-header.js';
 
 const ERRORS = {
@@ -21,7 +21,7 @@ class SupOrganizationLearnerParser extends CsvOrganizationLearnerParser {
     super(input, organizationId, columns, LearnerSet);
   }
 
-  _handleError(err, index) {
+  _handleValidationError(err, index) {
     const column = this._columns.find((column) => column.property === err.key);
     const line = index + 2;
     const field = column.name;
@@ -31,7 +31,7 @@ class SupOrganizationLearnerParser extends CsvOrganizationLearnerParser {
     if (err.why === 'student_number_format') {
       throw new CsvImportError(ERRORS.STUDENT_NUMBER_FORMAT, { line, field });
     }
-    super._handleError(...arguments);
+    super._handleValidationError(...arguments);
   }
 }
 

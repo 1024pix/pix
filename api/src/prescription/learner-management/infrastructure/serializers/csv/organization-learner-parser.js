@@ -1,7 +1,7 @@
 import { CsvImportError, DomainError } from '../../../../../shared/domain/errors.js';
 import { OrganizationLearner } from '../../../domain/models/OrganizationLearner.js';
 import { checkValidation } from '../../../domain/validators/organization-learner-validator.js';
-import { CsvOrganizationLearnerParser } from './csv-learner-parser.js';
+import { CsvOrganizationLearnerParser } from './csv-organization-learner-parser.js';
 import { OrganizationLearnerImportHeader } from './organization-learner-import-header.js';
 
 const ERRORS = {
@@ -21,12 +21,20 @@ class OrganizationLearnerSet {
   }
 
   addLearner(learnerAttributes) {
-    checkValidation(learnerAttributes);
+    this._performValidation(learnerAttributes);
+
     const transformedAttributes = this._transform(learnerAttributes);
     const organizationLearner = new OrganizationLearner(transformedAttributes);
     this.learners.push(organizationLearner);
+  }
 
-    this._checkOrganizationLearnersUnicity(organizationLearner);
+  _performValidation(learnerAttributes) {
+    const errors = checkValidation(learnerAttributes);
+
+    const unicityError = this._checkOrganizationLearnersUnicity(learnerAttributes.nationalIdentifier);
+    if (unicityError) errors.push(unicityError);
+
+    if (errors.length > 0) throw errors;
   }
 
   _transform(learnerAttributes) {
@@ -41,18 +49,20 @@ class OrganizationLearnerSet {
     };
   }
 
-  _checkOrganizationLearnersUnicity(organizationLearner) {
+  _checkOrganizationLearnersUnicity(nationalIdentifier) {
     // we removed JOI unicity validation (uniq)
     // because it took too much time (2h30  for 10000 learners)
     // we did the same validation but manually
-    if (this.existingNationalStudentIds.includes(organizationLearner.nationalStudentId)) {
+    if (this.existingNationalStudentIds.includes(nationalIdentifier)) {
       const err = new DomainError();
       err.key = 'nationalIdentifier';
       err.why = 'uniqueness';
 
-      throw err;
+      return err;
     }
-    this.existingNationalStudentIds.push(organizationLearner.nationalStudentId);
+
+    this.existingNationalStudentIds.push(nationalIdentifier);
+    return null;
   }
 }
 
@@ -63,26 +73,29 @@ function _convertSexCodeToLabel(sexCode) {
 class OrganizationLearnerParser extends CsvOrganizationLearnerParser {
   constructor(input, organizationId, i18n) {
     const learnerSet = new OrganizationLearnerSet();
-
     const columns = new OrganizationLearnerImportHeader(i18n).columns;
 
     super(input, organizationId, columns, learnerSet);
+    this._supportedErrors.push('uniqueness', 'not_valid_insee_code');
+    this._errors = [];
   }
 
-  _handleError(err, index) {
-    const column = this._columns.find((column) => column.property === err.key);
-    const line = index + 2;
-    const field = column.name;
+  _handleValidationError(errors, index) {
+    errors.forEach((err) => {
+      const column = this._columns.find((column) => column.property === err.key);
+      const line = index + 2;
+      const field = column.name;
 
-    if (err.why === 'uniqueness' && err.key === 'nationalIdentifier') {
-      throw new CsvImportError(ERRORS.IDENTIFIER_UNIQUE, { line, field });
-    }
+      if (err.why === 'uniqueness' && err.key === 'nationalIdentifier') {
+        this._errors.push(new CsvImportError(ERRORS.IDENTIFIER_UNIQUE, { line, field }));
+      }
 
-    if (err.why === 'not_valid_insee_code') {
-      throw new CsvImportError(ERRORS.INSEE_CODE_INVALID, { line, field });
-    }
+      if (err.why === 'not_valid_insee_code') {
+        this._errors.push(new CsvImportError(ERRORS.INSEE_CODE_INVALID, { line, field }));
+      }
+    });
 
-    super._handleError(...arguments);
+    super._handleValidationError(...arguments);
   }
 
   static buildParser() {

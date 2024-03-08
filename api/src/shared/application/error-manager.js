@@ -6,7 +6,7 @@ import * as translations from '../../../translations/index.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
 import { CsvWithNoSessionDataError, SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
 import { ArchivedCampaignError } from '../../prescription/campaign/domain/errors.js';
-import { SiecleXmlImportError } from '../../prescription/learner-management/domain/errors.js';
+import { AggregateImportError, SiecleXmlImportError } from '../../prescription/learner-management/domain/errors.js';
 import { OrganizationCantGetPlacesStatisticsError } from '../../prescription/organization-place/domain/errors.js';
 import * as DomainErrors from '../domain/errors.js';
 import {
@@ -160,6 +160,13 @@ function handle(request, h, error) {
   }
 
   const httpError = domainErrorMapper.mapToHttpError(error) ?? _mapToHttpError(error);
+
+  if (error instanceof AggregateImportError) {
+    httpError.meta.forEach((error) => {
+      error.status = httpError.status;
+    });
+    return h.response(errorSerializer.serialize(httpError.meta)).code(httpError.status);
+  }
 
   return h.response(errorSerializer.serialize(httpError)).code(httpError.status);
 }

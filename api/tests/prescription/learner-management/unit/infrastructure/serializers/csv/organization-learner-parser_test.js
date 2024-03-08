@@ -1,10 +1,11 @@
 import iconv from 'iconv-lite';
 
-import { OrganizationLearnerImportHeader } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-import-header.js';
-import { OrganizationLearnerParser } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-parser.js';
-import { CsvImportError } from '../../../../../src/shared/domain/errors.js';
-import { catchErr, expect } from '../../../../test-helper.js';
-import { getI18n } from '../../../../tooling/i18n/i18n.js';
+import { AggregateImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
+import { OrganizationLearnerImportHeader } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-import-header.js';
+import { OrganizationLearnerParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-parser.js';
+import { CsvImportError } from '../../../../../../../src/shared/domain/errors.js';
+import { catchErr, expect } from '../../../../../../test-helper.js';
+import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
 const organizationLearnerCsvColumns = new OrganizationLearnerImportHeader(i18n).columns
@@ -38,7 +39,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
 
           const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
-          expect(error.code).to.equal('HEADER_REQUIRED');
+          expect(error.meta[0].code).to.equal('HEADER_REQUIRED');
         });
       });
     });
@@ -51,7 +52,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
 
         const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
-        expect(error.code).to.equal('ENCODING_NOT_SUPPORTED');
+        expect(error.meta[0].code).to.equal('ENCODING_NOT_SUPPORTED');
       });
     });
   });
@@ -182,8 +183,8 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
           const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
           //then
-          expect(error.code).to.equal('INSEE_CODE_INVALID');
-          expect(error.meta).to.deep.equal({ line: 2, field: 'Code pays naissance*' });
+          expect(error.meta[0].code).to.equal('INSEE_CODE_INVALID');
+          expect(error.meta[0].meta).to.deep.equal({ line: 2, field: 'Code pays naissance*' });
         });
 
         it('should throw an EntityValidationError with malformated birthCityCode', async function () {
@@ -198,9 +199,25 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
           const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
           //then
-          expect(error).to.be.an.instanceOf(CsvImportError);
-          expect(error.code).to.equal('INSEE_CODE_INVALID');
-          expect(error.meta).to.deep.equal({ line: 2, field: 'Code commune naissance**' });
+          expect(error.meta[0]).to.be.an.instanceOf(CsvImportError);
+          expect(error.meta[0].code).to.equal('INSEE_CODE_INVALID');
+          expect(error.meta[0].meta).to.deep.equal({ line: 2, field: 'Code commune naissance**' });
+        });
+
+        it('should throw an AggregateImportError error on parse', async function () {
+          //given
+          const wrongData = 'A1234';
+          const input = `${organizationLearnerCsvColumns}
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1980;${wrongData};;974;99100;AT;MEF1;Division 1;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
+
+          const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+
+          //then
+          expect(error).instanceOf(AggregateImportError);
+          expect(error.meta).lengthOf(2);
         });
 
         context('When the organization is Agriculture and file contain status AP', function () {
@@ -224,8 +241,8 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
             const encodedInput = iconv.encode(input, 'utf8');
             const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
             const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
-            expect(error.code).to.equal('FIELD_REQUIRED');
-            expect(error.meta).to.deep.equal({ field: 'Identifiant unique*', line: 2 });
+            expect(error.meta[0].code).to.equal('FIELD_REQUIRED');
+            expect(error.meta[0].meta).to.deep.equal({ field: 'Identifiant unique*', line: 2 });
           });
         });
 
@@ -243,8 +260,8 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
               const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
               //then
-              expect(error.code).to.equal('IDENTIFIER_UNIQUE');
-              expect(error.meta).to.deep.equal({ line: 3, field: 'Identifiant unique*' });
+              expect(error.meta[0].code).to.equal('IDENTIFIER_UNIQUE');
+              expect(error.meta[0].meta).to.deep.equal({ line: 3, field: 'Identifiant unique*' });
             });
           });
         });
