@@ -1013,23 +1013,23 @@
               "proposals": [
                 {
                   "id": "1",
-                  "content": "Port n°1"
+                  "content": "port n°1"
                 },
                 {
                   "id": "2",
-                  "content": "Port n°2"
+                  "content": "port n°2"
                 },
                 {
                   "id": "3",
-                  "content": "Port n°3"
+                  "content": "port n°3"
                 },
                 {
                   "id": "4",
-                  "content": "Port n°4"
+                  "content": "port n°4"
                 },
                 {
                   "id": "5",
-                  "content": "Port n°5"
+                  "content": "port n°5"
                 }
               ],
               "feedbacks": {
