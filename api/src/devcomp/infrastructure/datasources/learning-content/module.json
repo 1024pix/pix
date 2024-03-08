@@ -1071,7 +1071,7 @@
       },
       "transitionTexts": [
         {
-          "content": "<p>Un mot de passe sert à protéger vos données. Il faut donc qu’il soit compliqué à trouver.&nbsp;<span aria-hidden=\"true\">🔐</span><br>Sinon, n’importe qui va le trouver et pourra lire vos emails, voir vos photos ou envoyer des messages à votre place.</p>",
+          "content": "<p>Un mot de passe sert à protéger vos données. Il faut donc qu’il soit compliqué à trouver. On dit qu'il est <strong>solide</strong>&nbsp;<span aria-hidden=\"true\">🔐</span><br>Sinon, n’importe qui va le trouver et pourra lire vos emails, voir vos photos ou envoyer des messages à votre place.</p>",
           "grainId": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8"
         },
         {
@@ -1089,10 +1089,6 @@
         {
           "content": "<p>Quand vous créer un mot de passe, essayez d'appliquer ces astuces. Vérifions que vous avez compris l'essentiel avec quelques questions.</p>",
           "grainId": "27c3d4e9-cdee-452f-8c63-f780b890776e"
-        },
-        {
-          "content": "<p>Cela fait beaucoup de règles à respecter !<br>Et si on essayait d'utiliser une méthode pour que ce soit un peu plus facile ?</p>",
-          "grainId": "f6bd140c-4f63-4fe7-94f4-b4d7a51db7a5"
         },
         {
           "content": "<p>Avec cette méthode, nous voilà équipés pour créer des mots de passe solides ! Mais au delà de la création des mots de passe, il y a d'autres bonnes habitudes à adopter !</p>",
@@ -1142,7 +1138,7 @@
             {
               "id": "826281e7-865f-462d-abc0-77537c42a2b4",
               "type": "text",
-              "content": "<h3>Une personne peut deviner votre mot de passe.&nbsp;<span aria-hidden=\"true\">🧑‍💻&nbsp;🔮&nbsp;</span></h3><p>Si vous utilisez des informations privées dans votre mot de passe, il est donc possible qu’une personne de votre entourage puisse le deviner facilement.</p><p>Elle pourra alors accéder à vos données personnelles et privées. Et ce n’est peut-être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.</p>"
+              "content": "<h3><span aria-hidden=\"true\">🧑‍💻&nbsp;🔮&nbsp;</span>Une personne peut deviner votre mot de passe.</h3><p>Si vous utilisez des informations privées dans votre mot de passe, il est donc possible qu’une personne de votre entourage puisse le deviner facilement.</p><p><span aria-hidden=\"true\">⚠️</span> Elle pourra alors accéder à vos données personnelles et privées. Et ce n’est peut-être pas pour vous faire un cadeau d’anniversaire surprise, malheureusement.</p>"
             },
             {
               "id": "aae5ea61-68b7-4089-90a1-6ecc707664c9",
@@ -1152,7 +1148,7 @@
             {
               "id": "9d0b7aff-a9da-453f-a6ba-c61fbaa7bb25",
               "type": "text",
-              "content": "<h3>Un logiciel informatique peut pirater votre mot de passe.&nbsp;<span aria-hidden=\"true\">🤖&nbsp;🏴‍☠️&nbsp;</span></h3><p>Les ordinateurs peuvent trouver des mots de passe en testant beaucoup de combinaisons. En 2023, un mot de passe court comme <code>$0Leil@?</code> peut être piraté en 5 minutes seulement. Mais en ajoutant 4 lettres, cette durée passe à 226 ans ! <p>En général, le pirate ne vous connaît pas. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
+              "content": "<h3><span aria-hidden=\"true\">🤖&nbsp;🏴‍☠️&nbsp;</span>Un logiciel informatique peut pirater votre mot de passe.</h3><p>Les ordinateurs peuvent trouver des mots de passe en testant beaucoup de combinaisons. En 2023, un mot de passe court comme <code>$0Leil@?</code> peut être piraté en 5 minutes seulement. Mais en ajoutant 4 lettres, cette durée passe à 226 ans ! <p><span aria-hidden=\"true\">⚠️</span> En général, le pirate ne vous connaît pas. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
             }
           ]
         },
@@ -1297,53 +1293,6 @@
                 "invalid": "<p>Incorrect !</p>"
               },
               "solution": "1"
-            }
-          ]
-        },
-        {
-          "id": "f6bd140c-4f63-4fe7-94f4-b4d7a51db7a5",
-          "type": "activity",
-          "title": "Méthode pour créer un mot de passe sécurisé",
-          "elements": [
-            {
-              "id": "a71a60a7-f1c3-4a3c-b9b6-7ea5f1ec970e",
-              "type": "image",
-              "url": "https://i.imgur.com/doNBrbj.jpeg",
-              "alt": "",
-              "alternativeText": ""
-            },
-            {
-              "id": "fd4b05ee-8cda-4bfe-b18a-468f1a895f80",
-              "type": "text",
-              "content": "<h3>Voici une méthode pour construire un mot de passe solide</h3><ol><li>Choisissez une phrase facile à retenir, qui a du sens pour vous. Attention, cette phrase doit contenir des nombres et de la ponctuation. Par exemple : <em>J'ai 2 chats, 3 poissons exotiques et j'adore la plongée!</em></li><li>Ensuite, prenez la première lettre de chaque mot, gardez les nombres et la ponctuation : <strong>J'a</strong>i <strong>2 c</strong>hats<strong>, 3 p</strong>oissons <strong>e</strong>xotiques <strong>e</strong>t <strong>j'a</strong>dore <strong>l</strong>a <strong>p</strong>longée <strong>!</strong></li><li>En ne gardant que les lettres en gras, cela donne :<br><strong><code>J'a2c,3peej'alp!</code></strong></li></ol>"
-            },
-            {
-              "id": "74fad4da-be99-4b9b-83af-ef90ca553b06",
-              "type": "text",
-              "content": "<hr>"
-            },
-            {
-              "id": "718ee7f6-19bf-4787-a025-2a70b89c6288",
-              "type": "qrocm",
-              "instruction": "<p>Écrivez le mot de passe correspondant à la phrase suivante : <br><em>J'ai 2 passions, la course à pied et le VTT !</em></p>",
-              "proposals": [
-                {
-                  "input": "mot-de-passe",
-                  "type": "input",
-                  "inputType": "text",
-                  "size": 15,
-                  "display": "inline",
-                  "placeholder": "",
-                  "ariaLabel": "Votre mot de passe",
-                  "defaultValue": "",
-                  "tolerances": ["t1"],
-                  "solutions": ["J'a2p,lcàpelV!"]
-                }
-              ],
-              "feedbacks": {
-                "valid": "<p>Bien vu ! Vous maîtrisez maintenant la méthode, à vous de jouer <span aria-hidden=\"true\">😁</span></p>",
-                "invalid": "<p>Et non ! Essayez peut-être de vérifier la ponctuation ? <span aria-hidden=\"true\">🧐</span></p>"
-              }
             }
           ]
         },
