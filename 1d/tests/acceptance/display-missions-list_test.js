@@ -1,7 +1,8 @@
 import { visit, within } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
-import identifyLearner from '../helpers/identify-learner';
+
 import { setupApplicationTest } from '../helpers';
+import identifyLearner from '../helpers/identify-learner';
 
 module('Acceptance | Display missions list', function (hooks) {
   setupApplicationTest(hooks);

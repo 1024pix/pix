@@ -1,8 +1,9 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import generateRandomString from '../../../../utils/generate-random-string';
-import proposalsAsBlocks from '../../../..//utils/proposals-as-blocks';
 import { tracked } from '@glimmer/tracking';
+
+import proposalsAsBlocks from '../../../..//utils/proposals-as-blocks';
+import generateRandomString from '../../../../utils/generate-random-string';
 
 export default class ChallengeItemQrocm extends Component {
   @tracked answersValue;

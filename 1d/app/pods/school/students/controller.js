@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+
 import { styleToolkit } from '../../../utils/layout';
 
 export default class Students extends Controller {
