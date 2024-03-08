@@ -10,10 +10,6 @@ export default class Students extends Controller {
 
   queryParams = ['division'];
 
-  getFullName(learner) {
-    return `${learner.firstName} ${learner.lastName.charAt(0).toUpperCase()}.`;
-  }
-
   @action
   identifyUser(learner) {
     this.currentLearner.setLearner({
