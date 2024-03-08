@@ -1,6 +1,7 @@
+import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { visit } from '@1024pix/ember-testing-library';
+
 import { setupApplicationTest } from '../helpers';
 import identifyLearner from '../helpers/identify-learner';
 

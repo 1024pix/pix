@@ -1,8 +1,8 @@
 import ChallengeResponseTemplate from './proposals-parser/challenge-response-template';
 import InputBlock from './proposals-parser/input-block';
 import SelectBlock from './proposals-parser/select-block';
-import TextBlock from './proposals-parser/text-block';
 import splitters from './proposals-parser/splitters';
+import TextBlock from './proposals-parser/text-block';
 
 const { BLOCK, RESPONSE_BLOCK_BEGIN, SELECT } = splitters;
 

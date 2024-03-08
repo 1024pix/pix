@@ -1,6 +1,7 @@
-import { module, test } from 'qunit';
-import { setupTest } from '../../helpers/index';
 import { pshuffle } from '1d/utils/pshuffle';
+import { module, test } from 'qunit';
+
+import { setupTest } from '../../helpers/index';
 
 module('Unit | Utils | PShuffle', function (hooks) {
   setupTest(hooks);
