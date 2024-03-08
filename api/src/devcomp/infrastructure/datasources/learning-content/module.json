@@ -1065,7 +1065,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Vous pouvez vérifiez votre réponse avec les schémas présentés et demandez une vérification par quelqu'un si c'est possible.</p>",
+                "valid": "<p>Vous pouvez vérifier votre réponse avec les schémas présentés et demander une vérification par quelqu'un si c'est possible.</p>",
                 "invalid": "<p>Remontez la page et aidez-vous des schémas présentés ou demandez de l'aide à quelqu'un si cela est possible.</p>"
               },
               "solution": "1"
