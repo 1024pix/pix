@@ -138,6 +138,10 @@ Router.map(function () {
 
     this.route('administration');
     this.route('tools');
+
+    this.route('smart-random-simulator', function () {
+      this.route('get-next-challenge');
+    });
   });
 
   this.route('authentication', { path: '/connexion' }, function () {
