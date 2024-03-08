@@ -773,7 +773,7 @@
             {
               "id": "270b0408-be92-484a-b9b2-5d302f01eecf",
               "type": "text",
-              "content": "<h4>Pour chaque affirmation ci-dessous, choisissez si elle est vraie <span aria-hidden=\"true\">✅</span>ou fausse. <span aria-hidden=\"true\">❌</span></h4>"
+              "content": "<h4>Pour chaque affirmation ci-dessous, choisissez si elle est vraie <span aria-hidden=\"true\"> ✅</span>ou fausse. <span aria-hidden=\"true\">❌</span></h4>"
             },
             {
               "id": "6f276b50-a00c-49f7-b22c-23dbef0c2bf2",
@@ -810,7 +810,7 @@
             {
               "id": "49bb95aa-1074-45e9-8c85-c061efd07348",
               "type": "image",
-              "url": "https://i.imgur.com/FZ57Y8o.jpeg",
+              "url": "https://i.imgur.com/leOic25.jpeg",
               "alt": "Un casque audio",
               "alternativeText": ""
             },
