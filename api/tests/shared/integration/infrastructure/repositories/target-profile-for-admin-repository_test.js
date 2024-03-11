@@ -1,3 +1,4 @@
+import { constants } from '../../../../../lib/domain/constants.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { TargetProfileForAdmin } from '../../../../../lib/domain/models/index.js';
 import * as targetProfileForAdminRepository from '../../../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
@@ -8,6 +9,7 @@ import {
   expect,
   learningContentBuilder,
   mockLearningContent,
+  sinon,
 } from '../../../../test-helper.js';
 
 describe('Integration | Repository | target-profile-for-admin', function () {
@@ -465,6 +467,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           isSimplifiedAccess: targetProfileDB.isSimplifiedAccess,
           areKnowledgeElementsResettable: targetProfileDB.areKnowledgeElementsResettable,
           hasLinkedCampaign: false,
+          hasLinkedAutonomousCourse: false,
           badges: [expectedBadge1, expectedBadge2],
           stageCollection: expectedStageCollection,
           areas: [areaA],
@@ -620,6 +623,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           isSimplifiedAccess: targetProfileDB.isSimplifiedAccess,
           areKnowledgeElementsResettable: targetProfileDB.areKnowledgeElementsResettable,
           hasLinkedCampaign: false,
+          hasLinkedAutonomousCourse: false,
           areas: [areaA],
           competences: [compA_areaA],
           thematics: [themA_compA_areaA],
@@ -648,6 +652,75 @@ describe('Integration | Repository | target-profile-for-admin', function () {
 
         // then
         expect(actualTargetProfile.hasLinkedCampaign).to.be.true;
+      });
+    });
+
+    context('when target profile has a linked autonomous course', function () {
+      context('when target profile owner organisation is autonomous course specific organization', function () {
+        it('should return target profile with hasLinkedAutonomousCourse at true', async function () {
+          // given
+          sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+
+          const learningContent = domainBuilder.buildCampaignLearningContent.withSimpleContent();
+          const learningContentObjects = learningContentBuilder([learningContent]);
+          mockLearningContent(learningContentObjects);
+
+          const { id: organizationId } = databaseBuilder.factory.buildOrganization({
+            id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+          });
+
+          const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
+            ownerOrganizationId: organizationId,
+            isSimplifiedAccess: true,
+          });
+
+          databaseBuilder.factory.buildCampaign({ targetProfileId, organizationId });
+
+          await databaseBuilder.commit();
+
+          // when
+          const actualTargetProfile = await targetProfileForAdminRepository.get({ id: targetProfileId });
+
+          // then
+          expect(actualTargetProfile.hasLinkedAutonomousCourse).to.be.true;
+        });
+      });
+
+      context('when target profile is shared with autonomous course specific organization', function () {
+        it('should return target profile with hasLinkedAutonomousCourse at true', async function () {
+          // given
+          sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+
+          const learningContent = domainBuilder.buildCampaignLearningContent.withSimpleContent();
+          const learningContentObjects = learningContentBuilder([learningContent]);
+          mockLearningContent(learningContentObjects);
+
+          const { id: ownerOrganizationId } = databaseBuilder.factory.buildOrganization({ id: 9999 });
+
+          const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({
+            ownerOrganizationId,
+            isSimplifiedAccess: true,
+          });
+
+          const { id: autonomousCourseOrganizationId } = databaseBuilder.factory.buildOrganization({
+            id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+          });
+
+          databaseBuilder.factory.buildTargetProfileShare({
+            organizationId: autonomousCourseOrganizationId,
+            targetProfileId,
+          });
+
+          databaseBuilder.factory.buildCampaign({ targetProfileId, organizationId: autonomousCourseOrganizationId });
+
+          await databaseBuilder.commit();
+
+          // when
+          const actualTargetProfile = await targetProfileForAdminRepository.get({ id: targetProfileId });
+
+          // then
+          expect(actualTargetProfile.hasLinkedAutonomousCourse).to.be.true;
+        });
       });
     });
   });
