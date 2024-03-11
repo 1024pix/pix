@@ -47,6 +47,10 @@ export default Factory.extend({
     return false;
   },
 
+  hasLinkedAutonomousCourse() {
+    return false;
+  },
+
   maxLevel() {
     return 1000;
   },
