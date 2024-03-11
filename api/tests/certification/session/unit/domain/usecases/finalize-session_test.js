@@ -191,7 +191,7 @@ describe('Unit | UseCase | finalize-session', function () {
         });
         certificationReports = [validReportForFinalization];
         sessionRepository.isFinalized.withArgs({ id: sessionId }).resolves(false);
-        certificationReportRepository.finalizeAll.withArgs(certificationReports).resolves();
+        certificationReportRepository.finalizeAll.withArgs({ certificationReports }).resolves();
         sessionRepository.finalize
           .withArgs({
             id: sessionId,
@@ -215,7 +215,7 @@ describe('Unit | UseCase | finalize-session', function () {
         });
         certificationReports = [validReportForFinalization];
         sessionRepository.isFinalized.withArgs({ id: sessionId }).resolves(false);
-        certificationReportRepository.finalizeAll.withArgs(certificationReports).resolves();
+        certificationReportRepository.finalizeAll.withArgs({ certificationReports }).resolves();
         sessionRepository.finalize
           .withArgs({
             id: sessionId,
@@ -267,7 +267,7 @@ describe('Unit | UseCase | finalize-session', function () {
         });
         certificationReports = [validReportForFinalization];
         sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
-        certificationReportRepository.finalizeAll.withArgs(certificationReports).resolves();
+        certificationReportRepository.finalizeAll.withArgs({ certificationReports }).resolves();
         sessionRepository.finalize
           .withArgs({
             id: sessionId,
