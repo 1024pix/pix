@@ -1,5 +1,5 @@
-import { service } from '@ember/service';
 import Controller from '@ember/controller';
+import { service } from '@ember/service';
 
 export default class OrganizationParticipant extends Controller {
   @service intl;

@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import createGlimmerComponent from '../../../helpers/create-glimmer-component';
-import sinon from 'sinon';
 import { ENGLISH_INTERNATIONAL_LOCALE } from 'pix-orga/services/locale';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component |  login-or-register', (hooks) => {
   setupTest(hooks);

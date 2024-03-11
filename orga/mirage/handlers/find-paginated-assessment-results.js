@@ -1,4 +1,4 @@
-import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
+import { applyPagination, getPaginationFromQueryParams } from './pagination-utils';
 
 export function findPaginatedAssessmentResults(schema, request) {
   const queryParams = request.queryParams;

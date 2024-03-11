@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', function (hooks) {
   setupIntlRenderingTest(hooks);

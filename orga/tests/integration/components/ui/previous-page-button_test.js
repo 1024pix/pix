@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { render, clickByName } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Ui::PreviousPageButton', function (hooks) {
   setupRenderingTest(hooks);

@@ -1,11 +1,11 @@
-import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
-import authenticateSession from '../helpers/authenticate-session';
 import { clickByName } from '@1024pix/ember-testing-library';
+import { currentURL, visit } from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { module, test } from 'qunit';
 
+import authenticateSession from '../helpers/authenticate-session';
 import { createPrescriberWithPixOrgaTermsOfService } from '../helpers/test-init';
 
 module('Acceptance | terms-of-service', function (hooks) {

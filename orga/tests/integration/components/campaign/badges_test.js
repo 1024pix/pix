@@ -1,7 +1,8 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::Badges', function (hooks) {
   setupIntlRenderingTest(hooks);

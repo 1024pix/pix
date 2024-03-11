@@ -1,18 +1,16 @@
-import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
 import { clickByName } from '@1024pix/ember-testing-library';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
-import { currentSession } from 'ember-simple-auth/test-support';
-
-import { setupApplicationTest } from 'ember-qunit';
-import authenticateSession from '../helpers/authenticate-session';
-
-import { createUserMembershipWithRole, createPrescriberByUser } from '../helpers/test-init';
-
+import { click, currentURL, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { currentSession } from 'ember-simple-auth/test-support';
 import times from 'lodash/times';
-import { waitForDialog } from '../helpers/wait-for';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import authenticateSession from '../helpers/authenticate-session';
+import { createPrescriberByUser, createUserMembershipWithRole } from '../helpers/test-init';
+import { waitForDialog } from '../helpers/wait-for';
 
 module('Acceptance | Team List', function (hooks) {
   setupApplicationTest(hooks);

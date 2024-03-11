@@ -2,10 +2,11 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
+
 import isEmailValid from '../../utils/email-validator';
 import isPasswordValid from '../../utils/password-validator';
-import get from 'lodash/get';
 
 const STATUS = {
   DEFAULT: 'default',

@@ -1,7 +1,8 @@
-import { module, test } from 'qunit';
+import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
-import { render, fillByLabel } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Auth::JoinRequestForm', function (hooks) {

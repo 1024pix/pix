@@ -1,6 +1,7 @@
-import { module, test } from 'qunit';
-import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
 
 module('Unit | Component | OrganizationLearner | Activity::ParticipationRow', function (hooks) {
   setupTest(hooks);

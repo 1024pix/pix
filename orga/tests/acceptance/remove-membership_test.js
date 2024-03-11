@@ -1,12 +1,11 @@
-import { module, test } from 'qunit';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
-import authenticateSession from '../helpers/authenticate-session';
-
-import { createPrescriberByUser, createUserMembershipWithRole } from '../helpers/test-init';
-
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import authenticateSession from '../helpers/authenticate-session';
 import setupIntl from '../helpers/setup-intl';
+import { createPrescriberByUser, createUserMembershipWithRole } from '../helpers/test-init';
 
 module('Acceptance | Remove membership', function (hooks) {
   setupApplicationTest(hooks);

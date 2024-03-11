@@ -1,11 +1,12 @@
-import { module, test } from 'qunit';
-import sinon from 'sinon';
 import { clickByName, fillByLabel, render, within } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { click } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::CreateForm', function (hooks) {
   setupIntlRenderingTest(hooks);

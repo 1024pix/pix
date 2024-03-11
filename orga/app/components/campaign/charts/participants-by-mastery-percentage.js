@@ -1,6 +1,6 @@
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { service } from '@ember/service';
 import remove from 'lodash/remove';
 import sumBy from 'lodash/sumBy';
 
