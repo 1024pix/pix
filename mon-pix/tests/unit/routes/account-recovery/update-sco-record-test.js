@@ -1,9 +1,8 @@
-import { module, test } from 'qunit';
-import sinon from 'sinon';
-
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Route | account-recovery | update sco record', function (hooks) {
   setupTest(hooks);

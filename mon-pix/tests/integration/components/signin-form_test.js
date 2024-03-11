@@ -1,14 +1,12 @@
-import sinon from 'sinon';
-import { module, test } from 'qunit';
+import { clickByName, render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import { fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { render, clickByName } from '@1024pix/ember-testing-library';
-
-import Service from '@ember/service';
-
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import ENV from '../../../config/environment';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 const INTERNATIONAL_TLD = 'org';

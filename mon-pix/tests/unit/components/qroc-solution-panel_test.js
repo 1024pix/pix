@@ -1,7 +1,8 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import setupIntl from '../../helpers/setup-intl';
+import { module, test } from 'qunit';
+
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
+import setupIntl from '../../helpers/setup-intl';
 
 module('Unit | Component | qroc-solution-panel', function (hooks) {
   setupTest(hooks);

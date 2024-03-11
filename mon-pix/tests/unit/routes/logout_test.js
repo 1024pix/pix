@@ -1,8 +1,8 @@
 import Service from '@ember/service';
-import sinon from 'sinon';
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import ENV from 'mon-pix/config/environment';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 const AUTHENTICATED_SOURCE_FROM_GAR = ENV.APP.AUTHENTICATED_SOURCE_FROM_GAR;
 

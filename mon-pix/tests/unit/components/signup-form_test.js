@@ -1,10 +1,10 @@
-import { module, test } from 'qunit';
-import sinon from 'sinon';
-import pick from 'lodash/pick';
-
-import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import pick from 'lodash/pick';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 module('Unit | Component | signup-form', function (hooks) {

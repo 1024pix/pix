@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
 import ChallengeResponseTemplate from 'mon-pix/utils/proposals-parser/challenge-response-template';
 import InputBlock from 'mon-pix/utils/proposals-parser/input-block';
 import TextBlock from 'mon-pix/utils/proposals-parser/text-block';
+import { module, test } from 'qunit';
 
 module('Unit | Utils | Proposals Parser | Challenge Response Template', function () {
   module('#updateBlockDetails', function () {

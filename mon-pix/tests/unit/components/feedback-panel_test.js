@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import sinon from 'sinon';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Component | feedback-panel', function (hooks) {
   let component;

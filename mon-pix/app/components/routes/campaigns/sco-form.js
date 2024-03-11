@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
 
 const ERROR_INPUT_MESSAGE_MAP = {

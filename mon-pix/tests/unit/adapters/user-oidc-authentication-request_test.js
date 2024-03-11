@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Unit | Adapters | user-oidc-authentication-request', function (hooks) {
   setupTest(hooks);

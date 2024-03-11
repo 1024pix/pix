@@ -1,7 +1,7 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Unit | Route | Certification | Resume', function (hooks) {

@@ -1,10 +1,8 @@
-import get from 'lodash/get';
-
-import Component from '@glimmer/component';
-import { inject } from '@ember/service';
 import { action } from '@ember/object';
+import { inject } from '@ember/service';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-
+import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
 
 export default class LoginForm extends Component {

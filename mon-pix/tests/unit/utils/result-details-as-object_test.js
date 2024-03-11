@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import resultDetailsAsObject from 'mon-pix/utils/result-details-as-object';
+import { module, test } from 'qunit';
 
 module('#resultDetailsAsObject', function () {
   test('it should return an object from the yaml String', function (assert) {

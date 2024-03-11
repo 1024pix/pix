@@ -1,11 +1,12 @@
-import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { getPageTitle } from 'ember-page-title/test-support';
-import { authenticate } from '../helpers/authentication';
+import { visit } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { click, find, triggerEvent } from '@ember/test-helpers';
-import { visit } from '@1024pix/ember-testing-library';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { getPageTitle } from 'ember-page-title/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import { authenticate } from '../helpers/authentication';
 
 module('Acceptance | Displaying a challenge of any type', function (hooks) {
   setupApplicationTest(hooks);

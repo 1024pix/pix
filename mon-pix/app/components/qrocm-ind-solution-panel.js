@@ -1,12 +1,12 @@
+import { service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import keys from 'lodash/keys';
 import answersAsObject from 'mon-pix/utils/answers-as-object';
-import solutionsAsObject from 'mon-pix/utils/solution-as-object';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
-import resultDetailsAsObject from 'mon-pix/utils/result-details-as-object';
-import { service } from '@ember/service';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
+import resultDetailsAsObject from 'mon-pix/utils/result-details-as-object';
+import solutionsAsObject from 'mon-pix/utils/solution-as-object';
 
 export default class QrocmIndSolutionPanel extends Component {
   @service intl;

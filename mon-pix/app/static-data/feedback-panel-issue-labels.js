@@ -163,4 +163,4 @@ const questions = {
   ],
 };
 
-export { topLevelLabels, questions };
+export { questions, topLevelLabels };

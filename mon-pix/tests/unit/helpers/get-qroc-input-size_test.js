@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import { getQrocInputSize } from 'mon-pix/helpers/get-qroc-input-size';
+import { module, test } from 'qunit';
 
 module('Unit | Helper | get qroc input size', function () {
   [

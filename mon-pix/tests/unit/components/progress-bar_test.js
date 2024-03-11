@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import { htmlSafe } from '@ember/template';
-import sinon from 'sinon';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Component | progress-bar', function (hooks) {
   setupTest(hooks);

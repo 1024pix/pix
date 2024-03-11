@@ -1,6 +1,6 @@
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
-import RSVP from 'rsvp';
 import { decodeToken } from 'mon-pix/helpers/jwt';
+import RSVP from 'rsvp';
 
 export default class GarAuthenticator extends BaseAuthenticator {
   authenticate(token, tokenDecoder = decodeToken) {

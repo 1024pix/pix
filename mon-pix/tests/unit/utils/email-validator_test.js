@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import isEmailValid from 'mon-pix/utils/email-validator';
+import { module, test } from 'qunit';
 
 module('Unit | Utility | email validator', function () {
   module('Invalid emails', function () {

@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import Service from '@ember/service';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | user certifications detail header', function (hooks) {
   setupIntlRenderingTest(hooks);

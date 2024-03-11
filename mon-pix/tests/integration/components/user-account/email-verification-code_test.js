@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { triggerEvent, click } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
+import { click, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import ENV from 'mon-pix/config/environment';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { render } from '@1024pix/ember-testing-library';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | user-account | email-verification-code', function (hooks) {
   setupIntlRenderingTest(hooks);

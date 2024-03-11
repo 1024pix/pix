@@ -1,10 +1,10 @@
-import Component from '@glimmer/component';
+import { service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
+import Component from '@glimmer/component';
+import jsyaml from 'js-yaml';
 import answersAsObject from 'mon-pix/utils/answers-as-object';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
-import { service } from '@ember/service';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
-import jsyaml from 'js-yaml';
 
 const SKIPPED_FLAG = '#ABAND#';
 const CHALLENGE_OK_FLAG = 'ok';

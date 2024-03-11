@@ -1,10 +1,11 @@
-import { click, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
-import { module, test } from 'qunit';
-import { authenticate } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-qunit';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
 import { setBreakpoint } from 'ember-responsive/test-support';
+import { module, test } from 'qunit';
+
+import { authenticate } from '../helpers/authentication';
 
 module('Acceptance | Profile | Start competence', function (hooks) {
   setupApplicationTest(hooks);

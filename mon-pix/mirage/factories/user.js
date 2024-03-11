@@ -1,5 +1,5 @@
-import { Factory, trait } from 'miragejs';
 import sumBy from 'lodash/sumBy';
+import { Factory, trait } from 'miragejs';
 
 function _addDefaultProfile(user, server) {
   if (!user.profile) {

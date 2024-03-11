@@ -1,9 +1,10 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-// eslint-disable-next-line no-restricted-imports
-import { find, click } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
+// eslint-disable-next-line no-restricted-imports
+import { click, find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | pix-toggle-deprecated', function (hooks) {
   setupIntlRenderingTest(hooks);

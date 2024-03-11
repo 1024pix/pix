@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
-import { click, triggerEvent, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@1024pix/ember-testing-library';
+import { click, fillIn, triggerEvent } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | account-recovery | update-sco-record', function (hooks) {
   setupIntlRenderingTest(hooks);

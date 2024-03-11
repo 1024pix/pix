@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import isPasswordvalid from 'mon-pix/utils/password-validator';
+import { module, test } from 'qunit';
 
 module('Unit | Utility | password validator', function () {
   module('Validation rules', function () {

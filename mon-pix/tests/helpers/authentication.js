@@ -1,7 +1,8 @@
-import { fillIn } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
-import { clickByLabel } from './click-by-label';
+import { fillIn } from '@ember/test-helpers';
 import { authenticateSession } from 'ember-simple-auth/test-support';
+
+import { clickByLabel } from './click-by-label';
 
 export async function authenticate(user) {
   return authenticateSession({

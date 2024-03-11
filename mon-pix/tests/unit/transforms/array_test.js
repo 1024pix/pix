@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import ArrayTransform from 'mon-pix/transforms/array';
+import { module, test } from 'qunit';
 
 module('Unit | Transformer | Array', function () {
   module('#deserialize', function () {

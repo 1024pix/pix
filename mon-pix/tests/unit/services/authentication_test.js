@@ -1,6 +1,6 @@
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { test, module } from 'qunit';
 
 module('Unit | Services | authentication', function (hooks) {
   setupTest(hooks);

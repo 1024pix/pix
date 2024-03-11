@@ -1,5 +1,6 @@
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+
 import ChallengeItemGeneric from './challenge-item-generic';
 
 export default class ChallengeItemQcm extends ChallengeItemGeneric {

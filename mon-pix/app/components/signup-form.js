@@ -1,11 +1,12 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
+import ENV from 'mon-pix/config/environment';
+
 import isEmailValid from '../utils/email-validator';
 import isPasswordValid from '../utils/password-validator';
-import ENV from 'mon-pix/config/environment';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'pages.sign-up.fields.firstname.error',

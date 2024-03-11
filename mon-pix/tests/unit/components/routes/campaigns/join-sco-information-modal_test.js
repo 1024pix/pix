@@ -1,9 +1,10 @@
-import { module, test } from 'qunit';
+import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
 import createComponent from '../../../../helpers/create-glimmer-component';
 import setupIntl from '../../../../helpers/setup-intl';
-import Service from '@ember/service';
 
 module('Unit | Component | routes/campaigns/join-sco-information-modal', function (hooks) {
   setupTest(hooks);

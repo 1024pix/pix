@@ -1,5 +1,5 @@
-import { service } from '@ember/service';
 import Route from '@ember/routing/route';
+import { service } from '@ember/service';
 import get from 'lodash/get';
 
 export default class StudentScoRoute extends Route {

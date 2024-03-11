@@ -1,7 +1,7 @@
 import OAuth2PasswordGrant from 'ember-simple-auth/authenticators/oauth2-password-grant';
-import RSVP from 'rsvp';
 import ENV from 'mon-pix/config/environment';
 import { decodeToken } from 'mon-pix/helpers/jwt';
+import RSVP from 'rsvp';
 
 export default OAuth2PasswordGrant.extend({
   serverTokenEndpoint: `${ENV.APP.API_HOST}/api/token`,

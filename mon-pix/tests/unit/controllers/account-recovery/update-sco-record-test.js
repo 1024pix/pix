@@ -1,8 +1,7 @@
+import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-qunit';
-
-import Service from '@ember/service';
 
 module('Unit | Controller | account-recovery | update-sco-record', function (hooks) {
   setupTest(hooks);
