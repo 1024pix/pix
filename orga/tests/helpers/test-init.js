@@ -1,4 +1,5 @@
 import QUnit from 'qunit';
+
 import { contains, notContains } from './contains';
 
 QUnit.assert.contains = contains;

@@ -1,4 +1,4 @@
-import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
+import { applyPagination, getPaginationFromQueryParams } from './pagination-utils';
 
 export function findPaginatedOrganizationMemberships(schema, request) {
   const organizationId = request.params.id;

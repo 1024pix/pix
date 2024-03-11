@@ -1,6 +1,6 @@
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 export default class CampaignTabs extends Component {
   @service intl;
   @service notifications;

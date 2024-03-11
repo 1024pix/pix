@@ -1,10 +1,10 @@
-import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import { htmlSafe } from '@ember/template';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import maxBy from 'lodash/maxBy';
 import sumBy from 'lodash/sumBy';
-import { htmlSafe } from '@ember/template';
 
 export default class ParticipantsByStage extends Component {
   @service store;

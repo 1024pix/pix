@@ -1,13 +1,12 @@
-import { module, test } from 'qunit';
-import { currentURL, click } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
-import authenticateSession from '../helpers/authenticate-session';
 import { visit } from '@1024pix/ember-testing-library';
-
-import { createUserManagingStudents, createPrescriberByUser } from '../helpers/test-init';
-
+import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import authenticateSession from '../helpers/authenticate-session';
 import setupIntl from '../helpers/setup-intl';
+import { createPrescriberByUser, createUserManagingStudents } from '../helpers/test-init';
 
 module('Acceptance | Student Import', function (hooks) {
   setupApplicationTest(hooks);

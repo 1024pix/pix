@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import dayjs from 'dayjs';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Places::Title', function (hooks) {
   setupIntlRenderingTest(hooks);

@@ -1,5 +1,5 @@
-import { service } from '@ember/service';
 import Route from '@ember/routing/route';
+import { service } from '@ember/service';
 import pick from 'lodash/pick';
 
 export default class NewRoute extends Route {
