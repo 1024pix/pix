@@ -1091,15 +1091,15 @@
           "grainId": "27c3d4e9-cdee-452f-8c63-f780b890776e"
         },
         {
-          "content": "<p>Quand vous créer un mot de passe, essayez d'appliquer ces règles. En plus de ces règles, voici quelques astuces.&nbsp;<span aria-hidden=\"true\">💡</span></p>",
+          "content": "<p>Quand vous créer un mot de passe, essayez d'appliquer ces règles. Voici aussi quelques astuces pour vous aider.&nbsp;<span aria-hidden=\"true\">💡</span></p>",
           "grainId": "f14510d6-ee18-48be-8bb6-39a9427e3102"
         },
         {
-          "content": "<p>Maintenant que vous en savez plus, vous allez pouvoir aider Dimitri. <span aria-hidden=\"true\">🧑🏻‍💼</span><br> Dimitri veut créer un mot de passe solide. </p>",
+          "content": "<p>Maintenant que vous en savez plus, vous allez pouvoir aider Austin. <span aria-hidden=\"true\">🧑🏻‍💼</span><br> Austin veut créer un mot de passe qui est solide. </p>",
           "grainId": "6336bac0-c272-40cc-a002-ee724a5ec4c8"
         },
         {
-          "content": "<p>Sécuriser ses mots de passe et les gérer, c'est tout sauf simple. Mais cette étape n'est pas une option dans un monde où le numérique est partout.</p><p>Voici une synthèse des points essentiels de ce module.</p>",
+          "content": "<p>Créer des mots de passe solides n'est pas simple. Mais cette étape est nécessaire pour se protéger.</p><p>Voici ci-dessous une synthèse des informations à retenir de ce module.</p>",
           "grainId": "1ed4223a-2b8f-4c2c-8dcb-3d0567b562b0"
         }
       ],
@@ -1340,7 +1340,7 @@
             {
               "id": "5db8677e-2c9e-4f36-b932-4989459af149",
               "type": "qcm",
-              "instruction": "<p>Quels conseils donner à quelqu'un pour créer un mot de passe solide ?</p>",
+              "instruction": "<p>Quels conseils pouvez-vous donner à Austin pour créer un mot de passe solide ?</p>",
               "proposals": [
                 {
                   "id": "1",
@@ -1348,20 +1348,20 @@
                 },
                 {
                   "id": "2",
-                  "content": "Utiliser un mot de passe qu'il utilise déjà."
+                  "content": "Choisir un mot de passe qu'il utilise déjà."
                 },
                 {
                   "id": "3",
-                  "content": "Choisir avec un ami pour s'en souvenir plus facilement."
+                  "content": "Décider de son mot de passe avec un ami."
                 },
                 {
                   "id": "4",
-                  "content": "Se servir d'une phrase pour se souvenir plus facilement de son mot de passe."
+                  "content": "Se servir d'une phrase et garder certains caractères."
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Correct !</p>",
-                "invalid": "<p>Incorrect !</p>"
+                "valid": "<p>Correct. Un mot de passe long est plus solide. Se servir d'une phrase permet de mieux s'en souvenir. </p>",
+                "invalid": "<p>Incorrect. Un mot de passe long est plus solide. Se servir d'une phrase permet de mieux s'en souvenir.</p>"
               },
               "solutions": [
                 "1",
@@ -1378,7 +1378,7 @@
             {
               "id": "2e695244-52c5-4277-8414-d18777d0d242",
               "type": "text",
-              "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Tous les mots de passe ne sont pas égaux : l'accès à votre boîte mail permet de contrôler de nombreux autres services, c'est donc un mot de passe très important. <span aria-hidden=\"true\">🚨</span></li><li>Un mot de passe solide, c'est un mot de passe : unique, long, composé de caractères variés, ne contenant pas d'informations personnelles et secret ! <span aria-hidden=\"true\">🎯</span></li><li>Une bonne méthode pour créer un mot de passe solide et mémorisable est de partir d'une phrase facile à retenir. <span aria-hidden=\"true\">💡</span></li></ul>"
+              "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Tous les mots de passe ne sont pas égaux : l'accès à votre boîte mail permet de contrôler de nombreux autres services. Ce mot de passe est donc très important. <span aria-hidden=\"true\">🚨</span></li><li>Un mot de passe solide est unique, long et composé de différents caractères. Il ne contient pas d'informations personnelles et doit rester secret. <span aria-hidden=\"true\">🎯</span></li><li>Pour avoir un mot de passe solide et facile à retenir, on peut choisir une phrase et garder certains caractères. <span aria-hidden=\"true\">💡</span></li></ul>"
             }
           ]
         }
