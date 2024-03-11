@@ -1,5 +1,6 @@
 import { config as settings } from '../../../../lib/config.js';
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
+import { LOCALE } from '../../../../src/shared/domain/constants.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { mailer } from '../../../../src/shared/mail/infrastructure/services/mailer.js';
 import en from '../../../../translations/en.json' assert { type: 'json' };
@@ -13,8 +14,6 @@ const mainTranslationsMapping = {
   en,
   nl,
 };
-
-import { LOCALE } from '../../../../src/shared/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN, DUTCH_SPOKEN } = LOCALE;
 
@@ -135,7 +134,7 @@ describe('Unit | Service | MailService', function () {
           expect(options.fromName).to.equal('PIX - Niet beantwoorden');
           expect(options.variables).to.include({
             homeName: 'pix.org',
-            homeUrl: 'https://pix.org/en-gb/',
+            homeUrl: 'https://pix.org/nl-be/',
             helpdeskUrl: 'https://support.pix.org/en/support/home',
             displayNationalLogo: false,
             redirectionUrl: 'https://app.pix.org/connexion/?lang=nl',
