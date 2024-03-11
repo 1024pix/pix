@@ -1,5 +1,39 @@
 # Pix Changelog
 
+## v4.113.0 (11/03/2024)
+
+
+### :rocket: Amélioration
+- [#8337](https://github.com/1024pix/pix/pull/8337) [FEATURE] Déplacer chaque module dans son propre fichier (PIX-10962).
+- [#8308](https://github.com/1024pix/pix/pull/8308) [FEATURE] Afficher l'option Nederlands dans le sélecteur de langues (PIX-10685).
+- [#8330](https://github.com/1024pix/pix/pull/8330) [FEATURE] Finalisation MVP module distinguer-vrai-faux-sur-internet.
+- [#8345](https://github.com/1024pix/pix/pull/8345) [FEATURE] Ajouter les étapes de l'import remplacer un étudiant dans PixOrga (PIX-11348).
+- [#8333](https://github.com/1024pix/pix/pull/8333) [FEATURE] Finalisation MVP module ports-connexions-essentiels.
+- [#8332](https://github.com/1024pix/pix/pull/8332) [FEATURE] Finalisation MVP module principes-fondateurs-wikipedia.
+- [#8331](https://github.com/1024pix/pix/pull/8331) [FEATURE] Ajouter les étapes de l'upload pour l'ajout/modification sur l'import SUP (PIX-11347).
+- [#8325](https://github.com/1024pix/pix/pull/8325) [FEATURE] Stocke l'état de l'import FREGATA (PIX-11346) .
+- [#8289](https://github.com/1024pix/pix/pull/8289) [FEATURE] Améliorer la page de code d'une organisation (pix-11079).
+- [#8328](https://github.com/1024pix/pix/pull/8328) [FEATURE] Finalisation MVP module adresse-ip-publique-et-vous.
+- [#8327](https://github.com/1024pix/pix/pull/8327) [FEATURE] Finalisation MVP module adresse-mail.
+- [#8326](https://github.com/1024pix/pix/pull/8326) [FEATURE] Finalisation MVP module sources-informations.
+
+### :building_construction: Tech
+- [#8179](https://github.com/1024pix/pix/pull/8179) [TECH] Prendre en charge les dépréciations d'ember-data sur Pix App.
+
+### :bug: Correction
+- [#8307](https://github.com/1024pix/pix/pull/8307) [BUGFIX] Ajout d'un UUID pour enregistrer  les zip d'import dans des dossiers et sous des noms différents (PIX-11482).
+
+### :arrow_up: Montée de version
+- [#8344](https://github.com/1024pix/pix/pull/8344) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.2 (load-testing).
+- [#8342](https://github.com/1024pix/pix/pull/8342) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.2 (dossier racine).
+- [#8322](https://github.com/1024pix/pix/pull/8322) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.2 (1d).
+- [#8338](https://github.com/1024pix/pix/pull/8338) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.4 (orga).
+- [#8323](https://github.com/1024pix/pix/pull/8323) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.2 (admin).
+- [#8336](https://github.com/1024pix/pix/pull/8336) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.4 (certif).
+- [#8335](https://github.com/1024pix/pix/pull/8335) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.4 (admin).
+- [#8334](https://github.com/1024pix/pix/pull/8334) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.4 (1d).
+- [#8320](https://github.com/1024pix/pix/pull/8320) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.1 (api).
+
 ## v4.112.0 (07/03/2024)
 
 
