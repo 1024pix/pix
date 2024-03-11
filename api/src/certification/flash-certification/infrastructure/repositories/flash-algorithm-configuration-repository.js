@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { FlashAssessmentAlgorithmConfiguration } from '../../domain/models/FlashAssessmentAlgorithmConfiguration.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../domain/models/FlashAssessmentAlgorithmConfiguration.js';
 
 const TABLE_NAME = 'flash-algorithm-configurations';
 
@@ -37,4 +37,4 @@ const getMostRecentBeforeDate = async (date) => {
   return FlashAssessmentAlgorithmConfiguration.fromDTO(firstFlashAlgoConfiguration);
 };
 
-export { save, getMostRecent, getMostRecentBeforeDate };
+export { getMostRecent, getMostRecentBeforeDate, save };

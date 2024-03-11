@@ -1,5 +1,5 @@
-import { databaseBuffer } from '../database-buffer.js';
 import { config } from '../../../src/shared/config.js';
+import { databaseBuffer } from '../database-buffer.js';
 
 const buildFlashAlgorithmConfiguration = function ({
   warmUpLength = null,
