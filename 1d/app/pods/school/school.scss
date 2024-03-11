@@ -20,7 +20,7 @@
     font-size: 1.125rem;
     background: var(--pix-neutral-0);
     border-radius: 30px;
-    box-shadow: 0 0 1px 0 #3D68FF, 8px 8px 32px -8px rgb(61 104 255 / 20%);
+    box-shadow: 0 0 1px 0 var(--pix-primary-500), 8px 8px 32px -8px rgb(61 104 255 / 20%);
 
     p {
       overflow: hidden;
@@ -40,7 +40,7 @@
     background-position-y: 30px;
     background-size: 145px;
     border-radius: 50%;
-    box-shadow: 0 0 1px 0 #3D68FF, 8px 8px 32px -8px rgb(61 104 255 / 20%);
+    box-shadow: 0 0 1px 0 var(--pix-primary-500), 8px 8px 32px -8px rgb(61 104 255 / 20%);
 
     .item__title {
       position: relative;
