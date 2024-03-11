@@ -1152,7 +1152,7 @@
             {
               "id": "9d0b7aff-a9da-453f-a6ba-c61fbaa7bb25",
               "type": "text",
-              "content": "<h3><span aria-hidden=\"true\">🤖&nbsp;🏴‍☠️&nbsp;</span>Un logiciel informatique peut pirater votre mot de passe.</h3><p>Les ordinateurs peuvent trouver des mots de passe en testant beaucoup de combinaisons. En 2023, un mot de passe court comme <code>$0Leil@?</code> peut être piraté en 5 minutes seulement. Mais en ajoutant 4 lettres, cette durée passe à 226 ans ! <p><span aria-hidden=\"true\">⚠️</span> En général, le pirate ne vous connaît pas. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
+              "content": "<h3><span aria-hidden=\"true\">🤖&nbsp;🏴‍☠️&nbsp;</span>Un logiciel informatique peut pirater votre mot de passe.</h3><p>Les ordinateurs peuvent trouver des mots de passe en testant beaucoup de combinaisons. En 2023, un mot de passe court comme <code>$0Leil@?</code> peut être piraté en 5 minutes seulement. Mais en ajoutant 4 lettres, cette durée passe à 226 ans !</p><p><span aria-hidden=\"true\">⚠️</span> En général, le pirate ne vous connaît pas. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
             }
           ]
         },
@@ -1209,7 +1209,7 @@
             {
               "id": "52f4050d-7ab9-41da-987b-d9172d5b3cb0",
               "type": "text",
-              "content": "<h3>Règle n°2 : variez les caractères utilisés. <span aria-hidden=\"true\">🔣</span></h3><p>Un bon mot de passe contient des caractères divers car ça augmente le nombre de combinaisons possibles. Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter : <code>=</code> ; <code>@</code> ; <code>$</code> ; <code>#</code> ; <code>!</code> ; <code>?</code></code>.</p>"
+              "content": "<h3>Règle n°2 : variez les caractères utilisés. <span aria-hidden=\"true\">🔣</span></h3><p>Un bon mot de passe contient des caractères divers car ça augmente le nombre de combinaisons possibles. Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter : <code>=</code> ; <code>@</code> ; <code>$</code> ; <code>#</code> ; <code>!</code> ; <code>?</code>.</p>"
             },
             {
               "id": "2895432c-72a3-44be-ae0e-52041f5b847e",
