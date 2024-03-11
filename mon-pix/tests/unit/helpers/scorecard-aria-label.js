@@ -1,11 +1,9 @@
-import { module, test } from 'qunit';
-import sinon from 'sinon';
-import { setupTest } from 'ember-qunit';
-
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Helper | scorecard-aria-label', function (hooks) {
   setupTest(hooks);

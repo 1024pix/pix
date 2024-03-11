@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import sinon from 'sinon';
 import { createTranslatedApplicationError } from 'mon-pix/errors/factories/create-application-error';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Errors | Factories | create-application-error', function (hooks) {
   setupTest(hooks);

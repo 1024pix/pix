@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import Service from '@ember/service';
-import setupIntl from '../../../helpers/setup-intl';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import setupIntl from '../../../helpers/setup-intl';
 
 module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
   setupTest(hooks);

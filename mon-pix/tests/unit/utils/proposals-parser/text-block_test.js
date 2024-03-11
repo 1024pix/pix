@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import TextBlock from 'mon-pix/utils/proposals-parser/text-block';
+import { module, test } from 'qunit';
 
 module('Unit | Utils | Proposals Parser | Text Block', function () {
   module('#constructor', function () {

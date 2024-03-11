@@ -1,4 +1,4 @@
-import { getPaginationFromQueryParams, applyPagination } from '../../handlers/pagination-utils';
+import { applyPagination, getPaginationFromQueryParams } from '../../handlers/pagination-utils';
 
 export default function (schema, request) {
   const queryParams = request.queryParams;

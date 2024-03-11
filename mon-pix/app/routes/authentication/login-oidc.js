@@ -1,11 +1,10 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-
+import fetch from 'fetch';
 import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
-import fetch from 'fetch';
-import JSONApiError from 'mon-pix/errors/json-api-error';
 import { createTranslatedApplicationError } from 'mon-pix/errors/factories/create-application-error';
+import JSONApiError from 'mon-pix/errors/json-api-error';
 
 export default class LoginOidcRoute extends Route {
   @service intl;

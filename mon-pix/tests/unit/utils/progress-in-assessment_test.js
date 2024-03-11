@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
 import EmberObject from '@ember/object';
 import ENV from 'mon-pix/config/environment';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
+import { module, test } from 'qunit';
 
 module('Unit | Utility | progress-in-assessment', function () {
   module('#getCurrentStepIndex', function (hooks) {

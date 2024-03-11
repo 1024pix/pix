@@ -1,10 +1,11 @@
 import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
-import ChallengeItemGeneric from './challenge-item-generic';
 import { service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import { isEmbedAllowedOrigin } from 'mon-pix/utils/embed-allowed-origins';
 import generateRandomString from 'mon-pix/utils/generate-random-string';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
-import { isEmbedAllowedOrigin } from 'mon-pix/utils/embed-allowed-origins';
+
+import ChallengeItemGeneric from './challenge-item-generic';
 
 export default class ChallengeItemQroc extends ChallengeItemGeneric {
   @service intl;

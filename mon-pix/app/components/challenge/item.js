@@ -1,8 +1,9 @@
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import { ensureSafeComponent } from '@embroider/util';
 import Component from '@glimmer/component';
 import ENV from 'mon-pix/config/environment';
-import { ensureSafeComponent } from '@embroider/util';
+
 import ChallengeItemQcm from '../challenge-item-qcm';
 import ChallengeItemQcu from '../challenge-item-qcu';
 import ChallengeItemQroc from '../challenge-item-qroc';

@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import times from 'lodash/times';
+import { module, test } from 'qunit';
 
 module('Unit | Model | Assessment', function (hooks) {
   setupTest(hooks);

@@ -1,6 +1,6 @@
-import { test, module } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import REST from '@ember-data/adapter/rest';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 const FRENCH_INTERNATIONAL_LOCALE = 'fr';

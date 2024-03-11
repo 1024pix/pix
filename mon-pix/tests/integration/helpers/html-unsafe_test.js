@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import { htmlUnsafe } from 'mon-pix/helpers/html-unsafe';
+import { module, test } from 'qunit';
 
 module('#htmlUnsafe', function () {
   test('should interpret HTML', function (assert) {

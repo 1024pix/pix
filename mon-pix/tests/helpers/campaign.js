@@ -1,6 +1,7 @@
-import { click, fillIn } from '@ember/test-helpers';
-import { clickByLabel } from './click-by-label';
 import { visit } from '@1024pix/ember-testing-library';
+import { click, fillIn } from '@ember/test-helpers';
+
+import { clickByLabel } from './click-by-label';
 
 export async function startCampaignByCode(campaignCode) {
   const screen = await visit(`/campagnes/${campaignCode}`);

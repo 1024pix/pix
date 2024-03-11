@@ -1,10 +1,10 @@
-import isNil from 'lodash/isNil';
-import isEmpty from 'lodash/isEmpty';
-import size from 'lodash/size';
-import isArray from 'lodash/isArray';
 import every from 'lodash/every';
+import isArray from 'lodash/isArray';
 import isBoolean from 'lodash/isBoolean';
+import isEmpty from 'lodash/isEmpty';
+import isNil from 'lodash/isNil';
 import isString from 'lodash/isString';
+import size from 'lodash/size';
 
 /*
  * Example :

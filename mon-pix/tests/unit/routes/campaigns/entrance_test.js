@@ -1,6 +1,6 @@
 import EmberObject from '@ember/object';
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Unit | Route | Entrance', function (hooks) {

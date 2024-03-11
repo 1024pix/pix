@@ -1,14 +1,15 @@
-import { click, fillIn, currentURL } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+
 import { authenticate } from '../helpers/authentication';
 import {
-  resumeCampaignOfTypeProfilesCollectionByCode,
   completeCampaignOfTypeProfilesCollectionByCode,
+  resumeCampaignOfTypeProfilesCollectionByCode,
 } from '../helpers/campaign';
 import { invalidateSession } from '../helpers/invalidate-session';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit } from '@1024pix/ember-testing-library';
 
 const PROFILES_COLLECTION = 'PROFILES_COLLECTION';
 

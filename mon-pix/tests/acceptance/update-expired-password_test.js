@@ -1,15 +1,13 @@
+import { visit } from '@1024pix/ember-testing-library';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { Response } from 'miragejs';
 import { module, test } from 'qunit';
 
-import { currentURL, fillIn, click } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { Response } from 'miragejs';
-
+import ENV from '../../config/environment';
 import { authenticateByUsername } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
-import { visit } from '@1024pix/ember-testing-library';
-
-import ENV from '../../config/environment';
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 const PASSWORD_INPUT_LABEL = '* Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)';

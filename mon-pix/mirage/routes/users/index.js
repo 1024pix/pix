@@ -1,18 +1,19 @@
 import { Response } from 'miragejs';
+
+import findPaginatedUserTrainings from './find-paginated-user-trainings';
 import getAuthenticatedUser from './get-authenticated-user';
 import getCampaignParticipationResult from './get-campaign-participation-result';
-import getScorecards from './get-scorecards';
 import getProfile from './get-profile';
-import getUserCampaignParticipations from './get-user-campaign-participations';
+import getScorecards from './get-scorecards';
 import getUserCampaignParticipationOverviews from './get-user-campaign-participation-overviews';
 import getUserCampaignParticipationToCampaign from './get-user-campaign-participation-to-campaign';
+import getUserCampaignParticipations from './get-user-campaign-participations';
 import getUserSharedProfileForCampaign from './get-user-shared-profile-for-campaign';
 import isCertifiable from './is-certifiable';
-import resetScorecard from './reset-scorecard';
 import patchTermsOfServiceAcceptance from './patch-terms-of-service-acceptance';
-import putVerificationCode from './put-verification-code';
 import putUpdateEmail from './put-update-email';
-import findPaginatedUserTrainings from './find-paginated-user-trainings';
+import putVerificationCode from './put-verification-code';
+import resetScorecard from './reset-scorecard';
 
 export default function index(config) {
   config.get('/users/me', getAuthenticatedUser);

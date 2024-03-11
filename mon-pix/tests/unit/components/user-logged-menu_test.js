@@ -1,6 +1,7 @@
 import Service from '@ember/service';
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 module('Unit | Component | User logged Menu', function (hooks) {

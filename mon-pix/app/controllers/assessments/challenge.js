@@ -1,8 +1,8 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
-import { action } from '@ember/object';
 
 const defaultPageTitle = 'pages.challenge.title.default';
 const timedOutPageTitle = 'pages.challenge.title.timed-out';

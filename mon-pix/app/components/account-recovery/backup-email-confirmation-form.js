@@ -1,8 +1,9 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import isEmpty from 'lodash/isEmpty';
+
 import isEmailValid from '../../utils/email-validator';
 
 const STATUS_MAP = {

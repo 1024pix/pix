@@ -1,6 +1,7 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon/pkg/sinon-esm';
+
 import ENV from '../../../config/environment';
 
 module('Unit | Model | user-oidc-authentication-request', function (hooks) {

@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Unit | Controller | Fill in certificate verification Code', function (hooks) {

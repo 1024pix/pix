@@ -1,8 +1,8 @@
 import EmberObject from '@ember/object';
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import sinon from 'sinon';
 import ENV from 'mon-pix/config/environment';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Route | Entry Point', function (hooks) {
   setupTest(hooks);

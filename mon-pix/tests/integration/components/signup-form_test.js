@@ -1,14 +1,12 @@
-import { module, test } from 'qunit';
-import sinon from 'sinon';
-import Service from '@ember/service';
-
-import { click, fillIn, triggerEvent } from '@ember/test-helpers';
-import { render, clickByName } from '@1024pix/ember-testing-library';
-
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import ArrayProxy from '@ember/array/proxy';
-import { resolve, reject } from 'rsvp';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
+import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import { reject, resolve } from 'rsvp';
+import sinon from 'sinon';
 
 import ENV from '../../../config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';

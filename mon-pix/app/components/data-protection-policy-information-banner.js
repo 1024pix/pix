@@ -1,8 +1,8 @@
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
-import ENV from 'mon-pix/config/environment';
 import isEmpty from 'lodash/isEmpty';
-import { action } from '@ember/object';
+import ENV from 'mon-pix/config/environment';
 
 export default class DataProtectionPolicyInformationBanner extends Component {
   @service currentUser;

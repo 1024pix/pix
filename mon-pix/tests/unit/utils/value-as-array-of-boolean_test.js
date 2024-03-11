@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import valueAsArrayOfBoolean from 'mon-pix/utils/value-as-array-of-boolean';
+import { module, test } from 'qunit';
 
 module('Unit | Utility | value as array of boolean', function () {
   // Replace this with your real tests.

@@ -1,7 +1,8 @@
-import { module, test } from 'qunit';
-import sinon from 'sinon';
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 import setupIntl from '../../helpers/setup-intl';
 

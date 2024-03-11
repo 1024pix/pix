@@ -1,12 +1,12 @@
+import { fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { Response } from 'miragejs';
 import { module, test } from 'qunit';
 
-import { setupApplicationTest } from 'ember-qunit';
-import { currentURL, click } from '@ember/test-helpers';
-import { Response } from 'miragejs';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit, fillByLabel } from '@1024pix/ember-testing-library';
-import setupIntl from '../../helpers/setup-intl';
 import { clickByLabel } from '../../helpers/click-by-label';
+import setupIntl from '../../helpers/setup-intl';
 
 module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) {
   setupApplicationTest(hooks);

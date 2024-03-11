@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import sinon from 'sinon';
-import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | Autonomous Course | Landing page start block', function (hooks) {
   setupTest(hooks);

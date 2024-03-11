@@ -1,7 +1,7 @@
-import Component from '@glimmer/component';
-import showdown from 'showdown';
 import { htmlSafe } from '@ember/template';
+import Component from '@glimmer/component';
 import ENV from 'mon-pix/config/environment';
+import showdown from 'showdown';
 
 export default class MarkdownToHtmlUnsafe extends Component {
   get options() {

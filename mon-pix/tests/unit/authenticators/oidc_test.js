@@ -1,8 +1,8 @@
+import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
+import * as fetch from 'fetch';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import Service from '@ember/service';
-import * as fetch from 'fetch';
 
 module('Unit | Authenticator | oidc', function (hooks) {
   setupTest(hooks);

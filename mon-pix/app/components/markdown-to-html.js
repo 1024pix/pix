@@ -1,8 +1,8 @@
+import { htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
+import ENV from 'mon-pix/config/environment';
 import showdown from 'showdown';
 import xss from 'xss';
-import { htmlSafe } from '@ember/template';
-import ENV from 'mon-pix/config/environment';
 
 function modifyWhiteList() {
   return {

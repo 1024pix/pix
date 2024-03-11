@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import labeledCheckboxes from 'mon-pix/utils/labeled-checkboxes';
+import { module, test } from 'qunit';
 
 module('Unit | Utility | labeled checkboxes', function () {
   module('Success cases', function () {

@@ -1,6 +1,5 @@
-import { module, test } from 'qunit';
-
 import { getJoinErrorsMessageByShortCode, getRegisterErrorsMessageByShortCode } from 'mon-pix/utils/errors-messages';
+import { module, test } from 'qunit';
 
 module('Unit | Utility | errors-messages', function () {
   const JOIN_SHORT_CODES_ERRORS = ['R11', 'R12', 'R13', 'R31', 'R32', 'R33', 'R70'];

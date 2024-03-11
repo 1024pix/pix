@@ -1,7 +1,8 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import createGlimmerComponent from '../../helpers/create-glimmer-component';
 import { pshuffle } from 'mon-pix/utils/pshuffle';
+import { module, test } from 'qunit';
+
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 module('Unit | Component | QCU proposals', function (hooks) {
   setupTest(hooks);

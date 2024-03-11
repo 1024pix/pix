@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import parseISODateOnly from 'mon-pix/utils/parse-iso-date-only';
+import { module, test } from 'qunit';
 
 module('Unit | Utils | parse-iso-date-only', function (hooks) {
   setupTest(hooks);

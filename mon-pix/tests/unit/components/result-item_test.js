@@ -1,8 +1,9 @@
 import EmberObject from '@ember/object';
-import { module, test } from 'qunit';
-import setupIntl from '../../helpers/setup-intl';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
+import setupIntl from '../../helpers/setup-intl';
 
 const undefinedAnswer = 'undefined';
 const answerWithEmptyResult = {

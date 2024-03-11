@@ -1,13 +1,14 @@
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { click, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { Response } from 'miragejs';
+import { assessmentStates } from 'mon-pix/models/assessment';
 import { module, test } from 'qunit';
+
 import { authenticate } from '../helpers/authentication';
 import { fillCertificationJoiner, fillCertificationStarter } from '../helpers/certification';
 import setupIntl from '../helpers/setup-intl';
-import { assessmentStates } from 'mon-pix/models/assessment';
-import { Response } from 'miragejs';
 
 module('Acceptance | Certification | Certification Course', function (hooks) {
   setupApplicationTest(hooks);

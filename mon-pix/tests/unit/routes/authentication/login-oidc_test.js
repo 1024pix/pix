@@ -1,9 +1,9 @@
 import Service from '@ember/service';
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import sinon from 'sinon';
 import * as fetch from 'fetch';
 import { ApplicationError } from 'mon-pix/errors/application-error';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Route | login-oidc', function (hooks) {
   setupTest(hooks);

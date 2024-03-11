@@ -1,8 +1,8 @@
 import { action } from '@ember/object';
-import { runTask } from 'ember-lifeline';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { runTask } from 'ember-lifeline';
 
 export default class FeedbackPanelV3 extends Component {
   @service store;
