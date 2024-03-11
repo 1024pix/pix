@@ -15,24 +15,30 @@ export default class TargetProfile extends Component {
   @tracked displayPdfParametersModal = false;
 
   get isPublic() {
-    return this.args.model.isPublic ? 'Oui' : 'Non';
+    return this.args.model.isPublic;
   }
 
   get isOutdated() {
-    return this.args.model.outdated ? 'Oui' : 'Non';
+    return this.args.model.outdated;
   }
 
   get isSimplifiedAccess() {
-    return this.args.model.isSimplifiedAccess ? 'Oui' : 'Non';
+    return this.args.model.isSimplifiedAccess;
   }
 
   get areKnowledgeElementsResettable() {
-    return this.args.model.areKnowledgeElementsResettable ? 'Oui' : 'Non';
+    return this.args.model.areKnowledgeElementsResettable;
   }
 
   get hasLinkedCampaign() {
-    return this.args.model.hasLinkedCampaign ? 'Oui' : 'Non';
+    return Boolean(this.args.model.hasLinkedCampaign);
   }
+
+  get hasLinkedAutonomousCourse() {
+    return Boolean(this.args.model.hasLinkedAutonomousCourse);
+  }
+
+  displayBooleanState = (bool) => (bool ? 'Oui' : 'Non');
 
   @action
   toggleEditMode() {

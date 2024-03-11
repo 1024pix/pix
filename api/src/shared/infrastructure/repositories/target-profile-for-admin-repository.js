@@ -56,7 +56,7 @@ async function _toDomain(targetProfileDTO, tubesData, locale) {
   const badges = await _findBadges(targetProfileDTO.id);
   const stageCollection = await _getStageCollection(targetProfileDTO.id);
   const hasLinkedCampaign = await _hasLinkedCampaign(targetProfileDTO.id);
-  const hasLinkedAutonomousCourse = await _hasLinkedAutonomousCourse(targetProfileDTO);
+  const hasLinkedAutonomousCourse = await _hasLinkedAutonomousCourse(targetProfileDTO, hasLinkedCampaign);
 
   return new TargetProfileForAdmin({
     ...targetProfileDTO,

@@ -1,4 +1,3 @@
-{{!-- template-lint-disable  --}}
 {{page-title "Profil " @model.id " | Pix Admin" replace=true}}
 <header class="page-header">
   <div class="page-title">
@@ -21,27 +20,42 @@
       </div>
       <div class="target-profile-section__container">
         <ul>
-          <li><span class="bold">ID : </span>{{@model.id}}</li>
-          <li><span class="bold">Date de création : </span>{{format-date @model.createdAt}}</li>
-          <li><span class="bold">Public : </span>{{this.isPublic}}</li>
-          <li><span class="bold">Parcours Accès Simplifié : </span>{{this.isSimplifiedAccess}}</li>
-          <li><span class="bold">Obsolète : </span>{{this.isOutdated}}</li>
-          <li><span class="bold">Est associé à une campagne : </span>{{this.hasLinkedCampaign}}</li>
-          <li><span class="bold">Organisation de référence : </span>
-            <LinkTo @route="authenticated.organizations.get" @model={{@model.ownerOrganizationId}}>
-              {{@model.ownerOrganizationId}}
-            </LinkTo>
+          <li><span class="bold">ID&#x20;:&#x20;</span>{{@model.id}}</li>
+          <li><span class="bold">Organisation de référence&#x20;:&#x20;</span><LinkTo
+              @route="authenticated.organizations.get"
+              @model={{@model.ownerOrganizationId}}
+            >{{@model.ownerOrganizationId}}</LinkTo>
           </li>
-          <li><span class="bold">{{t "pages.target-profiles.resettable-checkbox.label"}} : </span>{{this.areKnowledgeElementsResettable}}</li>
+          <li><span class="bold">Date de création&#x20;:&#x20;</span>{{format-date @model.createdAt}}</li>
+          <li><span class="bold">Public&#x20;:&#x20;</span>{{this.displayBooleanState this.isPublic}}</li>
+          <li><span class="bold">Obsolète&#x20;:&#x20;</span>{{this.displayBooleanState this.isOutdated}}</li>
+          <li>
+            <span class="bold">Parcours Accès Simplifié&#x20;:&#x20;</span>{{this.displayBooleanState
+              this.isSimplifiedAccess
+            }}
+          </li>
+          {{#if this.hasLinkedCampaign}}
+            <li><span class="bold">Est associé à une campagne&#x20;:&#x20;</span>Oui</li>
+            {{#if this.hasLinkedAutonomousCourse}}
+              <li><span class="bold">Est associé à un parcours autonome&#x20;:&#x20;</span>Oui</li>
+            {{/if}}
+          {{else}}
+            <li><span class="bold">Associé à une campagne ou un parcours autonome&#x20;:&#x20;</span>Non</li>
+          {{/if}}
+          <li>
+            <span class="bold">{{t
+                "pages.target-profiles.resettable-checkbox.label"
+              }}&#x20;:&#x20;</span>{{this.displayBooleanState this.areKnowledgeElementsResettable}}
+          </li>
           {{#if @model.description}}
             <li>
-              <span class="bold">Description : </span>
+              <span class="bold">Description&#x20;:&#x20;</span>
               <MarkdownToHtml @markdown={{@model.description}} />
             </li>
           {{/if}}
           {{#if @model.comment}}
             <li>
-              <span class="bold">Commentaire (usage interne) : </span>
+              <span class="bold">Commentaire (usage interne)&#x20;:&#x20;</span>
               <MarkdownToHtml @markdown={{@model.comment}} />
             </li>
           {{/if}}
