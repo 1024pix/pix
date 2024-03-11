@@ -1,5 +1,5 @@
-import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import { type Server, type ServerInjectOptions } from '@hapi/hapi';
+import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 
 import { HapiServer } from '../../../src/lib/server.js';
 

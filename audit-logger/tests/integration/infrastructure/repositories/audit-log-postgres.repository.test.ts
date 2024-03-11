@@ -1,7 +1,8 @@
-import { beforeEach, afterEach, describe, expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+
+import { knex } from '../../../../src/db/knex-database-connection.js';
 import { AuditLog } from '../../../../src/lib/domain/models/audit-log.js';
 import { auditLogPostgresRepository } from '../../../../src/lib/infrastructure/repositories/audit-log-postgres.repository.js';
-import { knex } from '../../../../src/db/knex-database-connection.js';
 
 describe('Integration | Infrastructure | Repositories | AuditLogPostgresRepository', () => {
   beforeEach(function () {
