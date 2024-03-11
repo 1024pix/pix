@@ -77,11 +77,31 @@ async function _createSco1dOrganizations(databaseBuilder) {
     studentNb: 1,
   });
 
-  await _buildSchoolStudent({
-    databaseBuilder,
+  // create class with namesakes
+  await databaseBuilder.factory.buildOrganizationLearner({
+    firstName: 'Bob',
+    lastName: 'Le lapin',
     division: 'CM1-B',
     organizationId: TEAM_1D_ORGANIZATION_1_ID,
-    studentNb: 1,
+  });
+  await databaseBuilder.factory.buildOrganizationLearner({
+    firstName: 'Bob',
+    lastName: 'Le castor',
+    division: 'CM1-B',
+    organizationId: TEAM_1D_ORGANIZATION_1_ID,
+  });
+
+  await databaseBuilder.factory.buildOrganizationLearner({
+    firstName: 'Aya',
+    lastName: 'Pas',
+    division: 'CM1-B',
+    organizationId: TEAM_1D_ORGANIZATION_1_ID,
+  });
+  await databaseBuilder.factory.buildOrganizationLearner({
+    firstName: 'Aya',
+    lastName: 'Pasta',
+    division: 'CM1-B',
+    organizationId: TEAM_1D_ORGANIZATION_1_ID,
   });
 
   await tooling.organization.createOrganization({
@@ -157,7 +177,7 @@ const firstNames = [
 ];
 
 async function _buildSchoolStudent({ databaseBuilder, organizationId, division, studentNb }) {
-  for (let index = 0; index < studentNb - 1; index++) {
+  for (let index = 0; index < studentNb; index++) {
     const firstName = firstNames[index];
     const lastName = _generateLastName();
     const userId = await databaseBuilder.factory.buildUser({ firstName, lastName }).id;
