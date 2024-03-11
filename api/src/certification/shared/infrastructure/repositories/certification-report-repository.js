@@ -13,7 +13,7 @@ import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/u
 import { CertificationCourseUpdateError } from '../../domain/errors.js';
 import { CertificationReport } from '../../domain/models/CertificationReport.js';
 
-const findBySessionId = async function (sessionId) {
+const findBySessionId = async function ({ sessionId }) {
   const results = await BookshelfCertificationCourse.where({ sessionId })
     .query((qb) => {
       qb.orderByRaw('LOWER("lastName") asc');
@@ -27,7 +27,7 @@ const findBySessionId = async function (sessionId) {
   return _.map(certificationCourses, CertificationReport.fromCertificationCourse);
 };
 
-const finalizeAll = async function (certificationReports) {
+const finalizeAll = async function ({ certificationReports }) {
   try {
     await Bookshelf.transaction((trx) => {
       const finalizeReport = (certificationReport) => _finalize({ certificationReport, transaction: trx });
