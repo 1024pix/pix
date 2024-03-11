@@ -37,7 +37,7 @@ describe('Integration | Repository | CertificationReport', function () {
         await databaseBuilder.commit();
 
         // when
-        const certificationReports = await certificationReportRepository.findBySessionId(sessionId);
+        const certificationReports = await certificationReportRepository.findBySessionId({ sessionId });
 
         // then
         const expectedCertificationReport1 = domainBuilder.buildCertificationReport({
@@ -68,7 +68,7 @@ describe('Integration | Repository | CertificationReport', function () {
         const sessionId = databaseBuilder.factory.buildSession().id;
 
         // when
-        const certificationReports = await certificationReportRepository.findBySessionId(sessionId);
+        const certificationReports = await certificationReportRepository.findBySessionId({ sessionId });
 
         // then
         expect(certificationReports).to.deep.equal([]);
@@ -114,10 +114,12 @@ describe('Integration | Repository | CertificationReport', function () {
         });
 
         // when
-        await certificationReportRepository.finalizeAll([certificationReport1, certificationReport2]);
+        await certificationReportRepository.finalizeAll({
+          certificationReports: [certificationReport1, certificationReport2],
+        });
 
         // then
-        const actualCertificationReports = await certificationReportRepository.findBySessionId(sessionId);
+        const actualCertificationReports = await certificationReportRepository.findBySessionId({ sessionId });
         const actualReport1 = _.find(actualCertificationReports, { id: certificationReport1.id });
 
         expect(actualReport1.hasSeenEndTestScreen).to.equal(true);
@@ -157,10 +159,10 @@ describe('Integration | Repository | CertificationReport', function () {
         const error = await catchErr(
           certificationReportRepository.finalizeAll,
           certificationReportRepository,
-        )([certificationReport1, certificationReport2]);
+        )({ certificationRepports: [certificationReport1, certificationReport2] });
 
         // then
-        const actualCertificationReports = await certificationReportRepository.findBySessionId(sessionId);
+        const actualCertificationReports = await certificationReportRepository.findBySessionId({ sessionId });
         const actualReport1 = _.find(actualCertificationReports, { id: certificationReport1.id });
         const actualReport2 = _.find(actualCertificationReports, { id: certificationReport2.id });
 
