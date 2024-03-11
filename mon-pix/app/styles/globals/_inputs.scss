@@ -4,7 +4,7 @@ input.input-code {
   padding: 0 1px 1px 0.5ch;
   color: $pix-neutral-70;
   font-size: 1.875rem;
-  font-family: $font-roboto-mono;
+  font-family: var(--pix-font-family-monospace);
   letter-spacing: 0.5ch;
   text-transform: uppercase;
   background:

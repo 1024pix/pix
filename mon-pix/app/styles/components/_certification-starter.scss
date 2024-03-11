@@ -153,7 +153,7 @@
   height: 50px;
   padding: 0 0.2ch 1px 0.5ch;
   font-size: 1.875rem;
-  font-family: $font-roboto-mono;
+  font-family: var(--pix-font-family-monospace);
   letter-spacing: $space-between-dashes;
   text-transform: uppercase;
   background: repeating-linear-gradient(
