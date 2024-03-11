@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
+import { constants } from '../../../../lib/domain/constants.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { LOCALE } from '../../domain/constants.js';
 
@@ -55,6 +56,7 @@ async function _toDomain(targetProfileDTO, tubesData, locale) {
   const badges = await _findBadges(targetProfileDTO.id);
   const stageCollection = await _getStageCollection(targetProfileDTO.id);
   const hasLinkedCampaign = await _hasLinkedCampaign(targetProfileDTO.id);
+  const hasLinkedAutonomousCourse = await _hasLinkedAutonomousCourse(targetProfileDTO);
 
   return new TargetProfileForAdmin({
     ...targetProfileDTO,
@@ -66,6 +68,7 @@ async function _toDomain(targetProfileDTO, tubesData, locale) {
     tubes,
     skills,
     hasLinkedCampaign,
+    hasLinkedAutonomousCourse,
   });
 }
 
@@ -164,4 +167,20 @@ async function _hasLinkedCampaign(targetProfileId) {
   const campaigns = await knex('campaigns').where({ targetProfileId }).first();
 
   return Boolean(campaigns);
+}
+
+async function _hasLinkedAutonomousCourse(targetProfile, hasLinkedCampaign) {
+  const targetProfileSharesLinkedWithAutonomousCourseOrganization = await knex('target-profile-shares')
+    .where({
+      targetProfileId: targetProfile.id,
+      organizationId: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+    })
+    .first();
+
+  const isLinkedWithAutonomousCourseOrga =
+    targetProfile.ownerOrganizationId === constants.AUTONOMOUS_COURSES_ORGANIZATION_ID ||
+    Boolean(targetProfileSharesLinkedWithAutonomousCourseOrganization);
+  const isSimplifiedAccess = Boolean(targetProfile.isSimplifiedAccess);
+
+  return hasLinkedCampaign && isLinkedWithAutonomousCourseOrga && isSimplifiedAccess;
 }
