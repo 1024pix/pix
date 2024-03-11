@@ -1,13 +1,12 @@
-import { module, test } from 'qunit';
-import { currentURL, click } from '@ember/test-helpers';
-import { visit, clickByText, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, clickByText, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import authenticateSession from '../helpers/authenticate-session';
 import setupIntl from '../helpers/setup-intl';
-
-import { createUserManagingStudents, createPrescriberByUser } from '../helpers/test-init';
-
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { createPrescriberByUser, createUserManagingStudents } from '../helpers/test-init';
 
 module('Acceptance | Sup Organization Participant List', function (hooks) {
   setupApplicationTest(hooks);

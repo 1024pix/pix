@@ -1,9 +1,10 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { render, clickByName } from '@1024pix/ember-testing-library';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 function getMetaForPage({ pageNumber, rowCount = 50 }) {
   const pageSize = 25;

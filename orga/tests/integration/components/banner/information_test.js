@@ -1,9 +1,10 @@
-import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Banner::Information', function (hooks) {
   setupIntlRenderingTest(hooks);

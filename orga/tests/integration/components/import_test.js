@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
-import { click, triggerEvent } from '@ember/test-helpers';
 import Service from '@ember/service';
+import { click, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | OrganizationParticipantImport', function (hooks) {
   setupIntlRenderingTest(hooks);

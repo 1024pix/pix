@@ -1,9 +1,8 @@
-import { module, test } from 'qunit';
-import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
-
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { module, test } from 'qunit';
 
 module('Acceptance | join-request', function (hooks) {
   setupApplicationTest(hooks);

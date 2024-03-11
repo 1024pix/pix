@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 
 export default class ManageAuthenticationMethodModal extends Component {

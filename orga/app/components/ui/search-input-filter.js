@@ -1,7 +1,7 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import ENV from 'pix-orga/config/environment';
+import Component from '@glimmer/component';
 import debounce from 'lodash/debounce';
+import ENV from 'pix-orga/config/environment';
 
 export default class SearchInputFilter extends Component {
   constructor() {

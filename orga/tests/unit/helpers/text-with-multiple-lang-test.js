@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
-import textWithMultipleLang from 'pix-orga/helpers/text-with-multiple-lang';
 import { htmlSafe } from '@ember/template';
+import textWithMultipleLang from 'pix-orga/helpers/text-with-multiple-lang';
+import { module, test } from 'qunit';
 
 module('Unit | Helper | TextWithMultipleLang', function (hooks) {
   let helper;

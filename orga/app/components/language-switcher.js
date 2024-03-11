@@ -1,6 +1,5 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
-
+import Component from '@glimmer/component';
 import languages from 'pix-orga/languages';
 
 const FRENCH_LANGUAGE = 'fr';

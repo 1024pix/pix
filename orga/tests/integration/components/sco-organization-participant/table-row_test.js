@@ -1,7 +1,8 @@
-import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
-import sinon from 'sinon';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | ScoOrganizationParticipant::TableRow', function (hooks) {

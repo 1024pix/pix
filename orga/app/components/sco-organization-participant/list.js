@@ -1,13 +1,12 @@
-import fetch from 'fetch';
-
 import { action } from '@ember/object';
+import { guidFor } from '@ember/object/internals';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { guidFor } from '@ember/object/internals';
+import fetch from 'fetch';
+import ENV from 'pix-orga/config/environment';
 
 import { CONNECTION_TYPES } from '../../helpers/connection-types';
-import ENV from 'pix-orga/config/environment';
 
 export default class ScoList extends Component {
   @service currentUser;
