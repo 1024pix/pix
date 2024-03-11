@@ -187,9 +187,9 @@ function sendResetPasswordDemandEmail({ email, locale, temporaryKey }) {
       locale: localeParam,
       ...nlTranslations['reset-password-demand-email'].params,
       homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_DUTCH_SPOKEN,
       resetUrl: `${config.domain.pixApp + config.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}/?lang=nl`,
-      helpdeskURL: HELPDESK_ENGLISH_SPOKEN,
+      helpdeskURL: HELPDESK_DUTCH_SPOKEN,
     };
 
     pixName = nlTranslations['email-sender-name']['pix-app'];

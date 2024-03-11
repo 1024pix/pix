@@ -251,7 +251,7 @@ describe('Unit | Service | MailService', function () {
             locale: DUTCH_SPOKEN,
             ...mainTranslationsMapping.nl['reset-password-demand-email'].params,
             homeName: 'pix.org',
-            homeUrl: 'https://pix.org/en-gb/',
+            homeUrl: 'https://pix.org/nl-be/',
             resetUrl: `https://app.pix.org/changer-mot-de-passe/${temporaryKey}/?lang=nl`,
             helpdeskURL: 'https://support.pix.org/en/support/home',
           },
@@ -296,6 +296,7 @@ describe('Unit | Service | MailService', function () {
         // then
         expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
       });
+
       it(`should call mailer with translated texts if locale is ${FRENCH_FRANCE}`, async function () {
         // given
         const expectedOptions = {
@@ -324,6 +325,7 @@ describe('Unit | Service | MailService', function () {
         // then
         expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
       });
+
       it(`should call mailer with fr-fr translated texts if locale is undefined`, async function () {
         // given
         const expectedOptions = {
