@@ -1,12 +1,12 @@
-import { type Request, Server, type ServerOptions } from '@hapi/hapi';
 import hapiBasicPlugin from '@hapi/basic';
+import { type Request, Server, type ServerOptions } from '@hapi/hapi';
 import hapiPinoPlugin from 'hapi-pino';
 
-import { config } from './config.js';
-import { ROUTES } from './routes.js';
 import { disconnect } from '../db/knex-database-connection.js';
+import { config } from './config.js';
 import { logger } from './infrastructure/logger.js';
 import { areCredentialsValid } from './infrastructure/services/authentication.service.js';
+import { ROUTES } from './routes.js';
 
 const { port } = config;
 

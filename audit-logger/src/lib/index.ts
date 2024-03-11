@@ -1,6 +1,6 @@
-import { HapiServer } from './server.js';
-import { logger } from './infrastructure/logger.js';
 import { config } from './config.js';
+import { logger } from './infrastructure/logger.js';
+import { HapiServer } from './server.js';
 
 process.on('SIGTERM', (): void => {
   _exitOnSignal('SIGTERM').then(() => {}, () => {});

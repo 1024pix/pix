@@ -1,10 +1,10 @@
 import { type Request, type ResponseObject, type ResponseToolkit, type ServerRoute } from '@hapi/hapi';
 import Joi from 'joi';
 
-import { type CreateAuditLogUseCase } from '../domain/usecases/create-audit-log.usecase.js';
 import { type AuditLog } from '../domain/models/audit-log.js';
-import { createAuditLogUseCase } from '../domain/usecases/usecases.js';
 import { AuditLogActionTypes, AuditLogClientTypes, AuditLogRoleTypes } from '../domain/models/models.definition.js';
+import { type CreateAuditLogUseCase } from '../domain/usecases/create-audit-log.usecase.js';
+import { createAuditLogUseCase } from '../domain/usecases/usecases.js';
 
 export class CreateAuditLogController {
   constructor(private readonly createAuditLogUseCase: CreateAuditLogUseCase) {}
