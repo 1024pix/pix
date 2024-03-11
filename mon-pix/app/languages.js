@@ -9,6 +9,6 @@ export default {
   },
   nl: {
     value: 'Nederlands',
-    languageSwitcherDisplayed: false,
+    languageSwitcherDisplayed: true,
   },
 };
