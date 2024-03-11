@@ -46,6 +46,7 @@
         "LOG_ENABLED": "true",
         "LOG_LEVEL": "error"
       },
+      "envFile": "${workspaceFolder}/api/.env",
       "args": [
         "-ui",
         "bdd",
@@ -70,6 +71,7 @@
         "LOG_ENABLED": "true",
         "LOG_LEVEL": "error"
       },
+      "envFile": "${workspaceFolder}/api/.env",
       "program": "${workspaceRoot}/api/node_modules/mocha/bin/_mocha",
       "args": ["--no-timeouts", "${relativeFile}"],
       "cwd": "${workspaceRoot}",
