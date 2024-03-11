@@ -1057,10 +1057,10 @@
     {
       "id": "8bdec793-7508-41b4-9df2-e1cf96969680",
       "slug": "mots-de-passe-securises",
-      "title": "Mots de passe solides",
+      "title": "Des mots de passe solides",
       "details": {
         "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-        "description": "Vous avez des mots de passe pour tout : comptes divers, appareils, sites Web. Si vous n'avez qu'un seul mot de passe et que ce mot de passe est votre date de naissance, ce module est fait pour vous.",
+        "description": "Aujourd'hui, on utilise des mots de passe pour tout : son téléphone, son adresse mail, ses réseaux sociaux. Dans ce module, vous allez découvrir pourquoi et comment créer des mots de passe solides.",
         "duration": 12,
         "level": "Débutant",
         "objectives": [
@@ -1071,11 +1071,11 @@
       },
       "transitionTexts": [
         {
-          "content": "<p>Un mot de passe sert à protéger vos données. Il faut donc qu’il soit compliqué à trouver. On dit qu'il est <strong>solide</strong>&nbsp;<span aria-hidden=\"true\">🔐</span><br>Sinon, n’importe qui va le trouver et pourra lire vos emails, voir vos photos ou envoyer des messages à votre place.</p>",
+          "content": "<p>Un mot de passe sert à protéger vos informations et vos données. Il faut donc qu’il soit difficile à trouver, c'est-à-dire qu'il soit <strong>solide</strong>.&nbsp;<span aria-hidden=\"true\">🔐</span><br>Sinon, tout le monde peut le trouver, lire vos mails, voir vos photos ou envoyer des messages à votre place.</p>",
           "grainId": "00962dcd-9636-44b1-b1c8-d4a5ab2d90c8"
         },
         {
-          "content": "<p>C’est sûr : si tout le monde utilise le même mot de passe, ça ne sert pas à grand chose !<br>Regardons de plus près les risques dont il faut se protéger.</p>",
+          "content": "<p>Choisir un mot de passe très utilisé est risqué. Regardons ensemble les risques dont il faut se protéger.</p>",
           "grainId": "831fd61c-54ae-4b21-bd3f-61f40887a869"
         },
         {
@@ -1083,7 +1083,7 @@
           "grainId": "1cda400f-008c-49db-b46b-6f783ccbc273"
         },
         {
-          "content": "<p>Pour créer un mot de passe solide, c’est-à-dire difficile à trouver, il y a certaines règles. Regardons-les ensemble !</p>",
+          "content": "<p>Pour créer un mot de passe solide, il y a certaines règles à suivre. Regardons de plus près !</p>",
           "grainId": "1564f763-5ba5-48ef-b752-dac463319899"
         },
         {
@@ -1152,7 +1152,7 @@
             {
               "id": "9d0b7aff-a9da-453f-a6ba-c61fbaa7bb25",
               "type": "text",
-              "content": "<h3><span aria-hidden=\"true\">🤖&nbsp;🏴‍☠️&nbsp;</span>Un logiciel informatique peut pirater votre mot de passe.</h3><p>Les ordinateurs peuvent trouver des mots de passe en testant beaucoup de combinaisons. En 2023, un mot de passe court comme <code>$0Leil@?</code> peut être piraté en 5 minutes seulement. Mais en ajoutant 4 lettres, cette durée passe à 226 ans !</p> <p><span aria-hidden=\"true\">⚠️</span> En général, le pirate ne vous connaît pas. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
+              "content": "<h3><span aria-hidden=\"true\">🤖&nbsp;🏴‍☠️&nbsp;</span>Un logiciel informatique peut pirater votre mot de passe.</h3><p>Les ordinateurs peuvent trouver des mots de passe en testant très rapidement différentes combinaisons possibles.<br>En 2023, un mot de passe court comme <code>$0Leil@?</code> peut être piraté en 5 minutes seulement. Mais avec un mot de passe plus long, comme <code>$0Leil@1504</code>, cette durée passe à 226 ans.</p> <p><span aria-hidden=\"true\">⚠️</span> En général, le pirate ne vous connaît pas. Il cherche certainement à revendre vos informations ou à vous voler de l’argent.</p>"
             }
           ]
         },
@@ -1199,7 +1199,7 @@
             {
               "id": "02bb0017-a74d-4c78-8502-3c57d9f12209",
               "type": "text",
-              "content": "<h3>Règle n°1 : créez un mot de passe long. <span aria-hidden=\"true\">📝</span></h3><p>Un mot de passe long sera dur à deviner ou à pirater. Gardez une longueur raisonnable : à partir de 12 caractères, le mot de passe est assez long.</p>"
+              "content": "<h3>Règle n°1 : créez un mot de passe long. <span aria-hidden=\"true\">📝</span></h3><p>Un mot de passe long sera dur à deviner ou à pirater. Mais gardez une longueur raisonnable : à partir de 12 caractères, le mot de passe est assez long.</p>"
             },
             {
               "id": "7f89a519-a5ce-4484-9952-eb6869b94291",
@@ -1209,7 +1209,7 @@
             {
               "id": "52f4050d-7ab9-41da-987b-d9172d5b3cb0",
               "type": "text",
-              "content": "<h3>Règle n°2 : variez les caractères utilisés. <span aria-hidden=\"true\">🔣</span></h3><p>Un bon mot de passe contient des caractères divers car ça augmente le nombre de combinaisons possibles. Minuscules, majuscules, chiffres, caractères spéciaux, on n’hésite pas à en rajouter : <code>=</code> ; <code>@</code> ; <code>$</code> ; <code>#</code> ; <code>!</code> ; <code>?</code>.</p>"
+              "content": "<h3>Règle n°2 : variez les caractères utilisés. <span aria-hidden=\"true\">🔣</span></h3><p>Un bon mot de passe contient différents caractères ; ce qui augmente le nombre de combinaisons possibles. On peut utiliser des minuscules, des majuscules, des chiffres, des caractères spéciaux : <code>=</code> <code>@</code> <code>$</code> <code>#</code> <code>!</code> <code>?</code>.</p>"
             },
             {
               "id": "2895432c-72a3-44be-ae0e-52041f5b847e",
@@ -1219,7 +1219,7 @@
             {
               "id": "c4505a09-864c-48f8-8077-013fae2db291",
               "type": "text",
-              "content": "<h3>Règle n°3 : n'utilisez pas d’informations personnelles. <span aria-hidden=\"true\">🤫</span></h3><p>Comme ça, ce sera impossible pour les gens de le deviner. N'utilisez donc pas de dates de naissance et de numéros de téléphone. Un mot de passe doit être secret !</p>"
+              "content": "<h3>Règle n°3 : n'utilisez pas d’informations personnelles. <span aria-hidden=\"true\">🤫</span></h3><p>De cette manière, il y a moins de chance que quelqu'un le devine. N'utilisez donc pas de dates de naissance et de numéros de téléphone. Un mot de passe doit être secret !</p>"
             }
           ]
         },
