@@ -455,7 +455,7 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
     options.variables = {
       code,
       homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_DUTCH_SPOKEN,
       displayNationalLogo: false,
       ...nlTranslations['verification-code-email'].body,
     };
