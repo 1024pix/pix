@@ -819,7 +819,7 @@ describe('Unit | Service | MailService', function () {
       expect(options.fromName).to.equal('PIX - Niet beantwoorden');
       expect(options.variables).to.include({
         homeName: 'pix.org',
-        homeUrl: 'https://pix.org/en-gb/',
+        homeUrl: 'https://pix.org/nl-be/',
         displayNationalLogo: false,
         code,
         ...mainTranslationsMapping.nl['verification-code-email'].body,
