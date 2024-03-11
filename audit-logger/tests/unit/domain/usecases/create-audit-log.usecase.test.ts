@@ -1,7 +1,8 @@
-import { describe, expect, vi, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
+
+import { type AuditLogRepository } from '../../../../src/lib/domain/interfaces/audit-log.repository.js';
 import { AuditLog } from '../../../../src/lib/domain/models/audit-log.js';
 import { CreateAuditLogUseCase } from '../../../../src/lib/domain/usecases/create-audit-log.usecase.js';
-import { type AuditLogRepository } from '../../../../src/lib/domain/interfaces/audit-log.repository.js';
 
 describe('Unit | UseCases | Create audit log', () => {
   describe('when an audit log is created', function () {

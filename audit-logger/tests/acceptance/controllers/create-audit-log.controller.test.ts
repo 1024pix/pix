@@ -1,8 +1,8 @@
-import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import { type Server, type ServerInjectOptions } from '@hapi/hapi';
+import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 
-import { HapiServer } from '../../../src/lib/server.js';
 import { knex } from '../../../src/db/knex-database-connection.js';
+import { HapiServer } from '../../../src/lib/server.js';
 
 describe('Acceptance | Controllers | CreateAuditLogController', () => {
   let server: Server;

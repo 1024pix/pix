@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 
-import { logger } from '../../lib/infrastructure/logger.js';
 import { PGSQL_NON_EXISTENT_DATABASE_ERROR } from '../../lib/domain/errors.js';
+import { logger } from '../../lib/infrastructure/logger.js';
 import PgClient from '../../lib/infrastructure/pg-client.js';
 
 dotenv.config();

@@ -1,6 +1,6 @@
 import knex from 'knex';
-import pg from 'pg';
 import _ from 'lodash';
+import pg from 'pg';
 
 import { config } from '../lib/config.js';
 import knexConfigs from './knexfile.js';
@@ -44,7 +44,7 @@ async function emptyAllTables(): Promise<void> {
   await configuredKnex.raw(`${query}${tables}`);
 }
 
-export { configuredKnex as knex, disconnect, emptyAllTables };
+export { disconnect, emptyAllTables, configuredKnex as knex };
 
 async function _listAllTableNames(): Promise<string[]> {
   const bindings = [databaseName];
