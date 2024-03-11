@@ -1,7 +1,8 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+
 import parseISODateOnly from '../utils/parse-iso-date-only';
 
 export default class UserCertificationsDetailHeader extends Component {

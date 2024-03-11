@@ -1,9 +1,9 @@
+import { visit } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { currentURL, find, findAll } from '@ember/test-helpers';
-import { visit } from '@1024pix/ember-testing-library';
-import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Acceptance | Course ending screen', function (hooks) {
   setupApplicationTest(hooks);

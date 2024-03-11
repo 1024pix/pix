@@ -1,5 +1,5 @@
-import { Response } from 'miragejs';
 import every from 'lodash/every';
+import { Response } from 'miragejs';
 
 export default function (schema, request) {
   const params = JSON.parse(request.requestBody);

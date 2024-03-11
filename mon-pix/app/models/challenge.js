@@ -1,8 +1,8 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
-import Model, { belongsTo, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
-import { notEmpty, equal, gt } from '@ember/object/computed';
+import { equal, gt, notEmpty } from '@ember/object/computed';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class Challenge extends Model {
   // attributes

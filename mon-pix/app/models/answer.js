@@ -1,9 +1,9 @@
 /* eslint ember/no-classic-classes: 0 */
 
-import Model, { attr, belongsTo } from '@ember-data/model';
-import { equal, not } from '@ember/object/computed';
 import { computed } from '@ember/object';
+import { equal, not } from '@ember/object/computed';
 import Mixin from '@ember/object/mixin';
+import Model, { attr, belongsTo } from '@ember-data/model';
 import jsyaml from 'js-yaml';
 
 const ValueAsArrayOfString = Mixin.create({

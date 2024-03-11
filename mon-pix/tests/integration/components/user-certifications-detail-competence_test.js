@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { hbs } from 'ember-cli-htmlbars';
-import EmberObject from '@ember/object';
 import { render } from '@1024pix/ember-testing-library';
 import { A as EmberArray } from '@ember/array';
+import EmberObject from '@ember/object';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
 import { getTableData } from '../../helpers/get-table-data';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | user-certifications-detail-competence', function (hooks) {
   setupIntlRenderingTest(hooks);

@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import { pshuffle } from 'mon-pix/utils/pshuffle';
+import { module, test } from 'qunit';
 
 const shuffleWithSeed = (arr, seed) => {
   pshuffle(arr, seed);

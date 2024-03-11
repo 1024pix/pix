@@ -2,13 +2,12 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import ENV from 'mon-pix/config/environment';
 import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
 
 import isEmailValid from '../../utils/email-validator';
-import isPasswordValid from '../../utils/password-validator';
-import ENV from 'mon-pix/config/environment';
-
 import { getRegisterErrorsMessageByShortCode } from '../../utils/errors-messages';
+import isPasswordValid from '../../utils/password-validator';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'pages.login-or-register.register-form.fields.firstname.error',

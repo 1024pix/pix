@@ -1,9 +1,10 @@
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
-import isPasswordValid from '../utils/password-validator';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
+
+import isPasswordValid from '../utils/password-validator';
 
 class ValidationForm {
   @tracked status = 'default';

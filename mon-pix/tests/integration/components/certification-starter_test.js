@@ -1,11 +1,12 @@
-import Service from '@ember/service';
-import { module, test } from 'qunit';
-import { fillIn } from '@ember/test-helpers';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { hbs } from 'ember-cli-htmlbars';
-import sinon from 'sinon';
 import { render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
+import { fillIn } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
 import { clickByLabel } from '../../helpers/click-by-label';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | certification-starter', function (hooks) {
   setupIntlRenderingTest(hooks);

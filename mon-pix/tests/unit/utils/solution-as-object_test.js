@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import solutionAsObject from 'mon-pix/utils/solution-as-object';
+import { module, test } from 'qunit';
 
 module('Unit | Utility | solution as object', function () {
   module('#solutionsAsObject', function () {

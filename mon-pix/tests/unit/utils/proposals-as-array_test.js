@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import proposalsAsArray from 'mon-pix/utils/proposals-as-array';
+import { module, test } from 'qunit';
 
 module('Unit | Utility | proposals as array', function () {
   // Replace this with your real tests.

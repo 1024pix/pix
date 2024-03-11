@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
-import Component from '@glimmer/component';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
 
 export default class CampaignStartBlock extends Component {
   @service currentUser;

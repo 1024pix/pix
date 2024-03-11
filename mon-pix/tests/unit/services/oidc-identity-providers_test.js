@@ -1,9 +1,8 @@
-import { module, test } from 'qunit';
-import sinon from 'sinon';
-import { setupTest } from 'ember-qunit';
-
 import Object from '@ember/object';
 import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Service | oidc-identity-providers', function (hooks) {
   setupTest(hooks);

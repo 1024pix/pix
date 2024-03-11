@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import { replaceZeroByDash } from 'mon-pix/helpers/replace-zero-by-dash';
+import { module, test } from 'qunit';
 
 module('Unit | Helpers | replaceZeroByDash', function () {
   test('does not change null values', function (assert) {

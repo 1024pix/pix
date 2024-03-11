@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import InputBlock from 'mon-pix/utils/proposals-parser/input-block';
+import { module, test } from 'qunit';
 
 module('Unit | Utils | Proposals Parser | Input Block', function () {
   module('#constructor', function () {

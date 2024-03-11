@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import SelectBlock from 'mon-pix/utils/proposals-parser/select-block';
+import { module, test } from 'qunit';
 
 module('Unit | Utils | Proposals Parser | Select Block', function () {
   module('#constructor', function () {

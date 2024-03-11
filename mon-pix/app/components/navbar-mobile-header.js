@@ -1,10 +1,10 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
-import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import { tracked } from '@glimmer/tracking';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 export default class NavbarMobileHeader extends Component {
   @service session;

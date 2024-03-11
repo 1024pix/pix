@@ -1,10 +1,11 @@
-// eslint-disable-next-line no-restricted-imports
-import { find, click, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
-import { module, test } from 'qunit';
-import { authenticate } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-qunit';
+// eslint-disable-next-line no-restricted-imports
+import { click, currentURL, find } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import { authenticate } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
 
 module("Acceptance | Competence details | Afficher la page de détails d'une compétence", function (hooks) {

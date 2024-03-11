@@ -1,8 +1,9 @@
-import { click, fillIn } from '@ember/test-helpers';
-import { module, test } from 'qunit';
 import { visit } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
+import { click, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Giving feedback about a challenge', function (hooks) {

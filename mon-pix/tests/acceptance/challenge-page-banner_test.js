@@ -1,9 +1,10 @@
-import { click, currentURL } from '@ember/test-helpers';
-import { module, test } from 'qunit';
 import { visit } from '@1024pix/ember-testing-library';
-import { authenticate } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-qunit';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import { authenticate } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Challenge page banner', function (hooks) {

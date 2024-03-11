@@ -1,9 +1,10 @@
-// eslint-disable-next-line no-restricted-imports
-import { click, find, findAll, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
-import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
+// eslint-disable-next-line no-restricted-imports
+import { click, currentURL, find, findAll } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Displaying a QCU challenge', function (hooks) {

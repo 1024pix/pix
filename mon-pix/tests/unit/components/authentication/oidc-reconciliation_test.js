@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
-import createGlimmerComponent from '../../../helpers/create-glimmer-component';
-import { setupTest } from 'ember-qunit';
-import setupIntl from '../../../helpers/setup-intl';
-import sinon from 'sinon';
-import Service from '@ember/service';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
+import setupIntl from '../../../helpers/setup-intl';
 
 module('Unit | Component | authentication | oidc-reconciliation', function (hooks) {
   setupTest(hooks);

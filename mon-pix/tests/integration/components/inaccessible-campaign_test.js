@@ -1,11 +1,12 @@
 /* eslint ember/no-classic-classes: 0 */
 /* eslint ember/require-tagless-components: 0 */
 
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import Service from '@ember/service';
 import { render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | inaccessible-campaign', function (hooks) {
   setupIntlRenderingTest(hooks);

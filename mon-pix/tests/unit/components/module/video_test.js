@@ -1,7 +1,8 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import createPodsComponent from '../../../helpers/create-pods-component';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import createPodsComponent from '../../../helpers/create-pods-component';
 
 module('Unit | Component | Module | Video', function (hooks) {
   setupTest(hooks);

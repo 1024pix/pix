@@ -1,9 +1,10 @@
-import Service from '@ember/service';
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
 import { setBreakpoint } from 'ember-responsive/test-support';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | navbar-desktop-header', function (hooks) {
   setupIntlRenderingTest(hooks);

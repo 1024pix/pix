@@ -1,8 +1,8 @@
-import { service } from '@ember/service';
 import Route from '@ember/routing/route';
+import { service } from '@ember/service';
 import get from 'lodash/get';
-import JSONApiError from 'mon-pix/errors/json-api-error';
 import { ApplicationError } from 'mon-pix/errors/application-error';
+import JSONApiError from 'mon-pix/errors/json-api-error';
 
 export default class ErrorRoute extends Route {
   @service session;

@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import setupIntl from '../../../helpers/setup-intl';
-import sinon from 'sinon';
 import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import setupIntl from '../../../helpers/setup-intl';
 
 module('Unit | Controller | authentication | login-or-register-oidc', function (hooks) {
   setupTest(hooks);

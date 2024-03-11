@@ -1,13 +1,14 @@
 /* eslint ember/no-classic-components: 0 */
 /* eslint ember/require-tagless-components: 0 */
 
-import { action } from '@ember/object';
 import Component from '@ember/component';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
-import isPasswordValid from '../utils/password-validator';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
+
+import isPasswordValid from '../utils/password-validator';
 
 const SCOPE_MON_PIX = 'mon-pix';
 const ERROR_PASSWORD_MESSAGE = 'pages.update-expired-password.fields.error';

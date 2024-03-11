@@ -1,12 +1,11 @@
 import { action } from '@ember/object';
-import { runTask } from 'ember-lifeline';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { runTask } from 'ember-lifeline';
 import get from 'lodash/get';
-
+import { questions, topLevelLabels } from 'mon-pix/static-data/feedback-panel-issue-labels';
 import buttonStatusTypes from 'mon-pix/utils/button-status-types';
-import { topLevelLabels, questions } from 'mon-pix/static-data/feedback-panel-issue-labels';
 
 export default class FeedbackPanel extends Component {
   @service store;

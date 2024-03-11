@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
+import { module, test } from 'qunit';
 
 module('Unit | Component | account-recovery/student-information-form', function (hooks) {
   setupTest(hooks);

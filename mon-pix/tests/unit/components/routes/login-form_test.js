@@ -1,11 +1,11 @@
+import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import ENV from 'mon-pix/config/environment';
+import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-qunit';
-import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
-import setupIntl from '../../../helpers/setup-intl';
-import Service from '@ember/service';
 
-import ENV from 'mon-pix/config/environment';
+import setupIntl from '../../../helpers/setup-intl';
 
 module('Unit | Component | routes/login-form', function (hooks) {
   setupTest(hooks);

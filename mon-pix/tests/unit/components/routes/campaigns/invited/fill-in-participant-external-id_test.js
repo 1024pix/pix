@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+
 import createComponent from '../../../../../helpers/create-glimmer-component';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 

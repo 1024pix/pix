@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import JSONApiError from 'mon-pix/errors/json-api-error';
 import { ApplicationError } from 'mon-pix/errors/application-error';
+import JSONApiError from 'mon-pix/errors/json-api-error';
+import { module, test } from 'qunit';
 
 module('Unit | Route | error', function (hooks) {
   setupTest(hooks);

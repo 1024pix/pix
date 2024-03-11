@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
 import EmberObject from '@ember/object';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
+import { module, test } from 'qunit';
 
 module('Unit | Component | challenge statement', function (hooks) {
   setupTest(hooks);

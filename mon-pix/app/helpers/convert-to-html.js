@@ -1,7 +1,7 @@
 import Helper from '@ember/component/helper';
+import isArray from 'lodash/isArray';
 import showdown from 'showdown';
 import xss from 'xss';
-import isArray from 'lodash/isArray';
 
 export default class ConvertToHtml extends Helper {
   compute(args) {

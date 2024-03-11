@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
+import { module, test } from 'qunit';
 
 module('Unit | Utility | proposals as blocks', function () {
   const testData = [

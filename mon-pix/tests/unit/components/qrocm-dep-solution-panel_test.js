@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
+import { module, test } from 'qunit';
 
 module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
   setupTest(hooks);

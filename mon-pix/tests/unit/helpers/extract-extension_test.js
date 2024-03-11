@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import { extractExtension } from 'mon-pix/helpers/extract-extension';
+import { module, test } from 'qunit';
 
 module('Unit | Helpers | ExtractExtension', function () {
   test('works', function (assert) {

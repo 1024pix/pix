@@ -1,17 +1,18 @@
+import { visit } from '@1024pix/ember-testing-library';
+import { click, fillIn, triggerEvent } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import PixWindow from 'mon-pix/utils/pix-window';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
+
 import {
   authenticate,
   authenticateByGAR,
   authenticateByUsername,
   generateGarAuthenticationURLHash,
 } from '../../helpers/authentication';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { triggerEvent, click, fillIn } from '@ember/test-helpers';
-import { visit } from '@1024pix/ember-testing-library';
 import setupIntl from '../../helpers/setup-intl';
-import PixWindow from 'mon-pix/utils/pix-window';
-import sinon from 'sinon';
 
 module('Acceptance | user-account | connection-methods', function (hooks) {
   setupApplicationTest(hooks);

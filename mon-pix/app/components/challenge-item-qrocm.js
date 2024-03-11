@@ -1,12 +1,12 @@
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import jsyaml from 'js-yaml';
 import filter from 'lodash/filter';
 import isEmpty from 'lodash/isEmpty';
+import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
 import ChallengeItemGeneric from './challenge-item-generic';
-import jsyaml from 'js-yaml';
-import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
-import { tracked } from '@glimmer/tracking';
 
 export default class ChallengeItemQrocm extends ChallengeItemGeneric {
   @service intl;

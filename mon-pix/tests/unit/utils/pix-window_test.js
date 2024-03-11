@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
-import PixWindow from 'mon-pix/utils/pix-window';
-import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
+import PixWindow from 'mon-pix/utils/pix-window';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Utilities | pix-window', function (hooks) {
   setupTest(hooks);

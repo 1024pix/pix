@@ -1,5 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import createPodsComponent from '../../../helpers/create-pods-component';
 
 module('Unit | Component | Module | QCU', function (hooks) {
