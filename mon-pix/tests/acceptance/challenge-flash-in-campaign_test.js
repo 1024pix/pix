@@ -1,9 +1,9 @@
-// eslint-disable-next-line no-restricted-imports
-import { find } from '@ember/test-helpers';
-import { module, test } from 'qunit';
 import { visit } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
+import { find } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import environment from '../../config/environment';
 
 module('Acceptance | Flash', function (hooks) {

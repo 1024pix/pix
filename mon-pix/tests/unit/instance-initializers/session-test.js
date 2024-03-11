@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
 import Application from '@ember/application';
-import { initialize } from 'mon-pix/instance-initializers/session';
 import Resolver from 'ember-resolver';
+import { initialize } from 'mon-pix/instance-initializers/session';
 import PixWindow from 'mon-pix/utils/pix-window';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Unit | Instance Initializer | session', function () {

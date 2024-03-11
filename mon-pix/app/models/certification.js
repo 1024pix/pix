@@ -1,8 +1,8 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
-import Model, { belongsTo, attr } from '@ember-data/model';
-import { service } from '@ember/service';
 import { computed } from '@ember/object';
+import { service } from '@ember/service';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
 export const ACQUIRED = 'acquired';
 

@@ -1,8 +1,9 @@
 import { click, currentURL } from '@ember/test-helpers';
-import { module, test } from 'qunit';
-import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import { authenticateByEmail } from '../helpers/authentication';
 
 module('Acceptance | User account', function (hooks) {
   setupApplicationTest(hooks);

@@ -1,5 +1,6 @@
-import postAuthentications from './post-authentications';
 import { Response } from 'miragejs';
+
+import postAuthentications from './post-authentications';
 
 export default function index(config) {
   config.post('/revoke', () => {});

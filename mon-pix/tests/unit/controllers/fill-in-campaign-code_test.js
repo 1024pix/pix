@@ -1,8 +1,9 @@
+import Service from '@ember/service';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+
 import setupIntl from '../../helpers/setup-intl';
-import Service from '@ember/service';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Unit | Controller | Fill in Campaign Code', function (hooks) {
   setupIntlRenderingTest(hooks);

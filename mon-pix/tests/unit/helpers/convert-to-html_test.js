@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import ConvertToHtml from 'mon-pix/helpers/convert-to-html';
+import { module, test } from 'qunit';
 
 module('Unit | Helper | ConvertToHtml', function () {
   module('#compute', function (hooks) {

@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import { render } from '@1024pix/ember-testing-library';
 // eslint-disable-next-line no-restricted-imports
 import { find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
 import { clickByLabel } from '../../helpers/click-by-label';
-import { render } from '@1024pix/ember-testing-library';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Challenge Embed Simulator', function (hooks) {
   setupIntlRenderingTest(hooks);

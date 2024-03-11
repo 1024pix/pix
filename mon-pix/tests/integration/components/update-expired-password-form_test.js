@@ -1,13 +1,12 @@
+import { render } from '@1024pix/ember-testing-library';
+import EmberObject from '@ember/object';
+import { click, fillIn, triggerEvent } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { fillIn, triggerEvent, click } from '@ember/test-helpers';
-import EmberObject from '@ember/object';
-import { hbs } from 'ember-cli-htmlbars';
-import { render } from '@1024pix/ember-testing-library';
-
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 import ENV from '../../../config/environment';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 

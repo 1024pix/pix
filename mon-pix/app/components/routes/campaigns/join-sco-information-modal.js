@@ -1,8 +1,9 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import ENV from 'mon-pix/config/environment';
+
 import { getJoinErrorsMessageByShortCode } from '../../../utils/errors-messages';
 
 const ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS = ['R13', 'R33'];

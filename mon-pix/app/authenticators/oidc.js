@@ -1,12 +1,10 @@
-import RSVP from 'rsvp';
-import { isEmpty } from '@ember/utils';
 import { service } from '@ember/service';
-
+import { isEmpty } from '@ember/utils';
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
-
-import { decodeToken } from 'mon-pix/helpers/jwt';
-import ENV from 'mon-pix/config/environment';
 import fetch from 'fetch';
+import ENV from 'mon-pix/config/environment';
+import { decodeToken } from 'mon-pix/helpers/jwt';
+import RSVP from 'rsvp';
 
 export default class OidcAuthenticator extends BaseAuthenticator {
   @service session;

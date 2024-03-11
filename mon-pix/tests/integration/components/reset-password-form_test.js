@@ -1,13 +1,14 @@
-import EmberObject from '@ember/object';
-import { resolve, reject } from 'rsvp';
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-// eslint-disable-next-line no-restricted-imports
-import { find, fillIn, triggerEvent } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
-import { clickByLabel } from '../../helpers/click-by-label';
 import { render } from '@1024pix/ember-testing-library';
+import EmberObject from '@ember/object';
+// eslint-disable-next-line no-restricted-imports
+import { fillIn, find, triggerEvent } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import { reject, resolve } from 'rsvp';
 import sinon from 'sinon';
+
+import { clickByLabel } from '../../helpers/click-by-label';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 const INTERNATIONAL_TLD = 'org';
 

@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
-import sinon from 'sinon';
+import { setupTest } from 'ember-qunit';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Controller | Assessments | Challenge', function (hooks) {
   setupTest(hooks);

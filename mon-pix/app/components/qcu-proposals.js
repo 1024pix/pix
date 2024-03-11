@@ -2,8 +2,8 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import labeledCheckboxes from 'mon-pix/utils/labeled-checkboxes';
 import proposalsAsArray from 'mon-pix/utils/proposals-as-array';
-import valueAsArrayOfBoolean from 'mon-pix/utils/value-as-array-of-boolean';
 import { pshuffle } from 'mon-pix/utils/pshuffle';
+import valueAsArrayOfBoolean from 'mon-pix/utils/value-as-array-of-boolean';
 
 export default class QcuProposals extends Component {
   get labeledRadios() {

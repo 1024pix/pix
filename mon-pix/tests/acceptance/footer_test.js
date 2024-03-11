@@ -1,11 +1,11 @@
-// eslint-disable-next-line no-restricted-imports
+import { visit } from '@1024pix/ember-testing-library';
 import { find } from '@ember/test-helpers';
-import { module, test } from 'qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import { authenticate } from '../helpers/authentication';
 import { resumeCampaignOfTypeAssessmentByCode } from '../helpers/campaign';
-import { visit } from '@1024pix/ember-testing-library';
 import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Footer', function (hooks) {

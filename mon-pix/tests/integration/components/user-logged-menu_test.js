@@ -1,9 +1,10 @@
+import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { click, triggerKeyEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { render } from '@1024pix/ember-testing-library';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | user logged menu', function (hooks) {
   setupIntlRenderingTest(hooks);

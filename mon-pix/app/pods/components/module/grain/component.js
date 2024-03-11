@@ -1,5 +1,6 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import Component from '@glimmer/component';
+
 import ModulePassage from '../passage/component';
 
 export default class ModuleGrain extends Component {

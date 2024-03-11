@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
 import { click, currentURL } from '@ember/test-helpers';
-import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import { authenticateByEmail } from '../helpers/authentication';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 

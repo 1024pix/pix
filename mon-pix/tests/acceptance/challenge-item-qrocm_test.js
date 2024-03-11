@@ -1,10 +1,10 @@
-// eslint-disable-next-line no-restricted-imports
-import { click, find, findAll, currentURL, fillIn, triggerEvent } from '@ember/test-helpers';
-import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import setupIntl from '../helpers/setup-intl';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { click, currentURL, fillIn, find, findAll, triggerEvent } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Displaying a QROCM challenge', function (hooks) {
   setupApplicationTest(hooks);

@@ -1,12 +1,13 @@
 /* eslint ember/no-classic-classes: 0 */
 /* eslint ember/require-tagless-components: 0 */
 
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
+import { hbs } from 'ember-cli-htmlbars';
 import { setBreakpoint } from 'ember-responsive/test-support';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Profile-content', function (hooks) {
   setupIntlRenderingTest(hooks);

@@ -1,9 +1,9 @@
-import sinon from 'sinon';
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import { reject } from 'rsvp';
+import sinon from 'sinon';
 
 module('Unit | Service | competence-evaluation', function (hooks) {
   setupTest(hooks);

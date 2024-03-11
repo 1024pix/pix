@@ -1,10 +1,11 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
-import isEmailValid from '../../utils/email-validator';
 import isEmpty from 'lodash/isEmpty';
+
+import isEmailValid from '../../utils/email-validator';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   termsOfServiceNotSelected: 'pages.login-or-register-oidc.error.error-message',

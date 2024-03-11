@@ -1,7 +1,7 @@
 import { service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 import get from 'lodash/get';
-import { FRENCH_INTERNATIONAL_LOCALE, FRENCH_FRANCE_LOCALE } from 'mon-pix/services/locale';
+import { FRENCH_FRANCE_LOCALE, FRENCH_INTERNATIONAL_LOCALE } from 'mon-pix/services/locale';
 
 const FRANCE_TLD = 'fr';
 

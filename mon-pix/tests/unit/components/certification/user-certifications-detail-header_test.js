@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Unit | Component | certifications', function (hooks) {
   setupIntlRenderingTest(hooks);

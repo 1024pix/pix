@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import { stripInstruction } from 'mon-pix/helpers/strip-instruction';
+import { module, test } from 'qunit';
 
 module('Unit | Helpers | StripInstructionHelper', function () {
   module('when sentence is short enough', function () {

@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
 import { visit } from '@1024pix/ember-testing-library';
-import { setupMirage } from 'ember-cli-mirage/test-support';
 import { click, currentURL } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import setupIntl from '../../helpers/setup-intl';
 
 module('Acceptance | Module | Routes | navigateIntoTheModuleDetails', function (hooks) {

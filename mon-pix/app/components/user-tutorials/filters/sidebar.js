@@ -1,7 +1,7 @@
-import Component from '@glimmer/component';
-import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
 import { A } from '@ember/array';
+import { action } from '@ember/object';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import sortBy from 'lodash/sortBy';
 
 class Filters {

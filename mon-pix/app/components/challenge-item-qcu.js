@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
-import ChallengeItemGeneric from './challenge-item-generic';
 import { service } from '@ember/service';
+
+import ChallengeItemGeneric from './challenge-item-generic';
 
 export default class ChallengeItemQcu extends ChallengeItemGeneric {
   @service intl;

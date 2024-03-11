@@ -1,8 +1,8 @@
-import { setupTest } from 'ember-qunit';
-import { module, test } from 'qunit';
 import Service from '@ember/service';
-import sinon from 'sinon';
+import { setupTest } from 'ember-qunit';
 import PixWindow from 'mon-pix/utils/pix-window';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Routes | authentication | login-gar', function (hooks) {
   setupTest(hooks);

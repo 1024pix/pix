@@ -1,9 +1,10 @@
-import { module, test } from 'qunit';
-import Service from '@ember/service';
-import { triggerEvent, fillIn, click } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
+import { click, fillIn, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | account-recovery::backup-email-confirmation-form', function (hooks) {

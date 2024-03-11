@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import { standardizeNumber, standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
+import { module, test } from 'qunit';
 
 module('Unit | Utility | standardizeNumber', function () {
   module('standardizeNumber', function () {

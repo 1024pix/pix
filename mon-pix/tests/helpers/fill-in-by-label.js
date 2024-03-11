@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-restricted-imports
-import { fillIn, findAll, find } from '@ember/test-helpers';
+import { fillIn, find, findAll } from '@ember/test-helpers';
 
 export function fillInByLabel(labelText, value) {
   const control = _findControlForLabel(labelText);

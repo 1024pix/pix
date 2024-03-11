@@ -1,12 +1,13 @@
+import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn, findAll } from '@ember/test-helpers';
-import { module, test } from 'qunit';
-import { authenticate } from '../helpers/authentication';
-import setupIntl from '../helpers/setup-intl';
-import { clickByLabel } from '../helpers/click-by-label';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit } from '@1024pix/ember-testing-library';
+import { module, test } from 'qunit';
+
+import { authenticate } from '../helpers/authentication';
+import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
   setupApplicationTest(hooks);

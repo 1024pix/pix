@@ -1,9 +1,9 @@
 import Component from '@glimmer/component';
+import isEmpty from 'lodash/isEmpty';
 import labeledCheckboxes from 'mon-pix/utils/labeled-checkboxes';
+import proposalsAsArray from 'mon-pix/utils/proposals-as-array';
 import { pshuffle } from 'mon-pix/utils/pshuffle';
 import valueAsArrayOfBoolean from 'mon-pix/utils/value-as-array-of-boolean';
-import proposalsAsArray from 'mon-pix/utils/proposals-as-array';
-import isEmpty from 'lodash/isEmpty';
 
 export default class QcuSolutionPanel extends Component {
   get solutionArray() {

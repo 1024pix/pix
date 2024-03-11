@@ -1,12 +1,13 @@
-import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { currentURL } from '@ember/test-helpers';
-import setupIntl from '../../helpers/setup-intl';
-import { fillInByLabel } from '../../helpers/fill-in-by-label';
-import { clickByLabel } from '../../helpers/click-by-label';
-import { Response } from 'miragejs';
 import { visit } from '@1024pix/ember-testing-library';
+import { currentURL } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { Response } from 'miragejs';
+import { module, test } from 'qunit';
+
+import { clickByLabel } from '../../helpers/click-by-label';
+import { fillInByLabel } from '../../helpers/fill-in-by-label';
+import setupIntl from '../../helpers/setup-intl';
 
 module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
   setupApplicationTest(hooks);

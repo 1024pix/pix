@@ -1,11 +1,12 @@
-import Service from '@ember/service';
-import { currentURL, click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
+import { click, currentURL } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+
 import { authenticate } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
 import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | User account page', function (hooks) {

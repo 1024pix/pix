@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-
 import { decodeToken } from 'mon-pix/helpers/jwt';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Unit | Helpers | decodeToken', function (hooks) {
   setupIntlRenderingTest(hooks);

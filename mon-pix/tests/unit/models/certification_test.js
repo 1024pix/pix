@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Unit | Model | certification', function (hooks) {
   setupTest(hooks);

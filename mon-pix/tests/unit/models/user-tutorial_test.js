@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Unit | Model | user-saved-tutorial model', function (hooks) {
   setupTest(hooks);

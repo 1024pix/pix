@@ -1,5 +1,5 @@
-import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
+import isString from 'lodash/isString';
 
 function parseProposals(proposals) {
   return `\n${proposals}`.split(/\n\s*-\s*/).slice(1);

@@ -1,6 +1,6 @@
-import map from 'lodash/map';
-import first from 'lodash/first';
 import difference from 'lodash/difference';
+import first from 'lodash/first';
+import map from 'lodash/map';
 import { Response } from 'miragejs';
 
 export default function (schema, request) {

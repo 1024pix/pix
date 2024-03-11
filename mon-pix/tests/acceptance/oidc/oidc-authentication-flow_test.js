@@ -1,9 +1,10 @@
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import setupIntl from '../../helpers/setup-intl';
-import { test, module } from 'qunit';
 
 module('Acceptance | OIDC | authentication flow', function (hooks) {
   setupApplicationTest(hooks);

@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import ENV from 'mon-pix/config/environment';
+import { module, test } from 'qunit';
 
 /* IMPORTANT NOTE :
 The AjaxQueue service MUST be the same across all Pix applications. Thus, it seems redundant

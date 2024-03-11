@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
+import { module, test } from 'qunit';
 
 module('Unit | Utility | labels as object', function () {
   module('#labelsAsObject', function () {

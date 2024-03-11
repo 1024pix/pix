@@ -1,6 +1,6 @@
 import Service from '@ember/service';
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Unit | Route | fill-in-campaign-code', function (hooks) {
   setupTest(hooks);

@@ -1,15 +1,16 @@
 /* eslint ember/no-classic-classes: 0 */
 /* eslint ember/require-tagless-components: 0 */
 
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import { render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import { fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { resolve, reject } from 'rsvp';
-import Service from '@ember/service';
-import { clickByLabel } from '../../helpers/click-by-label';
-import { render } from '@1024pix/ember-testing-library';
+import { module, test } from 'qunit';
+import { reject, resolve } from 'rsvp';
 import sinon from 'sinon';
+
+import { clickByLabel } from '../../helpers/click-by-label';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 const INTERNATIONAL_TLD = 'org';
 

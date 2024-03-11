@@ -1,11 +1,12 @@
-import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { Response } from 'miragejs';
 import { module, test } from 'qunit';
+
 import { authenticate } from '../helpers/authentication';
 import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { Response } from 'miragejs';
 import setupIntl from '../helpers/setup-intl';
 
 const PROFILES_COLLECTION = 'PROFILES_COLLECTION';

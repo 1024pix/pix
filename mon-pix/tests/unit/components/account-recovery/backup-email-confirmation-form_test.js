@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
-import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Component | account-recovery | backup-email-confirmation-form', function (hooks) {
   setupTest(hooks);

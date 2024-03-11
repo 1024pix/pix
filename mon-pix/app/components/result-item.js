@@ -1,5 +1,5 @@
-import Component from '@glimmer/component';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
 import resultIcon from 'mon-pix/utils/result-icon';
 
 export default class ResultItemComponent extends Component {

@@ -1,10 +1,9 @@
-import { service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import isNil from 'lodash/isNil';
 import ENV from 'mon-pix/config/environment';
-
-import Component from '@glimmer/component';
 
 export default class SkillReview extends Component {
   @service intl;

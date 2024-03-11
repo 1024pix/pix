@@ -1,9 +1,10 @@
-import { module, test } from 'qunit';
-import Service from '@ember/service';
 import { render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { module, test } from 'qunit';
 import Sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component |  authentication | oidc-reconciliation', function (hooks) {
   setupIntlRenderingTest(hooks);

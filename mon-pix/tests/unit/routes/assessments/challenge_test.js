@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import EmberService from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Unit | Route | Assessments | Challenge', function (hooks) {

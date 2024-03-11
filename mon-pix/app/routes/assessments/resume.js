@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
-import ENV from 'mon-pix/config/environment';
 import { service } from '@ember/service';
+import ENV from 'mon-pix/config/environment';
 
 export default class ResumeRoute extends Route {
   @service router;
