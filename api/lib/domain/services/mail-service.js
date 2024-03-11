@@ -17,11 +17,13 @@ const PIX_CERTIF_NAME_FR = 'Pix Certif - Ne pas répondre';
 const PIX_CERTIF_NAME_EN = 'Pix Certif - Noreply';
 const HELPDESK_FRENCH_FRANCE = 'https://support.pix.fr';
 const HELPDESK_ENGLISH_SPOKEN = 'https://support.pix.org/en/support/home';
+const HELPDESK_DUTCH_SPOKEN = 'https://support.pix.org/en/support/home';
 const HELPDESK_FRENCH_SPOKEN = 'https://support.pix.org';
 const PIX_HOME_NAME_INTERNATIONAL = `pix${config.domain.tldOrg}`;
 const PIX_HOME_NAME_FRENCH_FRANCE = `pix${config.domain.tldFr}`;
 const PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN = `${config.domain.pix + config.domain.tldOrg}/en-gb/`;
 const PIX_HOME_URL_INTERNATIONAL_FRENCH_SPOKEN = `${config.domain.pix + config.domain.tldOrg}/fr/`;
+const PIX_HOME_URL_INTERNATIONAL_DUTCH_SPOKEN = `${config.domain.pix + config.domain.tldOrg}/nl-be/`;
 const PIX_HOME_URL_FRENCH_FRANCE = `${config.domain.pix + config.domain.tldFr}`;
 
 const EMAIL_VERIFICATION_CODE_TAG = 'EMAIL_VERIFICATION_CODE';
@@ -59,9 +61,9 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
   } else if (locale === DUTCH_SPOKEN) {
     variables = {
       homeName: PIX_HOME_NAME_INTERNATIONAL,
-      homeUrl: PIX_HOME_URL_INTERNATIONAL_ENGLISH_SPOKEN,
+      homeUrl: PIX_HOME_URL_INTERNATIONAL_DUTCH_SPOKEN,
       redirectionUrl: redirectionUrl || `${config.domain.pixApp + config.domain.tldOrg}/connexion/?lang=nl`,
-      helpdeskUrl: HELPDESK_ENGLISH_SPOKEN,
+      helpdeskUrl: HELPDESK_DUTCH_SPOKEN,
       displayNationalLogo: false,
       ...nlTranslations['pix-account-creation-email'].params,
     };
