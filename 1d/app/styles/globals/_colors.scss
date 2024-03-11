@@ -1,6 +1,7 @@
+// stylelint-disable color-no-hex
 :root {
   /* See https://www.figma.com/file/8RJ3aCSfdeQ8AZZVBBYKS8/Design-System-Pix?node-id=16%3A2 */
-  
+
   /* Primary */
   --pix-primary-10: #EBEFFF;
   --pix-primary-100: #C3D0FF;
@@ -44,7 +45,7 @@
   --pix-error-900: #6B1C1C;
 
   /* Neutral */
-  --pix-neutral-0: #ffffff;
+  --pix-neutral-0: #FFF;
   --pix-neutral-50: #EFF0F3;
   --pix-neutral-100: #CFD1DB;
   --pix-neutral-300: #969DB1;
