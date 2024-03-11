@@ -7,7 +7,7 @@ describe('Unit | Domain | Use Cases | get-session-certification-reports', funct
     const sessionId = 'sessionId';
     const certificationReports = Symbol('some certification candidates');
     const certificationReportRepository = { findBySessionId: sinon.stub() };
-    certificationReportRepository.findBySessionId.withArgs(sessionId).resolves(certificationReports);
+    certificationReportRepository.findBySessionId.withArgs({ sessionId }).resolves(certificationReports);
 
     // when
     const actualCandidates = await getSessionCertificationReports({ sessionId, certificationReportRepository });
