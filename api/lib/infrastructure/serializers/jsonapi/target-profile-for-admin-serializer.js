@@ -25,6 +25,7 @@ const serialize = function (targetProfiles) {
       'isSimplifiedAccess',
       'areKnowledgeElementsResettable',
       'hasLinkedCampaign',
+      'hasLinkedAutonomousCourse',
       'badges',
       'stageCollection',
       'areas',
