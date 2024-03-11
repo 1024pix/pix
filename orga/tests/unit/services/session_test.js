@@ -1,12 +1,12 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import sinon from 'sinon';
 import {
   DEFAULT_LOCALE,
-  FRENCH_INTERNATIONAL_LOCALE,
-  FRENCH_FRANCE_LOCALE,
   ENGLISH_INTERNATIONAL_LOCALE,
+  FRENCH_FRANCE_LOCALE,
+  FRENCH_INTERNATIONAL_LOCALE,
 } from 'pix-orga/services/locale';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Service | session', function (hooks) {
   setupTest(hooks);

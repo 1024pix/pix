@@ -1,11 +1,11 @@
-import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
-import authenticateSession from '../helpers/authenticate-session';
-import { createPrescriberForOrganization } from '../helpers/test-init';
-import setupIntl from '../helpers/setup-intl';
-
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import authenticateSession from '../helpers/authenticate-session';
+import setupIntl from '../helpers/setup-intl';
+import { createPrescriberForOrganization } from '../helpers/test-init';
 
 module('Acceptance | Invitations list', function (hooks) {
   setupApplicationTest(hooks);

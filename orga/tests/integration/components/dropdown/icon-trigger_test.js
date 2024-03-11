@@ -1,6 +1,7 @@
-import { module, test } from 'qunit';
-import { hbs } from 'ember-cli-htmlbars';
 import { clickByName, render } from '@1024pix/ember-testing-library';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Dropdown | icon-trigger', function (hooks) {

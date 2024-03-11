@@ -1,13 +1,12 @@
-import { module, test } from 'qunit';
-import { currentURL, click } from '@ember/test-helpers';
-import { visit, clickByText } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
-import setupIntl from '../helpers/setup-intl';
-import authenticateSession from '../helpers/authenticate-session';
-
-import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
-
+import { clickByText, visit } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import authenticateSession from '../helpers/authenticate-session';
+import setupIntl from '../helpers/setup-intl';
+import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 
 module('Acceptance | Organization Participant List', function (hooks) {
   setupApplicationTest(hooks);

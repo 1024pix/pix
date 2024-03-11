@@ -1,11 +1,12 @@
-import sinon from 'sinon';
-import { module, test } from 'qunit';
-import Service from '@ember/service';
-import EmberObject from '@ember/object';
 import { render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import EmberObject from '@ember/object';
+import Service from '@ember/service';
 import { click } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::Activity::ParticipantsList', function (hooks) {
   setupIntlRenderingTest(hooks);

@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
-import { click } from '@ember/test-helpers';
-import Service from '@ember/service';
-import { hbs } from 'ember-cli-htmlbars';
 import { clickByName, render } from '@1024pix/ember-testing-library';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import Service from '@ember/service';
+import { click } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
   setupIntlRenderingTest(hooks);

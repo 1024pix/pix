@@ -1,7 +1,8 @@
-import sinon from 'sinon';
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import sinon from 'sinon';
+
 import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Unit | Component | Campaign::Charts::ParticipantsByMasteryPercentage', (hooks) => {
   setupIntlRenderingTest(hooks);

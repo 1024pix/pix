@@ -1,6 +1,6 @@
+import { setupTest } from 'ember-qunit';
 import { sum } from 'pix-orga/helpers/sum';
 import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 
 module('Unit | Helper | sum', function (hooks) {
   setupTest(hooks);

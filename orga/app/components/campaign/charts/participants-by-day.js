@@ -1,10 +1,11 @@
+import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { service } from '@ember/service';
-import { action } from '@ember/object';
-import { TOOLTIP_CONFIG, LEGEND_CONFIG } from '../../ui/chart';
 import maxBy from 'lodash/maxBy';
 import minBy from 'lodash/minBy';
+
+import { LEGEND_CONFIG, TOOLTIP_CONFIG } from '../../ui/chart';
 
 export default class ParticipantsByDay extends Component {
   @service store;

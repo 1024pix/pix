@@ -1,10 +1,11 @@
+import NotificationMessageService from '@1024pix/ember-cli-notifications/services/notifications';
+import { setApplication } from '@ember/test-helpers';
+import { start } from 'ember-qunit';
+import * as QUnit from 'qunit';
+import { setup } from 'qunit-dom';
+
 import Application from '../app';
 import config from '../config/environment';
-import * as QUnit from 'qunit';
-import { setApplication } from '@ember/test-helpers';
-import { setup } from 'qunit-dom';
-import { start } from 'ember-qunit';
-import NotificationMessageService from '@1024pix/ember-cli-notifications/services/notifications';
 
 NotificationMessageService.reopen({
   removeNotification(notification) {

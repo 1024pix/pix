@@ -1,10 +1,11 @@
-import sinon from 'sinon';
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::Header::ArchivedBanner', function (hooks) {
   setupIntlRenderingTest(hooks);

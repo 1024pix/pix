@@ -1,9 +1,10 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import setupIntl from '../../../../helpers/setup-intl';
-import Service from '@ember/service';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import setupIntl from '../../../../helpers/setup-intl';
 
 module('Unit | Route | authenticated/campaigns/new', function (hooks) {
   setupTest(hooks);

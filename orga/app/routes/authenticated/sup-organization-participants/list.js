@@ -1,7 +1,6 @@
-import { service } from '@ember/service';
 import { action } from '@ember/object';
-
 import Route from '@ember/routing/route';
+import { service } from '@ember/service';
 
 export default class ListRoute extends Route {
   queryParams = {
