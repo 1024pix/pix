@@ -186,125 +186,112 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
         included: [
           {
             attributes: {
-              content: 'toto',
-              'is-answerable': false,
-              type: 'texts',
-            },
-            id: '1',
-            type: 'texts',
-          },
-          {
-            attributes: {
-              instruction: 'hello',
-              'is-answerable': true,
-              proposals: [
-                {
-                  content: 'toto',
-                  id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
-                },
-              ],
-              type: 'qcus',
-            },
-            id: '2',
-            type: 'qcus',
-          },
-          {
-            attributes: {
-              instruction: 'hello',
-              'is-answerable': true,
-              proposals: [
+              title: 'Grain 1',
+              'raw-elements': [
                 {
                   content: 'toto',
                   id: '1',
-                },
-                {
-                  content: 'tata',
-                  id: '2',
-                },
-                {
-                  content: 'titi',
-                  id: '3',
-                },
-              ],
-              type: 'qcms',
-            },
-            id: '2000',
-            type: 'qcms',
-          },
-          {
-            attributes: {
-              instruction: '',
-              'is-answerable': true,
-              type: 'qrocms',
-              proposals: [
-                {
+                  isAnswerable: false,
                   type: 'text',
-                  content: '<p>Adresse mail de Naomi : ${email}</p>',
                 },
                 {
-                  type: 'input',
-                  input: 'email',
-                  inputType: 'text',
-                  size: 10,
-                  display: 'inline',
-                  placeholder: '',
-                  ariaLabel: 'Adresse mail de Naomi',
-                  defaultValue: '',
-                  solutions: ['naomizao@yahoo.com', 'naomizao@yahoo.fr'],
-                  tolerances: [],
-                },
-                {
-                  type: 'select',
-                  input: 'seconde-partie',
-                  display: 'inline',
-                  placeholder: '',
-                  ariaLabel: 'Réponse 3',
-                  defaultValue: '',
-                  options: [
+                  id: '2',
+                  instruction: 'hello',
+                  isAnswerable: true,
+                  locales: undefined,
+                  proposals: [
                     {
-                      id: '1',
-                      content: "l'identifiant",
-                    },
-                    {
-                      id: '2',
-                      content: "le fournisseur d'adresse mail",
+                      content: 'toto',
+                      id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
                     },
                   ],
-                  solutions: ['2'],
-                  tolerances: [],
+                  type: 'qcu',
+                },
+                {
+                  id: '2000',
+                  instruction: 'hello',
+                  isAnswerable: true,
+                  locales: undefined,
+                  proposals: [
+                    {
+                      content: 'toto',
+                      id: '1',
+                    },
+                    {
+                      content: 'tata',
+                      id: '2',
+                    },
+                    {
+                      content: 'titi',
+                      id: '3',
+                    },
+                  ],
+                  type: 'qcm',
+                },
+                {
+                  id: '100',
+                  instruction: '',
+                  isAnswerable: true,
+                  locales: ['fr-FR'],
+                  proposals: [
+                    {
+                      content: '<p>Adresse mail de Naomi : ${email}</p>',
+                      type: 'text',
+                    },
+                    {
+                      ariaLabel: 'Adresse mail de Naomi',
+                      defaultValue: '',
+                      display: 'inline',
+                      input: 'email',
+                      inputType: 'text',
+                      placeholder: '',
+                      size: 10,
+                      solutions: ['naomizao@yahoo.com', 'naomizao@yahoo.fr'],
+                      tolerances: [],
+                      type: 'input',
+                    },
+                    {
+                      ariaLabel: 'Réponse 3',
+                      defaultValue: '',
+                      display: 'inline',
+                      input: 'seconde-partie',
+                      options: [
+                        {
+                          content: "l'identifiant",
+                          id: '1',
+                        },
+                        {
+                          content: "le fournisseur d'adresse mail",
+                          id: '2',
+                        },
+                      ],
+                      placeholder: '',
+                      solutions: ['2'],
+                      tolerances: [],
+                      type: 'select',
+                    },
+                  ],
+                  type: 'qrocm',
+                },
+                {
+                  alt: 'alt',
+                  alternativeText: 'alternativeText',
+                  id: '3',
+                  isAnswerable: false,
+                  type: 'image',
+                  url: 'url',
+                },
+                {
+                  id: '4',
+                  isAnswerable: false,
+                  subtitles: 'subtitles',
+                  title: 'title',
+                  transcription: 'transcription',
+                  type: 'video',
+                  url: 'url',
                 },
               ],
-            },
-            id: '100',
-            type: 'qrocms',
-          },
-          {
-            attributes: {
-              url: 'url',
-              alt: 'alt',
-              'alternative-text': 'alternativeText',
-              type: 'images',
-              'is-answerable': false,
-            },
-            id: '3',
-            type: 'images',
-          },
-          {
-            attributes: {
-              'is-answerable': false,
-              subtitles: 'subtitles',
-              transcription: 'transcription',
-              title: 'title',
-              type: 'videos',
-              url: 'url',
-            },
-            id: '4',
-            type: 'videos',
-          },
-          {
-            attributes: {
-              title: 'Grain 1',
-              'raw-elements': [
+              elements: [
                 {
                   content: 'toto',
                   id: '1',
@@ -411,36 +398,6 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
               type: 'activity',
             },
             id: '1',
-            relationships: {
-              elements: {
-                data: [
-                  {
-                    id: '1',
-                    type: 'texts',
-                  },
-                  {
-                    id: '2',
-                    type: 'qcus',
-                  },
-                  {
-                    id: '2000',
-                    type: 'qcms',
-                  },
-                  {
-                    id: '100',
-                    type: 'qrocms',
-                  },
-                  {
-                    id: '3',
-                    type: 'images',
-                  },
-                  {
-                    id: '4',
-                    type: 'videos',
-                  },
-                ],
-              },
-            },
             type: 'grains',
           },
         ],
