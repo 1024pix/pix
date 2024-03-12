@@ -50,14 +50,14 @@
   }
 }
 
- .pix-button.students__item, .divisions__item {
-   &:hover, &:active{
-     background-color: var(--pix-primary-10);
-   }
+.pix-button.students__item, .divisions__item {
+  &:hover, &:active {
+    background-color: var(--pix-primary-10);
+  }
 
-   &:focus, &:focus-visible {
-     background-color: var(--pix-primary-10);
-     outline:2px solid var(--pix-primary-300);
-     outline-offset: 0;
-   }
- }
+  &:focus, &:focus-visible {
+    background-color: var(--pix-primary-10);
+    outline: 2px solid var(--pix-primary-300);
+    outline-offset: 0;
+  }
+}
