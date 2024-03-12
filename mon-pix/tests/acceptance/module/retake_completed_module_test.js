@@ -24,7 +24,7 @@ module('Acceptance | Module | Routes | retakeCompletedModule', function (hooks) 
     const grain1 = server.create('grain', {
       id: 'grainId1',
       title: 'title',
-      rawElements: [qcu],
+      elements: [qcu],
     });
 
     const text = {
@@ -37,7 +37,7 @@ module('Acceptance | Module | Routes | retakeCompletedModule', function (hooks) 
     const grain2 = server.create('grain', {
       id: 'grainId2',
       title: 'title',
-      rawElements: [text],
+      elements: [text],
     });
 
     server.create('module', {

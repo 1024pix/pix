@@ -32,7 +32,7 @@ module('Acceptance | Module | Routes | verifyQcu', function (hooks) {
     const grain = server.create('grain', {
       id: 'grainId',
       title: 'title',
-      rawElements: [qcu1, qcu2],
+      elements: [qcu1, qcu2],
     });
 
     server.create('module', {

@@ -13,7 +13,7 @@ module('Integration | Component | Module | Passage', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
     const textElement = { content: 'content', type: 'text' };
-    const grain = store.createRecord('grain', { id: 'grainId1', rawElements: [textElement] });
+    const grain = store.createRecord('grain', { id: 'grainId1', elements: [textElement] });
     const module = store.createRecord('module', { title: 'Module title', grains: [grain] });
     this.set('module', module);
 
@@ -36,8 +36,8 @@ module('Integration | Component | Module | Passage', function (hooks) {
       proposals: ['radio1', 'radio2'],
       type: 'qcu',
     };
-    const rawElements = [textElement, qcuElement];
-    const grain = store.createRecord('grain', { id: 'grainId1', rawElements });
+    const elements = [textElement, qcuElement];
+    const grain = store.createRecord('grain', { id: 'grainId1', elements });
     const transitionTexts = [{ grainId: 'grainId1', content: 'transition text' }];
 
     const module = store.createRecord('module', { title: 'Module title', grains: [grain], transitionTexts });
@@ -67,8 +67,8 @@ module('Integration | Component | Module | Passage', function (hooks) {
       proposals: ['radio1', 'radio2'],
       type: 'qcu',
     };
-    const grain1 = store.createRecord('grain', { rawElements: [textElement] });
-    const grain2 = store.createRecord('grain', { rawElements: [qcuElement] });
+    const grain1 = store.createRecord('grain', { elements: [textElement] });
+    const grain2 = store.createRecord('grain', { elements: [qcuElement] });
 
     const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
     this.set('module', module);
@@ -98,8 +98,8 @@ module('Integration | Component | Module | Passage', function (hooks) {
         type: 'qcu',
         isAnswerable: true,
       };
-      const grain1 = store.createRecord('grain', { rawElements: [qcuElement] });
-      const grain2 = store.createRecord('grain', { rawElements: [textElement] });
+      const grain1 = store.createRecord('grain', { elements: [qcuElement] });
+      const grain2 = store.createRecord('grain', { elements: [textElement] });
 
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);
@@ -128,8 +128,8 @@ module('Integration | Component | Module | Passage', function (hooks) {
         type: 'qcu',
         isAnswerable: true,
       };
-      const grain1 = store.createRecord('grain', { rawElements: [qcuElement] });
-      const grain2 = store.createRecord('grain', { rawElements: [textElement] });
+      const grain1 = store.createRecord('grain', { elements: [qcuElement] });
+      const grain2 = store.createRecord('grain', { elements: [textElement] });
 
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);
@@ -167,8 +167,8 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const store = this.owner.lookup('service:store');
       const text1Element = { content: 'content', type: 'text' };
       const text2Element = { content: 'content 2', type: 'text' };
-      const grain1 = store.createRecord('grain', { rawElements: [text1Element] });
-      const grain2 = store.createRecord('grain', { rawElements: [text2Element] });
+      const grain1 = store.createRecord('grain', { elements: [text1Element] });
+      const grain2 = store.createRecord('grain', { elements: [text2Element] });
 
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);
@@ -195,9 +195,9 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const text1Element = { content: 'content', type: 'text' };
       const text2Element = { content: 'content 2', type: 'text' };
       const text3Element = { content: 'content 3', type: 'text' };
-      const grain1 = store.createRecord('grain', { rawElements: [text1Element] });
-      const grain2 = store.createRecord('grain', { rawElements: [text2Element] });
-      const grain3 = store.createRecord('grain', { rawElements: [text3Element] });
+      const grain1 = store.createRecord('grain', { elements: [text1Element] });
+      const grain2 = store.createRecord('grain', { elements: [text2Element] });
+      const grain3 = store.createRecord('grain', { elements: [text3Element] });
 
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2, grain3] });
       this.set('module', module);
@@ -239,9 +239,9 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const text1Element = { content: 'content', type: 'text' };
       const text2Element = { content: 'content 2', type: 'text' };
       const text3Element = { content: 'content 3', type: 'text' };
-      const grain1 = store.createRecord('grain', { rawElements: [text1Element] });
-      const grain2 = store.createRecord('grain', { rawElements: [text2Element] });
-      const grain3 = store.createRecord('grain', { rawElements: [text3Element] });
+      const grain1 = store.createRecord('grain', { elements: [text1Element] });
+      const grain2 = store.createRecord('grain', { elements: [text2Element] });
+      const grain3 = store.createRecord('grain', { elements: [text3Element] });
 
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2, grain3] });
       this.set('module', module);
@@ -279,8 +279,8 @@ module('Integration | Component | Module | Passage', function (hooks) {
       const store = this.owner.lookup('service:store');
       const text1Element = { content: 'content', type: 'text' };
       const text2Element = { content: 'content 2', type: 'text' };
-      const grain1 = store.createRecord('grain', { rawElements: [text1Element] });
-      const grain2 = store.createRecord('grain', { rawElements: [text2Element] });
+      const grain1 = store.createRecord('grain', { elements: [text1Element] });
+      const grain2 = store.createRecord('grain', { elements: [text2Element] });
 
       const module = store.createRecord('module', { title: 'Module title', grains: [grain1, grain2] });
       this.set('module', module);
