@@ -1,7 +1,7 @@
-import { NotFoundError, UserNotFoundError } from '../../../../../lib/domain/errors.js';
-import { CampaignForArchiving as Campaign } from '../../../../../lib/domain/models/CampaignForArchiving.js';
-import * as campaignForArchivingRepository from '../../../../../lib/infrastructure/repositories/campaign/campaign-for-archiving-repository.js';
-import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
+import { NotFoundError, UserNotFoundError } from '../../../../../../lib/domain/errors.js';
+import { Campaign } from '../../../../../../lib/domain/models/index.js';
+import * as campaignForArchivingRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-for-archiving-repository.js';
+import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | campaign-for-archiving-repository', function () {
   describe('#save', function () {
@@ -53,7 +53,6 @@ describe('Integration | Infrastructure | Repository | campaign-for-archiving-rep
       });
     });
   });
-
   describe('#getByCode', function () {
     it('find the campaign with the correct code', async function () {
       databaseBuilder.factory.buildCampaign({ id: 1, code: '123ABC', archivedAt: null, archivedBy: null });
