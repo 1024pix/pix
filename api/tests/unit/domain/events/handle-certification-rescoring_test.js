@@ -87,6 +87,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     describe('when less than the minimum number of answers required by the config has been answered', function () {
       describe('when the certification was not finished due to a lack of time', function () {
         it('should save the score with a rejected status', async function () {
+          // given
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
             version: CertificationVersion.V3,
           });
@@ -162,11 +163,13 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             certificationCourseId,
           });
 
+          // when
           const result = await handleCertificationRescoring({
             ...dependencies,
             event,
           });
 
+          // then
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
@@ -202,6 +205,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
       describe('when the certification was not finished due to technical difficulties', function () {
         it('should save the score with a rejected status and cancel the certification course', async function () {
+          // given
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
             version: CertificationVersion.V3,
           });
@@ -277,11 +281,13 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             certificationCourseId,
           });
 
+          // when
           const result = await handleCertificationRescoring({
             ...dependencies,
             event,
           });
 
+          // then
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
@@ -329,6 +335,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     describe('when not all questions were answered', function () {
       describe('when the candidate did not finish due to technical difficulties', function () {
         it('should save the raw score', async function () {
+          // given
           const certificationCourseStartDate = new Date('2022-01-01');
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
             version: CertificationVersion.V3,
@@ -410,11 +417,13 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             certificationCourseId,
           });
 
+          // when
           const result = await handleCertificationRescoring({
             ...dependencies,
             event,
           });
 
+          // then
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
@@ -445,6 +454,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       describe('when the candidate did not finish in time', function () {
         it('should save the degraded score', async function () {
           const certificationCourseStartDate = new Date('2022-01-01');
+          // given
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
             version: CertificationVersion.V3,
           });
@@ -525,11 +535,13 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             certificationCourseId,
           });
 
+          // when
           const result = await handleCertificationRescoring({
             ...dependencies,
             event,
           });
 
+          // then
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
@@ -560,6 +572,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
     describe('when all the questions were answered', function () {
       it('should save the score', async function () {
+        // given
         const certificationCourseStartDate = new Date('2022-01-01');
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           version: CertificationVersion.V3,
@@ -641,11 +654,13 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           certificationCourseId,
         });
 
+        // when
         const result = await handleCertificationRescoring({
           ...dependencies,
           event,
         });
 
+        // then
         const expectedResult = {
           certificationCourseId,
           assessmentResult: new AssessmentResult({
@@ -675,6 +690,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       describe('when certification is rejected for fraud', function () {
         it('should save the score with rejected status', async function () {
           const certificationCourseStartDate = new Date('2022-01-01');
+          // given
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
             version: CertificationVersion.V3,
           });
@@ -755,11 +771,13 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             certificationCourseId,
           });
 
+          // when
           const result = await handleCertificationRescoring({
             ...dependencies,
             event,
           });
 
+          // then
           const assessmentResultToBeSaved = domainBuilder.certification.scoring.buildAssessmentResult.fraud({
             pixScore: scoreForEstimatedLevel,
             reproducibilityRate: 100,
@@ -787,6 +805,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       describe('when the certification would reach a very high score', function () {
         it('should return the score capped based on the maximum available level when the certification was done', async function () {
           const certificationCourseStartDate = new Date('2022-01-01');
+          // given
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
             version: CertificationVersion.V3,
           });
@@ -879,11 +898,13 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             certificationCourseId,
           });
 
+          // when
           await handleCertificationRescoring({
             ...dependencies,
             event,
           });
 
+          // then
           expect(assessmentResultRepository.save).to.have.been.calledWith(expectedResult);
           expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
             certificationAssessmentHistory,
