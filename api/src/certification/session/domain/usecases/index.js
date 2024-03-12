@@ -5,11 +5,16 @@ import { fileURLToPath } from 'node:url';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { assessmentRepository, sessionRepositories } from '../../infrastructure/repositories/index.js';
+import * as certificationCpfService from '../services/certification-cpf-service.js';
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CandidateRepository} CandidateRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CenterRepository} CenterRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ * @typedef {import('../services/certification-cpf-service.js').CertificationCpfService} CertificationCpfService
+ * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationOfficerRepository} CertificationOfficerRepository
  * @typedef {import('../../infrastructure/repositories/index.js').FinalizedSessionRepository} FinalizedSessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').JurySessionRepository} JurySessionRepository
@@ -27,7 +32,11 @@ import { assessmentRepository, sessionRepositories } from '../../infrastructure/
  * @typedef {assessmentRepository} AssessmentRepository
  * @typedef {candidateRepository} CandidateRepository
  * @typedef {centerRepository} CenterRepository
+ * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ * @typedef {certificationCpfService} CertificationCpfService
+ * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
+ * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
@@ -42,7 +51,11 @@ const dependencies = {
   assessmentRepository,
   candidateRepository: sessionRepositories.candidateRepository,
   centerRepository: sessionRepositories.centerRepository,
+  certificationCandidateRepository: sessionRepositories.certificationCandidateRepository,
   certificationChallengeLiveAlertRepository: sessionRepositories.certificationChallengeLiveAlertRepository,
+  certificationCpfService,
+  certificationCpfCityRepository: sessionRepositories.certificationCpfCityRepository,
+  certificationCpfCountryRepository: sessionRepositories.certificationCpfCountryRepository,
   certificationOfficerRepository: sessionRepositories.certificationOfficerRepository,
   complementaryCertificationRepository: sessionRepositories.complementaryCertificationRepository,
   finalizedSessionRepository: sessionRepositories.finalizedSessionRepository,
@@ -66,7 +79,6 @@ const usecasesWithoutInjectedDependencies = {
     path: join(path, './'),
     ignoredFileNames: [
       'index.js',
-      'add-certification-candidate-to-session.js',
       'create-session.js',
       'create-sessions.js',
       'delete-session.js',
