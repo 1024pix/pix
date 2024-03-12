@@ -34,10 +34,11 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       flashAlgorithmConfigurationRepository,
       flashAlgorithmService,
       certificationAssessmentHistoryRepository,
-      competenceForScoringRepository;
+      competenceForScoringRepository,
+      competenceMarkRepository;
 
     let baseFlashAlgorithmConfig;
-
+    let assessmentResult;
     let dependencies;
 
     beforeEach(function () {
@@ -73,6 +74,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         listByLocale: sinon.stub(),
       };
 
+      competenceMarkRepository = {
+        save: sinon.stub(),
+      };
+
       dependencies = {
         certificationAssessmentRepository,
         certificationChallengeForScoringRepository,
@@ -83,6 +88,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         flashAlgorithmService,
         certificationAssessmentHistoryRepository,
         competenceForScoringRepository,
+        competenceMarkRepository,
       };
 
       baseFlashAlgorithmConfig = domainBuilder.buildFlashAlgorithmConfiguration({
@@ -90,6 +96,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       });
 
       competenceForScoringRepository.listByLocale.resolves([domainBuilder.buildCompetenceForScoring()]);
+
+      assessmentResult = domainBuilder.buildAssessmentResult();
+      assessmentResultRepository.save.resolves(assessmentResult);
+      competenceMarkRepository.save.resolves();
     });
 
     describe('when less than the minimum number of answers required by the config has been answered', function () {
@@ -692,6 +702,17 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         expect(result).to.deep.equal(expectedEvent);
         expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
           certificationAssessmentHistory,
+        );
+        expect(competenceMarkRepository.save).to.have.been.calledWithExactly(
+          domainBuilder.buildCompetenceMark({
+            id: undefined,
+            assessmentResultId: assessmentResult.id,
+            area_code: '1',
+            competenceId: 'recCompetenceId',
+            competence_code: '1.1',
+            level: 2,
+            score: 0,
+          }),
         );
       });
 
