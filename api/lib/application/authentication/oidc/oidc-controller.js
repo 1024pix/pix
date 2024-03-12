@@ -1,9 +1,9 @@
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import { oidcAuthenticationServiceRegistry as authenticationServiceRegistry } from '../../../domain/services/authentication/authentication-service-registry.js';
 import { usecases } from '../../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer.js';
 import * as oidcSerializer from '../../../infrastructure/serializers/jsonapi/oidc-serializer.js';
 import { UnauthorizedError } from '../../http-errors.js';
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 
 const getAllIdentityProvidersForAdmin = async function (request, h) {
   const identityProviders = usecases.getAllIdentityProviders();

@@ -1,7 +1,7 @@
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
-import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Services | authentication registry', function () {
   describe('#getAllOidcProviderServices', function () {
