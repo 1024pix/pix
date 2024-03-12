@@ -84,7 +84,7 @@ export default class CandidateInList extends Component {
   }
 
   get authorizationButtonBackgroundColor() {
-    return this.args.candidate.authorizedToStart ? 'transparent-dark' : 'blue';
+    return this.args.candidate.authorizedToStart ? 'transparent-dark' : 'primary';
   }
 
   @action

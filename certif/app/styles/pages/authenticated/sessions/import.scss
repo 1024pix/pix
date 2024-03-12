@@ -1,6 +1,6 @@
 .import-page {
   > p {
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     margin-bottom: 8px;
   }
 
@@ -10,17 +10,17 @@
     gap: $pix-spacing-xs;
 
     > svg {
-      color: $pix-neutral-50;
+      color: var(--pix-neutral-500);
     }
 
     > h2 {
       @extend %pix-title-s;
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
     }
   }
 
   &__section--download__instruction {
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-500);
     font-size: 14px;
 
     ul {
@@ -41,7 +41,7 @@
     gap: $pix-spacing-m;
 
     .pix-message__content {
-      color: $pix-neutral-70;
+      color: var(--pix-neutral-800);
 
       li:first-of-type {
         margin-bottom: 8px;
@@ -101,7 +101,7 @@
   }
 
   &__information {
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     font-weight: $font-medium;
   }
 
@@ -132,7 +132,7 @@
     background-color: var(--pix-neutral-0);
     border: 1px solid var(--pix-neutral-100);
     border-radius: 8px;
-    box-shadow: 0 4px 8px 0 rgba($pix-neutral-110, 8%);
+    box-shadow: 0 4px 8px 0 rgba(var(--pix-neutral-900), 8%);
     color: var(--pix-neutral-500);
     display: inline-flex;
     font-size: 1rem;
@@ -213,12 +213,12 @@
 
 .collapsible-header--blocking {
   .pix-collapsible-title__icon {
-    color: $pix-error-70;
+    color: var(--pix-error-700);
   }
 }
 
 .collapsible-header--non-blocking {
   .pix-collapsible-title__icon {
-    color: $pix-warning-40;
+    color: var(--pix-warning-500);
   }
 }

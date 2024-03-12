@@ -5,16 +5,19 @@
       <div class="session-details-content__clipboard">
         <span class="content-text content-text--bold session-details-content__text">{{this.session.id}}</span>
         {{#if (is-clipboard-supported)}}
-          <PixTooltip @id="tooltip-clipboard-button" @isInline={{true}} @hide={{this.isSessionNumberTooltipTextEmpty}}>
+          <PixTooltip
+            @id="tooltip-clipboard-button"
+            class="session-details-content__clipboard-button"
+            @isInline={{true}}
+            @hide={{this.isSessionNumberTooltipTextEmpty}}
+          >
             <:triggerElement>
-              <button
-                type="button"
-                {{on "click" this.showSessionIdTooltip}}
-                class="icon-button session-details-content__clipboard-button"
-                aria-label={{t "pages.sessions.detail.parameters.session.copy-number"}}
-              >
-                <FaIcon @icon="copy" prefix="fas" />
-              </button>
+              <PixIconButton
+                @ariaLabel={{t "pages.sessions.detail.parameters.session.copy-number"}}
+                @icon="copy"
+                @triggerAction={{this.showSessionIdTooltip}}
+                class="session-details-content__clipboard-button"
+              />
             </:triggerElement>
             <:tooltip>{{this.sessionNumberTooltipText}}</:tooltip>
           </PixTooltip>
@@ -33,16 +36,18 @@
         <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>
         {{#if (is-clipboard-supported)}}
           {{! template-lint-disable no-duplicate-id }}
-          <PixTooltip @id="tooltip-clipboard-button" @isInline={{true}} @hide={{this.isAccessCodeTooltipTextEmpty}}>
+          <PixTooltip
+            @id="tooltip-clipboard-button"
+            class="session-details-content__clipboard-button"
+            @isInline={{true}}
+            @hide={{this.isAccessCodeTooltipTextEmpty}}
+          >
             <:triggerElement>
-              <button
-                type="button"
-                {{on "click" this.showAccessCodeTooltip}}
-                class="icon-button session-details-content__clipboard-button"
-                aria-label={{t "pages.sessions.detail.parameters.access-code.copy-code"}}
-              >
-                <FaIcon @icon="copy" prefix="fas" />
-              </button>
+              <PixIconButton
+                @ariaLabel={{t "pages.sessions.detail.parameters.access-code.copy-code"}}
+                @icon="copy"
+                @triggerAction={{this.showAccessCodeTooltip}}
+              />
             </:triggerElement>
             <:tooltip>{{this.accessCodeTooltipText}}</:tooltip>
           </PixTooltip>
@@ -67,16 +72,14 @@
             @id="tooltip-clipboard-button"
             @isInline={{true}}
             @hide={{this.isSupervisorPasswordTooltipTextEmpty}}
+            class="session-details-content__clipboard-button"
           >
             <:triggerElement>
-              <button
-                type="button"
-                {{on "click" this.showSupervisorPasswordTooltip}}
-                class="icon-button session-details-content__clipboard-button"
-                aria-label={{t "pages.sessions.detail.parameters.password.copy-password"}}
-              >
-                <FaIcon @icon="copy" prefix="fas" />
-              </button>
+              <PixIconButton
+                @ariaLabel={{t "pages.sessions.detail.parameters.password.copy-password"}}
+                @icon="copy"
+                @triggerAction={{this.showSupervisorPasswordTooltip}}
+              />
             </:triggerElement>
             <:tooltip>{{this.supervisorPasswordTooltipText}}</:tooltip>
           </PixTooltip>
@@ -116,7 +119,7 @@
 
   <div class="session-details-buttons">
     {{#if this.sessionHasStarted}}
-      <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}} @backgroundColor="neutral">
+      <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}}>
         {{t "common.actions.update"}}
       </PixButtonLink>
       {{#if this.session.isFinalized}}
