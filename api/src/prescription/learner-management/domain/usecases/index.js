@@ -1,6 +1,7 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as organizationRepository from '../../../../../lib/infrastructure/repositories/organization-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -11,12 +12,13 @@ import * as supOrganizationLearnerRepository from '../../infrastructure/reposito
 import { importStorage } from '../../infrastructure/storage/import-storage.js';
 
 const dependencies = {
-  supOrganizationLearnerRepository,
-  organizationLearnerRepository,
   campaignParticipationRepository,
+  importStorage,
+  membershipRepository,
+  organizationLearnerRepository,
   organizationRepository,
   organizationImportRepository,
-  importStorage,
+  supOrganizationLearnerRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

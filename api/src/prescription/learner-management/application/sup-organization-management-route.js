@@ -87,6 +87,28 @@ const register = async function (server) {
         tags: ['api', 'organization-learners'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/sup-organization-learners/csv-template',
+      config: {
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          query: Joi.object({
+            accessToken: Joi.string().required(),
+          }).options({ allowUnknown: true }),
+        },
+        handler: supOrganizationManagementController.getOrganizationLearnersCsvTemplate,
+        notes: [
+          "- **Cette route est restreinte via un token dédié passé en paramètre avec l'id de l'utilisateur.**",
+          "- Récupération d'un template CSV qui servira à téléverser les inscriptions d’étudiants",
+          "- L'utilisateur doit avoir les droits d'accès ADMIN à l'organisation",
+        ],
+        tags: ['api', 'organization-learners'],
+      },
+    },
   ]);
 };
 

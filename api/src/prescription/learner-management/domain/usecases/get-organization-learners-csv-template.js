@@ -1,6 +1,6 @@
-import { SupOrganizationLearnerImportHeader } from '../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
-import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
-import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../lib/domain/errors.js';
+import * as csvSerializer from '../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
+import { SupOrganizationLearnerImportHeader } from '../../infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 
 const getOrganizationLearnersCsvTemplate = async function ({ userId, organizationId, i18n, membershipRepository }) {
   const [membership] = await membershipRepository.findByUserIdAndOrganizationId({
