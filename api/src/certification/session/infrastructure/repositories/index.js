@@ -3,10 +3,13 @@ import * as issueReportCategoryRepository from '../../../../certification/shared
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as complementaryCertificationApi from '../../../complementary-certification/application/api/complementary-certification-api.js';
+import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
 import * as candidateRepository from './candidate-repository.js';
 import * as centerRepository from './center-repository.js';
+import * as certificationCpfCityRepository from './certification-cpf-city-repository.js';
+import * as certificationCpfCountryRepository from './certification-cpf-country-repository.js';
 import * as certificationOfficerRepository from './certification-officer-repository.js';
 import * as complementaryCertificationRepository from './complementary-certification-repository.js';
 import * as finalizedSessionRepository from './finalized-session-repository.js';
@@ -21,7 +24,10 @@ import * as sessionRepository from './session-repository.js';
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {candidateRepository} CandidateRepository
  * @typedef {centerRepository} CenterRepository
+ * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
+ * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {jurySessionRepository} JurySessionRepository
@@ -36,7 +42,10 @@ const repositoriesWithoutInjectedDependencies = {
   complementaryCertificationRepository,
   candidateRepository,
   centerRepository,
+  certificationCandidateRepository,
   certificationChallengeLiveAlertRepository,
+  certificationCpfCityRepository,
+  certificationCpfCountryRepository,
   certificationOfficerRepository,
   finalizedSessionRepository,
   jurySessionRepository,
