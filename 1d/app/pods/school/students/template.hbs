@@ -6,7 +6,7 @@
 <div class="list list__students">
   {{#each @model.organizationLearners as |learner|}}
     <PixButton @triggerAction={{fn this.identifyUser learner}} class="students__item">
-      <p>{{this.getFullName learner}}</p>
+      <p>{{learner.displayName}}</p>
     </PixButton>
   {{/each}}
 </div>
