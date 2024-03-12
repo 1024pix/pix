@@ -168,10 +168,15 @@
       ]
     },
     {
-      "id": "27c3d4e9-cdee-452f-8c63-f780b890776e",
+      "id": "65e80d85-4590-4662-8765-f1b3d995f21a",
       "type": "activity",
       "title": "Quizz mots de passe solides",
       "elements": [
+        {
+          "id": "3f4354a6-3243-4b5a-a459-58b3f3d1ecb8",
+          "type": "text",
+          "content": "<p>Pour chaque affimation, choisissez si elle est vraie ou fausse.</p>"
+        },
         {
           "id": "669c89e1-167e-40a3-a198-2ee226494b2e",
           "type": "qcu",
