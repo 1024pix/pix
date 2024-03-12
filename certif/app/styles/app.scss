@@ -3,7 +3,6 @@
 $navbar-height: 60px;
 
 @import 'pix-design-tokens';
-@import 'globals/errors';
 @import 'globals/forms';
 @import 'globals/modals';
 @import 'globals/pages';
@@ -31,7 +30,6 @@ $navbar-height: 60px;
 @import 'pages/join';
 @import 'components/auth/toggable-login-form';
 @import 'components/add-student-list';
-@import 'components/certif-checkbox';
 @import 'components/ember-cli-notifications-ie-fallback';
 @import 'components/add-issue-report-modal';
 @import 'components/certification-candidate-details-modal';
@@ -66,9 +64,9 @@ html {
   min-height: 100%;
   min-height: 100vh;
   margin: 0;
-  color: $pix-neutral-110;
+  color: var(--pix-neutral-900);
   font-family: $font-roboto;
-  background-color: $pix-neutral-10;
+  background-color: var(--pix-neutral-20);
 }
 
 body > .ember-view {

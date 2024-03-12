@@ -20,13 +20,13 @@
       justify-content: center;
       width: 100%;
       height: 80px;
-      color: $pix-neutral-60;
+      color: var(--pix-neutral-500);
       font-weight: normal;
       font-size: 14px;
       font-family: $font-roboto;
       line-height: 22px;
       letter-spacing: 0.15px;
-      background: $pix-neutral-10;
+      background: var(--pix-neutral-20);
       border-radius: 0 0 10px 10px;
 
       svg {
@@ -36,7 +36,19 @@
 
     &__logout {
       margin-top: 4px;
-      color: $pix-neutral-60;
+      color: var(--pix-neutral-500);
+
+      &:hover {
+       color: var(--pix-primary-500);
+      }
+
+      &:focus,
+      &:focus-visible {
+        padding: 0 2px;
+        border-radius: $pix-spacing-xxs;
+        outline: none;
+        box-shadow: inset 0 0 0 1.6px var(--pix-primary-500);
+      }
     }
   }
 }

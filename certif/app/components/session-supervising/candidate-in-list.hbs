@@ -1,5 +1,30 @@
 <li class="session-supervising-candidate-in-list">
   <div class="session-supervising-candidate-in-list__candidate-data">
+    <div class="session-supervising-candidate-in-list__status-container">
+      {{#if @candidate.hasStarted}}
+        {{#if @candidate.isAuthorizedToResume}}
+          <PixTag
+            @compact={{true}}
+            class="session-supervising-candidate-in-list__status-container--authorized-to-resume"
+          >{{t "common.forms.certification-labels.candidate-status.authorized-to-resume"}}</PixTag>
+        {{else}}
+          {{#if (eq @candidate.liveAlert.status "ongoing")}}
+            <PixTag @compact={{true}} class="session-supervising-candidate-in-list__status-container--ongoing-alert">{{t
+                "common.forms.certification-labels.candidate-status.ongoing-live-alert"
+              }}</PixTag>
+          {{else}}
+            <PixTag @compact={{true}} class="session-supervising-candidate-in-list__status-container--started">{{t
+                "common.forms.certification-labels.candidate-status.ongoing"
+              }}</PixTag>
+          {{/if}}
+        {{/if}}
+      {{/if}}
+      {{#if @candidate.hasCompleted}}
+        <PixTag @compact={{true}} class="session-supervising-candidate-in-list__status-container--completed">{{t
+            "common.forms.certification-labels.candidate-status.finished"
+          }}</PixTag>
+      {{/if}}
+    </div>
     <div class="session-supervising-candidate-in-list__full-name">
       {{@candidate.lastName}}
       {{@candidate.firstName}}
@@ -27,8 +52,8 @@
       {{/if}}
       {{#if @candidate.hasStarted}}
         <p class="session-supervising-candidate-in-list-details-time">
-          <FaIcon @icon="clock" @prefix="far" class="session-supervising-candidate-in-list-details-time__clock" />
           <div class="session-supervising-candidate-in-list-details-time__text">
+            <FaIcon @icon="clock" @prefix="far" class="session-supervising-candidate-in-list-details-time__clock" />
             <span class="session-supervising-candidate-in-list-details-time__text__startdatetime">
               {{t "pages.session-supervising.candidate-in-list.start-date-time"}}
               <time>{{this.candidateStartTime}}</time>
@@ -37,15 +62,15 @@
               {{t "pages.session-supervising.candidate-in-list.end-date-time"}}
               <time>{{this.candidateTheoricalEndDateTime}}</time>
             </span>
-            {{#if @candidate.extraTimePercentage}}
-              <span class="session-supervising-candidate-in-list-details-time__text__extra-time-percentage">
-                {{t
-                  "pages.session-supervising.candidate-in-list.extratime"
-                  extraTimePercentage=(format-percentage @candidate.extraTimePercentage)
-                }}
-              </span>
-            {{/if}}
           </div>
+          {{#if @candidate.extraTimePercentage}}
+            <PixTag @color="neutral">
+              {{t
+                "pages.session-supervising.candidate-in-list.extratime"
+                extraTimePercentage=(format-percentage @candidate.extraTimePercentage)
+              }}
+            </PixTag>
+          {{/if}}
         </p>
       {{/if}}
 
@@ -61,31 +86,6 @@
         {{this.authorizationButtonLabel}}
       </PixButton>
     {{/if}}
-    <div class="session-supervising-candidate-in-list__status-container">
-      {{#if @candidate.hasStarted}}
-        {{#if @candidate.isAuthorizedToResume}}
-          <PixTag
-            @compact={{true}}
-            class="session-supervising-candidate-in-list__status-container--authorized-to-resume"
-          >{{t "common.forms.certification-labels.candidate-status.authorized-to-resume"}}</PixTag>
-        {{else}}
-          {{#if (eq @candidate.liveAlert.status "ongoing")}}
-            <PixTag @compact={{true}} class="session-supervising-candidate-in-list__status-container--ongoing-alert">{{t
-                "common.forms.certification-labels.candidate-status.ongoing-live-alert"
-              }}</PixTag>
-          {{else}}
-            <PixTag @compact={{true}} class="session-supervising-candidate-in-list__status-container--started">{{t
-                "common.forms.certification-labels.candidate-status.ongoing"
-              }}</PixTag>
-          {{/if}}
-        {{/if}}
-      {{/if}}
-      {{#if @candidate.hasCompleted}}
-        <PixTag @compact={{true}} class="session-supervising-candidate-in-list__status-container--completed">{{t
-            "common.forms.certification-labels.candidate-status.finished"
-          }}</PixTag>
-      {{/if}}
-    </div>
   </div>
   {{#if this.optionsMenuShouldBeDisplayed}}
     <div class="session-supervising-candidate-in-list__menu">

@@ -32,9 +32,9 @@
           position: absolute;
           bottom: 0;
           left: 0;
-        } 
+        }
       }
-  
+
 
       label {
         display: block;
@@ -90,14 +90,7 @@
       }
 
       &__info-panel {
-        display: flex;
-        gap: 16px;
-        align-items: center;
         margin-top: 8px;
-        padding: 12px 16px;
-        color: $pix-primary-70;
-        background-color: $pix-primary-10;
-        border-radius: 4px;
       }
 
       .complementary-certifications-checkbox-list {
@@ -128,7 +121,7 @@
     justify-content: flex-end;
     width: 100%;
     padding: 16px 0;
-    background-color: $pix-neutral-10;
+    background-color: var(--pix-neutral-20);
     border-radius: 0 0 5px 5px;
 
     .pix-button {

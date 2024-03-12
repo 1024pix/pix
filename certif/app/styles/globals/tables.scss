@@ -9,12 +9,12 @@
   }
 
   thead {
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
   }
 
   tr {
     height: 60px;
-    border-top: 2px solid $pix-neutral-10;
+    border-top: 2px solid var(--pix-neutral-20);
   }
 
   td,
@@ -46,19 +46,19 @@
   }
 
   tbody {
-    color: $pix-neutral-45;
+    color: var(--pix-neutral-500);
 
     tr:hover,
     tr:focus,
     tr:focus-within,
     tr:active {
-      color: $pix-neutral-80;
-      background-color: $pix-neutral-15;
+      color: var(--pix-neutral-800);
+      background-color: var(--pix-neutral-20);
       transition: 0.25s ease;
     }
 
     tr:hover .checkbox--unchecked {
-      border-color: $pix-neutral-40;
+      border-color: var(--pix-neutral-500);
     }
   }
 

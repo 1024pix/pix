@@ -20,24 +20,24 @@
 .app-modal-body {
 
   &__attention {
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     font-weight: 500;
     font-size: 1.2rem;
   }
 
   &__warning {
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: 300;
     font-size: 1em;
   }
 
   &__contextual {
     padding: 10px 0;
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     font-weight: bold;
     font-size: 1rem;
-    background-color: $pix-neutral-20;
-    border: 2px solid $pix-neutral-20;
+    background-color: var(--pix-neutral-20);
+    border: 2px solid var(--pix-neutral-20);
     border-radius: 4px;
     outline: 0;
   }
@@ -46,6 +46,6 @@
 .finalization-report-abort-reason {
 
   select:invalid {
-    border: $pix-error-70 1px solid;
+    border: var(--pix-error-700) 1px solid;
   }
 }

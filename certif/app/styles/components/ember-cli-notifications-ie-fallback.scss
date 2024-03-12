@@ -15,13 +15,13 @@
   .ember-cli-notifications-notification__container > div {
     max-height: 800px;
     margin-bottom: 1rem;
-    background-color: $pix-success-10;
+    background-color: var(--pix-success-100);
     border-radius: 3px;
   }
 
   *::-ms-backdrop,
   .ember-cli-notifications-notification__container .c-notification--error {
-    background-color: $pix-error-10;
+    background-color: var(--pix-error-100);
   }
 
   *::-ms-backdrop,

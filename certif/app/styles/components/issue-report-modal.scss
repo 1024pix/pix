@@ -14,8 +14,8 @@
     max-height: 50vh;
     padding: 24px;
     overflow-y: scroll;
-    background-color: $pix-neutral-0;
-    border: 1px solid $pix-neutral-22;
+    background-color: var(--pix-neutral-0);
+    border: 1px solid var(--pix-neutral-100);
     border-radius: 4px;
 
     button {
@@ -49,7 +49,7 @@
   &__subcategory-label {
     margin: 8px 0 0;
     padding: 0 0 0 16px;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-20);
     font-family: $font-roboto;
   }
 }
