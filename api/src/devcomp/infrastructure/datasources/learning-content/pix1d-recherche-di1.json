@@ -1,6 +1,4 @@
 {
-  "modules": [
-    {
       "id": "2f878a38-d39c-40e9-9a92-4163c6c229bc",
       "slug": "pix1d-recherche-di1",
       "title": "Les moteurs de recherche",
@@ -97,6 +95,4 @@
         ]
       }
     ]
-    }
-  ]
 }
