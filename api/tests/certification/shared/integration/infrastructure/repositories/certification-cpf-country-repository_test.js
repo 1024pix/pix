@@ -1,5 +1,5 @@
+import * as certificationCpfCountryRepository from '../../../../../../src/certification/session/infrastructure/repositories/certification-cpf-country-repository.js';
 import { CertificationCpfCountry } from '../../../../../../src/certification/shared/domain/models/CertificationCpfCountry.js';
-import * as certificationCpfCountryRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-cpf-country-repository.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | certificationCpfCountryRepository', function () {

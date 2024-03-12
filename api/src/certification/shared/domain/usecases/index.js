@@ -33,13 +33,10 @@ import * as certificationAssessmentRepository from '../../../shared/infrastructu
 import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
-import * as certificationCpfCityRepository from '../../../shared/infrastructure/repositories/certification-cpf-city-repository.js';
-import * as certificationCpfCountryRepository from '../../../shared/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationIssueReportRepository from '../../../shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
 import * as issueReportCategoryRepository from '../../../shared/infrastructure/repositories/issue-report-category-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
-import * as certificationCpfService from '../services/certification-cpf-service.js';
 import * as mailService from '../services/mail-service.js';
 
 /**
@@ -56,16 +53,12 @@ import * as mailService from '../services/mail-service.js';
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
- * @typedef {certificationCpfService} CertificationCpfService
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {challengeRepository} ChallengeRepository
- * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
- * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {competenceRepository} CompetenceRepository
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {cpfExportRepository} CpfExportRepository
- * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {flashAlgorithmService} FlashAlgorithmService
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {mailService} MailService
@@ -90,17 +83,13 @@ const dependencies = {
   certificationCenterRepository,
   certificationChallengeLiveAlertRepository,
   certificationCourseRepository,
-  certificationCpfService,
   certificationIssueReportRepository,
   certificationReportRepository,
   certificateRepository,
   challengeRepository,
-  certificationCpfCityRepository,
-  certificationCpfCountryRepository,
   competenceMarkRepository,
   competenceRepository,
   complementaryCertificationRepository,
-  finalizedSessionRepository,
   flashAlgorithmService,
   flashAlgorithmConfigurationRepository,
   issueReportCategoryRepository,
@@ -130,6 +119,7 @@ const usecasesWithoutInjectedDependencies = {
     path: join(path, '../../../session/domain/usecases/'),
     ignoredFileNames: [
       'index.js',
+      'add-certification-candidate-to-session.js',
       'get-session-certification-candidates.js',
       'get-mass-import-template-information.js',
       'assign-certification-officer-to-session.js',
