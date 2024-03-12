@@ -1,10 +1,9 @@
-import { mapToOrganizationLearnerDtos } from '../mappers/map-to-organization-learner-dtos.js';
+import { School } from '../models/School.js';
 
 const getSchoolByCode = async function ({ code, schoolRepository, organizationLearnerRepository } = {}) {
   const school = await schoolRepository.getByCode(code);
-  const students = await organizationLearnerRepository.getStudentsByOrganizationId(school.id);
-  school['organizationLearners'] = mapToOrganizationLearnerDtos(students);
-  return school;
+  const organizationLearners = await organizationLearnerRepository.getStudentsByOrganizationId(school.id);
+  return new School({ ...school, organizationLearners });
 };
 
 export { getSchoolByCode };
