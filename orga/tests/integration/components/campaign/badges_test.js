@@ -1,4 +1,4 @@
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 
@@ -29,9 +29,9 @@ module('Integration | Component | Campaign::Badges', function (hooks) {
     this.badges = [{ title: 'badge1', imageUrl: 'img1', altMessage: 'alt-img1' }];
 
     // when
-    await render(hbs`<Campaign::Badges @badges={{this.badges}} />`);
+    const screen = await render(hbs`<Campaign::Badges @badges={{this.badges}} />`);
 
     // then
-    assert.contains('badge1');
+    assert.ok(screen.getByText('badge1'));
   });
 });
