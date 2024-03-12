@@ -85,7 +85,7 @@ module('Integration | Component | Campaign::Analysis::Recommendations', function
     });
 
     test('it should have a caption to describe the table', async function (assert) {
-      assert.contains(this.intl.t('pages.campaign-review.table.analysis.caption'));
+      assert.ok(screen.getByText(this.intl.t('pages.campaign-review.table.analysis.caption')));
     });
   });
 
@@ -93,11 +93,11 @@ module('Integration | Component | Campaign::Analysis::Recommendations', function
     test('it displays pending results', async function (assert) {
       this.campaignTubeRecommendations = [];
 
-      await render(hbs`<Campaign::Analysis::Recommendations
+      const screen = await render(hbs`<Campaign::Analysis::Recommendations
   @campaignTubeRecommendations={{this.campaignTubeRecommendations}}
   @displayAnalysis={{false}}
 />`);
-      assert.contains('En attente de résultats');
+      assert.ok(screen.getByText('En attente de résultats'));
     });
   });
 });
