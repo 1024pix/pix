@@ -17,7 +17,6 @@ import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import { Progression } from '../../../src/evaluation/domain/models/Progression.js';
 import { CampaignCreator } from '../../../src/prescription/campaign/domain/models/CampaignCreator.js';
-import { CampaignForArchiving } from '../../../src/prescription/campaign/domain/models/CampaignForArchiving.js';
 import { CampaignForCreation } from '../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
 import { CampaignToStartParticipation } from '../../../src/prescription/campaign-participation/domain/models/CampaignToStartParticipation.js';
 import { OrganizationPlacesLot } from '../../../src/prescription/organization-place/domain/models/OrganizationPlacesLot.js';
@@ -42,6 +41,7 @@ import { BadgeCriterionForCalculation } from './BadgeCriterionForCalculation.js'
 import { BadgeDetails } from './BadgeDetails.js';
 import { BadgeForCalculation } from './BadgeForCalculation.js';
 import { Campaign } from './Campaign.js';
+import { CampaignForArchiving } from './CampaignForArchiving.js';
 import { CampaignLearningContent } from './CampaignLearningContent.js';
 import { CampaignParticipation } from './CampaignParticipation.js';
 import { CampaignParticipationResult } from './CampaignParticipationResult.js';

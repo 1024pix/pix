@@ -1,5 +1,4 @@
-import { ObjectValidationError } from '../../../../../lib/domain/errors.js';
-import { ArchivedCampaignError } from '../errors.js';
+import { ArchivedCampaignError, ObjectValidationError } from '../errors.js';
 
 class CampaignForArchiving {
   constructor({ id, code, archivedAt, archivedBy } = {}) {

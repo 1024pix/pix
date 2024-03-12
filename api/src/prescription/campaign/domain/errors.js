@@ -40,14 +40,7 @@ class CampaignCodeFormatError extends DomainError {
   }
 }
 
-class ArchivedCampaignError extends DomainError {
-  constructor(message = 'Cette campagne est déjà archivée.') {
-    super(message);
-  }
-}
-
 export {
-  ArchivedCampaignError,
   CampaignCodeFormatError,
   CampaignUniqueCodeError,
   IsForAbsoluteNoviceUpdateError,

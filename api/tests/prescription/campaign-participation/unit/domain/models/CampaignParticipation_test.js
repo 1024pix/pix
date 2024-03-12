@@ -1,10 +1,10 @@
 import {
   AlreadySharedCampaignParticipationError,
+  ArchivedCampaignError,
   AssessmentNotCompletedError,
   CampaignParticipationDeletedError,
   CantImproveCampaignParticipationError,
 } from '../../../../../../lib/domain/errors.js';
-import { ArchivedCampaignError } from '../../../../../../src/prescription/campaign/domain/errors.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import {
   CampaignParticipationStatuses,

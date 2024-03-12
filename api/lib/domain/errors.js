@@ -778,6 +778,13 @@ class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
     super(message);
   }
 }
+
+class ArchivedCampaignError extends DomainError {
+  constructor(message = 'Cette campagne est déjà archivée.') {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToUpdateEmailError extends DomainError {
   constructor(message = 'User is not authorized to update email') {
     super(message);
@@ -1099,6 +1106,7 @@ export {
   ApplicationScopeNotAllowedError,
   ApplicationWithInvalidClientIdError,
   ApplicationWithInvalidClientSecretError,
+  ArchivedCampaignError,
   AssessmentEndedError,
   AssessmentNotCompletedError,
   AuditLoggerApiError,
