@@ -1,4 +1,4 @@
-import { AlreadyExistingEntityError } from '../../domain/errors.js';
+import { AlreadyExistingEntityError } from '../../../../../lib/domain/errors.js';
 
 const updateStudentNumber = async function ({
   organizationLearnerId,

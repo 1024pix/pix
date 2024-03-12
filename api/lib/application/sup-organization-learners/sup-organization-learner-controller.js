@@ -19,17 +19,6 @@ const reconcileSupOrganizationLearner = async function (request, h) {
   return h.response(null).code(204);
 };
 
-const updateStudentNumber = async function (request, h) {
-  const payload = request.payload.data.attributes;
-  const organizationId = request.params.id;
-  const studentNumber = payload['student-number'];
-  const organizationLearnerId = request.params.organizationLearnerId;
-
-  await usecases.updateStudentNumber({ organizationLearnerId, studentNumber, organizationId });
-
-  return h.response().code(204);
-};
-
-const supOrganizationLearnerController = { reconcileSupOrganizationLearner, updateStudentNumber };
+const supOrganizationLearnerController = { reconcileSupOrganizationLearner };
 
 export { supOrganizationLearnerController };

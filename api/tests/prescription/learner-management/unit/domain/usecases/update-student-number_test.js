@@ -1,6 +1,6 @@
-import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
-import { updateStudentNumber } from '../../../../lib/domain/usecases/update-student-number.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { AlreadyExistingEntityError } from '../../../../../../lib/domain/errors.js';
+import { updateStudentNumber } from '../../../../../../src/prescription/learner-management/domain/usecases/update-student-number.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | update-student-number', function () {
   const organizationId = 2;
