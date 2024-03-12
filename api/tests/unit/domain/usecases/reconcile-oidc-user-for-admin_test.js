@@ -1,8 +1,8 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { reconcileOidcUserForAdmin } from '../../../../lib/domain/usecases/reconcile-oidc-user-for-admin.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../../../../lib/domain/errors.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/index.js';
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import { reconcileOidcUserForAdmin } from '../../../../lib/domain/usecases/reconcile-oidc-user-for-admin.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
   let authenticationMethodRepository,
