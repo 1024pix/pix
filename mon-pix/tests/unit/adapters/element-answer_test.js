@@ -8,30 +8,32 @@ module('Unit | Adapter | Module | ElementAnswer', function (hooks) {
   module('#urlForCreateRecord', function () {
     test('should build url for create record', function (assert) {
       // given
+      const store = this.owner.lookup('service:store');
+      const passage = store.createRecord('passage', { id: '123' });
       const adapter = this.owner.lookup('adapter:element-answer');
       const option = {
-        adapterOptions: {
-          passageId: '12',
-        },
+        modelName: 'element-answer',
+        belongsTo: sinon.stub(),
       };
+      option.belongsTo.withArgs('passage', { id: true }).returns(passage.id);
       // when
+
       const url = adapter.urlForCreateRecord('element-answer', option);
 
       // then
-      assert.true(url.endsWith(`api/passages/${option.adapterOptions.passageId}/answers`));
+      assert.true(url.endsWith(`api/passages/${passage.id}/answers`));
     });
   });
 
   module('#createRecord', function () {
     test('should build the right payload', async function (assert) {
       // given
+      const store = this.owner.lookup('service:store');
+      const passageId = 12;
+      const passage = store.createRecord('passage', { id: passageId });
       const adapter = this.owner.lookup('adapter:element-answer');
       adapter.ajax = sinon.stub().resolves();
 
-      const passageId = 12;
-      const passage = {
-        id: passageId,
-      };
       const userResponse = [];
       const element = { id: 'element-id' };
 
@@ -43,23 +45,19 @@ module('Unit | Adapter | Module | ElementAnswer', function (hooks) {
             attributes: {
               'element-id': element.id,
               'user-response': userResponse,
-              'passage-id': passage.id,
             },
           },
         },
       };
       const snapshot = {
         record: { element, userResponse, passage },
-        adapterOptions: {
-          passageId,
-        },
+        belongsTo: sinon.stub(),
         serialize: function () {
           return {
             data: {
               attributes: {
                 'user-response': userResponse,
                 'element-id': element.id,
-                'passage-id': passage.id,
               },
               relationships: {
                 passage: { data: passage },
@@ -68,6 +66,7 @@ module('Unit | Adapter | Module | ElementAnswer', function (hooks) {
           };
         },
       };
+      snapshot.belongsTo.withArgs('passage', { id: true }).returns(passage.id);
 
       // when
       await adapter.createRecord(null, { modelName: 'passage' }, snapshot);
