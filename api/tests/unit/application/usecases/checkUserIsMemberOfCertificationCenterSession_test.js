@@ -24,7 +24,7 @@ describe('Unit | Application | Use Case | CheckUserIsMemberOfCertificationCenter
         getSessionId: () => sessionId,
       };
 
-      certificationCourseRepositoryStub.get.withArgs(certificationCourseId).resolves(certificationCourse);
+      certificationCourseRepositoryStub.get.withArgs({ id: certificationCourseId }).resolves(certificationCourse);
       sessionRepositoryStub.doesUserHaveCertificationCenterMembershipForSession
         .withArgs({ userId, sessionId })
         .resolves(true);

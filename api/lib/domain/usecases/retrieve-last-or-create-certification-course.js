@@ -166,7 +166,7 @@ async function _startNewCertification({
     };
   }
 
-  const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+  const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
 
   const complementaryCertificationCourseData = [];
 

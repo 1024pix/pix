@@ -7,7 +7,9 @@ const deleteCertificationIssueReport = async function ({
   sessionRepository,
 }) {
   const certificationIssueReport = await certificationIssueReportRepository.get({ id: certificationIssueReportId });
-  const sessionId = await certificationCourseRepository.getSessionId(certificationIssueReport.certificationCourseId);
+  const sessionId = await certificationCourseRepository.getSessionId({
+    id: certificationIssueReport.certificationCourseId,
+  });
   const isFinalized = await sessionRepository.isFinalized({ id: sessionId });
 
   if (isFinalized) {

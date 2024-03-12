@@ -18,7 +18,9 @@ const getCertificationCandidateSubscription = async function ({
     });
   }
 
-  const certificationCenter = await certificationCenterRepository.getBySessionId(certificationCandidate.sessionId);
+  const certificationCenter = await certificationCenterRepository.getBySessionId({
+    sessionId: certificationCandidate.sessionId,
+  });
 
   let eligibleSubscription = null;
   let nonEligibleSubscription = null;

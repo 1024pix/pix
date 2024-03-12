@@ -21,8 +21,8 @@ describe('Unit | Controller | certification-candidate-controller', function () {
           },
         },
       };
-      sinon.stub(sharedUsecases, 'addCertificationCandidateToSession');
-      sharedUsecases.addCertificationCandidateToSession
+      sinon.stub(usecases, 'addCertificationCandidateToSession');
+      usecases.addCertificationCandidateToSession
         .withArgs({
           sessionId,
           certificationCandidate,

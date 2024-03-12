@@ -38,7 +38,9 @@ const createSession = async function ({
   }
 
   const accessCode = sessionCodeService.getNewSessionCode();
-  const { isV3Pilot, name: certificationCenterName } = await certificationCenterRepository.get(certificationCenterId);
+  const { isV3Pilot, name: certificationCenterName } = await certificationCenterRepository.get({
+    id: certificationCenterId,
+  });
   const version = isV3Pilot ? CertificationVersion.V3 : CertificationVersion.V2;
 
   const domainSession = new Session({

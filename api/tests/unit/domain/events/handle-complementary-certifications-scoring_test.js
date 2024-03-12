@@ -59,7 +59,7 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
       complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId
         .withArgs({ certificationCourseId: 123 })
         .resolves([]);
-      certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+      certificationCourseRepository.get.withArgs({ id: 123 }).resolves(domainBuilder.buildCertificationCourse());
 
       // when
       await handleComplementaryCertificationsScoring({ event, ...dependencies });
@@ -113,7 +113,7 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
           .withArgs({ certificationCourseId: 123 })
           .resolves(domainBuilder.buildAssessmentResult());
 
-        certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+        certificationCourseRepository.get.withArgs({ id: 123 }).resolves(domainBuilder.buildCertificationCourse());
 
         // when
         await handleComplementaryCertificationsScoring({ event, ...dependencies });
@@ -409,7 +409,9 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
                 }),
               );
 
-              certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+              certificationCourseRepository.get
+                .withArgs({ id: 123 })
+                .resolves(domainBuilder.buildCertificationCourse());
 
               // when
               await handleComplementaryCertificationsScoring({ event, ...dependencies });
@@ -455,7 +457,7 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
             assessmentResultRepository.getByCertificationCourseId
               .withArgs({ certificationCourseId: 123 })
               .resolves(domainBuilder.buildAssessmentResult.rejected());
-            certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+            certificationCourseRepository.get.withArgs({ id: 123 }).resolves(domainBuilder.buildCertificationCourse());
             const complementaryCertificationScoringCriteria = [
               domainBuilder.buildComplementaryCertificationScoringCriteria({
                 complementaryCertificationCourseId: 999,
@@ -511,7 +513,9 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
                 certificationChallenges: [certificationChallenge1, certificationChallenge2],
                 certificationAnswersByDate: [certificationAnswer1, certificationAnswer2],
               });
-              certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+              certificationCourseRepository.get
+                .withArgs({ id: 123 })
+                .resolves(domainBuilder.buildCertificationCourse());
 
               complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId
                 .withArgs({
@@ -588,7 +592,9 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
                     hasComplementaryReferential: true,
                   }),
                 ]);
-              certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+              certificationCourseRepository.get
+                .withArgs({ id: 123 })
+                .resolves(domainBuilder.buildCertificationCourse());
 
               certificationAssessmentRepository.getByCertificationCourseId
                 .withArgs({ certificationCourseId: 123 })
@@ -671,7 +677,9 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
                           complementaryCertificationId: 123,
                         }),
                       ]);
-                    certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+                    certificationCourseRepository.get
+                      .withArgs({ id: 123 })
+                      .resolves(domainBuilder.buildCertificationCourse());
 
                     complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.withArgs(888).resolves([
                       domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
@@ -758,7 +766,9 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
                           complementaryCertificationId: 123,
                         }),
                       ]);
-                    certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+                    certificationCourseRepository.get
+                      .withArgs({ id: 123 })
+                      .resolves(domainBuilder.buildCertificationCourse());
 
                     complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.withArgs(888).resolves([
                       domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
@@ -844,7 +854,9 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
                         complementaryCertificationId: 123,
                       }),
                     ]);
-                  certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+                  certificationCourseRepository.get
+                    .withArgs({ id: 123 })
+                    .resolves(domainBuilder.buildCertificationCourse());
 
                   complementaryCertificationBadgesRepository.getAllWithSameTargetProfile.withArgs(888).resolves([
                     domainBuilder.certification.complementary.buildComplementaryCertificationBadge({
@@ -929,7 +941,7 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
         assessmentResultRepository.getByCertificationCourseId
           .withArgs({ certificationCourseId: 123 })
           .resolves(domainBuilder.buildAssessmentResult({ pixScore: 128, reproducibilityRate: 100 }));
-        certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+        certificationCourseRepository.get.withArgs({ id: 123 }).resolves(domainBuilder.buildCertificationCourse());
 
         // when
         await handleComplementaryCertificationsScoring({ event, ...dependencies });
@@ -989,7 +1001,7 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
               certificationCourseId: 123,
             })
             .resolves(complementaryCertificationScoringCriteria);
-          certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+          certificationCourseRepository.get.withArgs({ id: 123 }).resolves(domainBuilder.buildCertificationCourse());
 
           // when
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
@@ -1052,7 +1064,7 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
               reproducibilityRate: 70,
             }),
           );
-          certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+          certificationCourseRepository.get.withArgs({ id: 123 }).resolves(domainBuilder.buildCertificationCourse());
 
           // when
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
@@ -1115,7 +1127,7 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
               reproducibilityRate: 75,
             }),
           );
-          certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+          certificationCourseRepository.get.withArgs({ id: 123 }).resolves(domainBuilder.buildCertificationCourse());
 
           // when
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
@@ -1178,7 +1190,7 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
               reproducibilityRate: 75,
             }),
           );
-          certificationCourseRepository.get.withArgs(123).resolves(domainBuilder.buildCertificationCourse());
+          certificationCourseRepository.get.withArgs({ id: 123 }).resolves(domainBuilder.buildCertificationCourse());
 
           // when
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
@@ -1242,7 +1254,7 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
             }),
           );
           certificationCourseRepository.get
-            .withArgs(123)
+            .withArgs({ id: 123 })
             .resolves(domainBuilder.buildCertificationCourse({ isRejectedForFraud: true }));
 
           // when

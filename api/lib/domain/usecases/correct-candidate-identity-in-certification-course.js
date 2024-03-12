@@ -18,7 +18,7 @@ const correctCandidateIdentityInCertificationCourse = async function ({
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
 }) {
-  const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   certificationCourse.correctFirstName(firstName);
   certificationCourse.correctLastName(lastName);
   certificationCourse.correctBirthdate(birthdate);
@@ -40,7 +40,7 @@ const correctCandidateIdentityInCertificationCourse = async function ({
 
   certificationCourse.correctBirthInformation(cpfBirthInformation);
 
-  await certificationCourseRepository.update(certificationCourse);
+  await certificationCourseRepository.update({ certificationCourse });
 };
 
 export { correctCandidateIdentityInCertificationCourse };
