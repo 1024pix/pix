@@ -39,9 +39,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.ImproveCompetenceEvaluationForbiddenError) {
     return new HttpErrors.ImproveCompetenceEvaluationForbiddenError(error.message);
   }
-  if (error instanceof DomainErrors.ArchivedCampaignError) {
-    return new HttpErrors.PreconditionFailedError(error.message);
-  }
   if (error instanceof DomainErrors.CampaignParticipationDeletedError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }

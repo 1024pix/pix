@@ -1,7 +1,7 @@
-import { knex } from '../../../../db/knex-database-connection.js';
-import { NotFoundError, UserNotFoundError } from '../../../domain/errors.js';
-import { CampaignForArchiving } from '../../../domain/models/CampaignForArchiving.js';
-import * as knexUtils from '../../utils/knex-utils.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError, UserNotFoundError } from '../../../../../lib/domain/errors.js';
+import * as knexUtils from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import { CampaignForArchiving } from '../../domain/models/CampaignForArchiving.js';
 
 async function save(campaign) {
   try {

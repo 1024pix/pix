@@ -182,34 +182,6 @@ describe('Unit | Application | Router | campaign-router ', function () {
     });
   });
 
-  describe('PUT /api/campaigns/{id}/archive', function () {
-    it('should return 400 with an invalid campaign id', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PUT', '/api/campaigns/invalid/archive');
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-  });
-
-  describe('DELETE /api/campaigns/{id}/archive', function () {
-    it('should return 400 with an invalid campaign id', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('DELETE', '/api/campaigns/invalid/archive');
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-  });
-
   describe('GET /api/campaigns/{id}/divisions', function () {
     it('should return 200', async function () {
       // given
