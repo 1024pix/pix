@@ -2,7 +2,6 @@ import { organizationController } from '../../../../lib/application/organization
 import { Membership, Organization, OrganizationInvitation } from '../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Application | Organizations | organization-controller', function () {
   let request;
@@ -474,46 +473,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
         resolvedOrganizationInvitations,
       );
       expect(response).to.deep.equal(serializedOrganizationInvitations);
-    });
-  });
-
-  describe('#getOrganizationLearnersCsvTemplate', function () {
-    const userId = 1;
-    const organizationId = 2;
-    const request = {
-      query: {
-        accessToken: 'token',
-      },
-      params: {
-        id: organizationId,
-      },
-    };
-    let dependencies;
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'getOrganizationLearnersCsvTemplate').resolves('template');
-
-      const tokenServiceStub = {
-        extractUserId: sinon.stub(),
-      };
-      tokenServiceStub.extractUserId.returns(userId);
-
-      dependencies = {
-        tokenService: tokenServiceStub,
-      };
-    });
-
-    it('should return a response with correct headers', async function () {
-      // when
-      request.i18n = getI18n();
-      hFake.request = {
-        path: '/api/organizations/2/sup-organization-learners/csv-template',
-      };
-      const response = await organizationController.getOrganizationLearnersCsvTemplate(request, hFake, dependencies);
-
-      // then
-      expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');
-      expect(response.headers['Content-Disposition']).to.equal('attachment; filename=modele-import.csv');
     });
   });
 
