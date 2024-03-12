@@ -1,8 +1,11 @@
 import fs from 'fs';
 import * as url from 'url';
 
-import { SIECLE_ERRORS } from '../../../../../../../lib/domain/errors.js';
-import { SiecleXmlImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
+import { FileValidationError, SIECLE_ERRORS } from '../../../../../../../lib/domain/errors.js';
+import {
+  AggregateImportError,
+  SiecleXmlImportError,
+} from '../../../../../../../src/prescription/learner-management/domain/errors.js';
 import { SiecleParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/xml/siecle-parser.js';
 import { detectEncoding } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/detect-encoding.js';
 import { SiecleFileStreamer } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
@@ -11,11 +14,76 @@ import { catchErr, expect } from '../../../../../../test-helper.js';
 const fixturesDirPath = `${url.fileURLToPath(new URL('../../../../../../', import.meta.url))}tooling/fixtures/`;
 
 describe('Integration | Serializers | siecle-parser', function () {
+  describe('parseUAJ', function () {
+    it('should not throw', async function () {
+      // given
+      const path = `${fixturesDirPath}/siecle-file/siecle-with-two-valid-students.xml`;
+
+      // when
+      const encoding = await detectEncoding(path);
+      const readableStream = fs.createReadStream(path);
+
+      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream, encoding);
+      const parser = SiecleParser.create(siecleFileStreamer);
+      const call = () => parser.parseUAJ('123ABC');
+
+      //then
+      expect(call).to.not.throw();
+    });
+
+    describe('error cases', function () {
+      it('should throw an AggregateImportError', async function () {
+        // given
+        const wrongUAIFromSIECLE = '123ABC';
+        const path = `${fixturesDirPath}/siecle-file/siecle-with-wrong-uai.xml`;
+        const readableStream = fs.createReadStream(path);
+        // when
+        const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
+        const parser = SiecleParser.create(siecleFileStreamer);
+        const errors = await catchErr(parser.parseUAJ, parser)(wrongUAIFromSIECLE);
+
+        //then
+        expect(errors).to.be.instanceof(AggregateImportError);
+      });
+
+      it('should abort parsing and reject with not valid UAI error', async function () {
+        // given
+        const wrongUAIFromSIECLE = '123ABC';
+        const path = `${fixturesDirPath}/siecle-file/siecle-with-wrong-uai.xml`;
+        const readableStream = fs.createReadStream(path);
+        // when
+        const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
+        const parser = SiecleParser.create(siecleFileStreamer);
+        const errors = await catchErr(parser.parseUAJ, parser)(wrongUAIFromSIECLE);
+
+        //then
+        expect(errors.meta).to.be.lengthOf(1);
+        expect(errors.meta[0]).to.be.instanceof(SiecleXmlImportError);
+        expect(errors.meta[0].code).to.equal('UAI_MISMATCHED');
+      });
+
+      it('should abort parsing and reject with not valid UAI error if UAI is missing', async function () {
+        // given
+        const wrongUAIFromSIECLE = '123ABC';
+        const path = `${fixturesDirPath}/siecle-file/siecle-with-no-uai.xml`;
+        const readableStream = fs.createReadStream(path);
+
+        // when
+        const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
+        const parser = SiecleParser.create(siecleFileStreamer);
+        const errors = await catchErr(() => parser.parseUAJ(wrongUAIFromSIECLE))();
+
+        //then
+        expect(errors.meta).to.be.lengthOf(1);
+        expect(errors.meta[0]).to.be.instanceof(SiecleXmlImportError);
+        expect(errors.meta[0].code).to.equal('UAI_MISMATCHED');
+      });
+    });
+  });
+
   describe('parse', function () {
     it('should parse two organizationLearners information', async function () {
       // given
-      const validUAIFromSIECLE = '123ABC';
-      const organization = { externalId: validUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-two-valid-students.xml`;
 
       const expectedOrganizationLearners = [
@@ -60,7 +128,8 @@ describe('Integration | Serializers | siecle-parser', function () {
       const readableStream = fs.createReadStream(path);
 
       const siecleFileStreamer = await SiecleFileStreamer.create(readableStream, encoding);
-      const parser = SiecleParser.create(organization, siecleFileStreamer);
+      const parser = SiecleParser.create(siecleFileStreamer);
+
       const result = await parser.parse();
 
       //then
@@ -69,8 +138,6 @@ describe('Integration | Serializers | siecle-parser', function () {
 
     it('should not parse organizationLearners who are no longer in the school', async function () {
       // given
-      const validUAIFromSIECLE = '123ABC';
-      const organization = { externalId: validUAIFromSIECLE };
       const path = `${fixturesDirPath}/siecle-file/siecle-with-registrations-no-longer-in-school.xml`;
       const readableStream = fs.createReadStream(path);
 
@@ -78,135 +145,125 @@ describe('Integration | Serializers | siecle-parser', function () {
 
       // when
       const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
-      const parser = SiecleParser.create(organization, siecleFileStreamer);
+      const parser = SiecleParser.create(siecleFileStreamer);
       const result = await parser.parse();
 
       //then
       expect(result).to.deep.equal(expectedOrganizationLearners);
     });
 
-    it('should abort parsing and reject with not valid UAI error', async function () {
-      // given
-      const wrongUAIFromSIECLE = '123ABC';
-      const organization = { externalId: wrongUAIFromSIECLE };
-      const path = `${fixturesDirPath}/siecle-file/siecle-with-wrong-uai.xml`;
-      const readableStream = fs.createReadStream(path);
-      // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
-      const parser = SiecleParser.create(organization, siecleFileStreamer);
-      const error = await catchErr(() => parser.parseUAJ(wrongUAIFromSIECLE))();
-
-      //then
-      expect(error).to.be.instanceof(SiecleXmlImportError);
-      expect(error.code).to.equal('UAI_MISMATCHED');
-    });
-
-    it('should abort parsing and reject with not valid UAI error if UAI is missing', async function () {
-      // given
-      const wrongUAIFromSIECLE = '123ABC';
-      const organization = { externalId: wrongUAIFromSIECLE };
-      const path = `${fixturesDirPath}/siecle-file/siecle-with-no-uai.xml`;
-      const readableStream = fs.createReadStream(path);
-
-      // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
-      const parser = SiecleParser.create(organization, siecleFileStreamer);
-      const error = await catchErr(() => parser.parseUAJ(wrongUAIFromSIECLE))();
-
-      //then
-      expect(error).to.be.instanceof(SiecleXmlImportError);
-      expect(error.code).to.equal('UAI_MISMATCHED');
-    });
-
-    it('should abort parsing and reject with duplicate national student id error', async function () {
-      // given
-      const validUAIFromSIECLE = '123ABC';
-      const organization = { externalId: validUAIFromSIECLE };
-      const path = `${fixturesDirPath}/siecle-file/siecle-with-duplicate-national-student-id.xml`;
-      const readableStream = fs.createReadStream(path);
-
-      // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
-      const parser = SiecleParser.create(organization, siecleFileStreamer);
-      const error = await catchErr(() => parser.parse())();
-
-      //then
-      expect(error).to.be.instanceof(SiecleXmlImportError);
-      expect(error.code).to.equal('INE_UNIQUE');
-      expect(error.meta).to.deep.equal({ nationalStudentId: '00000000123' });
-    });
-
-    it('should abort parsing and reject with duplicate national student id error and tag not correctly closed', async function () {
-      // given
-      const validUAIFromSIECLE = '123ABC';
-      const organization = { externalId: validUAIFromSIECLE };
-      const path = `${fixturesDirPath}/siecle-file/siecle-with-duplicate-national-student-id-and-unclosed-tag.xml`;
-      const readableStream = fs.createReadStream(path);
-
-      // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
-      const parser = SiecleParser.create(organization, siecleFileStreamer);
-      const error = await catchErr(() => parser.parse())();
-
-      //then
-      expect(error).to.be.instanceof(SiecleXmlImportError);
-      expect(error.code).to.equal('INE_UNIQUE');
-      expect(error.meta).to.deep.equal({ nationalStudentId: '00000000123' });
-    });
-
-    it('should abort parsing and reject with missing national student id error', async function () {
-      // given
-      const validUAIFromSIECLE = '123ABC';
-      const organization = { externalId: validUAIFromSIECLE };
-      const path = `${fixturesDirPath}/siecle-file/siecle-with-no-national-student-id.xml`;
-      const readableStream = fs.createReadStream(path);
-
-      // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
-      const parser = SiecleParser.create(organization, siecleFileStreamer);
-      const error = await catchErr(() => parser.parse())();
-
-      //then
-      expect(error).to.be.instanceof(SiecleXmlImportError);
-      expect(error.code).to.equal('INE_REQUIRED');
-    });
-
-    it('should abort parsing and reject with missing sex ', async function () {
-      // given
-      const validUAIFromSIECLE = '123ABC';
-      const nationalStudentIdFromFile = '12345';
-      const organization = { externalId: validUAIFromSIECLE };
-      const path = `${fixturesDirPath}/siecle-file/siecle-student-with-no-sex.xml`;
-      const readableStream = fs.createReadStream(path);
-
-      // when
-      const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
-      const parser = SiecleParser.create(organization, siecleFileStreamer);
-      const error = await catchErr(() => parser.parse())();
-
-      //then
-      expect(error).to.be.instanceof(SiecleXmlImportError);
-      expect(error.code).to.be.equal(SIECLE_ERRORS.SEX_CODE_REQUIRED);
-      expect(error.meta).to.contains({ nationalStudentId: nationalStudentIdFromFile });
-    });
-    context('when student is born in France', function () {
-      it('should abort parsing and reject with missing birth city code ', async function () {
+    describe('error cases', function () {
+      it('should throw AggregateImportError', async function () {
         // given
-        const validUAIFromSIECLE = '123ABC';
-        const nationalStudentIdFromFile = '1234';
-        const organization = { externalId: validUAIFromSIECLE };
-        const path = `${fixturesDirPath}/siecle-file/siecle-french-student-with-no-birth-city-code.xml`;
+        const path = `${fixturesDirPath}/siecle-file/siecle-with-duplicate-national-student-id.xml`;
         const readableStream = fs.createReadStream(path);
 
         // when
         const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
-        const parser = SiecleParser.create(organization, siecleFileStreamer);
-        const error = await catchErr(() => parser.parse())();
+        const parser = SiecleParser.create(siecleFileStreamer);
+        const errors = await catchErr(() => parser.parse())();
 
         //then
-        expect(error).to.be.instanceof(SiecleXmlImportError);
-        expect(error.code).to.be.equal(SIECLE_ERRORS.BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT);
-        expect(error.meta).to.contains({ nationalStudentId: nationalStudentIdFromFile });
+        expect(errors).to.be.instanceof(AggregateImportError);
+      });
+
+      it('should abort parsing and reject with duplicate national student id error', async function () {
+        // given
+        const path = `${fixturesDirPath}/siecle-file/siecle-with-duplicate-national-student-id.xml`;
+        const readableStream = fs.createReadStream(path);
+
+        // when
+        const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
+        const parser = SiecleParser.create(siecleFileStreamer);
+        const errors = await catchErr(() => parser.parse())();
+
+        //then
+        expect(errors.meta[0]).to.be.instanceof(SiecleXmlImportError);
+        expect(errors.meta[0].code).to.equal('INE_UNIQUE');
+        expect(errors.meta[0].meta).to.deep.equal({ nationalStudentId: '00000000123' });
+      });
+
+      it('should abort parsing and reject with duplicate national student id error and tag not correctly closed', async function () {
+        // given
+        const path = `${fixturesDirPath}/siecle-file/siecle-with-duplicate-national-student-id-and-unclosed-tag.xml`;
+        const readableStream = fs.createReadStream(path);
+
+        // when
+        const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
+        const parser = SiecleParser.create(siecleFileStreamer);
+        const errors = await catchErr(() => parser.parse())();
+
+        //then
+        expect(errors.meta).lengthOf(2);
+        expect(errors.meta[0]).to.be.instanceof(SiecleXmlImportError);
+        expect(errors.meta[1]).to.be.instanceof(FileValidationError);
+      });
+
+      it('should abort parsing and reject with missing national student id error', async function () {
+        // given
+        const path = `${fixturesDirPath}/siecle-file/siecle-with-no-national-student-id.xml`;
+        const readableStream = fs.createReadStream(path);
+
+        // when
+        const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
+        const parser = SiecleParser.create(siecleFileStreamer);
+        const errors = await catchErr(() => parser.parse())();
+
+        //then
+        expect(errors.meta[0]).to.be.instanceof(SiecleXmlImportError);
+        expect(errors.meta[0].code).to.equal('INE_REQUIRED');
+      });
+
+      it('should abort parsing and reject with missing sex ', async function () {
+        // given
+        const nationalStudentIdFromFile = '12345';
+        const path = `${fixturesDirPath}/siecle-file/siecle-student-with-no-sex.xml`;
+        const readableStream = fs.createReadStream(path);
+
+        // when
+        const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
+        const parser = SiecleParser.create(siecleFileStreamer);
+        const errors = await catchErr(() => parser.parse())();
+
+        //then
+        expect(errors.meta[0]).to.be.instanceof(SiecleXmlImportError);
+        expect(errors.meta[0].code).to.be.equal(SIECLE_ERRORS.SEX_CODE_REQUIRED);
+        expect(errors.meta[0].meta).to.contains({ nationalStudentId: nationalStudentIdFromFile });
+      });
+
+      it('should abort parsing and reject multiple error', async function () {
+        // given
+        const path = `${fixturesDirPath}/siecle-file/siecle-student-with-no-sex-no-birthdate.xml`;
+        const readableStream = fs.createReadStream(path);
+
+        // when
+        const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
+        const parser = SiecleParser.create(siecleFileStreamer);
+        const errors = await catchErr(() => parser.parse())();
+
+        //then
+        expect(errors.meta).lengthOf(2);
+        expect(errors.meta[0]).to.be.instanceof(SiecleXmlImportError);
+        expect(errors.meta[1]).to.be.instanceof(SiecleXmlImportError);
+      });
+
+      context('when student is born in France', function () {
+        it('should abort parsing and reject with missing birth city code ', async function () {
+          // given
+          const nationalStudentIdFromFile = '1234';
+          const path = `${fixturesDirPath}/siecle-file/siecle-french-student-with-no-birth-city-code.xml`;
+          const readableStream = fs.createReadStream(path);
+
+          // when
+          const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
+          const parser = SiecleParser.create(siecleFileStreamer);
+          const errors = await catchErr(() => parser.parse())();
+
+          //then
+          expect(errors.meta[0]).to.be.instanceof(SiecleXmlImportError);
+          expect(errors.meta[0].code).to.be.equal(SIECLE_ERRORS.BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT);
+          expect(errors.meta[0].meta).to.contains({ nationalStudentId: nationalStudentIdFromFile });
+        });
       });
     });
   });

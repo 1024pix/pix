@@ -61,12 +61,12 @@ const importOrganizationLearnersFromSIECLEXMLFormat = async function ({
   try {
     const readableStreamForUAJ = await importStorage.readFile({ filename });
     const siecleFileStreamerForUAJ = await SiecleFileStreamer.create(readableStreamForUAJ, encoding);
-    const parserForUAJ = SiecleParser.create(organization, siecleFileStreamerForUAJ);
+    const parserForUAJ = SiecleParser.create(siecleFileStreamerForUAJ);
     await parserForUAJ.parseUAJ(organization.externalId);
 
     const readableStream = await importStorage.readFile({ filename });
     const siecleFileStreamer = await SiecleFileStreamer.create(readableStream, encoding);
-    const parser = SiecleParser.create(organization, siecleFileStreamer);
+    const parser = SiecleParser.create(siecleFileStreamer);
     organizationLearnerData = await parser.parse();
     if (isEmpty(organizationLearnerData)) {
       throw new SiecleXmlImportError(ERRORS.EMPTY);
