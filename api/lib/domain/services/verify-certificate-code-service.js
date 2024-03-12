@@ -22,9 +22,11 @@ const generateCertificateVerificationCode = async function ({
   dependencies = { certificationCourseRepository },
 } = {}) {
   for (let i = 0; i < NB_OF_TRIALS; i++) {
-    const code = generateCode();
-    const isCodeAvailable = await dependencies.certificationCourseRepository.isVerificationCodeAvailable(code);
-    if (isCodeAvailable) return code;
+    const verificationCode = generateCode();
+    const isCodeAvailable = await dependencies.certificationCourseRepository.isVerificationCodeAvailable({
+      verificationCode,
+    });
+    if (isCodeAvailable) return verificationCode;
   }
   throw new CertificateVerificationCodeGenerationTooManyTrials(NB_OF_TRIALS);
 };

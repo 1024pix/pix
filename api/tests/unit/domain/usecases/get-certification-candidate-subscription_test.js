@@ -52,7 +52,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           .withArgs(certificationCandidateId)
           .resolves(candidateWithComplementaryCertification);
 
-        certificationCenterRepository.getBySessionId.withArgs(sessionId).resolves(certificationCenter);
+        certificationCenterRepository.getBySessionId.withArgs({ sessionId }).resolves(certificationCenter);
 
         certificationBadgesService.findStillValidBadgeAcquisitions
           .withArgs({ userId })
@@ -111,7 +111,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           .withArgs(certificationCandidateId)
           .resolves(candidateWithoutComplementaryCertification);
 
-        certificationCenterRepository.getBySessionId.withArgs(sessionId).resolves(certificationCenter);
+        certificationCenterRepository.getBySessionId.withArgs({ sessionId }).resolves(certificationCenter);
 
         certificationBadgesService.findStillValidBadgeAcquisitions
           .withArgs({ userId })

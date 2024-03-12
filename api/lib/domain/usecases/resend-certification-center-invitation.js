@@ -8,9 +8,9 @@ const resendCertificationCenterInvitation = async function ({
   const certificationCenterInvitation = await certificationCenterInvitationRepository.get(
     certificationCenterInvitationId,
   );
-  const certificationCenter = await certificationCenterRepository.get(
-    certificationCenterInvitation.certificationCenterId,
-  );
+  const certificationCenter = await certificationCenterRepository.get({
+    id: certificationCenterInvitation.certificationCenterId,
+  });
   await certificationCenterInvitationService.resendCertificationCenterInvitation({
     certificationCenterInvitationRepository,
   })({

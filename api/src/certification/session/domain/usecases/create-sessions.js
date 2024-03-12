@@ -35,7 +35,7 @@ const createSessions = async function ({
     throw new NotFoundError();
   }
 
-  const { isV3Pilot } = await certificationCenterRepository.get(certificationCenterId);
+  const { isV3Pilot } = await certificationCenterRepository.get({ id: certificationCenterId });
 
   await DomainTransaction.execute(async (domainTransaction) => {
     return await bluebird.mapSeries(temporaryCachedSessions, async (sessionDTO) => {

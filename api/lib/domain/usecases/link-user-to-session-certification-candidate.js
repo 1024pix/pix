@@ -104,7 +104,7 @@ async function _isSessionFromAScoAndManagingStudentsOrganization({
   certificationCenterRepository,
   organizationRepository,
 }) {
-  const sessionCertificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+  const sessionCertificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
 
   if (sessionCertificationCenter.isSco) {
     const sessionOrganization = await _getOrganizationLinkedToCertificationCenter({

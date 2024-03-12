@@ -114,7 +114,7 @@ async function _manageCleaEmails({ session, certificationCenterRepository, sessi
     return;
   }
 
-  const refererEmails = await certificationCenterRepository.getRefererEmails(session.certificationCenterId);
+  const refererEmails = await certificationCenterRepository.getRefererEmails({ id: session.certificationCenterId });
   if (refererEmails.length <= 0) {
     logger.warn(`Publishing session ${session.id} with Clea certifications but no referer. No email will be sent`);
     return;

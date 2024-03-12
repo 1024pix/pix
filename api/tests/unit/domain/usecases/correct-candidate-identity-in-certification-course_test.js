@@ -45,7 +45,7 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
     const cpfBirthInformationValidation = new CpfBirthInformationValidation();
     cpfBirthInformationValidation.success({ birthCountry, birthINSEECode, birthPostalCode, birthCity });
 
-    certificationCourseRepository.get.withArgs(4).resolves(certificationCourseToBeModified);
+    certificationCourseRepository.get.withArgs({ id: 4 }).resolves(certificationCourseToBeModified);
     certificationCpfService.getBirthInformation
       .withArgs({
         birthCountry,
@@ -79,8 +79,8 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
     });
 
     // then
-    expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
-      new CertificationCourse({
+    expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+      certificationCourse: new CertificationCourse({
         ...certificationCourseToBeModified.toDTO(),
         firstName: 'Maurice',
         lastName: 'Dupont',
@@ -91,7 +91,7 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
         birthINSEECode: null,
         birthPostalCode: '75015',
       }),
-    );
+    });
   });
 
   it('should throws a CertificationCandidatesError if birth information validation fails', async function () {
@@ -113,7 +113,7 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
       birthINSEECode: '99404',
     });
 
-    certificationCourseRepository.get.withArgs(4).resolves(certificationCourseToBeModified);
+    certificationCourseRepository.get.withArgs({ id: 4 }).resolves(certificationCourseToBeModified);
     const certificationCandidateError = { code: '', getMessage: () => 'Failure message' };
     const cpfBirthInformationValidation = new CpfBirthInformationValidation();
     cpfBirthInformationValidation.failure({ certificationCandidateError });

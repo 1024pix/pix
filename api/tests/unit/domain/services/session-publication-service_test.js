@@ -418,7 +418,7 @@ describe('Unit | UseCase | session-publication-service', function () {
 
           sessionRepository.hasSomeCleaAcquired.withArgs({ id: session.id }).resolves(true);
           certificationCenterRepository.getRefererEmails
-            .withArgs(session.certificationCenterId)
+            .withArgs({ id: session.certificationCenterId })
             .resolves([{ email: user.email }]);
 
           // when
@@ -463,7 +463,7 @@ describe('Unit | UseCase | session-publication-service', function () {
 
             sessionRepository.hasSomeCleaAcquired.withArgs({ id: session.id }).resolves(true);
             certificationCenterRepository.getRefererEmails
-              .withArgs(session.certificationCenterId)
+              .withArgs({ id: session.certificationCenterId })
               .resolves([{ email: user.email }]);
 
             // when
@@ -489,7 +489,9 @@ describe('Unit | UseCase | session-publication-service', function () {
           // given
           mailService.sendCertificationResultEmail.resolves(EmailingAttempt.success(recipient1));
           sessionRepository.hasSomeCleaAcquired.withArgs({ id: originalSession.id }).resolves(true);
-          certificationCenterRepository.getRefererEmails.withArgs(originalSession.certificationCenterId).resolves([]);
+          certificationCenterRepository.getRefererEmails
+            .withArgs({ id: originalSession.certificationCenterId })
+            .resolves([]);
 
           // when
           await manageEmails({

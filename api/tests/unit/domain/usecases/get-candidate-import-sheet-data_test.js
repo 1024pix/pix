@@ -35,7 +35,7 @@ describe('Unit | UseCase | get-candidate-import-sheet-data', function () {
       habilitations: [complementaryCertification1, complementaryCertification2],
       type: 'SCO',
     });
-    certificationCenterRepository.getBySessionId.withArgs(sessionId).resolves(certificationCenter);
+    certificationCenterRepository.getBySessionId.withArgs({ sessionId }).resolves(certificationCenter);
 
     // when
     const result = await getCandidateImportSheetData({

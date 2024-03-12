@@ -7,7 +7,7 @@ const addCandidate = async function (request, h, dependencies = { certificationC
   const sessionId = request.params.id;
   const certificationCandidate = await dependencies.certificationCandidateSerializer.deserialize(request.payload);
   const complementaryCertification = request.payload.data.attributes['complementary-certification'] ?? null;
-  const addedCertificationCandidate = await sharedUsecases.addCertificationCandidateToSession({
+  const addedCertificationCandidate = await usecases.addCertificationCandidateToSession({
     sessionId,
     certificationCandidate,
     complementaryCertification,

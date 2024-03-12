@@ -34,7 +34,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     complementaryCertificationRepository = { getByLabel: sinon.stub() };
     certificationCourseRepository = sinon.stub();
     sessionCodeService = { getNewSessionCode: sinon.stub().returns(accessCode) };
-    certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
+    certificationCenterRepository.get.withArgs({ id: certificationCenterId }).resolves(certificationCenter);
 
     sessionsImportValidationService = {
       getValidatedComplementaryCertificationForMassImport: sinon.stub(),
@@ -410,7 +410,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           ],
         });
 
-        certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
+        certificationCenterRepository.get.withArgs({ id: certificationCenterId }).resolves(certificationCenter);
 
         // when
         const sessionsMassImportReport = await validateSessions({
@@ -496,7 +496,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           duplicateCandidateErrors: [],
         });
 
-        certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
+        certificationCenterRepository.get.withArgs({ id: certificationCenterId }).resolves(certificationCenter);
 
         // when
         const sessionsMassImportReport = await validateSessions({

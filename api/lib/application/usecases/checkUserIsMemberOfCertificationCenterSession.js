@@ -6,7 +6,7 @@ const execute = async function ({
   certificationCourseId,
   dependencies = { certificationCourseRepository, sessionRepository },
 }) {
-  const certificationCourse = await dependencies.certificationCourseRepository.get(certificationCourseId);
+  const certificationCourse = await dependencies.certificationCourseRepository.get({ id: certificationCourseId });
   return dependencies.sessionRepository.doesUserHaveCertificationCenterMembershipForSession({
     userId,
     sessionId: certificationCourse.getSessionId(),

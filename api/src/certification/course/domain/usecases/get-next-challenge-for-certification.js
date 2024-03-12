@@ -13,7 +13,9 @@ const getNextChallengeForCertification = async function ({
   flashAlgorithmService,
   flashAlgorithmConfigurationRepository,
 }) {
-  const certificationCourse = await certificationCourseRepository.get(assessment.certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({
+    id: assessment.certificationCourseId,
+  });
 
   if (certificationCourse.getVersion() === CertificationVersion.V3) {
     const alreadyAnsweredChallengeIds = await _getAlreadyAnsweredChallengeIds({

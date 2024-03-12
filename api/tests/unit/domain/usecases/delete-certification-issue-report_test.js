@@ -16,7 +16,7 @@ describe('Unit | UseCase | delete-certification-issue-report', function () {
     const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ id: certificationIssueReportId });
     sinon.stub(certificationCourseRepository, 'getSessionId');
     certificationCourseRepository.getSessionId
-      .withArgs(certificationIssueReport.certificationCourseId)
+      .withArgs({ id: certificationIssueReport.certificationCourseId })
       .resolves(sessionId);
     certificationIssueReportRepository = {
       remove: sinon.stub(),
