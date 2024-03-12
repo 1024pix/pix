@@ -761,6 +761,18 @@
         "competence": {
           "title": "Competence :"
         },
+        "learners": {
+          "title": "List of participants",
+          "list": {
+            "caption": "List of students with their result for the mission {missionName}",
+            "headers": {
+              "division": "Division",
+              "first-name": "First name",
+              "last-name": "Last name"
+            }
+          },
+          "no-data": "There is not any participants"
+        },
         "objective": {
           "title": "Objectives :"
         }

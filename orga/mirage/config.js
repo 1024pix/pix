@@ -6,6 +6,7 @@ import { findFilteredPaginatedScoOrganizationParticipants } from './handlers/fin
 import { findFilteredPaginatedSupOrganizationParticipants } from './handlers/find-filtered-paginated-sup-organization-participants';
 import { findPaginatedAssessmentResults } from './handlers/find-paginated-assessment-results';
 import { findPaginatedCampaignProfilesCollectionParticipationSummaries } from './handlers/find-paginated-campaign-participation-summaries';
+import { findPaginatedMissionLearners } from './handlers/find-paginated-mission-learners';
 import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
 
 const emptyData = {
@@ -524,6 +525,8 @@ function routes() {
     const missionId = request.params.mission_id;
     return schema.missions.find(missionId);
   });
+
+  this.get('/organizations/:organization_id/mission-learners', findPaginatedMissionLearners);
 
   this.get('/frameworks/for-target-profile-submission', (schema) => {
     return schema.frameworks.all();
