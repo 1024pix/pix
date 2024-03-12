@@ -47,7 +47,7 @@ describe('Unit | Controller | school-controller', function () {
                   division: 'CM1/CM2',
                   firstName: 'Bob',
                   id: 10,
-                  lastName: 'Dylan',
+                  displayName: 'Bob',
                   organizationId: 1,
                   completedMissionIds: [],
                 },
