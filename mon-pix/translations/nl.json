@@ -984,7 +984,7 @@
     },
     "fill-in-certificate-verification-code": {
       "title": "Een Pix-certificaat controleren",
-      "description": "Een Pix-certificaat getuigt van een vaardigheidsniveau in digitale vaardigheden: voer hieronder de \\\"verificatiecode\\\" in voor het Pix-certificaat dat je wilt controleren.",
+      "description": "Een Pix-certificaat getuigt van een vaardigheidsniveau in digitale vaardigheden: voer hieronder de \"verificatiecode\" in voor het Pix-certificaat dat je wilt controleren.",
       "errors": {
         "missing-code": "Voer de verificatiecode in.",
         "not-found": "Er is geen bijbehorend Pix-certificaat.",
