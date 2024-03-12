@@ -175,7 +175,7 @@ function prepareContextRecords(store, correctionResponse) {
     correction: correctionResponse,
     element: qcuElement,
   });
-  store.createRecord('grain', { id: 'id', rawElements: [qcuElement] });
+  store.createRecord('grain', { id: 'id', elements: [qcuElement] });
   store.createRecord('element-answer', {
     correction: correctionResponse,
     elementId: qcuElement.id,

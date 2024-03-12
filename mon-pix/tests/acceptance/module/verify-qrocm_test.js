@@ -53,7 +53,7 @@ module('Acceptance | Module | Routes | verifyQrocm', function (hooks) {
     const grain = server.create('grain', {
       id: 'grainId',
       title: 'title',
-      rawElements: [qrocm1],
+      elements: [qrocm1],
     });
 
     server.create('module', {

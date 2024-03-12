@@ -36,7 +36,7 @@ module('Acceptance | Module | Routes | verifyQcm', function (hooks) {
     const grain = server.create('grain', {
       id: 'grainId',
       title: 'title',
-      rawElements: [qcm1, qcm2],
+      elements: [qcm1, qcm2],
     });
 
     server.create('module', {

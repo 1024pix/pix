@@ -13,7 +13,7 @@
   {{/if}}
 
   <div class="grain__content">
-    {{#each @grain.rawElements as |element|}}
+    {{#each @grain.elements as |element|}}
       <div class="grain-content__element">
         {{#if (eq element.type "text")}}
           <Module::Text @text={{element}} />
