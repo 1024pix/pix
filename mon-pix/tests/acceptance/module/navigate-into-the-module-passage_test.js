@@ -98,7 +98,7 @@ module('Acceptance | Module | Routes | navigateIntoTheModulePassage', function (
       const grain1 = server.create('grain', {
         id: 'grainId-1',
         title: 'title grain 1',
-        rawElements: [text1],
+        elements: [text1],
       });
       server.create('module', {
         id: 'bien-ecrire-son-adresse-mail',
@@ -141,17 +141,17 @@ function _createGrains(server) {
   const grain1 = server.create('grain', {
     id: 'grainId-1',
     title: 'title grain 1',
-    rawElements: [text1],
+    elements: [text1],
   });
   const grain2 = server.create('grain', {
     id: 'grainId-2',
     title: 'title grain 2',
-    rawElements: [text2],
+    elements: [text2],
   });
   const grain3 = server.create('grain', {
     id: 'grainId-3',
     title: 'title grain 3',
-    rawElements: [text3],
+    elements: [text3],
   });
 
   return [grain1, grain2, grain3];
