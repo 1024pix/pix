@@ -1,5 +1,35 @@
 # Pix Changelog
 
+## v4.114.0 (12/03/2024)
+
+
+### :rocket: Amélioration
+- [#8356](https://github.com/1024pix/pix/pull/8356) [FEATURE] Finalisation MVP module mots-de-passe-securises (cf. PR #8349).
+- [#8240](https://github.com/1024pix/pix/pull/8240) [FEATURE] Mise à jour du wording pour la page de verification du code de certificat (PIX-11384) .
+- [#8360](https://github.com/1024pix/pix/pull/8360) [FEATURE] Ajoute d'`alt` manquants sur Modulix.
+- [#8343](https://github.com/1024pix/pix/pull/8343) [FEATURE] Revue de design de Modulix.
+
+### :building_construction: Tech
+- [#8277](https://github.com/1024pix/pix/pull/8277) [TECH] Migrer les nouvelles couleurs du design system sur Pix Certif (PIX-11528).
+
+### :arrow_up: Montée de version
+- [#8375](https://github.com/1024pix/pix/pull/8375) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.3 (orga).
+- [#8374](https://github.com/1024pix/pix/pull/8374) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.3 (mon-pix).
+- [#8373](https://github.com/1024pix/pix/pull/8373) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.3 (load-testing).
+- [#8371](https://github.com/1024pix/pix/pull/8371) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.3 (dossier racine).
+- [#8369](https://github.com/1024pix/pix/pull/8369) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.3 (audit-logger).
+- [#8368](https://github.com/1024pix/pix/pull/8368) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.3 (api).
+- [#8367](https://github.com/1024pix/pix/pull/8367) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.3 (admin).
+- [#8366](https://github.com/1024pix/pix/pull/8366) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.3 (1d).
+- [#8364](https://github.com/1024pix/pix/pull/8364) [BUMP] Update adobe/s3mock Docker tag to v3.5.2 (.circleci).
+- [#8346](https://github.com/1024pix/pix/pull/8346) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.2 (mon-pix).
+- [#8359](https://github.com/1024pix/pix/pull/8359) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.2 (orga).
+- [#8358](https://github.com/1024pix/pix/pull/8358) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.7 (orga).
+- [#8357](https://github.com/1024pix/pix/pull/8357) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.7 (certif).
+- [#8353](https://github.com/1024pix/pix/pull/8353) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.7 (admin).
+- [#8352](https://github.com/1024pix/pix/pull/8352) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.7 (1d).
+- [#8339](https://github.com/1024pix/pix/pull/8339) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.2 (audit-logger).
+
 ## v4.113.0 (11/03/2024)
 
 
