@@ -12,6 +12,23 @@ module('Acceptance | Certificate verification', function (hooks) {
   setupMirage(hooks);
   setupIntl(hooks);
 
+  test('display a verification section', async function (assert) {
+    // given & when
+    const screen = await visit('/verification-certificat');
+
+    // then
+    assert.dom(screen.getByRole('heading', { name: 'Vérifier un certificat Pix' })).exists();
+    assert
+      .dom(
+        screen.getByText(
+          'La certification Pix atteste d’un niveau de maîtrise des compétences numériques : saisissez ci-après le "code de vérification" du certificat Pix à vérifier.',
+        ),
+      )
+      .exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Code de vérification (P-XXXXXXXX)' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Vérifier le certificat' })).exists();
+  });
+
   module('when certificate verification code is valid', function () {
     test('redirects to certificate details page', async function (assert) {
       // Given
