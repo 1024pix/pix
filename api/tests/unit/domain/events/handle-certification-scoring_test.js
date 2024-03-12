@@ -144,7 +144,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           sinon.stub(AssessmentResultFactory, 'buildAlgoErrorResult').returns(errorAssessmentResult);
           assessmentResultRepository.save.resolves(errorAssessmentResult);
           certificationCourseRepository.get
-            .withArgs(certificationAssessment.certificationCourseId)
+            .withArgs({ id: certificationAssessment.certificationCourseId })
             .resolves(certificationCourse);
           certificationCourseRepository.update.resolves(certificationCourse);
         });
@@ -188,12 +188,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             certificationCourseId: 1234,
             assessmentResult: errorAssessmentResult,
           });
-          expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
-            new CertificationCourse({
+          expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+            certificationCourse: new CertificationCourse({
               ...certificationCourse.toDTO(),
               completedAt: now,
             }),
-          );
+          });
         });
       });
 
@@ -225,7 +225,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             competenceMarkRepository.save.resolves();
             scoringCertificationService.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
             certificationCourseRepository.get
-              .withArgs(certificationAssessment.certificationCourseId)
+              .withArgs({ id: certificationAssessment.certificationCourseId })
               .resolves(certificationCourse);
             certificationCourseRepository.update.resolves(certificationCourse);
           });
@@ -254,12 +254,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               certificationCourseId: 1234,
               assessmentResult: expectedAssessmentResult,
             });
-            expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
-              new CertificationCourse({
+            expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+              certificationCourse: new CertificationCourse({
                 ...certificationCourse.toDTO(),
                 completedAt: now,
               }),
-            );
+            });
           });
 
           it('should return a CertificationScoringCompleted', async function () {
@@ -318,7 +318,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             competenceMarkRepository.save.resolves();
             scoringCertificationService.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
             certificationCourseRepository.get
-              .withArgs(certificationAssessment.certificationCourseId)
+              .withArgs({ id: certificationAssessment.certificationCourseId })
               .resolves(certificationCourse);
             certificationCourseRepository.update.resolves(certificationCourse);
             // when
@@ -351,12 +351,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               assessmentResult: expectedAssessmentResult,
             });
 
-            expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
-              new CertificationCourse({
+            expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+              certificationCourse: new CertificationCourse({
                 ...certificationCourse.toDTO(),
                 completedAt: now,
               }),
-            );
+            });
           });
         });
       });
@@ -437,7 +437,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               .withArgs({ certificationCourseId })
               .resolves(challenges);
             answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
-            certificationCourseRepository.get.withArgs(certificationCourseId).resolves(abortedCertificationCourse);
+            certificationCourseRepository.get
+              .withArgs({ id: certificationCourseId })
+              .resolves(abortedCertificationCourse);
 
             flashAlgorithmService.getEstimatedLevelAndErrorRate
               .withArgs({
@@ -509,13 +511,13 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
               certificationAssessmentHistory,
             );
-            expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
-              new CertificationCourse({
+            expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+              certificationCourse: new CertificationCourse({
                 ...certificationCourse.toDTO(),
                 completedAt: now,
                 abortReason: 'candidate',
               }),
-            );
+            });
           });
         });
 
@@ -558,7 +560,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               .resolves(challenges);
 
             answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
-            certificationCourseRepository.get.withArgs(certificationCourseId).resolves(abortedCertificationCourse);
+            certificationCourseRepository.get
+              .withArgs({ id: certificationCourseId })
+              .resolves(abortedCertificationCourse);
 
             flashAlgorithmService.getEstimatedLevelAndErrorRate
               .withArgs({
@@ -628,21 +632,21 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               assessmentResult: expectedAssessmentResult,
             });
 
-            expect(certificationCourseRepository.update.firstCall.args[0]).to.deep.equal(
-              new CertificationCourse({
+            expect(certificationCourseRepository.update.firstCall.args[0]).to.deep.equal({
+              certificationCourse: new CertificationCourse({
                 ...certificationCourse.toDTO(),
                 isCancelled: true,
                 abortReason,
               }),
-            );
+            });
 
-            expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
-              new CertificationCourse({
+            expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+              certificationCourse: new CertificationCourse({
                 ...certificationCourse.toDTO(),
                 isCancelled: true,
                 abortReason,
               }),
-            );
+            });
 
             expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
               certificationAssessmentHistory,
@@ -676,7 +680,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               .withArgs({ certificationCourseId })
               .resolves(challenges);
             answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
-            certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
+            certificationCourseRepository.get.withArgs({ id: certificationCourseId }).resolves(certificationCourse);
             flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
               .withArgs(certificationCourseStartDate)
               .resolves(baseFlashAlgorithmConfiguration);
@@ -741,12 +745,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               certificationCourseId: 1234,
               assessmentResult: expectedAssessmentResult,
             });
-            expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
-              new CertificationCourse({
+            expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+              certificationCourse: new CertificationCourse({
                 ...certificationCourse.toDTO(),
                 completedAt: now,
               }),
-            );
+            });
             expect(competenceMarkRepository.save).to.have.been.calledWithExactly(
               domainBuilder.buildCompetenceMark({
                 id: undefined,
@@ -787,7 +791,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 .withArgs({ certificationCourseId })
                 .resolves(challenges);
               answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
-              certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
+              certificationCourseRepository.get.withArgs({ id: certificationCourseId }).resolves(certificationCourse);
               flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
                 .withArgs(certificationCourseStartDate)
                 .resolves(baseFlashAlgorithmConfiguration);
@@ -892,7 +896,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 .withArgs({ certificationCourseId })
                 .resolves(challenges);
               answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
-              certificationCourseRepository.get.withArgs(certificationCourseId).resolves(abortedCertificationCourse);
+              certificationCourseRepository.get
+                .withArgs({ id: certificationCourseId })
+                .resolves(abortedCertificationCourse);
               flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
                 .withArgs(certificationCourseStartDate)
                 .resolves(baseFlashAlgorithmConfiguration);
@@ -956,13 +962,13 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 certificationCourseId: 1234,
                 assessmentResult: expectedAssessmentResult,
               });
-              expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
-                new CertificationCourse({
+              expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+                certificationCourse: new CertificationCourse({
                   ...certificationCourse.toDTO(),
                   completedAt: now,
                   abortReason,
                 }),
-              );
+              });
               expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
                 certificationAssessmentHistory,
               );
@@ -1002,7 +1008,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 .withArgs({ certificationCourseId })
                 .resolves(challenges);
               answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
-              certificationCourseRepository.get.withArgs(certificationCourseId).resolves(abortedCertificationCourse);
+              certificationCourseRepository.get
+                .withArgs({ id: certificationCourseId })
+                .resolves(abortedCertificationCourse);
               flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
                 .withArgs(certificationCourseStartDate)
                 .resolves(baseFlashAlgorithmConfiguration);
@@ -1065,13 +1073,13 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 certificationCourseId: 1234,
                 assessmentResult: expectedAssessmentResult,
               });
-              expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
-                new CertificationCourse({
+              expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+                certificationCourse: new CertificationCourse({
                   ...certificationCourse.toDTO(),
                   completedAt: now,
                   abortReason,
                 }),
-              );
+              });
               expect(certificationAssessmentHistoryRepository.save).to.have.been.calledWithExactly(
                 certificationAssessmentHistory,
               );
@@ -1105,7 +1113,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           .withArgs({ certificationCourseId })
           .resolves(challenges);
         answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
-        certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
+        certificationCourseRepository.get.withArgs({ id: certificationCourseId }).resolves(certificationCourse);
         flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
           .withArgs(certificationCourseStartDate)
           .resolves(baseFlashAlgorithmConfiguration);

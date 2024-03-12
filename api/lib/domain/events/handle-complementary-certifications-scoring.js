@@ -29,7 +29,7 @@ async function handleComplementaryCertificationsScoring({
     return;
   }
 
-  const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
 
   const {

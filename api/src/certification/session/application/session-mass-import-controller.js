@@ -31,7 +31,7 @@ const validateSessions = async function (request, h, dependencies = { csvHelpers
     parsedCsvData,
     hasBillingMode: certificationCenter.hasBillingMode,
   });
-  const sessionMassImportReport = await sharedUsecases.validateSessions({
+  const sessionMassImportReport = await usecases.validateSessions({
     sessions,
     certificationCenterId,
     userId: authenticatedUserId,

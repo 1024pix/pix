@@ -36,7 +36,7 @@ describe('Unit | Domain | UseCases | CreateOrUpdateCertificationCenterInvitation
       });
 
       // then
-      expect(certificationCenterRepository.get).to.have.been.calledWith(certificationCenterId);
+      expect(certificationCenterRepository.get).to.have.been.calledWith({ id: certificationCenterId });
       expect(createOrUpdateCertificationCenterInvitationInjectorStub).to.have.been.calledOnceWithExactly({
         certificationCenterInvitationRepository,
       });
@@ -82,7 +82,7 @@ describe('Unit | Domain | UseCases | CreateOrUpdateCertificationCenterInvitation
       });
 
       // then
-      expect(certificationCenterRepository.get).to.have.been.calledWith(certificationCenterId);
+      expect(certificationCenterRepository.get).to.have.been.calledWith({ id: certificationCenterId });
       expect(createOrUpdateCertificationCenterInvitationInjectorStub).to.have.been.callCount(2);
       expect(createOrUpdateCertificationCenterInvitationStub).to.have.been.callCount(2);
     });

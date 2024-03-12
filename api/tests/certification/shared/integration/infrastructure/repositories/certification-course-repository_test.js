@@ -37,7 +37,9 @@ describe('Integration | Repository | Certification Course', function () {
         const savedCertificationCourse = await certificationCourseRepository.save({ certificationCourse });
 
         // then
-        const retrievedCertificationCourse = await certificationCourseRepository.get(savedCertificationCourse.getId());
+        const retrievedCertificationCourse = await certificationCourseRepository.get({
+          id: savedCertificationCourse.getId(),
+        });
         const fieldsToOmitInCertificationCourse = [
           'id',
           'assessment',
@@ -105,7 +107,9 @@ describe('Integration | Repository | Certification Course', function () {
         const savedCertificationCourse = await certificationCourseRepository.save({ certificationCourse });
 
         // then
-        const retrievedCertificationCourse = await certificationCourseRepository.get(savedCertificationCourse.getId());
+        const retrievedCertificationCourse = await certificationCourseRepository.get({
+          id: savedCertificationCourse.getId(),
+        });
         expect(retrievedCertificationCourse.getVersion()).to.equal(3);
       });
 
@@ -128,7 +132,7 @@ describe('Integration | Repository | Certification Course', function () {
       await databaseBuilder.commit();
       // when
 
-      const sessionId = await certificationCourseRepository.getSessionId(77);
+      const sessionId = await certificationCourseRepository.getSessionId({ id: 77 });
 
       // then
       expect(sessionId).to.deep.equal(99);
@@ -136,7 +140,7 @@ describe('Integration | Repository | Certification Course', function () {
 
     it('should throw an error if not found', async function () {
       // when
-      const error = await catchErr(certificationCourseRepository.getSessionId)(77);
+      const error = await catchErr(certificationCourseRepository.getSessionId)({ id: 77 });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -159,7 +163,9 @@ describe('Integration | Repository | Certification Course', function () {
         });
         it('should retrieve certification course informations', async function () {
           // when
-          const actualCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
+          const actualCertificationCourse = await certificationCourseRepository.get({
+            id: expectedCertificationCourse.id,
+          });
 
           // then
           const actualCertificationCourseDTO = actualCertificationCourse.toDTO();
@@ -179,7 +185,9 @@ describe('Integration | Repository | Certification Course', function () {
 
         it('should retrieve associated challenges with the certification course', async function () {
           // when
-          const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
+          const thisCertificationCourse = await certificationCourseRepository.get({
+            id: expectedCertificationCourse.id,
+          });
 
           // then
           expect(thisCertificationCourse.toDTO().challenges.length).to.equal(2);
@@ -198,7 +206,9 @@ describe('Integration | Repository | Certification Course', function () {
 
           it('should retrieve associated assessment', async function () {
             // when
-            const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
+            const thisCertificationCourse = await certificationCourseRepository.get({
+              id: expectedCertificationCourse.id,
+            });
 
             // then
             expect(thisCertificationCourse.toDTO().assessment.id).to.equal(assessmentId);
@@ -235,7 +245,9 @@ describe('Integration | Repository | Certification Course', function () {
 
           await databaseBuilder.commit();
           // when
-          const actualCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
+          const actualCertificationCourse = await certificationCourseRepository.get({
+            id: expectedCertificationCourse.id,
+          });
 
           // then
           expect(actualCertificationCourse.getNumberOfChallenges()).to.equal(maximumAssessmentLength);
@@ -246,7 +258,7 @@ describe('Integration | Repository | Certification Course', function () {
     context('When the certification course does not exist', function () {
       it('should retrieve a NotFoundError Error', function () {
         // when
-        const promise = certificationCourseRepository.get(3);
+        const promise = certificationCourseRepository.get({ id: 3 });
 
         // then
         return expect(promise).to.be.rejectedWith(NotFoundError);
@@ -361,7 +373,7 @@ describe('Integration | Repository | Certification Course', function () {
       const countCertificationCoursesBeforeUpdate = await BookshelfCertificationCourse.count();
 
       // when
-      await certificationCourseRepository.update(certificationCourse);
+      await certificationCourseRepository.update({ certificationCourse });
 
       // then
       const countCertificationCoursesAfterUpdate = await BookshelfCertificationCourse.count();
@@ -386,13 +398,13 @@ describe('Integration | Repository | Certification Course', function () {
       });
 
       // when
-      await certificationCourseRepository.update(unpersistedUpdatedCertificationCourse);
+      await certificationCourseRepository.update({ certificationCourse: unpersistedUpdatedCertificationCourse });
 
       // then
       const unpersistedUpdatedCertificationCourseDTO = unpersistedUpdatedCertificationCourse.toDTO();
-      const persistedUpdatedCertificationCourse = await certificationCourseRepository.get(
-        unpersistedUpdatedCertificationCourseDTO.id,
-      );
+      const persistedUpdatedCertificationCourse = await certificationCourseRepository.get({
+        id: unpersistedUpdatedCertificationCourseDTO.id,
+      });
       const persistedUpdatedCertificationCourseDTO = persistedUpdatedCertificationCourse.toDTO();
       expect(persistedUpdatedCertificationCourse.getId()).to.equal(unpersistedUpdatedCertificationCourse.getId());
       expect(persistedUpdatedCertificationCourseDTO.firstName).to.equal(
@@ -427,10 +439,10 @@ describe('Integration | Repository | Certification Course', function () {
       certificationCourse.version = 1;
 
       // when
-      await certificationCourseRepository.update(certificationCourse);
+      await certificationCourseRepository.update({ certificationCourse });
 
       // then
-      const certificationCourseUpdated = await certificationCourseRepository.get(certificationCourse.getId());
+      const certificationCourseUpdated = await certificationCourseRepository.get({ id: certificationCourse.getId() });
 
       expect(certificationCourseUpdated.toDTO().version).to.equal(2);
     });
@@ -443,7 +455,7 @@ describe('Integration | Repository | Certification Course', function () {
       });
 
       // when
-      const promise = certificationCourseRepository.update(certificationCourseToBeUpdated);
+      const promise = certificationCourseRepository.update({ certificationCourse: certificationCourseToBeUpdated });
 
       // then
       return expect(promise).to.be.rejectedWith(NotFoundError);
@@ -455,7 +467,7 @@ describe('Integration | Repository | Certification Course', function () {
 
     it('should return true if certification code does not exist', async function () {
       // when
-      const result = await certificationCourseRepository.isVerificationCodeAvailable(verificationCode);
+      const result = await certificationCourseRepository.isVerificationCodeAvailable({ verificationCode });
 
       // then
       expect(result).to.equal(true);
@@ -467,7 +479,7 @@ describe('Integration | Repository | Certification Course', function () {
       await databaseBuilder.commit();
 
       // when
-      const result = await certificationCourseRepository.isVerificationCodeAvailable(verificationCode);
+      const result = await certificationCourseRepository.isVerificationCodeAvailable({ verificationCode });
 
       // then
       expect(result).to.equal(false);

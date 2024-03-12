@@ -107,7 +107,9 @@ async function _handleV3Certification({
     { certificationCourseId: certificationAssessment.certificationCourseId },
   );
 
-  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({
+    id: certificationAssessment.certificationCourseId,
+  });
 
   const abortReason = certificationCourse.isAbortReasonCandidateRelated()
     ? ABORT_REASONS.CANDIDATE
@@ -221,7 +223,9 @@ async function _handleV2Certification({
     continueOnError: false,
   });
   const emitter = _getEmitterFromEvent(event);
-  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({
+    id: certificationAssessment.certificationCourseId,
+  });
   const assessmentResult = _createV2AssessmentResult({
     event,
     emitter,
@@ -256,14 +260,14 @@ async function _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesT
   hasEnoughNonNeutralizedChallengesToBeTrusted,
   certificationCourseRepository,
 }) {
-  const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   if (hasEnoughNonNeutralizedChallengesToBeTrusted) {
     certificationCourse.uncancel();
   } else {
     certificationCourse.cancel();
   }
 
-  return certificationCourseRepository.update(certificationCourse);
+  return certificationCourseRepository.update({ certificationCourse });
 }
 
 async function _saveResultAfterCertificationComputeError({
@@ -417,7 +421,7 @@ async function _cancelCertificationCourseIfV3CertificationLackOfAnswersForTechni
 }) {
   if (_shouldCancelWhenV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse })) {
     certificationCourse.cancel();
-    await certificationCourseRepository.update(certificationCourse);
+    await certificationCourseRepository.update({ certificationCourse });
   }
 }
 

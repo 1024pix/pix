@@ -6,13 +6,18 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { assessmentRepository, sessionRepositories } from '../../infrastructure/repositories/index.js';
 import * as certificationCpfService from '../services/certification-cpf-service.js';
+import * as sessionCodeService from '../services/session-code-service.js';
+import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
+import * as temporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
+
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CandidateRepository} CandidateRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CenterRepository} CenterRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
- * @typedef {import('../../infrastructure/repositories/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterRepository} CertificationCenterRepository
  * @typedef {import('../services/certification-cpf-service.js').CertificationCpfService} CertificationCpfService
+ * @typedef {import('../services/temporary-sessions-storage-for-mass-import-service.js').TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationOfficerRepository} CertificationOfficerRepository
@@ -30,6 +35,7 @@ import * as certificationCpfService from '../services/certification-cpf-service.
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
  * @typedef {assessmentRepository} AssessmentRepository
+ * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {candidateRepository} CandidateRepository
  * @typedef {centerRepository} CenterRepository
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
@@ -46,14 +52,18 @@ import * as certificationCpfService from '../services/certification-cpf-service.
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {sessionRepository} SessionRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
+ * @typedef {temporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
  **/
 const dependencies = {
   assessmentRepository,
+  certificationCenterRepository: sessionRepositories.certificationCenterRepository,
   candidateRepository: sessionRepositories.candidateRepository,
   centerRepository: sessionRepositories.centerRepository,
   certificationCandidateRepository: sessionRepositories.certificationCandidateRepository,
   certificationChallengeLiveAlertRepository: sessionRepositories.certificationChallengeLiveAlertRepository,
   certificationCpfService,
+  sessionCodeService,
+  sessionsImportValidationService,
   certificationCpfCityRepository: sessionRepositories.certificationCpfCityRepository,
   certificationCpfCountryRepository: sessionRepositories.certificationCpfCountryRepository,
   certificationOfficerRepository: sessionRepositories.certificationOfficerRepository,
@@ -65,6 +75,7 @@ const dependencies = {
   certificationIssueReportRepository: sessionRepositories.certificationIssueReportRepository,
   sessionRepository: sessionRepositories.sessionRepository,
   certificationReportRepository: sessionRepositories.certificationReportRepository,
+  temporarySessionsStorageForMassImportService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -88,7 +99,6 @@ const usecasesWithoutInjectedDependencies = {
       'integrate-cpf-processing-receipts.js',
       'update-session.js',
       'upload-cpf-files.js',
-      'validate-sessions.js',
     ],
   })),
 };

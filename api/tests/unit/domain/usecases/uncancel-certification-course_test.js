@@ -10,7 +10,7 @@ describe('Unit | UseCase | uncancel-certification-course', function () {
       update: sinon.stub(),
       get: sinon.stub(),
     };
-    certificationCourseRepository.get.withArgs(123).resolves(certificationCourse);
+    certificationCourseRepository.get.withArgs({ id: 123 }).resolves(certificationCourse);
     certificationCourseRepository.update.resolves();
 
     // when
@@ -21,6 +21,6 @@ describe('Unit | UseCase | uncancel-certification-course', function () {
 
     // then
     expect(certificationCourse.uncancel).to.have.been.calledOnce;
-    expect(certificationCourseRepository.update).to.have.been.calledWithExactly(certificationCourse);
+    expect(certificationCourseRepository.update).to.have.been.calledWithExactly({ certificationCourse });
   });
 });

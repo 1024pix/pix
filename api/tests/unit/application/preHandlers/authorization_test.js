@@ -70,7 +70,7 @@ describe('Unit | Pre-handler | Authorization', function () {
             id: 77,
           },
         };
-        certificationCourseRepository.getSessionId.withArgs(77).resolves(99);
+        certificationCourseRepository.getSessionId.withArgs({ id: 77 }).resolves(99);
         sessionRepository.doesUserHaveCertificationCenterMembershipForSession
           .withArgs({ userId, sessionId: 99 })
           .resolves(true);
@@ -94,7 +94,7 @@ describe('Unit | Pre-handler | Authorization', function () {
             id: 77,
           },
         };
-        certificationCourseRepository.getSessionId.withArgs(77).resolves(99);
+        certificationCourseRepository.getSessionId.withArgs({ id: 77 }).resolves(99);
         sessionRepository.doesUserHaveCertificationCenterMembershipForSession
           .withArgs({ userId, sessionId: 99 })
           .resolves(false);

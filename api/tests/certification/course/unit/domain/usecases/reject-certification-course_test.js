@@ -15,7 +15,7 @@ describe('Unit | UseCase | reject-certification-course', function () {
     const certificationCourse = domainBuilder.buildCertificationCourse();
     const certificationCourseId = certificationCourse.getId();
 
-    certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
+    certificationCourseRepository.get.withArgs({ id: certificationCourseId }).resolves(certificationCourse);
     certificationCourseRepository.update.resolves();
 
     // when
@@ -31,7 +31,9 @@ describe('Unit | UseCase | reject-certification-course', function () {
       isRejectedForFraud: true,
     });
 
-    expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedCertificationCourse);
+    expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+      certificationCourse: expectedCertificationCourse,
+    });
     expect(event).to.be.instanceOf(CertificationCourseRejected);
     expect(event).to.deep.equal(
       new CertificationCourseRejected({

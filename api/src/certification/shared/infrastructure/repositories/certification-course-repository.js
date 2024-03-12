@@ -47,7 +47,7 @@ async function save({ certificationCourse, domainTransaction = DomainTransaction
     });
   });
 
-  return get(certificationCourseId, domainTransaction);
+  return get({ id: certificationCourseId, domainTransaction });
 }
 
 const _findCertificationCourse = async function (id, knexConn = knex) {
@@ -62,7 +62,7 @@ const _findAllChallenges = async function (certificationCourseId, knexConn = kne
   return knexConn('certification-challenges').where({ courseId: certificationCourseId });
 };
 
-async function get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
+async function get({ id, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction || knex;
   const certificationCourseDTO = await _findCertificationCourse(id, knexConn);
 
@@ -134,7 +134,7 @@ async function _getV3ConfigurationForCertificationCreationDate(createdAt, knexCo
     .first();
 }
 
-async function getSessionId(id) {
+async function getSessionId({ id }) {
   const row = await knex('certification-courses').select('sessionId').where({ id }).first();
   if (!row) {
     throw new NotFoundError(`Certification course of id ${id} does not exist`);
@@ -182,7 +182,7 @@ async function findOneCertificationCourseByUserIdAndSessionId({
   });
 }
 
-async function update(certificationCourse) {
+async function update({ certificationCourse }) {
   const knexConn = knex;
 
   const certificationCourseData = _pickUpdatableProperties(certificationCourse);
@@ -195,10 +195,10 @@ async function update(certificationCourse) {
     throw new NotFoundError(`No rows updated for certification course of id ${certificationCourse.getId()}.`);
   }
 
-  return get(certificationCourseData.id);
+  return get({ id: certificationCourseData.id });
 }
 
-async function isVerificationCodeAvailable(verificationCode) {
+async function isVerificationCodeAvailable({ verificationCode }) {
   const exist = await knex('certification-courses')
     .select('id')
     .whereRaw('UPPER(??)=?', ['verificationCode', verificationCode.toUpperCase()])

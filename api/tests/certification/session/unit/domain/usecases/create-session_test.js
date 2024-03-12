@@ -90,7 +90,7 @@ describe('Unit | UseCase | create-session', function () {
             name: certificationCenterName,
           });
 
-          certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
+          certificationCenterRepository.get.withArgs({ id: certificationCenterId }).resolves(certificationCenter);
 
           // when
           await createSession({
@@ -126,7 +126,9 @@ describe('Unit | UseCase | create-session', function () {
             isV3Pilot: true,
           });
 
-          certificationCenterRepository.get.withArgs(certificationCenterId).resolves(v3PilotCertificationCenter);
+          certificationCenterRepository.get
+            .withArgs({ id: certificationCenterId })
+            .resolves(v3PilotCertificationCenter);
 
           // when
           await createSession({

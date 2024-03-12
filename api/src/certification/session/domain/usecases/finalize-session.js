@@ -123,7 +123,7 @@ async function _removeAbortReasonFromCompletedCertificationCourses({
           sessionCertificationCourse.isCompleted()
         ) {
           sessionCertificationCourse.unabort();
-          await certificationCourseRepository.update(sessionCertificationCourse);
+          await certificationCourseRepository.update({ certificationCourse: sessionCertificationCourse });
         }
       },
     );
