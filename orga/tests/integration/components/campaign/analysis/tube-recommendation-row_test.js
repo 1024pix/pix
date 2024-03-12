@@ -53,7 +53,9 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     // given
     this.tubeRecommendation.tutorials = [tutorial1];
 
-    await render(hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`);
+    const screen = await render(
+      hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`,
+    );
 
     // when
     await click('[data-icon="chevron-down"]');
@@ -64,21 +66,27 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     assert.dom('[aria-label="Tutoriel"]:first-child').containsText('Vidéo');
     assert.dom('[aria-label="Tutoriel"]:first-child').containsText('10 minutes');
     assert.dom('[aria-label="Tutoriel"]:first-child').containsText('Par Youtube');
-    assert.dom('button[aria-expanded="true"]').exists();
-    assert.contains('Tube Desc A');
+    assert.ok(
+      screen.getByRole('button', { name: 'Afficher la liste des tutos' }).hasAttribute('aria-expanded', 'true'),
+    );
+    assert.ok(screen.getByText('Tube Desc A'));
   });
 
   test('it should hide element to screen reader', async function (assert) {
     // given
     this.tubeRecommendation.tutorials = [tutorial1];
 
-    await render(hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`);
+    const screen = await render(
+      hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`,
+    );
 
     // then
     assert.dom('tr[aria-hidden="true"]').containsText('1 tuto recommandé par la communauté Pix');
     assert.dom('a[tabindex="-1"]:first-child').containsText('tutorial1');
-    assert.dom('button[aria-expanded="false"]').exists();
-    assert.contains('Tube Desc A');
+    assert.ok(
+      screen.getByRole('button', { name: 'Afficher la liste des tutos' }).hasAttribute('aria-expanded', 'false'),
+    );
+    assert.ok(screen.getByText('Tube Desc A'));
   });
 
   test('it should expand and display 2 tutorials in the list', async function (assert) {
@@ -115,10 +123,12 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
       this.tubeRecommendation.tutorials = [tutorial1];
 
       //when
-      await render(hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`);
+      const screen = await render(
+        hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`,
+      );
 
       // then
-      assert.dom('[aria-label="Sujet"]').containsText('1 tuto');
+      assert.dom(screen.getByLabelText('Sujet')).containsText('1 tuto');
     });
 
     test('it should display "2 tutos" when there are two tutorials', async function (assert) {
@@ -126,10 +136,12 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
       this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
       //when
-      await render(hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`);
+      const screen = await render(
+        hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`,
+      );
 
       // then
-      assert.dom('[aria-label="Sujet"]').containsText('2 tutos');
+      assert.dom(screen.getByLabelText('Sujet')).containsText('2 tutos');
     });
   });
 });
