@@ -2,7 +2,6 @@ import { extractParameters } from '../../../src/shared/infrastructure/utils/quer
 import { usecases } from '../../domain/usecases/index.js';
 import * as campaignAnalysisSerializer from '../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
 import * as campaignCollectiveResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
-import * as campaignReportSerializer from '../../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 import * as campaignToJoinSerializer from '../../infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
 import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
 import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group-serializer.js';
@@ -15,20 +14,6 @@ const getByCode = async function (request) {
 
   const campaignToJoin = await usecases.getCampaignByCode({ code: filters.code });
   return campaignToJoinSerializer.serialize(campaignToJoin);
-};
-
-const archiveCampaign = function (request, h, dependencies = { campaignReportSerializer }) {
-  const { userId } = request.auth.credentials;
-  const campaignId = request.params.id;
-
-  return usecases.archiveCampaign({ userId, campaignId }).then(dependencies.campaignReportSerializer.serialize);
-};
-
-const unarchiveCampaign = function (request, h, dependencies = { campaignReportSerializer }) {
-  const { userId } = request.auth.credentials;
-  const campaignId = request.params.id;
-
-  return usecases.unarchiveCampaign({ userId, campaignId }).then(dependencies.campaignReportSerializer.serialize);
 };
 
 const getCollectiveResult = async function (request, h, dependencies = { campaignCollectiveResultSerializer }) {
@@ -67,8 +52,6 @@ const getGroups = async function (request) {
 
 const campaignController = {
   getByCode,
-  archiveCampaign,
-  unarchiveCampaign,
   getCollectiveResult,
   getAnalysis,
   division,

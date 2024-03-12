@@ -2,11 +2,11 @@ import _ from 'lodash';
 
 import {
   AlreadySharedCampaignParticipationError,
-  ArchivedCampaignError,
   AssessmentNotCompletedError,
   CampaignParticipationDeletedError,
   CantImproveCampaignParticipationError,
 } from '../../../../../lib/domain/errors.js';
+import { ArchivedCampaignError } from '../../../campaign/domain/errors.js';
 import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 
 class CampaignParticipation {
