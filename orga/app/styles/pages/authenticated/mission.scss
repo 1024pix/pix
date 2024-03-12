@@ -5,6 +5,7 @@
 }
 
 .mission-header {
+  margin-bottom:var(--pix-spacing-6x);
 
   &__banner {
     margin:var(--pix-spacing-4x) 0;
@@ -65,13 +66,18 @@
 }
 
 .mission-informations {
-  @extend %pix-body-m;
+  @extend %pix-body-l;
 
   color: var(--pix-neutral-500);
 
   &__objective-list {
     margin-top: var(--pix-spacing-2x);
     margin-left: var(--pix-spacing-6x);
+    list-style: disc;
   }
+}
+
+.learners-title {
+  margin-bottom:var(--pix-spacing-4x)
 }
 

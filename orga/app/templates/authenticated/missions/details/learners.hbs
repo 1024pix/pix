@@ -1,0 +1,39 @@
+<h2 class="learners-title">{{t "pages.missions.details.learners.title"}}</h2>
+{{#if @model.missionLearners}}
+  <div class="panel">
+    <table class="table content-text content-text--small participation-list__table">
+      <caption class="screen-reader-only">{{t
+          "pages.missions.details.learners.list.caption"
+          missionName=@model.mission.mission.name
+        }}</caption>
+      <thead>
+        <tr>
+          <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.first-name"}}</Table::Header>
+          <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.last-name"}}</Table::Header>
+          <Table::Header scope="col">{{t "pages.missions.details.learners.list.headers.division"}}</Table::Header>
+        </tr>
+      </thead>
+      <tbody>
+
+        {{#each this.model.missionLearners as |missionLearner|}}
+          <tr>
+            <td>
+              {{missionLearner.firstName}}
+            </td>
+            <td>
+              {{missionLearner.lastName}}
+            </td>
+            <td>
+              {{missionLearner.division}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <Table::PaginationControl @pagination={{this.model.missionLearners.meta}} />
+{{else}}
+  <div class="table__empty content-text">
+    {{t "pages.missions.details.learners.no-data"}}
+  </div>
+{{/if}}
