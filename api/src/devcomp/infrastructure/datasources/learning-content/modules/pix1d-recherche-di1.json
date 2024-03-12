@@ -1,98 +1,95 @@
 {
-      "id": "2f878a38-d39c-40e9-9a92-4163c6c229bc",
-      "slug": "pix1d-recherche-di1",
-      "title": "Les moteurs de recherche",
-      "details": {
-        "image": "https://images.pix.fr/modulix/didacticiel/icon.svg",
-        "description": "Découvrir les moteurs de recherche",
-        "duration": 5,
-        "level": "Débutant",
-        "objectives": ["Découvrir ce qu’est un moteur de recherche",
-        "Savoir distinguer les moteurs de recherche"]
-      
-     },
-     "transitionTexts": [
-      {
-        "content": "<p>Qu'est-ce qu'un moteur de recherche ?</p>",
-        "grainId": "45f02e23-8939-4e70-a2e4-62201ea7cc8e"
-      },
-      {
+  "id": "2f878a38-d39c-40e9-9a92-4163c6c229bc",
+  "slug": "pix1d-recherche-di1",
+  "title": "Les moteurs de recherche",
+  "details": {
+    "image": "https://images.pix.fr/modulix/didacticiel/icon.svg",
+    "description": "Découvrir les moteurs de recherche",
+    "duration": 5,
+    "level": "Débutant",
+    "objectives": [
+      "Découvrir ce qu’est un moteur de recherche",
+      "Savoir distinguer les moteurs de recherche"
+    ]
+  },
+  "transitionTexts": [
+    {
+      "content": "<p>Qu'est-ce qu'un moteur de recherche ?</p>",
+      "grainId": "45f02e23-8939-4e70-a2e4-62201ea7cc8e"
+    },
+    {
       "content": "<p>Maintenant que tu as regardé la vidéo, réponds à la question suivante</p>",
       "grainId": "79288685-3f46-45ad-b75f-bcd6a5d5ea12"
-      },
-      {
-        "content": "<p>Classe les outils</p>",
-        "grainId": "4de695f5-1d88-4a81-80ec-dc356e86962d"
-      }   
-    ],
-    "grains": [
-      {
-        "id": "45f02e23-8939-4e70-a2e4-62201ea7cc8e",
-        "type": "lesson",
-        "title": "vidéo",
-        "elements": [
-          {
-            "id": "fe3f1a0a-c150-443f-a0c6-a498c83190e4",
-            "type": "text",
-            "content": "<p>Tu vas voir une vidéo pour apprendre ce qu'est moteur de recherche.Regarde la attentivement pour ensuite pouvoir répondre aux questions.</p>"
-          },
-          {
-            "id": "3f2ddc5a-9580-4da0-b9aa-e728b6dd1865",
-            "type": "video",
-            "title": "Qu'est-ce qu'un moteur de recherche",
-            "url": "https://videos.pix.fr/modulix/placeholder-video.mp4",
-            "subtitles": "https://videos.pix.fr/modulix/placeholder-video.vtt",
-            "transcription": "<p>[TODO]</p>"
-          }
-         
-        ]        
-      },
-      {
-        "id": "79288685-3f46-45ad-b75f-bcd6a5d5ea12",
-        "type": "activity",
-        "title": "Vrai faux",
-        "elements": [
-          {
-            "id": "506e3bc1-40f9-4b2d-ab27-12fc559ec533",
-            "type": "qcu",
-            "instruction": "<p>Un moteur de recherche permet de chercher des moteurs ?</p>",
-            "proposals": [
-              {
-                "id": "1",
-                "content": "Vrai"
-              },
-              {
-                "id": "2",
-                "content": "Faux"
-              }
-            ],
-            "feedbacks": {
-              "valid": "<p>Bien</p>",
-              "invalid": "<p>Faux. Un moteur de recherche permet de rechercher des informations sur internet. Regarde à nouveau la vidéo avant de continuer.</p>"
+    },
+    {
+      "content": "<p>Classe les outils</p>",
+      "grainId": "4de695f5-1d88-4a81-80ec-dc356e86962d"
+    }
+  ],
+  "grains": [
+    {
+      "id": "45f02e23-8939-4e70-a2e4-62201ea7cc8e",
+      "type": "lesson",
+      "title": "vidéo",
+      "elements": [
+        {
+          "id": "fe3f1a0a-c150-443f-a0c6-a498c83190e4",
+          "type": "text",
+          "content": "<p>Tu vas voir une vidéo pour apprendre ce qu'est moteur de recherche.Regarde la attentivement pour ensuite pouvoir répondre aux questions.</p>"
+        },
+        {
+          "id": "3f2ddc5a-9580-4da0-b9aa-e728b6dd1865",
+          "type": "video",
+          "title": "Qu'est-ce qu'un moteur de recherche",
+          "url": "https://videos.pix.fr/modulix/placeholder-video.mp4",
+          "subtitles": "https://videos.pix.fr/modulix/placeholder-video.vtt",
+          "transcription": "<p>[TODO]</p>"
+        }
+      ]
+    },
+    {
+      "id": "79288685-3f46-45ad-b75f-bcd6a5d5ea12",
+      "type": "activity",
+      "title": "Vrai faux",
+      "elements": [
+        {
+          "id": "506e3bc1-40f9-4b2d-ab27-12fc559ec533",
+          "type": "qcu",
+          "instruction": "<p>Un moteur de recherche permet de chercher des moteurs ?</p>",
+          "proposals": [
+            {
+              "id": "1",
+              "content": "Vrai"
             },
-            "solution": "2"
-          }
-
-
-        ]
-
-      },
-      {
-        "id": "4de695f5-1d88-4a81-80ec-dc356e86962d",
-        "type": "lesson",
-        "title": "DnD",
-        "elements": [
-          {
-            "id": "14c5ef08-051b-407c-9a1a-4ae9cc219d24",
-            "type": "text",
-            "content": "<p>Voici des étiquettes qui décrivent différents outils.Range les moteurs de recherche dans la case verte moteurs de recherche.Range les autres outils dans la case rose autres outils.Puis clique sur Je vérifie.</p>"
+            {
+              "id": "2",
+              "content": "Faux"
+            }
+          ],
+          "feedbacks": {
+            "valid": "<p>Bien</p>",
+            "invalid": "<p>Faux. Un moteur de recherche permet de rechercher des informations sur internet. Regarde à nouveau la vidéo avant de continuer.</p>"
           },
-          {
-            "id": "6d53677d-7253-4d27-8e3b-c862fc59e97a",
-            "type": "text",
-            "content": "<p>iframe</p>"
-          }
-        ]
-      }
-    ]
+          "solution": "2"
+        }
+      ]
+    },
+    {
+      "id": "4de695f5-1d88-4a81-80ec-dc356e86962d",
+      "type": "lesson",
+      "title": "DnD",
+      "elements": [
+        {
+          "id": "14c5ef08-051b-407c-9a1a-4ae9cc219d24",
+          "type": "text",
+          "content": "<p>Voici des étiquettes qui décrivent différents outils.Range les moteurs de recherche dans la case verte moteurs de recherche.Range les autres outils dans la case rose autres outils.Puis clique sur Je vérifie.</p>"
+        },
+        {
+          "id": "6d53677d-7253-4d27-8e3b-c862fc59e97a",
+          "type": "text",
+          "content": "<p>iframe</p>"
+        }
+      ]
+    }
+  ]
 }
