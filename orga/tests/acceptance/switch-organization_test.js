@@ -1,5 +1,5 @@
-import { clickByName } from '@1024pix/ember-testing-library';
-import { currentURL, visit } from '@ember/test-helpers';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -25,10 +25,10 @@ module('Acceptance | Switch Organization', function (hooks) {
 
     test('should display the main organization name and externalId in summary', async function (assert) {
       // when
-      await visit('/');
+      const screen = await visit('/');
 
       // then
-      assert.contains('BRO & Evil Associates (EXTBRO)');
+      assert.ok(screen.getByText('BRO & Evil Associates (EXTBRO)'));
     });
 
     test('should only have disconnect item in menu', async function (assert) {
@@ -50,12 +50,11 @@ module('Acceptance | Switch Organization', function (hooks) {
       createPrescriberByUser(user);
 
       await authenticateSession(user.id);
-
-      await visit('/');
     });
 
     test('should have an organization in menu', async function (assert) {
       // when
+      await visit('/');
       await clickByName('Ouvrir le menu utilisateur');
 
       // then
@@ -66,15 +65,19 @@ module('Acceptance | Switch Organization', function (hooks) {
     module('When prescriber click on an organization', function () {
       test('should change main organization in summary', async function (assert) {
         // when
+        const screen = await visit('/');
+
         await clickByName('Ouvrir le menu utilisateur');
         await clickByName('My Heaven Company (HEAVEN)');
 
         // then
-        assert.contains('My Heaven Company (HEAVEN)');
+        assert.ok(screen.getByText('My Heaven Company (HEAVEN)'));
       });
 
       test('should have the old main organization in the menu', async function (assert) {
         // when
+        await visit('/');
+
         await clickByName('Ouvrir le menu utilisateur');
         await clickByName('My Heaven Company (HEAVEN)');
         await clickByName('Ouvrir le menu utilisateur');
@@ -103,6 +106,8 @@ module('Acceptance | Switch Organization', function (hooks) {
         function () {
           test('it should display student menu item', async function (assert) {
             // when
+            await visit('/');
+
             await clickByName('Ouvrir le menu utilisateur');
             await clickByName('My Heaven Company (HEAVEN)');
 
