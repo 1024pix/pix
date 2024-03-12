@@ -33,7 +33,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       certificationCourseRepository,
       flashAlgorithmConfigurationRepository,
       flashAlgorithmService,
-      certificationAssessmentHistoryRepository;
+      certificationAssessmentHistoryRepository,
+      competenceForScoringRepository;
 
     let baseFlashAlgorithmConfig;
 
@@ -68,6 +69,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         save: sinon.stub(),
       };
 
+      competenceForScoringRepository = {
+        listByLocale: sinon.stub(),
+      };
+
       dependencies = {
         certificationAssessmentRepository,
         certificationChallengeForScoringRepository,
@@ -77,11 +82,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         flashAlgorithmConfigurationRepository,
         flashAlgorithmService,
         certificationAssessmentHistoryRepository,
+        competenceForScoringRepository,
       };
 
       baseFlashAlgorithmConfig = domainBuilder.buildFlashAlgorithmConfiguration({
         maximumAssessmentLength,
       });
+
+      competenceForScoringRepository.listByLocale.resolves([domainBuilder.buildCompetenceForScoring()]);
     });
 
     describe('when less than the minimum number of answers required by the config has been answered', function () {

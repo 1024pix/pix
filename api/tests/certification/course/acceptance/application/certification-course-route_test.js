@@ -73,6 +73,26 @@ describe('Acceptance | Route | certification-course', function () {
           version: 3,
         });
 
+        const configuration = [
+          {
+            competence: '1.1',
+            values: [
+              {
+                bounds: {
+                  max: -2.2,
+                  min: -9.8,
+                },
+                competenceLevel: 0,
+              },
+            ],
+          },
+        ];
+
+        databaseBuilder.factory.buildCompetenceScoringConfiguration({
+          configuration,
+          createdAt: new Date('2018-01-01T08:00:00Z'),
+        });
+
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
           sessionId: session.id,
           userId,
