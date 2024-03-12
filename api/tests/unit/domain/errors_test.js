@@ -56,10 +56,6 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });
 
-  it('should export a ArchivedCampaignError', function () {
-    expect(errors.ArchivedCampaignError).to.exist;
-  });
-
   it('should export a CampaignParticipationDeletedError', function () {
     expect(errors.CampaignParticipationDeletedError).to.exist;
   });
