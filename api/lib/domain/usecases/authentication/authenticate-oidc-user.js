@@ -1,5 +1,5 @@
-import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 
 const authenticateOidcUser = async function ({
   sessionState,

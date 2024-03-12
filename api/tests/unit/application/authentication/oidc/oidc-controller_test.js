@@ -1,8 +1,8 @@
 import { oidcController } from '../../../../../lib/application/authentication/oidc/oidc-controller.js';
 import { UnauthorizedError } from '../../../../../lib/application/http-errors.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
-import { catchErr, domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
+import { catchErr, domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Controller | Authentication | OIDC', function () {
   const identityProvider = 'OIDC';
