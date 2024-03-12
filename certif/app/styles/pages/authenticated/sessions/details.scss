@@ -124,6 +124,12 @@
 
   &__clipboard-button {
     margin-left: 4px;
+
+    .pix-icon-button {
+      &:hover {
+        background-color: var(--pix-neutral-100);
+      }
+    }
   }
 }
 
