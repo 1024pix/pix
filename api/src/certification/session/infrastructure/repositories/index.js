@@ -4,7 +4,9 @@ import * as assessmentRepository from '../../../../shared/infrastructure/reposit
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as complementaryCertificationApi from '../../../complementary-certification/application/api/complementary-certification-api.js';
 import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
+import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
+import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
 import * as candidateRepository from './candidate-repository.js';
 import * as centerRepository from './center-repository.js';
@@ -23,8 +25,10 @@ import * as sessionRepository from './session-repository.js';
  * @typedef {assessmentRepository} AssessmentRepository
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {candidateRepository} CandidateRepository
+ * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {centerRepository} CenterRepository
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
@@ -41,8 +45,10 @@ const repositoriesWithoutInjectedDependencies = {
   assessmentRepository,
   complementaryCertificationRepository,
   candidateRepository,
+  certificationCenterRepository,
   centerRepository,
   certificationCandidateRepository,
+  certificationCourseRepository,
   certificationChallengeLiveAlertRepository,
   certificationCpfCityRepository,
   certificationCpfCountryRepository,

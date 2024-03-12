@@ -8,7 +8,7 @@ const createOrUpdateCertificationCenterInvitation = async function ({
   certificationCenterInvitationRepository,
   certificationCenterInvitationService,
 }) {
-  const certificationCenter = await certificationCenterRepository.get(certificationCenterId);
+  const certificationCenter = await certificationCenterRepository.get({ id: certificationCenterId });
 
   const uniqueEmails = [...new Set(emails)];
   const trimmedUniqueEmails = uniqueEmails.map((email) => email.replace(/[\s\r\n]/g, ''));

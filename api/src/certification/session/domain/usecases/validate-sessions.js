@@ -1,5 +1,5 @@
 /**
- * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ * @typedef {import ('../../../session/domain/usecases/index.js').dependencies} deps
  */
 
 import bluebird from 'bluebird';
@@ -35,7 +35,7 @@ const validateSessions = async function ({
   sessionsImportValidationService,
   temporarySessionsStorageForMassImportService,
 }) {
-  const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
+  const { name: certificationCenter, isSco } = await certificationCenterRepository.get({ id: certificationCenterId });
   const sessionsMassImportReport = new SessionMassImportReport();
   const translate = i18n.__;
 

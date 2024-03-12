@@ -4,6 +4,7 @@ import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/const
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
 import * as mailCheck from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import * as sessionValidator from '../validators/session-validator.js';
+//  should be injected
 import * as certificationCpfService from './certification-cpf-service.js';
 
 const validateSession = async function ({

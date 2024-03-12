@@ -25,7 +25,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
         const certificationCourse = domainBuilder.buildCertificationCourse();
 
         certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId.resolves(nextChallenge);
-        certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(certificationCourse);
+        certificationCourseRepository.get
+          .withArgs({ id: assessment.certificationCourseId })
+          .resolves(certificationCourse);
 
         // when
         await getNextChallengeForCertification({
@@ -52,7 +54,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
         certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId.resolves(nextCertificationChallenge);
         challengeRepository.get.resolves(nextChallengeToAnswer);
-        certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(certificationCourse);
+        certificationCourseRepository.get
+          .withArgs({ id: assessment.certificationCourseId })
+          .resolves(certificationCourse);
 
         // when
         const challenge = await getNextChallengeForCertification({
@@ -132,7 +136,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             .withArgs({ assessmentId: assessment.id })
             .resolves([]);
 
-          certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
+          certificationCourseRepository.get
+            .withArgs({ id: assessment.certificationCourseId })
+            .resolves(v3CertificationCourse);
           certificationChallengeRepository.getNextChallengeByCourseIdForV3
             .withArgs(assessment.certificationCourseId, [])
             .resolves(null);
@@ -211,7 +217,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               .resolves([]);
 
             certificationCourseRepository.get
-              .withArgs(assessment.certificationCourseId)
+              .withArgs({ id: assessment.certificationCourseId })
               .resolves(v3CertificationCourse);
             certificationChallengeRepository.getNextChallengeByCourseIdForV3
               .withArgs(assessment.certificationCourseId, [])
@@ -296,7 +302,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             .withArgs({ assessmentId: assessment.id })
             .resolves([nonAnsweredCertificationChallenge.challengeId]);
 
-          certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
+          certificationCourseRepository.get
+            .withArgs({ id: assessment.certificationCourseId })
+            .resolves(v3CertificationCourse);
           certificationChallengeRepository.getNextChallengeByCourseIdForV3
             .withArgs(assessment.certificationCourseId, [])
             .resolves(nonAnsweredCertificationChallenge);
@@ -392,7 +400,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             .withArgs({ assessmentId: assessment.id })
             .resolves([nonAnsweredCertificationChallenge.challengeId]);
 
-          certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
+          certificationCourseRepository.get
+            .withArgs({ id: assessment.certificationCourseId })
+            .resolves(v3CertificationCourse);
           certificationChallengeRepository.getNextChallengeByCourseIdForV3
             .withArgs(assessment.certificationCourseId, [])
             .resolves(nonAnsweredCertificationChallenge);
@@ -451,7 +461,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             .withArgs({ assessmentId: assessment.id })
             .resolves([]);
 
-          certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
+          certificationCourseRepository.get
+            .withArgs({ id: assessment.certificationCourseId })
+            .resolves(v3CertificationCourse);
           certificationChallengeRepository.getNextChallengeByCourseIdForV3
             .withArgs(assessment.certificationCourseId, [answeredChallenge.id])
             .resolves(null);
@@ -550,7 +562,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
                 .resolves([]);
 
               certificationCourseRepository.get
-                .withArgs(assessment.certificationCourseId)
+                .withArgs({ id: assessment.certificationCourseId })
                 .resolves(v3CertificationCourse);
               certificationChallengeRepository.getNextChallengeByCourseIdForV3
                 .withArgs(assessment.certificationCourseId, [])

@@ -18,7 +18,7 @@ describe('Unit | UseCase | abort-certification-course', function () {
       // given
       const abortReason = 'technical';
       const certificationCourse = domainBuilder.buildCertificationCourse({ abortReason: null });
-      certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
+      certificationCourseRepository.get.withArgs({ id: certificationCourse.getId() }).resolves(certificationCourse);
 
       // when
       await abortCertificationCourse({
@@ -28,19 +28,19 @@ describe('Unit | UseCase | abort-certification-course', function () {
       });
 
       // then
-      expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
-        new CertificationCourse({
+      expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+        certificationCourse: new CertificationCourse({
           ...certificationCourse.toDTO(),
           abortReason: 'technical',
         }),
-      );
+      });
     });
 
     it('should throw an error if abortReason is not provided', async function () {
       // given
       const abortReason = null;
       const certificationCourse = domainBuilder.buildCertificationCourse({ abortReason: null });
-      certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
+      certificationCourseRepository.get.withArgs({ id: certificationCourse.getId() }).resolves(certificationCourse);
 
       // when
       const err = await catchErr(abortCertificationCourse)({

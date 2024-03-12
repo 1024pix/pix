@@ -135,7 +135,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
               const certificationCenter = domainBuilder.buildCertificationCenter({ sessionId, type: 'SUP' });
               const certificationCenterRepository = _buildFakeCertificationCenterRepository().withGetBySessionId({
-                args: sessionId,
+                args: { sessionId },
                 resolves: certificationCenter,
               });
 
@@ -173,7 +173,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
               const certificationCenter = domainBuilder.buildCertificationCenter({ sessionId, type: 'SUP' });
               const certificationCenterRepository = _buildFakeCertificationCenterRepository().withGetBySessionId({
-                args: sessionId,
+                args: { sessionId },
                 resolves: certificationCenter,
               });
 
@@ -217,7 +217,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
               const certificationCenter = domainBuilder.buildCertificationCenter({ sessionId, type: 'SUP' });
               const certificationCenterRepository = _buildFakeCertificationCenterRepository().withGetBySessionId({
-                args: sessionId,
+                args: { sessionId },
                 resolves: certificationCenter,
               });
 
@@ -260,7 +260,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
               const certificationCenter = domainBuilder.buildCertificationCenter({ sessionId, type: 'SUP' });
               const certificationCenterRepository = _buildFakeCertificationCenterRepository().withGetBySessionId({
-                args: sessionId,
+                args: { sessionId },
                 resolves: certificationCenter,
               });
 
@@ -316,7 +316,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               externalId: '123456',
             });
             const certificationCenterRepository = _buildFakeCertificationCenterRepository().withGetBySessionId({
-              args: sessionId,
+              args: { sessionId },
               resolves: certificationCenter,
             });
             const organization = domainBuilder.buildOrganization({
@@ -390,7 +390,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                 externalId: '123456',
               });
               const certificationCenterRepository = _buildFakeCertificationCenterRepository().withGetBySessionId({
-                args: sessionId,
+                args: { sessionId },
                 resolves: certificationCenter,
               });
               const organization = domainBuilder.buildOrganization({
@@ -470,7 +470,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                 externalId: '123456',
               });
               const certificationCenterRepository = _buildFakeCertificationCenterRepository().withGetBySessionId({
-                args: sessionId,
+                args: { sessionId },
                 resolves: certificationCenter,
               });
               const organization = domainBuilder.buildOrganization({
@@ -536,7 +536,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             externalId: '123456',
           });
           const certificationCenterRepository = _buildFakeCertificationCenterRepository().withGetBySessionId({
-            args: sessionId,
+            args: { sessionId },
             resolves: certificationCenter,
           });
           const organization = domainBuilder.buildOrganization({

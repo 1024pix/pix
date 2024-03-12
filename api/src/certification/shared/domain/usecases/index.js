@@ -19,7 +19,6 @@ import * as flashAlgorithmService from '../../../flash-certification/domain/serv
 import * as flashAlgorithmConfigurationRepository from '../../../flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as sessionCodeService from '../../../session/domain/services/session-code-service.js';
 import * as sessionsImportValidationService from '../../../session/domain/services/sessions-import-validation-service.js';
-import * as temporarySessionsStorageForMassImportService from '../../../session/domain/services/temporary-sessions-storage-for-mass-import-service.js';
 import * as sessionValidator from '../../../session/domain/validators/session-validator.js';
 import * as candidateRepository from '../../../session/infrastructure/repositories/candidate-repository.js';
 import * as cpfCertificationResultRepository from '../../../session/infrastructure/repositories/cpf-certification-result-repository.js';
@@ -96,7 +95,6 @@ const dependencies = {
   mailService,
   sessionCodeService,
   sessionsImportValidationService,
-  temporarySessionsStorageForMassImportService,
   sessionForAttendanceSheetRepository,
   cpfCertificationResultRepository,
   cpfExportRepository,
@@ -125,6 +123,7 @@ const usecasesWithoutInjectedDependencies = {
       'assign-certification-officer-to-session.js',
       'get-invigilator-kit-session-info.js',
       'validate-live-alert.js',
+      'validate-sessions.js',
       'dismiss-live-alert.js',
       'finalize-session.js',
       'unfinalize-session.js',

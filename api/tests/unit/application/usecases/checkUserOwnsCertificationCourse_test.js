@@ -16,7 +16,9 @@ describe('Unit | Application | Use Case | checkUserOwnsCertificationCourse', fun
         get: sinon.stub(),
       };
 
-      certificationCourseRepositoryStub.get.withArgs(certificationCourseId).resolves(certificationCourseBookshelfStub);
+      certificationCourseRepositoryStub.get
+        .withArgs({ id: certificationCourseId })
+        .resolves(certificationCourseBookshelfStub);
 
       // when
       const response = await usecase.execute({

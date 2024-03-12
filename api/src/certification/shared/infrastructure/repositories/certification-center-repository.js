@@ -42,7 +42,7 @@ function _setSearchFiltersForQueryBuilder(filters, qb) {
  *@deprecated implemented without bookshelf in {@link file://./../../../session/infrastructure/repositories/center-repository.js}
  * note that the new implementations does not provide the lazy loading on habilitations
  */
-const get = async function (id) {
+const get = async function ({ id }) {
   const certificationCenterBookshelf = await BookshelfCertificationCenter.query((q) => q.orderBy('id', 'desc'))
     .where({ id })
     .fetch({
@@ -62,7 +62,7 @@ const get = async function (id) {
   throw new NotFoundError(`Certification center with id: ${id} not found`);
 };
 
-const getBySessionId = async function (sessionId) {
+const getBySessionId = async function ({ sessionId }) {
   const certificationCenterBookshelf = await BookshelfCertificationCenter.where({ 'sessions.id': sessionId })
     .query((qb) => {
       qb.innerJoin('sessions', 'sessions.certificationCenterId', 'certification-centers.id');
@@ -84,7 +84,8 @@ const getBySessionId = async function (sessionId) {
   throw new NotFoundError(`Could not find certification center for sessionId ${sessionId}.`);
 };
 
-const save = async function (certificationCenter) {
+// @deprecated
+const save = async function ({ certificationCenter }) {
   const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt', 'habilitations']);
   const certificationCenterBookshelf = await new BookshelfCertificationCenter(cleanedCertificationCenter).save();
   await certificationCenterBookshelf.related('habilitations').fetch();
@@ -125,7 +126,7 @@ const findByExternalId = async function ({ externalId }) {
   return certificationCenterBookshelf ? _toDomain(certificationCenterBookshelf) : null;
 };
 
-const getRefererEmails = async function (certificationCenterId) {
+const getRefererEmails = async function ({ id }) {
   const refererEmails = await knex('certification-centers')
     .select('users.email')
     .join(
@@ -134,7 +135,7 @@ const getRefererEmails = async function (certificationCenterId) {
       'certification-centers.id',
     )
     .join('users', 'users.id', 'certification-center-memberships.userId')
-    .where('certification-centers.id', certificationCenterId)
+    .where('certification-centers.id', id)
     .where('certification-center-memberships.isReferer', true);
 
   return refererEmails;

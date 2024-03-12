@@ -17,7 +17,7 @@ describe('Unit | UseCase | get-certification-course', function () {
 
   it('should get the certificationCourse', async function () {
     // given
-    certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
+    certificationCourseRepository.get.withArgs({ id: certificationCourse.getId() }).resolves(certificationCourse);
 
     // when
     const actualCertificationCourse = await getCertificationCourse({
