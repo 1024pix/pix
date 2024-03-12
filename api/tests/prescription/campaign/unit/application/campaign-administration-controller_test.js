@@ -221,4 +221,82 @@ describe('Unit | Application | Controller | Campaign administration', function (
       expect(usecases.updateCampaignCode).to.have.been.calledWithExactly({ campaignId, campaignCode });
     });
   });
+
+  describe('#archiveCampaign', function () {
+    let updatedCampaign;
+    let serializedCampaign;
+
+    const campaignId = 1;
+    const userId = 1;
+    let campaignReportSerializerStub;
+    beforeEach(function () {
+      sinon.stub(usecases, 'archiveCampaign');
+      campaignReportSerializerStub = {
+        serialize: sinon.stub(),
+      };
+      updatedCampaign = Symbol('updated campaign');
+      serializedCampaign = Symbol('serialized campaign');
+    });
+
+    it('should return the updated campaign properly serialized', async function () {
+      // given
+      usecases.archiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
+      campaignReportSerializerStub.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
+
+      // when
+      const response = await campaignAdministrationController.archiveCampaign(
+        {
+          params: { id: campaignId },
+          auth: {
+            credentials: { userId },
+          },
+        },
+        hFake,
+        { campaignReportSerializer: campaignReportSerializerStub },
+      );
+
+      // then
+
+      expect(response).to.be.equal(serializedCampaign);
+    });
+  });
+
+  describe('#unarchiveCampaign', function () {
+    let updatedCampaign;
+    let serializedCampaign;
+
+    const campaignId = 1;
+    const userId = 1;
+    let campaignReportSerializerStub;
+    beforeEach(function () {
+      sinon.stub(usecases, 'unarchiveCampaign');
+
+      campaignReportSerializerStub = {
+        serialize: sinon.stub(),
+      };
+      updatedCampaign = Symbol('updated campaign');
+      serializedCampaign = Symbol('serialized campaign');
+    });
+
+    it('should return the updated campaign properly serialized', async function () {
+      // given
+      usecases.unarchiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
+      campaignReportSerializerStub.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
+
+      // when
+      const response = await campaignAdministrationController.unarchiveCampaign(
+        {
+          params: { id: campaignId },
+          auth: {
+            credentials: { userId },
+          },
+        },
+        hFake,
+        { campaignReportSerializer: campaignReportSerializerStub },
+      );
+
+      // then
+      expect(response).to.be.equal(serializedCampaign);
+    });
+  });
 });
