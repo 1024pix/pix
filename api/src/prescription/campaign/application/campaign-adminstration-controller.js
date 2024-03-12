@@ -85,20 +85,6 @@ const updateCampaignCode = async function (request, h) {
   return h.response(null).code(204);
 };
 
-const archiveCampaign = function (request, h, dependencies = { campaignReportSerializer }) {
-  const { userId } = request.auth.credentials;
-  const campaignId = request.params.id;
-
-  return usecases.archiveCampaign({ userId, campaignId }).then(dependencies.campaignReportSerializer.serialize);
-};
-
-const unarchiveCampaign = function (request, h, dependencies = { campaignReportSerializer }) {
-  const { userId } = request.auth.credentials;
-  const campaignId = request.params.id;
-
-  return usecases.unarchiveCampaign({ userId, campaignId }).then(dependencies.campaignReportSerializer.serialize);
-};
-
 const campaignAdministrationController = {
   save,
   update,
@@ -106,8 +92,6 @@ const campaignAdministrationController = {
   swapCampaignCodes,
   updateCampaignDetails,
   updateCampaignCode,
-  archiveCampaign,
-  unarchiveCampaign,
 };
 
 export { campaignAdministrationController };

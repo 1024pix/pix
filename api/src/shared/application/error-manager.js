@@ -5,7 +5,6 @@ import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/requ
 import * as translations from '../../../translations/index.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
 import { CsvWithNoSessionDataError, SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
-import { ArchivedCampaignError } from '../../prescription/campaign/domain/errors.js';
 import { SiecleXmlImportError } from '../../prescription/learner-management/domain/errors.js';
 import { OrganizationCantGetPlacesStatisticsError } from '../../prescription/organization-place/domain/errors.js';
 import * as DomainErrors from '../domain/errors.js';
@@ -133,9 +132,6 @@ function _mapToHttpError(error) {
   }
   if (error instanceof SiecleXmlImportError) {
     return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
-  }
-  if (error instanceof ArchivedCampaignError) {
-    return new HttpErrors.PreconditionFailedError(error.message);
   }
 
   if (error instanceof CsvWithNoSessionDataError) {

@@ -64,41 +64,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'PUT',
-      path: '/api/campaigns/{id}/archive',
-      config: {
-        pre: [{ method: securityPreHandlers.checkAuthorizationToManageCampaign }],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.campaignId,
-          }),
-        },
-        handler: campaignAdministrationController.archiveCampaign,
-        tags: ['api'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' + "- Archivage d'une campagne par son id",
-        ],
-      },
-    },
-    {
-      method: 'DELETE',
-      path: '/api/campaigns/{id}/archive',
-      config: {
-        pre: [{ method: securityPreHandlers.checkAuthorizationToManageCampaign }],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.campaignId,
-          }),
-        },
-        handler: campaignAdministrationController.unarchiveCampaign,
-        tags: ['api'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Désarchivage d'une campagne par son id",
-        ],
-      },
-    },
-    {
       method: 'POST',
       path: '/api/admin/campaigns',
       config: {
