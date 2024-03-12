@@ -3,8 +3,8 @@ import * as moduleUnderTest from '../../../../src/school/application/mission-rou
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
-describe('Unit | Router | mission-router', function () {
-  describe('GET /api/pix1d/missions/${missionId}', function () {
+describe('Unit | Router | mission-route', function () {
+  describe('GET /api/pix1d/missions/{missionId}', function () {
     it('should check pix1d activated', async function () {
       // given
       sinon.spy(securityPreHandlers, 'checkPix1dActivated');
@@ -34,7 +34,7 @@ describe('Unit | Router | mission-router', function () {
     });
   });
 
-  describe('GET /api/pix1d/missions/', function () {
+  describe('GET /api/pix1d/missions', function () {
     it('should check pix1d activated', async function () {
       // given
       sinon.spy(securityPreHandlers, 'checkPix1dActivated');
@@ -64,7 +64,7 @@ describe('Unit | Router | mission-router', function () {
     });
   });
 
-  describe('GET /api/organizations/{id}/missions/', function () {
+  describe('GET /api/organizations/{id}/missions', function () {
     it('should check user belongs to organization and pix1d is activated', async function () {
       // given
       const mock = sinon.mock(securityPreHandlers);
@@ -95,7 +95,7 @@ describe('Unit | Router | mission-router', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
-  describe('GET /api/organizations/{id}/missions/${missionId}', function () {
+  describe('GET /api/organizations/{id}/missions/{missionId}', function () {
     it('should check user belongs to organization and pix1d is activated', async function () {
       // given
       const mock = sinon.mock(securityPreHandlers);
