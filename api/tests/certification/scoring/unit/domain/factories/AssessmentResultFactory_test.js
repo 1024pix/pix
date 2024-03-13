@@ -1,4 +1,4 @@
-import { AssessmentResult } from '../../../../../../lib/domain/models/index.js';
+import { AssessmentResult, CertificationResult } from '../../../../../../lib/domain/models/index.js';
 import { AssessmentResultFactory } from '../../../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
 import { AutoJuryCommentKeys } from '../../../../../../src/certification/shared/domain/models/JuryComment.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
@@ -131,6 +131,39 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
         }),
         commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
           commentByAutoJury: AutoJuryCommentKeys.FRAUD,
+        }),
+      });
+      expectedAssessmentResult.id = undefined;
+      expectedAssessmentResult.createdAt = undefined;
+      expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
+    });
+  });
+
+  describe('#buildInsufficientCorrectAnswers', function () {
+    it('should return an insufficient correct answers AssessmentResult', function () {
+      // when
+      const actualAssessmentResult = AssessmentResultFactory.buildInsufficientCorrectAnswers({
+        emitter: CertificationResult.emitters.PIX_ALGO,
+        pixScore: 0,
+        reproducibilityRate: 49,
+        assessmentId: 123,
+        status: AssessmentResult.status.REJECTED,
+        juryId: 456,
+      });
+
+      // then
+      const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
+        status: AssessmentResult.status.REJECTED,
+        pixScore: 0,
+        reproducibilityRate: 49,
+        assessmentId: 123,
+        juryId: 456,
+        emitter: 'PIX-ALGO',
+        commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
+          commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
+        }),
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
         }),
       });
       expectedAssessmentResult.id = undefined;
