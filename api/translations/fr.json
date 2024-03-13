@@ -326,6 +326,10 @@
         "candidate": "Les conditions de passation du test de certification n'ayant pas été respectées et ayant fait l'objet d'un signalement pour fraude, votre certification a été invalidée en conséquence.",
         "organization": "Une situation de fraude a été détectée : après analyse, nous avons statué sur un rejet de la certification."
       },
+      "REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS": {
+        "candidate": "Vous avez répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de votre certification, et donc entrainé un score de 0 pix.",
+        "organization": "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix."
+      },
       "REJECTED_DUE_TO_LACK_OF_ANSWERS": {
         "candidate": "Le nombre de questions répondues pendant votre test de certification est insuffisant et ne nous permet pas de vous délivrer une certification Pix.",
         "organization": "Le nombre de questions répondues par le candidat pendant son test de certification est insuffisant et ne nous permet pas de lui délivrer une certification Pix."

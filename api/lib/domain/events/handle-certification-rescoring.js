@@ -216,14 +216,21 @@ async function _handleV2Certification({
     certificationAssessment,
     continueOnError: false,
   });
-
-  const assessmentResultId = await _saveAssessmentResult(
+  const emitter = _getEmitterFromEvent(event);
+  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+  const assessmentResult = _createV2AssessmentResult({
+    event,
+    emitter,
+    certificationCourse,
     certificationAssessmentScore,
     certificationAssessment,
-    event,
+  });
+
+  const assessmentResultId = await _saveV2AssessmentResult({
+    assessmentResult,
+    certificationAssessment,
     assessmentResultRepository,
-    certificationCourseRepository,
-  );
+  });
   await _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository);
 
   await _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
@@ -275,42 +282,7 @@ async function _saveResultAfterCertificationComputeError({
   });
 }
 
-async function _saveAssessmentResult(
-  certificationAssessmentScore,
-  certificationAssessment,
-  event,
-  assessmentResultRepository,
-  certificationCourseRepository,
-) {
-  let assessmentResult;
-  const emitter = _getEmitterFromEvent(event);
-  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
-  if (certificationCourse.isRejectedForFraud()) {
-    assessmentResult = AssessmentResultFactory.buildFraud({
-      pixScore: certificationAssessmentScore.nbPix,
-      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      assessmentId: certificationAssessment.id,
-      juryId: event.juryId,
-    });
-  } else if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
-    assessmentResult = AssessmentResultFactory.buildNotTrustableAssessmentResult({
-      pixScore: certificationAssessmentScore.nbPix,
-      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      status: certificationAssessmentScore.status,
-      assessmentId: certificationAssessment.id,
-      emitter,
-      juryId: event.juryId,
-    });
-  } else {
-    assessmentResult = AssessmentResultFactory.buildStandardAssessmentResult({
-      pixScore: certificationAssessmentScore.nbPix,
-      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      status: certificationAssessmentScore.status,
-      assessmentId: certificationAssessment.id,
-      emitter,
-      juryId: event.juryId,
-    });
-  }
+async function _saveV2AssessmentResult({ assessmentResult, certificationAssessment, assessmentResultRepository }) {
   const { id: assessmentResultId } = await assessmentResultRepository.save({
     certificationCourseId: certificationAssessment.certificationCourseId,
     assessmentResult,
@@ -341,6 +313,49 @@ function _getEmitterFromEvent(event) {
   }
 
   return emitter;
+}
+
+function _createV2AssessmentResult({
+  event,
+  emitter,
+  certificationCourse,
+  certificationAssessmentScore,
+  certificationAssessment,
+}) {
+  if (certificationCourse.isRejectedForFraud()) {
+    return AssessmentResultFactory.buildFraud({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      assessmentId: certificationAssessment.id,
+      juryId: event.juryId,
+    });
+  } else if (certificationAssessmentScore.hasInsufficientCorrectAnswers()) {
+    return AssessmentResultFactory.buildInsufficientCorrectAnswers({
+      emitter,
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      assessmentId: certificationAssessment.id,
+      juryId: event.juryId,
+    });
+  } else if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
+    return AssessmentResultFactory.buildNotTrustableAssessmentResult({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      status: certificationAssessmentScore.status,
+      assessmentId: certificationAssessment.id,
+      emitter,
+      juryId: event.juryId,
+    });
+  } else {
+    return AssessmentResultFactory.buildStandardAssessmentResult({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      status: certificationAssessmentScore.status,
+      assessmentId: certificationAssessment.id,
+      emitter,
+      juryId: event.juryId,
+    });
+  }
 }
 
 handleCertificationRescoring.eventTypes = eventTypes;
