@@ -1,4 +1,3 @@
-import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
@@ -187,22 +186,6 @@ const findPendingInvitations = function (request, h, dependencies = { organizati
     .then((invitations) => dependencies.organizationInvitationSerializer.serialize(invitations));
 };
 
-const getOrganizationLearnersCsvTemplate = async function (request, h, dependencies = { tokenService }) {
-  const organizationId = request.params.id;
-  const token = request.query.accessToken;
-  const userId = dependencies.tokenService.extractUserId(token);
-  const template = await usecases.getOrganizationLearnersCsvTemplate({
-    userId,
-    organizationId,
-    i18n: request.i18n,
-  });
-
-  return h
-    .response(template)
-    .header('Content-Type', 'text/csv;charset=utf-8')
-    .header('Content-Disposition', `attachment; filename=${request.i18n.__('csv-template.template-name')}.csv`);
-};
-
 const archiveOrganization = async function (request, h, dependencies = { organizationForAdminSerializer }) {
   const organizationId = request.params.id;
   const userId = extractUserIdFromRequest(request);
@@ -244,7 +227,6 @@ const organizationController = {
   findTargetProfileSummariesForAdmin,
   getDivisions,
   getGroups,
-  getOrganizationLearnersCsvTemplate,
   getOrganizationMemberIdentities,
   resendInvitation,
   sendInvitationByLangAndRole,
