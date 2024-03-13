@@ -17,6 +17,11 @@ function match({ answerValue, solution }) {
     return { result: AnswerStatus.KO };
   }
 
+  // Sets comparison
+  if (!_areAnswersComparableToSolutions(answerValue, solutionValue)) {
+    throw new Error('An error occurred because there is no solution found for an answer.');
+  }
+
   // Treatments
   const treatedSolutions = _applyTreatmentsToSolutions(solutionValue, enabledTreatments, qrocBlocksTypes);
   const treatedAnswers = _applyTreatmentsToAnswers(answerValue, enabledTreatments, qrocBlocksTypes);
@@ -79,7 +84,7 @@ function _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solut
   return ratio <= LEVENSHTEIN_DISTANCE_MAX_RATE;
 }
 
-function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qrocBlocksTypes = {}) {
+function _areAnswersComparableToSolutions(answers, solutions) {
   for (const answerKey in answers) {
     const solutionVariants = solutions[answerKey];
     if (!solutionVariants) {
@@ -88,10 +93,13 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qroc
           Object.keys(solutions)[0]
         }`,
       );
-      throw new Error('An error occurred because there is no solution found for an answer.');
+      return false;
     }
   }
+  return true;
+}
 
+function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qrocBlocksTypes = {}) {
   const results = {};
   for (const answerKey in answers) {
     const answer = answers[answerKey];
@@ -116,4 +124,11 @@ function _formatResult(resultDetails) {
   return AnswerStatus.OK;
 }
 
-export { _applyTreatmentsToAnswers, _applyTreatmentsToSolutions, _compareAnswersAndSolutions, _formatResult, match };
+export {
+  _applyTreatmentsToAnswers,
+  _applyTreatmentsToSolutions,
+  _areAnswersComparableToSolutions,
+  _compareAnswersAndSolutions,
+  _formatResult,
+  match,
+};
