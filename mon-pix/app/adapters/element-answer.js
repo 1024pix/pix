@@ -1,8 +1,9 @@
 import ApplicationAdapter from './application';
 
 export default class ElementAnswer extends ApplicationAdapter {
-  urlForCreateRecord(modelName, { adapterOptions }) {
-    return `${this.host}/${this.namespace}/passages/${adapterOptions.passageId}/answers`;
+  urlForCreateRecord(modelName, snapshot) {
+    const passageId = snapshot.belongsTo('passage', { id: true });
+    return `${this.host}/${this.namespace}/passages/${passageId}/answers`;
   }
 
   createRecord(store, type, snapshot) {
@@ -14,7 +15,6 @@ export default class ElementAnswer extends ApplicationAdapter {
         data: {
           attributes: {
             'element-id': serializedSnapshot.data.attributes['element-id'],
-            'passage-id': serializedSnapshot.data.relationships.passage.data.id,
             'user-response': serializedSnapshot.data.attributes['user-response'],
           },
         },
