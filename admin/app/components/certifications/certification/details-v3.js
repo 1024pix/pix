@@ -2,7 +2,7 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import { AnswerStatus } from '../../../models/certification-challenges-for-administration';
+import { ANSWER_STATUSES } from '../../../constants';
 import { subcategoryToCode, subcategoryToLabel } from '../../../models/certification-issue-report';
 import { abortReasons, assessmentStates } from '../../../models/v3-certification-course-details-for-administration';
 
@@ -19,12 +19,12 @@ const abortReasonMap = {
 
 const answerStatusMap = [
   {
-    value: AnswerStatus.OK,
+    value: ANSWER_STATUSES.OK,
     label: 'pages.certifications.certification.details.v3.answer-status.ok',
     color: successColor,
   },
   {
-    value: AnswerStatus.KO,
+    value: ANSWER_STATUSES.KO,
     label: 'pages.certifications.certification.details.v3.answer-status.ko',
     color: neutralColor,
   },
@@ -34,27 +34,27 @@ const answerStatusMap = [
     color: errorColor,
   },
   {
-    value: AnswerStatus.ABAND,
+    value: ANSWER_STATUSES.ABAND,
     label: 'pages.certifications.certification.details.v3.answer-status.aband',
     color: tertiaryColor,
   },
   {
-    value: AnswerStatus.TIMEDOUT,
+    value: ANSWER_STATUSES.TIMEDOUT,
     label: 'pages.certifications.certification.details.v3.answer-status.timedout',
     color: secondaryColor,
   },
   {
-    value: AnswerStatus.FOCUSEDOUT,
+    value: ANSWER_STATUSES.FOCUSEDOUT,
     label: 'pages.certifications.certification.details.v3.answer-status.focused-out',
     color: secondaryColor,
   },
   {
-    value: AnswerStatus.PARTIALLY,
+    value: ANSWER_STATUSES.PARTIALLY,
     label: 'pages.certifications.certification.details.v3.answer-status.partially-ok',
     color: secondaryColor,
   },
   {
-    value: AnswerStatus.UNIMPLEMENTED,
+    value: ANSWER_STATUSES.UNIMPLEMENTED,
     label: 'pages.certifications.certification.details.v3.answer-status.unimplemented',
     color: secondaryColor,
   },
@@ -122,7 +122,7 @@ export default class DetailsV3 extends Component {
 
   shouldDisplayAnswerValueIcon(certificationChallenge) {
     return (
-      certificationChallenge.answerStatus !== 'aband' &&
+      certificationChallenge.answerStatus !== ANSWER_STATUSES.ABAND &&
       certificationChallenge.answerStatus !== null &&
       !certificationChallenge.validatedLiveAlert
     );

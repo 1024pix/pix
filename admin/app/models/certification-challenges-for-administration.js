@@ -1,14 +1,7 @@
 import Model, { attr } from '@ember-data/model';
 
-export const AnswerStatus = {
-  OK: 'ok',
-  KO: 'ko',
-  ABAND: 'aband',
-  TIMEDOUT: 'timedout',
-  FOCUSEDOUT: 'focusedOut',
-  PARTIALLY: 'partially',
-  UNIMPLEMENTED: 'unimplemented',
-};
+import { ANSWER_STATUSES } from '../constants';
+
 export default class CertificationChallengesForAdministration extends Model {
   @attr() answerStatus;
   @attr() answeredAt;
@@ -20,15 +13,15 @@ export default class CertificationChallengesForAdministration extends Model {
   version = 3;
 
   isOk() {
-    return this.answerStatus === 'ok';
+    return this.answerStatus === ANSWER_STATUSES.OK;
   }
 
   isKo() {
-    return this.answerStatus === 'ko';
+    return this.answerStatus === ANSWER_STATUSES.KO;
   }
 
   isAband() {
-    return this.answerStatus === 'aband';
+    return this.answerStatus === ANSWER_STATUSES.ABAND;
   }
 
   hasLiveAlert() {
