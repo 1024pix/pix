@@ -1,9 +1,10 @@
-import { module, test } from 'qunit';
+import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
 import ENV from '../../../config/environment';
 import setupIntl from '../helpers/setup-intl';
-import Service from '@ember/service';
 
 module('Unit | Route | session-supervising', function (hooks) {
   setupTest(hooks);

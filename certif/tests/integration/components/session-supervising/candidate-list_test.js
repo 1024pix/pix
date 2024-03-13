@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { fillIn, click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
-
+import { click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | SessionSupervising::CandidateList', function (hooks) {
   setupIntlRenderingTest(hooks);

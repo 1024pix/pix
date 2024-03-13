@@ -1,10 +1,10 @@
-import sinon from 'sinon';
-import { resolve } from 'rsvp';
+import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
+import { triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
-import { triggerEvent } from '@ember/test-helpers';
-import Service from '@ember/service';
-import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
+import { resolve } from 'rsvp';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 

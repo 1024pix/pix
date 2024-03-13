@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import config from '../../../config/environment';
 import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
 import { CREATED } from 'pix-certif/models/session';
+import { module, test } from 'qunit';
+
+import config from '../../../config/environment';
 
 module('Unit | Model | session', function (hooks) {
   setupTest(hooks);

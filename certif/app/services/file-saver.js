@@ -1,6 +1,6 @@
 import Service from '@ember/service';
-import fetch from 'fetch';
 import { service } from '@ember/service';
+import fetch from 'fetch';
 
 export default class FileSaverService extends Service {
   @service intl;

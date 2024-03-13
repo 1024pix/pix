@@ -1,11 +1,11 @@
-import { module, test } from 'qunit';
+import { visit, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from '../helpers/test-init';
-import { visit as visitScreen, visit } from '@1024pix/ember-testing-library';
-
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import setupIntl from '../helpers/setup-intl';
+import { authenticateSession } from '../helpers/test-init';
 
 module('Acceptance | Session Details', function (hooks) {
   setupApplicationTest(hooks);

@@ -1,7 +1,7 @@
-import Component from '@glimmer/component';
-import { service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
 import EmberObject, { action } from '@ember/object';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 import toNumber from 'lodash/toNumber';
 

@@ -1,6 +1,7 @@
-import { module, test } from 'qunit';
-import pick from 'lodash/pick';
 import { setupTest } from 'ember-qunit';
+import pick from 'lodash/pick';
+import { module, test } from 'qunit';
+
 import setupIntlForModels from '../../helpers/setup-intl';
 
 module('Unit | Model | certification-candidate', function (hooks) {

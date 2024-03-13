@@ -1,13 +1,13 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import sinon from 'sinon';
 import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
 import {
   DEFAULT_LOCALE,
   ENGLISH_INTERNATIONAL_LOCALE,
-  FRENCH_INTERNATIONAL_LOCALE,
   FRENCH_FRANCE_LOCALE,
+  FRENCH_INTERNATIONAL_LOCALE,
 } from 'pix-certif/services/locale';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Service | session', function (hooks) {
   setupTest(hooks);

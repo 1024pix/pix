@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
+import { setupTest } from 'ember-qunit';
 import pick from 'lodash/pick';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Unit | Route | authenticated/sessions/details/certification-candidates', function (hooks) {
