@@ -114,6 +114,22 @@ module('Unit | Service | url', function (hooks) {
           assert.strictEqual(cguUrl, expectedCguUrl);
         });
       });
+
+      module('when current language is "nl"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: true };
+          service.intl = { primaryLocale: DUTCH_INTERNATIONAL_LOCALE };
+          const expectedCguUrl = 'https://pix.fr/conditions-generales-d-utilisation';
+
+          // when
+          const cguUrl = service.cguUrl;
+
+          // then
+          assert.strictEqual(cguUrl, expectedCguUrl);
+        });
+      });
     });
 
     module('when website is pix.org', function () {
@@ -141,6 +157,23 @@ module('Unit | Service | url', function (hooks) {
           const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
           service.currentDomain = { getExtension: sinon.stub().returns(INTERNATIONAL_TLD) };
           service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
+
+          // when
+          const cguUrl = service.cguUrl;
+
+          // then
+          assert.strictEqual(cguUrl, expectedCguUrl);
+        });
+      });
+
+      module('when current language is "nl"', function () {
+        test('returns the Nederland page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: false };
+          const expectedCguUrl = 'https://pix.org/nl-be/algemene-gebruiksvoorwaarden';
+          service.currentDomain = { getExtension: sinon.stub().returns(INTERNATIONAL_TLD) };
+          service.intl = { primaryLocale: DUTCH_INTERNATIONAL_LOCALE };
 
           // when
           const cguUrl = service.cguUrl;
