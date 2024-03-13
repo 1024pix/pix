@@ -8,7 +8,7 @@ const createSession = async function (request, _h, dependencies = { sessionSeria
   const userId = request.auth.credentials.userId;
   const session = dependencies.sessionSerializer.deserialize(request.payload);
 
-  const newSession = await sharedUseCases.createSession({ userId, session });
+  const newSession = await sessionUsecases.createSession({ userId, session });
 
   return dependencies.sessionSerializer.serialize({ session: newSession });
 };

@@ -9,6 +9,7 @@ import * as certificationCpfService from '../services/certification-cpf-service.
 import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../services/temporary-sessions-storage-for-mass-import-service.js';
+import * as sessionValidator from '../validators/session-validator.js';
 
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
@@ -17,7 +18,8 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {import('../../infrastructure/repositories/index.js').CenterRepository} CenterRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterRepository} CertificationCenterRepository
- * @typedef {import('../services/certification-cpf-service.js').CertificationCpfService} CertificationCpfService
+ * @typedef {import('../validators/session-validator.js')} SessionValidator
+ * @typedef {import('../services/certification-cpf-service.js')} CertificationCpfService
  * @typedef {import('../services/temporary-sessions-storage-for-mass-import-service.js').TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
@@ -56,6 +58,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * @typedef {sessionRepository} SessionRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
  * @typedef {temporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
+ * @typedef {sessionValidator} SessionValidator
  **/
 const dependencies = {
   assessmentRepository,
@@ -80,6 +83,7 @@ const dependencies = {
   sessionRepository: sessionRepositories.sessionRepository,
   certificationReportRepository: sessionRepositories.certificationReportRepository,
   temporarySessionsStorageForMassImportService,
+  sessionValidator,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -94,7 +98,6 @@ const usecasesWithoutInjectedDependencies = {
     path: join(path, './'),
     ignoredFileNames: [
       'index.js',
-      'create-session.js',
       'delete-session.js',
       'delete-unlinked-certification-candidate.js',
       'get-attendance-sheet.js',
