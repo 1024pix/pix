@@ -1,6 +1,7 @@
 import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../../shared/domain/constants.js';
+import { DomainError } from '../../../../shared/domain/errors.js';
 import { areTwoStringsCloseEnough } from '../../../../shared/domain/services/string-comparison-service.js';
-import { checkValidation } from '../validators/sup-organization-learner-set-validator.js';
+import { validateSupOrganizationLearner } from '../validators/sup-organization-learner-validator.js';
 import { SupOrganizationLearner } from './SupOrganizationLearner.js';
 
 const STUDY_SCHEMES = [
@@ -40,30 +41,52 @@ class SupOrganizationLearnerSet {
   }
 
   addLearner(learnerAttributes) {
+    this._validateLearnerAttributes(learnerAttributes);
+
     const learner = new SupOrganizationLearner(learnerAttributes);
     this._checkStudyScheme(learner);
     this._checkDiploma(learner);
     const transformedLearner = this._transform(learner);
     this.learners.push(transformedLearner);
-
-    checkValidation(this); // TODO : use full ? already validated upper in model ?
   }
 
-  addWarning(studentNumber, field, value, code) {
+  _validateLearnerAttributes(learnerAttributes) {
+    const errors = validateSupOrganizationLearner(learnerAttributes);
+    const unicityError = this._checkUniqueStudentNumber(learnerAttributes);
+    if (unicityError) {
+      errors.push(unicityError);
+    }
+    if (errors.length > 0) {
+      throw errors;
+    }
+  }
+
+  _addWarning(studentNumber, field, value, code) {
     this.warnings.push({ studentNumber, field, value, code });
+  }
+
+  _checkUniqueStudentNumber({ studentNumber }) {
+    if (this.learners.map((learner) => learner.studentNumber).includes(studentNumber)) {
+      const err = new DomainError();
+      err.key = 'studentNumber';
+      err.why = 'uniqueness';
+
+      return err;
+    }
+    return null;
   }
 
   _checkStudyScheme(learner) {
     const { studentNumber, studyScheme } = learner;
     if (this._isValidI18nValue(STUDY_SCHEMES, studyScheme)) return;
-    this.addWarning(studentNumber, 'study-scheme', learner.studyScheme, 'unknown');
+    this._addWarning(studentNumber, 'study-scheme', learner.studyScheme, 'unknown');
     learner.studyScheme = this.i18n.__(UNKNOWN);
   }
 
   _checkDiploma(learner) {
     const { studentNumber, diploma } = learner;
     if (this._isValidI18nValue(DIPLOMAS, diploma)) return;
-    this.addWarning(studentNumber, 'diploma', learner.diploma, 'unknown');
+    this._addWarning(studentNumber, 'diploma', learner.diploma, 'unknown');
     learner.diploma = this.i18n.__(UNKNOWN);
   }
 

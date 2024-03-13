@@ -17,20 +17,22 @@ class SupOrganizationLearnerParser extends CsvOrganizationLearnerParser {
     const LearnerSet = new SupOrganizationLearnerSet(i18n);
 
     const columns = new SupOrganizationLearnerImportHeader(i18n).columns;
-
     super(input, organizationId, columns, LearnerSet);
+    this._supportedErrors.push('uniqueness', 'student_number_format');
   }
 
-  _handleValidationError(err, index) {
-    const column = this._columns.find((column) => column.property === err.key);
-    const line = index + 2;
-    const field = column.name;
-    if (err.why === 'uniqueness') {
-      throw new CsvImportError(ERRORS.STUDENT_NUMBER_UNIQUE, { line, field });
-    }
-    if (err.why === 'student_number_format') {
-      throw new CsvImportError(ERRORS.STUDENT_NUMBER_FORMAT, { line, field });
-    }
+  _handleValidationError(errors, index) {
+    errors.forEach((err) => {
+      const column = this._columns.find((column) => column.property === err.key);
+      const line = index + 2;
+      const field = column.name;
+      if (err.why === 'uniqueness') {
+        this._errors.push(new CsvImportError(ERRORS.STUDENT_NUMBER_UNIQUE, { line, field }));
+      }
+      if (err.why === 'student_number_format') {
+        this._errors.push(new CsvImportError(ERRORS.STUDENT_NUMBER_FORMAT, { line, field }));
+      }
+    });
     super._handleValidationError(...arguments);
   }
 }

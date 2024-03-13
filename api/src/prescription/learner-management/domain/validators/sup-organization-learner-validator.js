@@ -1,9 +1,10 @@
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
+
 import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 
-const validationConfiguration = { allowUnknown: true };
+const validationConfiguration = { allowUnknown: true, abortEarly: false };
 const MAX_LENGTH = 255;
 
 const validationSchema = Joi.object({
@@ -17,7 +18,7 @@ const validationSchema = Joi.object({
   lastName: Joi.string().max(MAX_LENGTH).required(),
   preferredLastName: Joi.string().max(MAX_LENGTH).optional(),
   birthdate: Joi.date().required().format('YYYY-MM-DD').empty(null),
-  email: Joi.string().max(MAX_LENGTH).email().optional(),
+  email: Joi.string().email().optional(),
   diploma: Joi.string().max(MAX_LENGTH).optional(),
   department: Joi.string().max(MAX_LENGTH).optional(),
   educationalTeam: Joi.string().max(MAX_LENGTH).optional(),
@@ -26,12 +27,18 @@ const validationSchema = Joi.object({
   organizationId: Joi.number().integer().required(),
 });
 
-const checkValidation = function (supOrganizationLearner) {
-  const { error } = validationSchema.validate(supOrganizationLearner, validationConfiguration);
-  if (error) {
-    const err = EntityValidationError.fromJoiErrors(error.details);
-    err.key = error.details[0].context.key;
-    const { type, context } = error.details[0];
+const validateSupOrganizationLearner = function (supOrganizationLearner) {
+  const errors = [];
+  const { error: validationErrors } = validationSchema.validate(supOrganizationLearner, validationConfiguration);
+
+  if (!validationErrors) {
+    return errors;
+  }
+
+  validationErrors.details.forEach((error) => {
+    const err = EntityValidationError.fromJoiError(error);
+    const { type, context } = error;
+
     if (type === 'any.required') {
       err.why = 'required';
     }
@@ -54,11 +61,13 @@ const checkValidation = function (supOrganizationLearner) {
     if (type === 'boolean.base') {
       err.why = 'not_a_boolean';
     }
-    if (err.key === 'studentNumber' && type === 'string.pattern.base') {
+    if (context.key === 'studentNumber' && type === 'string.pattern.base') {
       err.why = 'student_number_format';
     }
-    throw err;
-  }
+    err.key = context.key;
+    errors.push(err);
+  });
+  return errors;
 };
 
-export { checkValidation };
+export { validateSupOrganizationLearner };
