@@ -7,6 +7,7 @@ const INTERNATIONAL_TLD = 'org';
 
 const ENGLISH_INTERNATIONAL_LOCALE = 'en';
 const FRENCH_INTERNATIONAL_LOCALE = 'fr';
+const DUTCH_INTERNATIONAL_LOCALE = 'nl';
 
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
@@ -181,6 +182,22 @@ module('Unit | Service | url', function (hooks) {
           assert.strictEqual(dataProtectionPolicyUrl, expectedDataProtectionPolicyUrl);
         });
       });
+
+      module('when current language is "nl"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: true };
+          service.intl = { primaryLocale: DUTCH_INTERNATIONAL_LOCALE };
+          const expectedDataProtectionPolicyUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
+
+          // when
+          const dataProtectionPolicyUrl = service.dataProtectionPolicyUrl;
+
+          // then
+          assert.strictEqual(dataProtectionPolicyUrl, expectedDataProtectionPolicyUrl);
+        });
+      });
     });
 
     module('when website is pix.org', function () {
@@ -207,6 +224,23 @@ module('Unit | Service | url', function (hooks) {
           service.currentDomain = { isFranceDomain: false };
           service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
           const expectedDataProtectionPolicyUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
+
+          // when
+          const dataProtectionPolicyUrl = service.dataProtectionPolicyUrl;
+
+          // then
+          assert.strictEqual(dataProtectionPolicyUrl, expectedDataProtectionPolicyUrl);
+        });
+      });
+
+      module('when current language is "nl"', function () {
+        test('returns the Nederland page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: false };
+          service.intl = { primaryLocale: DUTCH_INTERNATIONAL_LOCALE };
+          const expectedDataProtectionPolicyUrl =
+            'https://pix.org/nl-be/beleid-inzake-de-bescherming-van-persoonsgegevens';
 
           // when
           const dataProtectionPolicyUrl = service.dataProtectionPolicyUrl;
