@@ -1,7 +1,5 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import map from 'lodash/map';
-
 import {
   categoryToCode,
   categoryToLabel,
@@ -10,6 +8,7 @@ import {
   subcategoryToCode,
   subcategoryToLabel,
 } from 'pix-certif/models/certification-issue-report';
+import { module, test } from 'qunit';
 
 module('Unit | Model | certification issue report', function (hooks) {
   setupTest(hooks);

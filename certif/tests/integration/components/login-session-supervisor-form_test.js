@@ -1,10 +1,10 @@
-import { module, test } from 'qunit';
-import { click, fillIn } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
-import sinon from 'sinon';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-
+import { click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | login-session-supervisor-form', function (hooks) {
   setupIntlRenderingTest(hooks);

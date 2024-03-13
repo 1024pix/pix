@@ -1,5 +1,6 @@
-import ApplicationAdapter from './application';
 import { service } from '@ember/service';
+
+import ApplicationAdapter from './application';
 
 export default class MemberAdapter extends ApplicationAdapter {
   @service currentUser;

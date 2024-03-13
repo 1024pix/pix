@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import sinon from 'sinon';
 import { certificationIssueReportSubcategories } from 'pix-certif/models/certification-issue-report';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | candidate-information-change-certification-issue-report-fields', function (hooks) {

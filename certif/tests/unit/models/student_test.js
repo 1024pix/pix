@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
-import pick from 'lodash/pick';
 import { setupTest } from 'ember-qunit';
+import pick from 'lodash/pick';
+import { module, test } from 'qunit';
 
 module('Unit | Model | student', function (hooks) {
   setupTest(hooks);

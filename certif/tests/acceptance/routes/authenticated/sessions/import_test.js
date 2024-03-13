@@ -1,14 +1,15 @@
-import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { click, currentURL, settled, triggerEvent } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
+import { click, currentURL, settled, triggerEvent } from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { Response } from 'miragejs';
+import { module, test } from 'qunit';
+
 import {
   authenticateSession,
   createAllowedCertificationCenterAccess,
   createCertificationPointOfContactWithCustomCenters,
 } from '../../../../helpers/test-init';
-import { Response } from 'miragejs';
 
 /* eslint-disable ember/no-settled-after-test-helper */
 module('Acceptance | Routes | Authenticated | Sessions | import', function (hooks) {

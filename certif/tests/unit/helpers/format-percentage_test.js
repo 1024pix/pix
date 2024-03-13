@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import { formatPercentage } from 'pix-certif/helpers/format-percentage';
+import { module, test } from 'qunit';
 
 module('Unit | Helpers | format-percentage', function () {
   [

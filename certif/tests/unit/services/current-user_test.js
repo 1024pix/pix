@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import { resolve } from 'rsvp';
 import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { resolve } from 'rsvp';
 import sinon from 'sinon';
 
 module('Unit | Service | current-user', function (hooks) {

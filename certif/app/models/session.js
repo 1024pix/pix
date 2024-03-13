@@ -1,7 +1,7 @@
-import Model, { attr, hasMany } from '@ember-data/model';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 import { service } from '@ember/service';
+import Model, { attr, hasMany } from '@ember-data/model';
 import ENV from 'pix-certif/config/environment';
 
 export const CREATED = 'created';

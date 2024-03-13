@@ -1,10 +1,10 @@
-import { module, test } from 'qunit';
-import { click, currentURL } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
-import { authenticateSession } from '../helpers/test-init';
-
+import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import { authenticateSession } from '../helpers/test-init';
 
 module('Acceptance | Login session supervisor', function (hooks) {
   setupApplicationTest(hooks);

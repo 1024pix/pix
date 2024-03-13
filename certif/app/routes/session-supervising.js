@@ -1,7 +1,7 @@
-import Route from '@ember/routing/route';
-import ENV from 'pix-certif/config/environment';
 import { action } from '@ember/object';
+import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import ENV from 'pix-certif/config/environment';
 
 const NO_INTERNET_MESSAGE = 'Failed to fetch';
 export default class SessionSupervisingRoute extends Route {

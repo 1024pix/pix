@@ -1,11 +1,11 @@
 import Controller from '@ember/controller';
-import { service } from '@ember/service';
 import { action } from '@ember/object';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { alias } from '@ember/object/computed';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import sumBy from 'lodash/sumBy';
 import isEmpty from 'lodash/isEmpty';
+import sumBy from 'lodash/sumBy';
 import trim from 'lodash/trim';
 
 export default class SessionsFinalizeController extends Controller {

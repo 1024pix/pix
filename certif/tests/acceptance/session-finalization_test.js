@@ -1,10 +1,10 @@
-import { module, test } from 'qunit';
+import { visit, visit as visitScreen, within } from '@1024pix/ember-testing-library';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from '../helpers/test-init';
-import { visit as visitScreen, visit, within } from '@1024pix/ember-testing-library';
-
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import { authenticateSession } from '../helpers/test-init';
 import { waitForDialogClose } from '../helpers/wait-for';
 
 const MODAL_TITLE = 'Finalisation de la session';

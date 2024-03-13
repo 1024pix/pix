@@ -1,15 +1,16 @@
-import { module, test } from 'qunit';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { currentURL } from '@ember/test-helpers';
+import { settled } from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
+import { currentSession } from 'ember-simple-auth/test-support';
+import { module, test } from 'qunit';
+
 import setupIntl from '../helpers/setup-intl';
 import {
-  createCertificationPointOfContactWithTermsOfServiceNotAccepted,
   createCertificationPointOfContactWithTermsOfServiceAccepted,
+  createCertificationPointOfContactWithTermsOfServiceNotAccepted,
 } from '../helpers/test-init';
-import { currentSession } from 'ember-simple-auth/test-support';
-import { currentURL } from '@ember/test-helpers';
-import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { settled } from '@ember/test-helpers';
 
 module('Acceptance | join ', function (hooks) {
   setupApplicationTest(hooks);

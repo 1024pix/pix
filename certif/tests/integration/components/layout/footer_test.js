@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
-import setupRenderingIntlTest from '../../../helpers/setup-intl-rendering';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import setupRenderingIntlTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Layout::Footer', function (hooks) {
   setupRenderingIntlTest(hooks);

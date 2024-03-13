@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
-import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import delay from 'lodash/delay';
 import ENV from 'pix-certif/config/environment';

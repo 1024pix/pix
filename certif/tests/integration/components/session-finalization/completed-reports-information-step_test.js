@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
-import sinon from 'sinon';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { hbs } from 'ember-cli-htmlbars';
-import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | SessionFinalization::CompletedReportsInformationStep', function (hooks) {
   setupIntlRenderingTest(hooks);

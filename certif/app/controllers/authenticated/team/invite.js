@@ -1,9 +1,8 @@
 import Controller from '@ember/controller';
-import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
-
 import ENV from 'pix-certif/config/environment';
 
 export default class AuthenticatedTeamInviteController extends Controller {

@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import PixWindow from 'pix-certif/utils/pix-window';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Unit | Utilities | pix-window', function (hooks) {

@@ -1,5 +1,5 @@
-import { Factory } from 'miragejs';
 import dayjs from 'dayjs';
+import { Factory } from 'miragejs';
 import { CREATED } from 'pix-certif/models/session';
 
 export default Factory.extend({
