@@ -15,61 +15,7 @@ function serialize(module) {
             id: grain.id,
             title: grain.title,
             type: grain.type,
-            elements: grain.elements.map((element) => {
-              switch (element.type) {
-                case 'qcu':
-                  return {
-                    ...element,
-                    type: 'qcus',
-                  };
-                case 'qcm':
-                  return {
-                    ...element,
-                    type: 'qcms',
-                  };
-                case 'qrocm':
-                  return {
-                    ...element,
-                    proposals: element.proposals.map((proposal) => {
-                      switch (proposal.type) {
-                        case 'text':
-                          return {
-                            ...proposal,
-                            type: 'text',
-                          };
-                        case 'input': {
-                          return {
-                            ...proposal,
-                            type: 'input',
-                          };
-                        }
-                        case 'select': {
-                          return {
-                            ...proposal,
-                            type: 'select',
-                          };
-                        }
-                      }
-                    }),
-                    type: 'qrocms',
-                  };
-                case 'text':
-                  return {
-                    ...element,
-                    type: 'texts',
-                  };
-                case 'image':
-                  return {
-                    ...element,
-                    type: 'images',
-                  };
-                case 'video':
-                  return {
-                    ...element,
-                    type: 'videos',
-                  };
-              }
-            }),
+            elements: grain.elements,
             rawElements: grain.elements,
           };
         }),
@@ -80,28 +26,8 @@ function serialize(module) {
       ref: 'id',
       includes: true,
       attributes: ['title', 'type', 'elements', 'rawElements'],
-      elements: {
-        ref: 'id',
-        includes: true,
-        attributes: [
-          'content',
-          'instruction',
-          'proposals',
-          'type',
-          'url',
-          'alt',
-          'alternativeText',
-          'isAnswerable',
-          'subtitles',
-          'transcription',
-          'title',
-        ],
-      },
     },
-    typeForAttribute(attribute, { type }) {
-      if (attribute === 'elements') {
-        return type;
-      }
+    typeForAttribute(attribute) {
       if (attribute === 'grains') {
         return 'grains';
       }
