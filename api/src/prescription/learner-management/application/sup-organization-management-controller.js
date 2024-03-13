@@ -1,6 +1,7 @@
 import fs from 'fs';
 
 import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
+import { tokenService } from '../../../shared/domain/services/token-service.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as supOrganizationLearnerWarningSerializer from '../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer.js';
 
@@ -72,7 +73,24 @@ const replaceSupOrganizationLearners = async function (
     .code(200);
 };
 
+const getOrganizationLearnersCsvTemplate = async function (request, h, dependencies = { tokenService }) {
+  const organizationId = request.params.id;
+  const token = request.query.accessToken;
+  const userId = dependencies.tokenService.extractUserId(token);
+  const template = await usecases.getOrganizationLearnersCsvTemplate({
+    userId,
+    organizationId,
+    i18n: request.i18n,
+  });
+
+  return h
+    .response(template)
+    .header('Content-Type', 'text/csv;charset=utf-8')
+    .header('Content-Disposition', `attachment; filename=${request.i18n.__('csv-template.template-name')}.csv`);
+};
+
 const supOrganizationManagementController = {
+  getOrganizationLearnersCsvTemplate,
   importSupOrganizationLearners,
   replaceSupOrganizationLearners,
 };
