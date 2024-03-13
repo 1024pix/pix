@@ -2,7 +2,6 @@ import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.j
 import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
 import { usecases } from '../../../../src/certification/session/domain/usecases/index.js';
 import * as csvHelpers from '../../shared/application/helpers/csvHelpers.js';
-import { usecases as sharedUsecases } from '../../shared/domain/usecases/index.js';
 import { getCsvHeaders } from '../infrastructure/files/sessions-import.js';
 
 const createSessions = async function (request, h) {
@@ -11,7 +10,7 @@ const createSessions = async function (request, h) {
 
   const { cachedValidatedSessionsKey } = request.payload.data.attributes;
 
-  await sharedUsecases.createSessions({
+  await usecases.createSessions({
     cachedValidatedSessionsKey,
     certificationCenterId,
     userId: authenticatedUserId,

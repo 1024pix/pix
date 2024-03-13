@@ -12,6 +12,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
 
 /**
  * @typedef {import('../../infrastructure/repositories/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').CertificationCourseRepository} CertificationCourseRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CandidateRepository} CandidateRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CenterRepository} CenterRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCandidateRepository} CertificationCandidateRepository
@@ -35,7 +36,9 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
  * @typedef {assessmentRepository} AssessmentRepository
+ * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {certificationCenterRepository} CertificationCenterRepository
+ * @typedef {candidateRepository} CandidateRepository
  * @typedef {candidateRepository} CandidateRepository
  * @typedef {centerRepository} CenterRepository
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
@@ -56,6 +59,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/tempo
  **/
 const dependencies = {
   assessmentRepository,
+  certificationCourseRepository: sessionRepositories.certificationCourseRepository,
   certificationCenterRepository: sessionRepositories.certificationCenterRepository,
   candidateRepository: sessionRepositories.candidateRepository,
   centerRepository: sessionRepositories.centerRepository,
@@ -91,7 +95,6 @@ const usecasesWithoutInjectedDependencies = {
     ignoredFileNames: [
       'index.js',
       'create-session.js',
-      'create-sessions.js',
       'delete-session.js',
       'delete-unlinked-certification-candidate.js',
       'get-attendance-sheet.js',
