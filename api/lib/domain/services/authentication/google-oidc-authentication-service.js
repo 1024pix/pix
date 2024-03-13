@@ -1,6 +1,6 @@
+import { OidcAuthenticationService } from '../../../../src/authentication/domain/services/oidc-authentication-service.js';
 import { config } from '../../../config.js';
 import { GOOGLE } from '../../constants/oidc-identity-providers.js';
-import { OidcAuthenticationService } from './oidc-authentication-service.js';
 
 const configKey = GOOGLE.configKey;
 
