@@ -761,6 +761,18 @@
         "competence": {
           "title": "Compétence :"
         },
+        "learners": {
+          "title": "Liste des participations",
+          "list": {
+            "caption": "Tableau des élèves avec le résultat de leur participation à la mission {missionName}",
+            "headers": {
+              "division": "Classe",
+              "first-name": "Prénom",
+              "last-name": "Nom"
+            }
+          },
+          "no-data": "Il n'y a aucun participant"
+        },
         "objective": {
           "title": "Objectifs :"
         }
