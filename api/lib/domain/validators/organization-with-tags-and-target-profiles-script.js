@@ -1,8 +1,11 @@
 import Joi from 'joi';
 
+import { SUPPORTED_LOCALES } from '../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { Membership } from '../models/Membership.js';
 import { Organization } from '../models/Organization.js';
+
+const supportedLocales = SUPPORTED_LOCALES.map((supportedLocale) => supportedLocale.toLocaleLowerCase());
 
 const schema = Joi.object({
   type: Joi.string()
@@ -21,10 +24,14 @@ const schema = Joi.object({
   tags: Joi.string().required().messages({
     'string.empty': 'Les tags ne sont pas renseignés.',
   }),
-  locale: Joi.string().required().valid('fr-fr', 'fr', 'en').default('fr-fr').messages({
-    'string.empty': "La locale n'est pas renseignée.",
-    'any.only': "La locale doit avoir l'une des valeurs suivantes : fr-fr, fr ou en",
-  }),
+  locale: Joi.string()
+    .required()
+    .valid(...supportedLocales)
+    .default('fr-fr')
+    .messages({
+      'string.empty': "La locale n'est pas renseignée.",
+      'any.only': `La locale doit avoir l'une des valeurs suivantes : ${supportedLocales.join(', ')}`,
+    }),
   identityProviderForCampaigns: Joi.string().allow(null),
   provinceCode: Joi.string().required().allow('', null),
   credit: Joi.number().required().messages({
