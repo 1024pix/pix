@@ -1,8 +1,9 @@
 import iconv from 'iconv-lite';
 
-import { CsvColumn } from '../../../../../lib/infrastructure/serializers/csv/csv-column.js';
-import { CsvOrganizationLearnerParser } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/csv-learner-parser.js';
-import { catchErr, expect, sinon } from '../../../../test-helper.js';
+import { CsvColumn } from '../../../../../../../lib/infrastructure/serializers/csv/csv-column.js';
+import { AggregateImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
+import { CsvOrganizationLearnerParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/csv-organization-learner-parser.js';
+import { catchErr, expect, sinon } from '../../../../../../test-helper.js';
 
 class FakeLearnerSet {
   constructor() {
@@ -28,7 +29,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
         new CsvColumn({ property: 'col2', name: 'Column 2' }),
       ];
 
-      it('returns a SupOrganizationLearnerSet with an organization learner for each line', function () {
+      it('returns a learnerSet with an organization learner for each line', function () {
         const input = `Column 1;Column 2;
         Beatrix;The;
         O-Ren;;
@@ -67,177 +68,17 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
     context('when there is a validation error', function () {
       const columns = [new CsvColumn({ property: 'property', name: 'ColumnLabel' })];
 
-      let error;
+      const error = [];
       beforeEach(function () {
         learnerSet.addLearner = function () {
           throw error;
         };
       });
 
-      context('when error.why is min_length', function () {
-        it('throws a parsing error', async function () {
-          error = new Error();
-          error.key = 'property';
-          error.why = 'min_length';
-          error.limit = 12;
-
-          const input = `ColumnLabel;
-          Beatrix;
-          `;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
-
-          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
-
-          expect(parsingError.code).to.equal('FIELD_MIN_LENGTH');
-          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel', limit: 12 });
-        });
-      });
-
-      context('when error.why is max_length', function () {
-        it('throws a parsing error', async function () {
-          error = new Error();
-          error.key = 'property';
-          error.why = 'max_length';
-          error.limit = 8;
-
-          const input = `ColumnLabel;
-          Beatrix;
-          `;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
-
-          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
-
-          expect(parsingError.code).to.equal('FIELD_MAX_LENGTH');
-          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel', limit: 8 });
-        });
-      });
-
-      context('when error.why is required', function () {
-        it('throws a parsing error', async function () {
-          error = new Error();
-          error.key = 'property';
-          error.why = 'required';
-
-          const input = `ColumnLabel;
-          Beatrix;
-          `;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
-
-          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
-
-          expect(parsingError.code).to.equal('FIELD_REQUIRED');
-          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
-        });
-      });
-
-      context('when error.why is bad_values', function () {
-        it('throws a parsing error', async function () {
-          error = new Error();
-          error.key = 'property';
-          error.why = 'bad_values';
-          error.valids = ['value1', 'value2', 'value3'];
-
-          const input = `ColumnLabel;
-          Beatrix;
-          `;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
-
-          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
-
-          expect(parsingError.code).to.equal('FIELD_BAD_VALUES');
-          expect(parsingError.meta).to.deep.equal({
-            line: 2,
-            field: 'ColumnLabel',
-            valids: ['value1', 'value2', 'value3'],
-          });
-        });
-      });
-
-      context('when error.length is bad_values', function () {
-        it('throws a parsing error', async function () {
-          error = new Error();
-          error.key = 'property';
-          error.why = 'length';
-          error.limit = 2;
-
-          const input = `ColumnLabel;
-          Beatrix;
-          `;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
-
-          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
-
-          expect(parsingError.code).to.equal('FIELD_LENGTH');
-          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel', limit: 2 });
-        });
-      });
-
-      context('when error.why is date_format', function () {
-        it('throws a parsing error', async function () {
-          error = new Error();
-          error.key = 'property';
-          error.why = 'date_format';
-
-          const input = `ColumnLabel;
-          Beatrix;
-          `;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
-
-          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
-
-          expect(parsingError.code).to.equal('FIELD_DATE_FORMAT');
-          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
-        });
-      });
-
-      context('when error.why is not_a_date', function () {
-        it('throws a parsing error', async function () {
-          error = new Error();
-          error.key = 'property';
-          error.why = 'not_a_date';
-
-          const input = `ColumnLabel;
-          Beatrix;
-          `;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
-
-          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
-
-          expect(parsingError.code).to.equal('FIELD_DATE_FORMAT');
-          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
-        });
-      });
-
-      context('when error.why is email_format', function () {
-        it('throws a parsing error', async function () {
-          error = new Error();
-          error.key = 'property';
-          error.why = 'email_format';
-
-          const input = `ColumnLabel;
-          boeuf_bourguignon@chef..com;
-          `;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
-
-          const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
-
-          expect(parsingError.code).to.equal('FIELD_EMAIL_FORMAT');
-          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
-        });
-      });
-
       it('should throw an error including line number', async function () {
-        error = new Error();
-        error.key = 'property';
-        error.why = 'required';
+        error[0] = new Error();
+        error[0].key = 'property';
+        error[0].why = 'required';
 
         learnerSet.addLearner = sinon.stub().onThirdCall().throws(error);
         const input = `ColumnLabel;
@@ -249,9 +90,169 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-        const parsingError = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+        const parsingErrors = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
-        expect(parsingError.meta.line).to.equal(4);
+        expect(parsingErrors.meta[0].meta.line).to.equal(4);
+      });
+
+      context('when error.why is min_length', function () {
+        it('throws a parsing error', async function () {
+          error[0] = new Error();
+          error[0].key = 'property';
+          error[0].why = 'min_length';
+          error[0].limit = 12;
+
+          const input = `ColumnLabel;
+          Beatrix;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
+
+          const parsingErrors = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+
+          expect(parsingErrors.meta[0].code).to.equal('FIELD_MIN_LENGTH');
+          expect(parsingErrors.meta[0].meta).to.deep.equal({ line: 2, field: 'ColumnLabel', limit: 12 });
+        });
+      });
+
+      context('when error.why is max_length', function () {
+        it('throws a parsing error', async function () {
+          error[0] = new Error();
+          error[0].key = 'property';
+          error[0].why = 'max_length';
+          error[0].limit = 8;
+
+          const input = `ColumnLabel;
+          Beatrix;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
+
+          const parsingErrors = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+
+          expect(parsingErrors.meta[0].code).to.equal('FIELD_MAX_LENGTH');
+          expect(parsingErrors.meta[0].meta).to.deep.equal({ line: 2, field: 'ColumnLabel', limit: 8 });
+        });
+      });
+
+      context('when error.why is required', function () {
+        it('throws a parsing error', async function () {
+          error[0] = new Error();
+          error[0].key = 'property';
+          error[0].why = 'required';
+
+          const input = `ColumnLabel;
+          Beatrix;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
+
+          const parsingErrors = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+
+          expect(parsingErrors.meta[0].code).to.equal('FIELD_REQUIRED');
+          expect(parsingErrors.meta[0].meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
+        });
+      });
+
+      context('when error.why is bad_values', function () {
+        it('throws a parsing error', async function () {
+          error[0] = new Error();
+          error[0].key = 'property';
+          error[0].why = 'bad_values';
+          error[0].valids = ['value1', 'value2', 'value3'];
+
+          const input = `ColumnLabel;
+          Beatrix;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
+
+          const parsingErrors = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+
+          expect(parsingErrors.meta[0].code).to.equal('FIELD_BAD_VALUES');
+          expect(parsingErrors.meta[0].meta).to.deep.equal({
+            line: 2,
+            field: 'ColumnLabel',
+            valids: ['value1', 'value2', 'value3'],
+          });
+        });
+      });
+
+      context('when error.length is bad_values', function () {
+        it('throws a parsing error', async function () {
+          error[0] = new Error();
+          error[0].key = 'property';
+          error[0].why = 'length';
+          error[0].limit = 2;
+
+          const input = `ColumnLabel;
+          Beatrix;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
+
+          const parsingErrors = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+
+          expect(parsingErrors.meta[0].code).to.equal('FIELD_LENGTH');
+          expect(parsingErrors.meta[0].meta).to.deep.equal({ line: 2, field: 'ColumnLabel', limit: 2 });
+        });
+      });
+
+      context('when error.why is date_format', function () {
+        it('throws a parsing error', async function () {
+          error[0] = new Error();
+          error[0].key = 'property';
+          error[0].why = 'date_format';
+
+          const input = `ColumnLabel;
+          Beatrix;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
+
+          const parsingErrors = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+
+          expect(parsingErrors.meta[0].code).to.equal('FIELD_DATE_FORMAT');
+          expect(parsingErrors.meta[0].meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
+        });
+      });
+
+      context('when error.why is not_a_date', function () {
+        it('throws a parsing error', async function () {
+          error[0] = new Error();
+          error[0].key = 'property';
+          error[0].why = 'not_a_date';
+
+          const input = `ColumnLabel;
+          Beatrix;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
+
+          const parsingErrors = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+
+          expect(parsingErrors.meta[0].code).to.equal('FIELD_DATE_FORMAT');
+          expect(parsingErrors.meta[0].meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
+        });
+      });
+
+      context('when error.why is email_format', function () {
+        it('throws a parsing error', async function () {
+          error[0] = new Error();
+          error[0].key = 'property';
+          error[0].why = 'email_format';
+
+          const input = `ColumnLabel;
+          boeuf_bourguignon@chef..com;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
+
+          const parsingErrors = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+
+          expect(parsingErrors.meta[0].code).to.equal('FIELD_EMAIL_FORMAT');
+          expect(parsingErrors.meta[0].meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
+        });
       });
     });
   });
@@ -260,42 +261,66 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
     const columns = [
       new CsvColumn({ property: 'col1', name: 'Column 1', isRequired: true }),
       new CsvColumn({ property: 'col2', name: 'Column 2' }),
+      new CsvColumn({ property: 'col1', name: 'Column 3', isRequired: true }),
     ];
 
     it('should throw an error if the file is not csv', async function () {
-      const input = `Column 1\\Column 2\\
-      Beatrix\\The\\`;
+      const input = `Column 1\\Column 2\\Column 3\\
+      Beatrix\\The\\Blob\\`;
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
       const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
-      expect(error.code).to.equal('BAD_CSV_FORMAT');
+      expect(error.meta[0].code).to.equal('ENCODING_NOT_SUPPORTED');
     });
 
-    it('should throw an error if a column is not recognized', async function () {
-      const input = `Column 1;BAD Column 2;
-        Beatrix;The;
-        O-Ren;;
-      `;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
-
-      const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
-
-      expect(error.code).to.equal('HEADER_UNKNOWN');
-    });
-
-    it('should throw an error if a required column is missing', async function () {
+    it('should throw all errors on missing header', async function () {
       const input = `Column 2;
-      The;`;
+      The;;`;
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
-      const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+      const errors = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
-      expect(error.code).to.equal('HEADER_REQUIRED');
-      expect(error.meta.field).to.equal('Column 1');
+      expect(errors).instanceOf(AggregateImportError);
+      expect(errors.meta).to.lengthOf(2);
+      expect(errors.meta[0].code).to.equal('HEADER_REQUIRED');
+      expect(errors.meta[0].meta.field).to.equal('Column 1');
+      expect(errors.meta[1].code).to.equal('HEADER_REQUIRED');
+      expect(errors.meta[1].meta.field).to.equal('Column 3');
+    });
+
+    it('should throw all errors on unknown header', async function () {
+      const input = `Column 1;Column 3;GodZilla;King Kong;
+      The;;;;`;
+      const encodedInput = iconv.encode(input, 'utf8');
+      const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
+
+      const errors = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+
+      expect(errors.meta).to.lengthOf(2);
+
+      expect(errors.meta[0].code).to.equal('HEADER_UNKNOWN');
+      expect(errors.meta[0].meta.field).to.equal('GodZilla');
+      expect(errors.meta[1].code).to.equal('HEADER_UNKNOWN');
+      expect(errors.meta[1].meta.field).to.equal('King Kong');
+    });
+
+    it('should throw all errors on unknown and missing header', async function () {
+      const input = `Column 1;GodZilla;
+      The;;;;`;
+      const encodedInput = iconv.encode(input, 'utf8');
+      const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
+
+      const errors = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+
+      expect(errors.meta).to.lengthOf(2);
+
+      expect(errors.meta[0].code).to.equal('HEADER_REQUIRED');
+      expect(errors.meta[0].meta.field).to.equal('Column 3');
+      expect(errors.meta[1].code).to.equal('HEADER_UNKNOWN');
+      expect(errors.meta[1].meta.field).to.equal('GodZilla');
     });
   });
 
@@ -335,7 +360,7 @@ describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
       const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
       const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
-      expect(error.code).to.equal('ENCODING_NOT_SUPPORTED');
+      expect(error.meta[0].code).to.equal('ENCODING_NOT_SUPPORTED');
     });
   });
 });

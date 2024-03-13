@@ -3,6 +3,7 @@ import papa from 'papaparse';
 
 import { CsvImportError } from '../../../../../shared/domain/errors.js';
 import { convertDateValue } from '../../../../../shared/infrastructure/utils/date-utils.js';
+import { AggregateImportError } from '../../../domain/errors.js';
 
 const ERRORS = {
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
@@ -34,27 +35,50 @@ class CsvOrganizationLearnerParser {
   constructor(input, organizationId, columns, learnerSet) {
     this._input = input;
     this._organizationId = organizationId;
+    this._errors = [];
     this._columns = columns;
     this.learnerSet = learnerSet;
+    this._supportedErrors = [
+      'min_length',
+      'max_length',
+      'length',
+      'date_format',
+      'email_format',
+      'required',
+      'bad_values',
+    ];
   }
 
   parse(encoding) {
-    const { learnerLines, fields } = this._parse(encoding);
-
     if (!encoding) {
-      throw new CsvImportError(ERRORS.ENCODING_NOT_SUPPORTED);
+      this._errors.push(new CsvImportError(ERRORS.ENCODING_NOT_SUPPORTED));
     }
 
+    this.throwHasErrors();
+
+    const { learnerLines, fields } = this._parse(encoding);
+
+    this.throwHasErrors();
+
     this._checkColumns(fields);
+
+    this.throwHasErrors();
+
     learnerLines.forEach((line, index) => {
       const learnerAttributes = this._lineToOrganizationLearnerAttributes(line);
       try {
         this.learnerSet.addLearner(learnerAttributes);
-      } catch (err) {
-        this._handleError(err, index);
+      } catch (errors) {
+        this._handleValidationError(errors, index);
       }
     });
+
+    this.throwHasErrors();
     return this.learnerSet;
+  }
+
+  throwHasErrors() {
+    if (this._errors.length > 0) throw new AggregateImportError(this._errors);
   }
 
   /**
@@ -95,9 +119,11 @@ class CsvOrganizationLearnerParser {
     if (errors.length) {
       const hasDelimiterError = errors.some((error) => error.type === 'Delimiter');
       if (hasDelimiterError) {
-        throw new CsvImportError(ERRORS.BAD_CSV_FORMAT);
+        this._errors.push(new CsvImportError(ERRORS.BAD_CSV_FORMAT));
       }
     }
+
+    this.throwHasErrors();
 
     return { learnerLines, fields };
   }
@@ -121,20 +147,22 @@ class CsvOrganizationLearnerParser {
 
   _checkColumns(parsedColumns) {
     // Required columns
-    const missingMandatoryColumn = this._columns
-      .filter((c) => c.isRequired)
-      .find((c) => !parsedColumns.includes(c.name));
+    const mandatoryColumn = this._columns.filter((c) => c.isRequired);
 
-    if (missingMandatoryColumn) {
-      throw new CsvImportError(ERRORS.HEADER_REQUIRED, { field: missingMandatoryColumn.name });
-    }
+    mandatoryColumn.forEach((colum) => {
+      if (!parsedColumns.includes(colum.name)) {
+        this._errors.push(new CsvImportError(ERRORS.HEADER_REQUIRED, { field: colum.name }));
+      }
+    });
 
     // Expected columns
     const acceptedColumns = this._columns.map((column) => column.name);
 
-    if (_atLeastOneParsedColumnDoesNotMatchAcceptedColumns(parsedColumns, acceptedColumns)) {
-      throw new CsvImportError(ERRORS.HEADER_UNKNOWN);
-    }
+    const unknowColumns = parsedColumns.filter((columnName) => !acceptedColumns.includes(columnName));
+
+    unknowColumns.forEach((columnName) => {
+      if (columnName !== '') this._errors.push(new CsvImportError(ERRORS.HEADER_UNKNOWN, { field: columnName }));
+    });
   }
 
   _buildDateAttribute(dateString) {
@@ -147,41 +175,37 @@ class CsvOrganizationLearnerParser {
     return convertedDate || dateString;
   }
 
-  _handleError(err, index) {
-    const column = this._columns.find((column) => column.property === err.key);
-    const line = index + 2;
-    const field = column.name;
-    if (err.why === 'min_length') {
-      throw new CsvImportError(ERRORS.FIELD_MIN_LENGTH, { line, field, limit: err.limit });
-    }
-    if (err.why === 'max_length') {
-      throw new CsvImportError(ERRORS.FIELD_MAX_LENGTH, { line, field, limit: err.limit });
-    }
-    if (err.why === 'length') {
-      throw new CsvImportError(ERRORS.FIELD_LENGTH, { line, field, limit: err.limit });
-    }
-    if (err.why === 'date_format' || err.why === 'not_a_date') {
-      throw new CsvImportError(ERRORS.FIELD_DATE_FORMAT, { line, field });
-    }
-    if (err.why === 'email_format') {
-      throw new CsvImportError(ERRORS.FIELD_EMAIL_FORMAT, { line, field });
-    }
-    if (err.why === 'required') {
-      throw new CsvImportError(ERRORS.FIELD_REQUIRED, { line, field });
-    }
-    if (err.why === 'bad_values') {
-      throw new CsvImportError(ERRORS.FIELD_BAD_VALUES, { line, field, valids: err.valids });
-    }
-    throw err;
-  }
-}
+  _handleValidationError(errors, index) {
+    errors.forEach((err) => {
+      const column = this._columns.find((column) => column.property === err.key);
+      const line = index + 2;
+      const field = column.name;
 
-function _atLeastOneParsedColumnDoesNotMatchAcceptedColumns(parsedColumns, acceptedColumns) {
-  return parsedColumns.some((parsedColumn) => {
-    if (parsedColumn !== '') {
-      return !acceptedColumns.includes(parsedColumn);
-    }
-  });
+      if (err.why === 'min_length') {
+        this._errors.push(new CsvImportError(ERRORS.FIELD_MIN_LENGTH, { line, field, limit: err.limit }));
+      }
+      if (err.why === 'max_length') {
+        this._errors.push(new CsvImportError(ERRORS.FIELD_MAX_LENGTH, { line, field, limit: err.limit }));
+      }
+      if (err.why === 'length') {
+        this._errors.push(new CsvImportError(ERRORS.FIELD_LENGTH, { line, field, limit: err.limit }));
+      }
+      if (err.why === 'date_format' || err.why === 'not_a_date') {
+        this._errors.push(new CsvImportError(ERRORS.FIELD_DATE_FORMAT, { line, field }));
+      }
+      if (err.why === 'email_format') {
+        this._errors.push(new CsvImportError(ERRORS.FIELD_EMAIL_FORMAT, { line, field }));
+      }
+      if (err.why === 'required') {
+        this._errors.push(new CsvImportError(ERRORS.FIELD_REQUIRED, { line, field }));
+      }
+      if (err.why === 'bad_values') {
+        this._errors.push(new CsvImportError(ERRORS.FIELD_BAD_VALUES, { line, field, valids: err.valids }));
+      }
+
+      if (!this._supportedErrors.includes(err.why)) this._errors.push(err);
+    });
+  }
 }
 
 export { CsvOrganizationLearnerParser };
