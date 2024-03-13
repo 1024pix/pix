@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 import ENV from 'mon-pix/config/environment';
 
 export default class ResumeRoute extends Route {
+  @service store;
   @service router;
 
   hasSeenCheckpoint = false;
@@ -12,12 +13,20 @@ export default class ResumeRoute extends Route {
   competenceLeveled = null;
   assessmentHasNoMoreQuestions = false;
 
-  beforeModel(transition) {
+  async beforeModel(transition) {
     this.hasSeenCheckpoint = transition.to.queryParams.hasSeenCheckpoint;
     this.campaignCode = transition.to.queryParams.campaignCode;
     this.newLevel = transition.to.queryParams.newLevel || null;
     this.competenceLeveled = transition.to.queryParams.competenceLeveled || null;
-    this.assessmentHasNoMoreQuestions = transition.to.queryParams.assessmentHasNoMoreQuestions == 'true';
+
+    if (!transition.to.parent.params.assessment_id) {
+      this.assessmentHasNoMoreQuestions = false;
+    } else {
+      const nextChallenge = await this.store.queryRecord('challenge', {
+        assessmentId: transition.to.parent.params.assessment_id,
+      });
+      this.assessmentHasNoMoreQuestions = !nextChallenge;
+    }
   }
 
   async redirect(assessment) {
