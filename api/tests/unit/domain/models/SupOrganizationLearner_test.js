@@ -43,7 +43,6 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
       'thirdName',
       'lastName',
       'preferredLastName',
-      'email',
       'diploma',
       'department',
       'educationalTeam',
@@ -59,6 +58,12 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
       });
     });
 
+    it(`throw an error when string email exceeds 255 characters`, async function () {
+      const error = await catchErr(buildOrganizationLearner)({ ...validAttributes, email: '1'.repeat(256) });
+
+      expect(error.key).to.equal('email');
+      expect(error.why).to.equal('email_format');
+    });
     // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [

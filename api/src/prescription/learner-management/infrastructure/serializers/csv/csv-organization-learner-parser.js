@@ -57,7 +57,6 @@ class CsvOrganizationLearnerParser {
     this.throwHasErrors();
 
     const { learnerLines, fields } = this._parse(encoding);
-
     this.throwHasErrors();
 
     this._checkColumns(fields);
@@ -115,7 +114,6 @@ class CsvOrganizationLearnerParser {
       meta: { fields },
       errors,
     } = papa.parse(decodedInput, PARSING_OPTIONS);
-
     if (errors.length) {
       const hasDelimiterError = errors.some((error) => error.type === 'Delimiter');
       if (hasDelimiterError) {
