@@ -1,6 +1,6 @@
+import { skillDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Skill } from '../../domain/models/Skill.js';
-import { skillDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
 
 function _toDomain(skillData) {
   return new Skill({

@@ -4,7 +4,7 @@ import { competenceDatasource } from './competence-datasource.js';
 import { courseDatasource } from './course-datasource.js';
 import { frameworkDatasource } from './framework-datasource.js';
 import { skillDatasource } from './skill-datasource.js';
-import { thematicDatasource } from '../../../../src/shared/infrastructure/datasources/learning-content/thematic-datasource.js';
+import { thematicDatasource } from './thematic-datasource.js';
 import { tubeDatasource } from './tube-datasource.js';
 import { tutorialDatasource } from './tutorial-datasource.js';
 

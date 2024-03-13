@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
-import { expect, sinon, catchErr } from '../../../../test-helper.js';
-import { lcms } from '../../../../../lib/infrastructure/lcms.js';
-import { challengeDatasource } from '../../../../../src/shared/infrastructure/datasources/learning-content/challenge-datasource.js';
-import { learningContentCache } from '../../../../../lib/infrastructure/caches/learning-content-cache.js';
-import { LearningContentResourceNotFound } from '../../../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { learningContentCache } from '../../../../../../lib/infrastructure/caches/learning-content-cache.js';
+import { lcms } from '../../../../../../lib/infrastructure/lcms.js';
+import { challengeDatasource } from '../../../../../../src/shared/infrastructure/datasources/learning-content/challenge-datasource.js';
+import { LearningContentResourceNotFound } from '../../../../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatasource', function () {
   let competence1,

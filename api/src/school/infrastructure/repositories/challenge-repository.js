@@ -1,11 +1,11 @@
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Challenge } from '../../../../lib/domain/models/index.js';
+import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
 import {
   challengeDatasource,
   skillDatasource,
   tubeDatasource,
 } from '../../../../src/shared/infrastructure/datasources/learning-content/index.js';
-import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
 import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { Activity } from '../../domain/models/Activity.js';
