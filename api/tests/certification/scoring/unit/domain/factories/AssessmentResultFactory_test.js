@@ -148,6 +148,7 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
         reproducibilityRate: 49,
         assessmentId: 123,
         status: AssessmentResult.status.REJECTED,
+        juryId: 456,
       });
 
       // then
@@ -156,6 +157,7 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
         pixScore: 0,
         reproducibilityRate: 49,
         assessmentId: 123,
+        juryId: 456,
         emitter: 'PIX-ALGO',
         commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
           commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
@@ -166,7 +168,6 @@ describe('Certification | Scoring | Unit | Domain | Factories | AssessmentResult
       });
       expectedAssessmentResult.id = undefined;
       expectedAssessmentResult.createdAt = undefined;
-      expectedAssessmentResult.juryId = undefined;
       expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
     });
   });

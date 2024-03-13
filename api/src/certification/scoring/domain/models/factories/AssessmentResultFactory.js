@@ -96,7 +96,7 @@ export class AssessmentResultFactory {
     });
   }
 
-  static buildInsufficientCorrectAnswers({ pixScore, reproducibilityRate, assessmentId, emitter }) {
+  static buildInsufficientCorrectAnswers({ pixScore, reproducibilityRate, assessmentId, emitter, juryId }) {
     const commentForCandidate = new JuryComment({
       context: JuryCommentContexts.CANDIDATE,
       commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS,
@@ -115,6 +115,7 @@ export class AssessmentResultFactory {
       reproducibilityRate,
       status: AssessmentResult.status.REJECTED,
       assessmentId,
+      juryId,
     });
   }
 }
