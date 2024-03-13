@@ -1,9 +1,9 @@
-import Component from '@glimmer/component';
-import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import ENV from 'pix-certif/config/environment';
 import get from 'lodash/get';
+import ENV from 'pix-certif/config/environment';
 
 export default class LoginForm extends Component {
   @service url;

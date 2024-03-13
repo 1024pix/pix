@@ -1,6 +1,7 @@
-import Component from '@glimmer/component';
-import { CREATED, FINALIZED, PROCESSED } from '../models/session';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
+
+import { CREATED, FINALIZED, PROCESSED } from '../models/session';
 
 export default class SessionSummaryRow extends Component {
   @service intl;

@@ -1,7 +1,8 @@
 import { authenticateSession as emberAuthenticateSession } from 'ember-simple-auth/test-support';
-import QUnit from 'qunit';
-import { contains, notContains } from './contains';
 import times from 'lodash/times';
+import QUnit from 'qunit';
+
+import { contains, notContains } from './contains';
 
 QUnit.assert.contains = contains;
 QUnit.assert.notContains = notContains;

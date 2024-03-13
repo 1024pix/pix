@@ -1,7 +1,8 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import sinon from 'sinon';
 import Service from '@ember/service';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Unit | Route | authenticated/sessions/finalize', function (hooks) {
   setupIntlRenderingTest(hooks);

@@ -1,10 +1,10 @@
 import Application from '@ember/application';
+import Resolver from 'ember-resolver';
 import config from 'pix-certif/config/environment';
 import { initialize } from 'pix-certif/instance-initializers/session';
-import { module, test } from 'qunit';
-import Resolver from 'ember-resolver';
-import sinon from 'sinon';
 import PixWindow from 'pix-certif/utils/pix-window';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Instance Initializer | session', function (hooks) {
   hooks.beforeEach(function () {

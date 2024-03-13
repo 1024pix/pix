@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import { A } from '@ember/array';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Unit | Model | certification report', function (hooks) {
   setupTest(hooks);

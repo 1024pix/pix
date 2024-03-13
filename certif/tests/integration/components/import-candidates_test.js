@@ -1,7 +1,8 @@
-import { module, test } from 'qunit';
+import EmberObject from '@ember/object';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import EmberObject from '@ember/object';
+import { module, test } from 'qunit';
+
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | import-candidates', function (hooks) {

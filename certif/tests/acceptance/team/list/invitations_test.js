@@ -1,13 +1,14 @@
-import { module, test } from 'qunit';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import setupIntl from '../../../helpers/setup-intl';
 import {
   authenticateSession,
   createCertificationPointOfContactWithTermsOfServiceAccepted,
 } from '../../../helpers/test-init';
-import setupIntl from '../../../helpers/setup-intl';
-import { clickByName, visit } from '@1024pix/ember-testing-library';
 
 module('Acceptance | Team | Invitations', function (hooks) {
   setupApplicationTest(hooks);

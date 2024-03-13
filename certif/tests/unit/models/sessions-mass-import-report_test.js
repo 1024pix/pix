@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import sinon from 'sinon';
 import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
 import ENV from 'pix-certif/config/environment';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 -module('Unit | Model | sessions mass import report', function (hooks) {
   setupTest(hooks);

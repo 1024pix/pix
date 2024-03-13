@@ -1,10 +1,11 @@
 import { action } from '@ember/object';
-import isEmpty from 'lodash/isEmpty';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import isEmailValid from '../../utils/email-validator';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+
+import isEmailValid from '../../utils/email-validator';
 
 const STATUSES = {
   DEFAULT: 'default',

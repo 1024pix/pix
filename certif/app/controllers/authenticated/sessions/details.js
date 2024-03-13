@@ -1,9 +1,9 @@
 import Controller from '@ember/controller';
-import { service } from '@ember/service';
 import { action } from '@ember/object';
 /* eslint-disable ember/no-computed-properties-in-native-classes*/
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import { service } from '@ember/service';
 /* eslint-enable ember/no-computed-properties-in-native-classes*/
 
 export default class SessionsDetailsController extends Controller {

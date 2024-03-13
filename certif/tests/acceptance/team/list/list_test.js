@@ -1,20 +1,20 @@
-import { module, test } from 'qunit';
-import { click, currentURL } from '@ember/test-helpers';
 import { clickByName, visit as visitScreen, within } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { Response } from 'miragejs';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
+import setupIntl from '../../../helpers/setup-intl';
 import {
   authenticateSession,
   createAllowedCertificationCenterAccess,
   createCertificationPointOfContactWithCustomCenters,
   createCertificationPointOfContactWithTermsOfServiceAccepted,
 } from '../../../helpers/test-init';
-import setupIntl from '../../../helpers/setup-intl';
 import { waitForDialog, waitForDialogClose } from '../../../helpers/wait-for';
-import sinon from 'sinon';
 
 module('Acceptance | authenticated | team', function (hooks) {
   setupApplicationTest(hooks);

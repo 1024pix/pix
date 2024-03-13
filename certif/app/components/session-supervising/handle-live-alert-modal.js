@@ -1,9 +1,10 @@
-import Component from '@glimmer/component';
-import { subcategoryToCode, subcategoryToLabel } from 'pix-certif/models/certification-issue-report';
 import { action } from '@ember/object';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { certificationIssueReportSubcategories } from '../../models/certification-issue-report';
 import orderBy from 'lodash/orderBy';
+import { subcategoryToCode, subcategoryToLabel } from 'pix-certif/models/certification-issue-report';
+
+import { certificationIssueReportSubcategories } from '../../models/certification-issue-report';
 
 export default class HandleLiveAlertModal extends Component {
   @tracked issueReportReason = null;
