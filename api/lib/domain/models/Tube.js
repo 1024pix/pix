@@ -4,8 +4,6 @@ class Tube {
   constructor({
     id,
     name,
-    title,
-    description,
     practicalTitle,
     practicalDescription,
     isMobileCompliant,
@@ -16,8 +14,6 @@ class Tube {
     skillIds,
   }) {
     this.id = id;
-    this.title = title;
-    this.description = description;
     this.practicalTitle = practicalTitle;
     this.practicalDescription = practicalDescription;
     this.isMobileCompliant = isMobileCompliant;
