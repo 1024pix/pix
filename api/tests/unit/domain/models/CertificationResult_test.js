@@ -8,8 +8,6 @@ const CERTIFICATION_RESULT_STATUS_REJECTED = CertificationResult.status.REJECTED
 const CERTIFICATION_RESULT_STATUS_STARTED = CertificationResult.status.STARTED;
 const CERTIFICATION_RESULT_STATUS_VALIDATED = CertificationResult.status.VALIDATED;
 const CERTIFICATION_RESULT_EMITTER_PIXALGO = CertificationResult.emitters.PIX_ALGO;
-const CERTIFICATION_RESULT_EMITTER_AUTOJURY = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
-const CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION = CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION;
 
 describe('Unit | Domain | Models | CertificationResult', function () {
   context('#static from', function () {
@@ -82,7 +80,9 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         pixScore: 123,
         status: CERTIFICATION_RESULT_STATUS_VALIDATED,
         emitter: CERTIFICATION_RESULT_EMITTER_PIXALGO,
-        commentForOrganization: 'Un commentaire orga 1',
+        commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+          fallbackComment: certificationResultData.commentForOrganization,
+        }),
         juryId: 159,
         competencesWithMark: [
           domainBuilder.buildCompetenceMark({
@@ -114,9 +114,15 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         });
 
         // then
-        const { commentForOrganization } = domainBuilder.buildCertificationResult(certificationResultDTO);
+        const { commentForOrganization: expectedCommentForOrganization } = domainBuilder.buildCertificationResult({
+          ...certificationResultDTO,
+          commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+            fallbackComment: certificationResultDTO.commentForOrganization,
+            commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+          }),
+        });
 
-        expect(certificationResult.commentForOrganization).to.deepEqualInstance(commentForOrganization);
+        expect(certificationResult.commentForOrganization).to.deepEqualInstance(expectedCommentForOrganization);
       });
     });
 
@@ -364,58 +370,6 @@ describe('Unit | Domain | Models | CertificationResult', function () {
 
         // then
         expect(isStarted).to.be.false;
-      });
-    });
-  });
-
-  context('#hasBeenRejectedAutomatically', function () {
-    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [
-      {
-        emitter: CERTIFICATION_RESULT_EMITTER_PIXALGO,
-        status: CERTIFICATION_RESULT_STATUS_REJECTED,
-        expectedResult: true,
-      },
-      {
-        emitter: CERTIFICATION_RESULT_EMITTER_AUTOJURY,
-        status: CERTIFICATION_RESULT_STATUS_REJECTED,
-        expectedResult: true,
-      },
-      {
-        emitter: CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION,
-        status: CERTIFICATION_RESULT_STATUS_REJECTED,
-        expectedResult: false,
-      },
-      {
-        emitter: CERTIFICATION_RESULT_EMITTER_PIXALGO,
-        status: CERTIFICATION_RESULT_STATUS_STARTED,
-        expectedResult: false,
-      },
-      {
-        emitter: CERTIFICATION_RESULT_EMITTER_AUTOJURY,
-        status: CERTIFICATION_RESULT_STATUS_STARTED,
-        expectedResult: false,
-      },
-      {
-        emitter: CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION,
-
-        status: CERTIFICATION_RESULT_STATUS_STARTED,
-        expectedResult: false,
-      },
-    ].forEach(function ({ expectedResult, emitter, status }) {
-      it(`should return ${expectedResult} when status is ${status} and emitter is ${emitter}`, async function () {
-        // given
-        const certificationResult = domainBuilder.buildCertificationResult({
-          emitter,
-          status,
-        });
-
-        // when
-        const hasBeenRejectedAutomatically = certificationResult.hasBeenRejectedAutomatically();
-
-        // then
-        expect(hasBeenRejectedAutomatically).to.equal(expectedResult);
       });
     });
   });
