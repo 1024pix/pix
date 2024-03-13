@@ -1,7 +1,6 @@
 import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { sessionMassImportController } from '../../../../../src/certification/session/application/session-mass-import-controller.js';
 import { usecases } from '../../../../../src/certification/session/domain/usecases/index.js';
-import { usecases as sharedUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | mass-import-controller', function () {
@@ -99,15 +98,15 @@ describe('Unit | Controller | mass-import-controller', function () {
         auth: { credentials: { userId: 2 } },
       };
 
-      sinon.stub(sharedUsecases, 'createSessions');
+      sinon.stub(usecases, 'createSessions');
 
-      sharedUsecases.createSessions.resolves();
+      usecases.createSessions.resolves();
 
       // when
       await sessionMassImportController.createSessions(request, hFake);
 
       // then
-      expect(sharedUsecases.createSessions).to.have.been.calledWithExactly({
+      expect(usecases.createSessions).to.have.been.calledWithExactly({
         cachedValidatedSessionsKey: 'uuid',
         certificationCenterId: 123,
         userId: 2,
