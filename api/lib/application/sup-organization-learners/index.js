@@ -2,9 +2,7 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
-import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
-import { NotFoundError, sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
+import { sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
 import { supOrganizationLearnerController } from './sup-organization-learner-controller.js';
 
 const register = async function (server) {
@@ -39,46 +37,6 @@ const register = async function (server) {
             '- Elle réconcilie l’utilisateur à l’inscription d’un étudiant dans cette organisation',
         ],
         tags: ['api', 'sup-organization-learner'],
-      },
-    },
-    {
-      method: 'PATCH',
-      path: '/api/organizations/{id}/sup-organization-learners/{organizationLearnerId}',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
-          },
-        ],
-        handler: supOrganizationLearnerController.updateStudentNumber,
-        validate: {
-          options: {
-            allowUnknown: true,
-          },
-          params: Joi.object({
-            id: identifiersType.organizationId,
-            organizationLearnerId: identifiersType.organizationLearnerId,
-          }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'student-number': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-              },
-            },
-          }),
-          failAction: (request, h, err) => {
-            const isStudentNumber = err.details[0].path.includes('student-number');
-            if (isStudentNumber) {
-              return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
-            }
-            return sendJsonApiError(new NotFoundError('Ressource non trouvée'), h);
-          },
-        },
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés et admin au sein de l'orga**\n" +
-            '- Elle met à jour le numéro étudiant',
-        ],
-        tags: ['api', 'sup-organization-learners'],
       },
     },
   ]);
