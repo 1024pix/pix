@@ -1,9 +1,8 @@
 import _ from 'lodash';
 
-import { LearningContentCache } from '../../caches/learning-content-cache.js';
-import { lcms } from '../../lcms.js';
-import { LearningContentResourceNotFound } from './LearningContentResourceNotFound.js';
 import { LearningContentCache } from '../../../../../lib/infrastructure/caches/learning-content-cache.js';
+import { lcms } from '../../../../../lib/infrastructure/lcms.js';
+import { LearningContentResourceNotFound } from './LearningContentResourceNotFound.js';
 
 const _DatasourcePrototype = {
   async get(id) {

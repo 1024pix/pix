@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { expect, sinon } from '../../../../test-helper.js';
-import { lcms } from '../../../../../lib/infrastructure/lcms.js';
-import { learningContentCache } from '../../../../../lib/infrastructure/caches/learning-content-cache.js';
-import { tutorialDatasource } from '../../../../../src/shared/infrastructure/datasources/learning-content/tutorial-datasource.js';
+
+import { learningContentCache } from '../../../../../../lib/infrastructure/caches/learning-content-cache.js';
+import { lcms } from '../../../../../../lib/infrastructure/lcms.js';
+import { tutorialDatasource } from '../../../../../../src/shared/infrastructure/datasources/learning-content/tutorial-datasource.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | TutorialDatasource', function () {
   beforeEach(function () {

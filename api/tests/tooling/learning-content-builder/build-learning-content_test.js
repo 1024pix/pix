@@ -1,12 +1,12 @@
 import {
   areaDatasource,
-  competenceDatasource,
-  thematicDatasource,
-  tubeDatasource,
-  skillDatasource,
   challengeDatasource,
+  competenceDatasource,
   courseDatasource,
   frameworkDatasource,
+  skillDatasource,
+  thematicDatasource,
+  tubeDatasource,
 } from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
 import { expect, learningContentBuilder, mockLearningContent } from '../../test-helper.js';
 
