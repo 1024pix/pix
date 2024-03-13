@@ -1,7 +1,7 @@
 import nock from 'nock';
 
-import { OidcAuthenticationService } from '../../../lib/domain/services/authentication/oidc-authentication-service.js';
 import { createServer } from '../../../server.js';
+import { OidcAuthenticationService } from '../../../src/authentication/domain/services/oidc-authentication-service.js';
 
 const openIdConfigurationResponse = {
   token_endpoint: 'https://oidc.example.net/ea5ac20c-5076-4806-860a-b0aeb01645d4/oauth2/v2.0/token',
