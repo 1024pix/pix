@@ -1,9 +1,9 @@
 import { randomUUID } from 'crypto';
 
+import { OidcAuthenticationService } from '../../../../src/authentication/domain/services/oidc-authentication-service.js';
 import { config } from '../../../config.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 import { FWB } from '../../constants/oidc-identity-providers.js';
-import { OidcAuthenticationService } from './oidc-authentication-service.js';
 
 const configKey = FWB.configKey;
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');

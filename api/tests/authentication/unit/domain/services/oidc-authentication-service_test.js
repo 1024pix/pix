@@ -5,12 +5,14 @@ import { config as settings } from '../../../../../lib/config.js';
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
 import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { OidcMissingFieldsError } from '../../../../../lib/domain/errors.js';
-import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
-import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
-import { OidcAuthenticationService } from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import {
+  AuthenticationMethod,
+  AuthenticationSessionContent,
+  UserToCreate,
+} from '../../../../../lib/domain/models/index.js';
 import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
+import { OidcAuthenticationService } from '../../../../../src/authentication/domain/services/oidc-authentication-service.js';
+import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { OidcError } from '../../../../../src/shared/domain/errors.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { catchErr, catchErrSync, expect, sinon } from '../../../../test-helper.js';
@@ -183,11 +185,12 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       // given
       const userId = 42;
       const accessToken = Symbol('valid access token');
-      settings.authentication.secret = 'a secret';
       const payload = { user_id: userId };
-      const secret = 'a secret';
       const jwtOptions = { expiresIn: 1 };
-      sinon.stub(jsonwebtoken, 'sign').withArgs(payload, secret, jwtOptions).returns(accessToken);
+      sinon
+        .stub(jsonwebtoken, 'sign')
+        .withArgs(payload, settings.authentication.secret, jwtOptions)
+        .returns(accessToken);
 
       const oidcAuthenticationService = new OidcAuthenticationService({ jwtOptions });
 
@@ -741,9 +744,9 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
     beforeEach(function () {
       domainTransaction = Symbol();
-      DomainTransaction.execute = (lambda) => {
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
         return lambda(domainTransaction);
-      };
+      });
 
       userToCreateRepository = {
         create: sinon.stub(),
