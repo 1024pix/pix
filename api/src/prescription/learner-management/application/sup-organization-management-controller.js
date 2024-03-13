@@ -89,10 +89,22 @@ const getOrganizationLearnersCsvTemplate = async function (request, h, dependenc
     .header('Content-Disposition', `attachment; filename=${request.i18n.__('csv-template.template-name')}.csv`);
 };
 
+const updateStudentNumber = async function (request, h) {
+  const payload = request.payload.data.attributes;
+  const organizationId = request.params.id;
+  const studentNumber = payload['student-number'];
+  const organizationLearnerId = request.params.organizationLearnerId;
+
+  await usecases.updateStudentNumber({ organizationLearnerId, studentNumber, organizationId });
+
+  return h.response().code(204);
+};
+
 const supOrganizationManagementController = {
   getOrganizationLearnersCsvTemplate,
   importSupOrganizationLearners,
   replaceSupOrganizationLearners,
+  updateStudentNumber,
 };
 
 export { supOrganizationManagementController };
