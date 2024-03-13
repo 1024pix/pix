@@ -15,7 +15,6 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(usecases, 'findDivisionsByOrganization');
-    sandbox.stub(usecases, 'findGroupsByOrganization');
 
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
     sandbox.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
@@ -130,41 +129,6 @@ describe('Integration | Application | Organizations | organization-controller', 
 
         // then
         expect(response.statusCode).to.equal(200);
-      });
-    });
-  });
-
-  describe('#getGroups', function () {
-    context('when the user is a member of the organization', function () {
-      it('returns organizations groups', async function () {
-        const organizationId = 1234;
-        securityPreHandlers.checkUserBelongsToSupOrganizationAndManagesStudents.returns(true);
-        usecases.findGroupsByOrganization.withArgs({ organizationId }).resolves([{ name: 'G1' }]);
-
-        const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/groups`);
-
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal([{ id: 'G1', type: 'groups', attributes: { name: 'G1' } }]);
-      });
-    });
-
-    context('when the user is not a member of the organization', function () {
-      it('returns organizations groups', async function () {
-        const organizationId = 1234;
-        securityPreHandlers.checkUserBelongsToSupOrganizationAndManagesStudents.callsFake((request, h) => {
-          return Promise.resolve(h.response().code(403).takeover());
-        });
-        const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/groups`);
-
-        expect(response.statusCode).to.equal(403);
-      });
-    });
-
-    context('when the organization id is invalid', function () {
-      it('returns organizations groups', async function () {
-        const response = await httpTestServer.request('GET', `/api/organizations/ABC/groups`);
-
-        expect(response.statusCode).to.equal(400);
       });
     });
   });
