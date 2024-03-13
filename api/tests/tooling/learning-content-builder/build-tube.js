@@ -1,8 +1,6 @@
 const buildTube = function ({
   id = 'recTube123',
   name = '@tubeName',
-  title = 'titre',
-  description = 'description',
   practicalTitle_i18n = {
     fr: 'titre pratique',
   },
@@ -18,8 +16,6 @@ const buildTube = function ({
   return {
     id,
     name,
-    title,
-    description,
     practicalTitle_i18n,
     practicalDescription_i18n,
     isMobileCompliant,

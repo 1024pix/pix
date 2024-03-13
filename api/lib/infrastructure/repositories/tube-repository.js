@@ -13,8 +13,6 @@ function _toDomain({ tubeData, locale }) {
   return new Tube({
     id: tubeData.id,
     name: tubeData.name,
-    title: tubeData.title,
-    description: tubeData.description,
     practicalTitle: translatedPracticalTitle,
     practicalDescription: translatedPracticalDescription,
     isMobileCompliant: tubeData.isMobileCompliant,
