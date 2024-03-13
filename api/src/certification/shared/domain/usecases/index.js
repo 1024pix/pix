@@ -15,8 +15,6 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as certificateRepository from '../../../course/infrastructure/repositories/certificate-repository.js';
 import * as v3CertificationCourseDetailsForAdministrationRepository from '../../../course/infrastructure/repositories/v3-certification-course-details-for-administration-repository.js';
-import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
-import * as flashAlgorithmConfigurationRepository from '../../../flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as sessionCodeService from '../../../session/domain/services/session-code-service.js';
 import * as sessionsImportValidationService from '../../../session/domain/services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../../../session/domain/services/temporary-sessions-storage-for-mass-import-service.js';
@@ -71,7 +69,6 @@ import * as mailService from '../services/mail-service.js';
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {cpfExportRepository} CpfExportRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
- * @typedef {flashAlgorithmService} FlashAlgorithmService
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {jurySessionRepository} JurySessionRepository
  * @typedef {mailService} MailService
@@ -109,8 +106,6 @@ const dependencies = {
   competenceRepository,
   complementaryCertificationRepository,
   finalizedSessionRepository,
-  flashAlgorithmService,
-  flashAlgorithmConfigurationRepository,
   issueReportCategoryRepository,
   jurySessionRepository,
   mailService,
@@ -143,9 +138,6 @@ const usecasesWithoutInjectedDependencies = {
       'get-session-certification-candidates.js',
       'get-mass-import-template-information.js',
     ],
-  })),
-  ...(await importNamedExportsFromDirectory({
-    path: join(path, '../../../flash-certification/domain/usecases/'),
   })),
   ...(await importNamedExportsFromDirectory({
     path: join(path, '../../../course/domain/usecases/'),
