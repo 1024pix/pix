@@ -2,13 +2,13 @@
   <h2 class="sr-only">{{t "pages.challenge.parts.validation"}}</h2>
 
   {{#if @answer}}
-    <span class="challenge-actions__already-answered">
+    <PixMessage class="challenge-actions__already-answered" @withIcon="true">
       {{#if (eq @answer.result "timedout")}}
         {{t "pages.challenge.timed.cannot-answer"}}
       {{else}}
         {{t "pages.challenge.already-answered"}}
       {{/if}}
-    </span>
+    </PixMessage>
     <PixButton
       @triggerAction={{fn @resumeAssessment @assessment}}
       @backgroundColor="primary"
