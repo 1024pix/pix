@@ -117,6 +117,7 @@ const usecasesWithoutInjectedDependencies = {
     path: join(path, '../../../session/domain/usecases/'),
     ignoredFileNames: [
       'index.js',
+      'create-sessions.js',
       'add-certification-candidate-to-session.js',
       'get-session-certification-candidates.js',
       'get-mass-import-template-information.js',
