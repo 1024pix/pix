@@ -24,7 +24,7 @@ describe('Unit | Controller | session-controller', function () {
         accessCode: 'ABCD12',
       });
 
-      sinon.stub(sharedUseCases, 'createSession').resolves();
+      sinon.stub(sessionUsecases, 'createSession').resolves();
       sessionSerializerStub = {
         serialize: sinon.stub(),
         deserialize: sinon.stub(),
@@ -59,7 +59,7 @@ describe('Unit | Controller | session-controller', function () {
       await sessionController.createSession(request, hFake, { sessionSerializer: sessionSerializerStub });
 
       // then
-      expect(sharedUseCases.createSession).to.have.been.calledWithExactly({ userId, session: expectedSession });
+      expect(sessionUsecases.createSession).to.have.been.calledWithExactly({ userId, session: expectedSession });
     });
 
     it('should return the created session in JSON API', async function () {
@@ -76,7 +76,7 @@ describe('Unit | Controller | session-controller', function () {
         certificationCenter: 'Université de dressage de loutres',
       });
 
-      sharedUseCases.createSession.resolves(savedSession);
+      sessionUsecases.createSession.resolves(savedSession);
       sessionSerializerStub.serialize.returns(jsonApiSession);
 
       // when
