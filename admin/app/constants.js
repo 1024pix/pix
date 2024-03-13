@@ -7,3 +7,10 @@ export const ANSWER_STATUSES = {
   PARTIALLY: 'partially',
   UNIMPLEMENTED: 'unimplemented',
 };
+
+export const ROLES = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  CERTIF: 'CERTIF',
+  METIER: 'METIER',
+  SUPPORT: 'SUPPORT',
+};

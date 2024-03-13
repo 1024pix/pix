@@ -3,6 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
+import { ROLES } from '../../constants';
 import isEmailValid from '../../utils/email-validator';
 
 export default class AddMember extends Component {
@@ -11,7 +12,7 @@ export default class AddMember extends Component {
   @service errorResponseHandler;
 
   @tracked email = '';
-  @tracked role = 'SUPER_ADMIN';
+  @tracked role = ROLES.SUPER_ADMIN;
   @tracked inviteErrorRaised;
 
   CUSTOM_ERROR_STATUS_MESSAGES = {
@@ -38,7 +39,7 @@ export default class AddMember extends Component {
       adminMember = this.store.createRecord('admin-member', { email: this.email, role: this.role });
       await adminMember.save();
       this.email = '';
-      this.role = 'SUPER_ADMIN';
+      this.role = ROLES.SUPER_ADMIN;
       this.notifications.success(
         `L'agent ${adminMember.firstName} ${adminMember.lastName} a dorénavant accès à Pix Admin`,
       );
