@@ -1,3 +1,4 @@
+import * as groupSerializer from '../../../../lib/infrastructure/serializers/jsonapi/group-serializer.js';
 import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as supOrganizationParticipantsSerializer from '../infrastructure/serializers/jsonapi/sup-organization-participants-serializer.js';
@@ -30,5 +31,11 @@ const findPaginatedFilteredSupParticipants = async function (
   return dependencies.supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, meta });
 };
 
-const supLearnerListController = { findPaginatedFilteredSupParticipants };
+const getGroups = async function (request) {
+  const organizationId = request.params.id;
+  const groups = await usecases.findGroupsByOrganization({ organizationId });
+  return groupSerializer.serialize(groups);
+};
+
+const supLearnerListController = { findPaginatedFilteredSupParticipants, getGroups };
 export { supLearnerListController };

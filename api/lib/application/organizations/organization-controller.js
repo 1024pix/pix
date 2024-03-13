@@ -3,7 +3,6 @@ import { usecases } from '../../domain/usecases/index.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
 import * as campaignManagementSerializer from '../../infrastructure/serializers/jsonapi/campaign-management-serializer.js';
 import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
-import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group-serializer.js';
 import * as membershipSerializer from '../../infrastructure/serializers/jsonapi/membership-serializer.js';
 import * as organizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
 import * as organizationMemberIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
@@ -128,12 +127,6 @@ const getDivisions = async function (request) {
   return divisionSerializer.serialize(divisions);
 };
 
-const getGroups = async function (request) {
-  const organizationId = request.params.id;
-  const groups = await usecases.findGroupsByOrganization({ organizationId });
-  return groupSerializer.serialize(groups);
-};
-
 const sendInvitations = async function (request, h) {
   const organizationId = request.params.id;
   const emails = request.payload.data.attributes.email.split(',');
@@ -226,7 +219,6 @@ const organizationController = {
   findPendingInvitations,
   findTargetProfileSummariesForAdmin,
   getDivisions,
-  getGroups,
   getOrganizationMemberIdentities,
   resendInvitation,
   sendInvitationByLangAndRole,
