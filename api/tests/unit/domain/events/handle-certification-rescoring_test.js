@@ -1131,89 +1131,179 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       });
     });
 
-    context('when the certification course is rejected for fraud', function () {
-      it('save a standard rejected assessment result ', async function () {
-        // given
-        const certificationCourseRepository = {
-          get: sinon.stub(),
-          update: sinon.stub(),
-        };
-        const assessmentResultRepository = { save: sinon.stub() };
-        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
-        const competenceMarkRepository = { save: sinon.stub() };
-        const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
-        const certificationCourse = domainBuilder.buildCertificationCourse({
-          id: 789,
-          isRejectedForFraud: true,
-        });
+    context('when the certification course is rejected', function () {
+      context('when it is rejected for fraud', function () {
+        it('save a standard rejected assessment result ', async function () {
+          // given
+          const certificationCourseRepository = {
+            get: sinon.stub(),
+            update: sinon.stub(),
+          };
+          const assessmentResultRepository = { save: sinon.stub() };
+          const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
+          const competenceMarkRepository = { save: sinon.stub() };
+          const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+          const certificationCourse = domainBuilder.buildCertificationCourse({
+            id: 789,
+            isRejectedForFraud: true,
+          });
 
-        const event = new ChallengeNeutralized({ certificationCourseId: 789, juryId: 7 });
-        const certificationAssessment = new CertificationAssessment({
-          id: 123,
-          userId: 123,
-          certificationCourseId: 789,
-          createdAt: new Date('2020-01-01'),
-          completedAt: new Date('2020-01-01'),
-          state: CertificationAssessment.states.STARTED,
-          version: 2,
-          certificationChallenges: [
-            domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
-            domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
-          ],
-          certificationAnswersByDate: ['answer'],
-        });
-        certificationAssessmentRepository.getByCertificationCourseId
-          .withArgs({ certificationCourseId: 789 })
-          .resolves(certificationAssessment);
-        certificationCourseRepository.get.withArgs(789).resolves(certificationCourse);
-        const competenceMark2 = domainBuilder.buildCompetenceMark({ score: 12 });
-        const competenceMark1 = domainBuilder.buildCompetenceMark({ score: 18 });
-        const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
-          status: AssessmentResult.status.VALIDATED,
-          competenceMarks: [competenceMark1, competenceMark2],
-          percentageCorrectAnswers: 80,
-          hasEnoughNonNeutralizedChallengesToBeTrusted: true,
-        });
-        scoringCertificationService.calculateCertificationAssessmentScore
-          .withArgs({ certificationAssessment, continueOnError: false })
-          .resolves(certificationAssessmentScore);
+          const event = new ChallengeNeutralized({ certificationCourseId: 789, juryId: 7 });
+          const certificationAssessment = new CertificationAssessment({
+            id: 123,
+            userId: 123,
+            certificationCourseId: 789,
+            createdAt: new Date('2020-01-01'),
+            completedAt: new Date('2020-01-01'),
+            state: CertificationAssessment.states.STARTED,
+            version: 2,
+            certificationChallenges: [
+              domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+              domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+            ],
+            certificationAnswersByDate: ['answer'],
+          });
+          certificationAssessmentRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId: 789 })
+            .resolves(certificationAssessment);
+          certificationCourseRepository.get.withArgs(789).resolves(certificationCourse);
+          const competenceMark2 = domainBuilder.buildCompetenceMark({ score: 12 });
+          const competenceMark1 = domainBuilder.buildCompetenceMark({ score: 18 });
+          const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+            status: AssessmentResult.status.VALIDATED,
+            competenceMarks: [competenceMark1, competenceMark2],
+            percentageCorrectAnswers: 80,
+            hasEnoughNonNeutralizedChallengesToBeTrusted: true,
+          });
+          scoringCertificationService.calculateCertificationAssessmentScore
+            .withArgs({ certificationAssessment, continueOnError: false })
+            .resolves(certificationAssessmentScore);
 
-        const assessmentResultToBeSaved = domainBuilder.certification.scoring.buildAssessmentResult.fraud({
-          pixScore: 30,
-          reproducibilityRate: 80,
-          assessmentId: 123,
-          juryId: 7,
-        });
-        assessmentResultRepository.save.resolves({
-          certificationCourseId: 789,
-          assessmentResult: assessmentResultToBeSaved,
-        });
+          const assessmentResultToBeSaved = domainBuilder.certification.scoring.buildAssessmentResult.fraud({
+            pixScore: 30,
+            reproducibilityRate: 80,
+            assessmentId: 123,
+            juryId: 7,
+          });
+          assessmentResultRepository.save.resolves({
+            certificationCourseId: 789,
+            assessmentResult: assessmentResultToBeSaved,
+          });
 
-        const dependendencies = {
-          assessmentResultRepository,
-          certificationAssessmentRepository,
-          competenceMarkRepository,
-          scoringCertificationService,
-          certificationCourseRepository,
-        };
+          const dependendencies = {
+            assessmentResultRepository,
+            certificationAssessmentRepository,
+            competenceMarkRepository,
+            scoringCertificationService,
+            certificationCourseRepository,
+          };
 
-        // when
-        await handleCertificationRescoring({
-          ...dependendencies,
-          event,
-        });
+          // when
+          await handleCertificationRescoring({
+            ...dependendencies,
+            event,
+          });
 
-        // then
-        const expectedCertificationCourse = domainBuilder.buildCertificationCourse({
-          id: 789,
-          isRejectedForFraud: true,
-        });
+          // then
+          const expectedCertificationCourse = domainBuilder.buildCertificationCourse({
+            id: 789,
+            isRejectedForFraud: true,
+          });
 
-        expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
-          certificationCourseId: 789,
-          assessmentResult: assessmentResultToBeSaved,
+          expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
+            certificationCourseId: 789,
+            assessmentResult: assessmentResultToBeSaved,
+          });
+          expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedCertificationCourse);
         });
-        expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedCertificationCourse);
+      });
+
+      context('when it is rejected for insufficient correct answers', function () {
+        it('should create and save an insufficient correct answers assessment result', async function () {
+          // given
+          const certificationCourseRepository = {
+            get: sinon.stub(),
+            update: sinon.stub(),
+          };
+          const assessmentResultRepository = { save: sinon.stub() };
+          const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
+          const competenceMarkRepository = { save: sinon.stub() };
+          const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+          const certificationCourse = domainBuilder.buildCertificationCourse({
+            id: 789,
+          });
+
+          const event = new ChallengeDeneutralized({ certificationCourseId: 789, juryId: 7 });
+          const certificationAssessment = new CertificationAssessment({
+            id: 123,
+            userId: 123,
+            certificationCourseId: 789,
+            createdAt: new Date('2020-01-01'),
+            completedAt: new Date('2020-01-01'),
+            state: CertificationAssessment.states.ENDED_BY_SUPERVISOR,
+            version: 2,
+            certificationChallenges: [
+              domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+              domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+              domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+            ],
+            certificationAnswersByDate: ['answer'],
+          });
+          certificationAssessmentRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId: 789 })
+            .resolves(certificationAssessment);
+          certificationCourseRepository.get.withArgs(789).resolves(certificationCourse);
+          const competenceMark1 = domainBuilder.buildCompetenceMark({ score: 0 });
+          const competenceMark2 = domainBuilder.buildCompetenceMark({ score: 0 });
+          const competenceMark3 = domainBuilder.buildCompetenceMark({ score: 0 });
+          const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+            competenceMarks: [competenceMark1, competenceMark2, competenceMark3],
+            percentageCorrectAnswers: 33,
+            hasEnoughNonNeutralizedChallengesToBeTrusted: true,
+          });
+          scoringCertificationService.calculateCertificationAssessmentScore
+            .withArgs({ certificationAssessment, continueOnError: false })
+            .resolves(certificationAssessmentScore);
+
+          const assessmentResultToBeSaved =
+            domainBuilder.certification.scoring.buildAssessmentResult.insufficientCorrectAnswers({
+              pixScore: 0,
+              reproducibilityRate: 33,
+              assessmentId: 123,
+              emitter: CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION,
+              juryId: 7,
+            });
+          assessmentResultRepository.save.resolves({
+            certificationCourseId: 789,
+            assessmentResult: assessmentResultToBeSaved,
+          });
+
+          const dependendencies = {
+            assessmentResultRepository,
+            certificationAssessmentRepository,
+            competenceMarkRepository,
+            scoringCertificationService,
+            certificationCourseRepository,
+          };
+
+          // when
+          await handleCertificationRescoring({
+            ...dependendencies,
+            event,
+          });
+
+          // then
+          const expectedCertificationCourse = domainBuilder.buildCertificationCourse({
+            id: 789,
+            isRejectedForFraud: false,
+          });
+
+          expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
+            certificationCourseId: 789,
+            assessmentResult: assessmentResultToBeSaved,
+          });
+          expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedCertificationCourse);
+        });
       });
     });
 
@@ -1304,7 +1394,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
       const assessmentResultToBeSaved = new AssessmentResult({
         id: undefined,
-        emitter: 'PIX-ALGO-NEUTRALIZATION',
+        emitter: CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION,
         commentByJury: 'Oopsie',
         pixScore: 0,
         reproducibilityRate: 0,

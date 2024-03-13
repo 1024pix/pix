@@ -329,6 +329,14 @@ function _createV2AssessmentResult({
       assessmentId: certificationAssessment.id,
       juryId: event.juryId,
     });
+  } else if (certificationAssessmentScore.hasInsufficientCorrectAnswers()) {
+    return AssessmentResultFactory.buildInsufficientCorrectAnswers({
+      emitter,
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      assessmentId: certificationAssessment.id,
+      juryId: event.juryId,
+    });
   } else if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
     return AssessmentResultFactory.buildNotTrustableAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
