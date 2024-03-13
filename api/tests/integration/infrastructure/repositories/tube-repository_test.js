@@ -8,8 +8,6 @@ describe('Integration | Repository | tube-repository', function () {
       const expectedTube = domainBuilder.buildTube({
         id: 'recTube0',
         name: 'tubeName',
-        title: 'tubeTitle',
-        description: 'tubeDescription',
         practicalTitle: 'translatedPracticalTitle',
         practicalDescription: 'translatedPracticalDescription',
         isMobileCompliant: true,
@@ -56,8 +54,6 @@ describe('Integration | Repository | tube-repository', function () {
       const tube0 = domainBuilder.buildTube({
         id: 'recTube0',
         name: 'tubeName0',
-        title: 'tubeTitle0',
-        description: 'tubeDescription0',
         practicalTitle: 'translatedPracticalTitle0',
         practicalDescription: 'translatedPracticalDescription0',
         isMobileCompliant: true,
@@ -70,8 +66,6 @@ describe('Integration | Repository | tube-repository', function () {
       const tube1 = domainBuilder.buildTube({
         id: 'recTube1',
         name: 'tubeName1',
-        title: 'tubeTitle1',
-        description: 'tubeDescription1',
         practicalTitle: 'translatedPracticalTitle1',
         practicalDescription: 'translatedPracticalDescription1',
         isMobileCompliant: false,
@@ -84,8 +78,6 @@ describe('Integration | Repository | tube-repository', function () {
       const learningContentTube0 = {
         id: 'recTube0',
         name: 'tubeName0',
-        title: 'tubeTitle0',
-        description: 'tubeDescription0',
         practicalTitle_i18n: {
           fr: 'translatedPracticalTitle0',
         },
@@ -102,8 +94,6 @@ describe('Integration | Repository | tube-repository', function () {
       const learningContentTube1 = {
         id: 'recTube1',
         name: 'tubeName1',
-        title: 'tubeTitle1',
-        description: 'tubeDescription1',
         practicalTitle_i18n: {
           fr: 'translatedPracticalTitle1',
         },
@@ -134,8 +124,6 @@ describe('Integration | Repository | tube-repository', function () {
       const tube0 = domainBuilder.buildTube({
         id: 'recTube0',
         name: 'tubeName0',
-        title: 'tubeTitle0',
-        description: 'tubeDescription0',
         practicalTitle: 'translatedPracticalTitle0',
         practicalDescription: 'translatedPracticalDescription0',
         isMobileCompliant: true,
@@ -149,8 +137,6 @@ describe('Integration | Repository | tube-repository', function () {
       const tube1 = domainBuilder.buildTube({
         id: 'recTube1',
         name: 'tubeName1',
-        title: 'tubeTitle1',
-        description: 'tubeDescription1',
         practicalTitle: 'translatedPracticalTitle1',
         practicalDescription: 'translatedPracticalDescription1',
         isMobileCompliant: false,
@@ -164,8 +150,6 @@ describe('Integration | Repository | tube-repository', function () {
       const learningContentTube0 = {
         id: 'recTube0',
         name: 'tubeName0',
-        title: 'tubeTitle0',
-        description: 'tubeDescription0',
         practicalTitle_i18n: {
           fr: 'translatedPracticalTitle0',
         },
@@ -182,8 +166,6 @@ describe('Integration | Repository | tube-repository', function () {
       const learningContentTube1 = {
         id: 'recTube1',
         name: 'tubeName1',
-        title: 'tubeTitle1',
-        description: 'tubeDescription1',
         practicalTitle_i18n: {
           fr: 'translatedPracticalTitle1',
         },
@@ -212,8 +194,6 @@ describe('Integration | Repository | tube-repository', function () {
         const expectedTube = domainBuilder.buildTube({
           id: 'recTube0',
           name: 'tubeName',
-          title: 'tubeTitle',
-          description: 'tubeDescription',
           practicalTitle: 'translatedPracticalTitle',
           practicalDescription: 'translatedPracticalDescription',
           isMobileCompliant: true,
@@ -228,8 +208,6 @@ describe('Integration | Repository | tube-repository', function () {
             {
               id: 'recTube0',
               name: 'tubeName',
-              title: 'tubeTitle',
-              description: 'tubeDescription',
               practicalTitle_i18n: {
                 fr: 'translatedPracticalTitle',
               },
@@ -261,8 +239,6 @@ describe('Integration | Repository | tube-repository', function () {
         const expectedTube = domainBuilder.buildTube({
           id: 'recTube0',
           name: 'tubeName',
-          title: 'tubeTitle',
-          description: 'tubeDescription',
           practicalTitle: 'translatedPracticalTitleEnUs',
           practicalDescription: 'translatedPracticalDescriptionEnUs',
           isMobileCompliant: true,
@@ -277,8 +253,6 @@ describe('Integration | Repository | tube-repository', function () {
             {
               id: 'recTube0',
               name: 'tubeName',
-              title: 'tubeTitle',
-              description: 'tubeDescription',
               practicalTitle_i18n: {
                 fr: 'translatedPracticalTitle',
                 en: 'translatedPracticalTitleEnUs',
@@ -313,8 +287,6 @@ describe('Integration | Repository | tube-repository', function () {
       const learningContentTube0 = {
         id: 'recTube0',
         name: 'tubeName0',
-        title: 'tubeTitle0',
-        description: 'tubeDescription0',
         practicalTitle_i18n: {
           fr: 'practicalTitreFR0',
           en: 'practicalTitreEN0',
@@ -332,8 +304,6 @@ describe('Integration | Repository | tube-repository', function () {
       const learningContentTube1 = {
         id: 'recTube1',
         name: 'tubeName1',
-        title: 'tubeTitle1',
-        description: 'tubeDescription1',
         practicalTitle_i18n: {
           fr: 'practicalTitreFR1',
           en: 'practicalTitreEN1',
@@ -351,8 +321,6 @@ describe('Integration | Repository | tube-repository', function () {
       const learningContentTube2 = {
         id: 'recTube2',
         name: 'tubeName2',
-        title: 'tubeTitle2',
-        description: 'tubeDescription2',
         practicalTitle_i18n: {
           fr: 'practicalTitreFR2',
           en: 'practicalTitreEN2',
@@ -389,8 +357,6 @@ describe('Integration | Repository | tube-repository', function () {
       const tube1 = domainBuilder.buildTube({
         id: 'recTube1',
         name: 'tubeName1',
-        title: 'tubeTitle1',
-        description: 'tubeDescription1',
         practicalTitle: 'practicalTitreFR1',
         practicalDescription: 'practicalDescriptionFR1',
         isMobileCompliant: false,
@@ -403,8 +369,6 @@ describe('Integration | Repository | tube-repository', function () {
       const tube2 = domainBuilder.buildTube({
         id: 'recTube2',
         name: 'tubeName2',
-        title: 'tubeTitle2',
-        description: 'tubeDescription2',
         practicalTitle: 'practicalTitreFR2',
         practicalDescription: 'practicalDescriptionFR2',
         isMobileCompliant: true,
@@ -427,8 +391,6 @@ describe('Integration | Repository | tube-repository', function () {
       const tube1 = domainBuilder.buildTube({
         id: 'recTube1',
         name: 'tubeName1',
-        title: 'tubeTitle1',
-        description: 'tubeDescription1',
         practicalTitle: 'practicalTitreEN1',
         practicalDescription: 'practicalDescriptionEN1',
         isMobileCompliant: false,
@@ -441,8 +403,6 @@ describe('Integration | Repository | tube-repository', function () {
       const tube2 = domainBuilder.buildTube({
         id: 'recTube2',
         name: 'tubeName2',
-        title: 'tubeTitle2',
-        description: 'tubeDescription2',
         practicalTitle: 'practicalTitreEN2',
         practicalDescription: 'practicalDescriptionEN2',
         isMobileCompliant: true,
@@ -467,8 +427,6 @@ describe('Integration | Repository | tube-repository', function () {
       const tube1 = domainBuilder.buildTube({
         id: 'recTube1',
         name: 'tubeName1',
-        title: 'tubeTitle1',
-        description: 'tubeDescription1',
         practicalTitle: 'translatedPracticalTitle1',
         practicalDescription: 'translatedPracticalDescription1',
         isMobileCompliant: true,
@@ -482,8 +440,6 @@ describe('Integration | Repository | tube-repository', function () {
       const learningContentTube0 = {
         id: 'recTube0',
         name: 'tubeName0',
-        title: 'tubeTitle0',
-        description: 'tubeDescription0',
         practicalTitle_i18n: {
           fr: 'translatedPracticalTitle0',
         },
@@ -500,8 +456,6 @@ describe('Integration | Repository | tube-repository', function () {
       const learningContentTube1 = {
         id: 'recTube1',
         name: 'tubeName1',
-        title: 'tubeTitle1',
-        description: 'tubeDescription1',
         practicalTitle_i18n: {
           fr: 'translatedPracticalTitle1',
         },
@@ -518,8 +472,6 @@ describe('Integration | Repository | tube-repository', function () {
       const learningContentTube2 = {
         id: 'recTube2',
         name: 'tubeName2',
-        title: 'tubeTitle2',
-        description: 'tubeDescription2',
         practicalTitle_i18n: {
           fr: 'translatedPracticalTitle2',
         },
@@ -565,8 +517,6 @@ describe('Integration | Repository | tube-repository', function () {
       const tube1 = domainBuilder.buildTube({
         id: 'recTube1',
         name: 'tubeName1',
-        title: 'tubeTitle1',
-        description: 'tubeDescription1',
         practicalTitle: 'translatedPracticalTitle1EnUs',
         practicalDescription: 'translatedPracticalDescription1EnUs',
         isMobileCompliant: true,
@@ -580,8 +530,6 @@ describe('Integration | Repository | tube-repository', function () {
       const learningContentTube0 = {
         id: 'recTube0',
         name: 'tubeName0',
-        title: 'tubeTitle0',
-        description: 'tubeDescription0',
         practicalTitle_i18n: {
           fr: 'translatedPracticalTitle0',
           en: 'translatedPracticalTitle0EnUs',
@@ -600,8 +548,6 @@ describe('Integration | Repository | tube-repository', function () {
       const learningContentTube1 = {
         id: 'recTube1',
         name: 'tubeName1',
-        title: 'tubeTitle1',
-        description: 'tubeDescription1',
         practicalTitle_i18n: {
           fr: 'translatedPracticalTitle1',
           en: 'translatedPracticalTitle1EnUs',
@@ -620,8 +566,6 @@ describe('Integration | Repository | tube-repository', function () {
       const learningContentTube2 = {
         id: 'recTube2',
         name: 'tubeName2',
-        title: 'tubeTitle2',
-        description: 'tubeDescription2',
         practicalTitle_i18n: {
           fr: 'translatedPracticalTitle2',
           en: 'translatedPracticalTitle2EnUs',

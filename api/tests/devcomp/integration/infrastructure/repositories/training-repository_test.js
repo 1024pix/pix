@@ -85,8 +85,6 @@ describe('Integration | Repository | training-repository', function () {
       tube = domainBuilder.buildTube({
         id: 'recTube0',
         name: 'tubeName',
-        title: 'tubeTitle',
-        description: 'tubeDescription',
         practicalTitle: 'translatedPracticalTitle',
         practicalDescription: 'translatedPracticalDescription',
         isMobileCompliant: true,
@@ -369,8 +367,6 @@ describe('Integration | Repository | training-repository', function () {
       tube = domainBuilder.buildTube({
         id: 'recTube0',
         name: 'tubeName',
-        title: 'tubeTitle',
-        description: 'tubeDescription',
         practicalTitle: 'translatedPracticalTitle',
         practicalDescription: 'translatedPracticalDescription',
         isMobileCompliant: true,
