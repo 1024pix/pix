@@ -43,6 +43,32 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
     });
   });
 
+  describe('#_areAnswersComparableToSolutions', function () {
+    it('should return false if there is no solutions for one input but answers', async function () {
+      // given
+      const answers = { phraseSansSolution: 'lasagne', phrase1: "Le silence est d'ours", phrase2: 'facebook' };
+      const solutions = { phrase1: ["Le silence est d'or"], phrase2: ['facebook'] };
+
+      // when
+      const actual = service._areAnswersComparableToSolutions(answers, solutions);
+
+      // then
+      expect(actual).to.be.false;
+    });
+
+    it('should return true if there is a corresponding solution for all answers', async function () {
+      // given
+      const answers = { phraseAvecSolution: 'lasagne', phrase1: "Le silence est d'ours", phrase2: 'facebook' };
+      const solutions = { phraseAvecSolution: ['lasagne'], phrase1: ["Le silence est d'or"], phrase2: ['facebook'] };
+
+      // when
+      const actual = service._areAnswersComparableToSolutions(answers, solutions);
+
+      // then
+      expect(actual).to.be.true;
+    });
+  });
+
   describe('#_compareAnswersAndSolutions', function () {
     it('should return results comparing answers and solutions strictly when T3 is disabled', function () {
       // given
@@ -70,20 +96,6 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
       // then
       const expected = { phrase1: true, phrase2: true, phrase3: false };
       expect(actual).to.deep.equal(expected);
-    });
-
-    it('should throw an error if there is no solutions for one input but answers', async function () {
-      // given
-      const answers = { phraseSansSolution: 'lasagne', phrase1: "Le silence est d'ours", phrase2: 'facebook' };
-      const solutions = { phrase1: ["Le silence est d'or"], phrase2: ['facebook'] };
-      const enabledTreatments = ['t3'];
-
-      // when
-      const error = await catchErr(service._compareAnswersAndSolutions)(answers, solutions, enabledTreatments);
-
-      // then
-      expect(error).to.be.an.instanceOf(Error);
-      expect(error.message).to.equal('An error occurred because there is no solution found for an answer.');
     });
   });
 
@@ -308,6 +320,20 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
         },
       );
+    });
+  });
+
+  describe('match, but the answers set do not match the solutions set', function () {
+    it('should throw an error', async function () {
+      const answer = { dossier1: 'a' };
+      const solutionValue = { dossier2: ['Eureka'] };
+      const enabledTreatments = ['t1', 't2', 't3'];
+      const solution = { value: solutionValue, enabledTreatments };
+
+      const error = await catchErr(service.match)({ answerValue: answer, solution });
+
+      expect(error).to.be.an.instanceOf(Error);
+      expect(error.message).to.equal('An error occurred because there is no solution found for an answer.');
     });
   });
 
