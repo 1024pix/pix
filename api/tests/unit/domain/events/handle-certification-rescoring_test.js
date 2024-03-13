@@ -7,6 +7,7 @@ import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeu
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
 import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
 import { AssessmentResult, CertificationAssessment, CertificationResult } from '../../../../lib/domain/models/index.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 import { config } from '../../../../src/shared/config.js';
 import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import {
@@ -169,12 +170,18 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
-              emitter: 'PIX-ALGO',
+              emitter: AssessmentResult.emitters.PIX_ALGO,
               pixScore: scoreForEstimatedLevel,
               reproducibilityRate: 100,
-              status: 'rejected',
+              status: AssessmentResult.status.REJECTED,
               competenceMarks: [],
               assessmentId: 123,
+              commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
+                commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_LACK_OF_ANSWERS,
+              }),
+              commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+                commentByAutoJury: AutoJuryCommentKeys.REJECTED_DUE_TO_LACK_OF_ANSWERS,
+              }),
             }),
           };
 
@@ -278,10 +285,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
-              emitter: 'PIX-ALGO',
+              emitter: AssessmentResult.emitters.PIX_ALGO,
               pixScore: scoreForEstimatedLevel,
               reproducibilityRate: 100,
-              status: 'rejected',
+              status: AssessmentResult.status.REJECTED,
               competenceMarks: [],
               assessmentId: 123,
               commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
@@ -407,10 +414,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
-              emitter: 'PIX-ALGO',
+              emitter: AssessmentResult.emitters.PIX_ALGO,
               pixScore: rawScore,
               reproducibilityRate: 100,
-              status: 'validated',
+              status: AssessmentResult.status.VALIDATED,
               competenceMarks: [],
               assessmentId: 123,
             }),
@@ -518,10 +525,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
-              emitter: 'PIX-ALGO',
+              emitter: AssessmentResult.emitters.PIX_ALGO,
               pixScore: degradedScore,
               reproducibilityRate: 100,
-              status: 'validated',
+              status: AssessmentResult.status.VALIDATED,
               competenceMarks: [],
               assessmentId: 123,
             }),
@@ -630,10 +637,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         const expectedResult = {
           certificationCourseId,
           assessmentResult: new AssessmentResult({
-            emitter: 'PIX-ALGO',
+            emitter: AssessmentResult.emitters.PIX_ALGO,
             pixScore: scoreForEstimatedLevel,
             reproducibilityRate: 100,
-            status: 'validated',
+            status: AssessmentResult.status.VALIDATED,
             competenceMarks: [],
             assessmentId: 123,
           }),
@@ -838,10 +845,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const expectedResult = {
             certificationCourseId,
             assessmentResult: new AssessmentResult({
-              emitter: 'PIX-ALGO',
+              emitter: AssessmentResult.emitters.PIX_ALGO,
               pixScore: cappedScoreForEstimatedLevel,
               reproducibilityRate: 100,
-              status: 'validated',
+              status: AssessmentResult.status.VALIDATED,
               competenceMarks: [],
               assessmentId: 123,
             }),
@@ -1301,7 +1308,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         commentByJury: 'Oopsie',
         pixScore: 0,
         reproducibilityRate: 0,
-        status: 'error',
+        status: AssessmentResult.status.ERROR,
         assessmentId: 123,
         juryId: 7,
       });

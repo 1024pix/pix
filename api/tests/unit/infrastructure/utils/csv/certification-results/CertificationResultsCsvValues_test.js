@@ -299,7 +299,7 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       externalId: 'LOLORD',
       createdAt: new Date('2020-01-01'),
       pixScore: 55,
-      commentForOrganization: 'RAS',
+      commentForOrganization: undefined,
       competencesWithMark: [],
       complementaryCertificationCourseResults: [],
     };
@@ -310,7 +310,9 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
         const certificationResult = domainBuilder.buildCertificationResult.cancelled({
           ...aCertificationResultData,
           emitter: CertificationResult.emitters.PIX_ALGO,
-          commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+          commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+            commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_NEUTRALIZATION,
+          }),
         });
 
         // when
@@ -327,7 +329,9 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
         const certificationResult = domainBuilder.buildCertificationResult.validated({
           ...aCertificationResultData,
           emitter: CertificationResult.emitters.PIX_ALGO,
-          commentForOrganization: 'MANUAL COMMENT',
+          commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+            fallbackComment: 'MANUAL COMMENT',
+          }),
         });
 
         // when
@@ -338,25 +342,7 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       });
     });
 
-    context('when complementary certification is rejected', function () {
-      it('should return that the certification has been automatically invalidated', function () {
-        // given
-        const certificationResult = domainBuilder.buildCertificationResult.rejected({
-          ...aCertificationResultData,
-          emitter: CertificationResult.emitters.PIX_ALGO,
-        });
-
-        // when
-        const result = new CertificationResultsCsvValues(i18n).getCommentForOrganization(certificationResult);
-
-        // then
-        expect(result).to.equal(
-          "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix",
-        );
-      });
-    });
-
-    it('should return the comment', function () {
+    it('should no return a comment', function () {
       // given
       const certificationResult = domainBuilder.buildCertificationResult.validated(aCertificationResultData);
 
@@ -364,7 +350,7 @@ describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', 
       const result = new CertificationResultsCsvValues(i18n).getCommentForOrganization(certificationResult);
 
       // then
-      expect(result).to.equal('RAS');
+      expect(result).to.be.undefined;
     });
   });
 

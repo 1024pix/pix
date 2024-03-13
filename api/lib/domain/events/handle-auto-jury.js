@@ -158,7 +158,7 @@ async function _autoCompleteUnfinishedTest({
     certificationAssessment.skipUnansweredChallenges();
   }
 
-  if (certificationCourse.isAbortReasonCandidateUnrelated()) {
+  if (certificationCourse.isAbortReasonTechnical()) {
     certificationAssessment.neutralizeUnansweredChallenges();
   }
 

@@ -311,6 +311,10 @@
       "FRAUD": {
         "candidate": "The Pix certification exam conditions have not been respected. Your certification exam has been reported for fraud and has consequently been invalidated.",
         "organization": "A fraud has been detected : after analysis, we have decided on rejecting this certification exam."
+      },
+      "REJECTED_DUE_TO_LACK_OF_ANSWERS": {
+        "candidate": "The number of questions answered during your certification exam is too low to allow us to deliver a Pix certification.",
+        "organization": "The number of questions answered by the candidate during their certification exam is too low to allow us to deliver a Pix certification."
       }
     }
   },
