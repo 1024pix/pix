@@ -157,13 +157,13 @@ module('Unit | Service | url', function (hooks) {
         // given
         const service = this.owner.lookup('service:url');
         service.currentDomain = { isFranceDomain: true };
-        const expectedCguUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
+        const expectedDataProtectionPolicyUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
 
         // when
-        const cguUrl = service.dataProtectionPolicyUrl;
+        const dataProtectionPolicyUrl = service.dataProtectionPolicyUrl;
 
         // then
-        assert.strictEqual(cguUrl, expectedCguUrl);
+        assert.strictEqual(dataProtectionPolicyUrl, expectedDataProtectionPolicyUrl);
       });
 
       module('when current language is "en"', function () {
@@ -172,13 +172,13 @@ module('Unit | Service | url', function (hooks) {
           const service = this.owner.lookup('service:url');
           service.currentDomain = { isFranceDomain: true };
           service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
-          const expectedCguUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
+          const expectedDataProtectionPolicyUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
 
           // when
-          const cguUrl = service.dataProtectionPolicyUrl;
+          const dataProtectionPolicyUrl = service.dataProtectionPolicyUrl;
 
           // then
-          assert.strictEqual(cguUrl, expectedCguUrl);
+          assert.strictEqual(dataProtectionPolicyUrl, expectedDataProtectionPolicyUrl);
         });
       });
     });
@@ -190,13 +190,13 @@ module('Unit | Service | url', function (hooks) {
           const service = this.owner.lookup('service:url');
           service.currentDomain = { isFranceDomain: false };
           service.intl = { primaryLocale: FRENCH_INTERNATIONAL_LOCALE };
-          const expectedCguUrl = 'https://pix.org/fr/politique-protection-donnees-personnelles-app';
+          const expectedDataProtectionPolicyUrl = 'https://pix.org/fr/politique-protection-donnees-personnelles-app';
 
           // when
-          const cguUrl = service.dataProtectionPolicyUrl;
+          const dataProtectionPolicyUrl = service.dataProtectionPolicyUrl;
 
           // then
-          assert.strictEqual(cguUrl, expectedCguUrl);
+          assert.strictEqual(dataProtectionPolicyUrl, expectedDataProtectionPolicyUrl);
         });
       });
 
@@ -206,13 +206,13 @@ module('Unit | Service | url', function (hooks) {
           const service = this.owner.lookup('service:url');
           service.currentDomain = { isFranceDomain: false };
           service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
-          const expectedCguUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
+          const expectedDataProtectionPolicyUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
 
           // when
-          const cguUrl = service.dataProtectionPolicyUrl;
+          const dataProtectionPolicyUrl = service.dataProtectionPolicyUrl;
 
           // then
-          assert.strictEqual(cguUrl, expectedCguUrl);
+          assert.strictEqual(dataProtectionPolicyUrl, expectedDataProtectionPolicyUrl);
         });
       });
     });
