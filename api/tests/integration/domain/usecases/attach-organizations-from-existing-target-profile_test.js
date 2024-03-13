@@ -3,8 +3,8 @@ import { attachOrganizationsFromExistingTargetProfile } from '../../../../lib/do
 import * as organizationsToAttachToTargetProfileRepository from '../../../../lib/infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
-import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 import { skillDatasource } from '../../../../src/shared/infrastructure/datasources/learning-content/skill-datasource.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | UseCase | attach-organizations-from-existing-target-profile', function () {
   beforeEach(function () {

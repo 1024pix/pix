@@ -1,10 +1,9 @@
 import _ from 'lodash';
+import * as url from 'url';
+import yargs from 'yargs';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { competenceDatasource } from '../../src/shared/infrastructure/datasources/learning-content/competence-datasource.js';
-
-import * as url from 'url';
-import yargs from 'yargs';
 
 const CERTIF_ERROR_RATE = 0.05;
 const CERTIF_REJECTED_RATE = 0.15;
