@@ -3,16 +3,15 @@ import jsonwebtoken from 'jsonwebtoken';
 import lodash from 'lodash';
 import { Issuer } from 'openid-client';
 
-import { config } from '../../../../src/shared/config.js';
-import { OidcError } from '../../../../src/shared/domain/errors.js';
-import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
-import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
-import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
-import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
-import { OIDC_ERRORS } from '../../constants.js';
-import { OidcMissingFieldsError } from '../../errors.js';
-import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
-import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';
+import { OIDC_ERRORS } from '../../../../lib/domain/constants.js';
+import { OidcMissingFieldsError } from '../../../../lib/domain/errors.js';
+import { AuthenticationMethod, AuthenticationSessionContent } from '../../../../lib/domain/models/index.js';
+import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
+import { temporaryStorage } from '../../../../lib/infrastructure/temporary-storage/index.js';
+import { config } from '../../../shared/config.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { OidcError } from '../../../shared/domain/errors.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 
 const DEFAULT_REQUIRED_PROPERTIES = ['clientId', 'clientSecret', 'redirectUri', 'openidConfigurationUrl'];
 const DEFAULT_SCOPE = 'openid profile';

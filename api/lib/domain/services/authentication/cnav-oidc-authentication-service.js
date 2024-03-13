@@ -1,6 +1,6 @@
+import { OidcAuthenticationService } from '../../../../src/authentication/domain/services/oidc-authentication-service.js';
 import { config } from '../../../config.js';
 import { CNAV } from '../../constants/oidc-identity-providers.js';
-import { OidcAuthenticationService } from './oidc-authentication-service.js';
 
 const configKey = CNAV.configKey;
 
