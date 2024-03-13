@@ -185,11 +185,12 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       // given
       const userId = 42;
       const accessToken = Symbol('valid access token');
-      settings.authentication.secret = 'a secret';
       const payload = { user_id: userId };
-      const secret = 'a secret';
       const jwtOptions = { expiresIn: 1 };
-      sinon.stub(jsonwebtoken, 'sign').withArgs(payload, secret, jwtOptions).returns(accessToken);
+      sinon
+        .stub(jsonwebtoken, 'sign')
+        .withArgs(payload, settings.authentication.secret, jwtOptions)
+        .returns(accessToken);
 
       const oidcAuthenticationService = new OidcAuthenticationService({ jwtOptions });
 
@@ -743,9 +744,9 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
     beforeEach(function () {
       domainTransaction = Symbol();
-      DomainTransaction.execute = (lambda) => {
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
         return lambda(domainTransaction);
-      };
+      });
 
       userToCreateRepository = {
         create: sinon.stub(),
