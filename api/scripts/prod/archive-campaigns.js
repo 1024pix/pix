@@ -3,8 +3,8 @@ import * as url from 'url';
 
 import { disconnect } from '../../db/knex-database-connection.js';
 import { archiveCampaignFromCampaignCode } from '../../lib/domain/usecases/archive-campaign-from-campaign-code.js';
-import * as campaignForArchivingRepository from '../../lib/infrastructure/repositories/campaign/campaign-for-archiving-repository.js';
 import { ProgressionLogger } from '../../lib/infrastructure/utils/progression-logger.js';
+import * as campaignForArchivingRepository from '../../src/prescription/campaign/infrastructure/repositories/campaign-for-archiving-repository.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
 
 async function archiveCampaign(campaignData, logger) {
