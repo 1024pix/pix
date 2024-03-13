@@ -2,7 +2,7 @@ import {
   checkValidation,
   FRANCE_COUNTRY_CODE,
 } from '../../../../src/prescription/learner-management/domain/validators/organization-learner-validator.js';
-import { catchErr, expect } from '../../../test-helper.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Organization Learner validator', function () {
   context('#checkValidation', function () {
@@ -24,11 +24,9 @@ describe('Unit | Domain | Organization Learner validator', function () {
 
     context('when all required fields are presents', function () {
       it('is valid', async function () {
-        try {
-          checkValidation(validAttributes);
-        } catch (e) {
-          expect.fail('OrganizationLearner is valid when all required fields are present');
-        }
+        const errors = await checkValidation(validAttributes);
+
+        expect(errors).to.be.lengthOf(0);
       });
     });
 
@@ -48,10 +46,10 @@ describe('Unit | Domain | Organization Learner validator', function () {
         'organizationId',
       ].forEach((field) => {
         it(`throw an error when ${field} is missing`, async function () {
-          const error = await catchErr(checkValidation)({ ...validAttributes, [field]: undefined });
+          const error = await checkValidation({ ...validAttributes, [field]: undefined });
 
-          expect(error.key).to.equal(field);
-          expect(error.why).to.equal('required');
+          expect(error[0].key).to.equal(field);
+          expect(error[0].why).to.equal('required');
         });
       });
     });
@@ -70,28 +68,28 @@ describe('Unit | Domain | Organization Learner validator', function () {
         'division',
       ].forEach((field) => {
         it(`throw an error when ${field} has more than 255 characters`, async function () {
-          const error = await catchErr(checkValidation)({ ...validAttributes, [field]: '1'.repeat(256) });
+          const error = await checkValidation({ ...validAttributes, [field]: '1'.repeat(256) });
 
-          expect(error.key).to.equal(field);
-          expect(error.why).to.equal('max_length');
+          expect(error[0].key).to.equal(field);
+          expect(error[0].why).to.equal('max_length');
         });
       });
     });
 
     context('birthProvinceCode', function () {
       it('throw an error when birthProvinceCode has more than 3 characters', async function () {
-        const error = await catchErr(checkValidation)({ ...validAttributes, birthProvinceCode: '1234' });
+        const error = await checkValidation({ ...validAttributes, birthProvinceCode: '1234' });
 
-        expect(error.key).to.equal('birthProvinceCode');
-        expect(error.why).to.equal('max_length');
-        expect(error.limit).to.equal(3);
+        expect(error[0].key).to.equal('birthProvinceCode');
+        expect(error[0].why).to.equal('max_length');
+        expect(error[0].limit).to.equal(3);
       });
 
       it('throw an error when birthProvinceCode has lass than 2 characters', async function () {
-        const error = await catchErr(checkValidation)({ ...validAttributes, birthProvinceCode: '1' });
-        expect(error.key).to.equal('birthProvinceCode');
-        expect(error.why).to.equal('min_length');
-        expect(error.limit).to.equal(2);
+        const error = await checkValidation({ ...validAttributes, birthProvinceCode: '1' });
+        expect(error[0].key).to.equal('birthProvinceCode');
+        expect(error[0].why).to.equal('min_length');
+        expect(error[0].limit).to.equal(2);
       });
     });
 
@@ -107,52 +105,52 @@ describe('Unit | Domain | Organization Learner validator', function () {
       });
 
       it('throw an error when birthCountryCode before birthCityCode', async function () {
-        const error = await catchErr(checkValidation)({
+        const error = await checkValidation({
           ...validAttributes,
           birthCityCode: '',
           birthCountryCode: '12345',
         });
 
-        expect(error.key).to.equal('birthCountryCode');
-        expect(error.why).to.equal('not_valid_insee_code');
+        expect(error[0].key).to.equal('birthCountryCode');
+        expect(error[0].why).to.equal('not_valid_insee_code');
       });
 
       it('throw an error when birthCountryCode before birthCity', async function () {
-        const error = await catchErr(checkValidation)({ ...validAttributes, birthCity: '', birthCountryCode: '12345' });
+        const error = await checkValidation({ ...validAttributes, birthCity: '', birthCountryCode: '12345' });
 
-        expect(error.key).to.equal('birthCountryCode');
-        expect(error.why).to.equal('not_valid_insee_code');
+        expect(error[0].key).to.equal('birthCountryCode');
+        expect(error[0].why).to.equal('not_valid_insee_code');
       });
 
       it('throw an error when birthCountryCode has not 5 characters', async function () {
-        const error = await catchErr(checkValidation)({ ...validAttributes, birthCountryCode: '123456' });
+        const error = await checkValidation({ ...validAttributes, birthCountryCode: '123456' });
 
-        expect(error.key).to.equal('birthCountryCode');
-        expect(error.why).to.equal('length');
-        expect(error.limit).to.equal(5);
+        expect(error[0].key).to.equal('birthCountryCode');
+        expect(error[0].why).to.equal('length');
+        expect(error[0].limit).to.equal(5);
       });
 
       it('throw an error when birthCountryCode not start with 99', async function () {
-        const error = await catchErr(checkValidation)({ ...validAttributes, birthCountryCode: '88123' });
+        const error = await checkValidation({ ...validAttributes, birthCountryCode: '88123' });
 
-        expect(error.key).to.equal('birthCountryCode');
-        expect(error.why).to.equal('not_valid_insee_code');
+        expect(error[0].key).to.equal('birthCountryCode');
+        expect(error[0].why).to.equal('not_valid_insee_code');
       });
 
       it('throw an error when birthCountryCode contains letter', async function () {
-        const error = await catchErr(checkValidation)({ ...validAttributes, birthCountryCode: '2B122' });
+        const error = await checkValidation({ ...validAttributes, birthCountryCode: '2B122' });
 
-        expect(error.key).to.equal('birthCountryCode');
-        expect(error.why).to.equal('not_valid_insee_code');
+        expect(error[0].key).to.equal('birthCountryCode');
+        expect(error[0].why).to.equal('not_valid_insee_code');
       });
     });
 
     context('status', function () {
-      it("throw an error when status is not 'ST'", async function () {
-        const error = await catchErr(checkValidation)({ ...validAttributes, status: 'AA' });
+      it("throw an error when status is not 'ST' or 'AP'", async function () {
+        const error = await checkValidation({ ...validAttributes, status: 'AA' });
 
-        expect(error.key).to.equal('status');
-        expect(error.why).to.equal('bad_values');
+        expect(error[0].key).to.equal('status');
+        expect(error[0].why).to.equal('bad_values');
       });
 
       it("is valid when status is 'ST'", async function () {
@@ -174,10 +172,10 @@ describe('Unit | Domain | Organization Learner validator', function () {
 
     context('sex', function () {
       it("throw an error when status is not 'Féminin', 'féminin', 'Masculin' or 'masculin'", async function () {
-        const error = await catchErr(checkValidation)({ ...validAttributes, sex: 'AA' });
+        const error = await checkValidation({ ...validAttributes, sex: 'AA' });
 
-        expect(error.key).to.equal('sex');
-        expect(error.why).to.equal('bad_values');
+        expect(error[0].key).to.equal('sex');
+        expect(error[0].why).to.equal('bad_values');
       });
 
       it("is valid when status is 'Féminin'", async function () {
@@ -216,42 +214,42 @@ describe('Unit | Domain | Organization Learner validator', function () {
     context('birthdate', function () {
       context('when birthdate is not a date', function () {
         it('throws an error', async function () {
-          const error = await catchErr(checkValidation)({ ...validAttributes, birthdate: '123456' });
+          const error = await checkValidation({ ...validAttributes, birthdate: '123456' });
 
-          expect(error.key).to.equal('birthdate');
-          expect(error.why).to.equal('not_a_date');
+          expect(error[0].key).to.equal('birthdate');
+          expect(error[0].why).to.equal('not_a_date');
         });
       });
 
       context('when birthdate has not a valid format', function () {
         it('throws an error', async function () {
-          const error = await catchErr(checkValidation)({ ...validAttributes, birthdate: '2020/01/01' });
+          const error = await checkValidation({ ...validAttributes, birthdate: '2020/01/01' });
 
-          expect(error.key).to.equal('birthdate');
-          expect(error.why).to.equal('not_a_date');
+          expect(error[0].key).to.equal('birthdate');
+          expect(error[0].why).to.equal('not_a_date');
         });
       });
 
       context('when birthdate is null', function () {
         it('throws an error', async function () {
-          const error = await catchErr(checkValidation)({ ...validAttributes, birthdate: null });
+          const error = await checkValidation({ ...validAttributes, birthdate: null });
 
-          expect(error.key).to.equal('birthdate');
-          expect(error.why).to.equal('required');
+          expect(error[0].key).to.equal('birthdate');
+          expect(error[0].why).to.equal('required');
         });
       });
     });
 
     context('birthCity', function () {
       it('throw an error when birth country is not France and birthCity is undefined', async function () {
-        const error = await catchErr(checkValidation)({
+        const error = await checkValidation({
           ...validAttributes,
           birthCountryCode: '99125',
           birthCity: undefined,
         });
 
-        expect(error.key).to.equal('birthCity');
-        expect(error.why).to.equal('required');
+        expect(error[0].key).to.equal('birthCity');
+        expect(error[0].why).to.equal('required');
       });
 
       it('is valid when birthCity is undefined and birthCountry is France', async function () {
@@ -302,26 +300,26 @@ describe('Unit | Domain | Organization Learner validator', function () {
       context('is invalid', function () {
         context('when birthCountryCode is equal to France', function () {
           it('throw an error with a birthCityCode of 5 characters', async function () {
-            const error = await catchErr(checkValidation)({
+            const error = await checkValidation({
               ...validAttributes,
               birthCountryCode: FRANCE_COUNTRY_CODE,
               birthCityCode: '123456',
             });
 
-            expect(error.key).to.equal('birthCityCode');
-            expect(error.why).to.equal('length');
-            expect(error.limit).to.equal(5);
+            expect(error[0].key).to.equal('birthCityCode');
+            expect(error[0].why).to.equal('length');
+            expect(error[0].limit).to.equal(5);
           });
 
           it('throws an error with a birthCityCode which has a letter not in second character', async function () {
-            const error = await catchErr(checkValidation)({
+            const error = await checkValidation({
               ...validAttributes,
               birthCountryCode: FRANCE_COUNTRY_CODE,
               birthCityCode: '21B22',
             });
 
-            expect(error.key).to.equal('birthCityCode');
-            expect(error.why).to.equal('not_valid_insee_code');
+            expect(error[0].key).to.equal('birthCityCode');
+            expect(error[0].why).to.equal('not_valid_insee_code');
           });
         });
 
@@ -329,13 +327,21 @@ describe('Unit | Domain | Organization Learner validator', function () {
           it('throws an error with a birthCityCode of 256 characters', async function () {
             const stringOf256Char =
               'hZSJIp6WBhnZFxsnTxEQo1oSoWkRDSB8nQsbScrK9IfAmVGb1PFNdX333k6Tsn6YKHfebdRg2VryzQcY06GTm1sYIN9Y3B0uy1ZsZIFpZ3cQNLxnawaUfVQFylq1GFba9LNDowH7lISfn7HJbdf3hNawofdCbVNgRdw7ZAN8XdggDJUgyAs91GpQ6vCkrxa08AMYTI8QClkhUVazVGgwndtwN4EBG23K2AfayHKWVi6jSlPOgUrx4tgSAcxELxW2';
-            const error = await catchErr(checkValidation)({ ...validAttributes, birthCityCode: stringOf256Char });
+            const error = await checkValidation({ ...validAttributes, birthCityCode: stringOf256Char });
 
-            expect(error.key).to.equal('birthCityCode');
-            expect(error.why).to.equal('max_length');
-            expect(error.limit).to.equal(255);
+            expect(error[0].key).to.equal('birthCityCode');
+            expect(error[0].why).to.equal('max_length');
+            expect(error[0].limit).to.equal(255);
           });
         });
+      });
+    });
+
+    context('multiple error on the same line', function () {
+      it('throw an error with all bad element in the line', async function () {
+        const errors = await checkValidation({ ...validAttributes, sex: 'AA', status: 'AA' });
+
+        expect(errors).to.lengthOf(2);
       });
     });
   });

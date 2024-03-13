@@ -20,4 +20,16 @@ class SiecleXmlImportError extends DomainError {
   }
 }
 
-export { OrganizationDoesNotHaveFeatureEnabledError, OrganizationLearnersCouldNotBeSavedError, SiecleXmlImportError };
+class AggregateImportError extends DomainError {
+  constructor(meta) {
+    super('An error occurred during import validation');
+    this.meta = meta;
+  }
+}
+
+export {
+  AggregateImportError,
+  OrganizationDoesNotHaveFeatureEnabledError,
+  OrganizationLearnersCouldNotBeSavedError,
+  SiecleXmlImportError,
+};

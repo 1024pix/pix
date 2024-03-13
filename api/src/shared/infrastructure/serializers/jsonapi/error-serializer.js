@@ -3,13 +3,19 @@ import jsonapiSerializer from 'jsonapi-serializer';
 const { Error: JSONAPIError } = jsonapiSerializer;
 
 const serialize = function (infrastructureError) {
-  return JSONAPIError({
-    status: `${infrastructureError.status}`,
-    title: infrastructureError.title,
-    detail: infrastructureError.message,
-    code: infrastructureError.code,
-    meta: infrastructureError.meta,
-  });
+  if (!Array.isArray(infrastructureError)) infrastructureError = [infrastructureError];
+
+  return JSONAPIError(
+    infrastructureError.map((error) => {
+      return {
+        status: `${error.status}`,
+        title: error.title,
+        detail: error.message,
+        code: error.code,
+        meta: error.meta,
+      };
+    }),
+  );
 };
 
 export { serialize };

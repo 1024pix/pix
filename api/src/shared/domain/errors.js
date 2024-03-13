@@ -57,6 +57,12 @@ class EntityValidationError extends DomainError {
     this.invalidAttributes = invalidAttributes;
   }
 
+  static fromJoiError(joiError) {
+    const invalidAttributes = { attribute: joiError.context.key, message: joiError.message };
+
+    return new EntityValidationError({ invalidAttributes });
+  }
+
   static fromJoiErrors(joiErrors) {
     const invalidAttributes = joiErrors.map((error) => {
       return { attribute: error.context.key, message: error.message };
