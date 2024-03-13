@@ -1,6 +1,7 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import * as groupRepository from '../../../../../lib/infrastructure/repositories/group-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as organizationLearnerActivityRepository from '../../infrastructure/repositories/organization-learner-activity-repository.js';
@@ -10,6 +11,7 @@ import * as scoOrganizationParticipantRepository from '../../infrastructure/repo
 import * as supOrganizationParticipantRepository from '../../infrastructure/repositories/sup-organization-participant-repository.js';
 
 const dependencies = {
+  groupRepository,
   supOrganizationParticipantRepository,
   scoOrganizationParticipantRepository,
   organizationParticipantRepository,

@@ -161,7 +161,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     context('when the organization id is invalid', function () {
       it('returns returns an error 400', async function () {
-        const response = await httpTestServer.request('GET', `/api/organizations/ABC/groups`);
+        const response = await httpTestServer.request('GET', `/api/organizations/ABC/divisions`);
 
         expect(response.statusCode).to.equal(400);
       });
