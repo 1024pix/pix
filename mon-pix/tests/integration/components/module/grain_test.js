@@ -65,7 +65,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         type: 'text',
         isAnswerable: false,
       };
-      const grain = store.createRecord('grain', { title: 'Grain title', rawElements: [textElement] });
+      const grain = store.createRecord('grain', { title: 'Grain title', elements: [textElement] });
       this.set('grain', grain);
 
       // when
@@ -87,7 +87,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         type: 'qcu',
         isAnswerable: true,
       };
-      const grain = store.createRecord('grain', { title: 'Grain title', rawElements: [qcuElement] });
+      const grain = store.createRecord('grain', { title: 'Grain title', elements: [qcuElement] });
       this.set('grain', grain);
       const passage = store.createRecord('passage');
       this.set('passage', passage);
@@ -144,7 +144,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         type: 'qrocm',
         isAnswerable: true,
       };
-      const grain = store.createRecord('grain', { title: 'Grain title', rawElements: [qrocmElement] });
+      const grain = store.createRecord('grain', { title: 'Grain title', elements: [qrocmElement] });
       this.set('grain', grain);
       const passage = store.createRecord('passage');
       this.set('passage', passage);
@@ -171,7 +171,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         alternativeText: 'alternative instruction',
         type: 'image',
       };
-      const grain = store.createRecord('grain', { title: 'Grain title', rawElements: [imageElement] });
+      const grain = store.createRecord('grain', { title: 'Grain title', elements: [imageElement] });
       this.set('grain', grain);
 
       // when
@@ -188,7 +188,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const element = { type: 'qcu', isAnswerable: true };
-      const grain = store.createRecord('grain', { title: 'Grain title', rawElements: [element] });
+      const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
       this.set('grain', grain);
       const passage = store.createRecord('passage');
       this.set('passage', passage);
@@ -212,7 +212,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const element = { type: 'qcu', isAnswerable: true };
-        const grain = store.createRecord('grain', { title: '1st Grain title', rawElements: [element] });
+        const grain = store.createRecord('grain', { title: '1st Grain title', elements: [element] });
         store.createRecord('module', { grains: [grain] });
         this.set('grain', grain);
         const passage = store.createRecord('passage');
@@ -235,7 +235,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const element = { type: 'qcu', isAnswerable: true };
-        const grain = store.createRecord('grain', { title: '1st Grain title', rawElements: [element] });
+        const grain = store.createRecord('grain', { title: '1st Grain title', elements: [element] });
         store.createRecord('module', { grains: [grain] });
         this.set('grain', grain);
         const passage = store.createRecord('passage');
@@ -259,7 +259,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const element = { type: 'qcu', isAnswerable: true };
-        const grain = store.createRecord('grain', { title: 'Grain title', rawElements: [element] });
+        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
         this.set('grain', grain);
         const passage = store.createRecord('passage');
         this.set('passage', passage);
@@ -278,7 +278,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const element = { type: 'qcu', isAnswerable: true };
-        const grain = store.createRecord('grain', { title: '1st Grain title', rawElements: [element] });
+        const grain = store.createRecord('grain', { title: '1st Grain title', elements: [element] });
         store.createRecord('module', { grains: [grain] });
         this.set('grain', grain);
         const passage = store.createRecord('passage');
@@ -300,7 +300,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const element = { type: 'qcu', isAnswerable: true };
-        const grain = store.createRecord('grain', { title: 'Grain title', rawElements: [element] });
+        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
         this.set('grain', grain);
         const passage = store.createRecord('passage');
         this.set('passage', passage);
@@ -319,7 +319,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const element = { type: 'qcu', isAnswerable: true };
-        const grain = store.createRecord('grain', { title: 'Grain title', rawElements: [element] });
+        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
         store.createRecord('module', { grains: [grain] });
         this.set('grain', grain);
         const passage = store.createRecord('passage');
@@ -344,7 +344,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const element = { type: 'text', isAnswerable: false };
-      const grain = store.createRecord('grain', { title: '1st Grain title', rawElements: [element] });
+      const grain = store.createRecord('grain', { title: '1st Grain title', elements: [element] });
       store.createRecord('module', { id: 'module-id', grains: [grain] });
       this.set('grain', grain);
 
@@ -370,7 +370,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const element = { type: 'qcu', isAnswerable: true };
-      const grain = store.createRecord('grain', { title: 'Grain title', rawElements: [element] });
+      const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
       store.createRecord('module', { id: 'module-id', grains: [grain] });
       this.set('grain', grain);
       const passage = store.createRecord('passage');
@@ -400,7 +400,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const element = { type: 'text', isAnswerable: false };
-      const grain = store.createRecord('grain', { title: 'Grain title', rawElements: [element] });
+      const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
       this.set('grain', grain);
 
       // when
@@ -416,7 +416,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const element = { type: 'qcu', isAnswerable: true };
-        const grain = store.createRecord('grain', { title: 'Grain title', rawElements: [element] });
+        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
         this.set('grain', grain);
         const passage = store.createRecord('passage');
         this.set('passage', passage);
@@ -444,7 +444,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
       const element = { type: 'text', isAnswerable: false };
-      const grain = store.createRecord('grain', { title: 'Grain title', rawElements: [element] });
+      const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
       this.set('grain', grain);
 
       // when

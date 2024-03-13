@@ -14,7 +14,7 @@ module('Unit | Model | Module | Grain', function (hooks) {
         const qrocm = { type: 'qrocm', isAnswerable: true };
         const text = { type: 'text', isAnswerable: false };
         const grain = store.createRecord('grain', {
-          rawElements: [qcu, qcm, qrocm, text],
+          elements: [qcu, qcm, qrocm, text],
         });
 
         // when
@@ -31,7 +31,7 @@ module('Unit | Model | Module | Grain', function (hooks) {
         const store = this.owner.lookup('service:store');
         const text = { type: 'text', isAnswerable: false };
         const grain = store.createRecord('grain', {
-          rawElements: [text],
+          elements: [text],
         });
 
         // when
@@ -53,7 +53,7 @@ module('Unit | Model | Module | Grain', function (hooks) {
         const qrocm = { type: 'qrocm', isAnswerable: true };
         const text = { type: 'text', isAnswerable: false };
         const grain = store.createRecord('grain', {
-          rawElements: [qcu, qcm, qrocm, text],
+          elements: [qcu, qcm, qrocm, text],
         });
 
         // when
@@ -71,7 +71,7 @@ module('Unit | Model | Module | Grain', function (hooks) {
         const store = this.owner.lookup('service:store');
         const text = { type: 'text' };
         const grain = store.createRecord('grain', {
-          rawElements: [text],
+          elements: [text],
         });
 
         // when
@@ -96,7 +96,7 @@ module('Unit | Model | Module | Grain', function (hooks) {
           elementAnswers: [elementAnswer],
         });
         const grain = store.createRecord('grain', {
-          rawElements: [qcu],
+          elements: [qcu],
         });
 
         // when
@@ -113,7 +113,7 @@ module('Unit | Model | Module | Grain', function (hooks) {
         const store = this.owner.lookup('service:store');
         const qcu = { type: 'qcu', isAnswerable: true };
         const grain = store.createRecord('grain', {
-          rawElements: [qcu],
+          elements: [qcu],
         });
         const passage = store.createRecord('passage');
 
