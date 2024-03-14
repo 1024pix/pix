@@ -26,8 +26,6 @@ describe('Integration | Repository | training-trigger-repository', function () {
     tube = domainBuilder.buildTube({
       id: 'recTube0',
       name: 'tubeName',
-      title: 'tubeTitle',
-      description: 'tubeDescription',
       practicalTitle: 'translatedPracticalTitle',
       practicalDescription: 'translatedPracticalDescription',
       isMobileCompliant: true,
@@ -40,8 +38,6 @@ describe('Integration | Repository | training-trigger-repository', function () {
     tube1 = domainBuilder.buildTube({
       id: 'recTube1',
       name: 'tubeName1',
-      title: 'tubeTitle1',
-      description: 'tubeDescription1',
       practicalTitle: 'translatedPracticalTitle',
       practicalDescription: 'translatedPracticalDescription',
       isMobileCompliant: true,
@@ -54,8 +50,6 @@ describe('Integration | Repository | training-trigger-repository', function () {
     tube2 = domainBuilder.buildTube({
       id: 'recTube2',
       name: 'tubeName2',
-      title: 'tubeTitle2',
-      description: 'tubeDescription2',
       practicalTitle: 'translatedPracticalTitle',
       practicalDescription: 'translatedPracticalDescription',
       isMobileCompliant: true,

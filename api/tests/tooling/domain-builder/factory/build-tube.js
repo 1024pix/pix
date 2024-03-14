@@ -4,8 +4,6 @@ import { BuildSkillCollection as buildSkillCollection } from './build-skill-coll
 const buildTube = function ({
   id = 'recTube123',
   name = '@tubeName',
-  title = 'titre',
-  description = 'description',
   practicalTitle = 'titre pratique',
   practicalDescription = 'description pratique',
   isMobileCompliant = false,
@@ -18,8 +16,6 @@ const buildTube = function ({
   return new Tube({
     id,
     name,
-    title,
-    description,
     practicalTitle,
     practicalDescription,
     isMobileCompliant,
