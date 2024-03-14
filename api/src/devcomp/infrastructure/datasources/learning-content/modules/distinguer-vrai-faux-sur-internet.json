@@ -5,17 +5,17 @@
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
     "description": "Sur internet, de nombreuses informations circulent. Certaines sont vraies, d'autres sont fausses. Dans ce module, vous allez découvrir une méthode pour analyser l'information et aiguiser votre esprit critique !",
-    "duration": 10,
+    "duration": 15,
     "level": "Intermédiaire",
     "objectives": [
-      "Repérer une fausse information sur internet",
       "Connaître une méthode de vérification d'informations",
-      "Vérifier une information en ligne"
+      "Repérer une fausse information sur internet",
+      "Vérifier une information sur internet"
     ]
   },
   "transitionTexts": [
     {
-      "content": "<p>Commençons par un jeu. <span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, devinez si chaque information proposée est vraie ou fausse. Bonne chance !</p>",
+      "content": "<p>Commençons par un jeu. <span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, essayez de deviner si chaque information proposée est plutôt vraie ou plutôt fausse. Bonne chance !</p>",
       "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
     },
     {
@@ -63,11 +63,11 @@
           "proposals": [
             {
               "id": "1",
-              "content": "Vrai"
+              "content": "plutôt vrai"
             },
             {
               "id": "2",
-              "content": "Faux"
+              "content": "plutôt faux"
             }
           ],
           "feedbacks": {
@@ -95,11 +95,11 @@
           "proposals": [
             {
               "id": "1",
-              "content": "Vrai"
+              "content": "plutôt vrai"
             },
             {
               "id": "2",
-              "content": "Faux"
+              "content": "plutôt faux"
             }
           ],
           "feedbacks": {
@@ -127,11 +127,11 @@
           "proposals": [
             {
               "id": "1",
-              "content": "Vrai"
+              "content": "plutôt vrai"
             },
             {
               "id": "2",
-              "content": "Faux"
+              "content": "plutôt faux"
             }
           ],
           "feedbacks": {
@@ -139,38 +139,6 @@
             "invalid": "<p>Attention, c'est une fake news ! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
           },
           "solution": "2"
-        },
-        {
-          "id": "c3c32a7c-5142-4704-8cf6-0f46e7ef253f",
-          "type": "text",
-          "content": "<hr>"
-        },
-        {
-          "id": "270e993a-44f6-4348-bc60-be10c290cc6a",
-          "type": "image",
-          "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet4.jpg",
-          "alt": "",
-          "alternativeText": ""
-        },
-        {
-          "id": "7ab1d44f-4bfd-4cea-919e-4c366905c763",
-          "type": "qcu",
-          "instruction": "<p>Elle vend son bar tabac pour aller tailler les sabots de cochons domestiques à travers la France.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "Vrai"
-            },
-            {
-              "id": "2",
-              "content": "Faux"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Oui ! C'est le titre d'un <a href=\"https://www.ouest-france.fr/leditiondusoir/2023-08-02/elle-vend-son-bar-tabac-pour-aller-tailler-les-sabots-de-cochons-domestiques-a-travers-la-france-b97b86c2-a64f-4d41-8f53-70c0640d1663\" target=\"_blank\">article du journal Ouest France</a>.</p>",
-            "invalid": "<p>Surprenant mais vrai ! C'est le titre d'un <a href=\"https://www.ouest-france.fr/leditiondusoir/2023-08-02/elle-vend-son-bar-tabac-pour-aller-tailler-les-sabots-de-cochons-domestiques-a-travers-la-france-b97b86c2-a64f-4d41-8f53-70c0640d1663\" target=\"_blank\">article du journal Ouest France</a>.</p>"
-          },
-          "solution": "1"
         }
       ]
     },
