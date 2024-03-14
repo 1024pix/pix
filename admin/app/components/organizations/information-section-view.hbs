@@ -76,15 +76,11 @@
             Non spécifié
           {{/if}}
         </li>
-        <li>Affichage des acquis dans l'export de résultats : {{if @organization.showSkills "Oui" "Non"}}</li>
         <li>SSO : {{this.identityProviderName}}</li>
 
         <br />
 
         <li>Adresse e-mail d'activation SCO : {{@organization.email}}</li>
-        {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
-          <li>Gestion d’élèves/étudiants : {{if @organization.isManagingStudents "Oui" "Non"}}</li>
-        {{/if}}
 
         <br />
 
@@ -100,6 +96,13 @@
           {{/if}}
         </li>
         <li>Affichage du Net Promoter Score : {{if @organization.showNPS "Oui" "Non"}}</li>
+      </ul>
+      <h3 class="page-section__title page-section__title--sub">Fonctionnalités disponibles : </h3>
+      <ul class="organization-information-section__details__list">
+        <li>Affichage des acquis dans l'export de résultats : {{if @organization.showSkills "Oui" "Non"}}</li>
+        {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
+          <li>Gestion d’élèves/étudiants : {{if @organization.isManagingStudents "Oui" "Non"}}</li>
+        {{/if}}
         <li>Activer l'envoi multiple sur les campagnes d'évaluation :
           {{if @organization.enableMultipleSendingAssessment "Oui" "Non"}}</li>
         <li>Activer la page Places sur PixOrga :
@@ -107,6 +110,9 @@
         {{#if @organization.code}}
           <br />
           <li>Code : {{@organization.code}}</li>
+        {{/if}}
+        {{#if @organization.isComputeCertificabilityEnabled}}
+          <li>Certificabilité automatique activée</li>
         {{/if}}
       </ul>
       {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
