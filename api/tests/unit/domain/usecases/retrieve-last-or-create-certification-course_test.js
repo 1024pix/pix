@@ -9,9 +9,9 @@ import {
   UnexpectedUserAccountError,
   UserNotAuthorizedToCertifyError,
 } from '../../../../lib/domain/errors.js';
-import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
 import { ComplementaryCertificationCourse } from '../../../../lib/domain/models/ComplementaryCertificationCourse.js';
 import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
+import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
