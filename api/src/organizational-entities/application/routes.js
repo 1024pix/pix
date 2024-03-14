@@ -25,7 +25,7 @@ const register = async function (server) {
           }),
         },
         handler: organizationController.attachChildOrganization,
-        tags: ['api', 'admin', 'organizations'],
+        tags: ['api', 'admin', 'organizational-entities', 'organizations'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN, METIER ou SUPPORT permettant un accès à l'application d'administration de Pix**\n" +
             "- Elle permet d'attacher une organisation mère à une organisation fille",
