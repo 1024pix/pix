@@ -183,10 +183,11 @@
     display: block;
     margin-top: 3px;
     margin-bottom: -4px;
-    color: $pix-neutral-30;
+    color: var(--pix-neutral-500);
     font-size: 0.625rem;
     letter-spacing: 0.5px;
     text-transform: uppercase;
+    text-decoration: underline;
     opacity: 0;
     transition: opacity 0.1s linear;
   }
