@@ -19,15 +19,15 @@
       "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
     },
     {
-      "content": "<p>En lisant seulement le titre d’un article, c’est presque impossible de savoir si une information est vraie ou fausse. <span aria-hidden=\"true\">🤔</span>️<br>Parfois, ce ne sont pas des informations mais des opinions !<span aria-hidden=\"true\">📚</span>️ Vous allez découvrir la différence dans la vidéo suivante.</p>",
+      "content": "<p>Vous l'avez remarqué, en lisant seulement le titre d’un article, c’est presque impossible de savoir si une information est vraie ou fausse. <span aria-hidden=\"true\">🤔</span>️<br>Parfois, ce ne sont même pas des informations mais par exemple des opinions. <span aria-hidden=\"true\">📚</span>️ Vous allez découvrir la différence dans la vidéo suivante.</p>",
       "grainId": "eb83569f-2e37-49ed-aa6f-31c420b673b9"
     },
     {
-      "content": "<p>Vous savez maintenant mieux repérer une information. Mais une information peut être fausse ...<br>Voyons ensemble la méthode qu'il faut appliquer pour vérifier une information. <span aria-hidden=\"true\">🗒️</span>️</p>",
+      "content": "<p>Vous savez maintenant mieux repérer une information. Mais une information peut être fausse ...<br>Voyons ensemble des questions à se poser pour vérifier une information. <span aria-hidden=\"true\">🗒️</span>️</p>",
       "grainId": "ed22ab38-ec6d-47df-88ea-4894f1cd6c8a"
     },
     {
-      "content": "<p>Vérifiez que vous avez retenu l'essentiel de cette méthode en répondant à la question suivante.</p>",
+      "content": "<p>Vérifiez que vous avez retenu l'essentiel en répondant à la question suivante.</p>",
       "grainId": "46309f55-22e6-4b0f-bfc4-2bad94f9cbd7"
     },
     {
@@ -170,7 +170,7 @@
         {
           "id": "5c6ec12a-f5b4-4683-ae7a-11b79fddd0a5",
           "type": "text",
-          "content": "Dans chaque cas, choisissez s'il s'agit d'une opinion, d'une rumeur ou d'une anecdote."
+          "content": "Dans chacunes des situations suivantes, choisissez s'il s'agit d'une opinion, d'une rumeur ou d'une anecdote."
         },
         {
           "id": "6cca7664-5201-4239-a272-b8b48808ede8",
@@ -191,8 +191,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct. C'est un point de vue qui est exprimé.</p>",
-            "invalid": "<p>Incorrect. C'est un point de vue qui est exprimé, donc une opinion.</p>"
+            "valid": "<p>Correct. Une opinion est un point de vue exprimé.</p>",
+            "invalid": "<p>Incorrect. Une opinion est un point de vue exprimé.</p>"
           },
           "solution": "1"
         },
@@ -220,8 +220,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct. C'est un fait qui intéresse peu de gens. Miranda n'est pas un personnage public.</p>",
-            "invalid": "<p>Incorrect. C'est un fait qui intéresse peu de gens, c'est donc une anecdote.</p>"
+            "valid": "<p>Correct. C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>",
+            "invalid": "<p>Incorrect. C'est un détail, c'est un fait qui n'est pas intéressant pour les gens.</p>"
           },
           "solution": "3"
         },
@@ -249,8 +249,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct. C'est une projection dans l'avenir, qui n'est soutenue par aucune source.</p>",
-            "invalid": "<p>Incorrect. C'est une projection dans l'avenir, une rumeur, qui n'est soutenue par aucune source.</p>"
+            "valid": "<p>Correct. Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>",
+            "invalid": "<p>Incorrect. Ce qu'a entendu Yann n'est soutenu par aucune source. C'est donc une rumeur.</p>"
           },
           "solution": "2"
         }
@@ -264,7 +264,7 @@
         {
           "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
           "type": "text",
-          "content": "<h3>Question n°1 : qui est l’auteur de cette information ? <span aria-hidden=\"true\">🖋️</span>️</h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple selon si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
+          "content": "<h3>Question n°1 : qui est l’auteur de cette information ? <span aria-hidden=\"true\">🖋️</span>️</h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple, si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
         },
         {
           "id": "42276690-f134-4b88-ac0f-c26ad62370ec",
@@ -320,8 +320,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct. Tous ces éléments font partie de la méthode de vérification d'une information. </p>",
-            "invalid": "<p>Incorrect. Retournez voir la vidéo si besoin <span aria-hidden=\"true\">⬆</span>️!</p>"
+            "valid": "<p>Correct. Tous ces éléments permettent de vérifier une information. </p>",
+            "invalid": "<p>Incorrect. Retournez voir la leçon ci-dessus si besoin <span aria-hidden=\"true\">⬆</span>️!</p>"
           },
           "solutions": ["2", "3", "5"]
         }
@@ -455,7 +455,7 @@
         {
           "id": "ff55b19b-a35c-4f25-9e07-ce2e3d965784",
           "type": "text",
-          "content": "<p>Étudiez quelques uns des indices présentés dans l'exemple ci-dessous. Ils vous aideront à identifier de fausses informations.</p>"
+          "content": "<p>Étudiez quelques-uns des indices présentés dans l'exemple ci-dessous. Ils vous aideront à identifier de fausses informations.</p>"
         },
         {
           "id": "c6cd87ae-13a2-4ff1-aa09-26f4aca4dddc",
@@ -486,7 +486,7 @@
         {
           "id": "2a308355-f39f-498e-aef6-f1c0830f5b1f",
           "type": "qcm",
-          "instruction": "<p>Quels conseils donner à Stéphane ?</p>",
+          "instruction": "<p>Quels sont les conseils à donner à Stéphane ?</p>",
           "proposals": [
             {
               "id": "1",
@@ -506,8 +506,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct. Plusieurs indices dans cette information poussent à vouloir en savoir plus avant d'agir.</p>",
-            "invalid": "<p>Incorrect. Plusieurs indices dans cette information poussent à vouloir en savoir plus avant d'agir, notamment l'absence de source.</p>"
+            "valid": "<p>Correct. Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>",
+            "invalid": "<p>Incorrect. Plusieurs indices, comme l'absence de source ou le code promotionnel, poussent à vouloir en savoir plus avant de tester ou de partager ces astuces.</p>"
           },
           "solutions": ["2", "3"]
         }
