@@ -52,14 +52,14 @@
         {
           "id": "91e186a2-9f8e-41e9-84a6-47f870c28b08",
           "type": "image",
-          "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet1.jpg",
+          "url": "https://i.imgur.com/zPkg3Em.png",
           "alt": "",
           "alternativeText": ""
         },
         {
           "id": "3f28b151-1cf4-41f7-8a2a-bfb42638a790",
           "type": "qcu",
-          "instruction": "<p>Un champignon utilisé dans la médecine traditionnelle chinoise renforcerait la mémoire.</p>",
+          "instruction": "<p>A huit mois, un bébé comprend déjà la notion d'outil, y compris les nouvelles technologies.</p>",
           "proposals": [
             {
               "id": "1",
@@ -71,8 +71,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bien vu ! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/l-hydne-herisson-un-champignon-utilise-dans-la-medecine-traditionnelle-chinoise-et-qui-renforcerait-la-memoire_169920\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>",
-            "invalid": "<p>Et pourtant, c'est vrai ! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/l-hydne-herisson-un-champignon-utilise-dans-la-medecine-traditionnelle-chinoise-et-qui-renforcerait-la-memoire_169920\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
+            "valid": "<p>Bien vu ! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>",
+            "invalid": "<p>Et pourtant, c'est vrai ! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
           },
           "solution": "1"
         },
@@ -84,14 +84,14 @@
         {
           "id": "42567080-7352-4d2d-a419-9015f1f53cb4",
           "type": "image",
-          "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet2.jpg",
+          "url": "https://i.imgur.com/H5JCJVT.png",
           "alt": "",
           "alternativeText": ""
         },
         {
           "id": "c54f3eb3-df53-4bab-8300-37103878acd2",
           "type": "qcu",
-          "instruction": "<p>Elle quitte son nouvel époux car il lui a écrasé une part de leur gâteau de mariage sur le visage.</p>",
+          "instruction": "<p>San Francisco met en circulation des navettes sans conducteurs.</p>",
           "proposals": [
             {
               "id": "1",
@@ -103,8 +103,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bravo ! C'est le titre d'un <a href=\"https://www.slate.fr/story/253264/mariage-gateau-humiliation-publique-humour-separation-divorce\" target=\"_blank\">article de Slate</a>.</p>",
-            "invalid": "<p>Et pourtant, c'est vrai ! C'est le titre d'un <a href=\"https://www.slate.fr/story/253264/mariage-gateau-humiliation-publique-humour-separation-divorce\" target=\"_blank\">article de Slate</a>.</p>"
+            "valid": "<p>Bravo ! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>",
+            "invalid": "<p>Et pourtant, c'est vrai ! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
           },
           "solution": "1"
         },
@@ -116,7 +116,7 @@
         {
           "id": "f6368eef-f7fd-44de-8d3e-573e1ca74b32",
           "type": "image",
-          "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet3.jpg",
+          "url": "https://i.imgur.com/tC8s1jc.png",
           "alt": "",
           "alternativeText": ""
         },
@@ -333,42 +333,6 @@
       "title": "Appliquer une méthode de vérification de l’information",
       "elements": [
         {
-          "id": "0fd6f8a9-7421-41ed-b4a7-c0128488d35d",
-          "type": "image",
-          "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet5.jpg",
-          "alt": "",
-          "alternativeText": "Jean-Eude Coulignant : cet été, il va faire très chaud !! Les scientifiques prévoient 32°C minimum, comme en 2015 !"
-        },
-        {
-          "id": "81943b07-ecf0-408b-877c-55e1943df1fc",
-          "type": "qcu",
-          "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "L’auteur n'est pas neutre."
-            },
-            {
-              "id": "2",
-              "content": "Les dates sont incohérentes."
-            },
-            {
-              "id": "3",
-              "content": "La source d’information est absente."
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. Il faudrait que Jean-Eude précise l’étude qui donne ce résultat pour pouvoir vérifier l’information.</p>",
-            "invalid": "<p>Incorrect. Pour partager sa source, il faudrait que Jean-Eude précise l’étude qui partage ce résultat. </p>"
-          },
-          "solution": "3"
-        },
-        {
-          "id": "8dc6af3a-7593-4516-94ef-7507eb3c0c73",
-          "type": "text",
-          "content": "<hr>"
-        },
-        {
           "id": "e9d9c6e3-4c08-40de-bb46-e73b6d02f1c5",
           "type": "image",
           "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg",
@@ -403,6 +367,42 @@
             "invalid": "<p>Incorrect. L’article utilisé comme source n’annonce pas du tout la venue de Mbappé. Ce fan a sûrement été influencé par ses envies.</p>"
           },
           "solution": "1"
+        },
+        {
+          "id": "8dc6af3a-7593-4516-94ef-7507eb3c0c73",
+          "type": "text",
+          "content": "<hr>"
+        },
+        {
+          "id": "0fd6f8a9-7421-41ed-b4a7-c0128488d35d",
+          "type": "image",
+          "url": "https://i.imgur.com/5BMW9i7.png",
+          "alt": "",
+          "alternativeText": "Jean-Eude Coulignant : Scoop ! Grâce aux nouvelles technologies, il y a de plus en plus de visiteurs dans les musées"
+        },
+        {
+          "id": "81943b07-ecf0-408b-877c-55e1943df1fc",
+          "type": "qcu",
+          "instruction": "<p>Choisissez la raison principale qui laisse penser que cette information est fausse.</p>",
+          "proposals": [
+            {
+              "id": "1",
+              "content": "L’auteur n'est pas neutre."
+            },
+            {
+              "id": "2",
+              "content": "Les dates sont incohérentes."
+            },
+            {
+              "id": "3",
+              "content": "La source d’information est absente."
+            }
+          ],
+          "feedbacks": {
+            "valid": "<p>Correct. Il faudrait que Jean-Eude précise l’étude qui donne ce résultat pour pouvoir vérifier l’information.</p>",
+            "invalid": "<p>Incorrect. Pour partager sa source, il faudrait que Jean-Eude précise l’étude qui partage ce résultat. </p>"
+          },
+          "solution": "3"
         },
         {
           "id": "67119ac3-4a93-45a2-900c-f2f4bf4a99b9",
@@ -479,7 +479,7 @@
         {
           "id": "2c525ab3-23bf-4b43-867d-ea1fac54efad",
           "type": "image",
-          "url": "https://i.imgur.com/7six5bF.png",
+          "url": "https://i.imgur.com/Scxdcfm.png",
           "alt": "",
           "alternativeText": "Vos plantes vertes ne poussent pas ? Voici 2 super astuces dont vous ne pourrez plus vous passer.<br> Astuce 1 : Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien ! Votre plante va adorer.<br> Astuce 2 : Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
         },
