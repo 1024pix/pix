@@ -168,6 +168,7 @@
     "test:api:bail": "npm run test:api:unit -- --bail && npm run test:api:integration -- --bail && npm run test:api:acceptance -- --bail",
     "test:lint": "npm test && npm run lint",
     "monitoring:arborescence": "node scripts/arborescence-monitoring/arborescence-monitoring.js",
-    "monitoring:metrics": "node scripts/arborescence-monitoring/add-metrics-to-gist.js"
+    "monitoring:metrics": "node scripts/arborescence-monitoring/add-metrics-to-gist.js",
+    "modulix:test": "npm run test:api:path -- 'tests/devcomp/**/*test.js'"
   }
 }
