@@ -1,6 +1,6 @@
+import { service } from '@ember/service';
 import Model, { attr } from '@ember-data/model';
 import { memberAction } from 'ember-api-actions';
-import { service } from '@ember/service';
 
 export default class Member extends Model {
   @service intl;

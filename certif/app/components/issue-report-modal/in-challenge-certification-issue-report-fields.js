@@ -1,12 +1,12 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
 import {
   certificationIssueReportSubcategories,
+  inChallengeIssueReportSubCategories,
   subcategoryToCode,
   subcategoryToLabel,
-  inChallengeIssueReportSubCategories,
 } from 'pix-certif/models/certification-issue-report';
-import { service } from '@ember/service';
 
 export default class InChallengeCertificationIssueReportFields extends Component {
   @service intl;

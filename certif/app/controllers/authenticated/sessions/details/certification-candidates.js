@@ -1,9 +1,9 @@
 import Controller from '@ember/controller';
-/* eslint-disable ember/no-computed-properties-in-native-classes*/
-import { alias } from '@ember/object/computed';
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
-/* eslint-enable ember/no-computed-properties-in-native-classes*/
 import { action } from '@ember/object';
+// eslint-disable-next-line ember/no-computed-properties-in-native-classes
+import { alias } from '@ember/object/computed';
 import { service } from '@ember/service';
 
 export default class CertificationCandidatesController extends Controller {

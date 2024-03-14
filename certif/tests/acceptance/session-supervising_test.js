@@ -1,13 +1,13 @@
-import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
-import { click, fillIn, waitUntil, settled } from '@ember/test-helpers';
 import { visit, within } from '@1024pix/ember-testing-library';
-import { authenticateSession } from '../helpers/test-init';
-import { Response } from 'miragejs';
-import sinon from 'sinon';
-import ENV from 'pix-certif/config/environment';
-
+import { click, fillIn, settled, waitUntil } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { Response } from 'miragejs';
+import ENV from 'pix-certif/config/environment';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import { authenticateSession } from '../helpers/test-init';
 
 const isVisible = (element) => {
   return window.getComputedStyle(element).visibility !== 'hidden';

@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
-import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 const LINK_SCO = 'http://cloud.pix.fr/s/GqwW6dFDDrHezfS';

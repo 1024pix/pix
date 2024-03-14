@@ -1,14 +1,14 @@
-import Component from '@glimmer/component';
-import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import {
+  categoryToCode,
+  categoryToLabel,
   certificationIssueReportCategories,
   certificationIssueReportSubcategories,
-  categoryToLabel,
-  subcategoryToLabel,
-  categoryToCode,
   subcategoryToCode,
+  subcategoryToLabel,
 } from 'pix-certif/models/certification-issue-report';
 
 export class RadioButtonCategory {

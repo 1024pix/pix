@@ -1,9 +1,10 @@
-import { module, test } from 'qunit';
-import { click, fillIn } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
-import sinon from 'sinon';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { click, fillIn } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | new-certification-candidate-modal', function (hooks) {

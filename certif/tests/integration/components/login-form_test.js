@@ -1,14 +1,13 @@
-import { module, test } from 'qunit';
-import { click, fillIn } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
+import { click, fillIn } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import ENV from 'pix-certif/config/environment';
+import { module, test } from 'qunit';
 import { reject, resolve } from 'rsvp';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-
-import ENV from 'pix-certif/config/environment';
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 module('Integration | Component | login-form', function (hooks) {

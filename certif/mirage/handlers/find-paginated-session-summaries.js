@@ -1,4 +1,4 @@
-import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
+import { applyPagination, getPaginationFromQueryParams } from './pagination-utils';
 
 export function findPaginatedSessionSummaries(schema, request) {
   const certificationCenterId = request.params.id;

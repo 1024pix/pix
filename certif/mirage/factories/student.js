@@ -1,5 +1,5 @@
-import { Factory } from 'miragejs';
 import dayjs from 'dayjs';
+import { Factory } from 'miragejs';
 
 export default Factory.extend({
   firstName() {
