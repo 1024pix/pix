@@ -28,12 +28,12 @@ import {
   OrganizationLearnerCannotBeDissociatedError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
-  UnableToAttachChildOrganizationToParentOrganizationError,
   UncancellableOrganizationInvitationError,
   UnexpectedUserAccountError,
   UserHasAlreadyLeftSCO,
   UserShouldNotBeReconciledOnAnotherAccountError,
 } from '../../../lib/domain/errors.js';
+import { UnableToAttachChildOrganizationToParentOrganizationError } from '../../../src/organizational-entities/domain/errors.js';
 import { expect, hFake, sinon } from '../../test-helper.js';
 
 describe('Unit | Application | ErrorManager', function () {

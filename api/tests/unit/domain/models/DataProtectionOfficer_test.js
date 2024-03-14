@@ -1,4 +1,4 @@
-import { DataProtectionOfficer } from '../../../../lib/domain/models/DataProtectionOfficer.js';
+import { DataProtectionOfficer } from '../../../../src/organizational-entities/domain/models/DataProtectionOfficer.js';
 import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | DataProtectionOfficer', function () {

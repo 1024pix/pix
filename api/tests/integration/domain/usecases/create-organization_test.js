@@ -1,8 +1,8 @@
-import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
 import { createOrganization } from '../../../../lib/domain/usecases/create-organization.js';
 import * as organizationCreationValidator from '../../../../lib/domain/validators/organization-creation-validator.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
-import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
+import { OrganizationForAdmin } from '../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
+import * as organizationForAdminRepository from '../../../../src/organizational-entities/infrastructure/repositories/organization-for-admin-repository.js';
 import * as schoolRepository from '../../../../src/school/infrastructure/repositories/school-repository.js';
 import { databaseBuilder, expect } from '../../../test-helper.js';
 
