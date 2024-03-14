@@ -12,7 +12,7 @@ describe('Unit | UseCase | get-attendance-sheet', function () {
       const session = _buildSessionWithCandidate('SUP', true);
 
       sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
-      sessionForAttendanceSheetRepository.getWithCertificationCandidates.withArgs(1).resolves(session);
+      sessionForAttendanceSheetRepository.getWithCertificationCandidates.withArgs({ id: 1 }).resolves(session);
 
       const pdfBuffer = Buffer.from('some pdf file');
       const fileName = 'attendance-sheet-example.pdf';
