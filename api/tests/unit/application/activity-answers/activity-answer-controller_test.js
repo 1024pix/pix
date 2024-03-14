@@ -8,6 +8,7 @@ describe('Unit | Controller | activity-answer-controller', function () {
     const assessmentId = 12;
     const challengeId = 'recdTpx4c0kPPDTtf';
     const activityId = 25;
+    const isPreview = false;
     let result;
     const value = 'NumA = "4"';
     let resultDetails;
@@ -38,6 +39,7 @@ describe('Unit | Controller | activity-answer-controller', function () {
           value,
         }),
         assessmentId,
+        isPreview,
       };
       createdAnswer = domainBuilder.buildActivityAnswer({ id: answerId, activityId });
       activityAnswerSerializer = {
@@ -57,6 +59,7 @@ describe('Unit | Controller | activity-answer-controller', function () {
       expect(usecases.correctAnswer).to.have.been.calledWithExactly({
         activityAnswer: deserializedPayload.activityAnswer,
         assessmentId,
+        isPreview,
       });
     });
 
