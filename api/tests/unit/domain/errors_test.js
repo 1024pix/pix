@@ -1,6 +1,7 @@
 import * as errors from '../../../lib/domain/errors.js';
 import { NotEnoughDaysPassedBeforeResetCampaignParticipationError } from '../../../lib/domain/errors.js';
 import { AdminMemberError } from '../../../src/authorization/domain/errors.js';
+import { UnableToAttachChildOrganizationToParentOrganizationError } from '../../../src/organizational-entities/domain/errors.js';
 import {
   CsvImportError,
   EntityValidationError,
@@ -416,7 +417,7 @@ describe('Unit | Domain | Errors', function () {
   describe('#UnableToAttachChildOrganizationToParentOrganizationError', function () {
     it('exports UnableToAttachChildOrganizationToParentOrganizationError', function () {
       // then
-      expect(errors.UnableToAttachChildOrganizationToParentOrganizationError).to.exist;
+      expect(UnableToAttachChildOrganizationToParentOrganizationError).to.exist;
     });
   });
 });

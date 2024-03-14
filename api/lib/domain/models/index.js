@@ -16,6 +16,8 @@ import { TrainingTriggerTube } from '../../../src/devcomp/domain/models/Training
 import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import { Progression } from '../../../src/evaluation/domain/models/Progression.js';
+import { DataProtectionOfficer } from '../../../src/organizational-entities/domain/models/DataProtectionOfficer.js';
+import { OrganizationForAdmin } from '../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { CampaignCreator } from '../../../src/prescription/campaign/domain/models/CampaignCreator.js';
 import { CampaignForArchiving } from '../../../src/prescription/campaign/domain/models/CampaignForArchiving.js';
 import { CampaignForCreation } from '../../../src/prescription/campaign/domain/models/CampaignForCreation.js';
@@ -75,7 +77,6 @@ import { ComplementaryCertificationScoringWithComplementaryReferential } from '.
 import { ComplementaryCertificationScoringWithoutComplementaryReferential } from './ComplementaryCertificationScoringWithoutComplementaryReferential.js';
 import { Correction } from './Correction.js';
 import { Course } from './Course.js';
-import { DataProtectionOfficer } from './DataProtectionOfficer.js';
 import { Division } from './Division.js';
 import { EmailingAttempt } from './EmailingAttempt.js';
 import { EmailModificationDemand } from './EmailModificationDemand.js';
@@ -95,7 +96,6 @@ import { OrganizationInvitation } from './OrganizationInvitation.js';
 import { OrganizationInvitedUser } from './OrganizationInvitedUser.js';
 import { OrganizationLearner } from './OrganizationLearner.js';
 import { OrganizationMemberIdentity } from './OrganizationMemberIdentity.js';
-import { OrganizationForAdmin } from './organizations-administration/OrganizationForAdmin.js';
 import { OrganizationsToAttachToTargetProfile } from './OrganizationsToAttachToTargetProfile.js';
 import { OrganizationTag } from './OrganizationTag.js';
 import { ParticipantResultsShared } from './ParticipantResultsShared.js';

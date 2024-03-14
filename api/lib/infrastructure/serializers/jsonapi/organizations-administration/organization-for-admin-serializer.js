@@ -1,7 +1,7 @@
 import { Serializer } from 'jsonapi-serializer';
 import _ from 'lodash';
 
-import { OrganizationForAdmin } from '../../../../domain/models/organizations-administration/OrganizationForAdmin.js';
+import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 
 const serialize = function (organizations, meta) {
   return new Serializer('organizations', {

@@ -1,5 +1,5 @@
-import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
 import { createOrganization } from '../../../../lib/domain/usecases/create-organization.js';
+import { OrganizationForAdmin } from '../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 

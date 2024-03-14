@@ -1,3 +1,4 @@
+import { UnableToAttachChildOrganizationToParentOrganizationError } from '../../src/organizational-entities/domain/errors.js';
 import * as DomainErrors from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { HttpErrors } from './http-errors.js';
@@ -6,7 +7,7 @@ function _mapToHttpError(error) {
   if (error instanceof HttpErrors.BaseHttpError) {
     return error;
   }
-  if (error instanceof DomainErrors.UnableToAttachChildOrganizationToParentOrganizationError) {
+  if (error instanceof UnableToAttachChildOrganizationToParentOrganizationError) {
     return new HttpErrors.ConflictError(error.message, error.code, error.meta);
   }
   if (error instanceof DomainErrors.AccountRecoveryDemandExpired) {

@@ -917,18 +917,6 @@ class TooManyRows extends DomainError {
   }
 }
 
-class UnableToAttachChildOrganizationToParentOrganizationError extends DomainError {
-  constructor({
-    code = 'UNABLE_TO_ATTACH_CHILD_ORGANIZATION_TO_PARENT_ORGANIZATION',
-    message = 'Unable to attach child organization to parent organization',
-    meta,
-  } = {}) {
-    super(message);
-    this.code = code;
-    this.meta = meta;
-  }
-}
-
 class OidcMissingFieldsError extends DomainError {
   constructor(
     message = 'Mandatory information returned by the identify provider about the user is missing.',
@@ -1203,7 +1191,6 @@ export {
   TargetProfileCannotBeCreated,
   TargetProfileInvalidError,
   TooManyRows,
-  UnableToAttachChildOrganizationToParentOrganizationError,
   UncancellableCertificationCenterInvitationError,
   UncancellableOrganizationInvitationError,
   UnexpectedUserAccountError,
