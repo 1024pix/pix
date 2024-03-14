@@ -14,6 +14,10 @@ const ORGANIZATION_FEATURE = {
     key: 'MISSIONS_MANAGEMENT',
     description: "Permet l'affichage de la page des missions sur PixOrga",
   },
+  LEARNER_IMPORT: {
+    key: 'LEARNER_IMPORT',
+    description: "Permet l'import de participants sur PixOrga",
+  },
   PLACES_MANAGEMENT: {
     key: 'PLACES_MANAGEMENT',
     description: "Permet l'affichage de la page de gestion des places sur PixOrga",
