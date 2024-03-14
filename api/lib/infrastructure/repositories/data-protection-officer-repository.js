@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { DataProtectionOfficer } from '../../domain/models/DataProtectionOfficer.js';
+import { DataProtectionOfficer } from '../../../src/organizational-entities/domain/models/DataProtectionOfficer.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const DATA_PROTECTION_OFFICERS_TABLE_NAME = 'data-protection-officers';

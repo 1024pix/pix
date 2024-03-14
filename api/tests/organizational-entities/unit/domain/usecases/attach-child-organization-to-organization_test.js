@@ -1,6 +1,6 @@
-import { UnableToAttachChildOrganizationToParentOrganizationError } from '../../../../lib/domain/errors.js';
-import { attachChildOrganizationToOrganization } from '../../../../lib/domain/usecases/attach-child-organization-to-organization.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { UnableToAttachChildOrganizationToParentOrganizationError } from '../../../../../src/organizational-entities/domain/errors.js';
+import { attachChildOrganizationToOrganization } from '../../../../../src/organizational-entities/domain/usecases/attach-child-organization-to-organization.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | UseCases | attach-child-organization-to-organization', function () {
   let organizationForAdminRepository;

@@ -390,32 +390,6 @@ const register = async function (server) {
         ],
       },
     },
-    {
-      method: 'POST',
-      path: '/api/admin/organizations/{organizationId}/attach-child-organization',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            organizationId: identifiersType.organizationId,
-          }),
-          payload: Joi.object({
-            childOrganizationId: identifiersType.organizationId,
-          }),
-        },
-        handler: organizationController.attachChildOrganization,
-        tags: ['api', 'admin', 'organizations'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN, METIER ou SUPPORT permettant un accès à l'application d'administration de Pix**\n" +
-            "- Elle permet d'attacher une organisation mère à une organisation fille",
-        ],
-      },
-    },
   ];
 
   const orgaRoutes = [

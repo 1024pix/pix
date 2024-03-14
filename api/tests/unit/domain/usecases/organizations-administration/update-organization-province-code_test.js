@@ -1,6 +1,6 @@
 import { OrganizationNotFoundError } from '../../../../../lib/domain/errors.js';
-import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
 import { updateOrganizationProvinceCode } from '../../../../../lib/domain/usecases/organizations-administration/update-organization-province-code.js';
+import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCases | Organizations administration | Update organization province code', function () {

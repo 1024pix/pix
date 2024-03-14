@@ -36,6 +36,7 @@ import * as competenceEvaluationRepository from '../../../src/evaluation/infrast
 import * as stageAcquisitionRepository from '../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
 import * as stageCollectionForTargetProfileRepository from '../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
 import * as stageRepository from '../../../src/evaluation/infrastructure/repositories/stage-repository.js';
+import * as organizationForAdminRepository from '../../../src/organizational-entities/infrastructure/repositories/organization-for-admin-repository.js';
 import * as campaignManagementRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-management-repository.js';
 import * as campaignParticipationBCRepository from '../../../src/prescription/campaign-participation/infrastructure/repositories/campaign-participation-repository.js';
 import * as supOrganizationLearnerRepository from '../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
@@ -130,7 +131,6 @@ import * as juryCertificationSummaryRepository from '../../infrastructure/reposi
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as learningContentRepository from '../../infrastructure/repositories/learning-content-repository.js';
 import * as membershipRepository from '../../infrastructure/repositories/membership-repository.js';
-import * as organizationForAdminRepository from '../../infrastructure/repositories/organization-for-admin-repository.js';
 import * as organizationInvitationRepository from '../../infrastructure/repositories/organization-invitation-repository.js';
 import * as organizationInvitedUserRepository from '../../infrastructure/repositories/organization-invited-user-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
