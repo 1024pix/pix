@@ -237,4 +237,4 @@ function _generateLastName() {
   return result.join('');
 }
 
-export { team1dDataBuilder };
+export { TEAM_1D_USER_ID, team1dDataBuilder };
