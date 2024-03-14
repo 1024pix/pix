@@ -5,8 +5,8 @@ import { CertificationJuryDone } from '../../../../lib/domain/events/Certificati
 import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
 import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
-import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
 import { AssessmentResult, CertificationAssessment, CertificationResult } from '../../../../lib/domain/models/index.js';
+import { ABORT_REASONS } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 import { config } from '../../../../src/shared/config.js';
 import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';

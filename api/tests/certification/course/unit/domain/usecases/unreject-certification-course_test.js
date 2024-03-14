@@ -1,6 +1,6 @@
 import { CertificationCourseUnrejected } from '../../../../../../lib/domain/events/CertificationCourseUnrejected.js';
-import { CertificationCourse } from '../../../../../../lib/domain/models/index.js';
 import { unrejectCertificationCourse } from '../../../../../../src/certification/course/domain/usecases/unreject-certification-course.js';
+import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | unreject-certification-course', function () {

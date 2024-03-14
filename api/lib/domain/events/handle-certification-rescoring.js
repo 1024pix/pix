@@ -7,7 +7,6 @@ import { AssessmentResultFactory } from '../../../src/certification/scoring/doma
 import { config } from '../../../src/shared/config.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { CertificationComputeError } from '../errors.js';
-import { ABORT_REASONS } from '../models/CertificationCourse.js';
 import { CertificationResult } from '../models/CertificationResult.js';
 import { CompetenceMark } from '../models/CompetenceMark.js';
 import { AssessmentResult } from '../models/index.js';
