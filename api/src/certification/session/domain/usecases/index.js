@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { assessmentRepository, sessionRepositories } from '../../infrastructure/repositories/index.js';
+import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-storage.js';
+import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-storage.js';
 import * as certificationCpfService from '../services/certification-cpf-service.js';
 import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
@@ -32,6 +34,8 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationReportRepository} CertificationReportRepository
+ * @typedef {import('../../infrastructure/storage/cpf-receipts-storage.js')} CpfReceiptsStorage
+ * @typedef {import('../../infrastructure/storage/cpf-exports-storage.js')} CpfExportsStorage
  **/
 
 /**
@@ -59,6 +63,8 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {certificationReportRepository} CertificationReportRepository
  * @typedef {temporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
  * @typedef {sessionValidator} SessionValidator
+ * @typedef {cpfReceiptsStorage} CpfReceiptsStorage
+ * @typedef {cpfExportsStorage} CpfExportsStorage
  **/
 const dependencies = {
   assessmentRepository,
@@ -84,6 +90,8 @@ const dependencies = {
   certificationReportRepository: sessionRepositories.certificationReportRepository,
   temporarySessionsStorageForMassImportService,
   sessionValidator,
+  cpfReceiptsStorage,
+  cpfExportsStorage,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -96,14 +104,7 @@ const path = dirname(fileURLToPath(import.meta.url));
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({
     path: join(path, './'),
-    ignoredFileNames: [
-      'index.js',
-      'delete-unlinked-certification-candidate.js',
-      'get-attendance-sheet.js',
-      'get-cpf-presigned-urls.js',
-      'integrate-cpf-processing-receipts.js',
-      'upload-cpf-files.js',
-    ],
+    ignoredFileNames: ['index.js', 'delete-unlinked-certification-candidate.js', 'get-attendance-sheet.js'],
   })),
 };
 
