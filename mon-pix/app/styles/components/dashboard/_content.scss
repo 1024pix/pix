@@ -138,20 +138,24 @@
   }
 }
 
-.dashboard-content-score-wrapper {
-  &__button {
-    padding-top: 10px;
-    color: $pix-primary;
+.dashboard-content-score-wrapper__link {
+  margin-top: var(--pix-spacing-3x);
+  color: var(--pix-neutral-800);
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: underline;
 
-    &:hover,
-    &:focus {
-      color: $pix-primary-70;
-      text-decoration: underline;
-    }
+  &:hover,
+  &:focus {
+    color: var(--pix-primary-500);
+  }
 
-    &:visited {
-      color: $pix-tertiary-70;
-    }
+  &:focus {
+    font-weight: 700;
+  }
+
+  &:active {
+    color: var(--pix-primary-900);
   }
 }
 
