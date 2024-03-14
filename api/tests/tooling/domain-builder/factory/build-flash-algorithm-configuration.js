@@ -12,6 +12,7 @@ export const buildFlashAlgorithmConfiguration = ({
   doubleMeasuresUntil,
   variationPercent,
   variationPercentUntil,
+  createdAt,
 } = {}) => {
   return new FlashAssessmentAlgorithmConfiguration({
     warmUpLength,
@@ -26,5 +27,6 @@ export const buildFlashAlgorithmConfiguration = ({
     doubleMeasuresUntil,
     variationPercent,
     variationPercentUntil,
+    createdAt,
   });
 };

@@ -79,9 +79,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
         flashAlgorithmService,
         flashAlgorithmConfigurationRepository;
 
+      let flashAlgorithmConfiguration;
+
       beforeEach(function () {
         flashAlgorithmConfigurationRepository = {
-          get: sinon.stub(),
+          getMostRecentBeforeDate: sinon.stub(),
         };
         answerRepository = {
           findByAssessment: sinon.stub(),
@@ -109,7 +111,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
           getEstimatedLevelAndErrorRate: sinon.stub(),
         };
 
-        flashAlgorithmConfigurationRepository.get.resolves(domainBuilder.buildFlashAlgorithmConfiguration({}));
+        flashAlgorithmConfiguration = domainBuilder.buildFlashAlgorithmConfiguration();
       });
       context('when there are challenges left to answer', function () {
         it('should save the returned next challenge', async function () {
@@ -120,6 +122,10 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
           });
           const assessment = domainBuilder.buildAssessment();
           const locale = 'fr-FR';
+
+          flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+            .withArgs(v3CertificationCourse.getStartDate())
+            .resolves(flashAlgorithmConfiguration);
 
           answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
           certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
@@ -257,6 +263,10 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             id: nonAnsweredCertificationChallenge.challengeId,
           });
 
+          flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+            .withArgs(v3CertificationCourse.getStartDate())
+            .resolves(flashAlgorithmConfiguration);
+
           answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
           challengeRepository.findActiveFlashCompatible
             .withArgs({ locale })
@@ -349,6 +359,10 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             skill: firstSkill,
           });
 
+          flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+            .withArgs(v3CertificationCourse.getStartDate())
+            .resolves(flashAlgorithmConfiguration);
+
           answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
           challengeRepository.findActiveFlashCompatible
             .withArgs()
@@ -427,6 +441,10 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             getPossibleNextChallenges: sinon.stub(),
             getEstimatedLevelAndErrorRate: sinon.stub(),
           };
+
+          flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+            .withArgs(v3CertificationCourse.getStartDate())
+            .resolves(flashAlgorithmConfiguration);
 
           answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
           certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
@@ -512,13 +530,17 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               const nextChallengeToAnswer = domainBuilder.buildChallenge({
                 competenceId,
               });
-              flashAlgorithmConfigurationRepository.get.reset();
-              const configuration = domainBuilder.buildFlashAlgorithmConfiguration(flashConfiguration);
-              flashAlgorithmConfigurationRepository.get.resolves(configuration);
 
               const v3CertificationCourse = domainBuilder.buildCertificationCourse({
                 version: CertificationVersion.V3,
               });
+
+              flashAlgorithmConfigurationRepository.getMostRecentBeforeDate.reset();
+              const configuration = domainBuilder.buildFlashAlgorithmConfiguration(flashConfiguration);
+              flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+                .withArgs(v3CertificationCourse.getStartDate())
+                .resolves(configuration);
+
               const assessment = domainBuilder.buildAssessment();
               const locale = 'fr-FR';
 

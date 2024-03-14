@@ -24,7 +24,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       assessment = domainBuilder.buildAssessment({ id: 1165 });
 
       answerRepository = { findByAssessment: sinon.stub() };
-      flashAlgorithmConfigurationRepository = { get: sinon.stub() };
+      flashAlgorithmConfigurationRepository = { getMostRecent: sinon.stub() };
       challengeRepository = { get: sinon.stub() };
       challengeRepository.get.withArgs('first_challenge').resolves(firstChallenge);
       challengeRepository.get.withArgs('second_challenge').resolves(secondChallenge);
@@ -117,7 +117,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             limitToOneQuestionPerTube: false,
             enablePassageByAllCompetences: false,
           });
-          flashAlgorithmConfigurationRepository.get.resolves(configuration);
+          flashAlgorithmConfigurationRepository.getMostRecent.resolves(configuration);
 
           const algorithmDataFetcherServiceStub = {
             fetchForFlashCampaigns: sinon.stub(),
@@ -199,7 +199,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             limitToOneQuestionPerTube: false,
             enablePassageByAllCompetences: false,
           });
-          flashAlgorithmConfigurationRepository.get.resolves(configuration);
+          flashAlgorithmConfigurationRepository.getMostRecent.resolves(configuration);
 
           algorithmDataFetcherServiceStub.fetchForFlashCampaigns
             .withArgs({
@@ -268,7 +268,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           const configuration = domainBuilder.buildFlashAlgorithmConfiguration({
             maximumAssessmentLength: 1,
           });
-          flashAlgorithmConfigurationRepository.get.resolves(configuration);
+          flashAlgorithmConfigurationRepository.getMostRecent.resolves(configuration);
 
           algorithmDataFetcherServiceStub.fetchForFlashCampaigns
             .withArgs({

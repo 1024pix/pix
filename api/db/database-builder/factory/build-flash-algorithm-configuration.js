@@ -1,9 +1,10 @@
+import { config } from '../../../src/shared/config.js';
 import { databaseBuffer } from '../database-buffer.js';
 
 const buildFlashAlgorithmConfiguration = function ({
   warmUpLength = null,
   forcedCompetences = [],
-  maximumAssessmentLength = null,
+  maximumAssessmentLength = config.v3Certification.numberOfChallengesPerCourse,
   challengesBetweenSameCompetence = null,
   minimumEstimatedSuccessRateRanges = [],
   limitToOneQuestionPerTube = null,

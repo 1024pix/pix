@@ -25,6 +25,7 @@ export class FlashAssessmentAlgorithmConfiguration {
     doubleMeasuresUntil,
     variationPercent,
     variationPercentUntil,
+    createdAt,
   } = {}) {
     this.warmUpLength = warmUpLength;
     this.forcedCompetences = forcedCompetences;
@@ -36,6 +37,7 @@ export class FlashAssessmentAlgorithmConfiguration {
     this.doubleMeasuresUntil = doubleMeasuresUntil;
     this.variationPercent = variationPercent;
     this.variationPercentUntil = variationPercentUntil;
+    this.createdAt = createdAt;
   }
 
   toDTO() {
@@ -52,6 +54,7 @@ export class FlashAssessmentAlgorithmConfiguration {
       doubleMeasuresUntil: this.doubleMeasuresUntil,
       variationPercent: this.variationPercent,
       variationPercentUntil: this.variationPercentUntil,
+      createdAt: this.createdAt,
     };
   }
 
@@ -66,6 +69,7 @@ export class FlashAssessmentAlgorithmConfiguration {
     doubleMeasuresUntil,
     variationPercent,
     variationPercentUntil,
+    createdAt,
   }) {
     return new FlashAssessmentAlgorithmConfiguration({
       warmUpLength,
@@ -80,6 +84,7 @@ export class FlashAssessmentAlgorithmConfiguration {
       doubleMeasuresUntil,
       variationPercent,
       variationPercentUntil,
+      createdAt,
     });
   }
 }
