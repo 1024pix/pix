@@ -27,7 +27,7 @@ async function _createScoOrganization(databaseBuilder) {
     externalId: 'SCO_MANAGING',
     adminIds: [SCO_ORGANIZATION_USER_ID],
     memberIds: [ALL_ORGANIZATION_USER_ID],
-    featureIds: [FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID],
+    featureIds: [FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID, FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
   });
 
   await organization.createOrganization({
@@ -66,6 +66,7 @@ async function _createSupOrganization(databaseBuilder) {
     externalId: 'SUP_MANAGING',
     adminIds: [SUP_ORGANIZATION_USER_ID],
     memberIds: [ALL_ORGANIZATION_USER_ID],
+    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
   });
 
   await organization.createOrganization({
