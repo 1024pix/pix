@@ -16,8 +16,8 @@ describe('Unit | UseCase | delete-unlinked-sertification-candidate', function ()
 
   context('When the certification candidate is not linked to a user', function () {
     beforeEach(function () {
-      certificationCandidateRepository.isNotLinked.withArgs(certificationCandidateId).resolves(true);
-      certificationCandidateRepository.remove.withArgs(certificationCandidateId).resolves(true);
+      certificationCandidateRepository.isNotLinked.withArgs({ id: certificationCandidateId }).resolves(true);
+      certificationCandidateRepository.remove.withArgs({ id: certificationCandidateId }).resolves(true);
     });
 
     it('should delete the certification candidate', async function () {
@@ -34,7 +34,7 @@ describe('Unit | UseCase | delete-unlinked-sertification-candidate', function ()
 
   context('When the certification candidate is linked to a user ', function () {
     beforeEach(function () {
-      certificationCandidateRepository.isNotLinked.withArgs(certificationCandidateId).resolves(false);
+      certificationCandidateRepository.isNotLinked.withArgs({ id: certificationCandidateId }).resolves(false);
     });
 
     it('should throw a forbidden deletion error', async function () {

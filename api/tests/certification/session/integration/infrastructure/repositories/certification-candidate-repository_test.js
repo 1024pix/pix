@@ -6,8 +6,8 @@ import {
 } from '../../../../../../lib/domain/errors.js';
 import { BookshelfCertificationCandidate } from '../../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session/domain/models/ComplementaryCertification.js';
+import * as certificationCandidateRepository from '../../../../../../src/certification/session/infrastructure/repositories/certification-candidate-repository.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
-import * as certificationCandidateRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-candidate-repository.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | CertificationCandidate', function () {
@@ -174,7 +174,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
       it('should return true when deletion goes well', async function () {
         // when
-        const isDeleted = await certificationCandidateRepository.remove(certificationCandidateToDeleteId);
+        const isDeleted = await certificationCandidateRepository.remove({ id: certificationCandidateToDeleteId });
 
         // then
         expect(isDeleted).to.be.true;
@@ -183,7 +183,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
       it('should delete a single row in the table', async function () {
         const nbCertifCandidatesBeforeDeletion = await BookshelfCertificationCandidate.count();
         // when
-        await certificationCandidateRepository.remove(certificationCandidateToDeleteId);
+        await certificationCandidateRepository.remove({ id: certificationCandidateToDeleteId });
         const nbCertifCandidatesAfterDeletion = await BookshelfCertificationCandidate.count();
 
         // then
@@ -203,7 +203,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
         await databaseBuilder.commit();
 
         // when
-        const isDeleted = await certificationCandidateRepository.remove(certificationCandidateId);
+        const isDeleted = await certificationCandidateRepository.remove({ id: certificationCandidateId });
 
         // then
         const complementaryCertificationSubscriptions = await knex
@@ -228,7 +228,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
       it('should return false', async function () {
         // when
-        const isNotLinked = await certificationCandidateRepository.isNotLinked(certificationCandidateId);
+        const isNotLinked = await certificationCandidateRepository.isNotLinked({ id: certificationCandidateId });
 
         // then
         expect(isNotLinked).to.be.false;
@@ -246,7 +246,9 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
       it('should return true', async function () {
         // when
-        const isNotLinked = await certificationCandidateRepository.isNotLinked(certificationCandidateToDeleteId);
+        const isNotLinked = await certificationCandidateRepository.isNotLinked({
+          id: certificationCandidateToDeleteId,
+        });
 
         // then
         expect(isNotLinked).to.be.true;
