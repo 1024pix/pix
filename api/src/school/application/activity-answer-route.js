@@ -24,8 +24,11 @@ const register = async function (server) {
               type: Joi.string(),
             },
             meta: Joi.object({
-              assessmentId: Joi.string().required(),
-            }),
+              assessmentId: Joi.string(),
+              isPreview: Joi.bool(),
+            })
+              .xor('assessmentId', 'isPreview')
+              .required(),
           }),
         },
         handler: activityAnswerController.save,
