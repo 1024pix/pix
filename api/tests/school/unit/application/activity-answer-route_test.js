@@ -5,7 +5,7 @@ import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 describe('Unit | Application | Router | activity-answer-router', function () {
   describe('POST /api/pix1d/activity-answers', function () {
     context('nominal case', function () {
-      it('saves the answer inside the given assessment', async function () {
+      it('calls the save controller for payload with assessment id', async function () {
         // given
         sinon.stub(activityAnswerController, 'save').callsFake((request, h) => h.response().created());
         const httpTestServer = new HttpTestServer();
@@ -22,13 +22,14 @@ describe('Unit | Application | Router | activity-answer-router', function () {
               challenge: {
                 data: {
                   id: 'hee',
+                  type: 'challenge',
                 },
               },
             },
             type: 'activity-answers',
           },
           meta: {
-            assessmentId: '12345678',
+            assessmentId: 12345678,
           },
         };
 
@@ -39,9 +40,9 @@ describe('Unit | Application | Router | activity-answer-router', function () {
         expect(response.statusCode).to.equal(201);
       });
 
-      it('saves the answer for preview', async function () {
+      it('calls the save controller for payload with isPreview set', async function () {
         // given
-        sinon.stub(activityAnswerController, 'save').callsFake((request, h) => h.response().created());
+        sinon.stub(activityAnswerController, 'save').callsFake((request, h) => h.response('ok').code(200));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -70,7 +71,7 @@ describe('Unit | Application | Router | activity-answer-router', function () {
         const response = await httpTestServer.request('POST', '/api/pix1d/activity-answers', payload);
 
         // then
-        expect(response.statusCode).to.equal(201);
+        expect(response.statusCode).to.equal(200);
       });
     });
 
@@ -123,7 +124,7 @@ describe('Unit | Application | Router | activity-answer-router', function () {
             type: 'activity-answers',
           },
           meta: {
-            assessmentId: '12345678',
+            assessmentId: 2,
             isPreview: true,
           },
         };

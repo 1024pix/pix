@@ -10,7 +10,7 @@ const correctAnswer = async function ({
   sharedChallengeRepository,
   activityRepository,
   assessmentRepository,
-  examiner,
+  examiner: injectedExaminer,
 } = {}) {
   const assessment = await assessmentRepository.get(assessmentId);
 
@@ -18,22 +18,19 @@ const correctAnswer = async function ({
     throw new NotInProgressAssessmentError(assessmentId);
   }
 
-  if (assessment.lastChallengeId && assessment.lastChallengeId != activityAnswer.challengeId) {
+  if (assessment.lastChallengeId !== activityAnswer.challengeId) {
     throw new ChallengeNotAskedError();
   }
 
   const activityId = (await activityRepository.getLastActivity(assessmentId)).id;
   const challenge = await sharedChallengeRepository.get(activityAnswer.challengeId);
-  const correctedAnswer = _evaluateAnswer({ challenge, activityAnswer, examiner });
-  return await activityAnswerRepository.save({ ...correctedAnswer, activityId });
-};
-
-function _evaluateAnswer({ challenge, activityAnswer, examiner: injectedExaminer }) {
   const examiner = injectedExaminer ?? new Examiner({ validator: challenge.validator });
-  return examiner.evaluate({
+  const correctedAnswer = examiner.evaluate({
     answer: activityAnswer,
     challengeFormat: challenge.format,
   });
-}
+
+  return await activityAnswerRepository.save({ ...correctedAnswer, activityId });
+};
 
 export { correctAnswer };
