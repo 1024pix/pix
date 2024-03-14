@@ -1,7 +1,7 @@
 .feedback-panel {
   z-index: 1;
   padding: 0 $pix-spacing-s;
-  color: $pix-neutral-60;
+  color: $pix-neutral-70;
   font-size: 0.938rem;
 }
 
@@ -35,7 +35,7 @@
 .feedback-panel__open-button:hover,
 .feedback-panel__open-button:focus-visible,
 .feedback-panel__open-button:active {
-  color: $pix-primary;
+  color: var(--pix-warning-700);
 }
 
 /* "Form" view
