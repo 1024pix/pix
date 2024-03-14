@@ -1,0 +1,21 @@
+<section class="page-section">
+  <form {{on "submit" this.onCompetenceScoringConfigurationSubmit}}>
+    <PixTextarea
+      @id="competence-configuration"
+      @value={{this.competenceScoringConfiguration}}
+      @label="Ajout de la configuration de niveau par compétence (JSON) :"
+      {{on "change" this.onCompetenceScoringConfigurationChange}}
+    />
+    <PixButton @type="submit">Envoyer</PixButton>
+  </form>
+
+  <form {{on "submit" this.onCertificationScoringConfigurationSubmit}}>
+    <PixTextarea
+      @id="certification-scoring-configuration"
+      @value={{this.certificationScoringConfiguration}}
+      @label="Ajout de la configuration de score de certification (JSON) :"
+      {{on "change" this.onCertificationScoringConfigurationChange}}
+    />
+    <PixButton @type="submit">Envoyer</PixButton>
+  </form>
+</section>
