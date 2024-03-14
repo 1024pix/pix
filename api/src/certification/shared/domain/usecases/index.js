@@ -119,6 +119,7 @@ const usecasesWithoutInjectedDependencies = {
       'index.js',
       'create-session.js',
       'create-sessions.js',
+      'delete-session.js',
       'add-certification-candidate-to-session.js',
       'get-session-certification-candidates.js',
       'get-mass-import-template-information.js',

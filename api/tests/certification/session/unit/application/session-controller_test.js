@@ -132,7 +132,7 @@ describe('Unit | Controller | session-controller', function () {
       // given
       const sessionId = 1;
       const userId = 1;
-      sinon.stub(sharedUseCases, 'deleteSession');
+      sinon.stub(sessionUsecases, 'deleteSession');
       const request = {
         params: { id: sessionId },
         auth: {
@@ -146,7 +146,7 @@ describe('Unit | Controller | session-controller', function () {
       await sessionController.remove(request, hFake);
 
       // then
-      expect(sharedUseCases.deleteSession).to.have.been.calledWithExactly({
+      expect(sessionUsecases.deleteSession).to.have.been.calledWithExactly({
         sessionId,
       });
     });
