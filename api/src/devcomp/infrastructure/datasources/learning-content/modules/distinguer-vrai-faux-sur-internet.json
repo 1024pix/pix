@@ -15,7 +15,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Commençons par un jeu. <span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, essayez de deviner si chaque information proposée est plutôt vraie ou plutôt fausse. Bonne chance !</p>",
+      "content": "<p>Commençons par un jeu. <span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, essayez de deviner si chaque information proposée dans ces articles de journaux est plutôt vraie ou plutôt fausse. Bonne chance !</p>",
       "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
     },
     {
@@ -191,8 +191,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct. Une opinion est un point de vue exprimé.</p>",
-            "invalid": "<p>Incorrect. Une opinion est un point de vue exprimé.</p>"
+            "valid": "<p>Correct. C'est une opinion, c'est-à-dire un point de vue exprimé.</p>",
+            "invalid": "<p>Incorrect. C'est une opinion, c'est-à-dire un point de vue exprimé.</p>"
           },
           "solution": "1"
         },
@@ -284,7 +284,7 @@
         {
           "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
           "type": "text",
-          "content": "<h3>Question n°3 : d’où provient cette information ? <span aria-hidden=\"true\">ℹ️</span>️</h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Vérifiez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
+          "content": "<h3>Question n°3 : d’où provient cette information ? <span aria-hidden=\"true\">ℹ️</span>️</h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
         }
       ]
     },
