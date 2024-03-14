@@ -154,6 +154,39 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         expect(participations).to.have.lengthOf(1);
         expect(participations[0].participantExternalId).to.equal('My first');
       });
+
+      it('should return count of shared participation for given campaign', async function () {
+        // given
+        databaseBuilder.factory.buildCampaignParticipation({
+          participantExternalId: 'Second Participation Shared',
+          campaignId: campaign.id,
+          isImproved: true,
+          organizationLearnerId: learner.id,
+          userId,
+          createdAt: new Date(2022, 10, 2),
+          sharedAt: new Date(2022, 10, 3),
+        });
+        // given
+        databaseBuilder.factory.buildCampaignParticipation({
+          participantExternalId: 'third Participation not shared',
+          campaignId: campaign.id,
+          isImproved: false,
+          organizationLearnerId: learner.id,
+          status: CampaignParticipationStatuses.STARTED,
+          userId,
+          createdAt: new Date(2022, 10, 4),
+          sharedAt: new Date(2022, 10, 5),
+        });
+
+        await databaseBuilder.commit();
+
+        //when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+        });
+        // then
+        expect(participations[0].sharedResultCount).to.equal(2);
+      });
     });
 
     context('when there is an organization learner', function () {
