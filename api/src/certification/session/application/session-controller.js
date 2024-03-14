@@ -26,7 +26,7 @@ const update = async function (request, h, dependencies = { sessionSerializer })
 const remove = async function (request, h) {
   const sessionId = request.params.id;
 
-  await sharedUseCases.deleteSession({ sessionId });
+  await sessionUsecases.deleteSession({ sessionId });
 
   return h.response().code(204);
 };

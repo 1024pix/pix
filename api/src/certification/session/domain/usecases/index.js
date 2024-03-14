@@ -98,7 +98,6 @@ const usecasesWithoutInjectedDependencies = {
     path: join(path, './'),
     ignoredFileNames: [
       'index.js',
-      'delete-session.js',
       'delete-unlinked-certification-candidate.js',
       'get-attendance-sheet.js',
       'get-cpf-presigned-urls.js',
