@@ -104,7 +104,7 @@ const path = dirname(fileURLToPath(import.meta.url));
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({
     path: join(path, './'),
-    ignoredFileNames: ['index.js', 'delete-unlinked-certification-candidate.js', 'get-attendance-sheet.js'],
+    ignoredFileNames: ['index.js', 'get-attendance-sheet.js'],
   })),
 };
 
