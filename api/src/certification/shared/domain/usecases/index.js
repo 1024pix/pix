@@ -25,8 +25,6 @@ import * as cpfCertificationResultRepository from '../../../session/infrastructu
 import * as cpfExportRepository from '../../../session/infrastructure/repositories/cpf-export-repository.js';
 import * as sessionForAttendanceSheetRepository from '../../../session/infrastructure/repositories/session-for-attendance-sheet-repository.js';
 import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
-import { cpfExportsStorage } from '../../../session/infrastructure/storage/cpf-exports-storage.js';
-import { cpfReceiptsStorage } from '../../../session/infrastructure/storage/cpf-receipts-storage.js';
 import * as attendanceSheetPdfUtils from '../../../session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
@@ -68,8 +66,6 @@ import * as mailService from '../services/mail-service.js';
  * @typedef {sessionRepository} SessionRepository
  * @typedef {sessionValidator} SessionValidator
  * @typedef {userRepository} UserRepository
- * @typedef {cpfReceiptsStorage} CpfReceiptsStorage
- * @typedef {cpfExportsStorage} CpfExportsStorage
  */
 const dependencies = {
   answerRepository,
@@ -102,8 +98,6 @@ const dependencies = {
   sessionValidator,
   userRepository,
   v3CertificationCourseDetailsForAdministrationRepository,
-  cpfReceiptsStorage,
-  cpfExportsStorage,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -131,6 +125,9 @@ const usecasesWithoutInjectedDependencies = {
       'finalize-session.js',
       'unfinalize-session.js',
       'update-session.js',
+      'upload-cpf-files.js',
+      'integrate-cpf-processing-receipts.js',
+      'get-cpf-presigned-urls.js',
     ],
   })),
   ...(await importNamedExportsFromDirectory({
