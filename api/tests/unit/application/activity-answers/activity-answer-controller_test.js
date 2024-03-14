@@ -8,11 +8,9 @@ describe('Unit | Controller | activity-answer-controller', function () {
     const assessmentId = 12;
     const challengeId = 'recdTpx4c0kPPDTtf';
     const activityId = 25;
-    const isPreview = false;
     let result;
     const value = 'NumA = "4"';
     let resultDetails;
-    let createdAnswer;
 
     let activityAnswerSerializer;
     let deserializedPayload;
@@ -21,6 +19,9 @@ describe('Unit | Controller | activity-answer-controller', function () {
     let request;
     beforeEach(async function () {
       // given
+      sinon.stub(usecases, 'correctAnswer');
+      sinon.stub(usecases, 'correctPreviewAnswer');
+
       resultDetails = Symbol('resultDetails');
       result = Symbol('result');
       serializedAnswer = Symbol('serialized-answer');
@@ -28,50 +29,106 @@ describe('Unit | Controller | activity-answer-controller', function () {
       request = {
         payload: Symbol('request-payload'),
       };
-      sinon.stub(usecases, 'correctAnswer');
-      deserializedPayload = {
-        activityAnswer: domainBuilder.buildActivityAnswer({
-          id: undefined,
-          challengeId,
-          activityId: undefined,
-          result,
-          resultDetails,
-          value,
-        }),
-        assessmentId,
-        isPreview,
-      };
-      createdAnswer = domainBuilder.buildActivityAnswer({ id: answerId, activityId });
-      activityAnswerSerializer = {
-        serialize: sinon.stub(),
-        deserialize: sinon.stub(),
-      };
-      activityAnswerSerializer.deserialize.withArgs(request.payload).returns(deserializedPayload);
-      activityAnswerSerializer.serialize.withArgs(createdAnswer).returns(serializedAnswer);
     });
 
-    it('should call the usecase to save the activity answer', async function () {
-      await activityAnswerController.save(request, hFake, {
-        activityAnswerSerializer,
+    context('when challenge is not in preview', function () {
+      let createdAnswer;
+
+      beforeEach(function () {
+        deserializedPayload = {
+          activityAnswer: domainBuilder.buildActivityAnswer({
+            id: undefined,
+            challengeId,
+            activityId: undefined,
+            result,
+            resultDetails,
+            value,
+          }),
+          assessmentId,
+          isPreview: false,
+        };
+        createdAnswer = domainBuilder.buildActivityAnswer({ id: answerId, activityId });
+        usecases.correctAnswer.resolves(createdAnswer);
+
+        activityAnswerSerializer = {
+          serialize: sinon.stub(),
+          deserialize: sinon.stub(),
+        };
+        activityAnswerSerializer.deserialize.withArgs(request.payload).returns(deserializedPayload);
+        activityAnswerSerializer.serialize.withArgs(createdAnswer).returns(serializedAnswer);
       });
 
-      // then
-      expect(usecases.correctAnswer).to.have.been.calledWithExactly({
-        activityAnswer: deserializedPayload.activityAnswer,
-        assessmentId,
-        isPreview,
+      it('should call the usecase to save the activity answer', async function () {
+        await activityAnswerController.save(request, hFake, {
+          activityAnswerSerializer,
+        });
+
+        // then
+        expect(usecases.correctAnswer).to.have.been.calledWithExactly({
+          activityAnswer: deserializedPayload.activityAnswer,
+          assessmentId,
+        });
+        expect(usecases.correctPreviewAnswer).not.to.have.been.calledWith();
+      });
+
+      it('should return the serialized activity answer', async function () {
+        const response = await activityAnswerController.save(request, hFake, {
+          activityAnswerSerializer,
+        });
+
+        // then
+        expect(response.source).to.deep.equal(serializedAnswer);
+        expect(response.statusCode).to.equal(201);
       });
     });
+    context('when challenge is in preview', function () {
+      let correctedAnswer;
 
-    it('should return the serialized activity answer', async function () {
-      usecases.correctAnswer.resolves(createdAnswer);
-      const response = await activityAnswerController.save(request, hFake, {
-        activityAnswerSerializer,
+      beforeEach(function () {
+        deserializedPayload = {
+          activityAnswer: domainBuilder.buildActivityAnswer({
+            id: undefined,
+            challengeId,
+            activityId: undefined,
+            result,
+            resultDetails,
+            value,
+          }),
+          assessmentId,
+          isPreview: true,
+        };
+        correctedAnswer = domainBuilder.buildActivityAnswer({ id: answerId, activityId });
+        usecases.correctPreviewAnswer.resolves(correctedAnswer);
+
+        activityAnswerSerializer = {
+          serialize: sinon.stub(),
+          deserialize: sinon.stub(),
+        };
+        activityAnswerSerializer.deserialize.withArgs(request.payload).returns(deserializedPayload);
+        activityAnswerSerializer.serialize.withArgs(correctedAnswer).returns(serializedAnswer);
       });
 
-      // then
-      expect(response.source).to.deep.equal(serializedAnswer);
-      expect(response.statusCode).to.equal(201);
+      it('should call the usecase to save the activity answer', async function () {
+        await activityAnswerController.save(request, hFake, {
+          activityAnswerSerializer,
+        });
+
+        // then
+        expect(usecases.correctPreviewAnswer).to.have.been.calledWithExactly({
+          activityAnswer: deserializedPayload.activityAnswer,
+        });
+        expect(usecases.correctAnswer).not.to.have.been.calledWith();
+      });
+
+      it('should return the serialized activity answer', async function () {
+        const response = await activityAnswerController.save(request, hFake, {
+          activityAnswerSerializer,
+        });
+
+        // then
+        expect(response.source).to.deep.equal(serializedAnswer);
+        expect(response.statusCode).to.equal(200);
+      });
     });
   });
 });
