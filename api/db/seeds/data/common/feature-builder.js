@@ -1,6 +1,7 @@
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import {
   FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID,
+  FEATURE_LEARNER_IMPORT_ID,
   FEATURE_MISSIONS_MANAGEMENT_ID,
   FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID,
   FEATURE_PLACES_MANAGEMENT_ID,
@@ -26,6 +27,11 @@ const featuresBuilder = async function ({ databaseBuilder }) {
     id: FEATURE_MISSIONS_MANAGEMENT_ID,
     key: ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.key,
     description: ORGANIZATION_FEATURE.MISSIONS_MANAGEMENT.description,
+  });
+  databaseBuilder.factory.buildFeature({
+    id: FEATURE_LEARNER_IMPORT_ID,
+    key: ORGANIZATION_FEATURE.LEARNER_IMPORT.key,
+    description: ORGANIZATION_FEATURE.LEARNER_IMPORT.description,
   });
   await databaseBuilder.commit();
 };
