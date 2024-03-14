@@ -13,7 +13,6 @@ async function findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }
 
   const { results, pagination } = await _getResultListPaginated(campaignId, stageCollection, filters, page);
   const participations = await _buildCampaignAssessmentParticipationResultList(results, stageCollection);
-
   return {
     participations,
     pagination,
@@ -42,6 +41,13 @@ function _getParticipations(qb, campaignId, stageCollection, filters) {
     'campaign-participations.validatedSkillsCount',
     'campaign-participations.id AS campaignParticipationId',
     'campaign-participations.userId',
+    knex('campaign-participations')
+      .count()
+      .whereRaw('"organizationLearnerId" = "view-active-organization-learners".id')
+      .where('campaign-participations.campaignId', campaignId)
+      .where('campaign-participations.status', SHARED)
+      .whereNull('campaign-participations.deletedAt')
+      .as('sharedResultCount'),
   )
     .distinctOn('campaign-participations.organizationLearnerId')
     .from('campaign-participations')

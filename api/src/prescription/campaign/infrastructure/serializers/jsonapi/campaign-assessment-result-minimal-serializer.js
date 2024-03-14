@@ -15,6 +15,7 @@ const serialize = function ({ participations, pagination }) {
       'prescriberTitle',
       'prescriberDescription',
       'badges',
+      'sharedResultCount',
     ],
     badges: {
       ref: 'id',
