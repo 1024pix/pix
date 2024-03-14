@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { updateActiveFlashAssessmentConfiguration } from '../../../../../../src/certification/flash-certification/domain/usecases/update-active-flash-assessment-configuration.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
@@ -5,7 +7,7 @@ describe('Unit | Domain | UseCases | update-active-flash-assessment-configuratio
   it('should update the active flash assessment configuration', async function () {
     // given
     const flashAlgorithmConfigurationRepository = {
-      get: sinon.stub(),
+      getMostRecent: sinon.stub(),
       save: sinon.stub(),
     };
 
@@ -18,7 +20,7 @@ describe('Unit | Domain | UseCases | update-active-flash-assessment-configuratio
       variationPercent: 0.5,
     });
 
-    flashAlgorithmConfigurationRepository.get.resolves(previousConfiguration);
+    flashAlgorithmConfigurationRepository.getMostRecent.resolves(previousConfiguration);
 
     // when
     await updateActiveFlashAssessmentConfiguration({
@@ -32,6 +34,8 @@ describe('Unit | Domain | UseCases | update-active-flash-assessment-configuratio
       ...configuration,
     });
 
-    expect(flashAlgorithmConfigurationRepository.save).to.have.been.calledWith(expectedConfiguration);
+    expect(flashAlgorithmConfigurationRepository.save).to.have.been.calledWith(
+      sinon.match(_.omit(expectedConfiguration, 'createdAt')),
+    );
   });
 });

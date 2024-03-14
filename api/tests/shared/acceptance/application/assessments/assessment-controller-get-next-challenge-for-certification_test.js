@@ -89,6 +89,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
             certificationCenterId,
             version: CertificationVersion.V3,
           }).id;
+          databaseBuilder.factory.buildFlashAlgorithmConfiguration();
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             isPublished: false,
             version: CertificationVersion.V3,

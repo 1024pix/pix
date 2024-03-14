@@ -57,7 +57,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         update: sinon.stub().resolves(),
       };
       flashAlgorithmConfigurationRepository = {
-        get: sinon.stub(),
+        getMostRecentBeforeDate: sinon.stub(),
       };
       flashAlgorithmService = {
         getEstimatedLevelAndErrorRate: sinon.stub(),
@@ -329,12 +329,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     describe('when not all questions were answered', function () {
       describe('when the candidate did not finish due to technical difficulties', function () {
         it('should save the raw score', async function () {
+          const certificationCourseStartDate = new Date('2022-01-01');
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
             version: CertificationVersion.V3,
           });
 
           const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
             abortReason: ABORT_REASONS.TECHNICAL,
+            createdAt: certificationCourseStartDate,
           });
 
           const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification });
@@ -372,7 +374,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs(certificationAssessment.certificationCourseId)
             .resolves(abortedCertificationCourse);
 
-          flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfig);
+          flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+            .withArgs(abortedCertificationCourse.getStartDate())
+            .resolves(baseFlashAlgorithmConfig);
 
           flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
@@ -440,12 +444,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
       describe('when the candidate did not finish in time', function () {
         it('should save the degraded score', async function () {
+          const certificationCourseStartDate = new Date('2022-01-01');
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
             version: CertificationVersion.V3,
           });
 
           const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
             abortReason: ABORT_REASONS.CANDIDATE,
+            createdAt: certificationCourseStartDate,
           });
 
           const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification });
@@ -483,7 +489,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs(certificationAssessment.certificationCourseId)
             .resolves(abortedCertificationCourse);
 
-          flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfig);
+          flashAlgorithmConfigurationRepository.getMostRecentBeforeDate.withArgs(
+            abortedCertificationCourse.getStartDate(),
+          );
 
           flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
@@ -552,12 +560,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
     describe('when all the questions were answered', function () {
       it('should save the score', async function () {
+        const certificationCourseStartDate = new Date('2022-01-01');
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           version: CertificationVersion.V3,
         });
 
         const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
           abortReason: ABORT_REASONS.TECHNICAL,
+          createdAt: certificationCourseStartDate,
         });
 
         const challenges = generateChallengeList({ length: maximumAssessmentLength });
@@ -589,7 +599,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           .withArgs({ certificationCourseId })
           .resolves(certificationAssessment);
 
-        flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfig);
+        flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+          .withArgs(certificationCourseStartDate)
+          .resolves(baseFlashAlgorithmConfig);
 
         answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
 
@@ -662,12 +674,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
       describe('when certification is rejected for fraud', function () {
         it('should save the score with rejected status', async function () {
+          const certificationCourseStartDate = new Date('2022-01-01');
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
             version: CertificationVersion.V3,
           });
 
           const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
             isRejectedForFraud: true,
+            createdAt: certificationCourseStartDate,
           });
 
           const challenges = generateChallengeList({ length: maximumAssessmentLength });
@@ -699,7 +713,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs({ certificationCourseId })
             .resolves(certificationAssessment);
 
-          flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfig);
+          flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+            .withArgs(certificationCourseStartDate)
+            .resolves(baseFlashAlgorithmConfig);
 
           answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
 
@@ -770,11 +786,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
       describe('when the certification would reach a very high score', function () {
         it('should return the score capped based on the maximum available level when the certification was done', async function () {
+          const certificationCourseStartDate = new Date('2022-01-01');
           const certificationAssessment = domainBuilder.buildCertificationAssessment({
             version: CertificationVersion.V3,
           });
 
-          const abortedCertificationCourse = domainBuilder.buildCertificationCourse({});
+          const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
+            createdAt: certificationCourseStartDate,
+          });
 
           const challenges = generateChallengeList({ length: maximumAssessmentLength });
           const certificationChallengesForScoring = challenges.map((challenge) =>
@@ -806,7 +825,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs({ certificationCourseId })
             .resolves(certificationAssessment);
 
-          flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfig);
+          flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+            .withArgs(certificationCourseStartDate)
+            .resolves(baseFlashAlgorithmConfig);
 
           answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
 

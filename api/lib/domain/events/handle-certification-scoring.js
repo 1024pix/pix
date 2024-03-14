@@ -138,7 +138,9 @@ async function _handleV3CertificationScoring({
     ? ABORT_REASONS.CANDIDATE
     : ABORT_REASONS.TECHNICAL;
 
-  const configuration = await flashAlgorithmConfigurationRepository.get();
+  const configuration = await flashAlgorithmConfigurationRepository.getMostRecentBeforeDate(
+    certificationCourse.getStartDate(),
+  );
 
   const algorithm = new FlashAssessmentAlgorithm({
     flashAlgorithmImplementation: flashAlgorithmService,

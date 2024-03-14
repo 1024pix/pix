@@ -417,6 +417,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         },
       ],
     });
+    databaseBuilder.factory.buildFlashAlgorithmConfiguration();
 
     await databaseBuilder.commit();
 

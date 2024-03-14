@@ -43,7 +43,9 @@ const getNextChallengeForCertification = async function ({
       challengeRepository.findActiveFlashCompatible({ locale }),
     ]);
 
-    const algorithmConfiguration = await flashAlgorithmConfigurationRepository.get();
+    const algorithmConfiguration = await flashAlgorithmConfigurationRepository.getMostRecentBeforeDate(
+      certificationCourse.getStartDate(),
+    );
 
     const assessmentAlgorithm = new FlashAssessmentAlgorithm({
       flashAlgorithmImplementation: flashAlgorithmService,

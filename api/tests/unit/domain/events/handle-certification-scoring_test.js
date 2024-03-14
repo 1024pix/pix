@@ -52,7 +52,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
     competenceMarkRepository = { save: sinon.stub() };
     certificationChallengeForScoringRepository = { getByCertificationCourseId: sinon.stub() };
     answerRepository = { findByAssessment: sinon.stub() };
-    flashAlgorithmConfigurationRepository = { get: sinon.stub() };
+    flashAlgorithmConfigurationRepository = { getMostRecentBeforeDate: sinon.stub() };
     certificationAssessmentHistoryRepository = { save: sinon.stub() };
     baseFlashAlgorithmConfiguration = domainBuilder.buildFlashAlgorithmConfiguration({
       maximumAssessmentLength,
@@ -365,6 +365,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
     context('when certification is V3', function () {
       let certificationCourse;
       const assessmentResultId = 99;
+      const certificationCourseStartDate = new Date('2022-02-01');
 
       beforeEach(function () {
         event = new AssessmentCompleted({
@@ -382,6 +383,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         certificationAssessmentRepository.get.withArgs(assessmentId).resolves(certificationAssessment);
         certificationCourse = domainBuilder.buildCertificationCourse({
           id: certificationCourseId,
+          createdAt: certificationCourseStartDate,
           completedAt: null,
         });
 
@@ -406,6 +408,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             const scoreForEstimatedLevel = 592;
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
               id: certificationCourseId,
+              createdAt: certificationCourseStartDate,
               abortReason: ABORT_REASONS.CANDIDATE,
             });
 
@@ -426,7 +429,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
             const answers = generateAnswersForChallenges({ challenges });
 
-            flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
+            flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+              .withArgs(certificationCourseStartDate)
+              .resolves(baseFlashAlgorithmConfiguration);
 
             certificationChallengeForScoringRepository.getByCertificationCourseId
               .withArgs({ certificationCourseId })
@@ -522,6 +527,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             const scoreForEstimatedLevel = 592;
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
               id: certificationCourseId,
+              createdAt: certificationCourseStartDate,
               completedAt: null,
               abortReason,
             });
@@ -543,7 +549,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
             const answers = generateAnswersForChallenges({ challenges });
 
-            flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
+            flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+              .withArgs(certificationCourseStartDate)
+              .resolves(baseFlashAlgorithmConfiguration);
 
             certificationChallengeForScoringRepository.getByCertificationCourseId
               .withArgs({ certificationCourseId })
@@ -663,7 +671,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               .resolves(challenges);
             answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
             certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
-            flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
+            flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+              .withArgs(certificationCourseStartDate)
+              .resolves(baseFlashAlgorithmConfiguration);
             flashAlgorithmService.getEstimatedLevelAndErrorRate
               .withArgs({
                 challenges,
@@ -772,7 +782,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 .resolves(challenges);
               answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
               certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
-              flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
+              flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+                .withArgs(certificationCourseStartDate)
+                .resolves(baseFlashAlgorithmConfiguration);
               flashAlgorithmService.getEstimatedLevelAndErrorRate
                 .withArgs({
                   challenges,
@@ -853,6 +865,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
                 id: certificationCourseId,
                 completedAt: null,
+                createdAt: certificationCourseStartDate,
                 abortReason,
               });
 
@@ -874,7 +887,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 .resolves(challenges);
               answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
               certificationCourseRepository.get.withArgs(certificationCourseId).resolves(abortedCertificationCourse);
-              flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
+              flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+                .withArgs(certificationCourseStartDate)
+                .resolves(baseFlashAlgorithmConfiguration);
               flashAlgorithmService.getEstimatedLevelAndErrorRate
                 .withArgs({
                   challenges,
@@ -959,6 +974,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               const abortReason = ABORT_REASONS.CANDIDATE;
               const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
                 id: certificationCourseId,
+                createdAt: certificationCourseStartDate,
                 completedAt: null,
                 abortReason,
               });
@@ -981,7 +997,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 .resolves(challenges);
               answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
               certificationCourseRepository.get.withArgs(certificationCourseId).resolves(abortedCertificationCourse);
-              flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
+              flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+                .withArgs(certificationCourseStartDate)
+                .resolves(baseFlashAlgorithmConfiguration);
               flashAlgorithmService.getEstimatedLevelAndErrorRate
                 .withArgs({
                   challenges,
@@ -1082,7 +1100,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           .resolves(challenges);
         answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
         certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
-        flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
+        flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
+          .withArgs(certificationCourseStartDate)
+          .resolves(baseFlashAlgorithmConfiguration);
 
         flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
           .withArgs({

@@ -5,12 +5,12 @@ describe('#getActiveFlashAssessmentConfiguration', function () {
   it('should return the last configuration', async function () {
     // given
     const flashAlgorithmConfigurationRepository = {
-      get: sinon.stub(),
+      getMostRecent: sinon.stub(),
     };
 
     const configuration = domainBuilder.buildFlashAlgorithmConfiguration();
 
-    flashAlgorithmConfigurationRepository.get.resolves(configuration);
+    flashAlgorithmConfigurationRepository.getMostRecent.resolves(configuration);
 
     // when
     const activeConfiguration = await getActiveFlashAssessmentConfiguration({ flashAlgorithmConfigurationRepository });
