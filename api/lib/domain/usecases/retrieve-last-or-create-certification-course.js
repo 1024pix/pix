@@ -1,5 +1,6 @@
 import bluebird from 'bluebird';
 
+import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { config } from '../../config.js';
@@ -11,7 +12,6 @@ import {
   UnexpectedUserAccountError,
   UserNotAuthorizedToCertifyError,
 } from '../errors.js';
-import { CertificationCourse } from '../models/CertificationCourse.js';
 import { ComplementaryCertificationCourse } from '../models/ComplementaryCertificationCourse.js';
 
 const { features } = config;
