@@ -102,7 +102,6 @@ const usecasesWithoutInjectedDependencies = {
       'get-attendance-sheet.js',
       'get-cpf-presigned-urls.js',
       'integrate-cpf-processing-receipts.js',
-      'update-session.js',
       'upload-cpf-files.js',
     ],
   })),

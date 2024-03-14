@@ -130,6 +130,7 @@ const usecasesWithoutInjectedDependencies = {
       'dismiss-live-alert.js',
       'finalize-session.js',
       'unfinalize-session.js',
+      'update-session.js',
     ],
   })),
   ...(await importNamedExportsFromDirectory({
