@@ -30,6 +30,7 @@ const deserialize = function (payload) {
       challengeId: payload.data.relationships.challenge.data.id,
     }),
     assessmentId: payload.meta?.assessmentId || null,
+    isPreview: payload.meta?.isPreview,
   };
 };
 
