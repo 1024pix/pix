@@ -1,6 +1,5 @@
 import * as events from '../../../../lib/domain/events/index.js';
 import { usecases as sessionUsecases } from '../../session/domain/usecases/index.js';
-import { usecases as sharedUseCases } from '../../shared/domain/usecases/index.js';
 import * as certificationReportSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-report-serializer.js';
 import * as sessionSerializer from '../infrastructure/serializers/jsonapi/session-serializer.js';
 
@@ -18,7 +17,7 @@ const update = async function (request, h, dependencies = { sessionSerializer })
   const session = dependencies.sessionSerializer.deserialize(request.payload);
   session.id = request.params.id;
 
-  const updatedSession = await sharedUseCases.updateSession({ userId, session });
+  const updatedSession = await sessionUsecases.updateSession({ userId, session });
 
   return dependencies.sessionSerializer.serialize({ session: updatedSession });
 };

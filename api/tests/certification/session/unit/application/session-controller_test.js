@@ -1,8 +1,7 @@
 import * as events from '../../../../../lib/domain/events/index.js';
 import { Session } from '../../../../../lib/domain/models/index.js';
 import { sessionController } from '../../../../../src/certification/session/application/session-controller.js';
-import { usecases as sessionUsecases } from '../../../../../src/certification/session/domain/usecases/index.js';
-import { usecases as sharedUseCases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { usecases } from '../../../../../src/certification/session/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | session-controller', function () {
@@ -24,7 +23,7 @@ describe('Unit | Controller | session-controller', function () {
         accessCode: 'ABCD12',
       });
 
-      sinon.stub(sessionUsecases, 'createSession').resolves();
+      sinon.stub(usecases, 'createSession').resolves();
       sessionSerializerStub = {
         serialize: sinon.stub(),
         deserialize: sinon.stub(),
@@ -59,7 +58,7 @@ describe('Unit | Controller | session-controller', function () {
       await sessionController.createSession(request, hFake, { sessionSerializer: sessionSerializerStub });
 
       // then
-      expect(sessionUsecases.createSession).to.have.been.calledWithExactly({ userId, session: expectedSession });
+      expect(usecases.createSession).to.have.been.calledWithExactly({ userId, session: expectedSession });
     });
 
     it('should return the created session in JSON API', async function () {
@@ -76,7 +75,7 @@ describe('Unit | Controller | session-controller', function () {
         certificationCenter: 'Université de dressage de loutres',
       });
 
-      sessionUsecases.createSession.resolves(savedSession);
+      usecases.createSession.resolves(savedSession);
       sessionSerializerStub.serialize.returns(jsonApiSession);
 
       // when
@@ -109,14 +108,14 @@ describe('Unit | Controller | session-controller', function () {
         session: updatedSession,
       };
 
-      sinon.stub(sharedUseCases, 'updateSession');
+      sinon.stub(usecases, 'updateSession');
     });
 
     it('should return the updated session', async function () {
       // given
       const sessionSerializer = { serialize: sinon.stub(), deserialize: sinon.stub() };
       sessionSerializer.deserialize.withArgs(request.payload).returns({});
-      sharedUseCases.updateSession.withArgs(updateSessionArgs).resolves(updatedSession);
+      usecases.updateSession.withArgs(updateSessionArgs).resolves(updatedSession);
       sessionSerializer.serialize.withArgs({ session: updatedSession }).returns(updatedSession);
 
       // when
@@ -132,7 +131,7 @@ describe('Unit | Controller | session-controller', function () {
       // given
       const sessionId = 1;
       const userId = 1;
-      sinon.stub(sessionUsecases, 'deleteSession');
+      sinon.stub(usecases, 'deleteSession');
       const request = {
         params: { id: sessionId },
         auth: {
@@ -146,7 +145,7 @@ describe('Unit | Controller | session-controller', function () {
       await sessionController.remove(request, hFake);
 
       // then
-      expect(sessionUsecases.deleteSession).to.have.been.calledWithExactly({
+      expect(usecases.deleteSession).to.have.been.calledWithExactly({
         sessionId,
       });
     });
@@ -183,13 +182,13 @@ describe('Unit | Controller | session-controller', function () {
       };
       const certificationReportSerializer = { deserialize: sinon.stub() };
       certificationReportSerializer.deserialize.resolves(aCertificationReport);
-      sinon.stub(sessionUsecases, 'finalizeSession').resolves(updatedSession);
+      sinon.stub(usecases, 'finalizeSession').resolves(updatedSession);
 
       // when
       await sessionController.finalize(request, hFake, { certificationReportSerializer, events });
 
       // then
-      expect(sessionUsecases.finalizeSession).to.have.been.calledWithExactly({
+      expect(usecases.finalizeSession).to.have.been.calledWithExactly({
         sessionId,
         examinerGlobalComment,
         hasIncident,
