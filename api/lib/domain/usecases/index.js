@@ -14,6 +14,7 @@ import { pickChallengeService } from '../../../src/certification/flash-certifica
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as certificationCpfService from '../../../src/certification/session/domain/services/certification-cpf-service.js';
 import * as sessionCodeService from '../../../src/certification/session/domain/services/session-code-service.js';
+import * as certificationCandidateRepository from '../../../src/certification/session/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCpfCityRepository from '../../../src/certification/session/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../src/certification/session/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationOfficerRepository from '../../../src/certification/session/infrastructure/repositories/certification-officer-repository.js';
@@ -21,7 +22,6 @@ import * as finalizedSessionRepository from '../../../src/certification/session/
 import * as jurySessionRepository from '../../../src/certification/session/infrastructure/repositories/jury-session-repository.js';
 import * as sessionRepository from '../../../src/certification/session/infrastructure/repositories/session-repository.js';
 import * as certificationAssessmentRepository from '../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
-import * as certificationCandidateRepository from '../../../src/certification/shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../src/certification/shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationChallengeRepository from '../../../src/certification/shared/infrastructure/repositories/certification-challenge-repository.js';
