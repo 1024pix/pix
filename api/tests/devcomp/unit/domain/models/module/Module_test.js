@@ -1,3 +1,4 @@
+import { ModuleInstantiationError } from '../../../../../../src/devcomp/domain/errors.js';
 import { Module } from '../../../../../../src/devcomp/domain/models/module/Module.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErrSync, expect } from '../../../../../test-helper.js';
@@ -164,6 +165,102 @@ describe('Unit | Devcomp | Domain | Models | Module | Module', function () {
           it('should throw an error', function () {});
         });
       });
+    });
+  });
+
+  describe('#toDomain', function () {
+    it('should throw an ModuleInstantiateError if data is incorrect', function () {
+      // given
+      const nonExistingGrainId = 'v312c33d-e7c9-4a69-9ba0-913957b8f7df';
+      const dataWithIncorrectTransitionText = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        transitionTexts: [
+          {
+            content: '<p>Text</p>',
+            grainId: nonExistingGrainId,
+          },
+        ],
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            elements: [
+              {
+                id: '84726001-1665-457d-8f13-4a74dc4768ea',
+                type: 'text',
+                content: '<h3>Content</h3>',
+              },
+            ],
+          },
+        ],
+      };
+
+      // when
+      const error = catchErrSync(Module.toDomain)(dataWithIncorrectTransitionText);
+
+      // then
+      expect(error).to.be.an.instanceOf(ModuleInstantiationError);
+      expect(error.message).to.deep.equal(
+        'All the transition texts should be linked to a grain contained in the module.',
+      );
+    });
+  });
+
+  describe('#toDomainForVerification', function () {
+    it('should throw an ModuleInstantiateError if data is incorrect', function () {
+      // given
+      const feedbacks = { valid: 'valid', invalid: 'invalid' };
+      const proposals = [
+        { id: '1', content: 'toto' },
+        { id: '2', content: 'foo' },
+      ];
+
+      const dataWithMissingSolutionForQCU = {
+        id: '6282925d-4775-4bca-b513-4c3009ec5886',
+        slug: 'title',
+        title: 'title',
+        details: {
+          image: 'https://images.pix.fr/modulix/placeholder-details.svg',
+          description: 'Description',
+          duration: 5,
+          level: 'Débutant',
+          objectives: ['Objective 1'],
+        },
+        grains: [
+          {
+            id: 'f312c33d-e7c9-4a69-9ba0-913957b8f7dd',
+            type: 'lesson',
+            title: 'title',
+            elements: [
+              {
+                id: '123',
+                instruction: 'instruction',
+                locales: ['fr-FR'],
+                proposals,
+                feedbacks,
+                type: 'qcu',
+              },
+            ],
+          },
+        ],
+      };
+
+      // when
+      const error = catchErrSync(Module.toDomainForVerification)(dataWithMissingSolutionForQCU);
+
+      // then
+      expect(error).to.be.an.instanceOf(ModuleInstantiationError);
+      expect(error.message).to.deep.equal('The solution is required for a verification QCU');
     });
   });
 });

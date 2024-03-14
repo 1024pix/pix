@@ -1,6 +1,7 @@
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { ModuleInstantiationError } from '../../errors.js';
 import { BlockInput } from '../block/BlockInput.js';
 import { BlockSelect } from '../block/BlockSelect.js';
 import { BlockSelectOption } from '../block/BlockSelectOption.js';
@@ -39,85 +40,93 @@ class Module {
   }
 
   static toDomain(moduleData) {
-    return new Module({
-      id: moduleData.id,
-      slug: moduleData.slug,
-      title: moduleData.title,
-      transitionTexts: moduleData.transitionTexts?.map((transitionText) => new TransitionText(transitionText)) ?? [],
-      details: new Details(moduleData.details),
-      grains: moduleData.grains.map((grain) => {
-        return new Grain({
-          id: grain.id,
-          title: grain.title,
-          type: grain.type,
-          elements: grain.elements
-            .map((element) => {
-              switch (element.type) {
-                case 'image':
-                  return Module.#toImageDomain(element);
-                case 'text':
-                  return Module.#toTextDomain(element);
-                case 'qcm':
-                  return Module.#toQCMDomain(element);
-                case 'qcu':
-                  return Module.#toQCUDomain(element);
-                case 'qrocm':
-                  return Module.#toQROCMDomain(element);
-                case 'video':
-                  return Module.#toVideoDomain(element);
-                default:
-                  logger.warn({
-                    event: 'module_element_type_unknown',
-                    message: `Element inconnu: ${element.type}`,
-                  });
-                  return undefined;
-              }
-            })
-            .filter((element) => element !== undefined),
-        });
-      }),
-    });
+    try {
+      return new Module({
+        id: moduleData.id,
+        slug: moduleData.slug,
+        title: moduleData.title,
+        transitionTexts: moduleData.transitionTexts?.map((transitionText) => new TransitionText(transitionText)) ?? [],
+        details: new Details(moduleData.details),
+        grains: moduleData.grains.map((grain) => {
+          return new Grain({
+            id: grain.id,
+            title: grain.title,
+            type: grain.type,
+            elements: grain.elements
+              .map((element) => {
+                switch (element.type) {
+                  case 'image':
+                    return Module.#toImageDomain(element);
+                  case 'text':
+                    return Module.#toTextDomain(element);
+                  case 'qcm':
+                    return Module.#toQCMDomain(element);
+                  case 'qcu':
+                    return Module.#toQCUDomain(element);
+                  case 'qrocm':
+                    return Module.#toQROCMDomain(element);
+                  case 'video':
+                    return Module.#toVideoDomain(element);
+                  default:
+                    logger.warn({
+                      event: 'module_element_type_unknown',
+                      message: `Element inconnu: ${element.type}`,
+                    });
+                    return undefined;
+                }
+              })
+              .filter((element) => element !== undefined),
+          });
+        }),
+      });
+    } catch (e) {
+      throw new ModuleInstantiationError(e.message);
+    }
   }
 
   static toDomainForVerification(moduleData) {
-    return new Module({
-      id: moduleData.id,
-      slug: moduleData.slug,
-      title: moduleData.title,
-      details: new Details(moduleData.details),
-      transitionTexts: moduleData.transitionTexts?.map((transitionText) => new TransitionText(transitionText)) ?? [],
-      grains: moduleData.grains.map((grain) => {
-        return new Grain({
-          id: grain.id,
-          title: grain.title,
-          type: grain.type,
-          elements: grain.elements
-            .map((element) => {
-              switch (element.type) {
-                case 'image':
-                  return Module.#toImageDomain(element);
-                case 'text':
-                  return Module.#toTextDomain(element);
-                case 'qcu':
-                  return Module.#toQCUForAnswerVerificationDomain(element);
-                case 'qcm':
-                  return Module.#toQCMForAnswerVerificationDomain(element);
-                case 'qrocm':
-                  return Module.#toQROCMForAnswerVerificationDomain(element);
-                case 'video':
-                  return Module.#toVideoDomain(element);
-                default:
-                  logger.warn({
-                    event: 'module_element_type_unknown',
-                    message: `Element inconnu: ${element.type}`,
-                  });
-                  return undefined;
-              }
-            })
-            .filter((element) => element !== undefined),
-        });
-      }),
-    });
+    try {
+      return new Module({
+        id: moduleData.id,
+        slug: moduleData.slug,
+        title: moduleData.title,
+        details: new Details(moduleData.details),
+        transitionTexts: moduleData.transitionTexts?.map((transitionText) => new TransitionText(transitionText)) ?? [],
+        grains: moduleData.grains.map((grain) => {
+          return new Grain({
+            id: grain.id,
+            title: grain.title,
+            type: grain.type,
+            elements: grain.elements
+              .map((element) => {
+                switch (element.type) {
+                  case 'image':
+                    return Module.#toImageDomain(element);
+                  case 'text':
+                    return Module.#toTextDomain(element);
+                  case 'qcu':
+                    return Module.#toQCUForAnswerVerificationDomain(element);
+                  case 'qcm':
+                    return Module.#toQCMForAnswerVerificationDomain(element);
+                  case 'qrocm':
+                    return Module.#toQROCMForAnswerVerificationDomain(element);
+                  case 'video':
+                    return Module.#toVideoDomain(element);
+                  default:
+                    logger.warn({
+                      event: 'module_element_type_unknown',
+                      message: `Element inconnu: ${element.type}`,
+                    });
+                    return undefined;
+                }
+              })
+              .filter((element) => element !== undefined),
+          });
+        }),
+      });
+    } catch (e) {
+      throw new ModuleInstantiationError(e.message);
+    }
   }
 
   #assertTransitionTextsLinkedToGrain(transitionTexts, grains) {
