@@ -4,6 +4,50 @@ import { module, test } from 'qunit';
 module('Unit | Model | organization', function (hooks) {
   setupTest(hooks);
 
+  module('#isComputeCertificabilityEnabled', function () {
+    module('#get', function () {
+      test('it returns true when feature is enabled', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY']: true },
+        });
+
+        // when
+        const isComputeCertificabilityEnabled = model.isComputeCertificabilityEnabled;
+
+        // then
+        assert.true(isComputeCertificabilityEnabled);
+      });
+
+      test('it returns false when feature is disabled', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY']: false },
+        });
+
+        // when
+        const isComputeCertificabilityEnabled = model.isComputeCertificabilityEnabled;
+
+        // then
+        assert.false(isComputeCertificabilityEnabled);
+      });
+
+      test('it returns false when no features are provided', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {});
+
+        // when
+        const isComputeCertificabilityEnabled = model.isComputeCertificabilityEnabled;
+
+        // then
+        assert.false(isComputeCertificabilityEnabled);
+      });
+    });
+  });
+
   module('#enablePlacesManagement', function () {
     module('#get', function () {
       test('it returns true when feature is enabled', function (assert) {

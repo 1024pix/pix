@@ -42,7 +42,13 @@ export default class Organization extends Model {
     return {
       MULTIPLE_SENDING_ASSESSMENT: 'MULTIPLE_SENDING_ASSESSMENT',
       PLACES_MANAGEMENT: 'PLACES_MANAGEMENT',
+      COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: 'COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY',
     };
+  }
+
+  get isComputeCertificabilityEnabled() {
+    if (!this.features) return false;
+    return this.features[Organization.featureList.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY];
   }
 
   get enableMultipleSendingAssessment() {
