@@ -964,10 +964,10 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           });
 
           describe('when the candidate did not finish in time', function () {
-            it('should build and save an assessment result with a validated status with the degraded score', async function () {
+            it('should build and save an assessment result with a validated status', async function () {
               // given
               const expectedEstimatedLevel = 2;
-              const degradedScore = 474;
+              const pixScore = 592;
               const challenges = _generateCertificationChallengeForScoringList({
                 length: minimumAnswersRequiredToValidateACertification,
               });
@@ -1045,11 +1045,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
               // then
               const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
-                nbPix: degradedScore,
+                nbPix: pixScore,
                 status: status.VALIDATED,
               });
               const expectedAssessmentResult = new AssessmentResult({
-                pixScore: degradedScore,
+                pixScore,
                 reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
                 status: status.VALIDATED,
                 assessmentId: certificationAssessment.id,
