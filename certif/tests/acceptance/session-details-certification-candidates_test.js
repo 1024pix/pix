@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
-import { click, currentURL, fillIn, find, triggerEvent, settled } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession } from '../helpers/test-init';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { visit, within } from '@1024pix/ember-testing-library';
+import { click, currentURL, fillIn, find, settled, triggerEvent } from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupIntl } from 'ember-intl/test-support/index';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import { authenticateSession } from '../helpers/test-init';
 
 /* eslint-disable ember/no-settled-after-test-helper */
 module('Acceptance | Session Details Certification Candidates', function (hooks) {

@@ -1,8 +1,7 @@
-import { module, test } from 'qunit';
-import { click } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import sinon from 'sinon';
+import { RadioButtonCategoryWithSubcategoryAndQuestionNumber } from 'pix-certif/components/issue-report-modal/add-issue-report-modal';
 import {
   categoryToLabel,
   certificationIssueReportCategories,
@@ -10,7 +9,9 @@ import {
   subcategoryToCode,
   subcategoryToLabel,
 } from 'pix-certif/models/certification-issue-report';
-import { RadioButtonCategoryWithSubcategoryAndQuestionNumber } from 'pix-certif/components/issue-report-modal/add-issue-report-modal';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | in-challenge-certification-issue-report-fields', function (hooks) {

@@ -1,14 +1,14 @@
-import { module, test } from 'qunit';
-import { click, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import {
   authenticateSession,
   createAllowedCertificationCenterAccess,
   createCertificationPointOfContactWithCustomCenters,
 } from '../helpers/test-init';
-
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | Session List', function (hooks) {
   setupApplicationTest(hooks);

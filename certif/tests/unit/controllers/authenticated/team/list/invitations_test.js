@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import { waitUntil } from '@ember/test-helpers';
-import sinon from 'sinon';
+import { setupTest } from 'ember-qunit';
 import ENV from 'pix-certif/config/environment';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import setupIntl from '../../../../../helpers/setup-intl';
 

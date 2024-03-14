@@ -1,7 +1,7 @@
-import Component from '@glimmer/component';
-import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
+import Component from '@glimmer/component';
 
 export default class ImportCandidates extends Component {
   @service session;

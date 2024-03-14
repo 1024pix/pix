@@ -1,7 +1,8 @@
 import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
-import { Response, createServer } from 'miragejs';
-import { findPaginatedStudents } from './handlers/find-paginated-students';
+import { createServer, Response } from 'miragejs';
+
 import { findPaginatedSessionSummaries } from './handlers/find-paginated-session-summaries';
+import { findPaginatedStudents } from './handlers/find-paginated-students';
 
 function parseQueryString(queryString) {
   const result = Object.create(null);

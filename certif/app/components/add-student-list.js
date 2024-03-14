@@ -1,9 +1,8 @@
-import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import some from 'lodash/some';
-
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import some from 'lodash/some';
 
 export default class AddStudentList extends Component {
   @service notifications;

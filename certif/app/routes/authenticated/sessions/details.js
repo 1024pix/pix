@@ -1,6 +1,6 @@
+import EmberObject from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import EmberObject from '@ember/object';
 
 export default class SessionsDetailsRoute extends Route {
   @service currentUser;

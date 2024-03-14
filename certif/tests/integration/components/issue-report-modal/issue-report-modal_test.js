@@ -1,16 +1,17 @@
-import { module, test } from 'qunit';
-import { render, click } from '@ember/test-helpers';
-import { hbs } from 'ember-cli-htmlbars';
-import sinon from 'sinon';
-import EmberObject from '@ember/object';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import EmberObject from '@ember/object';
+import { click, render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import {
-  certificationIssueReportCategories,
   categoryToLabel,
-  subcategoryToLabel,
+  certificationIssueReportCategories,
   certificationIssueReportSubcategories,
+  subcategoryToLabel,
 } from 'pix-certif/models/certification-issue-report';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | issue-report-modal', function (hooks) {
   setupIntlRenderingTest(hooks);

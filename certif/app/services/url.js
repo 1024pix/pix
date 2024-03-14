@@ -1,5 +1,4 @@
 import Service, { inject as service } from '@ember/service';
-
 import ENV from 'pix-certif/config/environment';
 
 export default class Url extends Service {
