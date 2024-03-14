@@ -3,7 +3,7 @@ import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { CertificationCandidateForAttendanceSheet } from '../../domain/read-models/CertificationCandidateForAttendanceSheet.js';
 import { SessionForAttendanceSheet } from '../../domain/read-models/SessionForAttendanceSheet.js';
 
-const getWithCertificationCandidates = async function (sessionId) {
+const getWithCertificationCandidates = async function ({ id }) {
   const results = await knex
     .select(
       'sessions.id',
@@ -43,7 +43,7 @@ const getWithCertificationCandidates = async function (sessionId) {
       'certification-candidates.organizationLearnerId',
     )
     .groupBy('sessions.id', 'certification-centers.id', 'organizations.id')
-    .where({ 'sessions.id': sessionId })
+    .where({ 'sessions.id': id })
     .first();
 
   if (!results) {

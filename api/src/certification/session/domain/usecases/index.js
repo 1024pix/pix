@@ -7,6 +7,7 @@ import { importNamedExportsFromDirectory } from '../../../../shared/infrastructu
 import { assessmentRepository, sessionRepositories } from '../../infrastructure/repositories/index.js';
 import { cpfExportsStorage } from '../../infrastructure/storage/cpf-exports-storage.js';
 import { cpfReceiptsStorage } from '../../infrastructure/storage/cpf-receipts-storage.js';
+import * as attendanceSheetPdfUtils from '../../infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import * as certificationCpfService from '../services/certification-cpf-service.js';
 import * as sessionCodeService from '../services/session-code-service.js';
 import * as sessionsImportValidationService from '../services/sessions-import-validation-service.js';
@@ -22,6 +23,7 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCenterRepository} CertificationCenterRepository
  * @typedef {import('../validators/session-validator.js')} SessionValidator
  * @typedef {import('../services/certification-cpf-service.js')} CertificationCpfService
+ * @typedef {import('../../infrastructure/utils/pdf/attendance-sheet-pdf.js')} AttendanceSheetPdfUtils
  * @typedef {import('../services/temporary-sessions-storage-for-mass-import-service.js').TemporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
@@ -34,6 +36,7 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {import('../../infrastructure/repositories/index.js').SessionRepository} SessionRepository
  * @typedef {import('../../infrastructure/repositories/index.js').CertificationReportRepository} CertificationReportRepository
+ * @typedef {import('../../infrastructure/repositories/index.js').SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {import('../../infrastructure/storage/cpf-receipts-storage.js')} CpfReceiptsStorage
  * @typedef {import('../../infrastructure/storage/cpf-exports-storage.js')} CpfExportsStorage
  **/
@@ -61,10 +64,12 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {sessionRepository} SessionRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
+ * @typedef {sessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {temporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
  * @typedef {sessionValidator} SessionValidator
  * @typedef {cpfReceiptsStorage} CpfReceiptsStorage
  * @typedef {cpfExportsStorage} CpfExportsStorage
+ * @typedef {attendanceSheetPdfUtils} AttendanceSheetPdfUtils
  **/
 const dependencies = {
   assessmentRepository,
@@ -88,10 +93,12 @@ const dependencies = {
   certificationIssueReportRepository: sessionRepositories.certificationIssueReportRepository,
   sessionRepository: sessionRepositories.sessionRepository,
   certificationReportRepository: sessionRepositories.certificationReportRepository,
+  sessionForAttendanceSheetRepository: sessionRepositories.sessionForAttendanceSheetRepository,
   temporarySessionsStorageForMassImportService,
   sessionValidator,
   cpfReceiptsStorage,
   cpfExportsStorage,
+  attendanceSheetPdfUtils,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -104,7 +111,7 @@ const path = dirname(fileURLToPath(import.meta.url));
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({
     path: join(path, './'),
-    ignoredFileNames: ['index.js', 'get-attendance-sheet.js'],
+    ignoredFileNames: ['index.js'],
   })),
 };
 
