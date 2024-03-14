@@ -5,9 +5,14 @@ const save = async function (request, h, dependencies = { activityAnswerSerializ
   const { activityAnswer, assessmentId, isPreview } = dependencies.activityAnswerSerializer.deserialize(
     request.payload,
   );
-  const createdAnswer = await usecases.correctAnswer({ activityAnswer, assessmentId, isPreview });
 
-  return h.response(dependencies.activityAnswerSerializer.serialize(createdAnswer)).created();
+  // corrected answer is not saved for preview
+  if (isPreview) {
+    const correctedAnswer = await usecases.correctPreviewAnswer({ activityAnswer });
+    return h.response(dependencies.activityAnswerSerializer.serialize(correctedAnswer));
+  }
+  const correctedAnswer = await usecases.correctAnswer({ activityAnswer, assessmentId });
+  return h.response(dependencies.activityAnswerSerializer.serialize(correctedAnswer)).created();
 };
 
 const activityAnswerController = { save };
