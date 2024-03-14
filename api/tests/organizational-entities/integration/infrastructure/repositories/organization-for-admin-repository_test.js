@@ -1,12 +1,12 @@
 import _ from 'lodash';
 
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
-import { MissingAttributesError, NotFoundError } from '../../../../lib/domain/errors.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
-import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
-import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
-import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
+import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import { MissingAttributesError, NotFoundError } from '../../../../../lib/domain/errors.js';
+import { OrganizationInvitation } from '../../../../../lib/domain/models/OrganizationInvitation.js';
+import { OrganizationForAdmin } from '../../../../../src/organizational-entities/domain/models/OrganizationForAdmin.js';
+import * as organizationForAdminRepository from '../../../../../src/organizational-entities/infrastructure/repositories/organization-for-admin-repository.js';
+import { ORGANIZATION_FEATURE } from '../../../../../src/shared/domain/constants.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Repository | Organization-for-admin', function () {
   let clock;

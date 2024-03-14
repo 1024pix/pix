@@ -1,11 +1,11 @@
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+import { PIX_ADMIN } from '../../../src/authorization/domain/constants.js';
 import {
   createServer,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
-} from '../../../test-helper.js';
+} from '../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 

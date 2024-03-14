@@ -1,5 +1,5 @@
-import { DataProtectionOfficer } from '../../../../lib/domain/models/DataProtectionOfficer.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
+import { DataProtectionOfficer } from '../../../../src/organizational-entities/domain/models/DataProtectionOfficer.js';
 import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | data-protection-officer', function () {

@@ -1,7 +1,7 @@
 import differenceBy from 'lodash/differenceBy.js';
 
-import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
-import { DataProtectionOfficer } from '../DataProtectionOfficer.js';
+import { ORGANIZATION_FEATURE } from '../../../shared/domain/constants.js';
+import { DataProtectionOfficer } from './DataProtectionOfficer.js';
 
 const CREDIT_DEFAULT_VALUE = 0;
 
