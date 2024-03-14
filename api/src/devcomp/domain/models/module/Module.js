@@ -1,5 +1,25 @@
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { ModuleInstantiationError } from '../../errors.js';
+import { BlockInput } from '../block/BlockInput.js';
+import { BlockSelect } from '../block/BlockSelect.js';
+import { BlockSelectOption } from '../block/BlockSelectOption.js';
+import { BlockText } from '../block/BlockText.js';
+import { Image } from '../element/Image.js';
+import { QCM } from '../element/QCM.js';
+import { QCMForAnswerVerification } from '../element/QCM-for-answer-verification.js';
+import { QCU } from '../element/QCU.js';
+import { QCUForAnswerVerification } from '../element/QCU-for-answer-verification.js';
+import { QROCM } from '../element/QROCM.js';
+import { QROCMForAnswerVerification } from '../element/QROCM-for-answer-verification.js';
+import { Text } from '../element/Text.js';
+import { Video } from '../element/Video.js';
+import { Grain } from '../Grain.js';
+import { QcmProposal } from '../QcmProposal.js';
+import { QcuProposal } from '../QcuProposal.js';
+import { TransitionText } from '../TransitionText.js';
+import { Details } from './Details.js';
 
 class Module {
   constructor({ id, slug, title, grains, details, transitionTexts = [] }) {
@@ -17,6 +37,96 @@ class Module {
     this.grains = grains;
     this.transitionTexts = transitionTexts;
     this.details = details;
+  }
+
+  static toDomain(moduleData) {
+    try {
+      return new Module({
+        id: moduleData.id,
+        slug: moduleData.slug,
+        title: moduleData.title,
+        transitionTexts: moduleData.transitionTexts?.map((transitionText) => new TransitionText(transitionText)) ?? [],
+        details: new Details(moduleData.details),
+        grains: moduleData.grains.map((grain) => {
+          return new Grain({
+            id: grain.id,
+            title: grain.title,
+            type: grain.type,
+            elements: grain.elements
+              .map((element) => {
+                switch (element.type) {
+                  case 'image':
+                    return Module.#toImageDomain(element);
+                  case 'text':
+                    return Module.#toTextDomain(element);
+                  case 'qcm':
+                    return Module.#toQCMDomain(element);
+                  case 'qcu':
+                    return Module.#toQCUDomain(element);
+                  case 'qrocm':
+                    return Module.#toQROCMDomain(element);
+                  case 'video':
+                    return Module.#toVideoDomain(element);
+                  default:
+                    logger.warn({
+                      event: 'module_element_type_unknown',
+                      message: `Element inconnu: ${element.type}`,
+                    });
+                    return undefined;
+                }
+              })
+              .filter((element) => element !== undefined),
+          });
+        }),
+      });
+    } catch (e) {
+      throw new ModuleInstantiationError(e.message);
+    }
+  }
+
+  static toDomainForVerification(moduleData) {
+    try {
+      return new Module({
+        id: moduleData.id,
+        slug: moduleData.slug,
+        title: moduleData.title,
+        details: new Details(moduleData.details),
+        transitionTexts: moduleData.transitionTexts?.map((transitionText) => new TransitionText(transitionText)) ?? [],
+        grains: moduleData.grains.map((grain) => {
+          return new Grain({
+            id: grain.id,
+            title: grain.title,
+            type: grain.type,
+            elements: grain.elements
+              .map((element) => {
+                switch (element.type) {
+                  case 'image':
+                    return Module.#toImageDomain(element);
+                  case 'text':
+                    return Module.#toTextDomain(element);
+                  case 'qcu':
+                    return Module.#toQCUForAnswerVerificationDomain(element);
+                  case 'qcm':
+                    return Module.#toQCMForAnswerVerificationDomain(element);
+                  case 'qrocm':
+                    return Module.#toQROCMForAnswerVerificationDomain(element);
+                  case 'video':
+                    return Module.#toVideoDomain(element);
+                  default:
+                    logger.warn({
+                      event: 'module_element_type_unknown',
+                      message: `Element inconnu: ${element.type}`,
+                    });
+                    return undefined;
+                }
+              })
+              .filter((element) => element !== undefined),
+          });
+        }),
+      });
+    } catch (e) {
+      throw new ModuleInstantiationError(e.message);
+    }
   }
 
   #assertTransitionTextsLinkedToGrain(transitionTexts, grains) {
@@ -46,6 +156,125 @@ class Module {
     }
 
     return foundGrain;
+  }
+
+  static #toTextDomain(element) {
+    return new Text({
+      id: element.id,
+      content: element.content,
+    });
+  }
+
+  static #toImageDomain(element) {
+    return new Image({
+      id: element.id,
+      url: element.url,
+      alt: element.alt,
+      alternativeText: element.alternativeText,
+    });
+  }
+
+  static #toVideoDomain(element) {
+    return new Video({
+      id: element.id,
+      title: element.title,
+      url: element.url,
+      subtitles: element.subtitles,
+      transcription: element.transcription,
+    });
+  }
+
+  static #toQCUDomain(element) {
+    return new QCU({
+      id: element.id,
+      instruction: element.instruction,
+      locales: element.locales,
+      proposals: element.proposals.map((proposal) => {
+        return new QcuProposal({
+          id: proposal.id,
+          content: proposal.content,
+        });
+      }),
+    });
+  }
+
+  static #toQCMDomain(element) {
+    return new QCM({
+      id: element.id,
+      instruction: element.instruction,
+      locales: element.locales,
+      proposals: element.proposals.map((proposal) => {
+        return new QcmProposal({
+          id: proposal.id,
+          content: proposal.content,
+        });
+      }),
+    });
+  }
+
+  static #toQROCMDomain(element) {
+    return new QROCM({
+      id: element.id,
+      instruction: element.instruction,
+      locales: element.locales,
+      proposals: element.proposals.map((proposal) => {
+        switch (proposal.type) {
+          case 'text':
+            return new BlockText(proposal);
+          case 'input':
+            return new BlockInput(proposal);
+          case 'select':
+            return new BlockSelect({
+              ...proposal,
+              options: proposal.options.map((option) => new BlockSelectOption(option)),
+            });
+          default:
+            logger.warn(`Type de proposal inconnu: ${proposal.type}`);
+        }
+      }),
+    });
+  }
+
+  static #toQCUForAnswerVerificationDomain(element) {
+    return new QCUForAnswerVerification({
+      id: element.id,
+      instruction: element.instruction,
+      locales: element.locales,
+      proposals: element.proposals.map((proposal) => {
+        return new QcuProposal({
+          id: proposal.id,
+          content: proposal.content,
+        });
+      }),
+      feedbacks: element.feedbacks,
+      solution: element.solution,
+    });
+  }
+
+  static #toQCMForAnswerVerificationDomain(element) {
+    return new QCMForAnswerVerification({
+      id: element.id,
+      instruction: element.instruction,
+      locales: element.locales,
+      proposals: element.proposals.map((proposal) => {
+        return new QcmProposal({
+          id: proposal.id,
+          content: proposal.content,
+        });
+      }),
+      feedbacks: element.feedbacks,
+      solutions: element.solutions,
+    });
+  }
+
+  static #toQROCMForAnswerVerificationDomain(element) {
+    return new QROCMForAnswerVerification({
+      id: element.id,
+      instruction: element.instruction,
+      locales: element.locales,
+      proposals: element.proposals,
+      feedbacks: element.feedbacks,
+    });
   }
 }
 
