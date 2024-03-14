@@ -56,7 +56,7 @@ describe('Unit | Serializer | JSONAPI | activity-answer-serializer', function ()
       const challengeId = 'recChallengeId';
 
       // when
-      const { activityAnswer, assessmentId } = serializer.deserialize({
+      const { activityAnswer, assessmentId, isPreview } = serializer.deserialize({
         data: {
           type: 'activity-answers',
           attributes: {
@@ -75,6 +75,7 @@ describe('Unit | Serializer | JSONAPI | activity-answer-serializer', function ()
         },
         meta: {
           assessmentId: `${expectedAssessmentId}`,
+          isPreview: true,
         },
       });
 
@@ -84,6 +85,7 @@ describe('Unit | Serializer | JSONAPI | activity-answer-serializer', function ()
       expect(activityAnswer.result).to.deep.equal(AnswerStatus.from(null));
       expect(activityAnswer.resultDetails).to.equal(null);
       expect(activityAnswer.challengeId).to.equal(challengeId);
+      expect(isPreview).to.equal(true);
       expect(assessmentId).to.equal(expectedAssessmentId);
     });
   });
