@@ -1,5 +1,36 @@
 # Pix Changelog
 
+## v4.115.0 (14/03/2024)
+
+
+### :rocket: Amélioration
+- [#8361](https://github.com/1024pix/pix/pull/8361) [FEATURE] Afficher la liste des élèves dans le détail d'une mission dans Pix Orga (PIX-11198).
+- [#8295](https://github.com/1024pix/pix/pull/8295) [FEATURE] Afficher un commentaire auto jury en cas de réponses insuffisantes pour la certification V2 (PIX-11474).
+- [#8269](https://github.com/1024pix/pix/pull/8269) [FEATURE] Afficher un commentaire auto jury en cas de réponses insuffisantes pour la certification V3 (PIX-10530).
+- [#8341](https://github.com/1024pix/pix/pull/8341) [FEATURE] Afficher les challenges Pix+ dans la page détail d'une certification (PIX-11585).
+- [#8350](https://github.com/1024pix/pix/pull/8350) [FEATURE] Retourner toutes les erreurs d'un import FREGATA (PIX-11114).
+- [#8347](https://github.com/1024pix/pix/pull/8347) [FEATURE] Retirer le nom de famille élèves des API non authentifiée (PIX-11320).
+
+### :building_construction: Tech
+- [#8394](https://github.com/1024pix/pix/pull/8394) [TECH] Supprime le champ title et description du tube.
+- [#8348](https://github.com/1024pix/pix/pull/8348) [TECH] Extract flash-certification cross-injection from shared (PIX-11471).
+- [#8393](https://github.com/1024pix/pix/pull/8393) [TECH] Migration de l'oidc-authentication-service dans src (PIX-11623).
+- [#8381](https://github.com/1024pix/pix/pull/8381) [TECH] déplace la route `/organization/{id}/groups` dans le  contexte prescription (pix-11607).
+- [#8378](https://github.com/1024pix/pix/pull/8378) [TECH] déplace la route `/api/organizations/{id}/sup-organization-learners/{organizationLearnerId}` dans src/prescription (pix-11604).
+- [#8370](https://github.com/1024pix/pix/pull/8370) [TECH] Ne plus utiliser la rétrocompatibilité des éléments du grain dans Pix App (PIX-11359).
+- [#8372](https://github.com/1024pix/pix/pull/8372) [TECH] Retirer le passage id du payload de /passages/{id}/answers (PIX-11312).
+- [#8380](https://github.com/1024pix/pix/pull/8380) [TECH] Migrer l'archivage et le désarchivage d'une campagne depuis Pix Orga dans son Bounded Context (PIX-11605).
+- [#8365](https://github.com/1024pix/pix/pull/8365) [TECH]  déplace la route  `csv-template` dans `src/prescription` (PIX-11597).
+
+### :arrow_up: Montée de version
+- [#8399](https://github.com/1024pix/pix/pull/8399) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.3 (certif).
+- [#8340](https://github.com/1024pix/pix/pull/8340) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.2 (certif).
+- [#8386](https://github.com/1024pix/pix/pull/8386) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.8 (orga).
+- [#8385](https://github.com/1024pix/pix/pull/8385) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.8 (certif).
+- [#8384](https://github.com/1024pix/pix/pull/8384) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.8 (admin).
+- [#8383](https://github.com/1024pix/pix/pull/8383) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.8 (1d).
+- [#8376](https://github.com/1024pix/pix/pull/8376) [BUMP] Update adobe/s3mock Docker tag to v3.5.2 (docker).
+
 ## v4.114.0 (12/03/2024)
 
 
