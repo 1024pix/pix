@@ -40,6 +40,7 @@ async function handleCertificationRescoring({
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
   certificationAssessmentHistoryRepository,
+  competenceForScoringRepository,
 }) {
   checkEventTypes(event, eventTypes);
 
@@ -59,6 +60,9 @@ async function handleCertificationRescoring({
         flashAlgorithmConfigurationRepository,
         flashAlgorithmService,
         certificationAssessmentHistoryRepository,
+        competenceForScoringRepository,
+        competenceMarkRepository,
+        locale: event.locale,
       });
     }
 
@@ -95,6 +99,9 @@ async function _handleV3Certification({
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
   certificationAssessmentHistoryRepository,
+  competenceForScoringRepository,
+  competenceMarkRepository,
+  locale,
 }) {
   const allAnswers = await answerRepository.findByAssessment(certificationAssessment.id);
   const certificationChallengesForScoring = await certificationChallengeForScoringRepository.getByCertificationCourseId(
@@ -116,12 +123,15 @@ async function _handleV3Certification({
     configuration,
   });
 
+  const competencesForScoring = await competenceForScoringRepository.listByLocale({ locale });
+
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     algorithm,
     challenges: certificationChallengesForScoring,
     allAnswers,
     abortReason,
     maxReachableLevelOnCertificationDate: certificationCourse.getMaxReachableLevelOnCertificationDate(),
+    competencesForScoring,
   });
 
   let assessmentResult;
@@ -177,9 +187,12 @@ async function _handleV3Certification({
 
   await certificationAssessmentHistoryRepository.save(certificationAssessmentHistory);
 
-  await assessmentResultRepository.save({
-    certificationCourseId: certificationAssessment.certificationCourseId,
+  await _saveResult({
+    certificationAssessment,
     assessmentResult,
+    certificationAssessmentScore,
+    assessmentResultRepository,
+    competenceMarkRepository,
   });
 
   return new CertificationRescoringCompleted({
@@ -204,6 +217,27 @@ function _shouldRejectWhenV3CertificationCandidateDidNotAnswerToEnoughQuestions(
 
 function _candidateDidNotAnswerEnoughV3CertificationQuestions({ allAnswers }) {
   return allAnswers.length < config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification;
+}
+
+async function _saveResult({
+  assessmentResult,
+  certificationAssessment,
+  certificationAssessmentScore,
+  assessmentResultRepository,
+  competenceMarkRepository,
+}) {
+  const savedAssessmentResult = await assessmentResultRepository.save({
+    certificationCourseId: certificationAssessment.certificationCourseId,
+    assessmentResult,
+  });
+
+  await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
+    const competenceMarkDomain = new CompetenceMark({
+      ...competenceMark,
+      assessmentResultId: savedAssessmentResult.id,
+    });
+    return competenceMarkRepository.save(competenceMarkDomain);
+  });
 }
 
 async function _handleV2Certification({
