@@ -6,6 +6,7 @@ import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certi
 import { CertificationAssessmentScore } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
 import { CertificationOfficer } from '../../../src/certification/session/domain/models/CertificationOfficer.js';
 import { Session } from '../../../src/certification/session/domain/models/Session.js';
+import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { CertificationReport } from '../../../src/certification/shared/domain/models/CertificationReport.js';
@@ -60,7 +61,6 @@ import { CertificationCenterMembership } from './CertificationCenterMembership.j
 import { CertificationChallenge } from './CertificationChallenge.js';
 import { CertificationChallengeWithType } from './CertificationChallengeWithType.js';
 import { CertificationContract } from './CertificationContract.js';
-import { CertificationCourse } from './CertificationCourse.js';
 import { CertificationIssueReportResolutionAttempt } from './CertificationIssueReportResolutionAttempt.js';
 import { CertificationIssueReportResolutionStrategies } from './CertificationIssueReportResolutionStrategies.js';
 import { CertificationResult } from './CertificationResult.js';

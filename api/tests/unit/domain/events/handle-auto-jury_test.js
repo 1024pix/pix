@@ -2,8 +2,8 @@ import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
 import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
 import { handleAutoJury } from '../../../../lib/domain/events/handle-auto-jury.js';
 import { SessionFinalized } from '../../../../lib/domain/events/SessionFinalized.js';
-import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
 import { CertificationAssessment } from '../../../../lib/domain/models/index.js';
+import { ABORT_REASONS } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,

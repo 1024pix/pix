@@ -2,8 +2,8 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 import _ from 'lodash';
 const Joi = BaseJoi.extend(JoiDate);
-import { EntityValidationError } from '../../../src/shared/domain/errors.js';
-import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
+import { EntityValidationError } from '../../../../shared/domain/errors.js';
+import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
 
 export const ABORT_REASONS = {
   CANDIDATE: 'candidate',
