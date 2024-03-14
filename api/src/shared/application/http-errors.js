@@ -95,6 +95,14 @@ class ServiceUnavailableError extends BaseHttpError {
   }
 }
 
+class BadGatewayError extends BaseHttpError {
+  constructor(message) {
+    super(message);
+    this.title = 'BadGateway';
+    this.status = 502;
+  }
+}
+
 class BadRequestError extends BaseHttpError {
   constructor(message, code, meta) {
     super(message);
@@ -143,6 +151,7 @@ function sendJsonApiError(httpError, h) {
 }
 
 const HttpErrors = {
+  BadGatewayError,
   BadRequestError,
   BaseHttpError,
   ConflictError,
@@ -161,6 +170,7 @@ const HttpErrors = {
 };
 
 export {
+  BadGatewayError,
   BadRequestError,
   BaseHttpError,
   ConflictError,
