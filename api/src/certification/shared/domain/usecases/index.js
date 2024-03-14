@@ -27,7 +27,6 @@ import * as sessionForAttendanceSheetRepository from '../../../session/infrastru
 import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
 import * as attendanceSheetPdfUtils from '../../../session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
-import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationIssueReportRepository from '../../../shared/infrastructure/repositories/certification-issue-report-repository.js';
@@ -46,7 +45,6 @@ import * as mailService from '../services/mail-service.js';
  * @typedef {badgeRepository} BadgeRepository
  * @typedef {candidateRepository} CandidateRepository
  * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
- * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
@@ -74,7 +72,6 @@ const dependencies = {
   attendanceSheetPdfUtils,
   candidateRepository,
   certificationAssessmentRepository,
-  certificationCandidateRepository,
   certificationCenterRepository,
   certificationChallengeLiveAlertRepository,
   certificationCourseRepository,
@@ -128,6 +125,7 @@ const usecasesWithoutInjectedDependencies = {
       'upload-cpf-files.js',
       'integrate-cpf-processing-receipts.js',
       'get-cpf-presigned-urls.js',
+      'delete-unlinked-certification-candidate.js',
     ],
   })),
   ...(await importNamedExportsFromDirectory({
