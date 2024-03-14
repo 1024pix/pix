@@ -23,9 +23,7 @@ import * as sessionValidator from '../../../session/domain/validators/session-va
 import * as candidateRepository from '../../../session/infrastructure/repositories/candidate-repository.js';
 import * as cpfCertificationResultRepository from '../../../session/infrastructure/repositories/cpf-certification-result-repository.js';
 import * as cpfExportRepository from '../../../session/infrastructure/repositories/cpf-export-repository.js';
-import * as sessionForAttendanceSheetRepository from '../../../session/infrastructure/repositories/session-for-attendance-sheet-repository.js';
 import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
-import * as attendanceSheetPdfUtils from '../../../session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import * as certificationAssessmentRepository from '../../../shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
@@ -41,14 +39,12 @@ import * as mailService from '../services/mail-service.js';
  * @typedef {answerRepository} AnswerRepository
  * @typedef {assessmentRepository} AssessmentRepository
  * @typedef {assessmentResultRepository} AssessmentResultRepository
- * @typedef {attendanceSheetPdfUtils} AttendanceSheetPdfUtils
  * @typedef {badgeRepository} BadgeRepository
  * @typedef {candidateRepository} CandidateRepository
  * @typedef {certificationAssessmentRepository} CertificationAssessmentRepository
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
- * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {challengeRepository} ChallengeRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {competenceRepository} CompetenceRepository
@@ -58,7 +54,6 @@ import * as mailService from '../services/mail-service.js';
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {mailService} MailService
  * @typedef {sessionCodeService} SessionCodeService
- * @typedef {sessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {cpfCertificationResultRepository} CpfCertificationResultRepository
  * @typedef {v3CertificationCourseDetailsForAdministrationRepository} V3CertificationCourseDetailsForAdministrationRepository
  * @typedef {sessionRepository} SessionRepository
@@ -69,7 +64,6 @@ const dependencies = {
   answerRepository,
   assessmentRepository,
   assessmentResultRepository,
-  attendanceSheetPdfUtils,
   candidateRepository,
   certificationAssessmentRepository,
   certificationCenterRepository,
@@ -88,7 +82,6 @@ const dependencies = {
   mailService,
   sessionCodeService,
   sessionsImportValidationService,
-  sessionForAttendanceSheetRepository,
   cpfCertificationResultRepository,
   cpfExportRepository,
   sessionRepository,
@@ -104,30 +97,6 @@ const path = dirname(fileURLToPath(import.meta.url));
  * This file should inject usecases from the shared sub-domain only.
  */
 const usecasesWithoutInjectedDependencies = {
-  ...(await importNamedExportsFromDirectory({
-    path: join(path, '../../../session/domain/usecases/'),
-    ignoredFileNames: [
-      'index.js',
-      'create-session.js',
-      'create-sessions.js',
-      'delete-session.js',
-      'add-certification-candidate-to-session.js',
-      'get-session-certification-candidates.js',
-      'get-mass-import-template-information.js',
-      'assign-certification-officer-to-session.js',
-      'get-invigilator-kit-session-info.js',
-      'validate-live-alert.js',
-      'validate-sessions.js',
-      'dismiss-live-alert.js',
-      'finalize-session.js',
-      'unfinalize-session.js',
-      'update-session.js',
-      'upload-cpf-files.js',
-      'integrate-cpf-processing-receipts.js',
-      'get-cpf-presigned-urls.js',
-      'delete-unlinked-certification-candidate.js',
-    ],
-  })),
   ...(await importNamedExportsFromDirectory({
     path: join(path, '../../../course/domain/usecases/'),
     ignoredFileNames: ['index.js', 'update-jury-comment.js', 'get-sco-certification-results-by-division.js'],

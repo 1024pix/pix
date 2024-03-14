@@ -3,6 +3,7 @@ import * as issueReportCategoryRepository from '../../../../certification/shared
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import * as complementaryCertificationApi from '../../../complementary-certification/application/api/complementary-certification-api.js';
+import * as sessionForAttendanceSheetRepository from '../../../session/infrastructure/repositories/session-for-attendance-sheet-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
@@ -40,6 +41,7 @@ import * as sessionRepository from './session-repository.js';
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {sessionRepository} SessionRepository
  * @typedef {certificationReportRepository} CertificationReportRepository
+ * @typedef {sessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  */
 const repositoriesWithoutInjectedDependencies = {
   assessmentRepository,
@@ -60,6 +62,7 @@ const repositoriesWithoutInjectedDependencies = {
   certificationIssueReportRepository,
   sessionRepository,
   certificationReportRepository,
+  sessionForAttendanceSheetRepository,
 };
 
 /**

@@ -1,6 +1,6 @@
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
- * @typedef {import('../../../shared/domain/usecases/index.js').AttendanceSheetPdfUtils} AttendanceSheetPdfUtils
+ * @typedef {import('../../../session/domain/usecases/index.js').SessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
+ * @typedef {import('../../../session/domain/usecases/index.js').AttendanceSheetPdfUtils} AttendanceSheetPdfUtils
  */
 
 /**
@@ -14,7 +14,7 @@ const getAttendanceSheet = async function ({
   sessionForAttendanceSheetRepository,
   attendanceSheetPdfUtils,
 }) {
-  const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates(sessionId);
+  const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates({ id: sessionId });
 
   const { attendanceSheet, fileName } = await attendanceSheetPdfUtils.getAttendanceSheetPdfBuffer({
     session,

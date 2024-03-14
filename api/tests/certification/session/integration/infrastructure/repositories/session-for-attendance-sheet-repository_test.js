@@ -64,7 +64,9 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
         });
 
         // when
-        const actualSession = await sessionForAttendanceSheetRepository.getWithCertificationCandidates(session.id);
+        const actualSession = await sessionForAttendanceSheetRepository.getWithCertificationCandidates({
+          id: session.id,
+        });
 
         // then
         expect(actualSession).to.deepEqualInstance(expectedSessionValues);
@@ -133,7 +135,9 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
         });
 
         // when
-        const actualSession = await sessionForAttendanceSheetRepository.getWithCertificationCandidates(session.id);
+        const actualSession = await sessionForAttendanceSheetRepository.getWithCertificationCandidates({
+          id: session.id,
+        });
 
         // then
         expect(actualSession).to.deepEqualInstance(expectedSessionValues);
@@ -143,7 +147,9 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
     context('when no session was found', function () {
       it('should return a Not found error', async function () {
         // when
-        const error = await catchErr(sessionForAttendanceSheetRepository.getWithCertificationCandidates)(12434354);
+        const error = await catchErr(sessionForAttendanceSheetRepository.getWithCertificationCandidates)({
+          id: 12434354,
+        });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -158,7 +164,9 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(sessionForAttendanceSheetRepository.getWithCertificationCandidates)(sessionId);
+        const error = await catchErr(sessionForAttendanceSheetRepository.getWithCertificationCandidates)({
+          id: sessionId,
+        });
 
         // then<
         expect(error).to.be.instanceOf(NotFoundError);
