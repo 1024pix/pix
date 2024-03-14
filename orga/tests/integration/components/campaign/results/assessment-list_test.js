@@ -68,6 +68,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
           lastName: 'Doe',
           masteryRate: 0.8,
           isShared: true,
+          sharedResultCount: 3,
         },
       ];
       participations.meta = {
@@ -78,7 +79,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       this.set('participations', participations);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Results::AssessmentList
   @campaign={{this.campaign}}
   @participations={{this.participations}}
@@ -92,10 +93,11 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       );
 
       // then
-      assert.notContains('Aucun participant');
-      assert.contains('Doe');
-      assert.contains('John');
-      assert.contains('80 %');
+      assert.notOk(screen.queryByText(this.intl.t('pages.campaign-results.table.empty')));
+      assert.ok(screen.getByText('Doe'));
+      assert.ok(screen.getByText('John'));
+      assert.ok(screen.getByText('80 %'));
+      assert.ok(screen.getByText('3'));
     });
 
     test('it should display badge and tooltip', async function (assert) {

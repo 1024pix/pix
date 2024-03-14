@@ -9,6 +9,7 @@ export default class CampaignAssessmentResultMinimal extends Model {
   @attr('number') totalStage;
   @attr('string') prescriberTitle;
   @attr('string') prescriberDescription;
+  @attr('number') sharedResultCount;
 
   @hasMany('Badge', { async: true, inverse: null }) badges;
 }
