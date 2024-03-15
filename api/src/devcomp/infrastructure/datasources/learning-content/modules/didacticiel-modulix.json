@@ -11,27 +11,27 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Bonjour et bienvenue dans ce didacticiel Modulix. Vous allez pouvoir facilement découvrir comment fonctionne ce nouveau produit Pix.<br>C'est partix !</p>",
+      "content": "<p>Bonjour et bienvenue dans ce didacticiel Modulix. Vous allez pouvoir facilement découvrir comment fonctionne ce nouveau produit Pix.<br>C'est partix&#8239;!</p>",
       "grainId": "f312c33d-e7c9-4a69-9ba0-913957b8f7dd"
     },
     {
-      "content": "<p>Chaque leçon a un objectif pédagogique précis.</p><p>Dans la prochaine leçon, nous vous proposons de découvrir Pix avec une courte vidéo <span aria-hidden=\"true\">▶️</span></p>",
+      "content": "<p>Chaque leçon a un objectif pédagogique précis.</p><p>Dans la prochaine leçon, nous vous proposons de découvrir Pix avec une courte vidéo&nbsp;<span aria-hidden=\"true\">▶️</span></p>",
       "grainId": "73ac3644-7637-4cee-86d4-1a75f53f0b9c"
     },
     {
-      "content": "<p>Vous allez faire votre première activité. Les activités servent à vérifier que vous avez compris l'essentiel des leçons.<br>Dans les activités Modulix, vous avez votre résultat immédiatement. À vous de jouer <span aria-hidden=\"true\">🚀</span></p>",
+      "content": "<p>Vous allez faire votre première activité. Les activités servent à vérifier que vous avez compris l'essentiel des leçons.<br>Dans les activités Modulix, vous avez votre résultat immédiatement. À vous de jouer&nbsp;<span aria-hidden=\"true\">🚀</span></p>",
       "grainId": "533c69b8-a836-41be-8ffc-8d4636e31224"
     },
     {
-      "content": "<p>Vous l’aurez compris, on aime varier les plaisirs et proposer différents types d’activité, après le questionnaire à choix unique on vous laisse découvrir le QCM !</p>",
+      "content": "<p>Vous l’aurez compris, on aime varier les plaisirs et proposer différents types d’activité, après le questionnaire à choix unique on vous laisse découvrir le QCM&#8239;!</p>",
       "grainId": "0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"
     },
     {
-      "content": "<p>Vous l'avez peut-être remarqué : dans un module, vous pouvez voir tous les contenus en remontant la page <span aria-hidden=\"true\">⬆️</span>️</p>",
+      "content": "<p>Vous l'avez peut-être remarqué&nbsp;: dans un module, vous pouvez voir tous les contenus en remontant la page&nbsp;<span aria-hidden=\"true\">⬆️</span>️</p>",
       "grainId": "2a77a10f-19a3-4544-80f9-8012dad6506a"
     },
     {
-      "content": "<p>Vous arrivez à la fin de ce didacticiel. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez !<span aria-hidden=\"true\">🌟</span>️ </p>",
+      "content": "<p>Vous arrivez à la fin de ce didacticiel. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez&#8239;!<span aria-hidden=\"true\">🌟</span>️ </p>",
       "grainId": "7cf75e70-8749-4392-8081-f2c02badb0fb"
     }
   ],
@@ -49,7 +49,7 @@
         {
           "id": "a2372bf4-86a4-4ecc-a188-b51f4f98bca2",
           "type": "text",
-          "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture <span aria-hidden=\"true\">📚</span>️.<br>Et là, voici une image !</p>"
+          "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden=\"true\">📚</span>️.<br>Et là, voici une image&#8239;!</p>"
         },
         {
           "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
@@ -76,7 +76,7 @@
           "title": "Vidéo de présentation de Pix",
           "url": "https://videos.pix.fr/modulix/didacticiel/presentation.mp4",
           "subtitles": "",
-          "transcription": "<p>Le numérique évolue en permanence, vos compétences aussi, pour travailler, communiquer et s'informer, se déplacer, réaliser des démarches, un enjeu tout au long de la vie.</p><p>Sur <a href=\"https://pix.fr\" target=\"blank\">pix.fr</a>, testez-vous et cultivez vos compétences numériques.</p><p>Les tests Pix sont personnalisés, les questions s'adaptent à votre niveau, réponse après réponse.</p><p>Évaluez vos connaissances et savoir-faire sur 16 compétences, dans 5 domaines, sur 5 niveaux de débutants à confirmer, avec des mises en situation ludiques, recherches en ligne, manipulation de fichiers et de données, culture numérique...</p><p>Allez à votre rythme, vous pouvez arrêter et reprendre quand vous le voulez.</p><p>Toutes les 5 questions, découvrez vos résultats et progressez grâce aux astuces et aux tutos.</p><p>En relevant les défis Pix, vous apprendrez de nouvelles choses et aurez envie d'aller plus loin.</p><p>Vous pensez pouvoir faire mieux ?</p><p>Retentez les tests et améliorez votre score.</p><p>Faites reconnaître officiellement votre niveau en passant la certification Pix, reconnue par l'État et le monde professionnel.</p><p>Pix : le service public en ligne pour évaluer, développer et certifier ses compétences numériques.</p>"
+          "transcription": "<p>Le numérique évolue en permanence, vos compétences aussi, pour travailler, communiquer et s'informer, se déplacer, réaliser des démarches, un enjeu tout au long de la vie.</p><p>Sur <a href=\"https://pix.fr\" target=\"blank\">pix.fr</a>, testez-vous et cultivez vos compétences numériques.</p><p>Les tests Pix sont personnalisés, les questions s'adaptent à votre niveau, réponse après réponse.</p><p>Évaluez vos connaissances et savoir-faire sur 16 compétences, dans 5 domaines, sur 5 niveaux de débutants à confirmer, avec des mises en situation ludiques, recherches en ligne, manipulation de fichiers et de données, culture numérique...</p><p>Allez à votre rythme, vous pouvez arrêter et reprendre quand vous le voulez.</p><p>Toutes les 5 questions, découvrez vos résultats et progressez grâce aux astuces et aux tutos.</p><p>En relevant les défis Pix, vous apprendrez de nouvelles choses et aurez envie d'aller plus loin.</p><p>Vous pensez pouvoir faire mieux&#8239;?</p><p>Retentez les tests et améliorez votre score.</p><p>Faites reconnaître officiellement votre niveau en passant la certification Pix, reconnue par l'État et le monde professionnel.</p><p>Pix&nbsp;: le service public en ligne pour évaluer, développer et certifier ses compétences numériques.</p>"
         }
       ]
     },
@@ -100,8 +100,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct ! Ces 16 compétences sont rangées dans 5 domaines.</p>",
-            "invalid": "<p>Incorrect. Retourner voir la vidéo si besoin <span aria-hidden=\"true\">⬆️</span>️!</p>"
+            "valid": "<p>Correct&#8239;! Ces 16 compétences sont rangées dans 5 domaines.</p>",
+            "invalid": "<p>Incorrect. Retourner voir la vidéo si besoin&nbsp;<span aria-hidden=\"true\">⬆️</span>️!</p>"
           },
           "solution": "1"
         }
@@ -115,7 +115,7 @@
         {
           "id": "30701e93-1b4d-4da4-b018-fa756c07d53f",
           "type": "qcm",
-          "instruction": "<p>Quels sont les 3 piliers de Pix ?</p>",
+          "instruction": "<p>Quels sont les 3 piliers de Pix&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -139,8 +139,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct ! Vous nous avez bien cernés :)</p>",
-            "invalid": "<p>Et non ! Pix sert à évaluer, certifier et développer ses compétences numériques.</p>"
+            "valid": "<p>Correct&#8239;! Vous nous avez bien cernés&nbsp;:)</p>",
+            "invalid": "<p>Et non&#8239;! Pix sert à évaluer, certifier et développer ses compétences numériques.</p>"
           },
           "solutions": ["1", "3", "4"]
         }
@@ -154,7 +154,7 @@
         {
           "id": "0a5e77e8-1c8e-4cb6-a41d-cf6ad7935447",
           "type": "qcu",
-          "instruction": "<p>Remontez la page pour trouver le premier mot de ce module.<br>Quel est ce mot ?</p>",
+          "instruction": "<p>Remontez la page pour trouver le premier mot de ce module.<br>Quel est ce mot&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -170,8 +170,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct ! Vous avez bien remonté la page</p>",
-            "invalid": "<p>Incorrect. Remonter la page pour retrouver le premier mot !</p>"
+            "valid": "<p>Correct&#8239;! Vous avez bien remonté la page</p>",
+            "invalid": "<p>Incorrect. Remonter la page pour retrouver le premier mot&#8239;!</p>"
           },
           "solution": "2"
         }
@@ -185,7 +185,7 @@
         {
           "id": "98c51fa7-03b7-49b1-8c5e-49341d35909c",
           "type": "qrocm",
-          "instruction": "<p>Quel est le nom de ce nouveau produit Pix ?</p>",
+          "instruction": "<p>Quel est le nom de ce nouveau produit Pix&#8239;?</p>",
           "proposals": [
             {
               "input": "nom-produit",
@@ -201,8 +201,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct ! vous êtes prêt à explorer <span aria-hidden=\"true\">🎉</span></p>",
-            "invalid": "<p>Incorrect ! vous y arriverez la prochaine fois !</p>"
+            "valid": "<p>Correct&#8239;! vous êtes prêt à explorer&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
+            "invalid": "<p>Incorrect&#8239;! vous y arriverez la prochaine fois&#8239;!</p>"
           }
         }
       ]

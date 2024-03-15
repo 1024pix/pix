@@ -97,7 +97,7 @@ describe('Acceptance | Controller | passage-controller', function () {
           userResponse: ['1'],
           expectedUserResponseValue: '1',
           expectedFeedback:
-            '<p class="pix-list-inline">Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>',
+            '<p class="pix-list-inline">Oui, aucun problème&#8239;! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>',
           expectedSolution: '1',
         },
         {
@@ -107,7 +107,7 @@ describe('Acceptance | Controller | passage-controller', function () {
           userResponse: [{ input: 'email', answer: 'naomizao457@yahoo.com' }],
           expectedUserResponseValue: { email: 'naomizao457@yahoo.com' },
           expectedFeedback:
-            "<p>Correct. <span aria-hidden=\"true\">🎉</span> Tout est dans l'ordre : l'identifiant, l'arobase puis le fournisseur d'adresse mail</p>",
+            "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span> Tout est dans l'ordre&nbsp;: l'identifiant, l'arobase puis le fournisseur d'adresse mail</p>",
           expectedSolution: {
             email: ['naomizao457@yahoo.com', 'naomizao457@yahoo.fr'],
           },
@@ -118,7 +118,7 @@ describe('Acceptance | Controller | passage-controller', function () {
           elementId: '30701e93-1b4d-4da4-b018-fa756c07d53f',
           userResponse: ['1', '3', '4'],
           expectedUserResponseValue: ['1', '3', '4'],
-          expectedFeedback: '<p>Correct ! Vous nous avez bien cernés :)</p>',
+          expectedFeedback: '<p>Correct&#8239;! Vous nous avez bien cernés&nbsp;:)</p>',
           expectedSolution: ['1', '3', '4'],
         },
       ];
