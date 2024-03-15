@@ -82,10 +82,16 @@ export default class Url extends Service {
   get supportHomeUrl() {
     const currentLanguage = this.intl.primaryLocale;
 
-    if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
-      return 'https://support.pix.org/en/support/home';
+    if (this.currentDomain.isFranceDomain) {
+      return 'https://support.pix.org/fr/support/home';
     }
-    return 'https://support.pix.org/fr/support/home';
+
+    switch (currentLanguage) {
+      case ENGLISH_INTERNATIONAL_LOCALE:
+        return 'https://support.pix.org/en/support/home';
+      default:
+        return 'https://support.pix.org/fr/support/home';
+    }
   }
 
   get levelSevenNewsUrl() {
