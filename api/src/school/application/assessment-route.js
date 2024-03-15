@@ -28,7 +28,7 @@ const register = async function (server) {
       config: {
         pre: [{ method: securityPreHandlers.checkPix1dActivated }],
         auth: false,
-        handler: assessmentController.getCurrent,
+        handler: assessmentController.create,
         validate: {
           payload: Joi.object({
             missionId: identifiersType.missionId,
