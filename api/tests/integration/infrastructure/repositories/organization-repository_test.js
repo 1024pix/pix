@@ -983,6 +983,7 @@ describe('Integration | Repository | Organization', function () {
 
   describe('#batchCreateOrganizations', function () {
     let computeOrganizationLearnerCertificabilityId;
+
     beforeEach(async function () {
       computeOrganizationLearnerCertificabilityId = databaseBuilder.factory.buildFeature(
         ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
@@ -996,7 +997,10 @@ describe('Integration | Repository | Organization', function () {
       const organization2 = domainBuilder.buildOrganizationForAdmin();
 
       // when
-      await organizationRepository.batchCreateOrganizations([organization1, organization2]);
+      await organizationRepository.batchCreateOrganizations([
+        { organization: organization1 },
+        { organization: organization2 },
+      ]);
 
       // then
       const foundOrganizations = await knex('organizations').select();
@@ -1019,7 +1023,7 @@ describe('Integration | Repository | Organization', function () {
       });
 
       // when
-      await organizationRepository.batchCreateOrganizations([organization]);
+      await organizationRepository.batchCreateOrganizations([{ organization }]);
 
       // then
       const foundOrganizations = await knex('organizations').select();
@@ -1029,6 +1033,39 @@ describe('Integration | Repository | Organization', function () {
       expect(foundOrganizations[0].provinceCode).to.equal(organization.provinceCode);
       expect(foundOrganizations[0].createdBy).to.equal(organization.createdBy);
       expect(foundOrganizations[0].documentationUrl).to.equal(organization.documentationUrl);
+    });
+
+    context('when organization is added', function () {
+      it('returns organization data to create and created organization', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationFormattedCsvData = {
+          organization: domainBuilder.buildOrganizationForAdmin({
+            id: null,
+            externalId: '1237457A',
+            name: 'Orga 1',
+            createdBy: userId,
+          }),
+        };
+        const organizationsToCreate = [organizationFormattedCsvData];
+
+        await databaseBuilder.commit();
+
+        // when
+        const createdOrganizations = await organizationRepository.batchCreateOrganizations(organizationsToCreate);
+
+        // then
+        expect(createdOrganizations).to.have.lengthOf(1);
+
+        const { createdOrganization, organizationToCreate } = createdOrganizations[0];
+        expect(organizationToCreate).to.include(organizationFormattedCsvData);
+        expect(createdOrganization).to.include({
+          id: createdOrganization.id,
+          externalId: '1237457A',
+          name: 'Orga 1',
+          createdBy: userId,
+        });
+      });
     });
 
     it('should enable compute organization learner certificability feature for sco organization managing students', async function () {
@@ -1052,7 +1089,14 @@ describe('Integration | Repository | Organization', function () {
         organizationScoManagingStudent.isManagingStudents;
 
       // when
-      await organizationRepository.batchCreateOrganizations([organizationScoManagingStudent, otherOrganization]);
+      await organizationRepository.batchCreateOrganizations([
+        {
+          organization: organizationScoManagingStudent,
+        },
+        {
+          organization: otherOrganization,
+        },
+      ]);
 
       const savedOrganizationFeatures = await knex('organization-features');
 
@@ -1079,7 +1123,7 @@ describe('Integration | Repository | Organization', function () {
       });
 
       // when
-      await organizationRepository.batchCreateOrganizations([organization]);
+      await organizationRepository.batchCreateOrganizations([{ organization }]);
 
       const savedOrganizationFeatures = await knex('organization-features');
       const savedOrganizations = await knex('organizations');

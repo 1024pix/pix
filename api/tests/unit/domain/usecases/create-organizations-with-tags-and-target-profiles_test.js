@@ -1,14 +1,10 @@
-import {
-  ManyOrganizationsFoundError,
-  ObjectValidationError,
-  OrganizationAlreadyExistError,
-  OrganizationTagNotFound,
-} from '../../../../lib/domain/errors.js';
+import { ObjectValidationError, OrganizationTagNotFound } from '../../../../lib/domain/errors.js';
 import { OrganizationForAdmin } from '../../../../lib/domain/models/index.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.js';
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', function () {
@@ -58,47 +54,115 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     };
 
     organizationInvitationService.createProOrganizationInvitation.resolves();
+    sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
   });
 
-  it('should throw an ObjectValidationError if organizations are undefined', async function () {
-    // given
-    const organizations = undefined;
+  context('#errors', function () {
+    context('when parameter "organizations" is undefined', function () {
+      it('throws an ObjectValidationError', async function () {
+        // given
+        const organizations = undefined;
 
-    // when
-    const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({ organizations });
+        // when
+        const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({ organizations });
 
-    // then
-    expect(error).to.be.an.instanceOf(ObjectValidationError);
-    expect(error.message).to.be.equals('Les organisations ne sont pas renseignées.');
+        // then
+        expect(error).to.be.an.instanceOf(ObjectValidationError);
+        expect(error.message).to.be.equals('Les organisations ne sont pas renseignées.');
+      });
+    });
+
+    context('when organization tags does not exists', function () {
+      it('throws an error', async function () {
+        // given
+        const firstOrganization = {
+          id: 1,
+          name: 'organization A',
+          externalId: 'externalId A',
+          tags: 'TagNotFound',
+          targetProfiles: '123',
+          type: 'PRO',
+          emailInvitations: 'fake@axample.net',
+          createdBy: 4,
+        };
+        const secondOrganization = {
+          id: 2,
+          name: 'organization B',
+          externalId: 'externalId B',
+          tags: 'Tag1_Tag2',
+          targetProfiles: '123_765',
+          type: 'PRO',
+          emailInvitations: 'fake@axample.net',
+          createdBy: 4,
+        };
+
+        organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
+        tagRepositoryStub.findAll.resolves(allTags);
+        organizationRepositoryStub.batchCreateOrganizations.resolves([
+          {
+            createdOrganization: domainBuilder.buildOrganization(firstOrganization),
+            organizationToCreate: {
+              ...firstOrganization,
+              tags: firstOrganization.tags?.split('_') ?? [],
+              targetProfiles: firstOrganization.targetProfiles?.split('_') ?? [],
+            },
+          },
+          {
+            createdOrganization: domainBuilder.buildOrganization(secondOrganization),
+            organizationToCreate: secondOrganization,
+          },
+        ]);
+
+        // when
+        const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
+          domainTransaction,
+          organizations: [firstOrganization, secondOrganization],
+          organizationRepository: organizationRepositoryStub,
+          tagRepository: tagRepositoryStub,
+          organizationTagRepository: organizationTagRepositoryStub,
+          dataProtectionOfficerRepository,
+          organizationValidator,
+          organizationInvitationService,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(OrganizationTagNotFound);
+        expect(error.message).to.be.equal("Le tag TagNotFound de l'organisation organization A n'existe pas.");
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+          message: `Le tag TagNotFound de l'organisation organization A n'existe pas.`,
+          context: 'create-organizations-with-tags-and-target-profiles',
+          error: { name: 'OrganizationTagNotFound' },
+          event: 'add-organizations-tags',
+          team: 'acces',
+        });
+      });
+    });
   });
 
-  it('should throw an error if the same organization appears twice', async function () {
+  it('validates organization data before trying to create organizations', async function () {
     // given
-    const organizations = [{ externalId: 'externalId' }, { externalId: 'externalId' }];
-
-    // when
-    const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({ organizations });
-
-    // then
-    expect(error).to.be.an.instanceOf(ManyOrganizationsFoundError);
-  });
-
-  it('should validate organization data before trying to create organizations', async function () {
-    // given
-    const organizations = [
-      {
-        name: '',
-        externalId: 'AB1234',
-        emailInvitations: 'fake@axample.net',
-        createdBy: 4,
-        tags: 'tag1_tag2',
-        targetProfiles: '123',
-      },
-    ];
+    const organization = {
+      name: '',
+      externalId: 'AB1234',
+      emailInvitations: 'fake@axample.net',
+      createdBy: 4,
+      tags: 'tag1_tag2',
+      targetProfiles: '123',
+    };
+    const organizations = [organization];
 
     // when
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateOrganizations.resolves(organizations);
+    organizationRepositoryStub.batchCreateOrganizations.resolves([
+      {
+        createdOrganization: domainBuilder.buildOrganization(organization),
+        organizationToCreate: {
+          ...organization,
+          tags: organization.tags?.split('_') ?? [],
+          targetProfiles: organization.targetProfiles?.split('_') ?? [],
+        },
+      },
+    ]);
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
@@ -117,54 +181,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     expect(organizationValidator.validate).to.have.been.calledWithExactly(organizations[0]);
   });
 
-  it('should throw an error when organization tags not exists', async function () {
-    // given
-    const firstOrganization = {
-      id: 1,
-      name: 'organization A',
-      externalId: 'externalId A',
-      tags: 'TagNotFound',
-      targetProfiles: '123',
-      type: 'PRO',
-      emailInvitations: 'fake@axample.net',
-      createdBy: 4,
-    };
-    const secondOrganization = {
-      id: 2,
-      name: 'organization B',
-      externalId: 'externalId B',
-      tags: 'Tag1_Tag2',
-      targetProfiles: '123_765',
-      type: 'PRO',
-      emailInvitations: 'fake@axample.net',
-      createdBy: 4,
-    };
-
-    organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
-    tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateOrganizations.resolves([
-      domainBuilder.buildOrganization(firstOrganization),
-      domainBuilder.buildOrganization(secondOrganization),
-    ]);
-
-    // when
-    const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-      domainTransaction,
-      organizations: [firstOrganization, secondOrganization],
-      organizationRepository: organizationRepositoryStub,
-      tagRepository: tagRepositoryStub,
-      organizationTagRepository: organizationTagRepositoryStub,
-      dataProtectionOfficerRepository,
-      organizationValidator,
-      organizationInvitationService,
-    });
-
-    // then
-    expect(error).to.be.instanceOf(OrganizationTagNotFound);
-    expect(error.message).to.be.equal("Le tag TagNotFound de l'organisation organization A n'existe pas.");
-  });
-
-  it('should add organizations into database ignoring the email for SCO activation for the PRO organization', async function () {
+  it('adds organizations into database ignoring the email for SCO activation for the PRO organization', async function () {
     // given
     const organizationPRO = {
       id: 1,
@@ -198,9 +215,53 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       email: organizationSCO.emailForSCOActivation,
     });
 
-    const expectedProOrganizationToInsert = [organizationPROToCreate, organizationSCOToCreate];
+    const expectedProOrganizationToInsert = [
+      {
+        organization: organizationPROToCreate,
+        tags: organizationPRO.tags?.split('_') ?? [],
+        targetProfiles: organizationPRO.targetProfiles?.split('_') ?? [],
+        role: undefined,
+        dataProtectionOfficer: {
+          email: undefined,
+          firstName: undefined,
+          lastName: undefined,
+        },
+        emailInvitations: organizationPRO.emailInvitations,
+        locale: undefined,
+      },
+      {
+        organization: organizationSCOToCreate,
+        tags: organizationSCO.tags?.split('_') ?? [],
+        targetProfiles: organizationSCO.targetProfiles?.split('_') ?? [],
+        role: undefined,
+        dataProtectionOfficer: {
+          email: undefined,
+          firstName: undefined,
+          lastName: undefined,
+        },
+        emailInvitations: organizationSCO.emailInvitations,
+        locale: undefined,
+      },
+    ];
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateOrganizations.resolves([organizationPROToCreate, organizationSCOToCreate]);
+    organizationRepositoryStub.batchCreateOrganizations.resolves([
+      {
+        createdOrganization: organizationPROToCreate,
+        organizationToCreate: {
+          ...organizationPRO,
+          tags: organizationPRO.tags?.split('_') ?? [],
+          targetProfiles: organizationPRO.targetProfiles?.split('_') ?? [],
+        },
+      },
+      {
+        createdOrganization: organizationSCOToCreate,
+        organizationToCreate: {
+          ...organizationSCO,
+          tags: organizationSCO.tags?.split('_') ?? [],
+          targetProfiles: organizationSCO.targetProfiles?.split('_') ?? [],
+        },
+      },
+    ]);
 
     // when
     await createOrganizationsWithTagsAndTargetProfiles({
@@ -220,7 +281,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     expect(expectedOrganizationsToCreate).to.deep.equal(expectedProOrganizationToInsert);
   });
 
-  it('should add organization tags when exists', async function () {
+  it('adds organization tags', async function () {
     // given
     const firstOrganization = {
       id: 1,
@@ -255,8 +316,22 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
     organizationRepositoryStub.batchCreateOrganizations.resolves([
-      domainBuilder.buildOrganization(firstOrganization),
-      domainBuilder.buildOrganization(secondOrganization),
+      {
+        createdOrganization: domainBuilder.buildOrganization(firstOrganization),
+        organizationToCreate: {
+          ...firstOrganization,
+          tags: firstOrganization.tags?.split('_') ?? [],
+          targetProfiles: firstOrganization.targetProfiles?.split('_') ?? [],
+        },
+      },
+      {
+        createdOrganization: domainBuilder.buildOrganization(secondOrganization),
+        organizationToCreate: {
+          ...secondOrganization,
+          tags: secondOrganization.tags?.split('_') ?? [],
+          targetProfiles: secondOrganization.targetProfiles?.split('_') ?? [],
+        },
+      },
     ]);
 
     // when
@@ -276,7 +351,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     expect(organizationTagRepositoryStub.batchCreate).to.be.calledWith(expectedOrganizationTagsToInsert);
   });
 
-  it('should add organization target profile when exists', async function () {
+  it('adds organization target profiles', async function () {
     // given
     const firstOrganization = {
       id: 1,
@@ -302,8 +377,22 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
     organizationRepositoryStub.batchCreateOrganizations.resolves([
-      domainBuilder.buildOrganization(firstOrganization),
-      domainBuilder.buildOrganization(secondOrganization),
+      {
+        createdOrganization: domainBuilder.buildOrganization(firstOrganization),
+        organizationToCreate: {
+          ...firstOrganization,
+          tags: firstOrganization.tags?.split('_') ?? [],
+          targetProfiles: firstOrganization.targetProfiles?.split('_') ?? [],
+        },
+      },
+      {
+        createdOrganization: domainBuilder.buildOrganization(secondOrganization),
+        organizationToCreate: {
+          ...secondOrganization,
+          tags: secondOrganization.tags?.split('_') ?? [],
+          targetProfiles: secondOrganization.targetProfiles?.split('_') ?? [],
+        },
+      },
     ]);
 
     // when
@@ -327,7 +416,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     ]);
   });
 
-  it('should add existing data protection officer', async function () {
+  it('adds a data protection officer', async function () {
     // given
     const firstOrganization = {
       id: 1,
@@ -356,8 +445,27 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
     organizationRepositoryStub.batchCreateOrganizations.resolves([
-      domainBuilder.buildOrganization(firstOrganization),
-      domainBuilder.buildOrganization(secondOrganization),
+      {
+        createdOrganization: domainBuilder.buildOrganization(firstOrganization),
+        organizationToCreate: {
+          ...firstOrganization,
+          tags: firstOrganization.tags?.split('_') ?? [],
+          targetProfiles: firstOrganization.targetProfiles?.split('_') ?? [],
+          dataProtectionOfficer: {
+            email: firstOrganization.DPOEmail,
+            firstName: firstOrganization.DPOFirstName,
+            lastName: firstOrganization.DPOLastName,
+          },
+        },
+      },
+      {
+        createdOrganization: domainBuilder.buildOrganization(secondOrganization),
+        organizationToCreate: {
+          ...secondOrganization,
+          tags: secondOrganization.tags?.split('_') ?? [],
+          targetProfiles: secondOrganization.targetProfiles?.split('_') ?? [],
+        },
+      },
     ]);
 
     // when
@@ -379,7 +487,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     ]);
   });
 
-  it('should create invitation for organizations with email and role', async function () {
+  it('creates an invitation for organizations with email and role', async function () {
     // given
     const firstOrganizationWithAdminRole = {
       id: 1,
@@ -408,8 +516,24 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
     tagRepositoryStub.findAll.resolves(allTags);
     organizationRepositoryStub.batchCreateOrganizations.resolves([
-      domainBuilder.buildOrganization(firstOrganizationWithAdminRole),
-      domainBuilder.buildOrganization(secondOrganizationWithMemberRole),
+      {
+        createdOrganization: domainBuilder.buildOrganization(firstOrganizationWithAdminRole),
+        organizationToCreate: {
+          ...firstOrganizationWithAdminRole,
+          tags: firstOrganizationWithAdminRole.tags?.split('_') ?? [],
+          targetProfiles: firstOrganizationWithAdminRole.targetProfiles?.split('_') ?? [],
+          role: firstOrganizationWithAdminRole.organizationInvitationRole,
+        },
+      },
+      {
+        createdOrganization: domainBuilder.buildOrganization(secondOrganizationWithMemberRole),
+        organizationToCreate: {
+          ...secondOrganizationWithMemberRole,
+          tags: secondOrganizationWithMemberRole.tags?.split('_') ?? [],
+          targetProfiles: secondOrganizationWithMemberRole.targetProfiles?.split('_') ?? [],
+          role: secondOrganizationWithMemberRole.organizationInvitationRole,
+        },
+      },
     ]);
 
     // when
@@ -447,67 +571,49 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     });
   });
 
-  it('should not create invitation if organization email is empty', async function () {
-    // given
-    const organizationWithoutEmail = {
-      id: 1,
-      name: 'organization A',
-      externalId: 'externalId A',
-      tags: 'TAG1',
-      targetProfiles: '123_765',
-      emailInvitations: null,
-      type: 'PRO',
-      createdBy: 4,
-    };
-
-    organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
-    tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateOrganizations.resolves([
-      domainBuilder.buildOrganization(organizationWithoutEmail),
-    ]);
-
-    // when
-    await createOrganizationsWithTagsAndTargetProfiles({
-      domainTransaction,
-      organizations: [organizationWithoutEmail],
-      organizationRepository: organizationRepositoryStub,
-      tagRepository: tagRepositoryStub,
-      targetProfileShareRepository,
-      organizationTagRepository: organizationTagRepositoryStub,
-      dataProtectionOfficerRepository,
-      organizationInvitationRepository: organizationInvitationRepositoryStub,
-      organizationValidator,
-      organizationInvitationService,
-    });
-
-    // then
-    expect(organizationInvitationService.createProOrganizationInvitation).to.not.have.been.called;
-  });
-
-  context('when an organization already exists in database', function () {
-    it('should throw an error', async function () {
+  context('when organization email is empty', function () {
+    it('creates an invitation', async function () {
       // given
+      const organizationWithoutEmail = {
+        id: 1,
+        name: 'organization A',
+        externalId: 'externalId A',
+        tags: 'TAG1',
+        targetProfiles: '123_765',
+        emailInvitations: null,
+        type: 'PRO',
+        createdBy: 4,
+      };
 
-      const organizations = [
-        { externalId: 'Ab1234', name: 'fake', emailInvitations: 'fake@axample.net', createdBy: 4 },
-        { externalId: 'Cd456', name: 'fake', emailInvitations: 'fake@axample.net', createdBy: 4 },
-      ];
-      organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([
-        { id: '1', externalId: 'Ab1234' },
-        { id: '2', externalId: 'Cd456' },
+      organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
+      tagRepositoryStub.findAll.resolves(allTags);
+      organizationRepositoryStub.batchCreateOrganizations.resolves([
+        {
+          createdOrganization: domainBuilder.buildOrganization(organizationWithoutEmail),
+          organizationToCreate: {
+            ...organizationWithoutEmail,
+            tags: organizationWithoutEmail.tags?.split('_') ?? [],
+            targetProfiles: organizationWithoutEmail.targetProfiles?.split('_') ?? [],
+          },
+        },
       ]);
 
       // when
-      const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-        organizations,
+      await createOrganizationsWithTagsAndTargetProfiles({
+        domainTransaction,
+        organizations: [organizationWithoutEmail],
         organizationRepository: organizationRepositoryStub,
+        tagRepository: tagRepositoryStub,
+        targetProfileShareRepository,
+        organizationTagRepository: organizationTagRepositoryStub,
+        dataProtectionOfficerRepository,
+        organizationInvitationRepository: organizationInvitationRepositoryStub,
         organizationValidator,
         organizationInvitationService,
       });
 
       // then
-      expect(error).to.be.an.instanceOf(OrganizationAlreadyExistError);
-      expect(error.message).to.equal('Les organisations avec les externalIds suivants : Ab1234, Cd456 existent déjà.');
+      expect(organizationInvitationService.createProOrganizationInvitation).to.not.have.been.called;
     });
   });
 });

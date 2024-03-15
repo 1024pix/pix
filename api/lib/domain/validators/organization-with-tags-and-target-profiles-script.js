@@ -21,11 +21,8 @@ const schema = Joi.object({
   name: Joi.string().required().messages({
     'string.empty': 'Le nom n’est pas renseigné.',
   }),
-  tags: Joi.string().required().messages({
-    'string.empty': 'Les tags ne sont pas renseignés.',
-  }),
+  tags: Joi.string().allow('').default(''),
   locale: Joi.string()
-    .required()
     .valid(...supportedLocales)
     .default('fr-fr')
     .messages({
@@ -33,8 +30,8 @@ const schema = Joi.object({
       'any.only': `La locale doit avoir l'une des valeurs suivantes : ${supportedLocales.join(', ')}`,
     }),
   identityProviderForCampaigns: Joi.string().allow(null),
-  provinceCode: Joi.string().required().allow('', null),
-  credit: Joi.number().required().messages({
+  provinceCode: Joi.string().allow('', null),
+  credit: Joi.number().default(0).messages({
     'number.base': 'Le crédit doit être un entier.',
   }),
   emailInvitations: Joi.string().email().allow('', null).messages({
