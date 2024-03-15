@@ -3,8 +3,8 @@ import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import _ from 'lodash';
 
+import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
-import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
 import { ChallengeToBeDeneutralizedNotFoundError, ChallengeToBeNeutralizedNotFoundError } from '../errors.js';
 import { CertificationAnswerStatusChangeAttempt } from './CertificationAnswerStatusChangeAttempt.js';

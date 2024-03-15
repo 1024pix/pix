@@ -3,8 +3,8 @@ import { CertificationAssessment } from '../../../../lib/domain/models/Certifica
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { CertificationIssueReportCategory } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { CertificationVersion } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
-import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import {
   createServer,
   databaseBuilder,
