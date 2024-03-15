@@ -416,4 +416,72 @@ module('Unit | Service | url', function (hooks) {
       });
     });
   });
+
+  module('#supportHomeUrl', function () {
+    module('when website is pix.fr', function () {
+      test('returns the French page URL', function (assert) {
+        // given
+        const service = this.owner.lookup('service:url');
+        service.currentDomain = { isFranceDomain: true };
+        service.intl = { primaryLocale: FRENCH_INTERNATIONAL_LOCALE };
+        const expectedSupportHomeUrl = 'https://support.pix.org/fr/support/home';
+
+        // when
+        const supportHomeUrl = service.supportHomeUrl;
+
+        // then
+        assert.strictEqual(supportHomeUrl, expectedSupportHomeUrl);
+      });
+
+      module('when current language is "en"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: true };
+          service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
+          const expectedSupportHomeUrl = 'https://support.pix.org/fr/support/home';
+
+          // when
+          const supportHomeUrl = service.supportHomeUrl;
+
+          // then
+          assert.strictEqual(supportHomeUrl, expectedSupportHomeUrl);
+        });
+      });
+    });
+
+    module('when website is pix.org', function () {
+      module('when current language is "fr"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: false };
+          service.intl = { primaryLocale: FRENCH_INTERNATIONAL_LOCALE };
+          const expectedSupportHomeUrl = 'https://support.pix.org/fr/support/home';
+
+          // when
+          const supportHomeUrl = service.supportHomeUrl;
+
+          // then
+          assert.strictEqual(supportHomeUrl, expectedSupportHomeUrl);
+        });
+      });
+
+      module('when current language is "en"', function () {
+        test('returns the English page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: false };
+          service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
+          const expectedSupportHomeUrl = 'https://support.pix.org/en/support/home';
+
+          // when
+          const supportHomeUrl = service.supportHomeUrl;
+
+          // then
+          assert.strictEqual(supportHomeUrl, expectedSupportHomeUrl);
+        });
+      });
+    });
+  });
 });
