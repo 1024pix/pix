@@ -9,9 +9,12 @@ const getNextChallengeForPix1d = async function (request, h, dependencies = { ch
   return dependencies.challengeSerializer.serialize(challenge);
 };
 
-const createForPix1d = async function (request, h, dependencies = { assessmentSerializer }) {
+const getCurrent = async function (request, h, dependencies = { assessmentSerializer }) {
   const { missionId, learnerId } = request.payload;
-  const createdAssessment = await usecases.createMissionAssessment({ missionId, organizationLearnerId: learnerId });
+  const createdAssessment = await usecases.getOrCreateAssessment({
+    missionId,
+    organizationLearnerId: learnerId,
+  });
   return h.response(dependencies.assessmentSerializer.serialize(createdAssessment)).created();
 };
 
@@ -29,7 +32,7 @@ const getCurrentActivity = async function (request, h, dependencies = { activity
 
 const assessmentController = {
   getNextChallengeForPix1d,
-  createForPix1d,
+  getCurrent,
   getById,
   getCurrentActivity,
 };

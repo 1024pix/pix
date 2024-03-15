@@ -13,6 +13,20 @@ const getByAssessmentId = async function (assessmentId) {
     .first();
   return new MissionAssessment({ ...rawAssessmentMission });
 };
+
+const getCurrent = async function (missionId, organizationLearnerId) {
+  const rawAssessmentMission = await knex('mission-assessments')
+    .join('assessments', 'assessments.id', 'mission-assessments.assessmentId')
+    .where({ missionId, organizationLearnerId, state: Assessment.states.STARTED })
+    .first();
+
+  if (!rawAssessmentMission) {
+    return null;
+  }
+
+  return new MissionAssessment({ ...rawAssessmentMission });
+};
+
 const getAllCompletedMissionIds = async function (organizationLearnerId) {
   const raw = await knex('mission-assessments')
     .select('mission-assessments.missionId')
@@ -23,4 +37,4 @@ const getAllCompletedMissionIds = async function (organizationLearnerId) {
   return raw.map((element) => element.missionId);
 };
 
-export { getAllCompletedMissionIds, getByAssessmentId, save };
+export { getAllCompletedMissionIds, getByAssessmentId, getCurrent, save };
