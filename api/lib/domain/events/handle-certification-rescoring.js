@@ -124,7 +124,10 @@ async function _handleV3Certification({
     configuration,
   });
 
-  const v3CertificationScoring = await scoringConfigurationRepository.listByLocale({ locale });
+  const v3CertificationScoring = await scoringConfigurationRepository.getLatestByDateAndLocale({
+    locale,
+    date: certificationCourse.getStartDate(),
+  });
 
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     algorithm,
