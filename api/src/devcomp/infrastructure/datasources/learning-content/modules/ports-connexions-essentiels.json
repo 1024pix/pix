@@ -58,7 +58,7 @@
           "proposals": [
             {
               "id": "1",
-              "content": "J'arrive toujours la brancher une clé USB du premier coup !"
+              "content": "J'arrive toujours la brancher une clé USB du premier coup&#8239;!"
             },
             {
               "id": "2",
@@ -66,7 +66,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>C'est le cas de nombreuses personnes ! <span aria-hidden=\"true\">🏅</span></p>",
+            "valid": "<p>C'est le cas de nombreuses personnes&#8239;! <span aria-hidden=\"true\">🏅</span></p>",
             "invalid": "<p>Toujours&#8239;?! On ne vous croit pas... <span aria-hidden=\"true\">😉</span></p>"
           },
           "solution": "2"
@@ -197,8 +197,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Oui ! cette souris filaire se branche à un port USB.</p>",
-            "invalid": "<p>Attention ! Regardez bien l’extrémité du fil de cette souris. Elle se branche à un port USB.</p>"
+            "valid": "<p>Oui&#8239;! cette souris filaire se branche à un port USB.</p>",
+            "invalid": "<p>Attention&#8239;! Regardez bien l’extrémité du fil de cette souris. Elle se branche à un port USB.</p>"
           },
           "solution": "1"
         },
@@ -229,8 +229,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct ! Ce casque audio ne se branche pas à un port USB. Il se branche à un port jack.</p>",
-            "invalid": "<p>Attention ! Regardez bien l’extrémité du fil de ce casque audio. Il ne se branche pas en USB.</p>"
+            "valid": "<p>Correct&#8239;! Ce casque audio ne se branche pas à un port USB. Il se branche à un port jack.</p>",
+            "invalid": "<p>Attention&#8239;! Regardez bien l’extrémité du fil de ce casque audio. Il ne se branche pas en USB.</p>"
           },
           "solution": "2"
         },
@@ -261,8 +261,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bien vu ! Ce symbole peut changer un peu sur des ports USB plus récents.</p>",
-            "invalid": "<p>Et si ! Retenez ce symbole, il vous aidera à trouver les branchements USB.</p>"
+            "valid": "<p>Bien vu&#8239;! Ce symbole peut changer un peu sur des ports USB plus récents.</p>",
+            "invalid": "<p>Et si&#8239;! Retenez ce symbole, il vous aidera à trouver les branchements USB.</p>"
           },
           "solution": "1"
         }

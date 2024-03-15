@@ -4,14 +4,14 @@
   "title": "Didacticiel Modulix",
   "details": {
     "image": "https://images.pix.fr/modulix/placeholder-details.svg",
-    "description": "Découvrez avec ce didacticiel comment fonctionne Modulix !",
+    "description": "Découvrez avec ce didacticiel comment fonctionne Modulix&#8239;!",
     "duration": 5,
     "level": "Débutant",
     "objectives": ["Naviguer dans Modulix", "Découvrir les leçons et les activités"]
   },
   "transitionTexts": [
     {
-      "content": "<p>Bonjour et bienvenue dans ce didacticiel Modulix. Vous allez pouvoir facilement découvrir comment fonctionne ce nouveau produit Pix.<br>C'est partix !</p>",
+      "content": "<p>Bonjour et bienvenue dans ce didacticiel Modulix. Vous allez pouvoir facilement découvrir comment fonctionne ce nouveau produit Pix.<br>C'est partix&#8239;!</p>",
       "grainId": "f312c33d-e7c9-4a69-9ba0-913957b8f7dd"
     },
     {
@@ -23,7 +23,7 @@
       "grainId": "533c69b8-a836-41be-8ffc-8d4636e31224"
     },
     {
-      "content": "<p>Vous l’aurez compris, on aime varier les plaisirs et proposer différents types d’activité, après le questionnaire à choix unique on vous laisse découvrir le QCM !</p>",
+      "content": "<p>Vous l’aurez compris, on aime varier les plaisirs et proposer différents types d’activité, après le questionnaire à choix unique on vous laisse découvrir le QCM&#8239;!</p>",
       "grainId": "0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"
     },
     {
@@ -31,7 +31,7 @@
       "grainId": "2a77a10f-19a3-4544-80f9-8012dad6506a"
     },
     {
-      "content": "<p>Vous arrivez à la fin de ce didacticiel. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez !<span aria-hidden=\"true\">🌟</span>️ </p>",
+      "content": "<p>Vous arrivez à la fin de ce didacticiel. Une dernière activité et vous serez prêt à explorer tous les modules que vous souhaitez&#8239;!<span aria-hidden=\"true\">🌟</span>️ </p>",
       "grainId": "7cf75e70-8749-4392-8081-f2c02badb0fb"
     }
   ],
@@ -49,7 +49,7 @@
         {
           "id": "a2372bf4-86a4-4ecc-a188-b51f4f98bca2",
           "type": "text",
-          "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture <span aria-hidden=\"true\">📚</span>️.<br>Et là, voici une image !</p>"
+          "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture <span aria-hidden=\"true\">📚</span>️.<br>Et là, voici une image&#8239;!</p>"
         },
         {
           "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
@@ -100,7 +100,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct ! Ces 16 compétences sont rangées dans 5 domaines.</p>",
+            "valid": "<p>Correct&#8239;! Ces 16 compétences sont rangées dans 5 domaines.</p>",
             "invalid": "<p>Incorrect. Retourner voir la vidéo si besoin <span aria-hidden=\"true\">⬆️</span>️!</p>"
           },
           "solution": "1"
@@ -139,8 +139,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct ! Vous nous avez bien cernés&nbsp;:)</p>",
-            "invalid": "<p>Et non ! Pix sert à évaluer, certifier et développer ses compétences numériques.</p>"
+            "valid": "<p>Correct&#8239;! Vous nous avez bien cernés&nbsp;:)</p>",
+            "invalid": "<p>Et non&#8239;! Pix sert à évaluer, certifier et développer ses compétences numériques.</p>"
           },
           "solutions": ["1", "3", "4"]
         }
@@ -170,8 +170,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct ! Vous avez bien remonté la page</p>",
-            "invalid": "<p>Incorrect. Remonter la page pour retrouver le premier mot !</p>"
+            "valid": "<p>Correct&#8239;! Vous avez bien remonté la page</p>",
+            "invalid": "<p>Incorrect. Remonter la page pour retrouver le premier mot&#8239;!</p>"
           },
           "solution": "2"
         }
@@ -201,8 +201,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct ! vous êtes prêt à explorer <span aria-hidden=\"true\">🎉</span></p>",
-            "invalid": "<p>Incorrect ! vous y arriverez la prochaine fois !</p>"
+            "valid": "<p>Correct&#8239;! vous êtes prêt à explorer <span aria-hidden=\"true\">🎉</span></p>",
+            "invalid": "<p>Incorrect&#8239;! vous y arriverez la prochaine fois&#8239;!</p>"
           }
         }
       ]

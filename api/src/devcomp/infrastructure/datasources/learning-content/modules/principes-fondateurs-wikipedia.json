@@ -85,7 +85,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct !</p>",
+            "valid": "<p>Correct&#8239;!</p>",
             "invalid": "<p>Incorrect. La construction permanente et les différentes langues de Wikipédia sont symbolisées prioritairement à travers ce logo.</p>"
           },
           "solutions": ["1", "4"]
@@ -130,7 +130,7 @@
         {
           "id": "df11aa2c-1ebf-4a60-99a3-533dfc06756d",
           "type": "text",
-          "content": "<h4>4 - Wikipédia est un projet collaboratif.&nbsp;<span aria-hidden=\"true\">🙋🏽‍♂️</span>️<span aria-hidden=\"true\">🙋🏻‍♀️</span>️<span aria-hidden=\"true\">🙋🏿‍♀️</span>️<span aria-hidden=\"true\">🙋‍♂️</span>️</h4><p>C’est probablement sa caractéristique la plus remarquable. Tout le monde peut améliorer les contenus de Wikipédia ! Des règles claires de savoir-vivre sont à respecter.</p>"
+          "content": "<h4>4 - Wikipédia est un projet collaboratif.&nbsp;<span aria-hidden=\"true\">🙋🏽‍♂️</span>️<span aria-hidden=\"true\">🙋🏻‍♀️</span>️<span aria-hidden=\"true\">🙋🏿‍♀️</span>️<span aria-hidden=\"true\">🙋‍♂️</span>️</h4><p>C’est probablement sa caractéristique la plus remarquable. Tout le monde peut améliorer les contenus de Wikipédia&#8239;! Des règles claires de savoir-vivre sont à respecter.</p>"
         },
         {
           "id": "1edb38ba-7542-4198-a5de-c260ef6b95ea",
@@ -307,7 +307,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct !</p>",
+            "valid": "<p>Correct&#8239;!</p>",
             "invalid": "<p>Incorrect.</p>"
           }
         },
@@ -339,7 +339,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct !</p>",
+            "valid": "<p>Correct&#8239;!</p>",
             "invalid": "<p>Incorrect.</p>"
           }
         },
@@ -383,7 +383,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct !</p>",
+            "valid": "<p>Correct&#8239;!</p>",
             "invalid": "<p>Incorrect.</p>"
           }
         }

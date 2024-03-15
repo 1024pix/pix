@@ -15,7 +15,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Commençons par un jeu. <span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, essayez de deviner si chaque information proposée dans ces articles de journaux est plutôt vraie ou plutôt fausse. Bonne chance !</p>",
+      "content": "<p>Commençons par un jeu. <span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, essayez de deviner si chaque information proposée dans ces articles de journaux est plutôt vraie ou plutôt fausse. Bonne chance&#8239;!</p>",
       "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
     },
     {
@@ -71,8 +71,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bien vu ! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>",
-            "invalid": "<p>Et pourtant, c'est vrai ! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
+            "valid": "<p>Bien vu&#8239;! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>",
+            "invalid": "<p>Et pourtant, c'est vrai&#8239;! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
           },
           "solution": "1"
         },
@@ -103,8 +103,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bravo ! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>",
-            "invalid": "<p>Et pourtant, c'est vrai ! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
+            "valid": "<p>Bravo&#8239;! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>",
+            "invalid": "<p>Et pourtant, c'est vrai&#8239;! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
           },
           "solution": "1"
         },
@@ -135,8 +135,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Oui, c'est une fake news ! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>",
-            "invalid": "<p>Attention, c'est une fake news ! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
+            "valid": "<p>Oui, c'est une fake news&#8239;! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>",
+            "invalid": "<p>Attention, c'est une fake news&#8239;! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
           },
           "solution": "2"
         }
@@ -274,7 +274,7 @@
         {
           "id": "8aa4a733-4a92-4007-897d-ab884a7add85",
           "type": "text",
-          "content": "<h3>Question n°2&nbsp;: quelle est la date de l’information&#8239;? <span aria-hidden=\"true\">📅</span>️</h3><p>C’est simple à vérifier et très important ! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
+          "content": "<h3>Question n°2&nbsp;: quelle est la date de l’information&#8239;? <span aria-hidden=\"true\">📅</span>️</h3><p>C’est simple à vérifier et très important&#8239;! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
         },
         {
           "id": "056ef18b-2f2f-4518-acca-93bb59b2d151",
@@ -337,7 +337,7 @@
           "type": "image",
           "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg",
           "alt": "",
-          "alternativeText": "Fan Du Real Madrid&nbsp;: ENFIN ! Kylian Mbappé va quitter le PSG pour rejoindre le Real Madrid. Tu es un vrai 10 !! <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80</a>"
+          "alternativeText": "Fan Du Real Madrid&nbsp;: ENFIN&#8239;! Kylian Mbappé va quitter le PSG pour rejoindre le Real Madrid. Tu es un vrai 10&#8239;!! <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80</a>"
         },
         {
           "id": "7e2cda57-9383-4a9b-ab46-b6d96317d6ac",
@@ -363,7 +363,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct. FanDuRealMadrid annonce la venue de Mbappé dans son club favori alors que l’article utilisé comme source ne l’annonce pas du tout !</p>",
+            "valid": "<p>Correct. FanDuRealMadrid annonce la venue de Mbappé dans son club favori alors que l’article utilisé comme source ne l’annonce pas du tout&#8239;!</p>",
             "invalid": "<p>Incorrect. L’article utilisé comme source n’annonce pas du tout la venue de Mbappé. Ce fan a sûrement été influencé par ses envies.</p>"
           },
           "solution": "1"
@@ -378,7 +378,7 @@
           "type": "image",
           "url": "https://i.imgur.com/5BMW9i7.png",
           "alt": "",
-          "alternativeText": "Jean-Eude Coulignant&nbsp;: Scoop ! Grâce aux nouvelles technologies, il y a de plus en plus de visiteurs dans les musées"
+          "alternativeText": "Jean-Eude Coulignant&nbsp;: Scoop&#8239;! Grâce aux nouvelles technologies, il y a de plus en plus de visiteurs dans les musées"
         },
         {
           "id": "81943b07-ecf0-408b-877c-55e1943df1fc",
@@ -481,7 +481,7 @@
           "type": "image",
           "url": "https://i.imgur.com/Scxdcfm.png",
           "alt": "",
-          "alternativeText": "Vos plantes vertes ne poussent pas&#8239;? Voici 2 super astuces dont vous ne pourrez plus vous passer.<br> Astuce 1&nbsp;: Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien ! Votre plante va adorer.<br> Astuce 2&nbsp;: Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
+          "alternativeText": "Vos plantes vertes ne poussent pas&#8239;? Voici 2 super astuces dont vous ne pourrez plus vous passer.<br> Astuce 1&nbsp;: Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien&#8239;! Votre plante va adorer.<br> Astuce 2&nbsp;: Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
         },
         {
           "id": "2a308355-f39f-498e-aef6-f1c0830f5b1f",
