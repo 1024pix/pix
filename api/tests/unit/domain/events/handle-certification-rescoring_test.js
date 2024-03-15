@@ -34,7 +34,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       flashAlgorithmConfigurationRepository,
       flashAlgorithmService,
       certificationAssessmentHistoryRepository,
-      competenceForScoringRepository,
+      scoringConfigurationRepository,
       competenceMarkRepository;
 
     let baseFlashAlgorithmConfig;
@@ -70,7 +70,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         save: sinon.stub(),
       };
 
-      competenceForScoringRepository = {
+      scoringConfigurationRepository = {
         listByLocale: sinon.stub(),
       };
 
@@ -87,7 +87,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         flashAlgorithmConfigurationRepository,
         flashAlgorithmService,
         certificationAssessmentHistoryRepository,
-        competenceForScoringRepository,
+        scoringConfigurationRepository,
         competenceMarkRepository,
       };
 
@@ -95,7 +95,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         maximumAssessmentLength,
       });
 
-      competenceForScoringRepository.listByLocale.resolves([domainBuilder.buildCompetenceForScoring()]);
+      scoringConfigurationRepository.listByLocale.resolves([domainBuilder.buildCompetenceForScoring()]);
 
       assessmentResult = domainBuilder.buildAssessmentResult();
       assessmentResultRepository.save.resolves(assessmentResult);
