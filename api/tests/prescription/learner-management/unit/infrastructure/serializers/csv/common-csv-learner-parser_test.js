@@ -1,6 +1,7 @@
 import iconv from 'iconv-lite';
 
 import { AggregateImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
+import { CommonOrganizationLearner } from '../../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearnerSet.js';
 import { CommonCsvLearerParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/common-csv-learner-parser.js';
 import { catchErr, expect } from '../../../../../../test-helper.js';
 
@@ -44,41 +45,6 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       const call = () => parser.setEncoding();
       // then
       expect(call).to.not.throw();
-    });
-  });
-
-  context('when the header is correctly formed', function () {
-    context('when there are lines', function () {
-      const config = {
-        headers: [
-          {
-            name: 'nom',
-            property: 'lastName',
-            isRequired: true,
-          },
-          {
-            name: 'prénom',
-            property: 'firstName',
-            isRequired: false,
-          },
-        ],
-        acceptedEncoding: ['utf8'],
-      };
-
-      it('should not throw on valid CSV', function () {
-        // given
-        const input = `nom;prénom;
-        Beatrix;The;
-        `;
-        const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
-
-        parser.setEncoding();
-        // when
-        const call = () => parser.parse();
-        // then
-        expect(call).to.not.throw();
-      });
     });
   });
 
@@ -178,6 +144,116 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       expect(errors.meta[1].meta.field).to.equal('GodZilla');
       expect(errors.meta[2].code).to.equal('HEADER_UNKNOWN');
       expect(errors.meta[2].meta.field).to.equal('Gidorah');
+    });
+  });
+
+  context('when the header is correctly formed', function () {
+    context('when there are lines', function () {
+      let config;
+      beforeEach(function () {
+        config = {
+          headers: [
+            {
+              name: 'nom',
+              property: 'lastName',
+              isRequired: true,
+            },
+            {
+              name: 'prénom',
+              property: 'firstName',
+              isRequired: false,
+            },
+          ],
+          acceptedEncoding: ['utf8'],
+        };
+      });
+
+      it('should not throw on valid CSV', function () {
+        // given
+        const input = `nom;prénom;
+        Beatrix;The;
+        `;
+        const encodedInput = iconv.encode(input, 'utf8');
+        const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+
+        parser.setEncoding();
+        // when
+        const call = () => parser.parse();
+        // then
+        expect(call).to.not.throw();
+      });
+
+      it('should return CommonOrganizationLearner from CSV', function () {
+        // given
+        const input = `prénom;nom;
+        Godzilla;King of monsters;
+        `;
+
+        const encodedInput = iconv.encode(input, 'utf8');
+        const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+
+        parser.setEncoding();
+        // when
+        const learners = parser.parse();
+
+        // then
+        expect(learners).lengthOf(1);
+        expect(learners[0]).instanceOf(CommonOrganizationLearner);
+      });
+
+      it('should return desired attributes from CSV', function () {
+        // given
+        const input = `prénom;nom;
+        Godzilla;King of monsters;
+        PikaChu;Pokemon Gotta Catch'em ALL;
+        `;
+
+        const expectedOutput = [
+          { firstName: 'Godzilla', lastName: 'King of monsters', organizationId, attributes: {} },
+          { firstName: 'PikaChu', lastName: "Pokemon Gotta Catch'em ALL", organizationId, attributes: {} },
+        ];
+
+        const encodedInput = iconv.encode(input, 'utf8');
+        const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+
+        parser.setEncoding();
+        // when
+        const learners = parser.parse();
+
+        // then
+        expect(learners).deep.equal(expectedOutput);
+      });
+
+      it('should return in attributes everything that is not in config file', function () {
+        // given
+        config.headers.push({
+          name: 'classe',
+          isRequired: false,
+        });
+        const input = `prénom;nom;classe;
+        Godzilla; King of monsters;3emeB;
+        PikaChu;Pokemon Gotta Catch'em ALL;6emeD;
+        `;
+
+        const expectedOutput = [
+          { firstName: 'Godzilla', lastName: 'King of monsters', organizationId, attributes: { classe: '3emeB' } },
+          {
+            firstName: 'PikaChu',
+            lastName: "Pokemon Gotta Catch'em ALL",
+            organizationId,
+            attributes: { classe: '6emeD' },
+          },
+        ];
+        const encodedInput = iconv.encode(input, 'utf8');
+        const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+        parser.setEncoding();
+
+        // when
+        const learners = parser.parse();
+
+        // then
+        expect(learners).deep.equal(expectedOutput);
+      });
     });
   });
 });
