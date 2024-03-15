@@ -48,14 +48,14 @@ describe('Integration | Controller | mission-controller', function () {
     });
   });
 
-  describe('#findAll', function () {
-    it('should find all missions', async function () {
+  describe('#findAllActive', function () {
+    it('should find all active missions', async function () {
       // given
       const mission = new Mission({ id: 1, name: 'TAG1', color: 'Green', startedBy: 'CM1' });
-      sinon.stub(usecases, 'findAllMissions').resolves([mission]);
+      sinon.stub(usecases, 'findAllActiveMissions').resolves([mission]);
 
       // when
-      const result = await missionController.findAll({ params: { id: 'organizationId' } }, hFake);
+      const result = await missionController.findAllActive({ params: { id: 'organizationId' } }, hFake);
 
       // then
       expect(result.data).to.deep.equal([

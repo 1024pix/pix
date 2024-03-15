@@ -5,7 +5,6 @@ class Mission {
     competenceId,
     competenceName,
     thematicId,
-    status,
     learningObjectives,
     validatedObjectives,
     areaCode,
@@ -16,7 +15,6 @@ class Mission {
     this.competenceId = competenceId;
     this.competenceName = competenceName;
     this.thematicId = thematicId;
-    this.status = status;
     this.areaCode = areaCode;
     this.learningObjectives = learningObjectives;
     this.validatedObjectives = validatedObjectives;
