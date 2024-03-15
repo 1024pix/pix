@@ -54,19 +54,6 @@ export default class Url extends Service {
     }
   }
 
-  get _showcaseWebsiteUrl() {
-    const currentLanguage = this.intl.primaryLocale;
-
-    if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
-      return `https://pix.${this.currentDomain.getExtension()}/en-gb`;
-    }
-    return `https://pix.${this.currentDomain.getExtension()}`;
-  }
-
-  get _showcaseWebsiteLinkText() {
-    return this.intl.t('navigation.showcase-homepage', { tld: this.currentDomain.getExtension() });
-  }
-
   get accessibilityUrl() {
     const currentLanguage = this.intl.primaryLocale;
     if (this.currentDomain.isFranceDomain) {
@@ -101,5 +88,18 @@ export default class Url extends Service {
       return 'https://pix.org/en/news/discover-level-7-on-pix';
     }
     return 'https://pix.fr/actualites/decouvrez-le-niveau-7-des-maintenant-sur-pix';
+  }
+
+  get _showcaseWebsiteUrl() {
+    const currentLanguage = this.intl.primaryLocale;
+
+    if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
+      return `https://pix.${this.currentDomain.getExtension()}/en-gb`;
+    }
+    return `https://pix.${this.currentDomain.getExtension()}`;
+  }
+
+  get _showcaseWebsiteLinkText() {
+    return this.intl.t('navigation.showcase-homepage', { tld: this.currentDomain.getExtension() });
   }
 }
