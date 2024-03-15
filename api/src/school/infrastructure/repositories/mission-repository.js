@@ -17,13 +17,11 @@ function _toDomain(data, locale) {
     thematicId: data.thematicId,
     learningObjectives: translatedLearningObjectives,
     validatedObjectives: translatedValidatedObjectives,
-    status: data.status,
   });
 }
 
 async function get(id, locale = { locale: FRENCH_FRANCE }) {
   try {
-    // Les missions sont stockées en tant que thématiques dans PixEditor :)
     const missionData = await missionDatasource.get(id);
     return _toDomain(missionData, locale);
   } catch (error) {
