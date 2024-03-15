@@ -9,7 +9,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
 
   module('#authenticate', function (hooks) {
     const userId = 1;
-    const source = 'oidc-externe';
     const useEndSession = false;
     const hasLogoutUrl = true;
     const logoutUrlUuid = 'uuid';
@@ -39,7 +38,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
       'aaa.' +
       btoa(`{
         "user_id": ${userId},
-        "source": "${source}",
         "identity_provider": "${identityProviderCode}",
         "iat": 1545321469,
         "exp": 4702193958
@@ -57,7 +55,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
         organizationName: 'Partenaire OIDC',
         useEndSession,
         hasLogoutUrl,
-        source,
       };
       class OidcIdentityProvidersStub extends Service {
         [identityProviderSlug] = oidcPartner;
@@ -94,7 +91,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
       assert.deepEqual(token, {
         access_token: accessToken,
         logoutUrlUuid,
-        source,
         hasLogoutUrl,
         useEndSession,
         user_id: userId,
@@ -121,7 +117,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
       assert.deepEqual(token, {
         access_token: accessToken,
         logoutUrlUuid,
-        source,
         useEndSession,
         hasLogoutUrl,
         user_id: userId,

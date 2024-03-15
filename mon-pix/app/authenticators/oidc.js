@@ -56,7 +56,6 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       access_token: data.access_token,
       logoutUrlUuid: data.logout_url_uuid,
       user_id: decodedAccessToken.user_id,
-      source: identityProvider.source,
       useEndSession: identityProvider.useEndSession,
       hasLogoutUrl: identityProvider.hasLogoutUrl,
       identityProviderCode: identityProvider.code,
