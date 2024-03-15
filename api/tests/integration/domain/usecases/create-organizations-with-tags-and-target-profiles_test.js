@@ -259,7 +259,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           },
           {
             attribute: 'locale',
-            message: "La locale doit avoir l'une des valeurs suivantes : fr-fr, fr ou en",
+            message: "La locale doit avoir l'une des valeurs suivantes : en, fr, fr-be, fr-fr, nl-be",
           },
           {
             attribute: 'locale',
