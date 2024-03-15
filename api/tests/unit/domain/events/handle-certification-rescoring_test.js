@@ -95,7 +95,11 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         maximumAssessmentLength,
       });
 
-      scoringConfigurationRepository.listByLocale.resolves([domainBuilder.buildCompetenceForScoring()]);
+      const scoringConfiguration = domainBuilder.buildV3CertificationScoring({
+        competencesForScoring: [domainBuilder.buildCompetenceForScoring()],
+      });
+
+      scoringConfigurationRepository.listByLocale.resolves(scoringConfiguration);
 
       assessmentResult = domainBuilder.buildAssessmentResult();
       assessmentResultRepository.save.resolves(assessmentResult);

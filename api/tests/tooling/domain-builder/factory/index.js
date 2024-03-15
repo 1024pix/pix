@@ -168,6 +168,7 @@ import { buildCertificationAssessmentHistory } from './certification/scoring/bui
 import { buildCertificationChallengeCapacity } from './certification/scoring/build-certification-challenge-capacity.js';
 import { buildCertificationChallengeForScoring } from './certification/scoring/build-certification-challenge-for-scoring.js';
 import { buildCompetenceForScoring } from './certification/scoring/build-competence-for-scoring.js';
+import { buildV3CertificationScoring } from './certification/scoring/build-v3-certification-scoring.js';
 import { buildCenter } from './certification/session/build-center.js';
 import { buildCertificationSessionCandidate } from './certification/session/build-certification-session-candidate.js';
 import { buildCertificationSessionComplementaryCertification } from './certification/session/build-certification-session-complementary-certification.js';
@@ -184,6 +185,7 @@ const certification = {
   },
   scoring: {
     buildAssessmentResult: buildCertificationScoringAssessmentResult,
+    buildV3CertificationScoring,
   },
   session: {
     buildCenter,
@@ -372,6 +374,7 @@ export {
   buildV3CertificationChallengeForAdministration,
   buildV3CertificationChallengeLiveAlertForAdministration,
   buildV3CertificationCourseDetailsForAdministration,
+  buildV3CertificationScoring,
   buildValidation,
   buildValidator,
   certification,

@@ -62,7 +62,7 @@ class CertificationAssessmentScoreV3 {
     allAnswers,
     abortReason,
     maxReachableLevelOnCertificationDate,
-    competencesForScoring = [],
+    v3CertificationScoring = [],
   }) {
     const { estimatedLevel } = algorithm.getEstimatedLevelAndErrorRate({
       challenges,
@@ -71,9 +71,7 @@ class CertificationAssessmentScoreV3 {
 
     const nbPix = _computeScore(estimatedLevel, maxReachableLevelOnCertificationDate);
 
-    const competenceMarks = competencesForScoring.map((competenceForScoring) =>
-      competenceForScoring.getCompetenceMark(estimatedLevel),
-    );
+    const competenceMarks = v3CertificationScoring.getCompetencesScore(estimatedLevel);
 
     const status = _isCertificationRejected({ answers: allAnswers, abortReason })
       ? CertificationStatus.REJECTED

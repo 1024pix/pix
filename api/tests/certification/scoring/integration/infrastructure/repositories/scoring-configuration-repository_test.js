@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import { knex } from '../../../../../../db/knex-database-connection.js';
-import { CompetenceForScoring } from '../../../../../../src/certification/scoring/domain/models/CompetenceForScoring.js';
 import {
   listByLocale,
   save,
@@ -9,6 +8,7 @@ import {
 import { databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 import { buildArea, buildCompetence, buildFramework } from '../../../../../tooling/domain-builder/factory/index.js';
 import { buildLearningContent } from '../../../../../tooling/learning-content-builder/index.js';
+import { V3CertificationScoring } from '../../../../../../src/certification/scoring/domain/models/V3CertificationScoring.js';
 
 describe('Unit | Repository | scoring-configuration-repository', function () {
   describe('#listByLocale', function () {
@@ -16,7 +16,7 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
       // given
       const frameworkId = 'frameworkId';
 
-      const configuration = [
+      const competenceScoringConfiguration = [
         {
           competence: '1.1',
           values: [
@@ -30,8 +30,15 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
           ],
         },
       ];
+      const certificationScoringConfiguration = [
+        {
+          start: -1.399264,
+          end: -0.519812,
+        },
+      ];
+
       const getAreaCode = (competenceCode) => competenceCode.split('.').shift();
-      const competenceLevelIntervalsWithAreaCode = configuration.map((competenceLevelInterval) => ({
+      const competenceLevelIntervalsWithAreaCode = competenceScoringConfiguration.map((competenceLevelInterval) => ({
         ...competenceLevelInterval,
         areaCode: getAreaCode(competenceLevelInterval.competence),
       }));
@@ -53,18 +60,16 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
 
       mockLearningContent(learningContent);
 
-      databaseBuilder.factory.buildCompetenceScoringConfiguration({ configuration });
+      databaseBuilder.factory.buildCompetenceScoringConfiguration({ configuration: competenceScoringConfiguration });
+      databaseBuilder.factory.buildScoringConfiguration({ configuration: certificationScoringConfiguration });
 
       await databaseBuilder.commit();
 
       // when
-      const resultList = await listByLocale({ locale: 'fr-fr' });
+      const result = await listByLocale({ locale: 'fr-fr' });
 
       // then
-      resultList.map((result) => {
-        expect(result).to.be.instanceOf(CompetenceForScoring);
-      });
-      expect(resultList.length).to.equal(1);
+      expect(result).to.be.instanceOf(V3CertificationScoring);
     });
   });
 

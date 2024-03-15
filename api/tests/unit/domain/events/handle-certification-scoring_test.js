@@ -395,7 +395,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           getEstimatedLevelAndErrorRateHistory: sinon.stub(),
         };
 
-        scoringConfigurationRepository.listByLocale.resolves([domainBuilder.buildCompetenceForScoring()]);
+        const scoringConfiguration = domainBuilder.buildV3CertificationScoring({
+          competencesForScoring: [domainBuilder.buildCompetenceForScoring()],
+        });
+
+        scoringConfigurationRepository.listByLocale.resolves(scoringConfiguration);
+
         assessmentResultRepository.save.resolves(
           domainBuilder.buildAssessmentResult({
             id: assessmentResultId,
