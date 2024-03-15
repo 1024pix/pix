@@ -44,11 +44,7 @@ const register = async function (server) {
       config: {
         pre: [
           {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
-                request,
-                h,
-              ),
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
@@ -65,7 +61,7 @@ const register = async function (server) {
           },
         },
         handler: organizationController.createInBatch,
-        tags: ['api', 'organizations'],
+        tags: ['api', 'admin', 'organizations'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de créer de nouvelles organisations en masse.',

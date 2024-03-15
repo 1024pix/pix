@@ -4,66 +4,151 @@ import lodash from 'lodash';
 import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../infrastructure/constants.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import {
-  ManyOrganizationsFoundError,
-  ObjectValidationError,
-  OrganizationAlreadyExistError,
-  OrganizationTagNotFound,
-  TargetProfileInvalidError,
-} from '../errors.js';
+import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
+import { ObjectValidationError, OrganizationTagNotFound, TargetProfileInvalidError } from '../errors.js';
 import { OrganizationForAdmin } from '../models/index.js';
 import { Organization } from '../models/Organization.js';
 import { OrganizationTag } from '../models/OrganizationTag.js';
 
-const { isEmpty, uniqBy } = lodash;
-
 const SEPARATOR = '_';
 
+const { isEmpty } = lodash;
+
 const createOrganizationsWithTagsAndTargetProfiles = async function ({
+  // parameters
   organizations,
   domainTransaction = DomainTransaction,
+
+  // dependencies
+  dataProtectionOfficerRepository,
+  organizationInvitationRepository,
   organizationRepository,
+  organizationTagRepository,
+  schoolRepository,
   tagRepository,
   targetProfileShareRepository,
-  organizationTagRepository,
-  organizationInvitationRepository,
-  dataProtectionOfficerRepository,
   organizationValidator,
   organizationInvitationService,
-  schoolRepository,
 }) {
   if (isEmpty(organizations)) {
     throw new ObjectValidationError('Les organisations ne sont pas renseignées.');
   }
 
-  _checkIfOrganizationsDataAreUnique(organizations);
-
   for (const organization of organizations) {
     organizationValidator.validate(organization);
   }
 
-  await _checkIfOrganizationsAlreadyExistInDatabase(organizations, organizationRepository);
-
-  const organizationsData = _mapOrganizationsData(organizations);
-
+  let createdOrganizations = [];
   const allTags = await tagRepository.findAll();
 
-  let createdOrganizations = null;
-
   await domainTransaction.execute(async (domainTransaction) => {
-    const organizationsToCreate = Array.from(organizationsData.values()).map((data) => data.organization);
+    const transformedOrganizationsData = _transformOrganizationsCsvData(organizations);
 
     createdOrganizations = await organizationRepository.batchCreateOrganizations(
-      organizationsToCreate,
+      transformedOrganizationsData,
       domainTransaction,
     );
 
+    await _addDataProtectionOfficers({
+      createdOrganizations,
+      domainTransaction,
+      dataProtectionOfficerRepository,
+    });
+
+    await _addTags({
+      allTags,
+      createdOrganizations,
+      domainTransaction,
+      organizationTagRepository,
+    });
+
+    await _updateSchoolsWithCodes({ createdOrganizations, domainTransaction, schoolRepository });
+
+    await _addTargetProfiles({
+      createdOrganizations,
+      domainTransaction,
+      targetProfileShareRepository,
+    });
+  });
+
+  await _sendInvitationEmails({
+    createdOrganizations,
+    organizationInvitationRepository,
+    organizationRepository,
+    organizationInvitationService,
+  });
+
+  return createdOrganizations.map(({ createdOrganization }) => createdOrganization);
+};
+
+export { createOrganizationsWithTagsAndTargetProfiles };
+
+function _transformOrganizationsCsvData(organizationsCsvData) {
+  const organizations = organizationsCsvData.map((organizationCsvData) => {
+    const email =
+      organizationCsvData.type === Organization.types.SCO ? organizationCsvData.emailForSCOActivation : undefined;
+    return {
+      organization: new OrganizationForAdmin({
+        ...organizationCsvData,
+        email,
+      }),
+      dataProtectionOfficer: {
+        firstName: organizationCsvData.DPOFirstName,
+        lastName: organizationCsvData.DPOLastName,
+        email: organizationCsvData.DPOEmail,
+      },
+      emailInvitations: organizationCsvData.emailInvitations,
+      tags: isEmpty(organizationCsvData.tags) ? [] : organizationCsvData.tags.split(SEPARATOR),
+      targetProfiles: isEmpty(organizationCsvData.targetProfiles)
+        ? []
+        : organizationCsvData.targetProfiles.split(SEPARATOR).filter((targetProfile) => !!targetProfile.trim()),
+      role: organizationCsvData.organizationInvitationRole,
+      locale: organizationCsvData.locale,
+    };
+  });
+  return organizations;
+}
+
+async function _updateSchoolsWithCodes({ createdOrganizations, domainTransaction, schoolRepository }) {
+  try {
+    const pendingCodes = [];
+    const filteredOrganizations = createdOrganizations.filter(
+      ({ createdOrganization }) => createdOrganization.type === 'SCO-1D',
+    );
+
+    await bluebird.map(
+      filteredOrganizations,
+      async ({ createdOrganization }) => {
+        const code = await codeGenerator.generate(schoolRepository, pendingCodes);
+        await schoolRepository.save({ organizationId: createdOrganization.id, code, domainTransaction });
+        pendingCodes.push(code);
+      },
+      {
+        concurrency: CONCURRENCY_HEAVY_OPERATIONS,
+      },
+    );
+  } catch (error) {
+    _monitorError(error.message, { error, event: 'add-school-organizations-codes' });
+    throw error;
+  }
+}
+
+async function _addDataProtectionOfficers({
+  createdOrganizations,
+  domainTransaction,
+  dataProtectionOfficerRepository,
+}) {
+  try {
     const dataProtectionOfficers = createdOrganizations
-      .map(({ id, externalId }) => {
-        const { dataProtectionOfficer } = organizationsData.get(externalId);
-        const hasDataProtectionOfficer =
-          dataProtectionOfficer.firstName || dataProtectionOfficer.lastName || dataProtectionOfficer.email;
-        return hasDataProtectionOfficer ? { organizationId: id, ...dataProtectionOfficer } : undefined;
+      .map(({ createdOrganization, organizationToCreate }) => {
+        const { dataProtectionOfficer } = organizationToCreate;
+        const hasDataProtectionOfficer = Boolean(
+          dataProtectionOfficer?.firstName || dataProtectionOfficer?.lastName || dataProtectionOfficer?.email,
+        );
+
+        return hasDataProtectionOfficer
+          ? { organizationId: createdOrganization.id, ...dataProtectionOfficer }
+          : undefined;
       })
       .filter(Boolean);
 
@@ -71,127 +156,112 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
       dataProtectionOfficers,
       domainTransaction,
     );
+  } catch (error) {
+    _monitorError(error.message, { error, event: 'add-organizations-data-protection-officers' });
+    throw error;
+  }
+}
 
-    const organizationsTags = createdOrganizations.flatMap(({ id, externalId, name }) => {
-      return organizationsData.get(externalId).tags.map((tagName) => {
+async function _addTags({ allTags, createdOrganizations, domainTransaction, organizationTagRepository }) {
+  try {
+    const organizationsTags = createdOrganizations.flatMap(({ createdOrganization, organizationToCreate }) => {
+      return organizationToCreate.tags.map((tagName) => {
         const foundTag = allTags.find((tagInDB) => tagInDB.name === tagName.toUpperCase());
-        if (foundTag) {
-          return new OrganizationTag({ organizationId: id, tagId: foundTag.id });
-        } else {
-          throw new OrganizationTagNotFound(`Le tag ${tagName} de l'organisation ${name} n'existe pas.`);
+
+        if (!foundTag) {
+          throw new OrganizationTagNotFound(
+            `Le tag ${tagName} de l'organisation ${createdOrganization.name} n'existe pas.`,
+          );
         }
+
+        return new OrganizationTag({ organizationId: createdOrganization.id, tagId: foundTag.id });
       });
     });
 
     await organizationTagRepository.batchCreate(organizationsTags, domainTransaction);
+  } catch (error) {
+    _monitorError(error.message, { error, event: 'add-organizations-tags' });
+    throw error;
+  }
+}
 
-    const pendingCodes = [];
-    await bluebird.map(
-      createdOrganizations.filter((organization) => organization.type === 'SCO-1D'),
-      async (organization) => {
-        const code = await codeGenerator.generate(schoolRepository, pendingCodes);
-        await schoolRepository.save({ organizationId: organization.id, code, domainTransaction });
-        pendingCodes.push(code);
-      },
-      {
-        concurrency: CONCURRENCY_HEAVY_OPERATIONS,
+async function _addTargetProfiles({ createdOrganizations, domainTransaction, targetProfileShareRepository }) {
+  try {
+    const organizationsTargetProfiles = createdOrganizations.flatMap(
+      ({ createdOrganization, organizationToCreate }) => {
+        return organizationToCreate.targetProfiles.map((targetProfileId) => ({
+          organizationId: createdOrganization.id,
+          targetProfileId,
+        }));
       },
     );
 
-    const organizationsTargetProfiles = createdOrganizations.flatMap(({ id, externalId }) => {
-      return organizationsData
-        .get(externalId)
-        .targetProfiles.map((targetProfileId) => ({ organizationId: id, targetProfileId }));
-    });
+    await targetProfileShareRepository.batchAddTargetProfilesToOrganization(
+      organizationsTargetProfiles,
+      domainTransaction,
+    );
+  } catch (error) {
+    _monitorError(error.message, { error, event: 'add-organizations-target-profiles' });
 
-    try {
-      await targetProfileShareRepository.batchAddTargetProfilesToOrganization(
-        organizationsTargetProfiles,
-        domainTransaction,
-      );
-    } catch (error) {
-      if (error.constraint === 'target_profile_shares_targetprofileid_foreign') {
-        const targetProfileId = error.detail.match(/\d+/g);
-        throw new TargetProfileInvalidError(`Le profil cible ${targetProfileId} n'existe pas.`);
-      }
-      throw error;
+    if (error.constraint === 'target_profile_shares_targetprofileid_foreign') {
+      const targetProfileId = error.detail.match(/\d+/g);
+      throw new TargetProfileInvalidError(`Le profil cible ${targetProfileId} n'existe pas.`);
     }
-  });
 
-  const createdOrganizationsWithEmail = createdOrganizations
-    .map(({ id, externalId, name }) => {
-      const { emailInvitations, role, locale } = organizationsData.get(externalId);
-      return {
-        organizationId: id,
-        name,
-        email: emailInvitations,
-        role,
-        locale,
-      };
-    })
-    .filter((organization) => !!organization.email);
-
-  await bluebird.mapSeries(createdOrganizationsWithEmail, (organizationWithEmail) =>
-    organizationInvitationService.createProOrganizationInvitation({
-      organizationRepository,
-      organizationInvitationRepository,
-      ...organizationWithEmail,
-    }),
-  );
-
-  return createdOrganizations;
-};
-
-export { createOrganizationsWithTagsAndTargetProfiles };
-
-function _checkIfOrganizationsDataAreUnique(organizations) {
-  const uniqOrganizations = uniqBy(organizations, 'externalId');
-
-  if (uniqOrganizations.length !== organizations.length) {
-    throw new ManyOrganizationsFoundError(
-      `Plusieurs organisations (${uniqOrganizations.length}) ont le même externalId.`,
-    );
+    throw error;
   }
 }
 
-async function _checkIfOrganizationsAlreadyExistInDatabase(organizations, organizationRepository) {
-  const foundOrganizations = await organizationRepository.findByExternalIdsFetchingIdsOnly(
-    organizations.map((organization) => organization.externalId),
-  );
+async function _sendInvitationEmails({
+  createdOrganizations,
+  organizationInvitationRepository,
+  organizationRepository,
+  organizationInvitationService,
+}) {
+  try {
+    const createdOrganizationsWithEmail = createdOrganizations
+      .map(({ createdOrganization, organizationToCreate }) => {
+        const { emailInvitations, role, locale } = organizationToCreate;
+        const { id, name } = createdOrganization;
 
-  if (!isEmpty(foundOrganizations)) {
-    const foundOrganizationIds = foundOrganizations.map((foundOrganization) => foundOrganization.externalId);
-    const message = `Les organisations avec les externalIds suivants : ${foundOrganizationIds.join(
-      ', ',
-    )} existent déjà.`;
-    throw new OrganizationAlreadyExistError(message);
-  }
-}
+        return {
+          organizationId: id,
+          name,
+          email: emailInvitations,
+          role,
+          locale,
+        };
+      })
+      .filter((organization) => Boolean(organization.email));
 
-function _mapOrganizationsData(organizations) {
-  const mapOrganizationByExternalId = new Map();
-
-  for (const organization of organizations) {
-    const email = organization.type === Organization.types.SCO ? organization.emailForSCOActivation : undefined;
-    mapOrganizationByExternalId.set(organization.externalId, {
-      organization: new OrganizationForAdmin({
-        ...organization,
-        email,
+    await bluebird.mapSeries(createdOrganizationsWithEmail, (organizationWithEmail) =>
+      organizationInvitationService.createProOrganizationInvitation({
+        organizationRepository,
+        organizationInvitationRepository,
+        ...organizationWithEmail,
       }),
-      dataProtectionOfficer: {
-        firstName: organization.DPOFirstName,
-        lastName: organization.DPOLastName,
-        email: organization.DPOEmail,
-      },
-      emailInvitations: organization.emailInvitations,
-      tags: organization.tags.split(SEPARATOR),
-      targetProfiles: isEmpty(organization.targetProfiles)
-        ? []
-        : organization.targetProfiles.split(SEPARATOR).filter((targetProfile) => !!targetProfile.trim()),
-      role: organization.organizationInvitationRole,
-      locale: organization.locale,
-    });
+    );
+  } catch (error) {
+    _monitorError(error.message, { error, event: 'send-organizations-invitation-emails' });
+    throw error;
+  }
+}
+
+function _monitorError(message, { data, error, event } = {}) {
+  const monitoringData = {
+    message,
+    context: 'create-organizations-with-tags-and-target-profiles',
+    event,
+    team: 'acces',
+  };
+
+  if (data) {
+    monitoringData.data = data;
   }
 
-  return mapOrganizationByExternalId;
+  if (error) {
+    monitoringData.error = { name: error.constructor.name };
+  }
+
+  monitoringTools.logErrorWithCorrelationIds(monitoringData);
 }

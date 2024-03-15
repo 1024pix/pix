@@ -1,9 +1,7 @@
 import lodash from 'lodash';
 
 import {
-  ManyOrganizationsFoundError,
   ObjectValidationError,
-  OrganizationAlreadyExistError,
   OrganizationTagNotFound,
   TargetProfileInvalidError,
 } from '../../../../lib/domain/errors.js';
@@ -36,66 +34,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
     await databaseBuilder.commit();
   });
 
-  describe('validation error cases', function () {
-    context('when there is more than one occurrence of the same organization in data file', function () {
-      it('throws an error', async function () {
-        // given
-        const duplicatesOrganizations = [
-          {
-            externalId: 'b202',
-            name: 'Mathieu Bâtiment',
-            provinceCode: '567',
-            credit: 20,
-            email: 'mathieu@example.net',
-            locale: 'fr-fr',
-            tags: 'TagNotFound',
-          },
-          {
-            externalId: 'b202',
-            name: 'Mathieu Bâtiment',
-            provinceCode: '567',
-            credit: 20,
-            email: 'mathieu@example.net',
-            locale: 'fr-fr',
-            tags: 'TagNotFound',
-          },
-        ];
-        const tooManyOccurencesOfTheSameOrganizationWithTags = [
-          {
-            externalId: 'b200',
-            name: 'Youness et Fils',
-            provinceCode: '123',
-            credit: 0,
-            email: 'youness@example.net',
-            locale: 'fr-fr',
-            tags: 'TagNotFound',
-          },
-          ...duplicatesOrganizations,
-        ];
-
-        // when
-        const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-          domainTransaction,
-          organizations: tooManyOccurencesOfTheSameOrganizationWithTags,
-          organizationRepository,
-          tagRepository,
-          targetProfileShareRepository,
-          organizationTagRepository,
-          organizationInvitationRepository,
-          dataProtectionOfficerRepository,
-          organizationValidator,
-          organizationInvitationService,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(ManyOrganizationsFoundError);
-        expect(error.message).to.be.equal(
-          `Plusieurs organisations (${duplicatesOrganizations.length}) ont le même externalId.`,
-        );
-      });
-    });
-
-    context('when there is organizations data file is empty', function () {
+  describe('#errors', function () {
+    context('when provided CSV file is empty', function () {
       it('throws an error', async function () {
         // given
         const organizations = [];
@@ -117,87 +57,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         // then
         expect(error).to.be.instanceOf(ObjectValidationError);
         expect(error.message).to.be.equal('Les organisations ne sont pas renseignées.');
-      });
-    });
-
-    context('when there is one organization already created', function () {
-      it('throws an error with the organization id', async function () {
-        // given
-        const existingOrganization = databaseBuilder.factory.buildOrganization({
-          externalId: 'ExaB123',
-          createdBy: userId,
-        });
-        const anotherExistingOrganization = databaseBuilder.factory.buildOrganization({
-          externalId: 'ExaB1234',
-          createdBy: userId,
-        });
-        databaseBuilder.factory.buildOrganization({ externalId: 'ExaB12345', createdBy: userId });
-        await databaseBuilder.commit();
-
-        const organizationsToCreate = [
-          {
-            type: 'PRO',
-            externalId: existingOrganization.externalId,
-            name: existingOrganization.name,
-            provinceCode: existingOrganization.provinceCode,
-            credit: existingOrganization.credit,
-            emailInvitations: existingOrganization.email,
-            locale: 'en',
-            tags: 'Tag1',
-            documentationUrl: 'http://www.pix.fr',
-            targetProfiles: '1_2_3',
-            createdBy: userId,
-            organizationInvitationRole: 'ADMIN',
-          },
-          {
-            externalId: anotherExistingOrganization.externalId,
-            name: anotherExistingOrganization.name,
-            provinceCode: anotherExistingOrganization.provinceCode,
-            credit: anotherExistingOrganization.credit,
-            emailInvitations: anotherExistingOrganization.email,
-            type: anotherExistingOrganization.type,
-            createdBy: userId,
-            organizationInvitationRole: 'ADMIN',
-            locale: 'en',
-            tags: 'Tag1',
-            documentationUrl: 'http://www.pix.fr',
-            targetProfiles: '1_2_3',
-          },
-          {
-            type: 'PRO',
-            externalId: 'b200',
-            name: 'Youness et Fils',
-            provinceCode: '123',
-            credit: 0,
-            emailInvitations: 'youness@example.net',
-            locale: 'fr-fr',
-            tags: 'Tag1_Tag2',
-            createdBy: userId,
-            organizationInvitationRole: 'ADMIN',
-            documentationUrl: 'http://www.pix.fr',
-            targetProfiles: '1_2_3',
-          },
-        ];
-
-        // when
-        const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-          domainTransaction,
-          organizations: organizationsToCreate,
-          organizationRepository,
-          tagRepository,
-          targetProfileShareRepository,
-          organizationTagRepository,
-          organizationInvitationRepository,
-          dataProtectionOfficerRepository,
-          organizationValidator,
-          organizationInvitationService,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(OrganizationAlreadyExistError);
-        expect(error.message).to.be.equal(
-          `Les organisations avec les externalIds suivants : ${existingOrganization.externalId}, ${anotherExistingOrganization.externalId} existent déjà.`,
-        );
       });
     });
 
@@ -252,10 +111,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           {
             attribute: 'name',
             message: 'Le nom n’est pas renseigné.',
-          },
-          {
-            attribute: 'tags',
-            message: 'Les tags ne sont pas renseignés.',
           },
           {
             attribute: 'locale',
@@ -422,80 +277,80 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         ]);
       });
     });
-  });
 
-  describe('when one provided tag is not found in database', function () {
-    it('should rollback', async function () {
-      // given
-      databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
-      await databaseBuilder.commit();
+    describe('when one provided tag is not found in database', function () {
+      it('should rollback', async function () {
+        // given
+        databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
+        await databaseBuilder.commit();
 
-      const organizationsWithTagsNotExists = [
-        {
-          type: 'PRO',
-          externalId: 'b400',
-          name: 'Mathieu Bâtiment',
-          provinceCode: '567',
-          credit: 20,
-          emailInvitations: 'mathieu@example.net',
-          locale: 'fr-fr',
-          tags: 'TagNotFound_AnotherTagNotFound',
-          targetProfiles: '123',
-          createdBy: userId,
-          documentationUrl: 'http://www.pix.fr',
-          organizationInvitationRole: 'ADMIN',
-        },
-        {
-          type: 'PRO',
-          externalId: 'b200',
-          name: 'Youness et Fils',
-          provinceCode: '123',
-          credit: 0,
-          emailInvitations: 'youness@example.net',
-          locale: 'fr-fr',
-          tags: 'TagNotFound',
-          targetProfiles: '123',
-          createdBy: userId,
-          documentationUrl: 'http://www.pix.fr',
-          organizationInvitationRole: 'MEMBER',
-        },
-        {
-          type: 'PRO',
-          externalId: 'b300',
-          name: 'Andreia & Co',
-          provinceCode: '345',
-          credit: 10,
-          emailInvitations: 'andreia@example.net',
-          locale: 'fr-fr',
-          tags: 'AnotherTagNotFound',
-          targetProfiles: '123',
-          createdBy: userId,
-          documentationUrl: 'http://www.pix.fr',
-          organizationInvitationRole: 'ADMIN',
-        },
-      ];
+        const organizationsWithTagsNotExists = [
+          {
+            type: 'PRO',
+            externalId: 'b400',
+            name: 'Mathieu Bâtiment',
+            provinceCode: '567',
+            credit: 20,
+            emailInvitations: 'mathieu@example.net',
+            locale: 'fr-fr',
+            tags: 'TagNotFound_AnotherTagNotFound',
+            targetProfiles: '123',
+            createdBy: userId,
+            documentationUrl: 'http://www.pix.fr',
+            organizationInvitationRole: 'ADMIN',
+          },
+          {
+            type: 'PRO',
+            externalId: 'b200',
+            name: 'Youness et Fils',
+            provinceCode: '123',
+            credit: 0,
+            emailInvitations: 'youness@example.net',
+            locale: 'fr-fr',
+            tags: 'TagNotFound',
+            targetProfiles: '123',
+            createdBy: userId,
+            documentationUrl: 'http://www.pix.fr',
+            organizationInvitationRole: 'MEMBER',
+          },
+          {
+            type: 'PRO',
+            externalId: 'b300',
+            name: 'Andreia & Co',
+            provinceCode: '345',
+            credit: 10,
+            emailInvitations: 'andreia@example.net',
+            locale: 'fr-fr',
+            tags: 'AnotherTagNotFound',
+            targetProfiles: '123',
+            createdBy: userId,
+            documentationUrl: 'http://www.pix.fr',
+            organizationInvitationRole: 'ADMIN',
+          },
+        ];
 
-      // when
-      const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
-        domainTransaction,
-        organizations: organizationsWithTagsNotExists,
-        organizationRepository,
-        tagRepository,
-        targetProfileShareRepository,
-        organizationTagRepository,
-        organizationInvitationRepository,
-        dataProtectionOfficerRepository,
-        organizationValidator,
-        organizationInvitationService,
+        // when
+        const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
+          domainTransaction,
+          organizations: organizationsWithTagsNotExists,
+          organizationRepository,
+          tagRepository,
+          targetProfileShareRepository,
+          organizationTagRepository,
+          organizationInvitationRepository,
+          dataProtectionOfficerRepository,
+          organizationValidator,
+          organizationInvitationService,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(OrganizationTagNotFound);
+        expect(error.message).to.be.equal("Le tag TagNotFound de l'organisation Mathieu Bâtiment n'existe pas.");
+        const organizationsInDB = await knex('organizations').select();
+        expect(organizationsInDB.length).to.equal(0);
+        const organizationTagsInDB = await knex('organization-tags').select();
+        expect(organizationTagsInDB.length).to.equal(0);
       });
-
-      // then
-      expect(error).to.be.instanceOf(OrganizationTagNotFound);
-      expect(error.message).to.be.equal("Le tag TagNotFound de l'organisation Mathieu Bâtiment n'existe pas.");
-      const organizationsInDB = await knex('organizations').select();
-      expect(organizationsInDB.length).to.equal(0);
-      const organizationTagsInDB = await knex('organization-tags').select();
-      expect(organizationTagsInDB.length).to.equal(0);
     });
   });
 
@@ -841,7 +696,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
     });
   });
 
-  describe('when organization type id SCO-1D', function () {
+  describe('when organization type is SCO-1D', function () {
     it('should add mission management feature to organization', async function () {
       // given
       databaseBuilder.factory.buildTag({ name: 'TAG1' });
@@ -941,6 +796,67 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
       expect(savedSco1dOrganizations.length).to.equal(1);
 
       expect(savedSchools[0].organizationId).to.equal(savedSco1dOrganizations[0].id);
+    });
+  });
+
+  context('when multiple organizations have the same "externalId"', function () {
+    it('adds the organizations with the same "externalId"', async function () {
+      // given
+      const externalId = 'PIX_EXT_ID';
+
+      databaseBuilder.factory.buildTargetProfile({ id: 123, ownerOrganizationId: null }).id;
+      databaseBuilder.factory.buildTag({ name: 'TAG1' });
+      databaseBuilder.factory.buildOrganization({ type: 'PRO', externalId });
+      await databaseBuilder.commit();
+
+      const organizations = [
+        {
+          type: 'SCO',
+          externalId,
+          name: 'Lycée René Descartes',
+          locale: 'fr-fr',
+          createdBy: userId,
+          tags: 'TAG1',
+          targetProfiles: '123',
+          credit: 10,
+          provinceCode: '123',
+        },
+        {
+          type: 'SCO-1D',
+          externalId,
+          name: 'École Renée Descartes',
+          locale: 'fr-fr',
+          createdBy: userId,
+          tags: 'TAG1',
+          targetProfiles: '123',
+          credit: 1230,
+          provinceCode: '123',
+        },
+      ];
+
+      // when
+      await createOrganizationsWithTagsAndTargetProfiles({
+        domainTransaction,
+        organizations,
+        organizationRepository,
+        tagRepository,
+        targetProfileShareRepository,
+        organizationTagRepository,
+        organizationInvitationRepository,
+        dataProtectionOfficerRepository,
+        organizationValidator,
+        organizationInvitationService,
+        schoolRepository,
+      });
+
+      // then
+      const createdOrganizations = await knex('organizations').select();
+      expect(createdOrganizations).to.have.lengthOf(3);
+
+      const [proOrganization, scoOrganization, sco1dOrganization] = createdOrganizations;
+      expect(proOrganization).to.include({ externalId, type: 'PRO' });
+      expect(scoOrganization).to.include({ externalId, type: 'SCO' });
+      expect(sco1dOrganization).to.include({ externalId, type: 'SCO-1D' });
     });
   });
 });

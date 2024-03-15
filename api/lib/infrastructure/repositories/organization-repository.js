@@ -85,7 +85,8 @@ const batchCreateOrganizations = async function (
 
   return bluebird.map(
     organizations,
-    async (organization) => {
+    async (organizationCsvData) => {
+      const { organization } = organizationCsvData;
       const [createdOrganization] = await knexConn(ORGANIZATIONS_TABLE_NAME)
         .insert(
           _.pick(organization, [
@@ -104,6 +105,7 @@ const batchCreateOrganizations = async function (
         .returning('*');
 
       const enabledFeatures = _.keys(organization.features).filter((key) => organization.features[key] === true);
+
       for (const featureKey of enabledFeatures) {
         const feature = featuresByKey[featureKey];
         await knexConn('organization-features').insert({
@@ -111,7 +113,11 @@ const batchCreateOrganizations = async function (
           featureId: feature.id,
         });
       }
-      return createdOrganization;
+
+      return {
+        createdOrganization,
+        organizationToCreate: organizationCsvData,
+      };
     },
     {
       concurrency: CONCURRENCY_HEAVY_OPERATIONS,
