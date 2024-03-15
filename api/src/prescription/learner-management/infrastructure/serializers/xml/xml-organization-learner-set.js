@@ -21,10 +21,12 @@ class XMLOrganizationLearnersSet {
   add(id, xmlNode) {
     const nationalStudentId = _getValueFromParsedElement(xmlNode.ID_NATIONAL);
 
-    this._check(xmlNode);
+    const errors = this._check(xmlNode);
     this.studentIds.push(nationalStudentId);
 
     this.organizationLearnersByStudentId.set(id, _mapStudentInformationToOrganizationLearner(xmlNode));
+
+    return errors;
   }
 
   updateDivision(xmlNode) {
@@ -39,23 +41,28 @@ class XMLOrganizationLearnersSet {
   }
 
   _check(xmlNode) {
+    const errors = [];
     const nationalStudentId = _getValueFromParsedElement(xmlNode.ID_NATIONAL);
     const sexCode = _getValueFromParsedElement(xmlNode.CODE_SEXE);
     const birthCountryCode = _getValueFromParsedElement(xmlNode.CODE_PAYS);
     const birthCityCode = _getValueFromParsedElement(xmlNode.CODE_COMMUNE_INSEE_NAISS);
 
     if (_frenchBornHasEmptyCityCode({ birthCountryCode, birthCityCode })) {
-      throw new SiecleXmlImportError(SIECLE_ERRORS.BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT, { nationalStudentId });
+      errors.push(
+        new SiecleXmlImportError(SIECLE_ERRORS.BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT, { nationalStudentId }),
+      );
     }
     if (isEmpty(sexCode)) {
-      throw new SiecleXmlImportError(SIECLE_ERRORS.SEX_CODE_REQUIRED, { nationalStudentId });
+      errors.push(new SiecleXmlImportError(SIECLE_ERRORS.SEX_CODE_REQUIRED, { nationalStudentId }));
     }
     if (isEmpty(nationalStudentId)) {
-      throw new SiecleXmlImportError(SIECLE_ERRORS.INE_REQUIRED);
+      errors.push(new SiecleXmlImportError(SIECLE_ERRORS.INE_REQUIRED));
     }
     if (this.studentIds.includes(nationalStudentId)) {
-      throw new SiecleXmlImportError(SIECLE_ERRORS.INE_UNIQUE, { nationalStudentId });
+      errors.push(new SiecleXmlImportError(SIECLE_ERRORS.INE_UNIQUE, { nationalStudentId }));
     }
+
+    return errors;
   }
 
   has(studentId) {

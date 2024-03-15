@@ -1,10 +1,9 @@
-import lodash from 'lodash';
+import isEmpty from 'lodash/isEmpty.js';
+import isUndefined from 'lodash/isUndefined.js';
 import saxPath from 'saxpath';
 import xml2js from 'xml2js';
 
-import { SiecleXmlImportError } from '../../../domain/errors.js';
-
-const { isEmpty, isUndefined } = lodash;
+import { AggregateImportError, SiecleXmlImportError } from '../../../domain/errors.js';
 import { XMLOrganizationLearnersSet } from './xml-organization-learner-set.js';
 
 const ERRORS = {
@@ -15,63 +14,89 @@ const ELEVE_ELEMENT = '<ELEVE';
 const STRUCTURE_ELEVE_ELEMENT = '<STRUCTURES_ELEVE';
 
 class SiecleParser {
-  constructor(organization, siecleFileStreamer) {
+  constructor(siecleFileStreamer) {
     this.siecleFileStreamer = siecleFileStreamer;
     this.organizationLearnersSet = new XMLOrganizationLearnersSet();
+    this._errors = [];
   }
 
-  static create(organization, siecleFileStreamer) {
-    return new SiecleParser(organization, siecleFileStreamer);
+  static create(siecleFileStreamer) {
+    return new SiecleParser(siecleFileStreamer);
   }
 
-  async parseUAJ(organisationId) {
-    await this.siecleFileStreamer.perform((stream, resolve, reject) => {
-      const streamerToParseOrganizationLearners = new saxPath.SaXPath(stream, '/BEE_ELEVES/PARAMETRES/UAJ');
-      streamerToParseOrganizationLearners.once('match', (xmlNode) => {
-        xml2js.parseString(xmlNode, (err, nodeData) => {
-          if (err) return reject(err); // Si j'enleve cette ligne les tests passentorganisationId
-          if (nodeData.UAJ !== organisationId) {
-            reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
-          } else {
-            resolve();
+  async parseUAJ(organizationUAJ) {
+    try {
+      await this.siecleFileStreamer.perform((stream, resolve) => {
+        const streamerToParseOrganizationLearners = new saxPath.SaXPath(stream, '/BEE_ELEVES/PARAMETRES/UAJ');
+        let isUAJNodeMissing = true;
+        streamerToParseOrganizationLearners.once('match', (xmlNode) => {
+          xml2js.parseString(xmlNode, (err, nodeData) => {
+            isUAJNodeMissing = false;
+            if (nodeData.UAJ === organizationUAJ) {
+              resolve();
+            }
+            if (nodeData.UAJ !== organizationUAJ) {
+              this._errors.push(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
+              resolve();
+            }
+            if (err) this._errors.push(err); // Si j'enleve cette ligne les tests passent organizationId
+          });
+        });
+        streamerToParseOrganizationLearners.once('end', () => {
+          if (isUAJNodeMissing) {
+            this._errors.push(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
           }
+          resolve();
         });
       });
-      streamerToParseOrganizationLearners.once('end', () => {
-        reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
-      });
-    });
+    } catch (err) {
+      this._errors.push(err);
+    }
+
+    this.throwAllErrors();
   }
 
   async parse() {
-    await this.siecleFileStreamer.perform((stream, resolve, reject) => {
-      const streamerToParseOrganizationLearners = new saxPath.SaXPath(stream, '/BEE_ELEVES/DONNEES/*/*');
-      streamerToParseOrganizationLearners.on('match', (xmlNode) => {
-        if (_isOrganizationLearnerNode(xmlNode)) {
-          xml2js.parseString(xmlNode, (err, nodeData) => {
-            try {
-              if (err) throw err; // Si j'enleve cette ligne les tests passent
+    try {
+      await this.siecleFileStreamer.perform((stream, resolve) => {
+        const streamerToParseOrganizationLearners = new saxPath.SaXPath(stream, '/BEE_ELEVES/DONNEES/*/*');
+        streamerToParseOrganizationLearners.on('match', (xmlNode) => {
+          if (_isOrganizationLearnerNode(xmlNode)) {
+            xml2js.parseString(xmlNode, (err, nodeData) => {
+              try {
+                let errors = [];
+                if (_isNodeImportableStudent(nodeData)) {
+                  errors = this.organizationLearnersSet.add(nodeData.ELEVE.$.ELEVE_ID, nodeData.ELEVE);
+                } else if (_isNodeImportableStructures(nodeData, this.organizationLearnersSet)) {
+                  this.organizationLearnersSet.updateDivision(nodeData);
+                }
 
-              if (_isNodeImportableStudent(nodeData)) {
-                this.organizationLearnersSet.add(nodeData.ELEVE.$.ELEVE_ID, nodeData.ELEVE);
-              } else if (_isNodeImportableStructures(nodeData, this.organizationLearnersSet)) {
-                this.organizationLearnersSet.updateDivision(nodeData);
+                if (errors.length > 0) this._errors.push(...errors);
+                if (err) this._errors.push(err); // Si j'enleve cette ligne les tests passent
+              } catch (err) {
+                this._errors.push(err);
               }
-            } catch (err) {
-              reject(err);
-            }
-          });
-        }
-      });
+            });
+          }
+        });
 
-      streamerToParseOrganizationLearners.on('end', resolve);
-    });
+        streamerToParseOrganizationLearners.on('end', resolve);
+      });
+    } catch (err) {
+      this._errors.push(err);
+    }
 
     await this.siecleFileStreamer.close();
+
+    this.throwAllErrors();
 
     return this.organizationLearnersSet.organizationLearners.filter(
       (organizationLearner) => !isUndefined(organizationLearner.division),
     );
+  }
+
+  throwAllErrors() {
+    if (this._errors.length > 0) throw new AggregateImportError(this._errors);
   }
 }
 
