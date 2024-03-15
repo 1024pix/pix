@@ -72,8 +72,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bien vu&#8239;! Voici la liste des 5 mots de passe les plus utilisés&nbsp;: 123456 ; 123456789 ; azerty ; 1234561 ; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>",
-            "invalid": "<p>Dommage&#8239;! Voici la liste des 5 mots de passe les plus utilisés&nbsp;: 123456 ; 123456789 ; azerty ; 1234561 ; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>"
+            "valid": "<p>Bien vu&#8239;! Voici la liste des 5 mots de passe les plus utilisés&nbsp;: 123456&#8239;; 123456789&#8239;; azerty&#8239;; 1234561&#8239;; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>",
+            "invalid": "<p>Dommage&#8239;! Voici la liste des 5 mots de passe les plus utilisés&nbsp;: 123456&#8239;; 123456789&#8239;; azerty&#8239;; 1234561&#8239;; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>"
           }
         }
       ]
@@ -153,7 +153,7 @@
         {
           "id": "52f4050d-7ab9-41da-987b-d9172d5b3cb0",
           "type": "text",
-          "content": "<h3>Règle n°2&nbsp;: variez les caractères utilisés.&nbsp;<span aria-hidden=\"true\">🔣</span></h3><p>Un bon mot de passe contient différents caractères ; ce qui augmente le nombre de combinaisons possibles. On peut utiliser des minuscules, des majuscules, des chiffres, des caractères spéciaux&nbsp;: <code>=</code> <code>@</code> <code>$</code> <code>#</code> <code>!</code> <code>?</code>.</p>"
+          "content": "<h3>Règle n°2&nbsp;: variez les caractères utilisés.&nbsp;<span aria-hidden=\"true\">🔣</span></h3><p>Un bon mot de passe contient différents caractères&#8239;; ce qui augmente le nombre de combinaisons possibles. On peut utiliser des minuscules, des majuscules, des chiffres, des caractères spéciaux&nbsp;: <code>=</code> <code>@</code> <code>$</code> <code>#</code> <code>!</code> <code>?</code>.</p>"
         },
         {
           "id": "2895432c-72a3-44be-ae0e-52041f5b847e",
