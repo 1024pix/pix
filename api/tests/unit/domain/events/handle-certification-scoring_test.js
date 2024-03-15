@@ -28,7 +28,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
   let certificationAssessmentRepository;
   let assessmentResultRepository;
   let certificationCourseRepository;
-  let competenceForScoringRepository;
+  let scoringConfigurationRepository;
   let competenceMarkRepository;
   let answerRepository;
   let flashAlgorithmConfigurationRepository;
@@ -51,7 +51,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
       update: sinon.stub(),
       getCreationDate: sinon.stub(),
     };
-    competenceForScoringRepository = { listByLocale: sinon.stub() };
+    scoringConfigurationRepository = { listByLocale: sinon.stub() };
     competenceMarkRepository = { save: sinon.stub() };
     certificationChallengeForScoringRepository = { getByCertificationCourseId: sinon.stub() };
     answerRepository = { findByAssessment: sinon.stub() };
@@ -395,7 +395,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           getEstimatedLevelAndErrorRateHistory: sinon.stub(),
         };
 
-        competenceForScoringRepository.listByLocale.resolves([domainBuilder.buildCompetenceForScoring()]);
+        scoringConfigurationRepository.listByLocale.resolves([domainBuilder.buildCompetenceForScoring()]);
         assessmentResultRepository.save.resolves(
           domainBuilder.buildAssessmentResult({
             id: assessmentResultId,
@@ -479,7 +479,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               answerRepository,
               assessmentResultRepository,
               certificationCourseRepository,
-              competenceForScoringRepository,
+              scoringConfigurationRepository,
               competenceMarkRepository,
               scoringCertificationService,
               certificationAssessmentRepository,
@@ -602,7 +602,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               answerRepository,
               assessmentResultRepository,
               certificationCourseRepository,
-              competenceForScoringRepository,
+              scoringConfigurationRepository,
               competenceMarkRepository,
               scoringCertificationService,
               certificationAssessmentRepository,
@@ -723,7 +723,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               answerRepository,
               assessmentResultRepository,
               certificationCourseRepository,
-              competenceForScoringRepository,
+              scoringConfigurationRepository,
               competenceMarkRepository,
               scoringCertificationService,
               certificationAssessmentRepository,
@@ -833,7 +833,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 answerRepository,
                 assessmentResultRepository,
                 certificationCourseRepository,
-                competenceForScoringRepository,
+                scoringConfigurationRepository,
                 competenceMarkRepository,
                 scoringCertificationService,
                 certificationAssessmentRepository,
@@ -940,7 +940,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 answerRepository,
                 assessmentResultRepository,
                 certificationCourseRepository,
-                competenceForScoringRepository,
+                scoringConfigurationRepository,
                 competenceMarkRepository,
                 scoringCertificationService,
                 certificationAssessmentRepository,
@@ -1051,7 +1051,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 answerRepository,
                 assessmentResultRepository,
                 certificationCourseRepository,
-                competenceForScoringRepository,
+                scoringConfigurationRepository,
                 competenceMarkRepository,
                 scoringCertificationService,
                 certificationAssessmentRepository,
@@ -1172,7 +1172,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           answerRepository,
           assessmentResultRepository,
           competenceMarkRepository,
-          competenceForScoringRepository,
+          scoringConfigurationRepository,
           certificationCourseRepository,
           flashAlgorithmConfigurationRepository,
           flashAlgorithmService,
@@ -1204,7 +1204,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         event,
         assessmentResultRepository,
         certificationCourseRepository,
-        competenceForScoringRepository,
+        scoringConfigurationRepository,
         competenceMarkRepository,
         scoringCertificationService,
         certificationAssessmentRepository,

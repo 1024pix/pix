@@ -25,7 +25,7 @@ async function handleCertificationScoring({
   certificationCourseRepository,
   certificationChallengeForScoringRepository,
   competenceMarkRepository,
-  competenceForScoringRepository,
+  scoringConfigurationRepository,
   scoringCertificationService,
   answerRepository,
   flashAlgorithmConfigurationRepository,
@@ -45,7 +45,7 @@ async function handleCertificationScoring({
         assessmentResultRepository,
         certificationCourseRepository,
         certificationChallengeForScoringRepository,
-        competenceForScoringRepository,
+        scoringConfigurationRepository,
         competenceMarkRepository,
         flashAlgorithmConfigurationRepository,
         flashAlgorithmService,
@@ -123,7 +123,7 @@ async function _handleV3CertificationScoring({
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
-  competenceForScoringRepository,
+  scoringConfigurationRepository,
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
   locale,
@@ -149,7 +149,7 @@ async function _handleV3CertificationScoring({
     configuration,
   });
 
-  const competencesForScoring = await competenceForScoringRepository.listByLocale({ locale });
+  const competencesForScoring = await scoringConfigurationRepository.listByLocale({ locale });
 
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     algorithm,

@@ -5,12 +5,12 @@ import { CompetenceForScoring } from '../../../../../../src/certification/scorin
 import {
   listByLocale,
   save,
-} from '../../../../../../src/certification/scoring/infrastructure/repositories/competence-for-scoring-repository.js';
+} from '../../../../../../src/certification/scoring/infrastructure/repositories/scoring-configuration-repository.js';
 import { databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 import { buildArea, buildCompetence, buildFramework } from '../../../../../tooling/domain-builder/factory/index.js';
 import { buildLearningContent } from '../../../../../tooling/learning-content-builder/index.js';
 
-describe('Unit | Repository | competence-for-scoring-repository', function () {
+describe('Unit | Repository | scoring-configuration-repository', function () {
   describe('#listByLocale', function () {
     it('should return a list of competences for scoring', async function () {
       // given
