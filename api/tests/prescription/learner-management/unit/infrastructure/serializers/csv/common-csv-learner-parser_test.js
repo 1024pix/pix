@@ -13,12 +13,12 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
         headers: [
           {
             name: 'nom',
-            property: 'firstName',
+            property: 'lastName',
             isRequired: true,
           },
           {
             name: 'prénom',
-            property: 'lastName',
+            property: 'firstName',
             isRequired: false,
           },
         ],
@@ -44,12 +44,12 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       headers: [
         {
           name: 'nom',
-          property: 'firstName',
+          property: 'lastName',
           isRequired: true,
         },
         {
           name: 'prénom',
-          property: 'lastName',
+          property: 'firstName',
           isRequired: false,
         },
         {
@@ -69,7 +69,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
 
       const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
 
-      expect(error.meta[0].code).to.equal('ENCODING_NOT_SUPPORTED');
+      expect(error.meta[0].code).to.equal('BAD_CSV_FORMAT');
     });
 
     it('should throw all errors on missing header', async function () {
@@ -120,6 +120,38 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       expect(errors.meta[1].meta.field).to.equal('GodZilla');
       expect(errors.meta[2].code).to.equal('HEADER_UNKNOWN');
       expect(errors.meta[2].meta.field).to.equal('Gidorah');
+    });
+  });
+
+  context('When the file has different encoding', function () {
+    const config = {
+      headers: [
+        {
+          name: 'prénom',
+          property: 'firstName',
+          isRequired: false,
+          checkEncoding: true,
+        },
+      ],
+      acceptedEncoding: ['utf8'],
+    };
+
+    const input = `prénom;
+      Éçéà niño véga;`;
+
+    it('should throw an error if there is no acceptedEncoding', async function () {
+      const encodedInput = iconv.encode(input, 'win1252');
+      const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+      const error = await catchErr(parser.parse, parser)(parser.getFileEncoding());
+
+      expect(error.meta[0].code).to.equal('ENCODING_NOT_SUPPORTED');
+    });
+
+    it('should not throw an error if encoding is not in acceptedEncoding config', async function () {
+      const encodedInput = iconv.encode(input, 'utf8');
+      const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+      const call = () => parser.parse(parser.getFileEncoding());
+      expect(call).to.not.throw();
     });
   });
 });
