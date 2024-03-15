@@ -3,17 +3,19 @@ import * as areaRepository from '../../../../shared/infrastructure/repositories/
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import { V3CertificationScoring } from '../../domain/models/V3CertificationScoring.js';
 
-export const listByLocale = async ({ locale }) => {
+export const getLatestByDateAndLocale = async ({ locale, date }) => {
   const allAreas = await areaRepository.list();
   const competenceList = await competenceRepository.list({ locale });
 
   const { configuration: competenceForScoringConfiguration } = await knex('competence-scoring-configurations')
     .select('configuration')
+    .where('createdAt', '<=', date)
     .orderBy('createdAt', 'desc')
     .first();
 
   const { configuration: certificationScoringConfiguration } = await knex('certification-scoring-configurations')
     .select('configuration')
+    .where('createdAt', '<=', date)
     .orderBy('createdAt', 'desc')
     .first();
 

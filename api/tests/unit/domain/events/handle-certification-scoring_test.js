@@ -51,7 +51,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
       update: sinon.stub(),
       getCreationDate: sinon.stub(),
     };
-    scoringConfigurationRepository = { listByLocale: sinon.stub() };
+    scoringConfigurationRepository = { getLatestByDateAndLocale: sinon.stub() };
     competenceMarkRepository = { save: sinon.stub() };
     certificationChallengeForScoringRepository = { getByCertificationCourseId: sinon.stub() };
     answerRepository = { findByAssessment: sinon.stub() };
@@ -399,7 +399,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           competencesForScoring: [domainBuilder.buildCompetenceForScoring()],
         });
 
-        scoringConfigurationRepository.listByLocale.resolves(scoringConfiguration);
+        scoringConfigurationRepository.getLatestByDateAndLocale.resolves(scoringConfiguration);
 
         assessmentResultRepository.save.resolves(
           domainBuilder.buildAssessmentResult({

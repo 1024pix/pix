@@ -71,7 +71,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       };
 
       scoringConfigurationRepository = {
-        listByLocale: sinon.stub(),
+        getLatestByDateAndLocale: sinon.stub(),
       };
 
       competenceMarkRepository = {
@@ -99,7 +99,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         competencesForScoring: [domainBuilder.buildCompetenceForScoring()],
       });
 
-      scoringConfigurationRepository.listByLocale.resolves(scoringConfiguration);
+      scoringConfigurationRepository.getLatestByDateAndLocale.resolves(scoringConfiguration);
 
       assessmentResult = domainBuilder.buildAssessmentResult();
       assessmentResultRepository.save.resolves(assessmentResult);

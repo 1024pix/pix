@@ -13,7 +13,6 @@ import { AssessmentResult } from '../models/index.js';
 import { AssessmentCompleted } from './AssessmentCompleted.js';
 import { CertificationScoringCompleted } from './CertificationScoringCompleted.js';
 import { checkEventTypes } from './check-event-types.js';
-import { V3CertificationScoring } from '../../../src/certification/scoring/domain/models/V3CertificationScoring.js';
 
 const eventTypes = [AssessmentCompleted];
 
@@ -150,7 +149,10 @@ async function _handleV3CertificationScoring({
     configuration,
   });
 
-  const v3CertificationScoring = await scoringConfigurationRepository.listByLocale({ locale });
+  const v3CertificationScoring = await scoringConfigurationRepository.getLatestByDateAndLocale({
+    locale,
+    date: certificationCourse.getStartDate(),
+  });
 
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     algorithm,
