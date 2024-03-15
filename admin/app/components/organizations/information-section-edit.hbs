@@ -198,9 +198,9 @@
 
     <div class="form-field organization-edit-form__checkbox">
       <PixCheckbox
-        @id="enableMultipleSendingAssessement"
+        @id="isMultipleSendingAssessmentEnabled"
         {{on "change" this.onChangeMultipleSendingAssessment}}
-        @checked={{this.form.enableMultipleSendingAssessment}}
+        @checked={{this.form.isMultipleSendingAssessmentEnabled}}
         @class="form-field__label"
       >
         Activer l'envoi multiple pour les campagnes de type évaluation
@@ -208,9 +208,9 @@
     </div>
     <div class="form-field organization-edit-form__checkbox">
       <PixCheckbox
-        @id="enablePlacesManagement"
+        @id="isPlacesManagementEnabled"
         {{on "change" this.onChangePlacesManagement}}
-        @checked={{this.form.enablePlacesManagement}}
+        @checked={{this.form.isPlacesManagementEnabled}}
         @class="form-field__label"
       >
         Activer la page Places sur PixOrga

@@ -48,7 +48,7 @@ module('Unit | Model | organization', function (hooks) {
     });
   });
 
-  module('#enablePlacesManagement', function () {
+  module('#isPlacesManagementEnabled', function () {
     module('#get', function () {
       test('it returns true when feature is enabled', function (assert) {
         // given
@@ -58,10 +58,10 @@ module('Unit | Model | organization', function (hooks) {
         });
 
         // when
-        const enablePlacesManagement = model.enablePlacesManagement;
+        const isPlacesManagementEnabled = model.isPlacesManagementEnabled;
 
         // then
-        assert.true(enablePlacesManagement);
+        assert.true(isPlacesManagementEnabled);
       });
       test('it returns false when feature is disabled', function (assert) {
         // given
@@ -71,10 +71,10 @@ module('Unit | Model | organization', function (hooks) {
         });
 
         // when
-        const enablePlacesManagement = model.enablePlacesManagement;
+        const isPlacesManagementEnabled = model.isPlacesManagementEnabled;
 
         // then
-        assert.false(enablePlacesManagement);
+        assert.false(isPlacesManagementEnabled);
       });
       test('it returns false when no features are provided', function (assert) {
         // given
@@ -82,10 +82,10 @@ module('Unit | Model | organization', function (hooks) {
         const model = store.createRecord('organization', {});
 
         // when
-        const enablePlacesManagement = model.enablePlacesManagement;
+        const isPlacesManagementEnabled = model.isPlacesManagementEnabled;
 
         // then
-        assert.false(enablePlacesManagement);
+        assert.false(isPlacesManagementEnabled);
       });
     });
 
@@ -98,11 +98,11 @@ module('Unit | Model | organization', function (hooks) {
         });
 
         // when
-        model.enablePlacesManagement = true;
+        model.isPlacesManagementEnabled = true;
 
         // then
-        const enablePlacesManagement = model.enablePlacesManagement;
-        assert.true(enablePlacesManagement);
+        const isPlacesManagementEnabled = model.isPlacesManagementEnabled;
+        assert.true(isPlacesManagementEnabled);
       });
       test('it disable feature', function (assert) {
         // given
@@ -111,11 +111,11 @@ module('Unit | Model | organization', function (hooks) {
           features: { ['PLACES_MANAGEMENT']: true },
         });
         // when
-        model.enablePlacesManagement = false;
+        model.isPlacesManagementEnabled = false;
 
         // then
-        const enablePlacesManagement = model.enablePlacesManagement;
-        assert.false(enablePlacesManagement);
+        const isPlacesManagementEnabled = model.isPlacesManagementEnabled;
+        assert.false(isPlacesManagementEnabled);
       });
       test('it handles having no features yet', function (assert) {
         // given
@@ -123,16 +123,16 @@ module('Unit | Model | organization', function (hooks) {
         const model = store.createRecord('organization', {});
 
         // when
-        model.enablePlacesManagement = true;
+        model.isPlacesManagementEnabled = true;
 
         // then
-        const enablePlacesManagement = model.enablePlacesManagement;
-        assert.true(enablePlacesManagement);
+        const isPlacesManagementEnabled = model.isPlacesManagementEnabled;
+        assert.true(isPlacesManagementEnabled);
       });
     });
   });
 
-  module('#enableMultipleSendingAssessment', function () {
+  module('#isMultipleSendingAssessmentEnabled', function () {
     module('#get', function () {
       test('it returns true when feature is enabled', function (assert) {
         // given
@@ -142,10 +142,10 @@ module('Unit | Model | organization', function (hooks) {
         });
 
         // when
-        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+        const isMultipleSendingAssessmentEnabled = model.isMultipleSendingAssessmentEnabled;
 
         // then
-        assert.true(enableMultipleSendingAssessment);
+        assert.true(isMultipleSendingAssessmentEnabled);
       });
       test('it returns false when feature is disabled', function (assert) {
         // given
@@ -155,10 +155,10 @@ module('Unit | Model | organization', function (hooks) {
         });
 
         // when
-        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+        const isMultipleSendingAssessmentEnabled = model.isMultipleSendingAssessmentEnabled;
 
         // then
-        assert.false(enableMultipleSendingAssessment);
+        assert.false(isMultipleSendingAssessmentEnabled);
       });
       test('it returns false when no features are provided', function (assert) {
         // given
@@ -166,10 +166,10 @@ module('Unit | Model | organization', function (hooks) {
         const model = store.createRecord('organization', {});
 
         // when
-        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+        const isMultipleSendingAssessmentEnabled = model.isMultipleSendingAssessmentEnabled;
 
         // then
-        assert.false(enableMultipleSendingAssessment);
+        assert.false(isMultipleSendingAssessmentEnabled);
       });
     });
 
@@ -182,11 +182,11 @@ module('Unit | Model | organization', function (hooks) {
         });
 
         // when
-        model.enableMultipleSendingAssessment = true;
+        model.isMultipleSendingAssessmentEnabled = true;
 
         // then
-        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
-        assert.true(enableMultipleSendingAssessment);
+        const isMultipleSendingAssessmentEnabled = model.isMultipleSendingAssessmentEnabled;
+        assert.true(isMultipleSendingAssessmentEnabled);
       });
       test('it disable feature', function (assert) {
         // given
@@ -195,11 +195,11 @@ module('Unit | Model | organization', function (hooks) {
           features: { ['MULTIPLE_SENDING_ASSESSMENT']: true },
         });
         // when
-        model.enableMultipleSendingAssessment = false;
+        model.isMultipleSendingAssessmentEnabled = false;
 
         // then
-        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
-        assert.false(enableMultipleSendingAssessment);
+        const isMultipleSendingAssessmentEnabled = model.isMultipleSendingAssessmentEnabled;
+        assert.false(isMultipleSendingAssessmentEnabled);
       });
       test('it handles having no features yet', function (assert) {
         // given
@@ -207,11 +207,11 @@ module('Unit | Model | organization', function (hooks) {
         const model = store.createRecord('organization', {});
 
         // when
-        model.enableMultipleSendingAssessment = true;
+        model.isMultipleSendingAssessmentEnabled = true;
 
         // then
-        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
-        assert.true(enableMultipleSendingAssessment);
+        const isMultipleSendingAssessmentEnabled = model.isMultipleSendingAssessmentEnabled;
+        assert.true(isMultipleSendingAssessmentEnabled);
       });
     });
   });
