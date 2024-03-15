@@ -35,7 +35,7 @@
       "grainId": "09304128-193f-4ea8-bda7-edffd72b1bf2"
     },
     {
-      "content": "<p>Vous l’avez sûrement remarqué, nous parlons depuis le début de ce module d’adresses IP publiques.<br>Il existe un autre type d’adresse IP : les adresses IP privées, aussi appelées IP locales.</p>",
+      "content": "<p>Vous l’avez sûrement remarqué, nous parlons depuis le début de ce module d’adresses IP publiques.<br>Il existe un autre type d’adresse IP&nbsp;: les adresses IP privées, aussi appelées IP locales.</p>",
       "grainId": "45d507ce-f822-4a06-aa6e-f2a1b0aeada3"
     },
     {
@@ -59,7 +59,7 @@
           "type": "image",
           "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/intro.jpg",
           "alt": "Image décrite dans l'alternative textuelle",
-          "alternativeText": "<p>Recherche \"recettes de cuisine végétariennes\" SOSCuisine Lien vers soscuisine.com categorie vegetarienne Recette végétarienne Recettes végétariennes • Critères de recherche actifs • Affiner la recherche: • Résultats de recherche : 906 résultats trouvés • Zucchini à la menthe • Yogourt ... © CuisinePop.com Lien vers cuisinepop.com Recettes végétariennes faciles à préparer. Des nouvelles ... Plus de résultats v France • Toulouse - D'après votre adresse IP - Mettre à jour ma position</p>"
+          "alternativeText": "<p>Recherche \"recettes de cuisine végétariennes\" SOSCuisine Lien vers soscuisine.com categorie vegetarienne Recette végétarienne Recettes végétariennes • Critères de recherche actifs • Affiner la recherche: • Résultats de recherche&nbsp;: 906 résultats trouvés • Zucchini à la menthe • Yogourt ... © CuisinePop.com Lien vers cuisinepop.com Recettes végétariennes faciles à préparer. Des nouvelles ... Plus de résultats v France • Toulouse - D'après votre adresse IP - Mettre à jour ma position</p>"
         },
         {
           "id": "ff75255c-18e0-4cd9-8fd1-83a9ab6994fb",
@@ -298,7 +298,7 @@
         {
           "id": "0856af53-1060-478f-8416-ddbc5ed3940c",
           "type": "text",
-          "content": "<h3>Indice n°1 :</h3><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p><h3>Indice n°2 :</h3><p>Pour votre recherche, utilisez les mots-clés \"localisation\" et \"adresse IP\".</p>"
+          "content": "<h3>Indice n°1&nbsp;:</h3><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p><h3>Indice n°2&nbsp;:</h3><p>Pour votre recherche, utilisez les mots-clés \"localisation\" et \"adresse IP\".</p>"
         }
       ]
     },
@@ -436,7 +436,7 @@
         {
           "id": "83c57d2b-c2d8-46fe-9b1c-051a58dcf890",
           "type": "text",
-          "content": "<h3>Indice n°1 :</h3><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p><h3>Indice n°2 :</h3><p>Pour votre recherche, utilisez les mots-clés \"trouver\" et \"mon adresse IP\".</p>"
+          "content": "<h3>Indice n°1&nbsp;:</h3><p>Faites une recherche en ligne. Des sites internet existent pour cela.</p><h3>Indice n°2&nbsp;:</h3><p>Pour votre recherche, utilisez les mots-clés \"trouver\" et \"mon adresse IP\".</p>"
         }
       ]
     }

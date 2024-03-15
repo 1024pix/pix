@@ -81,7 +81,7 @@
         {
           "id": "0eb7bcc7-a552-45f0-823b-599f1b9e8bf1",
           "type": "text",
-          "content": "<p>Le port USB permet de brancher à son ordinateur des appareils avec des fonctionnalités très différentes.<br>Voici ci-dessous quelques exemples :</p>"
+          "content": "<p>Le port USB permet de brancher à son ordinateur des appareils avec des fonctionnalités très différentes.<br>Voici ci-dessous quelques exemples&nbsp;:</p>"
         },
         {
           "id": "5fc1c1c4-a3a7-481c-a586-71cfd1ccd59b",
@@ -154,7 +154,7 @@
         {
           "id": "a4414cd9-2071-4bad-b805-a7516a04e83d",
           "type": "text",
-          "content": "<p><span aria-hidden=\"true\">💡</span> Voici une astuce qui pourra vous aider : les appareils qui se branchent via USB ont souvent un symbole bien particulier, une flèche avec des ronds et des carrés. Ce symbole permet de reconnaître ces appareils.</p>"
+          "content": "<p><span aria-hidden=\"true\">💡</span> Voici une astuce qui pourra vous aider&nbsp;: les appareils qui se branchent via USB ont souvent un symbole bien particulier, une flèche avec des ronds et des carrés. Ce symbole permet de reconnaître ces appareils.</p>"
         },
         {
           "id": "7a55d4a9-3bff-4604-9fa9-0898b7d109dc",
@@ -385,7 +385,7 @@
         {
           "id": "12ac3b9a-286c-4587-9a0d-6dc56e13caf9",
           "type": "text",
-          "content": "<p>Ce port est un <strong>port jack</strong> ou <strong>mini-jack</strong>.<br> Il est petit et rond. Il est souvent accompagné d’une image de casque. <span aria-hidden=\"true\">🎧</span> Il sert à connecter des appareils audios à l’ordinateur : des écouteurs, un casque, un micro, etc.</p>"
+          "content": "<p>Ce port est un <strong>port jack</strong> ou <strong>mini-jack</strong>.<br> Il est petit et rond. Il est souvent accompagné d’une image de casque. <span aria-hidden=\"true\">🎧</span> Il sert à connecter des appareils audios à l’ordinateur&nbsp;: des écouteurs, un casque, un micro, etc.</p>"
         }
       ]
     },
@@ -397,7 +397,7 @@
         {
           "id": "efda82dc-1a96-488c-9d8d-a1bd5a8f1241",
           "type": "text",
-          "content": "<p>Voici ci-dessous l'ordinateur de Maxime :</p>"
+          "content": "<p>Voici ci-dessous l'ordinateur de Maxime&nbsp;:</p>"
         },
         {
           "id": "0f6485ad-1db7-4154-8c9c-b4432f51234f",
