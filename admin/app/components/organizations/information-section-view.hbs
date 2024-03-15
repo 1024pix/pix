@@ -104,9 +104,9 @@
           <li>Gestion d’élèves/étudiants : {{if @organization.isManagingStudents "Oui" "Non"}}</li>
         {{/if}}
         <li>Activer l'envoi multiple sur les campagnes d'évaluation :
-          {{if @organization.enableMultipleSendingAssessment "Oui" "Non"}}</li>
+          {{if @organization.isMultipleSendingAssessmentEnabled "Oui" "Non"}}</li>
         <li>Activer la page Places sur PixOrga :
-          {{if @organization.enablePlacesManagement "Oui" "Non"}}</li>
+          {{if @organization.isPlacesManagementEnabled "Oui" "Non"}}</li>
         {{#if @organization.code}}
           <br />
           <li>Code : {{@organization.code}}</li>

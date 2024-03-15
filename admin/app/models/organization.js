@@ -51,24 +51,24 @@ export default class Organization extends Model {
     return this.features[Organization.featureList.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY];
   }
 
-  get enableMultipleSendingAssessment() {
+  get isMultipleSendingAssessmentEnabled() {
     if (!this.features) return false;
     return this.features[Organization.featureList.MULTIPLE_SENDING_ASSESSMENT];
   }
 
-  set enableMultipleSendingAssessment(value) {
+  set isMultipleSendingAssessmentEnabled(value) {
     if (!this.features) {
       this.features = {};
     }
     this.features[Organization.featureList.MULTIPLE_SENDING_ASSESSMENT] = value;
   }
 
-  get enablePlacesManagement() {
+  get isPlacesManagementEnabled() {
     if (!this.features) return false;
     return this.features[Organization.featureList.PLACES_MANAGEMENT];
   }
 
-  set enablePlacesManagement(value) {
+  set isPlacesManagementEnabled(value) {
     if (!this.features) {
       this.features = {};
     }
