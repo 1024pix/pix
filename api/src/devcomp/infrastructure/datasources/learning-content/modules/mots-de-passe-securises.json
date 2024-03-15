@@ -27,7 +27,7 @@
       "grainId": "1cda400f-008c-49db-b46b-6f783ccbc273"
     },
     {
-      "content": "<p>Pour créer un mot de passe solide, il y a certaines règles à suivre. Regardons de plus près !</p>",
+      "content": "<p>Pour créer un mot de passe solide, il y a certaines règles à suivre. Regardons de plus près&#8239;!</p>",
       "grainId": "1564f763-5ba5-48ef-b752-dac463319899"
     },
     {
@@ -72,8 +72,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bien vu ! Voici la liste des 5 mots de passe les plus utilisés&nbsp;: 123456 ; 123456789 ; azerty ; 1234561 ; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>",
-            "invalid": "<p>Dommage ! Voici la liste des 5 mots de passe les plus utilisés&nbsp;: 123456 ; 123456789 ; azerty ; 1234561 ; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>"
+            "valid": "<p>Bien vu&#8239;! Voici la liste des 5 mots de passe les plus utilisés&nbsp;: 123456 ; 123456789 ; azerty ; 1234561 ; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>",
+            "invalid": "<p>Dommage&#8239;! Voici la liste des 5 mots de passe les plus utilisés&nbsp;: 123456 ; 123456789 ; azerty ; 1234561 ; qwerty.<br>Ce sont donc de mauvais mots de passe.</p>"
           }
         }
       ]
@@ -163,7 +163,7 @@
         {
           "id": "c4505a09-864c-48f8-8077-013fae2db291",
           "type": "text",
-          "content": "<h3>Règle n°3&nbsp;: n'utilisez pas d’informations personnelles.&nbsp;<span aria-hidden=\"true\">🤫</span></h3><p>De cette manière, il y a moins de chance que quelqu'un le devine. N'utilisez donc pas de dates de naissance et de numéros de téléphone. Un mot de passe doit être secret !</p>"
+          "content": "<h3>Règle n°3&nbsp;: n'utilisez pas d’informations personnelles.&nbsp;<span aria-hidden=\"true\">🤫</span></h3><p>De cette manière, il y a moins de chance que quelqu'un le devine. N'utilisez donc pas de dates de naissance et de numéros de téléphone. Un mot de passe doit être secret&#8239;!</p>"
         }
       ]
     },
@@ -192,8 +192,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct !&nbsp;<span aria-hidden=\"true\">🎉</span> </p>",
-            "invalid": "<p>Incorrect !</p>"
+            "valid": "<p>Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span> </p>",
+            "invalid": "<p>Incorrect&#8239;!</p>"
           },
           "solution": "1"
         },
@@ -217,8 +217,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct !&nbsp;<span aria-hidden=\"true\">🎉</span> </p>",
-            "invalid": "<p>Incorrect !</p>"
+            "valid": "<p>Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span> </p>",
+            "invalid": "<p>Incorrect&#8239;!</p>"
           },
           "solution": "2"
         },
@@ -242,8 +242,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct !&nbsp;<span aria-hidden=\"true\">🎉</span> </p>",
-            "invalid": "<p>Incorrect !</p>"
+            "valid": "<p>Correct&#8239;!&nbsp;<span aria-hidden=\"true\">🎉</span> </p>",
+            "invalid": "<p>Incorrect&#8239;!</p>"
           },
           "solution": "1"
         }
@@ -257,7 +257,7 @@
         {
           "id": "6eda6d92-1147-4c19-a7e5-f61a2228e33c",
           "type": "text",
-          "content": "<h3>Astuce n°1&nbsp;: n'utilisez pas le même mot de passe partout !</h3><p>Utiliser toujours le même mot de passe est risqué. C'est comme utiliser la même clé pour toutes ses portes. C'est très pratique, mais si votre mot de passe est piraté, toutes les portes sont ouvertes !&nbsp;<span aria-hidden=\"true\">☠️</span></p>"
+          "content": "<h3>Astuce n°1&nbsp;: n'utilisez pas le même mot de passe partout&#8239;!</h3><p>Utiliser toujours le même mot de passe est risqué. C'est comme utiliser la même clé pour toutes ses portes. C'est très pratique, mais si votre mot de passe est piraté, toutes les portes sont ouvertes&#8239;!&nbsp;<span aria-hidden=\"true\">☠️</span></p>"
         },
         {
           "id": "b8bc3e1e-bf21-4b3b-8dce-0a0213aefb1b",
