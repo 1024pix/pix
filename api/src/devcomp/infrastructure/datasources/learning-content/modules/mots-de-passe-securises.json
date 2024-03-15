@@ -56,7 +56,7 @@
         {
           "id": "d8d3f524-10c7-4190-986b-f1e309efb124",
           "type": "qrocm",
-          "instruction": "<p>Certains mots de passe sont très utilisés et donc faciles à deviner. <br>À votre avis, quel est le mot de passe le plus utilisé en France ?</p>",
+          "instruction": "<p>Certains mots de passe sont très utilisés et donc faciles à deviner. <br>À votre avis, quel est le mot de passe le plus utilisé en France&#8239;?</p>",
           "proposals": [
             {
               "input": "mot-de-passe",
@@ -113,7 +113,7 @@
         {
           "id": "2695bb89-112c-49d1-80b2-469d824af58f",
           "type": "qrocm",
-          "instruction": "<p>À votre avis, quel peut être le mot de passe d'Austin ?</p>",
+          "instruction": "<p>À votre avis, quel peut être le mot de passe d'Austin&#8239;?</p>",
           "proposals": [
             {
               "input": "mot-de-passe",
@@ -130,7 +130,7 @@
           ],
           "feedbacks": {
             "valid": "<p>Correct. C’est un <strong>mot de passe faible</strong>, c’est-à-dire  facile à trouver.</p>",
-            "invalid": "<p>Incorrect. Plusieurs réponses sont possibles. Avez-vous utilisé la date de naissance d’Austin, par exemple 151184 ? Et utilisé le prénom de son fils Bill ?</p>"
+            "invalid": "<p>Incorrect. Plusieurs réponses sont possibles. Avez-vous utilisé la date de naissance d’Austin, par exemple 151184&#8239;? Et utilisé le prénom de son fils Bill&#8239;?</p>"
           }
         }
       ]
@@ -289,7 +289,7 @@
         {
           "id": "5db8677e-2c9e-4f36-b932-4989459af149",
           "type": "qcm",
-          "instruction": "<p>Quels conseils pouvez-vous donner à Austin pour créer un mot de passe solide ?</p>",
+          "instruction": "<p>Quels conseils pouvez-vous donner à Austin pour créer un mot de passe solide&#8239;?</p>",
           "proposals": [
             {
               "id": "1",

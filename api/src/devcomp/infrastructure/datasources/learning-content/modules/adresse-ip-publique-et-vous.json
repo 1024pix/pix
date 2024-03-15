@@ -15,7 +15,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>En naviguant sur internet, il arrive qu'un site sache où vous vous trouvez alors que vous ne lui avez pas partagé votre localisation.<span aria-hidden=\"true\">📍</span>️<br>Mystère ? Pas vraiment. On vous explique tout dans ce module.</p>",
+      "content": "<p>En naviguant sur internet, il arrive qu'un site sache où vous vous trouvez alors que vous ne lui avez pas partagé votre localisation.<span aria-hidden=\"true\">📍</span>️<br>Mystère&#8239;? Pas vraiment. On vous explique tout dans ce module.</p>",
       "grainId": "1d516eb9-e7b7-48a3-a3b5-7971ad171d6f"
     },
     {
@@ -27,7 +27,7 @@
       "grainId": "eba0b676-c0c4-4b32-b5e4-dd94d13766a5"
     },
     {
-      "content": "<p>Lorsque vous êtes en ligne, votre adresse IP publique est partagée et utilisée. Mais savez-vous quelles informations cette adresse donne sur vous ? <span aria-hidden=\"true\">👁️‍🗨️</span>️</p>",
+      "content": "<p>Lorsque vous êtes en ligne, votre adresse IP publique est partagée et utilisée. Mais savez-vous quelles informations cette adresse donne sur vous&#8239;? <span aria-hidden=\"true\">👁️‍🗨️</span>️</p>",
       "grainId": "96cdedc1-2d31-40c2-ac02-d3fd83f26e30"
     },
     {
@@ -64,7 +64,7 @@
         {
           "id": "ff75255c-18e0-4cd9-8fd1-83a9ab6994fb",
           "type": "qcu",
-          "instruction": "<p>Quelle information ce moteur de recherche a-t-il utilisée pour déterminer la localisation de cet utilisateur ?</p>",
+          "instruction": "<p>Quelle information ce moteur de recherche a-t-il utilisée pour déterminer la localisation de cet utilisateur&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -115,7 +115,7 @@
         {
           "id": "06f8ac75-44e6-4001-9822-8d44fdfe7741",
           "type": "qcu",
-          "instruction": "<p>Quelle définition peut-on donner de l'adresse IP publique ?</p>",
+          "instruction": "<p>Quelle définition peut-on donner de l'adresse IP publique&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -411,7 +411,7 @@
         {
           "id": "eed9177c-4bc9-401c-928f-13585df010f7",
           "type": "qcu",
-          "instruction": "<p>Pour finir ce module, cherchez votre adresse IP publique actuelle.<span aria-hidden=\"true\">🕵️‍♂️</span>️<span aria-hidden=\"true\">🕵🏽‍♀️</span>️</p><p>Pensez-vous avoir réussi à la trouver ?</p>",
+          "instruction": "<p>Pour finir ce module, cherchez votre adresse IP publique actuelle.<span aria-hidden=\"true\">🕵️‍♂️</span>️<span aria-hidden=\"true\">🕵🏽‍♀️</span>️</p><p>Pensez-vous avoir réussi à la trouver&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
