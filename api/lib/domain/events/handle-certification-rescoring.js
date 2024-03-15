@@ -124,7 +124,7 @@ async function _handleV3Certification({
     configuration,
   });
 
-  const competencesForScoring = await scoringConfigurationRepository.listByLocale({ locale });
+  const v3CertificationScoring = await scoringConfigurationRepository.listByLocale({ locale });
 
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     algorithm,
@@ -132,7 +132,7 @@ async function _handleV3Certification({
     allAnswers,
     abortReason,
     maxReachableLevelOnCertificationDate: certificationCourse.getMaxReachableLevelOnCertificationDate(),
-    competencesForScoring,
+    v3CertificationScoring,
   });
 
   const assessmentResult = _createV3AssessmentResult({
