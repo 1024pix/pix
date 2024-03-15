@@ -11,6 +11,7 @@ import { CertificationAttestationGenerationError } from '../../../../../shared/d
 import { LANGUAGES_CODE } from '../../../../../shared/domain/services/language-service.js';
 import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
 import { AttestationViewModel } from './AttestationViewModel.js';
+
 const { ENGLISH } = LANGUAGES_CODE;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -237,18 +238,18 @@ async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embedde
     _renderScore(viewModel, newPage, embeddedFonts.openSansBold);
 
     let parameters = [
-      [230, 712, viewModel.fullName],
-      [269, 695.5, viewModel.birth],
-      [257, 680, viewModel.certificationCenter],
-      [208, 663.5, viewModel.certificationDate({ lang })],
+      [230, 718, viewModel.fullName],
+      [269, 702, viewModel.birth],
+      [257, 686, viewModel.certificationCenter],
+      [208.5, 670, viewModel.certificationDate({ lang })],
     ];
 
     if (lang === ENGLISH) {
       parameters = [
-        [275, 710, viewModel.fullName],
-        [265, 693.5, viewModel.birth],
-        [250, 678, viewModel.certificationCenter],
-        [208, 661.5, viewModel.certificationDate({ lang })],
+        [271, 718, viewModel.fullName],
+        [261, 702, viewModel.birth],
+        [245.5, 686, viewModel.certificationCenter],
+        [205, 670, viewModel.certificationDate({ lang })],
       ];
     }
     _renderHeaderCandidateInformation(viewModel, newPage, rgb, parameters);
@@ -319,7 +320,7 @@ function _renderMaxScore(viewModel, page, rgb, font) {
 function _renderMaxLevel(viewModel, page, rgb) {
   page.drawText(viewModel.maxLevel, {
     x: 159,
-    y: 608,
+    y: 609,
     size: 7,
     color: rgb(80 / 255, 95 / 255, 121 / 255),
   });

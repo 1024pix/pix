@@ -21,7 +21,7 @@ const buildCertificationCourse = function ({
   endedAt = null,
   completedAt = new Date('2022-03-01'),
   isPublished = true,
-  verificationCode = `P-AB789TTY${id}`,
+  verificationCode = `P-${id}`.padEnd(10, '3'),
   version = 2,
   userId,
   sessionId,
