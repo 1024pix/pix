@@ -1201,7 +1201,7 @@
       },
       "details": {
         "duration": "Durée",
-        "durationValue": "≈{duration} min",
+        "durationValue": "'<span aria-hidden=\"true\">'≈'</span><span class=\"screen-reader-only\">'Environ '</span>'{duration} min",
         "explanationText1": "Les modules de formation Pix sont composés de leçons et d’activités pour vous exercer et développer vos compétences numériques. Les leçons prennent la forme de vidéos, d'audios, d'images et de textes. Les activités vous permettent de vous entraîner et de vérifier directement vos réponses. Un module dure environ 10 minutes, sur un sujet précis, avec un niveau de difficulté allant de débutant à expert.",
         "explanationText2": "Ces modules de formation sont actuellement en phase de bêta-test. Vous pouvez nous envoyer toutes vos suggestions d’amélioration dans le questionnaire de fin de module.",
         "explanationTitle": "C'est quoi un module ?",
