@@ -1,13 +1,13 @@
 <form class="element-qcu">
   <fieldset disabled={{this.disableInput}}>
     <div class="element-qcu__header">
-      <div class="element-qcu-header__instruction">
-        {{html-unsafe @qcu.instruction}}
-      </div>
-
       <legend class="element-qcu-header__direction">
         {{t "pages.modulix.qcu.direction"}}
       </legend>
+
+      <div class="element-qcu-header__instruction">
+        {{html-unsafe @qcu.instruction}}
+      </div>
     </div>
 
     <div class="element-qcu__proposals">
