@@ -76,7 +76,7 @@
           "title": "Vidéo de présentation de Pix",
           "url": "https://videos.pix.fr/modulix/didacticiel/presentation.mp4",
           "subtitles": "",
-          "transcription": "<p>Le numérique évolue en permanence, vos compétences aussi, pour travailler, communiquer et s'informer, se déplacer, réaliser des démarches, un enjeu tout au long de la vie.</p><p>Sur <a href=\"https://pix.fr\" target=\"blank\">pix.fr</a>, testez-vous et cultivez vos compétences numériques.</p><p>Les tests Pix sont personnalisés, les questions s'adaptent à votre niveau, réponse après réponse.</p><p>Évaluez vos connaissances et savoir-faire sur 16 compétences, dans 5 domaines, sur 5 niveaux de débutants à confirmer, avec des mises en situation ludiques, recherches en ligne, manipulation de fichiers et de données, culture numérique...</p><p>Allez à votre rythme, vous pouvez arrêter et reprendre quand vous le voulez.</p><p>Toutes les 5 questions, découvrez vos résultats et progressez grâce aux astuces et aux tutos.</p><p>En relevant les défis Pix, vous apprendrez de nouvelles choses et aurez envie d'aller plus loin.</p><p>Vous pensez pouvoir faire mieux ?</p><p>Retentez les tests et améliorez votre score.</p><p>Faites reconnaître officiellement votre niveau en passant la certification Pix, reconnue par l'État et le monde professionnel.</p><p>Pix&nbsp;: le service public en ligne pour évaluer, développer et certifier ses compétences numériques.</p>"
+          "transcription": "<p>Le numérique évolue en permanence, vos compétences aussi, pour travailler, communiquer et s'informer, se déplacer, réaliser des démarches, un enjeu tout au long de la vie.</p><p>Sur <a href=\"https://pix.fr\" target=\"blank\">pix.fr</a>, testez-vous et cultivez vos compétences numériques.</p><p>Les tests Pix sont personnalisés, les questions s'adaptent à votre niveau, réponse après réponse.</p><p>Évaluez vos connaissances et savoir-faire sur 16 compétences, dans 5 domaines, sur 5 niveaux de débutants à confirmer, avec des mises en situation ludiques, recherches en ligne, manipulation de fichiers et de données, culture numérique...</p><p>Allez à votre rythme, vous pouvez arrêter et reprendre quand vous le voulez.</p><p>Toutes les 5 questions, découvrez vos résultats et progressez grâce aux astuces et aux tutos.</p><p>En relevant les défis Pix, vous apprendrez de nouvelles choses et aurez envie d'aller plus loin.</p><p>Vous pensez pouvoir faire mieux&#8239;?</p><p>Retentez les tests et améliorez votre score.</p><p>Faites reconnaître officiellement votre niveau en passant la certification Pix, reconnue par l'État et le monde professionnel.</p><p>Pix&nbsp;: le service public en ligne pour évaluer, développer et certifier ses compétences numériques.</p>"
         }
       ]
     },
@@ -115,7 +115,7 @@
         {
           "id": "30701e93-1b4d-4da4-b018-fa756c07d53f",
           "type": "qcm",
-          "instruction": "<p>Quels sont les 3 piliers de Pix ?</p>",
+          "instruction": "<p>Quels sont les 3 piliers de Pix&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -154,7 +154,7 @@
         {
           "id": "0a5e77e8-1c8e-4cb6-a41d-cf6ad7935447",
           "type": "qcu",
-          "instruction": "<p>Remontez la page pour trouver le premier mot de ce module.<br>Quel est ce mot ?</p>",
+          "instruction": "<p>Remontez la page pour trouver le premier mot de ce module.<br>Quel est ce mot&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -185,7 +185,7 @@
         {
           "id": "98c51fa7-03b7-49b1-8c5e-49341d35909c",
           "type": "qrocm",
-          "instruction": "<p>Quel est le nom de ce nouveau produit Pix ?</p>",
+          "instruction": "<p>Quel est le nom de ce nouveau produit Pix&#8239;?</p>",
           "proposals": [
             {
               "input": "nom-produit",

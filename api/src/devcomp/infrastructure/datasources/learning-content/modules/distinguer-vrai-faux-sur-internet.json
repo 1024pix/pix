@@ -35,7 +35,7 @@
       "grainId": "c624de0b-658a-47e7-b780-c579a1033aba"
     },
     {
-      "content": "<p>Même si on a vérifié le “qui ? quand ? d'où ?”, il faut rester vigilant.<br>D'autres indices peuvent aider à détecter de fausses informations.&nbsp;👣 <br>Plus ils s’accumulent, plus l’information a des chances d’être fausse.</p>",
+      "content": "<p>Même si on a vérifié le “qui&#8239;? quand&#8239;? d'où&#8239;?”, il faut rester vigilant.<br>D'autres indices peuvent aider à détecter de fausses informations.&nbsp;👣 <br>Plus ils s’accumulent, plus l’information a des chances d’être fausse.</p>",
       "grainId": "428ea826-6e21-4c56-a5a2-f97373f1e833"
     },
     {
@@ -264,7 +264,7 @@
         {
           "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
           "type": "text",
-          "content": "<h3>Question n°1&nbsp;: qui est l’auteur de cette information ? <span aria-hidden=\"true\">🖋️</span>️</h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple, si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
+          "content": "<h3>Question n°1&nbsp;: qui est l’auteur de cette information&#8239;? <span aria-hidden=\"true\">🖋️</span>️</h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple, si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
         },
         {
           "id": "42276690-f134-4b88-ac0f-c26ad62370ec",
@@ -274,7 +274,7 @@
         {
           "id": "8aa4a733-4a92-4007-897d-ab884a7add85",
           "type": "text",
-          "content": "<h3>Question n°2&nbsp;: quelle est la date de l’information ? <span aria-hidden=\"true\">📅</span>️</h3><p>C’est simple à vérifier et très important ! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
+          "content": "<h3>Question n°2&nbsp;: quelle est la date de l’information&#8239;? <span aria-hidden=\"true\">📅</span>️</h3><p>C’est simple à vérifier et très important ! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
         },
         {
           "id": "056ef18b-2f2f-4518-acca-93bb59b2d151",
@@ -284,7 +284,7 @@
         {
           "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
           "type": "text",
-          "content": "<h3>Question n°3&nbsp;: d’où provient cette information ? <span aria-hidden=\"true\">ℹ️</span>️</h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
+          "content": "<h3>Question n°3&nbsp;: d’où provient cette information&#8239;? <span aria-hidden=\"true\">ℹ️</span>️</h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
         }
       ]
     },
@@ -296,7 +296,7 @@
         {
           "id": "1c39f509-cdc2-4d3e-85f8-7731739a793f",
           "type": "qcm",
-          "instruction": "<p>Parmi les éléments suivants, lesquels permettent de vérifier une information ?</p>",
+          "instruction": "<p>Parmi les éléments suivants, lesquels permettent de vérifier une information&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -481,12 +481,12 @@
           "type": "image",
           "url": "https://i.imgur.com/Scxdcfm.png",
           "alt": "",
-          "alternativeText": "Vos plantes vertes ne poussent pas ? Voici 2 super astuces dont vous ne pourrez plus vous passer.<br> Astuce 1&nbsp;: Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien ! Votre plante va adorer.<br> Astuce 2&nbsp;: Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
+          "alternativeText": "Vos plantes vertes ne poussent pas&#8239;? Voici 2 super astuces dont vous ne pourrez plus vous passer.<br> Astuce 1&nbsp;: Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien ! Votre plante va adorer.<br> Astuce 2&nbsp;: Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
         },
         {
           "id": "2a308355-f39f-498e-aef6-f1c0830f5b1f",
           "type": "qcm",
-          "instruction": "<p>Quels sont les conseils à donner à Stéphane ?</p>",
+          "instruction": "<p>Quels sont les conseils à donner à Stéphane&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
