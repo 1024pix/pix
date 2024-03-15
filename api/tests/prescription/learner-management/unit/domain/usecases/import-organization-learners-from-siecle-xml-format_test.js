@@ -144,10 +144,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
         { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
       ];
 
-      expect(SiecleParser.create).to.have.been.calledWithExactly(
-        { externalId: organizationUAI },
-        siecleFileStreamerSymbol,
-      );
+      expect(SiecleParser.create).to.have.been.calledWithExactly(siecleFileStreamerSymbol);
       expect(
         organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners,
       ).to.have.been.calledWithExactly(organizationLearners, organizationId, domainTransaction);
