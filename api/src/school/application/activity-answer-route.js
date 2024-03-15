@@ -1,6 +1,7 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
+import { identifiersType } from '../../shared/domain/types/identifiers-type.js';
 import { activityAnswerController } from './activity-answer-controller.js';
 
 const register = async function (server) {
@@ -15,17 +16,26 @@ const register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                value: Joi.string().allow('').allow(null),
+                value: Joi.string().allow(''),
                 result: Joi.string().allow(null),
                 'result-details': Joi.string().allow(null),
               },
-              relationships: Joi.object().required(),
-              challenge: Joi.object(),
+              relationships: Joi.object({
+                challenge: Joi.object({
+                  data: Joi.object({
+                    id: identifiersType.challengeId,
+                    type: Joi.string(),
+                  }),
+                }).required(),
+              }).required(),
               type: Joi.string(),
             },
             meta: Joi.object({
-              assessmentId: Joi.string().required(),
-            }),
+              assessmentId: identifiersType.assessmentId.optional(),
+              isPreview: Joi.bool(),
+            })
+              .xor('assessmentId', 'isPreview')
+              .required(),
           }),
         },
         handler: activityAnswerController.save,
