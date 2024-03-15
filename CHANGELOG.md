@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v4.116.0 (15/03/2024)
+
+
+### :rocket: Amélioration
+- [#8391](https://github.com/1024pix/pix/pull/8391) [FEATURE] Remonter toutes les erreurs lors d'un import SIECLE (PIX-10955).
+- [#8408](https://github.com/1024pix/pix/pull/8408) [FEATURE] Retourner une erreur lorsque les données du référentiel Modulix ne sont pas cohérentes.
+- [#8379](https://github.com/1024pix/pix/pull/8379) [FEATURE] Ajout du calcul du niveau par compétence lors du rescoring (PIX-11546).
+- [#8329](https://github.com/1024pix/pix/pull/8329) [FEATURE] Récupérer la config de niveau par compétence en fonction de la date du certification-course (PIX-11548).
+
+### :building_construction: Tech
+- [#8411](https://github.com/1024pix/pix/pull/8411) [TECH] Migrer l'api pour attacher une organisation fille dans src/organizational-entities (PIX-11632).
+- [#8405](https://github.com/1024pix/pix/pull/8405) [TECH] Ajout de la migration pour créer la table  organization-learner-import-formats.
+- [#8402](https://github.com/1024pix/pix/pull/8402) [TECH] Ajouter la feature permettant d'importer des participants (PIX-11608).
+
+### :bug: Correction
+- [#8406](https://github.com/1024pix/pix/pull/8406) [BUGFIX] Correction d'une référence de grain dans une transition.
+
+### :arrow_up: Montée de version
+- [#8400](https://github.com/1024pix/pix/pull/8400) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.2 (certif).
+
+### :coffee: Autre
+- [#8389](https://github.com/1024pix/pix/pull/8389) [REFACTOR] Améliorer le responsive du bloc d'actions des épreuves (PIX-9646).
+- [#8392](https://github.com/1024pix/pix/pull/8392) [REFACTOR] Améliorer le contraste du bloc de signalement d'épreuve (PIX-9644).
+- [#8355](https://github.com/1024pix/pix/pull/8355) [REFACTOR] Amélioration du lien "détails" d'une carte de compétence (PIX-10556).
+- [#8354](https://github.com/1024pix/pix/pull/8354) [REFACTOR] Amélioration du style du lien du bloc de score sur le dashboard (PIX-10555).
+
 ## v4.115.0 (14/03/2024)
 
 
