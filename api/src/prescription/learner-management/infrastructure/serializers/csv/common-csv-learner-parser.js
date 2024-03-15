@@ -32,39 +32,46 @@ const PARSING_OPTIONS = {
 };
 
 class CommonCsvLearerParser {
+  #input;
+  #encoding;
+  #organizationId;
+  #errors;
+
+  // compute heading
+  #columns;
+  // compute validation to handle error
+  #supportedErrors;
+  // compute support_enconding
+  #supportedEncodings;
+
   constructor(input, organizationId, config) {
-    this._input = input;
-    this._organizationId = organizationId;
-    this._errors = [];
+    this.#input = input;
+    this.#encoding;
+    this.#organizationId = organizationId;
+    this.#errors = [];
 
     // compute heading
-    this._columns = config.headers;
+    this.#columns = config.headers;
 
     // compute validation to handle error
-    this._supportedErrors = config.supportedErrors;
+    this.#supportedErrors = config.supportedErrors;
 
     // compute support_enconding
-    this._supportedEncodings = config.acceptedEncoding;
+    this.#supportedEncodings = config.acceptedEncoding;
   }
 
-  parse(encoding) {
-    if (!encoding) {
-      this._errors.push(new CsvImportError(ERRORS.ENCODING_NOT_SUPPORTED));
-    }
+  parse() {
+    const { fields } = this.#parse();
 
-    this.throwHasErrors();
+    this.#throwHasErrors();
 
-    const { fields } = this._parse(encoding);
+    this.#checkColumns(fields);
 
-    this.throwHasErrors();
-
-    this._checkColumns(fields);
-
-    this.throwHasErrors();
+    this.#throwHasErrors();
   }
 
-  throwHasErrors() {
-    if (this._errors.length > 0) throw new AggregateImportError(this._errors);
+  #throwHasErrors() {
+    if (this.#errors.length > 0) throw new AggregateImportError(this.#errors);
   }
 
   /**
@@ -72,26 +79,27 @@ class CommonCsvLearerParser {
    * To check it, we decode and parse the first line of the file with supported encodings.
    * If there is one with at least "First name" or "Student number" correctly parsed and decoded.
    */
-  getFileEncoding() {
-    const supported_encodings = this._supportedEncodings;
+  setEncoding() {
+    const supported_encodings = this.#supportedEncodings;
     for (const encoding of supported_encodings) {
-      const decodedInput = iconv.decode(this._input, encoding);
+      const decodedInput = iconv.decode(this.#input, encoding);
       if (!decodedInput.includes('�')) {
-        return encoding;
+        this.#encoding = encoding;
       }
     }
-  }
 
-  _getEncodingColumns() {
-    const checkedColumns = this._columns.filter((c) => c.checkEncoding).map((c) => c.name);
-    if (checkedColumns.length === 0) {
-      return this._columns.map((c) => c.name);
+    if (!this.#encoding) {
+      this.#errors.push(new CsvImportError(ERRORS.ENCODING_NOT_SUPPORTED));
+      this.#throwHasErrors();
     }
-    return checkedColumns;
   }
 
-  _parse(encoding = 'utf8') {
-    const decodedInput = iconv.decode(this._input, encoding);
+  getEncoding() {
+    return this.#encoding;
+  }
+
+  #parse() {
+    const decodedInput = iconv.decode(this.#input, this.#encoding);
     const {
       data: learnerLines,
       meta: { fields },
@@ -101,24 +109,24 @@ class CommonCsvLearerParser {
     if (errors.length) {
       const hasDelimiterError = errors.some((error) => error.type === 'Delimiter');
       if (hasDelimiterError) {
-        this._errors.push(new CsvImportError(ERRORS.BAD_CSV_FORMAT));
+        this.#errors.push(new CsvImportError(ERRORS.BAD_CSV_FORMAT));
       }
     }
 
-    this.throwHasErrors();
+    this.#throwHasErrors();
 
     return { learnerLines, fields };
   }
 
   _lineToOrganizationLearnerAttributes(line) {
     const learnerAttributes = {
-      organizationId: this._organizationId,
+      organizationId: this.#organizationId,
     };
 
-    this._columns.forEach((column) => {
+    this.#columns.forEach((column) => {
       const value = line[column.name];
       if (column.isDate) {
-        learnerAttributes[column.property] = this._buildDateAttribute(value);
+        learnerAttributes[column.property] = this.#buildDateAttribute(value);
       } else {
         learnerAttributes[column.property] = value;
       }
@@ -127,27 +135,27 @@ class CommonCsvLearerParser {
     return learnerAttributes;
   }
 
-  _checkColumns(parsedColumns) {
+  #checkColumns(parsedColumns) {
     // Required columns
-    const mandatoryColumn = this._columns.filter((c) => c.isRequired);
+    const mandatoryColumn = this.#columns.filter((c) => c.isRequired);
 
     mandatoryColumn.forEach((colum) => {
       if (!parsedColumns.includes(colum.name)) {
-        this._errors.push(new CsvImportError(ERRORS.HEADER_REQUIRED, { field: colum.name }));
+        this.#errors.push(new CsvImportError(ERRORS.HEADER_REQUIRED, { field: colum.name }));
       }
     });
 
     // Expected columns
-    const acceptedColumns = this._columns.map((column) => column.name);
+    const acceptedColumns = this.#columns.map((column) => column.name);
 
     const unknowColumns = parsedColumns.filter((columnName) => !acceptedColumns.includes(columnName));
 
     unknowColumns.forEach((columnName) => {
-      if (columnName !== '') this._errors.push(new CsvImportError(ERRORS.HEADER_UNKNOWN, { field: columnName }));
+      if (columnName !== '') this.#errors.push(new CsvImportError(ERRORS.HEADER_UNKNOWN, { field: columnName }));
     });
   }
 
-  _buildDateAttribute(dateString) {
+  #buildDateAttribute(dateString) {
     const convertedDate = convertDateValue({
       dateString,
       inputFormat: 'DD/MM/YYYY',
@@ -157,37 +165,37 @@ class CommonCsvLearerParser {
     return convertedDate || dateString;
   }
 
-  _handleValidationError(errors, index) {
+  #handleValidationError(errors, index) {
     errors.forEach((err) => {
-      const column = this._columns.find((column) => column.property === err.key);
+      const column = this.#columns.find((column) => column.property === err.key);
       const line = index + 2;
       const field = column.name;
 
       // iterate on supported error to push errors
 
       if (err.why === 'min_length') {
-        this._errors.push(new CsvImportError(ERRORS.FIELD_MIN_LENGTH, { line, field, limit: err.limit }));
+        this.#errors.push(new CsvImportError(ERRORS.FIELD_MIN_LENGTH, { line, field, limit: err.limit }));
       }
       if (err.why === 'max_length') {
-        this._errors.push(new CsvImportError(ERRORS.FIELD_MAX_LENGTH, { line, field, limit: err.limit }));
+        this.#errors.push(new CsvImportError(ERRORS.FIELD_MAX_LENGTH, { line, field, limit: err.limit }));
       }
       if (err.why === 'length') {
-        this._errors.push(new CsvImportError(ERRORS.FIELD_LENGTH, { line, field, limit: err.limit }));
+        this.#errors.push(new CsvImportError(ERRORS.FIELD_LENGTH, { line, field, limit: err.limit }));
       }
       if (err.why === 'date_format' || err.why === 'not_a_date') {
-        this._errors.push(new CsvImportError(ERRORS.FIELD_DATE_FORMAT, { line, field }));
+        this.#errors.push(new CsvImportError(ERRORS.FIELD_DATE_FORMAT, { line, field }));
       }
       if (err.why === 'email_format') {
-        this._errors.push(new CsvImportError(ERRORS.FIELD_EMAIL_FORMAT, { line, field }));
+        this.#errors.push(new CsvImportError(ERRORS.FIELD_EMAIL_FORMAT, { line, field }));
       }
       if (err.why === 'required') {
-        this._errors.push(new CsvImportError(ERRORS.FIELD_REQUIRED, { line, field }));
+        this.#errors.push(new CsvImportError(ERRORS.FIELD_REQUIRED, { line, field }));
       }
       if (err.why === 'bad_values') {
-        this._errors.push(new CsvImportError(ERRORS.FIELD_BAD_VALUES, { line, field, valids: err.valids }));
+        this.#errors.push(new CsvImportError(ERRORS.FIELD_BAD_VALUES, { line, field, valids: err.valids }));
       }
 
-      if (!this._supportedErrors.includes(err.why)) this._errors.push(err);
+      if (!this.#supportedErrors.includes(err.why)) this.#errors.push(err);
     });
   }
 }
