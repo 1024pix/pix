@@ -7,11 +7,11 @@ const getById = async function (request, h, dependencies = { missionSerializer }
   return dependencies.missionSerializer.serialize(mission);
 };
 
-const findAll = async function (request, h, dependencies = { missionSerializer }) {
+const findAllActive = async function (request, h, dependencies = { missionSerializer }) {
   const { id: organizationId } = request.params;
-  const missions = await usecases.findAllMissions({ organizationId });
+  const missions = await usecases.findAllActiveMissions({ organizationId });
   return dependencies.missionSerializer.serialize(missions);
 };
 
-const missionController = { getById, findAll };
+const missionController = { getById, findAllActive };
 export { missionController };

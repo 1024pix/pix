@@ -1,13 +1,13 @@
 import { injectComplementDataTo } from '../services/inject-complement-data-to-mission.js';
 
-async function findAllMissions({
+async function findAllActiveMissions({
   organizationId,
   missionRepository,
   areaRepository,
   competenceRepository,
   organizationLearnerRepository,
 }) {
-  const missions = await missionRepository.findAllMissions();
+  const missions = await missionRepository.findAllActiveMissions();
   return Promise.all(
     missions.map(async (mission) => {
       return await injectComplementDataTo({
@@ -21,4 +21,4 @@ async function findAllMissions({
   );
 }
 
-export { findAllMissions };
+export { findAllActiveMissions };
