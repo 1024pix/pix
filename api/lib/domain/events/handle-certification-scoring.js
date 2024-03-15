@@ -13,6 +13,7 @@ import { AssessmentResult } from '../models/index.js';
 import { AssessmentCompleted } from './AssessmentCompleted.js';
 import { CertificationScoringCompleted } from './CertificationScoringCompleted.js';
 import { checkEventTypes } from './check-event-types.js';
+import { V3CertificationScoring } from '../../../src/certification/scoring/domain/models/V3CertificationScoring.js';
 
 const eventTypes = [AssessmentCompleted];
 
@@ -149,7 +150,7 @@ async function _handleV3CertificationScoring({
     configuration,
   });
 
-  const competencesForScoring = await scoringConfigurationRepository.listByLocale({ locale });
+  const v3CertificationScoring = await scoringConfigurationRepository.listByLocale({ locale });
 
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     algorithm,
@@ -157,7 +158,7 @@ async function _handleV3CertificationScoring({
     allAnswers,
     abortReason,
     maxReachableLevelOnCertificationDate: certificationCourse.getMaxReachableLevelOnCertificationDate(),
-    competencesForScoring,
+    v3CertificationScoring,
   });
 
   if (_shouldCancelWhenV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse })) {
