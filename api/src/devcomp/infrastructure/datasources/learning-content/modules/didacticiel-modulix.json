@@ -15,11 +15,11 @@
       "grainId": "f312c33d-e7c9-4a69-9ba0-913957b8f7dd"
     },
     {
-      "content": "<p>Chaque leçon a un objectif pédagogique précis.</p><p>Dans la prochaine leçon, nous vous proposons de découvrir Pix avec une courte vidéo <span aria-hidden=\"true\">▶️</span></p>",
+      "content": "<p>Chaque leçon a un objectif pédagogique précis.</p><p>Dans la prochaine leçon, nous vous proposons de découvrir Pix avec une courte vidéo&nbsp;<span aria-hidden=\"true\">▶️</span></p>",
       "grainId": "73ac3644-7637-4cee-86d4-1a75f53f0b9c"
     },
     {
-      "content": "<p>Vous allez faire votre première activité. Les activités servent à vérifier que vous avez compris l'essentiel des leçons.<br>Dans les activités Modulix, vous avez votre résultat immédiatement. À vous de jouer <span aria-hidden=\"true\">🚀</span></p>",
+      "content": "<p>Vous allez faire votre première activité. Les activités servent à vérifier que vous avez compris l'essentiel des leçons.<br>Dans les activités Modulix, vous avez votre résultat immédiatement. À vous de jouer&nbsp;<span aria-hidden=\"true\">🚀</span></p>",
       "grainId": "533c69b8-a836-41be-8ffc-8d4636e31224"
     },
     {
@@ -27,7 +27,7 @@
       "grainId": "0be0f5eb-4cb6-47c2-b9d3-cb2ceb4cd21c"
     },
     {
-      "content": "<p>Vous l'avez peut-être remarqué&nbsp;: dans un module, vous pouvez voir tous les contenus en remontant la page <span aria-hidden=\"true\">⬆️</span>️</p>",
+      "content": "<p>Vous l'avez peut-être remarqué&nbsp;: dans un module, vous pouvez voir tous les contenus en remontant la page&nbsp;<span aria-hidden=\"true\">⬆️</span>️</p>",
       "grainId": "2a77a10f-19a3-4544-80f9-8012dad6506a"
     },
     {
@@ -49,7 +49,7 @@
         {
           "id": "a2372bf4-86a4-4ecc-a188-b51f4f98bca2",
           "type": "text",
-          "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture <span aria-hidden=\"true\">📚</span>️.<br>Et là, voici une image&#8239;!</p>"
+          "content": "<p>Voici un texte de leçon. Parfois, il y a des émojis pour aider à la lecture&nbsp;<span aria-hidden=\"true\">📚</span>️.<br>Et là, voici une image&#8239;!</p>"
         },
         {
           "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
@@ -101,7 +101,7 @@
           ],
           "feedbacks": {
             "valid": "<p>Correct&#8239;! Ces 16 compétences sont rangées dans 5 domaines.</p>",
-            "invalid": "<p>Incorrect. Retourner voir la vidéo si besoin <span aria-hidden=\"true\">⬆️</span>️!</p>"
+            "invalid": "<p>Incorrect. Retourner voir la vidéo si besoin&nbsp;<span aria-hidden=\"true\">⬆️</span>️!</p>"
           },
           "solution": "1"
         }
@@ -201,7 +201,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct&#8239;! vous êtes prêt à explorer <span aria-hidden=\"true\">🎉</span></p>",
+            "valid": "<p>Correct&#8239;! vous êtes prêt à explorer&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
             "invalid": "<p>Incorrect&#8239;! vous y arriverez la prochaine fois&#8239;!</p>"
           }
         }
