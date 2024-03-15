@@ -4,6 +4,7 @@ import papa from 'papaparse';
 import { CsvImportError } from '../../../../../shared/domain/errors.js';
 import { convertDateValue } from '../../../../../shared/infrastructure/utils/date-utils.js';
 import { AggregateImportError } from '../../../domain/errors.js';
+import { ImportOrganizationLearnerSet } from '../../../domain/models/CommonOrganizationLearnerSet.js';
 
 const ERRORS = {
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
@@ -36,6 +37,7 @@ class CommonCsvLearerParser {
   #encoding;
   #organizationId;
   #errors;
+  #learnerSet;
 
   // compute heading
   #columns;
@@ -48,6 +50,7 @@ class CommonCsvLearerParser {
     this.#input = input;
     this.#encoding;
     this.#organizationId = organizationId;
+    this.#learnerSet = new ImportOrganizationLearnerSet();
     this.#errors = [];
 
     // compute heading
@@ -61,17 +64,19 @@ class CommonCsvLearerParser {
   }
 
   parse() {
-    const { fields } = this.#parse();
+    const { learnerLines, fields } = this.#parse();
 
     this.#throwHasErrors();
 
     this.#checkColumns(fields);
 
     this.#throwHasErrors();
-  }
 
-  #throwHasErrors() {
-    if (this.#errors.length > 0) throw new AggregateImportError(this.#errors);
+    learnerLines.forEach((line, index) => {
+      this.#learnerSet.addLearner(this.#lineToOrganizationLearnerAttributes(line, index));
+    });
+
+    return this.#learnerSet.getLearners();
   }
 
   /**
@@ -98,6 +103,10 @@ class CommonCsvLearerParser {
     return this.#encoding;
   }
 
+  #throwHasErrors() {
+    if (this.#errors.length > 0) throw new AggregateImportError(this.#errors);
+  }
+
   #parse() {
     const decodedInput = iconv.decode(this.#input, this.#encoding);
     const {
@@ -118,17 +127,18 @@ class CommonCsvLearerParser {
     return { learnerLines, fields };
   }
 
-  _lineToOrganizationLearnerAttributes(line) {
+  #lineToOrganizationLearnerAttributes(line) {
     const learnerAttributes = {
       organizationId: this.#organizationId,
+      attributes: {},
     };
 
     this.#columns.forEach((column) => {
       const value = line[column.name];
-      if (column.isDate) {
-        learnerAttributes[column.property] = this.#buildDateAttribute(value);
-      } else {
+      if (column.property) {
         learnerAttributes[column.property] = value;
+      } else {
+        learnerAttributes.attributes[column.name] = value;
       }
     });
 
