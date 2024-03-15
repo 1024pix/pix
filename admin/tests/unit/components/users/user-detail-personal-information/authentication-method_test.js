@@ -109,13 +109,11 @@ module('Unit | Component | users | user-detail-personal-information/authenticati
           code: 'OIDC-1',
           organizationName: 'organization 1',
           hasLogoutUrl: false,
-          source: 'source1',
         });
         const oidcIdentityProvider2 = store.createRecord('oidc-identity-provider', {
           code: 'OIDC-2',
           organizationName: 'organization 2',
           hasLogoutUrl: false,
-          source: 'source2',
         });
         class OidcIdentittyProvidersStub extends Service {
           list = [oidcIdentityProvider1, oidcIdentityProvider2];
@@ -171,13 +169,11 @@ module('Unit | Component | users | user-detail-personal-information/authenticati
           code: 'OIDC-1',
           organizationName: 'organization 1',
           hasLogoutUrl: false,
-          source: 'source1',
         });
         const oidcIdentityProvider2 = store.createRecord('oidc-identity-provider', {
           code: 'OIDC-2',
           organizationName: 'organization 2',
           hasLogoutUrl: false,
-          source: 'source2',
         });
         class OidcIdentittyProvidersStub extends Service {
           list = [oidcIdentityProvider1, oidcIdentityProvider2];
@@ -234,13 +230,11 @@ module('Unit | Component | users | user-detail-personal-information/authenticati
           code: 'OIDC-1',
           organizationName: 'organization 1',
           hasLogoutUrl: false,
-          source: 'source1',
         });
         const oidcIdentityProvider2 = store.createRecord('oidc-identity-provider', {
           code: 'OIDC-2',
           organizationName: 'organization 2',
           hasLogoutUrl: false,
-          source: 'source2',
         });
         class OidcIdentittyProvidersStub extends Service {
           list = [oidcIdentityProvider1, oidcIdentityProvider2];

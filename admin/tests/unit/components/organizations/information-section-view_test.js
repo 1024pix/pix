@@ -15,7 +15,6 @@ module('Unit | Component | organizations/information-section-view', function (ho
         code: 'OIDC',
         organizationName: 'a super orga',
         hasLogoutUrl: false,
-        source: 'idp',
       });
       class OidcIdentityProvidersStub extends Service {
         list = [oidcPartner];
@@ -36,7 +35,6 @@ module('Unit | Component | organizations/information-section-view', function (ho
         code: 'OIDC',
         organizationName: 'a super orga',
         hasLogoutUrl: false,
-        source: 'idp',
       });
       class OidcIdentityProvidersStub extends Service {
         list = [oidcPartner];

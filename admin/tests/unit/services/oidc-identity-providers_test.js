@@ -16,7 +16,6 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       code: 'OIDC_PARTNER',
       organizationName: 'Partenaire OIDC',
       hasLogoutUrl: false,
-      source: 'oidc-externe',
     };
     const oidcPartnerObject = Object.create(oidcPartner);
     storeStub = Service.create({
@@ -37,7 +36,6 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       assert.strictEqual(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
       assert.strictEqual(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
       assert.strictEqual(oidcIdentityProvidersService.list[0].hasLogoutUrl, oidcPartner.hasLogoutUrl);
-      assert.strictEqual(oidcIdentityProvidersService.list[0].source, oidcPartner.source);
     });
   });
 
@@ -55,7 +53,6 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       assert.strictEqual(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
       assert.strictEqual(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
       assert.strictEqual(oidcIdentityProvidersService.list[0].hasLogoutUrl, oidcPartner.hasLogoutUrl);
-      assert.strictEqual(oidcIdentityProvidersService.list[0].source, oidcPartner.source);
     });
   });
 

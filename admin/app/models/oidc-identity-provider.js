@@ -4,5 +4,4 @@ export default class OidcIdentityProvider extends Model {
   @attr() code;
   @attr() organizationName;
   @attr() hasLogoutUrl;
-  @attr() source;
 }
