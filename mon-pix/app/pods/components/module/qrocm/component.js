@@ -21,7 +21,7 @@ export default class ModuleQrocm extends Component {
   }
 
   get nbOfProposals() {
-    return this.qrocm.proposals.length;
+    return this.qrocm.proposals.filter(({ type }) => type !== 'text').length;
   }
 
   @action
