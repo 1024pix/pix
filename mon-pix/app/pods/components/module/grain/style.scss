@@ -3,6 +3,7 @@
 
   &--active {
     min-height: calc(100vh - var(--grain-scroll-offset));
+    outline: none;
 
     @supports (min-height: 100dvh) {
       min-height: calc(100dvh - var(--grain-scroll-offset));
@@ -19,48 +20,40 @@
     font-weight: var(--pix-font-medium);
   }
 
+  &__card {
+    border-radius: var(--pix-spacing-4x);
+  }
+}
+
+.grain-card {
   &__content {
     padding: var(--pix-spacing-6x);
-    border-top-left-radius: var(--pix-spacing-4x);
-    border-top-right-radius: var(--pix-spacing-4x);
-
-    &:last-child {
-      border-bottom-right-radius: var(--pix-spacing-4x);
-      border-bottom-left-radius: var(--pix-spacing-4x);
-    }
   }
 
   &__footer {
     padding: var(--pix-spacing-6x);
-    border-bottom-right-radius: var(--pix-spacing-4x);
-    border-bottom-left-radius: var(--pix-spacing-4x);
+    border-top: 1px solid var(--pix-neutral-100);
+  }
+
+  &--lesson {
+    background: var(--pix-info-50);
+  }
+
+  &--activity {
+    background: var(--pix-neutral-20);
   }
 }
 
-.grain-content {
+.grain-card-content {
   &__element:not(:last-child) {
     margin-bottom: var(--pix-spacing-8x);
   }
 }
 
-.grain--lesson {
-  .grain__content {
-    background: var(--pix-info-50);
-  }
-
-  .grain__footer {
-    background: var(--pix-info-50);
-    border-top: 1px solid var(--pix-neutral-100);
-  }
-}
-
-.grain--activity {
-  .grain__content {
-    background: var(--pix-neutral-20);
-  }
-
-  .grain__footer {
-    background: var(--pix-info-50);
-    border-top: 1px solid var(--pix-neutral-500);
+// stylelint-disable-next-line no-duplicate-selectors
+.grain--active:focus-visible {
+  .grain__card {
+    outline: 2px solid var(--pix-neutral-500);
+    outline-offset: -2px;
   }
 }
