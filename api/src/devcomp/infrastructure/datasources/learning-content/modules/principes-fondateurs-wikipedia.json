@@ -27,7 +27,7 @@
       "grainId": "9a3926dd-750c-4b89-b1d0-9a286fe2d9e4"
     },
     {
-      "content": "<p>Des personnes du monde entier utilisent Wikipédia et y contribuent. De cette manière, les articles sont fréquemment disponibles dans plusieurs langues.<br>Un petit jeu : saurez-vous dans combien de langues ?</p>",
+      "content": "<p>Des personnes du monde entier utilisent Wikipédia et y contribuent. De cette manière, les articles sont fréquemment disponibles dans plusieurs langues.<br>Un petit jeu&nbsp;: saurez-vous dans combien de langues ?</p>",
       "grainId": "5f048ad8-d008-4956-840b-37e84138b433"
     },
     {
@@ -65,7 +65,7 @@
         {
           "id": "d5acb701-fd9c-40d4-b59d-fb2fd8f6b3fe",
           "type": "qcm",
-          "instruction": "<p>Une devinette : selon vous, quelles sont les <strong>deux</strong> phrases qui décrivent le mieux la signification du logo actuel de Wikipédia ?</p>",
+          "instruction": "<p>Une devinette&nbsp;: selon vous, quelles sont les <strong>deux</strong> phrases qui décrivent le mieux la signification du logo actuel de Wikipédia ?</p>",
           "proposals": [
             {
               "id": "1",
@@ -211,8 +211,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct. Il y a une représentation inégale entre ces langues : on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>",
-            "invalid": "<p>Incorrect. La réponse est 250.<br>Il y a une représentation inégale entre ces langues : on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
+            "valid": "<p>Correct. Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>",
+            "invalid": "<p>Incorrect. La réponse est 250.<br>Il y a une représentation inégale entre ces langues&nbsp;: on compte environ 7 millions d’articles en anglais, 2 millions en français et 7 000 en tibétain.</p>"
           },
           "solution": "2"
         }
@@ -291,7 +291,7 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Nom de la cinquième section :</p>"
+              "content": "<p>Nom de la cinquième section&nbsp;:</p>"
             },
             {
               "input": "cinquieme-section",
@@ -355,7 +355,7 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Niveau de qualité estimé :</p>"
+              "content": "<p>Niveau de qualité estimé&nbsp;:</p>"
             },
             {
               "input": "quality-wiki",
