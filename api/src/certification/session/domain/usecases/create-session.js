@@ -5,7 +5,7 @@
  * @typedef {import ('../../../shared/domain/usecases/index.js').SessionCodeService} SessionCodeService
  */
 
-import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
+import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
 import { Session } from '../models/Session.js';
 
 /**

@@ -1,4 +1,4 @@
-import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
+import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { CertificationDetails } from '../read-models/CertificationDetails.js';
 
 const getCertificationDetails = async function ({

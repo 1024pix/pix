@@ -1,8 +1,8 @@
 import { AssessmentEndedError } from '../../../../../../lib/domain/errors.js';
 import { getNextChallengeForCertification } from '../../../../../../src/certification/course/domain/usecases/get-next-challenge-for-certification.js';
+import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
-import { CertificationVersion } from '../../../../../../src/shared/domain/models/CertificationVersion.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', function () {
