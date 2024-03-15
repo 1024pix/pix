@@ -27,7 +27,7 @@
       "grainId": "eba0b676-c0c4-4b32-b5e4-dd94d13766a5"
     },
     {
-      "content": "<p>Lorsque vous êtes en ligne, votre adresse IP publique est partagée et utilisée. Mais savez-vous quelles informations cette adresse donne sur vous&#8239;? <span aria-hidden=\"true\">👁️‍🗨️</span>️</p>",
+      "content": "<p>Lorsque vous êtes en ligne, votre adresse IP publique est partagée et utilisée. Mais savez-vous quelles informations cette adresse donne sur vous&#8239;?&nbsp;<span aria-hidden=\"true\">👁️‍🗨️</span>️</p>",
       "grainId": "96cdedc1-2d31-40c2-ac02-d3fd83f26e30"
     },
     {
@@ -258,7 +258,7 @@
         {
           "id": "27fc867a-7258-4f85-b8cc-bdd1ab2d26a5",
           "type": "text",
-          "content": "<h3>Ce qu'il faut retenir <span aria-hidden=\"true\">🎓</span>️</h3><ul><li>L’adresse IP publique donne une information sur la zone géographique de la connexion.</li><li>Votre adresse IP publique est celle de votre box internet.</li><li>Les personnes connectées à la même box internet ont la même adresse IP publique.</li><li>À partir d'une adresse IP publique, on peut seulement identifier un pays, voire une ville de connexion.</li></ul>"
+          "content": "<h3>Ce qu'il faut retenir&nbsp;<span aria-hidden=\"true\">🎓</span>️</h3><ul><li>L’adresse IP publique donne une information sur la zone géographique de la connexion.</li><li>Votre adresse IP publique est celle de votre box internet.</li><li>Les personnes connectées à la même box internet ont la même adresse IP publique.</li><li>À partir d'une adresse IP publique, on peut seulement identifier un pays, voire une ville de connexion.</li></ul>"
         }
       ]
     },
@@ -286,7 +286,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct. <span aria-hidden=\"true\">🎉</span></p>",
+            "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
             "invalid": "<p>Incorrect. Pour réussir, utilisez un site internet dédié. Pour le trouver, faites une recherche sur internet avec les mots-clés \"localisation adresse IP\".</p>"
           }
         },
@@ -346,7 +346,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct. <span aria-hidden=\"true\">🎉</span></p>",
+            "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
             "invalid": "<p>Incorrect. L'adresse IP privée (locale) est visible uniquement par les appareils du réseau local.</p>"
           },
           "solution": "1"
@@ -371,7 +371,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct. <span aria-hidden=\"true\">🎉</span></p>",
+            "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
             "invalid": "<p>Incorrect. L'adresse IP publique permet les échanges entre une box internet et les sites visités.</p>"
           },
           "solution": "2"
@@ -396,7 +396,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct. <span aria-hidden=\"true\">🎉</span></p>",
+            "valid": "<p>Correct.&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
             "invalid": "<p>Incorrect. L'adresse IP publique est spécifique à la box internet, pas aux appareils qui y sont connectés.</p>"
           },
           "solution": "2"
