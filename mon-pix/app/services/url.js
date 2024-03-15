@@ -1,7 +1,6 @@
 import Service, { inject as service } from '@ember/service';
 import ENV from 'mon-pix/config/environment';
 
-const FRENCH_INTERNATIONAL_LOCALE = 'fr';
 const ENGLISH_INTERNATIONAL_LOCALE = 'en';
 const DUTCH_INTERNATIONAL_LOCALE = 'nl';
 
@@ -89,6 +88,8 @@ export default class Url extends Service {
     switch (currentLanguage) {
       case ENGLISH_INTERNATIONAL_LOCALE:
         return 'https://support.pix.org/en/support/home';
+      case DUTCH_INTERNATIONAL_LOCALE:
+        return 'https://pix.org/nl-be/support';
       default:
         return 'https://support.pix.org/fr/support/home';
     }
