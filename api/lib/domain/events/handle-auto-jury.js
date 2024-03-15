@@ -1,6 +1,6 @@
 import bluebird from 'bluebird';
 
-import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
+import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { CertificationIssueReportResolutionAttempt } from '../models/CertificationIssueReportResolutionAttempt.js';
 import { CertificationIssueReportResolutionStrategies } from '../models/CertificationIssueReportResolutionStrategies.js';
 import { CertificationAssessment } from '../models/index.js';

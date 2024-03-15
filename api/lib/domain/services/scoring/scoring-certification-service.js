@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { CertificationAssessmentScore } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
-import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
+import { CertificationVersion } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import * as areaRepository from '../../../../src/shared/infrastructure/repositories/area-repository.js';
 import { AnswerCollectionForScoring } from '../../models/AnswerCollectionForScoring.js';
 import { CertificationContract } from '../../models/CertificationContract.js';
