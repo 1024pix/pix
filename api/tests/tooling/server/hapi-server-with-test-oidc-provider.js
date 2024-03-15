@@ -55,7 +55,6 @@ async function createServerWithTestOidcProvider() {
       organizationName: 'OIDC Example',
       redirectUri: 'https://app.dev.pix.org/connexion/oidc-example-net',
       slug: 'oidc-example-net',
-      source: 'oidcexamplenet',
     }),
   ];
 

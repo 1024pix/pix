@@ -19,7 +19,6 @@ class PaysdelaloireOidcAuthenticationService extends OidcAuthenticationService {
       postLogoutRedirectUri: config[configKey].postLogoutRedirectUri,
       redirectUri: config[configKey].redirectUri,
       slug: 'pays-de-la-loire',
-      source: 'paysdelaloire',
     });
   }
 }

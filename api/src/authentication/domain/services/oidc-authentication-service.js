@@ -43,7 +43,6 @@ class OidcAuthenticationService {
       redirectUri,
       scope = DEFAULT_SCOPE,
       slug,
-      source,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
@@ -62,7 +61,6 @@ class OidcAuthenticationService {
     this.redirectUri = redirectUri;
     this.scope = scope;
     this.slug = slug;
-    this.source = source;
 
     if (!lodash.isEmpty(claimsToStore)) {
       this.claimsToStore = claimsToStore;

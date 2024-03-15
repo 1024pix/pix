@@ -15,7 +15,6 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
       const oidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
 
       // then
-      expect(oidcAuthenticationService.source).to.equal('pole_emploi_connect');
       expect(oidcAuthenticationService.identityProvider).to.equal('POLE_EMPLOI');
       expect(oidcAuthenticationService.slug).to.equal('pole-emploi');
       expect(oidcAuthenticationService.organizationName).to.equal('France Travail');

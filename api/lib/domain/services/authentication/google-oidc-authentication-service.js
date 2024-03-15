@@ -16,7 +16,6 @@ class GoogleOidcAuthenticationService extends OidcAuthenticationService {
       organizationName: 'Google',
       redirectUri: config[configKey].redirectUri,
       slug: 'google',
-      source: 'google',
     });
 
     this.temporaryStorage = config[configKey].temporaryStorage;

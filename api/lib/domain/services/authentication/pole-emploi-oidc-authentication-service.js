@@ -28,7 +28,6 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       // Attention, les scopes serviceDigitauxExposition api_peconnect-servicesdigitauxv1 ne sont pas présents dans la documentation de Pole Emploi mais ils sont nécessaires à l'envoi des résultats
       scope: `application_${config[configKey].clientId} api_peconnect-individuv1 openid profile serviceDigitauxExposition api_peconnect-servicesdigitauxv1`,
       slug: 'pole-emploi',
-      source: 'pole_emploi_connect',
     });
 
     this.afterLogoutUrl = config[configKey].afterLogoutUrl;

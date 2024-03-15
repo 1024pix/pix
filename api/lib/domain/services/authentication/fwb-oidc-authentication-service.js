@@ -23,7 +23,6 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
       organizationName: 'Fédération Wallonie-Bruxelles',
       redirectUri: config[configKey].redirectUri,
       slug: 'fwb',
-      source: 'fwb',
     });
 
     this.logoutUrl = config[configKey].logoutUrl;

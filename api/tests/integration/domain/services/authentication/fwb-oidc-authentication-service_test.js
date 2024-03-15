@@ -11,7 +11,6 @@ describe('Integration | Domain | Service | fwb-oidc-authentication-service', fun
       const fwbOidcAuthenticationService = new FwbOidcAuthenticationService();
 
       // then
-      expect(fwbOidcAuthenticationService.source).to.equal('fwb');
       expect(fwbOidcAuthenticationService.identityProvider).to.equal('FWB');
       expect(fwbOidcAuthenticationService.slug).to.equal('fwb');
       expect(fwbOidcAuthenticationService.organizationName).to.equal('Fédération Wallonie-Bruxelles');

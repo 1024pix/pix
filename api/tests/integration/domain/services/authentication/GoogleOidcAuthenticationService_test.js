@@ -8,7 +8,6 @@ describe('Integration | Domain | Service | google-oidc-authentication-service', 
       const authenticationService = new GoogleOidcAuthenticationService();
 
       // then
-      expect(authenticationService.source).to.equal('google');
       expect(authenticationService.identityProvider).to.equal('GOOGLE');
       expect(authenticationService.slug).to.equal('google');
       expect(authenticationService.organizationName).to.equal('Google');

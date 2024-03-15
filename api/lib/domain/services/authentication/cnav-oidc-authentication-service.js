@@ -18,7 +18,6 @@ class CnavOidcAuthenticationService extends OidcAuthenticationService {
       organizationName: 'CNAV',
       redirectUri: config[configKey].redirectUri,
       slug: 'cnav',
-      source: 'cnav',
     });
   }
 
