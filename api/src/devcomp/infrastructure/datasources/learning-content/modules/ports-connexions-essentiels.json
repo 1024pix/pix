@@ -14,7 +14,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Sur un ordinateur, on peut souvent brancher des appareils, comme une souris ou un clavier.<br>On peut aussi brancher une clé USB, même si ce n’est pas toujours facile à faire. <span aria-hidden=\"true\">🤯</span></p>",
+      "content": "<p>Sur un ordinateur, on peut souvent brancher des appareils, comme une souris ou un clavier.<br>On peut aussi brancher une clé USB, même si ce n’est pas toujours facile à faire.&nbsp;<span aria-hidden=\"true\">🤯</span></p>",
       "grainId": "8bb146db-104c-41e2-aa79-14f7a06e0930"
     },
     {
@@ -26,11 +26,11 @@
       "grainId": "e7aa8e1d-c88a-42ff-bf58-fe4371a1ce6a"
     },
     {
-      "content": "<p>Le port USB n’est pas le seul port présent sur un ordinateur. Voici des exemples de ports de connexion. <span aria-hidden=\"true\">👇</span></p>",
+      "content": "<p>Le port USB n’est pas le seul port présent sur un ordinateur. Voici des exemples de ports de connexion.&nbsp;<span aria-hidden=\"true\">👇</span></p>",
       "grainId": "3b26ddd0-8d3b-4f84-bee3-58cbe4073798"
     },
     {
-      "content": "<p>Maintenant que vous en savez plus sur les ports de connexion, vous allez peut-être pouvoir aider Maxime. <span aria-hidden=\"true\">👨🏽</span><br>Maxime veut équiper son ordinateur. Il a reçu un nouveau clavier pour son anniversaire. <span aria-hidden=\"true\">🎂</span></p>",
+      "content": "<p>Maintenant que vous en savez plus sur les ports de connexion, vous allez peut-être pouvoir aider Maxime.&nbsp;<span aria-hidden=\"true\">👨🏽</span><br>Maxime veut équiper son ordinateur. Il a reçu un nouveau clavier pour son anniversaire.&nbsp;<span aria-hidden=\"true\">🎂</span></p>",
       "grainId": "259bb2d0-8815-4bab-885a-a54f7d6d9606"
     },
     {
@@ -54,11 +54,11 @@
         {
           "id": "fda3b31f-4f97-44fb-80b7-3698df48c79a",
           "type": "qcu",
-          "instruction": "<p>Vous avez sûrement déjà branché une clé USB.<br> Quel type de personne êtes-vous ?</p>",
+          "instruction": "<p>Vous avez sûrement déjà branché une clé USB.<br> Quel type de personne êtes-vous&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
-              "content": "J'arrive toujours la brancher une clé USB du premier coup !"
+              "content": "J'arrive toujours la brancher une clé USB du premier coup&#8239;!"
             },
             {
               "id": "2",
@@ -66,8 +66,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>C'est le cas de nombreuses personnes ! <span aria-hidden=\"true\">🏅</span></p>",
-            "invalid": "<p>Toujours ?! On ne vous croit pas... <span aria-hidden=\"true\">😉</span></p>"
+            "valid": "<p>C'est le cas de nombreuses personnes&#8239;!&nbsp;<span aria-hidden=\"true\">🏅</span></p>",
+            "invalid": "<p>Toujours&#8239;?! On ne vous croit pas...&nbsp;<span aria-hidden=\"true\">😉</span></p>"
           },
           "solution": "2"
         }
@@ -81,7 +81,7 @@
         {
           "id": "0eb7bcc7-a552-45f0-823b-599f1b9e8bf1",
           "type": "text",
-          "content": "<p>Le port USB permet de brancher à son ordinateur des appareils avec des fonctionnalités très différentes.<br>Voici ci-dessous quelques exemples :</p>"
+          "content": "<p>Le port USB permet de brancher à son ordinateur des appareils avec des fonctionnalités très différentes.<br>Voici ci-dessous quelques exemples&nbsp;:</p>"
         },
         {
           "id": "5fc1c1c4-a3a7-481c-a586-71cfd1ccd59b",
@@ -154,7 +154,7 @@
         {
           "id": "a4414cd9-2071-4bad-b805-a7516a04e83d",
           "type": "text",
-          "content": "<p><span aria-hidden=\"true\">💡</span> Voici une astuce qui pourra vous aider : les appareils qui se branchent via USB ont souvent un symbole bien particulier, une flèche avec des ronds et des carrés. Ce symbole permet de reconnaître ces appareils.</p>"
+          "content": "<p><span aria-hidden=\"true\">💡</span> Voici une astuce qui pourra vous aider&nbsp;: les appareils qui se branchent via USB ont souvent un symbole bien particulier, une flèche avec des ronds et des carrés. Ce symbole permet de reconnaître ces appareils.</p>"
         },
         {
           "id": "7a55d4a9-3bff-4604-9fa9-0898b7d109dc",
@@ -173,7 +173,7 @@
         {
           "id": "270b0408-be92-484a-b9b2-5d302f01eecf",
           "type": "text",
-          "content": "<h4>Pour chaque affirmation ci-dessous, choisissez si elle est vraie <span aria-hidden=\"true\">✅</span> ou fausse. <span aria-hidden=\"true\">❌</span></h4>"
+          "content": "<h4>Pour chaque affirmation ci-dessous, choisissez si elle est vraie&nbsp;<span aria-hidden=\"true\">✅</span> ou fausse.&nbsp;<span aria-hidden=\"true\">❌</span></h4>"
         },
         {
           "id": "6f276b50-a00c-49f7-b22c-23dbef0c2bf2",
@@ -197,8 +197,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Oui ! cette souris filaire se branche à un port USB.</p>",
-            "invalid": "<p>Attention ! Regardez bien l’extrémité du fil de cette souris. Elle se branche à un port USB.</p>"
+            "valid": "<p>Oui&#8239;! cette souris filaire se branche à un port USB.</p>",
+            "invalid": "<p>Attention&#8239;! Regardez bien l’extrémité du fil de cette souris. Elle se branche à un port USB.</p>"
           },
           "solution": "1"
         },
@@ -229,8 +229,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct ! Ce casque audio ne se branche pas à un port USB. Il se branche à un port jack.</p>",
-            "invalid": "<p>Attention ! Regardez bien l’extrémité du fil de ce casque audio. Il ne se branche pas en USB.</p>"
+            "valid": "<p>Correct&#8239;! Ce casque audio ne se branche pas à un port USB. Il se branche à un port jack.</p>",
+            "invalid": "<p>Attention&#8239;! Regardez bien l’extrémité du fil de ce casque audio. Il ne se branche pas en USB.</p>"
           },
           "solution": "2"
         },
@@ -261,8 +261,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bien vu ! Ce symbole peut changer un peu sur des ports USB plus récents.</p>",
-            "invalid": "<p>Et si ! Retenez ce symbole, il vous aidera à trouver les branchements USB.</p>"
+            "valid": "<p>Bien vu&#8239;! Ce symbole peut changer un peu sur des ports USB plus récents.</p>",
+            "invalid": "<p>Et si&#8239;! Retenez ce symbole, il vous aidera à trouver les branchements USB.</p>"
           },
           "solution": "1"
         }
@@ -300,7 +300,7 @@
         {
           "id": "df4b59c7-b4d8-450c-985a-dc9bc9735f26",
           "type": "text",
-          "content": "<p>Ce port est un <strong>port d’alimentation électrique</strong>.<br> Il sert à recharger un ordinateur ou à le connecter au réseau électrique. <span aria-hidden=\"true\">🔌</span> Sur les ordinateurs portables, il existe de nombreuses variantes. Sur un ordinateur fixe, ce port est plus gros.</p>"
+          "content": "<p>Ce port est un <strong>port d’alimentation électrique</strong>.<br> Il sert à recharger un ordinateur ou à le connecter au réseau électrique.&nbsp;<span aria-hidden=\"true\">🔌</span> Sur les ordinateurs portables, il existe de nombreuses variantes. Sur un ordinateur fixe, ce port est plus gros.</p>"
         },
         {
           "id": "02e82529-bcbc-4d0d-b9ad-e50d28bec4f3",
@@ -317,7 +317,7 @@
         {
           "id": "466f1f93-de01-4c1e-9624-2783a875fcf2",
           "type": "text",
-          "content": "<p>Ce port est un <strong>port VGA</strong>.<br> On le reconnaît grâce à sa forme et ses petits pointillés. Il sert à connecter un écran ou un vidéo-projecteur à l’ordinateur. <span aria-hidden=\"true\">📽️</span> De nos jours, il est de moins en moins utilisé.</p>"
+          "content": "<p>Ce port est un <strong>port VGA</strong>.<br> On le reconnaît grâce à sa forme et ses petits pointillés. Il sert à connecter un écran ou un vidéo-projecteur à l’ordinateur.&nbsp;<span aria-hidden=\"true\">📽️</span> De nos jours, il est de moins en moins utilisé.</p>"
         },
         {
           "id": "3a445423-faac-460b-b407-c8d80dfeb5d3",
@@ -334,7 +334,7 @@
         {
           "id": "86851d7d-0ce8-48a3-b8ac-433da8134dec",
           "type": "text",
-          "content": "<p>Ce port est un <strong>port HDMI</strong>.<br> On peut le reconnaître grâce à sa forme. Il porte souvent l'inscription \"HDMI\" juste à côté. Ce port sert principalement à connecter un écran ou un vidéo-projecteur à l’ordinateur, comme le port VGA. <span aria-hidden=\"true\">📽️</span></p>"
+          "content": "<p>Ce port est un <strong>port HDMI</strong>.<br> On peut le reconnaître grâce à sa forme. Il porte souvent l'inscription \"HDMI\" juste à côté. Ce port sert principalement à connecter un écran ou un vidéo-projecteur à l’ordinateur, comme le port VGA.&nbsp;<span aria-hidden=\"true\">📽️</span></p>"
         },
         {
           "id": "4ad6f499-244f-4f74-9112-feaebdd62305",
@@ -351,7 +351,7 @@
         {
           "id": "706f1c55-3009-4cff-affe-6548076d65ac",
           "type": "text",
-          "content": "<p>Ce port est un <strong>port USB</strong>.<br> Il sert à connecter différents appareils externes à l’ordinateur. <span aria-hidden=\"true\">🖱️</span> <span aria-hidden=\"true\">🎮</span></p>"
+          "content": "<p>Ce port est un <strong>port USB</strong>.<br> Il sert à connecter différents appareils externes à l’ordinateur.&nbsp;<span aria-hidden=\"true\">🖱️</span>&nbsp;<span aria-hidden=\"true\">🎮</span></p>"
         },
         {
           "id": "aa3f93df-8348-47f2-bb3c-2c32c114fcd0",
@@ -368,7 +368,7 @@
         {
           "id": "be359a9d-19d2-49a7-8699-8921156e554c",
           "type": "text",
-          "content": "<p>Ce port est un <strong>port Ethernet</strong>. On l'appelle aussi RJ45. <br> Il est utilisé pour connecter l’ordinateur à la box internet grâce à un câble Ethernet. <span aria-hidden=\"true\">🌐</span></p>"
+          "content": "<p>Ce port est un <strong>port Ethernet</strong>. On l'appelle aussi RJ45. <br> Il est utilisé pour connecter l’ordinateur à la box internet grâce à un câble Ethernet.&nbsp;<span aria-hidden=\"true\">🌐</span></p>"
         },
         {
           "id": "53eca1dc-8f9f-46bc-a132-1c1e65fadb70",
@@ -385,7 +385,7 @@
         {
           "id": "12ac3b9a-286c-4587-9a0d-6dc56e13caf9",
           "type": "text",
-          "content": "<p>Ce port est un <strong>port jack</strong> ou <strong>mini-jack</strong>.<br> Il est petit et rond. Il est souvent accompagné d’une image de casque. <span aria-hidden=\"true\">🎧</span> Il sert à connecter des appareils audios à l’ordinateur : des écouteurs, un casque, un micro, etc.</p>"
+          "content": "<p>Ce port est un <strong>port jack</strong> ou <strong>mini-jack</strong>.<br> Il est petit et rond. Il est souvent accompagné d’une image de casque.&nbsp;<span aria-hidden=\"true\">🎧</span> Il sert à connecter des appareils audios à l’ordinateur&nbsp;: des écouteurs, un casque, un micro, etc.</p>"
         }
       ]
     },
@@ -397,7 +397,7 @@
         {
           "id": "efda82dc-1a96-488c-9d8d-a1bd5a8f1241",
           "type": "text",
-          "content": "<p>Voici ci-dessous l'ordinateur de Maxime :</p>"
+          "content": "<p>Voici ci-dessous l'ordinateur de Maxime&nbsp;:</p>"
         },
         {
           "id": "0f6485ad-1db7-4154-8c9c-b4432f51234f",
@@ -409,7 +409,7 @@
         {
           "id": "9548df1b-3bb4-4d7f-93ce-965de364797e",
           "type": "qcu",
-          "instruction": "<p>Sur quel port Maxime peut-il brancher son <strong>clavier USB</strong> ?</p>",
+          "instruction": "<p>Sur quel port Maxime peut-il brancher son <strong>clavier USB</strong>&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -453,7 +453,7 @@
         {
           "id": "e6c1fdff-e2a3-4108-a1f8-245dc7e3668f",
           "type": "qcu",
-          "instruction": "<p>Pensez-vous avoir réussi à les trouver ?</p>",
+          "instruction": "<p>Pensez-vous avoir réussi à les trouver&#8239;?</p>",
           "proposals": [
             {
               "id": "1",

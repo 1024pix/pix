@@ -15,15 +15,15 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Commençons par un jeu. <span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, essayez de deviner si chaque information proposée dans ces articles de journaux est plutôt vraie ou plutôt fausse. Bonne chance !</p>",
+      "content": "<p>Commençons par un jeu.&nbsp;<span aria-hidden=\"true\">🎮</span>️<br>Sans chercher sur internet, essayez de deviner si chaque information proposée dans ces articles de journaux est plutôt vraie ou plutôt fausse. Bonne chance&#8239;!</p>",
       "grainId": "f242e81e-b182-44a1-a668-557f26b5ff8b"
     },
     {
-      "content": "<p>Vous l'avez remarqué, en lisant seulement le titre d’un article, c’est presque impossible de savoir si une information est vraie ou fausse. <span aria-hidden=\"true\">🤔</span>️<br>Parfois, ce ne sont même pas des informations mais par exemple des opinions. <span aria-hidden=\"true\">📚</span>️ Vous allez découvrir la différence dans la vidéo suivante.</p>",
+      "content": "<p>Vous l'avez remarqué, en lisant seulement le titre d’un article, c’est presque impossible de savoir si une information est vraie ou fausse.&nbsp;<span aria-hidden=\"true\">🤔</span>️<br>Parfois, ce ne sont même pas des informations mais par exemple des opinions.&nbsp;<span aria-hidden=\"true\">📚</span>️ Vous allez découvrir la différence dans la vidéo suivante.</p>",
       "grainId": "eb83569f-2e37-49ed-aa6f-31c420b673b9"
     },
     {
-      "content": "<p>Vous savez maintenant mieux repérer une information. Mais une information peut être fausse ...<br>Voyons ensemble des questions à se poser pour vérifier une information. <span aria-hidden=\"true\">🗒️</span>️</p>",
+      "content": "<p>Vous savez maintenant mieux repérer une information. Mais une information peut être fausse ...<br>Voyons ensemble des questions à se poser pour vérifier une information.&nbsp;<span aria-hidden=\"true\">🗒️</span>️</p>",
       "grainId": "ed22ab38-ec6d-47df-88ea-4894f1cd6c8a"
     },
     {
@@ -35,11 +35,11 @@
       "grainId": "c624de0b-658a-47e7-b780-c579a1033aba"
     },
     {
-      "content": "<p>Même si on a vérifié le “qui ? quand ? d'où ?”, il faut rester vigilant.<br>D'autres indices peuvent aider à détecter de fausses informations.&nbsp;👣 <br>Plus ils s’accumulent, plus l’information a des chances d’être fausse.</p>",
+      "content": "<p>Même si on a vérifié le “qui&#8239;? quand&#8239;? d'où&#8239;?”, il faut rester vigilant.<br>D'autres indices peuvent aider à détecter de fausses informations.&nbsp;👣 <br>Plus ils s’accumulent, plus l’information a des chances d’être fausse.</p>",
       "grainId": "428ea826-6e21-4c56-a5a2-f97373f1e833"
     },
     {
-      "content": "<p>Maintenant, à vous d’étudier une nouvelle situation. <span aria-hidden=\"true\">🕵️</span>️<span aria-hidden=\"true\">🕵🏿‍♀️</span>️</p>",
+      "content": "<p>Maintenant, à vous d’étudier une nouvelle situation.&nbsp;<span aria-hidden=\"true\">🕵️</span>️<span aria-hidden=\"true\">🕵🏿‍♀️</span>️</p>",
       "grainId": "9f56f75e-3e2d-4a6e-8623-9b74747b236d"
     }
   ],
@@ -71,8 +71,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bien vu ! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>",
-            "invalid": "<p>Et pourtant, c'est vrai ! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
+            "valid": "<p>Bien vu&#8239;! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>",
+            "invalid": "<p>Et pourtant, c'est vrai&#8239;! C'est le titre d'un <a href=\"https://www.sciencesetavenir.fr/sante/cerveau-et-psy/a-huit-mois-un-bebe-comprend-deja-la-notion-d-outil-y-compris-les-nouvelles-technologies_176388\" target=\"_blank\">article du magazine Sciences et Avenir</a>.</p>"
           },
           "solution": "1"
         },
@@ -103,8 +103,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bravo ! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>",
-            "invalid": "<p>Et pourtant, c'est vrai ! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
+            "valid": "<p>Bravo&#8239;! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>",
+            "invalid": "<p>Et pourtant, c'est vrai&#8239;! C'est le titre d'un <a href=\"https://www.slate.fr/story/252022/san-francisco-navettes-sans-conducteurs-autonomes\" target=\"_blank\">article de Slate</a>.</p>"
           },
           "solution": "1"
         },
@@ -135,8 +135,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Oui, c'est une fake news ! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>",
-            "invalid": "<p>Attention, c'est une fake news ! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
+            "valid": "<p>Oui, c'est une fake news&#8239;! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>",
+            "invalid": "<p>Attention, c'est une fake news&#8239;! C'est le titre d'un <a href=\"https://www.legorafi.fr/2017/03/27/le-professeur-de-techno-forcait-ses-eleves-a-construire-des-porte-cles-lumineux-quil-revendait-sur-les-marches/\" target=\"_blank\">article <strong>parodique</strong> du Gorafi</a>.</p>"
           },
           "solution": "2"
         }
@@ -150,7 +150,7 @@
         {
           "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
           "type": "text",
-          "content": "<p>À la fin de cette vidéo, des questions vous seront posées sur des mots de vocabulaire : \"une anecdote\", \"une rumeur\", \"une opinion\".</p>"
+          "content": "<p>À la fin de cette vidéo, des questions vous seront posées sur des mots de vocabulaire&nbsp;: \"une anecdote\", \"une rumeur\", \"une opinion\".</p>"
         },
         {
           "id": "3a9f2269-99ba-4631-b6fd-6802c88d5c26",
@@ -264,7 +264,7 @@
         {
           "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
           "type": "text",
-          "content": "<h3>Question n°1 : qui est l’auteur de cette information ? <span aria-hidden=\"true\">🖋️</span>️</h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple, si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
+          "content": "<h3>Question n°1&nbsp;: qui est l’auteur de cette information&#8239;?&nbsp;<span aria-hidden=\"true\">🖋️</span>️</h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple, si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
         },
         {
           "id": "42276690-f134-4b88-ac0f-c26ad62370ec",
@@ -274,7 +274,7 @@
         {
           "id": "8aa4a733-4a92-4007-897d-ab884a7add85",
           "type": "text",
-          "content": "<h3>Question n°2 : quelle est la date de l’information ? <span aria-hidden=\"true\">📅</span>️</h3><p>C’est simple à vérifier et très important ! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
+          "content": "<h3>Question n°2&nbsp;: quelle est la date de l’information&#8239;?&nbsp;<span aria-hidden=\"true\">📅</span>️</h3><p>C’est simple à vérifier et très important&#8239;! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
         },
         {
           "id": "056ef18b-2f2f-4518-acca-93bb59b2d151",
@@ -284,7 +284,7 @@
         {
           "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
           "type": "text",
-          "content": "<h3>Question n°3 : d’où provient cette information ? <span aria-hidden=\"true\">ℹ️</span>️</h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
+          "content": "<h3>Question n°3&nbsp;: d’où provient cette information&#8239;?&nbsp;<span aria-hidden=\"true\">ℹ️</span>️</h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
         }
       ]
     },
@@ -296,7 +296,7 @@
         {
           "id": "1c39f509-cdc2-4d3e-85f8-7731739a793f",
           "type": "qcm",
-          "instruction": "<p>Parmi les éléments suivants, lesquels permettent de vérifier une information ?</p>",
+          "instruction": "<p>Parmi les éléments suivants, lesquels permettent de vérifier une information&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -321,7 +321,7 @@
           ],
           "feedbacks": {
             "valid": "<p>Correct. Tous ces éléments permettent de vérifier une information. </p>",
-            "invalid": "<p>Incorrect. Retournez voir la leçon ci-dessus si besoin <span aria-hidden=\"true\">⬆</span>️!</p>"
+            "invalid": "<p>Incorrect. Retournez voir la leçon ci-dessus si besoin&nbsp;<span aria-hidden=\"true\">⬆</span>️!</p>"
           },
           "solutions": ["2", "3", "5"]
         }
@@ -337,7 +337,7 @@
           "type": "image",
           "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg",
           "alt": "",
-          "alternativeText": "Fan Du Real Madrid : ENFIN ! Kylian Mbappé va quitter le PSG pour rejoindre le Real Madrid. Tu es un vrai 10 !! <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80</a>"
+          "alternativeText": "Fan Du Real Madrid&nbsp;: ENFIN&#8239;! Kylian Mbappé va quitter le PSG pour rejoindre le Real Madrid. Tu es un vrai 10&#8239;!! <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80</a>"
         },
         {
           "id": "7e2cda57-9383-4a9b-ab46-b6d96317d6ac",
@@ -363,7 +363,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Correct. FanDuRealMadrid annonce la venue de Mbappé dans son club favori alors que l’article utilisé comme source ne l’annonce pas du tout !</p>",
+            "valid": "<p>Correct. FanDuRealMadrid annonce la venue de Mbappé dans son club favori alors que l’article utilisé comme source ne l’annonce pas du tout&#8239;!</p>",
             "invalid": "<p>Incorrect. L’article utilisé comme source n’annonce pas du tout la venue de Mbappé. Ce fan a sûrement été influencé par ses envies.</p>"
           },
           "solution": "1"
@@ -378,7 +378,7 @@
           "type": "image",
           "url": "https://i.imgur.com/5BMW9i7.png",
           "alt": "",
-          "alternativeText": "Jean-Eude Coulignant : Scoop ! Grâce aux nouvelles technologies, il y a de plus en plus de visiteurs dans les musées"
+          "alternativeText": "Jean-Eude Coulignant&nbsp;: Scoop&#8239;! Grâce aux nouvelles technologies, il y a de plus en plus de visiteurs dans les musées"
         },
         {
           "id": "81943b07-ecf0-408b-877c-55e1943df1fc",
@@ -414,7 +414,7 @@
           "type": "image",
           "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet7.jpg",
           "alt": "",
-          "alternativeText": "Stéphanie Attelage : Allez vite au supermarché, il n'y aura bientôt plus de pâtes. Pour plus d'infos : <a href=\"https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires\" target=\"_blank\">https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires</a>!"
+          "alternativeText": "Stéphanie Attelage&nbsp;: Allez vite au supermarché, il n'y aura bientôt plus de pâtes. Pour plus d'infos&nbsp;: <a href=\"https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires\" target=\"_blank\">https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires</a>!"
         },
         {
           "id": "4f002984-f136-4962-8f9a-b5f69d2995af",
@@ -462,7 +462,7 @@
           "type": "image",
           "url": "https://i.imgur.com/QS0xFIn.png",
           "alt": "",
-          "alternativeText": "Indice 1 : Un ton alarmiste, qui veut faire ressentir un sentiment d’urgence, doit amener à une posture de prudence.<br>Indice 2 : La demande explicite de partager une information est un indice que l’auteur cherche à rendre son contenu viral et “faire le buzz”.<br>Indice 3 : L’utilisation de majuscules et d’émojis angoissant sont utilisés pour interpeller. Cette manière d’écrire peut indiquer l’envie pour l’auteur d’être lu à tout prix. Les fautes d’orthographe indique que le contenu a été rédigé sans attention particulière."
+          "alternativeText": "Indice 1&nbsp;: Un ton alarmiste, qui veut faire ressentir un sentiment d’urgence, doit amener à une posture de prudence.<br>Indice 2&nbsp;: La demande explicite de partager une information est un indice que l’auteur cherche à rendre son contenu viral et “faire le buzz”.<br>Indice 3&nbsp;: L’utilisation de majuscules et d’émojis angoissant sont utilisés pour interpeller. Cette manière d’écrire peut indiquer l’envie pour l’auteur d’être lu à tout prix. Les fautes d’orthographe indique que le contenu a été rédigé sans attention particulière."
         }
       ]
     },
@@ -474,19 +474,19 @@
         {
           "id": "eb90d3ea-797f-4e4a-9675-e679b9f5bf3c",
           "type": "text",
-          "content": "<p>Stéphane n'arrive pas à faire pousser sa nouvelle plante verte d’intérieur <span aria-hidden=\"true\">🪴</span>️. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier :</p>"
+          "content": "<p>Stéphane n'arrive pas à faire pousser sa nouvelle plante verte d’intérieur&nbsp;<span aria-hidden=\"true\">🪴</span>️. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier&nbsp;:</p>"
         },
         {
           "id": "2c525ab3-23bf-4b43-867d-ea1fac54efad",
           "type": "image",
           "url": "https://i.imgur.com/Scxdcfm.png",
           "alt": "",
-          "alternativeText": "Vos plantes vertes ne poussent pas ? Voici 2 super astuces dont vous ne pourrez plus vous passer.<br> Astuce 1 : Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien ! Votre plante va adorer.<br> Astuce 2 : Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
+          "alternativeText": "Vos plantes vertes ne poussent pas&#8239;? Voici 2 super astuces dont vous ne pourrez plus vous passer.<br> Astuce 1&nbsp;: Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien&#8239;! Votre plante va adorer.<br> Astuce 2&nbsp;: Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
         },
         {
           "id": "2a308355-f39f-498e-aef6-f1c0830f5b1f",
           "type": "qcm",
-          "instruction": "<p>Quels sont les conseils à donner à Stéphane ?</p>",
+          "instruction": "<p>Quels sont les conseils à donner à Stéphane&#8239;?</p>",
           "proposals": [
             {
               "id": "1",

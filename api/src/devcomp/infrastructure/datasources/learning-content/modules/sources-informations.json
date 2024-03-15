@@ -19,11 +19,11 @@
       "grainId": "652a469a-36b8-41ae-8cc5-1853b35d08ef"
     },
     {
-      "content": "<p>Léna a posé plusieurs questions à Elias pour trouver l’origine de l’information. C’est ce qu’on appelle la <strong>source d’une information. </strong> <span aria-hidden=\"true\">ℹ️</span>️<br>On vous explique tout dans la leçon suivante.</p>",
+      "content": "<p>Léna a posé plusieurs questions à Elias pour trouver l’origine de l’information. C’est ce qu’on appelle la <strong>source d’une information. </strong>&nbsp;<span aria-hidden=\"true\">ℹ️</span>️<br>On vous explique tout dans la leçon suivante.</p>",
       "grainId": "54cc6a3f-9603-4863-9ba4-052210425be2"
     },
     {
-      "content": "<p>Vous en savez maintenant plus sur ce qu'est une source d'information. Vérifions que vous avez compris l'essentiel. <span aria-hidden=\"true\">🎯</span>️</p>",
+      "content": "<p>Vous en savez maintenant plus sur ce qu'est une source d'information. Vérifions que vous avez compris l'essentiel.&nbsp;<span aria-hidden=\"true\">🎯</span>️</p>",
       "grainId": "42e4007c-9123-4aff-806a-6d7a8de3fd0a"
     },
     {
@@ -56,7 +56,7 @@
           "title": "Discussion entre Elias et Léna (1 sur 2)",
           "url": "https://videos.pix.fr/modulix/sources-informations/chat-1.mp4",
           "subtitles": "",
-          "transcription": "<ul><li>Elias : Les Jeux Olympiques d’hiver de 2029 auront lieu dans le désert !</li><li>Léna : T’es sûr ? Comment tu le sais ?</li><li>Elias : C’est Sandy qui me l’a dit.</li></ul>"
+          "transcription": "<ul><li>Elias&nbsp;: Les Jeux Olympiques d’hiver de 2029 auront lieu dans le désert&#8239;!</li><li>Léna&nbsp;: T’es sûr&#8239;? Comment tu le sais&#8239;?</li><li>Elias&nbsp;: C’est Sandy qui me l’a dit.</li></ul>"
         },
         {
           "id": "a2f57d43-a8a1-4659-8730-f5cd39c350e0",
@@ -79,12 +79,12 @@
           "title": "Discussion entre Elias et Léna (2 sur 2)",
           "url": "https://videos.pix.fr/modulix/sources-informations/chat-2.mp4",
           "subtitles": "",
-          "transcription": "<ul><li>Léna : Et c’est vrai du coup ?</li><li>Elias : Sandy l’a vu sur internet !</li><li>Léna : Tu peux m’envoyer le lien stp ?</li><li>Elias : Oui, c’est un article de FranceInfo</li><li>Elias : https://www.francetvinfo.fr/sports/l-arabie-saoudite-designee-pour-accueillir-les-jeux-asiatiques-d-hiver-en-2029_5396737.html</li></ul>"
+          "transcription": "<ul><li>Léna&nbsp;: Et c’est vrai du coup&#8239;?</li><li>Elias&nbsp;: Sandy l’a vu sur internet&#8239;!</li><li>Léna&nbsp;: Tu peux m’envoyer le lien stp&#8239;?</li><li>Elias&nbsp;: Oui, c’est un article de FranceInfo</li><li>Elias&nbsp;: https://www.francetvinfo.fr/sports/l-arabie-saoudite-designee-pour-accueillir-les-jeux-asiatiques-d-hiver-en-2029_5396737.html</li></ul>"
         },
         {
           "id": "8aca8852-a771-4ee2-b686-a2fb6b4f57c5",
           "type": "qcu",
-          "instruction": "<p>Maintenant, est-ce que l'information donnée par Elias semble vraie ?</p>",
+          "instruction": "<p>Maintenant, est-ce que l'information donnée par Elias semble vraie&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -121,7 +121,7 @@
         {
           "id": "81f2c1af-aeef-4d68-93a9-f4dd3cf1f8bc",
           "type": "text",
-          "content": "<h3>C'est quoi une source d'information ?</h3><p><span aria-hidden=\"true\">👉</span>️ La source est l’origine de l’information. C’est quelqu’un qui donne des détails sur une information.</p><p><span aria-hidden=\"true\">✅</span>️ Exemple : si ma voisine Madame Sarah me dit qu'il y a une soucoupe volante dans le ciel, c'est elle la source de cette information.</p>"
+          "content": "<h3>C'est quoi une source d'information&#8239;?</h3><p><span aria-hidden=\"true\">👉</span>️ La source est l’origine de l’information. C’est quelqu’un qui donne des détails sur une information.</p><p><span aria-hidden=\"true\">✅</span>️ Exemple&nbsp;: si ma voisine Madame Sarah me dit qu'il y a une soucoupe volante dans le ciel, c'est elle la source de cette information.</p>"
         },
         {
           "id": "a91f12e7-a297-4dc0-9f81-2a0ccbaba3f8",
@@ -131,7 +131,7 @@
         {
           "id": "e3ebd36a-c8b9-4990-af63-061329824708",
           "type": "text",
-          "content": "<h3>Comment savoir si on peut croire une source ?</h3><span aria-hidden=\"true\">👉</span>️ Il faut se poser quelques questions sur cette source : <ul><li>la source est-elle experte du sujet ?</li><li>la source est-elle influencée par ses émotions ou ses intérêts ?</li></ul><p><span aria-hidden=\"true\">✅</span>️ Exemple : Madame Sarah a l'impression d'avoir vu une soucoupe dans le ciel. Elle a interprété ce qu'elle a vu. Ce n'est peut-être pas une source fiable.</p>"
+          "content": "<h3>Comment savoir si on peut croire une source&#8239;?</h3><span aria-hidden=\"true\">👉</span>️ Il faut se poser quelques questions sur cette source&nbsp;: <ul><li>la source est-elle experte du sujet&#8239;?</li><li>la source est-elle influencée par ses émotions ou ses intérêts&#8239;?</li></ul><p><span aria-hidden=\"true\">✅</span>️ Exemple&nbsp;: Madame Sarah a l'impression d'avoir vu une soucoupe dans le ciel. Elle a interprété ce qu'elle a vu. Ce n'est peut-être pas une source fiable.</p>"
         }
       ]
     },
@@ -143,7 +143,7 @@
         {
           "id": "6ffc239b-2d88-4bed-bdd9-f1ecf215ad11",
           "type": "qcu",
-          "instruction": "<p>Quelle définition peut-on donner d'une source d'information ?</p>",
+          "instruction": "<p>Quelle définition peut-on donner d'une source d'information&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -174,7 +174,7 @@
         {
           "id": "96cf39cd-88df-4104-a155-0fff0b40ac31",
           "type": "text",
-          "content": "<p>Une radio a publié une interview pour expliquer l’origine de la soucoupe volante vue par Madame Sarah. <span aria-hidden=\"true\">👽</span>️ <span aria-hidden=\"true\">🛸</span>️<br>Vous devrez par la suite choisir qui est la source d'information dans cette interview.</p>"
+          "content": "<p>Une radio a publié une interview pour expliquer l’origine de la soucoupe volante vue par Madame Sarah.&nbsp;<span aria-hidden=\"true\">👽</span>️&nbsp;<span aria-hidden=\"true\">🛸</span>️<br>Vous devrez par la suite choisir qui est la source d'information dans cette interview.</p>"
         },
         {
           "id": "edbeb7c0-52cc-45b8-b3b9-d8cdac00536f",
@@ -182,7 +182,7 @@
           "title": "Une vidéo",
           "url": "https://videos.pix.fr/modulix/sources-informations/itw-saturne.mp4",
           "subtitles": "https://videos.pix.fr/modulix/sources-informations/itw-saturne.vtt",
-          "transcription": "<ul><li> <strong>Journaliste Dupont</strong> : Flash info, bonjour ! ici le journaliste Dupont pour la radio d'à côté Lundi dernier, aux alentours de vingt et une heures, Mme. Sarah a vu une soucoupe volante dans le ciel. Croyance ou réalité ? <br>Je suis aujourd'hui avec la professeur Saturne, experte en astrophysique, auteur du livre Les soucoupes volantes existent-elles. Bonjour professeur, merci d'être avec nous.</li> <li><strong>Professeur Saturne</strong> : Bonjour, merci pour votre invitation. Alors, ce que Madame Sarah a vu, c'est pas une soucoupe, c'est une aurore boréale. Mon équipe et moi l'avons observé au télescope de l'université. Nous étudions les aurores boréales depuis plusieurs années maintenant et il arrive souvent que les gens confondent.</li><li><strong>Journaliste Dupont</strong> : Merci professeur Saturne pour votre témoignage. Merci aux auditeurs fidèles qui suivent notre émission à vous les studios.</li></ul>"
+          "transcription": "<ul><li> <strong>Journaliste Dupont</strong>&nbsp;: Flash info, bonjour&#8239;! ici le journaliste Dupont pour la radio d'à côté Lundi dernier, aux alentours de vingt et une heures, Mme. Sarah a vu une soucoupe volante dans le ciel. Croyance ou réalité&#8239;? <br>Je suis aujourd'hui avec la professeur Saturne, experte en astrophysique, auteur du livre Les soucoupes volantes existent-elles. Bonjour professeur, merci d'être avec nous.</li> <li><strong>Professeur Saturne</strong>&nbsp;: Bonjour, merci pour votre invitation. Alors, ce que Madame Sarah a vu, c'est pas une soucoupe, c'est une aurore boréale. Mon équipe et moi l'avons observé au télescope de l'université. Nous étudions les aurores boréales depuis plusieurs années maintenant et il arrive souvent que les gens confondent.</li><li><strong>Journaliste Dupont</strong>&nbsp;: Merci professeur Saturne pour votre témoignage. Merci aux auditeurs fidèles qui suivent notre émission à vous les studios.</li></ul>"
         },
         {
           "id": "fa0b94f1-5139-4c55-a8bb-c7a4257c1a40",
@@ -192,7 +192,7 @@
         {
           "id": "921f42c0-b47b-44b7-8bde-328c40e03e44",
           "type": "qcu",
-          "instruction": "<p>Dans l'interview, on entend que Madame Sarah a sûrement vu une aurore boréale et non une soucoupe volante.<br>Qui est la source de cette information ?</p>",
+          "instruction": "<p>Dans l'interview, on entend que Madame Sarah a sûrement vu une aurore boréale et non une soucoupe volante.<br>Qui est la source de cette information&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -233,7 +233,7 @@
         {
           "id": "9723333b-6378-4dbd-84a2-92a8fc1cc41a",
           "type": "text",
-          "content": "<h3>Certaines sources d'information sont <strong>fiables</strong>. <span aria-hidden=\"true\">👍</span>️</h3><p>Le but de ces sources est d'informer et de partager des informations vérifiées, qui ont donc beaucoup de chances d'être vraies.</p>"
+          "content": "<h3>Certaines sources d'information sont <strong>fiables</strong>.&nbsp;<span aria-hidden=\"true\">👍</span>️</h3><p>Le but de ces sources est d'informer et de partager des informations vérifiées, qui ont donc beaucoup de chances d'être vraies.</p>"
         },
         {
           "id": "2fe6bf3f-c77c-4e21-a57e-8be804171e00",
@@ -243,7 +243,7 @@
         {
           "id": "0c5bf4bb-989c-4c60-a54c-ae1f842bc8fe",
           "type": "text",
-          "content": "<h3>Certaines sources d'information sont <strong>humoristiques</strong>. <span aria-hidden=\"true\">🤹</span>️</h3><p>Le but de ces sources est de faire rire et de partager des informations qui ont beaucoup de chances d'être fausses.</p>"
+          "content": "<h3>Certaines sources d'information sont <strong>humoristiques</strong>.&nbsp;<span aria-hidden=\"true\">🤹</span>️</h3><p>Le but de ces sources est de faire rire et de partager des informations qui ont beaucoup de chances d'être fausses.</p>"
         },
         {
           "id": "783421ea-d3eb-437d-9eac-7b51bade7fdb",
@@ -253,7 +253,7 @@
         {
           "id": "e22b6b68-a154-4b5a-a896-5b36eb6127a3",
           "type": "text",
-          "content": "<h3>Certaines sources d'information sont <strong>contestables</strong>. <span aria-hidden=\"true\">🤨</span>️</h3><p>Le but de ces sources est d'influencer ou de manipuler les gens. Mais le partage de ces informations a pour principal objectif de gagner de l'argent ou du pouvoir. Ces informations peuvent donc être remises en question.</p>"
+          "content": "<h3>Certaines sources d'information sont <strong>contestables</strong>.&nbsp;<span aria-hidden=\"true\">🤨</span>️</h3><p>Le but de ces sources est d'influencer ou de manipuler les gens. Mais le partage de ces informations a pour principal objectif de gagner de l'argent ou du pouvoir. Ces informations peuvent donc être remises en question.</p>"
         }
       ]
     },
@@ -277,12 +277,12 @@
           "type": "image",
           "url": "https://i.imgur.com/R4Duhiy.png",
           "alt": "",
-          "alternativeText": "Auteur : franceinfo. Publication : Dans un Ehpad du Bas-Rhin, des chiens s'entraînent à détecter le Covid-19. Retrouvez cet article et l'association Handi'Chiens sur notre site. Date : 6 février 2023."
+          "alternativeText": "Auteur&nbsp;: franceinfo. Publication&nbsp;: Dans un Ehpad du Bas-Rhin, des chiens s'entraînent à détecter le Covid-19. Retrouvez cet article et l'association Handi'Chiens sur notre site. Date&nbsp;: 6 février 2023."
         },
         {
           "id": "69460323-29ca-4859-9581-fd67bc4cc84b",
           "type": "qcu",
-          "instruction": "<p>Quel mot décrit le mieux cette source ?</p>",
+          "instruction": "<p>Quel mot décrit le mieux cette source&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -313,12 +313,12 @@
           "type": "image",
           "url": "https://i.imgur.com/6RtSHW0.png",
           "alt": "",
-          "alternativeText": "Auteur : JournalDeBlagues. Publication : Reportage : cet élève avait fait ses devoirs mais son chien les a vraiment mangé. La maîtresse le met au coin pendant 72 heures sans nourriture. Date : 6 octobre 2023"
+          "alternativeText": "Auteur&nbsp;: JournalDeBlagues. Publication&nbsp;: Reportage&nbsp;: cet élève avait fait ses devoirs mais son chien les a vraiment mangé. La maîtresse le met au coin pendant 72 heures sans nourriture. Date&nbsp;: 6 octobre 2023"
         },
         {
           "id": "ff187918-225d-49de-99dd-2a316ccd09bf",
           "type": "qcu",
-          "instruction": "<p>Quel mot décrit le mieux cette source ?</p>",
+          "instruction": "<p>Quel mot décrit le mieux cette source&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -349,12 +349,12 @@
           "type": "image",
           "url": "https://i.imgur.com/9nQlmC6.png",
           "alt": "",
-          "alternativeText": "Auteur : Association des vendeurs de poissons rouges. Publication : Avoir un poisson rouge comme animal de compagnie augmente le bien-être de 38% selon nos études. Améliorez votre humeur et foncez en magasin ! Date : 8 juin 2023"
+          "alternativeText": "Auteur&nbsp;: Association des vendeurs de poissons rouges. Publication&nbsp;: Avoir un poisson rouge comme animal de compagnie augmente le bien-être de 38% selon nos études. Améliorez votre humeur et foncez en magasin&#8239;! Date&nbsp;: 8 juin 2023"
         },
         {
           "id": "9e252501-ecb0-46dc-ae3e-f5646e7cc252",
           "type": "qcu",
-          "instruction": "<p>Quel mot décrit le mieux cette source ?</p>",
+          "instruction": "<p>Quel mot décrit le mieux cette source&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
