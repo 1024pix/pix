@@ -68,7 +68,32 @@
               "ariaLabel": "Mot de passe",
               "defaultValue": "",
               "tolerances": ["t1"],
-              "solutions": ["123456", "123456789", "azerty", "admin", "1234561", "azertyuiop", "loulou", "000000", "doudou", "password", "marseille", "motdepasse", "12345678", "chouchou", "soleil", "cheval", "12345", "Password", "bonjour", "1234567891", "1234", "0000", "toto", "azerty123"]
+              "solutions": [
+                "123456",
+                "123456789",
+                "azerty",
+                "admin",
+                "1234561",
+                "azertyuiop",
+                "loulou",
+                "000000",
+                "doudou",
+                "password",
+                "marseille",
+                "motdepasse",
+                "12345678",
+                "chouchou",
+                "soleil",
+                "cheval",
+                "12345",
+                "Password",
+                "bonjour",
+                "1234567891",
+                "1234",
+                "0000",
+                "toto",
+                "azerty123"
+              ]
             }
           ],
           "feedbacks": {
@@ -125,7 +150,56 @@
               "ariaLabel": "Mot de passe d'Austin",
               "defaultValue": "",
               "tolerances": ["t1"],
-              "solutions": ["Bill15111984", "15111984Bill", "Bill151184", "151184Bill", "bill15111984", "15111984bill", "bill151184", "151184bill", "Bill15novembre1984", "15novembre1984Bill", "Bill15novembre84", "15novembre84Bill", "bill15novembre1984", "15novembre1984bill", "bill15novembre84", "15novembre84bill","Bill15/11/1984", "15/11/1984Bill", "Bill15/11/84", "15/11/84Bill", "bill15/11/1984", "15/11/1984bill", "bill15/11/84", "15/11/84bill", "Bill151119", "151119Bill", "Bill1511", "1511Bill", "bill1511", "1511bill", "bill1511", "1511bill", "Bill15novembre", "15novembreBill", "Bill15novembre", "15novembreBill", "bill15novembre", "15novembrebill", "bill15novembre", "15novembrebill","Bill15/11", "15/11Bill", "Bill15/11", "15/11Bill", "bill15/11", "15/11bill", "bill15/11", "15/11bill"]
+              "solutions": [
+                "Bill15111984",
+                "15111984Bill",
+                "Bill151184",
+                "151184Bill",
+                "bill15111984",
+                "15111984bill",
+                "bill151184",
+                "151184bill",
+                "Bill15novembre1984",
+                "15novembre1984Bill",
+                "Bill15novembre84",
+                "15novembre84Bill",
+                "bill15novembre1984",
+                "15novembre1984bill",
+                "bill15novembre84",
+                "15novembre84bill",
+                "Bill15/11/1984",
+                "15/11/1984Bill",
+                "Bill15/11/84",
+                "15/11/84Bill",
+                "bill15/11/1984",
+                "15/11/1984bill",
+                "bill15/11/84",
+                "15/11/84bill",
+                "Bill151119",
+                "151119Bill",
+                "Bill1511",
+                "1511Bill",
+                "bill1511",
+                "1511bill",
+                "bill1511",
+                "1511bill",
+                "Bill15novembre",
+                "15novembreBill",
+                "Bill15novembre",
+                "15novembreBill",
+                "bill15novembre",
+                "15novembrebill",
+                "bill15novembre",
+                "15novembrebill",
+                "Bill15/11",
+                "15/11Bill",
+                "Bill15/11",
+                "15/11Bill",
+                "bill15/11",
+                "15/11bill",
+                "bill15/11",
+                "15/11bill"
+              ]
             }
           ],
           "feedbacks": {
@@ -312,10 +386,7 @@
             "valid": "<p>Correct. Un mot de passe long est plus solide. Se servir d'une phrase permet de mieux s'en souvenir. </p>",
             "invalid": "<p>Incorrect. Un mot de passe long est plus solide. Se servir d'une phrase permet de mieux s'en souvenir.</p>"
           },
-          "solutions": [
-            "1",
-            "4"
-          ]
+          "solutions": ["1", "4"]
         }
       ]
     },
