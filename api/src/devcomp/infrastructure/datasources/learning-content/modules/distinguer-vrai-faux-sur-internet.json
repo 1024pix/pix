@@ -150,7 +150,7 @@
         {
           "id": "342183f7-af51-4e4e-ab4c-ebed1e195063",
           "type": "text",
-          "content": "<p>À la fin de cette vidéo, des questions vous seront posées sur des mots de vocabulaire : \"une anecdote\", \"une rumeur\", \"une opinion\".</p>"
+          "content": "<p>À la fin de cette vidéo, des questions vous seront posées sur des mots de vocabulaire&nbsp;: \"une anecdote\", \"une rumeur\", \"une opinion\".</p>"
         },
         {
           "id": "3a9f2269-99ba-4631-b6fd-6802c88d5c26",
@@ -264,7 +264,7 @@
         {
           "id": "332d9e96-d12e-4809-9d25-173a57ed93be",
           "type": "text",
-          "content": "<h3>Question n°1 : qui est l’auteur de cette information ? <span aria-hidden=\"true\">🖋️</span>️</h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple, si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
+          "content": "<h3>Question n°1&nbsp;: qui est l’auteur de cette information ? <span aria-hidden=\"true\">🖋️</span>️</h3><p>En vous posant cette question, vous pourrez mieux évaluer l’information.<br>Par exemple, si vous connaissez ou non l’auteur, si l’auteur est reconnu ou encore si l’auteur a un intérêt particulier à ce que cette information circule.</p>"
         },
         {
           "id": "42276690-f134-4b88-ac0f-c26ad62370ec",
@@ -274,7 +274,7 @@
         {
           "id": "8aa4a733-4a92-4007-897d-ab884a7add85",
           "type": "text",
-          "content": "<h3>Question n°2 : quelle est la date de l’information ? <span aria-hidden=\"true\">📅</span>️</h3><p>C’est simple à vérifier et très important ! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
+          "content": "<h3>Question n°2&nbsp;: quelle est la date de l’information ? <span aria-hidden=\"true\">📅</span>️</h3><p>C’est simple à vérifier et très important ! Des informations vraies un jour peuvent être fausses le lendemain. <br>Par exemple, une alerte inondation ou une promotion dans un magasin.</p>"
         },
         {
           "id": "056ef18b-2f2f-4518-acca-93bb59b2d151",
@@ -284,7 +284,7 @@
         {
           "id": "36577421-d9d0-4f49-ac43-b4e804ba5635",
           "type": "text",
-          "content": "<h3>Question n°3 : d’où provient cette information ? <span aria-hidden=\"true\">ℹ️</span>️</h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
+          "content": "<h3>Question n°3&nbsp;: d’où provient cette information ? <span aria-hidden=\"true\">ℹ️</span>️</h3><p>C'est-à-dire, son origine, sa source. Cherchez à savoir si c’est une observation, un témoignage, un résultat d’expérience, etc.<br>Regardez également si vous pouvez vérifier cette information par vous-même et si l’auteur a partagé ses sources.</p>"
         }
       ]
     },
@@ -337,7 +337,7 @@
           "type": "image",
           "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet6.jpg",
           "alt": "",
-          "alternativeText": "Fan Du Real Madrid : ENFIN ! Kylian Mbappé va quitter le PSG pour rejoindre le Real Madrid. Tu es un vrai 10 !! <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80</a>"
+          "alternativeText": "Fan Du Real Madrid&nbsp;: ENFIN ! Kylian Mbappé va quitter le PSG pour rejoindre le Real Madrid. Tu es un vrai 10 !! <a href=\"https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80\" target=\"_blank\">https://www.goal.com/fr/news/le-psg-tente-un-dernier-coup-avec-kylian-mbappe/bltcba9cc42978c4f80</a>"
         },
         {
           "id": "7e2cda57-9383-4a9b-ab46-b6d96317d6ac",
@@ -378,7 +378,7 @@
           "type": "image",
           "url": "https://i.imgur.com/5BMW9i7.png",
           "alt": "",
-          "alternativeText": "Jean-Eude Coulignant : Scoop ! Grâce aux nouvelles technologies, il y a de plus en plus de visiteurs dans les musées"
+          "alternativeText": "Jean-Eude Coulignant&nbsp;: Scoop ! Grâce aux nouvelles technologies, il y a de plus en plus de visiteurs dans les musées"
         },
         {
           "id": "81943b07-ecf0-408b-877c-55e1943df1fc",
@@ -414,7 +414,7 @@
           "type": "image",
           "url": "https://images.pix.fr/modulix/distinguer-vrai-faux-sur-internet/tweet7.jpg",
           "alt": "",
-          "alternativeText": "Stéphanie Attelage : Allez vite au supermarché, il n'y aura bientôt plus de pâtes. Pour plus d'infos : <a href=\"https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires\" target=\"_blank\">https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires</a>!"
+          "alternativeText": "Stéphanie Attelage&nbsp;: Allez vite au supermarché, il n'y aura bientôt plus de pâtes. Pour plus d'infos&nbsp;: <a href=\"https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires\" target=\"_blank\">https://www.zayactu.org/2021/08/la-france-bientot-confrontee-a-une-penurie-de-pates-alimentaires</a>!"
         },
         {
           "id": "4f002984-f136-4962-8f9a-b5f69d2995af",
@@ -462,7 +462,7 @@
           "type": "image",
           "url": "https://i.imgur.com/QS0xFIn.png",
           "alt": "",
-          "alternativeText": "Indice 1 : Un ton alarmiste, qui veut faire ressentir un sentiment d’urgence, doit amener à une posture de prudence.<br>Indice 2 : La demande explicite de partager une information est un indice que l’auteur cherche à rendre son contenu viral et “faire le buzz”.<br>Indice 3 : L’utilisation de majuscules et d’émojis angoissant sont utilisés pour interpeller. Cette manière d’écrire peut indiquer l’envie pour l’auteur d’être lu à tout prix. Les fautes d’orthographe indique que le contenu a été rédigé sans attention particulière."
+          "alternativeText": "Indice 1&nbsp;: Un ton alarmiste, qui veut faire ressentir un sentiment d’urgence, doit amener à une posture de prudence.<br>Indice 2&nbsp;: La demande explicite de partager une information est un indice que l’auteur cherche à rendre son contenu viral et “faire le buzz”.<br>Indice 3&nbsp;: L’utilisation de majuscules et d’émojis angoissant sont utilisés pour interpeller. Cette manière d’écrire peut indiquer l’envie pour l’auteur d’être lu à tout prix. Les fautes d’orthographe indique que le contenu a été rédigé sans attention particulière."
         }
       ]
     },
@@ -474,14 +474,14 @@
         {
           "id": "eb90d3ea-797f-4e4a-9675-e679b9f5bf3c",
           "type": "text",
-          "content": "<p>Stéphane n'arrive pas à faire pousser sa nouvelle plante verte d’intérieur <span aria-hidden=\"true\">🪴</span>️. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier :</p>"
+          "content": "<p>Stéphane n'arrive pas à faire pousser sa nouvelle plante verte d’intérieur <span aria-hidden=\"true\">🪴</span>️. Il cherche des astuces sur les réseaux sociaux.<br>Il trouve les informations suivantes, publiées le 28 août 2023, par SuperJardinier&nbsp;:</p>"
         },
         {
           "id": "2c525ab3-23bf-4b43-867d-ea1fac54efad",
           "type": "image",
           "url": "https://i.imgur.com/Scxdcfm.png",
           "alt": "",
-          "alternativeText": "Vos plantes vertes ne poussent pas ? Voici 2 super astuces dont vous ne pourrez plus vous passer.<br> Astuce 1 : Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien ! Votre plante va adorer.<br> Astuce 2 : Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
+          "alternativeText": "Vos plantes vertes ne poussent pas ? Voici 2 super astuces dont vous ne pourrez plus vous passer.<br> Astuce 1&nbsp;: Privilégier la lumière directe. Un grand bain de soleil, ça fait toujours du bien ! Votre plante va adorer.<br> Astuce 2&nbsp;: Mettez de la spiruline dans la terre. Vous trouverez d’ailleurs un lien en description avec le code promo JARDINIER3000."
         },
         {
           "id": "2a308355-f39f-498e-aef6-f1c0830f5b1f",
