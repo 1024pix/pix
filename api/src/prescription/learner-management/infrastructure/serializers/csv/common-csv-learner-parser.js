@@ -44,7 +44,7 @@ class CommonCsvLearerParser {
     this._supportedErrors = config.supportedErrors;
 
     // compute support_enconding
-    this._supportedEncoding = config.acceptedEncoding;
+    this._supportedEncodings = config.acceptedEncoding;
   }
 
   parse(encoding) {
@@ -73,14 +73,10 @@ class CommonCsvLearerParser {
    * If there is one with at least "First name" or "Student number" correctly parsed and decoded.
    */
   getFileEncoding() {
-    const supported_encodings = ['utf-8', 'win1252', 'macintosh'];
-    const checkedColumns = this._getEncodingColumns();
+    const supported_encodings = this._supportedEncodings;
     for (const encoding of supported_encodings) {
       const decodedInput = iconv.decode(this._input, encoding);
-      const {
-        meta: { fields },
-      } = papa.parse(decodedInput, { ...PARSING_OPTIONS, preview: 1 });
-      if (fields.some((value) => checkedColumns.includes(value))) {
+      if (!decodedInput.includes('�')) {
         return encoding;
       }
     }
