@@ -12,7 +12,7 @@ const register = async function (server) {
       config: {
         pre: [{ method: securityPreHandlers.checkPix1dActivated }],
         auth: false,
-        handler: missionController.findAll,
+        handler: missionController.findAllActive,
         tags: ['api', 'pix1d', 'mission'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs de pix1d' +
@@ -28,7 +28,7 @@ const register = async function (server) {
           { method: securityPreHandlers.checkUserBelongsToOrganization },
           { method: securityPreHandlers.checkPix1dActivated },
         ],
-        handler: missionController.findAll,
+        handler: missionController.findAllActive,
         tags: ['api', 'pix1d', 'mission'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs d'une organisation pix1d spécifique" +
