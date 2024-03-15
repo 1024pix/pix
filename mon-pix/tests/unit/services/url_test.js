@@ -316,6 +316,22 @@ module('Unit | Service | url', function (hooks) {
           assert.strictEqual(accessibilityUrl, expectedAccessibilityUrl);
         });
       });
+
+      module('when current language is "nl"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: true };
+          service.intl = { primaryLocale: DUTCH_INTERNATIONAL_LOCALE };
+          const expectedAccessibilityUrl = 'https://pix.fr/accessibilite';
+
+          // when
+          const accessibilityUrl = service.accessibilityUrl;
+
+          // then
+          assert.strictEqual(accessibilityUrl, expectedAccessibilityUrl);
+        });
+      });
     });
 
     module('when website is pix.org', function () {
@@ -342,6 +358,22 @@ module('Unit | Service | url', function (hooks) {
           service.currentDomain = { isFranceDomain: false };
           service.intl = { primaryLocale: ENGLISH_INTERNATIONAL_LOCALE };
           const expectedAccessibilityUrl = 'https://pix.org/en-gb/accessibility';
+
+          // when
+          const accessibilityUrl = service.accessibilityUrl;
+
+          // then
+          assert.strictEqual(accessibilityUrl, expectedAccessibilityUrl);
+        });
+      });
+
+      module('when current language is "nl"', function () {
+        test('returns the Nederland page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { isFranceDomain: false };
+          service.intl = { primaryLocale: DUTCH_INTERNATIONAL_LOCALE };
+          const expectedAccessibilityUrl = 'https://pix.org/nl-be/toegankelijkheid';
 
           // when
           const accessibilityUrl = service.accessibilityUrl;

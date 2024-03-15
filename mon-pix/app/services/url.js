@@ -56,12 +56,19 @@ export default class Url extends Service {
 
   get accessibilityUrl() {
     const currentLanguage = this.intl.primaryLocale;
+
     if (this.currentDomain.isFranceDomain) {
       return `https://pix.fr/accessibilite`;
     }
-    return currentLanguage === FRENCH_INTERNATIONAL_LOCALE
-      ? `https://pix.org/fr/accessibilite`
-      : `https://pix.org/en-gb/accessibility`;
+
+    switch (currentLanguage) {
+      case ENGLISH_INTERNATIONAL_LOCALE:
+        return 'https://pix.org/en-gb/accessibility';
+      case DUTCH_INTERNATIONAL_LOCALE:
+        return 'https://pix.org/nl-be/toegankelijkheid';
+      default:
+        return 'https://pix.org/fr/accessibilite';
+    }
   }
 
   get accessibilityHelpUrl() {
