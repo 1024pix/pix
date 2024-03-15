@@ -3,6 +3,7 @@ import ENV from 'mon-pix/config/environment';
 
 const FRENCH_INTERNATIONAL_LOCALE = 'fr';
 const ENGLISH_INTERNATIONAL_LOCALE = 'en';
+const DUTCH_INTERNATIONAL_LOCALE = 'nl';
 
 export default class Url extends Service {
   @service currentDomain;
@@ -21,23 +22,36 @@ export default class Url extends Service {
 
   get cguUrl() {
     const currentLanguage = this.intl.primaryLocale;
+
     if (this.currentDomain.isFranceDomain) {
       return `https://pix.fr/conditions-generales-d-utilisation`;
     }
-    return currentLanguage === FRENCH_INTERNATIONAL_LOCALE
-      ? 'https://pix.org/fr/conditions-generales-d-utilisation'
-      : 'https://pix.org/en-gb/terms-and-conditions';
+
+    switch (currentLanguage) {
+      case ENGLISH_INTERNATIONAL_LOCALE:
+        return 'https://pix.org/en-gb/terms-and-conditions';
+      case DUTCH_INTERNATIONAL_LOCALE:
+        return 'https://pix.org/nl-be/algemene-gebruiksvoorwaarden';
+      default:
+        return 'https://pix.org/fr/conditions-generales-d-utilisation';
+    }
   }
 
   get dataProtectionPolicyUrl() {
     const currentLanguage = this.intl.primaryLocale;
+
     if (this.currentDomain.isFranceDomain) {
       return `https://pix.fr/politique-protection-donnees-personnelles-app`;
     }
 
-    return currentLanguage === FRENCH_INTERNATIONAL_LOCALE
-      ? 'https://pix.org/fr/politique-protection-donnees-personnelles-app'
-      : 'https://pix.org/en-gb/personal-data-protection-policy';
+    switch (currentLanguage) {
+      case ENGLISH_INTERNATIONAL_LOCALE:
+        return 'https://pix.org/en-gb/personal-data-protection-policy';
+      case DUTCH_INTERNATIONAL_LOCALE:
+        return 'https://pix.org/nl-be/beleid-inzake-de-bescherming-van-persoonsgegevens';
+      default:
+        return 'https://pix.org/fr/politique-protection-donnees-personnelles-app';
+    }
   }
 
   get _showcaseWebsiteUrl() {
