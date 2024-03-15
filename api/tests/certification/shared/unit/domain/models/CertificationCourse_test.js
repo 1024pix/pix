@@ -1,5 +1,5 @@
+import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
-import { CertificationVersion } from '../../../../../../src/shared/domain/models/CertificationVersion.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 import { generateChallengeList } from '../../../fixtures/challenges.js';
 

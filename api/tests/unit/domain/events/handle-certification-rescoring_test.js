@@ -7,9 +7,9 @@ import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeu
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
 import { AssessmentResult, CertificationAssessment, CertificationResult } from '../../../../lib/domain/models/index.js';
 import { ABORT_REASONS } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { CertificationVersion } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 import { config } from '../../../../src/shared/config.js';
-import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import {
   generateAnswersForChallenges,
   generateChallengeList,

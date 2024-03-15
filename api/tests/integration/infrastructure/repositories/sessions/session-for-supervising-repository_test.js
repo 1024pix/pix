@@ -4,8 +4,8 @@ import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { SessionForSupervising } from '../../../../../lib/domain/read-models/SessionForSupervising.js';
 import * as sessionForSupervisingRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-supervising-repository.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationVersion } from '../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { CertificationVersion } from '../../../../../src/shared/domain/models/CertificationVersion.js';
 import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Repository | SessionForSupervising', function () {

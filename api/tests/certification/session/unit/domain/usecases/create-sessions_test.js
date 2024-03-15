@@ -3,7 +3,7 @@ import { CertificationCenter } from '../../../../../../lib/domain/models/Certifi
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
 import { createSessions } from '../../../../../../src/certification/session/domain/usecases/create-sessions.js';
-import { CertificationVersion } from '../../../../../../src/shared/domain/models/CertificationVersion.js';
+import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | sessions-mass-import | create-sessions', function () {

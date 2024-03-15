@@ -1,5 +1,5 @@
+import { CertificationVersion } from '../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { CertificationVersion } from '../../../../../src/shared/domain/models/CertificationVersion.js';
 import {
   createServer,
   databaseBuilder,
