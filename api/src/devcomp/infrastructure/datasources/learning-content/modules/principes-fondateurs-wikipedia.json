@@ -15,7 +15,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Vous avez probablement déjà utilisé Wikipédia. Mais connaissez-vous la signification de son logo ? <span aria-hidden=\"true\">🌎</span>️ <span aria-hidden=\"true\">🧩</span>️</p>",
+      "content": "<p>Vous avez probablement déjà utilisé Wikipédia. Mais connaissez-vous la signification de son logo&#8239;? <span aria-hidden=\"true\">🌎</span>️ <span aria-hidden=\"true\">🧩</span>️</p>",
       "grainId": "da95d2bc-e597-4366-a095-21f7ab0f4845"
     },
     {
@@ -27,7 +27,7 @@
       "grainId": "9a3926dd-750c-4b89-b1d0-9a286fe2d9e4"
     },
     {
-      "content": "<p>Des personnes du monde entier utilisent Wikipédia et y contribuent. De cette manière, les articles sont fréquemment disponibles dans plusieurs langues.<br>Un petit jeu&nbsp;: saurez-vous dans combien de langues ?</p>",
+      "content": "<p>Des personnes du monde entier utilisent Wikipédia et y contribuent. De cette manière, les articles sont fréquemment disponibles dans plusieurs langues.<br>Un petit jeu&nbsp;: saurez-vous dans combien de langues&#8239;?</p>",
       "grainId": "5f048ad8-d008-4956-840b-37e84138b433"
     },
     {
@@ -65,7 +65,7 @@
         {
           "id": "d5acb701-fd9c-40d4-b59d-fb2fd8f6b3fe",
           "type": "qcm",
-          "instruction": "<p>Une devinette&nbsp;: selon vous, quelles sont les <strong>deux</strong> phrases qui décrivent le mieux la signification du logo actuel de Wikipédia ?</p>",
+          "instruction": "<p>Une devinette&nbsp;: selon vous, quelles sont les <strong>deux</strong> phrases qui décrivent le mieux la signification du logo actuel de Wikipédia&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -191,7 +191,7 @@
         {
           "id": "c99efced-e183-4f4f-aec7-07a5da13294a",
           "type": "qcu",
-          "instruction": "<p>Dans le monde, il existe environ 7000 langues.<br>Selon vous, dans combien de langues environ Wikipédia existe-t-il ?</p>",
+          "instruction": "<p>Dans le monde, il existe environ 7000 langues.<br>Selon vous, dans combien de langues environ Wikipédia existe-t-il&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -226,7 +226,7 @@
         {
           "id": "46dec681-51e7-44f8-9422-9ccd77125f8b",
           "type": "qcu",
-          "instruction": "<p>Selon vous, par quel moyen Wikipédia est-il financé ?</p>",
+          "instruction": "<p>Selon vous, par quel moyen Wikipédia est-il financé&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -287,7 +287,7 @@
         {
           "id": "ea12a08f-fa0b-4693-a1fd-8a5baf27f494",
           "type": "qrocm",
-          "instruction": "<p>Dans le sommaire de cet article, trouvez la section <strong>Début</strong>. Quel est le nom de la cinquième section ?</p>",
+          "instruction": "<p>Dans le sommaire de cet article, trouvez la section <strong>Début</strong>. Quel est le nom de la cinquième section&#8239;?</p>",
           "proposals": [
             {
               "type": "text",
@@ -319,7 +319,7 @@
         {
           "id": "649c29ee-0b22-4da3-ba2a-036bb3016425",
           "type": "qrocm",
-          "instruction": "<p>Dans cet article, combien y a-t-il de Notes et références ? </p>",
+          "instruction": "<p>Dans cet article, combien y a-t-il de Notes et références&#8239;? </p>",
           "proposals": [
             {
               "type": "text",
@@ -351,7 +351,7 @@
         {
           "id": "be1ba37e-0588-42ed-8fab-f47bf118953a",
           "type": "qrocm",
-          "instruction": "<p>Quel est le niveau de qualité estimé de cet article ?</p>",
+          "instruction": "<p>Quel est le niveau de qualité estimé de cet article&#8239;?</p>",
           "proposals": [
             {
               "type": "text",

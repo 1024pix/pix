@@ -54,7 +54,7 @@
         {
           "id": "fda3b31f-4f97-44fb-80b7-3698df48c79a",
           "type": "qcu",
-          "instruction": "<p>Vous avez sûrement déjà branché une clé USB.<br> Quel type de personne êtes-vous ?</p>",
+          "instruction": "<p>Vous avez sûrement déjà branché une clé USB.<br> Quel type de personne êtes-vous&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -67,7 +67,7 @@
           ],
           "feedbacks": {
             "valid": "<p>C'est le cas de nombreuses personnes ! <span aria-hidden=\"true\">🏅</span></p>",
-            "invalid": "<p>Toujours ?! On ne vous croit pas... <span aria-hidden=\"true\">😉</span></p>"
+            "invalid": "<p>Toujours&#8239;?! On ne vous croit pas... <span aria-hidden=\"true\">😉</span></p>"
           },
           "solution": "2"
         }
@@ -409,7 +409,7 @@
         {
           "id": "9548df1b-3bb4-4d7f-93ce-965de364797e",
           "type": "qcu",
-          "instruction": "<p>Sur quel port Maxime peut-il brancher son <strong>clavier USB</strong> ?</p>",
+          "instruction": "<p>Sur quel port Maxime peut-il brancher son <strong>clavier USB</strong>&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
@@ -453,7 +453,7 @@
         {
           "id": "e6c1fdff-e2a3-4108-a1f8-245dc7e3668f",
           "type": "qcu",
-          "instruction": "<p>Pensez-vous avoir réussi à les trouver ?</p>",
+          "instruction": "<p>Pensez-vous avoir réussi à les trouver&#8239;?</p>",
           "proposals": [
             {
               "id": "1",
