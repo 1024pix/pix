@@ -54,10 +54,17 @@ function routes() {
   });
 
   this.post('/activity-answers', (schema, request) => {
-    const answerValue = JSON.parse(request.requestBody).data.attributes?.value;
-    return schema.create('activity-answer', {
-      result: answerValue === '#ABAND#' ? 'aband' : answerValue !== 'bad-answer' ? 'ok' : 'ko',
-    });
+    const options = JSON.parse(request.requestBody).meta;
+
+    // we allow *exclusively* one or the other
+    if (options?.assessmentId ^ options?.isPreview) {
+      const answerValue = JSON.parse(request.requestBody).data.attributes?.value;
+      return schema.create('activity-answer', {
+        result: answerValue === '#ABAND#' ? 'aband' : answerValue !== 'bad-answer' ? 'ok' : 'ko',
+      });
+    } else {
+      return new Response(400);
+    }
   });
 
   this.get('/challenges/:challenge_id', (schema, request) => {

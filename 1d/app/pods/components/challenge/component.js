@@ -22,14 +22,20 @@ export default class Challenge extends Component {
     return this.store.createRecord('activity-answer', { challenge });
   }
 
+  get #assessmentId() {
+    return this.args.assessment?.id;
+  }
+
+  get #isPreview() {
+    return !this.#assessmentId;
+  }
+
   @action
   async validateAnswer() {
-    const assessmentIdForPreview = null;
     this.answer = this._createActivityAnswer(this.args.challenge);
     this.answer.value = this.answerValue;
     try {
-      const assessmentId = this.args.assessment?.id || assessmentIdForPreview;
-      await this.answer.save({ adapterOptions: { assessmentId } });
+      await this.answer.save({ adapterOptions: { assessmentId: this.#assessmentId, isPreview: this.#isPreview } });
       this.answerHasBeenValidated = true;
       this.scrollToTop();
     } catch (error) {
