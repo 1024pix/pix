@@ -7,7 +7,7 @@ import {
   knex,
 } from '../../../../test-helper.js';
 
-describe('Acceptance | Application | competence-for-scoring-configuration-route', function () {
+describe('Acceptance | Application | scoring-configuration-route', function () {
   let server;
   beforeEach(async function () {
     server = await createServer();

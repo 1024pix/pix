@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 import { securityPreHandlers } from '../../../shared/application/security-pre-handlers.js';
-import { competenceForScoringConfigurationController } from './competence-for-scoring-configuration-controller.js';
+import { scoringConfigurationController } from './scoring-configuration-controller.js';
 
 const register = async (server) => {
   server.route([
@@ -33,8 +33,8 @@ const register = async (server) => {
             )
             .required(),
         },
-        handler: competenceForScoringConfigurationController.saveCompetenceForScoringConfiguration,
-        tags: ['api', 'competence-for-scoring-configuration'],
+        handler: scoringConfigurationController.saveCompetenceForScoringConfiguration,
+        tags: ['api', 'scoring-configuration'],
         notes: [
           '**Cette route est restreinte aux super-administrateurs** \n' +
             "Création d'une nouvelle configuration de niveau par compétence pour la certification v3",
@@ -44,6 +44,6 @@ const register = async (server) => {
   ]);
 };
 
-const name = 'competence-for-scoring-configuration';
+const name = 'scoring-configuration';
 
 export { name, register };
