@@ -42,6 +42,39 @@ const register = async (server) => {
       },
     },
   ]);
+  server.route([
+    {
+      method: 'POST',
+      path: '/api/admin/certification-scoring-configuration',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          payload: Joi.array()
+            .items(
+              Joi.object({
+                meshLevel: Joi.number(),
+                bounds: Joi.object({
+                  min: Joi.number(),
+                  max: Joi.number(),
+                }),
+              }),
+            )
+            .required(),
+        },
+        handler: scoringConfigurationController.saveCertificationScoringConfiguration,
+        tags: ['api', 'admin', 'scoring-configuration'],
+        notes: [
+          '**Cette route est restreinte aux super-administrateurs** \n' +
+            "Création d'une nouvelle configuration de score pour la certification v3",
+        ],
+      },
+    },
+  ]);
 };
 
 const name = 'scoring-configuration';

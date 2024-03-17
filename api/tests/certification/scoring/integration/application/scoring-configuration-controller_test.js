@@ -23,4 +23,32 @@ describe('Integration | Application | ScoringConfigurationController', function 
       });
     });
   });
+
+  describe('#saveCertificationScoringConfiguration', function () {
+    it('should save the certification scoring configuration', async function () {
+      const userId = 123;
+      sinon.stub(usecases, 'saveCertificationScoringConfiguration');
+
+      const request = {
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+        payload: {
+          data: {
+            someData: 10,
+          },
+        },
+      };
+
+      const response = await scoringConfigurationController.saveCertificationScoringConfiguration(request, hFake);
+
+      expect(response.statusCode).to.equal(201);
+      expect(usecases.saveCertificationScoringConfiguration).to.have.been.calledWith({
+        data: request.payload,
+        userId,
+      });
+    });
+  });
 });
