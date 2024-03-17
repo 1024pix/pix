@@ -6,6 +6,14 @@ const saveCompetenceForScoringConfiguration = async (request, h) => {
   return h.response().code(201);
 };
 
+const saveCertificationScoringConfiguration = async (request, h) => {
+  const data = request.payload;
+  const userId = request.auth.credentials.userId;
+  await usecases.saveCertificationScoringConfiguration({ data, userId });
+  return h.response().code(201);
+};
+
 export const scoringConfigurationController = {
   saveCompetenceForScoringConfiguration,
+  saveCertificationScoringConfiguration,
 };
