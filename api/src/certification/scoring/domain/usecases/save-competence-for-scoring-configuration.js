@@ -7,7 +7,7 @@
  * @param {ScoringConfigurationRepository} params.scoringConfigurationRepository
  */
 const saveCompetenceForScoringConfiguration = async ({ data, scoringConfigurationRepository }) => {
-  await scoringConfigurationRepository.save(data);
+  await scoringConfigurationRepository.saveCompetenceForScoringConfiguration(data);
 };
 
 export { saveCompetenceForScoringConfiguration };

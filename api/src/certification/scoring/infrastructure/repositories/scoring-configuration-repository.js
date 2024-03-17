@@ -27,7 +27,7 @@ export const getLatestByDateAndLocale = async ({ locale, date }) => {
   });
 };
 
-export const save = async (configuration) => {
+export const saveCompetenceForScoringConfiguration = async (configuration) => {
   const data = {
     configuration: JSON.stringify(configuration),
   };
