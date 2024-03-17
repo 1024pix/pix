@@ -1,8 +1,8 @@
-import { competenceForScoringConfigurationController } from '../../../../../src/certification/scoring/application/competence-for-scoring-configuration-controller.js';
+import { scoringConfigurationController } from '../../../../../src/certification/scoring/application/scoring-configuration-controller.js';
 import { usecases } from '../../../../../src/certification/scoring/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
-describe('Integration | Application | CompetenceForScoringConfigurationController', function () {
+describe('Integration | Application | ScoringConfigurationController', function () {
   describe('#saveCompetenceForScoringConfiguration', function () {
     it('should save the competence for scoring configuration', async function () {
       sinon.stub(usecases, 'saveCompetenceForScoringConfiguration');
@@ -15,10 +15,7 @@ describe('Integration | Application | CompetenceForScoringConfigurationControlle
         },
       };
 
-      const response = await competenceForScoringConfigurationController.saveCompetenceForScoringConfiguration(
-        request,
-        hFake,
-      );
+      const response = await scoringConfigurationController.saveCompetenceForScoringConfiguration(request, hFake);
 
       expect(response.statusCode).to.equal(201);
       expect(usecases.saveCompetenceForScoringConfiguration).to.have.been.calledWith({

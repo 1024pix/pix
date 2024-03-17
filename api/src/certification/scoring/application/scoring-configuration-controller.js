@@ -6,6 +6,6 @@ const saveCompetenceForScoringConfiguration = async (request, h) => {
   return h.response().code(201);
 };
 
-export const competenceForScoringConfigurationController = {
+export const scoringConfigurationController = {
   saveCompetenceForScoringConfiguration,
 };
