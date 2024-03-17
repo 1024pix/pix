@@ -5,6 +5,7 @@ import { V3CertificationScoring } from '../../../../../../src/certification/scor
 import {
   getLatestByDateAndLocale,
   save,
+  saveCertificationScoringConfiguration,
 } from '../../../../../../src/certification/scoring/infrastructure/repositories/scoring-configuration-repository.js';
 import { databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 import { buildArea, buildCompetence, buildFramework } from '../../../../../tooling/domain-builder/factory/index.js';
@@ -127,6 +128,21 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
 
       // then
       const configurations = await knex('competence-scoring-configurations');
+      expect(configurations.length).to.equal(1);
+      expect(configurations[0].configuration).to.deep.equal({ some: 'data' });
+    });
+  });
+
+  describe('#saveCertificationScoringConfiguration', function () {
+    it('should save a configuration for competence scoring', async function () {
+      // given
+      const data = { some: 'data' };
+
+      // when
+      await saveCertificationScoringConfiguration(data);
+
+      // then
+      const configurations = await knex('certification-scoring-configurations');
       expect(configurations.length).to.equal(1);
       expect(configurations[0].configuration).to.deep.equal({ some: 'data' });
     });
