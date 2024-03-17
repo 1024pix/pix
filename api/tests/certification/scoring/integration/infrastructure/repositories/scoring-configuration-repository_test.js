@@ -4,8 +4,8 @@ import { knex } from '../../../../../../db/knex-database-connection.js';
 import { V3CertificationScoring } from '../../../../../../src/certification/scoring/domain/models/V3CertificationScoring.js';
 import {
   getLatestByDateAndLocale,
-  save,
   saveCertificationScoringConfiguration,
+  saveCompetenceForScoringConfiguration,
 } from '../../../../../../src/certification/scoring/infrastructure/repositories/scoring-configuration-repository.js';
 import { databaseBuilder, expect, mockLearningContent } from '../../../../../test-helper.js';
 import { buildArea, buildCompetence, buildFramework } from '../../../../../tooling/domain-builder/factory/index.js';
@@ -118,13 +118,13 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
     });
   });
 
-  describe('#save', function () {
+  describe('#saveCompetenceForScoringConfiguration', function () {
     it('should save a configuration for competence scoring', async function () {
       // given
       const data = { some: 'data' };
 
       // when
-      await save(data);
+      await saveCompetenceForScoringConfiguration(data);
 
       // then
       const configurations = await knex('competence-scoring-configurations');
