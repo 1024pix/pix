@@ -1,9 +1,7 @@
 import Controller from '@ember/controller';
-// eslint-disable-next-line ember/no-computed-properties-in-native-classes
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import some from 'lodash/some';
 
 const DEFAULT_PAGE_NUMBER = 1;
 export default class ListController extends Controller {
@@ -17,10 +15,14 @@ export default class ListController extends Controller {
   @tracked displayConfirm = false;
   @tracked confirmMessage = null;
 
-  @computed('model.juryCertificationSummaries.@each.status')
   get canPublish() {
-    return !some(this.model.juryCertificationSummaries.toArray(), (certif) =>
-      ['error', 'started'].includes(certif.status),
+    const juryCertificationSummaries = this.model.juryCertificationSummaries.toArray();
+    const session = this.model;
+
+    return (
+      !juryCertificationSummaries.some(
+        (certification) => certification.status === 'error' && !certification.isCancelled,
+      ) && session.isFinalized
     );
   }
 
@@ -36,9 +38,9 @@ export default class ListController extends Controller {
 
     if (!this.canPublish && !sessionIsPublished) return;
 
-    const text = sessionIsPublished ? 'Souhaitez-vous dépublier la session ?' : 'Souhaitez-vous publier la session ?';
-
-    this.confirmMessage = text;
+    this.confirmMessage = sessionIsPublished
+      ? 'Souhaitez-vous dépublier la session ?'
+      : 'Souhaitez-vous publier la session ?';
     this.displayConfirm = true;
   }
 
