@@ -53,4 +53,28 @@ describe('Unit | Shared | Domain | Errors', function () {
       expect(error.code).to.equal('INVALID_INPUT_DATA');
     });
   });
+
+  describe('EntityValidationRulesError', function () {
+    it('should export an EntityValidationRulesError', function () {
+      expect(errors.EntityValidationRulesError).to.exist;
+      expect(errors.EntityValidationRulesError.prototype).to.be.an.instanceOf(errors.DomainError);
+    });
+
+    context('#unicityRule', function () {
+      it('should populate the  key and the why for the unicity rule', function () {
+        //given
+        const code = 'PROPERTY_NOT_UNIQ';
+        const key = 'class-firstName';
+
+        // when
+        const error = new errors.EntityValidationRulesError({ key, code });
+
+        // then
+        expect(error.key).to.equal(key);
+        expect(error.why).to.equal('uniqueness');
+        expect(error.code).to.equal(code);
+        expect(error.message).to.equal("Échec de validation de l'entité.");
+      });
+    });
+  });
 });

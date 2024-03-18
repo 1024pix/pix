@@ -11,13 +11,7 @@ const ERRORS = {
   BAD_CSV_FORMAT: 'BAD_CSV_FORMAT',
   HEADER_REQUIRED: 'HEADER_REQUIRED',
   HEADER_UNKNOWN: 'HEADER_UNKNOWN',
-  FIELD_MIN_LENGTH: 'FIELD_MIN_LENGTH',
-  FIELD_MAX_LENGTH: 'FIELD_MAX_LENGTH',
-  FIELD_LENGTH: 'FIELD_LENGTH',
-  FIELD_DATE_FORMAT: 'FIELD_DATE_FORMAT',
-  FIELD_EMAIL_FORMAT: 'FIELD_EMAIL_FORMAT',
-  FIELD_REQUIRED: 'FIELD_REQUIRED',
-  FIELD_BAD_VALUES: 'FIELD_BAD_VALUES',
+  PROPERTY_NOT_UNIQ: 'PROPERTY_NOT_UNIQ',
 };
 
 const PARSING_OPTIONS = {
@@ -50,7 +44,7 @@ class CommonCsvLearerParser {
     this.#input = input;
     this.#encoding;
     this.#organizationId = organizationId;
-    this.#learnerSet = new ImportOrganizationLearnerSet();
+    this.#learnerSet = new ImportOrganizationLearnerSet(config.validationRules);
     this.#errors = [];
 
     // compute heading
@@ -73,9 +67,14 @@ class CommonCsvLearerParser {
     this.#throwHasErrors();
 
     learnerLines.forEach((line, index) => {
-      this.#learnerSet.addLearner(this.#lineToOrganizationLearnerAttributes(line, index));
+      try {
+        this.#learnerSet.addLearner(this.#lineToOrganizationLearnerAttributes(line, index));
+      } catch (errors) {
+        this.#handleValidationError(errors, index);
+      }
     });
 
+    this.#throwHasErrors();
     return this.#learnerSet.getLearners();
   }
 
@@ -176,36 +175,13 @@ class CommonCsvLearerParser {
   }
 
   #handleValidationError(errors, index) {
-    errors.forEach((err) => {
-      const column = this.#columns.find((column) => column.property === err.key);
+    errors.forEach((error) => {
       const line = index + 2;
-      const field = column.name;
+      const field = error.key;
 
-      // iterate on supported error to push errors
-
-      if (err.why === 'min_length') {
-        this.#errors.push(new CsvImportError(ERRORS.FIELD_MIN_LENGTH, { line, field, limit: err.limit }));
+      if (error.why === 'uniqueness') {
+        this.#errors.push(new CsvImportError(error.code, { line, field }));
       }
-      if (err.why === 'max_length') {
-        this.#errors.push(new CsvImportError(ERRORS.FIELD_MAX_LENGTH, { line, field, limit: err.limit }));
-      }
-      if (err.why === 'length') {
-        this.#errors.push(new CsvImportError(ERRORS.FIELD_LENGTH, { line, field, limit: err.limit }));
-      }
-      if (err.why === 'date_format' || err.why === 'not_a_date') {
-        this.#errors.push(new CsvImportError(ERRORS.FIELD_DATE_FORMAT, { line, field }));
-      }
-      if (err.why === 'email_format') {
-        this.#errors.push(new CsvImportError(ERRORS.FIELD_EMAIL_FORMAT, { line, field }));
-      }
-      if (err.why === 'required') {
-        this.#errors.push(new CsvImportError(ERRORS.FIELD_REQUIRED, { line, field }));
-      }
-      if (err.why === 'bad_values') {
-        this.#errors.push(new CsvImportError(ERRORS.FIELD_BAD_VALUES, { line, field, valids: err.valids }));
-      }
-
-      if (!this.#supportedErrors.includes(err.why)) this.#errors.push(err);
     });
   }
 }
