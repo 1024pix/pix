@@ -40,10 +40,12 @@
     },
     "student-xml-import": {
       "birth-city-code-required-for-french-student": "L'élève ayant pour INE {nationalStudentId} n'a pas de champ code commune de naissance renseigné. Il est obligatoire pour chaque élève né en France.",
+      "birthdate-required": "L’élève ayant pour INE {nationalStudentId} n’a pas le champ date de naissance renseigné. Il est obligatoire pour chaque élève.",
       "empty": "Les élèves doivent posséder un INE ainsi qu'une classe.",
       "encoding-not-supported": "Encodage du fichier non supporté.",
       "ine-required": "Le champ INE est obligatoire pour chaque élève.",
       "ine-unique": "L’INE {nationalStudentId} est présent plusieurs fois dans le fichier pour plusieurs élèves.",
+      "invalid-birthdate-format": "L’élève ayant pour INE {nationalStudentId} n'a pas le bon format de date de naissance. Il doit être au format 'DD/MM/YYYY'",
       "invalid-file": "Le fichier n’est pas conforme.",
       "invalid-file-extension": "Extension {fileExtension} non supportée.",
       "payload-too-large": "La taille du fichier doit être inférieure à {maxSize}Mo.",

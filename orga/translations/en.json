@@ -40,10 +40,12 @@
     },
     "student-xml-import": {
       "birth-city-code-required-for-french-student": "Student with {nationalStudentId} INE has no birth city code filled out. This field is mandatory for each student born in France.",
+      "birthdate-required": "Student with {nationalStudentId} INE has no date of birth filled out. This field is mandatory for each student.",
       "empty": "Each student must have an INE and a class.",
       "encoding-not-supported": "File encoding not supported.",
       "ine-required": "INE is mandatory for each student.",
       "ine-unique": "The INE {nationalStudentId} is repeated several times within the file for several students.",
+      "invalid-birthdate-format": "Student with {nationalStudentId} INE has the wrong date of birth format. It must be in 'DD/MM/YYYY' format.",
       "invalid-file": "File does not match the requirements.",
       "invalid-file-extension": "File with extension {fileExtension} not supported.",
       "payload-too-large": "The file must be less than {maxSize}MB.",
