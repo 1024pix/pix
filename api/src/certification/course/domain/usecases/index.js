@@ -8,6 +8,7 @@ import * as assessmentResultRepository from '../../../../shared/infrastructure/r
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as courseAssessmentResultRepository from '../../infrastructure/repositories/course-assessment-result-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 
@@ -20,6 +21,7 @@ import * as scoCertificationCandidateRepository from '../../infrastructure/repos
  * @typedef {certificationResultRepository} CertificationResultRepository
  * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
+ * @typedef {certificateRepository} CertificateRepository
  **/
 const dependencies = {
   assessmentResultRepository,
@@ -28,6 +30,7 @@ const dependencies = {
   certificationCourseRepository,
   certificationResultRepository,
   scoCertificationCandidateRepository,
+  certificateRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -42,11 +45,9 @@ const usecasesWithoutInjectedDependencies = {
     path: join(path, './'),
     ignoredFileNames: [
       'index.js',
-      'find-certification-attestations-for-division.js',
-      'get-certification-attestation.js',
-      'get-certification-attestations-for-session.js',
       'get-next-challenge-for-v2-certification.js',
       'get-next-challenge-for-v3-certification.js',
+      'get-next-challenge-for-certification.js',
       'get-session-certification-reports.js',
       'get-v3-certification-course-details-for-administration.js',
     ],
