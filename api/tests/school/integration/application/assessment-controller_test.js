@@ -4,7 +4,7 @@ import { usecases } from '../../../../src/school/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Integration | Controller | assessment-controller', function () {
-  describe('#createForPix1d', function () {
+  describe('#create', function () {
     it('should call the expected usecase and return the serialized assessment', async function () {
       const missionId = 'mission-id';
       const assessmentId = 1234;
@@ -17,12 +17,12 @@ describe('Integration | Controller | assessment-controller', function () {
         state: Assessment.states.STARTED,
       });
       sinon
-        .stub(usecases, 'createMissionAssessment')
+        .stub(usecases, 'getOrCreateAssessment')
         .withArgs({ missionId, organizationLearnerId: 34567 })
         .resolves(createdAssessment);
       const request = { payload: { missionId, learnerId: 34567 } };
 
-      const result = await assessmentController.createForPix1d(request, hFake);
+      const result = await assessmentController.create(request, hFake);
 
       expect(result.statusCode).to.be.equal(201);
       expect(result.source.data).to.deep.equal({

@@ -5,17 +5,18 @@ import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Router | assessment-router', function () {
   describe('GET /api/pix1d/assessments/{id}/next', function () {
-    it('should return 200', async function () {
+    it('should call getNextChallengeForPix1d', async function () {
       // given
-      sinon.stub(assessmentController, 'getNextChallengeForPix1d').returns('ok');
+      const getNextStub = sinon.stub(assessmentController, 'getNextChallengeForPix1d');
+      getNextStub.returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('GET', '/api/pix1d/assessments/1/next');
+      await httpTestServer.request('GET', '/api/pix1d/assessments/1/next');
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(getNextStub).to.have.been.called;
     });
 
     it('should return 400', async function () {
@@ -33,20 +34,21 @@ describe('Unit | Application | Router | assessment-router', function () {
   });
 
   describe('POST /api/pix1d/assessments', function () {
-    it('should return 200', async function () {
+    it('should call create assessment', async function () {
       // given
-      sinon.stub(assessmentController, 'createForPix1d').callsFake((request, h) => h.response('ok').code(200));
+      const createStub = sinon.stub(assessmentController, 'create');
+      createStub.callsFake((request, h) => h.response('ok').code(201));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('POST', '/api/pix1d/assessments', {
+      await httpTestServer.request('POST', '/api/pix1d/assessments', {
         missionId: 'unMissionID',
         learnerId: 34567,
       });
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(createStub).to.have.been.called;
     });
   });
 
@@ -54,29 +56,31 @@ describe('Unit | Application | Router | assessment-router', function () {
     const method = 'GET';
     const url = '/api/pix1d/assessments/1';
 
-    it('should return 200', async function () {
-      sinon.stub(assessmentController, 'getById').callsFake((request, h) => h.response('ok').code(200));
+    it('should call get assessment by id', async function () {
+      const getAssessmentStub = sinon.stub(assessmentController, 'getById');
+      getAssessmentStub.callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request(method, url);
+      await httpTestServer.request(method, url);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(getAssessmentStub).to.have.been.called;
     });
   });
 
   describe('GET /api/pix1d/assessments/{id}/current-activity', function () {
-    it('should return 200', async function () {
-      sinon.stub(assessmentController, 'getCurrentActivity').returns('ok');
+    it('should get current activity', async function () {
+      const getCurrentActivityStub = sinon.stub(assessmentController, 'getCurrentActivity');
+      getCurrentActivityStub.returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
       const assessmentId = '12345678';
 
-      const response = await httpTestServer.request('GET', `/api/pix1d/assessments/${assessmentId}/current-activity`);
+      await httpTestServer.request('GET', `/api/pix1d/assessments/${assessmentId}/current-activity`);
 
-      expect(response.statusCode).to.equal(200);
+      expect(getCurrentActivityStub).to.have.been.called;
     });
   });
 });
