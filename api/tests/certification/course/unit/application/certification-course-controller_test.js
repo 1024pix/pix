@@ -2,13 +2,12 @@ import { CertificationCourseRejected } from '../../../../../lib/domain/events/Ce
 import { CertificationCourseUnrejected } from '../../../../../lib/domain/events/CertificationCourseUnrejected.js';
 import { certificationCourseController } from '../../../../../src/certification/course/application/certification-course-controller.js';
 import { usecases } from '../../../../../src/certification/course/domain/usecases/index.js';
-import { usecases as sharedUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
   describe('reject', function () {
     it('should call the rejectCertificationCourse usecase', async function () {
-      const rejectCertificationCourse = sinon.stub(sharedUsecases, 'rejectCertificationCourse');
+      const rejectCertificationCourse = sinon.stub(usecases, 'rejectCertificationCourse');
       const certificationCourseId = 12;
       const juryId = 456;
       const events = { eventDispatcher: { dispatch: sinon.stub() } };

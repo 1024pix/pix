@@ -49,7 +49,6 @@ const usecasesWithoutInjectedDependencies = {
       'get-next-challenge-for-v3-certification.js',
       'get-session-certification-reports.js',
       'get-v3-certification-course-details-for-administration.js',
-      'reject-certification-course.js',
     ],
   })),
 };
