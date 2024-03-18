@@ -1,5 +1,6 @@
 import { Assessment } from '../../../../../lib/domain/models/index.js';
-import { createServer, databaseBuilder, expect } from '../../../../test-helper.js';
+import { createServer, databaseBuilder, expect, knex, mockLearningContent } from '../../../../test-helper.js';
+import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 
 describe('Acceptance | Controller | assessment-controller', function () {
   let server;
@@ -52,6 +53,96 @@ describe('Acceptance | Controller | assessment-controller', function () {
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result.data.id).to.equal(activityId.toString());
+      });
+    });
+  });
+
+  describe('POST /api/pix1d/assessments', function () {
+    context('when there is no assessment in progress for current organization-learner and given mission', function () {
+      afterEach(async function () {
+        await knex('mission-assessments').truncate();
+      });
+
+      it('should create a mission-assessment and return it', async function () {
+        const learner = databaseBuilder.factory.buildOrganizationLearner();
+        databaseBuilder.commit();
+
+        const mission = learningContentBuilder.buildMission();
+
+        const learningContent = {
+          missions: [mission],
+        };
+
+        mockLearningContent(learningContent);
+
+        const postAssessmentRequest = {
+          method: 'POST',
+          url: `/api/pix1d/assessments`,
+          payload: {
+            missionId: `${mission.id}`,
+            learnerId: learner.id,
+          },
+        };
+
+        // when
+        const response = await server.inject(postAssessmentRequest);
+
+        const lastMissionAssessment = await knex('mission-assessments').select().orderBy('assessmentId').first();
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(response.result.data).to.deep.equal({
+          attributes: {
+            'mission-id': `${mission.id}`,
+            'organization-learner-id': learner.id,
+            state: 'started',
+          },
+          id: `${lastMissionAssessment.assessmentId}`,
+          type: 'assessments',
+        });
+      });
+    });
+
+    context('when there is an assessment in progress for given organization-learner and mission', function () {
+      it('should retrieve the mission-assessment and return it', async function () {
+        const mission = learningContentBuilder.buildMission();
+
+        const learningContent = {
+          missions: [mission],
+        };
+
+        mockLearningContent(learningContent);
+
+        const learner = databaseBuilder.factory.buildOrganizationLearner();
+        const missionAssessment = databaseBuilder.factory.buildMissionAssessment({
+          organizationLearnerId: learner.id,
+          missionId: mission.id,
+        });
+        await databaseBuilder.commit();
+
+        const postAssessmentRequest = {
+          method: 'POST',
+          url: `/api/pix1d/assessments`,
+          payload: {
+            missionId: `${mission.id}`,
+            learnerId: learner.id,
+          },
+        };
+
+        // when
+        const response = await server.inject(postAssessmentRequest);
+
+        // then
+        expect(response.result.data).to.deep.equal({
+          attributes: {
+            'mission-id': `${mission.id}`,
+            'organization-learner-id': learner.id,
+            state: 'started',
+          },
+          id: `${missionAssessment.assessmentId}`,
+          type: 'assessments',
+        });
+        expect(response.statusCode).to.equal(201);
       });
     });
   });
