@@ -15,28 +15,28 @@ module('Integration | Component | Auth::JoinRequestForm', function (hooks) {
     [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
       test(`it should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
         // given
-        await render(hbs`<Auth::JoinRequestForm />`);
+        const screen = await render(hbs`<Auth::JoinRequestForm />`);
 
         // when
         await fillByLabel('Votre prénom', stringFilledIn);
         await triggerEvent('#firstName', 'focusout');
 
         // then
-        assert.contains(EMPTY_FIRSTNAME_ERROR_MESSAGE);
+        assert.ok(screen.getByText(EMPTY_FIRSTNAME_ERROR_MESSAGE));
       });
     });
 
     [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
       test(`it should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
         // given
-        await render(hbs`<Auth::JoinRequestForm />`);
+        const screen = await render(hbs`<Auth::JoinRequestForm />`);
 
         // when
         await fillByLabel('Votre nom', stringFilledIn);
         await triggerEvent('#lastName', 'focusout');
 
         // then
-        assert.contains(EMPTY_LASTNAME_ERROR_MESSAGE);
+        assert.ok(screen.getByText(EMPTY_LASTNAME_ERROR_MESSAGE));
       });
     });
   });

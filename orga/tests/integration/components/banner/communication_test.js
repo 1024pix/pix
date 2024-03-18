@@ -34,10 +34,10 @@ module('Integration | Component | Banner::Communication', function (hooks) {
     ENV.APP.BANNER_TYPE = 'information';
 
     // when
-    await render(hbs`<Banner::Communication />`);
+    const screen = await render(hbs`<Banner::Communication />`);
 
     // then
     assert.dom('.pix-banner--information').exists();
-    assert.contains('information banner text ...');
+    assert.ok(screen.getByText('information banner text ...'));
   });
 });

@@ -1,4 +1,4 @@
-import { clickByName, clickByText, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { clickByName, clickByText, fillByLabel, visit, within } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
@@ -51,20 +51,20 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
     module('filters', function () {
       test('it filters students by group', async function (assert) {
         // given
-        const { getByPlaceholderText, findByRole } = await visit('/etudiants');
+        const screen = await visit('/etudiants');
 
         // when
 
-        const select = await getByPlaceholderText('Rechercher par groupe');
+        const select = await screen.getByRole('textbox', { name: 'Entrer un groupe' });
         await click(select);
 
-        await findByRole('menu');
+        await screen.findByRole('menu');
 
         await clickByName('L1');
 
         // then
-        assert.notContains('toto');
-        assert.contains('tata');
+        assert.notOk(screen.queryByText('toto'));
+        assert.ok(screen.getByText('tata'));
       });
 
       test('it filters by certificability', async function (assert) {
@@ -74,10 +74,12 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
         server.create('organization-participant', { organizationId, firstName: 'Jean', lastName: 'Charles' });
 
         await authenticateSession(user.id);
-        const { getByLabelText } = await visit('/etudiants');
+        const screen = await visit('/etudiants');
 
         // when
-        const select = getByLabelText(this.intl.t('pages.sup-organization-participants.filter.certificability.label'));
+        const select = screen.getByRole('textbox', {
+          name: this.intl.t('pages.sup-organization-participants.filter.certificability.label'),
+        });
         await click(select);
         await clickByText(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
 
@@ -98,40 +100,40 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
     module('And edit the student number', function () {
       test('it should update the student number', async function (assert) {
         // given
-        const { getAllByRole, findByRole } = await visit('/etudiants');
+        const screen = await visit('/etudiants');
 
         // when
-        const actions = getAllByRole('button', { name: 'Afficher les actions' });
+        const actions = screen.getAllByRole('button', { name: 'Afficher les actions' });
 
         await click(actions[0]);
         await clickByName('Éditer le numéro étudiant');
 
-        await findByRole('dialog');
+        await screen.findByRole('dialog');
 
         await fillByLabel('Nouveau numéro étudiant', '1234');
         await clickByName('Mettre à jour');
 
         // then
-        assert.contains('1234');
+        assert.ok(screen.getByText('1234'));
       });
 
       test('it should not update the student number if exists', async function (assert) {
         // given
-        const { getAllByRole, findByRole } = await visit('/etudiants');
+        const screen = await visit('/etudiants');
 
         // when
-        const actions = getAllByRole('button', { name: 'Afficher les actions' });
+        const actions = screen.getAllByRole('button', { name: 'Afficher les actions' });
 
         await click(actions[0]);
         await clickByName('Éditer le numéro étudiant');
 
-        await findByRole('dialog');
+        const modal = await screen.findByRole('dialog');
 
         await fillByLabel('Nouveau numéro étudiant', '321');
         await clickByName('Mettre à jour');
 
         // then
-        assert.contains('123');
+        assert.ok(within(modal).getByText('123'));
       });
     });
   });

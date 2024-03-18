@@ -34,7 +34,7 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       },
     ]);
 
-    await render(
+    const screen = await render(
       hbs`<Campaign::Activity::ParticipantsList
   @campaign={{this.campaign}}
   @participations={{this.participations}}
@@ -43,10 +43,10 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
 />`,
     );
 
-    assert.contains('Joe');
-    assert.contains('La frite');
-    assert.contains('patate');
-    assert.contains("En attente d'envoi");
+    assert.ok(screen.getByText('Joe'));
+    assert.ok(screen.getByText('La frite'));
+    assert.ok(screen.getByText('patate'));
+    assert.ok(screen.getAllByText("En attente d'envoi"));
   });
 
   test('it should link to the last shared or current campaign participation details', async function (assert) {
@@ -110,8 +110,8 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
 />`,
     );
 
-    assert.dom(screen.getByText(this.intl.t('pages.campaign-activity.table.column.participationCount'))).exists();
-    assert.dom(screen.getByText('2')).exists();
+    assert.ok(screen.getByText(this.intl.t('pages.campaign-activity.table.column.participationCount')));
+    assert.ok(screen.getByText('2'));
   });
 
   test('it should hide participation column when showParticipationCount is false', async function (assert) {
@@ -165,13 +165,11 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
 />`,
     );
 
-    assert
-      .dom(
-        screen.getByLabelText(
-          this.intl.t('pages.campaign-activity.table.see-results', { firstName: 'Joe', lastName: 'La frite' }),
-        ),
-      )
-      .exists();
+    assert.ok(
+      screen.getByLabelText(
+        this.intl.t('pages.campaign-activity.table.see-results', { firstName: 'Joe', lastName: 'La frite' }),
+      ),
+    );
   });
 
   module('#deleteParticipation', function () {
@@ -192,14 +190,14 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
           },
         ];
 
-        await render(hbs`<Campaign::Activity::ParticipantsList
+        const screen = await render(hbs`<Campaign::Activity::ParticipantsList
   @campaign={{this.campaign}}
   @participations={{this.participations}}
   @onClickParticipant={{this.noop}}
   @onFilter={{this.noop}}
 />`);
 
-        assert.dom('[aria-label="Supprimer la participation"]').exists();
+        assert.ok(screen.getByRole('button', { name: 'Supprimer la participation' }));
       });
     });
 
@@ -221,14 +219,14 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
           },
         ];
 
-        await render(hbs`<Campaign::Activity::ParticipantsList
+        const screen = await render(hbs`<Campaign::Activity::ParticipantsList
   @campaign={{this.campaign}}
   @participations={{this.participations}}
   @onClickParticipant={{this.noop}}
   @onFilter={{this.noop}}
 />`);
 
-        assert.dom('[aria-label="Supprimer la participation"]').exists();
+        assert.ok(screen.getByRole('button', { name: 'Supprimer la participation' }));
       });
     });
 
@@ -250,14 +248,14 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
           },
         ];
 
-        await render(hbs`<Campaign::Activity::ParticipantsList
+        const screen = await render(hbs`<Campaign::Activity::ParticipantsList
   @campaign={{this.campaign}}
   @participations={{this.participations}}
   @onClickParticipant={{this.noop}}
   @onFilter={{this.noop}}
 />`);
 
-        assert.dom('[aria-label="Supprimer la participation"]').doesNotExist();
+        assert.notOk(screen.queryByRole('button', { name: 'Supprimer la participation' }));
       });
     });
   });

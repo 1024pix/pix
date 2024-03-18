@@ -47,33 +47,36 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
 
   test('it should display participants number', async function (assert) {
     // then
-    assert.contains('0 participant');
-    assert.contains('5 participants');
+    assert.ok(screen.getByText('0 participant'));
+    assert.ok(screen.getByText('5 participants'));
   });
 
   test('it should display participants percentage by stages', async function (assert) {
     // then
-    assert.contains('0 %');
-    assert.contains('100 %');
+    assert.ok(screen.getByText('0 %'));
+    assert.ok(screen.getByText('100 %'));
   });
 
   test('should render a screen reader message', async function (assert) {
     // then
-    assert.dom(screen.getByText('0 étoile sur 1')).exists();
-    assert.dom(screen.getByText('1 étoile sur 1')).exists();
+    assert.ok(screen.getByText('0 étoile sur 1'));
+    assert.ok(screen.getByText('1 étoile sur 1'));
   });
 
   test('it should not display empty tooltip', async function (assert) {
     // then
-    assert.dom('[role="tooltip"]').doesNotExist();
+    assert.notOk(screen.queryByRole('tooltip'));
   });
 
   test('it should call onSelectStage when user click on a bar', async function (assert) {
     // when
-    await click('[role=button]');
+
+    // click on the first stage bar
+    await click(screen.getAllByRole('button')[0]);
+
     // then
-    assert.dom('[role=button]').exists();
     sinon.assert.calledWith(onSelectStage, 100498);
+    assert.ok(true);
   });
 
   module('when there is tooltip info', function () {
@@ -92,16 +95,16 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
         });
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{this.campaignId}} @onSelectStage={{this.onSelectStage}} />`,
         );
 
         // then
-        assert.dom('[role="tooltip"]').exists();
-        assert.contains('title1');
-        assert.contains('description1');
-        assert.contains('title2');
-        assert.contains('description2');
+        assert.ok(screen.getByText('title1'));
+        assert.ok(screen.getByText('description1'));
+
+        assert.ok(screen.getByText('title2'));
+        assert.ok(screen.getByText('description2'));
       });
     });
 
@@ -117,13 +120,13 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
         });
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{this.campaignId}} @onSelectStage={{this.onSelectStage}} />`,
         );
 
         // then
         assert.dom('[role="tooltip"]').exists();
-        assert.contains('title1');
+        assert.ok(screen.getByText('title1'));
       });
     });
 
@@ -145,7 +148,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
 
         // then
         assert.dom('[role="tooltip"]').exists();
-        assert.contains('description1');
+        assert.ok(screen.getByText('description1'));
       });
     });
   });
