@@ -508,6 +508,7 @@
       "table": {
         "title": "List of submitted results",
         "column": {
+          "ariaSharedResultCount": "Number of sent results",
           "badges": "Thematic results",
           "first-name": "First name",
           "last-name": "Last name",
@@ -515,7 +516,8 @@
             "label": "Success rate",
             "on-hold": "Pending",
             "under-test": "Test in progress"
-          }
+          },
+          "sharedResultCount": "No of sent results"
         },
         "empty": "No participants",
         "row-title": "Participant"

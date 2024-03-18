@@ -14,6 +14,7 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentPart
         totalStage: 6,
         prescriberTitle: 'titre prescripteur',
         prescriberDescription: 'description prescripteur',
+        sharedResultCount: 3,
       });
 
       expect(campaignAssessmentParticipationResultMinimal).to.deep.equal({
@@ -27,6 +28,7 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentPart
         totalStage: 6,
         prescriberTitle: 'titre prescripteur',
         prescriberDescription: 'description prescripteur',
+        sharedResultCount: 3,
       });
     });
   });

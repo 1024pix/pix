@@ -16,6 +16,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
           totalStage: 6,
           prescriberTitle: 'titre prescripteur 1',
           prescriberDescription: 'description prescripteur 1',
+          sharedResultCount: 0,
         },
         {
           campaignParticipationId: '2',
@@ -28,6 +29,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
           prescriberTitle: null,
           prescriberDescription: null,
           badges: [domainBuilder.buildBadge({ id: 1, title: 'b1', imageUrl: 'http://toto.svg', altMessage: 'alt' })],
+          sharedResultCount: 0,
         },
       ];
       const pagination = {
@@ -53,6 +55,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
               'total-stage': 6,
               'prescriber-title': 'titre prescripteur 1',
               'prescriber-description': 'description prescripteur 1',
+              'shared-result-count': 0,
             },
           },
           {
@@ -67,6 +70,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
               'total-stage': null,
               'prescriber-title': null,
               'prescriber-description': null,
+              'shared-result-count': 0,
             },
             relationships: {
               badges: {
