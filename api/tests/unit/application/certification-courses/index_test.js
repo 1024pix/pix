@@ -97,7 +97,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
     });
   });
 
-  describe('PATCH /api/certification-courses/id', function () {
+  describe('PATCH /api/admin/certification-courses/{certificationCourseId}', function () {
     it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
@@ -106,7 +106,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('PATCH', '/api/certification-courses/1234');
+      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1234');
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -132,7 +132,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('PATCH', '/api/certification-courses/1234');
+      const response = await httpTestServer.request('PATCH', '/api/admin/certification-courses/1234');
 
       // then
       expect(response.statusCode).to.equal(403);
