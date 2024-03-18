@@ -17,13 +17,11 @@ function _toDomain(data, locale) {
     thematicId: data.thematicId,
     learningObjectives: translatedLearningObjectives,
     validatedObjectives: translatedValidatedObjectives,
-    status: data.status,
   });
 }
 
 async function get(id, locale = { locale: FRENCH_FRANCE }) {
   try {
-    // Les missions sont stockées en tant que thématiques dans PixEditor :)
     const missionData = await missionDatasource.get(id);
     return _toDomain(missionData, locale);
   } catch (error) {
@@ -31,9 +29,10 @@ async function get(id, locale = { locale: FRENCH_FRANCE }) {
   }
 }
 
-async function findAllMissions(locale = { locale: FRENCH_FRANCE }) {
-  const missionDataList = await missionDatasource.list();
-  return missionDataList.map((missionData) => _toDomain(missionData, locale));
+async function findAllActiveMissions(locale = { locale: FRENCH_FRANCE }) {
+  const allMissions = await missionDatasource.list();
+  const allActiveMissions = allMissions.filter((mission) => mission.status === 'ACTIVE');
+  return allActiveMissions.map((missionData) => _toDomain(missionData, locale));
 }
 
-export { findAllMissions, get };
+export { findAllActiveMissions, get };
