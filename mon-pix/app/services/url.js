@@ -1,7 +1,6 @@
 import Service, { inject as service } from '@ember/service';
 import ENV from 'mon-pix/config/environment';
 
-const FRENCH_INTERNATIONAL_LOCALE = 'fr';
 const ENGLISH_INTERNATIONAL_LOCALE = 'en';
 const DUTCH_INTERNATIONAL_LOCALE = 'nl';
 
@@ -54,27 +53,21 @@ export default class Url extends Service {
     }
   }
 
-  get _showcaseWebsiteUrl() {
-    const currentLanguage = this.intl.primaryLocale;
-
-    if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
-      return `https://pix.${this.currentDomain.getExtension()}/en-gb`;
-    }
-    return `https://pix.${this.currentDomain.getExtension()}`;
-  }
-
-  get _showcaseWebsiteLinkText() {
-    return this.intl.t('navigation.showcase-homepage', { tld: this.currentDomain.getExtension() });
-  }
-
   get accessibilityUrl() {
     const currentLanguage = this.intl.primaryLocale;
+
     if (this.currentDomain.isFranceDomain) {
       return `https://pix.fr/accessibilite`;
     }
-    return currentLanguage === FRENCH_INTERNATIONAL_LOCALE
-      ? `https://pix.org/fr/accessibilite`
-      : `https://pix.org/en-gb/accessibility`;
+
+    switch (currentLanguage) {
+      case ENGLISH_INTERNATIONAL_LOCALE:
+        return 'https://pix.org/en-gb/accessibility';
+      case DUTCH_INTERNATIONAL_LOCALE:
+        return 'https://pix.org/nl-be/toegankelijkheid';
+      default:
+        return 'https://pix.org/fr/accessibilite';
+    }
   }
 
   get accessibilityHelpUrl() {
@@ -88,10 +81,18 @@ export default class Url extends Service {
   get supportHomeUrl() {
     const currentLanguage = this.intl.primaryLocale;
 
-    if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
-      return 'https://support.pix.org/en/support/home';
+    if (this.currentDomain.isFranceDomain) {
+      return 'https://support.pix.org/fr/support/home';
     }
-    return 'https://support.pix.org/fr/support/home';
+
+    switch (currentLanguage) {
+      case ENGLISH_INTERNATIONAL_LOCALE:
+        return 'https://support.pix.org/en/support/home';
+      case DUTCH_INTERNATIONAL_LOCALE:
+        return 'https://pix.org/nl-be/support';
+      default:
+        return 'https://support.pix.org/fr/support/home';
+    }
   }
 
   get levelSevenNewsUrl() {
@@ -101,5 +102,18 @@ export default class Url extends Service {
       return 'https://pix.org/en/news/discover-level-7-on-pix';
     }
     return 'https://pix.fr/actualites/decouvrez-le-niveau-7-des-maintenant-sur-pix';
+  }
+
+  get _showcaseWebsiteUrl() {
+    const currentLanguage = this.intl.primaryLocale;
+
+    if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
+      return `https://pix.${this.currentDomain.getExtension()}/en-gb`;
+    }
+    return `https://pix.${this.currentDomain.getExtension()}`;
+  }
+
+  get _showcaseWebsiteLinkText() {
+    return this.intl.t('navigation.showcase-homepage', { tld: this.currentDomain.getExtension() });
   }
 }
