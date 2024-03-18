@@ -615,6 +615,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               status: status.REJECTED,
               assessmentId: certificationAssessment.id,
               emitter: AssessmentResult.emitters.PIX_ALGO,
+              commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
+                commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
+              }),
+              commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+                commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
+              }),
             });
 
             expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
