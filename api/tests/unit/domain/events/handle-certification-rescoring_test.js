@@ -125,7 +125,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 2;
-          const scoreForEstimatedLevel = 592;
+          const scoreForEstimatedLevel = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
@@ -243,7 +243,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 2;
-          const scoreForEstimatedLevel = 592;
+          const scoreForEstimatedLevel = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
@@ -375,7 +375,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 2;
-          const rawScore = 592;
+          const rawScore = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
@@ -494,7 +494,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         const answers = generateAnswersForChallenges({ challenges });
 
         const expectedEstimatedLevel = 2;
-        const scoreForEstimatedLevel = 592;
+        const scoreForEstimatedLevel = 640;
         const { certificationCourseId } = certificationAssessment;
 
         const capacityHistory = [
@@ -622,7 +622,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 2;
-          const scoreForEstimatedLevel = 592;
+          const scoreForEstimatedLevel = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [

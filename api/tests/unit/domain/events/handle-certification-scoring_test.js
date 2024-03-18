@@ -413,7 +413,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           it('should reject the certification', async function () {
             // given
             const expectedEstimatedLevel = 2;
-            const scoreForEstimatedLevel = 592;
+            const scoreForEstimatedLevel = 640;
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
               id: certificationCourseId,
               createdAt: certificationCourseStartDate,
@@ -534,7 +534,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             // given
             const abortReason = ABORT_REASONS.TECHNICAL;
             const expectedEstimatedLevel = 2;
-            const scoreForEstimatedLevel = 592;
+            const scoreForEstimatedLevel = 640;
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
               id: certificationCourseId,
               createdAt: certificationCourseStartDate,
@@ -668,7 +668,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           it('should build and save an assessment result with a validated status', async function () {
             // given
             const expectedEstimatedLevel = 2;
-            const scoreForEstimatedLevel = 592;
+            const scoreForEstimatedLevel = 640;
             const challenges = _generateCertificationChallengeForScoringList({ length: maximumAssessmentLength });
             const answers = generateAnswersForChallenges({ challenges });
             const assessmentResultId = 123;
@@ -875,7 +875,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             it('should build and save an assessment result with a validated status with the raw score', async function () {
               // given
               const expectedEstimatedLevel = 2;
-              const rawScore = 592;
+              const rawScore = 640;
               const challenges = _generateCertificationChallengeForScoringList({
                 length: minimumAnswersRequiredToValidateACertification,
               });
@@ -987,7 +987,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             it('should build and save an assessment result with a validated status', async function () {
               // given
               const expectedEstimatedLevel = 2;
-              const pixScore = 592;
+              const pixScore = 640;
               const challenges = _generateCertificationChallengeForScoringList({
                 length: minimumAnswersRequiredToValidateACertification,
               });
