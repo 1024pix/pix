@@ -388,7 +388,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
         });
       });
 
-      context('when an organizationLearneris present twice in the file', function () {
+      context('when an organizationLearner is present twice in the file', function () {
         beforeEach(async function () {
           // given
           const organizationLearner1 =
@@ -463,7 +463,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
         });
       });
 
-      context('when an organizationLearnercant be updated', function () {
+      context('when an organizationLearner cant be updated', function () {
         beforeEach(async function () {
           // given
           const organizationLearnerThatCantBeUpdatedBecauseBirthdateIsMissing =
@@ -554,18 +554,18 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
           await databaseBuilder.commit();
         });
 
-        it('should not update any organizationLearner and return a 400 - Bad Request', async function () {
+        it('should not update any organizationLearner and return a 412 - Precondition Failed', async function () {
           // when
           const response = await server.inject(options);
 
           // then
           const organizationLearners = await knex('organization-learners').where({ organizationId });
           expect(_.map(organizationLearners, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
-          expect(response.statusCode).to.equal(400);
+          expect(response.statusCode).to.equal(412);
         });
       });
 
-      context('when an organizationLearnercant be updated but another could be created', function () {
+      context('when an organizationLearner cant be updated but another could be created', function () {
         beforeEach(async function () {
           // given
           const organizationLearnerThatCouldBeCreated =
@@ -668,7 +668,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
           await databaseBuilder.commit();
         });
 
-        it('should not update and create anyone, and return a 400 - Bad Request', async function () {
+        it('should not update and create anyone, and return a 412 - Precondition Failed', async function () {
           // when
           const response = await server.inject(options);
 
@@ -676,11 +676,11 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
           const organizationLearners = await knex('organization-learners').where({ organizationId });
           expect(organizationLearners).to.have.lengthOf(2);
           expect(_.map(organizationLearners, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
-          expect(response.statusCode).to.equal(400);
+          expect(response.statusCode).to.equal(412);
         });
       });
 
-      context('when an organizationLearnercant be created but another could be updated', function () {
+      context('when an organizationLearner cant be created but another could be updated', function () {
         beforeEach(async function () {
           // given
           const organizationLearnerThatCantBeCreatedBecauseBirthdateIsMissing =
@@ -783,7 +783,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
           await databaseBuilder.commit();
         });
 
-        it('should not update and create anyone, and return a 400 - Bad Request', async function () {
+        it('should not update and create anyone, and return a 412 - Precondition Failed', async function () {
           // when
           const response = await server.inject(options);
 
@@ -791,7 +791,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
           const organizationLearners = await knex('organization-learners').where({ organizationId });
           expect(organizationLearners).to.have.lengthOf(1);
           expect(_.map(organizationLearners, 'lastName')).to.have.members(['LALOUX']);
-          expect(response.statusCode).to.equal(400);
+          expect(response.statusCode).to.equal(412);
         });
       });
 
@@ -828,14 +828,14 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
           options.payload = malformedStudentsBuffer;
         });
 
-        it('should not import the organizationLearner and return a 400 - Bad Request', async function () {
+        it('should not import the organizationLearner and return a 412 - Precondition Failed', async function () {
           // when
           const response = await server.inject(options);
 
           // then
           const organizationLearners = await knex('organization-learners').where({ organizationId });
           expect(organizationLearners).to.have.lengthOf(0);
-          expect(response.statusCode).to.equal(400);
+          expect(response.statusCode).to.equal(412);
         });
       });
 
