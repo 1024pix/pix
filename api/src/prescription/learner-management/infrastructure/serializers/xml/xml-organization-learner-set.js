@@ -44,6 +44,7 @@ class XMLOrganizationLearnersSet {
     const errors = [];
     const nationalStudentId = _getValueFromParsedElement(xmlNode.ID_NATIONAL);
     const sexCode = _getValueFromParsedElement(xmlNode.CODE_SEXE);
+    const birthdate = _getValueFromParsedElement(xmlNode.DATE_NAISS);
     const birthCountryCode = _getValueFromParsedElement(xmlNode.CODE_PAYS);
     const birthCityCode = _getValueFromParsedElement(xmlNode.CODE_COMMUNE_INSEE_NAISS);
 
@@ -54,6 +55,9 @@ class XMLOrganizationLearnersSet {
     }
     if (isEmpty(sexCode)) {
       errors.push(new SiecleXmlImportError(SIECLE_ERRORS.SEX_CODE_REQUIRED, { nationalStudentId }));
+    }
+    if (isEmpty(birthdate)) {
+      errors.push(new SiecleXmlImportError(SIECLE_ERRORS.BIRTHDATE_REQUIRED, { nationalStudentId }));
     }
     if (isEmpty(nationalStudentId)) {
       errors.push(new SiecleXmlImportError(SIECLE_ERRORS.INE_REQUIRED));
