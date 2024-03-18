@@ -231,6 +231,40 @@ describe('Integration | Serializers | siecle-parser', function () {
         expect(errors.meta[0].meta).to.contains({ nationalStudentId: nationalStudentIdFromFile });
       });
 
+      it('should abort parsing and reject with missing birthdate ', async function () {
+        // given
+        const nationalStudentIdFromFile = '12345';
+        const path = `${fixturesDirPath}/siecle-file/siecle-student-with-no-birthdate.xml`;
+        const readableStream = fs.createReadStream(path);
+
+        // when
+        const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
+        const parser = SiecleParser.create(siecleFileStreamer);
+        const errors = await catchErr(() => parser.parse())();
+
+        //then
+        expect(errors.meta[0]).to.be.instanceof(SiecleXmlImportError);
+        expect(errors.meta[0].code).to.be.equal(SIECLE_ERRORS.BIRTHDATE_REQUIRED);
+        expect(errors.meta[0].meta).to.contains({ nationalStudentId: nationalStudentIdFromFile });
+      });
+
+      it('should abort parsing and reject with invalid birthdate format ', async function () {
+        // given
+        const nationalStudentIdFromFile = '12345';
+        const path = `${fixturesDirPath}/siecle-file/siecle-student-with-invalid-birthdate-format.xml`;
+        const readableStream = fs.createReadStream(path);
+
+        // when
+        const siecleFileStreamer = await SiecleFileStreamer.create(readableStream);
+        const parser = SiecleParser.create(siecleFileStreamer);
+        const errors = await catchErr(() => parser.parse())();
+
+        //then
+        expect(errors.meta[0]).to.be.instanceof(SiecleXmlImportError);
+        expect(errors.meta[0].code).to.be.equal(SIECLE_ERRORS.INVALID_BIRTHDATE_FORMAT);
+        expect(errors.meta[0].meta).to.contains({ nationalStudentId: nationalStudentIdFromFile });
+      });
+
       it('should abort parsing and reject multiple error', async function () {
         // given
         const path = `${fixturesDirPath}/siecle-file/siecle-student-with-no-sex-no-birthdate.xml`;
