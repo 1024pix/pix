@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { skillDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
+import { skillDatasource } from '../../../../../src/shared/infrastructure/datasources/learning-content/skill-datasource.js';
 import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../../../src/shared/infrastructure/repositories/competence-repository.js';
 

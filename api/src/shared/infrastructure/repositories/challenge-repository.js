@@ -4,11 +4,11 @@ import { config } from '../../../../lib/config.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Challenge } from '../../../../lib/domain/models/index.js';
 import * as skillAdapter from '../../../../lib/infrastructure/adapters/skill-adapter.js';
+import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
 import {
   challengeDatasource,
   skillDatasource,
-} from '../../../../lib/infrastructure/datasources/learning-content/index.js';
-import * as solutionAdapter from '../../../../src/shared/infrastructure/adapters/solution-adapter.js';
+} from '../../../../src/shared/infrastructure/datasources/learning-content/index.js';
 import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
 
 const get = async function (id) {
