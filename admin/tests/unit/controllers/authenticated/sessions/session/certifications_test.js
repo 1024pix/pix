@@ -14,40 +14,67 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
   });
 
   module('#canPublish', function () {
-    test('should be false when there is a certification in error', async function (assert) {
-      // given
-      controller.set('model', model);
-      controller.model.juryCertificationSummaries = [{ status: 'validated' }, { status: 'error' }];
+    module('when there is a certification in error and uncancelled', function () {
+      test('should not publish the session', async function (assert) {
+        // given
+        controller.set('model', model);
+        controller.model.isFinalized = true;
+        controller.model.juryCertificationSummaries = [
+          { status: 'validated' },
+          { status: 'error', isCancelled: false },
+        ];
 
-      // when
-      const result = controller.canPublish;
+        // when
+        const result = controller.canPublish;
 
-      // then
-      assert.false(result);
+        // then
+        assert.false(result);
+      });
     });
 
-    test('should be false when there is a certification started', async function (assert) {
-      // given
-      controller.set('model', model);
-      controller.model.juryCertificationSummaries = [{ status: 'rejected' }, { status: 'started' }];
+    module('when there is a certification in error and cancelled', function () {
+      test('should publish the session', async function (assert) {
+        // given
+        controller.set('model', model);
+        controller.model.isFinalized = true;
+        controller.model.juryCertificationSummaries = [{ status: 'validated' }, { status: 'error', isCancelled: true }];
 
-      // when
-      const result = controller.canPublish;
+        // when
+        const result = controller.canPublish;
 
-      // then
-      assert.false(result);
+        // then
+        assert.true(result);
+      });
     });
 
-    test('should be true when there is no certification in error orstarted', async function (assert) {
-      // given
-      controller.set('model', model);
-      controller.model.juryCertificationSummaries = [{ status: 'rejected' }, { status: 'validated' }];
+    module('when the session is not finalized', function () {
+      test('should not publish the session', async function (assert) {
+        // given
+        controller.set('model', model);
+        controller.model.isFinalized = false;
+        controller.model.juryCertificationSummaries = [{ status: 'started' }];
 
-      // when
-      const result = controller.canPublish;
+        // when
+        const result = controller.canPublish;
 
-      // then
-      assert.true(result);
+        // then
+        assert.false(result);
+      });
+    });
+
+    module('when there is no certification in error or started', function () {
+      test('should publish the session', async function (assert) {
+        // given
+        controller.set('model', model);
+        controller.model.isFinalized = true;
+        controller.model.juryCertificationSummaries = [{ status: 'validated' }, { status: 'rejected' }];
+
+        // when
+        const result = controller.canPublish;
+
+        // then
+        assert.true(result);
+      });
     });
   });
 
@@ -61,6 +88,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
         // given
         model.canPublish = true;
         model.isPublished = false;
+        model.isFinalized = true;
         model.juryCertificationSummaries = [{ status: 'validated' }];
 
         // when
@@ -76,6 +104,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       test('should update modal message to unpublish', async function (assert) {
         // given
         model.isPublished = true;
+        model.isFinalized = true;
         model.juryCertificationSummaries = [{ status: 'validated' }];
 
         // when
