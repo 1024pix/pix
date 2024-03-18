@@ -67,10 +67,10 @@
   }
 
   &--error {
-    background-color: #F1C4C3;
+    background-color: var(--pix-error-100);
 
     &::after {
-      border-color: transparent #F1C4C3;
+      border-color: transparent var(--pix-error-100);
     }
   }
 }
