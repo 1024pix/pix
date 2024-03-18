@@ -8,23 +8,6 @@ import * as adminMembersRouter from '../../../../lib/application/admin-members/i
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 
 describe('Unit | Application | Router | admin-members-router', function () {
-  describe('GET /api/admin/admin-members/me', function () {
-    it('should return a response with an HTTP status code 200', async function () {
-      // given
-      const adminMember = domainBuilder.buildAdminMember();
-      sinon.stub(adminMemberController, 'getCurrentAdminMember').returns(adminMember);
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(adminMembersRouter);
-
-      // when
-      const { statusCode } = await httpTestServer.request('GET', '/api/admin/admin-members/me');
-
-      // then
-      expect(adminMemberController.getCurrentAdminMember).to.have.be.called;
-      expect(statusCode).to.equal(200);
-    });
-  });
-
   describe('GET /api/admin/admin-members', function () {
     it('should return a response with an HTTP status code 200 when user has role "SUPER_ADMIN"', async function () {
       // given

@@ -380,6 +380,7 @@ const configuration = (function () {
       clientId: 'client',
       clientSecret: 'secret',
       isEnabled: true,
+      isEnabledForPixAdmin: true,
       openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
       organizationName: 'Oidc Example',
       postLogoutRedirectUri: 'https://app.dev.pix.local/connexion',

@@ -29,6 +29,18 @@ const register = async function (server) {
       path: '/api/admin/admin-members/me',
       config: {
         handler: adminMemberController.getCurrentAdminMember,
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
         notes: [
           "- **Cette route n'est pas restreinte**\n" +
             '- Récupération du membre admin pix courant ayant accès à Pix Admin\n',

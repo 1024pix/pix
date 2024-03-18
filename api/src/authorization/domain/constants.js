@@ -7,6 +7,7 @@ const PIX_ADMIN = {
     SUPPORT: 'SUPPORT',
   },
   SCOPE: 'pix-admin',
+  AUDIENCE: 'admin',
 };
 
 const PIX_ORGA = {
