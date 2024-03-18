@@ -1,8 +1,10 @@
 import { Correction } from '../../../../lib/domain/models/Correction.js';
-import { challengeDatasource } from '../../../../lib/infrastructure/datasources/learning-content/challenge-datasource.js';
-import { skillDatasource } from '../../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
 import * as correctionRepository from '../../../../lib/infrastructure/repositories/correction-repository.js';
 import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
+import {
+  challengeDatasource,
+  skillDatasource,
+} from '../../../../src/shared/infrastructure/datasources/learning-content/index.js';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { ChallengeLearningContentDataObjectFixture } from '../../../tooling/fixtures/infrastructure/challengeLearningContentDataObjectFixture.js';
 import { SkillLearningContentDataObjectFixture } from '../../../tooling/fixtures/infrastructure/skillLearningContentDataObjectFixture.js';

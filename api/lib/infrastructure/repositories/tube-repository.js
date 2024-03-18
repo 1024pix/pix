@@ -2,9 +2,11 @@ import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { getTranslatedKey } from '../../../src/shared/domain/services/get-translated-text.js';
+import {
+  skillDatasource,
+  tubeDatasource,
+} from '../../../src/shared/infrastructure/datasources/learning-content/index.js';
 import { Tube } from '../../domain/models/Tube.js';
-import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
-import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
 
 function _toDomain({ tubeData, locale }) {
   const translatedPracticalTitle = getTranslatedKey(tubeData.practicalTitle_i18n, locale);
