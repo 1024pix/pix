@@ -31,13 +31,13 @@ module('Integration | Component | Campaign::Charts::ParticipantsByDay', function
     });
 
     // when
-    await render(
+    const screen = await render(
       hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{this.campaignId}} @isTypeAssessment={{true}} />`,
     );
 
-    assert.contains('Date');
-    assert.contains('Total des participants');
-    assert.contains('Total des participants ayant envoyé leurs résultats');
+    assert.strictEqual(screen.getAllByText('Date').length, 2);
+    assert.ok(screen.getByText('Total des participants'));
+    assert.ok(screen.getByText('Total des participants ayant envoyé leurs résultats'));
   });
 
   test('it should display status for profile collection campaign', async function (assert) {
@@ -52,12 +52,12 @@ module('Integration | Component | Campaign::Charts::ParticipantsByDay', function
     });
 
     // when
-    await render(
+    const screen = await render(
       hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{this.campaignId}} @isTypeAssessment={{false}} />`,
     );
 
-    assert.contains('Date');
-    assert.contains('Total des participants');
-    assert.contains('Total des participants ayant envoyé leurs profils');
+    assert.strictEqual(screen.getAllByText('Date').length, 2);
+    assert.ok(screen.getByText('Total des participants'));
+    assert.ok(screen.getByText('Total des participants ayant envoyé leurs profils'));
   });
 });

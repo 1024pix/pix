@@ -111,8 +111,8 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
           // then
           assert.strictEqual(currentURL(), '/eleves?connectionTypes=%5B%22email%22%5D');
-          assert.contains('Rambo');
-          assert.notContains('Norris');
+          assert.ok(screen.getByText('Rambo'));
+          assert.notOk(screen.queryByText('Norris'));
         });
 
         module('when user select "Sans Mediacentre" in connection type filter', function () {
@@ -159,19 +159,19 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
             // then
             assert.strictEqual(currentURL(), '/eleves?connectionTypes=%5B%22without_mediacentre%22%5D');
-            assert.contains('Mikasa');
-            assert.notContains('Eren');
-            assert.notContains('Armin');
+            assert.ok(screen.getByText('Mikasa'));
+            assert.notOk(screen.queryByText('Eren'));
+            assert.notOk(screen.queryByText('Armin'));
           });
         });
 
         test('it should paginate the students list', async function (assert) {
           // when
-          await visit('/eleves?pageSize=1&pageNumber=1');
+          const screen = await visit('/eleves?pageSize=1&pageNumber=1');
 
           // then
-          assert.contains('Norris');
-          assert.notContains('Rambo');
+          assert.ok(screen.getByText('Norris'));
+          assert.notOk(screen.queryByText('Rambo'));
         });
       });
 
@@ -207,7 +207,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
             await screen.findByRole('dialog');
 
             // then
-            assert.contains('Réinitialiser le mot de passe');
+            assert.ok(screen.getByRole('button', { name: 'Réinitialiser le mot de passe' }));
           });
 
           test('it should display unique password input when reset button is clicked', async function (assert) {
@@ -260,8 +260,8 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
             await screen.findByRole('dialog');
 
             // then
-            assert.contains('Médiacentre');
-            assert.contains('Ajouter une connexion avec un identifiant');
+            assert.ok(screen.getByText('Médiacentre'));
+            assert.ok(screen.getByText('Ajouter une connexion avec un identifiant'));
           });
 
           test('it should display username and unique password when add username button is clicked', async function (assert) {
@@ -276,9 +276,9 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
             await clickByName('Ajouter l’identifiant');
 
             // then
-            assert.contains('Médiacentre');
-            assert.contains('Identifiant');
-            assert.contains('Nouveau mot de passe à usage unique');
+            assert.ok(screen.getByText('Médiacentre'));
+            assert.ok(screen.getByLabelText('Identifiant'));
+            assert.ok(screen.getByRole('textbox', { name: 'Nouveau mot de passe à usage unique' }));
             assert.dom('#username').exist;
             assert.dom('#generated-password').exist;
           });
@@ -303,11 +303,11 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
             await screen.findByRole('dialog');
             // then
-            assert.contains('Médiacentre');
-            assert.contains('Identifiant');
+            assert.ok(screen.getByText('Médiacentre'));
+            assert.ok(screen.getByLabelText('Identifiant'));
           });
 
-          test('it should open pasword modal and display password reset button', async function (assert) {
+          test('it should open password modal and display password reset button', async function (assert) {
             // given
             const screen = await visit('/eleves');
 
@@ -317,7 +317,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
             await screen.findByRole('dialog');
             // then
-            assert.contains('Réinitialiser le mot de passe');
+            assert.ok(screen.getByRole('button', { name: 'Réinitialiser le mot de passe' }));
           });
 
           test('it should open password modal and display unique password when reset button is clicked', async function (assert) {
@@ -373,7 +373,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
               const successNotification = await screen.getByText(
                 this.intl.t('pages.sco-organization-participants.messages.password-reset-success'),
               );
-              assert.dom(successNotification).exists();
+              assert.ok(successNotification);
             });
           });
         });
