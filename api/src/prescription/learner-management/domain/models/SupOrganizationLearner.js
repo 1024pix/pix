@@ -1,4 +1,4 @@
-import { checkValidation } from '../validators/sup-organization-learner-validator.js';
+import { validateSupOrganizationLearner } from '../validators/sup-organization-learner-validator.js';
 
 class SupOrganizationLearner {
   constructor({
@@ -31,7 +31,10 @@ class SupOrganizationLearner {
     this.group = group;
     this.studyScheme = studyScheme;
     this.organizationId = organizationId;
-    checkValidation(this);
+    const errors = validateSupOrganizationLearner(this);
+    if (errors.length > 0) {
+      throw errors[0];
+    }
   }
 }
 
