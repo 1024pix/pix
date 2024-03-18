@@ -254,6 +254,35 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
         // then
         expect(learners).deep.equal(expectedOutput);
       });
+
+      context('Error case', function () {
+        it('should throw unicity error', async function () {
+          // given
+          config.headers.push({
+            name: 'classe',
+            isRequired: true,
+          });
+
+          config.validationRules = {
+            unicity: ['classe'],
+          };
+
+          const input = `prénom;nom;classe;
+          The;Superman;4èmeB;
+          The;Batman;4èmeB`;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+          parser.setEncoding();
+
+          // when
+          const errors = await catchErr(parser.parse, parser)();
+
+          // then
+          expect(errors.meta).to.lengthOf(1);
+          expect(errors.meta[0].code).to.equal('PROPERTY_NOT_UNIQ');
+          expect(errors.meta[0].meta.field).to.equal('classe');
+        });
+      });
     });
   });
 });
