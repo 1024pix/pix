@@ -12,6 +12,14 @@ export class V3CertificationScoring {
     );
   }
 
+  getNumberOfIntervals() {
+    return this._certificationScoringConfiguration.length;
+  }
+
+  getIntervals() {
+    return this._certificationScoringConfiguration;
+  }
+
   static fromConfigurations({
     competenceForScoringConfiguration,
     certificationScoringConfiguration,

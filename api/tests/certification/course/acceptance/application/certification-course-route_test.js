@@ -67,18 +67,9 @@ describe('Acceptance | Route | certification-course', function () {
         // given
         const userId = (await insertUserWithRoleSuperAdmin()).id;
 
-        const certificationScoringConfiguration = [
-          {
-            start: -1.399264,
-            end: -0.519812,
-          },
-        ];
-
         databaseBuilder.factory.buildFlashAlgorithmConfiguration();
 
-        databaseBuilder.factory.buildScoringConfiguration({
-          configuration: certificationScoringConfiguration,
-        });
+        databaseBuilder.factory.buildScoringConfiguration();
 
         const session = databaseBuilder.factory.buildSession({
           publishedAt: new Date('2018-12-01T01:02:03Z'),
