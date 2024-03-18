@@ -79,6 +79,19 @@ class EntityValidationError extends DomainError {
   }
 }
 
+class EntityValidationRulesError extends DomainError {
+  constructor({ code, key, message = "Échec de validation de l'entité." }) {
+    super(message);
+
+    if (code === 'PROPERTY_NOT_UNIQ') {
+      this.why = 'uniqueness';
+    }
+
+    this.key = key;
+    this.code = code;
+  }
+}
+
 class ForbiddenAccess extends DomainError {
   constructor(message = 'Accès non autorisé.', code) {
     super(message);
@@ -204,6 +217,7 @@ export {
   CsvImportError,
   DomainError,
   EntityValidationError,
+  EntityValidationRulesError,
   ForbiddenAccess,
   InvalidExternalUserTokenError,
   InvalidInputDataError,

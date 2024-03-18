@@ -1,17 +1,56 @@
+import { EntityValidationRulesError } from '../../../../shared/domain/errors.js';
+
+const ERRORS = {
+  PROPERTY_NOT_UNIQ: 'PROPERTY_NOT_UNIQ',
+};
 class ImportOrganizationLearnerSet {
   #learners;
+  #unicityKeys;
 
-  constructor() {
+  constructor(validationRules) {
     this.#learners = [];
-
-    // define validation rule
+    this.#unicityKeys = [];
+    this.validationRules = validationRules;
+    this.hasUnicityRules = !!validationRules?.unicity;
   }
 
   addLearner(learnerAttributes) {
-    // validate line
+    this.#validateRules(learnerAttributes);
     this.#learners.push(new CommonOrganizationLearner(learnerAttributes));
   }
 
+  #validateRules(learnerAttributes) {
+    const errors = [];
+
+    if (this.hasUnicityRules) {
+      const unicityError = this.#checkUnicityRule(learnerAttributes);
+
+      if (unicityError) {
+        errors.push(unicityError);
+      }
+    }
+
+    if (errors.length > 0) {
+      throw errors;
+    }
+  }
+
+  #checkUnicityRule(learnerAttributes) {
+    const unicityKeys = [];
+    this.validationRules.unicity.forEach((rule) => {
+      unicityKeys.push(learnerAttributes.attributes[rule]);
+    });
+    const unicityEntity = unicityKeys.join('-');
+    if (!this.#unicityKeys.includes(unicityEntity)) {
+      this.#unicityKeys.push(unicityEntity);
+      return null;
+    } else {
+      return new EntityValidationRulesError({
+        code: ERRORS.PROPERTY_NOT_UNIQ,
+        key: this.validationRules.unicity.join('-'),
+      });
+    }
+  }
   getLearners() {
     return this.#learners;
   }
