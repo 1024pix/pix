@@ -30,24 +30,27 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
       // then
       expect(response.statusCode).to.equal(200);
     });
-    it('should return 404 http status code when user is not a member of pix admin and has no role', async function () {
-      // given
-      const user = databaseBuilder.factory.buildUser();
-      await databaseBuilder.commit();
-      const server = await createServer();
 
-      // when
-      const response = await server.inject({
-        headers: {
-          authorization: generateValidRequestAuthorizationHeader(user.id),
-        },
-        method: 'GET',
-        url: '/api/admin/admin-members/me',
+    context('when user is not a member of pix admin and has no role', function () {
+      it('should return 403 http status code', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        await databaseBuilder.commit();
+        const server = await createServer();
+
+        // when
+        const response = await server.inject({
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(user.id),
+          },
+          method: 'GET',
+          url: '/api/admin/admin-members/me',
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.statusMessage).to.equal('Forbidden');
       });
-
-      // then
-      expect(response.statusCode).to.equal(404);
-      expect(response.statusMessage).to.equal('Not Found');
     });
   });
 

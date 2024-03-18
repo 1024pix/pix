@@ -80,8 +80,9 @@ class EntityValidationError extends DomainError {
 }
 
 class ForbiddenAccess extends DomainError {
-  constructor(message = 'Accès non autorisé.') {
+  constructor(message = 'Accès non autorisé.', code) {
     super(message);
+    this.code = code;
   }
 }
 

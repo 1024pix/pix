@@ -1,3 +1,4 @@
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import { oidcAuthenticationServiceRegistry as authenticationServiceRegistry } from '../../../domain/services/authentication/authentication-service-registry.js';
 import { usecases } from '../../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer.js';
@@ -129,8 +130,9 @@ const authenticateUser = async function (
   } else {
     const message = "L'utilisateur n'a pas de compte Pix";
     const responseCode = 'SHOULD_VALIDATE_CGU';
-    const { authenticationKey, givenName, familyName } = result;
+    const { authenticationKey, givenName, familyName, email } = result;
     const meta = { authenticationKey, givenName, familyName };
+    if (email) Object.assign(meta, { email });
     throw new UnauthorizedError(message, responseCode, meta);
   }
 };
@@ -159,15 +161,40 @@ const createUser = async function (
   return h.response(response).code(200);
 };
 
+const reconcileUserForAdmin = async function (
+  request,
+  h,
+  dependencies = {
+    authenticationServiceRegistry,
+  },
+) {
+  const { email, identityProvider, authenticationKey } = request.deserializedPayload;
+
+  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
+    identityProviderCode: identityProvider,
+    audience: PIX_ADMIN.AUDIENCE,
+  });
+
+  const accessToken = await usecases.reconcileOidcUserForAdmin({
+    email,
+    identityProvider,
+    authenticationKey,
+    oidcAuthenticationService,
+  });
+
+  return h.response({ access_token: accessToken }).code(200);
+};
+
 const oidcController = {
-  getAllIdentityProvidersForAdmin,
-  getIdentityProviders,
-  getRedirectLogoutUrl,
-  findUserForReconciliation,
-  reconcileUser,
-  getAuthorizationUrl,
   authenticateUser,
   createUser,
+  findUserForReconciliation,
+  getAllIdentityProvidersForAdmin,
+  getAuthorizationUrl,
+  getIdentityProviders,
+  getRedirectLogoutUrl,
+  reconcileUser,
+  reconcileUserForAdmin,
 };
 
 export { oidcController };

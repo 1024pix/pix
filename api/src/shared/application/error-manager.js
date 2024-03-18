@@ -77,7 +77,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.NotFoundError(error.message);
   }
   if (error instanceof DomainErrors.ForbiddenAccess) {
-    return new HttpErrors.ForbiddenError(error.message);
+    return new HttpErrors.ForbiddenError(error.message, error.code);
   }
   if (error instanceof DomainErrors.CsvImportError) {
     return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);

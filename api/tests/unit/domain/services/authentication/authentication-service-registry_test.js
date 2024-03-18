@@ -1,5 +1,6 @@
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
+import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Services | authentication registry', function () {
@@ -90,7 +91,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
         // when
         const service = oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
           identityProviderCode: 'PROVIDER_FOR_ADMIN',
-          audience: 'admin',
+          audience: PIX_ADMIN.AUDIENCE,
         });
 
         // then
@@ -147,6 +148,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       expect(error.message).to.equal(`Identity provider ${identityProviderCode} is not supported.`);
     });
   });
+
   describe('#loadOidcProviderServices', function () {
     it('loads all given oidc provider services and filters them', function () {
       // given
@@ -178,12 +180,30 @@ describe('Unit | Domain | Services | authentication registry', function () {
   describe('#configureReadyOidcProviderServices', function () {
     it('configures openid client for ready oidc provider services', async function () {
       // given
-      sinon.restore();
       const createClient = sinon.stub().resolves();
       const oidcProviderServices = [
         {
           code: 'OIDC',
           isReady: true,
+          createClient,
+        },
+      ];
+      oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+
+      // when
+      await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServices();
+
+      // then
+      expect(createClient).to.have.been.calledOnce;
+    });
+
+    it('configures openid client for ready oidc provider services for Pix Admin', async function () {
+      // given
+      const createClient = sinon.stub().resolves();
+      const oidcProviderServices = [
+        {
+          code: 'OIDC',
+          isReadyForPixAdmin: true,
           createClient,
         },
       ];
