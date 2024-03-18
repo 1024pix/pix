@@ -49,6 +49,36 @@ module('Unit | Service | Error messages', function (hooks) {
     });
   });
 
+  module('BIRTHDATE_REQUIRED', function () {
+    test('should return the message when error code is found', function (assert) {
+      // Given
+      const errorMessages = this.owner.lookup('service:errorMessages');
+      const nationalStudentId = '1234';
+      // When
+      const message = errorMessages.getErrorMessage('BIRTHDATE_REQUIRED', { nationalStudentId });
+      // Then
+      assert.strictEqual(
+        message,
+        this.intl.t('api-error-messages.student-xml-import.birthdate-required', { nationalStudentId }),
+      );
+    });
+  });
+
+  module('INVALID_BIRTHDATE_FORMAT', function () {
+    test('should return the message when error code is found', function (assert) {
+      // Given
+      const errorMessages = this.owner.lookup('service:errorMessages');
+      const nationalStudentId = '1234';
+      // When
+      const message = errorMessages.getErrorMessage('INVALID_BIRTHDATE_FORMAT', { nationalStudentId });
+      // Then
+      assert.strictEqual(
+        message,
+        this.intl.t('api-error-messages.student-xml-import.invalid-birthdate-format', { nationalStudentId }),
+      );
+    });
+  });
+
   module('BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT', function () {
     test('should return the message when error code is found', function (assert) {
       // Given
