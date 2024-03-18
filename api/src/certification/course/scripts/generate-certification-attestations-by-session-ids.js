@@ -52,7 +52,9 @@ async function main() {
     const certificationAttestations = compact(
       await bluebird.mapSeries(certificationCourses, async (certificationCourse) => {
         try {
-          return await certificateRepository.getCertificationAttestation(certificationCourse.getId());
+          return await certificateRepository.getCertificationAttestation({
+            certificationCourseId: certificationCourse.getId(),
+          });
         } catch (error) {
           if (!(error instanceof NotFoundError)) {
             throw error;

@@ -16,7 +16,9 @@ describe('Unit | UseCase | get-certification-attestation', function () {
         id: 123,
         userId: 456,
       });
-      certificateRepository.getCertificationAttestation.withArgs(123).resolves(certificationAttestation);
+      certificateRepository.getCertificationAttestation
+        .withArgs({ certificationCourseId: 123 })
+        .resolves(certificationAttestation);
 
       // when
       const error = await catchErr(getCertificationAttestation)({
@@ -39,7 +41,9 @@ describe('Unit | UseCase | get-certification-attestation', function () {
         userId: 456,
         resultCompetenceTree,
       });
-      certificateRepository.getCertificationAttestation.withArgs(123).resolves(certificationAttestation);
+      certificateRepository.getCertificationAttestation
+        .withArgs({ certificationCourseId: 123 })
+        .resolves(certificationAttestation);
 
       // when
       const actualCertificationAttestation = await getCertificationAttestation({

@@ -53,8 +53,12 @@ describe('Unit | UseCase | get-certification-attestation-for-session', function 
     certificationCourseRepository.findCertificationCoursesBySessionId
       .withArgs({ sessionId: 11 })
       .resolves([certificationCourse1, certificationCourse2]);
-    certificateRepository.getCertificationAttestation.withArgs(1).resolves(certificationAttestation1);
-    certificateRepository.getCertificationAttestation.withArgs(2).resolves(certificationAttestation2);
+    certificateRepository.getCertificationAttestation
+      .withArgs({ certificationCourseId: 1 })
+      .resolves(certificationAttestation1);
+    certificateRepository.getCertificationAttestation
+      .withArgs({ certificationCourseId: 2 })
+      .resolves(certificationAttestation2);
 
     // when
     const actualCertificationAttestations = await getCertificationAttestationsForSession({
@@ -123,7 +127,7 @@ describe('Unit | UseCase | get-certification-attestation-for-session', function 
       certificationCourseRepository.findCertificationCoursesBySessionId
         .withArgs({ sessionId: 13 })
         .resolves([certificationCourse]);
-      certificateRepository.getCertificationAttestation.withArgs(3).resolves();
+      certificateRepository.getCertificationAttestation.withArgs({ certificationCourseId: 3 }).resolves();
 
       // when
       const error = await catchErr(getCertificationAttestationsForSession)({
