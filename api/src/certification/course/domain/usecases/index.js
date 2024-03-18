@@ -7,6 +7,7 @@ import * as competenceMarkRepository from '../../../../../lib/infrastructure/rep
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as courseAssessmentResultRepository from '../../infrastructure/repositories/course-assessment-result-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
 
@@ -18,11 +19,13 @@ import * as scoCertificationCandidateRepository from '../../infrastructure/repos
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {certificationResultRepository} CertificationResultRepository
  * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
+ * @typedef {certificationCourseRepository} CertificationCourseRepository
  **/
 const dependencies = {
   assessmentResultRepository,
   competenceMarkRepository,
   courseAssessmentResultRepository,
+  certificationCourseRepository,
   certificationResultRepository,
   scoCertificationCandidateRepository,
 };
@@ -47,7 +50,6 @@ const usecasesWithoutInjectedDependencies = {
       'get-session-certification-reports.js',
       'get-v3-certification-course-details-for-administration.js',
       'reject-certification-course.js',
-      'unreject-certification-course.js',
     ],
   })),
 };
