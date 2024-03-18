@@ -169,35 +169,6 @@ const register = async function (server) {
   ];
   server.route([
     ...adminRoutes,
-    /**
-     * @deprecated
-     * Route in no longer maintained
-     * Use instead PATCH /api/admin/certification-courses/{certificationCourseId}
-     */
-    {
-      method: 'PATCH',
-      path: '/api/certification-courses/{certificationCourseId}',
-      config: {
-        validate: {
-          params: Joi.object({
-            certificationCourseId: identifiersType.certificationCourseId,
-          }),
-        },
-        handler: certificationCourseController.update,
-        tags: ['api'],
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-      },
-    },
     {
       method: 'POST',
       path: '/api/certification-courses',
