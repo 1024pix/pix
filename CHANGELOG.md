@@ -1,5 +1,51 @@
 # Pix Changelog
 
+## v4.117.0 (18/03/2024)
+
+
+### :rocket: Amélioration
+- [#8423](https://github.com/1024pix/pix/pull/8423) [FEATURE] :sparkles: Reprendre l'aventure après une interruption (PIX-11487).
+- [#8413](https://github.com/1024pix/pix/pull/8413) [FEATURE] Ajoute le nombre de participations partagées dans les résultats d'une campagne (PIX-11630).
+- [#8418](https://github.com/1024pix/pix/pull/8418) [FEATURE][MON-PIX] Modifier les liens du footer pour la langue néerlandaise (PIX-11596).
+- [#8419](https://github.com/1024pix/pix/pull/8419) [FEATURE] Ajoute l'information sur la remontée auto dans la page de détail d'une organisation (PIX-9904).
+- [#8398](https://github.com/1024pix/pix/pull/8398) [FEATURE] Retourner toutes les erreurs de validité du fichier d'import sup d'un coup  (pix-10956).
+- [#8264](https://github.com/1024pix/pix/pull/8264) [FEATURE][ADMIN] Permettre la création d'organisations avec un identifiant externe déjà présent en base de données (PIX-9785).
+- [#8410](https://github.com/1024pix/pix/pull/8410) [FEATURE] Prévenir le mauvais formattage de Module.
+- [#8351](https://github.com/1024pix/pix/pull/8351) [FEATURE][API] Mettre à jour les liens des emails pour langue Néerlandaise (PIX-11300).
+- [#8412](https://github.com/1024pix/pix/pull/8412) [FEATURE] Re-finalisation MVP module distinguer-vrai-faux-sur-internet (post-panel interne).
+- [#8390](https://github.com/1024pix/pix/pull/8390) [FEATURE][MON-PIX] Modifier les URLs des CGU et Politique Protection des données pour le Néerlandais (PIX-11620).
+- [#8382](https://github.com/1024pix/pix/pull/8382) [FEATURE] Supprimer le pluriel sur la notion d'obtention d'une certification complémentaire sur les attestations PDF (PIX-11468).
+- [#8397](https://github.com/1024pix/pix/pull/8397) [FEATURE][ADMIN] Permettre la création d'organisations en masse avec toutes les locales gérées (PIX-11550).
+
+### :building_construction: Tech
+- [#8388](https://github.com/1024pix/pix/pull/8388) [TECH] Nettoyer le `solution-service-qrocm-ind` hérité de ./api/lib (PIX-10484).
+- [#8434](https://github.com/1024pix/pix/pull/8434) [TECH] Ajouter la colonne attributes à la table organization-learners (Pix-11662).
+- [#8421](https://github.com/1024pix/pix/pull/8421) [TECH] Supprimer la route PATCH /api/certification-courses/{certificationCourseId} dépréciée (PIX-11425).
+- [#8280](https://github.com/1024pix/pix/pull/8280) [TECH] :recycle: Déplacement des `Datasources` de `LearningContent` vers le répertoire `src/shared`.
+- [#8213](https://github.com/1024pix/pix/pull/8213) [TECH] Créer la route de réconciliation pour le SSO Google sur Pix Admin (PIX-1143).
+- [#8377](https://github.com/1024pix/pix/pull/8377) [TECH] Remplacer les "contains" dans les tests par des méthodes de testingLibrary (PIX-11602).
+
+### :bug: Correction
+- [#8420](https://github.com/1024pix/pix/pull/8420) [BUGFIX] Correction typographique : ajout des espaces fines et espaces mots insécables dans tous les modules.
+- [#8404](https://github.com/1024pix/pix/pull/8404) [BUGFIX]: Corriger la validation d'une épreuve en prévisualisation de Pix 1D (pix-11552).
+
+### :arrow_up: Montée de version
+- [#8442](https://github.com/1024pix/pix/pull/8442) [BUMP] Update dependency @1024pix/pix-ui to ^44.3.2 (admin).
+- [#8441](https://github.com/1024pix/pix/pull/8441) [BUMP] Update dependency @1024pix/pix-ui to ^44.3.2 (1d).
+- [#8438](https://github.com/1024pix/pix/pull/8438) [BUMP] Update dependency @1024pix/pix-ui to ^44.3.1 (1d).
+- [#8437](https://github.com/1024pix/pix/pull/8437) [BUMP] Update dependency @1024pix/ember-testing-library to ^1.1.0 (orga).
+- [#8436](https://github.com/1024pix/pix/pull/8436) [BUMP] Update dependency @1024pix/ember-testing-library to ^1.1.0 (mon-pix).
+- [#8435](https://github.com/1024pix/pix/pull/8435) [BUMP] Update dependency @1024pix/ember-testing-library to ^1.1.0 (certif).
+- [#8432](https://github.com/1024pix/pix/pull/8432) [BUMP] Update dependency @1024pix/ember-testing-library to ^1.1.0 (admin).
+- [#8431](https://github.com/1024pix/pix/pull/8431) [BUMP] Update dependency @1024pix/ember-testing-library to ^1.1.0 (1d).
+- [#8430](https://github.com/1024pix/pix/pull/8430) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.3 (certif).
+- [#8429](https://github.com/1024pix/pix/pull/8429) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.3 (1d).
+- [#8426](https://github.com/1024pix/pix/pull/8426) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.10 (certif).
+- [#8425](https://github.com/1024pix/pix/pull/8425) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.10 (admin).
+- [#8424](https://github.com/1024pix/pix/pull/8424) [BUMP] Update dependency @1024pix/pix-ui to ^44.2.10 (1d).
+- [#8422](https://github.com/1024pix/pix/pull/8422) [BUMP] Update adobe/s3mock Docker tag to v3.5.2 (dossier racine).
+- [#8362](https://github.com/1024pix/pix/pull/8362) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.2 (1d).
+
 ## v4.116.0 (15/03/2024)
 
 
