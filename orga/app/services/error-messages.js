@@ -41,6 +41,8 @@ const XML_IMPORT_ERRORS = {
   SEX_CODE_REQUIRED: 'api-error-messages.student-xml-import.sex-code-required',
   BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT:
     'api-error-messages.student-xml-import.birth-city-code-required-for-french-student',
+  BIRTHDATE_REQUIRED: 'api-error-messages.student-xml-import.birthdate-required',
+  INVALID_BIRTHDATE_FORMAT: 'api-error-messages.student-xml-import.invalid-birthdate-format',
 };
 
 const ERROR_MESSAGES = {
