@@ -17,6 +17,11 @@ function match({ answerValue, solution }) {
     return { result: AnswerStatus.KO };
   }
 
+  // Sets comparison
+  if (!_areAnswersComparableToSolutions(answerValue, solutionValue)) {
+    throw new Error('An error occurred because there is no solution found for an answer.');
+  }
+
   // Treatments
   const treatedSolutions = _applyTreatmentsToSolutions(solutionValue, enabledTreatments, qrocBlocksTypes);
   const treatedAnswers = _applyTreatmentsToAnswers(answerValue, enabledTreatments, qrocBlocksTypes);
@@ -37,40 +42,50 @@ function match({ answerValue, solution }) {
 }
 
 function _applyTreatmentsToSolutions(solutions, enabledTreatments, qrocBlocksTypes = {}) {
-  return _.forEach(solutions, (solution, solutionKey) => {
-    solution.forEach((variant, variantIndex) => {
-      if (qrocBlocksTypes[solutionKey] === 'select') {
-        solutions[solutionKey][variantIndex] = applyTreatments(variant, []);
-      } else {
-        solutions[solutionKey][variantIndex] = applyTreatments(variant, enabledTreatments);
+  const treatedSolutions = {};
+  for (const solutionKey in solutions) {
+    const solutionVariants = solutions[solutionKey];
+    const solutionType = qrocBlocksTypes[solutionKey];
+
+    treatedSolutions[solutionKey] = solutionVariants.map((variant) => {
+      if (solutionType === 'select') {
+        return applyTreatments(variant, []);
       }
+
+      return applyTreatments(variant, enabledTreatments);
     });
-  });
+  }
+
+  return treatedSolutions;
 }
 
 function _applyTreatmentsToAnswers(answers, enabledTreatments, qrocBlocksTypes = {}) {
-  return _.forEach(answers, (answer, answerKey) => {
-    if (qrocBlocksTypes[answerKey] === 'select') {
-      answers[answerKey] = applyTreatments(answer, []);
+  const treatedAnswers = {};
+  for (const answerKey in answers) {
+    const answer = answers[answerKey];
+    const answerType = qrocBlocksTypes[answerKey];
+    if (answerType === 'select') {
+      treatedAnswers[answerKey] = applyTreatments(answer, []);
     } else {
-      answers[answerKey] = applyTreatments(answer, enabledTreatments);
+      treatedAnswers[answerKey] = applyTreatments(answer, enabledTreatments);
     }
-  });
+  }
+
+  return treatedAnswers;
 }
 
 function _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants) {
   let smallestLevenshteinDistance = answer.length;
-  solutionVariants.forEach((variant) => {
+  for (const variant of solutionVariants) {
     const levenshteinDistance = levenshtein.get(answer, variant);
     smallestLevenshteinDistance = Math.min(smallestLevenshteinDistance, levenshteinDistance);
-  });
+  }
   const ratio = smallestLevenshteinDistance / answer.length;
   return ratio <= LEVENSHTEIN_DISTANCE_MAX_RATE;
 }
 
-function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qrocBlocksTypes = {}) {
-  const results = {};
-  _.map(answers, (answer, answerKey) => {
+function _areAnswersComparableToSolutions(answers, solutions) {
+  for (const answerKey in answers) {
     const solutionVariants = solutions[answerKey];
     if (!solutionVariants) {
       logger.warn(
@@ -78,25 +93,42 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qroc
           Object.keys(solutions)[0]
         }`,
       );
-      throw new Error('An error occurred because there is no solution found for an answer.');
+      return false;
     }
-    if (useLevenshteinRatio(enabledTreatments) && qrocBlocksTypes[answerKey] != 'select') {
+  }
+  return true;
+}
+
+function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qrocBlocksTypes = {}) {
+  const results = {};
+  for (const answerKey in answers) {
+    const answer = answers[answerKey];
+    const solutionVariants = solutions[answerKey];
+
+    if (useLevenshteinRatio(enabledTreatments) && qrocBlocksTypes[answerKey] !== 'select') {
       results[answerKey] = _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);
     } else if (solutionVariants) {
       results[answerKey] = solutionVariants.includes(answer);
     }
-  });
+  }
+
   return results;
 }
 
 function _formatResult(resultDetails) {
-  let result = AnswerStatus.OK;
-  _.forEach(resultDetails, (resultDetail) => {
+  for (const resultDetail of Object.values(resultDetails)) {
     if (!resultDetail) {
-      result = AnswerStatus.KO;
+      return AnswerStatus.KO;
     }
-  });
-  return result;
+  }
+  return AnswerStatus.OK;
 }
 
-export { _applyTreatmentsToAnswers, _applyTreatmentsToSolutions, _compareAnswersAndSolutions, _formatResult, match };
+export {
+  _applyTreatmentsToAnswers,
+  _applyTreatmentsToSolutions,
+  _areAnswersComparableToSolutions,
+  _compareAnswersAndSolutions,
+  _formatResult,
+  match,
+};
