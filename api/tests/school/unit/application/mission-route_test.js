@@ -38,7 +38,7 @@ describe('Unit | Router | mission-route', function () {
     it('should check pix1d activated', async function () {
       // given
       sinon.spy(securityPreHandlers, 'checkPix1dActivated');
-      sinon.stub(missionController, 'findAll').callsFake((request, h) => h.response('ok'));
+      sinon.stub(missionController, 'findAllActive').callsFake((request, h) => h.response('ok'));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -52,7 +52,7 @@ describe('Unit | Router | mission-route', function () {
     it('should return 200', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkPix1dActivated').callsFake((request, h) => h.response());
-      sinon.stub(missionController, 'findAll').callsFake((request, h) => h.response('ok'));
+      sinon.stub(missionController, 'findAllActive').callsFake((request, h) => h.response('ok'));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -84,7 +84,7 @@ describe('Unit | Router | mission-route', function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').resolves(true);
       sinon.stub(securityPreHandlers, 'checkPix1dActivated').resolves(true);
-      sinon.stub(missionController, 'findAll').callsFake((request, h) => h.response('ok'));
+      sinon.stub(missionController, 'findAllActive').callsFake((request, h) => h.response('ok'));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
