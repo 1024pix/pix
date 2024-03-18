@@ -19,7 +19,7 @@ const reject = async function (request, h, dependencies = { events }) {
 const unreject = async function (request, h, dependencies = { events }) {
   const certificationCourseId = request.params.id;
   const juryId = request.auth.credentials.userId;
-  const certificationCourseRejectedEvent = await sharedUsecases.unrejectCertificationCourse({
+  const certificationCourseRejectedEvent = await usecases.unrejectCertificationCourse({
     certificationCourseId,
     juryId,
   });

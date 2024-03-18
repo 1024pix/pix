@@ -35,7 +35,7 @@ describe('Unit | Controller | certification-course-controller', function () {
 
   describe('unreject', function () {
     it('should call the unrejectCertificationCourse usecase', async function () {
-      const unrejectCertificationCourse = sinon.stub(sharedUsecases, 'unrejectCertificationCourse');
+      const unrejectCertificationCourse = sinon.stub(usecases, 'unrejectCertificationCourse');
       const certificationCourseId = 12;
       const juryId = 456;
       const events = { eventDispatcher: { dispatch: sinon.stub() } };
