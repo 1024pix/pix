@@ -4,91 +4,135 @@ import { module, test } from 'qunit';
 module('Unit | Model | organization', function (hooks) {
   setupTest(hooks);
 
-  module('#enablePlacesManagement', function () {
+  module('#isComputeCertificabilityEnabled', function () {
     module('#get', function () {
       test('it returns true when feature is enabled', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization', {
-          features: { ['PLACES_MANAGEMENT']: true },
+          features: { ['COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY']: true },
         });
 
         // when
-        const enablePlacesManagement = model.enablePlacesManagement;
+        const isComputeCertificabilityEnabled = model.isComputeCertificabilityEnabled;
 
         // then
-        assert.true(enablePlacesManagement);
+        assert.true(isComputeCertificabilityEnabled);
       });
+
       test('it returns false when feature is disabled', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization', {
-          features: { ['PLACES_MANAGEMENT']: false },
+          features: { ['COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY']: false },
         });
 
         // when
-        const enablePlacesManagement = model.enablePlacesManagement;
+        const isComputeCertificabilityEnabled = model.isComputeCertificabilityEnabled;
 
         // then
-        assert.false(enablePlacesManagement);
+        assert.false(isComputeCertificabilityEnabled);
       });
+
       test('it returns false when no features are provided', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const model = store.createRecord('organization', {});
 
         // when
-        const enablePlacesManagement = model.enablePlacesManagement;
+        const isComputeCertificabilityEnabled = model.isComputeCertificabilityEnabled;
 
         // then
-        assert.false(enablePlacesManagement);
-      });
-    });
-
-    module('#set', function () {
-      test('it enables feature', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const model = store.createRecord('organization', {
-          features: { ['PLACES_MANAGEMENT']: false },
-        });
-
-        // when
-        model.enablePlacesManagement = true;
-
-        // then
-        const enablePlacesManagement = model.enablePlacesManagement;
-        assert.true(enablePlacesManagement);
-      });
-      test('it disable feature', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const model = store.createRecord('organization', {
-          features: { ['PLACES_MANAGEMENT']: true },
-        });
-        // when
-        model.enablePlacesManagement = false;
-
-        // then
-        const enablePlacesManagement = model.enablePlacesManagement;
-        assert.false(enablePlacesManagement);
-      });
-      test('it handles having no features yet', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const model = store.createRecord('organization', {});
-
-        // when
-        model.enablePlacesManagement = true;
-
-        // then
-        const enablePlacesManagement = model.enablePlacesManagement;
-        assert.true(enablePlacesManagement);
+        assert.false(isComputeCertificabilityEnabled);
       });
     });
   });
 
-  module('#enableMultipleSendingAssessment', function () {
+  module('#isPlacesManagementEnabled', function () {
+    module('#get', function () {
+      test('it returns true when feature is enabled', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['PLACES_MANAGEMENT']: true },
+        });
+
+        // when
+        const isPlacesManagementEnabled = model.isPlacesManagementEnabled;
+
+        // then
+        assert.true(isPlacesManagementEnabled);
+      });
+      test('it returns false when feature is disabled', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['PLACES_MANAGEMENT']: false },
+        });
+
+        // when
+        const isPlacesManagementEnabled = model.isPlacesManagementEnabled;
+
+        // then
+        assert.false(isPlacesManagementEnabled);
+      });
+      test('it returns false when no features are provided', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {});
+
+        // when
+        const isPlacesManagementEnabled = model.isPlacesManagementEnabled;
+
+        // then
+        assert.false(isPlacesManagementEnabled);
+      });
+    });
+
+    module('#set', function () {
+      test('it enables feature', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['PLACES_MANAGEMENT']: false },
+        });
+
+        // when
+        model.isPlacesManagementEnabled = true;
+
+        // then
+        const isPlacesManagementEnabled = model.isPlacesManagementEnabled;
+        assert.true(isPlacesManagementEnabled);
+      });
+      test('it disable feature', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['PLACES_MANAGEMENT']: true },
+        });
+        // when
+        model.isPlacesManagementEnabled = false;
+
+        // then
+        const isPlacesManagementEnabled = model.isPlacesManagementEnabled;
+        assert.false(isPlacesManagementEnabled);
+      });
+      test('it handles having no features yet', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {});
+
+        // when
+        model.isPlacesManagementEnabled = true;
+
+        // then
+        const isPlacesManagementEnabled = model.isPlacesManagementEnabled;
+        assert.true(isPlacesManagementEnabled);
+      });
+    });
+  });
+
+  module('#isMultipleSendingAssessmentEnabled', function () {
     module('#get', function () {
       test('it returns true when feature is enabled', function (assert) {
         // given
@@ -98,10 +142,10 @@ module('Unit | Model | organization', function (hooks) {
         });
 
         // when
-        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+        const isMultipleSendingAssessmentEnabled = model.isMultipleSendingAssessmentEnabled;
 
         // then
-        assert.true(enableMultipleSendingAssessment);
+        assert.true(isMultipleSendingAssessmentEnabled);
       });
       test('it returns false when feature is disabled', function (assert) {
         // given
@@ -111,10 +155,10 @@ module('Unit | Model | organization', function (hooks) {
         });
 
         // when
-        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+        const isMultipleSendingAssessmentEnabled = model.isMultipleSendingAssessmentEnabled;
 
         // then
-        assert.false(enableMultipleSendingAssessment);
+        assert.false(isMultipleSendingAssessmentEnabled);
       });
       test('it returns false when no features are provided', function (assert) {
         // given
@@ -122,10 +166,10 @@ module('Unit | Model | organization', function (hooks) {
         const model = store.createRecord('organization', {});
 
         // when
-        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+        const isMultipleSendingAssessmentEnabled = model.isMultipleSendingAssessmentEnabled;
 
         // then
-        assert.false(enableMultipleSendingAssessment);
+        assert.false(isMultipleSendingAssessmentEnabled);
       });
     });
 
@@ -138,11 +182,11 @@ module('Unit | Model | organization', function (hooks) {
         });
 
         // when
-        model.enableMultipleSendingAssessment = true;
+        model.isMultipleSendingAssessmentEnabled = true;
 
         // then
-        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
-        assert.true(enableMultipleSendingAssessment);
+        const isMultipleSendingAssessmentEnabled = model.isMultipleSendingAssessmentEnabled;
+        assert.true(isMultipleSendingAssessmentEnabled);
       });
       test('it disable feature', function (assert) {
         // given
@@ -151,11 +195,11 @@ module('Unit | Model | organization', function (hooks) {
           features: { ['MULTIPLE_SENDING_ASSESSMENT']: true },
         });
         // when
-        model.enableMultipleSendingAssessment = false;
+        model.isMultipleSendingAssessmentEnabled = false;
 
         // then
-        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
-        assert.false(enableMultipleSendingAssessment);
+        const isMultipleSendingAssessmentEnabled = model.isMultipleSendingAssessmentEnabled;
+        assert.false(isMultipleSendingAssessmentEnabled);
       });
       test('it handles having no features yet', function (assert) {
         // given
@@ -163,11 +207,11 @@ module('Unit | Model | organization', function (hooks) {
         const model = store.createRecord('organization', {});
 
         // when
-        model.enableMultipleSendingAssessment = true;
+        model.isMultipleSendingAssessmentEnabled = true;
 
         // then
-        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
-        assert.true(enableMultipleSendingAssessment);
+        const isMultipleSendingAssessmentEnabled = model.isMultipleSendingAssessmentEnabled;
+        assert.true(isMultipleSendingAssessmentEnabled);
       });
     });
   });

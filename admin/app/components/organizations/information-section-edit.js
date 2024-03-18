@@ -40,12 +40,12 @@ export default class OrganizationInformationSectionEditionMode extends Component
 
   @action
   onChangeMultipleSendingAssessment() {
-    this.form.enableMultipleSendingAssessment = !this.form.enableMultipleSendingAssessment;
+    this.form.isMultipleSendingAssessmentEnabled = !this.form.isMultipleSendingAssessmentEnabled;
   }
 
   @action
   onChangePlacesManagement() {
-    this.form.enablePlacesManagement = !this.form.enablePlacesManagement;
+    this.form.isPlacesManagementEnabled = !this.form.isPlacesManagementEnabled;
   }
 
   @action
@@ -73,8 +73,8 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.args.organization.set('documentationUrl', this.form.documentationUrl);
     this.args.organization.set('showSkills', this.form.showSkills);
     this.args.organization.set('identityProviderForCampaigns', this.form.identityProviderForCampaigns);
-    this.args.organization.set('enableMultipleSendingAssessment', this.form.enableMultipleSendingAssessment);
-    this.args.organization.set('enablePlacesManagement', this.form.enablePlacesManagement);
+    this.args.organization.set('isMultipleSendingAssessmentEnabled', this.form.isMultipleSendingAssessmentEnabled);
+    this.args.organization.set('isPlacesManagementEnabled', this.form.isPlacesManagementEnabled);
 
     this.closeAndResetForm();
     return this.args.onSubmit();
@@ -92,8 +92,8 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.form.isManagingStudents = this.args.organization.isManagingStudents;
     this.form.documentationUrl = this.args.organization.documentationUrl;
     this.form.showSkills = this.args.organization.showSkills;
-    this.form.enableMultipleSendingAssessment = this.args.organization.enableMultipleSendingAssessment;
-    this.form.enablePlacesManagement = this.args.organization.enablePlacesManagement;
+    this.form.isMultipleSendingAssessmentEnabled = this.args.organization.isMultipleSendingAssessmentEnabled;
+    this.form.isPlacesManagementEnabled = this.args.organization.isPlacesManagementEnabled;
     this.form.identityProviderForCampaigns =
       this.args.organization.identityProviderForCampaigns ?? this.noIdentityProviderOption.value;
   }

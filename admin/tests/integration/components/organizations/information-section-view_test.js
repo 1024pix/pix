@@ -329,6 +329,41 @@ module('Integration | Component | organizations/information-section-view', funct
         assert.dom(screen.queryByRole('checkbox', { name: 'Gestion d’élèves/étudiants' })).doesNotExist();
       });
     });
+
+    module('Features', function () {
+      module('when compute certificability is true', function () {
+        test('should display this information', async function (assert) {
+          // given
+          const organization = EmberObject.create({
+            isComputeCertificabilityEnabled: true,
+          });
+          this.set('organization', organization);
+
+          // when
+          const screen = await render(
+            hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`,
+          );
+          // then
+          assert.ok(screen.getByText('Certificabilité automatique activée'));
+        });
+      });
+      module('when compute certificability is false', function () {
+        test('should not display this information', async function (assert) {
+          // given
+          const organization = EmberObject.create({
+            isComputeCertificabilityEnabled: false,
+          });
+          this.set('organization', organization);
+
+          // when
+          const screen = await render(
+            hbs`<Organizations::InformationSectionView @organization={{this.organization}} />`,
+          );
+          // then
+          assert.notOk(screen.queryByText('Certificabilité automatique activée'));
+        });
+      });
+    });
   });
 
   module('when user does not have access', function () {
