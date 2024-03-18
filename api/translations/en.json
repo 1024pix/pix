@@ -304,6 +304,10 @@
   },
   "jury": {
     "comment": {
+      "CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON": {
+        "candidate": "At least one technical issue, reported to your invigilator during the certification session, has affected the quality of the certification exam. Due to the number of questions to which you haven't been able to answer in the proper exam conditions, we are unfortunately unable to assess a reliable score or to deliver a certificat. The certification has been cancelled, the specifier of your certification exam (if applicable), has been informed.",
+        "organization": "At least one technical issue, reported by this candidate to the invigilator of the certification session, has affected the quality of the certification exam. We are unable to certify them, their certification has been cancelled. the specifier of your certification exam (if applicable), has been informed. This information may lead you to proposing another certification session for this candidate."
+      },
       "CANCELLED_DUE_TO_NEUTRALIZATION": {
         "candidate": "At least one technical issue, reported to your invigilator during the certification session, has affected the quality of the certification exam. Due to the number of questions to which you have not been able to answer, we are not able to deliver a certification. It has been cancelled, the specifier of your certification exam (if applicable), has been informed.",
         "organization": "At least one technical issue, has affected the quality of the certification exam. We are not able to deliver a certification. It has thus been cancelled. This information may lead you to proposing another certification session for this candidate."

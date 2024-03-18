@@ -4,7 +4,6 @@ import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certi
 import { CertificationAssessmentHistory } from '../../../src/certification/scoring/domain/models/CertificationAssessmentHistory.js';
 import { CertificationAssessmentScoreV3 } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScoreV3.js';
 import { AssessmentResultFactory } from '../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
-import { JuryComment, JuryCommentContexts } from '../../../src/certification/shared/domain/models/JuryComment.js';
 import { config } from '../../../src/shared/config.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { CertificationComputeError } from '../errors.js';
@@ -153,6 +152,17 @@ async function _handleV3Certification({
       emitter: AssessmentResult.emitters.PIX_ALGO,
       juryId: event.juryId,
     });
+  } else if (_shouldCancelWhenV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse })) {
+    assessmentResult = AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      status: certificationAssessmentScore.status,
+      assessmentId: certificationAssessment.id,
+      emitter: AssessmentResult.emitters.PIX_ALGO,
+      juryId: event.juryId,
+    });
+    certificationCourse.cancel();
+    certificationCourseRepository.update(certificationCourse);
   } else {
     assessmentResult = AssessmentResultFactory.buildStandardAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
@@ -162,21 +172,6 @@ async function _handleV3Certification({
       emitter: AssessmentResult.emitters.PIX_ALGO,
       juryId: event.juryId,
     });
-  }
-
-  if (_shouldCancelWhenV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse })) {
-    assessmentResult.commentForCandidate = new JuryComment({
-      context: JuryCommentContexts.CANDIDATE,
-      fallbackComment:
-        "Un ou plusieurs problème(s) technique(s), signalé(s) à votre surveillant pendant la session de certification, a/ont affecté la qualité du test de certification. En raison du trop grand nombre de questions auxquelles vous n'avez pas pu répondre dans de bonnes conditions, nous ne sommes malheureusement pas en mesure de calculer un score fiable et de fournir un certificat. La certification est annulée, le prescripteur de votre certification (le cas échéant), en est informé.",
-    });
-    assessmentResult.commentForOrganization = new JuryComment({
-      context: JuryCommentContexts.ORGANIZATION,
-      fallbackComment:
-        "Un ou plusieurs problème(s) technique(s), signalés par ce(cette) candidat(e) au surveillant de la session de certification, a/ont affecté le bon déroulement du test de certification. Nous sommes dans l'incapacité de le/la certifier, sa certification est donc annulée. Cette information est à prendre en compte et peut vous conduire à proposer une nouvelle session de certification pour ce(cette) candidat(e).",
-    });
-    certificationCourse.cancel();
-    certificationCourseRepository.update(certificationCourse);
   }
 
   const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({
