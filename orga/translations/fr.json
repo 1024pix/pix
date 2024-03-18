@@ -508,6 +508,7 @@
       "table": {
         "title": "Liste des résultats reçus",
         "column": {
+          "ariaSharedResultCount": "Nombre  de résultats envoyés",
           "badges": "Résultats Thématiques",
           "first-name": "Prénom",
           "last-name": "Nom",
@@ -515,7 +516,8 @@
             "label": "Résultats",
             "on-hold": " En attente d'envoi",
             "under-test": "En cours de test"
-          }
+          },
+          "sharedResultCount": "Nb résultats envoyés"
         },
         "empty": "Aucune participation",
         "row-title": "Participant"
