@@ -7,7 +7,7 @@ import * as v3CertificationDetailsForAdministrationSerializer from '../infrastru
 const reject = async function (request, h, dependencies = { events }) {
   const certificationCourseId = request.params.id;
   const juryId = request.auth.credentials.userId;
-  const certificationCourseRejectedEvent = await sharedUsecases.rejectCertificationCourse({
+  const certificationCourseRejectedEvent = await usecases.rejectCertificationCourse({
     certificationCourseId,
     juryId,
   });

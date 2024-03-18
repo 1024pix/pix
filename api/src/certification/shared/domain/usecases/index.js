@@ -79,6 +79,7 @@ const usecasesWithoutInjectedDependencies = {
       'index.js',
       'update-jury-comment.js',
       'get-sco-certification-results-by-division.js',
+      'reject-certification-course.js',
       'unreject-certification-course.js',
     ],
   })),
