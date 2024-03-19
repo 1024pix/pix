@@ -10,7 +10,7 @@
     {{#if (eq block.type "select")}}
       <PixSelect
         class="challenge-item-proposals__response challenge-item-proposals__response--selector"
-        @value={{get this.answersValue block.input}}
+        @value={{get this.answerValues block.input}}
         @label={{block.ariaLabel}}
         @screenReaderOnly={{true}}
         @placeholder={{block.placeholder}}
@@ -68,7 +68,7 @@
               name={{block.randomName}}
               autocomplete="nope"
               placeholder={{block.placeholder}}
-              @value={{get @answersValue block.input}}
+              @value={{get @answerValues block.input}}
               ariaLabel={{block.ariaLabel}}
               {{! To activate validation button as soon as possible }}
               {{on "keyup" (fn this.onInputChange block.input)}}

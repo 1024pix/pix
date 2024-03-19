@@ -20,12 +20,12 @@
     justify-content: space-evenly;
   }
 
-  &__image, &__qroc, &__qrocm {
+  &__image, &__qrocm {
     display: flex;
     width: 49%;
   }
 
-  &__qroc, &__qrocm {
+  &__qrocm {
     align-items: center;
     padding: 20px 20px;
   }
