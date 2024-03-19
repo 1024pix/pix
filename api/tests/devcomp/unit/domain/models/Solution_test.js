@@ -2,16 +2,16 @@ import { Solution } from '../../../../../src/devcomp/domain/models/Solution.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Solution', function () {
-  describe('#enabledTreatments', function () {
-    it('should contain nothing, when no treatments are set', function () {
+  describe('#enabledTolerances', function () {
+    it('should contain nothing, when no tolerances are set', function () {
       // given
       const solution = new Solution({ id: 'id' });
 
       // when
-      const enabledTreatments = solution.enabledTreatments;
+      const enabledTolerances = solution.enabledTolerances;
 
       // then
-      expect(enabledTreatments).to.be.empty;
+      expect(enabledTolerances).to.be.empty;
     });
 
     it('should contain t1, when isT1Enabled is true', function () {
@@ -19,10 +19,10 @@ describe('Unit | Domain | Models | Solution', function () {
       const solution = new Solution({ id: 'id', isT1Enabled: true });
 
       // when
-      const enabledTreatments = solution.enabledTreatments;
+      const enabledTolerances = solution.enabledTolerances;
 
       // then
-      expect(enabledTreatments).to.deep.equal(['t1']);
+      expect(enabledTolerances).to.deep.equal(['t1']);
     });
 
     it('should contain t2, when isT2Enabled is true', function () {
@@ -30,10 +30,10 @@ describe('Unit | Domain | Models | Solution', function () {
       const solution = new Solution({ id: 'id', isT2Enabled: true });
 
       // when
-      const enabledTreatments = solution.enabledTreatments;
+      const enabledTolerances = solution.enabledTolerances;
 
       // then
-      expect(enabledTreatments).to.deep.equal(['t2']);
+      expect(enabledTolerances).to.deep.equal(['t2']);
     });
 
     it('should contain t3, when isT3Enabled is true', function () {
@@ -41,10 +41,10 @@ describe('Unit | Domain | Models | Solution', function () {
       const solution = new Solution({ id: 'id', isT3Enabled: true });
 
       // when
-      const enabledTreatments = solution.enabledTreatments;
+      const enabledTolerances = solution.enabledTolerances;
 
       // then
-      expect(enabledTreatments).to.deep.equal(['t3']);
+      expect(enabledTolerances).to.deep.equal(['t3']);
     });
 
     it('should contain t1, t2, t3, when isT1Enabled, isT2Enabled, isT3Enabled is true', function () {
@@ -52,10 +52,10 @@ describe('Unit | Domain | Models | Solution', function () {
       const solution = new Solution({ id: 'id', isT1Enabled: true, isT2Enabled: true, isT3Enabled: true });
 
       // when
-      const enabledTreatments = solution.enabledTreatments;
+      const enabledTolerances = solution.enabledTolerances;
 
       // then
-      expect(enabledTreatments).to.deep.equal(['t1', 't2', 't3']);
+      expect(enabledTolerances).to.deep.equal(['t1', 't2', 't3']);
     });
   });
 
