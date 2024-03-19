@@ -4,17 +4,25 @@ import { fileURLToPath } from 'node:url';
 
 import * as certificationResultRepository from '../../../../../lib/infrastructure/repositories/certification-result-repository.js';
 import * as competenceMarkRepository from '../../../../../lib/infrastructure/repositories/competence-mark-repository.js';
+import * as answerRepository from '../../../../shared/infrastructure/repositories/answer-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
+import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
+import * as pickChallengeService from '../../../flash-certification/domain/services/pick-challenge-service.js';
+import * as flashAlgorithmConfigurationRepository from '../../../flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
+import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
+import * as certificationChallengeRepository from '../../../shared/infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as courseAssessmentResultRepository from '../../infrastructure/repositories/course-assessment-result-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
-
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
+ * @typedef {answerRepository} AnswerRepository
+ * @typedef {challengeRepository} ChallengeRepository
  * @typedef {assessmentResultRepository} AssessmentResultRepository
  * @typedef {courseAssessmentResultRepository} CourseAssessmentResultRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
@@ -22,8 +30,15 @@ import * as scoCertificationCandidateRepository from '../../infrastructure/repos
  * @typedef {scoCertificationCandidateRepository} ScoCertificationCandidateRepository
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {certificateRepository} CertificateRepository
+ * @typedef {certificationChallengeRepository} CertificationChallengeRepository
+ * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ * @typedef {pickChallengeService} PickChallengeService
+ * @typedef {flashAlgorithmService} FlashAlgorithmService
+ * @typedef {flashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
  **/
 const dependencies = {
+  answerRepository,
+  challengeRepository,
   assessmentResultRepository,
   competenceMarkRepository,
   courseAssessmentResultRepository,
@@ -31,6 +46,11 @@ const dependencies = {
   certificationResultRepository,
   scoCertificationCandidateRepository,
   certificateRepository,
+  certificationChallengeRepository,
+  certificationChallengeLiveAlertRepository,
+  pickChallengeService,
+  flashAlgorithmService,
+  flashAlgorithmConfigurationRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -45,9 +65,6 @@ const usecasesWithoutInjectedDependencies = {
     path: join(path, './'),
     ignoredFileNames: [
       'index.js',
-      'get-next-challenge-for-v2-certification.js',
-      'get-next-challenge-for-v3-certification.js',
-      'get-next-challenge-for-certification.js',
       'get-session-certification-reports.js',
       'get-v3-certification-course-details-for-administration.js',
     ],

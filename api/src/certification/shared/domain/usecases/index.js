@@ -77,6 +77,7 @@ const usecasesWithoutInjectedDependencies = {
     path: join(path, '../../../course/domain/usecases/'),
     ignoredFileNames: [
       'index.js',
+      'get-next-challenge-for-certification.js',
       'update-jury-comment.js',
       'get-sco-certification-results-by-division.js',
       'unreject-certification-course.js',
