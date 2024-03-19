@@ -4,7 +4,7 @@ import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { JurySession, statuses } from '../../../../../../lib/domain/models/JurySession.js';
 import { CertificationOfficer } from '../../../../../../src/certification/session/domain/models/CertificationOfficer.js';
 import * as jurySessionRepository from '../../../../../../src/certification/session/infrastructure/repositories/jury-session-repository.js';
-import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | JurySession', function () {
   describe('#get', function () {
@@ -585,6 +585,30 @@ describe('Integration | Repository | JurySession', function () {
   });
 
   describe('#assignCertificationOfficer', function () {
+    context('when assignedCertificationOfficerId provided does exist', function () {
+      context('when sessionId does not exist', function () {
+        it("should update the session's assignCertificationOfficer", async function () {
+          // given
+          const sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: null }).id;
+          const assignedCertificationOfficerId = databaseBuilder.factory.buildUser().id;
+          await databaseBuilder.commit();
+
+          // when
+          await jurySessionRepository.assignCertificationOfficer({
+            id: sessionId,
+            assignedCertificationOfficerId,
+          });
+
+          // then
+          const [sessionAssignedCertificationOfficerId] = await knex('sessions')
+            .pluck('assignedCertificationOfficerId')
+            .where({ id: sessionId });
+
+          expect(sessionAssignedCertificationOfficerId).to.deep.equals(assignedCertificationOfficerId);
+        });
+      });
+    });
+
     context('when assignedCertificationOfficerId provided does not exist', function () {
       it('should return a Not found error', async function () {
         // given
