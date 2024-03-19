@@ -12,18 +12,19 @@ describe('Unit | Router | smart-random-simulator', function () {
       const payload = {
         data: {
           attributes: {
-            'knowledge-elements': [
+            knowledgeElements: [
               {
                 source: 'direct',
                 status: 'validated',
-                'answer-id': 12345678,
-                'skill-id': 'rec45678765',
+                answerId: 12345678,
+                skillId: 'rec45678765',
               },
             ],
             answers: [
               {
+                id: '12345',
                 result: 'ok',
-                'challenge-id': 'rec1234567',
+                challengeId: 'rec1234567',
               },
             ],
             skills: [
@@ -39,12 +40,13 @@ describe('Unit | Router | smart-random-simulator', function () {
                 skill: {
                   id: 'recoaijndozia123',
                   name: '@skillname3',
+                  difficulty: 3,
                 },
                 locales: ['fr-fr'],
               },
             ],
             locale: 'fr-fr',
-            'assessment-id': 12346,
+            assessmentId: 12346,
           },
         },
       };
