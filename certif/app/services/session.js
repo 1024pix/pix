@@ -1,7 +1,12 @@
 import { service } from '@ember/service';
 import { runTask } from 'ember-lifeline';
 import SessionService from 'ember-simple-auth/services/session';
-import { FRENCH_FRANCE_LOCALE, FRENCH_INTERNATIONAL_LOCALE } from 'pix-certif/services/locale';
+import {
+  ENGLISH_INTERNATIONAL_LOCALE,
+  FRENCH_FRANCE_LOCALE,
+  FRENCH_INTERNATIONAL_LOCALE,
+  SUPPORTED_LANGUAGES,
+} from 'pix-certif/services/locale';
 
 export default class CurrentSessionService extends SessionService {
   @service currentDomain;
@@ -48,7 +53,9 @@ export default class CurrentSessionService extends SessionService {
       return;
     }
 
-    const locale = userLocale || FRENCH_INTERNATIONAL_LOCALE;
+    const localeNotSupported = userLocale && !SUPPORTED_LANGUAGES.includes(userLocale);
+    const locale = localeNotSupported ? ENGLISH_INTERNATIONAL_LOCALE : userLocale || FRENCH_INTERNATIONAL_LOCALE;
+
     this.locale.setLocale(locale);
   }
 
