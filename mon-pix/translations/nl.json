@@ -1201,7 +1201,7 @@
       },
       "details": {
         "duration": "Duur",
-        "durationValue": "≈{duration} min",
+        "durationValue": "'<span aria-hidden=\"true\">'≈'</span><span class=\"screen-reader-only\">'Ongeveer '</span>'{duration} min",
         "explanationText1": "Pix trainingsmodules bestaan uit lessen en activiteiten om je te helpen je digitale vaardigheden te oefenen en te ontwikkelen. De lessen bestaan uit video's, audio, afbeeldingen en tekst. Met de activiteiten kun je direct oefenen en je antwoorden controleren. Elke module duurt ongeveer 10 minuten, gaat over een specifiek onderwerp en heeft een moeilijkheidsgraad van beginner tot expert.",
         "explanationText2": "Deze trainingsmodules bevinden zich momenteel in de beta-testfase. Je kunt ons suggesties voor verbetering sturen via de vragenlijst aan het einde van elke module.",
         "explanationTitle": "Wat is een module?",

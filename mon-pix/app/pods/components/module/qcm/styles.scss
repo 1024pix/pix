@@ -1,4 +1,9 @@
 .element-qcm {
+  &__header {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
   &__proposals {
     margin-bottom: var(--pix-spacing-4x);
   }
@@ -9,16 +14,16 @@
 }
 
 .element-qcm-header {
-  &__instruction {
-    margin-bottom: var(--pix-spacing-2x);
-    font-weight: var(--pix-font-medium);
-  }
-
   &__direction {
     @extend %pix-body-s;
 
     margin-bottom: var(--pix-spacing-4x);
     color: var(--pix-neutral-500);
+  }
+
+  &__instruction {
+    margin-bottom: var(--pix-spacing-2x);
+    font-weight: var(--pix-font-medium);
   }
 }
 

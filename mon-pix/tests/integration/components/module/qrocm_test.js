@@ -56,7 +56,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     assert.dom(screen.getByText('Mon instruction')).exists({ count: 1 });
     assert.ok(
       screen.getByRole('group', {
-        legend: this.intl.t('pages.modulix.qrocm.direction', { count: qrocm.proposals.length }),
+        legend: this.intl.t('pages.modulix.qrocm.direction', {
+          count: qrocm.proposals.filter(({ type }) => type !== 'text').length,
+        }),
       }),
     );
     assert.dom(screen.getByText('Ma première proposition')).exists({ count: 1 });

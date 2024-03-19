@@ -28,7 +28,7 @@ module('Integration | Component | Module | Details', function (hooks) {
     assert.ok(screen.getByRole('heading', { name: module.title, level: 1 }));
     assert.ok(screen.getByRole('img').hasAttribute('src', module.details.image));
     assert.ok(screen.getByText(module.details.description));
-    assert.ok(screen.getByText(`≈${module.details.duration} min`));
+    assert.ok(screen.getByText(`${module.details.duration} min`));
     assert.ok(screen.getByText(module.details.level));
     assert.ok(screen.getByText(module.details.objectives[0]));
     assert.ok(screen.getByRole('heading', { name: this.intl.t('pages.modulix.details.explanationTitle'), level: 2 }));

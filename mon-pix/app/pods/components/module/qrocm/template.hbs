@@ -1,13 +1,13 @@
 <form class="element-qrocm" autocapitalize="off" autocomplete="nope" autocorrect="off" spellcheck="false">
   <fieldset disabled={{this.disableInput}}>
     <div class="element-qrocm__header">
-      <div class="element-qrocm-header__instruction">
-        {{html-unsafe @qrocm.instruction}}
-      </div>
-
       <legend class="element-qrocm-header__direction">
         {{t "pages.modulix.qrocm.direction" count=this.nbOfProposals}}
       </legend>
+
+      <div class="element-qrocm-header__instruction">
+        {{html-unsafe @qrocm.instruction}}
+      </div>
     </div>
 
     <div class="element-qrocm__proposals">
