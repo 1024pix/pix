@@ -225,6 +225,21 @@ module('Unit | Service | session', function (hooks) {
         });
 
         module('when user is loaded', function () {
+          module('when user language is not available', function () {
+            test('sets the locale to English international', function (assert) {
+              // given
+              const isFranceDomain = false;
+              const localeFromQueryParam = undefined;
+              const userLocale = 'my-new-language-code-here';
+
+              // when
+              service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+
+              // then
+              assert.true(localeService.setLocale.calledWith(ENGLISH_INTERNATIONAL_LOCALE));
+            });
+          });
+
           test('sets the locale to the user’s lang', function (assert) {
             // given
             service.currentUser = {
