@@ -7,7 +7,7 @@ import * as codeGenerator from '../../../src/shared/domain/services/code-generat
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../infrastructure/constants.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
-import { ObjectValidationError, OrganizationTagNotFound, TargetProfileInvalidError } from '../errors.js';
+import { DomainError, ObjectValidationError, OrganizationTagNotFound, TargetProfileInvalidError } from '../errors.js';
 import { Organization, OrganizationForAdmin, OrganizationTag } from '../models/index.js';
 
 const SEPARATOR = '_';
@@ -99,7 +99,11 @@ async function _createOrganizations({ transformedOrganizationsData, domainTransa
       throw new InvalidInputDataError({ message: `User with ID "${createdByUserId}" does not exist` });
     }
 
-    throw error;
+    if (error instanceof DomainError) {
+      throw error;
+    }
+
+    throw new DomainError(error.message);
   }
 }
 
@@ -151,7 +155,11 @@ async function _updateSchoolsWithCodes({ createdOrganizations, domainTransaction
   } catch (error) {
     _monitorError(error.message, { error, event: 'add-school-organizations-codes' });
 
-    throw error;
+    if (error instanceof DomainError) {
+      throw error;
+    }
+
+    throw new DomainError(error.message);
   }
 }
 
@@ -181,7 +189,11 @@ async function _addDataProtectionOfficers({
   } catch (error) {
     _monitorError(error.message, { error, event: 'add-organizations-data-protection-officers' });
 
-    throw error;
+    if (error instanceof DomainError) {
+      throw error;
+    }
+
+    throw new DomainError(error.message);
   }
 }
 
@@ -205,7 +217,11 @@ async function _addTags({ allTags, createdOrganizations, domainTransaction, orga
   } catch (error) {
     _monitorError(error.message, { error, event: 'add-organizations-tags' });
 
-    throw error;
+    if (error instanceof DomainError) {
+      throw error;
+    }
+
+    throw new DomainError(error.message);
   }
 }
 
@@ -232,7 +248,11 @@ async function _addTargetProfiles({ createdOrganizations, domainTransaction, tar
       throw new TargetProfileInvalidError(`Le profil cible ${targetProfileId} n'existe pas.`);
     }
 
-    throw error;
+    if (error instanceof DomainError) {
+      throw error;
+    }
+
+    throw new DomainError(error.message);
   }
 }
 
@@ -268,7 +288,11 @@ async function _sendInvitationEmails({
   } catch (error) {
     _monitorError(error.message, { error, event: 'send-organizations-invitation-emails' });
 
-    throw error;
+    if (error instanceof DomainError) {
+      throw error;
+    }
+
+    throw new DomainError(error.message);
   }
 }
 
