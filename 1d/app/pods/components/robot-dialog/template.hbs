@@ -1,5 +1,5 @@
 <div class="robot-speaking">
-  <img class="robot-speaking__logo" alt="mascotte pix1d" src="/images/{{if @class (concat @class '-')}}robot.svg" />
+  <img class="robot-speaking__logo" alt="mascotte pix1d" src="/images/robot/robot-{{if @status  @status "default"}}.svg" />
   <div class="bubbles">
     {{yield}}
   </div>
