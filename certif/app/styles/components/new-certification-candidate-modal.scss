@@ -1,5 +1,3 @@
-/* stylelint-disable no-descending-specificity */
-
 .new-certification-candidate-modal {
   min-width: 576px;
   max-width: 576px;
@@ -9,84 +7,55 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+  }
 
-    &__required-fields-mention {
-      width: 100%;
+  .radio-button-container {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    align-items: center;
+
+    > div {
+      margin-top: 0;
     }
+  }
+}
 
-    &__field {
-      width: 100%;
-      margin: 12px 0;
+.new-certification-candidate-modal-form {
+  &__info-panel {
+    margin-top: 8px;
+  }
 
-      &__fix-alert {
-        position:relative;
+  &__required-fields-mention {
+    width: 100%;
+  }
 
-        &__input {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-        }
-      }
+  &__field {
+    display: flex;
+    gap: var(--pix-spacing-4x);
+    width: 100%;
+    margin: 12px 0;
 
-
-      label {
-        display: block;
-      }
-
-      .pix-select {
-        width: 248px;
-        height: 36px;
-      }
-
-      .birth-country-selector {
-        width: 248px;
-        height: 36px;
-      }
-
-      .radio-button-container {
-        display: flex;
-        align-items: center;
-        gap: var(--pix-spacing-4x);
-
-        > div {
-          margin-top: 0;
-        }
-      }
-
-      &-double {
-        width: 248px;
-      }
-
-      &__tooltip {
-        display: flex;
-        flex-wrap: wrap;
-
-        .pix-tooltip {
-          padding-left: 5px;
-          cursor: help;
-        }
-
-        .pix-tooltip__content--wide {
-          width: 600px;
-        }
-      }
-
-      &__info-panel {
-        margin-top: 8px;
-      }
+    .pix-input__container, button {
+      width: 248px;
     }
   }
 
-  &__actions {
+  /* prepayment custom field can be modified with the version 45 of pix UI */
+  &__tooltip {
     display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    padding: 16px 0;
-    background-color: var(--pix-neutral-20);
-    border-radius: 0 0 5px 5px;
+    flex-wrap: wrap;
 
-    .pix-button {
-      margin-left: 16px;
+    .pix-tooltip {
+      padding-left: 5px;
+      cursor: help;
+    }
+
+    .pix-tooltip__content--wide {
+      width: 600px;
+    }
+
+    > input {
+      width: 248px;
     }
   }
 }
