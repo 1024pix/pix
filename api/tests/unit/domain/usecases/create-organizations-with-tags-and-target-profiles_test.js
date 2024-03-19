@@ -1,3 +1,6 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable import/no-restricted-paths */
+import { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } from '../../../../db/pgsql-errors.js';
 import { ObjectValidationError, OrganizationTagNotFound } from '../../../../lib/domain/errors.js';
 import { OrganizationForAdmin } from '../../../../lib/domain/models/index.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
@@ -5,6 +8,7 @@ import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.j
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
+import { InvalidInputDataError } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', function () {
@@ -133,6 +137,53 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
           context: 'create-organizations-with-tags-and-target-profiles',
           error: { name: 'OrganizationTagNotFound' },
           event: 'add-organizations-tags',
+          team: 'acces',
+        });
+      });
+    });
+
+    context('when organization "createdBy" user id does not exist', function () {
+      it('throws an error', async function () {
+        // given
+        const firstOrganization = {
+          id: 1,
+          name: 'organization A',
+          externalId: 'externalId A',
+          tags: 'TagNotFound',
+          targetProfiles: '123',
+          type: 'PRO',
+          emailInvitations: 'fake@axample.net',
+          createdBy: 9912375,
+        };
+        const errorThrownMessage = `/* path: /api/admin/organizations/import-csv */ insert into "organizations" ("createdBy", "credit", "documentationUrl", "email", "externalId", "identityProviderForCampaigns", "isManagingStudents", "name", "provinceCode", "type") values ($1, $2, $3, DEFAULT, $4, $5, $6, $7, $8, $9) returning * - insert or update on table "organizations" violates foreign key constraint "organizations_createdby_foreign"`;
+        const errorThrown = new Error(errorThrownMessage);
+        errorThrown.code = PGSQL_FOREIGN_KEY_VIOLATION_ERROR;
+        errorThrown.detail = 'Key (createdBy)=(990000) is not present in table "users".';
+
+        organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
+        tagRepositoryStub.findAll.resolves(allTags);
+        organizationRepositoryStub.batchCreateOrganizations.rejects(errorThrown);
+
+        // when
+        const error = await catchErr(createOrganizationsWithTagsAndTargetProfiles)({
+          domainTransaction,
+          organizations: [firstOrganization],
+          organizationRepository: organizationRepositoryStub,
+          tagRepository: tagRepositoryStub,
+          organizationTagRepository: organizationTagRepositoryStub,
+          dataProtectionOfficerRepository,
+          organizationValidator,
+          organizationInvitationService,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidInputDataError);
+        expect(error.message).to.be.equal('User with ID "990000" does not exist');
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+          message: errorThrownMessage,
+          context: 'create-organizations-with-tags-and-target-profiles',
+          error: { name: 'Error' },
+          event: 'create-organizations',
           team: 'acces',
         });
       });
