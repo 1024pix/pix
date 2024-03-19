@@ -39,10 +39,10 @@
         },
         {
           "id": "11a8d5db-7175-498c-adf3-4cf2190eca6c",
-          "type": "text",
+          "type": "video",
           "content": "<iframe src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/f9a350fa-f3c6-40fd-b142-e3cdd10f38a5\"width=100% height=400></iframe>"
         },
-        {
+       {
           "id": "3f2ddc5a-9580-4da0-b9aa-e728b6dd1865",
           "type": "video",
           "title": "Qu'est-ce qu'un moteur de recherche",
