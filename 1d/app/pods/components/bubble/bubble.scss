@@ -41,7 +41,7 @@
   &::after {
     position: absolute;
     bottom: 0;
-    left: -8px;
+    left: -7px;
     display: block;
     width: 0;
     border-color: transparent var(--pix-primary-100);
@@ -73,5 +73,9 @@
       border-color: transparent var(--pix-error-100);
     }
   }
+}
+
+.bubble-instruction {
+  margin-left: 168px;
 }
 

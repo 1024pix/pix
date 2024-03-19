@@ -1,16 +1,21 @@
 {{page-title "Challenge"}}
 <div class="container">
-    <Bubble @message={{@challenge.instruction}} />
-    {{#if (eq this.answer.result "ok")}}
-      <RobotDialog  @status="success">
-      <Bubble @message={{t "pages.challenge.messages.correct-answer"}}  @color="success" aria-live="polite" />
-      </RobotDialog>
-    {{/if}}
-    {{#if (eq this.answer.result "ko")}}
-    <RobotDialog @status="error">
-      <Bubble @message={{t "pages.challenge.messages.wrong-answer"}}  @status="error" @color="error" aria-live="polite" />
+  <Bubble class="bubble-instruction" @message={{@challenge.instruction}} />
+  {{#if (eq this.answer.result "ok")}}
+    <RobotDialog @status="success">
+      <Bubble @message={{t "pages.challenge.messages.correct-answer"}} @color="success" aria-live="polite" />
     </RobotDialog>
-    {{/if}}
+  {{/if}}
+  {{#if (eq this.answer.result "ko")}}
+    <RobotDialog @status="error">
+      <Bubble
+        @message={{t "pages.challenge.messages.wrong-answer"}}
+        @status="error"
+        @color="error"
+        aria-live="polite"
+      />
+    </RobotDialog>
+  {{/if}}
 
   <Challenge::Item @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} @assessment={{@assessment}} />
 
