@@ -56,7 +56,7 @@ const register = async function (server) {
         auth: false,
         handler: oidcController.getIdentityProviders,
         notes: [
-          'Cette route renvoie un objet contenant les informations requises par le front pour les partenaires oidc',
+          'Cette route renvoie un objet contenant les informations requises par le front pour les partenaires OIDC',
         ],
         tags: ['api', 'oidc'],
       },
@@ -170,8 +170,8 @@ const register = async function (server) {
         },
         handler: oidcController.findUserForReconciliation,
         notes: [
-          "- Cette route permet d'identifier un utilisateur Pix provenant de la double mire oidc.\n" +
-            '- Elle retournera un access token et une uri de déconnexion',
+          "- Cette route permet d'identifier un utilisateur Pix provenant de la double mire OIDC.\n" +
+            "- Elle renvoie un objet contenant des informations sur l'utilisateur.",
         ],
         tags: ['api', 'oidc'],
       },
@@ -195,7 +195,8 @@ const register = async function (server) {
         handler: oidcController.reconcileUser,
         notes: [
           "- Cette route permet d'ajouter le fournisseur d'identité d'où provient l'utilisateur comme méthode de connexion à son compte Pix.\n" +
-            "- Cette action se fait suite à la double mire OIDC quand l'utilisateur vient de s'identifier auprès de son fournisseur d'identité",
+            "- Cette action se fait suite à la double mire OIDC, quand l'utilisateur s'est identifié auprès de son fournisseur d'identité et a confirmé la réconciliation.\n" +
+            '- Elle retourne un access token et une uri de déconnexion',
         ],
         tags: ['api', 'oidc'],
       },
