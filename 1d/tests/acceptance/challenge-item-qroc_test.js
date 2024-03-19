@@ -64,8 +64,10 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
     test('should display answer feedback bubble if user validates after writing the right answer in text area', async function (assert) {
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
-      await fillIn('textarea[data-uid="qroc-proposal-uid"]', 'good-answer');
-      await triggerKeyEvent('textarea[data-uid="qroc-proposal-uid"]', 'keyup', 13);
+
+      const textArea = screen.getByLabelText('Rue de :');
+      await fillIn(textArea, 'good-answer');
+      await triggerKeyEvent(textArea, 'keyup', 13);
       await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
 
       // then
@@ -75,9 +77,12 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
     module('when user removes its answer', function () {
       test('"Je vérifie" button is disabled again', async function (assert) {
         // when
+
         const screen = await visit(`/assessments/${assessment.id}/challenges`);
-        await fillIn('textarea[data-uid="qroc-proposal-uid"]', 'good-answer');
-        await fillIn('textarea[data-uid="qroc-proposal-uid"]', '');
+        const textArea = screen.getByLabelText('Rue de :');
+
+        await fillIn(textArea, 'good-answer');
+        await fillIn(textArea, '');
 
         // then
         assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
