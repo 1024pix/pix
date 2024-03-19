@@ -84,7 +84,6 @@ module('Integration | Component | users | user-overview', function (hooks) {
 
           // when
           const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
-          // await this.pauseTest()
 
           // then
           assert.dom(screen.getByText(`Prénom : ${this.user.firstName}`)).exists();
@@ -506,6 +505,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
       class AccessControlStub extends Service {
         hasAccessToUsersActionsScope = false;
       }
+
       this.set('user', {
         firstName: 'John',
         lastName: 'Harry',
