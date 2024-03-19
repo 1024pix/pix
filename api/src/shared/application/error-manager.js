@@ -146,6 +146,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
 
+  if (error instanceof DomainErrors.InvalidInputDataError) {
+    return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
+  }
+
   return new HttpErrors.BaseHttpError(error.message);
 }
 
