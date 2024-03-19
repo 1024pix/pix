@@ -1,13 +1,13 @@
 import { _ } from '../../../shared/infrastructure/utils/lodash-utils.js';
 
-const ALL_TREATMENTS = ['t1', 't2', 't3'];
+const ALL_TOLERANCES = ['t1', 't2', 't3'];
 
-function getEnabledTreatments(shouldApplyTreatments, deactivations) {
-  return shouldApplyTreatments ? ALL_TREATMENTS.filter((treatment) => !deactivations[treatment]) : [];
+function getEnabledTolerances(shouldApplyTolerances, deactivations) {
+  return shouldApplyTolerances ? ALL_TOLERANCES.filter((tolerance) => !deactivations[tolerance]) : [];
 }
 
-function useLevenshteinRatio(enabledTreatments) {
-  return _.includes(enabledTreatments, 't3');
+function useLevenshteinRatio(enabledTolerances) {
+  return _.includes(enabledTolerances, 't3');
 }
 
-export { getEnabledTreatments, useLevenshteinRatio };
+export { getEnabledTolerances, useLevenshteinRatio };
