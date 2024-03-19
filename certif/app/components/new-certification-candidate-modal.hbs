@@ -52,27 +52,22 @@
             {{t "common.labels.candidate.gender.title"}}
           </legend>
           <div class="radio-button-container">
-            <input
-              type="radio"
-              id="female"
-              value="F"
+            <PixRadioButton
+              @value="F"
               name="sex"
               required
-              {{on "click" (fn @updateCandidateData @candidateData "sex")}}
-            />
-            <label class="radio-button-label" for="female">
+              {{on "change" (fn @updateCandidateData @candidateData "sex")}}
+            >
               {{t "common.labels.candidate.gender.woman"}}
-            </label>
-            <input
-              type="radio"
-              id="male"
-              value="M"
+            </PixRadioButton>
+            <PixRadioButton
+              @value="M"
               name="sex"
-              {{on "click" (fn @updateCandidateData @candidateData "sex")}}
-            />
-            <label class="radio-button-label" for="male">
+              required
+              {{on "change" (fn @updateCandidateData @candidateData "sex")}}
+            >
               {{t "common.labels.candidate.gender.man"}}
-            </label>
+            </PixRadioButton>
           </div>
         </fieldset>
       </div>
@@ -122,28 +117,23 @@
               {{t "common.labels.candidate.birth-geographical-code"}}
             </legend>
             <div class="radio-button-container">
-              <input
-                type="radio"
-                id="insee-code-choice"
+              <PixRadioButton
                 name="birth-geo-code-option"
-                value="insee"
+                @value="insee"
                 checked="checked"
-                {{on "click" (fn this.selectBirthGeoCodeOption "insee")}}
+                {{on "change" (fn this.selectBirthGeoCodeOption "insee")}}
                 required
-              />
-              <label class="radio-button-label" for="insee-code-choice">
+              >
                 {{t "common.labels.candidate.insee-code"}}
-              </label>
-              <input
-                type="radio"
-                id="postal-code-choice"
+              </PixRadioButton>
+              <PixRadioButton
                 name="birth-geo-code-option"
-                value="postal"
-                {{on "click" (fn this.selectBirthGeoCodeOption "postal")}}
-              />
-              <label class="radio-button-label" for="postal-code-choice">
+                @value="postal"
+                {{on "change" (fn this.selectBirthGeoCodeOption "postal")}}
+                required
+              >
                 {{t "common.labels.candidate.postcode"}}
-              </label>
+              </PixRadioButton>
             </div>
           </fieldset>
         </div>
@@ -315,34 +305,22 @@
 
       {{#if this.complementaryCertificationsHabilitations.length}}
         <div class="new-certification-candidate-modal__form__field">
-          <span class="label">
-            {{t "common.forms.certification-labels.additional-certification"}}
-          </span>
-          <div class="complementary-certifications-checkbox-list">
-            <fieldset id="complementary-certifications">
-              <label for="no-complementaryCertification">
-                <input
-                  type="radio"
-                  name="complementary-certifications"
-                  id={{concat "no-complementaryCertification"}}
-                  checked="checked"
-                  {{on "input" this.updateComplementaryCertification}}
-                />
-                {{t "common.labels.candidate.none"}}
-              </label>
-              {{#each this.complementaryCertificationsHabilitations as |complementaryCertificationHabilitation index|}}
-                <label for={{concat "complementaryCertification_" index}}>
-                  <input
-                    type="radio"
-                    name="complementary-certifications"
-                    id={{concat "complementaryCertification_" index}}
-                    {{on "input" (fn this.updateComplementaryCertification complementaryCertificationHabilitation)}}
-                  />
-                  {{complementaryCertificationHabilitation.label}}
-                </label>
-              {{/each}}
-            </fieldset>
-          </div>
+          <fieldset id="complementary-certifications">
+            <legend class="label">
+              {{t "common.forms.certification-labels.additional-certification"}}
+            </legend>
+            <PixRadioButton name="complementary-certifications" {{on "change" this.updateComplementaryCertification}}>
+              {{t "common.labels.candidate.none"}}
+            </PixRadioButton>
+            {{#each this.complementaryCertificationsHabilitations as |complementaryCertificationHabilitation|}}
+              <PixRadioButton
+                name="complementary-certifications"
+                {{on "change" (fn this.updateComplementaryCertification complementaryCertificationHabilitation)}}
+              >
+                {{complementaryCertificationHabilitation.label}}
+              </PixRadioButton>
+            {{/each}}
+          </fieldset>
         </div>
       {{/if}}
     </form>

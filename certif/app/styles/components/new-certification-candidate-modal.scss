@@ -5,13 +5,6 @@
   max-width: 576px;
   margin: 100px auto;
 
-  /* to fix in pix UI */
-  fieldset {
-    margin: 0;
-    padding: 0;
-    border: 0;
-  }
-
   &__form {
     display: flex;
     flex-wrap: wrap;
@@ -38,17 +31,6 @@
 
       label {
         display: block;
-
-        &.radio-button-label {
-          display: inline-block;
-          margin: 0 16px 0 8px;
-        }
-      }
-
-      input {
-        box-sizing: border-box;
-        width: 248px;
-        height: 36px;
       }
 
       .pix-select {
@@ -61,14 +43,14 @@
         height: 36px;
       }
 
-      input[type='radio'] {
-        width: 20px;
-        height: 20px;
-      }
-
       .radio-button-container {
         display: flex;
         align-items: center;
+        gap: var(--pix-spacing-4x);
+
+        > div {
+          margin-top: 0;
+        }
       }
 
       &-double {
@@ -91,27 +73,6 @@
 
       &__info-panel {
         margin-top: 8px;
-      }
-
-      .complementary-certifications-checkbox-list {
-        display: flex;
-
-        ul {
-          margin: 8px;
-          padding: 0;
-          list-style-type: none;
-        }
-
-        label {
-          display: flex;
-          align-items: center;
-          height: 30px;
-        }
-
-        input {
-          width: 20px;
-          margin-right: 10px;
-        }
       }
     }
   }
