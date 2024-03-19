@@ -1,9 +1,6 @@
 import { config } from '../../../../shared/config.js';
 import { status as CertificationStatus } from '../../../../shared/domain/models/AssessmentResult.js';
 
-const MINIMUM_ESTIMATED_LEVEL = -8;
-const MAXIMUM_ESTIMATED_LEVEL = 8;
-
 const MAX_PIX_SCORE = 1024;
 const NUMBER_OF_COMPETENCES = 16;
 const PIX_PER_LEVEL = 8;
@@ -77,12 +74,14 @@ const _computeScore = ({
   intervalHeight,
 }) => {
   let normalizedEstimatedLevel = estimatedLevel;
+  const minimumEstimatedLevel = certificationScoringIntervals[0].bounds.min;
+  const maximumEstimatedLevel = certificationScoringIntervals.at(-1).bounds.max;
 
-  if (normalizedEstimatedLevel < MINIMUM_ESTIMATED_LEVEL) {
-    normalizedEstimatedLevel = MINIMUM_ESTIMATED_LEVEL;
+  if (normalizedEstimatedLevel < minimumEstimatedLevel) {
+    normalizedEstimatedLevel = minimumEstimatedLevel;
   }
-  if (normalizedEstimatedLevel > MAXIMUM_ESTIMATED_LEVEL) {
-    normalizedEstimatedLevel = MAXIMUM_ESTIMATED_LEVEL;
+  if (normalizedEstimatedLevel > maximumEstimatedLevel) {
+    normalizedEstimatedLevel = maximumEstimatedLevel;
   }
 
   const intervalIndex = _findIntervalIndex(normalizedEstimatedLevel, certificationScoringIntervals);
