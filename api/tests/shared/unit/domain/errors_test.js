@@ -37,4 +37,20 @@ describe('Unit | Shared | Domain | Errors', function () {
       });
     });
   });
+
+  describe('#InvalidInputDataError', function () {
+    it('exports InvalidInputDataError', function () {
+      // then
+      expect(errors.InvalidInputDataError).to.exist;
+    });
+
+    it('has default error message and code', function () {
+      // when
+      const error = new errors.InvalidInputDataError();
+
+      // then
+      expect(error.message).to.equal('Provided input data is invalid');
+      expect(error.code).to.equal('INVALID_INPUT_DATA');
+    });
+  });
 });
