@@ -13,7 +13,7 @@ class Solution {
    * @param type: type de l'épreuve
    * @param value: Bonne réponse attendue.
    *
-   * Les traitements T1, T2 et T3 sont les traitements qu'il est possible d'utiliser pour valider une réponse.
+   * Les tolérances T1, T2 et T3 sont les tolérances qu'il est possible d'utiliser pour valider une réponse.
    * Pour plus d'informations, ne pas hésiter à se reporter aux explications présentes dans pix-editor.
    */
   constructor({
@@ -34,29 +34,29 @@ class Solution {
     this.qrocBlocksTypes = qrocBlocksTypes;
   }
 
-  get enabledTreatments() {
-    const enabledTreatments = [];
+  get enabledTolerances() {
+    const enabledTolerances = [];
     if (this.isT1Enabled) {
-      enabledTreatments.push('t1');
+      enabledTolerances.push('t1');
     }
     if (this.isT2Enabled) {
-      enabledTreatments.push('t2');
+      enabledTolerances.push('t2');
     }
     if (this.isT3Enabled) {
-      enabledTreatments.push('t3');
+      enabledTolerances.push('t3');
     }
-    return enabledTreatments;
+    return enabledTolerances;
   }
 
   // TODO: delete when deactivation object is correctly deleted everywhere
   /**
-   * @deprecated use the enabledTreatments property
+   * @deprecated use the enabledTolerances property
    */
   get deactivations() {
     return {
-      t1: !this.enabledTreatments.includes('t1'),
-      t2: !this.enabledTreatments.includes('t2'),
-      t3: !this.enabledTreatments.includes('t3'),
+      t1: !this.enabledTolerances.includes('t1'),
+      t2: !this.enabledTolerances.includes('t2'),
+      t3: !this.enabledTolerances.includes('t3'),
     };
   }
 }

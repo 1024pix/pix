@@ -5,11 +5,11 @@ import { AnswerStatus } from '../../../shared/domain/models/AnswerStatus.js';
 import { _ } from '../../../shared/infrastructure/utils/lodash-utils.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { useLevenshteinRatio } from './services-utils.js';
-import { applyTreatments } from './validation-treatments.js';
+import { applyTolerances } from './validation-tolerances.js';
 
 function match({ answerValue, solution }) {
   const solutionValue = solution.value;
-  const enabledTreatments = solution.enabledTreatments;
+  const enabledTolerances = solution.enabledTolerances;
   const qrocBlocksTypes = solution.qrocBlocksTypes || {};
 
   // Input checking
@@ -22,15 +22,15 @@ function match({ answerValue, solution }) {
     throw new Error('An error occurred because there is no solution found for an answer.');
   }
 
-  // Treatments
-  const treatedSolutions = _applyTreatmentsToSolutions(solutionValue, enabledTreatments, qrocBlocksTypes);
-  const treatedAnswers = _applyTreatmentsToAnswers(answerValue, enabledTreatments, qrocBlocksTypes);
+  // Tolerances
+  const treatedSolutions = _applyTolerancesToSolutions(solutionValue, enabledTolerances, qrocBlocksTypes);
+  const treatedAnswers = _applyTolerancesToAnswers(answerValue, enabledTolerances, qrocBlocksTypes);
 
   // Comparison
   const resultDetails = _compareAnswersAndSolutions(
     treatedAnswers,
     treatedSolutions,
-    enabledTreatments,
+    enabledTolerances,
     qrocBlocksTypes,
   );
 
@@ -41,7 +41,7 @@ function match({ answerValue, solution }) {
   };
 }
 
-function _applyTreatmentsToSolutions(solutions, enabledTreatments, qrocBlocksTypes = {}) {
+function _applyTolerancesToSolutions(solutions, enabledTolerances, qrocBlocksTypes = {}) {
   const treatedSolutions = {};
   for (const solutionKey in solutions) {
     const solutionVariants = solutions[solutionKey];
@@ -49,25 +49,25 @@ function _applyTreatmentsToSolutions(solutions, enabledTreatments, qrocBlocksTyp
 
     treatedSolutions[solutionKey] = solutionVariants.map((variant) => {
       if (solutionType === 'select') {
-        return applyTreatments(variant, []);
+        return applyTolerances(variant, []);
       }
 
-      return applyTreatments(variant, enabledTreatments);
+      return applyTolerances(variant, enabledTolerances);
     });
   }
 
   return treatedSolutions;
 }
 
-function _applyTreatmentsToAnswers(answers, enabledTreatments, qrocBlocksTypes = {}) {
+function _applyTolerancesToAnswers(answers, enabledTolerances, qrocBlocksTypes = {}) {
   const treatedAnswers = {};
   for (const answerKey in answers) {
     const answer = answers[answerKey];
     const answerType = qrocBlocksTypes[answerKey];
     if (answerType === 'select') {
-      treatedAnswers[answerKey] = applyTreatments(answer, []);
+      treatedAnswers[answerKey] = applyTolerances(answer, []);
     } else {
-      treatedAnswers[answerKey] = applyTreatments(answer, enabledTreatments);
+      treatedAnswers[answerKey] = applyTolerances(answer, enabledTolerances);
     }
   }
 
@@ -99,13 +99,13 @@ function _areAnswersComparableToSolutions(answers, solutions) {
   return true;
 }
 
-function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qrocBlocksTypes = {}) {
+function _compareAnswersAndSolutions(answers, solutions, enabledTolerances, qrocBlocksTypes = {}) {
   const results = {};
   for (const answerKey in answers) {
     const answer = answers[answerKey];
     const solutionVariants = solutions[answerKey];
 
-    if (useLevenshteinRatio(enabledTreatments) && qrocBlocksTypes[answerKey] !== 'select') {
+    if (useLevenshteinRatio(enabledTolerances) && qrocBlocksTypes[answerKey] !== 'select') {
       results[answerKey] = _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);
     } else if (solutionVariants) {
       results[answerKey] = solutionVariants.includes(answer);
@@ -125,8 +125,8 @@ function _formatResult(resultDetails) {
 }
 
 export {
-  _applyTreatmentsToAnswers,
-  _applyTreatmentsToSolutions,
+  _applyTolerancesToAnswers,
+  _applyTolerancesToSolutions,
   _areAnswersComparableToSolutions,
   _compareAnswersAndSolutions,
   _formatResult,

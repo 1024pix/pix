@@ -19,30 +19,36 @@ function removeSpecialCharacters(value) {
     .replace(/\s\s+/g, ' ');
 }
 
-function applyPreTreatments(value) {
+function applyPreTreatmentForTolerance(value) {
   return value
     .toString()
     .normalize('NFC')
     .replace(/\u00A0/g, ' ');
 }
 
-const treatments = {
+const tolerances = {
   t1: normalizeAndRemoveAccents,
   t2: removeSpecialCharacters,
 };
 
-function applyTreatments(string, enabledTreatments) {
+function applyTolerances(string, enabledTolerances) {
   let result = string.toString();
-  if (_.isEmpty(enabledTreatments)) {
+  if (_.isEmpty(enabledTolerances)) {
     return result;
   }
-  _(enabledTreatments)
+  _(enabledTolerances)
     .sort()
-    .each((treatment) => {
-      const treatmentFunction = _.get(treatments, treatment);
-      result = treatmentFunction ? treatmentFunction(result) : result;
+    .each((tolerance) => {
+      const toleranceFunction = _.get(tolerances, tolerance);
+      result = toleranceFunction ? toleranceFunction(result) : result;
     });
   return result;
 }
 
-export { applyPreTreatments, applyTreatments, normalizeAndRemoveAccents, removeSpecialCharacters, treatments };
+export {
+  applyPreTreatmentForTolerance,
+  applyTolerances,
+  normalizeAndRemoveAccents,
+  removeSpecialCharacters,
+  tolerances,
+};

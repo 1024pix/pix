@@ -28,7 +28,7 @@ class QROCMForAnswerVerification extends QROCM {
       this.validator = new ValidatorQROCMInd({
         solution: {
           value: this.solutionValues,
-          enabledTreatments: this.solutionTolerances,
+          enabledTolerances: this.solutionTolerances,
         },
       });
     }
