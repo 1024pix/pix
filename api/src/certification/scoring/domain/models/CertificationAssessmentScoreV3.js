@@ -1,4 +1,3 @@
-import { ABORT_REASONS } from '../../../../../lib/domain/models/CertificationCourse.js';
 import { config } from '../../../../shared/config.js';
 import { status as CertificationStatus } from '../../../../shared/domain/models/AssessmentResult.js';
 
@@ -70,17 +69,11 @@ class CertificationAssessmentScoreV3 {
       allAnswers,
     });
 
-    const { maximumAssessmentLength } = algorithm.getConfiguration();
-
-    const rawScore = _computeScore(estimatedLevel, maxReachableLevelOnCertificationDate);
+    const nbPix = _computeScore(estimatedLevel, maxReachableLevelOnCertificationDate);
 
     const competenceMarks = competencesForScoring.map((competenceForScoring) =>
       competenceForScoring.getCompetenceMark(estimatedLevel),
     );
-
-    const nbPix = _shouldDowngradeScore({ maximumAssessmentLength, answers: allAnswers, abortReason })
-      ? _downgradeScore(rawScore)
-      : rawScore;
 
     const status = _isCertificationRejected({ answers: allAnswers, abortReason })
       ? CertificationStatus.REJECTED
@@ -134,22 +127,8 @@ const _computeScore = (estimatedLevel, maxReachableLevelOnCertificationDate) => 
   return Math.round(limitedScore);
 };
 
-const _downgradeScore = (score) => Math.round(score * 0.8);
-
-const _shouldDowngradeScore = ({ maximumAssessmentLength, answers, abortReason }) => {
-  return (
-    _hasCandidateAnsweredEnoughQuestions({ answers }) &&
-    !_hasCandidateCompletedTheCertification({ answers, maximumAssessmentLength }) &&
-    abortReason === ABORT_REASONS.CANDIDATE
-  );
-};
-
 const _isCertificationRejected = ({ answers, abortReason }) => {
   return !_hasCandidateAnsweredEnoughQuestions({ answers }) && abortReason;
-};
-
-const _hasCandidateCompletedTheCertification = ({ answers, maximumAssessmentLength }) => {
-  return answers.length >= maximumAssessmentLength;
 };
 
 const _hasCandidateAnsweredEnoughQuestions = ({ answers }) => {

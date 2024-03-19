@@ -261,46 +261,6 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     });
 
     describe('when the abort reason is that the candidate did not finish', function () {
-      it('should return the downgraded score', async function () {
-        const expectedEstimatedLevel = 2;
-        const expectedScoreForEstimatedLevel = 474;
-
-        const numberOfAnsweredQuestions = 20;
-        const numberCertificationQuestions = 32;
-
-        const challenges = _buildChallenges(0, numberOfAnsweredQuestions);
-        const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
-        const abortReason = ABORT_REASONS.CANDIDATE;
-
-        answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
-        challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-        algorithm.getEstimatedLevelAndErrorRate
-          .withArgs({
-            challenges,
-            allAnswers,
-          })
-          .returns({
-            estimatedLevel: expectedEstimatedLevel,
-          });
-
-        algorithm.getConfiguration.returns(
-          domainBuilder.buildFlashAlgorithmConfiguration({
-            maximumAssessmentLength: numberCertificationQuestions,
-          }),
-        );
-
-        const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
-          challenges,
-          allAnswers,
-          algorithm,
-          abortReason,
-          maxReachableLevelOnCertificationDate,
-          competencesForScoring,
-        });
-
-        expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
-      });
-
       it('should return the competence marks', async function () {
         const expectedEstimatedLevel = 2;
 
