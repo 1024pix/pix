@@ -28,6 +28,7 @@ export default class CurrentSessionService extends SessionService {
   }
 
   async handleInvalidation() {
+    this.store.clear();
     const routeAfterInvalidation = this._getRouteAfterInvalidation();
     await super.handleInvalidation(routeAfterInvalidation);
   }
