@@ -85,6 +85,7 @@ const usecasesWithoutInjectedDependencies = {
       'find-certification-attestations-for-division.js',
       'get-certification-attestation.js',
       'get-certification-attestations-for-session.js',
+      'get-session-certification-reports.js',
     ],
   })),
 };
