@@ -15,6 +15,7 @@ import * as flashAlgorithmConfigurationRepository from '../../../flash-certifica
 import * as certificationChallengeLiveAlertRepository from '../../../shared/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationChallengeRepository from '../../../shared/infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationCourseRepository from '../../../shared/infrastructure/repositories/certification-course-repository.js';
+import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as courseAssessmentResultRepository from '../../infrastructure/repositories/course-assessment-result-repository.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
@@ -32,6 +33,7 @@ import * as scoCertificationCandidateRepository from '../../infrastructure/repos
  * @typedef {certificateRepository} CertificateRepository
  * @typedef {certificationChallengeRepository} CertificationChallengeRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ * @typedef {certificationReportRepository} CertificationReportRepository
  * @typedef {pickChallengeService} PickChallengeService
  * @typedef {flashAlgorithmService} FlashAlgorithmService
  * @typedef {flashAlgorithmConfigurationRepository} FlashAlgorithmConfigurationRepository
@@ -48,6 +50,7 @@ const dependencies = {
   certificateRepository,
   certificationChallengeRepository,
   certificationChallengeLiveAlertRepository,
+  certificationReportRepository,
   pickChallengeService,
   flashAlgorithmService,
   flashAlgorithmConfigurationRepository,
@@ -63,11 +66,7 @@ const path = dirname(fileURLToPath(import.meta.url));
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({
     path: join(path, './'),
-    ignoredFileNames: [
-      'index.js',
-      'get-session-certification-reports.js',
-      'get-v3-certification-course-details-for-administration.js',
-    ],
+    ignoredFileNames: ['index.js', 'get-v3-certification-course-details-for-administration.js'],
   })),
 };
 
