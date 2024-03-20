@@ -69,7 +69,9 @@ describe('Acceptance | Route | certification-course', function () {
 
         databaseBuilder.factory.buildFlashAlgorithmConfiguration();
 
-        databaseBuilder.factory.buildScoringConfiguration();
+        databaseBuilder.factory.buildScoringConfiguration({
+          createdByUserId: userId,
+        });
 
         const session = databaseBuilder.factory.buildSession({
           publishedAt: new Date('2018-12-01T01:02:03Z'),
