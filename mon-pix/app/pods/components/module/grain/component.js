@@ -6,6 +6,8 @@ import ModulePassage from '../passage/component';
 export default class ModuleGrain extends Component {
   grain = this.args.grain;
 
+  static AVAILABLE_ELEMENT_TYPES = ['text', 'image', 'video', 'qcu', 'qcm', 'qrocm'];
+
   @action
   getLastCorrectionForElement(element) {
     return this.args.passage.getLastCorrectionForElement(element);
@@ -19,8 +21,12 @@ export default class ModuleGrain extends Component {
     return this.args.canMoveToNextGrain && this.hasAnswerableElements && !this.allElementsAreAnswered;
   }
 
+  static getSupportedElements(grain) {
+    return grain.elements.filter((element) => ModuleGrain.AVAILABLE_ELEMENT_TYPES.includes(element.type));
+  }
+
   get displayableElements() {
-    return this.args.grain.supportedElements;
+    return ModuleGrain.getSupportedElements(this.args.grain);
   }
 
   get hasAnswerableElements() {

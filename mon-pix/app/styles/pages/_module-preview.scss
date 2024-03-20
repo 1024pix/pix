@@ -1,0 +1,38 @@
+.module-preview {
+    @extend .modulix;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    &__passage {
+        @extend .module-passage;
+    }
+
+    &__form {
+        position: sticky;
+        top: 0;
+        height: 84vh;
+        margin: var(--pix-spacing-12x) var(--pix-spacing-2x);
+        font-family: var(--pix-font-family-monospace);
+
+        .pix-textarea {
+            height: 100%;
+        }
+    }
+}
+
+.module-preview-passage {
+    &__title {
+        @extend .module-passage__title;
+    }
+
+    &__content {
+        @extend .module-passage__content;
+    }
+}
+
+.module-preview-form {
+    &__textarea {
+        height: 100%;
+    }
+}

@@ -3,10 +3,12 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
+import ModuleGrain from '../grain/component.js';
+
 export default class ModulePassage extends Component {
   @service router;
   @service metrics;
-  displayableGrains = this.args.module.grains.filter((grain) => grain.supportedElements.length > 0);
+  displayableGrains = this.args.module.grains.filter((grain) => ModuleGrain.getSupportedElements(grain).length > 0);
   @tracked grainsToDisplay = this.displayableGrains.length > 0 ? [this.displayableGrains[0]] : [];
 
   static SCROLL_OFFSET_PX = 70;
