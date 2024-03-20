@@ -389,6 +389,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     server = await createServer();
 
     user = databaseBuilder.factory.buildUser({});
+    const configurationCreatorId = databaseBuilder.factory.buildUser().id;
     assessment = databaseBuilder.factory.buildAssessment({
       userId: user.id,
       state: Assessment.states.STARTED,
@@ -417,7 +418,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         },
       ],
     });
-    databaseBuilder.factory.buildScoringConfiguration();
+    databaseBuilder.factory.buildScoringConfiguration({ createdByUserId: configurationCreatorId });
     databaseBuilder.factory.buildFlashAlgorithmConfiguration();
 
     await databaseBuilder.commit();
