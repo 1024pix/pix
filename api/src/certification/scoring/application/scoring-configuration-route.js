@@ -7,7 +7,7 @@ const register = async (server) => {
   server.route([
     {
       method: 'POST',
-      path: '/api/competence-for-scoring-configuration',
+      path: '/api/admin/competence-for-scoring-configuration',
       config: {
         pre: [
           {

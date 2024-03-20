@@ -13,13 +13,13 @@ describe('Acceptance | Application | scoring-configuration-route', function () {
     server = await createServer();
   });
 
-  describe('POST /api/competence-for-scoring-configuration', function () {
+  describe('POST /api/admin/competence-for-scoring-configuration', function () {
     describe('when called without being authenticated', function () {
       it('should return a 401', async function () {
         // given
         const options = {
           method: 'POST',
-          url: '/api/competence-for-scoring-configuration',
+          url: '/api/admin/competence-for-scoring-configuration',
         };
         // when
         const response = await server.inject(options);
@@ -35,7 +35,7 @@ describe('Acceptance | Application | scoring-configuration-route', function () {
 
         const options = {
           method: 'POST',
-          url: '/api/competence-for-scoring-configuration',
+          url: '/api/admin/competence-for-scoring-configuration',
           headers: {
             authorization,
           },
@@ -77,7 +77,7 @@ describe('Acceptance | Application | scoring-configuration-route', function () {
 
           const options = {
             method: 'POST',
-            url: '/api/competence-for-scoring-configuration',
+            url: '/api/admin/competence-for-scoring-configuration',
             headers: {
               authorization,
             },
@@ -107,7 +107,7 @@ describe('Acceptance | Application | scoring-configuration-route', function () {
 
           const options = {
             method: 'POST',
-            url: '/api/competence-for-scoring-configuration',
+            url: '/api/admin/competence-for-scoring-configuration',
             headers: {
               authorization,
             },
