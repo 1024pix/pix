@@ -134,14 +134,14 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
     this.set('inChallengeCategory', inChallengeCategory);
 
     // when
-    await render(hbs`
+    const screen = await render(hbs`
       <IssueReportModal::InChallengeCertificationIssueReportFields
         @inChallengeCategory={{this.inChallengeCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
       />`);
 
     //
-    assert.contains(`E1-E12`);
+    assert.dom(screen.getByText(`E1-E12`)).exists();
   });
 
   test('subcategory FILE_NOT_OPENING', async function (assert) {

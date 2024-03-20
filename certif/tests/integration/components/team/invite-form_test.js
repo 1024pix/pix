@@ -16,14 +16,13 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
 
   test('it contains email input and validation button', async function (assert) {
     // when
-    await render(
+    const screen = await render(
       hbs`<Team::InviteForm @onSubmit={{this.inviteStub}} @onCancel={{this.cancelStub}} @onUpdateEmail={{this.updateEmailStub}} />`,
     );
 
     // then
-    assert.dom('#email').exists();
-    assert.dom('#email').isRequired();
-    assert.dom('button[type="submit"]').exists();
+    assert.dom(screen.getByRole('textbox', { name: this.intl.t('pages.team-invite.input-label') })).isRequired();
+    assert.dom(screen.getByRole('button', { name: this.intl.t('pages.team-invite.invite-button') })).exists();
   });
 
   test('it binds certification center properties with email form input', async function (assert) {

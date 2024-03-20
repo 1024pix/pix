@@ -104,10 +104,10 @@ module('Acceptance | Session List', function (hooks) {
         server.createList('session-summary', 5, { certificationCenterId: 123, date: '2019-01-01' });
 
         // when
-        await visit('/sessions/liste');
+        const screen = await visit('/sessions/liste');
 
         // then
-        assert.dom('table tbody tr').exists({ count: 5 });
+        assert.strictEqual(screen.getAllByRole('row', { name: 'Session de certification' }).length, 5);
       });
 
       test('it should redirect to detail page of clicked session-summary', async function (assert) {
@@ -213,7 +213,7 @@ module('Acceptance | Session List', function (hooks) {
         assert.strictEqual(currentURL(), '/sessions/liste');
         assert.dom(screen.getByText('La session a été supprimée avec succès.')).exists();
         assert.dom(screen.queryByRole('button', { name: 'Supprimer la session 123' })).doesNotExist();
-        assert.dom(screen.queryByRole('button', { name: 'Supprimer la session 456' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Supprimer la session 456' })).exists();
       });
 
       test('it should display an error notification when the session deletion goes wrong', async function (assert) {
@@ -342,7 +342,7 @@ module('Acceptance | Session List', function (hooks) {
         await click(screen.getByRole('link', { name: 'Revenir à la liste des sessions' }));
 
         // then
-        assert.contains('Page 2 / 2');
+        assert.dom(screen.getByText('Page 2 / 2')).exists();
         assert.strictEqual(currentURL(), '/sessions/liste?pageNumber=2');
       });
     });

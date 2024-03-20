@@ -76,7 +76,10 @@ module('Acceptance | Session creation', function (hooks) {
         'My description',
       );
       await setFlatpickrDate('#session-date', sessionDate);
-      await setFlatpickrDate('#session-time', sessionTime);
+      await setFlatpickrDate(
+        screen.getByRole('textbox', { name: t('common.forms.session-labels.time-start') }),
+        sessionTime,
+      );
       await click(screen.getByRole('button', { name: t('pages.sessions.new.actions.create-session') }));
 
       // then
