@@ -3,7 +3,7 @@ server {
     listen <%= ENV['PORT'] %>;
     charset utf-8;
     location / {
-        limit_req zone=one burst=5;
-        proxy_pass http://<%= ENV["API_V1_BACKEND"] %>;
+        proxy_pass http://localhost:<%= ENV['NODE_PORT'] %>;
+        add_header  X-Pix  pixou  always;
     }
 }
