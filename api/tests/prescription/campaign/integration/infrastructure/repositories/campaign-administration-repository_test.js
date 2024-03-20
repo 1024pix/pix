@@ -468,17 +468,17 @@ describe('Integration | Repository | Campaign Administration', function () {
     let campaign;
 
     beforeEach(function () {
-      campaign = databaseBuilder.factory.buildCampaign();
+      campaign = new Campaign(databaseBuilder.factory.buildCampaign());
 
       return databaseBuilder.commit();
     });
 
     it('should return a Campaign domain object', async function () {
+      // given
+      campaign.updateFields({ title: 'Title' });
+
       // when
-      const campaignSaved = await campaignAdministrationRepository.update({
-        campaignId: campaign.id,
-        campaignAttributes: { title: 'Title' },
-      });
+      const campaignSaved = await campaignAdministrationRepository.update(campaign);
 
       // then
       expect(campaignSaved).to.be.an.instanceof(Campaign);
@@ -486,28 +486,25 @@ describe('Integration | Repository | Campaign Administration', function () {
 
     it('should update the correct campaign', async function () {
       // given
-      const campaignId = databaseBuilder.factory.buildCampaign({ title: 'MASH' }).id;
+      const expectedCampaign = new Campaign(databaseBuilder.factory.buildCampaign({ title: 'MASH' }));
       await databaseBuilder.commit();
+      campaign.updateFields({ title: 'Title' });
 
       // when
-      await campaignAdministrationRepository.update({
-        campaignId: campaign.id,
-        campaignAttributes: { title: 'Title' },
-      });
-      const row = await knex.from('campaigns').where({ id: campaignId }).first();
+      await campaignAdministrationRepository.update(campaign);
 
       // then
+      const row = await knex.from('campaigns').where({ id: expectedCampaign.id }).first();
       expect(row.title).to.equal('MASH');
     });
 
     it('should not add row in table "campaigns"', async function () {
       // given
       const rowsCountBeforeUpdate = await knex.select('id').from('campaigns');
+      campaign.updateFields({ title: 'Title' });
+
       // when
-      await campaignAdministrationRepository.update({
-        campaignId: campaign.id,
-        campaignAttributes: { title: 'Title' },
-      });
+      await campaignAdministrationRepository.update(campaign);
 
       // then
       const rowCountAfterUpdate = await knex.select('id').from('campaigns');
@@ -518,17 +515,15 @@ describe('Integration | Repository | Campaign Administration', function () {
       // given
       const newOwnerId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
+      campaign.updateFields({
+        title: 'New title',
+        name: 'New name',
+        customLandingPageText: 'New text',
+        ownerId: newOwnerId,
+      });
 
       // when
-      const campaignSaved = await campaignAdministrationRepository.update({
-        campaignId: campaign.id,
-        campaignAttributes: {
-          title: 'New title',
-          name: 'New name',
-          customLandingPageText: 'New text',
-          ownerId: newOwnerId,
-        },
-      });
+      const campaignSaved = await campaignAdministrationRepository.update(campaign);
 
       // then
       expect(campaignSaved.id).to.equal(campaign.id);
