@@ -15,7 +15,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
 
       await organizationImportRepository.save(organizationImport);
 
-      const savedImport = await organizationImportRepository.getByOrganizationId(organizationId);
+      const savedImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
       expect(savedImport.createdBy).to.equal(userId);
     });
 
@@ -33,7 +33,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
 
       await organizationImportRepository.save(organizationImport);
 
-      const savedImport = await organizationImportRepository.getByOrganizationId(organizationId);
+      const savedImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
       expect(savedImport.errors[0].message).to.equal('Something went wrong');
     });
 
@@ -41,12 +41,12 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       const organizationId = databaseBuilder.factory.buildOrganizationImport().organizationId;
       await databaseBuilder.commit();
 
-      const organizationImport = await organizationImportRepository.getByOrganizationId(organizationId);
+      const organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
       organizationImport.process({ errors: undefined });
 
       await organizationImportRepository.save(organizationImport);
 
-      const savedImport = await organizationImportRepository.getByOrganizationId(organizationId);
+      const savedImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
       expect(savedImport.status).to.equal(IMPORT_STATUSES.IMPORTED);
     });
 
@@ -85,7 +85,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       const expectedResult = databaseBuilder.factory.buildOrganizationImport();
       await databaseBuilder.commit();
 
-      const result = await organizationImportRepository.getByOrganizationId(expectedResult.organizationId);
+      const result = await organizationImportRepository.getLastByOrganizationId(expectedResult.organizationId);
 
       expect(result).to.be.deep.equal({ ...expectedResult, errors: null });
     });
@@ -99,13 +99,13 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       });
       await databaseBuilder.commit();
 
-      const result = await organizationImportRepository.getByOrganizationId(expectedResult.organizationId);
+      const result = await organizationImportRepository.getLastByOrganizationId(expectedResult.organizationId);
 
       expect(result).to.be.deep.equal({ ...expectedResult, errors: null });
     });
 
     it('should return null if nothing was found', async function () {
-      const result = await organizationImportRepository.getByOrganizationId(1);
+      const result = await organizationImportRepository.getLastByOrganizationId(1);
 
       expect(result).to.equal(null);
     });

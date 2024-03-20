@@ -33,11 +33,11 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
 
     organizationImportRepositoryStub = {
       get: sinon.stub(),
-      getByOrganizationId: sinon.stub(),
+      getLastByOrganizationId: sinon.stub(),
       save: sinon.stub(),
     };
 
-    organizationImportRepositoryStub.getByOrganizationId.callsFake(() =>
+    organizationImportRepositoryStub.getLastByOrganizationId.callsFake(() =>
       OrganizationImport.create({ organizationId, createdBy: 2 }),
     );
 
