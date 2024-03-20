@@ -38,10 +38,7 @@ describe('Unit | UseCase | update-campaign-details', function () {
       campaignUpdateValidator,
     });
 
-    expect(campaignAdministrationRepository.update).to.have.been.calledOnceWith({
-      campaignId,
-      campaignAttributes,
-    });
+    expect(campaignAdministrationRepository.update).to.have.been.calledOnceWith(campaign);
   });
 
   context('when you update campaign but validation is wrong', function () {
