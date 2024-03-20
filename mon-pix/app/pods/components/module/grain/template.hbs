@@ -12,6 +12,9 @@
     </header>
   {{/if}}
 
+  <div class="grain-card__tag">
+    <Module::Grain::Tag @type={{@grain.type}} />
+  </div>
   <div class="grain__card grain-card--{{@grain.type}}">
     <div class="grain-card__content">
       {{#each @grain.elements as |element|}}
