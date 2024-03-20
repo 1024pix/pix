@@ -23,7 +23,6 @@ module('Integration | Component | Footer', function (hooks) {
     // then
     assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.a11y') }));
     assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.data-protection-policy') }));
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.student-data-protection-policy') }));
     assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.eula') }));
     assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.help-center') }));
     assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.sitemap') }));
@@ -47,6 +46,14 @@ module('Integration | Component | Footer', function (hooks) {
       // then
       assert.dom(screen.queryByAltText('République française. Liberté, égalité, fraternité.')).doesNotExist();
     });
+
+    test('does not display the student data policy', async function (assert) {
+      // when
+      const screen = await render(hbs`<Footer />}`);
+
+      // then
+      assert.dom(screen.queryByRole('link', { name: 'Politique de protection des données des élèves' })).doesNotExist();
+    });
   });
 
   module('when url does have frenchDomainExtension', function (hooks) {
@@ -67,13 +74,13 @@ module('Integration | Component | Footer', function (hooks) {
       // then
       assert.dom(screen.getByAltText('République française. Liberté, égalité, fraternité.')).exists();
     });
-  });
 
-  test('displays the student data policy', async function (assert) {
-    // given & when
-    const screen = await render(hbs`<Footer />}`);
+    test('displays the student data policy', async function (assert) {
+      // when
+      const screen = await render(hbs`<Footer />}`);
 
-    // then
-    assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.student-data-protection-policy') }));
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Politique de protection des données des élèves' })).exists();
+    });
   });
 });
