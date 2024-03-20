@@ -35,7 +35,7 @@ describe('Unit | UseCase | ReplaceSupOrganizationLearner', function () {
     payload = { path: filename };
 
     organizationImportRepositoryStub = {
-      getByOrganizationId: sinon.stub(),
+      getLastByOrganizationId: sinon.stub(),
       save: sinon.stub(),
     };
 
@@ -45,7 +45,7 @@ describe('Unit | UseCase | ReplaceSupOrganizationLearner', function () {
       deleteFile: sinon.stub(),
     };
 
-    organizationImportRepositoryStub.getByOrganizationId.callsFake(
+    organizationImportRepositoryStub.getLastByOrganizationId.callsFake(
       () => new OrganizationImport({ organizationId, createdBy: 2, encoding: 'utf-8' }),
     );
   });

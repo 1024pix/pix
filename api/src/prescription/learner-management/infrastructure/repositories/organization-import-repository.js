@@ -5,7 +5,7 @@ function _toDomain(data) {
   return new OrganizationImport(data);
 }
 
-const getByOrganizationId = async function (organizationId) {
+const getLastByOrganizationId = async function (organizationId) {
   const result = await knex('organization-imports').where({ organizationId }).orderBy('createdAt', 'desc').first();
 
   if (!result) return null;
@@ -40,4 +40,4 @@ const save = async function (organizationImport) {
   }
 };
 
-export { get, getByOrganizationId, save };
+export { get, getLastByOrganizationId, save };

@@ -50,7 +50,7 @@ const importSupOrganizationLearners = async function ({
     errors.push(error);
     throw error;
   } finally {
-    organizationImport = await organizationImportRepository.getByOrganizationId(organizationId);
+    organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
     organizationImport.validate({ errors, warnings: warningsData });
     await organizationImportRepository.save(organizationImport);
     await importStorage.deleteFile({ filename });
@@ -65,7 +65,7 @@ const importSupOrganizationLearners = async function ({
     errors.push(error);
     throw error;
   } finally {
-    organizationImport = await organizationImportRepository.getByOrganizationId(organizationId);
+    organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
     organizationImport.process({ errors });
     await organizationImportRepository.save(organizationImport);
   }
