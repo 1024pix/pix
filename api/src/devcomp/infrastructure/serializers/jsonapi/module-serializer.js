@@ -16,7 +16,6 @@ function serialize(module) {
             title: grain.title,
             type: grain.type,
             elements: grain.elements,
-            rawElements: grain.elements,
           };
         }),
       };
@@ -25,7 +24,7 @@ function serialize(module) {
     grains: {
       ref: 'id',
       includes: true,
-      attributes: ['title', 'type', 'elements', 'rawElements'],
+      attributes: ['title', 'type', 'elements'],
     },
     typeForAttribute(attribute) {
       if (attribute === 'grains') {
