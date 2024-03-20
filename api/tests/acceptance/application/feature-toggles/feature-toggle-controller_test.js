@@ -24,6 +24,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
             'is-pix1d-enabled': true,
             'is-pix-plus-lower-lever-enabled': false,
             'is-certification-token-scope-enabled': false,
+            'is-module-preview-enabled': false,
           },
         },
       };

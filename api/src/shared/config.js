@@ -202,6 +202,7 @@ const configuration = (function () {
       isPix1dEnabled: isFeatureEnabled(process.env.FT_PIX_1D_ENABLED),
       isPixPlusLowerLeverEnabled: isFeatureEnabled(process.env.FT_ENABLE_PIX_PLUS_LOWER_LEVEL),
       isCertificationTokenScopeEnabled: isFeatureEnabled(process.env.FT_ENABLE_CERTIF_TOKEN_SCOPE),
+      isModulePreviewEnabled: isFeatureEnabled(process.env.FT_MODULE_PREVIEW_ENABLED),
     },
     fwb: {
       accessTokenLifespanMs: ms(process.env.FWB_ACCESS_TOKEN_LIFESPAN || '7d'),
