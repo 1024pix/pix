@@ -13,5 +13,7 @@ export default class LanguageAvailabilityBanner extends Component {
   }
 
   @action
-  closeBanner() {}
+  closeBanner() {
+    this.session.updateDataAttribute('localeNotSupportedBannerClosed', true);
+  }
 }
