@@ -75,7 +75,7 @@ const importOrganizationLearnersFromSIECLEXMLFormat = async function ({
     errors.push(error);
     throw error;
   } finally {
-    organizationImport = await organizationImportRepository.getByOrganizationId(organizationId);
+    organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
     organizationImport.validate({ errors });
     await organizationImportRepository.save(organizationImport);
     await importStorage.deleteFile({ filename });
@@ -104,7 +104,7 @@ const importOrganizationLearnersFromSIECLEXMLFormat = async function ({
       errors.push(error);
       throw error;
     } finally {
-      organizationImport = await organizationImportRepository.getByOrganizationId(organizationId);
+      organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
       organizationImport.process({ errors });
       await organizationImportRepository.save(organizationImport);
     }
