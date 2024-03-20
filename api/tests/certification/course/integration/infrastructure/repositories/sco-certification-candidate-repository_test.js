@@ -322,5 +322,61 @@ describe('Certification | Course | Integration | Repository | SCOCertificationCa
       // then
       expect(candidatesIds).to.deep.equal([candidateThatEnteredTheSession.id]);
     });
+
+    it('should retrieve the latest candidate when one has entered multiple sessions', async function () {
+      // given
+      const division = '3ème A';
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const candidate = {
+        firstName: 'Smith',
+        lastName: 'Aaron',
+        organizationLearnerId: databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organizationId,
+          division,
+        }).id,
+      };
+      const firstCertificationCourseStartDate = new Date('2022-01-01T09:00:33Z');
+      const secondCertificationCourseStartDate = new Date('2022-01-01T09:23:00Z');
+
+      const sessionIdOne = databaseBuilder.factory.buildSession({ publishedAt: '2024-02-01' }).id;
+      const sessionIdTwo = databaseBuilder.factory.buildSession({ publishedAt: '2024-01-01' }).id;
+
+      const candidateLinkedToTheFirstSession = databaseBuilder.factory.buildCertificationCandidate({
+        ...candidate,
+        sessionId: sessionIdOne,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        createdAt: firstCertificationCourseStartDate,
+        sessionId: candidateLinkedToTheFirstSession.sessionId,
+        lastName: candidateLinkedToTheFirstSession.lastName,
+        firstName: candidateLinkedToTheFirstSession.firstName,
+        isPublished: true,
+        userId: candidateLinkedToTheFirstSession.userId,
+        pixCertificationStatus: 'rejected',
+      });
+      const candidateLinkedToTheSecondSession = databaseBuilder.factory.buildCertificationCandidate({
+        ...candidate,
+        sessionId: sessionIdTwo,
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        createdAt: secondCertificationCourseStartDate,
+        sessionId: candidateLinkedToTheSecondSession.sessionId,
+        lastName: candidateLinkedToTheSecondSession.lastName,
+        firstName: candidateLinkedToTheSecondSession.firstName,
+        isPublished: true,
+        userId: candidateLinkedToTheSecondSession.userId,
+        pixCertificationStatus: 'validated',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const candidatesIds = await scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision({
+        organizationId,
+        division,
+      });
+
+      // then
+      expect(candidatesIds).to.deep.equal([candidateLinkedToTheSecondSession.id]);
+    });
   });
 });

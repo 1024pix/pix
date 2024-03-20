@@ -11,7 +11,10 @@ const findIdsByOrganizationIdAndDivision = async function ({ organizationId, div
     .select(
       'certification-candidates.id',
       knex.raw(
-        'row_number() OVER (PARTITION BY "certification-candidates"."organizationLearnerId" ORDER BY "sessions"."publishedAt" DESC NULLS LAST) as session_number',
+        `row_number() OVER (
+          PARTITION BY "certification-candidates"."organizationLearnerId"
+          ORDER BY "certification-courses"."createdAt" DESC
+        ) as session_number`,
       ),
     )
     .from('certification-candidates')
