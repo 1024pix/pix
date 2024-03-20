@@ -45,11 +45,11 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-csv', functi
       disableAllOrganizationLearnersInOrganization: sinon.stub().resolves(),
     };
     organizationImportRepositoryStub = {
-      getByOrganizationId: sinon.stub(),
+      getLastByOrganizationId: sinon.stub(),
       save: sinon.stub(),
     };
 
-    organizationImportRepositoryStub.getByOrganizationId.callsFake(
+    organizationImportRepositoryStub.getLastByOrganizationId.callsFake(
       () => new OrganizationImport({ organizationId, createdBy: 2, encoding: 'utf-8' }),
     );
     organizationRepositoryStub = { get: sinon.stub().resolves({ id: 123 }) };

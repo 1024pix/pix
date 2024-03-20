@@ -29,11 +29,11 @@ describe('Unit | UseCase | ImportSupOrganizationLearner', function () {
     };
 
     organizationImportRepositoryStub = {
-      getByOrganizationId: sinon.stub(),
+      getLastByOrganizationId: sinon.stub(),
       save: sinon.stub(),
     };
 
-    organizationImportRepositoryStub.getByOrganizationId.callsFake(
+    organizationImportRepositoryStub.getLastByOrganizationId.callsFake(
       () => new OrganizationImport({ organizationId, createdBy: 2, encoding: 'utf-8' }),
     );
   });

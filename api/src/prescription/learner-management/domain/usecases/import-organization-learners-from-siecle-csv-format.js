@@ -48,7 +48,7 @@ const importOrganizationLearnersFromSIECLECSVFormat = async function ({
   }
 
   try {
-    organizationImport = await organizationImportRepository.getByOrganizationId(organizationId);
+    organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
 
     const readableStream = await importStorage.readFile({ filename });
     const buffer = await getDataBuffer(readableStream);
@@ -69,7 +69,7 @@ const importOrganizationLearnersFromSIECLECSVFormat = async function ({
 
   return DomainTransaction.execute(async (domainTransaction) => {
     try {
-      organizationImport = await organizationImportRepository.getByOrganizationId(organizationId);
+      organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
 
       const organizationLearnersChunks = chunk(organizationLearnerData, ORGANIZATION_LEARNER_CHUNK_SIZE);
       const nationalStudentIdData = organizationLearnerData.map((learner) => learner.nationalStudentId, []);
