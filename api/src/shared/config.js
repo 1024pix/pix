@@ -1,11 +1,10 @@
+import dayjs from 'dayjs';
 import * as dotenv from 'dotenv';
-import path from 'path';
 import ms from 'ms';
+import path from 'path';
+import * as url from 'url';
 
 import { getArrayOfStrings, getArrayOfUpperStrings } from './infrastructure/utils/string-utils.js';
-
-import * as url from 'url';
-import dayjs from 'dayjs';
 
 dotenv.config();
 
@@ -328,7 +327,7 @@ const configuration = (function () {
       temporaryStorage: { idTokenLifespanMs: ms(process.env.POLE_EMPLOI_ID_TOKEN_LIFESPAN || '7d') },
       userInfoUrl: process.env.POLE_EMPLOI_OIDC_USER_INFO_URL,
     },
-    port: parseInt(process.env.PORT, 10) || 3000,
+    port: parseInt(process.env.NODEPORT, 10) || 3002,
     rootPath: path.normalize(__dirname + '/..'),
     saml: {
       spConfig: parseJSONEnv('SAML_SP_CONFIG'),

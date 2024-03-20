@@ -1,35 +1,9 @@
 server {
-  access_log logs/access.log keyvalue;
-  server_name localhost;
-  listen <%= ENV['PORT'] %>;
-  charset utf-8;
-
-  # Disable compression that is performed by the Scalingo router anyway
-  gzip off;
-  # in case of 503, serve this URI
-  error_page 503 /maintenance_page.html;
-  location = /maintenance_page.html {
-    # maintenance page is at the root of the project
-    root /app/;
-  }
-
-  location / {
-    proxy_pass http://localhost:3000;  # Redirection vers Node.js
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_cache_bypass $http_upgrade;
-  }
-
-  location /google {
-    proxy_pass https://scalingo.io;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_set_header X-Test 'HELLO';
-    proxy_cache_bypass $http_upgrade;
-  }
-
+    server_name localhost;
+    listen <%= ENV['PORT'] %>;
+    charset utf-8;
+    location / {
+        limit_req zone=one burst=5;
+        proxy_pass http://<%= ENV["API_V1_BACKEND"] %>;
+    }
 }
