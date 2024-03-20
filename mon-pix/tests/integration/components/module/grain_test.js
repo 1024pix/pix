@@ -227,7 +227,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
       const correction = store.createRecord('correction-response');
       store.createRecord('element-answer', { element, correction, passage });
-      assert.true(grain.allElementsAreAnsweredForPassage(passage));
 
       // when
       const screen = await render(hbs`
@@ -252,7 +251,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
 
         const correction = store.createRecord('correction-response');
         store.createRecord('element-answer', { element, correction, passage });
-        assert.true(grain.allElementsAreAnsweredForPassage(passage));
 
         // when
         const screen = await render(hbs`
@@ -272,8 +270,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
         this.set('grain', grain);
         const passage = store.createRecord('passage');
         this.set('passage', passage);
-
-        assert.false(grain.allElementsAreAnsweredForPassage(passage));
 
         // when
         const screen = await render(hbs`
@@ -296,8 +292,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
         const passage = store.createRecord('passage');
         this.set('passage', passage);
 
-        assert.false(grain.allElementsAreAnsweredForPassage(passage));
-
         // when
         const screen = await render(hbs`
             <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{true}} @passage={{this.passage}} />`);
@@ -315,8 +309,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
         this.set('grain', grain);
         const passage = store.createRecord('passage');
         this.set('passage', passage);
-
-        assert.false(grain.allElementsAreAnsweredForPassage(passage));
 
         // when
         const screen = await render(hbs`
@@ -337,8 +329,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
         const passage = store.createRecord('passage');
         this.set('passage', passage);
 
-        assert.false(grain.allElementsAreAnsweredForPassage(passage));
-
         // when
         const screen = await render(hbs`
             <Module::Grain @grain={{this.grain}} @canMoveToNextGrain={{false}} @passage={{this.passage}} />`);
@@ -356,8 +346,6 @@ module('Integration | Component | Module | Grain', function (hooks) {
         this.set('grain', grain);
         const passage = store.createRecord('passage');
         this.set('passage', passage);
-
-        assert.false(grain.allElementsAreAnsweredForPassage(passage));
 
         // when
         const screen = await render(hbs`
