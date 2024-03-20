@@ -1,5 +1,4 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
 import { ParticipationForCampaignManagement } from '../../domain/models/ParticipationForCampaignManagement.js';
 import { fetchPage } from '../utils/knex-utils.js';
 
@@ -39,14 +38,4 @@ const findPaginatedParticipationsForCampaignManagement = async function ({ campa
   return { models: participationsForCampaignManagement, meta: { ...pagination } };
 };
 
-const updateParticipantExternalId = async function ({ campaignParticipationId, participantExternalId }) {
-  const updatedRows = await knex('campaign-participations')
-    .where('id', campaignParticipationId)
-    .update({ participantExternalId });
-
-  if (!updatedRows) {
-    throw new NotFoundError(`La participation avec l'id ${campaignParticipationId} n'existe pas.`);
-  }
-};
-
-export { findPaginatedParticipationsForCampaignManagement, updateParticipantExternalId };
+export { findPaginatedParticipationsForCampaignManagement };

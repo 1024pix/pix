@@ -6,6 +6,7 @@ import * as translations from '../../../translations/index.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
 import { CsvWithNoSessionDataError, SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
 import { ArchivedCampaignError } from '../../prescription/campaign/domain/errors.js';
+import { CampaignParticipationDeletedError } from '../../prescription/campaign-participation/domain/errors.js';
 import { AggregateImportError, SiecleXmlImportError } from '../../prescription/learner-management/domain/errors.js';
 import { OrganizationCantGetPlacesStatisticsError } from '../../prescription/organization-place/domain/errors.js';
 import * as DomainErrors from '../domain/errors.js';
@@ -148,6 +149,10 @@ function _mapToHttpError(error) {
 
   if (error instanceof DomainErrors.InvalidInputDataError) {
     return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
+  }
+
+  if (error instanceof CampaignParticipationDeletedError) {
+    return new HttpErrors.PreconditionFailedError(error.message);
   }
 
   return new HttpErrors.BaseHttpError(error.message);

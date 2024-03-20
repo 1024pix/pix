@@ -57,10 +57,6 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });
 
-  it('should export a CampaignParticipationDeletedError', function () {
-    expect(errors.CampaignParticipationDeletedError).to.exist;
-  });
-
   it('should export a UserNotAuthorizedToUpdatePasswordError', function () {
     expect(errors.UserNotAuthorizedToUpdatePasswordError).to.exist;
   });
