@@ -12,7 +12,7 @@
     </header>
   {{/if}}
 
-  <div class="grain__card grain-card--lesson">
+  <div class="grain__card grain-card--{{@grain.type}}">
     <div class="grain-card__content">
       {{#each @grain.elements as |element|}}
         <div class="grain-card-content__element">
