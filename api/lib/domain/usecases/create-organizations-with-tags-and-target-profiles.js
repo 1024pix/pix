@@ -1,14 +1,14 @@
 import bluebird from 'bluebird';
 import lodash from 'lodash';
 
+import { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } from '../../../db/pgsql-errors.js';
+import { InvalidInputDataError } from '../../../src/shared/domain/errors.js';
 import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../infrastructure/constants.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
-import { ObjectValidationError, OrganizationTagNotFound, TargetProfileInvalidError } from '../errors.js';
-import { OrganizationForAdmin } from '../models/index.js';
-import { Organization } from '../models/Organization.js';
-import { OrganizationTag } from '../models/OrganizationTag.js';
+import { DomainError, ObjectValidationError, OrganizationTagNotFound, TargetProfileInvalidError } from '../errors.js';
+import { Organization, OrganizationForAdmin, OrganizationTag } from '../models/index.js';
 
 const SEPARATOR = '_';
 
@@ -44,10 +44,11 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
   await domainTransaction.execute(async (domainTransaction) => {
     const transformedOrganizationsData = _transformOrganizationsCsvData(organizations);
 
-    createdOrganizations = await organizationRepository.batchCreateOrganizations(
-      transformedOrganizationsData,
+    createdOrganizations = await _createOrganizations({
       domainTransaction,
-    );
+      organizationRepository,
+      transformedOrganizationsData,
+    });
 
     await _addDataProtectionOfficers({
       createdOrganizations,
@@ -83,6 +84,29 @@ const createOrganizationsWithTagsAndTargetProfiles = async function ({
 
 export { createOrganizationsWithTagsAndTargetProfiles };
 
+async function _createOrganizations({ transformedOrganizationsData, domainTransaction, organizationRepository }) {
+  try {
+    const createdOrganizations = await organizationRepository.batchCreateOrganizations(
+      transformedOrganizationsData,
+      domainTransaction,
+    );
+    return createdOrganizations;
+  } catch (error) {
+    _monitorError(error.message, { error, event: 'create-organizations' });
+
+    if (error.code === PGSQL_FOREIGN_KEY_VIOLATION_ERROR) {
+      const createdByUserId = error.detail.match(/\d+/g);
+      throw new InvalidInputDataError({ message: `User with ID "${createdByUserId}" does not exist` });
+    }
+
+    if (error instanceof DomainError) {
+      throw error;
+    }
+
+    throw new DomainError(error.message);
+  }
+}
+
 function _transformOrganizationsCsvData(organizationsCsvData) {
   const organizations = organizationsCsvData.map((organizationCsvData) => {
     const email =
@@ -106,6 +130,7 @@ function _transformOrganizationsCsvData(organizationsCsvData) {
       locale: organizationCsvData.locale,
     };
   });
+
   return organizations;
 }
 
@@ -129,7 +154,12 @@ async function _updateSchoolsWithCodes({ createdOrganizations, domainTransaction
     );
   } catch (error) {
     _monitorError(error.message, { error, event: 'add-school-organizations-codes' });
-    throw error;
+
+    if (error instanceof DomainError) {
+      throw error;
+    }
+
+    throw new DomainError(error.message);
   }
 }
 
@@ -158,7 +188,12 @@ async function _addDataProtectionOfficers({
     );
   } catch (error) {
     _monitorError(error.message, { error, event: 'add-organizations-data-protection-officers' });
-    throw error;
+
+    if (error instanceof DomainError) {
+      throw error;
+    }
+
+    throw new DomainError(error.message);
   }
 }
 
@@ -181,7 +216,12 @@ async function _addTags({ allTags, createdOrganizations, domainTransaction, orga
     await organizationTagRepository.batchCreate(organizationsTags, domainTransaction);
   } catch (error) {
     _monitorError(error.message, { error, event: 'add-organizations-tags' });
-    throw error;
+
+    if (error instanceof DomainError) {
+      throw error;
+    }
+
+    throw new DomainError(error.message);
   }
 }
 
@@ -208,7 +248,11 @@ async function _addTargetProfiles({ createdOrganizations, domainTransaction, tar
       throw new TargetProfileInvalidError(`Le profil cible ${targetProfileId} n'existe pas.`);
     }
 
-    throw error;
+    if (error instanceof DomainError) {
+      throw error;
+    }
+
+    throw new DomainError(error.message);
   }
 }
 
@@ -243,7 +287,12 @@ async function _sendInvitationEmails({
     );
   } catch (error) {
     _monitorError(error.message, { error, event: 'send-organizations-invitation-emails' });
-    throw error;
+
+    if (error instanceof DomainError) {
+      throw error;
+    }
+
+    throw new DomainError(error.message);
   }
 }
 

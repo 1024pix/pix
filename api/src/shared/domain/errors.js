@@ -86,6 +86,15 @@ class ForbiddenAccess extends DomainError {
   }
 }
 
+class InvalidInputDataError extends DomainError {
+  constructor({ code = 'INVALID_INPUT_DATA', message = 'Provided input data is invalid', meta } = {}) {
+    super(message);
+
+    this.code = code;
+    if (meta) this.meta = meta;
+  }
+}
+
 class InvalidExternalUserTokenError extends DomainError {
   constructor(message = 'L’idToken de l’utilisateur externe est invalide.') {
     super(message);
@@ -197,6 +206,7 @@ export {
   EntityValidationError,
   ForbiddenAccess,
   InvalidExternalUserTokenError,
+  InvalidInputDataError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultTokenError,
   InvalidTemporaryKeyError,
