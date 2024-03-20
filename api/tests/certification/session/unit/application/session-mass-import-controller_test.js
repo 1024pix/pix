@@ -1,7 +1,6 @@
 import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { sessionMassImportController } from '../../../../../src/certification/session/application/session-mass-import-controller.js';
 import { usecases } from '../../../../../src/certification/session/domain/usecases/index.js';
-import { usecases as sharedUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | mass-import-controller', function () {
@@ -24,10 +23,10 @@ describe('Unit | Controller | mass-import-controller', function () {
         deserializeForSessionsImport: sinon.stub().returns(['session']),
       };
 
-      sinon.stub(sharedUsecases, 'validateSessions');
+      sinon.stub(usecases, 'validateSessions');
       sinon.stub(libUsecases, 'getCertificationCenter');
 
-      sharedUsecases.validateSessions.resolves({ cachedValidatedSessionsKey });
+      usecases.validateSessions.resolves({ cachedValidatedSessionsKey });
       libUsecases.getCertificationCenter.resolves(domainBuilder.buildCertificationCenter());
       // when
       await sessionMassImportController.validateSessions(request, hFake, {
@@ -36,7 +35,7 @@ describe('Unit | Controller | mass-import-controller', function () {
       });
 
       // then
-      expect(sharedUsecases.validateSessions).to.have.been.calledWithExactly({
+      expect(usecases.validateSessions).to.have.been.calledWithExactly({
         sessions: ['session'],
         certificationCenterId: 123,
         userId: 2,
@@ -63,10 +62,10 @@ describe('Unit | Controller | mass-import-controller', function () {
         deserializeForSessionsImport: sinon.stub().returns(['session']),
       };
 
-      sinon.stub(sharedUsecases, 'validateSessions');
+      sinon.stub(usecases, 'validateSessions');
       sinon.stub(libUsecases, 'getCertificationCenter');
 
-      sharedUsecases.validateSessions.resolves({
+      usecases.validateSessions.resolves({
         cachedValidatedSessionsKey,
         sessionsCount,
         sessionsWithoutCandidatesCount,
@@ -99,15 +98,15 @@ describe('Unit | Controller | mass-import-controller', function () {
         auth: { credentials: { userId: 2 } },
       };
 
-      sinon.stub(sharedUsecases, 'createSessions');
+      sinon.stub(usecases, 'createSessions');
 
-      sharedUsecases.createSessions.resolves();
+      usecases.createSessions.resolves();
 
       // when
       await sessionMassImportController.createSessions(request, hFake);
 
       // then
-      expect(sharedUsecases.createSessions).to.have.been.calledWithExactly({
+      expect(usecases.createSessions).to.have.been.calledWithExactly({
         cachedValidatedSessionsKey: 'uuid',
         certificationCenterId: 123,
         userId: 2,

@@ -1,6 +1,5 @@
 import { certificationCandidateController } from '../../../../../src/certification/session/application/certification-candidate-controller.js';
 import { usecases } from '../../../../../src/certification/session/domain/usecases/index.js';
-import { usecases as sharedUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | certification-candidate-controller', function () {
@@ -21,8 +20,8 @@ describe('Unit | Controller | certification-candidate-controller', function () {
           },
         },
       };
-      sinon.stub(sharedUsecases, 'addCertificationCandidateToSession');
-      sharedUsecases.addCertificationCandidateToSession
+      sinon.stub(usecases, 'addCertificationCandidateToSession');
+      usecases.addCertificationCandidateToSession
         .withArgs({
           sessionId,
           certificationCandidate,
@@ -91,10 +90,7 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       request = {
         params: { id: sessionId, certificationCandidateId },
       };
-      sinon
-        .stub(sharedUsecases, 'deleteUnlinkedCertificationCandidate')
-        .withArgs({ certificationCandidateId })
-        .resolves();
+      sinon.stub(usecases, 'deleteUnlinkedCertificationCandidate').withArgs({ certificationCandidateId }).resolves();
     });
 
     it('should return 204 when deleting successfully the candidate', async function () {

@@ -4,10 +4,10 @@ import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certi
 import { CertificationAssessmentHistory } from '../../../src/certification/scoring/domain/models/CertificationAssessmentHistory.js';
 import { CertificationAssessmentScoreV3 } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScoreV3.js';
 import { AssessmentResultFactory } from '../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
+import { ABORT_REASONS } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { config } from '../../../src/shared/config.js';
-import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { CertificationComputeError } from '../errors.js';
-import { ABORT_REASONS } from '../models/CertificationCourse.js';
 import { CompetenceMark } from '../models/CompetenceMark.js';
 import { AssessmentResult } from '../models/index.js';
 import { AssessmentCompleted } from './AssessmentCompleted.js';
@@ -78,7 +78,9 @@ async function _handleV2CertificationScoring({
       certificationAssessment,
       continueOnError: false,
     });
-    const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+    const certificationCourse = await certificationCourseRepository.get({
+      id: certificationAssessment.certificationCourseId,
+    });
     certificationCourse.complete({ now: new Date() });
     const assessmentResult = await _createV2AssessmentResult({
       certificationAssessment,
@@ -132,7 +134,7 @@ async function _handleV3CertificationScoring({
     certificationCourseId,
   });
 
-  const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
 
   const abortReason = certificationCourse.isAbortReasonCandidateRelated()
     ? ABORT_REASONS.CANDIDATE
@@ -228,7 +230,7 @@ async function _saveV2Result({
   });
 
   await _saveCompetenceMarks({ certificationAssessmentScore, newAssessmentResult, competenceMarkRepository });
-  return certificationCourseRepository.update(certificationCourse);
+  return certificationCourseRepository.update({ certificationCourse });
 }
 
 async function _saveV3Result({
@@ -252,7 +254,7 @@ async function _saveV3Result({
     });
     return competenceMarkRepository.save(competenceMarkDomain);
   });
-  return certificationCourseRepository.update(certificationCourse);
+  return certificationCourseRepository.update({ certificationCourse });
 }
 
 function _createV2AssessmentResult({ certificationAssessment, certificationAssessmentScore }) {
@@ -325,7 +327,9 @@ async function _saveResultAfterCertificationComputeError({
   certificationCourseRepository,
   certificationComputeError,
 }) {
-  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({
+    id: certificationAssessment.certificationCourseId,
+  });
   const assessmentResult = AssessmentResultFactory.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
@@ -336,7 +340,7 @@ async function _saveResultAfterCertificationComputeError({
     assessmentResult,
   });
   certificationCourse.complete({ now: new Date() });
-  return certificationCourseRepository.update(certificationCourse);
+  return certificationCourseRepository.update({ certificationCourse });
 }
 
 handleCertificationScoring.eventTypes = eventTypes;

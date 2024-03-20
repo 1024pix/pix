@@ -1,7 +1,7 @@
 import { certificationCourseController } from '../../../../lib/application/certification-courses/certification-course-controller.js';
-import { CertificationCourse } from '../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 

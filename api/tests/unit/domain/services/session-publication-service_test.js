@@ -77,7 +77,7 @@ describe('Unit | UseCase | session-publication-service', function () {
           get: sinon.stub(),
           save: sinon.stub(),
         };
-        sessionRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(originalSession);
+        sessionRepository.getWithCertificationCandidates.withArgs({ id: sessionId }).resolves(originalSession);
       });
 
       context('when the session is already published', function () {
@@ -85,7 +85,7 @@ describe('Unit | UseCase | session-publication-service', function () {
           // given
           const session = domainBuilder.buildSession({ id: 'sessionId', publishedAt: new Date() });
           const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
-          sessionRepository.getWithCertificationCandidates.withArgs('sessionId').resolves(session);
+          sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
 
           // when
           const error = await catchErr(publishSession)({
@@ -128,7 +128,7 @@ describe('Unit | UseCase | session-publication-service', function () {
 
           // then
           expect(finalizedSession.publishedAt).to.equal(now);
-          expect(finalizedSessionRepository.save).to.have.been.calledWithExactly(finalizedSession);
+          expect(finalizedSessionRepository.save).to.have.been.calledWithExactly({ finalizedSession });
           expect(certificationRepository.publishCertificationCourses).to.have.been.calledWithExactly(
             certificationStatuses,
           );
@@ -141,7 +141,7 @@ describe('Unit | UseCase | session-publication-service', function () {
             // given
             const session = domainBuilder.buildSession({ id: 'sessionId', publishedAt: null });
             const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
-            sessionRepository.getWithCertificationCandidates.withArgs('sessionId').resolves(session);
+            sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
             certificationRepository.getStatusesBySessionId
               .withArgs('sessionId')
               .resolves([{ pixCertificationStatus: status.ERROR }]);
@@ -169,7 +169,7 @@ describe('Unit | UseCase | session-publication-service', function () {
               get: sinon.stub(),
               save: sinon.stub(),
             };
-            sessionRepository.getWithCertificationCandidates.withArgs('sessionId').resolves(session);
+            sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
             certificationRepository.getStatusesBySessionId
               .withArgs('sessionId')
               .resolves([{ pixCertificationStatus: status.ERROR, isCancelled: true }]);
@@ -195,7 +195,7 @@ describe('Unit | UseCase | session-publication-service', function () {
             // given
             const session = domainBuilder.buildSession({ id: 'sessionId', publishedAt: null });
             const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
-            sessionRepository.getWithCertificationCandidates.withArgs('sessionId').resolves(session);
+            sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
             certificationRepository.getStatusesBySessionId
               .withArgs('sessionId')
               .resolves([{ pixCertificationStatus: null }]);
@@ -218,7 +218,7 @@ describe('Unit | UseCase | session-publication-service', function () {
             // given
             const session = domainBuilder.buildSession({ id: 'sessionId', publishedAt: null });
             const sessionRepository = { getWithCertificationCandidates: sinon.stub(), updatePublishedAt: sinon.stub() };
-            sessionRepository.getWithCertificationCandidates.withArgs('sessionId').resolves(session);
+            sessionRepository.getWithCertificationCandidates.withArgs({ id: 'sessionId' }).resolves(session);
             certificationRepository.getStatusesBySessionId
               .withArgs('sessionId')
               .resolves([{ pixCertificationStatus: null, isCancelled: true }]);
@@ -416,9 +416,9 @@ describe('Unit | UseCase | session-publication-service', function () {
           mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.success(recipient1));
           mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success(recipient2));
 
-          sessionRepository.hasSomeCleaAcquired.withArgs(session.id).resolves(true);
+          sessionRepository.hasSomeCleaAcquired.withArgs({ id: session.id }).resolves(true);
           certificationCenterRepository.getRefererEmails
-            .withArgs(session.certificationCenterId)
+            .withArgs({ id: session.certificationCenterId })
             .resolves([{ email: user.email }]);
 
           // when
@@ -461,9 +461,9 @@ describe('Unit | UseCase | session-publication-service', function () {
             mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.success(recipient1));
             mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success(recipient2));
 
-            sessionRepository.hasSomeCleaAcquired.withArgs(session.id).resolves(true);
+            sessionRepository.hasSomeCleaAcquired.withArgs({ id: session.id }).resolves(true);
             certificationCenterRepository.getRefererEmails
-              .withArgs(session.certificationCenterId)
+              .withArgs({ id: session.certificationCenterId })
               .resolves([{ email: user.email }]);
 
             // when
@@ -488,8 +488,10 @@ describe('Unit | UseCase | session-publication-service', function () {
         it('should send result emails', async function () {
           // given
           mailService.sendCertificationResultEmail.resolves(EmailingAttempt.success(recipient1));
-          sessionRepository.hasSomeCleaAcquired.withArgs(originalSession.id).resolves(true);
-          certificationCenterRepository.getRefererEmails.withArgs(originalSession.certificationCenterId).resolves([]);
+          sessionRepository.hasSomeCleaAcquired.withArgs({ id: originalSession.id }).resolves(true);
+          certificationCenterRepository.getRefererEmails
+            .withArgs({ id: originalSession.certificationCenterId })
+            .resolves([]);
 
           // when
           await manageEmails({

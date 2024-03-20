@@ -1,5 +1,5 @@
 import { CertificationChallenge, FlashAssessmentAlgorithm } from '../../../../../lib/domain/models/index.js';
-import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
+import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
 
 const getNextChallengeForCertification = async function ({
   answerRepository,
@@ -13,7 +13,9 @@ const getNextChallengeForCertification = async function ({
   flashAlgorithmService,
   flashAlgorithmConfigurationRepository,
 }) {
-  const certificationCourse = await certificationCourseRepository.get(assessment.certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({
+    id: assessment.certificationCourseId,
+  });
 
   if (certificationCourse.getVersion() === CertificationVersion.V3) {
     const alreadyAnsweredChallengeIds = await _getAlreadyAnsweredChallengeIds({
@@ -110,7 +112,7 @@ const _getAlreadyAnsweredChallengeIds = async ({ assessmentId, answerRepository 
 };
 
 const _getValidatedLiveAlertChallengeIds = async ({ assessmentId, certificationChallengeLiveAlertRepository }) => {
-  return certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId(assessmentId);
+  return certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId({ assessmentId });
 };
 
 export { getNextChallengeForCertification };

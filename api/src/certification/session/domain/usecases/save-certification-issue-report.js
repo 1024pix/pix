@@ -14,7 +14,7 @@ const saveCertificationIssueReport = async function ({
     categoryId: issueReportCategory.id,
   });
 
-  return certificationIssueReportRepository.save(certificationIssueReport);
+  return certificationIssueReportRepository.save({ certificationIssueReport });
 };
 
 export { saveCertificationIssueReport };

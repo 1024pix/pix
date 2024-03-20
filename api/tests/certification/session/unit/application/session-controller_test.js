@@ -1,7 +1,7 @@
 import * as events from '../../../../../lib/domain/events/index.js';
 import { Session } from '../../../../../lib/domain/models/index.js';
 import { sessionController } from '../../../../../src/certification/session/application/session-controller.js';
-import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
+import { usecases } from '../../../../../src/certification/session/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Controller | session-controller', function () {

@@ -4,10 +4,10 @@ import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certi
 import { CertificationAssessmentHistory } from '../../../src/certification/scoring/domain/models/CertificationAssessmentHistory.js';
 import { CertificationAssessmentScoreV3 } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScoreV3.js';
 import { AssessmentResultFactory } from '../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
+import { ABORT_REASONS } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { config } from '../../../src/shared/config.js';
-import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { CertificationComputeError } from '../errors.js';
-import { ABORT_REASONS } from '../models/CertificationCourse.js';
 import { CertificationResult } from '../models/CertificationResult.js';
 import { CompetenceMark } from '../models/CompetenceMark.js';
 import { AssessmentResult } from '../models/index.js';
@@ -107,7 +107,9 @@ async function _handleV3Certification({
     { certificationCourseId: certificationAssessment.certificationCourseId },
   );
 
-  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({
+    id: certificationAssessment.certificationCourseId,
+  });
 
   const abortReason = certificationCourse.isAbortReasonCandidateRelated()
     ? ABORT_REASONS.CANDIDATE
@@ -221,7 +223,9 @@ async function _handleV2Certification({
     continueOnError: false,
   });
   const emitter = _getEmitterFromEvent(event);
-  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({
+    id: certificationAssessment.certificationCourseId,
+  });
   const assessmentResult = _createV2AssessmentResult({
     event,
     emitter,
@@ -256,14 +260,14 @@ async function _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesT
   hasEnoughNonNeutralizedChallengesToBeTrusted,
   certificationCourseRepository,
 }) {
-  const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   if (hasEnoughNonNeutralizedChallengesToBeTrusted) {
     certificationCourse.uncancel();
   } else {
     certificationCourse.cancel();
   }
 
-  return certificationCourseRepository.update(certificationCourse);
+  return certificationCourseRepository.update({ certificationCourse });
 }
 
 async function _saveResultAfterCertificationComputeError({
@@ -417,7 +421,7 @@ async function _cancelCertificationCourseIfV3CertificationLackOfAnswersForTechni
 }) {
   if (_shouldCancelWhenV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse })) {
     certificationCourse.cancel();
-    await certificationCourseRepository.update(certificationCourse);
+    await certificationCourseRepository.update({ certificationCourse });
   }
 }
 

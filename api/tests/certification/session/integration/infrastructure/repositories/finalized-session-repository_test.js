@@ -19,7 +19,7 @@ describe('Integration | Repository | Finalized-session', function () {
         });
 
         // when
-        await finalizedSessionRepository.save(finalizedSession);
+        await finalizedSessionRepository.save({ finalizedSession });
 
         // then
         const savedSession = await finalizedSessionRepository.get({ sessionId: 1234 });
@@ -51,8 +51,8 @@ describe('Integration | Repository | Finalized-session', function () {
 
         // when
         expect(async () => {
-          await finalizedSessionRepository.save(finalizedSession);
-          await finalizedSessionRepository.save(finalizedSession);
+          await finalizedSessionRepository.save({ finalizedSession });
+          await finalizedSessionRepository.save({ finalizedSession });
           done();
         }).not.to.throw();
       });
@@ -73,7 +73,7 @@ describe('Integration | Repository | Finalized-session', function () {
         sessionToBeUpdated.assignCertificationOfficer({ certificationOfficerName: 'David Gilmour' });
 
         // when
-        await finalizedSessionRepository.save(sessionToBeUpdated);
+        await finalizedSessionRepository.save({ finalizedSession: sessionToBeUpdated });
 
         // then
         const result = await finalizedSessionRepository.get({ sessionId: 1235 });

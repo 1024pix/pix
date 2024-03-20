@@ -40,7 +40,7 @@ const publishSession = async function ({
     sessionRepository,
   });
 
-  return sessionRepository.get(sessionId);
+  return sessionRepository.get({ id: sessionId });
 };
 
 export { publishSession };

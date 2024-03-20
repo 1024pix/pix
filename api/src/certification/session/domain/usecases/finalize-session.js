@@ -1,9 +1,9 @@
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').SessionRepository} SessionRepository
+ * @typedef {import('../../../session/domain/usecases/index.js').SessionRepository} SessionRepository
  *
  * @typedef {import('../../../shared/domain/usecases/index.js').CertificationCourseRepository} CertificationCourseRepository
  *
- * @typedef {import('../../../shared/domain/usecases/index.js').CertificationReportRepository} CertificationReportRepository
+ * @typedef {import('../../../session/domain/usecases/index.js').CertificationReportRepository} CertificationReportRepository
  */
 
 import bluebird from 'bluebird';
@@ -32,11 +32,13 @@ const finalizeSession = async function ({
   hasIncident,
   hasJoiningIssue,
 }) {
-  const isSessionAlreadyFinalized = await sessionRepository.isFinalized(sessionId);
+  const isSessionAlreadyFinalized = await sessionRepository.isFinalized({ id: sessionId });
 
-  const hasNoStartedCertification = await sessionRepository.hasNoStartedCertification(sessionId);
+  const hasNoStartedCertification = await sessionRepository.hasNoStartedCertification({ id: sessionId });
 
-  const uncompletedCertificationCount = await sessionRepository.countUncompletedCertificationsAssessment(sessionId);
+  const uncompletedCertificationCount = await sessionRepository.countUncompletedCertificationsAssessment({
+    id: sessionId,
+  });
 
   const abortReasonCount = _countAbortReasons(certificationReports);
 
@@ -69,7 +71,7 @@ const finalizeSession = async function ({
 
   certificationReports.forEach((certifReport) => certifReport.validateForFinalization());
 
-  await certificationReportRepository.finalizeAll(certificationReports);
+  await certificationReportRepository.finalizeAll({ certificationReports });
 
   const finalizedSession = await sessionRepository.finalize({
     id: sessionId,
@@ -121,7 +123,7 @@ async function _removeAbortReasonFromCompletedCertificationCourses({
           sessionCertificationCourse.isCompleted()
         ) {
           sessionCertificationCourse.unabort();
-          await certificationCourseRepository.update(sessionCertificationCourse);
+          await certificationCourseRepository.update({ certificationCourse: sessionCertificationCourse });
         }
       },
     );

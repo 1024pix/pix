@@ -24,7 +24,7 @@ const linkUserToSessionCertificationCandidate = async function ({
   organizationLearnerRepository,
   sessionRepository,
 }) {
-  const session = await sessionRepository.get(sessionId);
+  const session = await sessionRepository.get({ id: sessionId });
   if (!session.isAccessible()) {
     throw new SessionNotAccessible();
   }
@@ -104,7 +104,7 @@ async function _isSessionFromAScoAndManagingStudentsOrganization({
   certificationCenterRepository,
   organizationRepository,
 }) {
-  const sessionCertificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+  const sessionCertificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
 
   if (sessionCertificationCenter.isSco) {
     const sessionOrganization = await _getOrganizationLinkedToCertificationCenter({

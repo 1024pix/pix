@@ -46,11 +46,10 @@ describe('Unit | UseCase | finalize-session', function () {
   });
 
   context('When the session status is already finalized', function () {
-    beforeEach(function () {
-      sessionRepository.isFinalized.withArgs(sessionId).resolves(true);
-    });
-
     it('should throw a SessionAlreadyFinalizedError error', async function () {
+      // given
+      sessionRepository.isFinalized.withArgs({ id: sessionId }).resolves(true);
+
       // when
       const err = await catchErr(finalizeSession)({
         sessionId,
@@ -68,7 +67,7 @@ describe('Unit | UseCase | finalize-session', function () {
   context('When the session has not started yet', function () {
     it('should throw a SessionWithoutStartedCertificationError error', async function () {
       // given
-      sessionRepository.hasNoStartedCertification.withArgs(sessionId).resolves(true);
+      sessionRepository.hasNoStartedCertification.withArgs({ id: sessionId }).resolves(true);
 
       // when
       const err = await catchErr(finalizeSession)({
@@ -122,7 +121,7 @@ describe('Unit | UseCase | finalize-session', function () {
           abortReason: 'candidate',
           completedAt: '2022-01-01',
         });
-        sessionRepository.countUncompletedCertificationsAssessment.withArgs(sessionId).resolves(0);
+        sessionRepository.countUncompletedCertificationsAssessment.withArgs({ id: sessionId }).resolves(0);
         certificationCourseRepository.findCertificationCoursesBySessionId
           .withArgs({ sessionId })
           .resolves([completedCertificationCourse]);
@@ -156,7 +155,7 @@ describe('Unit | UseCase | finalize-session', function () {
           abortReason: null,
           completedAt: null,
         });
-        sessionRepository.countUncompletedCertificationsAssessment.withArgs(sessionId).resolves(1);
+        sessionRepository.countUncompletedCertificationsAssessment.withArgs({ id: sessionId }).resolves(1);
         certificationCourseRepository.findCertificationCoursesBySessionId
           .withArgs({ sessionId })
           .resolves([uncompletedCertificationCourse]);
@@ -191,8 +190,8 @@ describe('Unit | UseCase | finalize-session', function () {
           hasSeenEndTestScreen: false,
         });
         certificationReports = [validReportForFinalization];
-        sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
-        certificationReportRepository.finalizeAll.withArgs(certificationReports).resolves();
+        sessionRepository.isFinalized.withArgs({ id: sessionId }).resolves(false);
+        certificationReportRepository.finalizeAll.withArgs({ certificationReports }).resolves();
         sessionRepository.finalize
           .withArgs({
             id: sessionId,
@@ -215,8 +214,8 @@ describe('Unit | UseCase | finalize-session', function () {
           isCompleted: true,
         });
         certificationReports = [validReportForFinalization];
-        sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
-        certificationReportRepository.finalizeAll.withArgs(certificationReports).resolves();
+        sessionRepository.isFinalized.withArgs({ id: sessionId }).resolves(false);
+        certificationReportRepository.finalizeAll.withArgs({ certificationReports }).resolves();
         sessionRepository.finalize
           .withArgs({
             id: sessionId,
@@ -268,7 +267,7 @@ describe('Unit | UseCase | finalize-session', function () {
         });
         certificationReports = [validReportForFinalization];
         sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
-        certificationReportRepository.finalizeAll.withArgs(certificationReports).resolves();
+        certificationReportRepository.finalizeAll.withArgs({ certificationReports }).resolves();
         sessionRepository.finalize
           .withArgs({
             id: sessionId,

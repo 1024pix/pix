@@ -28,7 +28,9 @@ describe('Unit | UseCase | manually-resolve-certification-issue-report', functio
 
       // then
       expect(certificationIssueReportRepository.get).to.have.been.called;
-      expect(certificationIssueReportRepository.save).to.have.been.calledWithExactly(expectedCertificationIssueReport);
+      expect(certificationIssueReportRepository.save).to.have.been.calledWithExactly({
+        certificationIssueReport: expectedCertificationIssueReport,
+      });
       expect(expectedCertificationIssueReport.resolveManually).to.have.been.calledWithExactly(resolution);
     });
   });
@@ -57,9 +59,9 @@ describe('Unit | UseCase | manually-resolve-certification-issue-report', functio
         });
 
         // then
-        expect(certificationIssueReportRepository.save).to.have.been.calledWithExactly(
-          expectedCertificationIssueReport,
-        );
+        expect(certificationIssueReportRepository.save).to.have.been.calledWithExactly({
+          certificationIssueReport: expectedCertificationIssueReport,
+        });
       });
     });
 

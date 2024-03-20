@@ -3,9 +3,9 @@ const abortCertificationCourse = async function ({
   certificationCourseId,
   abortReason,
 }) {
-  const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   certificationCourse.abort(abortReason);
-  await certificationCourseRepository.update(certificationCourse);
+  await certificationCourseRepository.update({ certificationCourse });
 };
 
 export { abortCertificationCourse };

@@ -1,7 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { Candidate } from '../../domain/models/Candidate.js';
 
-const findBySessionId = async function (sessionId) {
+const findBySessionId = async function ({ sessionId }) {
   const results = await knex
     .select({
       certificationCandidate: 'certification-candidates.*',

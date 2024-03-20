@@ -29,7 +29,7 @@ describe('Unit | UseCase | unpublish-session', function () {
       id: sessionId,
       publishedAt: new Date('2020-01-01'),
     });
-    sessionRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(expectedSession);
+    sessionRepository.getWithCertificationCandidates.withArgs({ id: sessionId }).resolves(expectedSession);
     const finalizedSession = new FinalizedSession({ sessionId, publishSession: new Date('2020-01-01') });
     finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
 
@@ -45,7 +45,7 @@ describe('Unit | UseCase | unpublish-session', function () {
     expect(certificationRepository.unpublishCertificationCoursesBySessionId).to.have.been.calledWithExactly(sessionId);
     expect(sessionRepository.updatePublishedAt).to.have.been.calledWithExactly({ id: sessionId, publishedAt: null });
     expect(finalizedSession.publishedAt).to.be.null;
-    expect(finalizedSessionRepository.save).to.be.calledWith(finalizedSession);
+    expect(finalizedSessionRepository.save).to.be.calledWith({ finalizedSession });
     expect(actualSession).to.deep.equal({
       ...expectedSession,
       publishedAt: null,

@@ -1,7 +1,7 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 
-import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
+import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';

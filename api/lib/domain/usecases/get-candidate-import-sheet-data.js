@@ -1,6 +1,6 @@
 const getCandidateImportSheetData = async function ({ sessionId, sessionRepository, certificationCenterRepository }) {
-  const session = await sessionRepository.getWithCertificationCandidates(sessionId);
-  const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+  const session = await sessionRepository.getWithCertificationCandidates({ id: sessionId });
+  const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
 
   return {
     session,

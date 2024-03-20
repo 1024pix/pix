@@ -1,7 +1,7 @@
 const uncancelCertificationCourse = async function ({ certificationCourseId, certificationCourseRepository }) {
-  const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
+  const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
   certificationCourse.uncancel();
-  await certificationCourseRepository.update(certificationCourse);
+  await certificationCourseRepository.update({ certificationCourse });
 };
 
 export { uncancelCertificationCourse };

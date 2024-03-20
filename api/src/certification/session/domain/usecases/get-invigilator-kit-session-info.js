@@ -1,5 +1,5 @@
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
+ * @typedef {import('./index.js').SessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
  */
 
 /**
@@ -7,7 +7,7 @@
  * @param {SessionForInvigilatorKitRepository} params.sessionForInvigilatorKitRepository
  */
 const getInvigilatorKitSessionInfo = async function ({ sessionId, sessionForInvigilatorKitRepository }) {
-  return sessionForInvigilatorKitRepository.get(sessionId);
+  return sessionForInvigilatorKitRepository.get({ id: sessionId });
 };
 
 export { getInvigilatorKitSessionInfo };
