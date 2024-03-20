@@ -15,6 +15,7 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
   describe('#getLatestByDateAndLocale', function () {
     it('should return a list of competences for scoring', async function () {
       // given
+      const userId = databaseBuilder.factory.buildUser().id;
       const frameworkId = 'frameworkId';
 
       const competenceScoringConfiguration = [
@@ -86,6 +87,7 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
       databaseBuilder.factory.buildScoringConfiguration({
         configuration: certificationScoringConfiguration,
         createdAt: firstConfigurationDate,
+        createdByUserId: userId,
       });
 
       databaseBuilder.factory.buildCompetenceScoringConfiguration({
@@ -95,6 +97,7 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
       databaseBuilder.factory.buildScoringConfiguration({
         configuration: secondCertificationScoringConfiguration,
         createdAt: secondConfigurationDate,
+        createdByUserId: userId,
       });
 
       databaseBuilder.factory.buildCompetenceScoringConfiguration({
@@ -104,6 +107,7 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
       databaseBuilder.factory.buildScoringConfiguration({
         configuration: certificationScoringConfiguration,
         createdAt: thirdConfigurationDate,
+        createdByUserId: userId,
       });
 
       await databaseBuilder.commit();
@@ -136,15 +140,19 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
   describe('#saveCertificationScoringConfiguration', function () {
     it('should save a configuration for competence scoring', async function () {
       // given
+      const userId = 1000;
+      databaseBuilder.factory.buildUser({ id: userId }).id;
       const data = { some: 'data' };
+      await databaseBuilder.commit();
 
       // when
-      await saveCertificationScoringConfiguration({ configuration: data });
+      await saveCertificationScoringConfiguration({ configuration: data, userId });
 
       // then
       const configurations = await knex('certification-scoring-configurations');
       expect(configurations.length).to.equal(1);
       expect(configurations[0].configuration).to.deep.equal({ some: 'data' });
+      expect(configurations[0].createdByUserId).to.equal(userId);
     });
   });
 });
