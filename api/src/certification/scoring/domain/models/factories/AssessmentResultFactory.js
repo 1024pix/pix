@@ -96,6 +96,38 @@ export class AssessmentResultFactory {
     });
   }
 
+  static buildLackOfAnswersForTechnicalReason({
+    pixScore,
+    reproducibilityRate,
+    status,
+    assessmentId,
+    juryId,
+    emitter,
+    competenceMarks,
+  }) {
+    const commentForCandidate = new JuryComment({
+      context: JuryCommentContexts.CANDIDATE,
+      commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
+    });
+
+    const commentForOrganization = new JuryComment({
+      context: JuryCommentContexts.ORGANIZATION,
+      commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
+    });
+
+    return new AssessmentResult({
+      emitter,
+      pixScore,
+      reproducibilityRate,
+      status,
+      assessmentId,
+      juryId,
+      competenceMarks,
+      commentForCandidate,
+      commentForOrganization,
+    });
+  }
+
   static buildInsufficientCorrectAnswers({ pixScore, reproducibilityRate, assessmentId, emitter, juryId }) {
     const commentForCandidate = new JuryComment({
       context: JuryCommentContexts.CANDIDATE,

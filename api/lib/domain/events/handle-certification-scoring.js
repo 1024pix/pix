@@ -300,6 +300,16 @@ function _createV3AssessmentResult({
     });
   }
 
+  if (_shouldCancelWhenV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse })) {
+    return AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      status: certificationAssessmentScore.status,
+      assessmentId: certificationAssessment.id,
+      emitter: AssessmentResult.emitters.PIX_ALGO,
+    });
+  }
+
   return AssessmentResultFactory.buildStandardAssessmentResult({
     pixScore: certificationAssessmentScore.nbPix,
     reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
