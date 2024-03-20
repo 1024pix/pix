@@ -237,6 +237,8 @@ module('Unit | Service | session', function (hooks) {
 
               // then
               assert.true(localeService.setLocale.calledWith(ENGLISH_INTERNATIONAL_LOCALE));
+              assert.true(service.data.localeNotSupported);
+              assert.strictEqual(service.data.localeNotSupportedBannerClosed, undefined);
             });
           });
 
