@@ -306,4 +306,52 @@ module('Integration | Component | Module | Passage', function (hooks) {
       assert.ok(true);
     });
   });
+
+  module('When a grain contains non existing elements', function () {
+    test('should not display the grain if it contains only non existing elements', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const nonExistingElement1 = { type: 'non-existing-element-type' };
+      const nonExistingElement2 = {
+        type: 'non-existing-element-type',
+      };
+      const elements = [nonExistingElement1, nonExistingElement2];
+      const grain = store.createRecord('grain', { id: 'grainId1', elements });
+
+      const module = store.createRecord('module', { title: 'Module title', grains: [grain] });
+      this.set('module', module);
+
+      const passage = store.createRecord('passage');
+      this.set('passage', passage);
+
+      // when
+      const screen = await render(hbs`<Module::Passage @module={{this.module}} @passage={{this.passage}} />`);
+      // then
+      assert.strictEqual(screen.queryAllByRole('article').length, 0);
+    });
+
+    test('should not display the non existing elements but display the existing ones', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const existingElement = { content: '<h3>existing element content</h3>', type: 'text' };
+      const nonExistingElement1 = { type: 'non-existing-element-type' };
+      const nonExistingElement2 = {
+        type: 'non-existing-element-type',
+      };
+      const elements = [nonExistingElement1, nonExistingElement2, existingElement];
+      const grain = store.createRecord('grain', { id: 'grainId1', elements });
+
+      const module = store.createRecord('module', { title: 'Module title', grains: [grain] });
+      this.set('module', module);
+
+      const passage = store.createRecord('passage');
+      this.set('passage', passage);
+
+      // when
+      const screen = await render(hbs`<Module::Passage @module={{this.module}} @passage={{this.passage}} />`);
+      // then
+      assert.ok(screen.queryByRole('heading', { name: 'existing element content', level: 3 }));
+      assert.dom('.grain-card-content__element').exists({ count: 1 });
+    });
+  });
 });

@@ -29,7 +29,7 @@ module('Acceptance | Module | Routes | retakeCompletedModule', function (hooks) 
 
     const text = {
       id: 'elementId-1',
-      type: 'texts',
+      type: 'text',
       content: 'content-1',
       isAnswerable: false,
     };

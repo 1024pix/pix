@@ -17,7 +17,7 @@
   </div>
   <div class="grain__card grain-card--{{@grain.type}}">
     <div class="grain-card__content">
-      {{#each @grain.elements as |element|}}
+      {{#each this.displayableElements as |element|}}
         <div class="grain-card-content__element">
           {{#if (eq element.type "text")}}
             <Module::Text @text={{element}} />
