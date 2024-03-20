@@ -8,7 +8,7 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 module('Integration | Component | Footer', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('should display the Pix logo', async function (assert) {
+  test('displays the Pix logo', async function (assert) {
     // when
     const screen = await render(hbs`<Footer />}`);
 
@@ -16,7 +16,7 @@ module('Integration | Component | Footer', function (hooks) {
     assert.ok(screen.getByAltText(this.intl.t('navigation.homepage')));
   });
 
-  test('should display the navigation menu with expected elements', async function (assert) {
+  test('displays the navigation menu with expected elements', async function (assert) {
     // when
     const screen = await render(hbs`<Footer />}`);
 
@@ -29,7 +29,7 @@ module('Integration | Component | Footer', function (hooks) {
     assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.footer.sitemap') }));
   });
 
-  test('should not display marianne logo when url does not have frenchDomainExtension', async function (assert) {
+  test('does not display marianne logo when url does not have frenchDomainExtension', async function (assert) {
     // given
     class CurrentDomainServiceStub extends Service {
       get isFranceDomain() {
@@ -45,7 +45,7 @@ module('Integration | Component | Footer', function (hooks) {
     assert.notOk(screen.queryByAltText(this.intl.t('common.french-republic')));
   });
 
-  test('should display marianne logo when url does have frenchDomainExtension', async function (assert) {
+  test('displays marianne logo when url does have frenchDomainExtension', async function (assert) {
     // given
     class CurrentDomainServiceStub extends Service {
       get isFranceDomain() {
@@ -61,7 +61,7 @@ module('Integration | Component | Footer', function (hooks) {
     assert.ok(screen.getByAltText(this.intl.t('common.french-republic')));
   });
 
-  test('should display the student data policy', async function (assert) {
+  test('displays the student data policy', async function (assert) {
     // given & when
     const screen = await render(hbs`<Footer />}`);
 
