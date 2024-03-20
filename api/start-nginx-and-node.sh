@@ -1,5 +1,7 @@
 #!/bin/bash
-set -euo pipefail;
+
+echo "SCALINGO PORT: ${PORT}"
+echo "NODE PORT: ${NODE_PORT}"
 
 # Démarrer Nginx en arrière-plan
 nginx -g "daemon off;" &
