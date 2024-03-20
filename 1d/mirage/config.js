@@ -60,7 +60,9 @@ function routes() {
     if (options?.assessmentId ^ options?.isPreview) {
       const answerValue = JSON.parse(request.requestBody).data.attributes?.value;
       return schema.create('activity-answer', {
-        result: answerValue === '#ABAND#' ? 'aband' : answerValue !== 'bad-answer' ? 'ok' : 'ko',
+        result:
+          answerValue === '#ABAND#' ? 'aband' : answerValue !== 'bad-answer' && answerValue !== '666' ? 'ok' : 'ko',
+        value: answerValue,
       });
     } else {
       return new Response(400);
