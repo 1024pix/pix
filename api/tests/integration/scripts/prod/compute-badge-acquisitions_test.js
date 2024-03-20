@@ -1,4 +1,3 @@
-import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
 import * as badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
@@ -8,6 +7,7 @@ import {
   getCampaignParticipationsBetweenIds,
   normalizeRange,
 } from '../../../../scripts/prod/compute-badge-acquisitions.js';
+import { CampaignParticipation } from '../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import {
   databaseBuilder,

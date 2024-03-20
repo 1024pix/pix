@@ -1,6 +1,6 @@
+import * as campaignAnalysisSerializer from '../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
 import { extractParameters } from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
-import * as campaignAnalysisSerializer from '../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
 import * as campaignCollectiveResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
 import * as campaignToJoinSerializer from '../../infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
 import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
