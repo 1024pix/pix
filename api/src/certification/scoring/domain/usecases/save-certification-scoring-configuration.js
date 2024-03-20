@@ -7,7 +7,7 @@
  * @param {ScoringConfigurationRepository} params.scoringConfigurationRepository
  */
 const saveCertificationScoringConfiguration = async ({ data, scoringConfigurationRepository }) => {
-  return scoringConfigurationRepository.saveCertificationScoringConfiguration(data);
+  return scoringConfigurationRepository.saveCertificationScoringConfiguration({ configuration: data });
 };
 
 export { saveCertificationScoringConfiguration };
