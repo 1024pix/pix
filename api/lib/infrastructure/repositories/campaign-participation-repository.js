@@ -1,10 +1,9 @@
 import { knex } from '../../../db/knex-database-connection.js';
+import { CampaignParticipation } from '../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../src/prescription/shared/domain/constants.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { constants } from '../../domain/constants.js';
-import { NotFoundError } from '../../domain/errors.js';
 import { Campaign } from '../../domain/models/Campaign.js';
-import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
@@ -130,49 +129,15 @@ const countParticipationsByStatus = async function (campaignId, campaignType) {
   return mapToParticipationByStatus(row, campaignType);
 };
 
-const getAllCampaignParticipationsInCampaignForASameLearner = async function ({
-  campaignId,
-  campaignParticipationId,
-  domainTransaction,
-}) {
-  const knexConn = domainTransaction.knexTransaction;
-  const result = await knexConn('campaign-participations')
-    .select('organizationLearnerId')
-    .where({ id: campaignParticipationId, campaignId })
-    .first();
-
-  if (!result) {
-    throw new NotFoundError(
-      `There is no campaign participation with the id "${campaignParticipationId}" for the campaign wih the id "${campaignId}"`,
-    );
-  }
-
-  const campaignParticipations = await knexConn('campaign-participations').where({
-    campaignId,
-    organizationLearnerId: result.organizationLearnerId,
-    deletedAt: null,
-    deletedBy: null,
-  });
-
-  return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
-};
-
-const remove = async function ({ id, deletedAt, deletedBy, domainTransaction }) {
-  const knexConn = domainTransaction.knexTransaction;
-  return await knexConn('campaign-participations').where({ id }).update({ deletedAt, deletedBy });
-};
-
 export {
   countParticipationsByStatus,
   findLatestOngoingByUserId,
   findOneByCampaignIdAndUserId,
   get,
-  getAllCampaignParticipationsInCampaignForASameLearner,
   getAllParticipationsByCampaignId,
   getCodeOfLastParticipationToProfilesCollectionCampaignForUser,
   hasAssessmentParticipations,
   isRetrying,
-  remove,
 };
 
 function mapToParticipationByStatus(row = {}, campaignType) {
