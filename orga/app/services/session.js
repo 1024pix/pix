@@ -64,6 +64,10 @@ export default class CurrentSessionService extends SessionService {
     });
   }
 
+  updateDataAttribute(attribute, value) {
+    this.data[attribute] = value;
+  }
+
   _getRouteAfterInvalidation() {
     const alternativeRootURL = this.alternativeRootURL;
     this.alternativeRootURL = null;
