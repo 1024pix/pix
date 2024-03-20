@@ -40,7 +40,7 @@
         {
           "id": "11a8d5db-7175-498c-adf3-4cf2190eca6c",
           "type": "text",
-          "content": "<iframe src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/f9a350fa-f3c6-40fd-b142-e3cdd10f38a5\"width=100% height=400></iframe>"
+          "content": "<iframe title=\"video\" src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/f9a350fa-f3c6-40fd-b142-e3cdd10f38a5\" width=\"100%\" height=\"400\"></iframe>"
         },
        {
           "id": "3f2ddc5a-9580-4da0-b9aa-e728b6dd1865",
@@ -92,7 +92,7 @@
         {
           "id": "6d53677d-7253-4d27-8e3b-c862fc59e97a",
           "type": "text",
-          "content": "<iframe src=\"https://1024pix.github.io/atelier-contenus/EGO/Pix1d/recherche/recherche_di2_GD_fev2024/index.html\"width=100% height=400></iframe>"
+          "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/EGO/Pix1d/recherche/recherche_di2_GD_fev2024/index.html\"width=100% height=400></iframe>"
         }
       ]
     }
