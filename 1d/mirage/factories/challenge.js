@@ -12,6 +12,10 @@ export default Factory.extend({
   QROCWithTextArea: trait({
     format: 'paragraphe',
   }),
+  QROCWithNumber: trait({
+    format: 'nombre',
+    proposals: 'Année : ${year#}',
+  }),
   QROCWithSelect: trait({
     type: 'QROC',
     instruction: 'Un QROC est une question',
