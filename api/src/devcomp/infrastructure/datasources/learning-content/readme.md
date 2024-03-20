@@ -25,6 +25,18 @@ Les contenus sont placés dans des fichiers [au format `.json`](http://www.json.
 > [!IMPORTANT]
 > Le format et la structure des fichiers n'est pas finalisé. Il est tout à fait possible qu'un autre format soit utilisé après l'expérimentation.
 
+#### Procédure de contribution au contenu
+
+```mermaid
+flowchart TD
+  A[Création d'un module] --> B[Création de grain];
+  B --> C[Création d'élément];
+  C --> C;
+  B --> B;
+  B --> D[Création de textes de transition];
+  D --> E[Proposer la mise à jour];
+```
+
 #### Création d'un nouveau module
 
 Il faut créer un nouveau fichier `.json` dans le dossier `modules`. Le nom du fichier doit être unique. Il doit respecter un format alphanumérique, en minuscule et avec des tirets entre les mots. TODO : définir règles contenu et bonnes pratiques.
