@@ -38,14 +38,7 @@ const updateCampaign = async function ({
 
   campaignUpdateValidator.validate(campaign);
 
-  const campaignAttributes = {
-    name: campaign.name,
-    title: campaign.title,
-    customLandingPageText: campaign.customLandingPageText,
-    ownerId: campaign.ownerId,
-  };
-
-  return campaignAdministrationRepository.update({ campaignId: campaign.id, campaignAttributes });
+  return campaignAdministrationRepository.update(campaign);
 };
 
 export { updateCampaign };

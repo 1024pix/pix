@@ -30,18 +30,7 @@ const updateCampaignDetails = async function ({
 
   campaignUpdateValidator.validate(campaign);
 
-  const campaignAttributes = {
-    name: campaign.name,
-    title: campaign.title,
-    customLandingPageText: campaign.customLandingPageText,
-    customResultPageText: campaign.customResultPageText,
-    customResultPageButtonText: campaign.customResultPageButtonText,
-    customResultPageButtonUrl: campaign.customResultPageButtonUrl,
-    multipleSendings: campaign.multipleSendings,
-    isForAbsoluteNovice: campaign.isForAbsoluteNovice,
-  };
-
-  return campaignAdministrationRepository.update({ campaignId, campaignAttributes });
+  return campaignAdministrationRepository.update(campaign);
 };
 
 export { updateCampaignDetails };
