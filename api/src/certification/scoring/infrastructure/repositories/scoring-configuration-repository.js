@@ -34,7 +34,7 @@ export const saveCompetenceForScoringConfiguration = async (configuration) => {
   await knex('competence-scoring-configurations').insert(data);
 };
 
-export const saveCertificationScoringConfiguration = async (configuration) => {
+export const saveCertificationScoringConfiguration = async ({ configuration }) => {
   const data = {
     configuration: JSON.stringify(configuration),
   };

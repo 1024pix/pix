@@ -139,7 +139,7 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
       const data = { some: 'data' };
 
       // when
-      await saveCertificationScoringConfiguration(data);
+      await saveCertificationScoringConfiguration({ configuration: data });
 
       // then
       const configurations = await knex('certification-scoring-configurations');
