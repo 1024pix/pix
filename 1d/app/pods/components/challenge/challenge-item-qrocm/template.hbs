@@ -60,6 +60,20 @@
               {{! To also deal with browser dictionary auto complete }}
               {{on "change" (fn this.onInputChange block.input)}}
             />
+          {{else if (eq @challenge.format "nombre")}}
+            <PixInput
+              @id="{{block.input}}"
+              class="challenge-item-proposals__response challenge-item-proposals__response--number"
+              name={{block.randomName}}
+              type="number"
+              min="0"
+              placeholder={{block.placeholder}}
+              @value={{get @answerValues block.input}}
+              {{! To activate validation button as soon as possible }}
+              {{on "keyup" (fn this.onInputChange block.input)}}
+              {{! To also deal with browser dictionary auto complete }}
+              {{on "change" (fn this.onInputChange block.input)}}
+            />
           {{else}}
             <PixInput
               type="text"
