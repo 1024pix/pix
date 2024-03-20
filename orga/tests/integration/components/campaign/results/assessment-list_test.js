@@ -36,7 +36,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
     this.set('participations', participations);
 
     // when
-    await render(
+    const screen = await render(
       hbs`<Campaign::Results::AssessmentList
   @campaign={{this.campaign}}
   @participations={{this.participations}}
@@ -50,7 +50,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
     );
 
     // then
-    assert.dom('a[href="/campagnes/1/evaluations/5"]').exists();
+    assert.ok(screen.getByRole('link', { href: '/campagnes/1/evaluations/5' }));
   });
 
   module('when a participant has shared his results', function () {
@@ -94,15 +94,18 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       // then
       assert.notOk(screen.queryByText(this.intl.t('pages.campaign-results.table.empty')));
-      assert.ok(screen.getByText('Doe'));
-      assert.ok(screen.getByText('John'));
-      assert.ok(screen.getByText('80 %'));
-      assert.ok(screen.getByText('3'));
+      assert.ok(screen.getByRole('cell', { name: 'Doe' }));
+      assert.ok(screen.getByRole('cell', { name: 'John' }));
+      assert.ok(
+        screen.getByRole('cell', {
+          name: this.intl.t('common.result.percentage', { value: 0.8, exact: false }),
+        }),
+      );
     });
 
     test('it should display badge and tooltip', async function (assert) {
       // given
-      const badge = store.createRecord('badge', { id: 1, imageUrl: 'url-badge' });
+      const badge = store.createRecord('badge', { id: 1, imageUrl: 'url-badge', title: 'je suis un badge' });
       const campaign = store.createRecord('campaign', {
         targetProfileThematicResultCount: 1,
         badges: [badge],
@@ -115,7 +118,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       this.set('participations', participations);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Results::AssessmentList
   @campaign={{this.campaign}}
   @participations={{this.participations}}
@@ -129,8 +132,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       );
 
       // then
-      assert.dom('[aria-describedby="badge-tooltip-1"]').exists();
-      assert.dom('img[src="url-badge"]').exists();
+      assert.ok(screen.getByRole('img', { src: 'url-badge', description: 'je suis un badge' }));
     });
   });
 
@@ -150,7 +152,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       this.set('participations', participations);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Results::AssessmentList
   @campaign={{this.campaign}}
   @participations={{this.participations}}
@@ -164,8 +166,8 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       );
 
       // then
-      assert.contains('identifiant externe');
-      assert.contains('123');
+      assert.ok(screen.getByRole('columnheader', { name: 'identifiant externe' }));
+      assert.ok(screen.getByRole('cell', { name: '123' }));
     });
   });
 
@@ -185,7 +187,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       this.set('participations', participations);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Results::AssessmentList
   @campaign={{this.campaign}}
   @participations={{this.participations}}
@@ -198,7 +200,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       );
 
       // then
-      assert.contains('Aucune participation');
+      assert.ok(screen.getByText('Aucune participation'));
     });
   });
 
@@ -217,7 +219,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       this.set('participations', participations);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Results::AssessmentList
   @campaign={{this.campaign}}
   @participations={{this.participations}}
@@ -231,7 +233,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       );
 
       // then
-      assert.notContains('Résultats Thématiques');
+      assert.notOk(screen.queryByRole('columnheader', { name: 'Résultats Thématiques' }));
     });
   });
 
@@ -251,7 +253,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       this.set('participations', participations);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Results::AssessmentList
   @campaign={{this.campaign}}
   @participations={{this.participations}}
@@ -265,7 +267,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       );
 
       // then
-      assert.contains('Résultats Thématiques');
+      assert.ok(screen.getByRole('columnheader', { name: 'Résultats Thématiques' }));
     });
   });
 
@@ -278,14 +280,14 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         stages: [stage],
       });
 
-      const participations = [{ masteryRate: 0.6, isShared: true }];
+      const participations = [{ masteryRate: 0.6, isShared: true, reachedStage: 2, totalStage: 2 }];
       participations.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
       this.set('participations', participations);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Results::AssessmentList
   @campaign={{this.campaign}}
   @participations={{this.participations}}
@@ -299,8 +301,20 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       );
 
       // then
-      assert.notContains('60%');
-      assert.dom('.pix-stars').exists();
+
+      // for those who can see the stars but need more information for comprehension
+      assert.ok(screen.getByText(this.intl.t('common.result.stages', { count: 1, total: 1 })));
+
+      // for those who can't see the stars
+      assert.ok(
+        screen.getByRole('cell', {
+          name: this.intl.t('common.result.accessibility-description', {
+            percentage: 0.6,
+            stage: 1,
+            totalStage: 1,
+          }),
+        }),
+      );
     });
   });
 });
