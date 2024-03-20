@@ -52,9 +52,20 @@ module('Unit | Service | session', function (hooks) {
   });
 
   module('#handleInvalidation', function () {
-    test('should override handleInvalidation method', function (assert) {
-      // when & then
-      assert.ok(service.handleInvalidation instanceof Function);
+    test('overrides handleInvalidation method', function (assert) {
+      // then
+      assert.true(service.handleInvalidation instanceof Function);
+    });
+
+    test('calls clear method from session store', function (assert) {
+      // given
+      sinon.stub(service.store, 'clear');
+
+      // when
+      service.handleInvalidation();
+
+      // then
+      assert.true(service.store.clear.calledOnce);
     });
   });
 
