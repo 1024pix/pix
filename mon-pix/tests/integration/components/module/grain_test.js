@@ -58,32 +58,34 @@ module('Integration | Component | Module | Grain', function (hooks) {
     });
   });
 
-  test('should have the "activity" color if grain is of type activity', async function (assert) {
+  test('should have the "activity" color and tag if grain is of type activity', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
     const grain = store.createRecord('grain', { type: 'activity', title: 'Grain title' });
     this.set('grain', grain);
 
     // when
-    await render(hbs`
+    const screen = await render(hbs`
         <Module::Grain @grain={{this.grain}} />`);
 
     // then
     assert.ok(find('.grain-card--activity'));
+    assert.dom(screen.getByText('activité'));
   });
 
-  test('should have the "lesson" color if grain is of type lesson', async function (assert) {
+  test('should have the "lesson" color and tag if grain is of type lesson', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
     const grain = store.createRecord('grain', { type: 'lesson', title: 'Grain title' });
     this.set('grain', grain);
 
     // when
-    await render(hbs`
+    const screen = await render(hbs`
         <Module::Grain @grain={{this.grain}} />`);
 
     // then
     assert.ok(find('.grain-card--lesson'));
+    assert.dom(screen.getByText('leçon'));
   });
 
   module('when element is a text', function () {
