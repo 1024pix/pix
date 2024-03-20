@@ -1,5 +1,7 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 
+const AVAILABLE_ELEMENT_TYPES = ['text', 'image', 'video', 'qcu', 'qcm', 'qrocm'];
+
 export default class Grain extends Model {
   @attr('string') title;
   @attr({ defaultValue: () => [] }) elements;
@@ -7,19 +9,7 @@ export default class Grain extends Model {
 
   @belongsTo('module', { async: false, inverse: 'grains' }) module;
 
-  get hasAnswerableElements() {
-    return this.elements.some((element) => element.isAnswerable);
-  }
-
-  get answerableElements() {
-    return this.elements.filter((element) => {
-      return element.isAnswerable;
-    });
-  }
-
-  allElementsAreAnsweredForPassage(passage) {
-    return this.answerableElements.every((element) => {
-      return !!passage.getLastCorrectionForElement(element);
-    });
+  get supportedElements() {
+    return this.elements.filter((element) => AVAILABLE_ELEMENT_TYPES.includes(element.type));
   }
 }
