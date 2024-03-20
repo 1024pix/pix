@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v4.118.0 (20/03/2024)
+
+
+### :rocket: Amélioration
+- [#8449](https://github.com/1024pix/pix/pull/8449) [FEATURE] expose l'état du dernier import d'un organization (PIX-11256).
+- [#8450](https://github.com/1024pix/pix/pull/8450) [FEATURE] Créer une nouvelle table oidc-providers (PIX-10030).
+- [#8324](https://github.com/1024pix/pix/pull/8324) [FEATURE] Créer une interface de test de l'algorithme Smart Random (PIX-11180).
+- [#8407](https://github.com/1024pix/pix/pull/8407) [FEATURE] Suppression de la règle de dégradation du score pour une certif V3 (PIX-11606).
+- [#8417](https://github.com/1024pix/pix/pull/8417) [FEATURE] Afficher uniquement les missions actives dans Pix 1d et Pix Orga (PIX-11313).
+- [#8439](https://github.com/1024pix/pix/pull/8439) [FEATURE] Gere les erreurs liées à la date de naissance dans un fichier SIECLE pour un import SCO (PIX-11661).
+
+### :bug: Correction
+- [#8448](https://github.com/1024pix/pix/pull/8448) [BUGFIX] Suppression HTML dans un champ qui ne le supporte pas.
+- [#8416](https://github.com/1024pix/pix/pull/8416) [BUGFIX] Corriger des soucis d'accessibilité côté Modulix (PIX-11646).
+
+### :arrow_up: Montée de version
+- [#8444](https://github.com/1024pix/pix/pull/8444) [BUMP] Update dependency @1024pix/pix-ui to ^44.3.2 (orga).
+- [#8443](https://github.com/1024pix/pix/pull/8443) [BUMP] Update dependency @1024pix/pix-ui to ^44.3.2 (certif).
+
+### :coffee: Autre
+- [#8428](https://github.com/1024pix/pix/pull/8428) [DOCS] Corriger les notes de deux routes de SSO : "check reconciliation" et "reconcile".
+
 ## v4.117.0 (18/03/2024)
 
 
