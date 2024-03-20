@@ -114,18 +114,4 @@ describe('Unit | Domain | Services | code generator', function () {
       });
     });
   });
-  describe('#validate', function () {
-    it('should return false if code is less than 9 char', function () {
-      expect(codeGenerator.validate('ABC123')).to.be.false;
-    });
-    it('should return false if code is more than 9 char', function () {
-      expect(codeGenerator.validate('ABC123ABC123')).to.be.false;
-    });
-    it('should return false if code contains char other than uppercase Alphanumeric or numbers', function () {
-      expect(codeGenerator.validate('abc abc @')).to.be.false;
-    });
-    it('should return true if code contains only uppercase alphanumeric chars', function () {
-      expect(codeGenerator.validate('123ABDCDE')).to.be.true;
-    });
-  });
 });

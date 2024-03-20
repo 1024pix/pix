@@ -1,5 +1,5 @@
 import { CampaignTypes } from '../../../shared/domain/constants.js';
-import { IsForAbsoluteNoviceUpdateError, MultipleSendingsUpdateError } from '../errors.js';
+import { CampaignCodeFormatError, IsForAbsoluteNoviceUpdateError, MultipleSendingsUpdateError } from '../errors.js';
 
 class Campaign {
   constructor({
@@ -65,7 +65,15 @@ class Campaign {
     return Boolean(this.archivedAt);
   }
 
+  #validateCode(code) {
+    return /^[A-Z0-9]{9}$/.test(code);
+  }
+
   updateFields(fields, isAuthorizedToUpdateIsForAbsoluteNovice) {
+    if (fields.code !== undefined && fields.code !== this.code && !this.#validateCode(fields.code)) {
+      throw new CampaignCodeFormatError();
+    }
+
     if (
       fields.multipleSendings !== undefined &&
       fields.multipleSendings !== this.multipleSendings &&
