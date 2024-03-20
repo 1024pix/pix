@@ -59,6 +59,9 @@
     },
     "import": {
       "message": "The administrator can download certification results and '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'import'</a>' the students database to create back-to-school campaigns by year level. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Learn more'</a>'"
+    },
+    "language-availability": {
+      "message": "Your language is not yet available on Pix Orga. For your convenience, the application will be presented in English. The entire Pix team is working to add your language."
     }
   },
   "cards": {
