@@ -1,4 +1,6 @@
 import { clickByName, render } from '@1024pix/ember-testing-library';
+// eslint-disable-next-line no-restricted-imports
+import { find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -54,6 +56,34 @@ module('Integration | Component | Module | Grain', function (hooks) {
       // then
       assert.dom('.grain__header').doesNotExist();
     });
+  });
+
+  test('should have the "activity" color if grain is of type activity', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const grain = store.createRecord('grain', { type: 'activity', title: 'Grain title' });
+    this.set('grain', grain);
+
+    // when
+    await render(hbs`
+        <Module::Grain @grain={{this.grain}} />`);
+
+    // then
+    assert.ok(find('.grain-card--activity'));
+  });
+
+  test('should have the "lesson" color if grain is of type lesson', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const grain = store.createRecord('grain', { type: 'lesson', title: 'Grain title' });
+    this.set('grain', grain);
+
+    // when
+    await render(hbs`
+        <Module::Grain @grain={{this.grain}} />`);
+
+    // then
+    assert.ok(find('.grain-card--lesson'));
   });
 
   module('when element is a text', function () {
