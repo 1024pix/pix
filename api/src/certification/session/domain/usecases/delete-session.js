@@ -8,15 +8,13 @@ import { SessionStartedDeletionError } from '../errors.js';
 /**
  * @param {Object} params
  * @param {SessionRepository} params.sessionRepository
- * @param {CertificationCourseRepository} params.certificationCourseRepository
  */
 const deleteSession = async function ({ sessionId, sessionRepository, certificationCourseRepository }) {
   if (await _isSessionStarted(certificationCourseRepository, sessionId)) {
-    certificationCourseRepository.findCertificationCoursesBySessionId;
     throw new SessionStartedDeletionError();
   }
 
-  await sessionRepository.remove(sessionId);
+  await sessionRepository.remove({ id: sessionId });
 };
 
 export { deleteSession };

@@ -7,7 +7,7 @@ import bluebird from 'bluebird';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
-import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
+import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
 import { Session } from '../models/Session.js';
 
 /**
@@ -35,7 +35,7 @@ const createSessions = async function ({
     throw new NotFoundError();
   }
 
-  const { isV3Pilot } = await certificationCenterRepository.get(certificationCenterId);
+  const { isV3Pilot } = await certificationCenterRepository.get({ id: certificationCenterId });
 
   await DomainTransaction.execute(async (domainTransaction) => {
     return await bluebird.mapSeries(temporaryCachedSessions, async (sessionDTO) => {
@@ -82,7 +82,7 @@ async function _saveNewSessionReturningId({ sessionRepository, sessionDTO, domai
     ...sessionDTO,
     version: isV3Pilot ? CertificationVersion.V3 : CertificationVersion.V2,
   });
-  return await sessionRepository.save(sessionToSave, domainTransaction);
+  return await sessionRepository.save({ session: sessionToSave, domainTransaction });
 }
 
 async function _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction }) {

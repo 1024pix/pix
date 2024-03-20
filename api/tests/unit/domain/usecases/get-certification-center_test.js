@@ -15,7 +15,7 @@ describe('Unit | UseCase | get-certification-center', function () {
 
   it('should get the certification center', async function () {
     // given
-    certificationCenterRepository.get.withArgs(1234).resolves(certificationCenter);
+    certificationCenterRepository.get.withArgs({ id: 1234 }).resolves(certificationCenter);
 
     // when
     const actualCertificationCourse = await getCertificationCenter({

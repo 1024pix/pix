@@ -1,6 +1,6 @@
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 import { validateLiveAlert } from '../../../../../../src/certification/session/domain/usecases/validate-live-alert.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/shared/domain/models/CertificationChallengeLiveAlert.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
@@ -135,7 +135,9 @@ describe('Unit | UseCase | validate-live-alert', function () {
       expectedCertificationIssueReport.id = undefined;
       expectedCertificationIssueReport.description = undefined;
 
-      expect(certificationIssueReportRepository.save).to.have.been.calledWith(expectedCertificationIssueReport);
+      expect(certificationIssueReportRepository.save).to.have.been.calledWith({
+        certificationIssueReport: expectedCertificationIssueReport,
+      });
     });
   });
 });

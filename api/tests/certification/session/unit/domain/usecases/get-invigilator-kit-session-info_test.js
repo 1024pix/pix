@@ -19,7 +19,7 @@ describe('Unit | UseCase | get-invigilator-kit-info', function () {
         invigilatorPassword: '12AB5',
         accessCode: '1B3DE6',
       });
-      sessionForInvigilatorKitRepository.get.withArgs(sessionId).resolves(sessionForInvigilatorKit);
+      sessionForInvigilatorKitRepository.get.withArgs({ id: sessionId }).resolves(sessionForInvigilatorKit);
       const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
       sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
 

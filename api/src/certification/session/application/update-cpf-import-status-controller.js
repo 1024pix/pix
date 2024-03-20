@@ -1,4 +1,4 @@
-import { usecases } from '../../shared/domain/usecases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 
 const updateFromReceipts = async function (request, _h) {
   await usecases.integrateCpfProccessingReceipts();

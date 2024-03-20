@@ -1,6 +1,6 @@
 import { CertificationCourseRejected } from '../../../../../../lib/domain/events/CertificationCourseRejected.js';
-import { CertificationCourse } from '../../../../../../lib/domain/models/index.js';
 import { rejectCertificationCourse } from '../../../../../../src/certification/course/domain/usecases/reject-certification-course.js';
+import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | reject-certification-course', function () {
@@ -15,7 +15,7 @@ describe('Unit | UseCase | reject-certification-course', function () {
     const certificationCourse = domainBuilder.buildCertificationCourse();
     const certificationCourseId = certificationCourse.getId();
 
-    certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
+    certificationCourseRepository.get.withArgs({ id: certificationCourseId }).resolves(certificationCourse);
     certificationCourseRepository.update.resolves();
 
     // when
@@ -31,7 +31,9 @@ describe('Unit | UseCase | reject-certification-course', function () {
       isRejectedForFraud: true,
     });
 
-    expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedCertificationCourse);
+    expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+      certificationCourse: expectedCertificationCourse,
+    });
     expect(event).to.be.instanceOf(CertificationCourseRejected);
     expect(event).to.deep.equal(
       new CertificationCourseRejected({

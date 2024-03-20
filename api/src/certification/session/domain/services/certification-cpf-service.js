@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-import { normalizeAndSortChars } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
+import { normalizeAndSortChars } from '../../../../shared/infrastructure/utils/string-utils.js';
 
 const { isEmpty } = lodash;
 

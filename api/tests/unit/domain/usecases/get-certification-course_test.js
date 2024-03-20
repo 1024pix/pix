@@ -1,5 +1,5 @@
-import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
 import { getCertificationCourse } from '../../../../lib/domain/usecases/get-certification-course.js';
+import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-certification-course', function () {
@@ -17,7 +17,7 @@ describe('Unit | UseCase | get-certification-course', function () {
 
   it('should get the certificationCourse', async function () {
     // given
-    certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
+    certificationCourseRepository.get.withArgs({ id: certificationCourse.getId() }).resolves(certificationCourse);
 
     // when
     const actualCertificationCourse = await getCertificationCourse({

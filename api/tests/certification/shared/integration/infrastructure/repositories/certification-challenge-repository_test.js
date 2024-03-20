@@ -2,8 +2,8 @@ import _ from 'lodash';
 
 import { AssessmentEndedError } from '../../../../../../lib/domain/errors.js';
 import { CertificationChallenge } from '../../../../../../lib/domain/models/CertificationChallenge.js';
+import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import * as certificationChallengeRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-challenge-repository.js';
-import { CertificationVersion } from '../../../../../../src/shared/domain/models/CertificationVersion.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Certification Challenge', function () {

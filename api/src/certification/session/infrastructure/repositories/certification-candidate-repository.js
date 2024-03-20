@@ -11,8 +11,8 @@ import { CertificationCandidate } from '../../../../../lib/domain/models/Certifi
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { BookshelfCertificationCandidate } from '../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
 import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
-import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
-import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
+import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { normalize } from '../../../../shared/infrastructure/utils/string-utils.js';
 import { ComplementaryCertification } from '../../../complementary-certification/domain/models/ComplementaryCertification.js';
 
 const linkToUser = async function ({ id, userId }) {
@@ -75,18 +75,18 @@ const saveInSession = async function ({
   }
 };
 
-const remove = async function (certificationCandidateId) {
+const remove = async function ({ id }) {
   await knex.transaction(async (trx) => {
-    await trx('complementary-certification-subscriptions').where({ certificationCandidateId }).del();
-    return trx('certification-candidates').where({ id: certificationCandidateId }).del();
+    await trx('complementary-certification-subscriptions').where({ certificationCandidateId: id }).del();
+    return trx('certification-candidates').where({ id }).del();
   });
 
   return true;
 };
 
-const isNotLinked = async function (certificationCandidateId) {
+const isNotLinked = async function ({ id }) {
   const notLinkedCandidate = await BookshelfCertificationCandidate.where({
-    id: certificationCandidateId,
+    id,
     userId: null,
   }).fetch({ require: false, columns: ['id'] });
 

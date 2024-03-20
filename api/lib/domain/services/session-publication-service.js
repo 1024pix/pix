@@ -32,7 +32,7 @@ async function publishSession({
   finalizedSessionRepository,
   sessionRepository,
 }) {
-  const session = await sessionRepository.getWithCertificationCandidates(sessionId);
+  const session = await sessionRepository.getWithCertificationCandidates({ id: sessionId });
   if (session.isPublished()) {
     throw new SessionAlreadyPublishedError();
   }
@@ -108,13 +108,13 @@ async function manageEmails({
  * @param {MailService} params.mailService
  */
 async function _manageCleaEmails({ session, certificationCenterRepository, sessionRepository, mailService }) {
-  const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(session.id);
+  const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired({ id: session.id });
   if (!hasSomeCleaAcquired) {
     logger.debug(`No CLEA certifications in session ${session.id}`);
     return;
   }
 
-  const refererEmails = await certificationCenterRepository.getRefererEmails(session.certificationCenterId);
+  const refererEmails = await certificationCenterRepository.getRefererEmails({ id: session.certificationCenterId });
   if (refererEmails.length <= 0) {
     logger.warn(`Publishing session ${session.id} with Clea certifications but no referer. No email will be sent`);
     return;
@@ -181,7 +181,7 @@ function _failedAttemptsEmail(emailingAttempts) {
 async function _updateFinalizedSession(finalizedSessionRepository, sessionId, publishedAt) {
   const finalizedSession = await finalizedSessionRepository.get({ sessionId });
   finalizedSession.publish(publishedAt);
-  await finalizedSessionRepository.save(finalizedSession);
+  await finalizedSessionRepository.save({ finalizedSession });
 }
 
 function _hasCertificationInError(certificationStatus) {

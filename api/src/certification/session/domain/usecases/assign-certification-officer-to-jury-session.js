@@ -1,7 +1,7 @@
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').JurySessionRepository} JurySessionRepository
- * @typedef {import('../../../shared/domain/usecases/index.js').FinalizedSessionRepository} FinalizedSessionRepository
- * @typedef {import('../../../shared/domain/usecases/index.js').CertificationOfficerRepository} CertificationOfficerRepository
+ * @typedef {import('../../domain/usecases/index.js').JurySessionRepository} JurySessionRepository
+ * @typedef {import('../../domain/usecases/index.js').FinalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {import('../../domain/usecases/index.js').CertificationOfficerRepository} CertificationOfficerRepository
  */
 
 /**
@@ -17,17 +17,19 @@ const assignCertificationOfficerToJurySession = async function ({
   finalizedSessionRepository,
   certificationOfficerRepository,
 } = {}) {
-  const certificationOfficer = await certificationOfficerRepository.get(certificationOfficerId);
+  const certificationOfficer = await certificationOfficerRepository.get({ userId: certificationOfficerId });
   const finalizedSession = await finalizedSessionRepository.get({ sessionId });
 
   finalizedSession.assignCertificationOfficer({ certificationOfficerName: certificationOfficer.getFullName() });
 
-  await finalizedSessionRepository.save(finalizedSession);
+  await finalizedSessionRepository.save({ finalizedSession });
 
-  return jurySessionRepository.assignCertificationOfficer({
+  await jurySessionRepository.assignCertificationOfficer({
     id: finalizedSession.sessionId,
     assignedCertificationOfficerId: certificationOfficer.id,
   });
+
+  return jurySessionRepository.get({ id: finalizedSession.sessionId });
 };
 
 export { assignCertificationOfficerToJurySession };

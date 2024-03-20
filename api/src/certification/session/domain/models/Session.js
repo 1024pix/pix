@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import { config } from '../../../../../lib/config.js';
-import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
+import { config } from '../../../../../src/shared/config.js';
+import { CertificationVersion } from '../../../shared/domain/models/CertificationVersion.js';
 
 const CREATED = 'created';
 const FINALIZED = 'finalized';

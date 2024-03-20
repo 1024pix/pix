@@ -24,7 +24,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
   mailCheck = mailCheckImplementation,
 }) {
   const translate = i18n.__;
-  const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+  const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
   const candidateImportStructs = getTransformationStructsForPixCertifCandidatesImport({
     i18n,
     complementaryCertifications: certificationCenter.habilitations,

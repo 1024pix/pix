@@ -4,7 +4,7 @@ import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { JurySession, statuses } from '../../../../../../lib/domain/models/JurySession.js';
 import { CertificationOfficer } from '../../../../../../src/certification/session/domain/models/CertificationOfficer.js';
 import * as jurySessionRepository from '../../../../../../src/certification/session/infrastructure/repositories/jury-session-repository.js';
-import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | JurySession', function () {
   describe('#get', function () {
@@ -75,7 +75,7 @@ describe('Integration | Repository | JurySession', function () {
         });
 
         // when
-        const jurySession = await jurySessionRepository.get(sessionId);
+        const jurySession = await jurySessionRepository.get({ id: sessionId });
 
         // then
         expect(jurySession).to.deepEqualInstance(expectedJurySession);
@@ -85,7 +85,7 @@ describe('Integration | Repository | JurySession', function () {
     context('when id of session does not exist', function () {
       it('should throw a NotFoundError', async function () {
         // when
-        const error = await catchErr(jurySessionRepository.get)(12345);
+        const error = await catchErr(jurySessionRepository.get)({ id: 12345 });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -585,23 +585,28 @@ describe('Integration | Repository | JurySession', function () {
   });
 
   describe('#assignCertificationOfficer', function () {
-    it('should return an updated Session domain object', async function () {
-      // given
-      const sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: null }).id;
-      const assignedCertificationOfficerId = databaseBuilder.factory.buildUser().id;
-      await databaseBuilder.commit();
+    context('when assignedCertificationOfficerId provided does exist', function () {
+      context('when sessionId does not exist', function () {
+        it("should update the session's assignCertificationOfficer", async function () {
+          // given
+          const sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: null }).id;
+          const assignedCertificationOfficerId = databaseBuilder.factory.buildUser().id;
+          await databaseBuilder.commit();
 
-      // when
-      const updatedSession = await jurySessionRepository.assignCertificationOfficer({
-        id: sessionId,
-        assignedCertificationOfficerId,
+          // when
+          await jurySessionRepository.assignCertificationOfficer({
+            id: sessionId,
+            assignedCertificationOfficerId,
+          });
+
+          // then
+          const [sessionAssignedCertificationOfficerId] = await knex('sessions')
+            .pluck('assignedCertificationOfficerId')
+            .where({ id: sessionId });
+
+          expect(sessionAssignedCertificationOfficerId).to.deep.equals(assignedCertificationOfficerId);
+        });
       });
-
-      // then
-      expect(updatedSession).to.be.an.instanceof(JurySession);
-      expect(updatedSession.id).to.deep.equal(sessionId);
-      expect(updatedSession.assignedCertificationOfficer.id).to.deep.equal(assignedCertificationOfficerId);
-      expect(updatedSession.status).to.deep.equal(statuses.IN_PROCESS);
     });
 
     context('when assignedCertificationOfficerId provided does not exist', function () {
@@ -620,6 +625,7 @@ describe('Integration | Repository | JurySession', function () {
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal(`L'utilisateur d'id ${unknownUserId} n'existe pas`);
       });
     });
 
@@ -639,6 +645,7 @@ describe('Integration | Repository | JurySession', function () {
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal(`La session d'id ${unknownSessionId} n'existe pas.`);
       });
     });
   });

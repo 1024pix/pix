@@ -1,5 +1,5 @@
 const getSessionCertificationReports = async function ({ sessionId, certificationReportRepository }) {
-  return certificationReportRepository.findBySessionId(sessionId);
+  return certificationReportRepository.findBySessionId({ sessionId });
 };
 
 export { getSessionCertificationReports };

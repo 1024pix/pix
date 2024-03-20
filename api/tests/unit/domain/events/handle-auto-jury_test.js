@@ -2,8 +2,8 @@ import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
 import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
 import { handleAutoJury } from '../../../../lib/domain/events/handle-auto-jury.js';
 import { SessionFinalized } from '../../../../lib/domain/events/SessionFinalized.js';
-import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
 import { CertificationAssessment } from '../../../../lib/domain/models/index.js';
+import { ABORT_REASONS } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
@@ -66,7 +66,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         .withArgs({ sessionId: 1234 })
         .resolves([certificationCourse]);
       certificationIssueReportRepository.findByCertificationCourseId
-        .withArgs(certificationCourse.getId())
+        .withArgs({ certificationCourseId: certificationCourse.getId() })
         .resolves([certificationIssueReport, certificationIssueReport2]);
       certificationAssessmentRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId: certificationCourse.getId() })
@@ -122,7 +122,9 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       certificationCourseRepository.findCertificationCoursesBySessionId
         .withArgs({ sessionId: 1234 })
         .resolves([certificationCourse]);
-      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([]);
+      certificationIssueReportRepository.findByCertificationCourseId
+        .withArgs({ certificationCourseId: certificationCourse.getId() })
+        .resolves([]);
 
       const event = new SessionFinalized({
         sessionId: 1234,
@@ -181,7 +183,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         .withArgs({ sessionId: 1234 })
         .resolves([certificationCourse]);
       certificationIssueReportRepository.findByCertificationCourseId
-        .withArgs(certificationCourse.getId())
+        .withArgs({ certificationCourseId: certificationCourse.getId() })
         .resolves([certificationIssueReport1]);
       certificationAssessmentRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId: certificationCourse.getId() })
@@ -230,7 +232,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
           .withArgs({ sessionId: 1234 })
           .resolves([certificationCourse]);
         certificationIssueReportRepository.findByCertificationCourseId
-          .withArgs(certificationCourse.getId())
+          .withArgs({ certificationCourseId: certificationCourse.getId() })
           .resolves([]);
         certificationAssessmentRepository.getByCertificationCourseId
           .withArgs({ certificationCourseId: certificationCourse.getId() })
@@ -292,7 +294,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
             .withArgs({ sessionId: 1234 })
             .resolves([certificationCourse]);
           certificationIssueReportRepository.findByCertificationCourseId
-            .withArgs(certificationCourse.getId())
+            .withArgs({ certificationCourseId: certificationCourse.getId() })
             .resolves([]);
           certificationAssessmentRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId: certificationCourse.getId() })
@@ -360,7 +362,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
             .withArgs({ sessionId: 1234 })
             .resolves([certificationCourse]);
           certificationIssueReportRepository.findByCertificationCourseId
-            .withArgs(certificationCourse.getId())
+            .withArgs({ certificationCourseId: certificationCourse.getId() })
             .resolves([]);
           certificationAssessmentRepository.getByCertificationCourseId
             .withArgs({ certificationCourseId: certificationCourse.getId() })
@@ -431,9 +433,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         certificationCourseRepository.findCertificationCoursesBySessionId
           .withArgs({ sessionId: 1234 })
           .resolves([certificationCourse]);
-        certificationIssueReportRepository.findByCertificationCourseId
-          .withArgs(certificationCourse.getId())
-          .resolves([]);
+        certificationIssueReportRepository.findByCertificationCourseId.resolves([]);
         certificationAssessmentRepository.getByCertificationCourseId
           .withArgs({ certificationCourseId: certificationCourse.getId() })
           .resolves(certificationAssessment);
@@ -509,7 +509,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
           .withArgs({ sessionId: 1234 })
           .resolves([certificationCourse]);
         certificationIssueReportRepository.findByCertificationCourseId
-          .withArgs(certificationCourse.getId())
+          .withArgs({ certificationCourseId: certificationCourse.getId() })
           .resolves([]);
         certificationAssessmentRepository.getByCertificationCourseId
           .withArgs({ certificationCourseId: certificationCourse.getId() })
@@ -566,7 +566,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
           .withArgs({ sessionId: 1234 })
           .resolves([certificationCourse]);
         certificationIssueReportRepository.findByCertificationCourseId
-          .withArgs(certificationCourse.getId())
+          .withArgs({ certificationCourseId: certificationCourse.getId() })
           .resolves([]);
         const event = new SessionFinalized({
           sessionId: 1234,
@@ -618,7 +618,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
           .withArgs({ sessionId: 1234 })
           .resolves([certificationCourse]);
         certificationIssueReportRepository.findByCertificationCourseId
-          .withArgs(certificationCourse.getId())
+          .withArgs({ certificationCourseId: certificationCourse.getId() })
           .resolves([certificationIssueReport1]);
         certificationAssessmentRepository.getByCertificationCourseId
           .withArgs({ certificationCourseId: certificationCourse.getId() })
@@ -694,7 +694,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
           .withArgs({ sessionId: 1234 })
           .resolves([certificationCourse]);
         certificationIssueReportRepository.findByCertificationCourseId
-          .withArgs(certificationCourse.getId())
+          .withArgs({ certificationCourseId: certificationCourse.getId() })
           .resolves([certificationIssueReport, certificationIssueReport2]);
         certificationAssessmentRepository.getByCertificationCourseId
           .withArgs({ certificationCourseId: certificationCourse.getId() })
@@ -774,7 +774,9 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       certificationCourseRepository.findCertificationCoursesBySessionId
         .withArgs({ sessionId: 1234 })
         .resolves([certificationCourse]);
-      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([]);
+      certificationIssueReportRepository.findByCertificationCourseId
+        .withArgs({ certificationCourseId: certificationCourse.getId() })
+        .resolves([]);
 
       const event = new SessionFinalized({
         sessionId: 1234,
@@ -1155,7 +1157,9 @@ function _initializeV3CourseAndAssessment({
   certificationCourseRepository.findCertificationCoursesBySessionId
     .withArgs({ sessionId: 1234 })
     .resolves([certificationCourse]);
-  certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([]);
+  certificationIssueReportRepository.findByCertificationCourseId
+    .withArgs({ certificationCourseId: certificationCourse.getId() })
+    .resolves([]);
   certificationAssessmentRepository.getByCertificationCourseId
     .withArgs({ certificationCourseId: certificationCourse.getId() })
     .resolves(certificationAssessment);

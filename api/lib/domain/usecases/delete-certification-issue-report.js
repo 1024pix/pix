@@ -6,15 +6,17 @@ const deleteCertificationIssueReport = async function ({
   certificationIssueReportRepository,
   sessionRepository,
 }) {
-  const certificationIssueReport = await certificationIssueReportRepository.get(certificationIssueReportId);
-  const sessionId = await certificationCourseRepository.getSessionId(certificationIssueReport.certificationCourseId);
-  const isFinalized = await sessionRepository.isFinalized(sessionId);
+  const certificationIssueReport = await certificationIssueReportRepository.get({ id: certificationIssueReportId });
+  const sessionId = await certificationCourseRepository.getSessionId({
+    id: certificationIssueReport.certificationCourseId,
+  });
+  const isFinalized = await sessionRepository.isFinalized({ id: sessionId });
 
   if (isFinalized) {
     throw new ForbiddenAccess('Certification issue report deletion forbidden');
   }
 
-  return certificationIssueReportRepository.remove(certificationIssueReportId);
+  return certificationIssueReportRepository.remove({ id: certificationIssueReportId });
 };
 
 export { deleteCertificationIssueReport };

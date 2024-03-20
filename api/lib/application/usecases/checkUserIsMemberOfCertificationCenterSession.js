@@ -6,11 +6,11 @@ const execute = async function ({
   certificationCourseId,
   dependencies = { certificationCourseRepository, sessionRepository },
 }) {
-  const certificationCourse = await dependencies.certificationCourseRepository.get(certificationCourseId);
-  return dependencies.sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
+  const certificationCourse = await dependencies.certificationCourseRepository.get({ id: certificationCourseId });
+  return dependencies.sessionRepository.doesUserHaveCertificationCenterMembershipForSession({
     userId,
-    certificationCourse.getSessionId(),
-  );
+    sessionId: certificationCourse.getSessionId(),
+  });
 };
 
 export { execute };

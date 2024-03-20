@@ -44,7 +44,7 @@ describe('Integration | Repository | Certification Center', function () {
         await databaseBuilder.commit();
 
         // when
-        const certificationCenter = await certificationCenterRepository.get(1);
+        const certificationCenter = await certificationCenterRepository.get({ id: 1 });
 
         // then
         expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
@@ -102,7 +102,7 @@ describe('Integration | Repository | Certification Center', function () {
         await databaseBuilder.commit();
 
         // when
-        const certificationCenter = await certificationCenterRepository.get(1);
+        const certificationCenter = await certificationCenterRepository.get({ id: 1 });
 
         expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
       });
@@ -112,7 +112,7 @@ describe('Integration | Repository | Certification Center', function () {
       it('should throw a NotFound error', async function () {
         // when
         const nonExistentId = 1;
-        const error = await catchErr(certificationCenterRepository.get)(nonExistentId);
+        const error = await catchErr(certificationCenterRepository.get)({ id: nonExistentId });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -146,7 +146,7 @@ describe('Integration | Repository | Certification Center', function () {
         await databaseBuilder.commit();
 
         // when
-        const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+        const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
 
         // then
         expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
@@ -191,7 +191,7 @@ describe('Integration | Repository | Certification Center', function () {
         await databaseBuilder.commit();
 
         // when
-        const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+        const certificationCenter = await certificationCenterRepository.getBySessionId({ sessionId });
 
         expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
       });
@@ -210,7 +210,7 @@ describe('Integration | Repository | Certification Center', function () {
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(certificationCenterRepository.getBySessionId)(8);
+        const error = await catchErr(certificationCenterRepository.getBySessionId)({ sessionId: 8 });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -227,7 +227,7 @@ describe('Integration | Repository | Certification Center', function () {
       });
 
       // when
-      const savedCertificationCenter = await certificationCenterRepository.save(certificationCenter);
+      const savedCertificationCenter = await certificationCenterRepository.save({ certificationCenter });
 
       // then
       expect(savedCertificationCenter).to.be.instanceof(CertificationCenter);
@@ -245,7 +245,7 @@ describe('Integration | Repository | Certification Center', function () {
       await databaseBuilder.commit();
 
       // when
-      const savedCertificationCenter = await certificationCenterRepository.save(certificationCenter);
+      const savedCertificationCenter = await certificationCenterRepository.save({ certificationCenter });
 
       // then
       expect(savedCertificationCenter.updatedAt).to.deep.equal(now);
@@ -681,7 +681,7 @@ describe('Integration | Repository | Certification Center', function () {
         await databaseBuilder.commit();
 
         // when
-        const refererEmails = await certificationCenterRepository.getRefererEmails(certificationCenterId);
+        const refererEmails = await certificationCenterRepository.getRefererEmails({ id: certificationCenterId });
 
         // then
         expect(refererEmails).to.be.empty;
@@ -712,7 +712,7 @@ describe('Integration | Repository | Certification Center', function () {
         await databaseBuilder.commit();
 
         // when
-        const refererEmails = await certificationCenterRepository.getRefererEmails(certificationCenterId);
+        const refererEmails = await certificationCenterRepository.getRefererEmails({ id: certificationCenterId });
 
         // then
         expect(refererEmails).to.deepEqualArray([

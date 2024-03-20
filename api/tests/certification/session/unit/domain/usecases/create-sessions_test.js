@@ -3,7 +3,7 @@ import { CertificationCenter } from '../../../../../../lib/domain/models/Certifi
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
 import { createSessions } from '../../../../../../src/certification/session/domain/usecases/create-sessions.js';
-import { CertificationVersion } from '../../../../../../src/shared/domain/models/CertificationVersion.js';
+import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | sessions-mass-import | create-sessions', function () {
@@ -55,7 +55,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         it('should should only save the session', async function () {
           // given
           const certificationCenter = new CertificationCenter();
-          certificationCenterRepository.get.withArgs(certificationCenter.id).resolves(certificationCenter);
+          certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
           const temporaryCachedSessions = [
             {
               id: undefined,
@@ -89,7 +89,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
 
           // then
           const expectedSession = new Session({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
-          expect(sessionRepository.save).to.have.been.calledOnceWith(expectedSession, domainTransaction);
+          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
           expect(certificationCandidateRepository.saveInSession).to.not.have.been.called;
         });
       });
@@ -98,7 +98,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         it('should save the session and the candidates', async function () {
           // given
           const certificationCenter = new CertificationCenter({ id: 567 });
-          certificationCenterRepository.get.withArgs(certificationCenter.id).resolves(certificationCenter);
+          certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
           const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: undefined });
           const sessionCreatorId = 1234;
           const temporaryCachedSessions = [
@@ -134,7 +134,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
 
           // then
           const expectedSession = new Session({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
-          expect(sessionRepository.save).to.have.been.calledOnceWith(expectedSession, domainTransaction);
+          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
           expect(certificationCandidateRepository.saveInSession).to.have.been.calledOnceWith({
             sessionId: 1234,
             certificationCandidate,
@@ -147,7 +147,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         it('should save the session with the V3 version', async function () {
           // given
           const certificationCenter = new CertificationCenter({ id: 567, isV3Pilot: true });
-          certificationCenterRepository.get.withArgs(certificationCenter.id).resolves(certificationCenter);
+          certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
           const sessionCreatorId = 1234;
           const temporaryCachedSessions = [
             {
@@ -186,7 +186,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
             version: CertificationVersion.V3,
             createdBy: sessionCreatorId,
           });
-          expect(sessionRepository.save).to.have.been.calledOnceWith(expectedSession, domainTransaction);
+          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
         });
       });
 
@@ -195,7 +195,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // given
           const sessionCreatorId = 1234;
           const certificationCenter = new CertificationCenter({ id: 567, isV3Pilot: false });
-          certificationCenterRepository.get.withArgs(certificationCenter.id).resolves(certificationCenter);
+          certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
           const temporaryCachedSessions = [
             {
               id: undefined,
@@ -234,7 +234,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
             version: CertificationVersion.V2,
             createdBy: sessionCreatorId,
           });
-          expect(sessionRepository.save).to.have.been.calledOnceWith(expectedSession, domainTransaction);
+          expect(sessionRepository.save).to.have.been.calledOnceWith({ session: expectedSession, domainTransaction });
         });
       });
     });
@@ -243,7 +243,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       it('should delete previous candidates and save the new candidates', async function () {
         // given
         const certificationCenter = new CertificationCenter();
-        certificationCenterRepository.get.withArgs(certificationCenter.id).resolves(certificationCenter);
+        certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
         const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: undefined });
         const temporaryCachedSessions = [
           {
@@ -281,7 +281,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
     it('should delete cached sessions', async function () {
       // given
       const certificationCenter = new CertificationCenter();
-      certificationCenterRepository.get.withArgs(certificationCenter.id).resolves(certificationCenter);
+      certificationCenterRepository.get.withArgs({ id: certificationCenter.id }).resolves(certificationCenter);
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: undefined });
       const temporaryCachedSessions = [
         {

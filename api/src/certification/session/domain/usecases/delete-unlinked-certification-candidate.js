@@ -1,5 +1,5 @@
 /**
- * @typedef {import('../../../shared/domain/usecases/index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import('./index.js').CertificationCandidateRepository} CertificationCandidateRepository
  */
 
 import { CertificationCandidateForbiddenDeletionError } from '../errors.js';
@@ -12,10 +12,10 @@ const deleteUnlinkedCertificationCandidate = async function ({
   certificationCandidateId,
   certificationCandidateRepository,
 }) {
-  const isNotLinked = await certificationCandidateRepository.isNotLinked(certificationCandidateId);
+  const isNotLinked = await certificationCandidateRepository.isNotLinked({ id: certificationCandidateId });
 
   if (isNotLinked) {
-    return certificationCandidateRepository.remove(certificationCandidateId);
+    return certificationCandidateRepository.remove({ id: certificationCandidateId });
   }
 
   throw new CertificationCandidateForbiddenDeletionError();
