@@ -121,6 +121,8 @@ Router.map(function () {
     this.route('recap');
   });
 
+  this.route('module-preview');
+
   this.route('terms-of-service', { path: '/cgu' });
 
   this.route('authentication', { path: '/connexion' }, function () {

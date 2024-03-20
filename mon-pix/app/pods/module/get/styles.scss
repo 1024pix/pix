@@ -8,3 +8,18 @@
   color: var(--pix-neutral-900);
   background: var(--pix-neutral-0);
 }
+
+.modulix--preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.module__form {
+  height: 90vh;
+  margin: var(--pix-spacing-12x) var(--pix-spacing-2x);
+
+  .pix-textarea,
+  textarea {
+    height: 100%;
+  }
+}
