@@ -2,9 +2,13 @@ import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
 import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
-import { JuryComment, JuryCommentContexts } from '../../../certification/shared/domain/models/JuryComment.js';
+import {
+  AutoJuryCommentKeys,
+  JuryComment,
+  JuryCommentContexts,
+} from '../../../certification/shared/domain/models/JuryComment.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { AssessmentResultNotCreatedError, MissingAssessmentId } from '../../domain/errors.js';
+import { AssessmentResultNotCreatedError, MissingAssessmentId, NotFoundError } from '../../domain/errors.js';
 import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
 
 function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
@@ -125,7 +129,22 @@ const getByCertificationCourseId = async function ({ certificationCourseId }) {
   return AssessmentResult.buildStartedAssessmentResult({ assessmentId: null });
 };
 
-export { findLatestLevelAndPixScoreByAssessmentId, getByCertificationCourseId, save };
+const updateToAcquiredLowerLevelComplementaryCertification = async function ({ id }) {
+  const updatedAssessmentResult = await knex('assessment-results')
+    .where({ id })
+    .update({ commentByAutoJury: AutoJuryCommentKeys.LOWER_LEVEL_COMPLEMENTARY_CERTIFICATION_ACQUIRED });
+
+  if (updatedAssessmentResult === 0) {
+    throw new NotFoundError(`No row updated for assessment result id ${id}.`);
+  }
+};
+
+export {
+  findLatestLevelAndPixScoreByAssessmentId,
+  getByCertificationCourseId,
+  save,
+  updateToAcquiredLowerLevelComplementaryCertification,
+};
 
 const _getCommentByAutoJury = (assessmentResult) => {
   if (
