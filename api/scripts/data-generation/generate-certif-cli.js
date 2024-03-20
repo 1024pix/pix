@@ -33,7 +33,7 @@ const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
 /**
  * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'SUP' 1 '[{"candidateNumber": 1, "key": "EDU_1ER_DEGRE"}, {"candidateNumber": 1, "key": "EDU_2ND_DEGRE"}]'
  * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 2 '[{"candidateNumber": 1, "key": "CLEA"}, {"candidateNumber": 2, "key": "DROIT"}]'
- * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 1
+ * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 1 '[{"candidateNumber": 1, "key": "CLEA"}]'
  *
  * On a "production" environment (RA), you need to install inquirer package
  * NODE_ENV= npm i inquirer@8.2.4 && LOG_LEVEL=info LOG_FOR_HUMANS=true node ./scripts/data-generation/generate-certif-cli.js 'PRO' 1

@@ -1,5 +1,4 @@
 import * as events from '../../../../lib/domain/events/index.js';
-import { usecases as sharedUsecases } from '../../shared/domain/usecases/index.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as juryCommentSerializer from '../infrastructure/serializers/jsonapi/jury-comment-serializer.js';
 import * as v3CertificationDetailsForAdministrationSerializer from '../infrastructure/serializers/jsonapi/v3-certification-course-details-for-administration-serializer.js';
@@ -48,7 +47,7 @@ const getCertificationV3Details = async function (
   dependencies = { v3CertificationDetailsForAdministrationSerializer },
 ) {
   const { certificationCourseId } = request.params;
-  const certificationDetails = await sharedUsecases.getV3CertificationCourseDetailsForAdministration({
+  const certificationDetails = await usecases.getV3CertificationCourseDetailsForAdministration({
     certificationCourseId,
   });
 
