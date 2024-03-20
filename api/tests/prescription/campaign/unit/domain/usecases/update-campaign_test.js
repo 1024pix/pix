@@ -48,189 +48,38 @@ describe('Unit | UseCase | update-campaign', function () {
         .resolves([ownerwithMembership]);
     });
 
-    it('should update the campaign title only', async function () {
+    it('should update the campaign', async function () {
       // given
-      const updatedCampaign = domainBuilder.prescription.campaign.buildCampaign.ofTypeAssessment({
+      const campaign = domainBuilder.prescription.campaign.buildCampaign.ofTypeAssessment({
         ...originalCampaign,
-        title: 'New title',
       });
-      campaignAdministrationRepository.update.resolves(updatedCampaign);
-
-      // when
-      const resultCampaign = await usecases.updateCampaign({
-        userId: userWithMembership.id,
-        campaignId: updatedCampaign.id,
-        title: updatedCampaign.title,
-        ownerId,
-        membershipRepository,
-        campaignAdministrationRepository,
-      });
-
-      // then
-      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly({
-        campaignId: updatedCampaign.id,
-        campaignAttributes: {
-          name: updatedCampaign.name,
-          title: updatedCampaign.title,
-          customLandingPageText: updatedCampaign.customLandingPageText,
-          ownerId: updatedCampaign.ownerId,
-        },
-      });
-      expect(resultCampaign.title).to.equal(updatedCampaign.title);
-      expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
-    });
-
-    it('should update the campaign page text only', async function () {
-      // given
-      const updatedCampaign = domainBuilder.prescription.campaign.buildCampaign({
-        ...originalCampaign,
-        customLandingPageText: 'New text',
-      });
-      campaignAdministrationRepository.update.resolves(updatedCampaign);
-
-      // when
-      const resultCampaign = await usecases.updateCampaign({
-        userId: userWithMembership.id,
-        campaignId: updatedCampaign.id,
-        ownerId,
-        customLandingPageText: updatedCampaign.customLandingPageText,
-        campaignAdministrationRepository,
-        membershipRepository,
-      });
-
-      // then
-      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly({
-        campaignId: updatedCampaign.id,
-        campaignAttributes: {
-          name: updatedCampaign.name,
-          title: updatedCampaign.title,
-          customLandingPageText: updatedCampaign.customLandingPageText,
-          ownerId: updatedCampaign.ownerId,
-        },
-      });
-      expect(resultCampaign.title).to.equal(originalCampaign.title);
-      expect(resultCampaign.customLandingPageText).to.equal(updatedCampaign.customLandingPageText);
-    });
-
-    it('should update the campaign archive date only', async function () {
-      // given
-      const updatedCampaign = domainBuilder.prescription.campaign.buildCampaign({ ...originalCampaign });
-      campaignAdministrationRepository.update.resolves(updatedCampaign);
-
-      // when
-      const resultCampaign = await usecases.updateCampaign({
-        userId: userWithMembership.id,
-        campaignId: updatedCampaign.id,
-        ownerId,
-        campaignAdministrationRepository,
-        membershipRepository,
-      });
-
-      // then
-      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly({
-        campaignId: updatedCampaign.id,
-        campaignAttributes: {
-          name: updatedCampaign.name,
-          title: updatedCampaign.title,
-          customLandingPageText: updatedCampaign.customLandingPageText,
-          ownerId: updatedCampaign.ownerId,
-        },
-      });
-      expect(resultCampaign.title).to.equal(originalCampaign.title);
-      expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
-    });
-
-    it('should update the campaign name only', async function () {
-      // given
-      const updatedCampaign = domainBuilder.prescription.campaign.buildCampaign({
-        ...originalCampaign,
+      const expectedResult = Symbol('updatedCampaign');
+      sinon.stub(campaign, 'updateFields');
+      campaignAdministrationRepository.get.withArgs(campaign.id).resolves(campaign);
+      campaignAdministrationRepository.update.withArgs(campaign).resolves(expectedResult);
+      membershipRepository.findByUserIdAndOrganizationId
+        .withArgs({ userId: userWithMembership.id, organizationId: campaign.organizationId })
+        .resolves([Symbol('membership')]);
+      const attributesToUpdate = {
+        title: 'New Title',
         name: 'New Name',
-      });
-      campaignAdministrationRepository.update.resolves(updatedCampaign);
+        customLandingPageText: 'New Custom Landing Page Text',
+        ownerId: 1,
+      };
 
       // when
       const resultCampaign = await usecases.updateCampaign({
         userId: userWithMembership.id,
-        campaignId: updatedCampaign.id,
-        name: updatedCampaign.name,
-        title: originalCampaign.title,
+        campaignId: campaign.id,
         ownerId,
-        campaignAdministrationRepository,
         membershipRepository,
+        campaignAdministrationRepository,
+        ...attributesToUpdate,
       });
 
       // then
-      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly({
-        campaignId: updatedCampaign.id,
-        campaignAttributes: {
-          name: updatedCampaign.name,
-          title: updatedCampaign.title,
-          customLandingPageText: updatedCampaign.customLandingPageText,
-          ownerId: updatedCampaign.ownerId,
-        },
-      });
-      expect(resultCampaign.name).to.equal(updatedCampaign.name);
-      expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
-    });
-
-    it('should update the campaign ownerId only', async function () {
-      // given
-      const newOwner = domainBuilder.buildUser({ id: 50 });
-      const newOwnerWithMembership = domainBuilder.buildMembership({
-        user: newOwner,
-        organization: { id: organizationId },
-      });
-      const updatedCampaign = domainBuilder.prescription.campaign.buildCampaign({
-        ...originalCampaign,
-        ownerId: newOwner.id,
-      });
-      campaignAdministrationRepository.update.resolves(updatedCampaign);
-      membershipRepository.findByUserIdAndOrganizationId.resolves([newOwnerWithMembership]);
-
-      // when
-      const resultCampaign = await usecases.updateCampaign({
-        userId: userWithMembership.id,
-        campaignId: updatedCampaign.id,
-        name: originalCampaign.name,
-        title: originalCampaign.title,
-        ownerId: updatedCampaign.ownerId,
-
-        campaignAdministrationRepository,
-        membershipRepository,
-      });
-
-      // then
-      expect(resultCampaign.ownerId).to.equal(updatedCampaign.ownerId);
-    });
-
-    it('should not update the campaign name if campaign name is undefined', async function () {
-      // given
-      const updatedCampaign = domainBuilder.prescription.campaign.buildCampaign({ ...originalCampaign });
-      campaignAdministrationRepository.update.resolves(updatedCampaign);
-
-      // when
-      const resultCampaign = await usecases.updateCampaign({
-        userId: userWithMembership.id,
-        campaignId: updatedCampaign.id,
-        name: undefined,
-        title: originalCampaign.title,
-        ownerId,
-        campaignAdministrationRepository,
-        membershipRepository,
-      });
-
-      // then
-      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly({
-        campaignId: updatedCampaign.id,
-        campaignAttributes: {
-          name: updatedCampaign.name,
-          title: updatedCampaign.title,
-          customLandingPageText: updatedCampaign.customLandingPageText,
-          ownerId: updatedCampaign.ownerId,
-        },
-      });
-      expect(resultCampaign.name).to.equal(originalCampaign.name);
-      expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
+      expect(campaign.updateFields).to.have.been.calledWithMatch(attributesToUpdate);
+      expect(resultCampaign).to.equal(expectedResult);
     });
   });
 

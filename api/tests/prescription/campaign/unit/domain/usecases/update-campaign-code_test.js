@@ -27,10 +27,7 @@ describe('Unit | UseCase | update-campaign-code', function () {
     await updateCampaignCode({ campaignId, campaignCode, campaignAdministrationRepository, codeGenerator });
 
     // then
-    expect(campaignAdministrationRepository.update).to.have.been.calledOnceWithExactly({
-      campaignId,
-      campaignAttributes: { code: campaignCode },
-    });
+    expect(campaignAdministrationRepository.update).to.have.been.calledOnceWithExactly(campaignStub);
   });
 
   context('when campaignId not match a campaign', function () {
