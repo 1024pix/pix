@@ -1,0 +1,36 @@
+.align-icon {
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.tag {
+  @extend .modulix-capitalize;
+  @extend %pix-body-s;
+
+  width: fit-content;
+  padding: var(--pix-spacing-2x) var(--pix-spacing-4x) var(--pix-spacing-2x) var(--pix-spacing-4x);
+  border-radius: var(--modulix-radius) var(--modulix-radius) 0 0;
+
+  &--activity {
+    background: var(--pix-neutral-20);
+
+    &::before {
+      @extend .align-icon;
+
+      content: url('/images/icons/icon-cog.svg');
+    }
+  }
+
+  &--lesson {
+    background: var(--pix-info-50);
+
+    &::before {
+      @extend .align-icon;
+
+      line-height: 1;
+      vertical-align: middle;
+      content: url('/images/icons/icon-book.svg');
+    }
+  }
+}
+
