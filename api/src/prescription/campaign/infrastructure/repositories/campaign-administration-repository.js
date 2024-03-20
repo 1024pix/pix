@@ -6,6 +6,25 @@ import * as skillRepository from '../../../../../lib/infrastructure/repositories
 import { UnknownCampaignId } from '../../domain/errors.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 
+const CAMPAIGN_ATTRIBUTES = [
+  'name',
+  'code',
+  'title',
+  'type',
+  'idPixLabel',
+  'isForAbsoluteNovice',
+  'customLandingPageText',
+  'creatorId',
+  'ownerId',
+  'organizationId',
+  'targetProfileId',
+  'multipleSendings',
+  'createdAt',
+  'customResultPageText',
+  'customResultPageButtonText',
+  'customResultPageButtonUrl',
+];
+
 const get = async function (id) {
   const campaign = await knex('campaigns').where({ id }).first();
 
@@ -22,8 +41,11 @@ const get = async function (id) {
   });
 };
 
-const update = async function ({ campaignId, campaignAttributes }) {
-  const [editedCampaign] = await knex('campaigns').where({ id: campaignId }).update(campaignAttributes).returning('*');
+const update = async function (campaign) {
+  const [editedCampaign] = await knex('campaigns')
+    .where({ id: campaign.id })
+    .update(_.pick(campaign, CAMPAIGN_ATTRIBUTES))
+    .returning('*');
 
   return new Campaign(editedCampaign);
 };
@@ -35,23 +57,7 @@ const save = async function (campaigns, dependencies = { skillRepository }) {
   try {
     let latestCreatedCampaign;
     for (const campaign of campaignsToCreate) {
-      const campaignAttributes = _.pick(campaign, [
-        'name',
-        'code',
-        'title',
-        'type',
-        'idPixLabel',
-        'customLandingPageText',
-        'creatorId',
-        'ownerId',
-        'organizationId',
-        'targetProfileId',
-        'multipleSendings',
-        'createdAt',
-        'customResultPageText',
-        'customResultPageButtonText',
-        'customResultPageButtonUrl',
-      ]);
+      const campaignAttributes = _.pick(campaign, CAMPAIGN_ATTRIBUTES);
       const [createdCampaignDTO] = await trx('campaigns').insert(campaignAttributes).returning('*');
       latestCreatedCampaign = new Campaign(createdCampaignDTO);
       if (latestCreatedCampaign.isAssessment()) {
