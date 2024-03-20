@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail;
 
 # Démarrer Nginx en arrière-plan
 nginx -g "daemon off;" &
