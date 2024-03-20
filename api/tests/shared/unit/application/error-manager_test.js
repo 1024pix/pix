@@ -10,6 +10,7 @@ import { HttpErrors, UnauthorizedError } from '../../../../src/shared/applicatio
 import {
   CertificationAttestationGenerationError,
   EntityValidationError,
+  InvalidInputDataError,
   LocaleFormatError,
   LocaleNotSupportedError,
   NoCertificationAttestationForDivisionError,
@@ -303,6 +304,25 @@ describe('Shared | Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message, error.code);
+    });
+
+    context('when handling InvalidInputDataError', function () {
+      it('maps to PreconditionFailedError', async function () {
+        // given
+        const error = new InvalidInputDataError();
+        sinon.stub(HttpErrors, 'PreconditionFailedError');
+        const params = { request: {}, h: hFake, error };
+
+        // when
+        await handle(params.request, params.h, params.error);
+
+        // then
+        expect(HttpErrors.PreconditionFailedError).to.have.been.calledWithExactly(
+          error.message,
+          error.code,
+          error.meta,
+        );
+      });
     });
   });
 });
