@@ -28,7 +28,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       this.set('rowCount', rowCount);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Filter::ParticipationFilters
   @campaign={{this.campaign}}
   @rowCount={{this.rowCount}}
@@ -41,10 +41,10 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       );
 
       // then
-      assert.contains('1 participant');
+      assert.ok(screen.getByText('1 participant'));
     });
 
-    test('it should display many filtered participant', async function (assert) {
+    test('it should display many filtered participants', async function (assert) {
       // given
       const badge = store.createRecord('badge');
       const campaign = store.createRecord('campaign', {
@@ -58,7 +58,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       this.set('details', rowCount);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Filter::ParticipationFilters
   @campaign={{this.campaign}}
   @rowCount={{this.details}}
@@ -71,7 +71,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       );
 
       // then
-      assert.contains('2 participants');
+      assert.ok(screen.getByText('2 participants'));
     });
 
     module('Filter button', function () {
@@ -146,7 +146,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           );
 
           //then
-          assert.dom(screen.getByRole('button', { name: 'Effacer les filtres', hidden: true })).exists();
+          assert.ok(screen.getByRole('button', { name: 'Effacer les filtres', hidden: true }));
         });
       });
 
@@ -173,7 +173,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           );
 
           //then
-          assert.dom(screen.getByRole('button', { name: 'Effacer les filtres', hidden: true })).exists();
+          assert.ok(screen.getByRole('button', { name: 'Effacer les filtres', hidden: true }));
         });
       });
     });
@@ -192,7 +192,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('campaign', campaign);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters
   @campaign={{this.campaign}}
   @onFilter={{this.noop}}
@@ -204,7 +204,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         // then
-        assert.notContains('Paliers');
+        assert.notOk(screen.queryByRole('button', { name: 'Paliers' }));
       });
     });
 
@@ -221,7 +221,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('campaign', campaign);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters
   @campaign={{this.campaign}}
   @onFilter={{this.noop}}
@@ -233,7 +233,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         // then
-        assert.notContains('Paliers');
+        assert.notOk(screen.queryByRole('button', { name: 'Paliers' }));
       });
     });
 
@@ -251,7 +251,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('selectedStages', []);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters
   @campaign={{this.campaign}}
   @onFilter={{this.noop}}
@@ -264,7 +264,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         // then
-        assert.contains('Paliers');
+        assert.ok(screen.getByRole('button', { name: 'Paliers' }));
       });
 
       test('it should not display the stage filter when it specified', async function (assert) {
@@ -279,7 +279,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('campaign', campaign);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters
   @campaign={{this.campaign}}
   @onFilter={{this.noop}}
@@ -291,7 +291,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         // then
-        assert.notContains('Paliers');
+        assert.notOk(screen.queryByRole('button', { name: 'Paliers' }));
       });
 
       test('it triggers the filter when a stage is selected', async function (assert) {
@@ -346,7 +346,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('selectedBadges', []);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters
   @campaign={{this.campaign}}
   @onFilter={{this.noop}}
@@ -359,8 +359,8 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         // then
-        assert.contains('Thématiques');
-        assert.contains('Les bases');
+        assert.ok(screen.getByRole('button', { name: 'Thématiques' }));
+        assert.ok(screen.getByLabelText('Les bases'));
       });
 
       test('it should not displays the badge filter when it specified', async function (assert) {
@@ -375,7 +375,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('campaign', campaign);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters
   @campaign={{this.campaign}}
   @onFilter={{this.noop}}
@@ -388,8 +388,8 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         // then
-        assert.notContains('Thématiques');
-        assert.notContains('Les bases');
+        assert.notOk(screen.queryByRole('button', { name: 'Thématiques' }));
+        assert.notOk(screen.queryByLabelText('Les bases'));
       });
 
       test('it triggers the filter when a badge is selected', async function (assert) {
@@ -439,12 +439,12 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('campaign', campaign);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} />`,
         );
 
         // then
-        assert.notContains('Thématiques');
+        assert.notOk(screen.queryByRole('button', { name: 'Thématiques' }));
       });
     });
 
@@ -461,12 +461,12 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('campaign', campaign);
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters @campaign={{this.campaign}} @onFilter={{this.noop}} />`,
         );
 
         // then
-        assert.notContains('Thématiques');
+        assert.notOk(screen.queryByRole('button', { name: 'Thématiques' }));
       });
     });
   });
@@ -666,7 +666,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       );
 
       // then
-      assert.dom(screen.getByLabelText('Rechercher par certificabilité')).exists();
+      assert.ok(screen.getByLabelText('Rechercher par certificabilité'));
     });
 
     test('hide certificability filter on assessment campaign', async function (assert) {
@@ -691,7 +691,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       );
 
       // then
-      assert.dom(screen.queryByLabelText('Rechercher par certificabilité')).doesNotExist();
+      assert.notOk(screen.queryByLabelText('Rechercher par certificabilité'));
     });
 
     test('it triggers the filter when a certificability is selected', async function (assert) {
@@ -743,7 +743,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
       test('it displays the division filter', async function (assert) {
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters
   @campaign={{this.campaign}}
   @onFilter={{this.noop}}
@@ -755,8 +755,8 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 />`,
         );
         // then
-        assert.contains('Classes');
-        assert.contains('d1');
+        assert.ok(screen.getByRole('textbox', { name: 'Rechercher par classes' }));
+        assert.ok(screen.getByLabelText('d1'));
       });
 
       test('it display disabled button', async function (assert) {
@@ -781,7 +781,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         //then
-        assert.dom(screen.getByRole('button', { name: 'Effacer les filtres', hidden: true })).exists();
+        assert.ok(screen.getByRole('button', { name: 'Effacer les filtres', hidden: true }));
       });
 
       test('it triggers the filter when a division is selected', async function (assert) {
@@ -815,7 +815,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       this.campaign = store.createRecord('campaign', { id: 1 });
       this.set('selectedDivisions', []);
       // when
-      await render(hbs`<Campaign::Filter::ParticipationFilters
+      const screen = await render(hbs`<Campaign::Filter::ParticipationFilters
   @campaign={{this.campaign}}
   @onFilter={{this.noop}}
   @isHiddenStages={{true}}
@@ -825,7 +825,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 />`);
 
       // then
-      assert.notContains('Groupes');
+      assert.notOk(screen.queryByRole('button', { name: 'Groupes' }));
     });
   });
 
@@ -864,12 +864,12 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         //then
-        assert.dom(screen.getByRole('button', { name: 'Effacer les filtres', hidden: true })).exists();
+        assert.ok(screen.getByRole('button', { name: 'Effacer les filtres', hidden: true }));
       });
 
       test('it displays the group filter', async function (assert) {
         // when
-        await render(
+        const screen = await render(
           hbs`<Campaign::Filter::ParticipationFilters
   @campaign={{this.campaign}}
   @onFilter={{this.noop}}
@@ -879,8 +879,8 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 />`,
         );
         // then
-        assert.contains('Groupes');
-        assert.contains('d1');
+        assert.ok(screen.getByRole('textbox', { name: 'Groupes' }));
+        assert.ok(screen.getByLabelText('d1'));
       });
 
       test('it triggers the filter when a group is selected', async function (assert) {
@@ -927,7 +927,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       });
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Filter::ParticipationFilters
   @campaign={{this.campaign}}
   @onFilter={{this.noop}}
@@ -938,8 +938,8 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       );
 
       // then
-      assert.notContains('Classes');
-      assert.notContains('d2');
+      assert.notOk(screen.queryByRole('textbox', { name: 'Rechercher par classes' }));
+      assert.notOk(screen.queryByLabelText('d2'));
     });
   });
 });
