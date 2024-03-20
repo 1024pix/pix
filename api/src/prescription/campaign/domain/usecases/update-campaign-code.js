@@ -12,7 +12,8 @@ const updateCampaignCode = async function ({ campaignId, campaignCode, campaignA
   if (!isCodeAvailable) {
     throw new CampaignUniqueCodeError();
   }
-  await campaignAdministrationRepository.update({ campaignId, campaignAttributes: { code: campaignCode } });
+
+  await campaignAdministrationRepository.update(campaign);
 };
 
 export { updateCampaignCode };
