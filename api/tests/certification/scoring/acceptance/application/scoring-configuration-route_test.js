@@ -95,7 +95,7 @@ describe('Acceptance | Application | scoring-configuration-route', function () {
       });
 
       describe('when called with a valid payload', function () {
-        it('should return a 204 and update the configuration', async function () {
+        it('should return a 201 and update the configuration', async function () {
           // given
           const superAdmin = databaseBuilder.factory.buildUser.withRole({
             role: PIX_ADMIN.ROLES.SUPER_ADMIN,
@@ -219,7 +219,7 @@ describe('Acceptance | Application | scoring-configuration-route', function () {
       });
 
       describe('when called with a valid payload', function () {
-        it('should return a 204 and update the configuration', async function () {
+        it('should return a 201 and update the configuration', async function () {
           // given
           const superAdmin = databaseBuilder.factory.buildUser.withRole({
             role: PIX_ADMIN.ROLES.SUPER_ADMIN,
