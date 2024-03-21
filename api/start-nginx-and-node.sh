@@ -1,10 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -x
 
 echo "SCALINGO PORT: ${PORT}"
-echo "NODE PORT: ${NODE_PORT}"
 
-# Démarrer Nginx en arrière-plan
-nginx -g "daemon off;" &
+pwd
+ls /app/bin/
 
 # Démarrer Node.js
-exec node index.js
+echo "Start API binded to env NODE_PORT:[${NODE_PORT}}]"
+node index.js &
+
+# Start Nginx
+echo "Start Nginx binded to Scalingo env PORT:[${PORT}]"
+exec /app/bin/run
