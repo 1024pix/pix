@@ -28,7 +28,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('certificabilityFilter', []);
     this.set('fullNameFilter', null);
     // when
-    await render(
+    const screen = await render(
       hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
@@ -39,10 +39,10 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     );
 
     // then
-    assert.contains('Nom');
-    assert.contains('Prénom');
-    assert.contains('Nombre de participations');
-    assert.contains('Dernière participation');
+    assert.ok(screen.getByRole('columnheader', { name: 'Nom' }));
+    assert.ok(screen.getByRole('columnheader', { name: 'Prénom' }));
+    assert.ok(screen.getByRole('columnheader', { name: 'Nombre de participations' }));
+    assert.ok(screen.getByRole('columnheader', { name: 'Dernière participation' }));
   });
 
   test('it should have a caption to describe the table ', async function (assert) {
@@ -56,8 +56,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     ]);
     this.set('certificabilityFilter', []);
     this.set('fullNameFilter', null);
+
     // when
-    await render(
+    const screen = await render(
       hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
@@ -68,7 +69,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     );
 
     // then
-    assert.contains(this.intl.t('pages.organization-participants.table.description'));
+    assert.ok(screen.getByRole('table', { name: this.intl.t('pages.organization-participants.table.description') }));
   });
 
   test('it should display a list of participants', async function (assert) {
@@ -89,7 +90,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('certificabilityFilter', []);
     this.set('fullNameFilter', null);
     // when
-    await render(
+    const screen = await render(
       hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
@@ -100,8 +101,8 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     );
 
     // then
-    assert.contains('La Terreur');
-    assert.contains("L'asticot");
+    assert.ok(screen.getByRole('cell', { name: 'La Terreur' }));
+    assert.ok(screen.getByRole('cell', { name: "L'asticot" }));
   });
 
   test('it should display a link to access participant detail', async function (assert) {
@@ -152,7 +153,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('fullNameFilter', null);
 
     // when
-    await render(
+    const screen = await render(
       hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
@@ -163,8 +164,8 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     );
 
     // then
-    assert.contains('La Terreur');
-    assert.contains('Gigi');
+    assert.ok(screen.getByRole('cell', { name: 'La Terreur' }));
+    assert.ok(screen.getByRole('cell', { name: 'Gigi' }));
   });
 
   test('it should display the number of participations for each participant', async function (assert) {
@@ -267,7 +268,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('fullNameFilter', null);
 
     // when
-    await render(
+    const screen = await render(
       hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.noop}}
@@ -278,8 +279,11 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     );
 
     // then
-    assert.contains(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
-    assert.contains('02/01/2022');
+    assert.ok(
+      screen.getByRole('cell', {
+        name: `${this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible')} 02/01/2022`,
+      }),
+    );
   });
 
   module('filtering cases', function () {
@@ -301,7 +305,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       );
 
       // then
-      assert.dom(screen.getByLabelText('Recherche sur le nom et prénom')).exists();
+      assert.ok(screen.getByLabelText('Recherche sur le nom et prénom'));
     });
 
     test('it should trigger filtering with fullName search', async function (assert) {
@@ -775,7 +779,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.triggerFiltering = sinon.stub();
 
     // when
-    await render(
+    const screen = await render(
       hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
   @triggerFiltering={{this.triggerFiltering}}
@@ -786,7 +790,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     );
 
     // then
-    assert.contains(this.intl.t('pages.organization-participants.table.empty'));
+    assert.ok(screen.getByText(this.intl.t('pages.organization-participants.table.empty')));
   });
 
   test('it should display the certificability tooltip', async function (assert) {
@@ -863,8 +867,8 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       });
 
       //then
-      assert.dom(mainCheckbox).exists();
-      assert.dom(learnerCheckbox).exists();
+      assert.ok(mainCheckbox);
+      assert.ok(learnerCheckbox);
     });
 
     test('it should disable the main checkbox when participants list is empty', async function (assert) {
@@ -1062,9 +1066,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         await click(firstLearnerToDelete);
 
         //then
-        assert
-          .dom(screen.getByText(this.intl.t('pages.organization-participants.action-bar.information', { count: 1 })))
-          .exists();
+        assert.ok(
+          screen.getByText(this.intl.t('pages.organization-participants.action-bar.information', { count: 1 })),
+        );
       });
 
       test('it should open the deletion modale', async function (assert) {
@@ -1106,7 +1110,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
         });
 
         //then
-        assert.dom(confirmationButton).exists();
+        assert.ok(confirmationButton);
       });
 
       test('it should delete participants', async function (assert) {
