@@ -556,6 +556,29 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         expect(results[1].estimatedLevel).to.be.closeTo(1.802340122865396, 0.00000000001);
         expect(results[1].errorRate).to.be.closeTo(0.8549014053951466, 0.00000000001);
       });
+
+      it('should return the answer id when there is at least one answer', function () {
+        // given
+        const challenges = [
+          domainBuilder.buildChallenge({
+            id: 'ChallengeFirstAnswer',
+            discriminant: 1.86350005965093,
+            difficulty: 0.194712138508747,
+          }),
+        ];
+
+        const answerId = 1969;
+
+        const allAnswers = [
+          domainBuilder.buildAnswer({ id: answerId, result: AnswerStatus.OK, challengeId: challenges[0].id }),
+        ];
+
+        // when
+        const results = flash.getEstimatedLevelAndErrorRateHistory({ allAnswers, challenges });
+
+        // then
+        expect(results[0].answerId).to.equal(answerId);
+      });
     });
   });
 
