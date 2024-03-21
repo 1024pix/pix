@@ -1,4 +1,4 @@
-import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
+import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';
 
 const execute = async function ({
   organizationId,
