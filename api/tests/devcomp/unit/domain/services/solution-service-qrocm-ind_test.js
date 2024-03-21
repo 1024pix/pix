@@ -6,27 +6,27 @@ const ANSWER_OK = AnswerStatus.OK;
 const ANSWER_KO = AnswerStatus.KO;
 
 describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', function () {
-  describe('#_applyTreatmentsToSolutions(solutions, enabledTreatments)', function () {
+  describe('#_applyTolerancesToSolutions(solutions, enabledTolerances)', function () {
     it('t1 and t2 should be executed (lowerCase, trim, breaking space)', function () {
       // given
       const solutions = { '3lettres': ['OUI', 'NON   '], '4lettres': ['Good', 'Bad'] };
       const expected = { '3lettres': ['oui', 'non'], '4lettres': ['good', 'bad'] };
-      const enabledTreatments = ['t1', 't2'];
+      const enabledTolerances = ['t1', 't2'];
       // when
-      const actual = service._applyTreatmentsToSolutions(solutions, enabledTreatments);
+      const actual = service._applyTolerancesToSolutions(solutions, enabledTolerances);
       // then
       expect(actual).to.deep.equal(expected);
     });
   });
 
-  describe('#_applyTreatmentsToAnswers(answers, enabledTreatments)', function () {
+  describe('#_applyTolerancesToAnswers(answers, enabledTolerances)', function () {
     it('should be transformed in string', function () {
       // given
       const answers = { Num1: 1, Num2: 2 };
       const expected = { Num1: '1', Num2: '2' };
-      const enabledTreatments = ['t1', 't2'];
+      const enabledTolerances = ['t1', 't2'];
       // when
-      const actual = service._applyTreatmentsToAnswers(answers, enabledTreatments);
+      const actual = service._applyTolerancesToAnswers(answers, enabledTolerances);
       // then
       expect(actual).to.deep.equal(expected);
     });
@@ -35,9 +35,9 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
       // given
       const answers = { Num1: 1, Num2: 2 };
       const expected = { Num1: '1', Num2: '2' };
-      const enabledTreatments = [];
+      const enabledTolerances = [];
       // when
-      const actual = service._applyTreatmentsToAnswers(answers, enabledTreatments);
+      const actual = service._applyTolerancesToAnswers(answers, enabledTolerances);
       // then
       expect(actual).to.deep.equal(expected);
     });
@@ -74,10 +74,10 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
       // given
       const answers = { Num1: '1', Num2: '3' };
       const solutions = { Num1: ['1', 'un', '01'], Num2: ['2', 'deux', '02'] };
-      const allTreatmentsDisabled = [];
+      const allTolerancesDisabled = [];
 
       // when
-      const actual = service._compareAnswersAndSolutions(answers, solutions, allTreatmentsDisabled);
+      const actual = service._compareAnswersAndSolutions(answers, solutions, allTolerancesDisabled);
 
       // then
       const expected = { Num1: true, Num2: false };
@@ -88,10 +88,10 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
       // given
       const answers = { phrase1: "Le silence est d'ours", phrase2: 'faceboo', phrase3: 'lasagne' };
       const solutions = { phrase1: ["Le silence est d'or"], phrase2: ['facebook'], phrase3: ['engasal'] };
-      const t3TreatmentEnabled = ['t3'];
+      const t3ToleranceEnabled = ['t3'];
 
       // when
-      const actual = service._compareAnswersAndSolutions(answers, solutions, t3TreatmentEnabled);
+      const actual = service._compareAnswersAndSolutions(answers, solutions, t3ToleranceEnabled);
 
       // then
       const expected = { phrase1: true, phrase2: true, phrase3: false };
@@ -129,112 +129,112 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'tomate' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'solution contains numbers',
         output: { result: ANSWER_OK, resultDetails: { num1: true, num2: true } },
         answer: { num1: '888', num2: '64' },
         solution: { num1: ['888'], num2: ['64'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'solution contains decimal numbers with a comma',
         output: { result: ANSWER_OK, resultDetails: { num1: true, num2: true } },
         answer: { num1: '888,00', num2: '64' },
         solution: { num1: ['888,00'], num2: ['64'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'solution contains decimal numbers with a dot',
         output: { result: ANSWER_OK, resultDetails: { num1: true, num2: true } },
         answer: { num1: '888.00', num2: '64' },
         solution: { num1: ['888.00'], num2: ['64'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'leading/trailing spaces in solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'c o u r g e t t e', '6lettres': 't o m a t e' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'uppercases and leading/trailing spaces in solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'c o u r g e t t e', '6lettres': 't o m a t e' },
         solution: { '9lettres': ['COUrgETTE'], '6lettres': ['TOmaTE', 'CHICON', 'LEGUME'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'spaces in answer',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'c o u r g e t t e', '6lettres': 't o m a t e' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'answer with levenshtein distance below 0.25',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'ourgette', '6lettres': 'tomae' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'answer with uppercases',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'COURGETTE', '6lettres': 'TOMATE' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'answer with uppercases and spaces',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'C O U R G E T T E', '6lettres': 'T O M A T E' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'answer with uppercases spaces, and levenshtein > 0 but <= 0.25',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'C O U G E T T E', '6lettres': ' O M A T E' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'answer with uppercases spaces, and levenshtein > 0 but <= 0.25, and accents',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'ç O u -- ;" ;--- _ \' grè TTÊ', '6lettres': ' O M A T E' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'unbreakable spaces in answer',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'c o u r g e t t e', '6lettres': ' t o m a t e' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'Solution has spaces in-between',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'abcdefg', '6lettres': 'ghjkl' },
         solution: { '9lettres': ['a b c d e f g'], '6lettres': ['ghjklm', 'ghjklp', 'ghjklz'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: '(nominal case) Each answer strictly respect another corresponding solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'patate', '6lettres': 'legume' },
         solution: { '9lettres': ['courgette ', 'patate'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'Each answer correctly match its solution, with worst levenshtein distance below or equal to 0.25',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'abcd', '6lettres': 'ghjkl' },
         solution: { '9lettres': ['abcde'], '6lettres': ['ghjklm', 'ghjklp', 'ghjklz'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
     ];
     // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
@@ -248,7 +248,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
           escape(testCase.solution) +
           '"',
         function () {
-          const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+          const solution = { value: testCase.solution, enabledTolerances: testCase.enabledTolerances };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
         },
       );
@@ -259,35 +259,35 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         case: 'solution do not exists',
         output: { result: ANSWER_KO },
         answer: 'any answer',
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'solution is empty',
         output: { result: ANSWER_KO },
         answer: '',
         solution: '',
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'answer is not a valid object',
         output: { result: ANSWER_KO },
         answer: new Date(),
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'solution is not a valid object',
         output: { result: ANSWER_KO },
         answer: { '9lettres': 'tomate', '6lettres': 'courgette' },
         solution: new Date(),
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'Each answer points to the solution of another question',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': false, '6lettres': false } },
         answer: { '9lettres': 'tomate', '6lettres': 'courgette' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'One of the levenshtein distance is above 0.25',
@@ -295,14 +295,14 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         answer: { '9lettres': 'abcde', '6lettres': 'ghjkl' },
         //abcdefg below creates a levenshtein distance above 0.25
         solution: { '9lettres': ['abcdefg'], '6lettres': ['ghjklm', 'ghjklp', 'ghjklz'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
         case: 'All of the levenshtein distances are above 0.25',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': false, '6lettres': false } },
         answer: { '9lettres': 'abcde', '6lettres': 'ghjklpE11!!' },
         solution: { '9lettres': ['abcdefg'], '6lettres': ['ghjklm', 'ghjklp', 'ghjklz'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
     ];
     // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
@@ -316,7 +316,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
           escape(testCase.solution) +
           '"',
         function () {
-          const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+          const solution = { value: testCase.solution, enabledTolerances: testCase.enabledTolerances };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
         },
       );
@@ -327,8 +327,8 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
     it('should throw an error', async function () {
       const answer = { dossier1: 'a' };
       const solutionValue = { dossier2: ['Eureka'] };
-      const enabledTreatments = ['t1', 't2', 't3'];
-      const solution = { value: solutionValue, enabledTreatments };
+      const enabledTolerances = ['t1', 't2', 't3'];
+      const solution = { value: solutionValue, enabledTolerances };
 
       const error = await catchErr(service.match)({ answerValue: answer, solution });
 
@@ -337,14 +337,14 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
     });
   });
 
-  describe('match, strong focus on treatments', function () {
+  describe('match, strong focus on tolerances', function () {
     // it('when solution value is not an array, should throw an error', async function () {
     //   const answer = { dossier1: 'a' };
     //   const solutionValue = {
     //     dossier1: 'Eureka',
     //   };
-    //   const enabledTreatments = ['t1', 't2', 't3'];
-    //   const solution = { value: solutionValue, enabledTreatments };
+    //   const enabledTolerances = ['t1', 't2', 't3'];
+    //   const solution = { value: solutionValue, enabledTolerances };
     //
     //   const error = await catchErr(service.match)({ answerValue: answer, solution });
     //
@@ -358,91 +358,91 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
-        when: 'spaces treatment focus',
+        when: 'spaces tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'c h i c o n' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
-        when: 'spaces treatment focus on the solution',
+        when: 'spaces tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'c h i c o n', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
-        when: 'uppercase treatment focus',
+        when: 'uppercase tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'CHICON' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
-        when: 'uppercase treatment focus on the solution',
+        when: 'uppercase tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'CHICON', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
-        when: 'accent treatment focus',
+        when: 'accent tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'îàéùô' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'iaeuo', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
-        when: 'accent treatment focus on the solution',
+        when: 'accent tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'iaeuo' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'îàéùô', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
-        when: 'diacritic treatment focus',
+        when: 'diacritic tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'ççççç' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ccccc', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
-        when: 'diacritic treatment focus on the solution',
+        when: 'diacritic tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'ccccc' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ççççç', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
-        when: 'punctuation treatment focus',
+        when: 'punctuation tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': '.!p-u-n-c-t' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'punct', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
-        when: 'punctuation treatment focus on the solution',
+        when: 'punctuation tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'punct' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '.!p-u-n-c-t', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
-        when: 'levenshtein treatment focus',
+        when: 'levenshtein tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': '0123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '123456789', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
       {
-        when: 'levenshtein treatment focus on the solution',
+        when: 'levenshtein tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': '123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '0123456789', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
       },
     ];
 
@@ -458,7 +458,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
           JSON.stringify(testCase.solution) +
           '"',
         function () {
-          const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+          const solution = { value: testCase.solution, enabledTolerances: testCase.enabledTolerances };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
         },
       );
@@ -472,91 +472,91 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t2', 't3'],
+        enabledTolerances: ['t2', 't3'],
       },
       {
-        when: 'spaces treatment focus',
+        when: 'spaces tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'c h i c o n' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t2', 't3'],
+        enabledTolerances: ['t2', 't3'],
       },
       {
-        when: 'spaces treatment focus on the solution',
+        when: 'spaces tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'c h i c o n', 'legume'] },
-        enabledTreatments: ['t2', 't3'],
+        enabledTolerances: ['t2', 't3'],
       },
       {
-        when: 'uppercase treatment focus',
+        when: 'uppercase tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'CHICON' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t2', 't3'],
+        enabledTolerances: ['t2', 't3'],
       },
       {
-        when: 'uppercase treatment focus on the solution',
+        when: 'uppercase tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'CHICON', 'legume'] },
-        enabledTreatments: ['t2', 't3'],
+        enabledTolerances: ['t2', 't3'],
       },
       {
-        when: 'accent treatment focus',
+        when: 'accent tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'îàéùô' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'iaeuo', 'legume'] },
-        enabledTreatments: ['t2', 't3'],
+        enabledTolerances: ['t2', 't3'],
       },
       {
-        when: 'accent treatment focus on the solution',
+        when: 'accent tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'iaeuo' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'îàéùô', 'legume'] },
-        enabledTreatments: ['t2', 't3'],
+        enabledTolerances: ['t2', 't3'],
       },
       {
-        when: 'diacritic treatment focus',
+        when: 'diacritic tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'ççççç' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ccccc', 'legume'] },
-        enabledTreatments: ['t2', 't3'],
+        enabledTolerances: ['t2', 't3'],
       },
       {
-        when: 'diacritic treatment focus on the solution',
+        when: 'diacritic tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'ccccc' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ççççç', 'legume'] },
-        enabledTreatments: ['t2', 't3'],
+        enabledTolerances: ['t2', 't3'],
       },
       {
-        when: 'punctuation treatment focus',
+        when: 'punctuation tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': '.!p-u-n-c-t' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'punct', 'legume'] },
-        enabledTreatments: ['t2', 't3'],
+        enabledTolerances: ['t2', 't3'],
       },
       {
-        when: 'punctuation treatment focus on the solution',
+        when: 'punctuation tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'punct' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '.!p-u-n-c-t', 'legume'] },
-        enabledTreatments: ['t2', 't3'],
+        enabledTolerances: ['t2', 't3'],
       },
       {
-        when: 'levenshtein treatment focus',
+        when: 'levenshtein tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': '0123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '123456789', 'legume'] },
-        enabledTreatments: ['t2', 't3'],
+        enabledTolerances: ['t2', 't3'],
       },
       {
-        when: 'levenshtein treatment focus on the solution',
+        when: 'levenshtein tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': '123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '0123456789', 'legume'] },
-        enabledTreatments: ['t2', 't3'],
+        enabledTolerances: ['t2', 't3'],
       },
     ];
 
@@ -572,7 +572,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
           JSON.stringify(testCase.solution) +
           '"',
         function () {
-          const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+          const solution = { value: testCase.solution, enabledTolerances: testCase.enabledTolerances };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
         },
       );
@@ -586,91 +586,91 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't3'],
+        enabledTolerances: ['t1', 't3'],
       },
       {
-        when: 'spaces treatment focus',
+        when: 'spaces tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'c h i c o n' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't3'],
+        enabledTolerances: ['t1', 't3'],
       },
       {
-        when: 'spaces treatment focus on the solution',
+        when: 'spaces tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'c h i c o n', 'legume'] },
-        enabledTreatments: ['t1', 't3'],
+        enabledTolerances: ['t1', 't3'],
       },
       {
-        when: 'uppercase treatment focus',
+        when: 'uppercase tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'CHICON' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't3'],
+        enabledTolerances: ['t1', 't3'],
       },
       {
-        when: 'uppercase treatment focus on the solution',
+        when: 'uppercase tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'CHICON', 'legume'] },
-        enabledTreatments: ['t1', 't3'],
+        enabledTolerances: ['t1', 't3'],
       },
       {
-        when: 'accent treatment focus',
+        when: 'accent tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'îàéùô' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'iaeuo', 'legume'] },
-        enabledTreatments: ['t1', 't3'],
+        enabledTolerances: ['t1', 't3'],
       },
       {
-        when: 'accent treatment focus on the solution',
+        when: 'accent tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'iaeuo' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'îàéùô', 'legume'] },
-        enabledTreatments: ['t1', 't3'],
+        enabledTolerances: ['t1', 't3'],
       },
       {
-        when: 'diacritic treatment focus',
+        when: 'diacritic tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'ççççç' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ccccc', 'legume'] },
-        enabledTreatments: ['t1', 't3'],
+        enabledTolerances: ['t1', 't3'],
       },
       {
-        when: 'diacritic treatment focus on the solution',
+        when: 'diacritic tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'ccccc' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ççççç', 'legume'] },
-        enabledTreatments: ['t1', 't3'],
+        enabledTolerances: ['t1', 't3'],
       },
       {
-        when: 'punctuation treatment focus',
+        when: 'punctuation tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': '.!p-u-n-c-t' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'punct', 'legume'] },
-        enabledTreatments: ['t1', 't3'],
+        enabledTolerances: ['t1', 't3'],
       },
       {
-        when: 'punctuation treatment focus on the solution',
+        when: 'punctuation tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'punct' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '.!p-u-n-c-t', 'legume'] },
-        enabledTreatments: ['t1', 't3'],
+        enabledTolerances: ['t1', 't3'],
       },
       {
-        when: 'levenshtein treatment focus',
+        when: 'levenshtein tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': '0123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '123456789', 'legume'] },
-        enabledTreatments: ['t1', 't3'],
+        enabledTolerances: ['t1', 't3'],
       },
       {
-        when: 'levenshtein treatment focus on the solution',
+        when: 'levenshtein tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': '123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '0123456789', 'legume'] },
-        enabledTreatments: ['t1', 't3'],
+        enabledTolerances: ['t1', 't3'],
       },
     ];
 
@@ -686,7 +686,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
           JSON.stringify(testCase.solution) +
           '"',
         function () {
-          const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+          const solution = { value: testCase.solution, enabledTolerances: testCase.enabledTolerances };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
         },
       );
@@ -700,91 +700,91 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2'],
+        enabledTolerances: ['t1', 't2'],
       },
       {
-        when: 'spaces treatment focus',
+        when: 'spaces tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'c h i c o n' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2'],
+        enabledTolerances: ['t1', 't2'],
       },
       {
-        when: 'spaces treatment focus on the solution',
+        when: 'spaces tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'c h i c o n', 'legume'] },
-        enabledTreatments: ['t1', 't2'],
+        enabledTolerances: ['t1', 't2'],
       },
       {
-        when: 'uppercase treatment focus',
+        when: 'uppercase tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'CHICON' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2'],
+        enabledTolerances: ['t1', 't2'],
       },
       {
-        when: 'uppercase treatment focus on the solution',
+        when: 'uppercase tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'CHICON', 'legume'] },
-        enabledTreatments: ['t1', 't2'],
+        enabledTolerances: ['t1', 't2'],
       },
       {
-        when: 'accent treatment focus',
+        when: 'accent tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'îàéùô' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'iaeuo', 'legume'] },
-        enabledTreatments: ['t1', 't2'],
+        enabledTolerances: ['t1', 't2'],
       },
       {
-        when: 'accent treatment focus on the solution',
+        when: 'accent tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'iaeuo' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'îàéùô', 'legume'] },
-        enabledTreatments: ['t1', 't2'],
+        enabledTolerances: ['t1', 't2'],
       },
       {
-        when: 'diacritic treatment focus',
+        when: 'diacritic tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'ççççç' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ccccc', 'legume'] },
-        enabledTreatments: ['t1', 't2'],
+        enabledTolerances: ['t1', 't2'],
       },
       {
-        when: 'diacritic treatment focus on the solution',
+        when: 'diacritic tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'ccccc' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ççççç', 'legume'] },
-        enabledTreatments: ['t1', 't2'],
+        enabledTolerances: ['t1', 't2'],
       },
       {
-        when: 'punctuation treatment focus',
+        when: 'punctuation tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': '.!p-u-n-c-t' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'punct', 'legume'] },
-        enabledTreatments: ['t1', 't2'],
+        enabledTolerances: ['t1', 't2'],
       },
       {
-        when: 'punctuation treatment focus on the solution',
+        when: 'punctuation tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'punct' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '.!p-u-n-c-t', 'legume'] },
-        enabledTreatments: ['t1', 't2'],
+        enabledTolerances: ['t1', 't2'],
       },
       {
-        when: 'levenshtein treatment focus',
+        when: 'levenshtein tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': '0123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '123456789', 'legume'] },
-        enabledTreatments: ['t1', 't2'],
+        enabledTolerances: ['t1', 't2'],
       },
       {
-        when: 'levenshtein treatment focus on the solution',
+        when: 'levenshtein tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': '123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '0123456789', 'legume'] },
-        enabledTreatments: ['t1', 't2'],
+        enabledTolerances: ['t1', 't2'],
       },
     ];
 
@@ -800,7 +800,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
           JSON.stringify(testCase.solution) +
           '"',
         function () {
-          const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+          const solution = { value: testCase.solution, enabledTolerances: testCase.enabledTolerances };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
         },
       );
@@ -814,91 +814,91 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
       },
       {
-        when: 'spaces treatment focus',
+        when: 'spaces tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'c h i c o n' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
       },
       {
-        when: 'spaces treatment focus on the solution',
+        when: 'spaces tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'c h i c o n', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
       },
       {
-        when: 'uppercase treatment focus',
+        when: 'uppercase tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'CHICON' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
       },
       {
-        when: 'uppercase treatment focus on the solution',
+        when: 'uppercase tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'CHICON', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
       },
       {
-        when: 'accent treatment focus',
+        when: 'accent tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'îàéùô' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'iaeuo', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
       },
       {
-        when: 'accent treatment focus on the solution',
+        when: 'accent tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'iaeuo' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'îàéùô', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
       },
       {
-        when: 'diacritic treatment focus',
+        when: 'diacritic tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'ççççç' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ccccc', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
       },
       {
-        when: 'diacritic treatment focus on the solution',
+        when: 'diacritic tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'ccccc' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ççççç', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
       },
       {
-        when: 'punctuation treatment focus',
+        when: 'punctuation tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': '.!p-u-n-c-t' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'punct', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
       },
       {
-        when: 'punctuation treatment focus on the solution',
+        when: 'punctuation tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'punct' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '.!p-u-n-c-t', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
       },
       {
-        when: 'levenshtein treatment focus',
+        when: 'levenshtein tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': '0123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '123456789', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
       },
       {
-        when: 'levenshtein treatment focus on the solution',
+        when: 'levenshtein tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': '123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '0123456789', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
       },
     ];
 
@@ -914,7 +914,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
           JSON.stringify(testCase.solution) +
           '"',
         function () {
-          const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+          const solution = { value: testCase.solution, enabledTolerances: testCase.enabledTolerances };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
         },
       );
@@ -928,91 +928,91 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
       },
       {
-        when: 'spaces treatment focus',
+        when: 'spaces tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'c h i c o n' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
       },
       {
-        when: 'spaces treatment focus on the solution',
+        when: 'spaces tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'c h i c o n', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
       },
       {
-        when: 'uppercase treatment focus',
+        when: 'uppercase tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'CHICON' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
       },
       {
-        when: 'uppercase treatment focus on the solution',
+        when: 'uppercase tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'CHICON', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
       },
       {
-        when: 'accent treatment focus',
+        when: 'accent tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'îàéùô' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'iaeuo', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
       },
       {
-        when: 'accent treatment focus on the solution',
+        when: 'accent tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'iaeuo' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'îàéùô', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
       },
       {
-        when: 'diacritic treatment focus',
+        when: 'diacritic tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'ççççç' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ccccc', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
       },
       {
-        when: 'diacritic treatment focus on the solution',
+        when: 'diacritic tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'ccccc' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ççççç', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
       },
       {
-        when: 'punctuation treatment focus',
+        when: 'punctuation tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': '.!p-u-n-c-t' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'punct', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
       },
       {
-        when: 'punctuation treatment focus on the solution',
+        when: 'punctuation tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'punct' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '.!p-u-n-c-t', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
       },
       {
-        when: 'levenshtein treatment focus',
+        when: 'levenshtein tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': '0123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '123456789', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
       },
       {
-        when: 'levenshtein treatment focus on the solution',
+        when: 'levenshtein tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': '123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '0123456789', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
       },
     ];
 
@@ -1028,7 +1028,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
           JSON.stringify(testCase.solution) +
           '"',
         function () {
-          const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+          const solution = { value: testCase.solution, enabledTolerances: testCase.enabledTolerances };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
         },
       );
@@ -1042,91 +1042,91 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
       },
       {
-        when: 'spaces treatment focus',
+        when: 'spaces tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'c h i c o n' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
       },
       {
-        when: 'spaces treatment focus on the solution',
+        when: 'spaces tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'c h i c o n', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
       },
       {
-        when: 'uppercase treatment focus',
+        when: 'uppercase tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'CHICON' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
       },
       {
-        when: 'uppercase treatment focus on the solution',
+        when: 'uppercase tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'CHICON', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
       },
       {
-        when: 'accent treatment focus',
+        when: 'accent tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'îàéùô' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'iaeuo', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
       },
       {
-        when: 'accent treatment focus on the solution',
+        when: 'accent tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'iaeuo' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'îàéùô', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
       },
       {
-        when: 'diacritic treatment focus',
+        when: 'diacritic tolerance focus',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'ççççç' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ccccc', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
       },
       {
-        when: 'diacritic treatment focus on the solution',
+        when: 'diacritic tolerance focus on the solution',
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'ccccc' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ççççç', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
       },
       {
-        when: 'punctuation treatment focus',
+        when: 'punctuation tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': '.!p-u-n-c-t' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'punct', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
       },
       {
-        when: 'punctuation treatment focus on the solution',
+        when: 'punctuation tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'punct' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '.!p-u-n-c-t', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
       },
       {
-        when: 'levenshtein treatment focus',
+        when: 'levenshtein tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': '0123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '123456789', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
       },
       {
-        when: 'levenshtein treatment focus on the solution',
+        when: 'levenshtein tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': '123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '0123456789', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
       },
     ];
 
@@ -1142,7 +1142,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
           JSON.stringify(testCase.solution) +
           '"',
         function () {
-          const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+          const solution = { value: testCase.solution, enabledTolerances: testCase.enabledTolerances };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
         },
       );
@@ -1156,91 +1156,91 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: [],
+        enabledTolerances: [],
       },
       {
-        when: 'spaces treatment focus',
+        when: 'spaces tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'c h i c o n' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: [],
+        enabledTolerances: [],
       },
       {
-        when: 'spaces treatment focus on the solution',
+        when: 'spaces tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'c h i c o n', 'legume'] },
-        enabledTreatments: [],
+        enabledTolerances: [],
       },
       {
-        when: 'uppercase treatment focus',
+        when: 'uppercase tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'CHICON' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: [],
+        enabledTolerances: [],
       },
       {
-        when: 'uppercase treatment focus on the solution',
+        when: 'uppercase tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'chicon' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'CHICON', 'legume'] },
-        enabledTreatments: [],
+        enabledTolerances: [],
       },
       {
-        when: 'accent treatment focus',
+        when: 'accent tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'îàéùô' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'iaeuo', 'legume'] },
-        enabledTreatments: [],
+        enabledTolerances: [],
       },
       {
-        when: 'accent treatment focus on the solution',
+        when: 'accent tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'iaeuo' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'îàéùô', 'legume'] },
-        enabledTreatments: [],
+        enabledTolerances: [],
       },
       {
-        when: 'diacritic treatment focus',
+        when: 'diacritic tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'ççççç' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ccccc', 'legume'] },
-        enabledTreatments: [],
+        enabledTolerances: [],
       },
       {
-        when: 'diacritic treatment focus on the solution',
+        when: 'diacritic tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'ccccc' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'ççççç', 'legume'] },
-        enabledTreatments: [],
+        enabledTolerances: [],
       },
       {
-        when: 'punctuation treatment focus',
+        when: 'punctuation tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': '.!p-u-n-c-t' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'punct', 'legume'] },
-        enabledTreatments: [],
+        enabledTolerances: [],
       },
       {
-        when: 'punctuation treatment focus on the solution',
+        when: 'punctuation tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': 'punct' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '.!p-u-n-c-t', 'legume'] },
-        enabledTreatments: [],
+        enabledTolerances: [],
       },
       {
-        when: 'levenshtein treatment focus',
+        when: 'levenshtein tolerance focus',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': '0123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '123456789', 'legume'] },
-        enabledTreatments: [],
+        enabledTolerances: [],
       },
       {
-        when: 'levenshtein treatment focus on the solution',
+        when: 'levenshtein tolerance focus on the solution',
         output: { result: ANSWER_KO, resultDetails: { '9lettres': true, '6lettres': false } },
         answer: { '9lettres': 'courgette', '6lettres': '123456789' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', '0123456789', 'legume'] },
-        enabledTreatments: [],
+        enabledTolerances: [],
       },
     ];
 
@@ -1256,7 +1256,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
           JSON.stringify(testCase.solution) +
           '"',
         function () {
-          const solution = { value: testCase.solution, enabledTreatments: testCase.enabledTreatments };
+          const solution = { value: testCase.solution, enabledTolerances: testCase.enabledTolerances };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
         },
       );
@@ -1271,7 +1271,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_KO, resultDetails: { '9lettres': false, '6lettres': true } },
         answer: { '9lettres': 'courgetta', '6lettres': 'tomato' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t3'],
+        enabledTolerances: ['t3'],
         qrocBlocksTypes: { '9lettres': 'select', '6lettres': 'text' },
       },
       {
@@ -1279,7 +1279,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_KO, resultDetails: { '9lettres': false, '6lettres': true } },
         answer: { '9lettres': 'COURGETTE', '6lettres': 'TOMATE' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1'],
+        enabledTolerances: ['t1'],
         qrocBlocksTypes: { '9lettres': 'select', '6lettres': 'text' },
       },
       {
@@ -1287,7 +1287,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_KO, resultDetails: { '9lettres': false, '6lettres': true } },
         answer: { '9lettres': 'courgette&&&', '6lettres': 'tomate&&&' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t2'],
+        enabledTolerances: ['t2'],
         qrocBlocksTypes: { '9lettres': 'select', '6lettres': 'text' },
       },
       {
@@ -1295,7 +1295,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'courgette', '6lettres': 'TOMATO&&' },
         solution: { '9lettres': ['courgette'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
         qrocBlocksTypes: { '9lettres': 'select', '6lettres': 'text' },
       },
       {
@@ -1303,7 +1303,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         output: { result: ANSWER_OK, resultDetails: { '9lettres': true, '6lettres': true } },
         answer: { '9lettres': 'Courgette&**', '6lettres': 'TOMATO&&' },
         solution: { '9lettres': ['Courgette&**'], '6lettres': ['tomate', 'chicon', 'legume'] },
-        enabledTreatments: ['t1', 't2', 't3'],
+        enabledTolerances: ['t1', 't2', 't3'],
         qrocBlocksTypes: { '9lettres': 'select', '6lettres': 'text' },
       },
     ].forEach(function (testCase) {
@@ -1319,7 +1319,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
         function () {
           const solution = {
             value: testCase.solution,
-            enabledTreatments: testCase.enabledTreatments,
+            enabledTolerances: testCase.enabledTolerances,
             qrocBlocksTypes: testCase.qrocBlocksTypes,
           };
           expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
