@@ -1,16 +1,34 @@
+# Rate limit
+# See: https://www.nginx.com/blog/rate-limiting-nginx/
+# Args:
+#   - Key: $binary_remote_addr =
+#   - Zone: shared memory zone used to store the state of each IP address
+#           10m = 10 mega ; 16,000 IP addresses takes 1 megabyte
+#   - Rate: NGINX actually tracks requests at millisecond granularity,
+#           /!\ Very low for testing purposes, no burst allowed
+
+limit_req_zone $binary_remote_addr zone=apiratelimit:10m rate=1r/s;
+
 server {
     server_name localhost;
     listen <%= ENV['PORT'] %>;
+
     charset utf-8;
+
+    # Disable compression that is performed by the Scalingo router anyway
+    gzip off;
 
     root /app/;
 
     location / {
         # Fall back to index.html for routes that don't match an existing file
-        try_files $uri /test.html;
+        try_files $uri /maintenance_page.html;
     }
 
     location /api/ {
+        limit_req zone=apiratelimit;
+        limit_req_status 509;
+
         proxy_pass http://localhost:<%= ENV['NODE_PORT'] %>;
 
         proxy_set_header        Host $host;
@@ -21,7 +39,5 @@ server {
         proxy_set_header        Connection "upgrade";
         proxy_redirect          off;
     }
-
-    add_header X-Pix PIX-API always;
 }
 
