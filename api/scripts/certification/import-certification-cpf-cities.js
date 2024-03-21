@@ -6,7 +6,7 @@ import lodash from 'lodash';
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 /**
- * Usage: node scripts/import-certification-cpf-cities path/file.csv
+ * Usage: node scripts/certification/import-certification-cpf-cities.js path/file.csv
  * File is semi-colon separated values, headers being:
  * code_commune_insee;nom_de_la_commune;code_postal;ligne_5
  * ligne_5 is used for potential alternative city name
