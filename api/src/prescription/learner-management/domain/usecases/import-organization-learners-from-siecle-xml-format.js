@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 
-import { SiecleXmlImportError } from '../errors.js';
+import { AggregateImportError, SiecleXmlImportError } from '../errors.js';
 
 const { isEmpty, chunk } = lodash;
 
@@ -72,7 +72,11 @@ const importOrganizationLearnersFromSIECLEXMLFormat = async function ({
       throw new SiecleXmlImportError(ERRORS.EMPTY);
     }
   } catch (error) {
-    errors.push(error);
+    if (error instanceof AggregateImportError) {
+      errors.push(...error.meta);
+    } else {
+      errors.push(error);
+    }
     throw error;
   } finally {
     organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
