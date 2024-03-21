@@ -54,6 +54,8 @@ export default class CurrentSessionService extends SessionService {
     }
 
     const localeNotSupported = userLocale && !SUPPORTED_LANGUAGES.includes(userLocale);
+
+    this.data.localeNotSupported = localeNotSupported;
     const locale = localeNotSupported ? ENGLISH_INTERNATIONAL_LOCALE : userLocale || FRENCH_INTERNATIONAL_LOCALE;
 
     this.locale.setLocale(locale);
