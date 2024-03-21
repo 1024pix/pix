@@ -2,8 +2,12 @@ server {
     server_name localhost;
     listen <%= ENV['PORT'] %>;
     charset utf-8;
+
+    root /app/;
+
     location / {
-        proxy_pass http://localhost:<%= ENV['NODE_PORT'] %>;
-        add_header  X-Pix  pixou  always;
+        # Fall back to index.html for routes that don't match an existing file
+        try_files $uri /test.html;
     }
 }
+
