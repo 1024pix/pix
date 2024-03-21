@@ -9,15 +9,19 @@ describe('Integration | Infrastructure | Repository | CertificationChallengeCapa
     describe('when there is no certification challenge capacity', function () {
       it('should save the certification challenge capacities', async function () {
         // given
+        const answerId1 = databaseBuilder.factory.buildAnswer().id;
+        const answerId2 = databaseBuilder.factory.buildAnswer().id;
         const certificationChallenge1 = databaseBuilder.factory.buildCertificationChallenge();
         const certificationChallenge2 = databaseBuilder.factory.buildCertificationChallenge();
 
         const capacityHistory = [
           domainBuilder.buildCertificationChallengeCapacity({
+            answerId: answerId1,
             certificationChallengeId: certificationChallenge1.id,
             capacity: 10,
           }),
           domainBuilder.buildCertificationChallengeCapacity({
+            answerId: answerId2,
             certificationChallengeId: certificationChallenge2.id,
             capacity: 20,
           }),
@@ -36,10 +40,12 @@ describe('Integration | Infrastructure | Repository | CertificationChallengeCapa
         const capacities = await knex('certification-challenge-capacities').select();
         expect(capacities).to.have.lengthOf(2);
         expect(_.omit(capacities[0], 'createdAt')).to.deep.equal({
+          answerId: answerId1,
           certificationChallengeId: certificationChallenge1.id,
           capacity: 10,
         });
         expect(_.omit(capacities[1], 'createdAt')).to.deep.equal({
+          answerId: answerId2,
           certificationChallengeId: certificationChallenge2.id,
           capacity: 20,
         });
@@ -48,6 +54,9 @@ describe('Integration | Infrastructure | Repository | CertificationChallengeCapa
 
     describe('when a certification challenge capacity already exists', function () {
       it('should update the preexisting certification challenge capacity', async function () {
+        // given
+        const answerId1 = databaseBuilder.factory.buildAnswer().id;
+        const answerId2 = databaseBuilder.factory.buildAnswer().id;
         const certificationChallenge1 = databaseBuilder.factory.buildCertificationChallenge();
         const certificationChallenge2 = databaseBuilder.factory.buildCertificationChallenge();
 
@@ -60,10 +69,12 @@ describe('Integration | Infrastructure | Repository | CertificationChallengeCapa
 
         const capacityHistory = [
           domainBuilder.buildCertificationChallengeCapacity({
+            answerId: answerId1,
             certificationChallengeId: certificationChallenge1.id,
             capacity: 10,
           }),
           domainBuilder.buildCertificationChallengeCapacity({
+            answerId: answerId2,
             certificationChallengeId: certificationChallenge2.id,
             capacity: 20,
           }),
@@ -80,10 +91,12 @@ describe('Integration | Infrastructure | Repository | CertificationChallengeCapa
         const capacities = await knex('certification-challenge-capacities').select();
         expect(capacities).to.have.lengthOf(2);
         expect(_.omit(capacities[0], 'createdAt')).to.deep.equal({
+          answerId: answerId1,
           certificationChallengeId: certificationChallenge1.id,
           capacity: 10,
         });
         expect(_.omit(capacities[1], 'createdAt')).to.deep.equal({
+          answerId: answerId2,
           certificationChallengeId: certificationChallenge2.id,
           capacity: 20,
         });
