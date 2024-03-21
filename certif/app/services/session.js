@@ -30,6 +30,7 @@ export default class CurrentSessionService extends SessionService {
   }
 
   handleInvalidation() {
+    this.store.clear();
     super.handleInvalidation('/connexion');
   }
 
