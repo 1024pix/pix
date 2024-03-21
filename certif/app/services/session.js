@@ -66,4 +66,8 @@ export default class CurrentSessionService extends SessionService {
       runTask(this, resolve, millisecondsToWait);
     });
   }
+
+  updateDataAttribute(attribute, value) {
+    this.data[attribute] = value;
+  }
 }
