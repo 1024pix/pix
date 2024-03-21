@@ -304,4 +304,18 @@ module('Unit | Service | session', function (hooks) {
       });
     });
   });
+
+  module('#updateDataAttribute', function () {
+    test('updates session data attribute value', function (assert) {
+      // when
+      service.updateDataAttribute('message', 'This is a message!');
+      service.updateDataAttribute('isItUsed', true);
+      service.updateDataAttribute('notDisplayed', false);
+
+      // then
+      assert.strictEqual(service.data.message, 'This is a message!');
+      assert.true(service.data.isItUsed);
+      assert.false(service.data.notDisplayed);
+    });
+  });
 });
