@@ -6,14 +6,14 @@ import proposalsAsBlocks from '../../../..//utils/proposals-as-blocks';
 import generateRandomString from '../../../../utils/generate-random-string';
 
 export default class ChallengeItemQrocm extends Component {
-  @tracked answersValue;
+  @tracked answerValues;
 
   constructor() {
     super(...arguments);
-    this.answersValue = this._extractProposals();
+    this.answerValues = this.#extractProposals();
   }
 
-  _extractProposals() {
+  #extractProposals() {
     const proposals = proposalsAsBlocks(this.args.challenge.proposals);
     const inputFieldsNames = {};
 
@@ -37,28 +37,40 @@ export default class ChallengeItemQrocm extends Component {
 
   @action
   onInputChange(key, event) {
-    this.answersValue[key] = event.target.value;
-    this._synchronizeAnswers();
+    this.answerValues[key] = event.target.value;
+    this.#synchronizeAnswers();
   }
 
   @action
   onSelectChange(key, value) {
     // Tracked property answersValue has to be reassigned to be considered as changed
-    const newAnswersValue = this.answersValue;
+    const newAnswersValue = this.answerValues;
     newAnswersValue[key] = value;
-    this.answersValue = newAnswersValue;
-    this._synchronizeAnswers();
+    this.answerValues = newAnswersValue;
+    this.#synchronizeAnswers();
   }
 
-  _synchronizeAnswers() {
-    if (this._allFieldsAnswered(this.answersValue)) {
-      this.args.setAnswerValue(JSON.stringify(this.answersValue));
-    } else {
+  #synchronizeAnswers() {
+    if (!this.#allFieldsAnswered) {
       this.args.setAnswerValue('');
+      return;
+    }
+    if (this.#hasUniqueAnswer) {
+      this.args.setAnswerValue(this.#uniqueAnswer);
+    } else {
+      this.args.setAnswerValue(JSON.stringify(this.answerValues));
     }
   }
 
-  _allFieldsAnswered(answers) {
-    return !Object.values(answers).includes('');
+  get #hasUniqueAnswer() {
+    return Object.keys(this.answerValues).length === 1;
+  }
+
+  get #allFieldsAnswered() {
+    return !Object.values(this.answerValues).includes('');
+  }
+
+  get #uniqueAnswer() {
+    return Object.values(this.answerValues)[0];
   }
 }

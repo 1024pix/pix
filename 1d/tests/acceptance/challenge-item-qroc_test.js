@@ -8,7 +8,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
   setupApplicationTest(hooks);
   let assessment;
 
-  module('with input format', function (hooks) {
+  module('with text input format', function (hooks) {
     hooks.beforeEach(async function () {
       assessment = this.server.create('assessment');
       this.server.create('challenge');
@@ -47,6 +47,49 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
     });
   });
 
+  module('with number input format', function () {
+    test('should allow only number when challenge type is "nombre"', async function (assert) {
+      assessment = this.server.create('assessment');
+      this.server.create('challenge', 'QROCWithNumber');
+
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
+      const input = screen.getByLabelText('Année :');
+
+      await fillIn(input, 'abc');
+      assert.dom(input).hasValue('');
+
+      await fillIn(input, '1990');
+      assert.dom(input).hasValue('1990');
+    });
+
+    test('should validate correct answer', async function (assert) {
+      assessment = this.server.create('assessment');
+      this.server.create('challenge', 'QROCWithNumber');
+
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
+      const input = screen.getByLabelText('Année :');
+
+      await fillIn(input, '1990');
+      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+
+      assert.equal(this.server.schema.activityAnswers.first().value, '1990');
+      assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+    });
+
+    test('should validate incorrect answer', async function (assert) {
+      assessment = this.server.create('assessment');
+      this.server.create('challenge', 'QROCWithNumber');
+
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
+      const input = screen.getByLabelText('Année :');
+
+      await fillIn(input, '666');
+      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+
+      assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.wrong-answer'))).exists();
+    });
+  });
+
   module('with text-area format', function (hooks) {
     hooks.beforeEach(async function () {
       assessment = this.server.create('assessment');
@@ -64,8 +107,10 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
     test('should display answer feedback bubble if user validates after writing the right answer in text area', async function (assert) {
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
-      await fillIn('textarea[data-uid="qroc-proposal-uid"]', 'good-answer');
-      await triggerKeyEvent('textarea[data-uid="qroc-proposal-uid"]', 'keyup', 13);
+
+      const textArea = screen.getByLabelText('Rue de :');
+      await fillIn(textArea, 'good-answer');
+      await triggerKeyEvent(textArea, 'keyup', 13);
       await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
 
       // then
@@ -75,9 +120,12 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
     module('when user removes its answer', function () {
       test('"Je vérifie" button is disabled again', async function (assert) {
         // when
+
         const screen = await visit(`/assessments/${assessment.id}/challenges`);
-        await fillIn('textarea[data-uid="qroc-proposal-uid"]', 'good-answer');
-        await fillIn('textarea[data-uid="qroc-proposal-uid"]', '');
+        const textArea = screen.getByLabelText('Rue de :');
+
+        await fillIn(textArea, 'good-answer');
+        await fillIn(textArea, '');
 
         // then
         assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
