@@ -34,6 +34,7 @@ describe('Integration | UseCases | correct-preview-answer', function () {
 
     // then
     expect(activityAnswersCount.count).to.equal(0);
+    expect(correctedAnswer.id).to.equal('preview-id');
     expect(correctedAnswer.result).to.deep.equal(AnswerStatus.OK);
   });
 });
