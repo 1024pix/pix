@@ -11,7 +11,7 @@ import lodash from 'lodash';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-// Usage: node scripts/update-certifications-infos path/data.csv path/sessionsId.csv
+// Usage: node scripts/certification/update-certifications-infos path/data.csv path/sessionsId.csv
 // data.csv
 // #externalId,birthdate,birthINSEECode,birthPostalCode,birthCity,birthCountry
 // #EXTERNAL_ID,2000-01-01,NULL,75550, paris,FRANCE

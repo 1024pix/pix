@@ -7,9 +7,7 @@ import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-async function main() {
-  const xmlPath = process.argv[2];
-
+async function main(xmlPath) {
   logger.info('Starting script validate-cpf-xml');
 
   logger.trace(`Checking data file...`);
@@ -35,8 +33,8 @@ async function main() {
 
 (async () => {
   try {
-    await main();
-    logger.s;
+    const xmlPath = process.argv[2];
+    await main(xmlPath);
   } catch (error) {
     logger.error(error);
     process.exitCode = 1;
