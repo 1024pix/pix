@@ -280,7 +280,9 @@
     "template-name": "import-template"
   },
   "email-sender-name": {
-    "pix-app": "PIX - Noreply"
+    "pix-app": "PIX - Noreply",
+    "pix-orga": "Pix Orga - Noreply",
+    "pix-certif": "Pix Certif - Noreply"
   },
   "entity-validation-errors": {
     "ACCEPT_CGU": "Please agree to the terms and conditions of use.",

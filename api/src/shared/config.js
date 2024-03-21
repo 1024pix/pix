@@ -175,6 +175,7 @@ const configuration = (function () {
       pixApp: process.env.DOMAIN_PIX_APP || 'https://app.pix',
       pixOrga: process.env.DOMAIN_PIX_ORGA || 'https://orga.pix',
       pixCertif: process.env.DOMAIN_PIX_CERTIF || 'https://certif.pix',
+      pixSupport: process.env.DOMAIN_PIX_SUPPORT || 'https://support.pix',
     },
     environment: process.env.NODE_ENV || 'development',
     features: {
