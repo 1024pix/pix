@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Organization, OrganizationForAdmin } from '../../../../lib/domain/models/index.js';
-import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+import * as organizationRepository from '../../../../src/shared/infrastructure/repositories/organization-repository.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | Organization', function () {
