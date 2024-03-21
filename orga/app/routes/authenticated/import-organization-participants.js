@@ -21,7 +21,6 @@ export default class ImportOrganizationParticipantsRoute extends Route {
         organizationId: this.currentUser.organization.id,
       });
     } catch (error) {
-      console.log({ error });
       this.router.replaceWith('application');
     }
   }

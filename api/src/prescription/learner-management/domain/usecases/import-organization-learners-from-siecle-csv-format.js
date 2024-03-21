@@ -1,4 +1,4 @@
-import { SiecleXmlImportError } from '../errors.js';
+import { AggregateImportError, SiecleXmlImportError } from '../errors.js';
 
 const { isEmpty, chunk } = lodash;
 import bluebird from 'bluebird';
@@ -59,7 +59,11 @@ const importOrganizationLearnersFromSIECLECSVFormat = async function ({
       throw new SiecleXmlImportError(ERRORS.EMPTY);
     }
   } catch (error) {
-    errors.push(error);
+    if (error instanceof AggregateImportError) {
+      errors.push(...error.meta);
+    } else {
+      errors.push(error);
+    }
     throw error;
   } finally {
     organizationImport.validate({ errors });
