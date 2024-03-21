@@ -30,7 +30,7 @@ module('Integration | Component | challenge', function (hooks) {
 
     await render(hbs`<Challenge::Item @challenge={{this.challenge}} @assessment={{this.assessment}} />`);
 
-    assert.dom('.challenge-item__qroc').exists();
+    assert.dom('.challenge-item__qrocm').exists();
   });
 
   test('displays qrocm', async function (assert) {
@@ -74,6 +74,6 @@ module('Integration | Component | challenge', function (hooks) {
 
     assert.dom('.challenge-item__image').exists();
     assert.dom('.challenge-item__embed').exists();
-    assert.dom('.challenge-item__qroc').exists();
+    assert.dom('.challenge-item__qrocm').exists();
   });
 });

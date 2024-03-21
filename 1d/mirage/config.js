@@ -59,12 +59,14 @@ function routes() {
     // we allow *exclusively* one or the other
     if (options?.assessmentId ^ options?.isPreview) {
       const answerValue = JSON.parse(request.requestBody).data.attributes?.value;
+      const isCorrectAnswer = answerValue !== 'bad-answer' && answerValue !== '666';
+
       return schema.create('activity-answer', {
-        result: answerValue === '#ABAND#' ? 'aband' : answerValue !== 'bad-answer' ? 'ok' : 'ko',
+        result: answerValue === '#ABAND#' ? 'aband' : isCorrectAnswer ? 'ok' : 'ko',
+        value: answerValue,
       });
-    } else {
-      return new Response(400);
     }
+    return new Response(400);
   });
 
   this.get('/challenges/:challenge_id', (schema, request) => {
