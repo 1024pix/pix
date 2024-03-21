@@ -16,7 +16,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
       lastName: 'Katana',
       preferredLastName: 'Yolo',
       email: 'tomie.katana@example.net',
-      birthdate: new Date('1980-07-01'),
+      birthdate: '34',
       diploma: 'Autre',
       department: 'Paxton',
       educationalTeam: 'MiloZotis',
@@ -82,6 +82,21 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           expect(errors[0].why).to.equal('uniqueness');
           expect(errors[0].key).to.equal('firstName-lastName');
           expect(errors[0].code).to.equal('PROPERTY_NOT_UNIQ');
+        });
+      });
+      context('checkDateRule', function () {
+        it('should throw date error when the format is not correct', async function () {
+          validationRules = {
+            formats: [{ name: 'birthdate', type: 'date', format: 'YYYY-MM-DD', required: true }],
+          };
+
+          learnerSet = new ImportOrganizationLearnerSet(validationRules);
+
+          const error = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
+          expect(error[0]).to.be.an.instanceOf(EntityValidationRulesError);
+          expect(error[0].why).to.equal('date_format');
+          expect(error[0].key).to.equal('birthdate');
+          expect(error[0].code).to.equal('FIELD_DATE_FORMAT');
         });
       });
     });

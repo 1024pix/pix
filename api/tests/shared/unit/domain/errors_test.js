@@ -76,5 +76,17 @@ describe('Unit | Shared | Domain | Errors', function () {
         expect(error.message).to.equal("Échec de validation de l'entité.");
       });
     });
+
+    context('#fromJoiError', function () {
+      it('should return an error with code and key from joi', function () {
+        const joiError = { context: { key: 'date', format: 'YY-MM-DD' }, type: 'date.format' };
+        const error = errors.EntityValidationRulesError.fromJoiError(joiError);
+
+        expect(error.key).to.equal('date');
+        expect(error.why).to.equal('date_format');
+        expect(error.code).to.equal('FIELD_DATE_FORMAT');
+        expect(error.acceptedFormat).to.equal('YY-MM-DD');
+      });
+    });
   });
 });

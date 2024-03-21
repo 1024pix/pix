@@ -3,6 +3,7 @@ import iconv from 'iconv-lite';
 import { AggregateImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
 import { CommonOrganizationLearner } from '../../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearnerSet.js';
 import { CommonCsvLearerParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/common-csv-learner-parser.js';
+import { VALIDATION_ERRORS } from '../../../../../../../src/shared/domain/constants.js';
 import { catchErr, expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
@@ -279,8 +280,158 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
 
           // then
           expect(errors.meta).to.lengthOf(1);
-          expect(errors.meta[0].code).to.equal('PROPERTY_NOT_UNIQ');
+          expect(errors.meta[0].code).to.equal(VALIDATION_ERRORS.PROPERTY_NOT_UNIQ);
           expect(errors.meta[0].meta.field).to.equal('classe');
+          expect(errors.meta[0].meta.line).to.equal(3);
+        });
+
+        it('should throw date field format error', async function () {
+          // given
+          config.headers.push({
+            name: 'date de naissance',
+            isRequired: true,
+          });
+
+          config.validationRules = {
+            formats: [
+              {
+                name: 'date de naissance',
+                type: 'date',
+                format: 'YYYY-MM-DD',
+                required: true,
+              },
+            ],
+          };
+          const input = `prénom;nom;date de naissance;
+          The;Superman;3 juillet 1990`;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+          parser.setEncoding();
+
+          // when
+          const errors = await catchErr(parser.parse, parser)();
+
+          // then
+          expect(errors.meta).to.lengthOf(1);
+          expect(errors.meta[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
+          expect(errors.meta[0].meta.field).to.equal('date de naissance');
+          expect(errors.meta[0].meta.line).to.equal(2);
+          expect(errors.meta[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
+        });
+
+        it('should throw required field error', async function () {
+          // given
+          config.headers.push({
+            name: 'date de naissance',
+            isRequired: true,
+          });
+
+          config.validationRules = {
+            formats: [
+              {
+                name: 'date de naissance',
+                type: 'date',
+                format: 'YYYY-MM-DD',
+                required: true,
+              },
+            ],
+          };
+          const input = `prénom;nom;date de naissance;
+          The;Superman;;`;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+          parser.setEncoding();
+
+          // when
+          const errors = await catchErr(parser.parse, parser)();
+
+          // then
+          expect(errors.meta).to.lengthOf(1);
+          expect(errors.meta[0].code).to.equal(VALIDATION_ERRORS.FIELD_REQUIRED);
+          expect(errors.meta[0].meta.field).to.equal('date de naissance');
+          expect(errors.meta[0].meta.line).to.equal(2);
+        });
+
+        context('Should return several validation errors', function () {
+          it('when there are 2 learners', async function () {
+            // given
+            config.headers.push({
+              name: 'date de naissance',
+              isRequired: true,
+            });
+
+            config.validationRules = {
+              unicity: ['nom', 'prénom'],
+              formats: [
+                {
+                  name: 'date de naissance',
+                  type: 'date',
+                  format: 'YYYY-MM-DD',
+                  required: true,
+                },
+              ],
+            };
+            const input = `prénom;nom;date de naissance;
+          The;Superman;;
+          The;Superman;1999-09-01;`;
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+            parser.setEncoding();
+
+            // when
+            const errors = await catchErr(parser.parse, parser)();
+
+            // then
+            expect(errors.meta).to.lengthOf(2);
+            expect(errors.meta.map((error) => error.code)).to.deep.equal([
+              VALIDATION_ERRORS.FIELD_REQUIRED,
+              VALIDATION_ERRORS.PROPERTY_NOT_UNIQ,
+            ]);
+          });
+
+          it('when there is only one learner', async function () {
+            // given
+            config.headers.push(
+              {
+                name: 'date de naissance',
+                isRequired: true,
+              },
+              {
+                name: 'date de mariage',
+              },
+            );
+
+            config.validationRules = {
+              formats: [
+                {
+                  name: 'date de naissance',
+                  type: 'date',
+                  format: 'YYYY-MM-DD',
+                  required: true,
+                },
+                {
+                  name: 'date de mariage',
+                  type: 'date',
+                  format: 'YYYY-MM-DD',
+                },
+              ],
+            };
+            const input = `prénom;nom;date de naissance;date de mariage
+            The;Superman;;09-09-1999`;
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+            parser.setEncoding();
+
+            // when
+            const errors = await catchErr(parser.parse, parser)();
+
+            // then
+            expect(errors.meta).to.lengthOf(2);
+            expect(errors.meta.map((error) => error.code)).to.deep.equal([
+              VALIDATION_ERRORS.FIELD_REQUIRED,
+              VALIDATION_ERRORS.FIELD_DATE_FORMAT,
+            ]);
+          });
         });
       });
     });

@@ -1,3 +1,5 @@
+import { VALIDATION_ERRORS } from './constants.js';
+
 class DomainError extends Error {
   constructor(message) {
     super(message);
@@ -80,15 +82,44 @@ class EntityValidationError extends DomainError {
 }
 
 class EntityValidationRulesError extends DomainError {
-  constructor({ code, key, message = "Échec de validation de l'entité." }) {
-    super(message);
+  constructor({ code, key, format }) {
+    super("Échec de validation de l'entité.");
 
-    if (code === 'PROPERTY_NOT_UNIQ') {
+    if (code === VALIDATION_ERRORS.PROPERTY_NOT_UNIQ) {
       this.why = 'uniqueness';
+    }
+
+    if (code === VALIDATION_ERRORS.FIELD_DATE_FORMAT) {
+      this.why = 'date_format';
+      this.acceptedFormat = format;
+    }
+
+    if (code === VALIDATION_ERRORS.FIELD_REQUIRED) {
+      this.why = 'field_required';
     }
 
     this.key = key;
     this.code = code;
+  }
+
+  static unicityError({ key }) {
+    return new EntityValidationRulesError({ code: VALIDATION_ERRORS.PROPERTY_NOT_UNIQ, key });
+  }
+
+  static fromJoiError(joiError) {
+    let code, key, format;
+    if (joiError.type === 'date.format') {
+      code = VALIDATION_ERRORS.FIELD_DATE_FORMAT;
+      key = joiError.context.key;
+      format = joiError.context.format;
+    }
+
+    if (joiError.type === 'any.required') {
+      code = VALIDATION_ERRORS.FIELD_REQUIRED;
+      key = joiError.context.key;
+    }
+
+    return new EntityValidationRulesError({ code, key, format });
   }
 }
 
