@@ -29,7 +29,7 @@ module('Acceptance | Student Import', function (hooks) {
     });
 
     module('have access to upload file', function () {
-      test('it should display success message and reload students', async function (assert) {
+      test('navigate to import page', async function (assert) {
         // given
         const screen = await visit('/etudiants');
 
