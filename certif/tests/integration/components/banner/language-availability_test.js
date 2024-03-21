@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 
@@ -48,6 +48,20 @@ module('Integration | Component | Banner::LanguageAvailability', function (hooks
             ),
           )
           .exists();
+      });
+
+      module('when user close the language availability banner', function () {
+        test('closes the language availability banner', async function (assert) {
+          // given
+          session.data.localeNotSupportedBannerClosed = false;
+          const screen = await render(hbs`<Banner::LanguageAvailability />`);
+
+          // when
+          await clickByName('Fermer');
+
+          // then
+          assert.dom(screen.queryByRole('alert')).doesNotExist();
+        });
       });
     });
 
