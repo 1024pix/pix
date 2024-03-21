@@ -122,7 +122,7 @@ const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 /**
- * Usage: node import-certifications-from-csv.js http://localhost:3000 jwt.access.token my_file.csv
+ * Usage: node scripts/certification/import-certifications-from-csv.js http://localhost:3000 jwt.access.token my_file.csv
  */
 function main() {
   console.log("Début du script d'import");
