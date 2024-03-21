@@ -83,6 +83,7 @@ Router.map(function () {
     });
 
     this.route('certifications', function () {
+      this.route('configuration');
       this.route('certification', { path: '/:certification_id' }, function () {
         this.route('informations', { path: '/' });
         this.route('neutralization');

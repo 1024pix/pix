@@ -1,13 +1,13 @@
 /**
- * @typedef {import ('./index.js').CompetenceForScoringRepository} CompetenceForScoringRepository
+ * @typedef {import ('./index.js').scoringConfigurationRepository} ScoringConfigurationRepository
  */
 
 /**
  * @param {Object} params
- * @param {CompetenceForScoringRepository} params.competenceForScoringRepository
+ * @param {ScoringConfigurationRepository} params.scoringConfigurationRepository
  */
-const saveCompetenceForScoringConfiguration = async ({ data, competenceForScoringRepository }) => {
-  await competenceForScoringRepository.save(data);
+const saveCompetenceForScoringConfiguration = async ({ data, scoringConfigurationRepository }) => {
+  await scoringConfigurationRepository.saveCompetenceForScoringConfiguration(data);
 };
 
 export { saveCompetenceForScoringConfiguration };

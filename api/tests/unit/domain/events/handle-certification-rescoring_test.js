@@ -34,7 +34,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       flashAlgorithmConfigurationRepository,
       flashAlgorithmService,
       certificationAssessmentHistoryRepository,
-      competenceForScoringRepository,
+      scoringConfigurationRepository,
       competenceMarkRepository;
 
     let baseFlashAlgorithmConfig;
@@ -70,8 +70,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         save: sinon.stub(),
       };
 
-      competenceForScoringRepository = {
-        listByLocale: sinon.stub(),
+      scoringConfigurationRepository = {
+        getLatestByDateAndLocale: sinon.stub(),
       };
 
       competenceMarkRepository = {
@@ -87,7 +87,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         flashAlgorithmConfigurationRepository,
         flashAlgorithmService,
         certificationAssessmentHistoryRepository,
-        competenceForScoringRepository,
+        scoringConfigurationRepository,
         competenceMarkRepository,
       };
 
@@ -95,7 +95,11 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         maximumAssessmentLength,
       });
 
-      competenceForScoringRepository.listByLocale.resolves([domainBuilder.buildCompetenceForScoring()]);
+      const scoringConfiguration = domainBuilder.buildV3CertificationScoring({
+        competencesForScoring: [domainBuilder.buildCompetenceForScoring()],
+      });
+
+      scoringConfigurationRepository.getLatestByDateAndLocale.resolves(scoringConfiguration);
 
       assessmentResult = domainBuilder.buildAssessmentResult();
       assessmentResultRepository.save.resolves(assessmentResult);
@@ -121,7 +125,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 2;
-          const scoreForEstimatedLevel = 592;
+          const scoreForEstimatedLevel = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
@@ -239,7 +243,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 2;
-          const scoreForEstimatedLevel = 592;
+          const scoreForEstimatedLevel = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
@@ -371,7 +375,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 2;
-          const rawScore = 592;
+          const rawScore = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
@@ -490,7 +494,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         const answers = generateAnswersForChallenges({ challenges });
 
         const expectedEstimatedLevel = 2;
-        const scoreForEstimatedLevel = 592;
+        const scoreForEstimatedLevel = 640;
         const { certificationCourseId } = certificationAssessment;
 
         const capacityHistory = [
@@ -618,7 +622,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedEstimatedLevel = 2;
-          const scoreForEstimatedLevel = 592;
+          const scoreForEstimatedLevel = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [

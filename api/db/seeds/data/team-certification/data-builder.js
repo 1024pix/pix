@@ -10,6 +10,7 @@ import * as campaignTooling from '../common/tooling/campaign-tooling.js';
 import * as tooling from '../common/tooling/index.js';
 import { getV3CertificationChallenges } from '../common/tooling/learning-content.js';
 import { createCompetenceScoringConfiguration } from './create-competence-scoring-configuration.js';
+import { createScoringConfiguration } from './create-scoring-configuration.js';
 
 const TEAM_CERTIFICATION_OFFSET_ID = 7000;
 // IDS
@@ -60,6 +61,7 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   await _createComplementaryCertificationCampaign({ databaseBuilder });
   _createV3CertificationConfiguration({ databaseBuilder });
   createCompetenceScoringConfiguration({ databaseBuilder });
+  createScoringConfiguration({ databaseBuilder });
   await _createV3PilotCertificationCenter({ databaseBuilder });
   await _createSuccessCertifiableUser({ databaseBuilder });
   await _createScoSession({ databaseBuilder });

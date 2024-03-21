@@ -1,50 +1,7 @@
 import { config } from '../../../../shared/config.js';
 import { status as CertificationStatus } from '../../../../shared/domain/models/AssessmentResult.js';
 
-const MINIMUM_ESTIMATED_LEVEL = -8;
-const MAXIMUM_ESTIMATED_LEVEL = 8;
-/*
-Score should not be totally linear. It should be piecewise linear, so we define
-here the different intervals. See documentation here :
-https://1024pix.atlassian.net/wiki/spaces/DD/pages/3835133953/Vulgarisation+score+2023
- */
-const scoreIntervals = [
-  {
-    start: MINIMUM_ESTIMATED_LEVEL,
-    end: -1.399264,
-  },
-  {
-    start: -1.399264,
-    end: -0.519812,
-  },
-  {
-    start: -0.519812,
-    end: 0.670847,
-  },
-  {
-    start: 0.670847,
-    end: 1.549962,
-  },
-  {
-    start: 1.549962,
-    end: 2.27406,
-  },
-  {
-    start: 2.27406,
-    end: 3.09502,
-  },
-  {
-    start: 3.09502,
-    end: 3.930395,
-  },
-  {
-    start: 3.930395,
-    end: MAXIMUM_ESTIMATED_LEVEL,
-  },
-];
-
 const MAX_PIX_SCORE = 1024;
-const INTERVAL_HEIGHT = MAX_PIX_SCORE / scoreIntervals.length;
 const NUMBER_OF_COMPETENCES = 16;
 const PIX_PER_LEVEL = 8;
 
@@ -62,18 +19,26 @@ class CertificationAssessmentScoreV3 {
     allAnswers,
     abortReason,
     maxReachableLevelOnCertificationDate,
-    competencesForScoring = [],
+    v3CertificationScoring = [],
   }) {
+    const certificationScoringIntervals = v3CertificationScoring.getIntervals();
+    const numberOfIntervals = v3CertificationScoring.getNumberOfIntervals();
+    const intervalHeight = MAX_PIX_SCORE / numberOfIntervals;
+
     const { estimatedLevel } = algorithm.getEstimatedLevelAndErrorRate({
       challenges,
       allAnswers,
     });
 
-    const nbPix = _computeScore(estimatedLevel, maxReachableLevelOnCertificationDate);
+    const nbPix = _computeScore({
+      estimatedLevel,
+      maxReachableLevelOnCertificationDate,
+      certificationScoringIntervals,
+      numberOfIntervals,
+      intervalHeight,
+    });
 
-    const competenceMarks = competencesForScoring.map((competenceForScoring) =>
-      competenceForScoring.getCompetenceMark(estimatedLevel),
-    );
+    const competenceMarks = v3CertificationScoring.getCompetencesScore(estimatedLevel);
 
     const status = _isCertificationRejected({ answers: allAnswers, abortReason })
       ? CertificationStatus.REJECTED
@@ -99,26 +64,34 @@ class CertificationAssessmentScoreV3 {
   }
 }
 
-const _findIntervalIndex = (estimatedLevel) =>
-  scoreIntervals.findIndex(({ start, end }) => estimatedLevel <= end && estimatedLevel >= start);
+const _findIntervalIndex = (estimatedLevel, certificationScoringIntervals) =>
+  certificationScoringIntervals.findIndex(({ bounds }) => estimatedLevel <= bounds.max && estimatedLevel >= bounds.min);
 
-const _computeScore = (estimatedLevel, maxReachableLevelOnCertificationDate) => {
+const _computeScore = ({
+  estimatedLevel,
+  maxReachableLevelOnCertificationDate,
+  certificationScoringIntervals,
+  intervalHeight,
+}) => {
   let normalizedEstimatedLevel = estimatedLevel;
+  const minimumEstimatedLevel = certificationScoringIntervals[0].bounds.min;
+  const maximumEstimatedLevel = certificationScoringIntervals.at(-1).bounds.max;
 
-  if (normalizedEstimatedLevel < MINIMUM_ESTIMATED_LEVEL) {
-    normalizedEstimatedLevel = MINIMUM_ESTIMATED_LEVEL;
+  if (normalizedEstimatedLevel < minimumEstimatedLevel) {
+    normalizedEstimatedLevel = minimumEstimatedLevel;
   }
-  if (normalizedEstimatedLevel > MAXIMUM_ESTIMATED_LEVEL) {
-    normalizedEstimatedLevel = MAXIMUM_ESTIMATED_LEVEL;
+  if (normalizedEstimatedLevel > maximumEstimatedLevel) {
+    normalizedEstimatedLevel = maximumEstimatedLevel;
   }
 
-  const intervalIndex = _findIntervalIndex(normalizedEstimatedLevel);
+  const intervalIndex = _findIntervalIndex(normalizedEstimatedLevel, certificationScoringIntervals);
 
-  const intervalMaxValue = scoreIntervals[intervalIndex].end;
-  const intervalWidth = scoreIntervals[intervalIndex].end - scoreIntervals[intervalIndex].start;
+  const intervalMaxValue = certificationScoringIntervals[intervalIndex].bounds.max;
+  const intervalWidth =
+    certificationScoringIntervals[intervalIndex].bounds.max - certificationScoringIntervals[intervalIndex].bounds.min;
 
   // Formula is defined here : https://1024pix.atlassian.net/wiki/spaces/DD/pages/3835133953/Vulgarisation+score+2023#Le-score
-  const score = INTERVAL_HEIGHT * (intervalIndex + 1 + (normalizedEstimatedLevel - intervalMaxValue) / intervalWidth);
+  const score = intervalHeight * (intervalIndex + 1 + (normalizedEstimatedLevel - intervalMaxValue) / intervalWidth);
 
   const maximumReachableScore = maxReachableLevelOnCertificationDate * NUMBER_OF_COMPETENCES * PIX_PER_LEVEL;
 
