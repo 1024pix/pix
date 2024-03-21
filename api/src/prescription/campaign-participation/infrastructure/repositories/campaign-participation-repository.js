@@ -1,3 +1,4 @@
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { Campaign } from '../../../../../lib/domain/models/Campaign.js';
 import * as knowledgeElementRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
@@ -51,4 +52,36 @@ const get = async function (id, domainTransaction) {
   });
 };
 
-export { get, update, updateWithSnapshot };
+const getAllCampaignParticipationsInCampaignForASameLearner = async function ({
+  campaignId,
+  campaignParticipationId,
+  domainTransaction,
+}) {
+  const knexConn = domainTransaction.knexTransaction;
+  const result = await knexConn('campaign-participations')
+    .select('organizationLearnerId')
+    .where({ id: campaignParticipationId, campaignId })
+    .first();
+
+  if (!result) {
+    throw new NotFoundError(
+      `There is no campaign participation with the id "${campaignParticipationId}" for the campaign wih the id "${campaignId}"`,
+    );
+  }
+
+  const campaignParticipations = await knexConn('campaign-participations').where({
+    campaignId,
+    organizationLearnerId: result.organizationLearnerId,
+    deletedAt: null,
+    deletedBy: null,
+  });
+
+  return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
+};
+
+const remove = async function ({ id, deletedAt, deletedBy, domainTransaction }) {
+  const knexConn = domainTransaction.knexTransaction;
+  return await knexConn('campaign-participations').where({ id }).update({ deletedAt, deletedBy });
+};
+
+export { get, getAllCampaignParticipationsInCampaignForASameLearner, remove, update, updateWithSnapshot };

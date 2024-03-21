@@ -1,10 +1,10 @@
 import {
   AlreadySharedCampaignParticipationError,
   AssessmentNotCompletedError,
-  CampaignParticipationDeletedError,
   CantImproveCampaignParticipationError,
 } from '../../../../../../lib/domain/errors.js';
 import { ArchivedCampaignError } from '../../../../../../src/prescription/campaign/domain/errors.js';
+import { CampaignParticipationDeletedError } from '../../../../../../src/prescription/campaign-participation/domain/errors.js';
 import { CampaignParticipation } from '../../../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import {
   CampaignParticipationStatuses,
@@ -46,6 +46,29 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
 
       // then
       expect(targetProfileId).to.equal(null);
+    });
+  });
+
+  describe('delete', function () {
+    let clock;
+    const now = new Date('2021-09-25');
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('updates attributes deletedAt and deletedBy', function () {
+      const userId = 4567;
+      const campaignParticipation = new CampaignParticipation({ deletedAt: null, deletedBy: null });
+
+      campaignParticipation.delete(userId);
+
+      expect(campaignParticipation.deletedAt).to.deep.equal(now);
+      expect(campaignParticipation.deletedBy).to.deep.equal(userId);
     });
   });
 
@@ -237,29 +260,6 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
           expect(campaignParticipation.status).to.be.equal(CampaignParticipationStatuses.STARTED);
         });
       });
-    });
-  });
-
-  describe('delete', function () {
-    let clock;
-    const now = new Date('2021-09-25');
-
-    beforeEach(function () {
-      clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
-    });
-
-    afterEach(function () {
-      clock.restore();
-    });
-
-    it('updates attributes deletedAt and deletedBy', function () {
-      const userId = 4567;
-      const campaignParticipation = new CampaignParticipation({ deletedAt: null, deletedBy: null });
-
-      campaignParticipation.delete(userId);
-
-      expect(campaignParticipation.deletedAt).to.deep.equal(now);
-      expect(campaignParticipation.deletedBy).to.deep.equal(userId);
     });
   });
 });
