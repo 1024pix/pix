@@ -137,7 +137,7 @@ class CommonCsvLearerParser {
       if (column.property) {
         learnerAttributes[column.property] = value;
       } else {
-        learnerAttributes.attributes[column.name] = value;
+        learnerAttributes.attributes[column.name] = value?.toString();
       }
     });
 
@@ -180,6 +180,14 @@ class CommonCsvLearerParser {
       const field = error.key;
 
       if (error.why === 'uniqueness') {
+        this.#errors.push(new CsvImportError(error.code, { line, field }));
+      }
+
+      if (error.why === 'date_format') {
+        this.#errors.push(new CsvImportError(error.code, { line, field, acceptedFormat: error.acceptedFormat }));
+      }
+
+      if (error.why === 'field_required') {
         this.#errors.push(new CsvImportError(error.code, { line, field }));
       }
     });

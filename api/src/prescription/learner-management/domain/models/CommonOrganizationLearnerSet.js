@@ -1,17 +1,18 @@
 import { EntityValidationRulesError } from '../../../../shared/domain/errors.js';
+import { validateCommonOrganizationLearner } from '../validators/common-organization-learner-validator.js';
 
-const ERRORS = {
-  PROPERTY_NOT_UNIQ: 'PROPERTY_NOT_UNIQ',
-};
 class ImportOrganizationLearnerSet {
   #learners;
   #unicityKeys;
+  #hasValidationFormats;
+  #hasUnicityRules;
 
   constructor(validationRules) {
     this.#learners = [];
     this.#unicityKeys = [];
     this.validationRules = validationRules;
-    this.hasUnicityRules = !!validationRules?.unicity;
+    this.#hasUnicityRules = !!validationRules?.unicity;
+    this.#hasValidationFormats = !!validationRules?.formats;
   }
 
   addLearner(learnerAttributes) {
@@ -22,11 +23,19 @@ class ImportOrganizationLearnerSet {
   #validateRules(learnerAttributes) {
     const errors = [];
 
-    if (this.hasUnicityRules) {
+    if (this.#hasUnicityRules) {
       const unicityError = this.#checkUnicityRule(learnerAttributes);
 
       if (unicityError) {
         errors.push(unicityError);
+      }
+    }
+
+    if (this.#hasValidationFormats) {
+      const validationErrors = this.#checkValidations(learnerAttributes);
+
+      if (validationErrors) {
+        errors.push(...validationErrors);
       }
     }
 
@@ -45,12 +54,21 @@ class ImportOrganizationLearnerSet {
       this.#unicityKeys.push(unicityEntity);
       return null;
     } else {
-      return new EntityValidationRulesError({
-        code: ERRORS.PROPERTY_NOT_UNIQ,
+      return EntityValidationRulesError.unicityError({
         key: this.validationRules.unicity.join('-'),
       });
     }
   }
+
+  #checkValidations(learnerAttributes) {
+    const errors = validateCommonOrganizationLearner(learnerAttributes, this.validationRules.formats);
+    if (errors.length > 0) {
+      return errors.map((error) => {
+        return EntityValidationRulesError.fromJoiError(error);
+      });
+    }
+  }
+
   getLearners() {
     return this.#learners;
   }
