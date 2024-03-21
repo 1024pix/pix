@@ -1,4 +1,4 @@
-import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
+import { CampaignParticipation } from '../../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 import { buildCampaign } from './build-campaign.js';
 const { SHARED } = CampaignParticipationStatuses;

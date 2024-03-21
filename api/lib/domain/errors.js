@@ -1025,12 +1025,6 @@ class MissingBadgeCriterionError extends DomainError {
   }
 }
 
-class CampaignParticipationDeletedError extends DomainError {
-  constructor(message = 'La participation est supprimée.') {
-    super(message);
-  }
-}
-
 class DifferentExternalIdentifierError extends DomainError {
   constructor(
     message = "La valeur de l'externalIdentifier de la méthode de connexion ne correspond pas à celui reçu par le partenaire.",
@@ -1096,7 +1090,6 @@ export {
   AuthenticationMethodAlreadyExistsError,
   AuthenticationMethodNotFoundError,
   CampaignCodeError,
-  CampaignParticipationDeletedError,
   CampaignTypeError,
   CancelledInvitationError,
   CandidateNotAuthorizedToJoinSessionError,
