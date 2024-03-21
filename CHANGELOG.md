@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v4.119.0 (21/03/2024)
+
+
+### :rocket: Amélioration
+- [#8414](https://github.com/1024pix/pix/pull/8414) [FEATURE] Ajout d'une page pour la création de configurations de score et de niveau par compétence (PIX-11639).
+- [#8460](https://github.com/1024pix/pix/pull/8460) [FEATURE][MON-PIX] Supprimer le lien politique de protection des données des élèves dans le footer sur le domaine .org (PIX-11650).
+- [#8469](https://github.com/1024pix/pix/pull/8469) [FEATURE] Correctifs traductions NL (PIX-11729).
+- [#8451](https://github.com/1024pix/pix/pull/8451) [FEATURE] Rendre l'affichage de certains messages d'erreur plus claire lors de la création en masse d'organisations (PIX-11685).
+- [#8427](https://github.com/1024pix/pix/pull/8427) [FEATURE] Afficher un commentaire auto jury en cas de problème technique pour la certification V3 (PIX-10603).
+
+### :building_construction: Tech
+- [#8257](https://github.com/1024pix/pix/pull/8257) [TECH] :recycle: Déplace `organization-repository.js` vers `src/shared`.
+- [#8447](https://github.com/1024pix/pix/pull/8447) [TECH] Remplacer les notions de `treatment` par `tolerance` (PIX-11679).
+- [#8288](https://github.com/1024pix/pix/pull/8288) [TECH] Migrer l'injection de certification/shared vers certification/session (PIX-11470).
+- [#8454](https://github.com/1024pix/pix/pull/8454) [TECH] :recycle: Modification de l'appel du token d'authentification pour l'action de « tri » des vieilles branches.
+- [#8456](https://github.com/1024pix/pix/pull/8456) [TECH] Supprimer la rétrocompatibilité du champ élément (PIX-11360).
+- [#8455](https://github.com/1024pix/pix/pull/8455) [TECH] Déplace la logique validation de code dans le model Campaign (PIX-11691).
+
+### :bug: Correction
+- [#8468](https://github.com/1024pix/pix/pull/8468) [BUGFIX] Permettre de mettre à jour les code pays (cpf) via le script (PIX-11727).
+- [#8470](https://github.com/1024pix/pix/pull/8470) [BUGFIX] Corrige la validation d'une épreuve en preview en local (PIX-11709).
+- [#8440](https://github.com/1024pix/pix/pull/8440) [BUGFIX] Corriger la disponibilité du bouton de publication de session sur Pix Admin (PIX-11481).
+
+### :coffee: Autre
+- [#8453](https://github.com/1024pix/pix/pull/8453) [REFACTOR] Fusion des QROC dans les QROCM (PIX-11486).
+
 ## v4.118.0 (20/03/2024)
 
 
