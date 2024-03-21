@@ -2,10 +2,6 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import get from 'lodash/get';
-import groupBy from 'lodash/groupBy';
-import isEmpty from 'lodash/isEmpty';
-import uniq from 'lodash/uniq';
 
 export default class ImportController extends Controller {
   @service currentUser;
@@ -28,12 +24,10 @@ export default class ImportController extends Controller {
     const organizationId = this.currentUser.organization.id;
 
     try {
-      const response = await adapter.addStudentsCsv(organizationId, files);
+      await adapter.addStudentsCsv(organizationId, files);
       this.send('refreshGroups');
-      this._sendSupNotifications(response);
-    } catch (errorResponse) {
-      this._instantiateErrorsDetail(errorResponse);
     } finally {
+      this.send('refreshModel');
       this.isLoading = false;
     }
   }
@@ -54,12 +48,10 @@ export default class ImportController extends Controller {
 
     try {
       await adapter.importStudentsSiecle(organizationId, files, format);
-      this.notifications.sendSuccess(this.intl.t('pages.organization-participants-import.global-success'));
       this.send('refreshDivisions');
-    } catch (errorResponse) {
-      this._instantiateErrorsDetail(errorResponse);
     } finally {
       this.isLoading = false;
+      this.send('refreshModel');
       window.removeEventListener('beforeunload', confirmBeforeClose);
     }
   }
@@ -72,37 +64,11 @@ export default class ImportController extends Controller {
     const organizationId = this.currentUser.organization.id;
 
     try {
-      const response = await adapter.replaceStudentsCsv(organizationId, files);
+      await adapter.replaceStudentsCsv(organizationId, files);
       this.send('refreshGroups');
-      this._sendSupNotifications(response);
-    } catch (errorResponse) {
-      this._instantiateErrorsDetail(errorResponse);
     } finally {
+      this.send('refreshModel');
       this.isLoading = false;
-    }
-  }
-
-  _sendSupNotifications(response) {
-    const warningsArray = get(response, 'data.attributes.warnings', []);
-
-    this.notifications.sendSuccess(this.intl.t('pages.organization-participants-import.global-success'));
-
-    if (isEmpty(warningsArray.length)) {
-      const warnings = groupBy(warningsArray, 'field');
-
-      this.warnings = [];
-      this.warningBanner = this.intl.t('pages.organization-participants-import.warning-banner', { htmlSafe: true });
-
-      if (warnings.diploma) {
-        const diplomas = uniq(warnings.diploma.map((warning) => warning.value)).join(', ');
-        this.warnings.push(this.intl.t('pages.organization-participants-import.warnings.diploma', { diplomas }));
-      }
-      if (warnings['study-scheme']) {
-        const studySchemes = uniq(warnings['study-scheme'].map((warning) => warning.value)).join(', ');
-        this.warnings.push(
-          this.intl.t('pages.organization-participants-import.warnings.study-scheme', { studySchemes }),
-        );
-      }
     }
   }
 
@@ -115,35 +81,5 @@ export default class ImportController extends Controller {
     this.errors = null;
     this.warnings = null;
     this.warningBanner = null;
-  }
-
-  _instantiateErrorsDetail(errorResponse) {
-    this.errors = [];
-    if (!errorResponse.errors) {
-      this.notifications.sendError(
-        this.intl.t('pages.organization-participants-import.error-panel.global-error', {
-          htmlSafe: true,
-        }),
-        {
-          onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
-        },
-      );
-    } else {
-      this.notifications.sendError(
-        this.intl.t('pages.organization-participants-import.error-panel.error-wrapper', {
-          htmlSafe: true,
-        }),
-        {
-          onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
-        },
-      );
-
-      errorResponse.errors.forEach((error) => {
-        if (['422', '412', '413'].includes(error.status)) {
-          const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
-          this.errors.push(message);
-        }
-      });
-    }
   }
 }
