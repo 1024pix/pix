@@ -12,7 +12,7 @@ describe('Unit | UseCase | update-expired-password', function () {
 
   let user;
 
-  let encryptionService, tokenService;
+  let cryptoService, tokenService;
   let authenticationMethodRepository, userRepository;
 
   beforeEach(function () {
@@ -27,7 +27,7 @@ describe('Unit | UseCase | update-expired-password', function () {
     userRepository = {
       get: sinon.stub(),
     };
-    encryptionService = {
+    cryptoService = {
       hashPassword: sinon.stub(),
     };
     tokenService = {
@@ -41,7 +41,7 @@ describe('Unit | UseCase | update-expired-password', function () {
     tokenService.extractUserId.resolves(user.id);
     userRepository.get.resolves(user);
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
-    encryptionService.hashPassword.resolves(hashedPassword);
+    cryptoService.hashPassword.resolves(hashedPassword);
   });
 
   it('should update user password with a hashed password and return username', async function () {
@@ -50,7 +50,7 @@ describe('Unit | UseCase | update-expired-password', function () {
       passwordResetToken,
       newPassword,
       tokenService,
-      encryptionService,
+      cryptoService,
       authenticationMethodRepository,
       userRepository,
     });
@@ -58,7 +58,7 @@ describe('Unit | UseCase | update-expired-password', function () {
     // then
     expect(tokenService.extractUserId).to.have.been.calledOnceWith(passwordResetToken);
     expect(userRepository.get).to.have.been.calledOnceWith(user.id);
-    expect(encryptionService.hashPassword).to.have.been.calledOnceWith(newPassword);
+    expect(cryptoService.hashPassword).to.have.been.calledOnceWith(newPassword);
     expect(authenticationMethodRepository.findOneByUserIdAndIdentityProvider).to.have.been.calledOnceWith({
       userId: user.id,
       identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
@@ -81,7 +81,7 @@ describe('Unit | UseCase | update-expired-password', function () {
         passwordResetToken,
         newPassword,
         tokenService,
-        encryptionService,
+        cryptoService,
         authenticationMethodRepository,
         userRepository,
       });

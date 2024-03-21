@@ -49,7 +49,7 @@ import * as activityAnswerRepository from '../../../src/school/infrastructure/re
 import * as missionRepository from '../../../src/school/infrastructure/repositories/mission-repository.js';
 import * as schoolRepository from '../../../src/school/infrastructure/repositories/school-repository.js';
 import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
-import * as encryptionService from '../../../src/shared/domain/services/encryption-service.js';
+import * as cryptoService from '../../../src/shared/domain/services/crypto-service.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import * as adminMemberRepository from '../../../src/shared/infrastructure/repositories/admin-member-repository.js';
 import * as answerRepository from '../../../src/shared/infrastructure/repositories/answer-repository.js';
@@ -274,7 +274,7 @@ const dependencies = {
   dataProtectionOfficerRepository,
   dateUtils,
   divisionRepository,
-  encryptionService,
+  cryptoService,
   finalizedSessionRepository,
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,

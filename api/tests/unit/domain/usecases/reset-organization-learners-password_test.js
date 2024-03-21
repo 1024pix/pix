@@ -11,17 +11,13 @@ describe('Unit | UseCases | Reset organization learners password', function () {
   const hashedPassword = '21fedcba';
   const generatedPassword = 'abcdef12';
 
-  let authenticationMethodRepository,
-    organizationLearnerRepository,
-    userRepository,
-    encryptionService,
-    passwordGenerator;
+  let authenticationMethodRepository, organizationLearnerRepository, userRepository, cryptoService, passwordGenerator;
 
   beforeEach(function () {
     authenticationMethodRepository = {};
     organizationLearnerRepository = {};
     userRepository = {};
-    encryptionService = { hashPassword: sinon.stub().resolves(hashedPassword) };
+    cryptoService = { hashPassword: sinon.stub().resolves(hashedPassword) };
     passwordGenerator = { generateSimplePassword: sinon.stub().returns(generatedPassword) };
   });
 
@@ -61,14 +57,14 @@ describe('Unit | UseCases | Reset organization learners password', function () {
             authenticationMethodRepository,
             organizationLearnerRepository,
             userRepository,
-            encryptionService,
+            cryptoService,
             passwordGenerator,
           });
 
           // then
           expect(passwordGenerator.generateSimplePassword).to.have.been.callCount(2);
-          expect(encryptionService.hashPassword).to.have.been.calledWithExactly(generatedPassword);
-          expect(encryptionService.hashPassword).to.have.been.callCount(2);
+          expect(cryptoService.hashPassword).to.have.been.calledWithExactly(generatedPassword);
+          expect(cryptoService.hashPassword).to.have.been.callCount(2);
           expect(authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged).to.have.been.calledWithExactly({
             usersToUpdateWithNewPassword: userIdHashedPassword,
             domainTransaction,

@@ -18,7 +18,7 @@ import * as campaignRepository from '../../../../lib/infrastructure/repositories
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import * as userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
-import * as encryptionService from '../../../../src/shared/domain/services/encryption-service.js';
+import * as cryptoService from '../../../../src/shared/domain/services/crypto-service.js';
 import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 
@@ -44,7 +44,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
         campaignRepository,
         organizationLearnerRepository,
         userRepository,
-        encryptionService,
+        cryptoService,
         mailService,
         obfuscationService,
         userReconciliationService,
@@ -80,7 +80,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
         campaignRepository,
         organizationLearnerRepository,
         userRepository,
-        encryptionService,
+        cryptoService,
         mailService,
         obfuscationService,
         userReconciliationService,
@@ -129,7 +129,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
           campaignRepository,
           organizationLearnerRepository,
           userRepository,
-          encryptionService,
+          cryptoService,
           mailService,
           obfuscationService,
           userReconciliationService,
@@ -187,7 +187,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             campaignRepository,
             organizationLearnerRepository,
             userRepository,
-            encryptionService,
+            cryptoService,
             mailService,
             obfuscationService,
             userReconciliationService,
@@ -232,7 +232,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             campaignRepository,
             organizationLearnerRepository,
             userRepository,
-            encryptionService,
+            cryptoService,
             mailService,
             obfuscationService,
             userReconciliationService,
@@ -262,7 +262,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             organizationLearnerRepository,
             userRepository,
             userToCreateRepository,
-            encryptionService,
+            cryptoService,
             mailService,
             obfuscationService,
             userReconciliationService,
@@ -331,7 +331,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             campaignRepository,
             organizationLearnerRepository,
             userRepository,
-            encryptionService,
+            cryptoService,
             mailService,
             obfuscationService,
             userReconciliationService,
@@ -370,7 +370,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
             organizationLearnerRepository,
             userRepository,
             userToCreateRepository,
-            encryptionService,
+            cryptoService,
             mailService,
             obfuscationService,
             userReconciliationService,

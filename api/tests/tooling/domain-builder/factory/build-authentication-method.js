@@ -5,7 +5,7 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/id
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 import { User } from '../../../../lib/domain/models/User.js';
-import * as encrypt from '../../../../src/shared/domain/services/encryption-service.js';
+import * as encrypt from '../../../../src/shared/domain/services/crypto-service.js';
 
 function _buildUser() {
   return new User({
