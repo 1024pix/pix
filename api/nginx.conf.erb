@@ -1,5 +1,0 @@
-location / {
-  proxy_pass http://localhost:<%= ENV['NODE_PORT'] %>;
-  proxy_redirect default;
-  add_header  X-Pix  pixou  always;
-}
