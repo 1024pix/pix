@@ -10,7 +10,7 @@ server {
         try_files $uri /test.html;
     }
 
-    location /api {
+    location /api/ {
         proxy_pass http://localhost:<%= ENV['NODE_PORT'] %>;
 
         proxy_set_header        Host $host;
@@ -20,9 +20,8 @@ server {
         proxy_set_header        Upgrade $http_upgrade;
         proxy_set_header        Connection "upgrade";
         proxy_redirect          off;
-        proxy_http_version      1.1;
     }
 
-    add_header X-Pix PIX-API;
+    add_header X-Pix PIX-API always;
 }
 
