@@ -23,7 +23,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
   let organizationLearnerRepository;
   let userRepository;
 
-  let encryptionService;
+  let cryptoService;
   let mailService;
   let obfuscationService;
   let userReconciliationService;
@@ -52,7 +52,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
       get: sinon.stub(),
     };
 
-    encryptionService = {
+    cryptoService = {
       hashPassword: sinon.stub(),
     };
     mailService = {
@@ -99,7 +99,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         campaignRepository,
         organizationLearnerRepository,
         userRepository,
-        encryptionService,
+        cryptoService,
         mailService,
         obfuscationService,
         userReconciliationService,
@@ -130,7 +130,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         campaignRepository,
         organizationLearnerRepository,
         userRepository,
-        encryptionService,
+        cryptoService,
         mailService,
         obfuscationService,
         userReconciliationService,
@@ -155,7 +155,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
       userReconciliationService.findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo.resolves(
         organizationLearnerId,
       );
-      encryptionService.hashPassword.resolves(encryptedPassword);
+      cryptoService.hashPassword.resolves(encryptedPassword);
 
       userService.createAndReconcileUserToOrganizationLearner.resolves(createdUser.id);
       userRepository.get.withArgs(createdUser.id).resolves(createdUser);
@@ -202,7 +202,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             campaignRepository,
             organizationLearnerRepository,
             userRepository,
-            encryptionService,
+            cryptoService,
             mailService,
             obfuscationService,
             userReconciliationService,
@@ -232,7 +232,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             campaignRepository,
             organizationLearnerRepository,
             userRepository,
-            encryptionService,
+            cryptoService,
             mailService,
             obfuscationService,
             userReconciliationService,
@@ -262,7 +262,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             campaignRepository,
             organizationLearnerRepository,
             userRepository,
-            encryptionService,
+            cryptoService,
             mailService,
             obfuscationService,
             userReconciliationService,
@@ -289,7 +289,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             campaignRepository,
             organizationLearnerRepository,
             userRepository,
-            encryptionService,
+            cryptoService,
             mailService,
             obfuscationService,
             userReconciliationService,
@@ -323,7 +323,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
               campaignRepository,
               organizationLearnerRepository,
               userRepository,
-              encryptionService,
+              cryptoService,
               mailService,
               obfuscationService,
               userReconciliationService,
@@ -360,7 +360,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             campaignRepository,
             organizationLearnerRepository,
             userRepository,
-            encryptionService,
+            cryptoService,
             mailService,
             obfuscationService,
             userReconciliationService,
@@ -386,7 +386,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
             campaignRepository,
             organizationLearnerRepository,
             userRepository,
-            encryptionService,
+            cryptoService,
             mailService,
             obfuscationService,
             userReconciliationService,
@@ -416,7 +416,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
               campaignRepository,
               organizationLearnerRepository,
               userRepository,
-              encryptionService,
+              cryptoService,
               mailService,
               obfuscationService,
               userReconciliationService,

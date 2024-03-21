@@ -2,7 +2,7 @@ import { updateUserForAccountRecovery } from '../../../../../lib/domain/usecases
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import * as accountRecoveryDemandRepository from '../../../../../lib/infrastructure/repositories/account-recovery-demand-repository.js';
 import * as authenticationMethodRepository from '../../../../../lib/infrastructure/repositories/authentication-method-repository.js';
-import * as encryptionService from '../../../../../src/shared/domain/services/encryption-service.js';
+import * as cryptoService from '../../../../../src/shared/domain/services/crypto-service.js';
 import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
@@ -29,7 +29,7 @@ describe('Integration | UseCases | Account-recovery | updateUserForAccountRecove
           userRepository,
           authenticationMethodRepository,
           accountRecoveryDemandRepository,
-          encryptionService,
+          cryptoService,
           domainTransaction,
         });
         throw new Error('an error occurs within the domain transaction');

@@ -22,7 +22,7 @@ const createAndReconcileUserToOrganizationLearner = async function ({
   organizationLearnerRepository,
   userRepository,
   userToCreateRepository,
-  encryptionService,
+  cryptoService,
   mailService,
   obfuscationService,
   userReconciliationService,
@@ -66,7 +66,7 @@ const createAndReconcileUserToOrganizationLearner = async function ({
     userValidator,
   });
 
-  const hashedPassword = await _encryptPassword(password, encryptionService);
+  const hashedPassword = await _encryptPassword(password, cryptoService);
   const domainUser = _createDomainUser(cleanedUserAttributes);
 
   const userId = await userService.createAndReconcileUserToOrganizationLearner({
@@ -86,8 +86,8 @@ const createAndReconcileUserToOrganizationLearner = async function ({
   return createdUser;
 };
 
-function _encryptPassword(userPassword, encryptionService) {
-  const encryptedPassword = encryptionService.hashPassword(userPassword);
+function _encryptPassword(userPassword, cryptoService) {
+  const encryptedPassword = cryptoService.hashPassword(userPassword);
 
   if (encryptedPassword === userPassword) {
     throw new Error('Erreur lors de l‘encryption du mot passe de l‘utilisateur');

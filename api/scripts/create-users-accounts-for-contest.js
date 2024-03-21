@@ -5,7 +5,7 @@ import { disconnect } from '../db/knex-database-connection.js';
 import * as userService from '../lib/domain/services/user-service.js';
 import * as authenticationMethodRepository from '../lib/infrastructure/repositories/authentication-method-repository.js';
 import * as userToCreateRepository from '../lib/infrastructure/repositories/user-to-create-repository.js';
-import * as encryptionService from '../src/shared/domain/services/encryption-service.js';
+import * as cryptoService from '../src/shared/domain/services/crypto-service.js';
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
 
 function prepareDataForInsert(rawUsers) {
@@ -31,7 +31,7 @@ async function createUsers({ usersInRaw }) {
       cgu: true,
       lang: 'fr',
     };
-    const hashedPassword = await encryptionService.hashPassword(userDTO.password);
+    const hashedPassword = await cryptoService.hashPassword(userDTO.password);
 
     await userService.createUserWithPassword({
       user: userToCreate,

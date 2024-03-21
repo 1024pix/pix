@@ -8,7 +8,7 @@ const generateUsernameWithTemporaryPassword = async function ({
   organizationLearnerId,
   organizationId,
   passwordGenerator,
-  encryptionService,
+  cryptoService,
   userReconciliationService,
   userService,
   authenticationMethodRepository,
@@ -35,7 +35,7 @@ const generateUsernameWithTemporaryPassword = async function ({
     return { username: updatedUser.username };
   } else {
     const generatedPassword = passwordGenerator.generateSimplePassword();
-    const hashedPassword = await encryptionService.hashPassword(generatedPassword);
+    const hashedPassword = await cryptoService.hashPassword(generatedPassword);
 
     // and Create Password
     await userService.updateUsernameAndAddPassword({

@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
 
 import { PasswordNotMatching } from '../../../../../src/authentication/domain/errors.js';
-import * as encryptionService from '../../../../../src/shared/domain/services/encryption-service.js';
+import * as cryptoService from '../../../../../src/shared/domain/services/crypto-service.js';
 import { catchErr, expect } from '../../../../test-helper.js';
 
-describe('Unit | Shared | Domain | Services | Encryption', function () {
+describe('Unit | Shared | Domain | Services | Crypto', function () {
   describe('#checkPassword', function () {
     describe('when password and hash are matching', function () {
       it('should resolve to undefined', async function () {
@@ -14,7 +14,7 @@ describe('Unit | Shared | Domain | Services | Encryption', function () {
         const passwordHash = bcrypt.hashSync(password, 1);
 
         // when
-        const result = await encryptionService.checkPassword({
+        const result = await cryptoService.checkPassword({
           password,
           passwordHash,
         });
@@ -31,7 +31,7 @@ describe('Unit | Shared | Domain | Services | Encryption', function () {
         const passwordHash = 'ABCDEF1234';
 
         // when
-        const error = await catchErr(encryptionService.checkPassword)({
+        const error = await catchErr(cryptoService.checkPassword)({
           password,
           passwordHash,
         });
@@ -49,7 +49,7 @@ describe('Unit | Shared | Domain | Services | Encryption', function () {
         const passwordHash = bcrypt.hashSync('my-real-password', 1);
 
         try {
-          await encryptionService.checkPassword({
+          await cryptoService.checkPassword({
             password,
             passwordHash,
           });

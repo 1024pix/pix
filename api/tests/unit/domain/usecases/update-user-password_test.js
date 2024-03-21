@@ -15,13 +15,13 @@ describe('Unit | UseCase | update-user-password', function () {
   const password = '123ASXCG';
   const temporaryKey = 'good-temporary-key';
 
-  let encryptionService;
+  let cryptoService;
   let resetPasswordService;
   let authenticationMethodRepository;
   let userRepository;
 
   beforeEach(function () {
-    encryptionService = {
+    cryptoService = {
       hashPassword: sinon.stub(),
     };
     resetPasswordService = {
@@ -35,7 +35,7 @@ describe('Unit | UseCase | update-user-password', function () {
       get: sinon.stub(),
     };
 
-    encryptionService.hashPassword.resolves();
+    cryptoService.hashPassword.resolves();
     resetPasswordService.hasUserAPasswordResetDemandInProgress.withArgs(user.email, temporaryKey).resolves();
     resetPasswordService.invalidateOldResetPasswordDemand.resolves();
 
@@ -49,7 +49,7 @@ describe('Unit | UseCase | update-user-password', function () {
       password,
       userId,
       temporaryKey,
-      encryptionService,
+      cryptoService,
       resetPasswordService,
       authenticationMethodRepository,
       userRepository,
@@ -68,7 +68,7 @@ describe('Unit | UseCase | update-user-password', function () {
       password,
       userId,
       temporaryKey,
-      encryptionService,
+      cryptoService,
       resetPasswordService,
       authenticationMethodRepository,
       userRepository,
@@ -84,7 +84,7 @@ describe('Unit | UseCase | update-user-password', function () {
       password,
       userId,
       temporaryKey,
-      encryptionService,
+      cryptoService,
       resetPasswordService,
       authenticationMethodRepository,
       userRepository,
@@ -99,21 +99,21 @@ describe('Unit | UseCase | update-user-password', function () {
 
   it('should update user password with a hashed password', async function () {
     const hashedPassword = 'ABCD1234';
-    encryptionService.hashPassword.resolves(hashedPassword);
+    cryptoService.hashPassword.resolves(hashedPassword);
 
     // when
     await updateUserPassword({
       password,
       userId,
       temporaryKey,
-      encryptionService,
+      cryptoService,
       resetPasswordService,
       authenticationMethodRepository,
       userRepository,
     });
 
     // then
-    expect(encryptionService.hashPassword).to.have.been.calledWithExactly(password);
+    expect(cryptoService.hashPassword).to.have.been.calledWithExactly(password);
     expect(authenticationMethodRepository.updateChangedPassword).to.have.been.calledWithExactly({
       userId,
       hashedPassword,
@@ -126,7 +126,7 @@ describe('Unit | UseCase | update-user-password', function () {
       password,
       userId,
       temporaryKey,
-      encryptionService,
+      cryptoService,
       resetPasswordService,
       authenticationMethodRepository,
       userRepository,
@@ -148,7 +148,7 @@ describe('Unit | UseCase | update-user-password', function () {
         password,
         userId,
         temporaryKey,
-        encryptionService,
+        cryptoService,
         resetPasswordService,
         authenticationMethodRepository,
         userRepository,
