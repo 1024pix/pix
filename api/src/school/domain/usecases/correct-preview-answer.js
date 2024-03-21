@@ -7,10 +7,14 @@ const correctPreviewAnswer = async function ({
 } = {}) {
   const challenge = await sharedChallengeRepository.get(activityAnswer.challengeId);
   const examiner = injectedExaminer ?? new Examiner({ validator: challenge.validator });
-  return examiner.evaluate({
+  const correctedAnswer = examiner.evaluate({
     answer: activityAnswer,
     challengeFormat: challenge.format,
   });
+  return {
+    ...correctedAnswer,
+    id: 'preview-id',
+  };
 };
 
 export { correctPreviewAnswer };

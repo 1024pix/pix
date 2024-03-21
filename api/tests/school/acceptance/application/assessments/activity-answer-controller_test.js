@@ -65,7 +65,7 @@ describe('Acceptance | Controller | activity-answer-controller', function () {
     });
 
     context('when isPreview', function () {
-      it('should return a 200 HTTP status code', async function () {
+      it('should return a 200 HTTP status code and an activity answer', async function () {
         // given
         const challenge = learningContentBuilder.buildChallenge();
         const skill = learningContentBuilder.buildSkill({ id: challenge.skillId });
@@ -102,11 +102,30 @@ describe('Acceptance | Controller | activity-answer-controller', function () {
           payload,
         };
 
+        const expectedBody = {
+          attributes: {
+            result: 'ko',
+            'result-details': null,
+            value: '',
+          },
+          relationships: {
+            challenge: {
+              data: {
+                id: 'recCHAL1',
+                type: 'challenges',
+              },
+            },
+          },
+          id: 'preview-id',
+          type: 'activity-answers',
+        };
+
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal(expectedBody);
       });
     });
   });
