@@ -10,6 +10,10 @@ export default class Footer extends Component {
     return this.currentDomain.isFranceDomain;
   }
 
+  get shouldDisplayStudentDataProtectionPolicyLink() {
+    return this.currentDomain.isFranceDomain;
+  }
+
   get currentYear() {
     const date = new Date();
     return date.getFullYear().toString();
