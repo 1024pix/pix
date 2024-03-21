@@ -1,4 +1,4 @@
-// Usage: node import-certification-cpf-countries.js path/file.csv
+// Usage: node script/certification/import-certification-cpf-countries.js path/file.csv
 // File Millésime 2021 : Liste des pays et territoires étrangers au 01/01/2021
 // downloaded from https://www.data.gouv.fr/fr/datasets/code-officiel-geographique-cog/
 
@@ -82,7 +82,7 @@ async function main(filePath) {
   const trx = await knex.transaction();
 
   try {
-    console.log('Reading and parsing csv data file... ');
+    console.log(`Reading and parsing csv data file ${filePath}... `);
     const csvData = await parseCsv(filePath, { header: true, delimiter: ',', skipEmptyLines: true });
     console.log('ok');
 
@@ -105,13 +105,15 @@ async function main(filePath) {
     if (trx) {
       trx.rollback();
     }
+    throw error;
   }
 }
 
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
-      await main();
+      const filePath = process.argv[2];
+      await main(filePath);
     } catch (error) {
       console.error(error);
       process.exitCode = 1;
