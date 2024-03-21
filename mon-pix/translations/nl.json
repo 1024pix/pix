@@ -84,7 +84,7 @@
     },
     "new-information-banner": {
       "close-label": "Sluit de banner",
-      "lvl-seven": "Pix wordt geleidelijk aan vertaald naar het Nederlands!De vertaling van al onze vaardigheden zal binnenkort beschikbaar zijn."
+      "lvl-seven": "Pix wordt geleidelijk aan vertaald naar het Nederlands! De vertaling van al onze vaardigheden zal binnenkort beschikbaar zijn. '<'a href=\"https://pix.org/nl-be/de-planning-voor-de-uitrol-van-pix-in-het-nederlan\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Meer informatie'</a>'"
     },
     "or": "of",
     "pagination": {
@@ -386,7 +386,7 @@
         "subtitle": "(niveaus op {maxReachableLevel})"
       },
       "complementary": {
-        "title": "Andere behaalde certificering(en)",
+        "title": "Andere behaalde certificering",
         "alternative": "Aanvullende certificering"
       },
       "exam-date": "Datum bezoek :",
@@ -864,7 +864,7 @@
             "waiting-text": "Probeer het volgende niveau in"
           },
           "improvingText": "Probeer het volgende niveau te bereiken!",
-          "label": "Retenter"
+          "label": "Opnieuw"
         },
         "reset": {
           "description": "Reset beschikbaar in { daysBeforeReset, plural, =0 {0 dag.} =1 {1 dag.} other {# dagen.} }",
@@ -886,7 +886,7 @@
         }
       },
       "for-competence": "de vaardigheid  {competence}",
-      "next-level-info": "{ remainingPixToNextLevel } pix before level { level }",
+      "next-level-info": "{ remainingPixToNextLevel } pix voordat de niveau { level }",
       "tutorials": {
         "title": "Ontwikkel je vaardigheden",
         "description": "Hier is een selectie van tutorials om je te helpen Pix te verdienen."
@@ -984,7 +984,7 @@
     },
     "fill-in-certificate-verification-code": {
       "title": "Een Pix-certificaat controleren",
-      "description": "Een Pix-certificaat getuigt van een vaardigheidsniveau in digitale vaardigheden: voer hieronder de \"verificatiecode\" in voor het Pix-certificaat dat je wilt controleren.",
+      "description": "Een Pix-certificaat getuigt van een vaardigheidsniveau in digitale vaardigheden: voer hieronder de \\\"verificatiecode\\\" in voor het Pix-certificaat dat je wilt controleren.",
       "errors": {
         "missing-code": "Voer de verificatiecode in.",
         "not-found": "Er is geen bijbehorend Pix-certificaat.",
@@ -1201,11 +1201,11 @@
       },
       "details": {
         "duration": "Duur",
-        "durationValue": "'<span aria-hidden=\"true\">'≈'</span><span class=\"screen-reader-only\">'Ongeveer '</span>'{duration} min",
+        "durationValue": "≈{duration} min",
         "explanationText1": "Pix trainingsmodules bestaan uit lessen en activiteiten om je te helpen je digitale vaardigheden te oefenen en te ontwikkelen. De lessen bestaan uit video's, audio, afbeeldingen en tekst. Met de activiteiten kun je direct oefenen en je antwoorden controleren. Elke module duurt ongeveer 10 minuten, gaat over een specifiek onderwerp en heeft een moeilijkheidsgraad van beginner tot expert.",
         "explanationText2": "Deze trainingsmodules bevinden zich momenteel in de beta-testfase. Je kunt ons suggesties voor verbetering sturen via de vragenlijst aan het einde van elke module.",
         "explanationTitle": "Wat is een module?",
-        "level": "Level",
+        "level": "Niveau",
         "objectives": "Doelstellingen",
         "startModule": "De module starten"
       },
