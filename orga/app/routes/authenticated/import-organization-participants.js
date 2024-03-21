@@ -5,12 +5,24 @@ import { service } from '@ember/service';
 export default class ImportOrganizationParticipantsRoute extends Route {
   @service currentUser;
   @service router;
+  @service store;
 
   beforeModel() {
     super.beforeModel(...arguments);
 
     if (!this.currentUser.shouldAccessImportPage) {
       return this.router.replaceWith('application');
+    }
+  }
+
+  async model() {
+    try {
+      return await this.store.queryRecord('organization-import', {
+        organizationId: this.currentUser.organization.id,
+      });
+    } catch (error) {
+      console.log({ error });
+      this.router.replaceWith('application');
     }
   }
 
@@ -28,5 +40,9 @@ export default class ImportOrganizationParticipantsRoute extends Route {
   @action
   async refreshGroups() {
     await this.currentUser.organization.hasMany('groups').reload();
+  }
+  @action
+  refreshModel() {
+    this.refresh();
   }
 }

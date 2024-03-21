@@ -9,7 +9,7 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | OrganizationParticipantImport', function (hooks) {
   setupIntlRenderingTest(hooks);
-
+  let organizationImport;
   hooks.beforeEach(function () {
     this.set('onImportSupStudents', sinon.stub());
     this.set('onImportScoStudents', sinon.stub());
@@ -24,24 +24,29 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
+
+      const store = this.owner.lookup('service:store');
+      organizationImport = store.createRecord('organization-import', {
+        status: 'VALIDATION_ERROR',
+        errors: [{ code: 'UAI_MISMATCHED', meta: {} }],
+      });
     });
 
     test('display error heading information', async function (assert) {
-      this.set('errors', []);
-      this.set('warnings', null);
+      this.set('organizationImport', organizationImport);
       const screen = await render(
         hbs`<Import
   @onImportSupStudents={{this.onImportSupStudents}}
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
-  @errors={{this.errors}}
-  @warnings={{this.warnings}}
+  @organizationImport={{this.organizationImport}}
 />`,
       );
 
       assert.ok(
         screen.getByRole('heading', { name: this.intl.t('pages.organization-participants-import.error-panel.title') }),
       );
+      assert.strictEqual(screen.getAllByRole('listitem').length, 1);
     });
   });
 
@@ -66,6 +71,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
       );
 
@@ -96,6 +102,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
       );
 
@@ -115,6 +122,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
         );
 
@@ -144,6 +152,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
         );
 
@@ -179,6 +188,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
         );
 
@@ -218,6 +228,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
       );
 
@@ -243,6 +254,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
       );
 
@@ -265,6 +277,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
       );
 
@@ -281,6 +294,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
       );
 
@@ -300,6 +314,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
       );
       assert.ok(await screen.findByText(this.intl.t('pages.organization-participants-import.information')));
@@ -325,6 +340,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
       );
 
@@ -340,6 +356,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
       );
 
@@ -359,6 +376,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
       );
       assert.ok(await screen.findByText(this.intl.t('pages.organization-participants-import.information')));
@@ -372,6 +390,7 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
   @isLoading={{this.isLoading}}
+  @organizatioImport={{null}}
 />`,
       );
 

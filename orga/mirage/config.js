@@ -99,7 +99,9 @@ function routes() {
   });
 
   this.patch('/memberships/:id');
-
+  this.get('/organizations/:id/import-information', () => {
+    return { data: null };
+  });
   this.get('/organizations/:id/campaigns', (schema, request) => {
     const {
       'filter[ownerName]': ownerName,
