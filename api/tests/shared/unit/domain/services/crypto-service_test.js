@@ -59,4 +59,26 @@ describe('Unit | Shared | Domain | Services | Crypto', function () {
       });
     });
   });
+
+  describe('#encrypt', function () {
+    it('resolves to a text output in PHC format', async function () {
+      // when
+      const output = await cryptoService.encrypt('00a6fa25-df29-4701-9077-557932591766');
+
+      // then
+      expect(output).to.match(cryptoService.phcRegexp);
+    });
+  });
+
+  describe('#decrypt', function () {
+    it('resolves to a decrypted text', async function () {
+      // when
+      const output = await cryptoService.decrypt(
+        '$scrypt+aes-256-ctr$N=8192$r=8$p=10$jXTXUj3GLDWDQoV9JaX3Ng==$8HYIDMee4owS5MTnr9z7DjI+ABILdWExBFhd/VYM0I8XKTKN',
+      );
+
+      // then
+      expect(output).to.equals('00a6fa25-df29-4701-9077-557932591766');
+    });
+  });
 });
