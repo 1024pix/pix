@@ -57,6 +57,24 @@ module('Unit | Service | session', function (hooks) {
     });
   });
 
+  module('#handleInvalidation', function () {
+    test('overrides handleInvalidation method', function (assert) {
+      // then
+      assert.true(service.handleInvalidation instanceof Function);
+    });
+
+    test('calls clear method from session store', function (assert) {
+      // given
+      sinon.stub(service.store, 'clear');
+
+      // when
+      service.handleInvalidation();
+
+      // then
+      assert.true(service.store.clear.calledOnce);
+    });
+  });
+
   module('#handleLocale', function () {
     module('when domain is .fr', function () {
       module('when there is no cookie locale', function () {
