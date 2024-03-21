@@ -6,7 +6,7 @@ import * as flashAlgorithmService from '../../../src/certification/flash-certifi
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as certificationAssessmentHistoryRepository from '../../../src/certification/scoring/infrastructure/repositories/certification-assessment-history-repository.js';
 import * as certificationChallengeForScoringRepository from '../../../src/certification/scoring/infrastructure/repositories/certification-challenge-for-scoring-repository.js';
-import * as competenceForScoringRepository from '../../../src/certification/scoring/infrastructure/repositories/competence-for-scoring-repository.js';
+import * as scoringConfigurationRepository from '../../../src/certification/scoring/infrastructure/repositories/scoring-configuration-repository.js';
 import * as finalizedSessionRepository from '../../../src/certification/session/infrastructure/repositories/finalized-session-repository.js';
 import * as certificationAssessmentRepository from '../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
@@ -78,7 +78,6 @@ const dependencies = {
   certificationIssueReportRepository,
   challengeRepository,
   competenceMarkRepository,
-  competenceForScoringRepository,
   competenceRepository,
   complementaryCertificationBadgesRepository,
   complementaryCertificationCourseResultRepository,
@@ -95,6 +94,7 @@ const dependencies = {
   poleEmploiSendingRepository,
   scoringCertificationService,
   skillRepository,
+  scoringConfigurationRepository,
   supervisorAccessRepository,
   targetProfileRepository,
   userRepository,

@@ -1,5 +1,5 @@
-import * as competenceForScoringConfiguration from './application/competence-for-scoring-configuration-route.js';
+import * as scoringConfiguration from './application/scoring-configuration-route.js';
 
-const scoringRoutes = [competenceForScoringConfiguration];
+const scoringRoutes = [scoringConfiguration];
 
 export { scoringRoutes };

@@ -4,13 +4,13 @@ import { fileURLToPath } from 'node:url';
 
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
-import * as competenceForScoringRepository from '../../infrastructure/repositories/competence-for-scoring-repository.js';
+import * as scoringConfigurationRepository from '../../infrastructure/repositories/scoring-configuration-repository.js';
 
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
- * @typedef {competenceForScoringRepository} CompetenceForScoringRepository
+ * @typedef {scoringConfigurationRepository} ScoringConfigurationRepository
  **/
-const dependencies = { competenceForScoringRepository };
+const dependencies = { scoringConfigurationRepository };
 
 const path = dirname(fileURLToPath(import.meta.url));
 

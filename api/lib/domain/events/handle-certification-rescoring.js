@@ -39,7 +39,7 @@ async function handleCertificationRescoring({
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
   certificationAssessmentHistoryRepository,
-  competenceForScoringRepository,
+  scoringConfigurationRepository,
 }) {
   checkEventTypes(event, eventTypes);
 
@@ -59,7 +59,7 @@ async function handleCertificationRescoring({
         flashAlgorithmConfigurationRepository,
         flashAlgorithmService,
         certificationAssessmentHistoryRepository,
-        competenceForScoringRepository,
+        scoringConfigurationRepository,
         competenceMarkRepository,
         locale: event.locale,
       });
@@ -98,7 +98,7 @@ async function _handleV3Certification({
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
   certificationAssessmentHistoryRepository,
-  competenceForScoringRepository,
+  scoringConfigurationRepository,
   competenceMarkRepository,
   locale,
 }) {
@@ -124,7 +124,10 @@ async function _handleV3Certification({
     configuration,
   });
 
-  const competencesForScoring = await competenceForScoringRepository.listByLocale({ locale });
+  const v3CertificationScoring = await scoringConfigurationRepository.getLatestByDateAndLocale({
+    locale,
+    date: certificationCourse.getStartDate(),
+  });
 
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     algorithm,
@@ -132,7 +135,7 @@ async function _handleV3Certification({
     allAnswers,
     abortReason,
     maxReachableLevelOnCertificationDate: certificationCourse.getMaxReachableLevelOnCertificationDate(),
-    competencesForScoring,
+    v3CertificationScoring,
   });
 
   const assessmentResult = _createV3AssessmentResult({
