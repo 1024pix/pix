@@ -1,4 +1,4 @@
-import { TEAM_1D_USER_ID } from '../team-1d/data-builder.js';
+import { REAL_PIX_SUPER_ADMIN_ID } from '../common/common-builder.js';
 
 export async function buildOrganizationLearnerImportFormat(databaseBuilder) {
   await databaseBuilder.factory.buildOrganizationLearnerImportFormat({
@@ -25,7 +25,7 @@ export async function buildOrganizationLearnerImportFormat(databaseBuilder) {
       ],
     },
     createdAt: new Date('2024-01-01'),
-    createdBy: TEAM_1D_USER_ID,
+    createdBy: REAL_PIX_SUPER_ADMIN_ID,
     updatedAt: new Date('2021-02-01'),
   });
 }
