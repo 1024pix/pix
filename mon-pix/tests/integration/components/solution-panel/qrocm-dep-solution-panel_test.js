@@ -200,12 +200,12 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
       // Given
       this.setProperties(buildComponentArguments(FORMATS[2].format));
       // When
-      await renderComponent();
+      const screen = await renderComponent();
       // Then
       assert.dom(INPUT).doesNotExist();
       assert.dom(SENTENCE).doesNotExist();
       assert.strictEqual(find(PARAGRAPH).tagName, 'TEXTAREA');
-      assert.strictEqual(find(PARAGRAPH).getAttribute('aria-label'), 'La réponse donnée est valide');
+      assert.ok(await screen.findAllByLabelText('La réponse donnée est valide'));
       assert.true(find(PARAGRAPH).hasAttribute('disabled'));
     });
   });
@@ -215,12 +215,12 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
       // Given
       this.setProperties(buildComponentArguments(FORMATS[1].format));
       // When
-      await renderComponent();
+      const screen = await renderComponent();
       // Then
       assert.dom(INPUT).doesNotExist();
       assert.dom(PARAGRAPH).doesNotExist();
       assert.strictEqual(find(SENTENCE).tagName, 'INPUT');
-      assert.strictEqual(find(SENTENCE).getAttribute('aria-label'), 'La réponse donnée est valide');
+      assert.ok(await screen.findAllByLabelText('La réponse donnée est valide'));
       assert.true(find(SENTENCE).hasAttribute('disabled'));
     });
   });
@@ -230,13 +230,13 @@ module('Integration | Component | QROCm dep solution panel', function (hooks) {
       // Given
       this.setProperties(buildComponentArguments(FORMATS[3].format));
       // When
-      await renderComponent();
+      const screen = await renderComponent();
       // Then
       assert.dom(PARAGRAPH).doesNotExist();
       assert.dom(SENTENCE).doesNotExist();
       assert.strictEqual(find(INPUT).tagName, 'INPUT');
       assert.strictEqual(find(INPUT).getAttribute('size'), '12');
-      assert.strictEqual(find(INPUT).getAttribute('aria-label'), 'La réponse donnée est valide');
+      assert.ok(await screen.findAllByLabelText('La réponse donnée est valide'));
       assert.true(find(INPUT).hasAttribute('disabled'));
     });
   });

@@ -23,9 +23,11 @@
               rows="5"
               @value="{{block.answer}}"
               @id="{{block.input}}"
-              aria-label={{block.ariaLabel}}
+              @screenReaderOnly={{true}}
               disabled
-            />
+            >
+              <:label>{{block.ariaLabel}}</:label>
+            </PixTextarea>
           </div>
           {{#if block.emptyOrWrongAnswer}}
             <p class="correction-qrocm__solution">
@@ -40,9 +42,11 @@
               @value="{{block.answer}}"
               size="{{get-qroc-input-size @challenge.format}}"
               @id="{{block.input}}"
-              @ariaLabel={{block.ariaLabel}}
+              @screenReaderOnly={{true}}
               disabled
-            />
+            >
+              <:label>{{block.ariaLabel}}</:label>
+            </PixInput>
           </div>
           {{#if block.emptyOrWrongAnswer}}
             <p class="correction-qrocm__solution">
@@ -57,9 +61,11 @@
               @value="{{block.answer}}"
               size="{{block.answer.length}}"
               @id="{{block.input}}"
-              @ariaLabel={{block.ariaLabel}}
+              @screenReaderOnly={{true}}
               disabled
-            />
+            >
+              <:label>{{block.ariaLabel}}</:label>
+            </PixInput>
             {{#if block.emptyOrWrongAnswer}}
               <p class="correction-qrocm__solution">
                 <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>

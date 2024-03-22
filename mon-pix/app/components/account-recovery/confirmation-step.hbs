@@ -44,8 +44,10 @@
     </li>
   </ul>
 
-  <PixCheckbox @id="pix-certify" {{on "change" this.onChange}} @labelSize="small">
-    {{t "pages.account-recovery.find-sco-record.confirmation-step.certify-account"}}
+  <PixCheckbox @id="pix-certify" {{on "change" this.onChange}} @size="small">
+    <:label>
+      {{t "pages.account-recovery.find-sco-record.confirmation-step.certify-account"}}
+    </:label>
   </PixCheckbox>
 
   <div class="account-recovery__content--actions">

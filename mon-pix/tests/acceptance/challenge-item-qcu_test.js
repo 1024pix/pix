@@ -38,21 +38,25 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
 
       assert.ok(screen.getByText(qcuChallenge.instruction));
       assert.strictEqual(screen.getAllByRole('radio', { name: /possibilite/ }).length, 4);
-      assert.strictEqual(
-        screen.getByRole('radio', { name: '1ere possibilite' }).nextElementSibling.innerHTML.trim(),
-        expectedProposals[0],
+      assert.true(
+        screen
+          .getByRole('radio', { name: '1ere possibilite' })
+          .nextElementSibling.innerHTML.includes(expectedProposals[0]),
       );
-      assert.strictEqual(
-        screen.getByRole('radio', { name: '2eme possibilite' }).nextElementSibling.innerHTML.trim(),
-        expectedProposals[1],
+      assert.true(
+        screen
+          .getByRole('radio', { name: '2eme possibilite' })
+          .nextElementSibling.innerHTML.includes(expectedProposals[1]),
       );
-      assert.strictEqual(
-        screen.getByRole('radio', { name: '3eme possibilite' }).nextElementSibling.innerHTML.trim(),
-        expectedProposals[2],
+      assert.true(
+        screen
+          .getByRole('radio', { name: '3eme possibilite' })
+          .nextElementSibling.innerHTML.includes(expectedProposals[2]),
       );
-      assert.strictEqual(
-        screen.getByRole('radio', { name: '4eme possibilite' }).nextElementSibling.innerHTML.trim(),
-        expectedProposals[3],
+      assert.true(
+        screen
+          .getByRole('radio', { name: '4eme possibilite' })
+          .nextElementSibling.innerHTML.includes(expectedProposals[3]),
       );
       assert.dom('.challenge-reponse__alert').doesNotExist();
     });

@@ -15,7 +15,9 @@
     </div>
 
     <PixCheckbox @id="pix-cgu" {{on "change" this.onChange}}>
-      {{t "pages.terms-of-service.cgu" htmlSafe=true}}
+      <:label>
+        {{t "pages.terms-of-service.cgu" htmlSafe=true}}
+      </:label>
     </PixCheckbox>
 
     {{#if this.showErrorTermsOfServiceNotSelected}}

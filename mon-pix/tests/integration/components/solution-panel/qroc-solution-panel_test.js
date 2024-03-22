@@ -26,10 +26,7 @@ module('Integration | Component | QROC solution panel', function (hooks) {
       assert.dom('input').doesNotExist();
       assert.dom('textarea.correction-qroc-box-answer--paragraph').hasAttribute('disabled');
       assert.strictEqual(find('textarea.correction-qroc-box-answer--paragraph').getAttribute('rows'), '5');
-      assert.strictEqual(
-        find('textarea.correction-qroc-box-answer--paragraph').getAttribute('aria-label'),
-        'Question passée',
-      );
+      assert.dom(screen.getByLabelText('Question passée'));
     });
   });
 

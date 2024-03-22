@@ -44,24 +44,26 @@
 
       <PixInput
         @id="email"
-        @label={{t "pages.login-or-register-oidc.login-form.email"}}
         name="email"
         @errorMessage={{this.emailValidationMessage}}
         @validationStatus={{this.emailValidationStatus}}
         {{on "change" this.validateEmail}}
         autocomplete="off"
         required
-      />
+      >
+        <:label>{{t "pages.login-or-register-oidc.login-form.email"}}</:label>
+      </PixInput>
 
       <div class="login-or-register-oidc-form__password-container">
         <PixInputPassword
           @id="password"
           @value={{this.password}}
-          @label={{t "pages.login-or-register-oidc.login-form.password"}}
           autocomplete="off"
           required
           {{on "change" this.setPassword}}
-        />
+        >
+          <:label>{{t "pages.login-or-register-oidc.login-form.password"}}</:label>
+        </PixInputPassword>
         <LinkTo @route="password-reset-demand" class="login-or-register-oidc-form__forgotten-password-link">
           {{t "pages.sign-in.forgotten-password"}}
         </LinkTo>

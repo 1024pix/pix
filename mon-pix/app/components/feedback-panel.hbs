@@ -33,22 +33,26 @@
               <div class="feedback-panel__group">
                 <div class="feedback-panel__category-selection">
                   <PixSelect
-                    @label={{t "pages.challenge.feedback-panel.form.fields.detail-selection.aria-first"}}
                     @screenReaderOnly={{true}}
                     @placeholder={{t "pages.challenge.feedback-panel.form.fields.category-selection.label"}}
                     @options={{this.categories}}
                     @onChange={{this.displayCategoryOptions}}
                     @value={{this._currentMajorCategory}}
-                  />
+                  >
+                    <:label>{{t "pages.challenge.feedback-panel.form.fields.detail-selection.aria-first"}}</:label>
+                  </PixSelect>
                   {{#if this.displayQuestionDropdown}}
                     <PixSelect
-                      @label={{t "pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary"}}
                       @screenReaderOnly={{true}}
                       @placeholder={{t "pages.challenge.feedback-panel.form.fields.detail-selection.label"}}
                       @onChange={{this.showFeedback}}
                       @options={{this.nextCategories}}
                       @value={{this._currentNextCategory}}
-                    />
+                    >
+                      <:label>{{t
+                          "pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary"
+                        }}</:label>
+                    </PixSelect>
                   {{/if}}
                   {{#if this.quickHelpInstructions}}
                     <div class="feedback-panel__quick-help">

@@ -61,10 +61,10 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
 
       test('should display the labels', function (assert) {
         const labels = screen.getAllByText((_, element) => element.tagName.toLowerCase() === 'label');
-        assert.strictEqual(labels.length, 3);
+        assert.strictEqual(labels.length, 6);
         assert.strictEqual(labels[0].innerHTML.trim(), '<strong>blabla</strong> :');
-        assert.strictEqual(labels[1].innerHTML.trim(), '<br>Carte mémoire (SD) :');
-        assert.strictEqual(labels[2].innerHTML.trim(), '<br>answer :');
+        assert.strictEqual(labels[2].innerHTML.trim(), '<br>Carte mémoire (SD) :');
+        assert.strictEqual(labels[4].innerHTML.trim(), '<br>answer :');
       });
 
       module('When the answer is correct', function () {
@@ -161,7 +161,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
       assert.strictEqual(find(INPUT).tagName, 'INPUT');
       assert.strictEqual(find(INPUT).value, EMPTY_DEFAULT_MESSAGE);
       assert.strictEqual(find(INPUT).getAttribute('size'), EMPTY_DEFAULT_MESSAGE.length.toString());
-      assert.strictEqual(find(INPUT).getAttribute('aria-label'), 'Question passée');
+      assert.ok(screen.getByLabelText('Question passée'));
       assert.true(find(INPUT).hasAttribute('disabled'));
     });
   });
@@ -184,7 +184,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
       assert.dom(INPUT).doesNotExist();
       assert.dom(SENTENCE).doesNotExist();
       assert.strictEqual(find(PARAGRAPH).tagName, 'TEXTAREA');
-      assert.strictEqual(find(PARAGRAPH).getAttribute('aria-label'), 'Question passée');
+      assert.ok(screen.getByLabelText('Question passée'));
       assert.true(find(PARAGRAPH).hasAttribute('disabled'));
     });
   });
@@ -207,7 +207,7 @@ module('Integration | Component | QROCm ind solution panel', function (hooks) {
       assert.dom(INPUT).doesNotExist();
       assert.dom(PARAGRAPH).doesNotExist();
       assert.strictEqual(find(SENTENCE).tagName, 'INPUT');
-      assert.strictEqual(find(SENTENCE).getAttribute('aria-label'), 'Question passée');
+      assert.ok(screen.getByLabelText('Question passée'));
       assert.true(find(SENTENCE).hasAttribute('disabled'));
     });
   });
