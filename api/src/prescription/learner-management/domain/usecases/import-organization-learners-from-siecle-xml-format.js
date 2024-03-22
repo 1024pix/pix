@@ -40,12 +40,11 @@ const importOrganizationLearnersFromSIECLEXMLFormat = async function ({
   const organization = await organizationRepository.get(organizationId);
   const path = payload.path;
 
-  const { file: filePath, directory } = await siecleService.unzip(path);
-  const encoding = await siecleService.detectEncoding(filePath);
-
-  let filename;
+  let filename, encoding;
   const errors = [];
   try {
+    const { file: filePath, directory } = await siecleService.unzip(path);
+    encoding = await siecleService.detectEncoding(filePath);
     filename = await importStorage.sendFile({ filepath: filePath });
     if (directory) {
       await fs.rm(directory, { recursive: true });
