@@ -59,7 +59,7 @@ const reconcileOidcUserForAdmin = async function ({
   });
 
   const accessToken = await oidcAuthenticationService.createAccessToken(userId);
-  userLoginRepository.updateLastLoggedAt({ userId });
+  await userLoginRepository.updateLastLoggedAt({ userId });
 
   return accessToken;
 };
