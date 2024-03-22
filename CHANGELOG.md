@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v4.120.0 (22/03/2024)
+
+
+### :rocket: Amélioration
+- [#8409](https://github.com/1024pix/pix/pull/8409) [FEATURE] Créer une seeds pour l'import ONDE (PIX-11610).
+
+### :building_construction: Tech
+- [#8471](https://github.com/1024pix/pix/pull/8471) [TECH] Ne pas linter les fichiers de traductions générés par Phrase (PIX-11733).
+- [#8476](https://github.com/1024pix/pix/pull/8476) [TECH] Remplacer les "contains" dans les tests par des méthodes de testingLibrary (PIX-11714).
+- [#8231](https://github.com/1024pix/pix/pull/8231) [TECH] Refacto getNextChallengeForCertification (PIX-10870).
+- [#8461](https://github.com/1024pix/pix/pull/8461) [TECH] Migrer les routes liés au campaign participation dans leurs Bounded Context (PIX-11678).
+
+### :bug: Correction
+- [#8478](https://github.com/1024pix/pix/pull/8478) [BUGFIX] Corriger la gestion d'exception de checkUserBelongsToScoOrganizationAndManagesStudents (PIX-11814).
+
 ## v4.119.0 (21/03/2024)
 
 
