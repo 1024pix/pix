@@ -271,8 +271,26 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
           //then
           expect(organizationImportRepositoryStub.save.getCall(0).args[0].status).to.equal('UPLOAD_ERROR');
         });
-      });
+        it('should save UPLOAD_ERROR status if zip is invalid', async function () {
+          //given
+          siecleServiceStub.unzip.rejects();
 
+          // when
+          await catchErr(importOrganizationLearnersFromSIECLEXMLFormat)({
+            organizationId,
+            payload,
+            format,
+            organizationRepository: organizationRepositoryStub,
+            organizationImportRepository: organizationImportRepositoryStub,
+            organizationLearnerRepository: organizationLearnerRepositoryStub,
+            siecleService: siecleServiceStub,
+            importStorage: importStorageStub,
+          });
+
+          //then
+          expect(organizationImportRepositoryStub.save.getCall(0).args[0].status).to.equal('UPLOAD_ERROR');
+        });
+      });
       describe('when there is a validation error', function () {
         it('should save VALIDATION_ERROR status', async function () {
           //given
