@@ -23,3 +23,8 @@
 /.node_modules.ember-try/
 /bower.json.ember-try
 /package.json.ember-try
+
+# Phrase generated translation files
+/translations/*.json
+!/translations/en.json
+!/translations/fr.json
