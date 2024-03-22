@@ -2,16 +2,13 @@ import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { PayloadTooLargeError, sendJsonApiError } from '../../../../lib/application/http-errors.js';
+import { sendJsonApiError } from '../../../../lib/application/http-errors.js';
 import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../shared/domain/types/identifiers-type.js';
+import { usecases } from '../domain/usecases/index.js';
 import { scoOrganizationManagementController } from './sco-organization-management-controller.js';
 
 const TWENTY_MEGABYTES = 1048576 * 20;
-
-const ERRORS = {
-  PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
-};
 
 const register = async function (server) {
   server.route([
@@ -36,13 +33,14 @@ const register = async function (server) {
         payload: {
           maxBytes: TWENTY_MEGABYTES,
           output: 'file',
-          failAction: (request, h) => {
-            return sendJsonApiError(
-              new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
-                maxSize: '20',
-              }),
-              h,
-            );
+          failAction: async (request, h) => {
+            const authenticatedUserId = request.auth.credentials.userId;
+            const organizationId = request.params.id;
+            try {
+              await usecases.handlePayloadTooLargeError({ organizationId, userId: authenticatedUserId });
+            } catch (error) {
+              return sendJsonApiError(error, h);
+            }
           },
         },
         handler: scoOrganizationManagementController.importOrganizationLearnersFromSIECLE,
