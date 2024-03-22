@@ -33,9 +33,11 @@
               class="correction-qrocm-answer__input-sentence"
               @value="{{block.answer}}"
               @id="{{block.input}}"
-              @ariaLabel={{block.ariaLabel}}
+              @screenReaderOnly={{true}}
               disabled
-            />
+            >
+              <:label>{{block.ariaLabel}}</:label>
+            </PixInput>
             {{#if block.solution}}
               <p class="correction-qrocm__solution">
                 <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>
@@ -50,9 +52,11 @@
               @value="{{block.answer}}"
               size="{{block.answer.length}}"
               @id="{{block.input}}"
-              @ariaLabel={{block.ariaLabel}}
+              @screenReaderOnly={{true}}
               disabled
-            />
+            >
+              <:label>{{block.ariaLabel}}</:label>
+            </PixInput>
             {{#if block.solution}}
               <p class="correction-qrocm__solution">
                 <span class="sr-only">{{t "pages.comparison-window.results.a11y.the-answer-was"}}</span>

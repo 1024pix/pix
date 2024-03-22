@@ -14,7 +14,9 @@
       {{#each @qcu.proposals as |proposal|}}
         <div class="element-qcu-proposals__proposal">
           <PixRadioButton name={{@qcu.id}} @value={{proposal.id}} {{on "click" (fn this.radioClicked proposal.id)}}>
-            {{proposal.content}}
+            <:label>
+              {{proposal.content}}
+            </:label>
           </PixRadioButton>
         </div>
       {{/each}}

@@ -13,10 +13,9 @@
     <div class="element-qcm__proposals">
       {{#each @qcm.proposals as |proposal|}}
         <div class="element-qcm-proposals__proposal">
-          <PixCheckbox
-            name={{@qcm.id}}
-            {{on "click" (fn this.checkboxSelected proposal.id)}}
-          >{{proposal.content}}</PixCheckbox>
+          <PixCheckbox name={{@qcm.id}} {{on "click" (fn this.checkboxSelected proposal.id)}}>
+            <:label>{{proposal.content}}</:label>
+          </PixCheckbox>
         </div>
       {{/each}}
     </div>

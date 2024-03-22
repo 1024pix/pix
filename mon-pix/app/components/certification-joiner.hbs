@@ -14,26 +14,21 @@
         {{on "change" this.setSessionId}}
         inputmode="decimal"
         required="true"
-        @label={{t "pages.certification-joiner.form.fields.session-number"}}
-        @information={{t "pages.certification-joiner.form.fields.session-number-information"}}
-      />
+        @subLabel={{t "pages.certification-joiner.form.fields.session-number-information"}}
+      >
+        <:label>{{t "pages.certification-joiner.form.fields.session-number"}}</:label>
+      </PixInput>
       <p class="certification-joiner__validation-error">{{this.sessionIdIsNotANumberError}}</p>
     </div>
     <div class="certification-joiner__row">
-      <PixInput
-        @id="certificationJoinerFirstName"
-        type="text"
-        {{on "change" this.setFirstName}}
-        @label={{t "pages.certification-joiner.form.fields.first-name"}}
-      />
+      <PixInput @id="certificationJoinerFirstName" type="text" {{on "change" this.setFirstName}}>
+        <:label>{{t "pages.certification-joiner.form.fields.first-name"}}</:label>
+      </PixInput>
     </div>
     <div class="certification-joiner__row">
-      <PixInput
-        type="text"
-        {{on "change" this.setLastName}}
-        @id="certificationJoinerLastName"
-        @label={{t "pages.certification-joiner.form.fields.birth-name"}}
-      />
+      <PixInput type="text" {{on "change" this.setLastName}} @id="certificationJoinerLastName">
+        <:label>{{t "pages.certification-joiner.form.fields.birth-name"}}</:label>
+      </PixInput>
     </div>
     <div class="certification-joiner__row">
       <label class="certification-joiner__label" for="certificationJoinerDayOfBirth">{{t
@@ -49,8 +44,10 @@
           {{on "change" this.setDayOfBirth}}
           {{on "input" this.handleDayInputChange}}
           {{on "focus-in" this.handleInputFocus}}
-          aria-label={{t "pages.certification-joiner.form.fields.birth-day"}}
-        />
+          screenReaderOnly="true"
+        >
+          <:label>{{t "pages.certification-joiner.form.fields.birth-day"}}</:label>
+        </PixInput>
         <PixInput
           @id="certificationJoinerMonthOfBirth"
           min="1"
@@ -60,8 +57,10 @@
           {{on "change" this.setMonthOfBirth}}
           {{on "input" this.handleMonthInputChange}}
           {{on "focus-in" this.handleInputFocus}}
-          aria-label={{t "pages.certification-joiner.form.fields.birth-month"}}
-        />
+          screenReaderOnly="true"
+        >
+          <:label>{{t "pages.certification-joiner.form.fields.birth-month"}}</:label>
+        </PixInput>
         <PixInput
           @id="certificationJoinerYearOfBirth"
           min="1900"
@@ -70,8 +69,10 @@
           placeholder="AAAA"
           {{on "change" this.setYearOfBirth}}
           {{on "focus-in" this.handleInputFocus}}
-          aria-label={{t "pages.certification-joiner.form.fields.birth-year"}}
-        />
+          screenReaderOnly="true"
+        >
+          <:label>{{t "pages.certification-joiner.form.fields.birth-year"}}</:label>
+        </PixInput>
       </div>
     </div>
 
