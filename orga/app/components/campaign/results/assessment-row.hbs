@@ -23,9 +23,11 @@
       @isTableDisplay={{true}}
     />
   </td>
-  <td class="table__column--small">
-    {{@participation.sharedResultCount}}
-  </td>
+  {{#if @displayParticipationCount}}
+    <td class="table__column--small">
+      {{@participation.sharedResultCount}}
+    </td>
+  {{/if}}
   {{#if @hasBadges}}
     <td class="participant-list__badges">
       <Campaign::Badges @badges={{@participation.badges}} />
