@@ -24,3 +24,8 @@
 /package.json.ember-try
 /package-lock.json.ember-try
 /yarn.lock.ember-try
+
+# Phrase generated translation files
+/translations/*.json
+!/translations/en.json
+!/translations/fr.json
