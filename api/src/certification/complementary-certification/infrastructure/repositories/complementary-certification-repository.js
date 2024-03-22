@@ -15,9 +15,13 @@ const findAll = async function () {
 };
 
 const getByLabel = async function ({ label }) {
-  const result = await knex.from('complementary-certifications').where({ label }).first();
+  const complementaryCertification = await knex.from('complementary-certifications').where({ label }).first();
 
-  return _toDomain(result);
+  if (!complementaryCertification) {
+    throw new NotFoundError('Complementary certification does not exist');
+  }
+
+  return _toDomain(complementaryCertification);
 };
 
 const getById = async function ({ id }) {
