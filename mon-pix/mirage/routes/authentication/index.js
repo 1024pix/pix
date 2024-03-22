@@ -30,6 +30,7 @@ export default function index(config) {
           'access-token':
             'aaa.' + btoa(`{"user_id":${foundUser.id},"source":"external","iat":1545321469,"exp":4702193958}`) + '.bbb',
         },
+        id: 'foo',
         type: 'external-user-authentication-requests',
       },
     };

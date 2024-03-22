@@ -1,5 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { click, currentURL } from '@ember/test-helpers';
+import { click, currentURL, settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
@@ -582,6 +582,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
 
           // when
           await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+          // eslint-disable-next-line ember/no-settled-after-test-helper
+          await settled();
 
           // then
           assert.dom(screen.getByText("Non, je reviens à l'épreuve")).exists();
@@ -626,6 +628,8 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
 
             // when
             await click(screen.getByRole('button', { name: 'Oui, je suis sûr(e)' }));
+            // eslint-disable-next-line ember/no-settled-after-test-helper
+            await settled();
 
             // then
             assert
@@ -679,9 +683,13 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
             await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
             await click(screen.getByRole('button', { name: 'Oui, je suis sûr(e)' }));
+            // eslint-disable-next-line ember/no-settled-after-test-helper
+            await settled();
 
             // when
             await click(screen.getByRole('button', { name: 'Rafraîchir la page' }));
+            // eslint-disable-next-line ember/no-settled-after-test-helper
+            await settled();
 
             // then
             assert.dom(screen.queryByRole('button', { name: 'Signaler un problème avec la question' })).doesNotExist();

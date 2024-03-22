@@ -1,5 +1,5 @@
 import { fillByLabel, visit } from '@1024pix/ember-testing-library';
-import { click, currentURL } from '@ember/test-helpers';
+import { click, currentURL, settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
@@ -20,6 +20,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
 
       //when
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      await settled();
 
       // then
       assert.strictEqual(currentURL(), `/recuperer-mon-compte/${temporaryKey}`);
@@ -51,6 +52,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
 
       //when
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      await settled();
 
       // then
       assert.ok(
@@ -81,6 +83,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
 
       //when
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      await settled();
 
       // then
       assert.ok(
@@ -111,6 +114,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
 
       //when
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      await settled();
 
       // then
       assert.ok(
@@ -141,6 +145,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
 
       //when
       const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      await settled();
 
       // then
       assert.ok(
@@ -170,6 +175,8 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+
+      await settled();
 
       // then
       assert.strictEqual(currentURL(), '/accueil');
@@ -201,6 +208,8 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
+      await settled();
+
       // then
       assert.ok(
         screen.getByRole('heading', {
@@ -235,6 +244,7 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+      await settled();
 
       // then
       assert.ok(
@@ -271,6 +281,8 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
 
+      await settled();
+
       // then
       assert.ok(
         screen.getByRole('heading', {
@@ -305,6 +317,8 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+
+      await settled();
 
       // then
       assert.ok(
@@ -341,6 +355,8 @@ module('Acceptance | account-recovery | UpdateScoRecordRoute', function (hooks) 
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
+
+      await settled();
 
       // then
       assert.ok(

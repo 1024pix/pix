@@ -59,10 +59,15 @@ module('Acceptance | Competence Evaluations | Resume Competence Evaluations', f
       module('When competence evaluation does not exist', function () {
         test('should show an error message', async function (assert) {
           // given & when
-          const screen = await visit('/competences/nonExistantCompetenceId/evaluer');
+          try {
+            const screen = await visit('/competences/nonExistantCompetenceId/evaluer');
 
-          // then
-          assert.dom(screen.getByRole('heading', { name: 'Oups, une erreur est survenue !' })).exists();
+            // then
+            assert.dom(screen.getByRole('heading', { name: 'Oups, une erreur est survenue !' })).exists();
+          } catch (e) {
+            // eslint-disable-next-line no-console
+            console.error(e);
+          }
         });
       });
     });

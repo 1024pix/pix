@@ -1,5 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { click, fillIn, triggerEvent } from '@ember/test-helpers';
+import { click, fillIn, settled, triggerEvent } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import PixWindow from 'mon-pix/utils/pix-window';
@@ -138,9 +138,13 @@ module('Acceptance | user-account | connection-methods', function (hooks) {
       await fillIn(screen.getByRole('textbox', { name: 'Nouvelle adresse e-mail' }), newEmail);
       await fillIn(screen.getByLabelText('Mot de passe'), user.password);
       await click(screen.getByRole('button', { name: 'Recevoir un code de vérification' }));
+      // eslint-disable-next-line ember/no-settled-after-test-helper
+      await settled();
       await triggerEvent(screen.getByRole('spinbutton', { name: 'Champ 1' }), 'paste', {
         clipboardData: { getData: () => '123456' },
       });
+      // eslint-disable-next-line ember/no-settled-after-test-helper
+      await settled();
 
       // then
       assert.ok(screen.getByText(this.intl.t('pages.user-account.connexion-methods.email')));
