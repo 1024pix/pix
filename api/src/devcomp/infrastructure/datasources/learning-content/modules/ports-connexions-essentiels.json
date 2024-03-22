@@ -86,7 +86,7 @@
         {
           "id": "5fc1c1c4-a3a7-481c-a586-71cfd1ccd59b",
           "type": "text",
-          "content": "<h4>Un chargeur de téléphone portable</h4>"
+          "content": "<h3>Un chargeur de téléphone portable</h3>"
         },
         {
           "id": "1496c1da-e0ea-4c44-98c3-cdcfab871e04",
@@ -103,7 +103,7 @@
         {
           "id": "b91728f4-a8f2-403b-81bc-520db8b8cbf0",
           "type": "text",
-          "content": "<h4>Une souris filaire</h4>"
+          "content": "<h3>Une souris filaire</h3>"
         },
         {
           "id": "b7f8feb2-b355-4fbd-99ec-48511303536f",
@@ -120,7 +120,7 @@
         {
           "id": "eec72acd-c8e6-45fe-804c-05ad53b839fd",
           "type": "text",
-          "content": "<h4>Une manette de jeu vidéo</h4>"
+          "content": "<h3>Une manette de jeu vidéo</h3>"
         },
         {
           "id": "cfca4266-f0cf-4dd9-81a5-f297b907334b",
@@ -137,7 +137,7 @@
         {
           "id": "96cb3320-8885-4e70-a521-e6e0f47b52a3",
           "type": "text",
-          "content": "<h4>Une webcam</h4>"
+          "content": "<h3>Une webcam</h3>"
         },
         {
           "id": "70bca95e-6aad-4fc9-b4eb-8499945879c2",
@@ -173,7 +173,7 @@
         {
           "id": "270b0408-be92-484a-b9b2-5d302f01eecf",
           "type": "text",
-          "content": "<h4>Pour chaque affirmation ci-dessous, choisissez si elle est vraie&nbsp;<span aria-hidden=\"true\">✅</span> ou fausse.&nbsp;<span aria-hidden=\"true\">❌</span></h4>"
+          "content": "<h3>Pour chaque affirmation ci-dessous, choisissez si elle est vraie&nbsp;<span aria-hidden=\"true\">✅</span> ou fausse.&nbsp;<span aria-hidden=\"true\">❌</span></h3>"
         },
         {
           "id": "6f276b50-a00c-49f7-b22c-23dbef0c2bf2",
@@ -276,7 +276,7 @@
         {
           "id": "e6730d81-c115-4821-a415-4f719a252746",
           "type": "text",
-          "content": "<h4>Voici ci-dessus les ports que l'on trouve souvent sur un ordinateur.</h4>"
+          "content": "<h3>Voici ci-dessus les ports que l'on trouve souvent sur un ordinateur.</h3>"
         },
         {
           "id": "83a85de9-4a5e-41a4-b8e6-f583a817121e",
