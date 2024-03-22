@@ -1,5 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { click, currentURL, fillIn, settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -47,6 +47,8 @@ module('Acceptance | OIDC | authentication flow', function (hooks) {
         );
         await fillIn(screen.getByLabelText(this.intl.t('pages.login-or-register-oidc.login-form.password')), 'pix123');
         await click(screen.getByRole('button', { name: 'Je me connecte' }));
+        // eslint-disable-next-line ember/no-settled-after-test-helper
+        await settled();
 
         // then
         assert.ok(
