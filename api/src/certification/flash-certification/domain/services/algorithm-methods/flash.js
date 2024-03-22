@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { orderBy, range, sortBy, sortedUniqBy } = lodash;
 
-const DEFAULT_ESTIMATED_LEVEL = 0;
+const DEFAULT_CAPACITY = 0;
 const START_OF_SAMPLES = -9;
 const STEP_OF_SAMPLES = 18 / 80;
 const END_OF_SAMPLES = 9 + STEP_OF_SAMPLES;
@@ -24,23 +24,27 @@ export {
 
 function getPossibleNextChallenges({
   availableChallenges,
-  estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
+  capacity = DEFAULT_CAPACITY,
   options: { minimalSuccessRate = 0 } = {},
 } = {}) {
   const challengesWithReward = availableChallenges.map((challenge) => {
     return {
       challenge,
-      reward: getReward({ estimatedLevel, discriminant: challenge.discriminant, difficulty: challenge.difficulty }),
+      reward: getReward({
+        estimatedLevel: capacity,
+        discriminant: challenge.discriminant,
+        difficulty: challenge.difficulty,
+      }),
     };
   });
 
-  return _findBestPossibleChallenges(challengesWithReward, minimalSuccessRate, estimatedLevel);
+  return _findBestPossibleChallenges(challengesWithReward, minimalSuccessRate, capacity);
 }
 
 function getEstimatedLevelAndErrorRate({
   allAnswers,
   challenges,
-  estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
+  estimatedLevel = DEFAULT_CAPACITY,
   doubleMeasuresUntil = 0,
   variationPercent,
   variationPercentUntil,
@@ -64,7 +68,7 @@ function getEstimatedLevelAndErrorRate({
 function getEstimatedLevelAndErrorRateHistory({
   allAnswers,
   challenges,
-  estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
+  estimatedLevel = DEFAULT_CAPACITY,
   doubleMeasuresUntil = 0,
   variationPercent,
   variationPercentUntil,
@@ -253,9 +257,9 @@ function _limitEstimatedLevelVariation(previousEstimatedLevel, nextEstimatedLeve
     : Math.max(nextEstimatedLevel, previousEstimatedLevel - gap);
 }
 
-function _findBestPossibleChallenges(challengesWithReward, minimumSuccessRate, estimatedLevel) {
+function _findBestPossibleChallenges(challengesWithReward, minimumSuccessRate, capacity) {
   const hasMinimumSuccessRate = ({ challenge }) => {
-    const successProbability = _getProbability(estimatedLevel, challenge.discriminant, challenge.difficulty);
+    const successProbability = _getProbability(capacity, challenge.discriminant, challenge.difficulty);
 
     return successProbability >= minimumSuccessRate;
   };
@@ -343,8 +347,8 @@ function getReward({ estimatedLevel, discriminant, difficulty }) {
 // Parameters are not wrapped inside an object for performance reasons
 // It avoids creating an object before each call which will trigger lots of
 // garbage collection, especially when running simulators
-function _getProbability(estimatedLevel, discriminant, difficulty) {
-  return 1 / (1 + Math.exp(discriminant * (difficulty - estimatedLevel)));
+function _getProbability(capacity, discriminant, difficulty) {
+  return 1 / (1 + Math.exp(discriminant * (difficulty - capacity)));
 }
 
 function _getGaussianValue({ gaussianMean, value }) {

@@ -60,7 +60,7 @@ class FlashAssessmentAlgorithm {
 
     return this.flashAlgorithmImplementation.getPossibleNextChallenges({
       availableChallenges: challengesAfterRulesApplication,
-      estimatedLevel,
+      capacity: estimatedLevel,
       options: {
         challengesBetweenSameCompetence: this._configuration.challengesBetweenSameCompetence,
         minimalSuccessRate,
