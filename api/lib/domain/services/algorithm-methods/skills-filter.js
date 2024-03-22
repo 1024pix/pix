@@ -1,104 +1,91 @@
-import _ from 'lodash';
-import fp from 'lodash/fp.js';
-
-const { pipe } = fp;
 import {
   DEFAULT_LEVEL_FOR_FIRST_CHALLENGE,
   MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL,
   MAX_LEVEL_TO_BE_AN_EASY_TUBE,
 } from '../../constants.js';
 
-export { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge };
+const getPlayableSkill = (skills) => skills.filter(({ isPlayable }) => isPlayable);
+const skillNotAlreadyTested = (knowledgeElements) => (skill) => {
+  const alreadyTestedSkillIds = knowledgeElements.map(({ skillId }) => skillId);
+  return !alreadyTestedSkillIds.includes(skill.id);
+};
+const getUntestedSkills = (knowledgeElements, skills) => skills.filter(skillNotAlreadyTested(knowledgeElements));
 
-function getFilteredSkillsForFirstChallenge({ knowledgeElements, tubes, targetSkills }) {
-  return pipe(
-    _getPlayableSkill,
-    _getUntestedSkills.bind(null, knowledgeElements),
-    _keepSkillsFromEasyTubes.bind(null, tubes),
-    _removeTimedSkillsIfNeeded.bind(null, true),
-    _focusOnDefaultLevel.bind(null),
-  )(targetSkills);
-}
+const keepSkillsFromEasyTubes = (tubes, targetSkills) => {
+  const skillsFromEasyTubes = getPrioritySkills(tubes);
+  const availableSkillsFromEasyTubes = targetSkills.filter((targetSkill) =>
+    skillsFromEasyTubes.map(({ id }) => id).includes(targetSkill.id),
+  );
+  return availableSkillsFromEasyTubes.length ? availableSkillsFromEasyTubes : targetSkills;
+};
 
-function getFilteredSkillsForNextChallenge({
+const removeTimedSkillsIfNeeded = (isLastChallengeTimed, targetSkills) => {
+  if (isLastChallengeTimed) {
+    const skillsWithoutTimedChallenges = targetSkills.filter(({ timed }) => !timed);
+    return skillsWithoutTimedChallenges.length > 0 ? skillsWithoutTimedChallenges : targetSkills;
+  }
+  return targetSkills;
+};
+
+const getPrioritySkills = (tubes) => {
+  const easyTubes = getEasyTubes(tubes);
+  return getSkillsFromTubes(easyTubes);
+};
+
+const getEasyTubes = (tubes) =>
+  tubes?.filter((tube) => tube.getHardestSkill().difficulty <= MAX_LEVEL_TO_BE_AN_EASY_TUBE);
+const getSkillsFromTubes = (tubes) => (tubes ? tubes.flatMap(({ skills }) => skills) : []);
+
+const remapDifficulty = (difficulty) =>
+  Number(difficulty) === DEFAULT_LEVEL_FOR_FIRST_CHALLENGE ? Number.MIN_VALUE : Number(difficulty);
+
+const focusOnDefaultLevel = (targetSkills) =>
+  targetSkills.reduce((skillsWithDefaultLevel, skill) => {
+    if (skillsWithDefaultLevel.length === 0) {
+      skillsWithDefaultLevel.push(skill);
+      return skillsWithDefaultLevel;
+    }
+
+    const currentSkillRemappedDifficulty = remapDifficulty(skill.difficulty);
+    const accumulatorFirstSkillRemappedDifficulty = remapDifficulty(skillsWithDefaultLevel[0].difficulty);
+
+    if (currentSkillRemappedDifficulty < accumulatorFirstSkillRemappedDifficulty) {
+      skillsWithDefaultLevel = [skill];
+    }
+
+    if (currentSkillRemappedDifficulty === accumulatorFirstSkillRemappedDifficulty) {
+      skillsWithDefaultLevel.push(skill);
+    }
+
+    return skillsWithDefaultLevel;
+  }, []);
+
+const isSkillTooHard = (skill, predictedLevel) =>
+  skill.difficulty - predictedLevel > MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL;
+
+const removeTooDifficultSkills = (predictedLevel, targetSkills) =>
+  targetSkills.filter((skill) => !isSkillTooHard(skill, predictedLevel));
+
+const getFilteredSkillsForFirstChallenge = ({ knowledgeElements, tubes, targetSkills }) => {
+  const playableSkills = getPlayableSkill(targetSkills);
+  const untestedSkills = getUntestedSkills(knowledgeElements, playableSkills);
+  const skillsFromEasyTubes = keepSkillsFromEasyTubes(tubes, untestedSkills);
+  const skillsWithoutTimedSkills = removeTimedSkillsIfNeeded(true, skillsFromEasyTubes);
+  return focusOnDefaultLevel(skillsWithoutTimedSkills);
+};
+
+const getFilteredSkillsForNextChallenge = ({
   knowledgeElements,
   tubes,
   predictedLevel,
   isLastChallengeTimed,
   targetSkills,
-}) {
-  return pipe(
-    _getPlayableSkill,
-    _getUntestedSkills.bind(null, knowledgeElements),
-    _keepSkillsFromEasyTubes.bind(null, tubes),
-    _removeTimedSkillsIfNeeded.bind(null, isLastChallengeTimed),
-    _removeTooDifficultSkills.bind(null, predictedLevel),
-  )(targetSkills);
-}
+}) => {
+  const playableSkills = getPlayableSkill(targetSkills);
+  const untestedSkills = getUntestedSkills(knowledgeElements, playableSkills);
+  const skillsFromEasyTubes = keepSkillsFromEasyTubes(tubes, untestedSkills);
+  const skillsWithoutTimedSkills = removeTimedSkillsIfNeeded(isLastChallengeTimed, skillsFromEasyTubes);
+  return removeTooDifficultSkills(predictedLevel, skillsWithoutTimedSkills);
+};
 
-function _getUntestedSkills(knowledgeElements, skills) {
-  return _.filter(skills, _skillNotAlreadyTested(knowledgeElements));
-}
-
-function _getPlayableSkill(skills) {
-  return _.filter(skills, (skill) => skill.isPlayable);
-}
-
-function _getPrioritySkills(tubes) {
-  return pipe(_getEasyTubes, _getSkillsFromTubes)(tubes);
-}
-
-function _keepSkillsFromEasyTubes(tubes, targetSkills) {
-  const skillsFromEasyTubes = _getPrioritySkills(tubes);
-  const availableSkillsFromEasyTubes = _.intersectionBy(targetSkills, skillsFromEasyTubes, 'id');
-  if (!_.isEmpty(availableSkillsFromEasyTubes)) {
-    return availableSkillsFromEasyTubes;
-  }
-  return targetSkills;
-}
-
-function _getEasyTubes(tubes) {
-  return _.filter(tubes, (tube) => tube.getHardestSkill().difficulty <= MAX_LEVEL_TO_BE_AN_EASY_TUBE);
-}
-
-function _getSkillsFromTubes(tubes) {
-  return _.flatMap(tubes, (tube) => tube.skills);
-}
-
-function _skillNotAlreadyTested(knowledgeElements) {
-  return (skill) => {
-    const alreadyTestedSkillIds = _.map(knowledgeElements, 'skillId');
-    return !alreadyTestedSkillIds.includes(skill.id);
-  };
-}
-
-function _removeTimedSkillsIfNeeded(isLastChallengeTimed, targetSkills) {
-  if (isLastChallengeTimed) {
-    const skillsWithoutTimedChallenges = _.filter(targetSkills, (skill) => !skill.timed);
-    return skillsWithoutTimedChallenges.length > 0 ? skillsWithoutTimedChallenges : targetSkills;
-  }
-  return targetSkills;
-}
-
-function _focusOnDefaultLevel(targetSkills) {
-  if (_.isEmpty(targetSkills)) {
-    return targetSkills;
-  }
-
-  const remapDifficulty = (difficulty) =>
-    difficulty == DEFAULT_LEVEL_FOR_FIRST_CHALLENGE ? Number.MIN_VALUE : difficulty;
-  const [, potentialFirstSkills] = _(targetSkills)
-    .groupBy('difficulty')
-    .entries()
-    .minBy(([difficulty, _targetSkills]) => remapDifficulty(parseFloat(difficulty)));
-
-  return potentialFirstSkills;
-}
-
-function _removeTooDifficultSkills(predictedLevel, targetSkills) {
-  return _.filter(targetSkills, (skill) => !_isSkillTooHard(skill, predictedLevel));
-}
-
-function _isSkillTooHard(skill, predictedLevel) {
-  return skill.difficulty - predictedLevel > MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL;
-}
+export { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge };
