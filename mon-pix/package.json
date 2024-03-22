@@ -45,7 +45,7 @@
     "@1024pix/ember-matomo-tag-manager": "^2.4.3",
     "@1024pix/ember-testing-library": "^1.1.0",
     "@1024pix/eslint-config": "^1.2.5",
-    "@1024pix/pix-ui": "^42.0.4",
+    "@1024pix/pix-ui": "^45.0.1",
     "@1024pix/stylelint-config": "^5.1.8",
     "@babel/eslint-parser": "^7.19.1",
     "@babel/plugin-proposal-decorators": "^7.20.2",
