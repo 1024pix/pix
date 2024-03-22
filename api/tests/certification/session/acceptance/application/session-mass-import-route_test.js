@@ -42,12 +42,23 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
           externalId: '1234AB',
         }).id;
         databaseBuilder.factory.buildOrganization({ externalId: '1234AB', isManagingStudents: false, type: 'SUP' });
-
+        databaseBuilder.factory.buildCertificationCpfCountry({
+          commonName: 'FRANCE',
+          matcher: 'ACEFNR',
+          code: '99100',
+        });
+        databaseBuilder.factory.buildCertificationCpfCity({
+          INSEECode: '75115',
+          name: 'Paris',
+          isActualName: true,
+        });
+        databaseBuilder.factory.buildComplementaryCertification({ id: 1, label: 'Pix+ Édu 2nd degré' });
+        databaseBuilder.factory.buildComplementaryCertificationBadge({ label: 'Pix+ Édu 2nd degré' });
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
         await databaseBuilder.commit();
 
-        const newBuffer = `Numéro de session préexistante;* Nom du site;* Nom de la salle;* Date de début (format: JJ/MM/AAAA);* Heure de début (heure locale format: HH:MM);* Surveillant(s);Observations (optionnel);* Nom de naissance;* Prénom;* Date de naissance (format: JJ/MM/AAAA);* Sexe (M ou F);Code INSEE de la commune de naissance;Code postal de la commune de naissance;Nom de la commune de naissance;* Pays de naissance;E-mail du destinataire des résultats (formateur, enseignant…);E-mail de convocation;Identifiant externe;Temps majoré ? (exemple format: 33%);* Tarification part Pix (Gratuite, Prépayée ou Payante);Code de prépaiement (si Tarification part Pix Prépayée)
-        ;site1;salle1;19/10/2023;12:00;surveillant;non;;;;;;;;;;;;;;`;
+        const newBuffer = `Numéro de session préexistante,* Nom du site,* Nom de la salle,* Date de début (format: JJ/MM/AAAA),* Heure de début (heure locale format: HH:MM),* Surveillant(s),Observations (optionnel),* Nom de naissance,* Prénom,* Date de naissance (format: JJ/MM/AAAA),* Sexe (M ou F),Code INSEE de la commune de naissance,Code postal de la commune de naissance,Nom de la commune de naissance,* Pays de naissance,"E-mail du destinataire des résultats (formateur, enseignant…)",E-mail de convocation,Identifiant externe,Temps majoré ? (exemple format: 33%),"* Tarification part Pix (Gratuite, Prépayée ou Payante)",Code de prépaiement (si Tarification part Pix Prépayée),CléA Numérique ('oui' ou laisser vide),Pix+ Droit ('oui' ou laisser vide),Pix+ Édu 1er degré ('oui' ou laisser vide),Pix+ Édu 2nd degré ('oui' ou laisser vide)
+        ,site,salle,10/10/2025,12:00,surveillant,,noel,jean,10/10/2000,M,75115,,,FRANCE,,,,,Gratuite,,,,,oui`;
 
         const options = {
           method: 'POST',
@@ -65,16 +76,10 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
         expect(response.statusCode).to.equal(200);
         expect(_checkIfValidUUID(response.result.cachedValidatedSessionsKey)).to.be.true;
         expect(omit(response.result, 'cachedValidatedSessionsKey')).to.deep.equal({
-          candidatesCount: 0,
-          errorReports: [
-            {
-              code: 'EMPTY_SESSION',
-              line: 2,
-              isBlocking: false,
-            },
-          ],
+          candidatesCount: 1,
+          errorReports: [],
           sessionsCount: 1,
-          sessionsWithoutCandidatesCount: 1,
+          sessionsWithoutCandidatesCount: 0,
         });
       });
     });
