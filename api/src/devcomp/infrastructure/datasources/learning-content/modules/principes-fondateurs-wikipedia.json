@@ -100,7 +100,7 @@
         {
           "id": "afc8b60f-c2c1-405b-a6a4-a0e08e23ccc3",
           "type": "text",
-          "content": "<h4>1 - Wikipédia est une encyclopédie en ligne.&nbsp;<span aria-hidden=\"true\">📖</span>️</h4><p>Des connaissances du monde entier y sont rassemblées, classées et exposées méthodiquement. Wikipédia n'est donc ni un journal ni un réseau social.</p>"
+          "content": "<h3>1 - Wikipédia est une encyclopédie en ligne.&nbsp;<span aria-hidden=\"true\">📖</span>️</h3><p>Des connaissances du monde entier y sont rassemblées, classées et exposées méthodiquement. Wikipédia n'est donc ni un journal ni un réseau social.</p>"
         },
         {
           "id": "3bbf40bb-acd0-466f-a1ce-5c4bf9ccee8e",
@@ -110,7 +110,7 @@
         {
           "id": "81710de7-1311-4980-81f5-87944e56de28",
           "type": "text",
-          "content": "<h4>2 - Wikipédia propose des contenus les plus neutres possible.&nbsp;<span aria-hidden=\"true\">⚖️</span>️</h4><p>Une opinion ou un point de vue unique n’ont pas leur place. Si besoin, les divers points de vue sont présentés, sans jugement de valeur.</p>"
+          "content": "<h3>2 - Wikipédia propose des contenus les plus neutres possible.&nbsp;<span aria-hidden=\"true\">⚖️</span>️</h3><p>Une opinion ou un point de vue unique n’ont pas leur place. Si besoin, les divers points de vue sont présentés, sans jugement de valeur.</p>"
         },
         {
           "id": "20ed0b8b-a858-440e-a587-4856f96ef5be",
@@ -120,7 +120,7 @@
         {
           "id": "78385472-07b0-4229-bfb8-a10636690300",
           "type": "text",
-          "content": "<h4>3 - Wikipédia est publié sous licence libre.&nbsp;<span aria-hidden=\"true\">🪁</span>️</h4><p>En résumé, chacun peut créer, copier, modifier et partager le contenu qui se trouve sur Wikipédia. Certaines conditions doivent tout de même être respectées.</p>"
+          "content": "<h3>3 - Wikipédia est publié sous licence libre.&nbsp;<span aria-hidden=\"true\">🪁</span>️</h3><p>En résumé, chacun peut créer, copier, modifier et partager le contenu qui se trouve sur Wikipédia. Certaines conditions doivent tout de même être respectées.</p>"
         },
         {
           "id": "929661f0-ca4c-40fb-9df2-7832e97192e3",
@@ -130,7 +130,7 @@
         {
           "id": "df11aa2c-1ebf-4a60-99a3-533dfc06756d",
           "type": "text",
-          "content": "<h4>4 - Wikipédia est un projet collaboratif.&nbsp;<span aria-hidden=\"true\">🙋🏽‍♂️</span>️<span aria-hidden=\"true\">🙋🏻‍♀️</span>️<span aria-hidden=\"true\">🙋🏿‍♀️</span>️<span aria-hidden=\"true\">🙋‍♂️</span>️</h4><p>C’est probablement sa caractéristique la plus remarquable. Tout le monde peut améliorer les contenus de Wikipédia&#8239;! Des règles claires de savoir-vivre sont à respecter.</p>"
+          "content": "<h3>4 - Wikipédia est un projet collaboratif.&nbsp;<span aria-hidden=\"true\">🙋🏽‍♂️</span>️<span aria-hidden=\"true\">🙋🏻‍♀️</span>️<span aria-hidden=\"true\">🙋🏿‍♀️</span>️<span aria-hidden=\"true\">🙋‍♂️</span>️</h3><p>C’est probablement sa caractéristique la plus remarquable. Tout le monde peut améliorer les contenus de Wikipédia&#8239;! Des règles claires de savoir-vivre sont à respecter.</p>"
         },
         {
           "id": "1edb38ba-7542-4198-a5de-c260ef6b95ea",
@@ -140,7 +140,7 @@
         {
           "id": "ca62ac2d-950d-4c00-b14d-2ac9e7d509f2",
           "type": "text",
-          "content": "<h4>5 - Wikipédia n’a pas d’autres principes fixes que ceux présentés ci-dessus.&nbsp;<span aria-hidden=\"true\">📜</span>️</h4><p>Il est toutefois possible de proposer et de créer des règles pour améliorer continuellement Wikipédia, en accord avec ses principes.</p>"
+          "content": "<h3>5 - Wikipédia n’a pas d’autres principes fixes que ceux présentés ci-dessus.&nbsp;<span aria-hidden=\"true\">📜</span>️</h3><p>Il est toutefois possible de proposer et de créer des règles pour améliorer continuellement Wikipédia, en accord avec ses principes.</p>"
         }
       ]
     },
@@ -277,7 +277,7 @@
         {
           "id": "01eb319e-8219-425a-b66f-00f8f73a4842",
           "type": "text",
-          "content": "<h4>Répondez aux questions ci-dessous en naviguant dans  <a href=\"https://fr.wikipedia.org/wiki/Inca_(Majorque)\" target=\"blank\">l'article Wikipédia de la commune d'Inca.</a></h4>"
+          "content": "<h3>Répondez aux questions ci-dessous en naviguant dans  <a href=\"https://fr.wikipedia.org/wiki/Inca_(Majorque)\" target=\"blank\">l'article Wikipédia de la commune d'Inca.</a></h3>"
         },
         {
           "id": "cfcd33f1-3544-491d-95b4-0d028084ff32",
