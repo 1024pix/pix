@@ -15,7 +15,7 @@ function setPlayableSkills(skills) {
 
 describe('Unit | Domain | services | smart-random | skillsFilter', function () {
   describe('#getFilteredSkillsForFirstChallenge', function () {
-    it('should return a first skill possible', function () {
+    it('should return the first possible skill', function () {
       // given
       const skill1 = domainBuilder.buildSkill({ name: '@web3', difficulty: 3 });
       const skills = [skill1];
@@ -53,7 +53,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       expect(result).to.deep.equal([skill1]);
     });
 
-    it('should return a skill valid from a tubes with max level at 3 (HAPPY PATH)', function () {
+    it('should return a valid skill from a tube which only contains skill levels inferior or equal to 3', function () {
       // given
       const skillTube1Level2 = domainBuilder.buildSkill({ id: 'rec1', name: '@web2', difficulty: 2 });
       const skillTube1Level4 = domainBuilder.buildSkill({ id: 'rec2', name: '@web4', difficulty: 4 });
@@ -179,7 +179,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       });
     });
 
-    describe('Verify rules : Not skill with timed challenge after timed challenge', function () {
+    describe('Verify rules : No successive timed challenges', function () {
       it('should return a skill without timed challenge if last one was timed', function () {
         // given
         const skill1 = domainBuilder.buildSkill({ id: 'rec1', name: '@test2', difficulty: 2 });
