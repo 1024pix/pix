@@ -6,12 +6,18 @@ describe('Integration | Application | ScoringConfigurationController', function 
   describe('#saveCompetenceForScoringConfiguration', function () {
     it('should save the competence for scoring configuration', async function () {
       // given
+      const userId = 123;
       sinon.stub(usecases, 'saveCompetenceForScoringConfiguration');
 
       const request = {
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
         payload: {
           data: {
-            warmUpLength: 12,
+            someData: 12,
           },
         },
       };
@@ -23,6 +29,7 @@ describe('Integration | Application | ScoringConfigurationController', function 
       expect(response.statusCode).to.equal(201);
       expect(usecases.saveCompetenceForScoringConfiguration).to.have.been.calledWith({
         data: request.payload,
+        userId,
       });
     });
   });

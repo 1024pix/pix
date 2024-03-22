@@ -96,6 +96,7 @@ describe('Acceptance | Route | certification-course', function () {
         databaseBuilder.factory.buildCompetenceScoringConfiguration({
           configuration,
           createdAt: new Date('2018-01-01T08:00:00Z'),
+          createdByUserId: userId,
         });
 
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({

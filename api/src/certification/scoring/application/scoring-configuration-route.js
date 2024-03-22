@@ -34,7 +34,7 @@ const register = async (server) => {
             .required(),
         },
         handler: scoringConfigurationController.saveCompetenceForScoringConfiguration,
-        tags: ['api', 'scoring-configuration'],
+        tags: ['api', 'admin', 'scoring-configuration'],
         notes: [
           '**Cette route est restreinte aux super-administrateurs** \n' +
             "Création d'une nouvelle configuration de niveau par compétence pour la certification v3",
