@@ -64,6 +64,10 @@ const addOrUpdateOrganizationOfOrganizationLearners = async function (
   }
 };
 
+const updateCommonOrganizationLearners = async function () {
+  return true;
+};
+
 const saveCommonOrganizationLearners = function (learners) {
   try {
     const knex = ApplicationTransaction.getConnection();
@@ -79,4 +83,5 @@ export {
   disableAllOrganizationLearnersInOrganization,
   removeByIds,
   saveCommonOrganizationLearners,
+  updateCommonOrganizationLearners,
 };
