@@ -4,11 +4,14 @@ import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../../lib/
 import { OrganizationLearner } from '../../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import * as organizationLearnerRepository from '../../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearnerSet.js';
 import {
   addOrUpdateOrganizationOfOrganizationLearners,
   disableAllOrganizationLearnersInOrganization,
   removeByIds,
+  saveCommonOrganizationLearners,
 } from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-learner-repository.js';
+import { ApplicationTransaction } from '../../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Organization Learner Management | Organization Learner', function () {
@@ -926,6 +929,94 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         // then
         const organizationLearners = await knex.from('organization-learners');
         expect(organizationLearners).to.deep.equal([]);
+      });
+    });
+  });
+
+  describe('#saveCommonOrganizationLearners', function () {
+    let organizationId;
+    beforeEach(async function () {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+    });
+
+    context('add new learner', function () {
+      it('should save the new learner', async function () {
+        const learnerData = new CommonOrganizationLearner({
+          firstName: 'Sacha',
+          lastName: 'Du Bourg Pallette',
+          organizationId,
+          attributes: {
+            firstName: 'Sacha',
+            lastName: 'Du Bourg Pallette',
+            INE: '234567890',
+          },
+        });
+
+        await saveCommonOrganizationLearners([learnerData]);
+
+        const [organizationLearner] = await knex.from('organization-learners');
+
+        expect(organizationLearner.firstName).to.equal(learnerData.firstName);
+        expect(organizationLearner.lastName).to.equal(learnerData.lastName);
+        expect(organizationLearner.organizationId).to.equal(learnerData.organizationId);
+        expect(organizationLearner.attributes).to.deep.equal(learnerData.attributes);
+        expect(organizationLearner.isDisabled).to.be.false;
+      });
+
+      it('should save several learners', async function () {
+        const learnerSacha = new CommonOrganizationLearner({
+          firstName: 'Sacha',
+          lastName: 'Du Bourg Pallette',
+          organizationId,
+          attributes: {
+            firstName: 'Sacha',
+            lastName: 'Du Bourg Pallette',
+            INE: '234567890',
+          },
+        });
+
+        const learnerOndine = new CommonOrganizationLearner({
+          firstName: 'Ondine',
+          lastName: 'Azuria',
+          organizationId,
+          attributes: {
+            firstName: 'Ondine',
+            lastName: 'Azuria',
+            INE: '9876543210',
+          },
+        });
+
+        await saveCommonOrganizationLearners([learnerSacha, learnerOndine]);
+
+        const organizationLearners = await knex.from('organization-learners');
+
+        expect(organizationLearners).lengthOf(2);
+      });
+
+      it('should throw a OrganizationLearnersCouldNotBeSavedError', async function () {
+        const learnerSacha = new CommonOrganizationLearner({
+          firstName: null,
+          lastName: 'Du Bourg Pallette',
+          organizationId,
+          attributes: {
+            firstName: null,
+            lastName: 'Du Bourg Pallette',
+            INE: '234567890',
+          },
+        });
+
+        await ApplicationTransaction.execute(async () => {
+          try {
+            await saveCommonOrganizationLearners([learnerSacha]);
+          } catch {
+            // something
+          }
+        });
+
+        const organizationLearners = await knex.from('organization-learners');
+
+        expect(organizationLearners).lengthOf(0);
       });
     });
   });
