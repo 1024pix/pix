@@ -31,9 +31,9 @@
       </PixInput>
     </div>
     <div class="certification-joiner__row">
-      <label class="certification-joiner__label" for="certificationJoinerDayOfBirth">{{t
+      <PixLabel class="certification-joiner__label" for="certificationJoinerDayOfBirth">{{t
           "pages.certification-joiner.form.fields.birth-date"
-        }}</label>
+        }}</PixLabel>
       <div class="certification-joiner__birthdate" id="certificationJoinerBirthDate">
         <PixInput
           @id="certificationJoinerDayOfBirth"
@@ -44,7 +44,7 @@
           {{on "change" this.setDayOfBirth}}
           {{on "input" this.handleDayInputChange}}
           {{on "focus-in" this.handleInputFocus}}
-          screenReaderOnly="true"
+          @screenReaderOnly="true"
         >
           <:label>{{t "pages.certification-joiner.form.fields.birth-day"}}</:label>
         </PixInput>
@@ -57,7 +57,7 @@
           {{on "change" this.setMonthOfBirth}}
           {{on "input" this.handleMonthInputChange}}
           {{on "focus-in" this.handleInputFocus}}
-          screenReaderOnly="true"
+          @screenReaderOnly="true"
         >
           <:label>{{t "pages.certification-joiner.form.fields.birth-month"}}</:label>
         </PixInput>
@@ -69,7 +69,7 @@
           placeholder="AAAA"
           {{on "change" this.setYearOfBirth}}
           {{on "focus-in" this.handleInputFocus}}
-          screenReaderOnly="true"
+          @screenReaderOnly="true"
         >
           <:label>{{t "pages.certification-joiner.form.fields.birth-year"}}</:label>
         </PixInput>
