@@ -48,6 +48,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
 
       flashAlgorithmConfiguration = domainBuilder.buildFlashAlgorithmConfiguration();
     });
+
     context('when there are challenges left to answer', function () {
       it('should save the returned next challenge', async function () {
         // given
@@ -92,7 +93,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
             availableChallenges: [nextChallengeToAnswer],
-            estimatedLevel: 0,
+            capacity: 0,
             options: sinon.match.any,
           })
           .returns([nextChallengeToAnswer]);
@@ -220,7 +221,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
             availableChallenges: [nextChallenge],
-            estimatedLevel: 0,
+            capacity: 0,
             options: sinon.match.any,
           })
           .returns([nextChallenge]);
@@ -317,7 +318,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
             availableChallenges: [challengeWithOtherSkill],
-            estimatedLevel: 0,
+            capacity: 0,
             options: sinon.match.any,
           })
           .returns([challengeWithOtherSkill]);
@@ -414,7 +415,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
             availableChallenges: [],
-            estimatedLevel: 2,
+            capacity: 2,
             options: sinon.match.any,
           })
           .returns({
@@ -512,7 +513,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
             flashAlgorithmService.getPossibleNextChallenges
               .withArgs({
                 availableChallenges: [nextChallengeToAnswer],
-                estimatedLevel: 0,
+                capacity: 0,
                 options: sinon.match.any,
               })
               .returns([nextChallengeToAnswer]);

@@ -108,19 +108,19 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
             availableChallenges: allChallenges,
-            estimatedLevel: 0,
+            capacity: 0,
             options: getNextChallengesOptionsMatcher,
           })
           .returns([firstChallenge, thirdChallenge, secondChallenge])
           .withArgs({
             availableChallenges: [secondChallenge, thirdChallenge],
-            estimatedLevel: 1,
+            capacity: 1,
             options: getNextChallengesOptionsMatcher,
           })
           .returns([thirdChallenge, secondChallenge])
           .withArgs({
             availableChallenges: [thirdChallenge],
-            estimatedLevel: 2,
+            capacity: 2,
             options: getNextChallengesOptionsMatcher,
           })
           .returns([thirdChallenge]);
@@ -403,13 +403,13 @@ function prepareStubs({
   flashAlgorithmService.getPossibleNextChallenges
     .withArgs({
       availableChallenges: allChallenges,
-      estimatedLevel: 0,
+      capacity: 0,
       options: getNextChallengesOptionsMatcher,
     })
     .returns([firstChallenge, thirdChallenge, secondChallenge])
     .withArgs({
       availableChallenges: [thirdChallenge],
-      estimatedLevel: 2,
+      capacity: 2,
       options: getNextChallengesOptionsMatcher,
     })
     .returns([thirdChallenge]);
@@ -418,7 +418,7 @@ function prepareStubs({
     flashAlgorithmService.getPossibleNextChallenges
       .withArgs({
         availableChallenges: [secondChallenge, thirdChallenge],
-        estimatedLevel: 0,
+        capacity: 0,
         options: getNextChallengesOptionsMatcher,
       })
       .returns([thirdChallenge, secondChallenge]);
@@ -426,7 +426,7 @@ function prepareStubs({
     flashAlgorithmService.getPossibleNextChallenges
       .withArgs({
         availableChallenges: [secondChallenge, thirdChallenge],
-        estimatedLevel: 1,
+        capacity: 1,
         options: getNextChallengesOptionsMatcher,
       })
       .returns([thirdChallenge, secondChallenge]);

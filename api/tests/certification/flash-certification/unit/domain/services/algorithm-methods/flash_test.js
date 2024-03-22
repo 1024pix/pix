@@ -17,7 +17,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           allChallenges,
           availableChallenges,
           allAnswers,
-          estimatedLevel: 0,
+          capacity: 0,
         });
 
         // then
@@ -81,7 +81,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           allChallenges,
           availableChallenges,
           allAnswers,
-          estimatedLevel: 0,
+          capacity: 0,
         });
 
         // then

@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           domainBuilder.buildChallenge({ id: assessmentAnswers[0].challengeId, skill: skill1 }),
           domainBuilder.buildChallenge({ competenceId: 'comp2', skill: skill2 }),
         ];
-        const estimatedLevel = 0;
+        const capacity = 0;
         const algorithm = new FlashAssessmentAlgorithm({
           flashAlgorithmImplementation,
           configuration: _getAlgorithmConfig({
@@ -50,7 +50,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           algorithm.getPossibleNextChallenges({
             assessmentAnswers,
             challenges,
-            estimatedLevel,
+            capacity,
           }),
         ).to.throw(AssessmentEndedError);
       });
@@ -121,7 +121,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               availableChallenges: expectedChallenges,
-              estimatedLevel: computedEstimatedLevel,
+              capacity: computedEstimatedLevel,
               options: baseGetNextChallengeOptions,
             })
             .returns(expectedChallenges);
@@ -198,7 +198,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               availableChallenges: expectedChallenges,
-              estimatedLevel: computedEstimatedLevel,
+              capacity: computedEstimatedLevel,
               options: baseGetNextChallengeOptions,
             })
             .returns(expectedChallenges);
@@ -267,7 +267,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         flashAlgorithmImplementation.getPossibleNextChallenges
           .withArgs({
             availableChallenges: [hardChallenge],
-            estimatedLevel: 0,
+            capacity: 0,
             options: {
               ...baseGetNextChallengeOptions,
             },
@@ -338,7 +338,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               availableChallenges: challenges,
-              estimatedLevel: 0,
+              capacity: 0,
               options: {
                 ...baseGetNextChallengeOptions,
                 minimalSuccessRate: 0.8,
@@ -424,7 +424,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               availableChallenges: expectedChallenges,
-              estimatedLevel: 0,
+              capacity: 0,
               options: {
                 ...baseGetNextChallengeOptions,
                 // Due to JS having troubles with float numbers, we must use a matcher.
