@@ -396,6 +396,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     });
 
     databaseBuilder.factory.buildCompetenceScoringConfiguration({
+      createdByUserId: configurationCreatorId,
       configuration: [
         {
           competence: '1.1',

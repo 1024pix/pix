@@ -1,3 +1,5 @@
+import { REAL_PIX_SUPER_ADMIN_ID } from '../common/common-builder.js';
+
 const configuration = [
   {
     competence: '1.1',
@@ -980,5 +982,6 @@ const configuration = [
 export const createCompetenceScoringConfiguration = ({ databaseBuilder }) => {
   databaseBuilder.factory.buildCompetenceScoringConfiguration({
     configuration,
+    createdByUserId: REAL_PIX_SUPER_ADMIN_ID,
   });
 };
