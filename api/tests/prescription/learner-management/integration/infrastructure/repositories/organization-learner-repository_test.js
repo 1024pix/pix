@@ -10,6 +10,7 @@ import {
   disableAllOrganizationLearnersInOrganization,
   removeByIds,
   saveCommonOrganizationLearners,
+  updateCommonOrganizationLearners,
 } from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-learner-repository.js';
 import { ApplicationTransaction } from '../../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
@@ -1018,6 +1019,56 @@ describe('Integration | Repository | Organization Learner Management | Organizat
 
         expect(organizationLearners).lengthOf(0);
       });
+    });
+  });
+
+  describe('#updateCommonOrganizationLearners', function () {
+    let organizationId;
+    beforeEach(async function () {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+    });
+    it('should update one organization learner', async function () {
+      // given
+      const learnerData = new CommonOrganizationLearner({
+        id: 38,
+        firstName: 'Sacha',
+        lastName: 'Du Bourg Pallette',
+        organizationId,
+        attributes: {
+          firstName: 'Sacha',
+          lastName: 'Du Bourg Pallette',
+          INE: '234567890',
+        },
+      });
+
+      const newLearnerData = new CommonOrganizationLearner({
+        id: 38,
+        firstName: 'Sacha',
+        lastName: 'Salameche',
+        organizationId,
+        attributes: {
+          firstName: 'Sacha',
+          lastName: 'Salameche',
+          INE: '234567890',
+        },
+      });
+
+      await databaseBuilder.factory.buildOrganizationLearner(learnerData);
+
+      await databaseBuilder.commit();
+
+      // when
+      await updateCommonOrganizationLearners([newLearnerData]);
+
+      // then
+      const [organizationLearner] = await knex.from('organization-learners');
+
+      expect(organizationLearner.firstName).to.equal(learnerData.firstName);
+      expect(organizationLearner.lastName).to.equal(learnerData.lastName);
+      expect(organizationLearner.organizationId).to.equal(learnerData.organizationId);
+      expect(organizationLearner.attributes).to.deep.equal(learnerData.attributes);
+      expect(organizationLearner.isDisabled).to.be.false;
     });
   });
 });
