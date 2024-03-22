@@ -65,7 +65,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
 
       it('should create a mission-assessment and return it', async function () {
         const learner = databaseBuilder.factory.buildOrganizationLearner();
-        databaseBuilder.commit();
+        await databaseBuilder.commit();
 
         const mission = learningContentBuilder.buildMission();
 
