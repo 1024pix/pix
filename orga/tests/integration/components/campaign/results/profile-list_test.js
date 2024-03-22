@@ -33,7 +33,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
           sharedAt: new Date(2020, 1, 1),
         },
         {
-          firstName: 'John',
+          firstName: 'Patrick',
           lastName: 'Doe2',
           participantExternalId: '1234',
           sharedAt: null,
@@ -42,7 +42,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       this.profiles.meta = { rowCount: 2 };
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Results::ProfileList
   @campaign={{this.campaign}}
   @profiles={{this.profiles}}
@@ -54,11 +54,13 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       );
 
       // then
-      assert.notContains('En attente de profils');
-      assert.contains('Doe');
-      assert.contains('Doe2');
-      assert.contains('John');
-      assert.contains("En attente d'envoi");
+      assert.notOk(screen.queryByText('En attente de profils'));
+      assert.ok(screen.getByRole('cell', { name: 'Doe' }));
+      assert.ok(screen.getByRole('cell', { name: 'Doe2' }));
+      assert.ok(screen.getByRole('cell', { name: 'John' }));
+      assert.ok(screen.getByRole('cell', { name: 'Patrick' }));
+      assert.ok(screen.getByRole('cell', { name: "En attente d'envoi" }));
+      assert.ok(screen.getByRole('cell', { name: '01/02/2020' }));
     });
 
     test('it should display the profile list with external id', async function (assert) {
@@ -73,7 +75,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       this.profiles.meta = { rowCount: 1 };
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Results::ProfileList
   @campaign={{this.campaign}}
   @profiles={{this.profiles}}
@@ -85,8 +87,8 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       );
 
       // then
-      assert.contains('identifiant externe');
-      assert.contains('123');
+      assert.ok(screen.getByRole('columnheader', { name: 'identifiant externe' }));
+      assert.ok(screen.getByRole('cell', { name: '123' }));
     });
 
     test('it should display participant certification profile info when shared', async function (assert) {
@@ -110,7 +112,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       this.profiles.meta = { rowCount: 1 };
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Results::ProfileList
   @campaign={{this.campaign}}
   @profiles={{this.profiles}}
@@ -122,10 +124,10 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       );
 
       // then
-      assert.contains('01/02/2020');
-      assert.contains('10');
-      assert.contains('Certifiable');
-      assert.contains('5');
+      assert.ok(screen.getByRole('cell', { name: '01/02/2020' }));
+      assert.ok(screen.getByRole('cell', { name: '10' }));
+      assert.ok(screen.getByRole('cell', { name: 'Certifiable' }));
+      assert.ok(screen.getByRole('cell', { name: '5' }));
     });
 
     test('it should display a link to access participant profile', async function (assert) {
@@ -146,7 +148,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       ];
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Results::ProfileList
   @campaign={{this.campaign}}
   @profiles={{this.profiles}}
@@ -158,7 +160,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       );
 
       // then
-      assert.dom('a[href="/campagnes/1/profils/7"]').exists();
+      assert.ok(screen.getByRole('link', { href: '/campagnes/1/profils/7' }));
     });
   });
 
@@ -174,7 +176,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       this.profiles.meta = { rowCount: 0 };
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Results::ProfileList
   @campaign={{this.campaign}}
   @profiles={{this.profiles}}
@@ -186,7 +188,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       );
 
       // then
-      assert.contains('En attente de profils');
+      assert.ok(screen.getByText('En attente de profils'));
     });
   });
 });

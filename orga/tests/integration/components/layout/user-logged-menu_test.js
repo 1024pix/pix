@@ -34,18 +34,18 @@ module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
 
   test("should display user's firstName and lastName", async function (assert) {
     // when
-    await render(hbs`<Layout::UserLoggedMenu />`);
+    const screen = await render(hbs`<Layout::UserLoggedMenu />`);
 
     // then
-    assert.contains(`${prescriber.firstName} ${prescriber.lastName}`);
+    assert.ok(screen.getByText(`${prescriber.firstName} ${prescriber.lastName}`));
   });
 
   test('should display the user current organization name and externalId', async function (assert) {
     // when
-    await render(hbs`<Layout::UserLoggedMenu />`);
+    const screen = await render(hbs`<Layout::UserLoggedMenu />`);
 
     // then
-    assert.contains(`${organization.name} (${organization.externalId})`);
+    assert.ok(screen.getByText(`${organization.name} (${organization.externalId})`));
   });
 
   test('should display the chevron-down icon when menu is close', async function (assert) {
@@ -69,22 +69,20 @@ module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
 
   test('should display the disconnect link when menu is open', async function (assert) {
     // when
-    await render(hbs`<Layout::UserLoggedMenu />`);
+    const screen = await render(hbs`<Layout::UserLoggedMenu />`);
     await clickByName('Ouvrir le menu utilisateur');
 
     // then
-    assert.contains('Se déconnecter');
+    assert.ok(screen.getByRole('link', { name: 'Se déconnecter' }));
   });
 
   test('should display the organizations name and externalId when menu is open', async function (assert) {
     // when
-    await render(hbs`<Layout::UserLoggedMenu />`);
+    const screen = await render(hbs`<Layout::UserLoggedMenu />`);
     await clickByName('Ouvrir le menu utilisateur');
 
     // then
-    assert.contains(organization2.name);
-    assert.contains(`(${organization2.externalId})`);
-    assert.contains(organization3.name);
-    assert.contains(`(${organization3.externalId})`);
+    assert.ok(screen.getByRole('button', { name: `${organization2.name} (${organization2.externalId})` }));
+    assert.ok(screen.getByRole('button', { name: `${organization3.name} (${organization3.externalId})` }));
   });
 });
