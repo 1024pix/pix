@@ -35,12 +35,14 @@
             <Table::Header>{{@campaign.idPixLabel}}</Table::Header>
           {{/if}}
           <Table::Header>{{t "pages.campaign-results.table.column.results.label"}}</Table::Header>
+          {{#if this.displayParticipationCount}}
+            <Table::Header aria-label={{t "pages.campaign-results.table.column.ariaSharedResultCount"}}>
+              {{t "pages.campaign-results.table.column.sharedResultCount"}}
+            </Table::Header>
+          {{/if}}
           {{#if @campaign.hasBadges}}
             <Table::Header>{{t "pages.campaign-results.table.column.badges"}}</Table::Header>
           {{/if}}
-          <Table::Header aria-label={{t "pages.campaign-results.table.column.ariaSharedResultCount"}}>
-            {{t "pages.campaign-results.table.column.sharedResultCount"}}
-          </Table::Header>
         </tr>
       </thead>
 
@@ -55,6 +57,7 @@
               @campaignId={{@campaign.id}}
               @stages={{@campaign.stages}}
               @onClickParticipant={{@onClickParticipant}}
+              @displayParticipationCount={{this.displayParticipationCount}}
             />
           {{/each}}
         </tbody>

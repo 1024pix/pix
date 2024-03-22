@@ -68,7 +68,6 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
           lastName: 'Doe',
           masteryRate: 0.8,
           isShared: true,
-          sharedResultCount: 3,
         },
       ];
       participations.meta = {
@@ -133,6 +132,64 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       // then
       assert.ok(screen.getByRole('img', { src: 'url-badge', description: 'je suis un badge' }));
+    });
+
+    module('campaign has multiple sending enabled', function () {
+      test('it should display shared result count header', async function (assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          multipleSendings: true,
+        });
+
+        this.set('campaign', campaign);
+        this.set('participations', []);
+
+        // when
+        const screen = await render(
+          hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+  @selectedBadges={{this.badges}}
+  @selectedStages={{this.stages}}
+/>`,
+        );
+        // then
+        assert.ok(screen.getByText(this.intl.t('pages.campaign-results.table.column.sharedResultCount')));
+        assert.ok(screen.getByLabelText(this.intl.t('pages.campaign-results.table.column.ariaSharedResultCount')));
+      });
+    });
+
+    module('campaign has multiple sending not enabled', function () {
+      test('it should display shared result count header', async function (assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          multipleSendings: false,
+        });
+
+        this.set('campaign', campaign);
+        this.set('participations', []);
+
+        // when
+        const screen = await render(
+          hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+  @selectedDivisions={{this.divisions}}
+  @selectedGroups={{this.groups}}
+  @selectedBadges={{this.badges}}
+  @selectedStages={{this.stages}}
+/>`,
+        );
+        // then
+        assert.notOk(screen.queryByText(this.intl.t('pages.campaign-results.table.column.sharedResultCount')));
+        assert.notOk(screen.queryByLabelText(this.intl.t('pages.campaign-results.table.column.ariaSharedResultCount')));
+      });
     });
   });
 

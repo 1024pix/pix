@@ -510,7 +510,7 @@
       "table": {
         "title": "Liste des résultats reçus",
         "column": {
-          "ariaSharedResultCount": "Nombre  de résultats envoyés",
+          "ariaSharedResultCount": "Nombre de résultats envoyés",
           "badges": "Résultats Thématiques",
           "first-name": "Prénom",
           "last-name": "Nom",
