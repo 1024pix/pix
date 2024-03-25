@@ -23,9 +23,9 @@ export default class ModuleGrain extends Component {
     return this.grain.allElementsAreAnsweredForPassage(this.args.passage);
   }
 
-  get ariaLiveGrainValue() {
-    return this.args.hasJustAppeared ? 'assertive' : null;
-  }
+  // get ariaLiveGrainValue() {
+  //   return this.args.hasJustAppeared ? 'assertive' : null;
+  // }
 
   @action
   focusAndScroll(element) {
