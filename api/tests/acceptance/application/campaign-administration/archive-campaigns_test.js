@@ -17,6 +17,7 @@ describe('Acceptance | Application | campaign-controller-archive-campaigns', fun
 
   describe('POST /api/admin/campaigns/archive-campaigns', function () {
     let userId;
+
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser.withRole({ role: ROLES.SUPER_ADMIN }).id;
       await databaseBuilder.commit();

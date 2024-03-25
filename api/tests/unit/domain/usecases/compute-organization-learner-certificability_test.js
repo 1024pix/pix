@@ -14,6 +14,7 @@ describe('Unit | UseCase | compute-organization-learner-certificabilty', functio
   afterEach(async function () {
     clock.restore();
   });
+
   it('should update certificability for an organization learner', async function () {
     // given
     const organizationLearnerRepository = {

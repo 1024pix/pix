@@ -395,6 +395,7 @@ describe('Integration | Repository | learning-content', function () {
       const expectedLearningContent = domainBuilder.buildLearningContent([framework1Fr, framework2Fr]);
       expect(learningContent).to.deepEqualInstance(expectedLearningContent);
     });
+
     it('should return an active LearningContent in the given language', async function () {
       // given
       framework1En.areas = [area1En];

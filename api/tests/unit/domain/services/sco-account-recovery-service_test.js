@@ -562,6 +562,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
         expect(error).to.be.instanceOf(AccountRecoveryDemandExpired);
         expect(error.message).to.be.equal('This account recovery demand has expired.');
       });
+
       it('based on environment variable', async function () {
         // given
         features.scoAccountRecoveryKeyLifetimeMinutes = 1;

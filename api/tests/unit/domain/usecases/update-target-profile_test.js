@@ -30,6 +30,7 @@ describe('Unit | UseCase | update-target-profile', function () {
     expect(error.invalidAttributes[0].message).to.eq('NAME_IS_REQUIRED');
     expect(targetProfileForUpdateRepository.update).to.not.have.been.called;
   });
+
   it('should throw error when name is undefined', async function () {
     // when
     const error = await catchErr(updateTargetProfile)({
@@ -46,6 +47,7 @@ describe('Unit | UseCase | update-target-profile', function () {
     expect(error.invalidAttributes[0].message).to.eq('NAME_IS_REQUIRED');
     expect(targetProfileForUpdateRepository.update).to.not.have.been.called;
   });
+
   it('should throw error when name is empty', async function () {
     // when
     const error = await catchErr(updateTargetProfile)({
@@ -63,6 +65,7 @@ describe('Unit | UseCase | update-target-profile', function () {
     expect(error.invalidAttributes[0].message).to.eq('NAME_IS_REQUIRED');
     expect(targetProfileForUpdateRepository.update).to.not.have.been.called;
   });
+
   it('should throw error when category is null', async function () {
     // when
     const error = await catchErr(updateTargetProfile)({
@@ -80,6 +83,7 @@ describe('Unit | UseCase | update-target-profile', function () {
     expect(error.invalidAttributes[0].message).to.eq('CATEGORY_IS_REQUIRED');
     expect(targetProfileForUpdateRepository.update).to.not.have.been.called;
   });
+
   it('should throw error when category is undefined', async function () {
     // when
     const error = await catchErr(updateTargetProfile)({
@@ -96,6 +100,7 @@ describe('Unit | UseCase | update-target-profile', function () {
     expect(error.invalidAttributes[0].message).to.eq('CATEGORY_IS_REQUIRED');
     expect(targetProfileForUpdateRepository.update).to.not.have.been.called;
   });
+
   it('should throw error when category is empty', async function () {
     // when
     const error = await catchErr(updateTargetProfile)({
@@ -113,6 +118,7 @@ describe('Unit | UseCase | update-target-profile', function () {
     expect(error.invalidAttributes[0].message).to.eq('CATEGORY_IS_REQUIRED');
     expect(targetProfileForUpdateRepository.update).to.not.have.been.called;
   });
+
   it('should throw error when imageUrl is null', async function () {
     // when
     const error = await catchErr(updateTargetProfile)({
@@ -130,6 +136,7 @@ describe('Unit | UseCase | update-target-profile', function () {
     expect(error.invalidAttributes[0].message).to.eq('IMAGE_URL_IS_REQUIRED');
     expect(targetProfileForUpdateRepository.update).to.not.have.been.called;
   });
+
   it('should throw error when imageUrl is undefined', async function () {
     // when
     const error = await catchErr(updateTargetProfile)({
@@ -146,6 +153,7 @@ describe('Unit | UseCase | update-target-profile', function () {
     expect(error.invalidAttributes[0].message).to.eq('IMAGE_URL_IS_REQUIRED');
     expect(targetProfileForUpdateRepository.update).to.not.have.been.called;
   });
+
   it('should throw error when imageUrl is empty', async function () {
     // when
     const error = await catchErr(updateTargetProfile)({
@@ -163,6 +171,7 @@ describe('Unit | UseCase | update-target-profile', function () {
     expect(error.invalidAttributes[0].message).to.eq('IMAGE_URL_IS_REQUIRED');
     expect(targetProfileForUpdateRepository.update).to.not.have.been.called;
   });
+
   it('should throw error when imageUrl is not an URI', async function () {
     // when
     const error = await catchErr(updateTargetProfile)({

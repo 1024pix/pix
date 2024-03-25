@@ -504,6 +504,7 @@ describe('Integration | Repository | Certification Course', function () {
     function _cleanCertificationCourse(certificationCourse) {
       return _.omit(certificationCourse, '_certificationIssueReports', '_assessment', '_challenges', 'updatedAt');
     }
+
     it('should returns all certification courses id with given sessionId', async function () {
       // when
       const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({

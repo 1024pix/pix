@@ -103,6 +103,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
         },
       };
     });
+
     it('should convert JSON API data into an Answer model object', function () {
       // when
       const answer = serializer.deserialize(jsonAnswer);

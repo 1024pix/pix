@@ -50,6 +50,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       ).to.throw('The input type is required for an input block');
     });
   });
+
   describe('If size is missing', function () {
     it('should throw an error', function () {
       expect(
@@ -61,6 +62,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       ).to.throw('The size is required for an input block');
     });
   });
+
   describe('If display is missing', function () {
     it('should throw an error', function () {
       expect(
@@ -73,6 +75,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       ).to.throw('The display is required for an input block');
     });
   });
+
   describe('If placeholder is missing', function () {
     it('should throw an error', function () {
       expect(
@@ -86,6 +89,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       ).to.throw('The placeholder is required for an input block');
     });
   });
+
   describe('If ariaLabel is missing', function () {
     it('should throw an error', function () {
       expect(
@@ -100,6 +104,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       ).to.throw('The aria Label is required for an input block');
     });
   });
+
   describe('If defaultValue is missing', function () {
     it('should throw an error', function () {
       expect(
@@ -115,6 +120,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       ).to.throw('The default value is required for an input block');
     });
   });
+
   describe('If tolerances are missing', function () {
     it('should throw an error', function () {
       expect(

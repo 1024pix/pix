@@ -12,6 +12,7 @@ const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 describe('Integration | Repository | Campaign Participation', function () {
   describe('#hasAssessmentParticipations', function () {
     let userId;
+
     beforeEach(async function () {
       sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
 
@@ -94,6 +95,7 @@ describe('Integration | Repository | Campaign Participation', function () {
   describe('#getCodeOfLastParticipationToProfilesCollectionCampaignForUser', function () {
     let userId;
     const expectedCode = 'GOOD';
+
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
@@ -230,6 +232,7 @@ describe('Integration | Repository | Campaign Participation', function () {
     let campaignId;
     let campaignParticipationId, campaignParticipationNotSharedId;
     let campaignParticipationAssessments;
+
     beforeEach(async function () {
       campaignId = databaseBuilder.factory.buildCampaign({}).id;
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
@@ -324,6 +327,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
     });
+
     it('should only retrieve participations from user', async function () {
       const campaignId = databaseBuilder.factory.buildCampaign({
         createdAt: new Date('2000-01-01T10:00:00Z'),

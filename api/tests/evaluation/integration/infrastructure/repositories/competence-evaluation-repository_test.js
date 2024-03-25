@@ -9,8 +9,10 @@ import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper
 
 describe('Integration | Repository | Competence Evaluation', function () {
   const STARTED = 'started';
+
   describe('#save', function () {
     let assessment;
+
     beforeEach(async function () {
       assessment = databaseBuilder.factory.buildAssessment({});
       await databaseBuilder.commit();

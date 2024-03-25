@@ -5,6 +5,7 @@ import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function () {
   let translate;
+
   beforeEach(function () {
     translate = getI18n().__;
   });

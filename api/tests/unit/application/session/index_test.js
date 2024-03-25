@@ -308,6 +308,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         expect(response.statusCode).to.equal(200);
       });
     });
+
     describe('GET /api/admin/sessions/{id}/jury-certification-summaries', function () {
       it('should exist', async function () {
         // given
@@ -575,6 +576,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         // then
         expect(response.statusCode).to.equal(200);
       });
+
       it('is protected by a prehandler checking the SUPER_ADMIN role', async function () {
         // given
         sinon

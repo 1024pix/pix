@@ -28,6 +28,7 @@ function buildLearnerWithParticipation({
 describe('Integration | Infrastructure | Repository | OrganizationParticipant', function () {
   describe('#findPaginatedFilteredParticipants', function () {
     let organizationId;
+
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();

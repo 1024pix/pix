@@ -18,6 +18,7 @@ describe('Unit | UseCase | attach-badges', function () {
     };
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
+
   afterEach(function () {
     clock.restore();
   });

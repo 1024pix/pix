@@ -3,6 +3,7 @@ import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | accept-pix-orga-terms-of-service', function () {
   let userRepository;
+
   beforeEach(function () {
     userRepository = { updatePixOrgaTermsOfServiceAcceptedToTrue: sinon.stub() };
   });

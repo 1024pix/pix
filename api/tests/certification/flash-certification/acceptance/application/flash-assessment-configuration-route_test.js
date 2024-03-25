@@ -9,6 +9,7 @@ import {
 
 describe('Acceptance | Application | flash-assessment-configuration-route', function () {
   let server;
+
   beforeEach(async function () {
     server = await createServer();
   });
@@ -160,6 +161,7 @@ describe('Acceptance | Application | flash-assessment-configuration-route', func
           expect(response.statusCode).to.equal(400);
         });
       });
+
       describe('when called with a valid payload', function () {
         it('should return a 204 and update the configuration', async function () {
           // given

@@ -4,6 +4,7 @@ import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | disable-membership', function () {
   let membershipRepository;
+
   beforeEach(function () {
     membershipRepository = { updateById: sinon.stub() };
   });

@@ -54,6 +54,7 @@ describe('Acceptance | Application | organization-import', function () {
       // then
       expect(response.statusCode).to.equal(200);
     });
+
     it('should return the last organization import status for a sco organization with no error', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });

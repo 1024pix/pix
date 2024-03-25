@@ -31,6 +31,7 @@ describe('Unit | Domain | Read-Models | OrganizationLearner | OrganizationLearne
         lastSharedOrCurrentCampaignParticipationId: 202,
       });
     });
+
     it('should use participation id if the lastSharedCampaignParticipationId is not provided', function () {
       const organizationLearnerParticipation = new OrganizationLearnerParticipation({
         id: 202,

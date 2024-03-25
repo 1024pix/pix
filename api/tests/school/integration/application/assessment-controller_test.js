@@ -36,6 +36,7 @@ describe('Integration | Controller | assessment-controller', function () {
       });
     });
   });
+
   describe('#getById', function () {
     it('should call the expected usecase and return the serialized assessment', async function () {
       const missionId = 'mission-id';

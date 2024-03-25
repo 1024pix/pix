@@ -5,6 +5,7 @@ import { expect } from '../../../test-helper.js';
 describe('Unit | Domain | Read-models | CampaignParticipationInfo', function () {
   describe('#constructor', function () {
     let validArguments;
+
     beforeEach(function () {
       validArguments = {
         participantFirstName: 'Mariah',

@@ -14,6 +14,7 @@ import { domainBuilder, expect } from '../../../test-helper.js';
 describe('Unit | Domain | Models | CertificationAssessment', function () {
   describe('constructor', function () {
     let validArguments;
+
     beforeEach(function () {
       validArguments = {
         id: 123,

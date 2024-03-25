@@ -110,6 +110,7 @@ describe('Unit | Devcomp | Domain | Service | SolutionServiceQROCM-ind ', functi
       // then
       expect(actual).to.deep.equal(AnswerStatus.KO);
     });
+
     it('should return "ok"', function () {
       // given
       const resultDetails = { phrase1: true, phrase2: true, phrase3: true };

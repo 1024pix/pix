@@ -12,6 +12,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         expect(FlashAssessmentAlgorithmNonAnsweredSkillsRule.isApplicable(configuration)).to.be.true;
       });
     });
+
     describe('when the limitToOneQuestionPerTube is true', function () {
       it('should return false', function () {
         const configuration = {

@@ -24,6 +24,7 @@ GET,/api/toto`);
 GET,/api/toto
 POST,/api/toto`);
   });
+
   it('should not duplicate routes', function () {
     const csvData = [{ Method: 'GET', URI: '/api/toto' }];
     const jsonData = [{ verb: 'GET', route: '/api/toto' }];

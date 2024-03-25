@@ -64,6 +64,7 @@ describe('Unit | Application | Router | answer-router', function () {
       expect(response.statusCode).to.not.equal(400);
     });
   });
+
   describe('GET /api/answers/{id}', function () {
     it('should return 200', async function () {
       //given

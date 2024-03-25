@@ -17,6 +17,7 @@ describe('Unit | Controller | activity-answer-controller', function () {
     let serializedAnswer;
 
     let request;
+
     beforeEach(async function () {
       // given
       sinon.stub(usecases, 'correctAnswer');

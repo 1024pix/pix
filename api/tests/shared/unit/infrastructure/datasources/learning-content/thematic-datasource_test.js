@@ -22,6 +22,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ThematicDataso
       expect(foundThematics.map(({ id }) => id)).to.deep.equal(expectedThematicIds);
     });
   });
+
   describe('#findByRecordIds', function () {
     it('should return an array of matching learning content thematics data objects by ids', async function () {
       // given

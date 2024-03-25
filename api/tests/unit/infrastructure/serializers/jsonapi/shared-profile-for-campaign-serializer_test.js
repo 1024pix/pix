@@ -4,6 +4,7 @@ import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer', function () {
   let clock;
+
   afterEach(function () {
     clock.restore();
   });
@@ -14,6 +15,7 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
   });
 
   let profileSharedForCampaign;
+
   describe('#serialize()', function () {
     beforeEach(function () {
       const area1 = {

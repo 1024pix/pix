@@ -38,6 +38,7 @@ describe('Unit | Service | ActivityChallenge', function () {
         locale,
       });
     });
+
     it('calls getChallenge method when the last answer status is success', function () {
       const missionId = 'mission_id';
       const alternativeVersion = null;
@@ -66,6 +67,7 @@ describe('Unit | Service | ActivityChallenge', function () {
         locale,
       });
     });
+
     it('does not call getChallenge method when the last answer is not success', function () {
       const missionId = 'mission_id';
       const alternativeVersion = null;
@@ -85,6 +87,7 @@ describe('Unit | Service | ActivityChallenge', function () {
       sinon.assert.notCalled(getChallengeStub);
     });
   });
+
   describe('#getNextActivityChallenge', function () {
     it('calls getAllByAssessmentId method', function () {
       const assessmentId = 'assessment_id';
@@ -105,6 +108,7 @@ describe('Unit | Service | ActivityChallenge', function () {
 
       expect(activityRepository.getAllByAssessmentId).to.have.been.calledOnceWith(assessmentId);
     });
+
     it('calls getAlternativeVersion method', async function () {
       const assessmentId = 'assessment_id';
       const missionId = 'mission_id';

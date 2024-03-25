@@ -401,6 +401,7 @@ describe('Integration | Application | SecurityPreHandlers', function () {
         databaseBuilder.factory.buildUser({ username: 'refresh_token_user_1' });
         await databaseBuilder.commit();
       });
+
       it('returns 200', async function () {
         // when
         const { statusCode } = await httpServerTest.requestObject({

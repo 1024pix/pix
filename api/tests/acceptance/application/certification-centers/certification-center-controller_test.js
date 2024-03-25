@@ -163,6 +163,7 @@ describe('Acceptance | API | Certification Center', function () {
       complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
       await databaseBuilder.commit();
     });
+
     afterEach(async function () {
       complementaryCertification = null;
     });
@@ -244,6 +245,7 @@ describe('Acceptance | API | Certification Center', function () {
 
   describe('GET /api/admin/certification-centers/{id}', function () {
     let expectedCertificationCenter;
+
     beforeEach(async function () {
       expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({});
       databaseBuilder.factory.buildCertificationCenter({});
