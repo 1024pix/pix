@@ -43,6 +43,7 @@ describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions
       expect(result[0].campaignParticipationId).to.equal(campaignParticipation.id);
     });
   });
+
   describe('#getAllBadgeAcquistionsWithoutCampaignParticipationId', function () {
     it('should return badge-acquisitions without campaignParticipationId', async function () {
       // given

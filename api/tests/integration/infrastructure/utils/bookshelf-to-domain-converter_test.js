@@ -25,6 +25,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       // then
       expect(domainObject).to.be.an.instanceOf(User);
     });
+
     it('should populate the domain object with the matching Bookshelf properties', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
@@ -39,6 +40,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
         expect(domainObject[property]).to.exist;
       }
     });
+
     it('should honor the domain object constructor', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
@@ -73,6 +75,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       expect(domainObject.memberships).to.be.instanceOf(Array);
       expect(domainObject.memberships[0]).to.be.instanceOf(Membership);
     });
+
     it('should support belongs-to relationships', async function () {
       //given
       const campaignId = databaseBuilder.factory.buildCampaign().id;
@@ -126,6 +129,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       expect(domainObject.knowledgeElements).to.be.instanceOf(Array);
       expect(domainObject.knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
     });
+
     it('should support nested relationships', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;

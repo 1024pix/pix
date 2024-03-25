@@ -227,6 +227,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
       expect(logErrorWithCorrelationIdsStub).to.have.been.calledWith(error);
     });
   });
+
   describe('#getOrganizationLearnersCsvTemplate', function () {
     const userId = 1;
     const organizationId = 2;

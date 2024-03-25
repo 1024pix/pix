@@ -6,6 +6,7 @@ import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', function () {
   let i18n, translate;
+
   beforeEach(function () {
     i18n = getI18n();
     translate = i18n.__;

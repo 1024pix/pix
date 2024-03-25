@@ -6,6 +6,7 @@ import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | update-jury-comment', function () {
   let domainTransaction;
+
   beforeEach(function () {
     domainTransaction = {
       knexTransaction: Symbol('transaction'),

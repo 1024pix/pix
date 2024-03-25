@@ -13,6 +13,7 @@ describe('Integration | Application | campaign-results-route', function () {
     const method = 'GET';
 
     let headers, httpTestServer, organizationId, campaignId, url;
+
     beforeEach(async function () {
       sinon.stub(campaignResultsController, 'findAssessmentParticipationResults').returns('ok');
       httpTestServer = new HttpTestServer();
@@ -75,6 +76,7 @@ describe('Integration | Application | campaign-results-route', function () {
     const method = 'GET';
 
     let headers, httpTestServer, organizationId, campaignId, url;
+
     beforeEach(async function () {
       sinon.stub(campaignResultsController, 'findProfilesCollectionParticipations').returns('ok');
       httpTestServer = new HttpTestServer();

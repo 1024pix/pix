@@ -146,6 +146,7 @@ describe('Unit | Controller | answer-controller', function () {
       });
     });
   });
+
   describe('#getCorrection', function () {
     const answerId = 1;
     const userId = 'userId';

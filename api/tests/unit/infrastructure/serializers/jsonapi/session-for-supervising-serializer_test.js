@@ -97,6 +97,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
         expect(actualPayload).to.deep.equal(expectedPayload);
       });
     });
+
     describe('when session is v3', function () {
       it('should convert a SessionForSupervising model object into JSON API data', function () {
         // given

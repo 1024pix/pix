@@ -31,6 +31,7 @@ describe('Unit | Service | Challenge', function () {
         locale,
       });
     });
+
     describe('with alternativeVersion', function () {
       context('when there is a challenge corresponding to the alternative version', function () {
         it('returns the challenge corresponding to the alternative version', async function () {
@@ -78,6 +79,7 @@ describe('Unit | Service | Challenge', function () {
         });
       });
     });
+
     it('does not throw an error with a NotFoundError', async function () {
       const missionId = 'mission_id';
       const activityLevel = Activity.levels.TRAINING;
@@ -100,6 +102,7 @@ describe('Unit | Service | Challenge', function () {
       };
       expect(functionToCall).to.not.throw();
     });
+
     it('throws an error when the error is not a NotFoundError', async function () {
       const missionId = 'mission_id';
       const activityLevel = Activity.levels.TRAINING;
@@ -123,6 +126,7 @@ describe('Unit | Service | Challenge', function () {
 
   describe('#getAlternativeVersion', function () {
     let challengeRepository;
+
     before(function () {
       challengeRepository = {
         getActivityChallengesFor1d: sinon.stub(),
@@ -212,6 +216,7 @@ describe('Unit | Service | Challenge', function () {
         });
       });
     });
+
     describe('when the first challenge has has one version and the second has multiple', function () {
       context('when there is not any already played alternative versions', function () {
         it('returns a version randomly between all alternative versions of the 2nd challenge', async function () {

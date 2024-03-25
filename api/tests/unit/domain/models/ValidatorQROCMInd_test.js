@@ -40,6 +40,7 @@ describe('Unit | Domain | Models | ValidatorQROCMInd', function () {
         solution: solution,
       });
     });
+
     it('should return a validation object with the returned status', function () {
       const expectedValidation = domainBuilder.buildValidation({
         result: AnswerStatus.OK,

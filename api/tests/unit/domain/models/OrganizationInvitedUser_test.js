@@ -31,6 +31,7 @@ describe('Unit | Domain | Models | OrganizationInvitedUser', function () {
           expect(error).to.be.an.instanceof(NotFoundError);
         });
       });
+
       describe('When membership already exist and invitation does not has role', function () {
         it('should throw an error', async function () {
           // given
@@ -54,6 +55,7 @@ describe('Unit | Domain | Models | OrganizationInvitedUser', function () {
           expect(error).to.be.an.instanceof(AlreadyExistingMembershipError);
         });
       });
+
       describe('When invitation is accepted or cancelled', function () {
         it('should throw an error', async function () {
           // given
@@ -79,6 +81,7 @@ describe('Unit | Domain | Models | OrganizationInvitedUser', function () {
         });
       });
     });
+
     describe('Success cases', function () {
       describe('When invitation has role', function () {
         it('should become member current role', async function () {
@@ -103,6 +106,7 @@ describe('Unit | Domain | Models | OrganizationInvitedUser', function () {
           expect(invitedUser.currentRole).to.equal('ADMIN');
         });
       });
+
       describe('When invitation does not has role', function () {
         describe('When organization has memberships', function () {
           it('should fill the current role with "MEMBER"', async function () {
@@ -127,6 +131,7 @@ describe('Unit | Domain | Models | OrganizationInvitedUser', function () {
             expect(invitedUser.currentRole).to.equal('MEMBER');
           });
         });
+
         describe('When organization has not memberships', function () {
           it('should fill the current role with "ADMIN"', async function () {
             // given
@@ -151,6 +156,7 @@ describe('Unit | Domain | Models | OrganizationInvitedUser', function () {
           });
         });
       });
+
       it('should mark invitation as accepted', async function () {
         // given
         const code = '1234AZE';

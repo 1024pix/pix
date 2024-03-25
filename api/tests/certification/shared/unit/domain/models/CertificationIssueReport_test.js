@@ -440,6 +440,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       expect(isResolved).to.be.true;
     });
   });
+
   describe('#resolveManually', function () {
     it('Sets the issue report as resolved', function () {
       // given
@@ -456,6 +457,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       expect(certificationIssueReport.resolution).to.equal('RESOLVED');
     });
   });
+
   describe('#resolveAutomatically', function () {
     it('sets the issue report as resolved automatically', function () {
       // given

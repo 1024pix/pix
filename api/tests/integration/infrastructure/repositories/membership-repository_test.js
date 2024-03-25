@@ -14,6 +14,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', fu
   beforeEach(function () {
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
+
   afterEach(function () {
     clock.restore();
   });
@@ -259,6 +260,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', fu
       ]);
     });
   });
+
   describe('#findPaginatedFiltered', function () {
     let organizationId;
 

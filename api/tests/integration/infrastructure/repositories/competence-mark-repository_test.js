@@ -8,6 +8,7 @@ describe('Integration | Repository | CompetenceMark', function () {
   describe('#save', function () {
     let assessmentResultId;
     let competenceMark;
+
     beforeEach(async function () {
       assessmentResultId = await databaseBuilder.factory.buildAssessmentResult().id;
       await databaseBuilder.commit();

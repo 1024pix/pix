@@ -163,6 +163,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
     let assessment = null;
     let answer = null;
     let userId;
+
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser({ id: 111 }).id;
       assessment = databaseBuilder.factory.buildAssessment({

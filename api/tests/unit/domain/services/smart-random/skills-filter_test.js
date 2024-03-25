@@ -178,6 +178,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         expect(result).to.deep.equal([skillNotAssessedLevel3]);
       });
     });
+
     describe('Verify rules : Not skill with timed challenge after timed challenge', function () {
       it('should return a skill without timed challenge if last one was timed', function () {
         // given
@@ -240,6 +241,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         expect(result).to.have.members([skill2]);
       });
     });
+
     describe('Verify rules : Remove skill too difficult', function () {
       it('should return skills with level maximum of user level + 2', function () {
         // given
@@ -277,6 +279,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         expect(result).to.deep.equal([skill3, skill4]);
       });
     });
+
     describe('Verify rules : Focus on easy tubes first', function () {
       it('should return skills from tubes of max level 3', function () {
         // given
@@ -350,6 +353,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         expect(result).to.deep.equal([skill4, skill5, skill6]);
       });
     });
+
     describe('Verify rules: Remove skills not playable', function () {
       it('should return only playable skills', function () {
         // given

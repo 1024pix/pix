@@ -5,6 +5,7 @@ const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Integration | UseCase | get-campaign-profile', function () {
   const locale = FRENCH_SPOKEN;
+
   beforeEach(function () {
     mockLearningContent({ competences: [], areas: [], skills: [] });
   });

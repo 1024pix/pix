@@ -5,6 +5,7 @@ import { expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '.
 describe('Unit | Controller | course-controller', function () {
   let courseServiceStub;
   let courseSerializerStub;
+
   beforeEach(function () {
     courseServiceStub = { getCourse: sinon.stub() };
     courseSerializerStub = { serialize: sinon.stub() };

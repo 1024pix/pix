@@ -106,6 +106,7 @@ describe('Integration | Repository | Campaign Participation', function () {
     let campaignId;
     let campaignParticipationId, campaignParticipationNotSharedId;
     let campaignParticipationAssessments;
+
     beforeEach(async function () {
       campaignId = databaseBuilder.factory.buildCampaign({}).id;
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({

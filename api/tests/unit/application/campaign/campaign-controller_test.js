@@ -60,6 +60,7 @@ describe('Unit | Application | Controller | Campaign', function () {
     const userId = 1;
     const locale = FRENCH_SPOKEN;
     let campaignCollectiveResultSerializerStub;
+
     beforeEach(function () {
       sinon.stub(usecases, 'computeCampaignCollectiveResult');
       campaignCollectiveResultSerializerStub = {

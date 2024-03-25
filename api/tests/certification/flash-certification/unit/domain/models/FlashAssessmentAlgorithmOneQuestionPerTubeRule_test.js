@@ -12,6 +12,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         expect(FlashAssessmentAlgorithmOneQuestionPerTubeRule.isApplicable(configuration)).to.be.false;
       });
     });
+
     describe('when the limitToOneQuestionPerTube is true', function () {
       it('should return true', function () {
         const configuration = {

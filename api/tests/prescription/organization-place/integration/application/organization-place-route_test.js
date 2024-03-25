@@ -25,6 +25,7 @@ describe('Integration | Application | organization-place-route', function () {
       expect(organizationPlaceController.findOrganizationPlacesLot).to.have.been.calledOnce;
     });
   });
+
   describe('DELETE /api/admin/organizations/{id}/places/{placeId}', function () {
     context('when user is not allowed to access resource', function () {
       it('should resolve a 403 HTTP response', async function () {

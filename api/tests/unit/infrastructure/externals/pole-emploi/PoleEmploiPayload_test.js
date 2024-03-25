@@ -250,6 +250,7 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
         ],
       });
     });
+
     it('should build badges payload for a campaign participation shared', function () {
       const badges = [
         {

@@ -5,6 +5,7 @@ import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ValidatorQROC', function () {
   let solutionServiceQROCStub;
+
   beforeEach(function () {
     solutionServiceQROCStub = {
       match: sinon.stub().returns(AnswerStatus.OK),
@@ -37,6 +38,7 @@ describe('Unit | Domain | Models | ValidatorQROC', function () {
         challengeFormat,
       });
     });
+
     it('should return a validation object with the returned status', function () {
       const expectedValidation = domainBuilder.buildValidation({
         result: AnswerStatus.OK,

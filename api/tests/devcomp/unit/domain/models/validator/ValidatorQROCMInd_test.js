@@ -28,6 +28,7 @@ describe('Unit | Devcomp | Domain | Models | ValidatorQROCMInd', function () {
         solution: solution,
       });
     });
+
     it('should return a validation object with the returned status', function () {
       // given
       const expectedValidation = domainBuilder.buildValidation({

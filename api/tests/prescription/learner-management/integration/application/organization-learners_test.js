@@ -13,6 +13,7 @@ describe('Integration | Application | Organization Learners Management | Routes'
     const method = 'DELETE';
 
     let headers, httpTestServer, organizationId, url, payload;
+
     beforeEach(async function () {
       sinon.stub(organizationLearnersController, 'deleteOrganizationLearners').returns('ok');
       httpTestServer = new HttpTestServer();

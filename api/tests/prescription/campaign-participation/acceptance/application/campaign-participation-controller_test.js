@@ -94,6 +94,7 @@ describe('Acceptance | API | Campaign Participations', function () {
 
   describe('GET /api/campaign-participations/{id}/analyses', function () {
     let campaign, campaignParticipation;
+
     beforeEach(async function () {
       databaseBuilder.factory.buildMembership({
         userId,

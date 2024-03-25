@@ -149,6 +149,7 @@ describe('Integration | Repository | Campaign', function () {
 
   describe('#getByCode', function () {
     let campaign;
+
     beforeEach(async function () {
       campaign = databaseBuilder.factory.buildCampaign({
         code: 'BADOIT710',
@@ -227,6 +228,7 @@ describe('Integration | Repository | Campaign', function () {
       forbiddenUserId,
       forbiddenOrganizationId,
       campaignId;
+
     beforeEach(async function () {
       // given
       userId = databaseBuilder.factory.buildUser().id;

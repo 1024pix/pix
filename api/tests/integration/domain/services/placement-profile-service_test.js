@@ -101,6 +101,7 @@ describe('Integration | Service | Placement Profile Service', function () {
       let assessment1;
       let assessment2;
       let assessment3;
+
       beforeEach(async function () {
         assessment1 = databaseBuilder.factory.buildAssessment({
           id: 13,

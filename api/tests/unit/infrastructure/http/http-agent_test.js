@@ -120,6 +120,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
       });
     });
   });
+
   describe('#get', function () {
     it('should return the response status and success from the http call when successful', async function () {
       // given

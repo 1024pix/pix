@@ -5,6 +5,7 @@ import { expect, sinon } from '../../../../../test-helper.js';
 describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
   let getPreSignedUrls;
   let mailService;
+
   beforeEach(function () {
     getPreSignedUrls = sinon.stub();
     mailService = {

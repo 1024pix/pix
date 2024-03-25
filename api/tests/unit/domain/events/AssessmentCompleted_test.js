@@ -12,6 +12,7 @@ describe('Unit | Domain | Events | AssessmentCompleted', function () {
       // when / then
       expect(assessmentCompleted.isCertificationType).to.be.true;
     });
+
     it('should return true when assessment is not of type certification', function () {
       // given
       const assessmentCompleted = new AssessmentCompleted({
@@ -33,6 +34,7 @@ describe('Unit | Domain | Events | AssessmentCompleted', function () {
       // when / then
       expect(assessmentCompleted.isCampaignType).to.be.true;
     });
+
     it('should return true when assessment is not of type campaign', function () {
       // given
       const assessmentCompleted = new AssessmentCompleted({

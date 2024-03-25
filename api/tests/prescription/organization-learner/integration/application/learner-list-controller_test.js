@@ -19,6 +19,7 @@ describe('Integration | Application | learner-list-controller', function () {
   afterEach(function () {
     sandbox.restore();
   });
+
   describe('#findPaginatedFilteredParticipants', function () {
     context('when the organization has participants', function () {
       it('returns organization participants', async function () {

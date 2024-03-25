@@ -6,6 +6,7 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js'
 
 describe('Unit | Service | user-authentication-method-obfuscation-service', function () {
   let authenticationMethodRepository;
+
   beforeEach(function () {
     authenticationMethodRepository = {
       findOneByUserIdAndIdentityProvider: sinon.stub(),

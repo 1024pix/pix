@@ -166,6 +166,7 @@ describe('Acceptance | Controller | Session | session-route', function () {
       beforeEach(async function () {
         ({ options, session } = await _createSession());
       });
+
       it('should respond with a 401 Forbidden if the user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
@@ -196,6 +197,7 @@ describe('Acceptance | Controller | Session | session-route', function () {
         beforeEach(async function () {
           ({ options, session } = await _createSession());
         });
+
         it('should update session', async function () {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
@@ -585,6 +587,7 @@ describe('Acceptance | Controller | Session | session-route', function () {
         beforeEach(async function () {
           ({ options, session } = await _createSession({ version: 3 }));
         });
+
         it('should update session', async function () {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
