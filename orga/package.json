@@ -19,6 +19,7 @@
     "doc": "docs",
     "test": "tests"
   },
+  "files": [],
   "scripts": {
     "build": "ember build --environment $BUILD_ENVIRONMENT",
     "clean": "rm -rf tmp dist node_modules",
