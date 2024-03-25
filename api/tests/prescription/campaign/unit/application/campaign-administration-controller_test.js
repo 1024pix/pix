@@ -6,6 +6,7 @@ describe('Unit | Application | Controller | Campaign administration', function (
   describe('#save', function () {
     let campaignReportSerializerStub;
     let requestResponseUtils;
+
     beforeEach(function () {
       sinon.stub(usecases, 'createCampaign');
       campaignReportSerializerStub = {
@@ -229,6 +230,7 @@ describe('Unit | Application | Controller | Campaign administration', function (
     const campaignId = 1;
     const userId = 1;
     let campaignReportSerializerStub;
+
     beforeEach(function () {
       sinon.stub(usecases, 'archiveCampaign');
       campaignReportSerializerStub = {
@@ -268,6 +270,7 @@ describe('Unit | Application | Controller | Campaign administration', function (
     const campaignId = 1;
     const userId = 1;
     let campaignReportSerializerStub;
+
     beforeEach(function () {
       sinon.stub(usecases, 'unarchiveCampaign');
 

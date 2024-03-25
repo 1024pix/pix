@@ -7,6 +7,7 @@ import { domainBuilder, expect } from '../../../../../../test-helper.js';
 describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
   describe('#serialize', function () {
     let user;
+
     beforeEach(function () {
       user = domainBuilder.buildUser({
         pixOrgaTermsOfServiceAccepted: true,

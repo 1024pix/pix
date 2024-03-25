@@ -46,6 +46,7 @@ describe('Integration | Repository | organizationLearner', function () {
       expect(students).to.deep.equal([student1, student3, student2]);
     });
   });
+
   describe('#getById', function () {
     it('should return only the good organization learner', async function () {
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();
@@ -60,6 +61,7 @@ describe('Integration | Repository | organizationLearner', function () {
       );
     });
   });
+
   describe('#getDivisionsWhichStartedMission', function () {
     it('returns all divisions which started the mission', async function () {
       const missionId = 'flute78';

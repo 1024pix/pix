@@ -64,6 +64,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       expect(error).to.be.ok;
     });
   });
+
   describe('#get', function () {
     it('should return import state', async function () {
       const expectedResult = databaseBuilder.factory.buildOrganizationImport();
@@ -80,6 +81,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       expect(result).to.equal(null);
     });
   });
+
   describe('#getByOrganizationId', function () {
     it('should return import state', async function () {
       const expectedResult = databaseBuilder.factory.buildOrganizationImport();

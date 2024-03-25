@@ -23,6 +23,7 @@ describe('Acceptance | Application | organization-controller-sup-organization-le
 
   describe('POST organizations/:id/sup-organization-learners/import-csv', function () {
     let connectedUser;
+
     beforeEach(async function () {
       connectedUser = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
@@ -152,6 +153,7 @@ describe('Acceptance | Application | organization-controller-sup-organization-le
 
   describe('POST organizations/:id/sup-organization-learners/replace-csv', function () {
     let connectedUser;
+
     beforeEach(async function () {
       connectedUser = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();

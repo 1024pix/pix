@@ -110,6 +110,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         expect(error.code).to.equal('CSV_HEADERS_NOT_VALID');
       });
     });
+
     describe('when one or more headers are missing', function () {
       it('should throw an error', async function () {
         const parsedCsvData = [

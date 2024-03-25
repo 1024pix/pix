@@ -6,10 +6,12 @@ import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | Storage | ImportStorage', function () {
   let basenameStub, createReadStreamStub;
+
   beforeEach(function () {
     basenameStub = sinon.stub().callsFake((f) => f);
     createReadStreamStub = sinon.stub();
   });
+
   it('should create a S3 client', async function () {
     // given
     const clientStub = sinon.stub(S3ObjectStorageProvider, 'createClient');
@@ -41,6 +43,7 @@ describe('Unit | Storage | ImportStorage', function () {
         readableStream: noOpStream,
       });
     });
+
     it('should return filename stored in bucket', async function () {
       // given
       const filepath = 'src/hey.xml';
@@ -58,6 +61,7 @@ describe('Unit | Storage | ImportStorage', function () {
       // then
       expect(filename).to.equals('hey.xml');
     });
+
     it('throw a en error if createReadStream fails', async function () {
       // Given
       const filepath = 'hey.xml';
@@ -72,6 +76,7 @@ describe('Unit | Storage | ImportStorage', function () {
       // Then
       expect(fileError).to.be.an.instanceOf(FileValidationError);
     });
+
     it('throw a en error if stream send fails', async function () {
       // Given
       const filepath = 'hey.xml';

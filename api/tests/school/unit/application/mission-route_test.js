@@ -95,6 +95,7 @@ describe('Unit | Router | mission-route', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
+
   describe('GET /api/organizations/{id}/missions/{missionId}', function () {
     it('should check user belongs to organization and pix1d is activated', async function () {
       // given

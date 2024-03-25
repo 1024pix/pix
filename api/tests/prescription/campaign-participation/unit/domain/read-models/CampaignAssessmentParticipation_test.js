@@ -55,6 +55,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', function ()
       });
     });
   });
+
   describe('masteryRate', function () {
     context('when the masteryRate is null', function () {
       it('should return null for the masteryRate', function () {

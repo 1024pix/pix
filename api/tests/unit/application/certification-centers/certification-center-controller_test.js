@@ -318,6 +318,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
   describe('#sendInvitationForAdmin', function () {
     let certificationCenterInvitationSerializerStub;
+
     beforeEach(function () {
       certificationCenterInvitationSerializerStub = {
         deserializeForAdmin: sinon.stub(),

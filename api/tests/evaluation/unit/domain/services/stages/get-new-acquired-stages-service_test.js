@@ -5,6 +5,7 @@ import { domainBuilder } from '../../../../../tooling/domain-builder/domain-buil
 describe('Unit | Service | Stages calculation', function () {
   describe('getNewAcquiredStages', function () {
     let dataSet;
+
     before(function () {
       dataSet = [
         {
@@ -62,6 +63,7 @@ describe('Unit | Service | Stages calculation', function () {
         },
       ];
     });
+
     it('should return the correct number of stages', function () {
       dataSet.forEach(
         ({

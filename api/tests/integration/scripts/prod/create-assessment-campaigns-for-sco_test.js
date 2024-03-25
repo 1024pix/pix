@@ -10,6 +10,7 @@ describe('Integration | Scripts | create-assessment-campaigns', function () {
   describe('#prepareCampaigns', function () {
     const externalId = '456A';
     let organizationId;
+
     beforeEach(function () {
       organizationId = databaseBuilder.factory.buildOrganization({ externalId }).id;
       return databaseBuilder.commit();

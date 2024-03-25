@@ -103,6 +103,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when serializing with just attributes', function () {
     it('should only serialize the requested attributes and automatically dash-case them', function () {
       const user = {
@@ -126,6 +127,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when serializing with a nested object not declared as relationship', function () {
     it('should embed the object "as in"', function () {
       const user = {
@@ -150,6 +152,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when using top links', function () {
     it('should copy the topLevelLinks object, constructing the link with a function of the data', function () {
       const user = {
@@ -180,6 +183,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when using top meta information', function () {
     it('should copy the meta object at the top level of the serialized object', function () {
       const user = {
@@ -205,6 +209,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when using data links', function () {
     it('should copy the dataLink object, constructing the link with a function of the data', function () {
       const user = {
@@ -235,6 +240,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when using data meta information', function () {
     it('should copy the meta object at the top level of the serialized object', function () {
       const user = {
@@ -260,6 +266,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when simple object with relationship', function () {
     it('should construct a relationship json-api object whose ref property matches the value', function () {
       const user = {
@@ -297,6 +304,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when simple object with relationship along with their attributes', function () {
     it('should construct a relationship json-api object with attributes of each resource by default', function () {
       const user = {
@@ -342,6 +350,7 @@ describe('Docs | jsonapi-serializer', function () {
 
       expect(serialized).to.deep.equal(expected);
     });
+
     it('should construct a relationship json-api object with attributes of each resource, without included when specified', function () {
       const user = {
         id: '1',
@@ -379,6 +388,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when simple object with relationship along with their attributes and relationship meta', function () {
     it('should construct a relationship json-api object with attributes of each resource by default', function () {
       const user = {
@@ -427,6 +437,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when simple object with relationship along with their attributes and relationship links', function () {
     it('should construct a relationship json-api object with attributes of each resource by default', function () {
       const user = {
@@ -481,6 +492,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when dealing with missing data input', function () {
     it('should silently ignore the missing data', function () {
       const user = {
@@ -502,6 +514,7 @@ describe('Docs | jsonapi-serializer', function () {
 
       expect(serialized).to.deep.equal(expected);
     });
+
     it('should allow to override', function () {
       const user = {
         firstName: 'John',
@@ -527,6 +540,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when transforming each record before serialization', function () {
     it('should copy the meta object as top level meta JSON-API object', function () {
       const user = {
@@ -554,6 +568,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when serializing with different key formatting', function () {
     it('should allow to serialize on a different case, and ignore attributes not in camelCase', function () {
       const user = {
@@ -579,6 +594,7 @@ describe('Docs | jsonapi-serializer', function () {
 
       expect(serialized).to.deep.equal(expected);
     });
+
     it('should allow to serialize on a different case by specifying a function', function () {
       const user = {
         firstName: 'John',
@@ -604,6 +620,7 @@ describe('Docs | jsonapi-serializer', function () {
       expect(serialized).to.deep.equal(expected);
     });
   });
+
   describe('when type is not passed-in pluralized', function () {
     it('should automatically pluralize the type', function () {
       const user = {
@@ -646,6 +663,7 @@ describe('Docs | jsonapi-serializer', function () {
 
       expect(serialized).to.deep.equal(expected);
     });
+
     it('should allow override to not pluralize', function () {
       const body = {
         size: 'large',

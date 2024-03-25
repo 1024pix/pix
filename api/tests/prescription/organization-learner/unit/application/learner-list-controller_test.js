@@ -100,6 +100,7 @@ describe('Unit | Application | learner-list-controller', function () {
         },
       });
     });
+
     it('map all certificability values', async function () {
       // given
       request = {

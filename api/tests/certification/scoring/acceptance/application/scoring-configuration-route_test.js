@@ -9,6 +9,7 @@ import {
 
 describe('Acceptance | Application | scoring-configuration-route', function () {
   let server;
+
   beforeEach(async function () {
     server = await createServer();
   });

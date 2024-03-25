@@ -18,6 +18,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
       expect(certificationCenter.isSco).is.false;
     });
   });
+
   describe('#hasBillingMode', function () {
     it('should return false when certification center is of type SCO', function () {
       // given
@@ -35,6 +36,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
       expect(certificationCenter.hasBillingMode).is.true;
     });
   });
+
   describe('#isHabilitated', function () {
     it('should return false when the certification center does not have the complementary certification', function () {
       // given

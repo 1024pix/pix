@@ -20,6 +20,7 @@ describe('Integration | Repository | School', function () {
       expect(savedSchool.code).to.equal('HAPPYY123');
     });
   });
+
   describe('#getByCode', function () {
     it('returns the organization corresponding to the code', async function () {
       // given
@@ -72,6 +73,7 @@ describe('Integration | Repository | School', function () {
       expect(isCodeAvailable).to.be.false;
     });
   });
+
   describe('#getById', function () {
     it('should return the code for an organization', async function () {
       //given

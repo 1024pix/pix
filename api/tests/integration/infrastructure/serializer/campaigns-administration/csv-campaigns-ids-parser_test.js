@@ -5,6 +5,7 @@ import { catchErr, createTempFile, expect, removeTempFile } from '../../../../te
 describe('Integration | Serializer | CSV | campaigns-administration | csv-campaigns-ids-parser', function () {
   describe('#extractCampaignsIds', function () {
     let file;
+
     afterEach(function () {
       removeTempFile(file);
     });

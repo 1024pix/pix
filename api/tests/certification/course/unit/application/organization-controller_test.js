@@ -7,12 +7,15 @@ describe('Certification | Course | Unit | Application | Organizations | organiza
   describe('#downloadCertificationResults', function () {
     const now = new Date('2019-01-01T05:06:07Z');
     let clock;
+
     beforeEach(function () {
       clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
+
     afterEach(function () {
       clock.restore();
     });
+
     it('should return a response with CSV results', async function () {
       // given
       const request = {

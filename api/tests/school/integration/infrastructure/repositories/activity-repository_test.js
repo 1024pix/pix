@@ -26,6 +26,7 @@ describe('Integration | Repository | activityRepository', function () {
       expect(savedActivity).to.deep.equal(activityInDb);
     });
   });
+
   describe('#updateStatus', function () {
     context('when the activity exists', function () {
       it('should update status', async function () {
@@ -53,6 +54,7 @@ describe('Integration | Repository | activityRepository', function () {
       });
     });
   });
+
   describe('#getLastActivity', function () {
     context('when there is no activity for the given assessmentId', function () {
       it('should return an error', async function () {
@@ -99,6 +101,7 @@ describe('Integration | Repository | activityRepository', function () {
       });
     });
   });
+
   describe('#getAllByAssessmentId', function () {
     context('when there is no activity for the given assessmentId', function () {
       it('should return an empty array', async function () {

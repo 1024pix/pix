@@ -25,6 +25,7 @@ describe('Unit | Domain | Models | CertificationCenterInvitedUser', function () 
         expect(invitedUser.status).to.equal(CertificationCenterInvitation.StatusType.ACCEPTED);
       });
     });
+
     describe('error cases', function () {
       context('when certification center code is invalid', function () {
         it('should throw an error', async function () {

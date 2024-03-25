@@ -15,6 +15,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
 
     await databaseBuilder.commit();
   });
+
   describe('#get', function () {
     it('Should return an activity with an empty participation list when no participations were found ', async function () {
       //given

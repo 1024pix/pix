@@ -47,6 +47,7 @@ describe('Unit | Domain | Models | JuryCertificationSummary', function () {
       });
     });
   });
+
   describe('#validate', function () {
     context('when a status is given', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe

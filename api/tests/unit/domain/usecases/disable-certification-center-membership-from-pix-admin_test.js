@@ -3,6 +3,7 @@ import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | disable-certification-center-membership-from-pix-admin', function () {
   let certificationCenterMembershipRepository;
+
   beforeEach(function () {
     certificationCenterMembershipRepository = {
       disableById: sinon.stub(),

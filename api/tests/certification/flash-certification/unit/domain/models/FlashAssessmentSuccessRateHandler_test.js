@@ -4,6 +4,7 @@ import { expect } from '../../../../../test-helper.js';
 describe('Unit | Domain | Models | FlashAssessmentAlgorithmSuccessRateHandler', function () {
   describe('#isApplicable', function () {
     let flashAssessmentSuccessRateHandler;
+
     beforeEach(function () {
       const fixedConfig = {
         startingChallengeIndex: 0,
@@ -39,6 +40,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithmSuccessRateHandler', 
     describe('when strategy is fixed', function () {
       let flashAssessmentSuccessRateHandler;
       const configSuccessRate = 0.8;
+
       beforeEach(function () {
         const fixedConfig = {
           startingChallengeIndex: 0,
@@ -59,6 +61,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithmSuccessRateHandler', 
 
     describe('when strategy is linear', function () {
       let flashAssessmentSuccessRateHandler;
+
       beforeEach(function () {
         const linearConfig = {
           startingChallengeIndex: 0,

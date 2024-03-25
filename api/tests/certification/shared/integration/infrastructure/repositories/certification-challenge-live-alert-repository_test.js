@@ -210,6 +210,7 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
   describe('getOngoingBySessionIdAndUserId', function () {
     const sessionId = 123;
     const userId = 456;
+
     describe('when there is no ongoing live alert', function () {
       it('should return null', async function () {
         // given / when

@@ -5,6 +5,7 @@ import { expect } from '../../../test-helper.js';
 describe('Unit | Domain | Models | PartnerCertificationScoring', function () {
   describe('constructor', function () {
     let validArguments;
+
     beforeEach(function () {
       validArguments = {
         complementaryCertificationCourseId: 999,

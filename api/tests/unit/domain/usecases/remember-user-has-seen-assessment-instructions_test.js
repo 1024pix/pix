@@ -3,6 +3,7 @@ import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | remember-user-has-seen-assessment-instructions', function () {
   let userRepository;
+
   beforeEach(function () {
     userRepository = { updateHasSeenAssessmentInstructionsToTrue: sinon.stub() };
   });

@@ -28,6 +28,7 @@ describe('Acceptance | Route | user-has-seen-level-seven-info ', function () {
     beforeEach(async function () {
       await givenUserHasSeenLevelSevenInfo(false);
     });
+
     it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
       options.headers.authorization = 'invalid.access.token';
 

@@ -15,6 +15,7 @@ describe('Unit | Domain | Models | CleaCertifiedCandidate', function () {
         expect(bornInAForeignCountry).to.be.true;
       });
     });
+
     describe('when the candidate is born in France', function () {
       it('should return false', function () {
         // given
@@ -66,6 +67,7 @@ describe('Unit | Domain | Models | CleaCertifiedCandidate', function () {
         });
       });
     });
+
     describe('when the candidate is born in France', function () {
       it('should return null', function () {
         // given
@@ -94,6 +96,7 @@ describe('Unit | Domain | Models | CleaCertifiedCandidate', function () {
           expect(bornInFrenchOutermostRegion).to.be.true;
         });
       });
+
       describe('when the candidate has a postal code', function () {
         it('should return true', function () {
           // given
@@ -121,6 +124,7 @@ describe('Unit | Domain | Models | CleaCertifiedCandidate', function () {
           expect(bornInFrenchOutermostRegion).to.be.false;
         });
       });
+
       describe('when the candidate has a postal code', function () {
         it('should return false', function () {
           // given

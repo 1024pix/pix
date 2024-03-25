@@ -107,6 +107,7 @@ describe('Unit | Application | sup-learner-list-controller', function () {
         },
       });
     });
+
     it('should call the usecase to find sup participants with users infos related to pagination', async function () {
       // given
       request = { ...request, query: { 'page[size]': 10, 'page[number]': 1 } };

@@ -120,9 +120,11 @@ describe('Unit | Controller | certification-attestation-controller', function ()
   describe('#downloadCertificationAttestationsForDivision', function () {
     const now = new Date('2019-01-01T05:06:07Z');
     let clock;
+
     beforeEach(function () {
       clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
+
     afterEach(function () {
       clock.restore();
     });

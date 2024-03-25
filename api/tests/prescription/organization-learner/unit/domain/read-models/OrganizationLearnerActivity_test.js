@@ -50,6 +50,7 @@ describe('Unit | Domain | Read-Models | OrganizationLearnerActivity', function (
 
     expect(activity.statistics).to.deep.equal(expectedStatistics);
   });
+
   it('computes the activity statistics with multiple participations in a specific campaign type and status', function () {
     const participations = [
       domainBuilder.buildOrganizationLearnerParticipation({

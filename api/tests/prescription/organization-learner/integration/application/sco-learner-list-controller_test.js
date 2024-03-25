@@ -20,6 +20,7 @@ describe('Integration | Application | sco-learner-list-controller', function () 
   afterEach(function () {
     sandbox.restore();
   });
+
   describe('#findPaginatedFilteredScoParticipants', function () {
     context('Success cases', function () {
       it('should return an HTTP response with status code 200', async function () {
