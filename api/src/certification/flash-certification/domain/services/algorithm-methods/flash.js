@@ -31,7 +31,7 @@ function getPossibleNextChallenges({
     return {
       challenge,
       reward: getReward({
-        estimatedLevel: capacity,
+        capacity,
         discriminant: challenge.discriminant,
         difficulty: challenge.difficulty,
       }),
@@ -339,8 +339,8 @@ function _sumPixScoreAndScoreByCompetence(challenges) {
   return { pixScore, pixScoreByCompetence };
 }
 
-function getReward({ estimatedLevel, discriminant, difficulty }) {
-  const probability = _getProbability(estimatedLevel, discriminant, difficulty);
+function getReward({ capacity, discriminant, difficulty }) {
+  const probability = _getProbability(capacity, discriminant, difficulty);
   return probability * (1 - probability) * Math.pow(discriminant, 2);
 }
 
