@@ -1,10 +1,9 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
+
 import { readFile } from 'fs/promises';
 import Redis from 'ioredis';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-
-dotenv.config();
 
 const { challengeIdsFile, redisUrl } = yargs(hideBin(process.argv)).argv;
 const rawChallengeIdsFile = await readFile(challengeIdsFile, 'utf-8');
