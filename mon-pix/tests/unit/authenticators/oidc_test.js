@@ -11,7 +11,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
     const userId = 1;
     const source = 'oidc-externe';
     const useEndSession = false;
-    const hasLogoutUrl = true;
+    const shouldCloseSession = true;
     const logoutUrlUuid = 'uuid';
     const identityProviderCode = 'OIDC_PARTNER';
     const identityProviderSlug = 'oidc-partner';
@@ -56,7 +56,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
         code: identityProviderCode,
         organizationName: 'Partenaire OIDC',
         useEndSession,
-        hasLogoutUrl,
+        shouldCloseSession,
         source,
       };
       class OidcIdentityProvidersStub extends Service {
@@ -95,7 +95,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
         access_token: accessToken,
         logoutUrlUuid,
         source,
-        hasLogoutUrl,
+        shouldCloseSession,
         useEndSession,
         user_id: userId,
         identityProviderCode,
@@ -123,7 +123,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
         logoutUrlUuid,
         source,
         useEndSession,
-        hasLogoutUrl,
+        shouldCloseSession,
         user_id: userId,
         identityProviderCode,
       });
@@ -180,7 +180,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
 
         // when
         await authenticator.invalidate({
-          hasLogoutUrl: true,
+          shouldCloseSession: true,
           identityProviderCode: 'OIDC_PARTNER',
           logoutUrlUuid: 'uuid',
         });

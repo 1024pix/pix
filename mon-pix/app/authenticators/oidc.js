@@ -58,7 +58,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       user_id: decodedAccessToken.user_id,
       source: identityProvider.source,
       useEndSession: identityProvider.useEndSession,
-      hasLogoutUrl: identityProvider.hasLogoutUrl,
+      shouldCloseSession: identityProvider.shouldCloseSession,
       identityProviderCode: identityProvider.code,
     };
   }
@@ -76,8 +76,8 @@ export default class OidcAuthenticator extends BaseAuthenticator {
    * @param {Object} data - The current authenticated session data
    */
   async invalidate(data) {
-    const { access_token, useEndSession, hasLogoutUrl, identityProviderCode, logoutUrlUuid } = data || {};
-    if (!(useEndSession || hasLogoutUrl)) {
+    const { access_token, useEndSession, shouldCloseSession, identityProviderCode, logoutUrlUuid } = data || {};
+    if (!(useEndSession || shouldCloseSession)) {
       return;
     }
 
