@@ -15,7 +15,7 @@ module('Integration | Component | authentication | login-or-register-oidc', func
       id: 'oidc-partner',
       code: 'OIDC_PARTNER',
       organizationName: 'Partenaire OIDC',
-      hasLogoutUrl: false,
+      shouldCloseSession: false,
       source: 'oidc-externe',
     };
     class OidcIdentityProvidersStub extends Service {

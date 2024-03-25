@@ -33,7 +33,7 @@ export default function (config) {
           attributes: {
             code: 'OIDC_PARTNER',
             'organization-name': 'Partenaire OIDC',
-            'has-logout-url': false,
+            'should-close-session': false,
             source: 'oidc-externe',
           },
         },
