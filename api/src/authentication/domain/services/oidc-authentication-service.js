@@ -31,7 +31,6 @@ class OidcAuthenticationService {
       clientId,
       clientSecret,
       configKey,
-      endSessionUrl,
       extraAuthorizationUrlParameters,
       shouldCloseSession = false,
       identityProvider,
@@ -50,7 +49,6 @@ class OidcAuthenticationService {
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.configKey = configKey;
-    this.endSessionUrl = endSessionUrl;
     this.extraAuthorizationUrlParameters = extraAuthorizationUrlParameters;
     this.shouldCloseSession = shouldCloseSession;
     this.identityProvider = identityProvider;
@@ -141,7 +139,7 @@ class OidcAuthenticationService {
   }
 
   async saveIdToken({ idToken, userId } = {}) {
-    if (!(this.endSessionUrl || this.shouldCloseSession)) {
+    if (!this.shouldCloseSession) {
       return null;
     }
 
