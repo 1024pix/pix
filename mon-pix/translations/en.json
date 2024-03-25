@@ -1209,6 +1209,12 @@
         "objectives": "Objectives",
         "startModule": "Start module"
       },
+      "grain": {
+        "tag": {
+          "activity": "activity",
+          "lesson": "lesson"
+        }
+      },
       "modals": {
         "alternativeText": {
           "title": "Alternative text"
