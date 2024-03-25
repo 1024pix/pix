@@ -118,6 +118,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
   describe('#generateKnowledgeElementSnapshots', function () {
     let knowledgeElementRepositoryStub;
     let knowledgeElementSnapshotRepositoryStub;
+
     beforeEach(function () {
       knowledgeElementRepositoryStub = {
         findUniqByUserId: sinon.stub(),

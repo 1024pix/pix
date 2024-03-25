@@ -320,6 +320,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
       });
     });
+
     describe('when "locale" is french', function () {
       it('should return a PrivateCertificate with french resultCompetenceTree', async function () {
         // given

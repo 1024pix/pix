@@ -33,6 +33,7 @@ describe('Unit | Models | SupOrganizationLearnerSet', function () {
       expect(learnerSet.learners.length).to.equal(1);
       expect(learnerSet.learners[0]).to.eql(learnerAttributes);
     });
+
     it('should add 2 learners', function () {
       const supOrganizationLearnerSet = new SupOrganizationLearnerSet(i18n);
 
@@ -60,6 +61,7 @@ describe('Unit | Models | SupOrganizationLearnerSet', function () {
       expect(learners).to.have.lengthOf(2);
       expect(learners[1]).to.deep.equal(learner2);
     });
+
     it('should throw if learner infos are invalid', async function () {
       const errors = await catchErr(
         learnerSet.addLearner,
@@ -67,6 +69,7 @@ describe('Unit | Models | SupOrganizationLearnerSet', function () {
       )({ firstName: null, lastName: 'Katana', birthdate: new Date('1980-07-01') });
       expect(errors[0]).to.be.an.instanceOf(EntityValidationError);
     });
+
     it('should throw if there are 2 learners with the same studentNumber', async function () {
       learnerSet.addLearner(learnerAttributes);
       const errors = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);

@@ -16,6 +16,7 @@ describe('#doSomething', function () {
       expect(data).to.deep.equal({ id: 1 });
     });
   });
+
   describe('#if throwError is true', function () {
     it('should throw a error', async function () {
       // given

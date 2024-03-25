@@ -266,6 +266,7 @@ describe('Acceptance | Controller | Session | session-mass-import-route', functi
 
   describe('GET /api/certification-centers/{certificationCenterId}/import', function () {
     const BOM_CHAR = '\ufeff';
+
     it('should return the CSV template', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;

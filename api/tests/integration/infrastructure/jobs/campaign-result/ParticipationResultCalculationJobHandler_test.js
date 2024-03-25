@@ -5,6 +5,7 @@ import { databaseBuilder, expect, knex, learningContentBuilder, mockLearningCont
 describe('Integration | Infrastructure | Jobs | CampaignResult | ParticipationResultCalculationJobHandler', function () {
   describe('#handle', function () {
     let participationId;
+
     beforeEach(async function () {
       const learningContentObjects = learningContentBuilder.fromAreas([
         {

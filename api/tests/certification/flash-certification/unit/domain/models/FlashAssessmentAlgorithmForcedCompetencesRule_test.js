@@ -14,6 +14,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         expect(FlashAssessmentAlgorithmForcedCompetencesRule.isApplicable(configuration)).to.be.false;
       });
     });
+
     describe('when there is forcedCompetences AND answers length is smaller than warmUpLength', function () {
       it('should return false', function () {
         const configuration = {
@@ -25,6 +26,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         expect(FlashAssessmentAlgorithmForcedCompetencesRule.isApplicable(configuration)).to.be.false;
       });
     });
+
     describe('when there is forcedCompetence AND answers length is bigger or equal than warmUpLength', function () {
       it('should return true', function () {
         const configuration = {

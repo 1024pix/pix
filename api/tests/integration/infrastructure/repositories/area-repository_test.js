@@ -307,6 +307,7 @@ describe('Integration | Repository | area-repository', function () {
         },
       ],
     };
+
     beforeEach(function () {
       mockLearningContent(learningContent);
     });

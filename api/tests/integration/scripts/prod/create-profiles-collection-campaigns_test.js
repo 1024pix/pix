@@ -7,6 +7,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
   describe('#prepareCampaigns', function () {
     let organizationId1;
     let organizationId2;
+
     beforeEach(function () {
       organizationId1 = databaseBuilder.factory.buildOrganization().id;
       organizationId2 = databaseBuilder.factory.buildOrganization().id;

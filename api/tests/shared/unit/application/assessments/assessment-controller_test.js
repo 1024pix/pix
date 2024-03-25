@@ -23,6 +23,7 @@ describe('Unit | Controller | assessment-controller', function () {
       expect(assessmentSerializer.serialize).to.have.been.calledWithExactly(createdAssessment);
     });
   });
+
   describe('#get', function () {
     const authenticatedUserId = '12';
     const locale = 'fr';

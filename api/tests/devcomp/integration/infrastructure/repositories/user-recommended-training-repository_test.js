@@ -153,6 +153,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
       expect(result.length).to.equal(0);
     });
   });
+
   describe('#hasRecommendedTrainings', function () {
     it('should return true if the user has recommended trainings', async function () {
       // given

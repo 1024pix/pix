@@ -6,6 +6,7 @@ import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
 describe('Unit | Controller | pole-emploi-controller', function () {
   describe('#getSendings', function () {
     let curseur, decodedCurseur, badCurseur, sending, poleEmploiService;
+
     beforeEach(function () {
       curseur = Symbol('curseur');
       decodedCurseur = Symbol('decoded curseur');

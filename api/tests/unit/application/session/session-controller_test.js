@@ -87,6 +87,7 @@ describe('Unit | Controller | sessionController', function () {
     const sessionId = 2;
     let request;
     const odsBuffer = 'File Buffer';
+
     beforeEach(function () {
       // given
       request = {

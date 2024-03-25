@@ -37,6 +37,7 @@ describe('Unit | Domain | Models | ValidatorQCU', function () {
       // then
       expect(solutionServiceQCUStub.match).to.have.been.calledWithExactly(uncorrectedAnswer.value, solution.value);
     });
+
     it('should return a validation object with the returned status', function () {
       const expectedValidation = domainBuilder.buildValidation({
         result: AnswerStatus.OK,

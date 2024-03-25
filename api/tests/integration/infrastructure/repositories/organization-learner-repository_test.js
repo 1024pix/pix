@@ -1326,6 +1326,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       expect(isActive).to.be.true;
     });
   });
+
   describe('#updateCertificability', function () {
     it('should update isCertifiable and certifiableAt', async function () {
       // given
@@ -1362,6 +1363,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       expect(error).to.be.instanceof(OrganizationLearnerCertificabilityNotUpdatedError);
     });
   });
+
   describe('#countByOrganizationsWhichNeedToComputeCertificability', function () {
     let featureId;
     let fromUserActivityDate;

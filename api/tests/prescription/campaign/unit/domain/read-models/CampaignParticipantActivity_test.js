@@ -31,6 +31,7 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignParticipantAct
         participationCount: 0,
       });
     });
+
     it('should use lastSharedCampaignParticipationId if provided', function () {
       const lastSharedCampaignParticipationId = 42;
 

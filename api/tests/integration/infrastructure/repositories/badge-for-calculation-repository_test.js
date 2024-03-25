@@ -20,6 +20,7 @@ describe('Integration | Repository | BadgeForCalculation', function () {
     'recSkillB_5',
   ];
   let targetProfileId, campaignId;
+
   beforeEach(function () {
     const learningContent = [
       {
@@ -131,6 +132,7 @@ describe('Integration | Repository | BadgeForCalculation', function () {
       expect(actualBadgesForCalculation).to.deepEqualArray([expectedBadgeForCalculation1]);
     });
   });
+
   describe('#findByCampaignId', function () {
     it('should return a BadgeForCalculation with criteria', async function () {
       // given
@@ -150,6 +152,7 @@ describe('Integration | Repository | BadgeForCalculation', function () {
       expect(actualBadgesForCalculation).to.deepEqualArray([expectedBadgeForCalculation1]);
     });
   });
+
   describe('#getByCertifiableBadgeAcquisition', function () {
     it('should return a BadgeForCalculation with criteria', async function () {
       // given

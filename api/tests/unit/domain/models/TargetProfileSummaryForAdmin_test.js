@@ -15,6 +15,7 @@ describe('Unit | Domain | Models | TargetProfileSummaryForAdmin', function () {
         expect(targetProfileSummary.canDetach).to.be.true;
       });
     });
+
     describe('should returns false', function () {
       it('when target profile is public', function () {
         // given
@@ -25,6 +26,7 @@ describe('Unit | Domain | Models | TargetProfileSummaryForAdmin', function () {
         // then
         expect(targetProfileSummary.canDetach).to.be.false;
       });
+
       it('when target profile is not public and is ownerOrganizationId equals sharedOrgnizationId ', function () {
         // given
         const targetProfileSummary = domainBuilder.buildTargetProfileSummaryForAdmin({

@@ -3,6 +3,7 @@ import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | change-user-lang', function () {
   let userRepository;
+
   beforeEach(function () {
     userRepository = {
       update: sinon.stub(),

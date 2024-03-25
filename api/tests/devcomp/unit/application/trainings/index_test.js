@@ -133,6 +133,7 @@ describe('Unit | Devcomp | Application | Trainings | Router | training-router', 
 
   describe('POST /api/admin/trainings', function () {
     let validPayload;
+
     beforeEach(function () {
       validPayload = {
         data: {
@@ -1198,6 +1199,7 @@ describe('Unit | Devcomp | Application | Trainings | Router | training-router', 
         expect(response.statusCode).to.equal(400);
       });
     });
+
     describe('POST /api/admin/trainings/{id}/attach-target-profiles', function () {
       describe('Security PreHandlers', function () {
         it('should verify user identity and reach controller if user has role SUPER_ADMIN', async function () {
@@ -1273,6 +1275,7 @@ describe('Unit | Devcomp | Application | Trainings | Router | training-router', 
           sinon.assert.notCalled(trainingController.attachTargetProfiles);
         });
       });
+
       describe('Param validation', function () {
         it('should return a 404 HTTP response when target-profile-ids do not contain only numbers', async function () {
           // given

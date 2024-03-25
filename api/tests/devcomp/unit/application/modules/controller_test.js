@@ -22,6 +22,7 @@ describe('Unit | Devcomp | Application | Modules | Module Controller', function 
 
       expect(result).to.equal(serializedModule);
     });
+
     it('should throw an error if referential data is incorrect', async function () {
       // given
       sinon.stub(modulesController, 'getBySlug').throws(new ModuleInstantiationError());

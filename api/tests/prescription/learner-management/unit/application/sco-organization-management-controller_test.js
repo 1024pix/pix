@@ -40,6 +40,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(fs.unlink).to.have.been.calledWithExactly(request.payload.path);
     });
+
     it('should not throw if delete uploaded file fails', async function () {
       // given
       const error = new Error();
@@ -74,6 +75,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         payload,
       });
     });
+
     it('should call the usecase to import organizationLearners csv', async function () {
       // given
       const userId = 1;

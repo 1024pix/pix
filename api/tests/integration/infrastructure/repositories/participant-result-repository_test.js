@@ -1094,6 +1094,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
       });
     });
   });
+
   describe('#getCampaignParticipationStatus', function () {
     let campaign;
     let user;
@@ -1129,6 +1130,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
       // then
       expect(status).to.equals(STARTED);
     });
+
     it('should throws if there no user as no participation for a givent campaign and user', async function () {
       // given
       databaseBuilder.factory.buildCampaignParticipation();
