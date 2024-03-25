@@ -23,7 +23,7 @@ export default class LoginForm extends Component {
   @tracked emailValidationMessage = null;
 
   get displayRecoveryLink() {
-    if (this.intl.t('current-lang') === 'en' || !this.currentDomain.isFranceDomain) {
+    if (this.intl.primaryLocale === 'en' || !this.currentDomain.isFranceDomain) {
       return false;
     }
     return !this.args.isWithInvitation;
