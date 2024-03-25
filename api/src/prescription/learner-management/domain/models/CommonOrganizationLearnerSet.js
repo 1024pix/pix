@@ -3,13 +3,11 @@ import { validateCommonOrganizationLearner } from '../validators/common-organiza
 
 class ImportOrganizationLearnerSet {
   #learners;
-  #unicityKeys;
   #hasValidationFormats;
   #hasUnicityRules;
 
   constructor(validationRules) {
     this.#learners = [];
-    this.#unicityKeys = [];
     this.validationRules = validationRules;
     this.#hasUnicityRules = !!validationRules?.unicity;
     this.#hasValidationFormats = !!validationRules?.formats;
@@ -45,19 +43,18 @@ class ImportOrganizationLearnerSet {
   }
 
   #checkUnicityRule(learnerAttributes) {
-    const unicityKeys = [];
-    this.validationRules.unicity.forEach((rule) => {
-      unicityKeys.push(learnerAttributes.attributes[rule]);
-    });
-    const unicityEntity = unicityKeys.join('-');
-    if (!this.#unicityKeys.includes(unicityEntity)) {
-      this.#unicityKeys.push(unicityEntity);
-      return null;
-    } else {
+    const checkNotUniq = function (learnerToCheck, validationRules) {
+      return function (learner) {
+        return validationRules.unicity.every((rule) => learner.attributes[rule] === learnerToCheck.attributes[rule]);
+      };
+    };
+
+    if (this.#learners.some(checkNotUniq(learnerAttributes, this.validationRules))) {
       return EntityValidationRulesError.unicityError({
         key: this.validationRules.unicity.join('-'),
       });
     }
+    return null;
   }
 
   #checkValidations(learnerAttributes) {
