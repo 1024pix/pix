@@ -19,6 +19,7 @@
     "doc": "docs",
     "test": "tests"
   },
+  "files": [],
   "scripts": {
     "clean": "rm -rf tmp dist node_modules",
     "lint": "run-p --continue-on-error 'lint:!(fix)'",
