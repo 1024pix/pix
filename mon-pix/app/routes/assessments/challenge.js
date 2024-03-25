@@ -55,14 +55,6 @@ export default class ChallengeRoute extends Route {
     });
   }
 
-  async redirect(model) {
-    if (!model.challenge) {
-      return this.router.replaceWith('assessments.resume', model.assessment.id, {
-        queryParams: { assessmentHasNoMoreQuestions: true },
-      });
-    }
-  }
-
   serialize(model) {
     return {
       assessment_id: model.assessment.id,
