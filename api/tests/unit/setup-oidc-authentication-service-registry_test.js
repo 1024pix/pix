@@ -40,7 +40,7 @@ describe('Unit | Config | setup-oidc-authentication-service-registry', function 
           clientSecret: 'secret',
           configKey: 'oidcExampleNet',
           endSessionUrl: 'https://oidc.example.net/end',
-          hasLogoutUrl: false,
+          shouldCloseSession: false,
           identityProvider: 'OIDC_EXAMPLE_NET',
           jwtOptions: { expiresIn: 60 },
           openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
