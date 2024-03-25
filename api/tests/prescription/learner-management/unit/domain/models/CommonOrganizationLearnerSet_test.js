@@ -54,7 +54,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
       context('checkUnicityRule', function () {
         it('should throw unicity errors on one attribute', async function () {
           validationRules = {
-            unicity: ['firstName'],
+            unicity: ['group'],
           };
 
           learnerSet = new ImportOrganizationLearnerSet(validationRules);
@@ -64,13 +64,13 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
           expect(error[0]).to.be.an.instanceOf(EntityValidationRulesError);
           expect(error[0].why).to.equal('uniqueness');
-          expect(error[0].key).to.equal('firstName');
+          expect(error[0].key).to.equal('group');
           expect(error[0].code).to.equal('PROPERTY_NOT_UNIQ');
         });
 
         it('should throw unicity errors on multiple attributes', async function () {
           validationRules = {
-            unicity: ['firstName', 'lastName'],
+            unicity: ['firstName', 'group'],
           };
 
           learnerSet = new ImportOrganizationLearnerSet(validationRules);
@@ -80,8 +80,24 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
           expect(errors[0]).to.be.an.instanceOf(EntityValidationRulesError);
           expect(errors[0].why).to.equal('uniqueness');
-          expect(errors[0].key).to.equal('firstName-lastName');
+          expect(errors[0].key).to.equal('firstName-group');
           expect(errors[0].code).to.equal('PROPERTY_NOT_UNIQ');
+        });
+
+        it('should not throw unicity errors when all unicity attributes are differents', async function () {
+          validationRules = {
+            unicity: ['firstName', 'group'],
+          };
+
+          learnerSet = new ImportOrganizationLearnerSet(validationRules);
+
+          learnerSet.addLearner(learnerAttributes);
+          const response = learnerSet.addLearner({
+            firstName: 'Tomie',
+            attributes: { firstName: 'Tomie', group: 'Cheese' },
+          });
+
+          expect(response).to.not.throw;
         });
       });
       context('checkDateRule', function () {
