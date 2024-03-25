@@ -39,10 +39,6 @@ export default class ModuleGrain extends Component {
     });
   }
 
-  get ariaLiveGrainValue() {
-    return this.args.hasJustAppeared ? 'assertive' : null;
-  }
-
   @action
   focusAndScroll(element) {
     if (!this.args.hasJustAppeared) {
