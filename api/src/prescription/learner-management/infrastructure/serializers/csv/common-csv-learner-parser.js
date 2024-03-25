@@ -26,6 +26,8 @@ const PARSING_OPTIONS = {
   },
 };
 
+const CSV_LEARNER_STARTING_LINE = 2;
+
 class CommonCsvLearerParser {
   #input;
   #encoding;
@@ -83,7 +85,7 @@ class CommonCsvLearerParser {
    * To check it, we decode and parse the first line of the file with supported encodings.
    * If there is one with at least "First name" or "Student number" correctly parsed and decoded.
    */
-  setEncoding() {
+  findEncoding() {
     const supported_encodings = this.#supportedEncodings;
     for (const encoding of supported_encodings) {
       const decodedInput = iconv.decode(this.#input, encoding);
@@ -96,10 +98,6 @@ class CommonCsvLearerParser {
       this.#errors.push(new CsvImportError(ERRORS.ENCODING_NOT_SUPPORTED));
       this.#throwHasErrors();
     }
-  }
-
-  getEncoding() {
-    return this.#encoding;
   }
 
   #throwHasErrors() {
@@ -164,19 +162,9 @@ class CommonCsvLearerParser {
     });
   }
 
-  #buildDateAttribute(dateString) {
-    const convertedDate = convertDateValue({
-      dateString,
-      inputFormat: 'DD/MM/YYYY',
-      alternativeInputFormat: 'DD/MM/YY',
-      outputFormat: 'YYYY-MM-DD',
-    });
-    return convertedDate || dateString;
-  }
-
   #handleValidationError(errors, index) {
     errors.forEach((error) => {
-      const line = index + 2;
+      const line = index + CSV_LEARNER_STARTING_LINE;
       const field = error.key;
 
       if (error.why === 'uniqueness') {

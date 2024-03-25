@@ -9,7 +9,7 @@ import { catchErr, expect } from '../../../../../../test-helper.js';
 describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
   const organizationId = 123;
 
-  context('setEncoding', function () {
+  context('findEncoding', function () {
     const config = {
       headers: [
         {
@@ -31,7 +31,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
 
       // when
-      const error = await catchErr(parser.setEncoding, parser)();
+      const error = await catchErr(parser.findEncoding, parser)();
 
       // then
       expect(error.meta[0].code).to.equal('ENCODING_NOT_SUPPORTED');
@@ -43,7 +43,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
 
       // when
-      const call = () => parser.setEncoding();
+      const call = () => parser.findEncoding();
       // then
       expect(call).to.not.throw();
     });
@@ -77,7 +77,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       Beatrix\\The\\`;
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
-      parser.setEncoding();
+      parser.findEncoding();
       // when
       const error = await catchErr(parser.parse, parser)();
 
@@ -92,7 +92,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
 
-      parser.setEncoding();
+      parser.findEncoding();
       // when
       const errors = await catchErr(parser.parse, parser)();
 
@@ -112,7 +112,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
 
-      parser.setEncoding();
+      parser.findEncoding();
       // when
       const errors = await catchErr(parser.parse, parser)();
 
@@ -131,7 +131,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       The;;`;
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
-      parser.setEncoding();
+      parser.findEncoding();
 
       // when
       const errors = await catchErr(parser.parse, parser)();
@@ -177,7 +177,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
 
-        parser.setEncoding();
+        parser.findEncoding();
         // when
         const call = () => parser.parse();
         // then
@@ -193,7 +193,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
 
-        parser.setEncoding();
+        parser.findEncoding();
         // when
         const learners = parser.parse();
 
@@ -217,7 +217,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
 
-        parser.setEncoding();
+        parser.findEncoding();
         // when
         const learners = parser.parse();
 
@@ -247,7 +247,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
         ];
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
-        parser.setEncoding();
+        parser.findEncoding();
 
         // when
         const learners = parser.parse();
@@ -273,7 +273,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
           The;Batman;4èmeB`;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
-          parser.setEncoding();
+          parser.findEncoding();
 
           // when
           const errors = await catchErr(parser.parse, parser)();
@@ -306,7 +306,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
           The;Superman;3 juillet 1990`;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
-          parser.setEncoding();
+          parser.findEncoding();
 
           // when
           const errors = await catchErr(parser.parse, parser)();
@@ -340,7 +340,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
           The;Superman;;`;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
-          parser.setEncoding();
+          parser.findEncoding();
 
           // when
           const errors = await catchErr(parser.parse, parser)();
