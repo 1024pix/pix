@@ -1,0 +1,5 @@
+{{#if this.shouldDisplayBanner}}
+  <PixBanner @type="information" @canCloseBanner="true" @onCloseBannerTriggerAction={{this.closeBanner}}>
+    {{t "banners.language-availability.message"}}
+  </PixBanner>
+{{/if}}

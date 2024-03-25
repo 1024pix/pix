@@ -57,6 +57,24 @@ module('Unit | Service | session', function (hooks) {
     });
   });
 
+  module('#handleInvalidation', function () {
+    test('overrides handleInvalidation method', function (assert) {
+      // then
+      assert.true(service.handleInvalidation instanceof Function);
+    });
+
+    test('calls clear method from session store', function (assert) {
+      // given
+      sinon.stub(service.store, 'clear');
+
+      // when
+      service.handleInvalidation();
+
+      // then
+      assert.true(service.store.clear.calledOnce);
+    });
+  });
+
   module('#handleLocale', function () {
     module('when domain is .fr', function () {
       module('when there is no cookie locale', function () {
@@ -196,6 +214,23 @@ module('Unit | Service | session', function (hooks) {
         });
 
         module('when user is loaded', function () {
+          module('when user language is not available', function () {
+            test('sets the locale to English international', function (assert) {
+              // given
+              const isFranceDomain = false;
+              const localeFromQueryParam = undefined;
+              const userLocale = 'my-new-language-code-here';
+
+              // when
+              service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
+
+              // then
+              assert.true(localeService.setLocale.calledWith(ENGLISH_INTERNATIONAL_LOCALE));
+              assert.true(service.data.localeNotSupported);
+              assert.strictEqual(service.data.localeNotSupportedBannerClosed, undefined);
+            });
+          });
+
           test('sets the locale to the user’s lang', function (assert) {
             // given
             const isFranceDomain = false;
@@ -285,6 +320,20 @@ module('Unit | Service | session', function (hooks) {
           });
         });
       });
+    });
+  });
+
+  module('#updateDataAttribute', function () {
+    test('updates session data attribute value', function (assert) {
+      // when
+      service.updateDataAttribute('message', 'This is a message!');
+      service.updateDataAttribute('isItUsed', true);
+      service.updateDataAttribute('notDisplayed', false);
+
+      // then
+      assert.strictEqual(service.data.message, 'This is a message!');
+      assert.true(service.data.isItUsed);
+      assert.false(service.data.notDisplayed);
     });
   });
 });

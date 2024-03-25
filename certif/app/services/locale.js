@@ -6,8 +6,8 @@ export const FRENCH_INTERNATIONAL_LOCALE = 'fr';
 export const ENGLISH_INTERNATIONAL_LOCALE = 'en';
 export const FRENCH_FRANCE_LOCALE = 'fr-FR';
 export const DEFAULT_LOCALE = FRENCH_INTERNATIONAL_LOCALE;
+export const SUPPORTED_LANGUAGES = Object.keys(languages);
 
-const SUPPORTED_LANGUAGES = Object.keys(languages);
 const { COOKIE_LOCALE_LIFESPAN_IN_SECONDS } = config.APP;
 
 export default class LocaleService extends Service {
