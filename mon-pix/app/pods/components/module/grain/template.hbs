@@ -1,9 +1,4 @@
-<article
-  class="grain {{if @hasJustAppeared 'grain--active'}}"
-  aria-live={{this.ariaLiveGrainValue}}
-  tabindex="-1"
-  {{did-insert this.focusAndScroll}}
->
+<article class="grain {{if @hasJustAppeared 'grain--active'}}" tabindex="-1" {{did-insert this.focusAndScroll}}>
   <h2 class="screen-reader-only">{{@grain.title}}</h2>
 
   {{#if @transition}}
