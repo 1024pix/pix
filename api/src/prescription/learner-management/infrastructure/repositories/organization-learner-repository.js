@@ -64,8 +64,22 @@ const addOrUpdateOrganizationOfOrganizationLearners = async function (
   }
 };
 
-const updateCommonOrganizationLearners = async function () {
-  return true;
+//quel est le discriminant pour update le bon learner ? récupérer les champs unicity validation ?
+const updateCommonOrganizationLearners = async function (learners, discriminants = ['name', 'INE']) {
+  discriminants.map((dis) => {
+    {
+      learner.attributes[dis];
+    }
+  });
+
+  const knex = ApplicationTransaction.getConnection();
+  learners.forEach(async (learner) => {
+    await knex('organization-learners')
+      .where({ id: learner.id })
+      .update({ ...learner, updatedAt: knex.raw('CURRENT_TIMESTAMP') });
+  });
+
+  return knex('organization-learners').update(learners);
 };
 
 const saveCommonOrganizationLearners = function (learners) {

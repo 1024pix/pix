@@ -1028,10 +1028,10 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
     });
+
     it('should update one organization learner', async function () {
       // given
-      const learnerData = new CommonOrganizationLearner({
-        id: 38,
+      await databaseBuilder.factory.buildOrganizationLearner({
         firstName: 'Sacha',
         lastName: 'Du Bourg Pallette',
         organizationId,
@@ -1041,9 +1041,9 @@ describe('Integration | Repository | Organization Learner Management | Organizat
           INE: '234567890',
         },
       });
+      await databaseBuilder.commit();
 
       const newLearnerData = new CommonOrganizationLearner({
-        id: 38,
         firstName: 'Sacha',
         lastName: 'Salameche',
         organizationId,
@@ -1054,21 +1054,82 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         },
       });
 
-      await databaseBuilder.factory.buildOrganizationLearner(learnerData);
-
-      await databaseBuilder.commit();
-
       // when
       await updateCommonOrganizationLearners([newLearnerData]);
 
       // then
       const [organizationLearner] = await knex.from('organization-learners');
 
-      expect(organizationLearner.firstName).to.equal(learnerData.firstName);
-      expect(organizationLearner.lastName).to.equal(learnerData.lastName);
-      expect(organizationLearner.organizationId).to.equal(learnerData.organizationId);
-      expect(organizationLearner.attributes).to.deep.equal(learnerData.attributes);
+      expect(organizationLearner.firstName).to.equal(newLearnerData.firstName);
+      expect(organizationLearner.lastName).to.equal(newLearnerData.lastName);
+      expect(organizationLearner.organizationId).to.equal(newLearnerData.organizationId);
+      expect(organizationLearner.attributes).to.deep.equal(newLearnerData.attributes);
       expect(organizationLearner.isDisabled).to.be.false;
+    });
+
+    it('should update several organization learners', async function () {
+      // given
+      const learner1 = await databaseBuilder.factory.buildOrganizationLearner({
+        firstName: 'Sacha',
+        lastName: 'Du Bourg Pallette',
+        organizationId,
+        attributes: {
+          firstName: 'Sacha',
+          lastName: 'Du Bourg Pallette',
+          INE: '234567890',
+        },
+      });
+
+      const learner2 = await databaseBuilder.factory.buildOrganizationLearner({
+        firstName: 'Pierre',
+        lastName: 'Argenta',
+        organizationId,
+        attributes: {
+          firstName: 'Pierre',
+          lastName: 'Argenta',
+          INE: '543216788',
+        },
+      });
+      await databaseBuilder.commit();
+
+      const newLearnerData1 = new CommonOrganizationLearner({
+        firstName: 'Sacha',
+        lastName: 'Pickachu',
+        organizationId,
+        attributes: {
+          firstName: 'Sacha',
+          lastName: 'Pickachu',
+          INE: '234567890',
+        },
+      });
+
+      const newLearnerData2 = new CommonOrganizationLearner({
+        id: learner2.id,
+        firstName: 'Pierre',
+        lastName: 'Feuille',
+        organizationId,
+        attributes: {
+          firstName: 'Pierre',
+          lastName: 'Feuille',
+          INE: '234567890',
+        },
+      });
+
+      // when
+      await updateCommonOrganizationLearners([newLearnerData1, newLearnerData2]);
+
+      // then
+      const organizationLearners = await knex.from('organization-learners');
+
+      expect(organizationLearners).to.lengthOf(2);
+      const updatedLearner1 = organizationLearners.find((learner) => learner.id === learner1.id);
+      const updatedLearner2 = organizationLearners.find((learner) => learner.id === learner2.id);
+
+      expect(updatedLearner1.lastName).to.equal(newLearnerData1.firstName);
+      expect(updatedLearner1.attributes).to.deep.equal(newLearnerData1.attributes);
+
+      expect(updatedLearner2.lastName).to.equal(newLearnerData2.firstName);
+      expect(updatedLearner2.attributes).to.deep.equal(newLearnerData2.attributes);
     });
   });
 });
