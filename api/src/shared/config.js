@@ -325,7 +325,7 @@ const configuration = (function () {
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
       temporaryStorage: { idTokenLifespanMs: ms(process.env.POLE_EMPLOI_ID_TOKEN_LIFESPAN || '7d') },
     },
-    port: parseInt(process.env.PORT, 10) || 3000,
+    port: parseInt(process.env.NODE_PORT, 10) || 3000,
     rootPath: path.normalize(__dirname + '/..'),
     saml: {
       spConfig: parseJSONEnv('SAML_SP_CONFIG'),
