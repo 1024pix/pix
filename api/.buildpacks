@@ -1,3 +1,3 @@
 https://github.com/Scalingo/nginx-buildpack
 https://github.com/Scalingo/nodejs-buildpack
-https://github.com/1024pix/pix-nginx-buildpack/archive/refs/tags/v0.1.0.tar.gz
+https://github.com/1024pix/pix-nginx-buildpack#PIX-11734-add-redis
