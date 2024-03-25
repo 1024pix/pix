@@ -6,7 +6,9 @@ import { tracked } from '@glimmer/tracking';
 export default class ModulePassage extends Component {
   @service router;
   @service metrics;
-  @tracked grainsToDisplay = [this.args.module.grains[0]];
+  displayableGrains = this.args.module.grains.filter((grain) => grain.supportedElements.length > 0);
+  @tracked grainsToDisplay = this.displayableGrains.length > 0 ? [this.displayableGrains[0]] : [];
+
   static SCROLL_OFFSET_PX = 70;
 
   @action
@@ -15,7 +17,7 @@ export default class ModulePassage extends Component {
   }
 
   get hasNextGrain() {
-    return this.grainsToDisplay.length < this.args.module.grains.length;
+    return this.grainsToDisplay.length < this.displayableGrains.length;
   }
 
   get lastIndex() {
@@ -24,7 +26,7 @@ export default class ModulePassage extends Component {
 
   @action
   skipToNextGrain() {
-    const lastGrain = this.args.module.grains[this.lastIndex];
+    const lastGrain = this.displayableGrains[this.lastIndex];
 
     this.addNextGrainToDisplay();
 
@@ -38,7 +40,7 @@ export default class ModulePassage extends Component {
 
   @action
   continueToNextGrain() {
-    const lastGrain = this.args.module.grains[this.lastIndex];
+    const lastGrain = this.displayableGrains[this.lastIndex];
 
     this.addNextGrainToDisplay();
 
@@ -55,7 +57,7 @@ export default class ModulePassage extends Component {
       return;
     }
 
-    const nextGrain = this.args.module.grains[this.lastIndex + 1];
+    const nextGrain = this.displayableGrains[this.lastIndex + 1];
     this.grainsToDisplay = [...this.grainsToDisplay, nextGrain];
   }
 

@@ -16,11 +16,27 @@ export default class ModuleGrain extends Component {
   }
 
   get shouldDisplaySkipButton() {
-    return this.args.canMoveToNextGrain && this.grain.hasAnswerableElements && !this.allElementsAreAnswered;
+    return this.args.canMoveToNextGrain && this.hasAnswerableElements && !this.allElementsAreAnswered;
+  }
+
+  get displayableElements() {
+    return this.args.grain.supportedElements;
+  }
+
+  get hasAnswerableElements() {
+    return this.displayableElements.some((element) => element.isAnswerable);
+  }
+
+  get answerableElements() {
+    return this.displayableElements.filter((element) => {
+      return element.isAnswerable;
+    });
   }
 
   get allElementsAreAnswered() {
-    return this.grain.allElementsAreAnsweredForPassage(this.args.passage);
+    return this.answerableElements.every((element) => {
+      return !!this.args.passage.getLastCorrectionForElement(element);
+    });
   }
 
   get ariaLiveGrainValue() {
