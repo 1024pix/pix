@@ -14,10 +14,14 @@ module('Acceptance | Module | Routes | navigateIntoTheModuleRecap', function (ho
   module('when user arrive on the module recap page', function (hooks) {
     let screen;
     hooks.beforeEach(async function () {
+      const grain = server.create('grain', {
+        id: 'grain1',
+        elements: [{ type: 'text' }],
+      });
       server.create('module', {
         id: 'bien-ecrire-son-adresse-mail',
         title: 'Bien écrire son adresse mail',
-        grains: [],
+        grains: [grain],
         details: {
           image: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-details.svg',
           description: 'Description',
