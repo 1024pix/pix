@@ -1,12 +1,11 @@
+import 'dotenv/config';
+
 import dayjs from 'dayjs';
-import * as dotenv from 'dotenv';
 import ms from 'ms';
 import path from 'path';
 import * as url from 'url';
 
 import { getArrayOfStrings, getArrayOfUpperStrings } from './infrastructure/utils/string-utils.js';
-
-dotenv.config();
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

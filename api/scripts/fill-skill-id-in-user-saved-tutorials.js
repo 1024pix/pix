@@ -1,6 +1,5 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
 
-dotenv.config();
 import lodash from 'lodash';
 const { groupBy } = lodash;
 import * as url from 'url';
