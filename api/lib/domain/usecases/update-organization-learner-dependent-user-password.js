@@ -41,7 +41,7 @@ const updateOrganizationLearnerDependentUserPassword = async function ({
     hashedPassword,
   });
 
-  return generatedPassword;
+  return { generatedPassword, organizationLearnerId };
 };
 
 export { updateOrganizationLearnerDependentUserPassword };

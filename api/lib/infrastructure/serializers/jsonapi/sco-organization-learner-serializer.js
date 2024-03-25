@@ -22,6 +22,7 @@ const serializeExternal = function (scoOrganizationLearner) {
 
 const serializeCredentialsForDependent = function (scoOrganizationLearner) {
   return new Serializer('dependent-users', {
+    id: 'organizationLearnerId',
     attributes: ['username', 'generatedPassword'],
   }).serialize(scoOrganizationLearner);
 };
