@@ -1,5 +1,4 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
 
 import * as fs from 'fs';
 import fp from 'lodash/fp.js';
