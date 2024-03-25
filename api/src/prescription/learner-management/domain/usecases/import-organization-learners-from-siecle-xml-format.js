@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 
-import { SiecleXmlImportError } from '../errors.js';
+import { AggregateImportError, SiecleXmlImportError } from '../errors.js';
 
 const { isEmpty, chunk } = lodash;
 
@@ -40,12 +40,11 @@ const importOrganizationLearnersFromSIECLEXMLFormat = async function ({
   const organization = await organizationRepository.get(organizationId);
   const path = payload.path;
 
-  const { file: filePath, directory } = await siecleService.unzip(path);
-  const encoding = await siecleService.detectEncoding(filePath);
-
-  let filename;
+  let filename, encoding;
   const errors = [];
   try {
+    const { file: filePath, directory } = await siecleService.unzip(path);
+    encoding = await siecleService.detectEncoding(filePath);
     filename = await importStorage.sendFile({ filepath: filePath });
     if (directory) {
       await fs.rm(directory, { recursive: true });
@@ -72,7 +71,11 @@ const importOrganizationLearnersFromSIECLEXMLFormat = async function ({
       throw new SiecleXmlImportError(ERRORS.EMPTY);
     }
   } catch (error) {
-    errors.push(error);
+    if (error instanceof AggregateImportError) {
+      errors.push(...error.meta);
+    } else {
+      errors.push(error);
+    }
     throw error;
   } finally {
     organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
