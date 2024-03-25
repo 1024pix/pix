@@ -8,6 +8,16 @@ const GET_NEXT_CHALLENGE_API_ROUTE = '/api/admin/smart-random-simulator/get-next
 const ANSWER_STATUSES = { OK: 'ok', KO: 'ko' };
 const KNOWLEDGE_ELEMENTS_STATUSES = { VALIDATED: 'validated', INVALIDATED: 'invalidated' };
 const KNOWLEDGE_ELEMENTS_SOURCES = { DIRECT: 'direct', INFERRED: 'inferred' };
+const MAX_TUBE_LEVEL = 8;
+
+const SKILLS_STATUSES = {
+  PRESENT: 'present',
+  MISSING: 'missing',
+  DIRECT_VALIDATED: 'direct_validated',
+  DIRECT_INVALIDATED: 'direct_invalidated',
+  INDIRECT_VALIDATED: 'direct_validated',
+  INDIRECT_INVALIDATED: 'direct_validated',
+};
 
 export default class SmartRandomSimulator extends Controller {
   @service session;
@@ -62,6 +72,27 @@ export default class SmartRandomSimulator extends Controller {
 
   get currentChallenge() {
     return this.assessmentComplete ? null : this.returnedChallenges[this.returnedChallenges.length - 1];
+  }
+
+  get skillsByTube() {
+    return this.skills.reduce((accumulator, skill) => {
+      const tubeName = this.getTubeNameFromSkillName(skill.name);
+      const accumulatorIndex = accumulator.findIndex((tube) => tube.name === tubeName);
+
+      if (accumulatorIndex === -1) {
+        const skills = Array.from({ length: MAX_TUBE_LEVEL }, (_, index) => index + 1).map((difficulty) => ({
+          difficulty,
+          status: difficulty === skill.difficulty ? SKILLS_STATUSES.PRESENT : SKILLS_STATUSES.MISSING,
+        }));
+
+        accumulator.push({ name: tubeName, skills });
+
+        return accumulator;
+      }
+
+      accumulator[accumulatorIndex].skills[skill.difficulty - 1].status = SKILLS_STATUSES.PRESENT;
+      return accumulator;
+    }, []);
   }
 
   async requestNextChallenge() {
