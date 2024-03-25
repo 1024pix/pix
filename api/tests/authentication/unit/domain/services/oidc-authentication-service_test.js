@@ -33,7 +33,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const oidcAuthenticationService = new OidcAuthenticationService(args);
 
         // then
-        expect(oidcAuthenticationService.hasLogoutUrl).to.be.false;
+        expect(oidcAuthenticationService.shouldCloseSession).to.be.false;
         expect(oidcAuthenticationService.scope).to.equal('openid profile');
       });
     });
