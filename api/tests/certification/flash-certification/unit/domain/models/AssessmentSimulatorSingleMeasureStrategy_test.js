@@ -96,7 +96,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
 
           algorithm.getReward
             .withArgs({
-              estimatedLevel: initialCapacity,
+              capacity: initialCapacity,
               difficulty: challenge1.difficulty,
               discriminant: challenge1.discriminant,
             })
@@ -233,7 +233,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
 
           algorithm.getReward
             .withArgs({
-              estimatedLevel: capacityAfterFirstChallenge,
+              capacity: capacityAfterFirstChallenge,
               difficulty: challenge1.difficulty,
               discriminant: challenge1.discriminant,
             })

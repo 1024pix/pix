@@ -44,7 +44,7 @@ export class AssessmentSimulatorSingleMeasureStrategy {
     });
 
     const reward = this.algorithm.getReward({
-      estimatedLevel: estimatedLevelBeforeAnswering,
+      capacity: estimatedLevelBeforeAnswering,
       difficulty: nextChallenge.difficulty,
       discriminant: nextChallenge.discriminant,
     });

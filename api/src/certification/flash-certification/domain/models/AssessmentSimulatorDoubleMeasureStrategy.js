@@ -43,7 +43,7 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
       }
 
       const reward = this.algorithm.getReward({
-        estimatedLevel: estimatedLevelBefore,
+        capacity: estimatedLevelBefore,
         difficulty: nextChallenge.difficulty,
         discriminant: nextChallenge.discriminant,
       });

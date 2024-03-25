@@ -121,8 +121,8 @@ class FlashAssessmentAlgorithm {
     });
   }
 
-  getReward({ estimatedLevel, discriminant, difficulty }) {
-    return this.flashAlgorithmImplementation.getReward({ estimatedLevel, discriminant, difficulty });
+  getReward({ capacity, discriminant, difficulty }) {
+    return this.flashAlgorithmImplementation.getReward({ capacity, discriminant, difficulty });
   }
 
   getConfiguration() {

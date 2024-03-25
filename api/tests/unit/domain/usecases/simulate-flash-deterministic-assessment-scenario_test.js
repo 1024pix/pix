@@ -54,7 +54,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           .withArgs({
             difficulty: firstChallenge.difficulty,
             discriminant: firstChallenge.discriminant,
-            estimatedLevel: initialCapacity,
+            capacity: initialCapacity,
           })
           .returns(0.5);
 
@@ -384,19 +384,19 @@ function prepareStubs({
     .withArgs({
       difficulty: firstChallenge.difficulty,
       discriminant: firstChallenge.discriminant,
-      estimatedLevel: 0,
+      capacity: 0,
     })
     .returns(0.5)
     .withArgs({
       difficulty: secondChallenge.difficulty,
       discriminant: secondChallenge.discriminant,
-      estimatedLevel: 1,
+      capacity: 1,
     })
     .returns(1.5)
     .withArgs({
       difficulty: thirdChallenge.difficulty,
       discriminant: thirdChallenge.discriminant,
-      estimatedLevel: 2,
+      capacity: 2,
     })
     .returns(2.5);
 
