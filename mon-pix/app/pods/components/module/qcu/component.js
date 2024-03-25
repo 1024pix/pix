@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 export default class ModuleQcu extends Component {
   @tracked selectedAnswerId = null;
   @tracked requiredMessage = false;
+  @tracked isOnRetryMode = false;
 
   qcu = this.args.qcu;
 
@@ -13,16 +14,25 @@ export default class ModuleQcu extends Component {
   }
 
   get disableInput() {
-    return !!this.args.correction;
+    return !this.isOnRetryMode && !!this.args.correction;
   }
 
   get shouldDisplayFeedback() {
-    return !!this.args.correction;
+    return !this.isOnRetryMode && !!this.args.correction;
+  }
+
+  get shouldDisplayRetryButton() {
+    return this.shouldDisplayFeedback && this.args.correction?.isOk === false;
   }
 
   @action
   radioClicked(proposalId) {
     this.selectedAnswerId = proposalId;
+  }
+
+  @action
+  retry() {
+    this.isOnRetryMode = true;
   }
 
   @action
