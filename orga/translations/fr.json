@@ -59,6 +59,9 @@
     },
     "import": {
       "message": "L'administrateur peut télécharger les résultats de certification et '<'a href=\"/import-participants\" class=\"{linkClasses}\"'>'importer'</a>' la base élèves, afin de créer les campagnes de rentrée par niveau. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Plus d’info'</a>'"
+    },
+    "language-availability": {
+      "message": "Votre langue n'est pas encore disponible sur Pix Orga. Pour votre confort, l'application sera présentée en anglais. Toute l'équipe de Pix travaille à l'ajout de votre langue."
     }
   },
   "cards": {

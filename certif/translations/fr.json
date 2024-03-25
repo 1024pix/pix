@@ -1,4 +1,9 @@
 {
+  "banners": {
+    "language-availability": {
+      "message": "Votre langue n'est pas encore disponible sur Pix Certif. Pour votre confort, l'application sera présentée en anglais. Toute l'équipe de Pix travaille à l'ajout de votre langue."
+    }
+  },
   "common": {
     "actions": {
       "add": "Ajouter",
