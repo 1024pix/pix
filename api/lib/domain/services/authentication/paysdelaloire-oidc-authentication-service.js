@@ -10,7 +10,7 @@ class PaysdelaloireOidcAuthenticationService extends OidcAuthenticationService {
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
-      endSessionUrl: config[configKey].endSessionUrl,
+      shouldCloseSession: true,
       identityProvider: PAYSDELALOIRE.code,
       jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       openidConfigurationUrl: config[configKey].openidConfigurationUrl,

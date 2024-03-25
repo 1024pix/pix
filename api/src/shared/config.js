@@ -294,7 +294,6 @@ const configuration = (function () {
       accessTokenLifespanMs: ms(process.env.PAYSDELALOIRE_ACCESS_TOKEN_LIFESPAN || '7d'),
       clientId: process.env.PAYSDELALOIRE_CLIENT_ID,
       clientSecret: process.env.PAYSDELALOIRE_CLIENT_SECRET,
-      endSessionUrl: process.env.PAYSDELALOIRE_END_SESSION_URL,
       isEnabled: isFeatureEnabled(process.env.PAYSDELALOIRE_ENABLED),
       isEnabledForPixAdmin: false,
       openidConfigurationUrl: process.env.PAYSDELALOIRE_OPENID_CONFIGURATION_URL,
