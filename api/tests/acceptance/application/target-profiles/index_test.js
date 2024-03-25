@@ -162,6 +162,7 @@ describe('Acceptance | Route | target-profiles', function () {
         description: 'Une description',
         'created-at': new Date('2020-01-01'),
         'has-linked-campaign': true,
+        'has-linked-autonomous-course': false,
         'image-url': 'https://test',
         'is-public': true,
         'is-simplified-access': false,
