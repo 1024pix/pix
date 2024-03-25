@@ -230,20 +230,15 @@ function getChallengesForNonAnsweredSkills({ allAnswers, challenges }) {
   return challengesForNonAnsweredSkills;
 }
 
-function calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel }) {
+function calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, capacity }) {
   const succeededChallenges = _getDirectSucceededChallenges({ allAnswers, challenges });
 
   const inferredChallenges = _getInferredChallenges({
     challenges: getChallengesForNonAnsweredSkills({ allAnswers, challenges }),
-    estimatedLevel,
+    capacity,
   });
 
-  const pixScoreAndScoreByCompetence = _sumPixScoreAndScoreByCompetence([
-    ...succeededChallenges,
-    ...inferredChallenges,
-  ]);
-
-  return pixScoreAndScoreByCompetence;
+  return _sumPixScoreAndScoreByCompetence([...succeededChallenges, ...inferredChallenges]);
 }
 
 function _limitEstimatedLevelVariation(previousEstimatedLevel, nextEstimatedLevel, variationPercent) {
@@ -280,9 +275,9 @@ function _getDirectSucceededChallenges({ allAnswers, challenges }) {
   return correctAnswers.map((answer) => _findChallengeForAnswer(challenges, answer));
 }
 
-function _getInferredChallenges({ challenges, estimatedLevel }) {
+function _getInferredChallenges({ challenges, capacity }) {
   const challengesForInferrence = _findChallengesForInferrence(challenges);
-  return challengesForInferrence.filter((challenge) => estimatedLevel >= challenge.minimumCapability);
+  return challengesForInferrence.filter((challenge) => capacity >= challenge.minimumCapability);
 }
 
 /**

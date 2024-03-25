@@ -704,12 +704,12 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
         const challenges = [...inferredChallenges, ...notInferredChallenges];
 
-        const estimatedLevel = 2;
+        const capacity = 2;
 
         const allAnswers = [];
 
         // when
-        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, capacity });
 
         // then
         expect(result).to.deep.equal({
@@ -818,10 +818,10 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED, challengeId: challenges[3].id }),
         ];
 
-        const estimatedLevel = 2;
+        const capacity = 2;
 
         // when
-        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, capacity });
 
         // then
         expect(result).to.deep.equal({
@@ -911,7 +911,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
         const challenges = [...succeededChallenges, ...inferredChallenges, ...notInferredChallenges];
 
-        const estimatedLevel = 2;
+        const capacity = 2;
 
         const allAnswers = [
           domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: succeededChallenges[0].id }),
@@ -919,7 +919,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         ];
 
         // when
-        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, capacity });
 
         // then
         expect(result).to.deep.equal({
@@ -962,12 +962,12 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           }), // minimumCapability: 2.1295639109084643
         ];
 
-        const estimatedLevel = 2;
+        const capacity = 2;
 
         const allAnswers = [];
 
         // when
-        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, capacity });
 
         // then
         expect(result).to.deep.equal({

@@ -114,7 +114,7 @@ async function _getFlashScoringResults(assessmentId, locale) {
   const { pixScore, pixScoreByCompetence } = flash.calculateTotalPixScoreAndScoreByCompetence({
     allAnswers,
     challenges,
-    estimatedLevel,
+    capacity: estimatedLevel,
   });
 
   const competences = await competenceRepository.findByRecordIds({
