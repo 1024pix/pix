@@ -1,6 +1,7 @@
 import { createReadStream } from 'fs';
 
 import { SupOrganizationLearnerParser } from '../../infrastructure/serializers/csv/sup-organization-learner-parser.js';
+import { AggregateImportError } from '../errors.js';
 import { OrganizationImport } from '../models/OrganizationImport.js';
 
 const replaceSupOrganizationLearners = async function ({
@@ -45,7 +46,11 @@ const replaceSupOrganizationLearners = async function ({
     learnersData = learners;
     warningsData = warnings;
   } catch (error) {
-    errors.push(error);
+    if (error instanceof AggregateImportError) {
+      errors.push(...error.meta);
+    } else {
+      errors.push(error);
+    }
     throw error;
   } finally {
     organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
