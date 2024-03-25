@@ -1,14 +1,14 @@
 /* stylelint-disable selector-class-pattern, selector-id-pattern */
 .target-profile-section {
-
   &__container {
     display: flex;
+    gap: var(--pix-spacing-4x);
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: var(--pix-spacing-4x);
 
-    li:not(:last-child) {
-      margin-bottom: .3em;
+    li {
+      margin-bottom: var(--pix-spacing-2x);
     }
   }
 
@@ -18,16 +18,14 @@
 }
 
 .target-profile__edit-form {
-
   #targetProfileName {
     margin-bottom: 24px;
   }
 }
 
 .target-profile {
-
   &__title {
-    margin-right: 8px;
+    margin-right: var(--pix-spacing-3x);
   }
 
   &__actions {
