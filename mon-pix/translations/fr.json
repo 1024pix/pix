@@ -1187,6 +1187,7 @@
       "beta-banner": "Ce module est en version bêta. Vous pourrez faire vos retours à la fin de ce module pour nous permettre de l’améliorer.",
       "buttons": {
         "activity": {
+          "retry": "Réessayer",
           "verify": "Vérifier"
         },
         "element": {

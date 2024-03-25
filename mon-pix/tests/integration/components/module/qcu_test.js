@@ -114,6 +114,48 @@ module('Integration | Component | Module | QCU', function (hooks) {
     assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
   });
 
+  test('should display retry button when a ko feedback appears', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Too Bad!',
+      status: 'ko',
+      solution: 'solution',
+    });
+
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
+
+    // when
+    const screen = await render(
+      hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
+
+    // then
+    assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).exists();
+  });
+
+  test('should not display retry button when an ok feedback appears', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Nice!',
+      status: 'ok',
+      solution: 'solution',
+    });
+
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
+
+    // when
+    const screen = await render(
+      hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
+
+    // then
+    assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).doesNotExist();
+  });
+
   test('should display an error message if QCU is validated without response', async function (assert) {
     // given
     const qcuElement = {
