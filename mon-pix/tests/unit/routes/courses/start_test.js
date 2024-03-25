@@ -25,10 +25,10 @@ module('Unit | Route | Courses | Start', function (hooks) {
     route.router = { replaceWith: sinon.stub() };
   });
 
-  module('#afterModel', function () {
+  module('#redirect', function () {
     test('should call the creation of a new assessment', async function (assert) {
       // when
-      await route.afterModel(course);
+      await route.redirect(course);
 
       // then
       sinon.assert.calledWith(createRecordStub, 'assessment', { course, type: course.type });
@@ -37,7 +37,7 @@ module('Unit | Route | Courses | Start', function (hooks) {
 
     test('should redirect to resume assessment route', async function (assert) {
       // when
-      await route.afterModel(course);
+      await route.redirect(course);
 
       // then
       sinon.assert.calledWith(route.router.replaceWith, 'assessments.resume', createdAssessment.id);
