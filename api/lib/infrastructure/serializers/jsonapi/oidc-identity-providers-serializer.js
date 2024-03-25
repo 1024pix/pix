@@ -10,11 +10,10 @@ const serialize = function (oidcIdentityProviders) {
         code: oidcIdentityProvider.code,
         organizationName: oidcIdentityProvider.organizationName,
         shouldCloseSession: oidcIdentityProvider.shouldCloseSession,
-        useEndSession: Boolean(oidcIdentityProvider.endSessionUrl),
         source: oidcIdentityProvider.source,
       };
     },
-    attributes: ['code', 'organizationName', 'shouldCloseSession', 'useEndSession', 'source'],
+    attributes: ['code', 'organizationName', 'shouldCloseSession', 'source'],
   }).serialize(oidcIdentityProviders);
 };
 

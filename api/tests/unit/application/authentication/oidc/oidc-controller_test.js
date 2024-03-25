@@ -41,7 +41,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           attributes: {
             code: 'LIMONADE_OIDC_PROVIDER',
             'organization-name': 'Limonade OIDC Provider',
-            'use-end-session': false,
             'should-close-session': false,
             source: 'limonade_oidc_provider',
           },
@@ -52,7 +51,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           attributes: {
             code: 'KOMBUCHA_OIDC_PROVIDER',
             'organization-name': 'Kombucha OIDC Provider',
-            'use-end-session': false,
             'should-close-session': true,
             source: 'kombucha_oidc_provider',
           },
@@ -88,7 +86,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           code: 'SOME_OIDC_PROVIDER',
           source: 'some_oidc_provider',
           'organization-name': 'Some OIDC Provider',
-          'use-end-session': false,
           'should-close-session': false,
         },
       });

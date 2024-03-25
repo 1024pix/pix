@@ -47,7 +47,6 @@ async function createServerWithTestOidcProvider() {
       clientId: 'client',
       clientSecret: 'secret',
       configKey: 'oidcExampleNet',
-      endSessionUrl: 'https://oidc.example.net/ea5ac20c-5076-4806-860a-b0aeb01645d4/oauth2/v2.0/logout',
       shouldCloseSession: true,
       identityProvider: 'OIDC_EXAMPLE_NET',
       jwtOptions: { expiresIn: 60 },
