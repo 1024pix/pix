@@ -222,10 +222,6 @@ module('Unit | Service | session', function (hooks) {
         module('when user is not loaded', function () {
           test('sets the default locale', function (assert) {
             // given
-            service.currentUser = {
-              load: sinon.stub(),
-              prescriber: null,
-            };
             const localeFromQueryParam = undefined;
             const userLocale = undefined;
 
@@ -256,13 +252,6 @@ module('Unit | Service | session', function (hooks) {
 
           test('sets the locale to the user’s lang', function (assert) {
             // given
-            service.currentUser = {
-              load: sinon.stub(),
-              prescriber: {
-                lang: ENGLISH_INTERNATIONAL_LOCALE,
-                save: sinon.stub(),
-              },
-            };
             const localeFromQueryParam = undefined;
             const userLocale = ENGLISH_INTERNATIONAL_LOCALE;
 
@@ -270,7 +259,6 @@ module('Unit | Service | session', function (hooks) {
             service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
-            sinon.assert.notCalled(service.currentUser.prescriber.save);
             assert.true(localeService.setLocale.calledWith(ENGLISH_INTERNATIONAL_LOCALE));
           });
         });
@@ -281,10 +269,6 @@ module('Unit | Service | session', function (hooks) {
           module('when user is not loaded', function () {
             test('sets the default locale', function (assert) {
               // given
-              service.currentUser = {
-                load: sinon.stub(),
-                prescriber: null,
-              };
               const localeFromQueryParam = 'an invalid locale';
               const userLocale = undefined;
 
@@ -299,13 +283,6 @@ module('Unit | Service | session', function (hooks) {
           module('when user is loaded', function () {
             test('sets the locale to the user’s lang', function (assert) {
               // given
-              service.currentUser = {
-                load: sinon.stub(),
-                prescriber: {
-                  lang: ENGLISH_INTERNATIONAL_LOCALE,
-                  save: sinon.stub(),
-                },
-              };
               const localeFromQueryParam = 'an invalid locale';
               const userLocale = ENGLISH_INTERNATIONAL_LOCALE;
 
@@ -313,7 +290,6 @@ module('Unit | Service | session', function (hooks) {
               service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
-              sinon.assert.notCalled(service.currentUser.prescriber.save);
               assert.true(localeService.setLocale.calledWith(ENGLISH_INTERNATIONAL_LOCALE));
             });
           });
@@ -323,10 +299,6 @@ module('Unit | Service | session', function (hooks) {
           module('when user is not loaded', function () {
             test('sets the locale to the lang query param', function (assert) {
               // given
-              service.currentUser = {
-                load: sinon.stub(),
-                prescriber: null,
-              };
               localeService.handleUnsupportedLanguage.returns(ENGLISH_INTERNATIONAL_LOCALE);
 
               // when
