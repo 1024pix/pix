@@ -2,7 +2,6 @@ import iconv from 'iconv-lite';
 import papa from 'papaparse';
 
 import { CsvImportError } from '../../../../../shared/domain/errors.js';
-import { convertDateValue } from '../../../../../shared/infrastructure/utils/date-utils.js';
 import { AggregateImportError } from '../../../domain/errors.js';
 import { ImportOrganizationLearnerSet } from '../../../domain/models/CommonOrganizationLearnerSet.js';
 
@@ -11,7 +10,6 @@ const ERRORS = {
   BAD_CSV_FORMAT: 'BAD_CSV_FORMAT',
   HEADER_REQUIRED: 'HEADER_REQUIRED',
   HEADER_UNKNOWN: 'HEADER_UNKNOWN',
-  PROPERTY_NOT_UNIQ: 'PROPERTY_NOT_UNIQ',
 };
 
 const PARSING_OPTIONS = {
@@ -70,7 +68,7 @@ class CommonCsvLearerParser {
 
     learnerLines.forEach((line, index) => {
       try {
-        this.#learnerSet.addLearner(this.#lineToOrganizationLearnerAttributes(line, index));
+        this.#learnerSet.addLearner(this.#lineToOrganizationLearnerAttributes(line));
       } catch (errors) {
         this.#handleValidationError(errors, index);
       }
