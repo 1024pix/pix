@@ -133,15 +133,11 @@ const updatePassword = async function (request, h, dependencies = { scoOrganizat
   const organizationId = payload['organization-id'];
   const organizationLearnerId = payload['organization-learner-id'];
 
-  const generatedPassword = await usecases.updateOrganizationLearnerDependentUserPassword({
+  const scoOrganizationLearner = await usecases.updateOrganizationLearnerDependentUserPassword({
     userId,
     organizationId,
     organizationLearnerId,
   });
-
-  const scoOrganizationLearner = {
-    generatedPassword,
-  };
 
   return h
     .response(dependencies.scoOrganizationLearnerSerializer.serializeCredentialsForDependent(scoOrganizationLearner))
