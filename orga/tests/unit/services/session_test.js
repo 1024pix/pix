@@ -218,11 +218,16 @@ module('Unit | Service | session', function (hooks) {
         assert.true(localeService.setLocaleCookie.notCalled);
       });
 
-      module('when no lang query param', function () {
+      module('when no lang query param', function (hooks) {
+        let localeFromQueryParam;
+
+        hooks.beforeEach(function () {
+          localeFromQueryParam = undefined;
+        });
+
         module('when user is not loaded', function () {
           test('sets the default locale', function (assert) {
             // given
-            const localeFromQueryParam = undefined;
             const userLocale = undefined;
 
             // when
@@ -237,7 +242,6 @@ module('Unit | Service | session', function (hooks) {
           module('when user language is not available', function () {
             test('sets the locale to English international', function (assert) {
               // given
-              const localeFromQueryParam = undefined;
               const userLocale = 'my-new-language-code-here';
 
               // when
@@ -252,7 +256,6 @@ module('Unit | Service | session', function (hooks) {
 
           test('sets the locale to the user’s lang', function (assert) {
             // given
-            const localeFromQueryParam = undefined;
             const userLocale = ENGLISH_INTERNATIONAL_LOCALE;
 
             // when
