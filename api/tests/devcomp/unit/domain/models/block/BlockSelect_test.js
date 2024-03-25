@@ -37,6 +37,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       expect(() => new BlockSelect({})).to.throw('The input is required for a select block');
     });
   });
+
   describe('If display is missing', function () {
     it('should throw an error', function () {
       expect(
@@ -47,6 +48,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       ).to.throw('The display is required for a select block');
     });
   });
+
   describe('If placeholder is missing', function () {
     it('should throw an error', function () {
       expect(
@@ -58,6 +60,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       ).to.throw('The placeholder is required for a select block');
     });
   });
+
   describe('If ariaLabel is missing', function () {
     it('should throw an error', function () {
       expect(
@@ -70,6 +73,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       ).to.throw('The aria Label is required for a select block');
     });
   });
+
   describe('If defaultValue is missing', function () {
     it('should throw an error', function () {
       expect(
@@ -83,6 +87,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       ).to.throw('The default value is required for a select block');
     });
   });
+
   describe('If tolerances are missing', function () {
     it('should throw an error', function () {
       expect(
@@ -97,6 +102,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       ).to.throw('The tolerances are required for a select block');
     });
   });
+
   describe('If options are missing', function () {
     it('should throw an error', function () {
       expect(

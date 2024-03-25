@@ -43,6 +43,7 @@ describe('Integration | Repository | Certification', function () {
 
   describe('#publishCertificationCoursesBySessionId', function () {
     const sessionId = 200;
+
     beforeEach(function () {
       databaseBuilder.factory.buildSession({ id: sessionId });
       _buildValidatedCertification({ id: 1, sessionId, isPublished: false });
@@ -110,6 +111,7 @@ describe('Integration | Repository | Certification', function () {
 
   describe('#unpublishCertificationCoursesBySessionId', function () {
     const sessionId = 200;
+
     beforeEach(function () {
       databaseBuilder.factory.buildSession({ id: sessionId });
       _buildValidatedCertification({ id: 1, sessionId, isPublished: true, pixCertificationStatus: status.VALIDATED });

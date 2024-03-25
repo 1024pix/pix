@@ -14,6 +14,7 @@ describe('Acceptance | Controller | session-controller-get-supervisor-kit-pdf', 
 
   describe('GET /api/sessions/{id}/supervisor-kit', function () {
     let user, sessionIdAllowed;
+
     beforeEach(async function () {
       // given
       user = databaseBuilder.factory.buildUser();

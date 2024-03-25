@@ -4,6 +4,7 @@ import { databaseBuilder, expect } from '../../test-helper.js';
 
 describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.js', function () {
   const organizationId = 123;
+
   describe('#addManyStudentsToScoCertificationCenter', function () {
     it('should insert 2 sco certification centers', async function () {
       // given

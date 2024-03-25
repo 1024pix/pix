@@ -5,6 +5,7 @@ import { expect, hFake, sinon } from '../../../test-helper.js';
 describe('Unit | Application | Controller | Campaign Administration', function () {
   describe('#archiveCampaigns', function () {
     let csvCampaignsIdsParserStub;
+
     beforeEach(function () {
       sinon.stub(usecases, 'archiveCampaigns');
       csvCampaignsIdsParserStub = { extractCampaignsIds: sinon.stub() };

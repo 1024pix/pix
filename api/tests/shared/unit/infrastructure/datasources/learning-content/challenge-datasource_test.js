@@ -377,6 +377,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
         challenges: [challenge_web1, challenge_web1_notValidated, challenge_web1_archived, challenge_competence2],
       });
     });
+
     it('should resolve an array of validated challenge of a skill from learning content ', async function () {
       // when
       const result = await challengeDatasource.findValidatedBySkillId('skill-web1', 'fr');
@@ -393,6 +394,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
 
     const skillId = '@didacticiel1';
     const locale = 'fr';
+
     beforeEach(function () {
       validated_challenge_pix1d = {
         id: 'challenge-competence1',

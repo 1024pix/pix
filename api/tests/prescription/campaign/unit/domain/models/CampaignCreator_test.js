@@ -11,6 +11,7 @@ import { catchErr, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CampaignCreator', function () {
   let organizationFeatures;
+
   beforeEach(function () {
     organizationFeatures = {};
     organizationFeatures[ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] = true;

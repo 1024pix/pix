@@ -26,12 +26,14 @@ const assessmentAttributes = ['userId', 'method', 'state', 'type', 'courseId', '
 describe('Integration | Infrastructure | Repository | CampaignParticipant', function () {
   describe('get', function () {
     let organizationId;
+
     beforeEach(function () {
       organizationId = 12;
       const learningContent = { skills: [{ id: 'skill1', status: 'actif' }] };
 
       mockLearningContent(learningContent);
     });
+
     it('set the userId', async function () {
       const campaign = buildCampaignWithSkills({});
       const { id: userId } = databaseBuilder.factory.buildUser();

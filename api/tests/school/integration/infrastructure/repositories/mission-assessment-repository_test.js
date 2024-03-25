@@ -17,6 +17,7 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       expect(result).to.deep.equal(new MissionAssessment({ missionId, assessmentId, organizationLearnerId }));
     });
   });
+
   describe('#getCurrent', function () {
     it('should return a started assessment for learner and missionId', async function () {
       const missionId = 'flute79';
@@ -65,6 +66,7 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       expect(result).to.deep.equal(null);
     });
   });
+
   describe('#getAllCompletedMissionIds', function () {
     it('should return a list of completed mission ids for a given organization learner', async function () {
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();

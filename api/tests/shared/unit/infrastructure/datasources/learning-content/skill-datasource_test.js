@@ -68,6 +68,7 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
       // then
       expect(result).to.deep.equal([rawSkill1, rawSkill2]);
     });
+
     it('should return the skills with active or building status ', async function () {
       // given
       const rawSkill1 = { id: 'recSkill1', name: '@rechercher_didacticiel1', status: 'actif' };

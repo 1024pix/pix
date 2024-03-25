@@ -420,6 +420,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
   describe('#checkUserBelongsToOrganizationManagingStudents', function () {
     let request;
+
     beforeEach(function () {
       request = {
         auth: {
@@ -501,6 +502,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
   describe('#checkUserBelongsToOrganizationLearnerOrganization', function () {
     let request;
+
     beforeEach(function () {
       request = {
         auth: {

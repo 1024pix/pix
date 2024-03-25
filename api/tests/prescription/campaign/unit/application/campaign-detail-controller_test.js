@@ -280,6 +280,7 @@ describe('Unit | Application | Controller | Campaign detail', function () {
     const campaignId = 1;
     const userId = 1;
     let campaignParticipantsActivitySerializerStub;
+
     beforeEach(function () {
       participantsActivities = Symbol('participants activities');
       serializedParticipantsActivities = Symbol('serialized participants activities');

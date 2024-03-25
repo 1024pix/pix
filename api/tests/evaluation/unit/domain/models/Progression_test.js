@@ -3,6 +3,7 @@ import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Progression', function () {
   let skillLevel1, skillLevel2, skillLevel3;
+
   beforeEach(function () {
     [skillLevel1, skillLevel2, skillLevel3] = domainBuilder.buildSkillCollection();
   });

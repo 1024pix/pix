@@ -70,6 +70,7 @@ function _computeExpectedColumnsIndex(campaign, organization, badges, stages) {
 
 describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function () {
   let translate;
+
   beforeEach(function () {
     translate = getI18n().__;
   });

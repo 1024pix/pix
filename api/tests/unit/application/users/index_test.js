@@ -1230,6 +1230,7 @@ describe('Unit | Router | user-router', function () {
           '"data.attributes.identity-provider" must be one of [GAR, POLE_EMPLOI, CNAV, FWB, PAYSDELALOIRE]',
         );
       });
+
       it('returns 400 when the payload contains an invalid user id', async function () {
         // given
         const httpTestServer = new HttpTestServer();

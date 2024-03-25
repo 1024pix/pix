@@ -4,6 +4,7 @@ import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Repository | competence-tree-repository', function () {
   let areaRepository;
+
   beforeEach(function () {
     areaRepository = { listWithPixCompetencesOnly: sinon.stub() };
   });

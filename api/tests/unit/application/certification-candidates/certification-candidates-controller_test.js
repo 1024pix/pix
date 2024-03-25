@@ -58,6 +58,7 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
       expect(response.statusCode).to.equal(204);
     });
   });
+
   describe('#endAssessmentBySupervisor', function () {
     const certificationCandidateId = 2;
 

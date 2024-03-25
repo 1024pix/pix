@@ -14,6 +14,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         expect(FlashAssessmentAlgorithmPassageByAllCompetencesRule.isApplicable(configuration)).to.be.false;
       });
     });
+
     describe('when enablePassageByAllCompetences is true AND answers length is smaller than warmUpLength', function () {
       it('should return false', function () {
         const configuration = {
@@ -25,6 +26,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         expect(FlashAssessmentAlgorithmPassageByAllCompetencesRule.isApplicable(configuration)).to.be.false;
       });
     });
+
     describe('when the enablePassageByAllCompetences is true AND answers length is bigger or equal than warmUpLength', function () {
       it('should return true', function () {
         const configuration = {

@@ -17,6 +17,7 @@ describe('Integration | Infrastructure | Repository | CertificationChallengeForS
 
       await databaseBuilder.commit();
     });
+
     describe('when there is no challenge', function () {
       it('should return an empty array', async function () {
         const challenges = await getByCertificationCourseId({ certificationCourseId });

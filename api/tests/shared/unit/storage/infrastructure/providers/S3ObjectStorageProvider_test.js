@@ -18,6 +18,7 @@ describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider'
   let clientS3;
   let libStorage;
   let s3RequestPresigner;
+
   beforeEach(function () {
     clientS3 = { S3Client, ListObjectsV2Command, GetObjectCommand, DeleteObjectCommand };
     libStorage = { Upload };

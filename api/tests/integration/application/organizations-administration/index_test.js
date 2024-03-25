@@ -14,6 +14,7 @@ describe('Integration | Application | Organization Administration | Routes', fun
     const method = 'PATCH';
     const url = '/api/admin/organizations/1234';
     let headers, httpTestServer;
+
     beforeEach(async function () {
       sinon.stub(organizationAdministrationController, 'updateOrganizationInformation').returns('ok');
       httpTestServer = new HttpTestServer();

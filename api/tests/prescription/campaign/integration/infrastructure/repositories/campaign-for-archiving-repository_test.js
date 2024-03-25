@@ -53,6 +53,7 @@ describe('Integration | Infrastructure | Repository | campaign-for-archiving-rep
       });
     });
   });
+
   describe('#getByCode', function () {
     it('find the campaign with the correct code', async function () {
       databaseBuilder.factory.buildCampaign({ id: 1, code: '123ABC', archivedAt: null, archivedBy: null });

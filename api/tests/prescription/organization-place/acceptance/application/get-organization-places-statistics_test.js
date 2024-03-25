@@ -49,6 +49,7 @@ describe('Acceptance | Route | Get Organizations Places Statistics', function ()
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.type).to.equal('organization-place-statistics');
     });
+
     it('should return 412 http code if organisation have unlimited places', async function () {
       // given
       const server = await createServer();

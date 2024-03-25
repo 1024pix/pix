@@ -15,6 +15,7 @@ describe('Unit | Domain | Read-Models | CampaignProfile', function () {
         expect(campaignProfile.isCertifiable).to.equal(true);
       });
     });
+
     describe('when the campaign participation is not Shared', function () {
       it('does not give information about certification status', function () {
         const placementProfile = { isCertifiable: () => true };

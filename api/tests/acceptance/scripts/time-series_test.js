@@ -8,6 +8,7 @@ describe('Unit | Scripts | time-series.js', function () {
         expect(() => new TimeSeries()).to.throw('Time series should have a non null/undefined array of points');
       });
     });
+
     describe('Given empty time series', function () {
       describe('New value to add', function () {
         it('should add the point sorted to the time series', async function () {
@@ -20,6 +21,7 @@ describe('Unit | Scripts | time-series.js', function () {
         });
       });
     });
+
     describe('Given less than 28 points', function () {
       describe('New value to add', function () {
         it('should add the point sorted to the time series', async function () {
@@ -36,6 +38,7 @@ describe('Unit | Scripts | time-series.js', function () {
           expect(updatedTimeSeries.get(expectedNumberOfPoints - 1).x).to.equal('2023-10-25T07:03:47.926Z');
         });
       });
+
       describe('Same value than the last to add', function () {
         it('should replace the last point', async function () {
           const timeSeries = new TimeSeries([{ x: '2023-07-19T07:00:00.000Z', y: 298 }]);
@@ -48,9 +51,11 @@ describe('Unit | Scripts | time-series.js', function () {
         });
       });
     });
+
     describe('Given more or equal than 28 points', function () {
       let timeSeries;
       const expectedNumberOfPoints = 28;
+
       beforeEach(function () {
         timeSeries = new TimeSeries(Array(expectedNumberOfPoints).fill({ x: '2023-10-25T07:03:47.926Z', y: 306 }));
       });
@@ -63,6 +68,7 @@ describe('Unit | Scripts | time-series.js', function () {
           expect(updatedTimeSeries.get(expectedNumberOfPoints - 1).y).to.equal(298);
         });
       });
+
       describe('Same value than the last to add', function () {
         it('should replace the last point', async function () {
           const updatedTimeSeries = timeSeries.add({ x: '2023-11-19T07:00:00.000Z', y: 306 });
@@ -73,6 +79,7 @@ describe('Unit | Scripts | time-series.js', function () {
       });
     });
   });
+
   describe('#toString', function () {
     it('should stringify points', function () {
       const timeSeries = new TimeSeries([{ x: '2023-07-19T07:00:00.000Z', y: 298 }]);
