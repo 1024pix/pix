@@ -312,7 +312,6 @@ const configuration = (function () {
     poleEmploi: {
       accessTokenLifespanMs: ms(process.env.POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN || '7d'),
       afterLogoutUrl: process.env.POLE_EMPLOI_OIDC_AFTER_LOGOUT_URL,
-      authenticationUrl: process.env.POLE_EMPLOI_OIDC_AUTHENTICATION_URL,
       clientId: process.env.POLE_EMPLOI_CLIENT_ID,
       clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
       isEnabled: isFeatureEnabled(process.env.POLE_EMPLOI_ENABLED),
@@ -325,7 +324,6 @@ const configuration = (function () {
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
       temporaryStorage: { idTokenLifespanMs: ms(process.env.POLE_EMPLOI_ID_TOKEN_LIFESPAN || '7d') },
-      userInfoUrl: process.env.POLE_EMPLOI_OIDC_USER_INFO_URL,
     },
     port: parseInt(process.env.PORT, 10) || 3000,
     rootPath: path.normalize(__dirname + '/..'),

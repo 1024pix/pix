@@ -573,13 +573,12 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           );
         }
 
-        const userInfoUrl = 'infoUrl';
         const idToken = generateIdToken({
           nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
           sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
         });
 
-        const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl });
+        const oidcAuthenticationService = new OidcAuthenticationService({});
         sinon.stub(oidcAuthenticationService, '_getUserInfoFromEndpoint').resolves({});
 
         // when
