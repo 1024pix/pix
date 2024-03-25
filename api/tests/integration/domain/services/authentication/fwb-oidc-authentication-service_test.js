@@ -15,7 +15,7 @@ describe('Integration | Domain | Service | fwb-oidc-authentication-service', fun
       expect(fwbOidcAuthenticationService.identityProvider).to.equal('FWB');
       expect(fwbOidcAuthenticationService.slug).to.equal('fwb');
       expect(fwbOidcAuthenticationService.organizationName).to.equal('Fédération Wallonie-Bruxelles');
-      expect(fwbOidcAuthenticationService.hasLogoutUrl).to.be.true;
+      expect(fwbOidcAuthenticationService.shouldCloseSession).to.be.true;
     });
   });
 

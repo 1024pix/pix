@@ -20,6 +20,7 @@ class GoogleOidcAuthenticationService extends OidcAuthenticationService {
       slug: 'google',
       source: 'google',
       scope: 'openid profile email',
+      shouldCloseSession: true,
     });
 
     this.temporaryStorage = config[configKey].temporaryStorage;
