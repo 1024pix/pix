@@ -82,5 +82,52 @@
       }
     }
   }
+
+  .tubes-viewer {
+    width: 500px;
+    table-layout: auto;
+    background: white;
+    border: 1px solid var(--pix-neutral-500);
+    border-radius: 10px;
+
+    td, th {
+      border: 1px solid var(--pix-neutral-100);
+    }
+
+    tr {
+      height: 40px;
+    }
+
+    th {
+      padding: 5px;
+      text-align: left;
+    }
+
+    td{
+      padding: 0;
+      text-align: center;
+    }
+
+    &__skill{
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin: 0 auto;
+      border-radius: 5px;
+
+      &.present{
+        background: var(--pix-primary-500);
+      }
+
+      &.direct_validated, &.indirect_validated{
+        background: var(--pix-success-500);
+      }
+
+      &.direct_invalidated, &.indirect_invalidated{
+        background: black;
+      }
+    }
+
+  }
 }
 

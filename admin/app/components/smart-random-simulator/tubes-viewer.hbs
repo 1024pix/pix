@@ -1,0 +1,27 @@
+<table class="tubes-viewer">
+  <thead>
+    <tr>
+      <th>Tube</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each @tubes as |tube|}}
+      <tr>
+        <th class="tubes-viewer__name">{{tube.name}}</th>
+        {{#each tube.skills as |skill|}}
+          <td>
+            <span class="tubes-viewer__skill {{skill.status}}" />
+          </td>
+        {{/each}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

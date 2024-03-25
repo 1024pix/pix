@@ -15,8 +15,8 @@ const SKILLS_STATUSES = {
   MISSING: 'missing',
   DIRECT_VALIDATED: 'direct_validated',
   DIRECT_INVALIDATED: 'direct_invalidated',
-  INDIRECT_VALIDATED: 'direct_validated',
-  INDIRECT_INVALIDATED: 'direct_validated',
+  INDIRECT_VALIDATED: 'indirect_validated',
+  INDIRECT_INVALIDATED: 'indirect_invalidated',
 };
 
 export default class SmartRandomSimulator extends Controller {
@@ -78,19 +78,36 @@ export default class SmartRandomSimulator extends Controller {
     return this.skills.reduce((accumulator, skill) => {
       const tubeName = this.getTubeNameFromSkillName(skill.name);
       const accumulatorIndex = accumulator.findIndex((tube) => tube.name === tubeName);
+      let status = SKILLS_STATUSES.MISSING;
+      const knowledgeElement = this.knowledgeElements.find((knowledgeElement) => knowledgeElement.skillId === skill.id);
+      if (!knowledgeElement) {
+        status = SKILLS_STATUSES.PRESENT;
+      } else {
+        if (knowledgeElement.source === KNOWLEDGE_ELEMENTS_SOURCES.DIRECT) {
+          status =
+            knowledgeElement.status === KNOWLEDGE_ELEMENTS_STATUSES.VALIDATED
+              ? SKILLS_STATUSES.DIRECT_VALIDATED
+              : SKILLS_STATUSES.DIRECT_INVALIDATED;
+        } else {
+          status =
+            knowledgeElement.status === KNOWLEDGE_ELEMENTS_STATUSES.VALIDATED
+              ? SKILLS_STATUSES.INDIRECT_VALIDATED
+              : SKILLS_STATUSES.INDIRECT_INVALIDATED;
+        }
+      }
 
       if (accumulatorIndex === -1) {
         const skills = Array.from({ length: MAX_TUBE_LEVEL }, (_, index) => index + 1).map((difficulty) => ({
           difficulty,
-          status: difficulty === skill.difficulty ? SKILLS_STATUSES.PRESENT : SKILLS_STATUSES.MISSING,
+          status: SKILLS_STATUSES.MISSING,
         }));
+        skills[skill.difficulty - 1].status = status;
 
         accumulator.push({ name: tubeName, skills });
-
         return accumulator;
       }
 
-      accumulator[accumulatorIndex].skills[skill.difficulty - 1].status = SKILLS_STATUSES.PRESENT;
+      accumulator[accumulatorIndex].skills[skill.difficulty - 1].status = status;
       return accumulator;
     }, []);
   }
