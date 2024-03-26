@@ -14,7 +14,7 @@ const successAnswerMatcher = sinon.match({
 describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', function () {
   context('when there are enough flash challenges left', function () {
     context('when no initial capacity is provided', function () {
-      it('should return an array of estimated level, challenge, reward and error rate for each answer', async function () {
+      it('should return an array of capacity, challenge, reward and error rate for each answer', async function () {
         // given
         const { challengeRepository, pickChallenge, pickAnswerStatus, flashAlgorithmService } = prepareStubs();
 
@@ -233,7 +233,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
       const flashAlgorithmService = {
         getPossibleNextChallenges: sinon.stub(),
-        getEstimatedLevelAndErrorRate: sinon.stub(),
+        getCapacityAndErrorRate: sinon.stub(),
         getReward: sinon.stub(),
       };
 
@@ -251,7 +251,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         )
         .returns([]);
 
-      flashAlgorithmService.getEstimatedLevelAndErrorRate.returns({
+      flashAlgorithmService.getCapacityAndErrorRate.returns({
         capacity: 0,
         errorRate: 1,
       });
@@ -329,7 +329,7 @@ function prepareStubs({
   const pickAnswerStatus = sinon.stub();
   const flashAlgorithmService = {
     getPossibleNextChallenges: sinon.stub(),
-    getEstimatedLevelAndErrorRate: sinon.stub(),
+    getCapacityAndErrorRate: sinon.stub(),
     getReward: sinon.stub(),
   };
 
@@ -342,7 +342,7 @@ function prepareStubs({
     ),
   );
 
-  flashAlgorithmService.getEstimatedLevelAndErrorRate
+  flashAlgorithmService.getCapacityAndErrorRate
     .withArgs({
       allAnswers: [],
       challenges: sinon.match.any,

@@ -32,7 +32,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       findFlashCompatible: sinon.stub(),
     };
     algorithm = {
-      getEstimatedLevelAndErrorRate: sinon.stub(),
+      getCapacityAndErrorRate: sinon.stub(),
       getConfiguration: sinon.stub(),
     };
 
@@ -94,7 +94,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
       answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
       challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-      algorithm.getEstimatedLevelAndErrorRate
+      algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
           allAnswers,
@@ -130,7 +130,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
       answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
       challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-      algorithm.getEstimatedLevelAndErrorRate
+      algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
           allAnswers,
@@ -180,7 +180,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
         answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
         challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             challenges,
             allAnswers,
@@ -219,7 +219,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
         answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
         challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             challenges,
             allAnswers,
@@ -268,7 +268,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
         answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
         challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             challenges,
             allAnswers,
@@ -314,7 +314,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       const challenges = _buildChallenges(veryEasyDifficulty, numberOfChallenges);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.KO);
 
-      algorithm.getEstimatedLevelAndErrorRate
+      algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
           allAnswers,
@@ -345,7 +345,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       const challenges = _buildChallenges(veryEasyDifficulty, numberOfChallenges);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.KO);
 
-      algorithm.getEstimatedLevelAndErrorRate
+      algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
           allAnswers,
@@ -386,7 +386,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       const challenges = _buildChallenges(veryHardDifficulty, numberOfChallenges);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
 
-      algorithm.getEstimatedLevelAndErrorRate
+      algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
           allAnswers,
@@ -417,7 +417,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       const challenges = _buildChallenges(veryHardDifficulty, numberOfChallenges);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
 
-      algorithm.getEstimatedLevelAndErrorRate
+      algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
           allAnswers,
@@ -457,7 +457,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         const challenges = _buildChallenges(difficulty, numberOfChallenges);
         const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
 
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             challenges,
             allAnswers,
@@ -487,7 +487,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
           const challenges = _buildChallenges(difficulty, numberOfChallenges);
           const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
-          algorithm.getEstimatedLevelAndErrorRate
+          algorithm.getCapacityAndErrorRate
             .withArgs({
               challenges,
               allAnswers,
@@ -517,7 +517,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
           const challenges = _buildChallenges(difficulty, numberOfChallenges);
           const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
-          algorithm.getEstimatedLevelAndErrorRate
+          algorithm.getCapacityAndErrorRate
             .withArgs({
               challenges,
               allAnswers,
@@ -549,7 +549,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
         const challenges = _buildChallenges(difficulty, numberOfChallenges);
         const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             challenges,
             allAnswers,

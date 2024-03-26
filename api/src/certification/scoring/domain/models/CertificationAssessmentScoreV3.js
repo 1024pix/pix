@@ -25,7 +25,7 @@ class CertificationAssessmentScoreV3 {
     const numberOfIntervals = v3CertificationScoring.getNumberOfIntervals();
     const intervalHeight = MAX_PIX_SCORE / numberOfIntervals;
 
-    const { capacity } = algorithm.getEstimatedLevelAndErrorRate({
+    const { capacity } = algorithm.getCapacityAndErrorRate({
       challenges,
       allAnswers,
     });

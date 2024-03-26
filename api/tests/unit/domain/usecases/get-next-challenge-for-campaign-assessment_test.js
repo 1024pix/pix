@@ -31,7 +31,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
       pickChallengeService = { pickChallenge: sinon.stub(), chooseNextChallenge: sinon.stub() };
       flashAlgorithmService = {
-        getEstimatedLevelAndErrorRate: sinon.stub(),
+        getCapacityAndErrorRate: sinon.stub(),
         getPossibleNextChallenges: sinon.stub(),
         getReward: sinon.stub(),
       };
@@ -146,7 +146,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               challenges,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges,
               allAnswers,
@@ -214,7 +214,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               challenges,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges,
               allAnswers,
@@ -283,7 +283,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               challenges,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges,
               allAnswers,

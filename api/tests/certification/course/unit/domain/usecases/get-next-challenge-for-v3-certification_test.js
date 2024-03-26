@@ -43,7 +43,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
       };
       flashAlgorithmService = {
         getPossibleNextChallenges: sinon.stub(),
-        getEstimatedLevelAndErrorRate: sinon.stub(),
+        getCapacityAndErrorRate: sinon.stub(),
       };
 
       flashAlgorithmConfiguration = domainBuilder.buildFlashAlgorithmConfiguration();
@@ -79,7 +79,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallengeToAnswer]);
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
+        flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
             allAnswers: [],
             challenges: [nextChallengeToAnswer],
@@ -207,7 +207,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallenge, lastSeenChallenge]);
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
+        flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
             allAnswers: [],
             challenges: [nextChallenge],
@@ -304,7 +304,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
           .withArgs()
           .resolves([challengeWithLiveAlert, challengeWithOtherSkill, challengeWithLiveAlertedSkill]);
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
+        flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
             allAnswers: [],
             challenges: [challengeWithOtherSkill],
@@ -376,7 +376,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
 
         const flashAlgorithmService = {
           getPossibleNextChallenges: sinon.stub(),
-          getEstimatedLevelAndErrorRate: sinon.stub(),
+          getCapacityAndErrorRate: sinon.stub(),
         };
 
         flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
@@ -399,7 +399,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([answeredChallenge]);
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
+        flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
             allAnswers: [answer],
             challenges: [answeredChallenge],
@@ -499,7 +499,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
             answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
             challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallengeToAnswer]);
 
-            flashAlgorithmService.getEstimatedLevelAndErrorRate
+            flashAlgorithmService.getCapacityAndErrorRate
               .withArgs({
                 allAnswers: [],
                 challenges: [nextChallengeToAnswer],
