@@ -55,9 +55,9 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id });
       cryptoService.hashPassword.withArgs(password).resolves(hashedPassword);
       authenticationMethodRepository.hasIdentityProviderPIX.withArgs({ userId: user.id }).resolves(false);
-      DomainTransaction.execute = (lambda) => {
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
         return lambda(domainTransaction);
-      };
+      });
 
       // when
       await updateUserForAccountRecovery({
@@ -104,9 +104,9 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id });
       cryptoService.hashPassword.withArgs(password).resolves(hashedPassword);
       authenticationMethodRepository.hasIdentityProviderPIX.withArgs({ userId: user.id }).resolves(true);
-      DomainTransaction.execute = (lambda) => {
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
         return lambda(domainTransaction);
-      };
+      });
 
       // when
       await updateUserForAccountRecovery({
@@ -166,9 +166,9 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       .withArgs({ id: user.id, userAttributes, domainTransaction })
       .resolves(userUpdate);
 
-    DomainTransaction.execute = (lambda) => {
+    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
       return lambda(domainTransaction);
-    };
+    });
 
     // when
     await updateUserForAccountRecovery({
@@ -215,9 +215,9 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
     authenticationMethodRepository.hasIdentityProviderPIX.resolves(true);
     userRepository.updateWithEmailConfirmed.resolves(userUpdate);
 
-    DomainTransaction.execute = (lambda) => {
+    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
       return lambda(domainTransaction);
-    };
+    });
 
     // when
     await updateUserForAccountRecovery({

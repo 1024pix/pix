@@ -252,9 +252,9 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       const domainTransaction = Symbol();
 
       sinon.stub(usecases, 'beginCampaignParticipationImprovement');
-      DomainTransaction.execute = (lambda) => {
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
         return lambda(domainTransaction);
-      };
+      });
       usecases.beginCampaignParticipationImprovement.resolves();
 
       // when
