@@ -188,7 +188,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       });
 
       context('when the user answers a lot of challenges', function () {
-        it('should return the correct estimatedLevel and errorRate', function () {
+        it('should return the correct capacity and errorRate', function () {
           const listSkills = {
             url5: domainBuilder.buildSkill({ id: 'url5' }),
             web3: domainBuilder.buildSkill({ id: 'web3' }),
@@ -359,7 +359,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
       context('when limiting the estimated level variation to a given number of challenges', function () {
         context('when giving a right answer', function () {
-          it('should return the limited estimatedLevel for the correct number of challenges', function () {
+          it('should return the limited capacity for the correct number of challenges', function () {
             // given
             const challenges = [
               domainBuilder.buildChallenge({
@@ -387,7 +387,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         });
 
         context('when giving a wrong answer', function () {
-          it('should return the limited estimatedLevel', function () {
+          it('should return the limited capacity', function () {
             // given
             const challenges = [
               domainBuilder.buildChallenge({
