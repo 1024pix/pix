@@ -15,7 +15,7 @@ module('Integration | Component | Language Switcher', function (hooks) {
       const screen = await render(hbs`<LanguageSwitcher @selectedLanguage="en" />`);
 
       // then
-      assert.dom(screen.getByRole('button', { name: 'English' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Sélectionnez une langue' })).exists();
     });
   });
 
@@ -25,7 +25,7 @@ module('Integration | Component | Language Switcher', function (hooks) {
       const screen = await render(hbs`<LanguageSwitcher @selectedLanguage="en" />`);
 
       // when
-      await click(screen.getByRole('button', { name: 'English' }));
+      await click(screen.getByRole('button', { name: 'Sélectionnez une langue' }));
       await screen.findByRole('listbox');
 
       // then
@@ -49,7 +49,7 @@ module('Integration | Component | Language Switcher', function (hooks) {
       />`);
 
       // when
-      await click(screen.getByRole('button', { name: 'English' }));
+      await click(screen.getByRole('button', { name: 'Sélectionnez une langue' }));
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'Français' }));
 
