@@ -1,5 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { OrganizationImport } from '../../domain/models/OrganizationImport.js';
+import { OrganizationImportDetail } from '../../domain/read-models/OrganizationImportDetail.js';
 
 function _toDomain(data) {
   return new OrganizationImport(data);
@@ -11,6 +12,19 @@ const getLastByOrganizationId = async function (organizationId) {
   if (!result) return null;
 
   return _toDomain(result);
+};
+
+const getLastImportDetailForOrganization = async function (organizationId) {
+  const result = await knex('organization-imports')
+    .select('organization-imports.*', 'users.firstName', 'users.lastName')
+    .join('users', 'users.id', 'organization-imports.createdBy')
+    .where({ organizationId })
+    .orderBy('createdAt', 'desc')
+    .first();
+
+  if (!result) return null;
+
+  return new OrganizationImportDetail(result);
 };
 
 const get = async function (id) {
@@ -40,4 +54,4 @@ const save = async function (organizationImport) {
   }
 };
 
-export { get, getLastByOrganizationId, save };
+export { get, getLastByOrganizationId, getLastImportDetailForOrganization, save };

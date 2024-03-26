@@ -14,7 +14,7 @@ describe('Unit | Application | Learner Management | organization-import-controll
     usecaseResultSymbol = Symbol();
     usecases.getOrganizationImportStatus.resolves(usecaseResultSymbol);
     serializeStub = sinon.stub();
-    dependencies = { organizationImportSerializer: { serialize: serializeStub } };
+    dependencies = { organizationImportDetailSerializer: { serialize: serializeStub } };
   });
 
   it('should get last organization import', async function () {
