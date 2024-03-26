@@ -78,7 +78,7 @@
   }
 
   &--green {
-    color: white;
+    color: var(--pix-neutral-0);
     background: $pix-success-60;
 
     &:hover,
@@ -156,7 +156,7 @@
     &:focus,
     &:hover,
     &:focus-within {
-      border: 2px solid white;
+      border: 2px solid var(--pix-neutral-0);
       box-shadow: 0 0 0 2px $pix-primary;
     }
   }
