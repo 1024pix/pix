@@ -2,11 +2,11 @@ import iconv from 'iconv-lite';
 
 import { AggregateImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
 import { CommonOrganizationLearner } from '../../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearnerSet.js';
-import { CommonCsvLearerParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/common-csv-learner-parser.js';
+import { CommonCsvLearnerParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/common-csv-learner-parser.js';
 import { VALIDATION_ERRORS } from '../../../../../../../src/shared/domain/constants.js';
 import { catchErr, expect } from '../../../../../../test-helper.js';
 
-describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
+describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
   const organizationId = 123;
 
   context('findEncoding', function () {
@@ -28,7 +28,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
     it('should throw an error if there is no acceptedEncoding', async function () {
       // given
       const encodedInput = iconv.encode(input, 'win1252');
-      const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
 
       // when
       const error = await catchErr(parser.findEncoding, parser)();
@@ -40,7 +40,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
     it('should not throw an error if encoding is not in acceptedEncoding config', async function () {
       // given
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
 
       // when
       const call = () => parser.findEncoding();
@@ -76,7 +76,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       const input = `nom\\prénom\\
       Beatrix\\The\\`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
       parser.findEncoding();
       // when
       const error = await catchErr(parser.parse, parser)();
@@ -90,7 +90,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       const input = `prénom;
       The;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
 
       parser.findEncoding();
       // when
@@ -110,7 +110,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       const input = `nom;Gidorah;King Kong;GodZilla;
       The;;;;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
 
       parser.findEncoding();
       // when
@@ -130,7 +130,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
       const input = `prénom;Gidorah;
       The;;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
       parser.findEncoding();
 
       // when
@@ -175,7 +175,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
         Beatrix;The;
         `;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+        const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
 
         parser.findEncoding();
         // when
@@ -191,7 +191,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
         `;
 
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+        const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
 
         parser.findEncoding();
         // when
@@ -215,7 +215,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
         ];
 
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+        const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
 
         parser.findEncoding();
         // when
@@ -246,7 +246,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
           },
         ];
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+        const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
         parser.findEncoding();
 
         // when
@@ -272,7 +272,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
           The;Superman;4èmeB;
           The;Batman;4èmeB`;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+          const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
           parser.findEncoding();
 
           // when
@@ -305,7 +305,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
           const input = `prénom;nom;date de naissance;
           The;Superman;3 juillet 1990`;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+          const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
           parser.findEncoding();
 
           // when
@@ -339,7 +339,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
           const input = `prénom;nom;date de naissance;
           The;Superman;;`;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+          const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
           parser.findEncoding();
 
           // when
@@ -375,7 +375,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
           The;Superman;;
           The;Superman;1999-09-01;`;
             const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+            const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
             parser.setEncoding();
 
             // when
@@ -419,7 +419,7 @@ describe('Unit | Infrastructure | CommonCsvLearerParser', function () {
             const input = `prénom;nom;date de naissance;date de mariage
             The;Superman;;09-09-1999`;
             const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new CommonCsvLearerParser(encodedInput, organizationId, config);
+            const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
             parser.setEncoding();
 
             // when

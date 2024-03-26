@@ -26,7 +26,7 @@ const PARSING_OPTIONS = {
 
 const CSV_LEARNER_STARTING_LINE = 2;
 
-class CommonCsvLearerParser {
+class CommonCsvLearnerParser {
   #input;
   #encoding;
   #organizationId;
@@ -180,4 +180,4 @@ class CommonCsvLearerParser {
   }
 }
 
-export { CommonCsvLearerParser };
+export { CommonCsvLearnerParser };
