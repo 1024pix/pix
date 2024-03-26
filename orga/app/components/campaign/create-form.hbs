@@ -8,7 +8,6 @@
     <PixInput
       @id="campaign-name"
       @name="campaign-name"
-      @label={{t "pages.campaign-creation.name.label"}}
       @requiredLabel={{t "common.form.mandatory-fields-title"}}
       type="text"
       class="input"
@@ -17,7 +16,9 @@
       @value={{@campaign.name}}
       required={{true}}
       aria-required={{true}}
-    />
+    >
+      <:label>{{t "pages.campaign-creation.name.label"}}</:label>
+    </PixInput>
 
     {{#if @errors.name}}
       <div class="form__error error-message">
@@ -222,13 +223,14 @@
       <PixInput
         @id="external-id-label"
         @name="external-id-label"
-        @information={{t "pages.campaign-creation.external-id-label.suggestion"}}
-        @label={{t "pages.campaign-creation.external-id-label.label"}}
+        @subLabel={{t "pages.campaign-creation.external-id-label.suggestion"}}
         maxlength="255"
         @requiredLabel={{t "pages.campaign-creation.external-id-label.required"}}
         {{on "change" (fn this.onChangeCampaignValue "idPixLabel")}}
         @value={{@campaign.idPixLabel}}
-      />
+      >
+        <:label>{{t "pages.campaign-creation.external-id-label.label"}}</:label>
+      </PixInput>
       {{#if @errors.idPixLabel}}
         <div class="form__error error-message">
           {{display-campaign-errors @errors.idPixLabel}}
@@ -240,13 +242,13 @@
   {{#if this.isCampaignGoalAssessment}}
     <Ui::FormField>
       <PixInput
-        @label={{t "pages.campaign-creation.test-title.label"}}
         @id="campaign-title"
         @name="campaign-title"
         maxlength="50"
         {{on "change" (fn this.onChangeCampaignValue "title")}}
         @value={{@campaign.title}}
-      />
+      >
+        <:label>{{t "pages.campaign-creation.test-title.label"}}</:label></PixInput>
     </Ui::FormField>
   {{/if}}
 

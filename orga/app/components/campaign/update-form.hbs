@@ -7,7 +7,6 @@
     <PixInput
       @id="campaign-name"
       @name="campaign-name"
-      @label={{t "pages.campaign-modification.campaign-name"}}
       @requiredLabel={{t "common.form.mandatory-fields-title"}}
       class="input"
       maxlength="255"
@@ -15,7 +14,9 @@
       required={{true}}
       @value={{this.name}}
       {{on "change" this.onChangeCampaignName}}
-    />
+    >
+      <:label>{{t "pages.campaign-modification.campaign-name"}}</:label>
+    </PixInput>
     {{#if @campaign.errors.name}}
       <div class="form__error error-message">
         {{display-campaign-errors @campaign.errors.name}}
@@ -59,11 +60,12 @@
         @id="campaign-title"
         @name="campaign-title"
         class="form-control"
-        @label={{t "pages.campaign-modification.personalised-test-title"}}
         maxlength="50"
         @value={{this.title}}
         {{on "change" this.onChangeCampaignTitle}}
-      />
+      >
+        <:label>{{t "pages.campaign-modification.personalised-test-title"}}</:label>
+      </PixInput>
       {{#if @campaign.errors.title}}
         <div class="form__error error-message">
           {{display-campaign-errors @campaign.errors.title}}
