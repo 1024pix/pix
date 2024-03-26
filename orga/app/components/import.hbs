@@ -4,7 +4,12 @@
       {{t this.textsByOrganizationType.title}}
     </h1>
   </header>
-
+  {{#if this.displaySuccess}}
+    <p class="success-import-banner">
+      <FaIcon @icon="circle-check" class="success-import-banner__icon" />
+      {{this.successBanner}}
+    </p>
+  {{/if}}
   {{#if this.displayBanner}}
     <PixMessage @type={{this.bannerType}} @withIcon="true">
       {{this.bannerMessage}}
