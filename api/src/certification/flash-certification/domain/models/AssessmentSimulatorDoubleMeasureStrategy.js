@@ -27,7 +27,7 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
         assessmentAnswers: [...challengesAnswers, ...newAnswers],
         challenges: this.challenges,
         initialCapacity: this.initialCapacity,
-        answersForComputingEstimatedLevel: challengesAnswers,
+        answersForComputingCapacity: challengesAnswers,
       });
 
       const availableChallenges = possibleChallenges.filter(({ id }) => {
