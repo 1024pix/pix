@@ -77,13 +77,14 @@
   <div class="form__field">
     <PixTextarea
       @id="campaign-custom-landing-page-text"
-      @label={{t "pages.campaign-modification.landing-page-text"}}
       class="form-control"
       @maxlength={{5000}}
       @value={{this.customLandingPageText}}
       {{on "change" this.onChangeCampaignCustomLandingPageText}}
       rows={{8}}
-    />
+    >
+      <:label>{{t "pages.campaign-modification.landing-page-text"}}</:label>
+    </PixTextarea>
     {{#if @campaign.errors.customLandingPageText}}
       <div class="form__error error-message">
         {{display-campaign-errors @campaign.errors.customLandingPageText}}
