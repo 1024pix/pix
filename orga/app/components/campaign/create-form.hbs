@@ -254,13 +254,14 @@
 
   <Ui::FormField>
     <PixTextarea
-      @label={{t "pages.campaign-creation.landing-page-text.label"}}
       @id="custom-landing-page-text"
       @maxlength="5000"
       @value={{@campaign.customLandingPageText}}
       {{on "change" this.onChangeCampaignCustomLandingPageText}}
       rows="8"
-    />
+    >
+      <:label>{{t "pages.campaign-creation.landing-page-text.label"}}</:label>
+    </PixTextarea>
   </Ui::FormField>
 
   <div class="form__validation">
