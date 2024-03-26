@@ -495,20 +495,20 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     });
   });
 
-  describe('#getEstimatedLevelAndErrorRateHistory', function () {
+  describe('#getCapacityAndErrorRateHistory', function () {
     context('when single measure', function () {
       it('should return 0 when there is no answers', function () {
         // given
         const allAnswers = [];
 
         // when
-        const result = flash.getEstimatedLevelAndErrorRateHistory({ allAnswers });
+        const result = flash.getCapacityAndErrorRateHistory({ allAnswers });
 
         // then
         expect(result).to.deep.equal([]);
       });
 
-      it('should return the correct estimatedLevel when there is one answer', function () {
+      it('should return the correct capacity when there is one answer', function () {
         // given
         const challenges = [
           domainBuilder.buildChallenge({
@@ -520,14 +520,14 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
 
         // when
-        const [{ capacity, errorRate }] = flash.getEstimatedLevelAndErrorRateHistory({ allAnswers, challenges });
+        const [{ capacity, errorRate }] = flash.getCapacityAndErrorRateHistory({ allAnswers, challenges });
 
         // then
         expect(capacity).to.be.closeTo(0.859419960298745, 0.00000000001);
         expect(errorRate).to.be.closeTo(0.9327454634914153, 0.00000000001);
       });
 
-      it('should return the correct estimatedLevel when there are two answers', function () {
+      it('should return the correct capacity when there are two answers', function () {
         // given
         const challenges = [
           domainBuilder.buildChallenge({
@@ -548,7 +548,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         ];
 
         // when
-        const results = flash.getEstimatedLevelAndErrorRateHistory({ allAnswers, challenges });
+        const results = flash.getCapacityAndErrorRateHistory({ allAnswers, challenges });
 
         // then
         expect(results[0].capacity).to.be.closeTo(0.859419960298745, 0.00000000001);

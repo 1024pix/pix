@@ -106,12 +106,12 @@ class FlashAssessmentAlgorithm {
     });
   }
 
-  getEstimatedLevelAndErrorRateHistory({
+  getCapacityAndErrorRateHistory({
     allAnswers,
     challenges,
     initialCapacity = config.v3Certification.defaultCandidateCapacity,
   }) {
-    return this.flashAlgorithmImplementation.getEstimatedLevelAndErrorRateHistory({
+    return this.flashAlgorithmImplementation.getCapacityAndErrorRateHistory({
       allAnswers,
       challenges,
       capacity: initialCapacity,
