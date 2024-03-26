@@ -10,7 +10,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
   module('#authenticate', function (hooks) {
     const userId = 1;
     const source = 'oidc-externe';
-    const useEndSession = false;
     const shouldCloseSession = true;
     const logoutUrlUuid = 'uuid';
     const identityProviderCode = 'OIDC_PARTNER';
@@ -55,7 +54,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
         id: identityProviderSlug,
         code: identityProviderCode,
         organizationName: 'Partenaire OIDC',
-        useEndSession,
         shouldCloseSession,
         source,
       };
@@ -96,7 +94,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
         logoutUrlUuid,
         source,
         shouldCloseSession,
-        useEndSession,
         user_id: userId,
         identityProviderCode,
       });
@@ -122,7 +119,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
         access_token: accessToken,
         logoutUrlUuid,
         source,
-        useEndSession,
         shouldCloseSession,
         user_id: userId,
         identityProviderCode,
