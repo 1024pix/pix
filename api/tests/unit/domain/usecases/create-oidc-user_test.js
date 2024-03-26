@@ -23,6 +23,7 @@ describe('Unit | UseCase | create-oidc-user', function () {
     };
 
     oidcAuthenticationService = {
+      shouldCloseSession: true,
       getUserInfo: sinon.stub(),
       createUserAccount: sinon.stub(),
       createAccessToken: sinon.stub(),

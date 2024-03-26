@@ -17,6 +17,8 @@ import { OidcError } from '../../../../../src/shared/domain/errors.js';
 import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { catchErr, catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
+const uuidV4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   beforeEach(function () {
     sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
@@ -239,15 +241,24 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#saveIdToken', function () {
-    it('should return null', async function () {
+    it('returns an idToken in the UUID v4 format', async function () {
       // given
-      const oidcAuthenticationService = new OidcAuthenticationService({});
+      const idToken = 'some_dummy_id_token';
+      const userId = 'some_dummy_user_id';
+      const sessionTemporaryStorage = {
+        save: sinon.stub().resolves(),
+      };
+
+      const oidcAuthenticationService = new OidcAuthenticationService(settings.oidcExampleNet, {
+        sessionTemporaryStorage,
+      });
+      await oidcAuthenticationService.createClient();
 
       // when
-      const result = await oidcAuthenticationService.saveIdToken();
+      const result = await oidcAuthenticationService.saveIdToken({ idToken, userId });
 
       // then
-      expect(result).to.be.null;
+      expect(result).to.match(uuidV4Regex);
     });
   });
 
@@ -469,7 +480,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const { nonce, state } = oidcAuthenticationService.getAuthorizationUrl();
 
       // then
-      const uuidV4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
       expect(nonce).to.match(uuidV4Regex);
       expect(state).to.match(uuidV4Regex);
 
