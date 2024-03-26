@@ -7,6 +7,7 @@ import * as userLoginRepository from '../../../shared/infrastructure/repositorie
 import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
+import * as oidcProviderRepository from '../../infrastructure/repositories/oidc-provider-repository.js';
 import * as pixAuthenticationService from '../services/pix-authentication-service.js';
 import * as refreshTokenService from '../services/refresh-token-service.js';
 
@@ -19,6 +20,7 @@ const dependencies = {
   userRepository,
   userLoginRepository,
   adminMemberRepository,
+  oidcProviderRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {
