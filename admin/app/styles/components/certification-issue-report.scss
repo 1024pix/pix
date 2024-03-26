@@ -1,7 +1,7 @@
 .certification-issue-report {
   display: flex;
   align-items: center;
-  border-bottom: #EAECF0 solid 1px;
+  border-bottom: var(--pix-neutral-15) solid 1px;
 
   &__resolution-status {
     margin-top: 24px;
