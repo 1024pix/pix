@@ -66,7 +66,7 @@
             aria-describedby="campaign-goal-assessment-info"
             checked={{this.isCampaignGoalAssessment}}
           >
-            {{t "pages.campaign-creation.purpose.assessment"}}
+            <:label>{{t "pages.campaign-creation.purpose.assessment"}}</:label>
           </PixRadioButton>
 
           <PixRadioButton
@@ -76,7 +76,7 @@
             aria-describedby="campaign-goal-profiles-collection-info"
             checked={{this.isCampaignGoalProfileCollection}}
           >
-            {{t "pages.campaign-creation.purpose.profiles-collection"}}
+            <:label>{{t "pages.campaign-creation.purpose.profiles-collection"}}</:label>
           </PixRadioButton>
           {{#if @errors.type}}
             <div class="form__error error-message">
@@ -164,7 +164,7 @@
               aria-describedby="multiple-sendings-info"
               checked={{not @campaign.multipleSendings}}
             >
-              {{t "pages.campaign-creation.no"}}
+              <:label>{{t "pages.campaign-creation.no"}}</:label>
             </PixRadioButton>
 
             <PixRadioButton
@@ -174,7 +174,7 @@
               aria-describedby="multiple-sendings-info"
               checked={{@campaign.multipleSendings}}
             >
-              {{t "pages.campaign-creation.yes"}}
+              <:label>{{t "pages.campaign-creation.yes"}}</:label>
             </PixRadioButton>
           </:content>
         </Ui::PixFieldset>
@@ -204,7 +204,7 @@
           {{on "change" this.doNotAskLabelIdPix}}
           checked={{this.isExternalIdNotSelectedChecked}}
         >
-          {{t "pages.campaign-creation.no"}}
+          <:label>{{t "pages.campaign-creation.no"}}</:label>
         </PixRadioButton>
         <PixRadioButton
           name="external-id-label"
@@ -212,7 +212,7 @@
           {{on "change" this.askLabelIdPix}}
           checked={{this.isExternalIdSelectedChecked}}
         >
-          {{t "pages.campaign-creation.yes"}}
+          <:label>{{t "pages.campaign-creation.yes"}}</:label>
         </PixRadioButton>
       </:content>
     </Ui::PixFieldset>
