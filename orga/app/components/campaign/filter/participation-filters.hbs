@@ -10,14 +10,15 @@
   >
     {{#if this.displayStatusFilter}}
       <PixSelect
-        @label={{t "pages.campaign-results.filters.type.status.title"}}
         @screenReaderOnly={{true}}
         @options={{this.statusOptions}}
         @onChange={{this.onSelectStatus}}
         @value={{@selectedStatus}}
         @placeholder={{t "pages.campaign-results.filters.type.status.empty"}}
         @hideDefaultOption={{false}}
-      />
+      >
+        <:label>{{t "pages.campaign-results.filters.type.status.title"}}</:label>
+      </PixSelect>
     {{/if}}
     {{#if this.displayDivisionFilter}}
       <Ui::DivisionsFilter @model={{@campaign}} @selected={{@selectedDivisions}} @onSelect={{this.onSelectDivision}} />
@@ -74,9 +75,10 @@
         @value={{@selectedCertificability}}
         @onChange={{this.onSelectCertificability}}
         @screenReaderOnly={{true}}
-        @label={{t "pages.sco-organization-participants.filter.certificability.label"}}
         @placeholder={{t "components.certificability.placeholder-select"}}
-      />
+      >
+        <:label>{{t "pages.sco-organization-participants.filter.certificability.label"}}</:label>
+      </PixSelect>
     {{/if}}
   </PixFilterBanner>
 {{/if}}

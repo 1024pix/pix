@@ -33,10 +33,11 @@
       @placeholder={{t "pages.campaign-creation.owner.placeholder"}}
       @searchLabel={{t "pages.campaign-creation.owner.search-placeholder"}}
       @searchPlaceholder={{t "pages.campaign-creation.owner.search-placeholder"}}
-      @label={{t "pages.campaign-creation.owner.label"}}
-      @requiredText={{t "common.form.mandatory-fields-title"}}
+      @requiredLabel={{t "common.form.mandatory-fields-title"}}
       @hideDefaultOption={{true}}
-    />
+    >
+      <:label>{{t "pages.campaign-creation.owner.label"}}</:label>
+    </PixSelect>
     {{#if @campaign.errors.owner}}
       <div class="form__error error-message">
         {{display-campaign-errors @campaign.errors.owner}}

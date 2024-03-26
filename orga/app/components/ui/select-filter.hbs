@@ -1,8 +1,9 @@
 <PixSelect
-  @label={{@label}}
   @screenReaderOnly={{true}}
   @onChange={{this.onChange}}
   @options={{@options}}
   @value={{@selectedOption}}
   @placeholder={{@emptyOptionLabel}}
-/>
+>
+  <:label>{{@label}}</:label>
+</PixSelect>

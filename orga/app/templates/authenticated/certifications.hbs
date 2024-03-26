@@ -9,7 +9,6 @@
 
     <form class="certifications-page__action" {{on "submit" this.downloadSessionResultFile}}>
       <PixSelect
-        @label={{t "pages.certifications.select-label"}}
         @options={{@model.options}}
         @value={{this.selectedDivision}}
         @hideDefaultOption={{true}}
@@ -18,7 +17,9 @@
         @isValidationActive={{true}}
         @placeholder={{this.firstTwoDivisions}}
         required={{true}}
-      />
+      >
+        <:label>{{t "pages.certifications.select-label"}}</:label>
+      </PixSelect>
       <PixButton @type="submit" id="download_results" @size="small">
         {{t "pages.certifications.download-button"}}
       </PixButton>
