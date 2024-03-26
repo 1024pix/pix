@@ -44,19 +44,19 @@ function getPossibleNextChallenges({
 function getEstimatedLevelAndErrorRate({
   allAnswers,
   challenges,
-  estimatedLevel = DEFAULT_CAPACITY,
+  capacity = DEFAULT_CAPACITY,
   doubleMeasuresUntil = 0,
   variationPercent,
   variationPercentUntil,
 }) {
   if (allAnswers.length === 0) {
-    return { estimatedLevel, errorRate: DEFAULT_ERROR_RATE };
+    return { capacity, errorRate: DEFAULT_ERROR_RATE };
   }
 
   const estimatedLevelHistory = getEstimatedLevelAndErrorRateHistory({
     allAnswers,
     challenges,
-    estimatedLevel,
+    capacity,
     doubleMeasuresUntil,
     variationPercent,
     variationPercentUntil,
@@ -68,12 +68,12 @@ function getEstimatedLevelAndErrorRate({
 function getEstimatedLevelAndErrorRateHistory({
   allAnswers,
   challenges,
-  estimatedLevel = DEFAULT_CAPACITY,
+  capacity = DEFAULT_CAPACITY,
   doubleMeasuresUntil = 0,
   variationPercent,
   variationPercentUntil,
 }) {
-  let latestEstimatedLevel = estimatedLevel;
+  let latestEstimatedLevel = capacity;
 
   let likelihood = samples.map(() => DEFAULT_PROBABILITY_TO_ANSWER);
   let normalizedPosteriori;
@@ -114,7 +114,7 @@ function getEstimatedLevelAndErrorRateHistory({
 
     estimatedLevelHistory.push({
       answerId: answer.id,
-      estimatedLevel: latestEstimatedLevel,
+      capacity: latestEstimatedLevel,
       errorRate: _computeCorrectedErrorRate(latestEstimatedLevel, normalizedPosteriori),
     });
   }

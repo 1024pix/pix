@@ -44,7 +44,7 @@ class FlashAssessmentAlgorithm {
       throw new AssessmentEndedError();
     }
 
-    const { estimatedLevel } = this.getEstimatedLevelAndErrorRate({
+    const { capacity } = this.getEstimatedLevelAndErrorRate({
       allAnswers: answersForComputingEstimatedLevel ?? assessmentAnswers,
       challenges,
       initialCapacity,
@@ -60,7 +60,7 @@ class FlashAssessmentAlgorithm {
 
     return this.flashAlgorithmImplementation.getPossibleNextChallenges({
       availableChallenges: challengesAfterRulesApplication,
-      capacity: estimatedLevel,
+      capacity,
       options: {
         challengesBetweenSameCompetence: this._configuration.challengesBetweenSameCompetence,
         minimalSuccessRate,
@@ -99,7 +99,7 @@ class FlashAssessmentAlgorithm {
     return this.flashAlgorithmImplementation.getEstimatedLevelAndErrorRate({
       allAnswers,
       challenges,
-      estimatedLevel: initialCapacity,
+      capacity: initialCapacity,
       variationPercent: this._configuration.variationPercent,
       variationPercentUntil: this._configuration.variationPercentUntil,
       doubleMeasuresUntil: this._configuration.doubleMeasuresUntil,
@@ -114,7 +114,7 @@ class FlashAssessmentAlgorithm {
     return this.flashAlgorithmImplementation.getEstimatedLevelAndErrorRateHistory({
       allAnswers,
       challenges,
-      estimatedLevel: initialCapacity,
+      capacity: initialCapacity,
       variationPercent: this._configuration.variationPercent,
       variationPercentUntil: this._configuration.variationPercentUntil,
       doubleMeasuresUntil: this._configuration.doubleMeasuresUntil,

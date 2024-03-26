@@ -25,20 +25,20 @@ class CertificationAssessmentScoreV3 {
     const numberOfIntervals = v3CertificationScoring.getNumberOfIntervals();
     const intervalHeight = MAX_PIX_SCORE / numberOfIntervals;
 
-    const { estimatedLevel } = algorithm.getEstimatedLevelAndErrorRate({
+    const { capacity } = algorithm.getEstimatedLevelAndErrorRate({
       challenges,
       allAnswers,
     });
 
     const nbPix = _computeScore({
-      estimatedLevel,
+      capacity,
       maxReachableLevelOnCertificationDate,
       certificationScoringIntervals,
       numberOfIntervals,
       intervalHeight,
     });
 
-    const competenceMarks = v3CertificationScoring.getCompetencesScore(estimatedLevel);
+    const competenceMarks = v3CertificationScoring.getCompetencesScore(capacity);
 
     const status = _isCertificationRejected({ answers: allAnswers, abortReason })
       ? CertificationStatus.REJECTED
@@ -64,16 +64,16 @@ class CertificationAssessmentScoreV3 {
   }
 }
 
-const _findIntervalIndex = (estimatedLevel, certificationScoringIntervals) =>
-  certificationScoringIntervals.findIndex(({ bounds }) => estimatedLevel <= bounds.max && estimatedLevel >= bounds.min);
+const _findIntervalIndex = (capacity, certificationScoringIntervals) =>
+  certificationScoringIntervals.findIndex(({ bounds }) => capacity <= bounds.max && capacity >= bounds.min);
 
 const _computeScore = ({
-  estimatedLevel,
+  capacity,
   maxReachableLevelOnCertificationDate,
   certificationScoringIntervals,
   intervalHeight,
 }) => {
-  let normalizedEstimatedLevel = estimatedLevel;
+  let normalizedEstimatedLevel = capacity;
   const minimumEstimatedLevel = certificationScoringIntervals[0].bounds.min;
   const maximumEstimatedLevel = certificationScoringIntervals.at(-1).bounds.max;
 

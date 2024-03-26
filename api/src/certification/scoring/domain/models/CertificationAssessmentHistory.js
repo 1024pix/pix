@@ -10,11 +10,11 @@ export class CertificationAssessmentHistory {
       challenges,
     });
 
-    const capacityHistory = estimatedLevelAndErrorRateHistory.map(({ answerId, estimatedLevel }, index) =>
+    const capacityHistory = estimatedLevelAndErrorRateHistory.map(({ answerId, capacity }, index) =>
       CertificationChallengeCapacity.create({
         answerId,
         certificationChallengeId: challenges[index].certificationChallengeId,
-        capacity: estimatedLevel,
+        capacity,
       }),
     );
 

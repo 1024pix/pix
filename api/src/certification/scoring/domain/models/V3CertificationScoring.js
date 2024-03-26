@@ -6,10 +6,8 @@ export class V3CertificationScoring {
     this._certificationScoringConfiguration = certificationScoringConfiguration;
   }
 
-  getCompetencesScore(estimatedLevel) {
-    return this._competencesForScoring.map((competenceForScoring) =>
-      competenceForScoring.getCompetenceMark(estimatedLevel),
-    );
+  getCompetencesScore(capacity) {
+    return this._competencesForScoring.map((competenceForScoring) => competenceForScoring.getCompetenceMark(capacity));
   }
 
   getNumberOfIntervals() {

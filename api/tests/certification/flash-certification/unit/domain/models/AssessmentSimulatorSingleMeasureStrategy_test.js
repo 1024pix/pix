@@ -56,7 +56,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
           const answerForSimulator = AnswerStatus.OK;
           const answer1 = { challengeId: challenge2.id, result: answerForSimulator };
           const initialCapacity = 0;
-          const expectedEstimatedLevel = 0.4;
+          const expectedCapacity = 0.4;
           const expectedErrorRate = 0.2;
           const expectedReward = 5;
           const algorithm = {
@@ -74,14 +74,14 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
               initialCapacity,
             })
             .returns({
-              estimatedLevel: initialCapacity,
+              capacity: initialCapacity,
             })
             .withArgs({
               allAnswers: [sinon.match(answer1)],
               challenges: allChallenges,
               initialCapacity,
             })
-            .returns({ estimatedLevel: expectedEstimatedLevel, errorRate: expectedErrorRate });
+            .returns({ capacity: expectedCapacity, errorRate: expectedErrorRate });
 
           algorithm.getPossibleNextChallenges
             .withArgs({
@@ -107,7 +107,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             results: [
               {
                 challenge: challenge2,
-                estimatedLevel: expectedEstimatedLevel,
+                capacity: expectedCapacity,
                 errorRate: expectedErrorRate,
                 reward: expectedReward,
                 answerStatus: answerForSimulator,
@@ -191,7 +191,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
           const answerForSimulator = AnswerStatus.OK;
           const answer1 = { challengeId: challenge2.id, result: answerForSimulator };
           const capacityAfterFirstChallenge = 1.2;
-          const expectedEstimatedLevel = 0.4;
+          const expectedCapacity = 0.4;
           const expectedErrorRate = 0.2;
           const expectedReward = 5;
           const algorithm = {
@@ -210,14 +210,14 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
               initialCapacity: capacityAfterFirstChallenge,
             })
             .returns({
-              estimatedLevel: capacityAfterFirstChallenge,
+              capacity: capacityAfterFirstChallenge,
             })
             .withArgs({
               allAnswers: [challengeAnswer, sinon.match(answer1)],
               challenges: allChallenges,
               initialCapacity: capacityAfterFirstChallenge,
             })
-            .returns({ estimatedLevel: expectedEstimatedLevel, errorRate: expectedErrorRate });
+            .returns({ capacity: expectedCapacity, errorRate: expectedErrorRate });
 
           algorithm.getPossibleNextChallenges
             .withArgs({
@@ -244,7 +244,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             results: [
               {
                 challenge: challenge2,
-                estimatedLevel: expectedEstimatedLevel,
+                capacity: expectedCapacity,
                 errorRate: expectedErrorRate,
                 reward: expectedReward,
                 answerStatus: answerForSimulator,

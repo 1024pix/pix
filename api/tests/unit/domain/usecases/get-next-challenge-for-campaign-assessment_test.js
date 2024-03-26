@@ -150,13 +150,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             .withArgs({
               challenges,
               allAnswers,
-              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+              capacity: config.v3Certification.defaultCandidateCapacity,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns({
-              estimatedLevel: 0,
+              capacity: 0,
               errorRate: 0.5,
             });
 
@@ -218,13 +218,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             .withArgs({
               challenges,
               allAnswers,
-              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+              capacity: config.v3Certification.defaultCandidateCapacity,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns({
-              estimatedLevel: 0,
+              capacity: 0,
               errorRate: 0.5,
             });
 
@@ -287,12 +287,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             .withArgs({
               challenges,
               allAnswers,
-              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+              capacity: config.v3Certification.defaultCandidateCapacity,
               variationPercent: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns({
-              estimatedLevel: 0,
+              capacity: 0,
               errorRate: 0.5,
             });
 

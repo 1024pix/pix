@@ -38,9 +38,9 @@ describe('Unit | Domain | Models | CertificationAssessmentHistory', function () 
           challenges,
         })
         .returns([
-          { answerId: firstAnswerId, estimatedLevel: 1 },
-          { answerId: secondAnswerId, estimatedLevel: 2 },
-          { answerId: thirdAnswerId, estimatedLevel: 3 },
+          { answerId: firstAnswerId, capacity: 1 },
+          { answerId: secondAnswerId, capacity: 2 },
+          { answerId: thirdAnswerId, capacity: 3 },
         ]);
 
       // when

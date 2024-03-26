@@ -84,7 +84,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
   describe('when the candidate finished the test', function () {
     it('should return the full score', async function () {
-      const expectedEstimatedLevel = 2;
+      const expectedCapacity = 2;
       const expectedScoreForEstimatedLevel = 640;
 
       const numberOfQuestions = 32;
@@ -100,7 +100,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
         })
         .returns({
-          estimatedLevel: expectedEstimatedLevel,
+          capacity: expectedCapacity,
         });
 
       algorithm.getConfiguration.returns(
@@ -121,7 +121,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     });
 
     it('should return the competence marks', async function () {
-      const expectedEstimatedLevel = 2;
+      const expectedCapacity = 2;
 
       const numberOfQuestions = 32;
 
@@ -136,7 +136,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
         })
         .returns({
-          estimatedLevel: expectedEstimatedLevel,
+          capacity: expectedCapacity,
         });
 
       algorithm.getConfiguration.returns(
@@ -168,7 +168,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   describe('when the candidate did not finish the test', function () {
     describe('when the abort reason is technical difficulties', function () {
       it('should return the raw score', async function () {
-        const expectedEstimatedLevel = 2;
+        const expectedCapacity = 2;
         const expectedScoreForEstimatedLevel = 640;
 
         const numberOfAnsweredQuestions = 20;
@@ -186,7 +186,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
             allAnswers,
           })
           .returns({
-            estimatedLevel: expectedEstimatedLevel,
+            capacity: expectedCapacity,
           });
 
         algorithm.getConfiguration.returns(
@@ -208,7 +208,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       });
 
       it('should return the competence marks', async function () {
-        const expectedEstimatedLevel = 2;
+        const expectedCapacity = 2;
 
         const numberOfAnsweredQuestions = 20;
         const numberCertificationQuestions = 32;
@@ -225,7 +225,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
             allAnswers,
           })
           .returns({
-            estimatedLevel: expectedEstimatedLevel,
+            capacity: expectedCapacity,
           });
 
         algorithm.getConfiguration.returns(
@@ -257,7 +257,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
     describe('when the abort reason is that the candidate did not finish', function () {
       it('should return the competence marks', async function () {
-        const expectedEstimatedLevel = 2;
+        const expectedCapacity = 2;
 
         const numberOfAnsweredQuestions = 20;
         const numberCertificationQuestions = 32;
@@ -274,7 +274,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
             allAnswers,
           })
           .returns({
-            estimatedLevel: expectedEstimatedLevel,
+            capacity: expectedCapacity,
           });
 
         algorithm.getConfiguration.returns(
@@ -320,7 +320,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
         })
         .returns({
-          estimatedLevel: veryLowEstimatedLevel,
+          capacity: veryLowEstimatedLevel,
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
@@ -351,7 +351,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
         })
         .returns({
-          estimatedLevel: veryLowEstimatedLevel,
+          capacity: veryLowEstimatedLevel,
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
@@ -392,7 +392,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
         })
         .returns({
-          estimatedLevel: veryHighEstimatedLevel,
+          capacity: veryHighEstimatedLevel,
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
@@ -423,7 +423,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
         })
         .returns({
-          estimatedLevel: veryHighEstimatedLevel,
+          capacity: veryHighEstimatedLevel,
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
@@ -463,7 +463,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
             allAnswers,
           })
           .returns({
-            estimatedLevel: 0,
+            capacity: 0,
           });
 
         algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
@@ -493,7 +493,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
               allAnswers,
             })
             .returns({
-              estimatedLevel: 0,
+              capacity: 0,
             });
 
           algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
@@ -523,7 +523,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
               allAnswers,
             })
             .returns({
-              estimatedLevel: 0,
+              capacity: 0,
             });
 
           algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
@@ -555,7 +555,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
             allAnswers,
           })
           .returns({
-            estimatedLevel: 0,
+            capacity: 0,
           });
 
         algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
