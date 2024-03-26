@@ -373,6 +373,7 @@ const configuration = (function () {
 
   if (process.env.NODE_ENV === 'test') {
     config.oidcExampleNet = {
+      configKey: 'oidcExampleNet',
       clientId: 'client',
       clientSecret: 'secret',
       isEnabled: true,

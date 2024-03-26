@@ -142,6 +142,7 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
       authenticationSessionService = { getByKey: sinon.stub() };
       oidcAuthenticationService = {
         identityProvider,
+        shouldCloseSession: true,
         createAccessToken: sinon.stub(),
         saveIdToken: sinon.stub(),
         createAuthenticationComplement: sinon.stub(),
