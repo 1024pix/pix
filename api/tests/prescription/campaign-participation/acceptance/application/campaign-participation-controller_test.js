@@ -5,6 +5,7 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
+  knex,
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
@@ -330,6 +331,44 @@ describe('Acceptance | API | Campaign Participations', function () {
 
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.type).to.equal('campaign-assessment-participation-results');
+    });
+  });
+
+  describe('PATCH /api/admin/campaign-participations/{id}', function () {
+    it('should update the participant external id', async function () {
+      const superAdmin = await insertUserWithRoleSuperAdmin();
+
+      const campaign = databaseBuilder.factory.buildCampaign({ organizationId });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        participantExternalId: 'Maitre Yoda',
+        campaignId: campaign.id,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'PATCH',
+        url: `/api/admin/campaign-participations/${campaignParticipation.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(superAdmin.id) },
+        payload: {
+          data: {
+            id: campaignParticipation.id,
+            attributes: {
+              'participant-external-id': 'Dark Vador',
+            },
+            type: 'campaign-participations',
+          },
+        },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(204);
+      const { participantExternalId: updatedParticipantExternalId } = await knex('campaign-participations')
+        .select('participantExternalId')
+        .where('id', campaignParticipation.id)
+        .first();
+      expect(updatedParticipantExternalId).to.equal('Dark Vador');
     });
   });
 });
