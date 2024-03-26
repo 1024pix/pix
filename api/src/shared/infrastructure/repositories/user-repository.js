@@ -11,12 +11,12 @@ import { AuthenticationMethod } from '../../../../lib/domain/models/Authenticati
 import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
 import { UserLogin } from '../../../authentication/domain/models/UserLogin.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { Organization } from '../../domain/models/Organization.js';
 import { User } from '../../domain/models/User.js';
 import { fetchPage, isUniqConstraintViolated } from '../utils/knex-utils.js';
 

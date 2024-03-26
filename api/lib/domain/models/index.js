@@ -36,6 +36,7 @@ import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentRe
 import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
 import { Competence } from '../../../src/shared/domain/models/Competence.js';
 import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
+import { Organization } from '../../../src/shared/domain/models/Organization.js';
 import { User } from '../../../src/shared/domain/models/User.js';
 import { CampaignParticipant } from './../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
 import { CampaignParticipation } from './../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
@@ -94,7 +95,6 @@ import { LearningContent } from './LearningContent.js';
 import { AreaForAdmin, CompetenceForAdmin, ThematicForAdmin, TubeForAdmin } from './LearningContentForAdmin.js';
 import { Membership } from './Membership.js';
 import { NeutralizationAttempt } from './NeutralizationAttempt.js';
-import { Organization } from './Organization.js';
 import { OrganizationInvitation } from './OrganizationInvitation.js';
 import { OrganizationInvitedUser } from './OrganizationInvitedUser.js';
 import { OrganizationLearner } from './OrganizationLearner.js';

@@ -2,10 +2,10 @@ import bluebird from 'bluebird';
 import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { NotFoundError } from '../../domain/errors.js';
+import { Organization } from '../../domain/models/Organization.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../constants.js';
 import { fetchPage } from '../utils/knex-utils.js';
 
