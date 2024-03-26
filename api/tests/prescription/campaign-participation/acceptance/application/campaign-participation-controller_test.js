@@ -11,18 +11,18 @@ import {
 } from '../../../../test-helper.js';
 
 describe('Acceptance | API | Campaign Participations', function () {
-  let server, options, userId, organizationId;
+  let server, options, userId, organizationId, campaignId;
 
   beforeEach(async function () {
     server = await createServer();
     userId = databaseBuilder.factory.buildUser().id;
     organizationId = databaseBuilder.factory.buildOrganization().id;
+    campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
   });
 
   describe('DELETE /api/campaign/{campaignId}/campaign-participations/{campaignParticipationId}', function () {
     it('should return 204 HTTP status code', async function () {
       // given
-      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
       databaseBuilder.factory.buildMembership({ userId, organizationRole: 'ADMIN', organizationId });
 
@@ -49,18 +49,16 @@ describe('Acceptance | API | Campaign Participations', function () {
 
     it('should return the campaign profile as JSONAPI', async function () {
       databaseBuilder.factory.buildMembership({ userId, organizationId });
-
-      const campaign = databaseBuilder.factory.buildCampaign({ organizationId });
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         participantExternalId: 'Die Hard',
-        campaignId: campaign.id,
+        campaignId,
       });
 
       await databaseBuilder.commit();
 
       const options = {
         method: 'GET',
-        url: `/api/campaigns/${campaign.id}/profiles-collection-participations/${campaignParticipation.id}`,
+        url: `/api/campaigns/${campaignId}/profiles-collection-participations/${campaignParticipation.id}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
@@ -94,7 +92,7 @@ describe('Acceptance | API | Campaign Participations', function () {
   });
 
   describe('GET /api/campaign-participations/{id}/analyses', function () {
-    let campaign, campaignParticipation;
+    let campaignParticipation;
 
     beforeEach(async function () {
       databaseBuilder.factory.buildMembership({
@@ -102,15 +100,10 @@ describe('Acceptance | API | Campaign Participations', function () {
         organizationId,
         organizationRole: Membership.roles.MEMBER,
       });
-
-      campaign = databaseBuilder.factory.buildCampaign({
-        name: 'Campagne de Test N°3',
-        organizationId,
-      });
-      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId1' });
-      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId2' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId1' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId2' });
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-        campaignId: campaign.id,
+        campaignId,
       });
 
       await databaseBuilder.commit();
@@ -173,13 +166,13 @@ describe('Acceptance | API | Campaign Participations', function () {
       const expectedCampaignParticipationAnalysis = {
         data: {
           type: 'campaign-analyses',
-          id: campaign.id.toString(),
+          id: campaignId.toString(),
           attributes: {},
           relationships: {
             'campaign-tube-recommendations': {
               data: [
                 {
-                  id: `${campaign.id}_recTube1`,
+                  id: `${campaignId}_recTube1`,
                   type: 'campaignTubeRecommendations',
                 },
               ],
@@ -200,7 +193,7 @@ describe('Acceptance | API | Campaign Participations', function () {
             },
           },
           {
-            id: `${campaign.id}_recTube1`,
+            id: `${campaignId}_recTube1`,
             type: 'campaignTubeRecommendations',
             attributes: {
               'area-color': 'specialColor',
@@ -238,10 +231,9 @@ describe('Acceptance | API | Campaign Participations', function () {
     it('should return the assessment participation', async function () {
       databaseBuilder.factory.buildMembership({ userId, organizationId });
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
-      const campaign = databaseBuilder.factory.buildCampaign({ organizationId });
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         participantExternalId: 'Maitre Yoda',
-        campaignId: campaign.id,
+        campaignId,
         organizationLearnerId: organizationLearner.id,
       });
       databaseBuilder.factory.buildAssessment({
@@ -253,7 +245,7 @@ describe('Acceptance | API | Campaign Participations', function () {
 
       const options = {
         method: 'GET',
-        url: `/api/campaigns/${campaign.id}/assessment-participations/${campaignParticipation.id}`,
+        url: `/api/campaigns/${campaignId}/assessment-participations/${campaignParticipation.id}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
@@ -307,11 +299,10 @@ describe('Acceptance | API | Campaign Participations', function () {
     it('should return the assessment participation results', async function () {
       databaseBuilder.factory.buildMembership({ userId, organizationId });
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
-      const campaign = databaseBuilder.factory.buildCampaign({ organizationId });
-      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId1' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId1' });
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         participantExternalId: 'Maitre Yoda',
-        campaignId: campaign.id,
+        campaignId,
         organizationLearnerId: organizationLearner.id,
       });
       databaseBuilder.factory.buildAssessment({
@@ -323,7 +314,7 @@ describe('Acceptance | API | Campaign Participations', function () {
 
       const options = {
         method: 'GET',
-        url: `/api/campaigns/${campaign.id}/assessment-participations/${campaignParticipation.id}/results`,
+        url: `/api/campaigns/${campaignId}/assessment-participations/${campaignParticipation.id}/results`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
@@ -338,10 +329,9 @@ describe('Acceptance | API | Campaign Participations', function () {
     it('should update the participant external id', async function () {
       const superAdmin = await insertUserWithRoleSuperAdmin();
 
-      const campaign = databaseBuilder.factory.buildCampaign({ organizationId });
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         participantExternalId: 'Maitre Yoda',
-        campaignId: campaign.id,
+        campaignId,
       });
 
       await databaseBuilder.commit();
