@@ -7,7 +7,8 @@ export default class Passage extends Model {
   @hasMany('element-answer', { async: false, inverse: 'passage' }) elementAnswers;
 
   getLastCorrectionForElement(element) {
-    return this.elementAnswers.find((answer) => answer.elementId === element.id)?.correction;
+    const elementAnswers = this.elementAnswers.filter((answer) => answer.elementId === element.id);
+    return elementAnswers.at(-1)?.correction;
   }
 
   terminate = memberAction({
