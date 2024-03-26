@@ -232,4 +232,35 @@ describe('Acceptance | API | Campaign Participations', function () {
       expect(response.result).to.deep.equal(expectedCampaignParticipationAnalysis);
     });
   });
+
+  describe('GET /api/campaigns/{campaignId}/assessment-participations/{campaignParticipationId}', function () {
+    it('should return the assessment participation', async function () {
+      databaseBuilder.factory.buildMembership({ userId, organizationId });
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      const campaign = databaseBuilder.factory.buildCampaign({ organizationId });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        participantExternalId: 'Maitre Yoda',
+        campaignId: campaign.id,
+        organizationLearnerId: organizationLearner.id,
+      });
+      databaseBuilder.factory.buildAssessment({
+        userId: organizationLearner.userId,
+        campaignParticipationId: campaignParticipation.id,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/assessment-participations/${campaignParticipation.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      const assessmentParticipation = response.result.data.attributes;
+      expect(assessmentParticipation['participant-external-id']).to.equal('Maitre Yoda');
+    });
+  });
 });
