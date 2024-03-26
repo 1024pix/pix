@@ -85,7 +85,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   describe('when the candidate finished the test', function () {
     it('should return the full score', async function () {
       const expectedCapacity = 2;
-      const expectedScoreForEstimatedLevel = 640;
+      const expectedScoreForCapacity = 640;
 
       const numberOfQuestions = 32;
 
@@ -117,7 +117,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         v3CertificationScoring,
       });
 
-      expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
+      expect(score.nbPix).to.equal(expectedScoreForCapacity);
     });
 
     it('should return the competence marks', async function () {
@@ -169,7 +169,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     describe('when the abort reason is technical difficulties', function () {
       it('should return the raw score', async function () {
         const expectedCapacity = 2;
-        const expectedScoreForEstimatedLevel = 640;
+        const expectedScoreForCapacity = 640;
 
         const numberOfAnsweredQuestions = 20;
         const numberCertificationQuestions = 32;
@@ -204,7 +204,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           v3CertificationScoring,
         });
 
-        expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
+        expect(score.nbPix).to.equal(expectedScoreForCapacity);
       });
 
       it('should return the competence marks', async function () {
@@ -308,7 +308,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   describe('when we reach an estimated level below the MINIMUM', function () {
     it('the score should be 0', function () {
       // given
-      const veryLowEstimatedLevel = -9;
+      const veryLowCapacity = -9;
       const veryEasyDifficulty = -8;
       const numberOfChallenges = 32;
       const challenges = _buildChallenges(veryEasyDifficulty, numberOfChallenges);
@@ -320,7 +320,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
         })
         .returns({
-          capacity: veryLowEstimatedLevel,
+          capacity: veryLowCapacity,
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
@@ -339,7 +339,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
     it('should return the competence marks', function () {
       // given
-      const veryLowEstimatedLevel = -9;
+      const veryLowCapacity = -9;
       const veryEasyDifficulty = -8;
       const numberOfChallenges = 32;
       const challenges = _buildChallenges(veryEasyDifficulty, numberOfChallenges);
@@ -351,7 +351,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
         })
         .returns({
-          capacity: veryLowEstimatedLevel,
+          capacity: veryLowCapacity,
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
@@ -380,7 +380,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   describe('when we reach an estimated level above the MAXIMUM', function () {
     it('the score should be 896', function () {
       // given
-      const veryHighEstimatedLevel = 1200;
+      const veryHighCapacity = 1200;
       const veryHardDifficulty = 8;
       const numberOfChallenges = 32;
       const challenges = _buildChallenges(veryHardDifficulty, numberOfChallenges);
@@ -392,7 +392,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
         })
         .returns({
-          capacity: veryHighEstimatedLevel,
+          capacity: veryHighCapacity,
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
@@ -411,7 +411,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
     it('should return the competence marks', function () {
       // given
-      const veryHighEstimatedLevel = 1200;
+      const veryHighCapacity = 1200;
       const veryHardDifficulty = 8;
       const numberOfChallenges = 32;
       const challenges = _buildChallenges(veryHardDifficulty, numberOfChallenges);
@@ -423,7 +423,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
         })
         .returns({
-          capacity: veryHighEstimatedLevel,
+          capacity: veryHighCapacity,
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 

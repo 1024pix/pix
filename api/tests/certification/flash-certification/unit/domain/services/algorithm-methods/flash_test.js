@@ -574,7 +574,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         ];
 
         // when
-        const results = flash.getEstimatedLevelAndErrorRateHistory({ allAnswers, challenges });
+        const results = flash.getCapacityAndErrorRateHistory({ allAnswers, challenges });
 
         // then
         expect(results[0].answerId).to.equal(answerId);

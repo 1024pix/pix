@@ -73,25 +73,25 @@ const _computeScore = ({
   certificationScoringIntervals,
   intervalHeight,
 }) => {
-  let normalizedEstimatedLevel = capacity;
-  const minimumEstimatedLevel = certificationScoringIntervals[0].bounds.min;
-  const maximumEstimatedLevel = certificationScoringIntervals.at(-1).bounds.max;
+  let normalizedCapacity = capacity;
+  const minimumCapacity = certificationScoringIntervals[0].bounds.min;
+  const maximumCapacity = certificationScoringIntervals.at(-1).bounds.max;
 
-  if (normalizedEstimatedLevel < minimumEstimatedLevel) {
-    normalizedEstimatedLevel = minimumEstimatedLevel;
+  if (normalizedCapacity < minimumCapacity) {
+    normalizedCapacity = minimumCapacity;
   }
-  if (normalizedEstimatedLevel > maximumEstimatedLevel) {
-    normalizedEstimatedLevel = maximumEstimatedLevel;
+  if (normalizedCapacity > maximumCapacity) {
+    normalizedCapacity = maximumCapacity;
   }
 
-  const intervalIndex = _findIntervalIndex(normalizedEstimatedLevel, certificationScoringIntervals);
+  const intervalIndex = _findIntervalIndex(normalizedCapacity, certificationScoringIntervals);
 
   const intervalMaxValue = certificationScoringIntervals[intervalIndex].bounds.max;
   const intervalWidth =
     certificationScoringIntervals[intervalIndex].bounds.max - certificationScoringIntervals[intervalIndex].bounds.min;
 
   // Formula is defined here : https://1024pix.atlassian.net/wiki/spaces/DD/pages/3835133953/Vulgarisation+score+2023#Le-score
-  const score = intervalHeight * (intervalIndex + 1 + (normalizedEstimatedLevel - intervalMaxValue) / intervalWidth);
+  const score = intervalHeight * (intervalIndex + 1 + (normalizedCapacity - intervalMaxValue) / intervalWidth);
 
   const maximumReachableScore = maxReachableLevelOnCertificationDate * NUMBER_OF_COMPETENCES * PIX_PER_LEVEL;
 

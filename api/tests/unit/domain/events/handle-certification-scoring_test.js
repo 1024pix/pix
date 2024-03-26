@@ -841,7 +841,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             it('should return the score capped based on the maximum available level when the certification was done', async function () {
               // given
               const expectedCapacity = 8;
-              const cappedscoreForCapacity = 896;
+              const cappedScoreForCapacity = 896;
               const challenges = _generateCertificationChallengeForScoringList({ length: maximumAssessmentLength });
 
               const answers = generateAnswersForChallenges({ challenges });
@@ -911,11 +911,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
               // then
               const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
-                nbPix: cappedscoreForCapacity,
+                nbPix: cappedScoreForCapacity,
                 status: status.VALIDATED,
               });
               const expectedAssessmentResult = new AssessmentResult({
-                pixScore: cappedscoreForCapacity,
+                pixScore: cappedScoreForCapacity,
                 reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
                 status: status.VALIDATED,
                 assessmentId: certificationAssessment.id,
