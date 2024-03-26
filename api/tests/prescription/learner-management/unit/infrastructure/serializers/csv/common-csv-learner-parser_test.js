@@ -85,18 +85,33 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
       expect(error.meta[0].code).to.equal('BAD_CSV_FORMAT');
     });
 
-    it('should throw an error if the is more columns than headers', async function () {
-      // given
-      const input = `nom;prénom;GodZilla
+    context('Error FieldMismatch', function () {
+      it('should throw an error if the is more columns than headers', async function () {
+        // given
+        const input = `nom;prénom;GodZilla
       Beatrix;The;cheese;of;truth`;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-      parser.findEncoding();
-      // when
-      const error = await catchErr(parser.parse, parser)();
+        const encodedInput = iconv.encode(input, 'utf8');
+        const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
+        parser.findEncoding();
+        // when
+        const error = await catchErr(parser.parse, parser)();
 
-      // then
-      expect(error.meta[0].code).to.equal('BAD_CSV_FORMAT');
+        // then
+        expect(error.meta[0].code).to.equal('BAD_CSV_FORMAT');
+      });
+      it('should throw an error if the is less columns than headers', async function () {
+        // given
+        const input = `nom;GodZilla;prénom
+        Beatrix;`;
+        const encodedInput = iconv.encode(input, 'utf8');
+        const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
+        parser.findEncoding();
+        // when
+        const error = await catchErr(parser.parse, parser)();
+
+        // then
+        expect(error.meta[0].code).to.equal('BAD_CSV_FORMAT');
+      });
     });
 
     it('should throw all errors on missing header', async function () {
@@ -284,7 +299,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
 
           const input = `prénom;nom;classe;
           The;Superman;4èmeB;
-          The;Batman;4èmeB`;
+          The;Batman;4èmeB;`;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
           parser.findEncoding();
@@ -317,7 +332,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
             ],
           };
           const input = `prénom;nom;date de naissance;
-          The;Superman;3 juillet 1990`;
+          The;Superman;3 juillet 1990;`;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
           parser.findEncoding();
@@ -390,7 +405,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
           The;Superman;1999-09-01;`;
             const encodedInput = iconv.encode(input, 'utf8');
             const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-            parser.setEncoding();
+            parser.findEncoding();
 
             // when
             const errors = await catchErr(parser.parse, parser)();
@@ -430,11 +445,11 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
                 },
               ],
             };
-            const input = `prénom;nom;date de naissance;date de mariage
-            The;Superman;;09-09-1999`;
+            const input = `prénom;nom;date de naissance;date de mariage;
+            The;Superman;;09-09-1999;`;
             const encodedInput = iconv.encode(input, 'utf8');
             const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-            parser.setEncoding();
+            parser.findEncoding();
 
             // when
             const errors = await catchErr(parser.parse, parser)();

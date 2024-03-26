@@ -111,11 +111,9 @@ class CommonCsvLearnerParser {
     } = papa.parse(decodedInput, PARSING_OPTIONS);
 
     if (errors.length) {
-      const hasDelimiterError = errors.some((error) => error.type === 'Delimiter');
-      const hasQuotesError = errors.some((error) => error.type === 'Quotes');
-      const hasFieldMismatchError = errors.some((error) => error.type === 'FieldMismatch');
+      const hasErrors = errors.some((error) => ['Delimiter', 'FieldMismatch'].includes(error.type));
 
-      if (hasDelimiterError || hasQuotesError || hasFieldMismatchError) {
+      if (hasErrors) {
         this.#errors.push(new CsvImportError(ERRORS.BAD_CSV_FORMAT));
       }
     }
