@@ -244,7 +244,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
 
         const challenges = [hardChallenge, easyChallenge];
         const assessmentAnswers = [answer1];
-        const answersForComputingEstimatedLevel = [];
+        const answersForComputingCapacity = [];
 
         // when
         const algorithm = new FlashAssessmentAlgorithm({
@@ -255,7 +255,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         flashAlgorithmImplementation.getCapacityAndErrorRate
           .withArgs(
             _getEstimatedLevelAndErrorRateParams({
-              allAnswers: answersForComputingEstimatedLevel,
+              allAnswers: answersForComputingCapacity,
               challenges,
               capacity: initialCapacity,
             }),
@@ -278,7 +278,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           assessmentAnswers,
           challenges,
           initialCapacity,
-          answersForComputingEstimatedLevel,
+          answersForComputingCapacity,
         });
 
         expect(nextChallenges).to.deep.equal([hardChallenge]);

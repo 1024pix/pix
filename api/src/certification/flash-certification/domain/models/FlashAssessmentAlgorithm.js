@@ -38,14 +38,14 @@ class FlashAssessmentAlgorithm {
     assessmentAnswers,
     challenges,
     initialCapacity = config.v3Certification.defaultCandidateCapacity,
-    answersForComputingEstimatedLevel,
+    answersForComputingCapacity,
   }) {
     if (assessmentAnswers.length >= this._configuration.maximumAssessmentLength) {
       throw new AssessmentEndedError();
     }
 
     const { capacity } = this.getCapacityAndErrorRate({
-      allAnswers: answersForComputingEstimatedLevel ?? assessmentAnswers,
+      allAnswers: answersForComputingCapacity ?? assessmentAnswers,
       challenges,
       initialCapacity,
     });

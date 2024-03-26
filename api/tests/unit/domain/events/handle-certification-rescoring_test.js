@@ -125,7 +125,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedCapacity = 2;
-          const scoreForEstimatedLevel = 640;
+          const scoreForCapacity = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
@@ -196,7 +196,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             certificationCourseId,
             assessmentResult: new AssessmentResult({
               emitter: AssessmentResult.emitters.PIX_ALGO,
-              pixScore: scoreForEstimatedLevel,
+              pixScore: scoreForCapacity,
               reproducibilityRate: 100,
               status: AssessmentResult.status.REJECTED,
               competenceMarks: [],
@@ -243,7 +243,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedCapacity = 2;
-          const scoreForEstimatedLevel = 640;
+          const scoreForCapacity = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
@@ -314,7 +314,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             certificationCourseId,
             assessmentResult: new AssessmentResult({
               emitter: AssessmentResult.emitters.PIX_ALGO,
-              pixScore: scoreForEstimatedLevel,
+              pixScore: scoreForCapacity,
               reproducibilityRate: 100,
               status: AssessmentResult.status.REJECTED,
               competenceMarks: [],
@@ -494,7 +494,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         const answers = generateAnswersForChallenges({ challenges });
 
         const expectedCapacity = 2;
-        const scoreForEstimatedLevel = 640;
+        const scoreForCapacity = 640;
         const { certificationCourseId } = certificationAssessment;
 
         const capacityHistory = [
@@ -569,7 +569,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           certificationCourseId,
           assessmentResult: new AssessmentResult({
             emitter: AssessmentResult.emitters.PIX_ALGO,
-            pixScore: scoreForEstimatedLevel,
+            pixScore: scoreForCapacity,
             reproducibilityRate: 100,
             status: AssessmentResult.status.VALIDATED,
             competenceMarks: [],
@@ -622,7 +622,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedCapacity = 2;
-          const scoreForEstimatedLevel = 640;
+          const scoreForCapacity = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
@@ -694,7 +694,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
           // then
           const assessmentResultToBeSaved = domainBuilder.certification.scoring.buildAssessmentResult.fraud({
-            pixScore: scoreForEstimatedLevel,
+            pixScore: scoreForCapacity,
             reproducibilityRate: 100,
             assessmentId: 123,
           });
@@ -737,7 +737,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           const answers = generateAnswersForChallenges({ challenges });
 
           const expectedCapacity = 8;
-          const cappedScoreForEstimatedLevel = 896;
+          const cappedscoreForCapacity = 896;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
@@ -801,7 +801,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             certificationCourseId,
             assessmentResult: new AssessmentResult({
               emitter: AssessmentResult.emitters.PIX_ALGO,
-              pixScore: cappedScoreForEstimatedLevel,
+              pixScore: cappedscoreForCapacity,
               reproducibilityRate: 100,
               status: AssessmentResult.status.VALIDATED,
               competenceMarks: [],

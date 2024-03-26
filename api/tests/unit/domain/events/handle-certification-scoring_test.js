@@ -413,7 +413,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           it('should reject the certification', async function () {
             // given
             const expectedCapacity = 2;
-            const scoreForEstimatedLevel = 640;
+            const scoreForCapacity = 640;
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
               id: certificationCourseId,
               createdAt: certificationCourseStartDate,
@@ -495,11 +495,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
             // then
             const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
-              nbPix: scoreForEstimatedLevel,
+              nbPix: scoreForCapacity,
               status: status.REJECTED,
             });
             const expectedAssessmentResult = new AssessmentResult({
-              pixScore: scoreForEstimatedLevel,
+              pixScore: scoreForCapacity,
               reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
               status: status.REJECTED,
               assessmentId: certificationAssessment.id,
@@ -534,7 +534,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             // given
             const abortReason = ABORT_REASONS.TECHNICAL;
             const expectedCapacity = 2;
-            const scoreForEstimatedLevel = 640;
+            const scoreForCapacity = 640;
             const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
               id: certificationCourseId,
               createdAt: certificationCourseStartDate,
@@ -618,11 +618,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
             // then
             const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
-              nbPix: scoreForEstimatedLevel,
+              nbPix: scoreForCapacity,
               status: status.REJECTED,
             });
             const expectedAssessmentResult = new AssessmentResult({
-              pixScore: scoreForEstimatedLevel,
+              pixScore: scoreForCapacity,
               reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
               status: status.REJECTED,
               assessmentId: certificationAssessment.id,
@@ -668,7 +668,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           it('should build and save an assessment result with a validated status', async function () {
             // given
             const expectedCapacity = 2;
-            const scoreForEstimatedLevel = 640;
+            const scoreForCapacity = 640;
             const challenges = _generateCertificationChallengeForScoringList({ length: maximumAssessmentLength });
             const answers = generateAnswersForChallenges({ challenges });
             const assessmentResultId = 123;
@@ -739,11 +739,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
             // then
             const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
-              nbPix: scoreForEstimatedLevel,
+              nbPix: scoreForCapacity,
               status: status.VALIDATED,
             });
             const expectedAssessmentResult = new AssessmentResult({
-              pixScore: scoreForEstimatedLevel,
+              pixScore: scoreForCapacity,
               reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
               status: status.VALIDATED,
               assessmentId: certificationAssessment.id,
@@ -779,7 +779,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             it('should return the score capped based on the maximum available level when the certification was done', async function () {
               // given
               const expectedCapacity = 8;
-              const cappedScoreForEstimatedLevel = 896;
+              const cappedscoreForCapacity = 896;
               const challenges = _generateCertificationChallengeForScoringList({ length: maximumAssessmentLength });
 
               const answers = generateAnswersForChallenges({ challenges });
@@ -849,11 +849,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
               // then
               const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
-                nbPix: cappedScoreForEstimatedLevel,
+                nbPix: cappedscoreForCapacity,
                 status: status.VALIDATED,
               });
               const expectedAssessmentResult = new AssessmentResult({
-                pixScore: cappedScoreForEstimatedLevel,
+                pixScore: cappedscoreForCapacity,
                 reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
                 status: status.VALIDATED,
                 assessmentId: certificationAssessment.id,
