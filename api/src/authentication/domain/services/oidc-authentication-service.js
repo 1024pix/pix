@@ -139,10 +139,6 @@ class OidcAuthenticationService {
   }
 
   async saveIdToken({ idToken, userId } = {}) {
-    if (!this.shouldCloseSession) {
-      return null;
-    }
-
     const uuid = randomUUID();
 
     const { idTokenLifespanMs } = this.temporaryStorageConfig;

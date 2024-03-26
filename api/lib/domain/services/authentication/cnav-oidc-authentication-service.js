@@ -20,10 +20,6 @@ class CnavOidcAuthenticationService extends OidcAuthenticationService {
       source: 'cnav',
     });
   }
-
-  async getRedirectLogoutUrl() {
-    return null;
-  }
 }
 
 export { CnavOidcAuthenticationService };

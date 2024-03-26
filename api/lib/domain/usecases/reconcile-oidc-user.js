@@ -34,10 +34,14 @@ const reconcileOidcUser = async function ({
   });
 
   const accessToken = await oidcAuthenticationService.createAccessToken(userId);
-  const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({
-    idToken: sessionContent.idToken,
-    userId,
-  });
+
+  let logoutUrlUUID;
+  if (oidcAuthenticationService.shouldCloseSession) {
+    logoutUrlUUID = await oidcAuthenticationService.saveIdToken({
+      idToken: sessionContent.idToken,
+      userId,
+    });
+  }
 
   await userLoginRepository.updateLastLoggedAt({ userId });
 
