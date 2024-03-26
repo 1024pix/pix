@@ -258,6 +258,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
 
       // then
       expect(usecases.authenticateOidcUser).to.have.been.calledWithExactly({
+        audience: undefined,
         code,
         redirectUri,
         state: identityProviderState,
