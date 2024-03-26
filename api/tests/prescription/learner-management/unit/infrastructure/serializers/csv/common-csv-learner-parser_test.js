@@ -85,6 +85,20 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
       expect(error.meta[0].code).to.equal('BAD_CSV_FORMAT');
     });
 
+    it('should throw an error if the is more columns than headers', async function () {
+      // given
+      const input = `nom;prénom;GodZilla
+      Beatrix;The;cheese;of;truth`;
+      const encodedInput = iconv.encode(input, 'utf8');
+      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
+      parser.findEncoding();
+      // when
+      const error = await catchErr(parser.parse, parser)();
+
+      // then
+      expect(error.meta[0].code).to.equal('BAD_CSV_FORMAT');
+    });
+
     it('should throw all errors on missing header', async function () {
       // given
       const input = `prénom;

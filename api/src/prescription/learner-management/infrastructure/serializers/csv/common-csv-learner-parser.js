@@ -112,7 +112,10 @@ class CommonCsvLearnerParser {
 
     if (errors.length) {
       const hasDelimiterError = errors.some((error) => error.type === 'Delimiter');
-      if (hasDelimiterError) {
+      const hasQuotesError = errors.some((error) => error.type === 'Quotes');
+      const hasFieldMismatchError = errors.some((error) => error.type === 'FieldMismatch');
+
+      if (hasDelimiterError || hasQuotesError || hasFieldMismatchError) {
         this.#errors.push(new CsvImportError(ERRORS.BAD_CSV_FORMAT));
       }
     }
