@@ -11,6 +11,93 @@ import { databaseBuilder, domainBuilder, expect } from '../../../../../test-help
 
 describe('Integration | Infrastructure | Repository | v3-certification-course-details-for-administration', function () {
   describe('#getV3DetailsByCertificationCourseId', function () {
+    describe('when there is no flash algorithm configuration available', function () {
+      it('should return the default number of challenges by certification course id ', async function () {
+        // given
+        const certificationCourseId = 123;
+        const challengeId = 'recCHAL456';
+        const assessmentId = 78;
+        const isRejectedForFraud = true;
+        const createdAt = new Date('2022-01-01');
+        const flashAlgorithmConfigurationCreationDate = new Date('2022-02-01');
+        const completedAt = new Date('2022-02-03');
+        const assessmentState = Assessment.states.ENDED_DUE_TO_FINALIZATION;
+        const assessmentResultStatus = AssessmentResult.status.VALIDATED;
+        const abortReason = ABORT_REASONS.CANDIDATE;
+        const pixScore = 60;
+        const isCancelled = false;
+
+        databaseBuilder.factory.buildCertificationCourse({
+          id: certificationCourseId,
+          isRejectedForFraud,
+          createdAt,
+          completedAt,
+          abortReason,
+          isCancelled,
+        });
+        databaseBuilder.factory.buildCertificationChallenge({
+          courseId: certificationCourseId,
+          challengeId,
+        });
+        databaseBuilder.factory.buildAssessment({
+          id: assessmentId,
+          certificationCourseId,
+          state: assessmentState,
+        });
+        databaseBuilder.factory.buildAssessmentResult({
+          pixScore,
+          certificationCourseId,
+          assessmentId,
+          assessmentResultStatus,
+        });
+
+        databaseBuilder.factory.buildFlashAlgorithmConfiguration({
+          maximumAssessmentLength: 1,
+          createdAt: flashAlgorithmConfigurationCreationDate,
+        });
+
+        const answer = databaseBuilder.factory.buildAnswer({
+          assessmentId,
+          challengeId,
+          result: 'ok',
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const certificationChallenges =
+          await v3CertificationCourseDetailsForAdministrationRepository.getV3DetailsByCertificationCourseId({
+            certificationCourseId,
+          });
+
+        // then
+        const certificationChallengeForAdministration = domainBuilder.buildV3CertificationChallengeForAdministration({
+          challengeId,
+          answerStatus: AnswerStatus.OK,
+          answeredAt: answer.createdAt,
+          answerValue: answer.value,
+          competenceId: certificationChallenges.certificationChallengesForAdministration[0].competenceId,
+          skillName: certificationChallenges.certificationChallengesForAdministration[0].skillName,
+        });
+
+        const expectedCertificationCourseDetails = domainBuilder.buildV3CertificationCourseDetailsForAdministration({
+          certificationCourseId,
+          isRejectedForFraud,
+          createdAt,
+          completedAt,
+          assessmentState,
+          assessmentResultStatus,
+          abortReason,
+          pixScore,
+          isCancelled,
+          numberOfChallenges: 32,
+          certificationChallengesForAdministration: [certificationChallengeForAdministration],
+        });
+
+        expect(certificationChallenges).to.deep.equal(expectedCertificationCourseDetails);
+      });
+    });
+
     it('should return all challenges by certification course id', async function () {
       // given
       const certificationCourseId = 123;

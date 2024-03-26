@@ -45,10 +45,7 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
     })
     .first();
 
-  const { maximumAssessmentLength: numberOfChallenges } = await knex('flash-algorithm-configurations')
-    .where('createdAt', '<=', certificationCourseDTO.createdAt)
-    .orderBy('createdAt', 'desc')
-    .first();
+  const numberOfChallenges = await _getNumberOfChallenges(certificationCourseDTO);
 
   const certificationChallengesDetailsDTO = await knex
     .select({
@@ -109,4 +106,14 @@ function _certificationChallengeLiveAlertToDomain({ liveAlertsDTO, certification
     id: certificationChallengeLiveAlert.id,
     issueReportSubcategory: certificationChallengeLiveAlert.issueReportSubcategory,
   });
+}
+
+async function _getNumberOfChallenges(certificationCourseDTO) {
+  const DEFAULT_NUMBER_OF_CHALLENGES = 32;
+  const flashAlgorithmConfiguration = await knex('flash-algorithm-configurations')
+    .where('createdAt', '<=', certificationCourseDTO.createdAt)
+    .orderBy('createdAt', 'desc')
+    .first();
+
+  return flashAlgorithmConfiguration?.maximumAssessmentLength ?? DEFAULT_NUMBER_OF_CHALLENGES;
 }
