@@ -81,7 +81,7 @@ class EntityValidationError extends DomainError {
   }
 }
 
-class EntityValidationRulesError extends DomainError {
+class ModelValidationError extends DomainError {
   constructor({ code, key, format }) {
     super("Échec de validation de l'entité.");
 
@@ -103,7 +103,7 @@ class EntityValidationRulesError extends DomainError {
   }
 
   static unicityError({ key }) {
-    return new EntityValidationRulesError({ code: VALIDATION_ERRORS.PROPERTY_NOT_UNIQ, key });
+    return new ModelValidationError({ code: VALIDATION_ERRORS.PROPERTY_NOT_UNIQ, key });
   }
 
   static fromJoiError(joiError) {
@@ -119,7 +119,7 @@ class EntityValidationRulesError extends DomainError {
       key = joiError.context.key;
     }
 
-    return new EntityValidationRulesError({ code, key, format });
+    return new ModelValidationError({ code, key, format });
   }
 }
 
@@ -248,7 +248,6 @@ export {
   CsvImportError,
   DomainError,
   EntityValidationError,
-  EntityValidationRulesError,
   ForbiddenAccess,
   InvalidExternalUserTokenError,
   InvalidInputDataError,
@@ -260,6 +259,7 @@ export {
   LocaleNotSupportedError,
   MissingAssessmentId,
   MissingBadgeCriterionError,
+  ModelValidationError,
   NoCertificationAttestationForDivisionError,
   NotFoundError,
   OidcError,

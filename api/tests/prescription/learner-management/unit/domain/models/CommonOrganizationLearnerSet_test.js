@@ -2,7 +2,7 @@ import {
   CommonOrganizationLearner,
   ImportOrganizationLearnerSet,
 } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearnerSet.js';
-import { EntityValidationRulesError } from '../../../../../../src/shared/domain/errors.js';
+import { ModelValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Models | ImportOrganizationLearnerSet', function () {
@@ -62,7 +62,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           learnerSet.addLearner(learnerAttributes);
           const error = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
 
-          expect(error[0]).to.be.an.instanceOf(EntityValidationRulesError);
+          expect(error[0]).to.be.an.instanceOf(ModelValidationError);
           expect(error[0].why).to.equal('uniqueness');
           expect(error[0].key).to.equal('group');
           expect(error[0].code).to.equal('PROPERTY_NOT_UNIQ');
@@ -78,7 +78,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           learnerSet.addLearner(learnerAttributes);
           const errors = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
 
-          expect(errors[0]).to.be.an.instanceOf(EntityValidationRulesError);
+          expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
           expect(errors[0].why).to.equal('uniqueness');
           expect(errors[0].key).to.equal('firstName-group');
           expect(errors[0].code).to.equal('PROPERTY_NOT_UNIQ');
@@ -109,7 +109,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           learnerSet = new ImportOrganizationLearnerSet(validationRules);
 
           const error = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
-          expect(error[0]).to.be.an.instanceOf(EntityValidationRulesError);
+          expect(error[0]).to.be.an.instanceOf(ModelValidationError);
           expect(error[0].why).to.equal('date_format');
           expect(error[0].key).to.equal('birthdate');
           expect(error[0].code).to.equal('FIELD_DATE_FORMAT');
@@ -145,8 +145,8 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           const firstError = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
           const secondError = await catchErr(learnerSet.addLearner, learnerSet)(secondLearnersAttributes);
 
-          expect(firstError[0]).to.be.an.instanceOf(EntityValidationRulesError);
-          expect(secondError[0]).to.be.an.instanceOf(EntityValidationRulesError);
+          expect(firstError[0]).to.be.an.instanceOf(ModelValidationError);
+          expect(secondError[0]).to.be.an.instanceOf(ModelValidationError);
           expect(firstError[0].code).to.equal('FIELD_DATE_FORMAT');
           expect(secondError[0].code).to.equal('PROPERTY_NOT_UNIQ');
         });

@@ -54,10 +54,10 @@ describe('Unit | Shared | Domain | Errors', function () {
     });
   });
 
-  describe('EntityValidationRulesError', function () {
-    it('should export an EntityValidationRulesError', function () {
-      expect(errors.EntityValidationRulesError).to.exist;
-      expect(errors.EntityValidationRulesError.prototype).to.be.an.instanceOf(errors.DomainError);
+  describe('ModelValidationError', function () {
+    it('should export an ModelValidationError', function () {
+      expect(errors.ModelValidationError).to.exist;
+      expect(errors.ModelValidationError.prototype).to.be.an.instanceOf(errors.DomainError);
     });
 
     context('#unicityRule', function () {
@@ -67,7 +67,7 @@ describe('Unit | Shared | Domain | Errors', function () {
         const key = 'class-firstName';
 
         // when
-        const error = new errors.EntityValidationRulesError({ key, code });
+        const error = new errors.ModelValidationError({ key, code });
 
         // then
         expect(error.key).to.equal(key);
@@ -80,7 +80,7 @@ describe('Unit | Shared | Domain | Errors', function () {
     context('#fromJoiError', function () {
       it('should return an error with code and key from joi', function () {
         const joiError = { context: { key: 'date', format: 'YY-MM-DD' }, type: 'date.format' };
-        const error = errors.EntityValidationRulesError.fromJoiError(joiError);
+        const error = errors.ModelValidationError.fromJoiError(joiError);
 
         expect(error.key).to.equal('date');
         expect(error.why).to.equal('date_format');

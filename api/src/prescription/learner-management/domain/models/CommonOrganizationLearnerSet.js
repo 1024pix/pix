@@ -1,4 +1,4 @@
-import { EntityValidationRulesError } from '../../../../shared/domain/errors.js';
+import { ModelValidationError } from '../../../../shared/domain/errors.js';
 import { validateCommonOrganizationLearner } from '../validators/common-organization-learner-validator.js';
 
 class ImportOrganizationLearnerSet {
@@ -54,7 +54,7 @@ class ImportOrganizationLearnerSet {
       this.#unicityKeys.push(unicityEntity);
       return null;
     } else {
-      return EntityValidationRulesError.unicityError({
+      return ModelValidationError.unicityError({
         key: this.validationRules.unicity.join('-'),
       });
     }
@@ -64,7 +64,7 @@ class ImportOrganizationLearnerSet {
     const errors = validateCommonOrganizationLearner(learnerAttributes, this.validationRules.formats);
     if (errors.length > 0) {
       return errors.map((error) => {
-        return EntityValidationRulesError.fromJoiError(error);
+        return ModelValidationError.fromJoiError(error);
       });
     }
   }
