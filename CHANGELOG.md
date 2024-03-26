@@ -1,5 +1,35 @@
 # Pix Changelog
 
+## v4.121.0 (26/03/2024)
+
+
+### :rocket: Amélioration
+- [#8363](https://github.com/1024pix/pix/pull/8363) [FEATURE] Ajouter l'info de lien avec un parcours autonome dans le détail d'un profil-cible (PIX-9840).
+- [#8467](https://github.com/1024pix/pix/pull/8467) [FEATURE] Afficher Pix Certif et Pix Orga en anglais lorsque la langue de l'utilisateur n'est pas supportée (PIX-11633).
+- [#8462](https://github.com/1024pix/pix/pull/8462) [FEATURE] Différencier les grains activité des grain leçon (PIX-10857).
+- [#8474](https://github.com/1024pix/pix/pull/8474) [FEATURE] utiliser la table `organization-imports` pour afficher les infos du dernier import (Pix-11670).
+- [#8488](https://github.com/1024pix/pix/pull/8488) [FEATURE] Changer le lien 'Importer' dans la bannière de rentrée vers la nouvelle page d'import (PIX-11822).
+- [#8484](https://github.com/1024pix/pix/pull/8484) [FEATURE] Ajouter une colonne id sur la table `organization-learner-import-formats` (PIX-11610).
+
+### :building_construction: Tech
+- [#8458](https://github.com/1024pix/pix/pull/8458) [TECH] Supprimer la configuration des endpoints trouvés automatiquement par OpenID Configuration (PIX-11106).
+- [#8477](https://github.com/1024pix/pix/pull/8477) [TECH] Correction de tests échouant aléatoirement (PIX-11751).
+
+### :bug: Correction
+- [#8395](https://github.com/1024pix/pix/pull/8395) [BUGFIX] Éviter les 2 écrans intermédiaires en fin de parcours (PIX-11203).
+- [#8457](https://github.com/1024pix/pix/pull/8457) [BUGFIX] Ne pas afficher de grain vide (PIX-11296).
+- [#8483](https://github.com/1024pix/pix/pull/8483) [BUGFIX] Inverser les en-têtes de deux colonnes et conditionne un des affichages (PIX-11752).
+
+### :arrow_up: Montée de version
+- [#8502](https://github.com/1024pix/pix/pull/8502) [BUMP] Lock file maintenance (audit-logger).
+- [#8500](https://github.com/1024pix/pix/pull/8500) [BUMP] Update dependency ember-flatpickr to v8 (admin).
+- [#8499](https://github.com/1024pix/pix/pull/8499) [BUMP] Update dependency ember-flatpickr to v8 (certif).
+- [#8497](https://github.com/1024pix/pix/pull/8497) [BUMP] Update dependency eslint-plugin-n to v16 (admin).
+- [#8493](https://github.com/1024pix/pix/pull/8493) [BUMP] Replace dependency eslint-plugin-node with eslint-plugin-n ^16.0.0 (orga).
+- [#8492](https://github.com/1024pix/pix/pull/8492) [BUMP] Lock file maintenance (api).
+- [#8489](https://github.com/1024pix/pix/pull/8489) [BUMP] Replace dependency eslint-plugin-node with eslint-plugin-n ^14.0.0 (mon-pix).
+- [#8465](https://github.com/1024pix/pix/pull/8465) [BUMP] Replace dependency eslint-plugin-node with eslint-plugin-n ^14.0.0 (admin).
+
 ## v4.120.0 (22/03/2024)
 
 
