@@ -1,47 +1,56 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { UserOrgaSettingsCreationError } from '../../../../../lib/domain/errors.js';
+import { Organization, User } from '../../../../../lib/domain/models/index.js';
 import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
-import { BookshelfUserOrgaSettings } from '../../../../../lib/infrastructure/orm-models/UserOrgaSettings.js';
-import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
 import * as knexUtils from '../../../../../lib/infrastructure/utils/knex-utils.js';
 
-const findOneByUserId = function (userId) {
-  return BookshelfUserOrgaSettings.where({ userId })
-    .fetch({ require: true, withRelated: ['user', 'currentOrganization'] })
-    .then((userOrgaSettings) =>
-      bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, userOrgaSettings),
-    )
-    .catch((err) => {
-      if (err instanceof BookshelfUserOrgaSettings.NotFoundError) {
-        return {};
-      }
-      throw err;
-    });
+const findOneByUserId = async function (userId) {
+  const userOrgaSettings = await knex('user-orga-settings').where({ userId }).first();
+  if (!userOrgaSettings) return {};
+
+  const user = await knex('users').where('id', userId).first();
+  const currentOrganization = await knex('organizations').where('id', userOrgaSettings.currentOrganizationId).first();
+
+  return new UserOrgaSettings({
+    id: userOrgaSettings.id,
+    currentOrganization: new Organization(currentOrganization),
+    user: new User(user),
+  });
 };
 
-const create = function (userId, currentOrganizationId) {
-  return new BookshelfUserOrgaSettings({ userId, currentOrganizationId })
-    .save()
-    .then((bookshelfUserOrgaSettings) => bookshelfUserOrgaSettings.load(['user', 'currentOrganization']))
-    .then((userOrgaSettings) =>
-      bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, userOrgaSettings),
-    )
-    .catch((err) => {
-      if (knexUtils.isUniqConstraintViolated(err)) {
-        throw new UserOrgaSettingsCreationError(err.message);
-      }
-      throw err;
+const create = async function (userId, currentOrganizationId) {
+  try {
+    const [userOrgaSettingsCreated] = await knex('user-orga-settings')
+      .insert({ userId, currentOrganizationId, createdAt: new Date() })
+      .returning('*');
+    const user = await knex('users').where('id', userId).first();
+    const currentOrganization = await knex('organizations')
+      .where('id', userOrgaSettingsCreated.currentOrganizationId)
+      .first();
+
+    return new UserOrgaSettings({
+      id: userOrgaSettingsCreated.id,
+      user: new User(user),
+      currentOrganization: new Organization(currentOrganization),
     });
+  } catch (err) {
+    if (knexUtils.isUniqConstraintViolated(err)) {
+      throw new UserOrgaSettingsCreationError(err.message);
+    }
+    throw err;
+  }
 };
 
 const update = async function (userId, organizationId) {
-  const bookshelfUserOrgaSettings = await BookshelfUserOrgaSettings.where({ userId }).save(
-    { currentOrganizationId: organizationId },
-    { patch: true, method: 'update' },
-  );
-  await bookshelfUserOrgaSettings.related('user').fetch();
-  await bookshelfUserOrgaSettings.related('currentOrganization').fetch();
-  return bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, bookshelfUserOrgaSettings);
+  const [userOrgaSettingsUpdated] = await knex('user-orga-settings')
+    .where({ userId })
+    .update({ currentOrganizationId: organizationId, updatedAt: new Date() })
+    .returning('*');
+  const user = await knex('users').where('id', userId).first();
+  const currentOrganization = await knex('organizations')
+    .where('id', userOrgaSettingsUpdated.currentOrganizationId)
+    .first();
+  return new UserOrgaSettings({ id: userOrgaSettingsUpdated.id, user, currentOrganization });
 };
 
 const createOrUpdate = async function ({ userId, organizationId }) {
