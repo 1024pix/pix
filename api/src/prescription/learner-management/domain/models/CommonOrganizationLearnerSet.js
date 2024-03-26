@@ -75,7 +75,7 @@ class ImportOrganizationLearnerSet {
 }
 
 class CommonOrganizationLearner {
-  constructor({ id, userId, lastName, firstName, organizationId, attributes } = {}) {
+  constructor({ id, userId, lastName, firstName, organizationId, ...attributes } = {}) {
     if (id) this.id = id;
     if (userId) this.userId = userId;
     this.lastName = lastName;

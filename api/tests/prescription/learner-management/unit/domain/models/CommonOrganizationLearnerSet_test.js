@@ -37,8 +37,8 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
       learnerSet.addLearner(learnerAttributes);
 
       expect(learnerSet.learners).to.lengthOf(1);
-      expect(learnerSet.learners).to.deep.equal([learnerAttributes]);
       expect(learnerSet.learners[0]).to.be.an.instanceOf(CommonOrganizationLearner);
+      expect(learnerSet.learners).to.deep.equal([new CommonOrganizationLearner(learnerAttributes)]);
     });
 
     it('should return multiple learners', function () {

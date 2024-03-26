@@ -238,10 +238,17 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
         PikaChu;Pokemon Gotta Catch'em ALL;
         `;
 
-        const expectedOutput = [
-          { firstName: 'Godzilla', lastName: 'King of monsters', organizationId, attributes: {} },
-          { firstName: 'PikaChu', lastName: "Pokemon Gotta Catch'em ALL", organizationId, attributes: {} },
-        ];
+        const firstLearner = new CommonOrganizationLearner({
+          firstName: 'Godzilla',
+          lastName: 'King of monsters',
+          organizationId,
+        });
+        const secondLearner = new CommonOrganizationLearner({
+          firstName: 'PikaChu',
+          lastName: "Pokemon Gotta Catch'em ALL",
+          organizationId,
+        });
+        const expectedOutput = [firstLearner, secondLearner];
 
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
