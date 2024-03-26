@@ -392,7 +392,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
         flashAlgorithmService = {
           getEstimatedLevelAndErrorRate: sinon.stub(),
-          getEstimatedLevelAndErrorRateHistory: sinon.stub(),
+          getCapacityAndErrorRateHistory: sinon.stub(),
         };
 
         const scoringConfiguration = domainBuilder.buildV3CertificationScoring({
@@ -462,7 +462,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 capacity: expectedCapacity,
               });
 
-            flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+            flashAlgorithmService.getCapacityAndErrorRateHistory
               .withArgs({
                 challenges,
                 allAnswers: answers,
@@ -585,7 +585,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 capacity: expectedCapacity,
               });
 
-            flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+            flashAlgorithmService.getCapacityAndErrorRateHistory
               .withArgs({
                 challenges,
                 allAnswers: answers,
@@ -706,7 +706,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               });
             assessmentResultRepository.save.resolves(domainBuilder.buildAssessmentResult({ id: assessmentResultId }));
 
-            flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+            flashAlgorithmService.getCapacityAndErrorRateHistory
               .withArgs({
                 challenges,
                 allAnswers: answers,
@@ -816,7 +816,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                   capacity: expectedCapacity,
                 });
 
-              flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+              flashAlgorithmService.getCapacityAndErrorRateHistory
                 .withArgs({
                   challenges,
                   allAnswers: answers,
@@ -923,7 +923,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                   capacity: expectedCapacity,
                 });
 
-              flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+              flashAlgorithmService.getCapacityAndErrorRateHistory
                 .withArgs({
                   challenges,
                   allAnswers: answers,
@@ -1034,7 +1034,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 .returns({
                   capacity: expectedCapacity,
                 });
-              flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+              flashAlgorithmService.getCapacityAndErrorRateHistory
                 .withArgs({
                   challenges,
                   allAnswers: answers,
@@ -1126,7 +1126,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           .withArgs(certificationCourseStartDate)
           .resolves(baseFlashAlgorithmConfiguration);
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+        flashAlgorithmService.getCapacityAndErrorRateHistory
           .withArgs({
             challenges,
             allAnswers: answers,
@@ -1154,7 +1154,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             capacity: 2,
           });
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+        flashAlgorithmService.getCapacityAndErrorRateHistory
           .withArgs({
             challenges,
             allAnswers: answers,

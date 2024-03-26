@@ -63,7 +63,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       };
       flashAlgorithmService = {
         getEstimatedLevelAndErrorRate: sinon.stub(),
-        getEstimatedLevelAndErrorRateHistory: sinon.stub(),
+        getCapacityAndErrorRateHistory: sinon.stub(),
       };
 
       certificationAssessmentHistoryRepository = {
@@ -166,7 +166,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
               capacity: expectedCapacity,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+          flashAlgorithmService.getCapacityAndErrorRateHistory
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
@@ -284,7 +284,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
               capacity: expectedCapacity,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+          flashAlgorithmService.getCapacityAndErrorRateHistory
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
@@ -420,7 +420,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
               capacity: expectedCapacity,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+          flashAlgorithmService.getCapacityAndErrorRateHistory
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
@@ -539,7 +539,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             capacity: expectedCapacity,
           });
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+        flashAlgorithmService.getCapacityAndErrorRateHistory
           .withArgs({
             challenges: certificationChallengesForScoring,
             allAnswers: answers,
@@ -667,7 +667,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
               capacity: expectedCapacity,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+          flashAlgorithmService.getCapacityAndErrorRateHistory
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
@@ -782,7 +782,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
               capacity: expectedCapacity,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+          flashAlgorithmService.getCapacityAndErrorRateHistory
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,

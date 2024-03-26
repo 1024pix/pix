@@ -5,12 +5,12 @@ export class CertificationAssessmentHistory {
     this.capacityHistory = capacityHistory;
   }
   static fromChallengesAndAnswers({ algorithm, challenges, allAnswers }) {
-    const estimatedLevelAndErrorRateHistory = algorithm.getEstimatedLevelAndErrorRateHistory({
+    const capacityAndErrorRateHistory = algorithm.getCapacityAndErrorRateHistory({
       allAnswers,
       challenges,
     });
 
-    const capacityHistory = estimatedLevelAndErrorRateHistory.map(({ capacity }, index) =>
+    const capacityHistory = capacityAndErrorRateHistory.map(({ capacity }, index) =>
       CertificationChallengeCapacity.create({
         certificationChallengeId: challenges[index].certificationChallengeId,
         capacity,

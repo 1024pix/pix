@@ -17,7 +17,7 @@ export {
   calculateTotalPixScoreAndScoreByCompetence,
   getChallengesForNonAnsweredSkills,
   getEstimatedLevelAndErrorRate,
-  getEstimatedLevelAndErrorRateHistory,
+  getCapacityAndErrorRateHistory,
   getPossibleNextChallenges,
   getReward,
 };
@@ -53,7 +53,7 @@ function getEstimatedLevelAndErrorRate({
     return { capacity, errorRate: DEFAULT_ERROR_RATE };
   }
 
-  const estimatedLevelHistory = getEstimatedLevelAndErrorRateHistory({
+  const estimatedLevelHistory = getCapacityAndErrorRateHistory({
     allAnswers,
     challenges,
     capacity,
@@ -65,7 +65,7 @@ function getEstimatedLevelAndErrorRate({
   return estimatedLevelHistory.at(-1);
 }
 
-function getEstimatedLevelAndErrorRateHistory({
+function getCapacityAndErrorRateHistory({
   allAnswers,
   challenges,
   capacity = DEFAULT_CAPACITY,
