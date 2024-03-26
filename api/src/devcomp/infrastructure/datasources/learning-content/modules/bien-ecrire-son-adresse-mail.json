@@ -73,8 +73,8 @@
           "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
           "type": "image",
           "url": "https://i.imgur.com/lLEwbG6.png",
-          "alt": "Bloc 1&nbsp;: Identifiant, exemple&nbsp;: mickael.aubert123",
-          "alternativeText": ""
+          "alt": "",
+          "alternativeText": "Bloc 1&nbsp;: Identifiant, exemple&nbsp;: mickael.aubert123"
         },
         {
           "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
@@ -90,8 +90,8 @@
           "id": "9ccbf056-fd7f-4478-96c7-a7520fbe01b6",
           "type": "image",
           "url": "https://i.imgur.com/FAxBAds.png",
-          "alt": "Bloc 2&nbsp;: Arobase",
-          "alternativeText": ""
+          "alt": "",
+          "alternativeText": "Bloc 2&nbsp;: Arobase"
         },
         {
           "id": "ad8ad08a-3ff7-4228-8233-6cd5ce0f4812",
