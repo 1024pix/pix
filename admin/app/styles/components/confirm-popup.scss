@@ -1,6 +1,6 @@
 /* stylelint-disable selector-class-pattern */
 .confirm-popup__errors {
-  color: red;
+  color: var(--pix-error-500);
   font-weight: bold;
   white-space: pre;
 }
