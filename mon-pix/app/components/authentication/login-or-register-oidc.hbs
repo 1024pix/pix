@@ -17,7 +17,12 @@
     </div>
     <div class="login-or-register-oidc-form__cgu-container">
       <PixCheckbox {{on "change" this.onChange}}>
-        {{t "common.cgu.message" cguUrl=this.cguUrl dataProtectionPolicyUrl=this.dataProtectionPolicyUrl htmlSafe=true}}
+        <:label>{{t
+            "common.cgu.message"
+            cguUrl=this.cguUrl
+            dataProtectionPolicyUrl=this.dataProtectionPolicyUrl
+            htmlSafe=true
+          }}</:label>
       </PixCheckbox>
     </div>
 
