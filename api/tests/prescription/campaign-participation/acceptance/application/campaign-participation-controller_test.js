@@ -263,4 +263,73 @@ describe('Acceptance | API | Campaign Participations', function () {
       expect(assessmentParticipation['participant-external-id']).to.equal('Maitre Yoda');
     });
   });
+
+  describe('GET /api/campaigns/{campaignId}/assessment-participations/{campaignParticipationId}/results', function () {
+    beforeEach(function () {
+      const learningContent = [
+        {
+          id: 'recArea1',
+          title_i18n: {
+            fr: 'area1_Title',
+          },
+          color: 'specialColor',
+          competences: [
+            {
+              id: 'recCompetence1',
+              name_i18n: { fr: 'Fabriquer un meuble' },
+              index: '1.1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      id: 'recSkillId1',
+                      nom: '@web2',
+                      challenges: [],
+                    },
+                    {
+                      id: 'recSkillId2',
+                      nom: '@web3',
+                      challenges: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
+      mockLearningContent(learningContentObjects);
+    });
+
+    it('should return the assessment participation results', async function () {
+      databaseBuilder.factory.buildMembership({ userId, organizationId });
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      const campaign = databaseBuilder.factory.buildCampaign({ organizationId });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId1' });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        participantExternalId: 'Maitre Yoda',
+        campaignId: campaign.id,
+        organizationLearnerId: organizationLearner.id,
+      });
+      databaseBuilder.factory.buildAssessment({
+        userId: organizationLearner.userId,
+        campaignParticipationId: campaignParticipation.id,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/assessment-participations/${campaignParticipation.id}/results`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.type).to.equal('campaign-assessment-participation-results');
+    });
+  });
 });
