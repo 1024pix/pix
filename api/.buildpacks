@@ -1,3 +1,2 @@
-https://github.com/Scalingo/nginx-buildpack
 https://github.com/Scalingo/nodejs-buildpack
-https://github.com/1024pix/pix-nginx-buildpack#PIX-11734-add-redis
+https://github.com/1024pix/pix-nginx-buildpack#PIX-11734-openresty
