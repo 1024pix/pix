@@ -29,7 +29,7 @@
     </div>
   {{/if}}
 
-  {{#unless @correction}}
+  {{#unless this.correction}}
     <PixButton
       @backgroundColor="success"
       @shape="rounded"
@@ -44,7 +44,7 @@
   <div class="element-qcu__feedback" role="status" tabindex="-1">
     {{#if this.shouldDisplayFeedback}}
       <PixMessage @type={{this.feedbackType}} @withIcon={{true}} class="element-qcu-feedback__message">
-        {{html-unsafe @correction.feedback}}
+        {{html-unsafe this.correction.feedback}}
       </PixMessage>
     {{/if}}
   </div>

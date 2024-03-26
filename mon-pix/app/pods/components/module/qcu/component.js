@@ -10,19 +10,26 @@ export default class ModuleQcu extends Component {
   qcu = this.args.qcu;
 
   get feedbackType() {
-    return this.args.correction?.isOk ? 'success' : 'error';
+    return this.correction?.isOk ? 'success' : 'error';
   }
 
   get disableInput() {
-    return !this.isOnRetryMode && !!this.args.correction;
+    return !this.isOnRetryMode && !!this.correction;
+  }
+
+  get correction() {
+    if (this.isOnRetryMode) {
+      return null;
+    }
+    return this.args.correction;
   }
 
   get shouldDisplayFeedback() {
-    return !this.isOnRetryMode && !!this.args.correction;
+    return !this.isOnRetryMode && !!this.correction;
   }
 
   get shouldDisplayRetryButton() {
-    return this.shouldDisplayFeedback && this.args.correction?.isOk === false;
+    return this.shouldDisplayFeedback && this.correction?.isOk === false;
   }
 
   @action
@@ -31,8 +38,10 @@ export default class ModuleQcu extends Component {
   }
 
   @action
-  retry() {
+  retry(button) {
     this.isOnRetryMode = true;
+    this.selectedAnswerId = null;
+    button.target.parentElement.reset();
   }
 
   @action
@@ -43,6 +52,7 @@ export default class ModuleQcu extends Component {
 
       return;
     }
+    this.isOnRetryMode = false;
     this.requiredMessage = false;
     const answerData = { userResponse: [this.selectedAnswerId], element: this.qcu };
     await this.args.submitAnswer(answerData);
