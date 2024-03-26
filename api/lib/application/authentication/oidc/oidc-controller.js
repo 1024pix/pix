@@ -117,6 +117,7 @@ const authenticateUser = async function (
   });
 
   const result = await usecases.authenticateOidcUser({
+    audience,
     code,
     redirectUri,
     state,
