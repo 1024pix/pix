@@ -115,6 +115,42 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           expect(error[0].code).to.equal('FIELD_DATE_FORMAT');
         });
       });
+      context('With several rules', function () {
+        it('should throw all errors', async function () {
+          validationRules = {
+            unicity: ['firstName', 'group'],
+            formats: [{ name: 'birthdate', type: 'date', format: 'YYYY-MM-DD', required: true }],
+          };
+
+          const secondLearnersAttributes = {
+            firstName: 'Tomie',
+            lastName: 'Katana',
+            organizationId: 123,
+            attributes: {
+              firstName: 'Tomie',
+              lastName: 'Katana',
+              preferredLastName: 'Yolo',
+              email: 'tomie.katana@example.net',
+              birthdate: '2002-04-01',
+              diploma: 'Autre',
+              department: 'Paxton',
+              educationalTeam: 'MiloZotis',
+              group: 'Solo',
+              studyScheme: 'Autre',
+            },
+          };
+
+          learnerSet = new ImportOrganizationLearnerSet(validationRules);
+
+          const firstError = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
+          const secondError = await catchErr(learnerSet.addLearner, learnerSet)(secondLearnersAttributes);
+
+          expect(firstError[0]).to.be.an.instanceOf(EntityValidationRulesError);
+          expect(secondError[0]).to.be.an.instanceOf(EntityValidationRulesError);
+          expect(firstError[0].code).to.equal('FIELD_DATE_FORMAT');
+          expect(secondError[0].code).to.equal('PROPERTY_NOT_UNIQ');
+        });
+      });
     });
   });
 });

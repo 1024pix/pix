@@ -5,12 +5,14 @@ class ImportOrganizationLearnerSet {
   #learners;
   #hasValidationFormats;
   #hasUnicityRules;
+  #unicityKeys;
 
   constructor(validationRules) {
     this.#learners = [];
     this.validationRules = validationRules;
     this.#hasUnicityRules = !!validationRules?.unicity;
     this.#hasValidationFormats = !!validationRules?.formats;
+    this.#unicityKeys = [];
   }
 
   addLearner(learnerAttributes) {
@@ -43,18 +45,19 @@ class ImportOrganizationLearnerSet {
   }
 
   #checkUnicityRule(learnerAttributes) {
-    const checkNotUniq = function (learnerToCheck, validationRules) {
-      return function (learner) {
-        return validationRules.unicity.every((rule) => learner.attributes[rule] === learnerToCheck.attributes[rule]);
-      };
-    };
-
-    if (this.#learners.some(checkNotUniq(learnerAttributes, this.validationRules))) {
+    const unicityKeys = [];
+    this.validationRules.unicity.forEach((rule) => {
+      unicityKeys.push(learnerAttributes.attributes[rule]);
+    });
+    const unicityEntity = unicityKeys.join('-');
+    if (!this.#unicityKeys.includes(unicityEntity)) {
+      this.#unicityKeys.push(unicityEntity);
+      return null;
+    } else {
       return EntityValidationRulesError.unicityError({
         key: this.validationRules.unicity.join('-'),
       });
     }
-    return null;
   }
 
   #checkValidations(learnerAttributes) {
