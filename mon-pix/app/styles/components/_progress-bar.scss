@@ -25,7 +25,7 @@
 .progress-bar-progression {
   position: absolute;
   height: 16px;
-  background: white;
+  background: var(--pix-neutral-0);
   border-radius: 15px;
   transition: 1s;
 }
