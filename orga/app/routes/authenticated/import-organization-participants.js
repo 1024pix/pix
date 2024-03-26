@@ -17,7 +17,7 @@ export default class ImportOrganizationParticipantsRoute extends Route {
 
   async model() {
     try {
-      return await this.store.queryRecord('organization-import', {
+      return await this.store.queryRecord('organization-import-detail', {
         organizationId: this.currentUser.organization.id,
       });
     } catch (error) {

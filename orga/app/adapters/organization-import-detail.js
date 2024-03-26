@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class OrganizationImportAdapter extends ApplicationAdapter {
+export default class OrganizationImportDetailAdapter extends ApplicationAdapter {
   urlForQueryRecord(query) {
     const { organizationId } = query;
     delete query.organizationId;
