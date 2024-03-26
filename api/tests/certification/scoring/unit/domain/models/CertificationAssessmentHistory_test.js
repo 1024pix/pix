@@ -34,7 +34,7 @@ describe('Unit | Domain | Models | CertificationAssessmentHistory', function () 
           allAnswers,
           challenges,
         })
-        .returns([{ estimatedLevel: 1 }, { estimatedLevel: 2 }, { estimatedLevel: 3 }]);
+        .returns([{ capacity: 1 }, { capacity: 2 }, { capacity: 3 }]);
 
       // when
       const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({

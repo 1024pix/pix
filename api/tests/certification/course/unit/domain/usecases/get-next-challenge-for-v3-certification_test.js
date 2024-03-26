@@ -83,12 +83,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
           .withArgs({
             allAnswers: [],
             challenges: [nextChallengeToAnswer],
-            estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+            capacity: config.v3Certification.defaultCandidateCapacity,
             variationPercent: undefined,
             variationPercentUntil: undefined,
             doubleMeasuresUntil: undefined,
           })
-          .returns({ estimatedLevel: 0 });
+          .returns({ capacity: 0 });
 
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
@@ -211,12 +211,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
           .withArgs({
             allAnswers: [],
             challenges: [nextChallenge],
-            estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+            capacity: config.v3Certification.defaultCandidateCapacity,
             variationPercent: undefined,
             variationPercentUntil: undefined,
             doubleMeasuresUntil: undefined,
           })
-          .returns({ estimatedLevel: 0 });
+          .returns({ capacity: 0 });
 
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
@@ -308,12 +308,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
           .withArgs({
             allAnswers: [],
             challenges: [challengeWithOtherSkill],
-            estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+            capacity: config.v3Certification.defaultCandidateCapacity,
             variationPercent: undefined,
             variationPercentUntil: undefined,
             doubleMeasuresUntil: undefined,
           })
-          .returns({ estimatedLevel: 0 });
+          .returns({ capacity: 0 });
 
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
@@ -403,13 +403,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
           .withArgs({
             allAnswers: [answer],
             challenges: [answeredChallenge],
-            estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+            capacity: config.v3Certification.defaultCandidateCapacity,
             variationPercent: undefined,
             variationPercentUntil: undefined,
             doubleMeasuresUntil: undefined,
           })
           .returns({
-            estimatedLevel: 2,
+            capacity: 2,
           });
 
         flashAlgorithmService.getPossibleNextChallenges
@@ -503,12 +503,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
               .withArgs({
                 allAnswers: [],
                 challenges: [nextChallengeToAnswer],
-                estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+                capacity: config.v3Certification.defaultCandidateCapacity,
                 variationPercent: configuration.variationPercent,
                 variationPercentUntil: undefined,
                 doubleMeasuresUntil: undefined,
               })
-              .returns({ estimatedLevel: 0 });
+              .returns({ capacity: 0 });
 
             flashAlgorithmService.getPossibleNextChallenges
               .withArgs({

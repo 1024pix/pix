@@ -28,7 +28,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
             doubleMeasuresUntil,
           })
           .returns({
-            estimatedLevel: initialCapacity,
+            capacity: initialCapacity,
           });
 
         algorithm.getPossibleNextChallenges
@@ -73,7 +73,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
         const newAnswer1 = new Answer({ challengeId: challenge1.id, result: answerStatusForSimulator1 });
         const newAnswer2 = new Answer({ challengeId: challenge2.id, result: answerStatusForSimulator2 });
         const capacityBeforeAnswering = -0.5;
-        const expectedEstimatedLevel = 0.4;
+        const expectedCapacity = 0.4;
         const initialCapacity = 0;
         const algorithm = {
           getPossibleNextChallenges: sinon.stub(),
@@ -107,7 +107,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
             doubleMeasuresUntil: 2,
           })
           .returns({
-            estimatedLevel: capacityBeforeAnswering,
+            capacity: capacityBeforeAnswering,
           })
           .withArgs({
             allAnswers: [sinon.match(newAnswer2), sinon.match(newAnswer1)],
@@ -116,7 +116,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
             doubleMeasuresUntil: 2,
           })
           .returns({
-            estimatedLevel: expectedEstimatedLevel,
+            capacity: expectedCapacity,
           });
 
         algorithm.getReward
@@ -150,13 +150,13 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           results: [
             {
               challenge: challenge2,
-              estimatedLevel: expectedEstimatedLevel,
+              capacity: expectedCapacity,
               answerStatus: answerStatusForSimulator2.status,
               reward: challenge2Reward,
             },
             {
               challenge: challenge1,
-              estimatedLevel: expectedEstimatedLevel,
+              capacity: expectedCapacity,
               answerStatus: answerStatusForSimulator1.status,
               reward: challenge1Reward,
             },
