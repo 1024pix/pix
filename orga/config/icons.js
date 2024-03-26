@@ -7,6 +7,7 @@ module.exports = function () {
       'award',
       'book',
       'bullhorn',
+      'circle-check',
       'check',
       'chevron-down',
       'chevron-up',
