@@ -1,6 +1,6 @@
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { User } from '../../../../lib/domain/models/User.js';
+import { Organization } from '../../../../src/shared/domain/models/Organization.js';
 
 /*
  * /!\ We can not use standard entity builders because of bidirectional relationships (a.k.a. cyclic dependencies)

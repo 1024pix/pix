@@ -1,4 +1,4 @@
-import { Tag } from './Tag.js';
+import { Tag } from '../../../../lib/domain/models/Tag.js';
 
 const types = {
   SCO: 'SCO',

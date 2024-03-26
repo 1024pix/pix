@@ -2,8 +2,8 @@ import Joi from 'joi';
 
 import { SUPPORTED_LOCALES } from '../../../src/shared/domain/constants.js';
 import { EntityValidationError } from '../../../src/shared/domain/errors.js';
+import { Organization } from '../../../src/shared/domain/models/Organization.js';
 import { Membership } from '../models/Membership.js';
-import { Organization } from '../models/Organization.js';
 
 const supportedLocales = SUPPORTED_LOCALES.map((supportedLocale) => supportedLocale.toLocaleLowerCase());
 

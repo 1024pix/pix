@@ -1,6 +1,5 @@
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
 import { TargetProfile } from '../../../../lib/domain/models/TargetProfile.js';
 import { User } from '../../../../lib/domain/models/User.js';
@@ -9,6 +8,7 @@ import { BookshelfCampaignParticipation } from '../../../../lib/infrastructure/o
 import { BookshelfOrganization } from '../../../../lib/infrastructure/orm-models/Organization.js';
 import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
 import * as bookshelfToDomainConverter from '../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
+import { Organization } from '../../../../src/shared/domain/models/Organization.js';
 import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Utils | Bookshelf to domain converter', function () {
