@@ -118,7 +118,7 @@ const correctAnswerThenUpdateAssessment = async function ({
       locale,
     });
 
-    const { capacity, errorRate } = flashAlgorithmService.getEstimatedLevelAndErrorRate(flashData);
+    const { capacity, errorRate } = flashAlgorithmService.getCapacityAndErrorRate(flashData);
 
     await flashAssessmentResultRepository.save({
       answerId: answerSaved.id,

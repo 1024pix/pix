@@ -24,7 +24,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
   beforeEach(function () {
     flashAlgorithmImplementation = {
       getPossibleNextChallenges: sinon.stub(),
-      getEstimatedLevelAndErrorRate: sinon.stub(),
+      getCapacityAndErrorRate: sinon.stub(),
     };
   });
 
@@ -105,7 +105,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
 
           const challenges = [answeredChallengeTube1, unansweredChallengeTube1, unansweredChallengeTube2];
 
-          flashAlgorithmImplementation.getEstimatedLevelAndErrorRate
+          flashAlgorithmImplementation.getCapacityAndErrorRate
             .withArgs(
               _getEstimatedLevelAndErrorRateParams({
                 allAnswers: assessmentAnswers,
@@ -182,7 +182,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
 
           const challenges = [answeredChallengeTube1, unansweredChallengeTube1, unansweredChallengeTube2];
 
-          flashAlgorithmImplementation.getEstimatedLevelAndErrorRate
+          flashAlgorithmImplementation.getCapacityAndErrorRate
             .withArgs(
               _getEstimatedLevelAndErrorRateParams({
                 allAnswers: assessmentAnswers,
@@ -252,7 +252,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           configuration: _getAlgorithmConfig(),
         });
 
-        flashAlgorithmImplementation.getEstimatedLevelAndErrorRate
+        flashAlgorithmImplementation.getCapacityAndErrorRate
           .withArgs(
             _getEstimatedLevelAndErrorRateParams({
               allAnswers: answersForComputingEstimatedLevel,
@@ -332,7 +332,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             }),
           });
 
-          flashAlgorithmImplementation.getEstimatedLevelAndErrorRate.returns({
+          flashAlgorithmImplementation.getCapacityAndErrorRate.returns({
             capacity: 0,
           });
           flashAlgorithmImplementation.getPossibleNextChallenges
@@ -418,7 +418,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           });
 
           const expectedChallenges = [easyChallenge, hardChallenge2];
-          flashAlgorithmImplementation.getEstimatedLevelAndErrorRate.returns({
+          flashAlgorithmImplementation.getCapacityAndErrorRate.returns({
             capacity: 0,
           });
           flashAlgorithmImplementation.getPossibleNextChallenges

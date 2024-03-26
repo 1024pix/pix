@@ -62,7 +62,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         getMostRecentBeforeDate: sinon.stub(),
       };
       flashAlgorithmService = {
-        getEstimatedLevelAndErrorRate: sinon.stub(),
+        getCapacityAndErrorRate: sinon.stub(),
         getCapacityAndErrorRateHistory: sinon.stub(),
       };
 
@@ -153,7 +153,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs({ id: certificationAssessment.certificationCourseId })
             .resolves(abortedCertificationCourse);
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
@@ -271,7 +271,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs({ id: certificationAssessment.certificationCourseId })
             .resolves(abortedCertificationCourse);
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
@@ -407,7 +407,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs(abortedCertificationCourse.getStartDate())
             .resolves(baseFlashAlgorithmConfig);
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
@@ -526,7 +526,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           .withArgs({ id: certificationAssessment.certificationCourseId })
           .resolves(abortedCertificationCourse);
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
+        flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
             challenges: certificationChallengesForScoring,
             allAnswers: answers,
@@ -654,7 +654,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs({ id: certificationAssessment.certificationCourseId })
             .resolves(abortedCertificationCourse);
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
@@ -769,7 +769,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs({ id: certificationAssessment.certificationCourseId })
             .resolves(abortedCertificationCourse);
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,

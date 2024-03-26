@@ -15,9 +15,9 @@ const MAX_NUMBER_OF_RETURNED_CHALLENGES = 5;
 
 export {
   calculateTotalPixScoreAndScoreByCompetence,
-  getChallengesForNonAnsweredSkills,
-  getEstimatedLevelAndErrorRate,
+  getCapacityAndErrorRate,
   getCapacityAndErrorRateHistory,
+  getChallengesForNonAnsweredSkills,
   getPossibleNextChallenges,
   getReward,
 };
@@ -41,7 +41,7 @@ function getPossibleNextChallenges({
   return _findBestPossibleChallenges(challengesWithReward, minimalSuccessRate, capacity);
 }
 
-function getEstimatedLevelAndErrorRate({
+function getCapacityAndErrorRate({
   allAnswers,
   challenges,
   capacity = DEFAULT_CAPACITY,

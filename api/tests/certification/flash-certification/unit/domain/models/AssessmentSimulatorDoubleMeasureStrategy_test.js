@@ -14,13 +14,13 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
         const doubleMeasuresUntil = 2;
         const algorithm = {
           getPossibleNextChallenges: sinon.stub(),
-          getEstimatedLevelAndErrorRate: sinon.stub(),
+          getCapacityAndErrorRate: sinon.stub(),
           getReward: sinon.stub(),
         };
         const pickChallenge = sinon.stub();
         const pickAnswerStatus = sinon.stub();
 
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             allAnswers: [],
             challenges: allChallenges,
@@ -77,7 +77,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
         const initialCapacity = 0;
         const algorithm = {
           getPossibleNextChallenges: sinon.stub(),
-          getEstimatedLevelAndErrorRate: sinon.stub(),
+          getCapacityAndErrorRate: sinon.stub(),
           getReward: sinon.stub(),
         };
         const pickChallenge = sinon.stub();
@@ -99,7 +99,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           })
           .returns([challenge1]);
 
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             allAnswers: [],
             challenges: allChallenges,

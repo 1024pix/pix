@@ -44,7 +44,7 @@ class FlashAssessmentAlgorithm {
       throw new AssessmentEndedError();
     }
 
-    const { capacity } = this.getEstimatedLevelAndErrorRate({
+    const { capacity } = this.getCapacityAndErrorRate({
       allAnswers: answersForComputingEstimatedLevel ?? assessmentAnswers,
       challenges,
       initialCapacity,
@@ -91,12 +91,12 @@ class FlashAssessmentAlgorithm {
     );
   }
 
-  getEstimatedLevelAndErrorRate({
+  getCapacityAndErrorRate({
     allAnswers,
     challenges,
     initialCapacity = config.v3Certification.defaultCandidateCapacity,
   }) {
-    return this.flashAlgorithmImplementation.getEstimatedLevelAndErrorRate({
+    return this.flashAlgorithmImplementation.getCapacityAndErrorRate({
       allAnswers,
       challenges,
       capacity: initialCapacity,

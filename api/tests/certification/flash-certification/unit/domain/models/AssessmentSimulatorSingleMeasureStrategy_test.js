@@ -14,7 +14,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
           const initialCapacity = 0;
           const algorithm = {
             getPossibleNextChallenges: sinon.stub(),
-            getEstimatedLevelAndErrorRate: sinon.stub(),
+            getCapacityAndErrorRate: sinon.stub(),
             getReward: sinon.stub(),
           };
           const pickChallenge = sinon.stub();
@@ -61,13 +61,13 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
           const expectedReward = 5;
           const algorithm = {
             getPossibleNextChallenges: sinon.stub(),
-            getEstimatedLevelAndErrorRate: sinon.stub(),
+            getCapacityAndErrorRate: sinon.stub(),
             getReward: sinon.stub(),
           };
           const pickChallenge = sinon.stub();
           const pickAnswerStatus = sinon.stub();
 
-          algorithm.getEstimatedLevelAndErrorRate
+          algorithm.getCapacityAndErrorRate
             .withArgs({
               allAnswers: [],
               challenges: allChallenges,
@@ -147,7 +147,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
           const capacityAfterFirstChallenge = 1.2;
           const algorithm = {
             getPossibleNextChallenges: sinon.stub(),
-            getEstimatedLevelAndErrorRate: sinon.stub(),
+            getCapacityAndErrorRate: sinon.stub(),
             getReward: sinon.stub(),
           };
           const challengeAnswer = domainBuilder.buildAnswer({ challengeId: challenge1.id });
@@ -196,14 +196,14 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
           const expectedReward = 5;
           const algorithm = {
             getPossibleNextChallenges: sinon.stub(),
-            getEstimatedLevelAndErrorRate: sinon.stub(),
+            getCapacityAndErrorRate: sinon.stub(),
             getReward: sinon.stub(),
           };
           const challengeAnswer = domainBuilder.buildAnswer({ challengeId: challenge1.id });
           const pickChallenge = sinon.stub();
           const pickAnswerStatus = sinon.stub();
 
-          algorithm.getEstimatedLevelAndErrorRate
+          algorithm.getCapacityAndErrorRate
             .withArgs({
               allAnswers: [challengeAnswer],
               challenges: allChallenges,

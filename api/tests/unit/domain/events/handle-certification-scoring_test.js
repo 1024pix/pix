@@ -453,7 +453,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         });
 
         flashAlgorithmService = {
-          getEstimatedLevelAndErrorRate: sinon.stub(),
+          getCapacityAndErrorRate: sinon.stub(),
           getCapacityAndErrorRateHistory: sinon.stub(),
         };
 
@@ -511,7 +511,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               .withArgs({ id: certificationCourseId })
               .resolves(abortedCertificationCourse);
 
-            flashAlgorithmService.getEstimatedLevelAndErrorRate
+            flashAlgorithmService.getCapacityAndErrorRate
               .withArgs({
                 challenges,
                 allAnswers: answers,
@@ -634,7 +634,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               .withArgs({ id: certificationCourseId })
               .resolves(abortedCertificationCourse);
 
-            flashAlgorithmService.getEstimatedLevelAndErrorRate
+            flashAlgorithmService.getCapacityAndErrorRate
               .withArgs({
                 challenges,
                 allAnswers: answers,
@@ -754,7 +754,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
               .withArgs(certificationCourseStartDate)
               .resolves(baseFlashAlgorithmConfiguration);
-            flashAlgorithmService.getEstimatedLevelAndErrorRate
+            flashAlgorithmService.getCapacityAndErrorRate
               .withArgs({
                 challenges,
                 allAnswers: answers,
@@ -865,7 +865,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
                 .withArgs(certificationCourseStartDate)
                 .resolves(baseFlashAlgorithmConfiguration);
-              flashAlgorithmService.getEstimatedLevelAndErrorRate
+              flashAlgorithmService.getCapacityAndErrorRate
                 .withArgs({
                   challenges,
                   allAnswers: answers,
@@ -972,7 +972,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
                 .withArgs(certificationCourseStartDate)
                 .resolves(baseFlashAlgorithmConfiguration);
-              flashAlgorithmService.getEstimatedLevelAndErrorRate
+              flashAlgorithmService.getCapacityAndErrorRate
                 .withArgs({
                   challenges,
                   allAnswers: answers,
@@ -1084,7 +1084,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
                 .withArgs(certificationCourseStartDate)
                 .resolves(baseFlashAlgorithmConfiguration);
-              flashAlgorithmService.getEstimatedLevelAndErrorRate
+              flashAlgorithmService.getCapacityAndErrorRate
                 .withArgs({
                   challenges,
                   allAnswers: answers,
@@ -1203,7 +1203,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             },
           ]);
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
+        flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
             challenges,
             allAnswers: answers,

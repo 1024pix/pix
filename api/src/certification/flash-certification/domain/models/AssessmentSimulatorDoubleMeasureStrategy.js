@@ -15,7 +15,7 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
     const results = [];
     const newAnswers = [];
 
-    const { capacity: estimatedLevelBefore } = this.algorithm.getEstimatedLevelAndErrorRate({
+    const { capacity: capacityBefore } = this.algorithm.getCapacityAndErrorRate({
       allAnswers: challengesAnswers,
       challenges: this.challenges,
       initialCapacity: this.initialCapacity,
@@ -43,7 +43,7 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
       }
 
       const reward = this.algorithm.getReward({
-        capacity: estimatedLevelBefore,
+        capacity: capacityBefore,
         difficulty: nextChallenge.difficulty,
         discriminant: nextChallenge.discriminant,
       });
@@ -57,7 +57,7 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
       newAnswers.push(answer);
     }
 
-    const { capacity } = this.algorithm.getEstimatedLevelAndErrorRate({
+    const { capacity } = this.algorithm.getCapacityAndErrorRate({
       allAnswers: [...challengesAnswers, ...newAnswers],
       challenges: this.challenges,
       initialCapacity: this.initialCapacity,
