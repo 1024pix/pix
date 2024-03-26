@@ -4,14 +4,17 @@ import { knex } from '../../../../../db/knex-database-connection.js';
  * @param {Object} params
  * @param {number} params.organizationId
  * @param {string} params.division
- * @returns {Array<number>} candidates identifiers of active students participants to certification sessions within given division
+ * @returns {Promise<Array<number>>} candidates identifiers of active students participants to certification sessions within given division
  */
-const findIdsByOrganizationIdAndDivision = async function ({ organizationId, division }) {
+const findIdsByOrganizationIdAndDivision = function ({ organizationId, division }) {
   const uniqLastCandidatesByOrganizationLearners = knex
     .select(
       'certification-candidates.id',
       knex.raw(
-        'row_number() OVER (PARTITION BY "certification-candidates"."organizationLearnerId" ORDER BY "sessions"."publishedAt" DESC NULLS LAST) as session_number',
+        `row_number() OVER (
+          PARTITION BY "certification-candidates"."organizationLearnerId"
+          ORDER BY "certification-courses"."createdAt" DESC
+        ) as session_number`,
       ),
     )
     .from('certification-candidates')
