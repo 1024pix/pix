@@ -101,9 +101,7 @@ module('Acceptance | User account page', function (hooks) {
           await click(screen.getByRole('link', { name: this.intl.t('pages.user-account.language.menu-link-title') }));
 
           // then
-          const languageSwitcherGeneric = screen.getByRole('generic', {
-            name: this.intl.t('pages.inscription.choose-language-aria-label'),
-          });
+          const languageSwitcherGeneric = screen.getByRole('button', { name: 'Sélectionnez une langue' });
 
           assert.strictEqual(currentURL(), '/mon-compte/langue');
           assert.dom(languageSwitcherGeneric).exists();
