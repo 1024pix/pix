@@ -18,7 +18,6 @@
                   data-uid="qroc-proposal-uid"
                   data-test="challenge-response-proposal-selector"
                   @isDisabled={{this.isAnswerFieldDisabled}}
-                  @label={{block.ariaLabel}}
                   @screenReaderOnly={{true}}
                   @placeholder={{block.placeholder}}
                   @value={{this.qrocProposalAnswerValue}}
@@ -26,7 +25,9 @@
                   @options={{block.options}}
                   @onChange={{this.onChangeSelect}}
                   @size="big"
-                />
+                >
+                  <:label>{{block.ariaLabel}}</:label>
+                </PixSelect>
               </div>
             {{else if (eq @challenge.format "paragraphe")}}
               <div class="challenge-response__proposal challenge-response__proposal--paragraph">

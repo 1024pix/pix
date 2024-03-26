@@ -9,9 +9,11 @@
               @id="correction-qroc-box-answer__paragraphe"
               rows="5"
               @value={{this.answerToDisplay}}
-              aria-label={{this.inputAriaLabel}}
+              @screenReaderOnly={{true}}
               disabled
-            />
+            >
+              <:label>{{this.inputAriaLabel}}</:label>
+            </PixTextarea>
           </div>
         {{else if (eq @answer.challenge.format "phrase")}}
           <div class="correction-qroc-box-answer {{this.inputClass}}">
@@ -19,9 +21,11 @@
               class="correction-qroc-box-answer--sentence"
               @id="correction-qroc-box-answer--sentence"
               @value="{{this.answerToDisplay}}"
-              @ariaLabel={{this.inputAriaLabel}}
+              @screenReaderOnly={{true}}
               disabled
-            />
+            >
+              <:label>{{this.inputAriaLabel}}</:label>
+            </PixInput>
           </div>
         {{else}}
           <div class="correction-qroc-box-answer {{this.inputClass}}">
@@ -30,9 +34,11 @@
               @id="correction-qroc-box-answer"
               size="{{this.answerToDisplay.length}}"
               @value="{{this.answerToDisplay}}"
-              @ariaLabel={{this.inputAriaLabel}}
+              @screenReaderOnly={{true}}
               disabled
-            />
+            >
+              <:label>{{this.inputAriaLabel}}</:label>
+            </PixInput>
           </div>
         {{/if}}
       </div>

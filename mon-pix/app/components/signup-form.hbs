@@ -27,65 +27,71 @@
         <PixInput
           @id="firstName"
           name="firstName"
-          @label={{t "pages.sign-up.fields.firstname.label"}}
           {{on "change" this.validateFirstName}}
           @validationStatus={{this.validation.firstName.status}}
           @errorMessage={{this.validation.firstName.message}}
           required
           autocomplete="given-name"
-        />
+        >
+          <:label>{{t "pages.sign-up.fields.firstname.label"}}</:label>
+        </PixInput>
       </div>
 
       <div class="sign-form-body__input">
         <PixInput
           @id="lastName"
           name="lastName"
-          @label={{t "pages.sign-up.fields.lastname.label"}}
           {{on "change" this.validateLastName}}
           @validationStatus={{this.validation.lastName.status}}
           @errorMessage={{this.validation.lastName.message}}
           required
           autocomplete="family-name"
-        />
+        >
+          <:label>{{t "pages.sign-up.fields.lastname.label"}}</:label>
+        </PixInput>
       </div>
 
       <div class="sign-form-body__input">
         <PixInput
           @id="email"
           name="email"
-          @label="{{t 'pages.sign-up.fields.email.label'}}"
-          @information="{{t 'pages.sign-up.fields.email.help'}}"
+          @subLabel="{{t 'pages.sign-up.fields.email.help'}}"
           {{on "change" this.validateEmail}}
           @validationStatus={{this.validation.email.status}}
           @errorMessage={{this.validation.email.message}}
           required
           autocomplete="email"
-        />
+        >
+          <:label>{{t "pages.sign-up.fields.email.label"}}</:label>
+        </PixInput>
       </div>
 
       <div class="sign-form-body__input">
         <PixInputPassword
           @id="password"
           name="password"
-          @label="{{t 'pages.sign-up.fields.password.label'}}"
-          @information="{{t 'pages.sign-up.fields.password.help'}}"
+          @subLabel="{{t 'pages.sign-up.fields.password.help'}}"
           @value={{this.password}}
           {{on "change" this.validatePassword}}
           @validationStatus={{this.validation.password.status}}
           @errorMessage={{this.validation.password.message}}
           required
           autocomplete="new-password"
-        />
+        >
+          <:label>{{t "pages.sign-up.fields.password.label"}}</:label>
+        </PixInputPassword>
       </div>
 
       <div class="signup-form__cgu-container">
         <PixCheckbox {{on "change" this.onCguCheckboxChange}} aria-describedby="sign-up-cgu-error-message">
-          {{t
-            "common.cgu.message"
-            cguUrl=this.cguUrl
-            dataProtectionPolicyUrl=this.dataProtectionPolicyUrl
-            htmlSafe=true
-          }}
+          <:label>
+            {{t
+              "common.cgu.message"
+              cguUrl=this.cguUrl
+              dataProtectionPolicyUrl=this.dataProtectionPolicyUrl
+              htmlSafe=true
+            }}
+          </:label>
         </PixCheckbox>
       </div>
       <p class="sign-form__validation-error" aria-live="polite" role="alert" id="sign-up-cgu-error-message">

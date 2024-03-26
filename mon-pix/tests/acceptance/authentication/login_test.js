@@ -20,14 +20,14 @@ module('Acceptance | Login', function (hooks) {
         // then
         assert.strictEqual(currentURL(), '/connexion');
         assert.dom(screen.getByRole('heading', { name: this.intl.t('pages.sign-in.first-title'), level: 1 })).exists();
-        assert.dom(screen.getByRole('button', { name: 'Français' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Sélectionnez une langue' })).exists();
       });
 
       module('when the user select "English" as his language', function () {
         test('displays the login page with "English" as selected language', async function (assert) {
           // when
           const screen = await visit('/connexion');
-          await click(screen.getByRole('button', { name: 'Français' }));
+          await click(screen.getByRole('button', { name: 'Sélectionnez une langue' }));
           await screen.findByRole('listbox');
           await click(screen.getByRole('option', { name: 'English' }));
 
@@ -36,7 +36,7 @@ module('Acceptance | Login', function (hooks) {
           assert
             .dom(screen.getByRole('heading', { name: this.intl.t('pages.sign-in.first-title'), level: 1 }))
             .exists();
-          assert.dom(screen.getByRole('button', { name: 'English' })).exists();
+          assert.dom(screen.getByRole('button', { name: 'Select a language' })).exists();
         });
       });
     });
@@ -49,14 +49,14 @@ module('Acceptance | Login', function (hooks) {
         // then
         assert.strictEqual(currentURL(), '/connexion?lang=en');
         assert.dom(screen.getByRole('heading', { name: this.intl.t('pages.sign-in.first-title'), level: 1 })).exists();
-        assert.dom(screen.getByRole('button', { name: 'English' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Select a language' })).exists();
       });
 
       module('when the user select "Français" as his language', function () {
         test('displays the login page with "Français" as selected language', async function (assert) {
           // given & when
           const screen = await visit('/connexion?lang=en');
-          await click(screen.getByRole('button', { name: 'English' }));
+          await click(screen.getByRole('button', { name: 'Select a language' }));
           await screen.findByRole('listbox');
           await click(screen.getByRole('option', { name: 'Français' }));
 
@@ -65,7 +65,7 @@ module('Acceptance | Login', function (hooks) {
           assert
             .dom(screen.getByRole('heading', { name: this.intl.t('pages.sign-in.first-title'), level: 1 }))
             .exists();
-          assert.dom(screen.getByRole('button', { name: 'Français' })).exists();
+          assert.dom(screen.getByRole('button', { name: 'Sélectionnez une langue' })).exists();
         });
       });
     });
