@@ -415,6 +415,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             // when
             const screen = await visit(`/sessions/${session.id}/candidats`);
             await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+            await screen.findByRole('dialog');
             await _fillFormWithCorrectData(screen);
             await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
             await settled();
@@ -456,6 +457,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               // when
               const screen = await visit(`/sessions/${session.id}/candidats`);
               await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+              await screen.findByRole('dialog');
               await _fillFormWithCorrectData(screen);
               await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
@@ -477,24 +479,35 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             // when
             const screen = await visit(`/sessions/${session.id}/candidats`);
             await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+            await screen.findByRole('dialog');
             await _fillFormWithCorrectData(screen);
             await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
             await settled();
 
             // then
-            assert.dom('[data-test-notification-message="success"]').hasText('Le candidat a été inscrit avec succès.');
+            assert.dom(screen.getByText('Le candidat a été inscrit avec succès.')).exists();
           });
 
           test('it should add a new candidate', async function (assert) {
             // when
             const screen = await visit(`/sessions/${session.id}/candidats`);
             await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+            await screen.findByRole('dialog');
             await _fillFormWithCorrectData(screen);
             await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
             await settled();
 
             // then
-            assert.dom('table tbody tr').exists({ count: 1 });
+            const table = screen.getByRole('table', {
+              name: 'Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne.',
+            });
+            const rows = await within(table).findAllByRole('row');
+            assert.dom(within(rows[1]).getByRole('cell', { name: 'Guybrush' })).exists();
+            assert.dom(within(rows[1]).getByRole('cell', { name: 'Threepwood' })).exists();
+            assert.dom(within(rows[1]).getByRole('cell', { name: '28/04/2019' })).exists();
+            assert.dom(within(rows[1]).getByRole('cell', { name: '20 %' })).exists();
+            assert.dom(within(rows[1]).getByRole('cell', { name: 'Gratuite' })).exists();
+            assert.dom(within(rows[1]).getByRole('cell', { name: 'roooooar@example.net' })).exists();
           });
 
           module('when shouldDisplayPaymentOptions is true', function () {
@@ -535,26 +548,26 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
   });
 
   async function _fillFormWithCorrectData(screen) {
-    await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
-    await fillIn(screen.getByLabelText('* Nom de naissance'), 'Threepwood');
-    await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
-    await click(screen.getByLabelText('Homme'));
-    await fillIn(screen.getByLabelText('* Pays de naissance'), '99100');
-    await click(screen.getByLabelText('Code INSEE'));
-    await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
-    await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
-    await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
-    await click(screen.getByLabelText('* Tarification part Pix'));
+    await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Prénom' }), 'Guybrush');
+    await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Nom de naissance' }), 'Threepwood');
+    await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Date de naissance' }), '28/04/2019');
+    await click(screen.getByRole('radio', { name: 'Homme' }));
+    await fillIn(screen.getByRole('button', { name: 'Obligatoire Pays de naissance' }), '99100');
+    await click(screen.getByRole('radio', { name: 'Code INSEE' }));
+    await fillIn(screen.getByRole('textbox', { name: 'Identifiant externe' }), '44AA3355');
+    await fillIn(screen.getByRole('textbox', { name: 'Obligatoire Code INSEE de naissance' }), '75100');
+    await fillIn(screen.getByRole('textbox', { name: 'Temps majoré (%)' }), '20');
+    await click(screen.getByRole('button', { name: 'Obligatoire Tarification part Pix' }));
     await click(
       await screen.findByRole('option', {
         name: 'Gratuite',
       }),
     );
     await fillIn(
-      screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
+      screen.getByRole('textbox', { name: 'E-mail du destinataire des résultats (formateur, enseignant...)' }),
       'guybrush.threepwood@example.net',
     );
-    await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
+    await fillIn(screen.getByRole('textbox', { name: 'E-mail de convocation' }), 'roooooar@example.net');
   }
 });
 /* eslint-enable ember/no-settled-after-test-helper */
