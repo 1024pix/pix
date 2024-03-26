@@ -1,5 +1,4 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
 
 import { readFile, writeFile } from 'fs/promises';
 import fp from 'lodash/fp.js';
