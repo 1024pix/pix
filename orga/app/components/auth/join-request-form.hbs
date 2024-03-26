@@ -6,7 +6,6 @@
     <div class="input-container">
       <PixInput
         @id="uai"
-        @label="UAI/RNE de l'établissement"
         name="uai"
         type="text"
         {{on "focusout" this.validateUai}}
@@ -15,13 +14,16 @@
         required={{true}}
         aria-required={{true}}
         autocomplete="off"
-      />
+      >
+        <:label>
+          UAI/RNE de l'établissement
+        </:label>
+      </PixInput>
     </div>
 
     <div class="input-container">
       <PixInput
         @id="firstName"
-        @label="Votre prénom"
         name="firstName"
         type="firstName"
         {{on "focusout" this.validateFirstName}}
@@ -30,13 +32,14 @@
         required={{true}}
         aria-required={{true}}
         autocomplete="given-name"
-      />
+      >
+        <:label>Votre prénom</:label>
+      </PixInput>
     </div>
 
     <div class="input-container">
       <PixInput
         @id="lastName"
-        @label="Votre nom"
         name="lastName"
         type="lastName"
         {{on "focusout" this.validateLastName}}
@@ -45,7 +48,9 @@
         required={{true}}
         aria-required={{true}}
         autocomplete="family-name"
-      />
+      >
+        <:label>Votre nom</:label>
+      </PixInput>
     </div>
 
     <div class="input-container">
