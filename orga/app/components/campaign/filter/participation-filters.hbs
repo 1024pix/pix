@@ -37,36 +37,36 @@
     {{/if}}
     {{#if this.displayStagesFilter}}
       <PixMultiSelect
-        @label={{t "pages.campaign-results.filters.type.stages"}}
         @placeholder={{t "pages.campaign-results.filters.type.stages"}}
         @screenReaderOnly={{true}}
         @onChange={{this.onSelectStage}}
         @values={{@selectedStages}}
         @options={{this.stageOptions}}
         @className="participant-filter-banner__stages-select"
-        as |stage|
       >
-        <PixStars
-          @count={{stage.reachedStage}}
-          @total={{stage.totalStage}}
-          @alt={{t "common.result.stages" count=stage.reachedStage total=stage.totalStage}}
-          @color="blue"
-          class="participant-filter-banner__stars"
-        />
+        <:label>{{t "pages.campaign-results.filters.type.stages"}}</:label>
+        <:default as |stage|>
+          <PixStars
+            @count={{stage.reachedStage}}
+            @total={{stage.totalStage}}
+            @alt={{t "common.result.stages" count=stage.reachedStage total=stage.totalStage}}
+            @color="blue"
+            class="participant-filter-banner__stars"
+          />
+        </:default>
       </PixMultiSelect>
     {{/if}}
     {{#if this.displayBadgesFilter}}
       <PixMultiSelect
-        @label={{t "pages.campaign-results.filters.type.badges"}}
         @placeholder={{t "pages.campaign-results.filters.type.badges"}}
         @screenReaderOnly={{true}}
         @onChange={{this.onSelectBadge}}
         @values={{@selectedBadges}}
         @options={{this.badgeOptions}}
         @className="participant-filter-banner__badges"
-        as |badge|
       >
-        {{badge.label}}
+        <:label>{{t "pages.campaign-results.filters.type.badges"}}</:label>
+        <:default as |badge|>{{badge.label}}</:default>
       </PixMultiSelect>
     {{/if}}
     {{#if this.displayCertificabilityFilter}}

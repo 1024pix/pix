@@ -2,7 +2,6 @@
   <div class="groups-filter--is-loading placeholder-box"></div>
 {{else}}
   <PixMultiSelect
-    @label={{t "pages.campaign-results.filters.type.groups.title"}}
     @placeholder={{t "pages.campaign-results.filters.type.groups.title"}}
     @emptyMessage={{t "pages.campaign-results.filters.type.groups.empty"}}
     @screenReaderOnly={{true}}
@@ -11,8 +10,8 @@
     @values={{@selectedGroups}}
     @options={{this.options}}
     ...attributes
-    as |option|
   >
-    {{option.label}}
+    <:default as |option|>{{option.label}}</:default>
+    <:label>{{t "pages.campaign-results.filters.type.groups.title"}}</:label>
   </PixMultiSelect>
 {{/if}}
