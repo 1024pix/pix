@@ -69,7 +69,7 @@ class ImportOrganizationLearnerSet {
     }
   }
 
-  getLearners() {
+  get learners() {
     return this.#learners;
   }
 }

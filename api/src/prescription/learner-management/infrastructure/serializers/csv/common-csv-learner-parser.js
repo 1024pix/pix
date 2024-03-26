@@ -75,7 +75,7 @@ class CommonCsvLearnerParser {
     });
 
     this.#throwHasErrors();
-    return this.#learnerSet.getLearners();
+    return this.#learnerSet.learners;
   }
 
   /**

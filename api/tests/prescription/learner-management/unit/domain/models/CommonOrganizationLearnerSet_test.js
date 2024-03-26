@@ -36,9 +36,9 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
       learnerSet.addLearner(learnerAttributes);
 
-      expect(learnerSet.getLearners()).to.lengthOf(1);
-      expect(learnerSet.getLearners()).to.deep.equal([learnerAttributes]);
-      expect(learnerSet.getLearners()[0]).to.be.an.instanceOf(CommonOrganizationLearner);
+      expect(learnerSet.learners).to.lengthOf(1);
+      expect(learnerSet.learners).to.deep.equal([learnerAttributes]);
+      expect(learnerSet.learners[0]).to.be.an.instanceOf(CommonOrganizationLearner);
     });
 
     it('should return multiple learners', function () {
@@ -47,7 +47,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
       learnerSet.addLearner(learnerAttributes);
       learnerSet.addLearner(learnerAttributes);
 
-      expect(learnerSet.getLearners()).to.lengthOf(2);
+      expect(learnerSet.learners).to.lengthOf(2);
     });
 
     describe('When has validation rules', function () {
