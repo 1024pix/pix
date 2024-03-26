@@ -20,13 +20,15 @@
     {{#if this.isMultipleDeletion}}
       <PixCheckbox
         {{on "click" this.giveDeletionPermission}}
-        @labelSize="small"
+        @size="small"
         @checked={{this.allowDeletion}}
         @class="deletion-modal__permission-checkbox"
       >
-        <strong>
-          {{t "pages.organization-participants.deletion-modal.confirmation-checkbox" count=this.count}}
-        </strong>
+        <:label>
+          <strong>
+            {{t "pages.organization-participants.deletion-modal.confirmation-checkbox" count=this.count}}
+          </strong>
+        </:label>
       </PixCheckbox>
     {{/if}}
   </:content>
