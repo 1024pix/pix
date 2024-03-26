@@ -69,9 +69,9 @@ describe('Unit | Controller | assessment-controller', function () {
       assessmentCompletedEvent = new AssessmentCompleted();
       assessment = Symbol('completed-assessment');
       locale = 'fr-fr';
-      DomainTransaction.execute = (lambda) => {
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
         return lambda(domainTransaction);
-      };
+      });
 
       sinon.stub(usecases, 'completeAssessment');
       sinon.stub(usecases, 'handleBadgeAcquisition');

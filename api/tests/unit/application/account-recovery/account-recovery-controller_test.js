@@ -106,9 +106,9 @@ describe('Unit | Controller | account-recovery-controller', function () {
       };
 
       sinon.stub(usecases, 'updateUserForAccountRecovery').resolves();
-      DomainTransaction.execute = (lambda) => {
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
         return lambda(domainTransaction);
-      };
+      });
 
       // when
       const response = await accountRecoveryController.updateUserAccountFromRecoveryDemand(request, hFake);

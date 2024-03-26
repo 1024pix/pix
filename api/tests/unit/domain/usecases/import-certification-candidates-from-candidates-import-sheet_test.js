@@ -36,9 +36,9 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
     complementaryCertificationRepository = Symbol('complementaryCertificationRepository');
     certificationCenterRepository = Symbol('certificationCenterRepository');
     domainTransaction = Symbol('domainTransaction');
-    DomainTransaction.execute = (lambda) => {
+    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
       return lambda(domainTransaction);
-    };
+    });
   });
 
   describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
