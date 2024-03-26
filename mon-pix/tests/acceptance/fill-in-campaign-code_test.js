@@ -164,7 +164,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
           test('displays the fill in campaign code page with "English" as selected language', async function (assert) {
             // given & when
             const screen = await visit('/campagnes');
-            await click(screen.getByRole('button', { name: 'Français' }));
+            await click(screen.getByRole('button', { name: 'Sélectionnez une langue' }));
             await screen.findByRole('listbox');
             await click(screen.getByRole('option', { name: 'English' }));
 
@@ -189,7 +189,7 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
           test('displays the fill in campaign code page with "Français" as selected language', async function (assert) {
             // given & when
             const screen = await visit('/campagnes?lang=en');
-            await click(screen.getByRole('button', { name: 'English' }));
+            await click(screen.getByRole('button', { name: 'Select a language' }));
             await screen.findByRole('listbox');
             await click(screen.getByRole('option', { name: 'Français' }));
 
