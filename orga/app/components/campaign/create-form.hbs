@@ -116,19 +116,20 @@
     <Ui::FormField>
       <:default>
         <PixFilterableAndSearchableSelect
-          @label={{t "pages.campaign-creation.target-profiles-list-label"}}
           @placeholder={{t "pages.campaign-creation.target-profiles-label"}}
+          @categoriesPlaceholder={{t "pages.campaign-creation.target-profiles-category-placeholder"}}
           @options={{this.targetOwnerOptions}}
           @hideDefaultOption={{true}}
           @onChange={{this.selectTargetProfile}}
-          @categoriesLabel={{t "pages.campaign-creation.target-profiles-category-label"}}
-          @categoriesPlaceholder={{t "pages.campaign-creation.target-profiles-category-placeholder"}}
           @value={{@campaign.targetProfile.id}}
-          @requiredText={{t "common.form.mandatory-fields-title"}}
+          @requiredLabel={{t "common.form.mandatory-fields-title"}}
           @errorMessage={{if @errors.targetProfile (t "api-error-messages.campaign-creation.target-profile-required")}}
           @isSearchable={{true}}
           @searchLabel={{t "pages.campaign-creation.target-profiles-search-placeholder"}}
-        />
+        >
+          <:label>{{t "pages.campaign-creation.target-profiles-list-label"}}</:label>
+          <:categoriesLabel>{{t "pages.campaign-creation.target-profiles-category-label"}}</:categoriesLabel>
+        </PixFilterableAndSearchableSelect>
       </:default>
       <:information>
         {{#if @campaign.targetProfile}}
