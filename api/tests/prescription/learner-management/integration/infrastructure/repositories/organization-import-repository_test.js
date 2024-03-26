@@ -112,4 +112,36 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       expect(result).to.equal(null);
     });
   });
+
+  describe('#getLastImportDetailForOrganization', function () {
+    it('should return null if nothing was found', async function () {
+      const result = await organizationImportRepository.getLastImportDetailForOrganization(1);
+
+      expect(result).to.equal(null);
+    });
+
+    it('should return an organizationImportDetail from the most recent import', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const user = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildOrganizationImport({ organizationId, createdAt: new Date('2023-01-01') });
+      const expectedResult = databaseBuilder.factory.buildOrganizationImport({
+        organizationId,
+        createdBy: user.id,
+        createdAt: new Date('2023-02-10'),
+      });
+      await databaseBuilder.commit();
+
+      const result = await organizationImportRepository.getLastImportDetailForOrganization(
+        expectedResult.organizationId,
+      );
+
+      expect(result).to.eql({
+        id: expectedResult.id,
+        status: expectedResult.status,
+        updatedAt: expectedResult.updatedAt,
+        createdBy: { firstName: user.firstName, lastName: user.lastName },
+        errors: null,
+      });
+    });
+  });
 });
