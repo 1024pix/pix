@@ -5,6 +5,7 @@ case "$OSTYPE" in
   *) SED=sed ;;
 esac
 
+rm -rf .pnpm-store
 pnpm import
 
 # Update buildpack
