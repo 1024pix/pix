@@ -122,18 +122,26 @@
     </div>
   </section>
 
-  <section class="page-section">
-    <div class="page-section__header">
-      <h1 class="page-section__title">Critères</h1>
-    </div>
-
-    <div class="page-section__details table-admin">
-      {{#each @badge.criteria as |criterion|}}
+  <section class="badge__criteria main-admin-form">
+    <div class="admin-form__content">
+      {{#each @badge.criteria as |criterion index|}}
         {{#if criterion.isCampaignScope}}
-          <Badges::CampaignCriterion @criterion={{criterion}} />
+          <h2 class="badge__criteria-title">Critère d'obtention basé sur l'ensemble du profil cible&nbsp;:</h2>
+          <div class="card">
+            <div class="card__content">
+              <Badges::CampaignCriterion @criterion={{criterion}} />
+            </div>
+          </div>
         {{/if}}
         {{#if criterion.isCappedTubesScope}}
-          <Badges::CappedTubesCriterion @criterion={{criterion}} @targetProfile={{@targetProfile}} />
+          {{#if (eq index this.cappedTubesCriteriaTitleDisplayIndex)}}
+            <h2 class="badge__criteria-title">
+              Liste des critères d'obtention basés sur une sélection de sujets du profil cible&nbsp;:
+            </h2>
+          {{/if}}
+          <div class="card">
+            <Badges::CappedTubesCriterion @criterion={{criterion}} @targetProfile={{@targetProfile}} />
+          </div>
         {{/if}}
       {{/each}}
     </div>
