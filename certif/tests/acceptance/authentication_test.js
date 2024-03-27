@@ -156,11 +156,10 @@ module('Acceptance | authentication', function (hooks) {
       test('sets and remembers the locale to the lang query param which wins over the user’s lang', async function (assert) {
         // given
         certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        await authenticateSession(certificationPointOfContact.id);
 
         // when
-        await visit('/?lang=en');
-        await authenticateSession(certificationPointOfContact.id);
-        const screen = await visit('/');
+        const screen = await visit('/?lang=en');
 
         // then
         assert.dom(screen.getByRole('link', { name: 'Invigilator’s Portal' })).exists();
