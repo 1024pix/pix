@@ -55,7 +55,7 @@ Les équipes ExpEval, Certif et Prescription ont déjà expérimenté la mise en
 Lors de la phase d'expérimentation, il y a plusieurs retours négatifs qui ont été jugés acceptables (balance avantages/inconvénients) :
 - Boilerplate plus important dans la couche infrastructure avec l'ajout d'injection de dépendance dans les repositories
 - Sentiment de duplication de code tant que l'API n'est pas utilisée plusieurs fois
-- Utilisation du nommage Repository (côté consommateur) pour du code qui ne fait pas appel à la DB est confusant
+- Utilisation du nommage Repository (côté consommateur) pour du code qui ne fait pas appel à la DB est source de confusion
 - Besoin de fournir des données de tests pour les consommateurs (outillage à construire)
 
 Pour permettre à la base de code de Pix de continuer à grandir avec le nombre de développeurs croissants, il a été décidé de continuer dans cette direction.
