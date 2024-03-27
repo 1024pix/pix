@@ -1,11 +1,12 @@
 import { databaseBuffer } from '../database-buffer.js';
 
-export const buildCertificationChallengeCapacity = ({ certificationChallengeId, capacity, createdAt }) => {
+export const buildCertificationChallengeCapacity = ({ answerId, capacity, certificationChallengeId, createdAt }) => {
   return databaseBuffer.pushInsertable({
     tableName: 'certification-challenge-capacities',
     values: {
-      certificationChallengeId,
+      answerId,
       capacity,
+      certificationChallengeId,
       createdAt,
     },
   });
