@@ -39,41 +39,41 @@ server {
 
     location = /api/swagger.json {
 
-        access_by_lua_block {
-                # Lua script to interact with Redis for caching
-                local redis = require "resty.redis"
-                local red = redis:new()
+#        access_by_lua_block {
+#        #        # Lua script to interact with Redis for caching
+#        #        local redis = require "resty.redis"
+#        #        local red = redis:new()
 
-                red:set_timeout(1000)  -- 1 second
+#        #        red:set_timeout(1000)  -- 1 second
 
-                local ok, err = red:connect("<%= ENV['REDIS_URL'] %>", <%= ENV['REDIS_PORT'] %>)
-                if not ok then
-                    ngx.log(ngx.ERR, "failed to connect to Redis: ", err)
-                    return ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
-                end
+#        #        local ok, err = red:connect("<%= ENV['NGINX_REDIS_URL'] %>", <%= ENV['NGINX_REDIS_PORT'] %>)
+#        #        if not ok then
+#        #            ngx.log(ngx.ERR, "failed to connect to Redis: ", err)
+#        #            return ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+#        #        end
 
-                local res, err = red:auth("<%= ENV['REDIS_PASSWORD'] %>")
-                if not res then
-                    ngx.say("failed to authenticate: ", err)
-                    return
-                end
+#        #        local res, err = red:auth("<%= ENV['NGIN_REDIS_PASSWORD'] %>")
+#        #        if not res then
+#        #            ngx.say("failed to authenticate: ", err)
+#        #            return
+#        #        end
 
-                local key = ngx.var.binary_remote_addr
-                local limit = tonumber(red:get(key) or 0)
-                if limit < 10 then
-                    red:incr(key)
-                else
-                    ngx.exit(ngx.HTTP_TOO_MANY_REQUESTS)
-                end
+#        #        local key = ngx.var.binary_remote_addr
+#        #        local limit = tonumber(red:get(key) or 0)
+#        #        if limit < 10 then
+#        #            red:incr(key)
+#        #        else
+#        #            ngx.exit(ngx.HTTP_TOO_MANY_REQUESTS)
+#        #        end
 
-                local ok, err = red:set_keepalive(10000, 100)
-                if not ok then
-                    ngx.log(ngx.ERR, "failed to set keepalive: ", err)
-                end
-            }
+#        #        local ok, err = red:set_keepalive(10000, 100)
+#        #        if not ok then
+#        #            ngx.log(ngx.ERR, "failed to set keepalive: ", err)
+#        #        end
+#            }
 
 
-        <%# limit_req zone=apiratelimit;
+      <%# limit_req zone=apiratelimit;
         limit_req_status 509; %>
 
         proxy_pass http://localhost:<%= ENV['NODE_PORT'] %>/api/swagger.json;
