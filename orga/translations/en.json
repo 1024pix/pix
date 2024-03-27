@@ -937,7 +937,7 @@
         "global-error": "Import has failed. Please try again or contact us through '<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">'the help form'</a>'."
       },
       "file-type-separator": " or ",
-      "global-success": "The list has been successfully imported.",
+      "global-success": "Last file successfully imported on {date} by {firstName} {lastName}.",
       "information": "Importing your file may take a few minutes. Some features may be temporarily inaccessible.",
       "sco": {
         "title": "Import students"
