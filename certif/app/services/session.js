@@ -13,8 +13,6 @@ export default class CurrentSessionService extends SessionService {
   @service currentUser;
   @service locale;
 
-  _localeFromQueryParam;
-
   async handleAuthentication() {
     const isFranceDomain = this.currentDomain.isFranceDomain;
     await this.currentUser.load();
@@ -35,10 +33,6 @@ export default class CurrentSessionService extends SessionService {
   }
 
   handleLocale({ isFranceDomain, localeFromQueryParam, userLocale }) {
-    if (localeFromQueryParam) {
-      this._localeFromQueryParam = this.locale.handleUnsupportedLanguage(localeFromQueryParam);
-    }
-
     if (isFranceDomain) {
       this.locale.setLocale(FRENCH_INTERNATIONAL_LOCALE);
 
@@ -49,16 +43,20 @@ export default class CurrentSessionService extends SessionService {
       return;
     }
 
-    if (this._localeFromQueryParam) {
-      this.locale.setLocale(this._localeFromQueryParam);
+    if (localeFromQueryParam && this.locale.isLanguageSupported(localeFromQueryParam)) {
+      this.locale.setLocale(localeFromQueryParam);
       return;
     }
 
-    const localeNotSupported = userLocale && !SUPPORTED_LANGUAGES.includes(userLocale);
+    if (!userLocale) {
+      this.locale.setLocale(FRENCH_INTERNATIONAL_LOCALE);
+      return;
+    }
+
+    const localeNotSupported = !SUPPORTED_LANGUAGES.includes(userLocale);
+    const locale = localeNotSupported ? ENGLISH_INTERNATIONAL_LOCALE : userLocale;
 
     this.data.localeNotSupported = localeNotSupported;
-    const locale = localeNotSupported ? ENGLISH_INTERNATIONAL_LOCALE : userLocale || FRENCH_INTERNATIONAL_LOCALE;
-
     this.locale.setLocale(locale);
   }
 
