@@ -285,7 +285,9 @@ module('Unit | Service | session', function (hooks) {
               const localeFromQueryParam = ENGLISH_INTERNATIONAL_LOCALE;
               const userLocale = undefined;
 
-              localeService.handleUnsupportedLanguage.returns(ENGLISH_INTERNATIONAL_LOCALE);
+              localeService.handleUnsupportedLanguage
+                .withArgs(ENGLISH_INTERNATIONAL_LOCALE)
+                .returns(ENGLISH_INTERNATIONAL_LOCALE);
 
               // when
               service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
@@ -301,7 +303,9 @@ module('Unit | Service | session', function (hooks) {
               const localeFromQueryParam = ENGLISH_INTERNATIONAL_LOCALE;
               const userLocale = FRENCH_INTERNATIONAL_LOCALE;
 
-              localeService.handleUnsupportedLanguage.returns(ENGLISH_INTERNATIONAL_LOCALE);
+              localeService.handleUnsupportedLanguage
+                .withArgs(ENGLISH_INTERNATIONAL_LOCALE)
+                .returns(ENGLISH_INTERNATIONAL_LOCALE);
 
               // when
               service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
