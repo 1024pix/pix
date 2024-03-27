@@ -4,6 +4,7 @@ import { AggregateImportError } from '../../../../../../../src/prescription/lear
 import { CommonOrganizationLearner } from '../../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearnerSet.js';
 import { CommonCsvLearnerParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/common-csv-learner-parser.js';
 import { VALIDATION_ERRORS } from '../../../../../../../src/shared/domain/constants.js';
+import { CsvImportError } from '../../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
@@ -316,6 +317,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
 
           // then
           expect(errors.meta).to.lengthOf(1);
+          expect(errors.meta[0]).to.be.instanceOf(CsvImportError);
           expect(errors.meta[0].code).to.equal(VALIDATION_ERRORS.PROPERTY_NOT_UNIQ);
           expect(errors.meta[0].meta.field).to.equal('classe');
           expect(errors.meta[0].meta.line).to.equal(3);
@@ -349,6 +351,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
 
           // then
           expect(errors.meta).to.lengthOf(1);
+          expect(errors.meta[0]).to.be.instanceOf(CsvImportError);
           expect(errors.meta[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
           expect(errors.meta[0].meta.field).to.equal('date de naissance');
           expect(errors.meta[0].meta.line).to.equal(2);
@@ -383,6 +386,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
 
           // then
           expect(errors.meta).to.lengthOf(1);
+          expect(errors.meta[0]).to.be.instanceOf(CsvImportError);
           expect(errors.meta[0].code).to.equal(VALIDATION_ERRORS.FIELD_REQUIRED);
           expect(errors.meta[0].meta.field).to.equal('date de naissance');
           expect(errors.meta[0].meta.line).to.equal(2);
