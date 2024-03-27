@@ -63,17 +63,17 @@ server {
 
                 local limit = 10
                 local key_exists, err = red:exists(key)
-                ngx.log(ngx.INF, "log key_exists : " .. tostring(key_exists))
+                ngx.log(ngx.INFO, "log key_exists : " .. tostring(key_exists))
                 if key_exists == 1 then
                     local count, err = red:get(key)
-                    ngx.log(ngx.INF, "log key count : " .. tostring(count))
+                    ngx.log(ngx.INFO, "log key count : " .. tostring(count))
                     if not count then
                         red:incr(key)
                     end
                     if tonumber(count) < limit then
                         red:incr(key)
                     end
-                    ngx.log(ngx.INF, "incremented count" .. tostring(count))
+                    ngx.log(ngx.INFO, "incremented count" .. tostring(count))
                     if tonumber(count) > limit then
                         return ngx.exit(ngx.HTTP_TOO_MANY_REQUESTS)
                     end
