@@ -76,12 +76,17 @@ module('Unit | Service | session', function (hooks) {
   });
 
   module('#handleLocale', function () {
-    module('when domain is .fr', function () {
+    module('when domain is .fr', function (hooks) {
+      let isFranceDomain;
+
+      hooks.beforeEach(function () {
+        isFranceDomain = true;
+      });
+
       module('when there is no cookie locale', function () {
         test('adds a cookie locale with "fr-FR" as value', function (assert) {
           // given
           localeService.hasLocaleCookie.returns(false);
-          const isFranceDomain = true;
           const localeFromQueryParam = undefined;
           const userLocale = undefined;
 
@@ -98,7 +103,6 @@ module('Unit | Service | session', function (hooks) {
         test('does not update cookie locale', function (assert) {
           // given
           localeService.hasLocaleCookie.returns(true);
-          const isFranceDomain = true;
           const localeFromQueryParam = undefined;
           const userLocale = undefined;
 
@@ -115,7 +119,6 @@ module('Unit | Service | session', function (hooks) {
         module('when user is not loaded', function () {
           test('sets the locale to be French international in every case', function (assert) {
             // given
-            const isFranceDomain = true;
             const localeFromQueryParam = undefined;
             const userLocale = undefined;
 
@@ -131,7 +134,6 @@ module('Unit | Service | session', function (hooks) {
         module('when user is loaded', function () {
           test('sets the locale to be French international in every case', function (assert) {
             // given
-            const isFranceDomain = true;
             const localeFromQueryParam = undefined;
             const userLocale = 'user’s lang';
 
@@ -149,7 +151,6 @@ module('Unit | Service | session', function (hooks) {
         module('when user is not loaded', function () {
           test('sets the locale to be French international in every case', function (assert) {
             // given
-            const isFranceDomain = true;
             const localeFromQueryParam = ENGLISH_INTERNATIONAL_LOCALE;
             const userLocale = undefined;
 
@@ -165,7 +166,6 @@ module('Unit | Service | session', function (hooks) {
         module('when user is loaded', function () {
           test('sets the locale to be French international in every case', function (assert) {
             // given
-            const isFranceDomain = true;
             const localeFromQueryParam = ENGLISH_INTERNATIONAL_LOCALE;
             const userLocale = 'user’s lang';
 
@@ -180,11 +180,16 @@ module('Unit | Service | session', function (hooks) {
       });
     });
 
-    module('when domain is .org', function () {
+    module('when domain is .org', function (hooks) {
+      let isFranceDomain;
+
+      hooks.beforeEach(function () {
+        isFranceDomain = false;
+      });
+
       test('does not set the cookie locale', function (assert) {
         // given
         localeService.hasLocaleCookie.returns(false);
-        const isFranceDomain = false;
         const localeFromQueryParam = undefined;
         const userLocale = undefined;
 
@@ -200,7 +205,6 @@ module('Unit | Service | session', function (hooks) {
         module('when user is not loaded', function () {
           test('sets the default locale', function (assert) {
             // given
-            const isFranceDomain = false;
             const localeFromQueryParam = undefined;
             const userLocale = undefined;
 
@@ -217,7 +221,6 @@ module('Unit | Service | session', function (hooks) {
           module('when user language is not available', function () {
             test('sets the locale to English international', function (assert) {
               // given
-              const isFranceDomain = false;
               const localeFromQueryParam = undefined;
               const userLocale = 'my-new-language-code-here';
 
@@ -233,7 +236,6 @@ module('Unit | Service | session', function (hooks) {
 
           test('sets the locale to the user’s lang', function (assert) {
             // given
-            const isFranceDomain = false;
             const localeFromQueryParam = undefined;
             const userLocale = ENGLISH_INTERNATIONAL_LOCALE;
 
@@ -252,7 +254,6 @@ module('Unit | Service | session', function (hooks) {
           module('when user is not loaded', function () {
             test('sets the default locale', function (assert) {
               // given
-              const isFranceDomain = false;
               const localeFromQueryParam = 'an invalid locale';
               const userLocale = undefined;
 
@@ -268,7 +269,6 @@ module('Unit | Service | session', function (hooks) {
           module('when user is loaded', function () {
             test('sets the locale to the user’s lang', function (assert) {
               // given
-              const isFranceDomain = false;
               const localeFromQueryParam = 'an invalid locale';
               const userLocale = ENGLISH_INTERNATIONAL_LOCALE;
 
@@ -286,7 +286,6 @@ module('Unit | Service | session', function (hooks) {
           module('when user is not loaded', function () {
             test('sets the locale to the lang query param', function (assert) {
               // given
-              const isFranceDomain = false;
               const localeFromQueryParam = ENGLISH_INTERNATIONAL_LOCALE;
               const userLocale = undefined;
 
@@ -304,7 +303,6 @@ module('Unit | Service | session', function (hooks) {
           module('when user is loaded', function () {
             test('sets the locale to the lang query param which wins over', function (assert) {
               // given
-              const isFranceDomain = false;
               const localeFromQueryParam = ENGLISH_INTERNATIONAL_LOCALE;
               const userLocale = FRENCH_INTERNATIONAL_LOCALE;
 
