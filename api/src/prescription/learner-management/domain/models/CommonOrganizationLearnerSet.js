@@ -66,12 +66,7 @@ class ImportOrganizationLearnerSet {
   }
 
   #checkValidations(learnerAttributes) {
-    const errors = validateCommonOrganizationLearner(learnerAttributes, this.validationRules.formats);
-    if (errors.length > 0) {
-      return errors.map((error) => {
-        return ModelValidationError.fromJoiError(error);
-      });
-    }
+    return validateCommonOrganizationLearner(learnerAttributes, this.validationRules.formats);
   }
 
   get learners() {

@@ -1,4 +1,5 @@
 import { validateCommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/validators/common-organization-learner-validator.js';
+import { ModelValidationError } from '../../../../../../src/shared/domain/errors.js';
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Common Organization Learner Validator', function () {
@@ -25,6 +26,71 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
     });
   });
 
+  context('required attributes', function () {
+    context('firstName', function () {
+      it('when missing firstName, throws an error', async function () {
+        const errors = validateCommonOrganizationLearner(
+          { lastName: 'Aldana', organizationId: 123, attributes: {} },
+          [],
+        );
+        expect(errors.length).to.equal(1);
+        expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
+        expect(errors[0].code).to.equal('FIELD_REQUIRED');
+        expect(errors[0].key).to.equal('firstName');
+      });
+
+      it('when firstName is not a string, throws an error', async function () {
+        const errors = validateCommonOrganizationLearner({
+          lastName: 'Aldana',
+          organizationId: 123,
+          firstName: null,
+          attributes: {},
+        });
+        expect(errors.length).to.equal(1);
+        expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
+        expect(errors[0].code).to.equal('FIELD_NOT_STRING');
+        expect(errors[0].key).to.equal('firstName');
+      });
+    });
+
+    it('when missing lastName throws an error', async function () {
+      const errors = validateCommonOrganizationLearner({
+        organizationId: 123,
+        firstName: 'Zoé',
+        attributes: {},
+      });
+      expect(errors.length).to.equal(1);
+      expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
+      expect(errors[0].code).to.equal('FIELD_REQUIRED');
+      expect(errors[0].key).to.equal('lastName');
+    });
+
+    context('organizationId', function () {
+      it('when missing organizationId throws an error', async function () {
+        const errors = validateCommonOrganizationLearner({
+          lastName: 'Aldana',
+          firstName: 'Zoé',
+          attributes: {},
+        });
+        expect(errors.length).to.equal(1);
+        expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
+        expect(errors[0].code).to.equal('FIELD_REQUIRED');
+        expect(errors[0].key).to.equal('organizationId');
+      });
+      it('when organizationId is not an integer throws an error', async function () {
+        const errors = validateCommonOrganizationLearner({
+          lastName: 'Aldana',
+          organizationId: 'truc',
+          firstName: 'Zoé',
+          attributes: {},
+        });
+        expect(errors.length).to.equal(1);
+        expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
+        expect(errors[0].code).to.equal('FIELD_NOT_NUMBER');
+        expect(errors[0].key).to.equal('organizationId');
+      });
+    });
+  });
   context('birthdate', function () {
     context('when birthdate is not conform', function () {
       it('throws an error', async function () {
@@ -37,7 +103,9 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
           },
         ]);
         expect(errors.length).to.equal(1);
-        expect(errors[0].type).to.equal('date.format');
+        expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
+        expect(errors[0].code).to.equal('FIELD_DATE_FORMAT');
+        expect(errors[0].key).to.equal('birthdate');
       });
     });
 
@@ -51,8 +119,11 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
             required: true,
           },
         ]);
+
         expect(errors.length).to.equal(1);
-        expect(errors[0].type).to.equal('date.format');
+        expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
+        expect(errors[0].code).to.equal('FIELD_DATE_FORMAT');
+        expect(errors[0].key).to.equal('birthdate');
       });
     });
 
@@ -65,8 +136,11 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
             format: 'YYYY-MM-DD',
           },
         ]);
+
         expect(errors.length).to.equal(1);
-        expect(errors[0].type).to.equal('date.format');
+        expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
+        expect(errors[0].code).to.equal('FIELD_DATE_FORMAT');
+        expect(errors[0].key).to.equal('birthdate');
       });
     });
 
@@ -81,7 +155,9 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
           },
         ]);
         expect(errors.length).to.equal(1);
-        expect(errors[0].type).to.equal('any.required');
+        expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
+        expect(errors[0].code).to.equal('FIELD_REQUIRED');
+        expect(errors[0].key).to.equal('birthdate');
       });
     });
 

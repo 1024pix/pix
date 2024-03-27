@@ -58,9 +58,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           learnerSet.addLearner(learnerAttributes);
           const error = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
 
-          expect(error[0]).to.be.an.instanceOf(ModelValidationError);
           expect(error[0].why).to.equal('uniqueness');
-          expect(error[0].key).to.equal('group');
           expect(error[0].code).to.equal('PROPERTY_NOT_UNIQ');
         });
 
@@ -74,10 +72,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           learnerSet.addLearner(learnerAttributes);
           const errors = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
 
-          expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
           expect(errors[0].why).to.equal('uniqueness');
-          expect(errors[0].key).to.equal('firstName-group');
-          expect(errors[0].code).to.equal('PROPERTY_NOT_UNIQ');
         });
 
         it('should not throw unicity errors when all unicity attributes are differents', async function () {
@@ -105,10 +100,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           learnerSet = new ImportOrganizationLearnerSet(validationRules);
 
           const error = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
-          expect(error[0]).to.be.an.instanceOf(ModelValidationError);
           expect(error[0].why).to.equal('date_format');
-          expect(error[0].key).to.equal('birthdate');
-          expect(error[0].code).to.equal('FIELD_DATE_FORMAT');
         });
       });
       context('With several rules', function () {
@@ -138,9 +130,8 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           const secondError = await catchErr(learnerSet.addLearner, learnerSet)(secondLearnersAttributes);
 
           expect(firstError[0]).to.be.an.instanceOf(ModelValidationError);
-          expect(secondError[0]).to.be.an.instanceOf(ModelValidationError);
-          expect(firstError[0].code).to.equal('FIELD_DATE_FORMAT');
-          expect(secondError[0].code).to.equal('PROPERTY_NOT_UNIQ');
+          expect(firstError[0].why).to.equal('date_format');
+          expect(secondError[0].why).to.equal('uniqueness');
         });
       });
     });

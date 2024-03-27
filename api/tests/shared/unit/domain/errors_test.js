@@ -78,7 +78,7 @@ describe('Unit | Shared | Domain | Errors', function () {
     });
 
     context('#fromJoiError', function () {
-      it('should return an error with code and key from joi', function () {
+      it('when it is an required error should return an error with code and key from joi', function () {
         const joiError = { context: { key: 'date', format: 'YY-MM-DD' }, type: 'date.format' };
         const error = errors.ModelValidationError.fromJoiError(joiError);
 
@@ -86,6 +86,15 @@ describe('Unit | Shared | Domain | Errors', function () {
         expect(error.why).to.equal('date_format');
         expect(error.code).to.equal('FIELD_DATE_FORMAT');
         expect(error.acceptedFormat).to.equal('YY-MM-DD');
+      });
+
+      it('when it is an error format should return an error with code and key from joi', function () {
+        const joiError = { context: { key: 'firstName' }, type: 'any.required' };
+        const error = errors.ModelValidationError.fromJoiError(joiError);
+
+        expect(error.key).to.equal('firstName');
+        expect(error.why).to.equal('field_required');
+        expect(error.code).to.equal('FIELD_REQUIRED');
       });
     });
   });

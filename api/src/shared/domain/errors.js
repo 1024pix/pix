@@ -98,6 +98,14 @@ class ModelValidationError extends DomainError {
       this.why = 'field_required';
     }
 
+    if (code === VALIDATION_ERRORS.FIELD_NOT_NUMBER) {
+      this.why = 'not_an_integer';
+    }
+
+    if (code === VALIDATION_ERRORS.FIELD_NOT_STRING) {
+      this.why = 'not_a_string';
+    }
+
     this.key = key;
     this.code = code;
   }
@@ -116,6 +124,16 @@ class ModelValidationError extends DomainError {
 
     if (joiError.type === 'any.required') {
       code = VALIDATION_ERRORS.FIELD_REQUIRED;
+      key = joiError.context.key;
+    }
+
+    if (joiError.type === 'string.base') {
+      code = VALIDATION_ERRORS.FIELD_NOT_STRING;
+      key = joiError.context.key;
+    }
+
+    if (joiError.type === 'number.base') {
+      code = VALIDATION_ERRORS.FIELD_NOT_NUMBER;
       key = joiError.context.key;
     }
 
