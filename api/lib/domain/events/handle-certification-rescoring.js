@@ -229,6 +229,7 @@ async function _handleV2Certification({
   const certificationCourse = await certificationCourseRepository.get({
     id: certificationAssessment.certificationCourseId,
   });
+
   const assessmentResult = _createV2AssessmentResult({
     event,
     emitter,
@@ -244,11 +245,12 @@ async function _handleV2Certification({
   });
   await _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository);
 
-  await _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
-    certificationCourseId: certificationAssessment.certificationCourseId,
+  await _cancelCertificationCourseIfNotTrustableOrLackOfAnswersForTechnicalReason({
+    certificationCourse,
     hasEnoughNonNeutralizedChallengesToBeTrusted:
       certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted,
     certificationCourseRepository,
+    certificationAssessmentScore,
   });
 
   return new CertificationRescoringCompleted({
@@ -258,19 +260,26 @@ async function _handleV2Certification({
   });
 }
 
-async function _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
-  certificationCourseId,
+async function _cancelCertificationCourseIfNotTrustableOrLackOfAnswersForTechnicalReason({
+  certificationCourse,
   hasEnoughNonNeutralizedChallengesToBeTrusted,
   certificationCourseRepository,
+  certificationAssessmentScore,
 }) {
-  const certificationCourse = await certificationCourseRepository.get({ id: certificationCourseId });
-  if (hasEnoughNonNeutralizedChallengesToBeTrusted) {
-    certificationCourse.uncancel();
-  } else {
+  if (
+    !hasEnoughNonNeutralizedChallengesToBeTrusted ||
+    _isLackOfAnswersForTechnicalReason({ certificationCourse, certificationAssessmentScore })
+  ) {
     certificationCourse.cancel();
+  } else {
+    certificationCourse.uncancel();
   }
 
   return certificationCourseRepository.update({ certificationCourse });
+}
+
+function _isLackOfAnswersForTechnicalReason({ certificationCourse, certificationAssessmentScore }) {
+  return certificationCourse.isAbortReasonTechnical() && certificationAssessmentScore.hasInsufficientCorrectAnswers();
 }
 
 async function _saveResultAfterCertificationComputeError({
@@ -347,6 +356,15 @@ function _createV2AssessmentResult({
       status: certificationAssessmentScore.status,
       assessmentId: certificationAssessment.id,
       emitter,
+      juryId: event.juryId,
+    });
+  } else if (_isLackOfAnswersForTechnicalReason({ certificationAssessmentScore, certificationCourse })) {
+    return AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
+      emitter: AssessmentResult.emitters.PIX_ALGO,
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      assessmentId: certificationAssessment.id,
+      status: AssessmentResult.status.REJECTED,
       juryId: event.juryId,
     });
   } else if (certificationAssessmentScore.hasInsufficientCorrectAnswers()) {

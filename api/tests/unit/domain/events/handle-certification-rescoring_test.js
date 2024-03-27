@@ -1355,6 +1355,93 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             certificationCourse: expectedCertificationCourse,
           });
         });
+
+        context('when the candidate encountered a technical issue during certification', function () {
+          it('should cancel the certification and save an assessment result lacking answers for technical reason', async function () {
+            // given
+            const certificationCourseRepository = {
+              get: sinon.stub(),
+              update: sinon.stub(),
+            };
+            const assessmentResultRepository = { save: sinon.stub() };
+            const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
+            const competenceMarkRepository = { save: sinon.stub() };
+            const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+            const certificationCourse = domainBuilder.buildCertificationCourse({
+              id: 789,
+              abortReason: ABORT_REASONS.TECHNICAL,
+            });
+
+            const event = new ChallengeDeneutralized({ certificationCourseId: 789, juryId: 7 });
+            const certificationAssessment = new CertificationAssessment({
+              id: 123,
+              userId: 123,
+              certificationCourseId: 789,
+              createdAt: new Date('2020-01-01'),
+              completedAt: new Date('2020-01-01'),
+              state: CertificationAssessment.states.ENDED_BY_SUPERVISOR,
+              version: 2,
+              certificationChallenges: [domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false })],
+              certificationAnswersByDate: ['answer'],
+            });
+            certificationAssessmentRepository.getByCertificationCourseId
+              .withArgs({ certificationCourseId: 789 })
+              .resolves(certificationAssessment);
+            certificationCourseRepository.get.withArgs({ id: 789 }).resolves(certificationCourse);
+            const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+              percentageCorrectAnswers: 33,
+              hasEnoughNonNeutralizedChallengesToBeTrusted: true,
+            });
+            scoringCertificationService.calculateCertificationAssessmentScore
+              .withArgs({ certificationAssessment, continueOnError: false })
+              .resolves(certificationAssessmentScore);
+
+            const assessmentResultToBeSaved =
+              domainBuilder.certification.scoring.buildAssessmentResult.lackOfAnswersForTechnicalReason({
+                pixScore: 0,
+                reproducibilityRate: 33,
+                status: AssessmentResult.status.REJECTED,
+                assessmentId: 123,
+                emitter: AssessmentResult.emitters.PIX_ALGO,
+                juryId: 7,
+              });
+            assessmentResultRepository.save.resolves({
+              certificationCourseId: 789,
+              assessmentResult: assessmentResultToBeSaved,
+            });
+
+            const dependendencies = {
+              assessmentResultRepository,
+              certificationAssessmentRepository,
+              competenceMarkRepository,
+              scoringCertificationService,
+              certificationCourseRepository,
+            };
+
+            // when
+            await handleCertificationRescoring({
+              ...dependendencies,
+              event,
+            });
+
+            // then
+            const expectedCertificationCourse = domainBuilder.buildCertificationCourse({
+              id: 789,
+              isRejectedForFraud: false,
+              abortReason: ABORT_REASONS.TECHNICAL,
+              isCancelled: true,
+            });
+
+            expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
+              certificationCourseId: 789,
+              assessmentResult: assessmentResultToBeSaved,
+            });
+
+            expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+              certificationCourse: expectedCertificationCourse,
+            });
+          });
+        });
       });
 
       it('returns a CertificationRescoringCompleted event', async function () {
