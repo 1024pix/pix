@@ -308,7 +308,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             // given
             const certificationCourse = domainBuilder.buildCertificationCourse({
               id: certificationCourseId,
-              completedAt: null,
+              abortReason: null,
             });
             const savedAssessmentResult = { id: assessmentResultId };
             const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
@@ -358,6 +358,68 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               certificationCourse: new CertificationCourse({
                 ...certificationCourse.toDTO(),
                 completedAt: now,
+              }),
+            });
+          });
+        });
+
+        context('when the certification stopped due to technical issue', function () {
+          it('should cancel and reject the certification', async function () {
+            // given
+            const certificationCourse = domainBuilder.buildCertificationCourse({
+              id: certificationCourseId,
+              abortReason: ABORT_REASONS.TECHNICAL,
+              completedAt: null,
+            });
+            const savedAssessmentResult = { id: assessmentResultId };
+            const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+              competenceMarks: [],
+              percentageCorrectAnswers: 49,
+              hasEnoughNonNeutralizedChallengesToBeTrusted: true,
+            });
+
+            assessmentResultRepository.save.resolves(savedAssessmentResult);
+            competenceMarkRepository.save.resolves();
+            scoringCertificationService.calculateCertificationAssessmentScore.resolves(certificationAssessmentScore);
+            certificationCourseRepository.get
+              .withArgs({ id: certificationAssessment.certificationCourseId })
+              .resolves(certificationCourse);
+            certificationCourseRepository.update.resolves(certificationCourse);
+
+            // when
+            await handleCertificationScoring({
+              event,
+              assessmentResultRepository,
+              certificationCourseRepository,
+              competenceMarkRepository,
+              scoringCertificationService,
+              certificationAssessmentRepository,
+            });
+
+            // then
+            const expectedAssessmentResult = new AssessmentResult({
+              pixScore: 0,
+              reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+              status: status.REJECTED,
+              assessmentId: certificationAssessment.id,
+              emitter: AssessmentResult.emitters.PIX_ALGO,
+              commentForCandidate: domainBuilder.certification.shared.buildJuryComment.candidate({
+                commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
+              }),
+              commentForOrganization: domainBuilder.certification.shared.buildJuryComment.organization({
+                commentByAutoJury: AutoJuryCommentKeys.CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON,
+              }),
+            });
+
+            expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
+              certificationCourseId: 1234,
+              assessmentResult: expectedAssessmentResult,
+            });
+
+            expect(certificationCourseRepository.update).to.have.been.calledWithExactly({
+              certificationCourse: new CertificationCourse({
+                ...certificationCourse.toDTO(),
+                isCancelled: true,
               }),
             });
           });
