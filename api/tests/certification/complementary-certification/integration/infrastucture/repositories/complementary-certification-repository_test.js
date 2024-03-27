@@ -73,6 +73,22 @@ describe('Integration | Certification | Repository | complementary-certification
   });
 
   describe('#getByLabel', function () {
+    context('when the complementary certification does not exist', function () {
+      it('should throw a NotFoundError', async function () {
+        // given
+        const unknownComplementaryCertificationLabel = 'a label';
+
+        // when
+        const error = await catchErr(complementaryCertificationRepository.getByLabel)({
+          label: unknownComplementaryCertificationLabel,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal('Complementary certification does not exist');
+      });
+    });
+
     it('should return the complementary certification by its label', async function () {
       // given
       const label = 'Pix+ Édu 1er degré';
@@ -104,7 +120,7 @@ describe('Integration | Certification | Repository | complementary-certification
   });
 
   describe('#getById', function () {
-    context('when the complementary certification does not exists', function () {
+    context('when the complementary certification does not exist', function () {
       it('should throw a NotFoundError', async function () {
         // given
         const unknownComplementaryCertificationId = 1;
