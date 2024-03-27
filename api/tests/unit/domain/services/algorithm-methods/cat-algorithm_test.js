@@ -12,7 +12,9 @@ describe('Unit | Domain | services | cat-algorithm', function () {
   let skills;
   let tubes;
 
+  // data used for the following tests have been extracted from production to recreate genuine simulation results
   before(function () {
+    predictedLevel = 6.5;
     knowledgeElements = [
       {
         id: 167869,
@@ -984,7 +986,6 @@ describe('Unit | Domain | services | cat-algorithm', function () {
         name: 'utiliserVisio',
       },
     ].map(buildTube);
-    predictedLevel = 6.5;
   });
 
   describe('#getPredictedLevel', function () {
