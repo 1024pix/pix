@@ -7,7 +7,12 @@
   </p>
 
   <div class="import-card__footer">
-    <PixButton @triggerAction={{this.toggleModal}} @size="small" aria-describedby="accepted-files-replace">
+    <PixButton
+      @triggerAction={{this.toggleModal}}
+      @isDisabled={{@disabled}}
+      @size="small"
+      aria-describedby="accepted-files-replace"
+    >
       {{t "pages.organization-participants-import.actions.replace.label"}}
     </PixButton>
 

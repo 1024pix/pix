@@ -27,17 +27,20 @@
           @onImportStudents={{@onImportScoStudents}}
           @acceptedFileType={{this.acceptedFileType}}
           @supportedFormats={{this.supportedFormats}}
+          @disabled={{this.inProgress}}
         />
       {{else if this.currentUser.isSUPManagingStudents}}
         <SupOrganizationParticipant::ImportCards::Add
           @onAddStudents={{@onImportSupStudents}}
           @acceptedFileType={{this.acceptedFileType}}
           @supportedFormats={{this.supportedFormats}}
+          @disabled={{this.inProgress}}
         />
         <SupOrganizationParticipant::ImportCards::Replace
           @onReplaceStudents={{@onReplaceStudents}}
           @acceptedFileType={{this.acceptedFileType}}
           @supportedFormats={{this.supportedFormats}}
+          @disabled={{this.inProgress}}
         />
       {{/if}}
     </div>
