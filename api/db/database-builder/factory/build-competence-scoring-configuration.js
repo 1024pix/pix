@@ -4,6 +4,7 @@ export const buildCompetenceScoringConfiguration = function ({
   id = databaseBuffer.getNextId(),
   configuration,
   createdAt = new Date('2020-01-01'),
+  createdByUserId,
 }) {
   return databaseBuffer.pushInsertable({
     tableName: 'competence-scoring-configurations',
@@ -11,6 +12,7 @@ export const buildCompetenceScoringConfiguration = function ({
       id,
       configuration: JSON.stringify(configuration),
       createdAt,
+      createdByUserId,
     },
   });
 };
