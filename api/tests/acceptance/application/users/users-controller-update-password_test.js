@@ -1,4 +1,4 @@
-import { authenticationController } from '../../../../src/authentication/application/authentication-controller.js';
+import { tokenController } from '../../../../src/authentication/application/token-controller.js';
 import { createServer, databaseBuilder, expect, hFake, knex } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | users-controller-update-password', function () {
@@ -83,7 +83,7 @@ describe('Acceptance | Controller | users-controller-update-password', function 
       let access_token = null;
 
       // when
-      access_token = await authenticationController.createToken(request, hFake);
+      access_token = await tokenController.createToken(request, hFake);
 
       // then
       expect(access_token).to.ok;

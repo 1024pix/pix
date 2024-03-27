@@ -5,11 +5,7 @@ import { createServer, databaseBuilder, expect, knex } from '../../../test-helpe
 
 const { ROLES } = PIX_ADMIN;
 
-describe('Acceptance | Authentication | Application | Controller', function () {
-  afterEach(async function () {
-    await knex('user-logins').delete();
-  });
-
+describe('Acceptance | Authentication | Route | Token', function () {
   describe('POST /api/token', function () {
     const orgaRoleInDB = { id: 1, name: 'ADMIN' };
 

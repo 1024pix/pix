@@ -1,4 +1,4 @@
-import { authenticationController } from '../../../src/authentication/application/authentication-controller.js';
+import { tokenController } from '../../../src/authentication/application/token-controller.js';
 import { usecases } from '../../../src/authentication/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../test-helper.js';
 
@@ -38,7 +38,7 @@ describe('Unit | Authentication | Application | Controller', function () {
       const dependencies = { tokenService: tokenServiceStub };
 
       // when
-      const response = await authenticationController.createToken(request, hFake, dependencies);
+      const response = await tokenController.createToken(request, hFake, dependencies);
 
       // then
       const expectedResponseResult = {
@@ -84,7 +84,7 @@ describe('Unit | Authentication | Application | Controller', function () {
         const dependencies = { tokenService: tokenServiceStub };
 
         // when
-        await authenticationController.createToken(request, hFake, dependencies);
+        await tokenController.createToken(request, hFake, dependencies);
 
         // then
         expect(usecases.authenticateUser).to.have.been.calledWithExactly({
