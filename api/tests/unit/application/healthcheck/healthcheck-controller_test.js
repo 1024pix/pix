@@ -9,7 +9,7 @@ describe('Unit | Controller | healthcheckController', function () {
   describe('#get', function () {
     it('should reply with the API description', async function () {
       // given
-      const mockedRequest = { i18n: { __: sinon.stub() } };
+      const mockedRequest = { i18n: { getLocale: sinon.stub() } };
 
       // when
       const response = await healthcheckController.get(mockedRequest, hFake);

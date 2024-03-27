@@ -15,7 +15,7 @@ const get = function (request) {
     'container-version': process.env.CONTAINER_VERSION,
     // eslint-disable-next-line n/no-process-env
     'container-app-name': process.env.APP,
-    'current-lang': request.i18n.__('current-lang'),
+    'current-lang': request.i18n.getLocale(),
   };
 };
 
