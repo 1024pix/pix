@@ -316,7 +316,7 @@
           "type": "image",
           "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/schema-ip-publique-vs-privee.svg",
           "alt": "Image décrite dans l'alternative textuelle",
-          "alternativeText": "Schéma représentant d'une part un réseau local, composé d'un ordinateur, d'un ordinateur portable, d'une imprimante et d'une box internet. Chacun de ces appareils a une adresse IP privée. La box internet assure la communication avec des sites internet, avec une adresse IP publique. Les sites internet ont également une IP publique."
+          "alternativeText": "Schéma en deux blocs : le premier bloc représente un réseau local avec des illustrations d'appareils (ordinateurs, imprimante) et leurs adresses IP privées, le second bloc représente Internet avec des illustrations de pages web et leurs adresses IP publiques. La box Internet se situe au centre et appartient aux deux blocs. Elle a deux adresses IP, une adresse IP privée et une adresse IP publique."
         },
         {
           "id": "1b524302-7175-4923-8810-835201d3d443",
