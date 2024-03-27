@@ -15,9 +15,8 @@
         aria-required={{true}}
         autocomplete="off"
       >
-        <:label>
-          UAI/RNE de l'établissement
-        </:label>
+        <:label>{{t "pages.join-request-form.organization-code"}}</:label>
+
       </PixInput>
     </div>
 
@@ -33,7 +32,7 @@
         aria-required={{true}}
         autocomplete="given-name"
       >
-        <:label>Votre prénom</:label>
+        <:label>{{t "pages.join-request-form.firstname"}}</:label>
       </PixInput>
     </div>
 
@@ -49,13 +48,13 @@
         aria-required={{true}}
         autocomplete="family-name"
       >
-        <:label>Votre nom</:label>
+        <:label>{{t "pages.join-request-form.lastname"}}</:label>
       </PixInput>
     </div>
 
     <div class="input-container">
       <PixButton @type="submit" @isLoading={{this.isLoading}}>
-        Envoyer
+        {{t "common.actions.confirm"}}
       </PixButton>
     </div>
 
