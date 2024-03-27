@@ -73,7 +73,7 @@ server {
                     if tonumber(count) < limit then
                         red:incr(key)
                     end
-                    ngx.log(ngx.INF, "incremented count", .. tostring(count))
+                    ngx.log(ngx.INF, "incremented count" .. tostring(count))
                     if tonumber(count) > limit then
                         return ngx.exit(ngx.HTTP_TOO_MANY_REQUESTS)
                     end
