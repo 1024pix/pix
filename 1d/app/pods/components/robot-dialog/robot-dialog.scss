@@ -9,11 +9,13 @@
     flex-direction: column;
     max-width: 80%;
     margin-bottom: 70px;
+    margin-top: auto;
   }
 
   &__logo {
     align-self: end;
     width: 128px;
+    max-height: 171px;
   }
 }
 
