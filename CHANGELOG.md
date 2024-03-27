@@ -1,5 +1,36 @@
 # Pix Changelog
 
+## v4.122.0 (27/03/2024)
+
+
+### :rocket: Amélioration
+- [#8466](https://github.com/1024pix/pix/pull/8466) [FEATURE] ajout du commentaire automatique en cas d'obtention d'une certification complémentaire de niveau inférieur (PIX-10322).
+- [#8452](https://github.com/1024pix/pix/pull/8452) [FEATURE] Utiliser les composants Pix UI dans la modale d'ajout de candidat à une session sur Pix Certif (PIX-11588).
+
+### :building_construction: Tech
+- [#8494](https://github.com/1024pix/pix/pull/8494) [TECH] Remplacer l'utilisation de la propriété de configuration endSessionUrl (PIX-11821).
+- [#8508](https://github.com/1024pix/pix/pull/8508) [TECH] Basculer sur la version publié de eslint-plugin-knex.
+- [#8495](https://github.com/1024pix/pix/pull/8495) [TECH] Déplace la configuration du plugin yar dans son propre fichier.
+- [#8510](https://github.com/1024pix/pix/pull/8510) [TECH] Ajoute les tests d'acceptance manquant sur les routes liées aux `campaign-participations` (PIX-11742).
+- [#8503](https://github.com/1024pix/pix/pull/8503) [TECH] Supprime l'usage de current-lang.
+- [#8498](https://github.com/1024pix/pix/pull/8498) [TECH] Utilise la version moderne ES6 de dotenv.
+- [#8496](https://github.com/1024pix/pix/pull/8496) [TECH] Notifier les membres de l'équipe accès lors d'une modification d'un des domaines (PIX-11836).
+
+### :bug: Correction
+- [#8490](https://github.com/1024pix/pix/pull/8490) [BUGFIX] Réparer la gestion de l'import en masse de sessions avec certification complémentaire sur Pix Certif (PIX-11818).
+- [#8464](https://github.com/1024pix/pix/pull/8464) [BUGFIX] Remonter la dernière participation d'un élève à une certification sur le CSV des résultats (PIX-11647).
+
+### :arrow_up: Montée de version
+- [#8521](https://github.com/1024pix/pix/pull/8521) [BUMP] Update dependency @1024pix/pix-ui to ^44.3.8 (orga).
+- [#8522](https://github.com/1024pix/pix/pull/8522) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.3 (admin).
+- [#8519](https://github.com/1024pix/pix/pull/8519) [BUMP] Update dependency @1024pix/pix-ui to ^44.3.8 (admin).
+- [#8520](https://github.com/1024pix/pix/pull/8520) [BUMP] Update dependency @1024pix/pix-ui to ^44.3.8 (certif).
+- [#8504](https://github.com/1024pix/pix/pull/8504) [BUMP] Lock file maintenance (orga).
+- [#8518](https://github.com/1024pix/pix/pull/8518) [BUMP] Update dependency @1024pix/pix-ui to ^44.3.8 (1d).
+- [#8445](https://github.com/1024pix/pix/pull/8445) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.3 (orga).
+- [#8401](https://github.com/1024pix/pix/pull/8401) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.2 (mon-pix).
+- [#8387](https://github.com/1024pix/pix/pull/8387) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.2 (admin).
+
 ## v4.121.0 (26/03/2024)
 
 
