@@ -5,23 +5,24 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
+  knex,
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
 
 describe('Acceptance | API | Campaign Participations', function () {
-  let server, options, userId, organizationId;
+  let server, options, userId, organizationId, campaignId;
 
   beforeEach(async function () {
     server = await createServer();
     userId = databaseBuilder.factory.buildUser().id;
     organizationId = databaseBuilder.factory.buildOrganization().id;
+    campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
   });
 
   describe('DELETE /api/campaign/{campaignId}/campaign-participations/{campaignParticipationId}', function () {
     it('should return 204 HTTP status code', async function () {
       // given
-      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
       databaseBuilder.factory.buildMembership({ userId, organizationRole: 'ADMIN', organizationId });
 
@@ -48,18 +49,16 @@ describe('Acceptance | API | Campaign Participations', function () {
 
     it('should return the campaign profile as JSONAPI', async function () {
       databaseBuilder.factory.buildMembership({ userId, organizationId });
-
-      const campaign = databaseBuilder.factory.buildCampaign({ organizationId });
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         participantExternalId: 'Die Hard',
-        campaignId: campaign.id,
+        campaignId,
       });
 
       await databaseBuilder.commit();
 
       const options = {
         method: 'GET',
-        url: `/api/campaigns/${campaign.id}/profiles-collection-participations/${campaignParticipation.id}`,
+        url: `/api/campaigns/${campaignId}/profiles-collection-participations/${campaignParticipation.id}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
@@ -93,7 +92,7 @@ describe('Acceptance | API | Campaign Participations', function () {
   });
 
   describe('GET /api/campaign-participations/{id}/analyses', function () {
-    let campaign, campaignParticipation;
+    let campaignParticipation;
 
     beforeEach(async function () {
       databaseBuilder.factory.buildMembership({
@@ -101,15 +100,10 @@ describe('Acceptance | API | Campaign Participations', function () {
         organizationId,
         organizationRole: Membership.roles.MEMBER,
       });
-
-      campaign = databaseBuilder.factory.buildCampaign({
-        name: 'Campagne de Test N°3',
-        organizationId,
-      });
-      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId1' });
-      databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId2' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId1' });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId2' });
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-        campaignId: campaign.id,
+        campaignId,
       });
 
       await databaseBuilder.commit();
@@ -172,13 +166,13 @@ describe('Acceptance | API | Campaign Participations', function () {
       const expectedCampaignParticipationAnalysis = {
         data: {
           type: 'campaign-analyses',
-          id: campaign.id.toString(),
+          id: campaignId.toString(),
           attributes: {},
           relationships: {
             'campaign-tube-recommendations': {
               data: [
                 {
-                  id: `${campaign.id}_recTube1`,
+                  id: `${campaignId}_recTube1`,
                   type: 'campaignTubeRecommendations',
                 },
               ],
@@ -199,7 +193,7 @@ describe('Acceptance | API | Campaign Participations', function () {
             },
           },
           {
-            id: `${campaign.id}_recTube1`,
+            id: `${campaignId}_recTube1`,
             type: 'campaignTubeRecommendations',
             attributes: {
               'area-color': 'specialColor',
@@ -230,6 +224,141 @@ describe('Acceptance | API | Campaign Participations', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal(expectedCampaignParticipationAnalysis);
+    });
+  });
+
+  describe('GET /api/campaigns/{campaignId}/assessment-participations/{campaignParticipationId}', function () {
+    it('should return the assessment participation', async function () {
+      databaseBuilder.factory.buildMembership({ userId, organizationId });
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        participantExternalId: 'Maitre Yoda',
+        campaignId,
+        organizationLearnerId: organizationLearner.id,
+      });
+      databaseBuilder.factory.buildAssessment({
+        userId: organizationLearner.userId,
+        campaignParticipationId: campaignParticipation.id,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaignId}/assessment-participations/${campaignParticipation.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      const assessmentParticipation = response.result.data.attributes;
+      expect(assessmentParticipation['participant-external-id']).to.equal('Maitre Yoda');
+    });
+  });
+
+  describe('GET /api/campaigns/{campaignId}/assessment-participations/{campaignParticipationId}/results', function () {
+    beforeEach(function () {
+      const learningContent = [
+        {
+          id: 'recArea1',
+          title_i18n: {
+            fr: 'area1_Title',
+          },
+          color: 'specialColor',
+          competences: [
+            {
+              id: 'recCompetence1',
+              name_i18n: { fr: 'Fabriquer un meuble' },
+              index: '1.1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      id: 'recSkillId1',
+                      nom: '@web2',
+                      challenges: [],
+                    },
+                    {
+                      id: 'recSkillId2',
+                      nom: '@web3',
+                      challenges: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
+      mockLearningContent(learningContentObjects);
+    });
+
+    it('should return the assessment participation results', async function () {
+      databaseBuilder.factory.buildMembership({ userId, organizationId });
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId1' });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        participantExternalId: 'Maitre Yoda',
+        campaignId,
+        organizationLearnerId: organizationLearner.id,
+      });
+      databaseBuilder.factory.buildAssessment({
+        userId: organizationLearner.userId,
+        campaignParticipationId: campaignParticipation.id,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaignId}/assessment-participations/${campaignParticipation.id}/results`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.type).to.equal('campaign-assessment-participation-results');
+    });
+  });
+
+  describe('PATCH /api/admin/campaign-participations/{id}', function () {
+    it('should update the participant external id', async function () {
+      const superAdmin = await insertUserWithRoleSuperAdmin();
+
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        participantExternalId: 'Maitre Yoda',
+        campaignId,
+      });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'PATCH',
+        url: `/api/admin/campaign-participations/${campaignParticipation.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(superAdmin.id) },
+        payload: {
+          data: {
+            id: campaignParticipation.id,
+            attributes: {
+              'participant-external-id': 'Dark Vador',
+            },
+            type: 'campaign-participations',
+          },
+        },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(204);
+      const { participantExternalId: updatedParticipantExternalId } = await knex('campaign-participations')
+        .select('participantExternalId')
+        .where('id', campaignParticipation.id)
+        .first();
+      expect(updatedParticipantExternalId).to.equal('Dark Vador');
     });
   });
 });
