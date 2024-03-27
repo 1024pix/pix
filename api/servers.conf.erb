@@ -79,7 +79,7 @@ server {
                     end
                 else
                     -- Écrire la clé dans Redis si elle n'existe pas
-                    local ok, err = red:set(key, 1)
+                    local ok, err = red:set(key, "1")
                     if not ok then
                         ngx.log(ngx.ERR, "failed to set limit in Redis: ", err)
                         return ngx.exit(500)
