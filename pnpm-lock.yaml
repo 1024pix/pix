@@ -1592,6 +1592,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      miragejs:
+        specifier: 0.1.48
+        version: 0.1.48
       npm-run-all2:
         specifier: ^6.0.0
         version: 6.1.2
