@@ -92,7 +92,18 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
       });
       context('checkDateRule', function () {
-        it('should throw date error when the format is not correct', async function () {
+        it('when the date respect the format, should not throw an error', async function () {
+          validationRules = {
+            formats: [{ name: 'birthdate', type: 'date', format: 'YYYY-MM-DD', required: true }],
+          };
+
+          learnerSet = new ImportOrganizationLearnerSet(validationRules);
+
+          const response = learnerSet.addLearner({ ...learnerAttributes, birthdate: '2026-03-06' });
+          expect(response).to.not.throw;
+        });
+
+        it('should throw date error when the format is not respected', async function () {
           validationRules = {
             formats: [{ name: 'birthdate', type: 'date', format: 'YYYY-MM-DD', required: true }],
           };
@@ -100,6 +111,20 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           learnerSet = new ImportOrganizationLearnerSet(validationRules);
 
           const error = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
+          expect(error[0].why).to.equal('date_format');
+        });
+
+        it('should throw date error when the format is not possible', async function () {
+          validationRules = {
+            formats: [{ name: 'birthdate', type: 'date', format: 'YYYY-MM-DD', required: true }],
+          };
+
+          learnerSet = new ImportOrganizationLearnerSet(validationRules);
+
+          const error = await catchErr(
+            learnerSet.addLearner,
+            learnerSet,
+          )({ ...learnerAttributes, birthdate: '2026-53-46' });
           expect(error[0].why).to.equal('date_format');
         });
       });
