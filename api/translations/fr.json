@@ -329,6 +329,10 @@
         "candidate": "Les conditions de passation du test de certification n'ayant pas été respectées et ayant fait l'objet d'un signalement pour fraude, votre certification a été invalidée en conséquence.",
         "organization": "Une situation de fraude a été détectée : après analyse, nous avons statué sur un rejet de la certification."
       },
+      "LOWER_LEVEL_COMPLEMENTARY_CERTIFICATION_ACQUIRED": {
+        "candidate": "Félicitations, votre score vous a permis de valider votre certification complémentaire! Le niveau obtenu correspond au niveau inférieur à celui auquel vous étiez éligible.",
+        "organization": "Le score du candidat n'était pas suffisant pour valider sa certification complémentaire au niveau auquel il était éligible. Néanmoins, il a validé le niveau directement inférieur de cette certification complémentaire. Il est donc certifié."
+      },
       "REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS": {
         "candidate": "Vous avez répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de votre certification, et donc entrainé un score de 0 pix.",
         "organization": "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix."

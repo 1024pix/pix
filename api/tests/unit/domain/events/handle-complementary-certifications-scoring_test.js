@@ -29,6 +29,7 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
     complementaryCertificationCourseResultRepository.save = sinon.stub();
     certificationAssessmentRepository.getByCertificationCourseId = sinon.stub();
     assessmentResultRepository.getByCertificationCourseId = sinon.stub();
+    assessmentResultRepository.updateToAcquiredLowerLevelComplementaryCertification = sinon.stub();
     complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId = sinon.stub();
     certificationCourseRepository.get = sinon.stub();
     complementaryCertificationBadgesRepository.getAllWithSameTargetProfile = sinon.stub();
@@ -377,6 +378,8 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
                 ? availableComplementaryCertificationBadges.at(acquiredLevel - 1)
                 : null;
 
+              const isLowerLevelComplementaryCertificationAcquired = acquiredLevel === lowerLevel.level;
+
               complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId
                 .withArgs({
                   certificationCourseId: 123,
@@ -401,13 +404,15 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
                 .withArgs({ certificationCourseId: 123 })
                 .resolves(certificationAssessment);
 
-              assessmentResultRepository.getByCertificationCourseId.withArgs({ certificationCourseId: 123 }).resolves(
-                domainBuilder.buildAssessmentResult({
-                  pixScore,
-                  reproducibilityRate,
-                  status: pixValidated ? assessmentResultStatuses.VALIDATED : assessmentResultStatuses.REJECTED,
-                }),
-              );
+              const assessmentResult = domainBuilder.buildAssessmentResult({
+                pixScore,
+                reproducibilityRate,
+                status: pixValidated ? assessmentResultStatuses.VALIDATED : assessmentResultStatuses.REJECTED,
+              });
+
+              assessmentResultRepository.getByCertificationCourseId
+                .withArgs({ certificationCourseId: 123 })
+                .resolves(assessmentResult);
 
               certificationCourseRepository.get
                 .withArgs({ id: 123 })
@@ -417,6 +422,12 @@ describe('Unit | Domain | Events | Handle Complementary Certifications Scoring',
               await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
               // then
+              if (isLowerLevelComplementaryCertificationAcquired) {
+                expect(
+                  assessmentResultRepository.updateToAcquiredLowerLevelComplementaryCertification,
+                ).to.have.been.calledOnceWithExactly({ id: assessmentResult.id });
+              }
+
               expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledOnceWithExactly(
                 ComplementaryCertificationCourseResult.from({
                   complementaryCertificationCourseId: 999,
