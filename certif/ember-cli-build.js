@@ -22,13 +22,6 @@ module.exports = function (defaults) {
     'ember-cli-template-lint': {
       testGenerator: 'qunit',
     },
-    '@embroider/macros': {
-      setConfig: {
-        '@ember-data/store': {
-          polyfillUUID: true,
-        },
-      },
-    },
   });
 
   // Use `app.import` to add additional libraries to the generated
