@@ -18,6 +18,7 @@
   },
   "files": [],
   "scripts": {
+    "clean": "rm -rf tmp dist node_modules",
     "build": "ember build --environment=production",
     "lint": "run-p --continue-on-error 'lint:!(fix)'",
     "lint:fix": "run-p --continue-on-error lint:*:fix",
