@@ -5,6 +5,7 @@ import { handleComplementaryCertificationsScoring } from '../../../../lib/domain
 import * as complementaryCertificationCourseResultRepository from '../../../../lib/infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../../../lib/infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
+import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 import * as certificationAssessmentRepository from '../../../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCourseRepository from '../../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import { config as settings } from '../../../../src/shared/config.js';
@@ -263,7 +264,9 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
             const complementaryCertificationCourseResults = await knex('complementary-certification-course-results')
               .select()
               .first();
+            const { commentByAutoJury } = await knex('assessment-results').select().first();
 
+            expect(commentByAutoJury).to.equal(AutoJuryCommentKeys.LOWER_LEVEL_COMPLEMENTARY_CERTIFICATION_ACQUIRED);
             expect(_.omit(complementaryCertificationCourseResults, ['id'])).to.deep.equal({
               acquired: true,
               complementaryCertificationCourseId,

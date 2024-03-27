@@ -315,6 +315,10 @@
         "candidate": "The Pix certification exam conditions have not been respected. Your certification exam has been reported for fraud and has consequently been invalidated.",
         "organization": "A fraud has been detected : after analysis, we have decided on rejecting this certification exam."
       },
+      "LOWER_LEVEL_COMPLEMENTARY_CERTIFICATION_ACQUIRED": {
+        "candidate": "Congratulations, your score has allowed you to obtain your complementary certification! The level you got corresponds to the level bellow the one you were eligible for.",
+        "organization": "The candidate’s score wasn’t sufficient for them to obtain the complementary certification at the level they were eligible for. However, they have obtained the level directly bellow for this complementary certification. They are hence certified."
+      },
       "REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS": {
         "candidate": "You have answered wrongly more than 50% of the questions asked, it has invalidated your whole certification, and induced a score of 0 pix.",
         "organization": "The candidate answered wrongly more than 50% of the questions asked, it has invalidated their whole certification, and induced a score of 0 pix."

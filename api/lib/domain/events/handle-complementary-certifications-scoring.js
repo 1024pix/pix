@@ -55,23 +55,27 @@ async function handleComplementaryCertificationsScoring({
     minimumEarnedPix,
   });
 
-  const { computedComplementaryCertificationBadgeId, isAcquired } = await _getComplementaryCertificationResultInfo({
-    complementaryCertificationScoring,
-    hasComplementaryReferential,
-    complementaryCertificationBadgesRepository,
-    assessmentResult,
-    minimumReproducibilityRateLowerLevel,
-  });
+  const { computedComplementaryCertificationBadgeId, isAcquired, isLowerLevelComplementaryCertificationAcquired } =
+    await _getComplementaryCertificationResultInformation({
+      complementaryCertificationScoring,
+      hasComplementaryReferential,
+      complementaryCertificationBadgesRepository,
+      assessmentResult,
+      minimumReproducibilityRateLowerLevel,
+    });
 
   return _saveResult({
     complementaryCertificationCourseResultRepository,
+    assessmentResultRepository,
     complementaryCertificationScoring,
     complementaryCertificationBadgeId: computedComplementaryCertificationBadgeId,
     acquired: isAcquired,
+    isLowerLevelComplementaryCertificationAcquired,
+    assessmentResultId: assessmentResult.id,
   });
 }
 
-async function _getComplementaryCertificationResultInfo({
+async function _getComplementaryCertificationResultInformation({
   complementaryCertificationScoring,
   hasComplementaryReferential,
   complementaryCertificationBadgesRepository,
@@ -102,6 +106,7 @@ async function _getComplementaryCertificationResultInfo({
       return {
         isAcquired: true,
         computedComplementaryCertificationBadgeId: lowerLevelComplementaryCertificationBadge.id,
+        isLowerLevelComplementaryCertificationAcquired: true,
       };
     }
   }
@@ -113,9 +118,12 @@ async function _getComplementaryCertificationResultInfo({
 
 async function _saveResult({
   complementaryCertificationCourseResultRepository,
+  assessmentResultRepository,
   complementaryCertificationScoring,
   acquired,
   complementaryCertificationBadgeId,
+  isLowerLevelComplementaryCertificationAcquired,
+  assessmentResultId,
 }) {
   await complementaryCertificationCourseResultRepository.save(
     ComplementaryCertificationCourseResult.from({
@@ -126,6 +134,10 @@ async function _saveResult({
       acquired,
     }),
   );
+
+  if (isLowerLevelComplementaryCertificationAcquired) {
+    await assessmentResultRepository.updateToAcquiredLowerLevelComplementaryCertification({ id: assessmentResultId });
+  }
 }
 
 async function _getNextLowerLevelBadge(complementaryCertificationBadgesRepository, complementaryCertificationBadgeId) {
