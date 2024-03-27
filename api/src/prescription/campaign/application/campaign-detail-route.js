@@ -26,6 +26,35 @@ const register = async function (server) {
     },
     {
       method: 'GET',
+      path: '/api/admin/campaigns/{id}',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignId,
+          }),
+        },
+        handler: campaignDetailController.getCampaignDetails,
+        tags: ['api', 'campaign', 'admin'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet de récupérer le détail d'une campagne.",
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/organizations/{id}/campaigns',
       config: {
         pre: [{ method: securityPreHandlers.checkUserBelongsToOrganization }],

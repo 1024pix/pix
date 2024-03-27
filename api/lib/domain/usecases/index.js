@@ -141,7 +141,6 @@ import * as organizationTagRepository from '../../infrastructure/repositories/or
 import * as organizationsToAttachToTargetProfileRepository from '../../infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
 import * as participantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
-import * as participationsForCampaignManagementRepository from '../../infrastructure/repositories/participations-for-campaign-management-repository.js';
 import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demands-repository.js';
@@ -178,7 +177,6 @@ import * as organizationValidator from '../validators/organization-with-tags-and
 import * as passwordValidator from '../validators/password-validator.js';
 import * as userValidator from '../validators/user-validator.js';
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
-import { getCampaignManagement as getCampaignDetailsManagement } from './get-campaign-details-management.js';
 
 function requirePoleEmploiNotifier() {
   if (config.poleEmploi.pushEnabled) {
@@ -311,7 +309,6 @@ const dependencies = {
   organizationValidator,
   participantResultRepository,
   participantResultsSharedRepository,
-  participationsForCampaignManagementRepository,
   participationsForUserManagementRepository,
   passwordGenerator,
   passwordValidator,
@@ -386,7 +383,6 @@ const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './stages') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './target-profile-management') })),
   findPaginatedFilteredTargetProfileOrganizations,
-  getCampaignDetailsManagement,
   getNextChallengeForV2Certification,
   getNextChallengeForV3Certification,
   endAssessmentBySupervisor,

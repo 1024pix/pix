@@ -361,4 +361,25 @@ describe('Acceptance | API | Campaign Participations', function () {
       expect(updatedParticipantExternalId).to.equal('Dark Vador');
     });
   });
+
+  describe('GET /api/admin/campaigns/{campaignId}/participations', function () {
+    it('should return participations', async function () {
+      // given
+      const campaign = databaseBuilder.factory.buildCampaign();
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
+      const user = databaseBuilder.factory.buildUser.withRole();
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/campaigns/${campaign.id}/participations`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data[0].id).to.equal(campaignParticipation.id.toString());
+    });
+  });
 });
