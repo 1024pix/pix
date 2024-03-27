@@ -5,6 +5,7 @@ import { tokenService } from '../../../shared/domain/services/token-service.js';
 import * as queryParamsUtils from '../../../shared/infrastructure/utils/query-params-utils.js';
 import { extractParameters } from '../../../shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../domain/usecases/index.js';
+import * as campaignDetailsManagementSerializer from '../infrastructure/serializers/jsonapi/campaign-details-management-serializer.js';
 import * as campaignParticipantsActivitySerializer from '../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
 import * as campaignReportSerializer from '../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 
@@ -25,6 +26,12 @@ const getById = async function (
 
   const campaign = await usecases.getCampaign({ campaignId, userId });
   return dependencies.campaignReportSerializer.serialize(campaign, {}, { tokenForCampaignResults });
+};
+
+const getCampaignDetails = async function (request) {
+  const campaignId = request.params.id;
+  const campaign = await usecases.getCampaignManagement({ campaignId });
+  return campaignDetailsManagementSerializer.serialize(campaign);
 };
 
 const findPaginatedFilteredCampaigns = async function (
@@ -129,6 +136,7 @@ const campaignDetailController = {
   findPaginatedFilteredCampaigns,
   getCsvAssessmentResults,
   getCsvProfilesCollectionResults,
+  getCampaignDetails,
 };
 
 export { campaignDetailController };

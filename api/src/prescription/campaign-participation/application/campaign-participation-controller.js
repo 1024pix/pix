@@ -1,10 +1,24 @@
 import { extractLocaleFromRequest } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { extractParameters } from '../../../shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../domain/usecases/index.js';
 import * as campaignAnalysisSerializer from '../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
 import * as campaignAssessmentParticipationResultSerializer from '../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js';
 import * as campaignAssessmentParticipationSerializer from '../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
 import * as campaignProfileSerializer from '../infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
+import * as participationForCampaignManagementSerializer from '../infrastructure/serializers/jsonapi/participation-for-campaign-management-serializer.js';
+
+const findPaginatedParticipationsForCampaignManagement = async function (request) {
+  const { campaignId } = request.params;
+  const { page } = extractParameters(request.query);
+
+  const { models: participationsForCampaignManagement, meta } =
+    await usecases.findPaginatedParticipationsForCampaignManagement({
+      campaignId,
+      page,
+    });
+  return participationForCampaignManagementSerializer.serialize(participationsForCampaignManagement, meta);
+};
 
 const getAnalysis = async function (request, h, dependencies = { campaignAnalysisSerializer }) {
   const { userId } = request.auth.credentials;
@@ -94,6 +108,7 @@ const deleteCampaignParticipationForAdmin = async function (request, h) {
 };
 
 const campaignParticipationController = {
+  findPaginatedParticipationsForCampaignManagement,
   getAnalysis,
   getCampaignProfile,
   getCampaignAssessmentParticipation,

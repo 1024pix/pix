@@ -1,9 +1,7 @@
 import { campaignController } from '../../../../lib/application/campaigns/campaign-controller.js';
-import { campaignManagementController } from '../../../../lib/application/campaigns/campaign-management-controller.js';
 import { campaignStatsController } from '../../../../lib/application/campaigns/campaign-stats-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/campaigns/index.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { securityPreHandlers } from '../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Router | campaign-router ', function () {
@@ -35,96 +33,6 @@ describe('Unit | Application | Router | campaign-router ', function () {
 
       // then
       expect(response.statusCode).to.equal(404);
-    });
-  });
-
-  describe('GET /api/admin/campaigns/{id}', function () {
-    it('should return 200', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-      sinon
-        .stub(campaignManagementController, 'getCampaignDetails')
-        .callsFake((request, h) => h.response('ok').code(200));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/campaigns/1');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('should return 400 with an invalid campaign id', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/campaigns/invalid');
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should return 403 when unauthorized', async function () {
-      // given
-      sinon
-        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/campaigns/1');
-
-      // then
-      expect(response.statusCode).to.equal(403);
-    });
-  });
-
-  describe('GET /api/admin/campaigns/{id}/participations', function () {
-    it('should return 200', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'hasAtLeastOneAccessOf').returns(() => true);
-      sinon
-        .stub(campaignManagementController, 'findPaginatedParticipationsForCampaignManagement')
-        .callsFake((request, h) => h.response('ok').code(200));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/campaigns/1/participations');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('should return 400 with an invalid campaign id', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/campaigns/invalid/participations');
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should return 403 when unauthorized', async function () {
-      // given
-      sinon
-        .stub(securityPreHandlers, 'hasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/campaigns/1/participations');
-
-      // then
-      expect(response.statusCode).to.equal(403);
     });
   });
 
