@@ -8,6 +8,7 @@
 #           /!\ Very low for testing purposes, no burst allowed
 
 limit_req_zone $binary_remote_addr zone=apiratelimit:10m rate=1r/s;
+error_log /dev/stdout info;
 
 server {
     server_name localhost;
@@ -52,7 +53,7 @@ server {
                     return ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
                 end
 
-                local res, err = red:auth("<%= ENV['NGIN_REDIS_PASSWORD'] %>")
+                local res, err = red:auth("<%= ENV['NGINX_REDIS_PASSWORD'] %>")
                 if not res then
                     ngx.say("failed to authenticate: ", err)
                     return
