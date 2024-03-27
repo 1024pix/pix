@@ -178,9 +178,9 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       };
       const domainTransaction = Symbol();
 
-      DomainTransaction.execute = (lambda) => {
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
         return lambda(domainTransaction);
-      };
+      });
       sinon.stub(usecases, 'deleteCampaignParticipation');
       usecases.deleteCampaignParticipation.resolves();
 
