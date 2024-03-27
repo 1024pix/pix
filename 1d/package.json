@@ -25,13 +25,13 @@
     "lint:hbs": "ember-template-lint .",
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint . --cache --cache-strategy content",
-    "lint:js:fix": "npm run lint:js -- --fix",
+    "lint:js:fix": "pnpm run lint:js -- --fix",
     "lint:scss": "stylelint app/styles/*.scss 'app/styles/**/*.scss' 'app/**/*.scss'",
-    "lint:scss:fix": "npm run lint:scss -- --fix",
-    "preinstall": "npx check-engine",
+    "lint:scss:fix": "pnpm run lint:scss -- --fix",
+    "preinstall": "pnpm dlx check-engine",
     "start": "ember serve --proxy http://localhost:3000",
     "test": "ember test",
-    "test:ci": "npm run test",
+    "test:ci": "pnpm run test",
     "test:lint": "run-p --continue-on-error test lint"
   },
   "devDependencies": {
