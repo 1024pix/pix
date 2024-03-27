@@ -4,9 +4,12 @@ import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
 import { module, test } from 'qunit';
 
+import setupIntl from '../helpers/setup-intl';
+
 module('Acceptance | join-request', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   module('When user submits the join request form', function () {
     module('Error cases', function () {
@@ -19,7 +22,7 @@ module('Acceptance | join-request', function (hooks) {
         await fillByLabel('Votre nom', 'lastName');
 
         // when
-        await clickByName('Envoyer');
+        await clickByName(this.intl.t('common.actions.confirm'));
 
         // then
         assert
@@ -41,7 +44,7 @@ module('Acceptance | join-request', function (hooks) {
         await fillByLabel('Votre nom', 'lastName');
 
         // when
-        await clickByName('Envoyer');
+        await clickByName(this.intl.t('common.actions.confirm'));
 
         // then
         assert
@@ -63,7 +66,7 @@ module('Acceptance | join-request', function (hooks) {
         await fillByLabel('Votre nom', 'lastName');
 
         // when
-        await clickByName('Envoyer');
+        await clickByName(this.intl.t('common.actions.confirm'));
 
         // then
         assert
@@ -88,7 +91,7 @@ module('Acceptance | join-request', function (hooks) {
         await fillByLabel('Votre nom', 'lastName');
 
         // when
-        await clickByName('Envoyer');
+        await clickByName(this.intl.t('common.actions.confirm'));
 
         // then
         assert
@@ -110,7 +113,7 @@ module('Acceptance | join-request', function (hooks) {
         await fillByLabel('Votre nom', 'lastName');
 
         // when
-        await clickByName('Envoyer');
+        await clickByName(this.intl.t('common.actions.confirm'));
         // then
         assert
           .dom(
@@ -136,7 +139,7 @@ module('Acceptance | join-request', function (hooks) {
       await fillByLabel('Votre nom', 'lastName');
 
       // when
-      await clickByName('Envoyer');
+      await clickByName(this.intl.t('common.actions.confirm'));
 
       // then
       assert
