@@ -126,7 +126,6 @@ class CommonCsvLearnerParser {
   #lineToOrganizationLearnerAttributes(line) {
     const learnerAttributes = {
       organizationId: this.#organizationId,
-      attributes: {},
     };
 
     this.#columns.forEach((column) => {
@@ -134,7 +133,7 @@ class CommonCsvLearnerParser {
       if (column.property) {
         learnerAttributes[column.property] = value;
       } else {
-        learnerAttributes.attributes[column.name] = value?.toString();
+        learnerAttributes[column.name] = value?.toString();
       }
     });
 

@@ -11,18 +11,14 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
     firstName: 'Tomie',
     lastName: 'Katana',
     organizationId: 123,
-    attributes: {
-      firstName: 'Tomie',
-      lastName: 'Katana',
-      preferredLastName: 'Yolo',
-      email: 'tomie.katana@example.net',
-      birthdate: '34',
-      diploma: 'Autre',
-      department: 'Paxton',
-      educationalTeam: 'MiloZotis',
-      group: 'Solo',
-      studyScheme: 'Autre',
-    },
+    preferredLastName: 'Yolo',
+    email: 'tomie.katana@example.net',
+    birthdate: '34',
+    diploma: 'Autre',
+    department: 'Paxton',
+    educationalTeam: 'MiloZotis',
+    group: 'Solo',
+    studyScheme: 'Autre',
   };
   let validationRules;
 
@@ -126,18 +122,14 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             firstName: 'Tomie',
             lastName: 'Katana',
             organizationId: 123,
-            attributes: {
-              firstName: 'Tomie',
-              lastName: 'Katana',
-              preferredLastName: 'Yolo',
-              email: 'tomie.katana@example.net',
-              birthdate: '2002-04-01',
-              diploma: 'Autre',
-              department: 'Paxton',
-              educationalTeam: 'MiloZotis',
-              group: 'Solo',
-              studyScheme: 'Autre',
-            },
+            preferredLastName: 'Yolo',
+            email: 'tomie.katana@example.net',
+            birthdate: '2002-04-01',
+            diploma: 'Autre',
+            department: 'Paxton',
+            educationalTeam: 'MiloZotis',
+            group: 'Solo',
+            studyScheme: 'Autre',
           };
 
           learnerSet = new ImportOrganizationLearnerSet(validationRules);

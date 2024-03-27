@@ -16,11 +16,16 @@ class ImportOrganizationLearnerSet {
   }
 
   addLearner(learnerAttributes) {
-    this.#validateRules(learnerAttributes);
-    this.#learners.push(new CommonOrganizationLearner(learnerAttributes));
+    const learner = new CommonOrganizationLearner(learnerAttributes);
+    this.#validateRules(learner);
+    this.#learners.push(learner);
   }
 
-  #validateRules(learnerAttributes) {
+  #validateRules(learner) {
+    const learnerAttributes = {
+      ...learner,
+      attributes: { ...learner.attributes, firstName: learner.firstName, lastName: learner.lastName },
+    };
     const errors = [];
 
     if (this.#hasUnicityRules) {
