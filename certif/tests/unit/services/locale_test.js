@@ -97,6 +97,38 @@ module('Unit | Service | locale', function (hooks) {
     });
   });
 
+  module('#isLanguageSupported', function () {
+    module('when no language provided', function () {
+      test('returns "false"', function (assert) {
+        // when
+        const isLanguageSupported = localeService.isLanguageSupported();
+
+        // then
+        assert.false(isLanguageSupported);
+      });
+    });
+
+    module('when language is not supported', function () {
+      test('returns "false"', function (assert) {
+        // when
+        const isLanguageSupported = localeService.isLanguageSupported('not supported');
+
+        // then
+        assert.false(isLanguageSupported);
+      });
+    });
+
+    module('when language is supported', function () {
+      test('returns "true"', function (assert) {
+        // when
+        const isLanguageSupported = localeService.isLanguageSupported('fr');
+
+        // then
+        assert.true(isLanguageSupported);
+      });
+    });
+  });
+
   module('#hasLocaleCookie', function () {
     module('when there is no cookie locale', function () {
       test('returns "false"', function (assert) {
