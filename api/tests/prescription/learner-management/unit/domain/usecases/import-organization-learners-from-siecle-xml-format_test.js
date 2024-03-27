@@ -292,7 +292,6 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
           expect(organizationImportRepositoryStub.save.getCall(0).args[0].status).to.equal('UPLOAD_ERROR');
         });
       });
-
       describe('when there is a validation error', function () {
         it('should save VALIDATION_ERROR status', async function () {
           //given

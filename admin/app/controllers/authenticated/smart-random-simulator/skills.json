@@ -1,0 +1,1005 @@
+[
+  {
+    "id": "rec0y0EK2ko8YmmKB",
+    "name": "@fichier2",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec76Ks1Gn4XyG5v2",
+      "recKpnZTbIN4GzrGN",
+      "recF94uIg776HqQFs",
+      "rec2D7cepZKt5GSkV",
+      "rec15LdKDSPW6OLlO",
+      "tutorial2jRSPnVh6hPjn1",
+      "tutorialOkl2JWLRDRCjy",
+      "tutorial1M2nlDuPjH6hWE",
+      "tutorial1oWDuwWnCGhkZ8"
+    ],
+    "learningMoreTutorialIds": [
+      "recUIW91bZDTELnl6",
+      "rec11d744EtlHmf6c",
+      "tutorial2dX2fviky80Syc",
+      "tutorial1a9r7HKKoUNPFR",
+      "tutorial1ZeXmnzeF7glFG"
+    ],
+    "tubeId": "recfRTGX0vJNzhApQ",
+    "version": 1,
+    "difficulty": 2
+  },
+  {
+    "id": "rec1xwid9puoyO0w4",
+    "name": "@unite5",
+    "pixValue": 0.8888888888888888,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial23OcILQb3rm8AI",
+      "tutorial1rMLR94sHnQuX6",
+      "tutorial283adIBxMRGCjP",
+      "tutorial1kwXewZ83CWLQL"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial1xrFmhcknDdSD2",
+      "tutorial2crnUi27PvRbDs",
+      "tutorialYsu9NwsNBNWw8"
+    ],
+    "tubeId": "rec1gP2RFbGcAaKC3",
+    "version": 2,
+    "difficulty": 5
+  },
+  {
+    "id": "rec7CzfsTcPUggJwq",
+    "name": "@unite3",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial1naZykqFCetD4H",
+      "tutorial283adIBxMRGCjP",
+      "tutorial2LL8PYY21VbJwx"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial20JKXS98CUfbtQ",
+      "tutorial1cXaUX8ZiBi4Xs",
+      "tutorial2VQb9c1wva7i86"
+    ],
+    "tubeId": "rec1gP2RFbGcAaKC3",
+    "version": 1,
+    "difficulty": 3
+  },
+  {
+    "id": "rec8rfSpgfgeneFXd",
+    "name": "@sauvegarde6",
+    "pixValue": 2,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recoI78FUgCPqOMm8",
+      "rec1TqLzpStrik1bx"
+    ],
+    "learningMoreTutorialIds": [
+      "rec5MHvJteiTfn1tE",
+      "recG5eaS59OhISnxY",
+      "recTj0gsGEyLttUVi",
+      "rec25jpiZ9HoWIONk",
+      "rec1DfPQGVFYQxL15",
+      "rec1M5VPN50APrhUt"
+    ],
+    "tubeId": "reczOjAWmveW8RSkv",
+    "version": 1,
+    "difficulty": 6
+  },
+  {
+    "id": "recAuRue2poqxgQG2",
+    "name": "@corbeille3",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recqQHQRJBqlKVsd3",
+      "reclwIk559ij4Nxk6",
+      "tutorialSpwzDfr5bcNvw"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial2Npg6cIeCZ8UBQ"
+    ],
+    "tubeId": "rec6pd87izEGLo6f3",
+    "version": 1,
+    "difficulty": 3
+  },
+  {
+    "id": "recAVuop8roeJ1PNW",
+    "name": "@archive5",
+    "pixValue": 0.8888888888888888,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recKBeNUWUpBYkLZK",
+      "rec1GcoOLg4P93kAr"
+    ],
+    "learningMoreTutorialIds": [
+      "recPLizsfS2KUeqd"
+    ],
+    "tubeId": "recvb5dvmGFcSrJsA",
+    "version": 1,
+    "difficulty": 5
+  },
+  {
+    "id": "recaXcyWricOH5bwn",
+    "name": "@recherche4",
+    "pixValue": 0.8,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [],
+    "learningMoreTutorialIds": [
+      "recLUvKLTLKI1RDft",
+      "rec17b7czyuazDewt"
+    ],
+    "tubeId": "recps4jQoK8zCW5wI",
+    "version": 1,
+    "difficulty": 4
+  },
+  {
+    "id": "reccH4vZYbnHWJ9Cf",
+    "name": "@raccourci4",
+    "pixValue": 0.8,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec1KIPOowrwEwqaC",
+      "rec27ZFlRein0yMNz",
+      "tutorial2MZ0OFKFdOlRHb"
+    ],
+    "learningMoreTutorialIds": [
+      "rec1Qr1jjpfkWjHbN",
+      "tutorial2tWeMUgvs4qJgP",
+      "tutorial15GZIMSwl8xaBR"
+    ],
+    "tubeId": "recD8uOgigPBoy8y9",
+    "version": 1,
+    "difficulty": 4
+  },
+  {
+    "id": "recCYuc2prbxECqJD",
+    "name": "@organiser4",
+    "pixValue": 0.8,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec2IEFzEOURNIoka",
+      "tutorial1g7cPpf1N276TO"
+    ],
+    "learningMoreTutorialIds": [],
+    "tubeId": "recxZXtOPOhkPh1lv",
+    "version": 1,
+    "difficulty": 4
+  },
+  {
+    "id": "recdgeyLSVKUpyJF0",
+    "name": "@corbeille2",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recqQHQRJBqlKVsd3",
+      "rec1kn2w1iaPLuh3E",
+      "reclwIk559ij4Nxk6",
+      "tutorial2vLBGlOklaIwhN"
+    ],
+    "learningMoreTutorialIds": [
+      "rec1zasSMdsmY55Mw",
+      "tutorial2Npg6cIeCZ8UBQ",
+      "tutorial18Fj2pWPrRKGTs",
+      "tutorial20GVQslrd1nzfO",
+      "tutorialTP41PwAaod910"
+    ],
+    "tubeId": "rec6pd87izEGLo6f3",
+    "version": 1,
+    "difficulty": 2
+  },
+  {
+    "id": "recDl1yX3l2SWb9ju",
+    "name": "@organiser3",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recUIW91bZDTELnl6",
+      "rec1xE7OeLWq7j4Ue",
+      "rec2BmHYAmnojqPCN",
+      "tutorial2dX2fviky80Syc"
+    ],
+    "learningMoreTutorialIds": [
+      "rec1Qr1jjpfkWjHbN"
+    ],
+    "tubeId": "recxZXtOPOhkPh1lv",
+    "version": 1,
+    "difficulty": 3
+  },
+  {
+    "id": "recds4E6EixYpRGB4",
+    "name": "@propFichier5",
+    "pixValue": 0.8888888888888888,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recAY0CxtpvGYCSjb",
+      "rec1DfuucUzYgpt1j",
+      "rec2tXXVGSmbastxb",
+      "rec14jeQvDmboXR0z"
+    ],
+    "learningMoreTutorialIds": [
+      "recd2OpeErPF8jVfz",
+      "recx4lQCWwIWoGciG",
+      "rec1Qr1jjpfkWjHbN"
+    ],
+    "tubeId": "recwanhWqP3VMPic1",
+    "version": 1,
+    "difficulty": 5
+  },
+  {
+    "id": "recDUnCktq5wj7pZt",
+    "name": "@propFichier2",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [],
+    "learningMoreTutorialIds": [
+      "recANnrcgGAKPezJ2",
+      "rec2srjn7Y8StthsE"
+    ],
+    "tubeId": "recwanhWqP3VMPic1",
+    "version": 1,
+    "difficulty": 2
+  },
+  {
+    "id": "recfSZlSomGI9PQjn",
+    "name": "@organiser1",
+    "pixValue": 1,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec1m7LMZwQ9R4TyS",
+      "tutorial2jQwL6J7OYpMCV",
+      "tutorial1XLs5G2D3sYT8I",
+      "tutorial2pwQ6yz8gQEsC1",
+      "tutorial2OuUMqc0UT20R7"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial1XNaO3c0mkIqMz",
+      "tutorial1d8xcj7puV94Fb"
+    ],
+    "tubeId": "recxZXtOPOhkPh1lv",
+    "version": 1,
+    "difficulty": 1
+  },
+  {
+    "id": "recg4t3r8Cs7RPKXY",
+    "name": "@organiser2",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec1xE7OeLWq7j4Ue",
+      "rec2BmHYAmnojqPCN",
+      "tutorial2dX2fviky80Syc",
+      "tutorial1WCbKApAhTJZ3y",
+      "tutorial240S1avN8LrwBd",
+      "tutorial2BcoMDhREMwOMe"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial2aWxcbUu8tryej",
+      "tutorial2Rw949H8U9OVtb",
+      "tutorial1NrSoUBbutGsYG"
+    ],
+    "tubeId": "recxZXtOPOhkPh1lv",
+    "version": 1,
+    "difficulty": 2
+  },
+  {
+    "id": "recgchJjKU82Vvu8y",
+    "name": "@methodo5",
+    "pixValue": 0.8888888888888888,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [],
+    "learningMoreTutorialIds": [
+      "recDAE77lfxDYoZNZ",
+      "recPSNnP0QMUUlGm"
+    ],
+    "tubeId": "recN4ik49NYTUUbVm",
+    "version": 1,
+    "difficulty": 5
+  },
+  {
+    "id": "rechkkG2SKJmSMJYO",
+    "name": "@enregistrer4",
+    "pixValue": 0.8,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec1WJC1eoa4tk1pG",
+      "tutorial18DdQGP8H8ihFn",
+      "tutorial26SVScwFwBFYVK"
+    ],
+    "learningMoreTutorialIds": [],
+    "tubeId": "recl6FCNC8DBsclHV",
+    "version": 1,
+    "difficulty": 4
+  },
+  {
+    "id": "recINswt85utqO5KJ",
+    "name": "@unite2",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recu55fqZZYpcR75a",
+      "tutorial283adIBxMRGCjP",
+      "tutorial2LL8PYY21VbJwx"
+    ],
+    "learningMoreTutorialIds": [],
+    "tubeId": "rec1gP2RFbGcAaKC3",
+    "version": 1,
+    "difficulty": 2
+  },
+  {
+    "id": "recJYhsVsioiOFycp",
+    "name": "@propFichier1",
+    "pixValue": 1,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [],
+    "learningMoreTutorialIds": [
+      "recANnrcgGAKPezJ2",
+      "rec2srjn7Y8StthsE"
+    ],
+    "tubeId": "recwanhWqP3VMPic1",
+    "version": 1,
+    "difficulty": 1
+  },
+  {
+    "id": "recKYaHdc5CGoxPkS",
+    "name": "@propFichier3",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recRfA6svh6y7hZQ",
+      "tutorial1ekdQVreOBNGdd"
+    ],
+    "learningMoreTutorialIds": [],
+    "tubeId": "recwanhWqP3VMPic1",
+    "version": 1,
+    "difficulty": 3
+  },
+  {
+    "id": "reclbhuUTRGc1jZRL",
+    "name": "@recherche5",
+    "pixValue": 0.8888888888888888,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recuII2xq87wvgseg",
+      "recd4GbWKWfAP4mWc",
+      "recuktm1at8TuXDgo",
+      "rec1M2lxrwVkg3bdZ",
+      "rec1daFu4ECv5yj85",
+      "tutorial2Agdxcl0vJdbln"
+    ],
+    "learningMoreTutorialIds": [],
+    "tubeId": "recps4jQoK8zCW5wI",
+    "version": 1,
+    "difficulty": 5
+  },
+  {
+    "id": "reclnIV3HSkIYkBkG",
+    "name": "@raccourci3",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec2l8VJVGdb1039U",
+      "tutorial2b55skt2wHLAuo"
+    ],
+    "learningMoreTutorialIds": [],
+    "tubeId": "recD8uOgigPBoy8y9",
+    "version": 1,
+    "difficulty": 3
+  },
+  {
+    "id": "recmg4klJHIX2FUXa",
+    "name": "@corbeille4",
+    "pixValue": 0.8,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [],
+    "learningMoreTutorialIds": [
+      "rec1sXLd8RxeTKEXi"
+    ],
+    "tubeId": "rec6pd87izEGLo6f3",
+    "version": 1,
+    "difficulty": 4
+  },
+  {
+    "id": "recnA6Z3NwXsXjPKY",
+    "name": "@recherche3",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial1WmUCZoGkleUXu",
+      "tutorial2zQlpKsPsZEVbb",
+      "tutorial1enp4WLCDaUdOi",
+      "tutorial18tCBDpnPNJvhb"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial18yUZN80hejqIp",
+      "recl9OwJkYn8wP6OJ"
+    ],
+    "tubeId": "recps4jQoK8zCW5wI",
+    "version": 1,
+    "difficulty": 3
+  },
+  {
+    "id": "recoSmMIJddpoZJfL",
+    "name": "@nommage5",
+    "pixValue": 0.8888888888888888,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial2uoWhE2BeTs958",
+      "tutorial1hx9S612Zb1YOS",
+      "tutorial1HWYq899Ncol2b"
+    ],
+    "learningMoreTutorialIds": [
+      "rec3iMLhU1BwwLeYP"
+    ],
+    "tubeId": "recXz8qMNXvEwIPlO",
+    "version": 1,
+    "difficulty": 5
+  },
+  {
+    "id": "recPgAgwqxqrLkPvC",
+    "name": "@fichier3",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rectk6pUBgHAqa3KX",
+      "recVjeX4zse1jj6L",
+      "tutorial18yUZN80hejqIp",
+      "tutorial2bbMY2inH3Gwn1"
+    ],
+    "learningMoreTutorialIds": [
+      "recl9OwJkYn8wP6OJ",
+      "rec2BmHYAmnojqPCN"
+    ],
+    "tubeId": "recfRTGX0vJNzhApQ",
+    "version": 1,
+    "difficulty": 3
+  },
+  {
+    "id": "recrvTvLTUXEcUIV1",
+    "name": "@recherche2",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recWRCFwmqhHXfQP",
+      "tutorial1xrFcoMciFCQLf",
+      "tutorial1kfTltUFDwetZC"
+    ],
+    "learningMoreTutorialIds": [
+      "rec7dXHmJGxxnJL22",
+      "rec1Qr1jjpfkWjHbN",
+      "tutorial1KITFiKPHew4kO",
+      "tutorial15EblIEPRZbo9Y"
+    ],
+    "tubeId": "recps4jQoK8zCW5wI",
+    "version": 1,
+    "difficulty": 2
+  },
+  {
+    "id": "recsBYc8s5lDrQDMx",
+    "name": "@nommage2",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial1tj2ym7qcNRvZ2",
+      "tutorial2fFmpWrNzdw6AA"
+    ],
+    "learningMoreTutorialIds": [
+      "rec3iMLhU1BwwLeYP",
+      "tutorialZJyxkv4apNc2U"
+    ],
+    "tubeId": "recXz8qMNXvEwIPlO",
+    "version": 1,
+    "difficulty": 2
+  },
+  {
+    "id": "recsc0hsRUjJSw1yp",
+    "name": "@unite4",
+    "pixValue": 0.8,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec11gTXrS0QkGLpK",
+      "recMKR7GlIlJycL9",
+      "tutorial2dNPF2X66Aw5YS",
+      "tutorial1BPTFE9FYMIG3l"
+    ],
+    "learningMoreTutorialIds": [],
+    "tubeId": "rec1gP2RFbGcAaKC3",
+    "version": 1,
+    "difficulty": 4
+  },
+  {
+    "id": "recSt4BLhSGpuu8cn",
+    "name": "@fichier1",
+    "pixValue": 1,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec76Ks1Gn4XyG5v2",
+      "rec1J5NHdmhvog4br",
+      "tutorial1Pi5v2jxX8Uis1",
+      "tutorial2vLhgnvcCSjSBh",
+      "tutorial2suNXCVVyRqRuO"
+    ],
+    "learningMoreTutorialIds": [
+      "recKpnZTbIN4GzrGN",
+      "rec1KRmBezaXZzxKN",
+      "tutorialUfEWZP9xiWMUS",
+      "tutorial29U4a9Ama2BVWW"
+    ],
+    "tubeId": "recfRTGX0vJNzhApQ",
+    "version": 1,
+    "difficulty": 1
+  },
+  {
+    "id": "rectUBwphICHyZlZr",
+    "name": "@nommage3",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [],
+    "learningMoreTutorialIds": [
+      "rec3iMLhU1BwwLeYP",
+      "tutorial25cihfmXZJHq5q",
+      "tutorial2UsIhFVmDXzRaH",
+      "tutorial2jFehfTRtIBKUC"
+    ],
+    "tubeId": "recXz8qMNXvEwIPlO",
+    "version": 1,
+    "difficulty": 3
+  },
+  {
+    "id": "recu2j06RGw2JIBYe",
+    "name": "@archive4",
+    "pixValue": 0.8,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recKBeNUWUpBYkLZK",
+      "rec1GcoOLg4P93kAr"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial2omTTsEqCRAUvq"
+    ],
+    "tubeId": "recvb5dvmGFcSrJsA",
+    "version": 1,
+    "difficulty": 4
+  },
+  {
+    "id": "recUvHMSCCrhtSWS6",
+    "name": "@corbeille1",
+    "pixValue": 1,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recqQHQRJBqlKVsd3",
+      "rec1kn2w1iaPLuh3E",
+      "tutorialSE0qPdACSmWgm",
+      "tutorialSLNmM0HeiY87S"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial2Npg6cIeCZ8UBQ",
+      "tutorial18Fj2pWPrRKGTs",
+      "tutorial1nm2ZPy7netlcr"
+    ],
+    "tubeId": "rec6pd87izEGLo6f3",
+    "version": 1,
+    "difficulty": 1
+  },
+  {
+    "id": "recX6aP7OkjU9PVWE",
+    "name": "@methodo3",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recDAE77lfxDYoZNZ",
+      "recPSNnP0QMUUlGm",
+      "tutorial14viTXx5BBIM6b"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial2fpIMF1JIKRB50"
+    ],
+    "tubeId": "recN4ik49NYTUUbVm",
+    "version": 1,
+    "difficulty": 3
+  },
+  {
+    "id": "recYLE9xXQelhycvQ",
+    "name": "@enregistrer2",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec1zdC2ce6UMWutY",
+      "tutorial2FOv5b9TnCByu4",
+      "tutorial1LZc80QjN0qK7t",
+      "tutorial1q2zRFTQqgTWwQ"
+    ],
+    "learningMoreTutorialIds": [
+      "recP03wgP7w6TDtya",
+      "tutorial2QasmDD9llnCgz",
+      "tutorial1Jjfbrl0czZeQK",
+      "tutorial2COllJq0RBvqhU"
+    ],
+    "tubeId": "recl6FCNC8DBsclHV",
+    "version": 1,
+    "difficulty": 2
+  },
+  {
+    "id": "recZbsu9i7LtYnEmx",
+    "name": "@enregistrer1",
+    "pixValue": 1,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec2EoUCGl63ZhdW8",
+      "rec1GqB9YRk3uXVtT",
+      "tutorial2FOv5b9TnCByu4",
+      "tutorial1LZc80QjN0qK7t",
+      "tutorial1J5LOdc4P4d6Ut",
+      "tutorial14hJWAKSyQrrtz"
+    ],
+    "learningMoreTutorialIds": [
+      "recP03wgP7w6TDtya",
+      "tutorial1eOrD7EyaMaokE",
+      "tutorial1MtYvuaNhPoN3u",
+      "tutorial1vUKEZniOh9Sgb"
+    ],
+    "tubeId": "recl6FCNC8DBsclHV",
+    "version": 1,
+    "difficulty": 1
+  },
+  {
+    "id": "skill1cST754XpWS86M",
+    "name": "@schémaBDD7",
+    "pixValue": 2,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial1DgA2B92iacOXU"
+    ],
+    "learningMoreTutorialIds": [],
+    "tubeId": "tube2rrgnWNY6m7WTr",
+    "version": 1,
+    "difficulty": 7
+  },
+  {
+    "id": "skill1M9aj1C7yswrDa",
+    "name": "@support1",
+    "pixValue": 1,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial1bwyKOeN6I1jb1",
+      "tutorial1uwbIDUvvH1cM4"
+    ],
+    "learningMoreTutorialIds": [
+      "reczCNp9JjHHXF9ST",
+      "tutorial17q3jA8cgPhJJg"
+    ],
+    "tubeId": "recnIng2Rdw0drI7N",
+    "version": 2,
+    "difficulty": 1
+  },
+  {
+    "id": "skill1M38Jvl46zGkL6",
+    "name": "@schémaBDD5",
+    "pixValue": 0.8888888888888888,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial1a3Rio30jKrALm",
+      "tutorial2UiojI0kRbcVrz"
+    ],
+    "learningMoreTutorialIds": [],
+    "tubeId": "tube2rrgnWNY6m7WTr",
+    "version": 1,
+    "difficulty": 5
+  },
+  {
+    "id": "skill1Mgzm42utIWwW3",
+    "name": "@fichier7",
+    "pixValue": 2,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial1eBHg7YtKOysG2",
+      "tutorial1QzyI0TIjSgDvv"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial1QGVHrMQ11oN9S"
+    ],
+    "tubeId": "recfRTGX0vJNzhApQ",
+    "version": 1,
+    "difficulty": 7
+  },
+  {
+    "id": "skill1PgBKnEwg8zDh7",
+    "name": "@fichier5",
+    "pixValue": 0.8888888888888888,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recl9OwJkYn8wP6OJ"
+    ],
+    "learningMoreTutorialIds": [
+      "rectk6pUBgHAqa3KX",
+      "rec2BmHYAmnojqPCN",
+      "recVjeX4zse1jj6L",
+      "tutorial1XMOAdcl9S3oaJ"
+    ],
+    "tubeId": "recfRTGX0vJNzhApQ",
+    "version": 2,
+    "difficulty": 5
+  },
+  {
+    "id": "skill1rBtBEKkvNOd1J",
+    "name": "@fichier6",
+    "pixValue": 2,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial1PeumsefbHokze",
+      "tutorial1MmDzhMGSHmn0e",
+      "tutorial15FVD8DVpbxqPx"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial1J4qCe4pGLKT7I",
+      "tutorial1eBHg7YtKOysG2",
+      "tutorial2FWH5PIuAiMTnE"
+    ],
+    "tubeId": "recfRTGX0vJNzhApQ",
+    "version": 2,
+    "difficulty": 6
+  },
+  {
+    "id": "skill1rvnr1PXVlD5Zg",
+    "name": "@sauvegarde3",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial1QEPOb5gpwRHwI",
+      "tutorialL9Z2tU954G7aa",
+      "tutorial1Mq9O4b5XyhKUg",
+      "tutorial2xhTMtHuIgcszK"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial1Y5hSNRQaoc7fc",
+      "tutorial1iHpldOtU113s6"
+    ],
+    "tubeId": "reczOjAWmveW8RSkv",
+    "version": 1,
+    "difficulty": 3
+  },
+  {
+    "id": "skill1THllhUvf7uM56",
+    "name": "@methodo2",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec1kgbwf4VXvD877",
+      "rec1V6BDqk8otOG6c",
+      "reclFoHhqPN4tU25y"
+    ],
+    "learningMoreTutorialIds": [
+      "rec20Gzfsz5SeoEHu"
+    ],
+    "tubeId": "recN4ik49NYTUUbVm",
+    "version": 1,
+    "difficulty": 2
+  },
+  {
+    "id": "skill2aT0NuHClIvMTp",
+    "name": "@archive7",
+    "pixValue": 2,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec2FVBlQ5PVhoVVz",
+      "rec2LurR9hKlIGULl"
+    ],
+    "learningMoreTutorialIds": [
+      "reclXCrlnzv55zcSW",
+      "rec171byfP0KEEYpR"
+    ],
+    "tubeId": "recvb5dvmGFcSrJsA",
+    "version": 1,
+    "difficulty": 7
+  },
+  {
+    "id": "skill2gS94P7x0p2hsD",
+    "name": "@schémaBDD6",
+    "pixValue": 2,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial2Ku7no77AeHDdC",
+      "tutorial2UiojI0kRbcVrz",
+      "tutorial1a3Rio30jKrALm"
+    ],
+    "learningMoreTutorialIds": [],
+    "tubeId": "tube2rrgnWNY6m7WTr",
+    "version": 1,
+    "difficulty": 6
+  },
+  {
+    "id": "skill2gZfeQEUleFDfM",
+    "name": "@support2",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec1XWtVoiezELsE4",
+      "tutorial283adIBxMRGCjP"
+    ],
+    "learningMoreTutorialIds": [
+      "recvEq6Mkzf96S5yt",
+      "rec2XFxm4sza8xlso",
+      "reczCNp9JjHHXF9ST"
+    ],
+    "tubeId": "recnIng2Rdw0drI7N",
+    "version": 2,
+    "difficulty": 2
+  },
+  {
+    "id": "skill2h25gDreWceSC8",
+    "name": "@archive6",
+    "pixValue": 2,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial1q6xUTijy1hn33",
+      "tutorial1Z9ZeaTWqywxjY"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial26ArO7qpvLol5m"
+    ],
+    "tubeId": "recvb5dvmGFcSrJsA",
+    "version": 2,
+    "difficulty": 6
+  },
+  {
+    "id": "skill2loXVlzSgTtqev",
+    "name": "@methodo7",
+    "pixValue": 2,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [],
+    "learningMoreTutorialIds": [
+      "tutorial1MqTA6tIQGiNLh",
+      "tutorial1tshYcEyFJYA1g",
+      "tutorial2rglLrCt6eWExH"
+    ],
+    "tubeId": "recN4ik49NYTUUbVm",
+    "version": 1,
+    "difficulty": 7
+  },
+  {
+    "id": "skill2UjMHytjBH6l05",
+    "name": "@fichier4",
+    "pixValue": 0.8,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "rec2D7cepZKt5GSkV"
+    ],
+    "learningMoreTutorialIds": [
+      "recl9OwJkYn8wP6OJ",
+      "rectk6pUBgHAqa3KX",
+      "rec1WJC1eoa4tk1pG",
+      "rec2BmHYAmnojqPCN",
+      "recVjeX4zse1jj6L"
+    ],
+    "tubeId": "recfRTGX0vJNzhApQ",
+    "version": 2,
+    "difficulty": 4
+  },
+  {
+    "id": "skill12Q2dTaKzfL1HD",
+    "name": "@support3",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial283adIBxMRGCjP"
+    ],
+    "learningMoreTutorialIds": [
+      "rec2fxywSq9eUD81u"
+    ],
+    "tubeId": "recnIng2Rdw0drI7N",
+    "version": 2,
+    "difficulty": 3
+  },
+  {
+    "id": "skill15AUUgGX1TscrT",
+    "name": "@methodo1",
+    "pixValue": 1,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "reclFoHhqPN4tU25y",
+      "rec1V6BDqk8otOG6c",
+      "rec20Gzfsz5SeoEHu"
+    ],
+    "learningMoreTutorialIds": [],
+    "tubeId": "recN4ik49NYTUUbVm",
+    "version": 1,
+    "difficulty": 1
+  },
+  {
+    "id": "skill18uokWtEJymfM1",
+    "name": "@sauvegarde5",
+    "pixValue": 0.8888888888888888,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recoI78FUgCPqOMm8",
+      "recU5l0hgLTLp5lb"
+    ],
+    "learningMoreTutorialIds": [
+      "rec5MHvJteiTfn1tE",
+      "recG5eaS59OhISnxY",
+      "recTj0gsGEyLttUVi",
+      "rec25jpiZ9HoWIONk",
+      "rec1DfPQGVFYQxL15",
+      "rec1M5VPN50APrhUt"
+    ],
+    "tubeId": "reczOjAWmveW8RSkv",
+    "version": 2,
+    "difficulty": 5
+  },
+  {
+    "id": "skill20JpaH6yVUJ66t",
+    "name": "@sauvegarde4",
+    "pixValue": 0.8,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "recYkM7ifwRorIf55",
+      "recmBsllgz1KU6NMi",
+      "recU5l0hgLTLp5lb"
+    ],
+    "learningMoreTutorialIds": [
+      "recCQFYs7bnJ9VHAr",
+      "recEDUqXoaGBZgeEU",
+      "recTj0gsGEyLttUVi",
+      "rec25jpiZ9HoWIONk",
+      "rec1DfPQGVFYQxL15",
+      "rec1M5VPN50APrhUt"
+    ],
+    "tubeId": "reczOjAWmveW8RSkv",
+    "version": 1,
+    "difficulty": 4
+  },
+  {
+    "id": "skillMTKFp2Jpu6vVD",
+    "name": "@schémaBDD4",
+    "pixValue": 0.8,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorialRad35WlZjrm4j",
+      "tutorial2UFP3KrOcRDbLX"
+    ],
+    "learningMoreTutorialIds": [],
+    "tubeId": "tube2rrgnWNY6m7WTr",
+    "version": 1,
+    "difficulty": 4
+  },
+  {
+    "id": "skillU01ug1K6rziJZ",
+    "name": "@recherche1",
+    "pixValue": 1,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial2sqgNsKk8kBVpU",
+      "tutorial2mSmKNcnlb6bzw",
+      "tutorial2BkzQro8ZZO5Ts",
+      "tutorial2iv92X7gBZOT1n",
+      "tutorial2rlAnRRIkbcvDj"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial2baHQPg7gb3KkZ",
+      "tutorial241XvSBB1QR7Re",
+      "tutorial1WfSe2X7hZhui1",
+      "tutorial1Zh1BQRiUL1DMD",
+      "tutorial2OoCxJbATZmptT"
+    ],
+    "tubeId": "recps4jQoK8zCW5wI",
+    "version": 2,
+    "difficulty": 1
+  },
+  {
+    "id": "skillXf3qcOLIFVtnl",
+    "name": "@sauvegarde2",
+    "pixValue": 0.7272727272727273,
+    "competenceId": "recIkYm646lrGvLNT",
+    "tutorialIds": [
+      "tutorial1QEPOb5gpwRHwI",
+      "tutorial2iGdsA8IvZ2gKd"
+    ],
+    "learningMoreTutorialIds": [
+      "tutorial1Y5hSNRQaoc7fc",
+      "tutorialL9Z2tU954G7aa"
+    ],
+    "tubeId": "reczOjAWmveW8RSkv",
+    "version": 2,
+    "difficulty": 2
+  }
+]

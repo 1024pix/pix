@@ -28,6 +28,11 @@
         {{#if this.assessmentComplete}}
           <SmartRandomSimulator::Reset @reset={{this.reset}} />
         {{else if this.currentChallenge}}
+          <SmartRandomSimulator::TubesViewer
+            @tubes={{this.skillsByTube}}
+            @stepsDetails={{this.stepsDetails}}
+            @knowledgeElements={{this.knowledgeElements}}
+          />
           <SmartRandomSimulator::CurrentChallenge
             @assessmentComplete={{this.assessmentComplete}}
             @challenge={{this.currentChallenge}}

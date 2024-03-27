@@ -1,0 +1,42 @@
+<div>
+  <PixSelect
+    class="pix-select-in-table"
+    @onChange={{this.selectStep}}
+    @value={{this.selectValue}}
+    @options={{this.selectOptions}}
+  />
+
+  <p>{{this.stepName}}</p>
+</div>
+
+<table class="tubes-viewer">
+  <thead>
+    <tr>
+      <th>Tube</th>
+      {{#each this.levels as |level|}}
+        <th>{{level}}</th>
+      {{/each}}
+    </tr>
+  </thead>
+  <tbody>
+
+    {{#each @tubes as |tube|}}
+      <tr>
+        <th class="tubes-viewer__name">{{tube.name}}</th>
+        {{#each this.levels as |level|}}
+          <td>
+            <span class="tubes-viewer__skill {{this.getSkillStatus tube level}}" />
+          </td>
+        {{/each}}
+      </tr>
+    {{/each}}
+  </tbody>
+  <caption class="tubes-viewer__captions">
+    <ul>
+      <li class="tubes-viewer__caption"><span class="tubes-viewer__skill present" />Présent</li>
+      <li class="tubes-viewer__caption"><span class="tubes-viewer__skill validated" />Validé</li>
+      <li class="tubes-viewer__caption"><span class="tubes-viewer__skill invalidated" />Invalidé</li>
+      <li class="tubes-viewer__caption"><span class="tubes-viewer__skill eliminated" />Eliminé</li>
+    </ul>
+  </caption>
+</table>

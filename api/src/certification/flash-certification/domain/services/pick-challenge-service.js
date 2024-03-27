@@ -1,12 +1,11 @@
 import hashInt from 'hash-int';
-import _ from 'lodash';
 
 import { config } from '../../../../../lib/config.js';
 import { random } from '../../../../../lib/infrastructure/utils/random.js';
 const NON_EXISTING_ITEM = null;
 const VALIDATED_STATUS = 'validé';
 
-const pickChallenge = function ({ skills, randomSeed, locale }) {
+const pickChallenge = ({ skills, randomSeed, locale }) => {
   if (skills.length === 0) {
     return NON_EXISTING_ITEM;
   }
@@ -14,32 +13,28 @@ const pickChallenge = function ({ skills, randomSeed, locale }) {
   const keyForChallenge = Math.abs(hashInt(randomSeed + 1));
   const chosenSkill = skills[keyForSkill % skills.length];
 
-  return _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, keyForChallenge);
+  return pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, keyForChallenge);
 };
 
-const chooseNextChallenge = function (
-  probabilityToPickChallenge = config.v3Certification.defaultProbabilityToPickChallenge,
-) {
-  return function ({ possibleChallenges }) {
+const chooseNextChallenge =
+  (probabilityToPickChallenge = config.v3Certification.defaultProbabilityToPickChallenge) =>
+  ({ possibleChallenges }) => {
     const challengeIndex = random.binaryTreeRandom(probabilityToPickChallenge, possibleChallenges.length);
 
     return possibleChallenges[challengeIndex];
   };
-};
 
 export const pickChallengeService = { pickChallenge, chooseNextChallenge };
 
-function _pickLocaleChallengeAtIndex(challenges, locale, index) {
-  const localeChallenges = _.filter(challenges, (challenge) => _.includes(challenge.locales, locale));
-  const possibleChallenges = _findPreferablyValidatedChallenges(localeChallenges);
-  return _.isEmpty(possibleChallenges) ? null : _pickChallengeAtIndex(possibleChallenges, index);
-}
+const pickLocaleChallengeAtIndex = (challenges, locale, index) => {
+  const localeChallenges = challenges.filter((challenge) => challenge.locales.includes(locale));
+  const possibleChallenges = findPreferablyValidatedChallenges(localeChallenges);
+  return possibleChallenges.length ? pickChallengeAtIndex(possibleChallenges, index) : null;
+};
 
-function _pickChallengeAtIndex(challenges, index) {
-  return challenges[index % challenges.length];
-}
+const pickChallengeAtIndex = (challenges, index) => challenges[index % challenges.length];
 
-function _findPreferablyValidatedChallenges(localeChallenges) {
-  const validatedChallenges = _.filter(localeChallenges, (challenge) => challenge.status === VALIDATED_STATUS);
+const findPreferablyValidatedChallenges = (localeChallenges) => {
+  const validatedChallenges = localeChallenges.filter((challenge) => challenge.status === VALIDATED_STATUS);
   return validatedChallenges.length > 0 ? validatedChallenges : localeChallenges;
-}
+};

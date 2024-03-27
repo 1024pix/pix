@@ -1,12 +1,12 @@
 <Card class="admin-form__card current-challenge" @title="Épreuve en cours">
   <p>Nom de l'acquis testé : <span class="current-challenge__name">{{@challenge.skill.name}}</span></p>
   <p class="current-challenge__details">Épreuve avec temps imparti ?
-    <PixTag @compact="{{true}}" @color="{{if @challenge.timer 'tertiary' 'neutral'}}">
+    <PixTag @color="{{if @challenge.timer 'tertiary' 'neutral'}}">
       {{if @challenge.timer "Oui" "Non"}}
     </PixTag>
   </p>
   <p class="current-challenge__details">Épreuve focus ?
-    <PixTag @compact="{{true}}" @color="{{if @challenge.focused 'tertiary' 'neutral'}}">
+    <PixTag @color="{{if @challenge.focused 'tertiary' 'neutral'}}">
       {{if @challenge.focused "Oui" "Non"}}
     </PixTag>
   </p>

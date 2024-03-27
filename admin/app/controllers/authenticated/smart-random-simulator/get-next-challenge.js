@@ -3,6 +3,9 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
+import challenges from './challenges.json';
+import skills from './skills.json';
+
 const GET_NEXT_CHALLENGE_API_ROUTE = '/api/admin/smart-random-simulator/get-next-challenge';
 
 const ANSWER_STATUSES = { OK: 'ok', KO: 'ko' };
@@ -14,18 +17,19 @@ export default class SmartRandomSimulator extends Controller {
   @service notifications;
 
   // Simulator parameters
-  @tracked skills = [];
+  @tracked skills = skills;
   @tracked answers = [];
-  @tracked challenges = [];
+  @tracked challenges = challenges;
   @tracked knowledgeElements = [];
 
   @tracked locale = 'fr-fr';
-  @tracked assessmentId = '';
+  @tracked assessmentId = '1';
 
   // Simulator response
   @tracked returnedChallenges = [];
 
   @tracked assessmentComplete = false;
+  @tracked stepsDetails = [];
 
   @action
   async updateParametersValue(key, value) {
@@ -64,6 +68,24 @@ export default class SmartRandomSimulator extends Controller {
     return this.assessmentComplete ? null : this.returnedChallenges[this.returnedChallenges.length - 1];
   }
 
+  get skillsByTube() {
+    return this.skills.reduce((accumulator, skill) => {
+      const tubeName = this.getTubeNameFromSkillName(skill.name);
+      const accumulatorIndex = accumulator.findIndex((tube) => tube.name === tubeName);
+
+      if (accumulatorIndex === -1) {
+        accumulator.push({
+          name: tubeName,
+          skills: [skill],
+        });
+        return accumulator;
+      }
+
+      accumulator[accumulatorIndex].skills.push(skill);
+      return accumulator;
+    }, []);
+  }
+
   async requestNextChallenge() {
     const apiResponse = await window.fetch(GET_NEXT_CHALLENGE_API_ROUTE, {
       method: 'POST',
@@ -91,7 +113,9 @@ export default class SmartRandomSimulator extends Controller {
         break;
       }
       case 200: {
-        this.returnedChallenges = [...this.returnedChallenges, await apiResponse.json()];
+        const responseBody = await apiResponse.json();
+        this.returnedChallenges = [...this.returnedChallenges, responseBody.challenge];
+        this.stepsDetails = responseBody.stepsDetails;
         break;
       }
       default: {
