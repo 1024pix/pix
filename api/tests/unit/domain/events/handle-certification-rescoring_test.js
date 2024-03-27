@@ -830,16 +830,25 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
   });
 
   describe('when handling a v2 certification', function () {
-    it('computes and persists the assessment result and competence marks when computation succeeds', async function () {
-      // given
-      const certificationCourseRepository = {
+    let certificationCourseRepository,
+      assessmentResultRepository,
+      certificationAssessmentRepository,
+      competenceMarkRepository,
+      scoringCertificationService;
+
+    beforeEach(function () {
+      certificationCourseRepository = {
         get: sinon.stub(),
         update: sinon.stub(),
       };
-      const assessmentResultRepository = { save: sinon.stub() };
-      const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
-      const competenceMarkRepository = { save: sinon.stub() };
-      const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+      assessmentResultRepository = { save: sinon.stub() };
+      certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
+      competenceMarkRepository = { save: sinon.stub() };
+      scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+    });
+
+    it('computes and persists the assessment result and competence marks when computation succeeds', async function () {
+      // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         isCancelled: false,
       });
@@ -925,14 +934,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     context('when the certification has not enough non neutralized challenges to be trusted', function () {
       it('cancels the certification and save a not trustable assessment result', async function () {
         // given
-        const certificationCourseRepository = {
-          get: sinon.stub(),
-          update: sinon.stub(),
-        };
-        const assessmentResultRepository = { save: sinon.stub() };
-        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
-        const competenceMarkRepository = { save: sinon.stub() };
-        const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
         const certificationCourse = domainBuilder.buildCertificationCourse({ id: 789 });
 
         const event = new ChallengeNeutralized({ certificationCourseId: 789, juryId: 7 });
@@ -1010,14 +1011,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       context('when it has insufficient correct answers', function () {
         it('cancels the certification and save a not trustable assessment result', async function () {
           // given
-          const certificationCourseRepository = {
-            get: sinon.stub(),
-            update: sinon.stub(),
-          };
-          const assessmentResultRepository = { save: sinon.stub() };
-          const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
-          const competenceMarkRepository = { save: sinon.stub() };
-          const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
           const certificationCourse = domainBuilder.buildCertificationCourse({ id: 789 });
 
           const event = new ChallengeNeutralized({ certificationCourseId: 789, juryId: 7 });
@@ -1095,14 +1088,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     context('when the certification has enough non neutralized challenges to be trusted', function () {
       it('uncancels the certification and save a standard assessment result', async function () {
         // given
-        const certificationCourseRepository = {
-          get: sinon.stub(),
-          update: sinon.stub(),
-        };
-        const assessmentResultRepository = { save: sinon.stub() };
-        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
-        const competenceMarkRepository = { save: sinon.stub() };
-        const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
         const certificationCourse = domainBuilder.buildCertificationCourse({ id: 789, isCancelled: true });
 
         const event = new ChallengeNeutralized({ certificationCourseId: 789, juryId: 7 });
@@ -1181,14 +1166,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       context('when it is rejected for fraud', function () {
         it('save a standard rejected assessment result ', async function () {
           // given
-          const certificationCourseRepository = {
-            get: sinon.stub(),
-            update: sinon.stub(),
-          };
-          const assessmentResultRepository = { save: sinon.stub() };
-          const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
-          const competenceMarkRepository = { save: sinon.stub() };
-          const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
           const certificationCourse = domainBuilder.buildCertificationCourse({
             id: 789,
             isRejectedForFraud: true,
@@ -1269,14 +1246,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       context('when it is rejected for insufficient correct answers', function () {
         it('should create and save an insufficient correct answers assessment result', async function () {
           // given
-          const certificationCourseRepository = {
-            get: sinon.stub(),
-            update: sinon.stub(),
-          };
-          const assessmentResultRepository = { save: sinon.stub() };
-          const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
-          const competenceMarkRepository = { save: sinon.stub() };
-          const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
           const certificationCourse = domainBuilder.buildCertificationCourse({
             id: 789,
           });
@@ -1359,14 +1328,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         context('when the candidate encountered a technical issue during certification', function () {
           it('should cancel the certification and save an assessment result lacking answers for technical reason', async function () {
             // given
-            const certificationCourseRepository = {
-              get: sinon.stub(),
-              update: sinon.stub(),
-            };
-            const assessmentResultRepository = { save: sinon.stub() };
-            const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
-            const competenceMarkRepository = { save: sinon.stub() };
-            const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
             const certificationCourse = domainBuilder.buildCertificationCourse({
               id: 789,
               abortReason: ABORT_REASONS.TECHNICAL,
@@ -1446,14 +1407,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
       it('returns a CertificationRescoringCompleted event', async function () {
         // given
-        const certificationCourseRepository = {
-          get: sinon.stub(),
-          update: sinon.stub(),
-        };
-        const assessmentResultRepository = { save: sinon.stub() };
-        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
-        const competenceMarkRepository = { save: sinon.stub() };
-        const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
         const certificationCourse = domainBuilder.buildCertificationCourse();
 
         const event = new ChallengeNeutralized({ certificationCourseId: certificationCourse.getId(), juryId: 7 });
@@ -1501,11 +1454,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
       it('computes and persists the assessment result in error when computation fails', async function () {
         // given
-        const assessmentResultRepository = { save: sinon.stub() };
-        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
-        const competenceMarkRepository = { save: sinon.stub() };
-        const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
-
         const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
         const certificationAssessment = new CertificationAssessment({
           id: 123,
@@ -1591,14 +1539,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         context(`when event is of type ${eventType}`, function () {
           it(`should save an assessment result with a ${emitter} emitter`, async function () {
             // given
-            const certificationCourseRepository = {
-              get: sinon.stub(),
-              update: sinon.stub(),
-            };
-            const assessmentResultRepository = { save: sinon.stub() };
-            const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
-            const competenceMarkRepository = { save: sinon.stub() };
-            const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
             const certificationCourse = domainBuilder.buildCertificationCourse({
               id: 789,
               isCancelled: false,
