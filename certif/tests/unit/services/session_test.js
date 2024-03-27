@@ -248,7 +248,7 @@ module('Unit | Service | session', function (hooks) {
       });
 
       module('when a lang query param is present', function () {
-        module('when the lang query param is invalid', function () {
+        module('when the lang query param is not supported', function () {
           module('when user is not loaded', function () {
             test('sets the default locale', function (assert) {
               // given
@@ -282,7 +282,7 @@ module('Unit | Service | session', function (hooks) {
           });
         });
 
-        module('when the lang query param is valid', function () {
+        module('when the lang query param is supported', function () {
           module('when user is not loaded', function () {
             test('sets the locale to the lang query param', function (assert) {
               // given
