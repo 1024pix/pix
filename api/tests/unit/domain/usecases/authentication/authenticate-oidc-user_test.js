@@ -21,6 +21,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       oidcAuthenticationService = {
         identityProvider: 'OIDC_EXAMPLE_NET',
         createAccessToken: sinon.stub(),
+        shouldCloseSession: true,
         saveIdToken: sinon.stub(),
         createAuthenticationComplement: sinon.stub(),
         exchangeCodeForTokens: sinon.stub(),
@@ -318,6 +319,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     beforeEach(function () {
       oidcAuthenticationService = {
         identityProvider: POLE_EMPLOI.code,
+        shouldCloseSession: true,
         createAccessToken: sinon.stub(),
         saveIdToken: sinon.stub(),
         createAuthenticationComplement: sinon.stub(),
