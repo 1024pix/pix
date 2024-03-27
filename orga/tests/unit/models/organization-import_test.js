@@ -59,4 +59,24 @@ module('Unit | Model | organization-import-detail', function (hooks) {
       });
     });
   });
+  module('inProgress', function () {
+    ['UPLOADED', 'VALIDATED'].forEach((status) => {
+      test('it should return true', function (assert) {
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization-import-detail', {
+          status,
+        });
+        assert.ok(model.inProgress);
+      });
+    });
+    ['UPLOAD_ERROR', 'VALIDATION_ERROR', 'IMPORT_ERROR', 'IMPORTED'].forEach((status) => {
+      test('it should return false', function (assert) {
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization-import-detail', {
+          status,
+        });
+        assert.notOk(model.inProgress);
+      });
+    });
+  });
 });
