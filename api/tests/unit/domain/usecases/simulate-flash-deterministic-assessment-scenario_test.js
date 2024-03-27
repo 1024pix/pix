@@ -14,7 +14,7 @@ const successAnswerMatcher = sinon.match({
 describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', function () {
   context('when there are enough flash challenges left', function () {
     context('when no initial capacity is provided', function () {
-      it('should return an array of estimated level, challenge, reward and error rate for each answer', async function () {
+      it('should return an array of capacity, challenge, reward and error rate for each answer', async function () {
         // given
         const { challengeRepository, pickChallenge, pickAnswerStatus, flashAlgorithmService } = prepareStubs();
 
@@ -33,7 +33,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         result.forEach((answer) => {
           expect(answer.challenge).not.to.be.undefined;
           expect(answer.errorRate).not.to.be.undefined;
-          expect(answer.estimatedLevel).not.to.be.undefined;
+          expect(answer.capacity).not.to.be.undefined;
           expect(answer.reward).not.to.be.undefined;
           expect(answer.answerStatus).not.to.be.undefined;
         });
@@ -54,7 +54,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           .withArgs({
             difficulty: firstChallenge.difficulty,
             discriminant: firstChallenge.discriminant,
-            estimatedLevel: initialCapacity,
+            capacity: initialCapacity,
           })
           .returns(0.5);
 
@@ -75,7 +75,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         result.forEach((answer) => {
           expect(answer.challenge).not.to.be.undefined;
           expect(answer.errorRate).not.to.be.undefined;
-          expect(answer.estimatedLevel).not.to.be.undefined;
+          expect(answer.capacity).not.to.be.undefined;
           expect(answer.reward).not.to.be.undefined;
           expect(answer.answerStatus).not.to.be.undefined;
         });
@@ -108,19 +108,19 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
             availableChallenges: allChallenges,
-            estimatedLevel: 0,
+            capacity: 0,
             options: getNextChallengesOptionsMatcher,
           })
           .returns([firstChallenge, thirdChallenge, secondChallenge])
           .withArgs({
             availableChallenges: [secondChallenge, thirdChallenge],
-            estimatedLevel: 1,
+            capacity: 1,
             options: getNextChallengesOptionsMatcher,
           })
           .returns([thirdChallenge, secondChallenge])
           .withArgs({
             availableChallenges: [thirdChallenge],
-            estimatedLevel: 2,
+            capacity: 2,
             options: getNextChallengesOptionsMatcher,
           })
           .returns([thirdChallenge]);
@@ -141,7 +141,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         result.forEach((answer) => {
           expect(answer.challenge).not.to.be.undefined;
           expect(answer.errorRate).not.to.be.undefined;
-          expect(answer.estimatedLevel).not.to.be.undefined;
+          expect(answer.capacity).not.to.be.undefined;
           expect(answer.reward).not.to.be.undefined;
           expect(answer.answerStatus).not.to.be.undefined;
         });
@@ -182,7 +182,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         result.forEach((answer) => {
           expect(answer.challenge).not.to.be.undefined;
           expect(answer.errorRate).not.to.be.undefined;
-          expect(answer.estimatedLevel).not.to.be.undefined;
+          expect(answer.capacity).not.to.be.undefined;
           expect(answer.reward).not.to.be.undefined;
           expect(answer.answerStatus).not.to.be.undefined;
         });
@@ -211,7 +211,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         expect(result).to.have.lengthOf(3);
         result.forEach((answer) => {
           expect(answer.challenge).not.to.be.undefined;
-          expect(answer.estimatedLevel).not.to.be.undefined;
+          expect(answer.capacity).not.to.be.undefined;
         });
       });
     });
@@ -233,7 +233,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
       const flashAlgorithmService = {
         getPossibleNextChallenges: sinon.stub(),
-        getEstimatedLevelAndErrorRate: sinon.stub(),
+        getCapacityAndErrorRate: sinon.stub(),
         getReward: sinon.stub(),
       };
 
@@ -251,8 +251,8 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         )
         .returns([]);
 
-      flashAlgorithmService.getEstimatedLevelAndErrorRate.returns({
-        estimatedLevel: 0,
+      flashAlgorithmService.getCapacityAndErrorRate.returns({
+        capacity: 0,
         errorRate: 1,
       });
       flashAlgorithmService.getReward.returns(1);
@@ -282,7 +282,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           answerStatus: AnswerStatus.OK,
           challenge,
           errorRate: sinon.match.number,
-          estimatedLevel: sinon.match.number,
+          capacity: sinon.match.number,
           reward: sinon.match.number,
         },
       ]);
@@ -329,7 +329,7 @@ function prepareStubs({
   const pickAnswerStatus = sinon.stub();
   const flashAlgorithmService = {
     getPossibleNextChallenges: sinon.stub(),
-    getEstimatedLevelAndErrorRate: sinon.stub(),
+    getCapacityAndErrorRate: sinon.stub(),
     getReward: sinon.stub(),
   };
 
@@ -342,74 +342,74 @@ function prepareStubs({
     ),
   );
 
-  flashAlgorithmService.getEstimatedLevelAndErrorRate
+  flashAlgorithmService.getCapacityAndErrorRate
     .withArgs({
       allAnswers: [],
       challenges: sinon.match.any,
-      estimatedLevel: initialCapacity,
+      capacity: initialCapacity,
       variationPercent: undefined,
       variationPercentUntil: undefined,
       doubleMeasuresUntil,
     })
-    .returns({ estimatedLevel: 0, errorRate: 0.1 })
+    .returns({ capacity: 0, errorRate: 0.1 })
     .withArgs({
       allAnswers: [successAnswerMatcher],
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
-      estimatedLevel: initialCapacity,
+      capacity: initialCapacity,
       variationPercent: undefined,
       variationPercentUntil: undefined,
       doubleMeasuresUntil,
     })
-    .returns({ estimatedLevel: 1, errorRate: 1.1 })
+    .returns({ capacity: 1, errorRate: 1.1 })
     .withArgs({
       allAnswers: [successAnswerMatcher, successAnswerMatcher],
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
-      estimatedLevel: initialCapacity,
+      capacity: initialCapacity,
       variationPercent: undefined,
       variationPercentUntil: undefined,
       doubleMeasuresUntil,
     })
-    .returns({ estimatedLevel: 2, errorRate: 2.1 })
+    .returns({ capacity: 2, errorRate: 2.1 })
     .withArgs({
       allAnswers: [successAnswerMatcher, successAnswerMatcher, successAnswerMatcher],
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
-      estimatedLevel: initialCapacity,
+      capacity: initialCapacity,
       variationPercent: undefined,
       variationPercentUntil: undefined,
       doubleMeasuresUntil,
     })
-    .returns({ estimatedLevel: 3, errorRate: 3.1 });
+    .returns({ capacity: 3, errorRate: 3.1 });
 
   flashAlgorithmService.getReward
     .withArgs({
       difficulty: firstChallenge.difficulty,
       discriminant: firstChallenge.discriminant,
-      estimatedLevel: 0,
+      capacity: 0,
     })
     .returns(0.5)
     .withArgs({
       difficulty: secondChallenge.difficulty,
       discriminant: secondChallenge.discriminant,
-      estimatedLevel: 1,
+      capacity: 1,
     })
     .returns(1.5)
     .withArgs({
       difficulty: thirdChallenge.difficulty,
       discriminant: thirdChallenge.discriminant,
-      estimatedLevel: 2,
+      capacity: 2,
     })
     .returns(2.5);
 
   flashAlgorithmService.getPossibleNextChallenges
     .withArgs({
       availableChallenges: allChallenges,
-      estimatedLevel: 0,
+      capacity: 0,
       options: getNextChallengesOptionsMatcher,
     })
     .returns([firstChallenge, thirdChallenge, secondChallenge])
     .withArgs({
       availableChallenges: [thirdChallenge],
-      estimatedLevel: 2,
+      capacity: 2,
       options: getNextChallengesOptionsMatcher,
     })
     .returns([thirdChallenge]);
@@ -418,7 +418,7 @@ function prepareStubs({
     flashAlgorithmService.getPossibleNextChallenges
       .withArgs({
         availableChallenges: [secondChallenge, thirdChallenge],
-        estimatedLevel: 0,
+        capacity: 0,
         options: getNextChallengesOptionsMatcher,
       })
       .returns([thirdChallenge, secondChallenge]);
@@ -426,7 +426,7 @@ function prepareStubs({
     flashAlgorithmService.getPossibleNextChallenges
       .withArgs({
         availableChallenges: [secondChallenge, thirdChallenge],
-        estimatedLevel: 1,
+        capacity: 1,
         options: getNextChallengesOptionsMatcher,
       })
       .returns([thirdChallenge, secondChallenge]);

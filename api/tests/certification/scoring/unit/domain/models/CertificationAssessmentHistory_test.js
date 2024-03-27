@@ -6,7 +6,7 @@ describe('Unit | Domain | Models | CertificationAssessmentHistory', function () 
     it('should return a CertificationAssessmentHistory with the capacity history', function () {
       // given
       const algorithm = {
-        getEstimatedLevelAndErrorRateHistory: sinon.stub(),
+        getCapacityAndErrorRateHistory: sinon.stub(),
       };
 
       const challenges = [
@@ -29,12 +29,12 @@ describe('Unit | Domain | Models | CertificationAssessmentHistory', function () 
         domainBuilder.buildAnswer({ challengeId: 'challenge3', value: 'answer1' }),
       ];
 
-      algorithm.getEstimatedLevelAndErrorRateHistory
+      algorithm.getCapacityAndErrorRateHistory
         .withArgs({
           allAnswers,
           challenges,
         })
-        .returns([{ estimatedLevel: 1 }, { estimatedLevel: 2 }, { estimatedLevel: 3 }]);
+        .returns([{ capacity: 1 }, { capacity: 2 }, { capacity: 3 }]);
 
       // when
       const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({

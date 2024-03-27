@@ -55,7 +55,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     scorecardService = { computeScorecard: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserIdAndAssessmentId: sinon.stub() };
     certificationChallengeLiveAlertRepository = { getOngoingByChallengeIdAndAssessmentId: sinon.stub() };
-    flashAlgorithmService = { getEstimatedLevelAndErrorRate: sinon.stub() };
+    flashAlgorithmService = { getCapacityAndErrorRate: sinon.stub() };
     algorithmDataFetcherService = { fetchForFlashLevelEstimation: sinon.stub() };
     dateUtils = {
       getNowDate: sinon.stub(),
@@ -512,7 +512,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       let scorecard, knowledgeElement, skills, challenge, skillAlreadyValidated, skillNotAlreadyValidated;
       let flashData;
       const locale = 'fr';
-      const estimatedLevel = 1.93274982;
+      const capacity = 1.93274982;
       const errorRate = 0.9127398127;
 
       beforeEach(function () {
@@ -550,8 +550,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
 
         flashData = Symbol('flashData');
         algorithmDataFetcherService.fetchForFlashLevelEstimation.returns(flashData);
-        flashAlgorithmService.getEstimatedLevelAndErrorRate.returns({
-          estimatedLevel,
+        flashAlgorithmService.getCapacityAndErrorRate.returns({
+          capacity,
           errorRate,
         });
       });
@@ -651,10 +651,10 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           ...dependencies,
         });
 
-        expect(flashAlgorithmService.getEstimatedLevelAndErrorRate).to.have.been.calledWithExactly(flashData);
+        expect(flashAlgorithmService.getCapacityAndErrorRate).to.have.been.calledWithExactly(flashData);
       });
 
-      it('should call the flash assessment result repository to save estimatedLevel and errorRate', async function () {
+      it('should call the flash assessment result repository to save capacity and errorRate', async function () {
         // when
         const { id } = await correctAnswerThenUpdateAssessment({
           answer,
@@ -665,7 +665,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
 
         expect(flashAssessmentResultRepository.save).to.have.been.calledWithExactly({
           answerId: id,
-          estimatedLevel,
+          capacity,
           errorRate,
           assessmentId: assessment.id,
         });

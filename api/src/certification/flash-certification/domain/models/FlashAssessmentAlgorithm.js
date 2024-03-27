@@ -38,14 +38,14 @@ class FlashAssessmentAlgorithm {
     assessmentAnswers,
     challenges,
     initialCapacity = config.v3Certification.defaultCandidateCapacity,
-    answersForComputingEstimatedLevel,
+    answersForComputingCapacity,
   }) {
     if (assessmentAnswers.length >= this._configuration.maximumAssessmentLength) {
       throw new AssessmentEndedError();
     }
 
-    const { estimatedLevel } = this.getEstimatedLevelAndErrorRate({
-      allAnswers: answersForComputingEstimatedLevel ?? assessmentAnswers,
+    const { capacity } = this.getCapacityAndErrorRate({
+      allAnswers: answersForComputingCapacity ?? assessmentAnswers,
       challenges,
       initialCapacity,
     });
@@ -60,7 +60,7 @@ class FlashAssessmentAlgorithm {
 
     return this.flashAlgorithmImplementation.getPossibleNextChallenges({
       availableChallenges: challengesAfterRulesApplication,
-      estimatedLevel,
+      capacity,
       options: {
         challengesBetweenSameCompetence: this._configuration.challengesBetweenSameCompetence,
         minimalSuccessRate,
@@ -91,38 +91,38 @@ class FlashAssessmentAlgorithm {
     );
   }
 
-  getEstimatedLevelAndErrorRate({
+  getCapacityAndErrorRate({
     allAnswers,
     challenges,
     initialCapacity = config.v3Certification.defaultCandidateCapacity,
   }) {
-    return this.flashAlgorithmImplementation.getEstimatedLevelAndErrorRate({
+    return this.flashAlgorithmImplementation.getCapacityAndErrorRate({
       allAnswers,
       challenges,
-      estimatedLevel: initialCapacity,
+      capacity: initialCapacity,
       variationPercent: this._configuration.variationPercent,
       variationPercentUntil: this._configuration.variationPercentUntil,
       doubleMeasuresUntil: this._configuration.doubleMeasuresUntil,
     });
   }
 
-  getEstimatedLevelAndErrorRateHistory({
+  getCapacityAndErrorRateHistory({
     allAnswers,
     challenges,
     initialCapacity = config.v3Certification.defaultCandidateCapacity,
   }) {
-    return this.flashAlgorithmImplementation.getEstimatedLevelAndErrorRateHistory({
+    return this.flashAlgorithmImplementation.getCapacityAndErrorRateHistory({
       allAnswers,
       challenges,
-      estimatedLevel: initialCapacity,
+      capacity: initialCapacity,
       variationPercent: this._configuration.variationPercent,
       variationPercentUntil: this._configuration.variationPercentUntil,
       doubleMeasuresUntil: this._configuration.doubleMeasuresUntil,
     });
   }
 
-  getReward({ estimatedLevel, discriminant, difficulty }) {
-    return this.flashAlgorithmImplementation.getReward({ estimatedLevel, discriminant, difficulty });
+  getReward({ capacity, discriminant, difficulty }) {
+    return this.flashAlgorithmImplementation.getReward({ capacity, discriminant, difficulty });
   }
 
   getConfiguration() {

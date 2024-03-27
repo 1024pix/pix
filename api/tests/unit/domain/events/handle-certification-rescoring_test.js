@@ -62,8 +62,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         getMostRecentBeforeDate: sinon.stub(),
       };
       flashAlgorithmService = {
-        getEstimatedLevelAndErrorRate: sinon.stub(),
-        getEstimatedLevelAndErrorRateHistory: sinon.stub(),
+        getCapacityAndErrorRate: sinon.stub(),
+        getCapacityAndErrorRateHistory: sinon.stub(),
       };
 
       certificationAssessmentHistoryRepository = {
@@ -124,14 +124,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           );
           const answers = generateAnswersForChallenges({ challenges });
 
-          const expectedEstimatedLevel = 2;
-          const scoreForEstimatedLevel = 640;
+          const expectedCapacity = 2;
+          const scoreForCapacity = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
             domainBuilder.buildCertificationChallengeCapacity({
               certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
-              capacity: expectedEstimatedLevel,
+              capacity: expectedCapacity,
             }),
           ];
 
@@ -153,31 +153,31 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs({ id: certificationAssessment.certificationCourseId })
             .resolves(abortedCertificationCourse);
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
-              estimatedLevel: sinon.match.number,
+              capacity: sinon.match.number,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns({
-              estimatedLevel: expectedEstimatedLevel,
+              capacity: expectedCapacity,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+          flashAlgorithmService.getCapacityAndErrorRateHistory
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
-              estimatedLevel: sinon.match.number,
+              capacity: sinon.match.number,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns([
               {
-                estimatedLevel: expectedEstimatedLevel,
+                capacity: expectedCapacity,
               },
             ]);
 
@@ -196,7 +196,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             certificationCourseId,
             assessmentResult: new AssessmentResult({
               emitter: AssessmentResult.emitters.PIX_ALGO,
-              pixScore: scoreForEstimatedLevel,
+              pixScore: scoreForCapacity,
               reproducibilityRate: 100,
               status: AssessmentResult.status.REJECTED,
               competenceMarks: [],
@@ -242,14 +242,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           );
           const answers = generateAnswersForChallenges({ challenges });
 
-          const expectedEstimatedLevel = 2;
-          const scoreForEstimatedLevel = 640;
+          const expectedCapacity = 2;
+          const scoreForCapacity = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
             domainBuilder.buildCertificationChallengeCapacity({
               certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
-              capacity: expectedEstimatedLevel,
+              capacity: expectedCapacity,
             }),
           ];
 
@@ -271,31 +271,31 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs({ id: certificationAssessment.certificationCourseId })
             .resolves(abortedCertificationCourse);
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
-              estimatedLevel: sinon.match.number,
+              capacity: sinon.match.number,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns({
-              estimatedLevel: expectedEstimatedLevel,
+              capacity: expectedCapacity,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+          flashAlgorithmService.getCapacityAndErrorRateHistory
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
-              estimatedLevel: sinon.match.number,
+              capacity: sinon.match.number,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns([
               {
-                estimatedLevel: expectedEstimatedLevel,
+                capacity: expectedCapacity,
               },
             ]);
 
@@ -314,7 +314,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             certificationCourseId,
             assessmentResult: new AssessmentResult({
               emitter: AssessmentResult.emitters.PIX_ALGO,
-              pixScore: scoreForEstimatedLevel,
+              pixScore: scoreForCapacity,
               reproducibilityRate: 100,
               status: AssessmentResult.status.REJECTED,
               competenceMarks: [],
@@ -374,14 +374,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           );
           const answers = generateAnswersForChallenges({ challenges });
 
-          const expectedEstimatedLevel = 2;
+          const expectedCapacity = 2;
           const rawScore = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
             domainBuilder.buildCertificationChallengeCapacity({
               certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
-              capacity: expectedEstimatedLevel,
+              capacity: expectedCapacity,
             }),
           ];
 
@@ -407,31 +407,31 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs(abortedCertificationCourse.getStartDate())
             .resolves(baseFlashAlgorithmConfig);
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
-              estimatedLevel: sinon.match.number,
+              capacity: sinon.match.number,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns({
-              estimatedLevel: expectedEstimatedLevel,
+              capacity: expectedCapacity,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+          flashAlgorithmService.getCapacityAndErrorRateHistory
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
-              estimatedLevel: sinon.match.number,
+              capacity: sinon.match.number,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns([
               {
-                estimatedLevel: expectedEstimatedLevel,
+                capacity: expectedCapacity,
               },
             ]);
 
@@ -493,14 +493,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         );
         const answers = generateAnswersForChallenges({ challenges });
 
-        const expectedEstimatedLevel = 2;
-        const scoreForEstimatedLevel = 640;
+        const expectedCapacity = 2;
+        const scoreForCapacity = 640;
         const { certificationCourseId } = certificationAssessment;
 
         const capacityHistory = [
           domainBuilder.buildCertificationChallengeCapacity({
             certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
-            capacity: expectedEstimatedLevel,
+            capacity: expectedCapacity,
           }),
         ];
 
@@ -526,31 +526,31 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           .withArgs({ id: certificationAssessment.certificationCourseId })
           .resolves(abortedCertificationCourse);
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
+        flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
             challenges: certificationChallengesForScoring,
             allAnswers: answers,
-            estimatedLevel: sinon.match.number,
+            capacity: sinon.match.number,
             variationPercent: undefined,
             variationPercentUntil: undefined,
             doubleMeasuresUntil: undefined,
           })
           .returns({
-            estimatedLevel: expectedEstimatedLevel,
+            capacity: expectedCapacity,
           });
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+        flashAlgorithmService.getCapacityAndErrorRateHistory
           .withArgs({
             challenges: certificationChallengesForScoring,
             allAnswers: answers,
-            estimatedLevel: sinon.match.number,
+            capacity: sinon.match.number,
             variationPercent: undefined,
             variationPercentUntil: undefined,
             doubleMeasuresUntil: undefined,
           })
           .returns([
             {
-              estimatedLevel: expectedEstimatedLevel,
+              capacity: expectedCapacity,
             },
           ]);
 
@@ -569,7 +569,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           certificationCourseId,
           assessmentResult: new AssessmentResult({
             emitter: AssessmentResult.emitters.PIX_ALGO,
-            pixScore: scoreForEstimatedLevel,
+            pixScore: scoreForCapacity,
             reproducibilityRate: 100,
             status: AssessmentResult.status.VALIDATED,
             competenceMarks: [],
@@ -621,14 +621,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           );
           const answers = generateAnswersForChallenges({ challenges });
 
-          const expectedEstimatedLevel = 2;
-          const scoreForEstimatedLevel = 640;
+          const expectedCapacity = 2;
+          const scoreForCapacity = 640;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
             domainBuilder.buildCertificationChallengeCapacity({
               certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
-              capacity: expectedEstimatedLevel,
+              capacity: expectedCapacity,
             }),
           ];
 
@@ -654,31 +654,31 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs({ id: certificationAssessment.certificationCourseId })
             .resolves(abortedCertificationCourse);
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
-              estimatedLevel: sinon.match.number,
+              capacity: sinon.match.number,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns({
-              estimatedLevel: expectedEstimatedLevel,
+              capacity: expectedCapacity,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+          flashAlgorithmService.getCapacityAndErrorRateHistory
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
-              estimatedLevel: sinon.match.number,
+              capacity: sinon.match.number,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns([
               {
-                estimatedLevel: expectedEstimatedLevel,
+                capacity: expectedCapacity,
               },
             ]);
 
@@ -694,7 +694,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
           // then
           const assessmentResultToBeSaved = domainBuilder.certification.scoring.buildAssessmentResult.fraud({
-            pixScore: scoreForEstimatedLevel,
+            pixScore: scoreForCapacity,
             reproducibilityRate: 100,
             assessmentId: 123,
           });
@@ -736,14 +736,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
           const answers = generateAnswersForChallenges({ challenges });
 
-          const expectedEstimatedLevel = 8;
-          const cappedScoreForEstimatedLevel = 896;
+          const expectedCapacity = 8;
+          const cappedscoreForCapacity = 896;
           const { certificationCourseId } = certificationAssessment;
 
           const capacityHistory = [
             domainBuilder.buildCertificationChallengeCapacity({
               certificationChallengeId: certificationChallengesForScoring[0].certificationChallengeId,
-              capacity: expectedEstimatedLevel,
+              capacity: expectedCapacity,
             }),
           ];
 
@@ -769,31 +769,31 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             .withArgs({ id: certificationAssessment.certificationCourseId })
             .resolves(abortedCertificationCourse);
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
-              estimatedLevel: sinon.match.number,
+              capacity: sinon.match.number,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns({
-              estimatedLevel: expectedEstimatedLevel,
+              capacity: expectedCapacity,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRateHistory
+          flashAlgorithmService.getCapacityAndErrorRateHistory
             .withArgs({
               challenges: certificationChallengesForScoring,
               allAnswers: answers,
-              estimatedLevel: sinon.match.number,
+              capacity: sinon.match.number,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns([
               {
-                estimatedLevel: expectedEstimatedLevel,
+                capacity: expectedCapacity,
               },
             ]);
 
@@ -801,7 +801,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
             certificationCourseId,
             assessmentResult: new AssessmentResult({
               emitter: AssessmentResult.emitters.PIX_ALGO,
-              pixScore: cappedScoreForEstimatedLevel,
+              pixScore: cappedscoreForCapacity,
               reproducibilityRate: 100,
               status: AssessmentResult.status.VALIDATED,
               competenceMarks: [],

@@ -31,7 +31,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
       pickChallengeService = { pickChallenge: sinon.stub(), chooseNextChallenge: sinon.stub() };
       flashAlgorithmService = {
-        getEstimatedLevelAndErrorRate: sinon.stub(),
+        getCapacityAndErrorRate: sinon.stub(),
         getPossibleNextChallenges: sinon.stub(),
         getReward: sinon.stub(),
       };
@@ -146,24 +146,24 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               challenges,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges,
               allAnswers,
-              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+              capacity: config.v3Certification.defaultCandidateCapacity,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns({
-              estimatedLevel: 0,
+              capacity: 0,
               errorRate: 0.5,
             });
 
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
               availableChallenges: [secondChallenge],
-              estimatedLevel: 0,
+              capacity: 0,
               options: sinon.match.object,
             })
             .returns([secondChallenge]);
@@ -214,24 +214,24 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               challenges,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges,
               allAnswers,
-              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+              capacity: config.v3Certification.defaultCandidateCapacity,
               variationPercent: undefined,
               variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns({
-              estimatedLevel: 0,
+              capacity: 0,
               errorRate: 0.5,
             });
 
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
               availableChallenges: [],
-              estimatedLevel: 0,
+              capacity: 0,
               options: sinon.match.object,
             })
             .returns({
@@ -283,23 +283,23 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               challenges,
             });
 
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
+          flashAlgorithmService.getCapacityAndErrorRate
             .withArgs({
               challenges,
               allAnswers,
-              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+              capacity: config.v3Certification.defaultCandidateCapacity,
               variationPercent: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns({
-              estimatedLevel: 0,
+              capacity: 0,
               errorRate: 0.5,
             });
 
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
               challenges,
-              estimatedLevel: 0,
+              capacity: 0,
               options: sinon.match.object,
             })
             .returns({
