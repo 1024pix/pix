@@ -37,7 +37,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
       expect(error.meta[0].code).to.equal('ENCODING_NOT_SUPPORTED');
     });
 
-    it('should not throw an error if encoding is not in acceptedEncoding config', async function () {
+    it('should not throw an error if encoding is supported', async function () {
       // given
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
@@ -419,10 +419,10 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
 
             // then
             expect(errors.meta).to.lengthOf(2);
-            expect(errors.meta.map((error) => error.code)).to.deep.equal([
-              VALIDATION_ERRORS.FIELD_REQUIRED,
-              VALIDATION_ERRORS.PROPERTY_NOT_UNIQ,
-            ]);
+            expect(errors.meta[0].code).to.equal(VALIDATION_ERRORS.FIELD_REQUIRED);
+            expect(errors.meta[0].meta.line).to.equal(2);
+            expect(errors.meta[1].code).to.equal(VALIDATION_ERRORS.PROPERTY_NOT_UNIQ);
+            expect(errors.meta[1].meta.line).to.equal(3);
           });
 
           it('when there is only one learner', async function () {
@@ -463,10 +463,10 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
 
             // then
             expect(errors.meta).to.lengthOf(2);
-            expect(errors.meta.map((error) => error.code)).to.deep.equal([
-              VALIDATION_ERRORS.FIELD_REQUIRED,
-              VALIDATION_ERRORS.FIELD_DATE_FORMAT,
-            ]);
+            expect(errors.meta[0].code).to.equal(VALIDATION_ERRORS.FIELD_REQUIRED);
+            expect(errors.meta[0].meta.line).to.equal(2);
+            expect(errors.meta[1].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
+            expect(errors.meta[1].meta.line).to.equal(2);
           });
         });
       });
