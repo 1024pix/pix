@@ -41,7 +41,6 @@ server {
     location = /api/swagger.json {
 
         access_by_lua_block {
-                # Lua script to interact with Redis for caching
                 local redis = require "resty.redis"
                 local red = redis:new()
 
