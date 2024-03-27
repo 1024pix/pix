@@ -8,12 +8,14 @@
     display: flex;
     flex-direction: column;
     max-width: 80%;
+    margin-top: auto;
     margin-bottom: 70px;
   }
 
   &__logo {
     align-self: end;
     width: 128px;
+    max-height: 171px;
   }
 }
 
