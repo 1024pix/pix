@@ -94,8 +94,7 @@ module('Unit | Service | session', function (hooks) {
           service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
           // then
-          sinon.assert.calledWith(localeService.setLocaleCookie, FRENCH_FRANCE_LOCALE);
-          assert.ok(true);
+          assert.true(localeService.setLocaleCookie.calledWith(FRENCH_FRANCE_LOCALE));
         });
       });
 
@@ -110,8 +109,7 @@ module('Unit | Service | session', function (hooks) {
           service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
           // then
-          sinon.assert.notCalled(localeService.setLocaleCookie);
-          assert.ok(true);
+          assert.true(localeService.setLocaleCookie.notCalled);
         });
       });
 
@@ -126,8 +124,7 @@ module('Unit | Service | session', function (hooks) {
             service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
-            sinon.assert.calledWith(localeService.setLocale, FRENCH_INTERNATIONAL_LOCALE);
-            assert.ok(true);
+            assert.true(localeService.setLocale.calledWith(FRENCH_INTERNATIONAL_LOCALE));
           });
         });
 
@@ -141,8 +138,7 @@ module('Unit | Service | session', function (hooks) {
             service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
-            sinon.assert.calledWith(localeService.setLocale, FRENCH_INTERNATIONAL_LOCALE);
-            assert.ok(true);
+            assert.true(localeService.setLocale.calledWith(FRENCH_INTERNATIONAL_LOCALE));
           });
         });
       });
@@ -158,8 +154,7 @@ module('Unit | Service | session', function (hooks) {
             service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
-            sinon.assert.calledWith(localeService.setLocale, FRENCH_INTERNATIONAL_LOCALE);
-            assert.ok(true);
+            assert.true(localeService.setLocale.calledWith(FRENCH_INTERNATIONAL_LOCALE));
           });
         });
 
@@ -173,8 +168,7 @@ module('Unit | Service | session', function (hooks) {
             service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
-            sinon.assert.calledWith(localeService.setLocale, FRENCH_INTERNATIONAL_LOCALE);
-            assert.ok(true);
+            assert.true(localeService.setLocale.calledWith(FRENCH_INTERNATIONAL_LOCALE));
           });
         });
       });
@@ -197,8 +191,7 @@ module('Unit | Service | session', function (hooks) {
         service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
         // then
-        sinon.assert.notCalled(localeService.setLocaleCookie);
-        assert.ok(true);
+        assert.true(localeService.setLocaleCookie.notCalled);
       });
 
       module('when no lang query param', function () {
@@ -212,8 +205,7 @@ module('Unit | Service | session', function (hooks) {
             service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
-            sinon.assert.calledWith(localeService.setLocale, DEFAULT_LOCALE);
-            assert.ok(true);
+            assert.true(localeService.setLocale.calledWith(DEFAULT_LOCALE));
           });
         });
 
@@ -243,8 +235,7 @@ module('Unit | Service | session', function (hooks) {
             service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
             // then
-            sinon.assert.calledWith(localeService.setLocale, ENGLISH_INTERNATIONAL_LOCALE);
-            assert.ok(true);
+            assert.true(localeService.setLocale.calledWith(ENGLISH_INTERNATIONAL_LOCALE));
           });
         });
       });
@@ -261,8 +252,7 @@ module('Unit | Service | session', function (hooks) {
               service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
-              sinon.assert.calledWith(localeService.setLocale, DEFAULT_LOCALE);
-              assert.ok(true);
+              assert.true(localeService.setLocale.calledWith(DEFAULT_LOCALE));
             });
           });
 
@@ -276,8 +266,7 @@ module('Unit | Service | session', function (hooks) {
               service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
-              sinon.assert.calledWith(localeService.setLocale, ENGLISH_INTERNATIONAL_LOCALE);
-              assert.ok(true);
+              assert.true(localeService.setLocale.calledWith(ENGLISH_INTERNATIONAL_LOCALE));
             });
           });
         });
@@ -295,8 +284,7 @@ module('Unit | Service | session', function (hooks) {
               service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
-              sinon.assert.calledWith(localeService.setLocale, ENGLISH_INTERNATIONAL_LOCALE);
-              assert.ok(true);
+              assert.true(localeService.setLocale.calledWith(ENGLISH_INTERNATIONAL_LOCALE));
             });
           });
 
@@ -312,8 +300,7 @@ module('Unit | Service | session', function (hooks) {
               service.handleLocale({ isFranceDomain, localeFromQueryParam, userLocale });
 
               // then
-              sinon.assert.calledWith(localeService.setLocale, ENGLISH_INTERNATIONAL_LOCALE);
-              assert.ok(true);
+              assert.true(localeService.setLocale.calledWith(ENGLISH_INTERNATIONAL_LOCALE));
             });
           });
         });
