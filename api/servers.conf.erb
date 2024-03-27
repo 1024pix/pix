@@ -61,12 +61,28 @@ server {
                     return
                 end
 
-                local key = ngx.var.binary_remote_addr
-                local limit = tonumber(red:get(key) or 0)
-                if limit < 10 then
-                    red:incr(key)
+                local limit = 10
+                local key_exists, err = red:exists(key)
+                ngx.log(ngx.INF, "log key : ", key)
+                if key_exists == 1 then
+                    local count, err = red:get(key)
+                    if not count then
+                        red:incr(key)
+                    end
+                    if tonumber(count) < limit then
+                        red:incr(key)
+                    end
+                    ngx.log(ngx.INF, "incremented count", count)
+                    if tonumber(count) > limit then
+                        return ngx.exit(ngx.HTTP_TOO_MANY_REQUESTS)
+                    end
                 else
-                    ngx.exit(ngx.HTTP_TOO_MANY_REQUESTS)
+                    -- Écrire la clé dans Redis si elle n'existe pas
+                    local ok, err = red:set(key, 1)
+                    if not ok then
+                        ngx.log(ngx.ERR, "failed to set limit in Redis: ", err)
+                        return ngx.exit(500)
+                    end
                 end
 
                 local ok, err = red:set_keepalive(10000, 100)
