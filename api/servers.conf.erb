@@ -74,9 +74,9 @@ server {
                     end
                     if tonumber(count) < limit then
                         red:incr(key)
-                    end
-                    ngx.log(ngx.INFO, "incremented count" .. tostring(count))
-                    if tonumber(count) > limit then
+                        ngx.log(ngx.INFO, "incremented count" .. tostring(count))
+                    else
+                        ngx.log(ngx.INFO, "log USER BLOCKED at key count : " .. tostring(count))
                         return ngx.exit(ngx.HTTP_TOO_MANY_REQUESTS)
                     end
                 else
@@ -84,6 +84,13 @@ server {
                     local ok, err = red:incr(key)
                     if not ok then
                         ngx.log(ngx.ERR, "failed to set limit in Redis: ", err)
+                        return ngx.exit(500)
+                    end
+
+                    ok, err = red:expire(key, 1)
+                    ngx.log(ngx.INFO, "log key expire in 1 second : " .. tostring(count))
+                    if not ok then
+                        ngx.log(ngx.ERR, "failed to set expire in Redis: ", err)
                         return ngx.exit(500)
                     end
                 end
