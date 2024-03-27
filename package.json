@@ -65,7 +65,9 @@
   },
   "pnpm": {
     "overrides": {
-      "knex": "^3.0.0"
+      "knex": "^3.0.0",
+      "pix-orga>ember-data": "4.7.3",
+      "pix-certif>ember-data": "4.12.4"
     }
   }
 }
