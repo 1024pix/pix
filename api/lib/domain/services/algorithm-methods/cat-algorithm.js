@@ -22,12 +22,8 @@ const getPredictedLevel = (knowledgeElements, skills) => {
 };
 
 const enumerateCatLevels = () => {
-  const firstLevel = 0.5;
-  const lastLevel = 8; // The upper boundary is not included in the range
-  const levelStep = 0.5;
-  const numberOfSteps = (lastLevel - firstLevel) / levelStep;
-
-  return Array.from({ length: numberOfSteps }, (_, index) => firstLevel + index * levelStep);
+  const catLevelsFromFirstToLastExcludingUpperBoundary = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5];
+  return catLevelsFromFirstToLastExcludingUpperBoundary;
 };
 
 // The probability P(gap) of giving the correct answer is given by the "logistic function"
