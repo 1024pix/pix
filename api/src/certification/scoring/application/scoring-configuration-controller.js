@@ -2,7 +2,8 @@ import { usecases } from '../domain/usecases/index.js';
 
 const saveCompetenceForScoringConfiguration = async (request, h) => {
   const data = request.payload;
-  await usecases.saveCompetenceForScoringConfiguration({ data });
+  const userId = request.auth.credentials.userId;
+  await usecases.saveCompetenceForScoringConfiguration({ data, userId });
   return h.response().code(201);
 };
 

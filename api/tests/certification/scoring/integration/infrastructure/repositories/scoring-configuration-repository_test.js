@@ -11,7 +11,7 @@ import { databaseBuilder, expect, mockLearningContent } from '../../../../../tes
 import { buildArea, buildCompetence, buildFramework } from '../../../../../tooling/domain-builder/factory/index.js';
 import { buildLearningContent } from '../../../../../tooling/learning-content-builder/index.js';
 
-describe('Unit | Repository | scoring-configuration-repository', function () {
+describe('Integration | Repository | scoring-configuration-repository', function () {
   describe('#getLatestByDateAndLocale', function () {
     it('should return a list of competences for scoring', async function () {
       // given
@@ -83,6 +83,7 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
       databaseBuilder.factory.buildCompetenceScoringConfiguration({
         configuration: competenceScoringConfiguration,
         createdAt: firstConfigurationDate,
+        createdByUserId: userId,
       });
       databaseBuilder.factory.buildScoringConfiguration({
         configuration: certificationScoringConfiguration,
@@ -93,6 +94,7 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
       databaseBuilder.factory.buildCompetenceScoringConfiguration({
         configuration: secondCompetenceScoringConfiguration,
         createdAt: secondConfigurationDate,
+        createdByUserId: userId,
       });
       databaseBuilder.factory.buildScoringConfiguration({
         configuration: secondCertificationScoringConfiguration,
@@ -103,6 +105,7 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
       databaseBuilder.factory.buildCompetenceScoringConfiguration({
         configuration: competenceScoringConfiguration,
         createdAt: thirdConfigurationDate,
+        createdByUserId: userId,
       });
       databaseBuilder.factory.buildScoringConfiguration({
         configuration: certificationScoringConfiguration,
@@ -125,15 +128,19 @@ describe('Unit | Repository | scoring-configuration-repository', function () {
   describe('#saveCompetenceForScoringConfiguration', function () {
     it('should save a configuration for competence scoring', async function () {
       // given
-      const data = { some: 'data' };
+      const userId = 1000;
+      databaseBuilder.factory.buildUser({ id: userId });
+      const configuration = { some: 'data' };
+      await databaseBuilder.commit();
 
       // when
-      await saveCompetenceForScoringConfiguration(data);
+      await saveCompetenceForScoringConfiguration({ configuration, userId });
 
       // then
       const configurations = await knex('competence-scoring-configurations');
       expect(configurations.length).to.equal(1);
       expect(configurations[0].configuration).to.deep.equal({ some: 'data' });
+      expect(configurations[0].createdByUserId).to.equal(userId);
     });
   });
 
