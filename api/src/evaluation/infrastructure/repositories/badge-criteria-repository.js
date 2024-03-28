@@ -1,5 +1,5 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { DomainTransaction } from '../DomainTransaction.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 const TABLE_NAME = 'badge-criteria';
 

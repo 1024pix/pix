@@ -1,5 +1,5 @@
-import { MissingBadgeCriterionError } from '../../../src/shared/domain/errors.js';
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import { MissingBadgeCriterionError } from '../errors.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 const createBadge = async function ({
   targetProfileId,

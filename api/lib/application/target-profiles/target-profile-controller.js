@@ -1,4 +1,5 @@
 import { usecases as devcompUsecases } from '../../../src/devcomp/domain/usecases/index.js';
+import { sharedUsecases } from '../../../src/shared/domain/usecases/index.js';
 import * as trainingSummarySerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-summary-serializer.js';
 import * as badgeSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/badge-serializer.js';
 import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
@@ -116,7 +117,7 @@ const createBadge = async function (request, h) {
   const targetProfileId = request.params.id;
   const badgeCreation = await badgeCreationDeserializer.deserialize(request.payload);
 
-  const createdBadge = await usecases.createBadge({ targetProfileId, badgeCreation });
+  const createdBadge = await sharedUsecases.createBadge({ targetProfileId, badgeCreation });
 
   return h.response(badgeSerializer.serialize(createdBadge)).created();
 };

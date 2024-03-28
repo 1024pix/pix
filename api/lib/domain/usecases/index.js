@@ -92,7 +92,6 @@ import * as accountRecoveryDemandRepository from '../../infrastructure/repositor
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method-repository.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
-import * as badgeCriteriaRepository from '../../infrastructure/repositories/badge-criteria-repository.js';
 import * as badgeForCalculationRepository from '../../infrastructure/repositories/badge-for-calculation-repository.js';
 import * as campaignAnalysisRepository from '../../infrastructure/repositories/campaign-analysis-repository.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
@@ -211,7 +210,6 @@ const dependencies = {
   authenticationServiceRegistry,
   authenticationSessionService,
   badgeAcquisitionRepository,
-  badgeCriteriaRepository,
   badgeForCalculationRepository,
   badgeRepository,
   campaignAdministrationRepository,

@@ -3,10 +3,12 @@ import * as targetProfileApi from '../../../prescription/target-profile/applicat
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import * as autonomousCourseRepository from './autonomous-course-repository.js';
 import * as autonomousCourseTargetProfileRepository from './autonomous-course-target-profile-repository.js';
+import * as badgeCriteriaRepository from './badge-criteria-repository.js';
 
 const repositoriesWithoutInjectedDependencies = {
   autonomousCourseRepository,
   autonomousCourseTargetProfileRepository,
+  badgeCriteriaRepository,
 };
 
 const dependencies = {
