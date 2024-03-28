@@ -63,7 +63,7 @@ server {
 
                 local key = ngx.var.binary_remote_addr
                 ngx.log(ngx.INFO, "log key for redis : " .. tostring(key))
-                local limit = 10
+                local limit = 2
                 local key_exists, err = red:exists(key)
                 ngx.log(ngx.INFO, "log key_exists : " .. tostring(key_exists))
                 if key_exists == 1 then
