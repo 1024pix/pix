@@ -51,7 +51,7 @@
           checked={{this.isStageTypeThresholdChecked}}
           {{on "change" this.onStageTypeChange}}
         >
-          Palier par seuil
+          <:label>Palier par seuil</:label>
         </PixRadioButton>
         <PixRadioButton
           name="stageType"
@@ -59,7 +59,7 @@
           checked={{this.isStageTypeLevelChecked}}
           {{on "change" this.onStageTypeChange}}
         >
-          Palier par niveau
+          <:label>Palier par niveau</:label>
         </PixRadioButton>
       {{/if}}
       <div class="add-stage-actions">

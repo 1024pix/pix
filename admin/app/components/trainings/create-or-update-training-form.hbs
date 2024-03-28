@@ -114,7 +114,7 @@
       </PixInput>
       {{#if @model}}
         <PixCheckbox @checked={{this.form.isDisabled}} {{on "change" this.toggleIsDisabled}}>
-          Mettre en pause
+          <:label>Mettre en pause</:label>
         </PixCheckbox>
       {{/if}}
     </Card>

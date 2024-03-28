@@ -105,12 +105,12 @@
     <div class="form-field">
       <PixCheckbox
         @id="isV3Pilot"
-        @labelSize="small"
+        @size="small"
         onChange={{this.updateIsV3Pilot}}
         @checked={{this.form.isV3Pilot}}
         class="form-field certification-center-information__edit-form__is-v3-pilot-checkbox"
       >
-        {{t "components.certification-centers.is-v3-pilot-label"}}
+        <:label>{{t "components.certification-centers.is-v3-pilot-label"}}</:label>
       </PixCheckbox>
     </div>
 

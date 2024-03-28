@@ -56,8 +56,8 @@
     </PixInput>
 
     <div class="form-field">
-      <PixCheckbox @id="isV3Pilot" @labelSize="small" onChange={{this.handleIsV3PilotChange}}>
-        {{t "components.certification-centers.is-v3-pilot-label"}}
+      <PixCheckbox @id="isV3Pilot" @size="small" onChange={{this.handleIsV3PilotChange}}>
+        <:label>{{t "components.certification-centers.is-v3-pilot-label"}}</:label>
       </PixCheckbox>
     </div>
 
@@ -68,10 +68,10 @@
           <li class="habilitation-entry">
             <PixCheckbox
               @id={{concat "habilitation_" index}}
-              @labelSize="small"
+              @size="small"
               onChange={{fn this.updateGrantedHabilitation habilitation}}
             >
-              {{habilitation.label}}
+              <:label>{{habilitation.label}}</:label>
             </PixCheckbox>
           </li>
         {{/each}}

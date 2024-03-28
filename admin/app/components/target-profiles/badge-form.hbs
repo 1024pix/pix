@@ -69,7 +69,7 @@
           @checked={{this.badge.isCertifiable}}
           {{on "change" (fn this.updateFormCheckBoxValue "isCertifiable")}}
         >
-          Certifiable
+          <:label>Certifiable</:label>
         </PixCheckbox>
       </div>
       <div class="badge-form__check-field">
@@ -77,7 +77,7 @@
           @checked={{this.badge.isAlwaysVisible}}
           {{on "change" (fn this.updateFormCheckBoxValue "isAlwaysVisible")}}
         >
-          Lacunes
+          <:label>Lacunes</:label>
         </PixCheckbox>
       </div>
     </Card>
