@@ -6,13 +6,14 @@
     <ComplementaryCertifications::Common::LinkToCurrentTargetProfile @model={{@currentTargetProfile}} />
     {{#if this.isMultipleCurrentTargetProfiles}}
       <PixToggle
-        @label="Accéder aux détails des profils cibles courants"
         @onLabel="Profil 1"
         @offLabel="Profil 2"
         @toggled={{@switchToggle}}
         @onChange={{@switchTargetProfile}}
         @screenReaderOnly={{true}}
-      />
+      >
+        <:label>Accéder aux détails des profils cibles courants</:label>
+      </PixToggle>
     {{/if}}
     {{#if this.hasAccessToAttachNewTargetProfile}}
       <div class="complementary-certification-details-target-profile__attach-button">
