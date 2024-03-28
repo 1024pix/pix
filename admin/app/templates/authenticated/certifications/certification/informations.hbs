@@ -159,14 +159,15 @@
                   <div class="certification-informations__pix-edu__row__jury-level-editor">
                     <section>
                       <PixSelect
-                        @label="Sélectionner un niveau"
                         @screenReaderOnly={{true}}
                         @options={{this.juryLevelOptions}}
                         @value={{this.selectedJuryLevel}}
                         @hideDefaultOption={{true}}
                         @onChange={{this.selectJuryLevel}}
                         @placeholder="Choisir un niveau"
-                      />
+                      >
+                        <:label>Sélectionner un niveau</:label>
+                      </PixSelect>
                     </section>
                     <section>
                       <PixButton

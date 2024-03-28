@@ -14,7 +14,7 @@
 
     <div class="form-field">
       <PixSelect
-        @label="Type d'établissement"
+        @label=""
         @options={{this.certificationCenterTypes}}
         @placeholder="-- Choisissez --"
         @hideDefaultOption={{true}}
@@ -22,9 +22,9 @@
         @value={{@certificationCenter.type}}
         required={{true}}
         aria-required={{true}}
-        as |certificationCenterType|
       >
-        {{certificationCenterType.label}}
+      <:label>Type d'établissement</:label>
+      <:default as |certificationCenterType|>{{certificationCenterType.label}}</:default>
       </PixSelect>
     </div>
 

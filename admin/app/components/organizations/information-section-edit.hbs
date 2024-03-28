@@ -156,12 +156,13 @@
 
     <div class="form-field">
       <PixSelect
-        @label="SSO"
         @options={{this.identityProviderOptions}}
         @value={{this.form.identityProviderForCampaigns}}
         @onChange={{this.onChangeIdentityProvider}}
         @hideDefaultOption={{true}}
-      />
+      >
+        <:label>SSO</:label>
+      </PixSelect>
     </div>
 
     <div class="form-field">

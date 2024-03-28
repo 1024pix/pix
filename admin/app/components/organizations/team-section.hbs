@@ -56,9 +56,10 @@
                 @value={{@organizationRole}}
                 @onChange={{@selectRoleForSearch}}
                 @placeholder="Tous"
-                @label="Rechercher par rôle"
                 @screenReaderOnly={{true}}
-              />
+              >
+                <:label>Rechercher par rôle</:label>
+              </PixSelect>
             </td>
             {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
               <td class="table__column"></td>

@@ -14,14 +14,13 @@
       @onChange={{this.handleOrganizationTypeSelectionChange}}
       @options={{this.organizationTypes}}
       @value={{@organization.type}}
-      @label="Sélectionner un type d'organisation"
       @hideDefaultOption={{true}}
       required
       aria-required={{true}}
       class="form-field"
-      as |organizationType|
     >
-      {{organizationType.label}}
+      <:label>Sélectionner un type d'organisation</:label>
+      <:default as |organizationType|>{{organizationType.label}}</:default>
     </PixSelect>
     <PixInput @id="documentationUrl" onchange={{this.handleDocumentationUrlChange}} class="form-field">
       <:label>Lien vers la documentation</:label>

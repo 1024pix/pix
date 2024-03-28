@@ -5,9 +5,10 @@
       @onChange={{this.onChangeLanguage}}
       @options={{this.options}}
       @hideDefaultOption={{true}}
-      @label="Langue du référentiel (français ou anglais) :"
       class="pdf-modal--select"
-    />
+    >
+      <:label>Langue du référentiel (français ou anglais) :</:label>
+    </PixSelect>
   </:content>
   <:footer>
     <PixButton
