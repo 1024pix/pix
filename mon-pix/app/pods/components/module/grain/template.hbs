@@ -28,7 +28,7 @@
             />
           {{else if (eq element.type "qcm")}}
             <Module::Qcm
-              @qcm={{element}}
+              @element={{element}}
               @submitAnswer={{@submitAnswer}}
               @correction={{this.getLastCorrectionForElement element}}
             />
