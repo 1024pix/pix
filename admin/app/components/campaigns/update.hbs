@@ -87,7 +87,7 @@
           @checked={{this.form.multipleSendings}}
           {{on "change" (fn this.updateFormCheckBoxValue "multipleSendings")}}
         >
-          Envoi multiple
+          <:label>Envoi multiple</:label>
         </PixCheckbox>
       {{/unless}}
 
@@ -101,7 +101,7 @@
               {{on "change" (fn this.updateFormValue "isForAbsoluteNovice")}}
               checked={{this.form.isForAbsoluteNovice}}
             >
-              Oui
+              <:label>Oui</:label>
             </PixRadioButton>
 
             <PixRadioButton
@@ -110,7 +110,7 @@
               {{on "change" (fn this.updateFormValue "isForAbsoluteNovice")}}
               checked={{(not this.form.isForAbsoluteNovice)}}
             >
-              Non
+              <:label>Non</:label>
             </PixRadioButton>
           </:content>
         </Ui::PixFieldset>
