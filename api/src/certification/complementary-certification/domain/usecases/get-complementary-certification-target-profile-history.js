@@ -1,5 +1,17 @@
+/**
+ * @typedef {import ('../../domain/usecases/index.js').TargetProfileHistoryRepository} TargetProfileHistoryRepository
+ * @typedef {import ('../../domain/usecases/index.js').ComplementaryCertificationForTargetProfileAttachmentRepository} ComplementaryCertificationForTargetProfileAttachmentRepository
+ */
 import { ComplementaryCertificationTargetProfileHistory } from '../models/ComplementaryCertificationTargetProfileHistory.js';
 
+/**
+ * @param {Object} params
+ * @param {number} params.complementaryCertificationId
+ * @param {TargetProfileHistoryRepository} params.targetProfileHistoryRepository
+ * @param {ComplementaryCertificationForTargetProfileAttachmentRepository} params.complementaryCertificationForTargetProfileAttachmentRepository
+ *
+ * @returns {Promise<ComplementaryCertificationTargetProfileHistory>} all target profiles than were applicable for this complementary certification
+ */
 const getComplementaryCertificationTargetProfileHistory = async function ({
   complementaryCertificationId,
   targetProfileHistoryRepository,
