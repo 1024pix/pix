@@ -7,48 +7,52 @@
         @value={{fn this.stringify @skills}}
         spellcheck="false"
         class="form-field"
-        @label="Acquis ({{@skills.length}}) :"
         placeholder={{this.stringify this.skillsExample}}
         @subLabel={{fn this.stringify this.skillsExample}}
         {{on "change" (fn this.updateJsonFieldValue "skills")}}
         @errorMessage={{this.errors.skills}}
-      />
+      >
+        <:label>Acquis ({{@skills.length}}) :</:label>
+      </PixTextarea>
       <PixTextarea
         @id="challenges"
         @value={{fn this.stringify @challenges}}
         spellcheck="false"
         class="form-field"
-        @label="Épreuves ({{@challenges.length}}) :"
         placeholder={{this.stringify this.challengesExample}}
         @subLabel={{fn this.stringify this.challengesExample}}
         {{on "change" (fn this.updateJsonFieldValue "challenges")}}
         @errorMessage={{this.errors.challenges}}
-      />
+      >
+        <:label>Épreuves ({{@challenges.length}}) :</:label>
+      </PixTextarea>
     </Card>
 
     <Card class="admin-form__card" @title="Infos de l'utilisateur">
       <PixTextarea
         @id="knowledge-elements"
         class="form-field"
-        @label="Knowledge elements de l'utilisateur ({{@knowledgeElements.length}}) : "
         placeholder={{this.stringify this.knowledgeElementsExample}}
         @subLabel={{fn this.stringify this.knowledgeElementsExample}}
         spellcheck="false"
         @value={{fn this.stringify @knowledgeElements}}
         {{on "change" (fn this.updateJsonFieldValue "knowledgeElements")}}
         @errorMessage={{this.errors.knowledgeElements}}
-      />
+      >
+        <:label>Knowledge elements de l'utilisateur ({{@knowledgeElements.length}}) :</:label>
+      </PixTextarea>
       <PixTextarea
         @id="answers"
         @value={{fn this.stringify @answers}}
         spellcheck="false"
         class="form-field"
-        @label="Réponses de l'utilisateur ({{@answers.length}}) : "
         placeholder={{this.stringify this.answersExample}}
         @subLabel={{fn this.stringify this.answersExample}}
         {{on "change" (fn this.updateJsonFieldValue "answers")}}
         @errorMessage={{this.errors.answers}}
-      />
+      >
+        <:label>Réponses de l'utilisateur ({{@answers.length}}) :</:label>
+      </PixTextarea>
       <PixInput
         @id="assessment-id"
         @value={{@assessmentId}}
@@ -58,11 +62,7 @@
       >
         <:label>ID de l'assessment</:label>
       </PixInput>
-      <PixSelect
-        @options={{this.acceptedLocales}}
-        @onChange={{this.updateLocaleValue}}
-        @value={{@locale}}
-      >
+      <PixSelect @options={{this.acceptedLocales}} @onChange={{this.updateLocaleValue}} @value={{@locale}}>
         <:label>Langue de l'utilisateur</:label>
       </PixSelect>
     </Card>

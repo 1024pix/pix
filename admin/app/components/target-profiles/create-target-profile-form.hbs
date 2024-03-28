@@ -67,20 +67,22 @@
 
       <PixTextarea
         @id="description"
-        @label="Description :"
         @maxlength="500"
         rows="4"
         @value={{@targetProfile.description}}
         {{on "change" (fn this.updateTargetProfileValue "description")}}
-      />
+      >
+        <:label>Description :</:label>
+      </PixTextarea>
       <PixTextarea
         @id="comment"
-        @label="Commentaire (usage interne) :"
         @maxlength="500"
         rows="4"
         @value={{@targetProfile.comment}}
         {{on "change" (fn this.updateTargetProfileValue "comment")}}
-      />
+      >
+        <:label>Commentaire (usage interne) :</:label>
+      </PixTextarea>
     </Card>
   </section>
   <section class="admin-form__actions">

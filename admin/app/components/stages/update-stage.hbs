@@ -46,12 +46,13 @@
       <br />
 
       <PixTextarea
-        @label="Message"
         @id="message"
         @value={{this.message}}
         @errorMessage={{this.messageError}}
         {{on "focusout" this.checkMessageValidity}}
-      />
+      >
+        <:label>Message</:label>
+      </PixTextarea>
       <br />
 
       <label for="prescriberTitle" class="form-field__label">

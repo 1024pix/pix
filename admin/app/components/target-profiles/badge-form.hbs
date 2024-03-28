@@ -48,9 +48,10 @@
           @id="message"
           @value={{this.badge.message}}
           rows="4"
-          @label="Message :"
           {{on "change" (fn this.updateFormValue "message")}}
-        />
+        >
+          <:label>Message :</:label>
+        </PixTextarea>
       </div>
       <div class="badge-form__text-field">
         <PixInput
