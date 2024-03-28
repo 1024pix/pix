@@ -1,5 +1,7 @@
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
+import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
+import PixMessage from '@1024pix/pix-ui/components/pix-message';
 
 const statusI18nLabel = {
   STARTED: 'upload-in-progress',
@@ -53,4 +55,18 @@ export default class ImportBanner extends Component {
     }
     return this.intl.t('pages.organization-participants-import.banner.upload-in-progress');
   }
+
+  <template>
+    {{#if this.displaySuccess}}
+    <p class="success-import-banner">
+      <FaIcon @icon="circle-check" class="success-import-banner__icon" />
+      {{this.successBanner}}
+    </p>
+  {{/if}}
+  {{#if this.displayBanner}}
+    <PixMessage @type={{this.bannerType}} @withIcon="true">
+      {{this.bannerMessage}}
+    </PixMessage>
+  {{/if}}
+  </template>
 }
