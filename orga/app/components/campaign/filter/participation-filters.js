@@ -80,6 +80,7 @@ export default class ParticipationFilters extends Component {
       value: stage.id,
       reachedStage: index,
       totalStage,
+      label: this.intl.t('common.result.stages', { count: index, total: totalStage }),
     }));
   }
 

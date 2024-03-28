@@ -7,7 +7,6 @@
     <PixInput
       @id="campaign-name"
       @name="campaign-name"
-      @label={{t "pages.campaign-modification.campaign-name"}}
       @requiredLabel={{t "common.form.mandatory-fields-title"}}
       class="input"
       maxlength="255"
@@ -15,7 +14,9 @@
       required={{true}}
       @value={{this.name}}
       {{on "change" this.onChangeCampaignName}}
-    />
+    >
+      <:label>{{t "pages.campaign-modification.campaign-name"}}</:label>
+    </PixInput>
     {{#if @campaign.errors.name}}
       <div class="form__error error-message">
         {{display-campaign-errors @campaign.errors.name}}
@@ -33,10 +34,11 @@
       @placeholder={{t "pages.campaign-creation.owner.placeholder"}}
       @searchLabel={{t "pages.campaign-creation.owner.search-placeholder"}}
       @searchPlaceholder={{t "pages.campaign-creation.owner.search-placeholder"}}
-      @label={{t "pages.campaign-creation.owner.label"}}
-      @requiredText={{t "common.form.mandatory-fields-title"}}
+      @requiredLabel={{t "common.form.mandatory-fields-title"}}
       @hideDefaultOption={{true}}
-    />
+    >
+      <:label>{{t "pages.campaign-creation.owner.label"}}</:label>
+    </PixSelect>
     {{#if @campaign.errors.owner}}
       <div class="form__error error-message">
         {{display-campaign-errors @campaign.errors.owner}}
@@ -58,11 +60,12 @@
         @id="campaign-title"
         @name="campaign-title"
         class="form-control"
-        @label={{t "pages.campaign-modification.personalised-test-title"}}
         maxlength="50"
         @value={{this.title}}
         {{on "change" this.onChangeCampaignTitle}}
-      />
+      >
+        <:label>{{t "pages.campaign-modification.personalised-test-title"}}</:label>
+      </PixInput>
       {{#if @campaign.errors.title}}
         <div class="form__error error-message">
           {{display-campaign-errors @campaign.errors.title}}
@@ -74,13 +77,14 @@
   <div class="form__field">
     <PixTextarea
       @id="campaign-custom-landing-page-text"
-      @label={{t "pages.campaign-modification.landing-page-text"}}
       class="form-control"
       @maxlength={{5000}}
       @value={{this.customLandingPageText}}
       {{on "change" this.onChangeCampaignCustomLandingPageText}}
       rows={{8}}
-    />
+    >
+      <:label>{{t "pages.campaign-modification.landing-page-text"}}</:label>
+    </PixTextarea>
     {{#if @campaign.errors.customLandingPageText}}
       <div class="form__error error-message">
         {{display-campaign-errors @campaign.errors.customLandingPageText}}
