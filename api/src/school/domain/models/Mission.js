@@ -9,7 +9,7 @@ class Mission {
     validatedObjectives,
     areaCode,
     startedBy,
-    content = new MissionContent(),
+    content = new MissionContent({}),
   } = {}) {
     this.id = id;
     this.name = name;
