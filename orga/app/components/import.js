@@ -9,6 +9,10 @@ export default class Import extends Component {
   @service errorMessages;
   @service intl;
 
+  get inProgress() {
+    return this.args.organizationImportDetail?.inProgress;
+  }
+
   get displaySuccess() {
     return this.args.organizationImportDetail?.isDone;
   }

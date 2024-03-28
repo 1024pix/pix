@@ -16,16 +16,21 @@
   </div>
 
   <div class="import-card__footer">
-    <PixButtonUpload
-      @id="students-file-upload"
-      @size="small"
-      @onChange={{@onImportStudents}}
-      accept={{@supportedFormats}}
-      aria-describedby="accepted-files"
-    >
-      {{t "pages.organization-participants-import.actions.add-sco.label"}}
-    </PixButtonUpload>
-
+    {{#if @disabled}}
+      <PixButton @isDisabled={{@disabled}} @size="small" aria-describedby="accepted-files">
+        {{t "pages.organization-participants-import.actions.add-sco.label"}}
+      </PixButton>
+    {{else}}
+      <PixButtonUpload
+        @id="students-file-upload"
+        @size="small"
+        @onChange={{@onImportStudents}}
+        accept={{@supportedFormats}}
+        aria-describedby="accepted-files"
+      >
+        {{t "pages.organization-participants-import.actions.add-sco.label"}}
+      </PixButtonUpload>
+    {{/if}}
     <p class="import-card__accepted-files" id="accepted-files">
       {{@acceptedFileType}}
     </p>
