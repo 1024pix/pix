@@ -57,40 +57,38 @@
         </PixInput>
       </div>
       <div class="form-field">
-        <label for="targetProfileDescription" class="form-field__label">
-          Description
-        </label>
         {{#if (v-get this.form "description" "isInvalid")}}
           <div class="form-field__error">
             {{v-get this.form "description" "message"}}
           </div>
         {{/if}}
         <PixTextarea
-          id="targetProfileDescription"
+          @id="targetProfileDescription"
           rows="4"
           @maxlength="500"
           class={{if (v-get this.form "description" "isInvalid") "form-control is-invalid" "form-control"}}
           @value={{this.form.description}}
           {{on "change" (fn this.updateFormValue "description")}}
-        />
+        >
+          <:label>Description</:label>
+        </PixTextarea>
       </div>
       <div class="form-field">
-        <label for="targetProfileComment" class="form-field__label">
-          Commentaire (usage interne)
-        </label>
         {{#if (v-get this.form "comment" "isInvalid")}}
           <div class="form-field__error">
             {{v-get this.form "comment" "message"}}
           </div>
         {{/if}}
         <PixTextarea
-          id="targetProfileComment"
+          @id="targetProfileComment"
           rows="4"
           @maxlength="500"
           class={{if (v-get this.form "comment" "isInvalid") "form-control is-invalid" "form-control"}}
           @value={{this.form.comment}}
           {{on "change" (fn this.updateFormValue "comment")}}
-        />
+        >
+          <:label>Commentaire (usage interne)</:label>
+        </PixTextarea>
       </div>
       <div class="form-field">
         <PixCheckbox

@@ -2,14 +2,15 @@
   <:content>
     <PixTextarea
       @id="resolve-reason"
-      @label="Résolution"
       @value={{@issueReport.resolution}}
       type="text"
       maxLength="255"
       @errorMessage={{this.errorMessage}}
       {{on "change" this.onChangeLabel}}
       {{focus}}
-    />
+    >
+      <:label>Résolution</:label>
+    </PixTextarea>
   </:content>
 
   <:footer>

@@ -49,10 +49,11 @@
         @id="text-page-accueil"
         class="form-field"
         @maxlength="5000"
-        @label="Texte de la page d'accueil : "
         placeholder="Exemple : description, objectifs..."
         {{on "change" (fn this.updateAutonomousCourseValue "customLandingPageText")}}
-      />
+      >
+        <:label>Texte de la page d'accueil :</:label>
+      </PixTextarea>
     </Card>
   </section>
   <section class="admin-form__actions">

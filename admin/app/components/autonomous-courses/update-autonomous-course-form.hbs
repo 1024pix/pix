@@ -29,11 +29,12 @@
   <PixTextarea
     @id="text-page-accueil"
     @maxlength="5000"
-    @label="Texte de la page d'accueil&nbsp;:&nbsp;"
     @value={{@autonomousCourse.customLandingPageText}}
     placeholder="Exemple : description, objectifs..."
     {{on "change" (fn this.updateAutonomousCourseValue "customLandingPageText")}}
-  />
+  >
+    <:label>Texte de la page d'accueil :</:label>
+  </PixTextarea>
   <div class="form-actions">
     <PixButton
       type="reset"

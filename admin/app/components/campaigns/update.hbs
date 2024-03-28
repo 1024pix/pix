@@ -35,26 +35,28 @@
 
       <PixTextarea
         @id="customLandingPageText"
-        @label="Texte de la page d'accueil"
         @value={{this.form.customLandingPageText}}
         @errorMessage={{this.customLandingPageTextError.message}}
         @validationStatus={{this.customLandingPageTextError.state}}
         @maxlength="5000"
         rows="8"
         {{on "change" (fn this.updateFormValue "customLandingPageText")}}
-      />
+      >
+        <:label>Texte de la page d'accueil</:label>
+      </PixTextarea>
 
       {{#if @campaign.isTypeAssessment}}
         <PixTextarea
           @id="customResultPageText"
-          @label="Texte de la page de fin de parcours"
           @value={{this.form.customResultPageText}}
           @errorMessage={{this.customResultPageTextError.message}}
           @validationStatus={{this.customResultPageTextError.state}}
           @maxlength="5000"
           rows="8"
           {{on "change" (fn this.updateFormValue "customResultPageText")}}
-        />
+        >
+          <:label>Texte de la page de fin de parcours</:label>
+        </PixTextarea>
 
         <PixInput
           @id="customResultPageButtonText"
