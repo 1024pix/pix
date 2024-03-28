@@ -50,19 +50,23 @@ class ImportOrganizationLearnerSet {
   }
 
   #checkUnicityRule(learnerAttributes) {
-    const unicityKeys = [];
-    this.validationRules.unicity.forEach((rule) => {
-      unicityKeys.push(learnerAttributes.attributes[rule]);
-    });
-    const unicityEntity = unicityKeys.join('-');
-    if (!this.#unicityKeys.includes(unicityEntity)) {
-      this.#unicityKeys.push(unicityEntity);
+    const learnerUnicityValues = this.#getLearnerUnicityValues(learnerAttributes);
+    if (!this.#unicityKeys.includes(learnerUnicityValues)) {
+      this.#unicityKeys.push(learnerUnicityValues);
       return null;
     } else {
       return ModelValidationError.unicityError({
         key: this.validationRules.unicity.join('-'),
       });
     }
+  }
+
+  #getLearnerUnicityValues(learnerAttributes) {
+    const unicityKeys = [];
+    this.validationRules.unicity.forEach((rule) => {
+      unicityKeys.push(learnerAttributes.attributes[rule]);
+    });
+    return unicityKeys.join('-');
   }
 
   #checkValidations(learnerAttributes) {
