@@ -7,7 +7,7 @@ import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-module.only('Integration | Component | Import', function (hooks) {
+module('Integration | Component | Import', function (hooks) {
   setupIntlRenderingTest(hooks);
   let organizationImportDetail;
   hooks.beforeEach(function () {
@@ -51,7 +51,7 @@ module.only('Integration | Component | Import', function (hooks) {
       assert.strictEqual(screen.getAllByRole('listitem').length, 1);
     });
   });
-  module.skip('inProgress', function (hooks) {
+  module('inProgress', function (hooks) {
     hooks.beforeEach(function () {
       class CurrentUserStub extends Service {
         isAdminInOrganization = true;
@@ -72,21 +72,13 @@ module.only('Integration | Component | Import', function (hooks) {
       // when
       this.set('organizationImportDetail', organizationImportDetail);
       const screen = await render(hbs`<Import
-  @onImportSupStudents={{this.onImportSupStudents}}
-  @onImportScoStudents={{this.onImportScoStudents}}
-  @onReplaceStudents={{this.onReplaceStudents}}
-  @organizationImportDetail={{this.organizationImportDetail}}
-/>`);
-      assert.ok(
-        screen.getByText(
-          this.intl.t('pages.organization-participants-import.validation-in-progress', {
-            firstName: 'Richard',
-            lastName: 'Aldana',
-            date: new Date(2020, 10, 2).toLocaleDateString(),
-          }),
-        ),
-      );
-      assert.ok(screen.getByRole('link', 'mailto:sup@pix.fr'));
+        @onImportSupStudents={{this.onImportSupStudents}}
+        @onImportScoStudents={{this.onImportScoStudents}}
+        @onReplaceStudents={{this.onReplaceStudents}}
+        @organizationImportDetail={{this.organizationImportDetail}}
+      />`);
+
+      assert.ok(screen.getByText(this.intl.t('pages.organization-participants-import.validation-in-progress')));
     });
   });
 

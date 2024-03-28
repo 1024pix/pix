@@ -935,6 +935,15 @@
         }
       },
       "anchor-error": "Voir la liste des erreurs.",
+      "banner": {
+        "in-progress-text": "Merci de rafraîchir sur cette page dans quelques instants pour connaitre l’état de traitement du fichier.",
+        "import-error": "L'import des participants a échoué.",
+        "import-in-progress": "Le contenu du fichier est validé, l’import des participants est en cours.",
+        "upload-completed": "Le fichier a été importé le {date} par {firstName} {lastName}.",
+        "upload-error": "Le fichier n'a pas pu être importé.",
+        "validation-error": "Le contenu du fichier comporte des erreurs.",
+        "validation-in-progress": "Le contenu du fichier est en cours de validation."
+      },
       "error-panel": {
         "title": "Liste des erreurs rencontrées",
         "error-wrapper": "Aucun participant n’a été importé. Veuillez modifier votre fichier et l’importer à nouveau.",
@@ -942,9 +951,6 @@
       },
       "file-type-separator": ", ",
       "global-success": "Dernier fichier importé avec succès le {date} par {firstName} {lastName}.",
-      "in-progress-text": "Merci de rafraîchir sur cette page dans quelques instants pour connaitre l’état de traitement du fichier.",
-      "process-error": "L'import des participants a échoué.",
-      "process-in-progress": "Le contenu du fichier est validé, l’import des participants est en cours.",
       "sco": {
         "title": "Importer des élèves"
       },
@@ -952,11 +958,7 @@
         "title": "Importer des étudiants"
       },
       "supported-formats": "(formats supportés : {types})",
-      "upload-completed": "Le fichier a été importé le {date} par {firstName} {lastName}.",
-      "upload-error": "Le fichier n'a pas pu être importé.",
       "upload-in-progress": "L’import du fichier peut prendre quelques minutes. Merci de ne pas quitter cette page.",
-      "validation-error": "Le contenu du fichier comporte des erreurs.",
-      "validation-in-progress": "Le contenu du fichier est en cours de validation.",
       "warning-banner": "Certaines valeurs n’ont pas été reconnues. Elles ont été remplacées par “Non reconnu”. Si vous considérez qu’il manque des valeurs dans la liste limitative, veuillez nous contacter à '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
       "warnings": {
         "diploma": "Diplômes non reconnus : {diplomas}; ",

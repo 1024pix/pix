@@ -935,6 +935,15 @@
         }
       },
       "anchor-error": "See the list of errors.",
+      "banner": {
+        "in-progress-text": "Please refresh this page in a few moments to see the status of the file.",
+        "import-error": "The import of participants has failed.",
+        "import-in-progress": "The content of the file has been validated and the participants are now being imported in PixOrga.",
+        "upload-completed": "The file was imported on {date} by {firstName} {lastName}.",
+        "upload-error": "The file could not be imported.",
+        "validation-error": "The file content contains errors.",
+        "validation-in-progress": "The contents of the file are currently being validated."
+      },
       "error-panel": {
         "title": "Errors list encountered",
         "error-wrapper": "Import has failed. Please check or edit your file and try to import it again.",
@@ -942,9 +951,6 @@
       },
       "file-type-separator": " or ",
       "global-success": "Last file successfully imported on {date} by {firstName} {lastName}.",
-      "in-progress-text": "Please refresh this page in a few moments to see the status of the file.",
-      "process-error": "The import of participants has failed.",
-      "process-in-progress": "The content of the file has been validated and the participants are now being imported in PixOrga.",
       "sco": {
         "title": "Import students"
       },
@@ -952,11 +958,7 @@
         "title": "Import students"
       },
       "supported-formats": "(supported format: {types})",
-      "upload-completed": "The file was imported on {date} by {firstName} {lastName}.",
-      "upload-error": "The file could not be imported.",
       "upload-in-progress": "It may take a few minutes to import the file. Please do not leave this page.",
-      "validation-error": "The file content contains errors.",
-      "validation-in-progress": "The contents of the file are currently being validated.",
       "warning-banner": "However some values were not recognised. They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
       "warnings": {
         "diploma": "Diplomas unknown: {diplomas}; ",
