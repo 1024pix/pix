@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
 import * as certificationPointOfContactRepository from '../../../../lib/infrastructure/repositories/certification-point-of-contact-repository.js';
+import { Organization } from '../../../../src/shared/domain/models/Organization.js';
 import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | CertificationPointOfContact', function () {

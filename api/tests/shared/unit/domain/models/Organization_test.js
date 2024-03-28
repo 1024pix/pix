@@ -1,6 +1,6 @@
-import { Organization } from '../../../../lib/domain/models/Organization.js';
-import { Tag } from '../../../../lib/domain/models/Tag.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { Tag } from '../../../../../lib/domain/models/Tag.js';
+import { Organization } from '../../../../../src/shared/domain/models/Organization.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Organization', function () {
   describe('constructor', function () {

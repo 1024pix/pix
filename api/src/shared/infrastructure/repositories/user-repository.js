@@ -11,7 +11,6 @@ import { AuthenticationMethod } from '../../../../lib/domain/models/Authenticati
 import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { User } from '../../../../lib/domain/models/User.js';
 import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
@@ -19,6 +18,7 @@ import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js
 import { fetchPage, isUniqConstraintViolated } from '../../../../lib/infrastructure/utils/knex-utils.js';
 import { UserLogin } from '../../../authentication/domain/models/UserLogin.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { Organization } from '../../domain/models/Organization.js';
 
 const getByEmail = async function (email) {
   const foundUser = await knex.from('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
