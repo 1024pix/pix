@@ -1,32 +1,31 @@
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-
 async function getChallenge({
-  missionId,
+  mission,
   activityLevel,
   challengeNumber,
   alternativeVersion,
-  challengeRepository,
+  sharedChallengeRepository,
   locale,
 }) {
-  try {
-    const challenges = await challengeRepository.getChallengeFor1d({
-      missionId,
-      activityLevel,
-      challengeNumber,
-      locale,
-    });
-    const challengeForSelectedAltVersion = challenges.find(
-      (challenge) => challenge.alternativeVersion === alternativeVersion,
-    );
-    if (challengeForSelectedAltVersion === undefined) {
-      return challenges[0];
-    }
-    return challengeForSelectedAltVersion;
-  } catch (error) {
-    if (!(error instanceof NotFoundError)) {
-      throw error;
-    }
-  }
+  return sharedChallengeRepository.get('');
+  // try {
+  //   const challenges = await challengeRepository.getChallengeFor1d({
+  //     missionId,
+  //     activityLevel,
+  //     challengeNumber,
+  //     locale,
+  //   });
+  //   const challengeForSelectedAltVersion = challenges.find(
+  //     (challenge) => challenge.alternativeVersion === alternativeVersion,
+  //   );
+  //   if (challengeForSelectedAltVersion === undefined) {
+  //     return challenges[0];
+  //   }
+  //   return challengeForSelectedAltVersion;
+  // } catch (error) {
+  //   if (!(error instanceof NotFoundError)) {
+  //     throw error;
+  //   }
+  // }
 }
 
 async function getAlternativeVersion({

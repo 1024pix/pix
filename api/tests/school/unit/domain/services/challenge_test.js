@@ -11,20 +11,22 @@ describe('Unit | Service | Challenge', function () {
       const locale = 'fr';
       const challengeNumber = 1;
       const alternativeVersion = null;
-      const challengeRepository = {
-        getChallengeFor1d: sinon.stub(),
+      const sharedChallengeRepository = {
+        get: sinon.stub(),
       };
+      const expectedChallenge = domainBuilder.buildChallenge({ id: 'challenge-id' });
+      sharedChallengeRepository.get.resolves(expectedChallenge);
 
       const challenge = await challengeService.getChallenge({
         mission,
         activityLevel,
         challengeNumber,
         alternativeVersion,
-        challengeRepository,
+        sharedChallengeRepository,
         locale,
       });
 
-      expect(challenge).to.deep.equal({});
+      expect(challenge).to.deep.equal(expectedChallenge);
     });
     it('calls challengeRepository#getChallengeFor1d with goods arguments', function () {
       const missionId = 'mission_id';

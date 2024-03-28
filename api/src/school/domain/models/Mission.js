@@ -9,7 +9,7 @@ class Mission {
     validatedObjectives,
     areaCode,
     startedBy,
-    content = new MissionContent({}),
+    content = new MissionContent(),
   } = {}) {
     this.id = id;
     this.name = name;
@@ -25,7 +25,12 @@ class Mission {
 }
 
 class MissionContent {
-  constructor({ tutorialChallenges = [], trainingChallenges = [], validationChallenges = [], dareChallenges = [] }) {
+  constructor({
+    tutorialChallenges = [],
+    trainingChallenges = [],
+    validationChallenges = [],
+    dareChallenges = [],
+  } = {}) {
     this.tutorialChallenges = tutorialChallenges;
     this.trainingChallenges = trainingChallenges;
     this.validationChallenges = validationChallenges;
@@ -33,4 +38,4 @@ class MissionContent {
   }
 }
 
-export { Mission };
+export { Mission, MissionContent };
