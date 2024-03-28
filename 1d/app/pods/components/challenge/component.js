@@ -13,6 +13,17 @@ export default class Challenge extends Component {
   get disableCheckButton() {
     return this.answerValue === null || this.answerValue === '';
   }
+
+  get robotMood() {
+    if (this.answer?.result === 'ok') {
+      return 'very-happy';
+    }
+    if (this.answer?.result === 'ko') {
+      return 'sad';
+    }
+    return '';
+  }
+
   @action
   setAnswerValue(value) {
     this.answerValue = value;
