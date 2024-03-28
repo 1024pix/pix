@@ -6,7 +6,7 @@ const findByUserId = async function ({ userId }) {
     .select({
       id: 'complementary-certification-courses.id',
       hasExternalJury: 'complementary-certifications.hasExternalJury',
-      complementaryCertificationBadgeId: 'complementary-certification-badges.id',
+      complementaryCertificationBadgeId: 'targetedBadge.id',
       results: knex.raw(
         `array_agg(json_build_object(
         'id', "complementary-certification-course-results".id,
@@ -27,9 +27,14 @@ const findByUserId = async function ({ userId }) {
       'complementary-certification-courses.complementaryCertificationId',
     )
     .innerJoin(
-      'complementary-certification-badges',
-      'complementary-certification-badges.id',
+      'complementary-certification-badges as targetedBadge',
+      'targetedBadge.id',
       'complementary-certification-courses.complementaryCertificationBadgeId',
+    )
+    .innerJoin(
+      'complementary-certification-badges as resultBadge',
+      'resultBadge.id',
+      'complementary-certification-course-results.complementaryCertificationBadgeId',
     )
     .innerJoin(
       'certification-courses',
@@ -37,8 +42,8 @@ const findByUserId = async function ({ userId }) {
       'complementary-certification-courses.certificationCourseId',
     )
     .where({ userId })
-    .groupBy('hasExternalJury', 'complementary-certification-badges.id', 'complementary-certification-courses.id')
-    .orderBy('complementary-certification-badges.id');
+    .groupBy('hasExternalJury', 'targetedBadge.id', 'complementary-certification-courses.id')
+    .orderBy('targetedBadge.id');
 
   if (!results.length) return [];
 
