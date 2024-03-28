@@ -4,9 +4,9 @@ async function getChallenge({
   challengeNumber,
   alternativeVersion,
   sharedChallengeRepository,
-  locale,
+  // locale,
 }) {
-  return sharedChallengeRepository.get('');
+  return sharedChallengeRepository.get(mission.content.trainingChallenges[0][0]);
   // try {
   //   const challenges = await challengeRepository.getChallengeFor1d({
   //     missionId,

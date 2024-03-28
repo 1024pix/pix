@@ -1,5 +1,6 @@
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
+import { MissionContent } from '../../../../../src/school/domain/models/Mission.js';
 import { challengeService } from '../../../../../src/school/domain/services/challenge.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
@@ -8,7 +9,6 @@ describe('Unit | Service | Challenge', function () {
     it('Should return a challenge', async function () {
       const mission = domainBuilder.buildMission();
       const activityLevel = Activity.levels.TRAINING;
-      const locale = 'fr';
       const challengeNumber = 1;
       const alternativeVersion = null;
       const sharedChallengeRepository = {
@@ -23,36 +23,33 @@ describe('Unit | Service | Challenge', function () {
         challengeNumber,
         alternativeVersion,
         sharedChallengeRepository,
-        locale,
       });
 
       expect(challenge).to.deep.equal(expectedChallenge);
     });
     it('calls challengeRepository#getChallengeFor1d with goods arguments', function () {
-      const missionId = 'mission_id';
+      const challengeId = 'challenge_en_1';
+      const mission = domainBuilder.buildMission({
+        content: {
+          trainingChallenges: [[challengeId]],
+        },
+      });
       const activityLevel = Activity.levels.TRAINING;
-      const locale = 'fr';
       const challengeNumber = 1;
       const alternativeVersion = null;
-      const challengeRepository = {
-        getChallengeFor1d: sinon.stub(),
+      const sharedChallengeRepository = {
+        get: sinon.stub(),
       };
 
       challengeService.getChallenge({
-        missionId,
+        mission,
         activityLevel,
         challengeNumber,
         alternativeVersion,
-        challengeRepository,
-        locale,
+        sharedChallengeRepository,
       });
 
-      expect(challengeRepository.getChallengeFor1d).to.have.been.calledOnceWith({
-        missionId,
-        activityLevel,
-        challengeNumber,
-        locale,
-      });
+      expect(sharedChallengeRepository.get).to.have.been.calledOnceWith(challengeId);
     });
 
     describe('with alternativeVersion', function () {
