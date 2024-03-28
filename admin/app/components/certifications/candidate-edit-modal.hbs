@@ -67,7 +67,9 @@
           @onChange={{this.selectBirthCountry}}
           @value={{this.selectedCountryOption}}
           required
-        />
+        >
+          <:label>Pays de naissance</:label>
+        </PixSelect>
       </div>
 
       {{#if this.isBirthGeoCodeRequired}}

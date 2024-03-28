@@ -20,13 +20,15 @@
 
     <div class="form-field">
       <PixSelect
-        @label="Type"
         @options={{this.certificationCenterTypes}}
         @placeholder="-- Choisissez --"
         @value={{this.form.type}}
         @onChange={{this.selectCertificationCenterType}}
         @errorMessage={{v-get this.form "type" "message"}}
-      />
+      >
+        <:label>Type</:label>
+        <:default as |certificationCenterType|>{{certificationCenterType.label}}</:default>
+      </PixSelect>
     </div>
 
     <div class="form-field">

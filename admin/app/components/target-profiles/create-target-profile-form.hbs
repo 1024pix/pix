@@ -17,16 +17,17 @@
       </PixInput>
 
       <PixSelect
-        @label="Catégorie :"
         @onChange={{this.updateCategory}}
         @value={{@targetProfile.category}}
         @options={{this.optionsList}}
         @placeholder="-"
         @hideDefaultOption={{true}}
         required={{true}}
-        @requiredText="Champ obligatoire"
+        @requiredLabel="Champ obligatoire"
         aria-required={{true}}
-      />
+      >
+        <:label>Catégorie :</:label>
+      </PixSelect>
       <div class="create-target-profile__is-public">
         <label for="isPublic">Public :</label>
         <Input @type="checkbox" @checked={{@targetProfile.isPublic}} id="isPublic" />

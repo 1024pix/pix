@@ -58,14 +58,15 @@
       </div>
       <div class="form-field">
         <PixSelect
-          @label="Catégorie :"
           @options={{this.categories}}
           @placeholder="Sélectionnez une catégorie"
           @onChange={{this.selectCategory}}
           @value={{this.category}}
           @errorMessage={{get @errors.category "0.message"}}
-          @requiredText="Champs obligatoire"
-        />
+          @requiredLabel="Champs obligatoire"
+        >
+          <:label>Catégorie :</:label>
+        </PixSelect>
       </div>
       <div class="form-field">
         <label for="reference" class="form-field__label">

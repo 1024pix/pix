@@ -22,12 +22,11 @@
                   @onChange={{fn this.setAdminRoleSelection member}}
                   @value={{or member.updatedRole member.role}}
                   @options={{@roles}}
-                  @label="Sélectionner un rôle"
                   @screenReaderOnly={{true}}
                   @hideDefaultOption={{true}}
-                  as |role|
                 >
-                  {{role.label}}
+                  <:label>Sélectionner un rôle</:label>
+                  <:default as |role|>{{role.label}}</:default>
                 </PixSelect>
               {{else}}
                 {{member.role}}

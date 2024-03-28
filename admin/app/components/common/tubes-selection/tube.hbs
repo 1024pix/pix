@@ -9,7 +9,6 @@
 <td class="table__column--center">
   <div class="level-selection">
     <PixSelect
-      @label="Sélection du niveau du sujet suivant : {{@tube.practicalTitle}}"
       @screenReaderOnly={{true}}
       @options={{this.levelOptions}}
       @onChange={{this.setLevelTube}}
@@ -17,7 +16,9 @@
       @isDisabled={{not this.checked}}
       class="tubes-selection__level-select"
       @isComputeWidthDisabled={{true}}
-    />
+    >
+      <:label>Sélection du niveau du sujet suivant : {{@tube.practicalTitle}}</:label>
+    </PixSelect>
     {{#if @displaySkillDifficultyAvailability}}
       <div class="skill-availability">
         {{#each this.skillAvailabilityMap as |skillAvailability|}}

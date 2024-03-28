@@ -60,10 +60,11 @@
       </PixInput>
       <PixSelect
         @options={{this.acceptedLocales}}
-        @label="Langue de l'utilisateur"
         @onChange={{this.updateLocaleValue}}
         @value={{@locale}}
-      />
+      >
+        <:label>Langue de l'utilisateur</:label>
+      </PixSelect>
     </Card>
 
   </section>

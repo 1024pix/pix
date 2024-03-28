@@ -6,11 +6,11 @@
       @value={{this.selectedNewRole}}
       @options={{this.organizationRoles}}
       @placeholder="- Rôle -"
-      @label="Sélectionner un rôle"
       @screenReaderOnly={{true}}
-      as |organizationRole|
+
     >
-      {{organizationRole.label}}
+      <:label>Sélectionner un rôle</:label>
+      <:default as |organizationRole|>{{organizationRole.label}}</:default>
     </PixSelect>
   {{else}}
     {{@organizationMembership.roleLabel}}

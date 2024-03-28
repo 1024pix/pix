@@ -28,7 +28,6 @@
       </div>
       <div class="form-field">
         <PixSelect
-          @label="Catégorie :"
           @onChange={{this.onCategoryChange}}
           @value={{this.form.category}}
           @options={{this.optionsList}}
@@ -36,7 +35,9 @@
           @hideDefaultOption={{true}}
           required={{true}}
           aria-required={{true}}
-        />
+        >
+          <:label>Catégorie :</:label>
+        </PixSelect>
       </div>
       <div class="form-field">
         {{#if (v-get this.form "imageUrl" "isInvalid")}}

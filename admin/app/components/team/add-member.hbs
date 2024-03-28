@@ -20,9 +20,10 @@
         @options={{@roles}}
         @value={{this.role}}
         @onChange={{this.roleChanged}}
-        @label="Choisir le rôle à assigner au nouveau membre"
         @screenReaderOnly={{true}}
-      />
+      >
+        <:label>Choisir le rôle à assigner au nouveau membre</:label>
+      </PixSelect>
     </section>
 
     <PixButton
