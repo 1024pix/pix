@@ -6,7 +6,9 @@ async function getChallenge({
   sharedChallengeRepository,
   // locale,
 }) {
-  return sharedChallengeRepository.get(mission.content.trainingChallenges[0][0]);
+
+
+  return sharedChallengeRepository.get(mission.content.getChallengeIds(activityLevel)[0][0]);
   // try {
   //   const challenges = await challengeRepository.getChallengeFor1d({
   //     missionId,

@@ -1,3 +1,5 @@
+import { Activity } from './Activity.js';
+
 class Mission {
   constructor({
     id,
@@ -35,6 +37,19 @@ class MissionContent {
     this.trainingChallenges = trainingChallenges;
     this.validationChallenges = validationChallenges;
     this.dareChallenges = dareChallenges;
+  }
+
+  getChallengeIds(activityLevel) {
+    switch (activityLevel) {
+      case Activity.levels.TUTORIAL:
+        return this.tutorialChallenges;
+      case Activity.levels.TRAINING:
+        return this.trainingChallenges;
+      case Activity.levels.VALIDATION:
+        return this.validationChallenges;
+      case Activity.levels.CHALLENGE:
+        return this.dareChallenges;
+    }
   }
 }
 

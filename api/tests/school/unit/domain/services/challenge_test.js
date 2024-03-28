@@ -43,24 +43,31 @@ describe('Unit | Service | Challenge', function () {
           }),
         });
       });
-      it('should call sharedChallengeRepository#get with challenge id of accurate activity', function () {
-        const challengeId = 'challenge_en_1';
-        const activityLevel = Activity.levels.TRAINING;
-        const challengeNumber = 2;
-        const alternativeVersion = null;
-        const sharedChallengeRepository = {
-          get: sinon.stub(),
-        };
 
-        challengeService.getChallenge({
-          mission,
-          activityLevel,
-          challengeNumber,
-          alternativeVersion,
-          sharedChallengeRepository,
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [
+        { activityLevel: 'TUTORIAL', challengeId: 'tutorial-challenge-id-1' },
+        { activityLevel: 'TRAINING', challengeId: 'training-challenge-id-1' },
+        { activityLevel: 'VALIDATION', challengeId: 'validation-challenge-id-1' },
+        { activityLevel: 'CHALLENGE', challengeId: 'dare-challenge-id-1' },
+      ].forEach(({ activityLevel, challengeId }) => {
+        it(`should call sharedChallengeRepository#get with accurate challenge id for activity ${activityLevel}`, function () {
+          const challengeNumber = 2;
+          const alternativeVersion = null;
+          const sharedChallengeRepository = {
+            get: sinon.stub(),
+          };
+
+          challengeService.getChallenge({
+            mission,
+            activityLevel,
+            challengeNumber,
+            alternativeVersion,
+            sharedChallengeRepository,
+          });
+
+          expect(sharedChallengeRepository.get).to.have.been.calledOnceWith(challengeId);
         });
-
-        expect(sharedChallengeRepository.get).to.have.been.calledOnceWith(challengeId);
       });
     });
 
