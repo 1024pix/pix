@@ -160,5 +160,31 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
         });
       });
     });
+    describe('convertLearnerDates', function () {
+      it('when there is one date config, should transform the date', async function () {
+        validationRules = {
+          formats: [{ name: 'birthdate', type: 'date', format: 'YYYY/MM/DD', required: true }],
+        };
+
+        learnerSet = new ImportOrganizationLearnerSet(validationRules);
+
+        learnerSet.addLearner({ ...learnerAttributes, birthdate: '2026/03/06' });
+        expect(learnerSet.learners[0].attributes.birthdate).to.equal('2026-03-06');
+      });
+      it('when there is several date configs, should transform all the dates', async function () {
+        validationRules = {
+          formats: [
+            { name: 'birthdate', type: 'date', format: 'DD-MM-YYYY', required: true },
+            { name: 'anniversary', type: 'date', format: 'YYYY-DD-MM', required: true },
+          ],
+        };
+
+        learnerSet = new ImportOrganizationLearnerSet(validationRules);
+
+        learnerSet.addLearner({ ...learnerAttributes, birthdate: '06-03-2010', anniversary: '2027-09-06' });
+        expect(learnerSet.learners[0].attributes.birthdate).to.equal('2010-03-06');
+        expect(learnerSet.learners[0].attributes.anniversary).to.equal('2027-06-09');
+      });
+    });
   });
 });
