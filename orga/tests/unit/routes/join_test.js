@@ -9,26 +9,38 @@ module('Unit | Route | join', function (hooks) {
     test('should redirect to login route with isInvitationCancelled true', async function (assert) {
       // given
       const route = this.owner.lookup('route:join');
-      const store = this.owner.lookup('service:store');
 
       sinon.stub(route.router, 'replaceWith');
-      sinon.stub(store, 'queryRecord');
-      const forbiddenError = { status: '403' };
-      store.queryRecord.rejects({ errors: [forbiddenError] });
-      const transition = { data: { isInvitationCancelled: false } };
+      const transition = { data: {} };
       route.router.replaceWith.returns(transition);
 
-      const params = {
-        invitationId: 2,
-        code: 'ABCDEF',
-      };
-
+      route.isInvitationCancelled = true;
       // when
-      await route.model(params);
+      await route.redirect(null);
 
       // then
       assert.ok(route.router.replaceWith.calledWith('login'));
-      assert.true(transition.data['isInvitationCancelled']);
+      assert.true(transition.data.isInvitationCancelled);
+      assert.false(transition.data.hasInvitationAlreadyBeenAccepted);
+    });
+
+    test('should redirect to login route with hasInvitationAlreadyBeenAccepted true', async function (assert) {
+      // given
+      const route = this.owner.lookup('route:join');
+
+      sinon.stub(route.router, 'replaceWith');
+      const transition = { data: {} };
+      route.router.replaceWith.returns(transition);
+
+      route.hasInvitationAlreadyBeenAccepted = true;
+
+      // when
+      await route.redirect(null);
+
+      // then
+      assert.ok(route.router.replaceWith.calledWith('login'));
+      assert.false(transition.data.isInvitationCancelled);
+      assert.true(transition.data.hasInvitationAlreadyBeenAccepted);
     });
   });
 });
