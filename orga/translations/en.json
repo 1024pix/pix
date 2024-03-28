@@ -942,7 +942,6 @@
       },
       "file-type-separator": " or ",
       "global-success": "Last file successfully imported on {date} by {firstName} {lastName}.",
-      "information": "Importing your file may take a few minutes. Some features may be temporarily inaccessible.",
       "in-progress-text": "Please refresh this page in a few moments to see the status of the file.",
       "process-error": "The import of participants has failed.",
       "process-in-progress": "The content of the file has been validated and the participants are now being imported in PixOrga.",
