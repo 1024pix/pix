@@ -6,7 +6,7 @@ import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 describe('Unit | UseCase | add-pix-authentication-method-by-email', function () {
   let userRepository, authenticationMethodRepository;
   let passwordGenerator;
-  let encryptionService;
+  let cryptoService;
 
   beforeEach(function () {
     userRepository = {
@@ -21,7 +21,7 @@ describe('Unit | UseCase | add-pix-authentication-method-by-email', function () 
     passwordGenerator = {
       generateComplexPassword: sinon.stub(),
     };
-    encryptionService = {
+    cryptoService = {
       hashPassword: sinon.stub(),
     };
   });
@@ -35,14 +35,14 @@ describe('Unit | UseCase | add-pix-authentication-method-by-email', function () 
     domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: user.id });
 
     passwordGenerator.generateComplexPassword.returns(generatedPassword);
-    encryptionService.hashPassword.resolves(hashedPassword);
+    cryptoService.hashPassword.resolves(hashedPassword);
 
     // when
     await addPixAuthenticationMethodByEmail({
       userId: user.id,
       email,
       passwordGenerator,
-      encryptionService,
+      cryptoService,
       userRepository,
       authenticationMethodRepository,
     });
@@ -61,14 +61,14 @@ describe('Unit | UseCase | add-pix-authentication-method-by-email', function () 
       domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: user.id });
 
       passwordGenerator.generateComplexPassword.returns(generatedPassword);
-      encryptionService.hashPassword.withArgs(generatedPassword).resolves(hashedPassword);
+      cryptoService.hashPassword.withArgs(generatedPassword).resolves(hashedPassword);
 
       // when
       await addPixAuthenticationMethodByEmail({
         userId: user.id,
         email,
         passwordGenerator,
-        encryptionService,
+        cryptoService,
         authenticationMethodRepository,
         userRepository,
       });
@@ -97,14 +97,14 @@ describe('Unit | UseCase | add-pix-authentication-method-by-email', function () 
     domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: user.id });
 
     passwordGenerator.generateComplexPassword.returns(generatedPassword);
-    encryptionService.hashPassword.resolves(hashedPassword);
+    cryptoService.hashPassword.resolves(hashedPassword);
 
     // when
     await addPixAuthenticationMethodByEmail({
       userId: user.id,
       email,
       passwordGenerator,
-      encryptionService,
+      cryptoService,
       authenticationMethodRepository,
       userRepository,
     });

@@ -8,7 +8,7 @@ const updateUserForAccountRecovery = async function ({
   authenticationMethodRepository,
   accountRecoveryDemandRepository,
   scoAccountRecoveryService,
-  encryptionService,
+  cryptoService,
   domainTransaction,
 }) {
   const { userId, newEmail } = await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
@@ -16,7 +16,7 @@ const updateUserForAccountRecovery = async function ({
     accountRecoveryDemandRepository,
     userRepository,
   });
-  const hashedPassword = await encryptionService.hashPassword(password);
+  const hashedPassword = await cryptoService.hashPassword(password);
 
   const hasAnAuthenticationMethodFromPix = await authenticationMethodRepository.hasIdentityProviderPIX({ userId });
 

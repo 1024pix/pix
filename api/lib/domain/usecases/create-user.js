@@ -61,7 +61,7 @@ const createUser = async function ({
   campaignRepository,
   userRepository,
   userToCreateRepository,
-  encryptionService,
+  cryptoService,
   mailService,
   userService,
   userValidator,
@@ -81,7 +81,7 @@ const createUser = async function ({
   }
 
   if (isValid) {
-    const hashedPassword = await encryptionService.hashPassword(password);
+    const hashedPassword = await cryptoService.hashPassword(password);
 
     const savedUser = await userService.createUserWithPassword({
       user,

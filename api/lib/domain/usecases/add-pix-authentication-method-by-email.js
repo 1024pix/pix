@@ -6,7 +6,7 @@ const addPixAuthenticationMethodByEmail = async function ({
   userId,
   email,
   passwordGenerator,
-  encryptionService,
+  cryptoService,
   userRepository,
   authenticationMethodRepository,
 }) {
@@ -18,7 +18,7 @@ const addPixAuthenticationMethodByEmail = async function ({
     throw new AuthenticationMethodAlreadyExistsError();
   } else {
     const generatedPassword = passwordGenerator.generateComplexPassword();
-    const hashedPassword = await encryptionService.hashPassword(generatedPassword);
+    const hashedPassword = await cryptoService.hashPassword(generatedPassword);
 
     const authenticationMethodFromPix = new AuthenticationMethod({
       userId,

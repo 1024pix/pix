@@ -10,7 +10,7 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js'
 const updateExpiredPassword = async function ({
   passwordResetToken,
   newPassword,
-  encryptionService,
+  cryptoService,
   tokenService,
   authenticationMethodRepository,
   userRepository,
@@ -38,7 +38,7 @@ const updateExpiredPassword = async function ({
     throw new ForbiddenAccess();
   }
 
-  const hashedPassword = await encryptionService.hashPassword(newPassword);
+  const hashedPassword = await cryptoService.hashPassword(newPassword);
 
   await authenticationMethodRepository.updateExpiredPassword({
     userId: foundUser.id,
