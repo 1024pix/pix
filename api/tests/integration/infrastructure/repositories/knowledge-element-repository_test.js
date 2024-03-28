@@ -9,7 +9,11 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
   describe('#save', function () {
     let knowledgeElementToSave;
 
-    beforeEach(function () {
+    afterEach(function () {
+      return knex('knowledge-elements').del();
+    });
+
+    it('should save the knowledgeElement in db', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser({}).id;
       const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
@@ -22,10 +26,8 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       });
       knowledgeElementToSave.id = undefined;
 
-      return databaseBuilder.commit();
-    });
+      await databaseBuilder.commit();
 
-    it('should save the knowledgeElement in db', async function () {
       // when
       await knowledgeElementRepository.save(knowledgeElementToSave);
 
@@ -40,7 +42,11 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
   describe('#batchSave', function () {
     let knowledgeElementsToSave;
 
-    beforeEach(function () {
+    afterEach(function () {
+      return knex('knowledge-elements').del();
+    });
+
+    it('should save all the knowledgeElements in db', async function () {
       // given
       knowledgeElementsToSave = [];
       const userId = databaseBuilder.factory.buildUser({}).id;
@@ -49,6 +55,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const answerId2 = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
       knowledgeElementsToSave.push(
         domainBuilder.buildKnowledgeElement({
+          id: null,
           userId,
           assessmentId,
           answerId: answerId1,
@@ -57,17 +64,17 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       );
       knowledgeElementsToSave.push(
         domainBuilder.buildKnowledgeElement({
+          id: null,
           userId,
           assessmentId,
           answerId: answerId2,
           competenceId: 'recABC',
         }),
       );
+      knowledgeElementsToSave.forEach((ke) => (ke.id = undefined));
 
-      return databaseBuilder.commit();
-    });
+      await databaseBuilder.commit();
 
-    it('should save all the knowledgeElements in db', async function () {
       // when
       await knowledgeElementRepository.batchSave({ knowledgeElements: knowledgeElementsToSave });
 
