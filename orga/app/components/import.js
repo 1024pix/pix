@@ -41,7 +41,7 @@ export default class Import extends Component {
     if (this.args.organizationImportDetail?.hasWarning) {
       return this.intl.t('pages.organization-participants-import.warning-banner', { htmlSafe: true });
     }
-    return this.intl.t('pages.organization-participants-import.information');
+    return this.intl.t('pages.organization-participants-import.upload-in-progress');
   }
 
   get displayImportMessagePanel() {

@@ -942,7 +942,6 @@
       },
       "file-type-separator": ", ",
       "global-success": "Dernier fichier importé avec succès le {date} par {firstName} {lastName}.",
-      "information": "L'import de votre fichier peut prendre quelques minutes. Certaines fonctionnalités sont temporairement inaccessibles.",
       "in-progress-text": "Merci de rafraîchir sur cette page dans quelques instants pour connaitre l’état de traitement du fichier.",
       "process-error": "L'import des participants a échoué.",
       "process-in-progress": "Le contenu du fichier est validé, l’import des participants est en cours.",
