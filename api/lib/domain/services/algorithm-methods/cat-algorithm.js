@@ -1,26 +1,40 @@
-import _ from 'lodash';
-import fp from 'lodash/fp.js';
-
 import { KnowledgeElement } from '../../models/KnowledgeElement.js';
 
-const { pipe } = fp;
 export { findMaxRewardingSkills, getPredictedLevel };
 
-function getPredictedLevel(knowledgeElements, skills) {
-  return _.maxBy(_enumerateCatLevels(), (level) =>
-    _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills),
+const findMaxRewardingSkills = ({ availableSkills, predictedLevel, tubes, knowledgeElements }) => {
+  const maxRewardingSkills = getMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements });
+  return clearSkillsIfNotRewarding(maxRewardingSkills);
+};
+
+const getPredictedLevel = (knowledgeElements, skills) => {
+  const catLevels = enumerateCatLevels();
+  const eachLevelWithProbability = catLevels.map((level) => ({
+    level,
+    probability: probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills),
+  }));
+  const maximumProbabilityThatUserHasSpecificLevel = Math.max(
+    ...eachLevelWithProbability.map(({ probability }) => probability),
   );
-}
 
-function _enumerateCatLevels() {
-  const firstLevel = 0.5;
-  const lastLevel = 8; // The upper boundary is not included in the range
-  const levelStep = 0.5;
-  return _.range(firstLevel, lastLevel, levelStep);
-}
+  return eachLevelWithProbability.find(({ probability }) => probability === maximumProbabilityThatUserHasSpecificLevel)
+    .level;
+};
 
-function _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills) {
-  const directKnowledgeElements = _.filter(knowledgeElements, (ke) => ke.source === 'direct');
+const enumerateCatLevels = () => {
+  const catLevelsFromFirstToLastExcludingUpperBoundary = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5];
+  return catLevelsFromFirstToLastExcludingUpperBoundary;
+};
+
+// The probability P(gap) of giving the correct answer is given by the "logistic function"
+// https://en.wikipedia.org/wiki/Logistic_function
+const probaOfCorrectAnswer = (userEstimatedLevel, challengeDifficulty) =>
+  1 / (1 + Math.exp(-(userEstimatedLevel - challengeDifficulty)));
+
+const probabilityThatUserHasSpecificLevel = (level, knowledgeElements, skills) => {
+  const directKnowledgeElements = knowledgeElements.filter(
+    (knowledgeElement) => knowledgeElement.source === KnowledgeElement.SourceType.DIRECT,
+  );
   const extraAnswers = directKnowledgeElements.map((ke) => {
     const skill = skills.find((skill) => skill.id === ke.skillId);
     const maxDifficulty = skill.difficulty || 2;
@@ -33,21 +47,44 @@ function _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills) 
   extraAnswers.push(answerThatAnyoneCanSolve, answerThatNobodyCanSolve);
 
   const diffBetweenResultAndProbaToResolve = extraAnswers.map(
-    (answer) => answer.binaryOutcome - _probaOfCorrectAnswer(level, answer.maxDifficulty),
+    (answer) => answer.binaryOutcome - probaOfCorrectAnswer(level, answer.maxDifficulty),
   );
 
   return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
-}
+};
 
-function findMaxRewardingSkills(...args) {
-  return pipe(_getMaxRewardingSkills, _clearSkillsIfNotRewarding)(...args);
-}
+const findTubeByName = (tubes, tubeName) => tubes.find((tube) => tube.name === tubeName);
 
-function _getMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements }) {
-  return _.reduce(
-    availableSkills,
+const skillNotTestedYet = (knowledgeElements) => (skill) => {
+  const skillsAlreadyTested = knowledgeElements.map(({ skillId }) => skillId);
+  return !skillsAlreadyTested.includes(skill.id);
+};
+
+const getNewSkillsInfoIfSkillSolved = (testedSkills, tubes, knowledgeElements) =>
+  findTubeByName(tubes, testedSkills.tubeNameWithoutPrefix)
+    .getEasierThan(testedSkills)
+    .filter(skillNotTestedYet(knowledgeElements));
+
+// Skills that won't bring anymore information on the user is a termination condition of the CAT algorithm
+const clearSkillsIfNotRewarding = (skills) => skills.filter((skill) => skill.reward !== 0);
+
+const getNewSkillsInfoIfSkillUnsolved = (testedSkills, tubes, knowledgeElements) =>
+  findTubeByName(tubes, testedSkills.tubeNameWithoutPrefix)
+    .getHarderThan(testedSkills)
+    .filter(skillNotTestedYet(knowledgeElements));
+
+const computeReward = ({ skill, predictedLevel, tubes, knowledgeElements }) => {
+  const proba = probaOfCorrectAnswer(predictedLevel, skill.difficulty);
+  const extraSkillsIfSolvedCount = getNewSkillsInfoIfSkillSolved(skill, tubes, knowledgeElements).length;
+  const failedSkillsIfUnsolvedCount = getNewSkillsInfoIfSkillUnsolved(skill, tubes, knowledgeElements).length;
+
+  return proba * extraSkillsIfSolvedCount + (1 - proba) * failedSkillsIfUnsolvedCount;
+};
+
+const getMaxRewardingSkills = ({ availableSkills, predictedLevel, tubes, knowledgeElements }) =>
+  availableSkills.reduce(
     (acc, skill) => {
-      const skillReward = _computeReward({ skill, predictedLevel, tubes, knowledgeElements });
+      const skillReward = computeReward({ skill, predictedLevel, tubes, knowledgeElements });
       if (skillReward > acc.maxReward) {
         acc.maxReward = skillReward;
         acc.maxRewardingSkills = [skill];
@@ -58,56 +95,3 @@ function _getMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowle
     },
     { maxRewardingSkills: [], maxReward: -Infinity },
   ).maxRewardingSkills;
-}
-
-// Skills that won't bring anymore information on the user is a termination condition of the CAT algorithm
-function _clearSkillsIfNotRewarding(skills) {
-  return _.filter(skills, (skill) => skill.reward !== 0);
-}
-
-function _computeReward({ skill, predictedLevel, tubes, knowledgeElements }) {
-  const proba = _probaOfCorrectAnswer(predictedLevel, skill.difficulty);
-  const extraSkillsIfSolvedCount = _getNewSkillsInfoIfSkillSolved(skill, tubes, knowledgeElements).length;
-  const failedSkillsIfUnsolvedCount = _getNewSkillsInfoIfSkillUnsolved(skill, tubes, knowledgeElements).length;
-
-  return proba * extraSkillsIfSolvedCount + (1 - proba) * failedSkillsIfUnsolvedCount;
-}
-
-// The probability P(gap) of giving the correct answer is given by the "logistic function"
-// https://en.wikipedia.org/wiki/Logistic_function
-function _probaOfCorrectAnswer(userEstimatedLevel, challengeDifficulty) {
-  return 1 / (1 + Math.exp(-(userEstimatedLevel - challengeDifficulty)));
-}
-
-function _getNewSkillsInfoIfSkillSolved(skillTested, tubes, knowledgeElements) {
-  let extraValidatedSkills = _findTubeByName(tubes, skillTested.tubeNameWithoutPrefix)
-    .getEasierThan(skillTested)
-    .filter(_skillNotTestedYet(knowledgeElements));
-
-  if (!_.isEmpty(skillTested.linkedSkills)) {
-    extraValidatedSkills = _.concat(extraValidatedSkills, skillTested.linkedSkills);
-  }
-  return _.uniqBy(extraValidatedSkills, 'id');
-}
-
-function _getNewSkillsInfoIfSkillUnsolved(skillTested, tubes, knowledgeElements) {
-  let extraFailedSkills = _findTubeByName(tubes, skillTested.tubeNameWithoutPrefix)
-    .getHarderThan(skillTested)
-    .filter(_skillNotTestedYet(knowledgeElements));
-
-  if (!_.isEmpty(skillTested.linkedSkills)) {
-    extraFailedSkills = _.concat(extraFailedSkills, skillTested.linkedSkills);
-  }
-  return _.uniqBy(extraFailedSkills, 'id');
-}
-
-function _findTubeByName(tubes, tubeName) {
-  return tubes.find((tube) => tube.name === tubeName);
-}
-
-function _skillNotTestedYet(knowledgeElements) {
-  return (skill) => {
-    const skillsAlreadyTested = _.map(knowledgeElements, 'skillId');
-    return !skillsAlreadyTested.includes(skill.id);
-  };
-}

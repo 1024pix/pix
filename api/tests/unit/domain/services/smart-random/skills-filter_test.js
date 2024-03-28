@@ -1,6 +1,8 @@
 import { Tube } from '../../../../../lib/domain/models/Tube.js';
 import * as skillsFilter from '../../../../../lib/domain/services/algorithm-methods/skills-filter.js';
+import { focusOnDefaultLevel } from '../../../../../lib/domain/services/algorithm-methods/skills-filter.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
+import { buildSkill } from '../../../../tooling/domain-builder/factory/index.js';
 
 const KNOWLEDGE_ELEMENT_STATUS = {
   VALIDATED: 'validated',
@@ -15,7 +17,7 @@ function setPlayableSkills(skills) {
 
 describe('Unit | Domain | services | smart-random | skillsFilter', function () {
   describe('#getFilteredSkillsForFirstChallenge', function () {
-    it('should return a first skill possible', function () {
+    it('should return the first possible skill', function () {
       // given
       const skill1 = domainBuilder.buildSkill({ name: '@web3', difficulty: 3 });
       const skills = [skill1];
@@ -53,7 +55,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       expect(result).to.deep.equal([skill1]);
     });
 
-    it('should return a skill valid from a tubes with max level at 3 (HAPPY PATH)', function () {
+    it('should return a valid skill from a tube which only contains skill levels inferior or equal to 3', function () {
       // given
       const skillTube1Level2 = domainBuilder.buildSkill({ id: 'rec1', name: '@web2', difficulty: 2 });
       const skillTube1Level4 = domainBuilder.buildSkill({ id: 'rec2', name: '@web4', difficulty: 4 });
@@ -179,7 +181,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       });
     });
 
-    describe('Verify rules : Not skill with timed challenge after timed challenge', function () {
+    describe('Verify rules : No successive timed challenges', function () {
       it('should return a skill without timed challenge if last one was timed', function () {
         // given
         const skill1 = domainBuilder.buildSkill({ id: 'rec1', name: '@test2', difficulty: 2 });
@@ -378,6 +380,48 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
 
         // then
         expect(result).to.deep.equal([playableSkill]);
+      });
+    });
+  });
+
+  describe('#focusOnDefaultLevel', function () {
+    describe("when some skill's difficulty are equal to 2", function () {
+      it('should only return difficulty 2 skills', function () {
+        // given
+        const skills = [
+          { id: 1, difficulty: 2 },
+          { id: 2, difficulty: 1 },
+          { id: 3, difficulty: 3 },
+          { id: 4, difficulty: 2 },
+        ].map(buildSkill);
+
+        // when
+        const difficultyTwoSkills = focusOnDefaultLevel(skills);
+
+        // then
+        expect(difficultyTwoSkills.length).to.equal(2);
+        expect(difficultyTwoSkills[0].id).to.equal(1);
+        expect(difficultyTwoSkills[1].id).to.equal(4);
+      });
+    });
+
+    describe('when there is no difficulty 2 skills', function () {
+      it('should return the lowest difficulty skills', function () {
+        // given
+        const skills = [
+          { id: 4, difficulty: 6 },
+          { id: 1, difficulty: 1 },
+          { id: 2, difficulty: 1 },
+          { id: 3, difficulty: 4 },
+        ].map(buildSkill);
+
+        // when
+        const lowestDifficultySkills = focusOnDefaultLevel(skills);
+
+        // then
+        expect(lowestDifficultySkills.length).to.equal(2);
+        expect(lowestDifficultySkills[0].id).to.equal(1);
+        expect(lowestDifficultySkills[1].id).to.equal(2);
       });
     });
   });
