@@ -23,7 +23,6 @@
 
     <PixInput
       @id="login-email"
-      @label={{t "pages.login-form.email"}}
       name="login"
       type="email"
       {{on "focusout" this.validateEmail}}
@@ -33,12 +32,13 @@
       required={{true}}
       aria-required={{true}}
       autocomplete="email"
-    />
+    >
+      <:label>{{t "pages.login-form.email"}}</:label>
+    </PixInput>
 
     <PixInputPassword
       @id="login-password"
       name="password"
-      @label={{t "pages.login-form.password"}}
       autocomplete="current-password"
       required={{true}}
       aria-required={{true}}
@@ -46,7 +46,9 @@
       {{on "input" this.validatePassword}}
       @errorMessage={{this.passwordValidationMessage}}
       @validationStatus={{if this.passwordValidationMessage "error" "default"}}
-    />
+    >
+      <:label>{{t "pages.login-form.password"}}</:label>
+    </PixInputPassword>
 
     <PixButton @type="submit" @isLoading={{this.isLoading}}>
       {{t "pages.login-form.login"}}

@@ -63,7 +63,7 @@ module('Acceptance | Team Creation', function (hooks) {
 
         await authenticateSession(user.id);
 
-        inputLabel = this.intl.t('pages.team-new-item.input-label');
+        inputLabel = '* ' + this.intl.t('pages.team-new-item.input-label');
         inviteButton = this.intl.t('pages.team-new-item.invite-button');
         cancelButton = this.intl.t('common.actions.cancel');
       });
@@ -88,6 +88,7 @@ module('Acceptance | Team Creation', function (hooks) {
         });
 
         const screen = await visit('/equipe/creation');
+
         await fillByLabel(inputLabel, email);
 
         // when

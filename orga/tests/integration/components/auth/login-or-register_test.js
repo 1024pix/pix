@@ -76,7 +76,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
       const screen = await render(hbs`<Auth::LoginOrRegister @organizationName='Organization Aztec' />`);
 
       // then
-      await click(screen.getByRole('button', { name: 'Français' }));
+      await click(screen.getByRole('button', { name: this.intl.t('pages.login.choose-language-aria-label') }));
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'English' }));
       assert.dom(screen.getByText('You have been invited to join the organisation Organization Aztec')).exists();
@@ -98,7 +98,9 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
       // then
       assert.dom(screen.getByText("Vous êtes invité(e) à rejoindre l'organisation Organization Aztec")).exists();
-      assert.dom(screen.queryByRole('button', { name: 'Français' })).doesNotExist();
+      assert
+        .dom(screen.queryByRole('button', { name: this.intl.t('pages.login.choose-language-aria-label') }))
+        .doesNotExist();
     });
   });
 });

@@ -8,7 +8,6 @@
     <PixInput
       @id="campaign-name"
       @name="campaign-name"
-      @label={{t "pages.campaign-creation.name.label"}}
       @requiredLabel={{t "common.form.mandatory-fields-title"}}
       type="text"
       class="input"
@@ -17,7 +16,9 @@
       @value={{@campaign.name}}
       required={{true}}
       aria-required={{true}}
-    />
+    >
+      <:label>{{t "pages.campaign-creation.name.label"}}</:label>
+    </PixInput>
 
     {{#if @errors.name}}
       <div class="form__error error-message">
@@ -37,10 +38,11 @@
         @placeholder={{t "pages.campaign-creation.owner.placeholder"}}
         @searchLabel={{t "pages.campaign-creation.owner.search-placeholder"}}
         @searchPlaceholder={{t "pages.campaign-creation.owner.search-placeholder"}}
-        @label={{t "pages.campaign-creation.owner.label"}}
-        @requiredText={{t "common.form.mandatory-fields-title"}}
+        @requiredLabel={{t "common.form.mandatory-fields-title"}}
         @hideDefaultOption={{true}}
-      />
+      >
+        <:label>{{t "pages.campaign-creation.owner.label"}}</:label>
+      </PixSelect>
     </:default>
 
     <:information>
@@ -64,7 +66,7 @@
             aria-describedby="campaign-goal-assessment-info"
             checked={{this.isCampaignGoalAssessment}}
           >
-            {{t "pages.campaign-creation.purpose.assessment"}}
+            <:label>{{t "pages.campaign-creation.purpose.assessment"}}</:label>
           </PixRadioButton>
 
           <PixRadioButton
@@ -74,7 +76,7 @@
             aria-describedby="campaign-goal-profiles-collection-info"
             checked={{this.isCampaignGoalProfileCollection}}
           >
-            {{t "pages.campaign-creation.purpose.profiles-collection"}}
+            <:label>{{t "pages.campaign-creation.purpose.profiles-collection"}}</:label>
           </PixRadioButton>
           {{#if @errors.type}}
             <div class="form__error error-message">
@@ -114,19 +116,20 @@
     <Ui::FormField>
       <:default>
         <PixFilterableAndSearchableSelect
-          @label={{t "pages.campaign-creation.target-profiles-list-label"}}
           @placeholder={{t "pages.campaign-creation.target-profiles-label"}}
+          @categoriesPlaceholder={{t "pages.campaign-creation.target-profiles-category-placeholder"}}
           @options={{this.targetOwnerOptions}}
           @hideDefaultOption={{true}}
           @onChange={{this.selectTargetProfile}}
-          @categoriesLabel={{t "pages.campaign-creation.target-profiles-category-label"}}
-          @categoriesPlaceholder={{t "pages.campaign-creation.target-profiles-category-placeholder"}}
           @value={{@campaign.targetProfile.id}}
-          @requiredText={{t "common.form.mandatory-fields-title"}}
+          @requiredLabel={{t "common.form.mandatory-fields-title"}}
           @errorMessage={{if @errors.targetProfile (t "api-error-messages.campaign-creation.target-profile-required")}}
           @isSearchable={{true}}
           @searchLabel={{t "pages.campaign-creation.target-profiles-search-placeholder"}}
-        />
+        >
+          <:label>{{t "pages.campaign-creation.target-profiles-list-label"}}</:label>
+          <:categoriesLabel>{{t "pages.campaign-creation.target-profiles-category-label"}}</:categoriesLabel>
+        </PixFilterableAndSearchableSelect>
       </:default>
       <:information>
         {{#if @campaign.targetProfile}}
@@ -162,7 +165,7 @@
               aria-describedby="multiple-sendings-info"
               checked={{not @campaign.multipleSendings}}
             >
-              {{t "pages.campaign-creation.no"}}
+              <:label>{{t "pages.campaign-creation.no"}}</:label>
             </PixRadioButton>
 
             <PixRadioButton
@@ -172,7 +175,7 @@
               aria-describedby="multiple-sendings-info"
               checked={{@campaign.multipleSendings}}
             >
-              {{t "pages.campaign-creation.yes"}}
+              <:label>{{t "pages.campaign-creation.yes"}}</:label>
             </PixRadioButton>
           </:content>
         </Ui::PixFieldset>
@@ -202,7 +205,7 @@
           {{on "change" this.doNotAskLabelIdPix}}
           checked={{this.isExternalIdNotSelectedChecked}}
         >
-          {{t "pages.campaign-creation.no"}}
+          <:label>{{t "pages.campaign-creation.no"}}</:label>
         </PixRadioButton>
         <PixRadioButton
           name="external-id-label"
@@ -210,7 +213,7 @@
           {{on "change" this.askLabelIdPix}}
           checked={{this.isExternalIdSelectedChecked}}
         >
-          {{t "pages.campaign-creation.yes"}}
+          <:label>{{t "pages.campaign-creation.yes"}}</:label>
         </PixRadioButton>
       </:content>
     </Ui::PixFieldset>
@@ -221,13 +224,14 @@
       <PixInput
         @id="external-id-label"
         @name="external-id-label"
-        @information={{t "pages.campaign-creation.external-id-label.suggestion"}}
-        @label={{t "pages.campaign-creation.external-id-label.label"}}
+        @subLabel={{t "pages.campaign-creation.external-id-label.suggestion"}}
         maxlength="255"
         @requiredLabel={{t "pages.campaign-creation.external-id-label.required"}}
         {{on "change" (fn this.onChangeCampaignValue "idPixLabel")}}
         @value={{@campaign.idPixLabel}}
-      />
+      >
+        <:label>{{t "pages.campaign-creation.external-id-label.label"}}</:label>
+      </PixInput>
       {{#if @errors.idPixLabel}}
         <div class="form__error error-message">
           {{display-campaign-errors @errors.idPixLabel}}
@@ -239,25 +243,26 @@
   {{#if this.isCampaignGoalAssessment}}
     <Ui::FormField>
       <PixInput
-        @label={{t "pages.campaign-creation.test-title.label"}}
         @id="campaign-title"
         @name="campaign-title"
         maxlength="50"
         {{on "change" (fn this.onChangeCampaignValue "title")}}
         @value={{@campaign.title}}
-      />
+      >
+        <:label>{{t "pages.campaign-creation.test-title.label"}}</:label></PixInput>
     </Ui::FormField>
   {{/if}}
 
   <Ui::FormField>
     <PixTextarea
-      @label={{t "pages.campaign-creation.landing-page-text.label"}}
       @id="custom-landing-page-text"
       @maxlength="5000"
       @value={{@campaign.customLandingPageText}}
       {{on "change" this.onChangeCampaignCustomLandingPageText}}
       rows="8"
-    />
+    >
+      <:label>{{t "pages.campaign-creation.landing-page-text.label"}}</:label>
+    </PixTextarea>
   </Ui::FormField>
 
   <div class="form__validation">
