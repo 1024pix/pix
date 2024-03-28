@@ -87,9 +87,7 @@ const getAuthorizationUrl = async function (
     identityProviderCode: identityProvider,
     audience,
   });
-  const { nonce, state, ...payload } = oidcAuthenticationService.getAuthorizationUrl({
-    redirectUri: request.query['redirect_uri'],
-  });
+  const { nonce, state, ...payload } = oidcAuthenticationService.getAuthorizationUrl();
 
   request.yar.set('state', state);
   request.yar.set('nonce', nonce);
@@ -117,6 +115,7 @@ const authenticateUser = async function (
   });
 
   const result = await usecases.authenticateOidcUser({
+    audience,
     code,
     redirectUri,
     state,

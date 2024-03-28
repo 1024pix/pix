@@ -42,22 +42,76 @@ module('Integration | Component | login-form', function (hooks) {
     });
   });
 
-  module('when google identity provider is enabled', function () {
-    test('it displays a "login with google" button', async function (assert) {
-      // given
+  module('when google identity provider is enabled', function (hooks) {
+    hooks.beforeEach(function () {
       class IdentityProviderServiceStub extends Service {
         isProviderEnabled = sinon.stub();
       }
       this.owner.register('service:oidcIdentityProviders', IdentityProviderServiceStub);
       const identityProvidersServiceStub = this.owner.lookup('service:oidcIdentityProviders');
       identityProvidersServiceStub.isProviderEnabled.withArgs('google').returns(true);
+    });
 
+    test('it displays a "login with google" button', async function (assert) {
       // when
       const screen = await render(hbs`<LoginForm />`);
 
       // then
       assert.dom(screen.getByRole('link', { name: 'Se connecter avec Google' })).exists();
       assert.dom(screen.queryByRole('button', { name: 'Je me connecte' })).doesNotExist();
+    });
+
+    module('when user has no pix account', function () {
+      test('displays a specific error message', async function (assert) {
+        // given
+        this.set('isUserShouldCreateAnAccount', true);
+
+        // when
+        const screen = await render(
+          hbs`<LoginForm @isUserShouldCreateAnAccount={{this.isUserShouldCreateAnAccount}}/>`,
+        );
+
+        // then
+        assert.dom(screen.getByText("Vous n'avez pas de compte Pix.")).exists();
+      });
+    });
+
+    module('when user has no pix access rights', function () {
+      test('displays a specific error message', async function (assert) {
+        // given
+        this.set('isUserShouldRequestAccess', true);
+
+        // when
+        const screen = await render(hbs`<LoginForm @isUserShouldRequestAccess={{this.isUserShouldRequestAccess}}/>`);
+
+        // then
+        assert
+          .dom(
+            screen.getByText(
+              "Vous n'avez pas les droits pour vous connecter. Veuillez demander un accès aux administrateurs de la plateforme.",
+            ),
+          )
+          .exists();
+      });
+    });
+
+    module('when api throw an unknown error', function () {
+      test('displays an error message', async function (assert) {
+        // given
+        this.set('isUnknownErrorOccurs', true);
+
+        // when
+        const screen = await render(hbs`<LoginForm @isUnknownErrorOccurs={{this.isUnknownErrorOccurs}}/>`);
+
+        // then
+        assert
+          .dom(
+            screen.getByText(
+              'Une erreur est survenue. Veuillez recommencer ou contacter les administrateurs de la plateforme.',
+            ),
+          )
+          .exists();
+      });
     });
   });
 

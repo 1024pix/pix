@@ -21,7 +21,6 @@ describe('Acceptance | Route | oidc | token', function () {
 
       const query = querystring.stringify({
         identity_provider: 'OIDC_EXAMPLE_NET',
-        redirect_uri: 'https://app.dev.pix.org/connexion/oidc-example-net',
       });
       const authUrlResponse = await server.inject({
         method: 'GET',
@@ -174,6 +173,146 @@ describe('Acceptance | Route | oidc | token', function () {
         expect(response.statusCode).to.equal(200);
         expect(response.result['access_token']).to.exist;
         expect(response.result['logout_url_uuid']).to.match(uuidPattern);
+      });
+    });
+
+    context('when audience is admin', function () {
+      context('when user does not have an admin role', function () {
+        it('returns 403', async function () {
+          // given
+          const firstName = 'John';
+          const lastName = 'Doe';
+          const externalIdentifier = 'sub';
+
+          payload.data.attributes.audience = 'admin';
+
+          const userId = databaseBuilder.factory.buildUser({
+            firstName,
+            lastName,
+          }).id;
+
+          databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
+            identityProvider: 'OIDC_EXAMPLE_NET',
+            externalIdentifier,
+            accessToken: 'access_token',
+            refreshToken: 'refresh_token',
+            expiresIn: 1000,
+            userId,
+          });
+          await databaseBuilder.commit();
+
+          const idToken = jsonwebtoken.sign(
+            {
+              given_name: firstName,
+              family_name: lastName,
+              sub: externalIdentifier,
+            },
+            'secret',
+          );
+          const getAccessTokenResponse = {
+            access_token: 'access_token',
+            id_token: idToken,
+            expires_in: 60,
+            refresh_token: 'refresh_token',
+          };
+          /*
+          Le code ci-dessous a été commenté parce qu'on utilise un fournisseur d'identité
+          non valide d'exemple et l'utilisation de nock n'est pas possible car la librairie
+          openid-client tentera de valider le token reçu avec une configuration de chiffrement
+          d'exemple.
+           */
+          // const getAccessTokenRequest = nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
+          oidcExampleNetProvider.client.callback.resolves(getAccessTokenResponse);
+
+          // when
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/oidc/token',
+            headers: { cookie: cookies[0] },
+            payload,
+          });
+
+          // then
+          /*
+          Le code ci-dessous a été commenté parce qu'on utilise un fournisseur d'identité
+          non valide d'exemple et l'utilisation de nock n'est pas possible car la librairie
+          openid-client tentera de valider le token reçu avec une configuration de chiffrement
+          d'exemple.
+           */
+          // expect(getAccessTokenRequest.isDone()).to.be.true;
+          expect(oidcExampleNetProvider.client.callback).to.have.been.calledOnce;
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+
+      context('when user has an admin role', function () {
+        it('returns 200', async function () {
+          // given
+          const firstName = 'John';
+          const lastName = 'Doe';
+          const externalIdentifier = 'sub';
+
+          payload.data.attributes.audience = 'admin';
+
+          const userId = databaseBuilder.factory.buildUser.withRole({
+            firstName,
+            lastName,
+            role: 'SUPER_ADMIN',
+          }).id;
+
+          databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
+            identityProvider: 'OIDC_EXAMPLE_NET',
+            externalIdentifier,
+            accessToken: 'access_token',
+            refreshToken: 'refresh_token',
+            expiresIn: 1000,
+            userId,
+          });
+
+          await databaseBuilder.commit();
+
+          const idToken = jsonwebtoken.sign(
+            {
+              given_name: firstName,
+              family_name: lastName,
+              sub: externalIdentifier,
+            },
+            'secret',
+          );
+          const getAccessTokenResponse = {
+            access_token: 'access_token',
+            id_token: idToken,
+            expires_in: 60,
+            refresh_token: 'refresh_token',
+          };
+          /*
+          Le code ci-dessous a été commenté parce qu'on utilise un fournisseur d'identité
+          non valide d'exemple et l'utilisation de nock n'est pas possible car la librairie
+          openid-client tentera de valider le token reçu avec une configuration de chiffrement
+          d'exemple.
+           */
+          // const getAccessTokenRequest = nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
+          oidcExampleNetProvider.client.callback.resolves(getAccessTokenResponse);
+
+          // when
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/oidc/token',
+            headers: { cookie: cookies[0] },
+            payload,
+          });
+
+          // then
+          /*
+          Le code ci-dessous a été commenté parce qu'on utilise un fournisseur d'identité
+          non valide d'exemple et l'utilisation de nock n'est pas possible car la librairie
+          openid-client tentera de valider le token reçu avec une configuration de chiffrement
+          d'exemple.
+           */
+          // expect(getAccessTokenRequest.isDone()).to.be.true;
+          expect(oidcExampleNetProvider.client.callback).to.have.been.calledOnce;
+          expect(response.statusCode).to.equal(200);
+        });
       });
     });
   });
