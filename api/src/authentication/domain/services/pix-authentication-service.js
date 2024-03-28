@@ -1,4 +1,4 @@
-import * as encryptionService from '../../../shared/domain/services/encryption-service.js';
+import * as cryptoService from '../../../shared/domain/services/crypto-service.js';
 import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
 import { PasswordNotMatching } from '../errors.js';
 
@@ -6,7 +6,7 @@ async function getUserByUsernameAndPassword({
   username,
   password,
   userRepository,
-  dependencies = { userLoginRepository, encryptionService },
+  dependencies = { userLoginRepository, cryptoService },
 }) {
   const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(username);
   const passwordHash = foundUser.authenticationMethods[0].authenticationComplement.password;
@@ -17,7 +17,7 @@ async function getUserByUsernameAndPassword({
   }
 
   try {
-    await dependencies.encryptionService.checkPassword({
+    await dependencies.cryptoService.checkPassword({
       password,
       passwordHash,
     });
