@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name_i18n": {
+      "fr": "Données personnelles"
+    },
+    "competenceId": "competence19Y5Op9XTwCRhc",
+    "thematicId": "recZtwymXXrtdXRrx",
+    "learningObjectives_i18n": {
+      "fr": "Connaître la notion de données personnelles et savoir les protéger"
+    },
+    "validatedObjectives_i18n": {
+      "fr": "Comprendre ce que sont les données personnelles et les bonnes pratiques pour les protéger\nIdentifier les données personnelles\nConnaître la notion de données personnelles et savoir les protéger"
+    },
+    "status": "ACTIVE"
+  }
+]
