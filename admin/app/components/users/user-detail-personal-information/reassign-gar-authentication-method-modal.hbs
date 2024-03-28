@@ -10,11 +10,12 @@
     </p>
     <PixInput
       @id="user-id-for-reassign-authentication-method"
-      @label="Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion"
       {{on "change" @onChangeTargetUserId}}
       type="number"
       required
-    />
+    >
+      <:label>Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion</:label>
+    </PixInput>
   </:content>
 
   <:footer>

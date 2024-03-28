@@ -4,12 +4,13 @@
 
     <PixInput
       @id="certificationCenterName"
-      @label="Nom du centre"
       onchange={{this.handleCenterNameChange}}
       class="form-field"
       required={{true}}
       aria-required={{true}}
-    />
+    >
+      <:label>Nom du centre</:label>
+    </PixInput>
 
     <div class="form-field">
       <PixSelect
@@ -27,33 +28,33 @@
       </PixSelect>
     </div>
 
-    <PixInput
-      @id="certificationCenterExternalId"
-      @label="Identifiant externe"
-      onchange={{this.handleExternalIdChange}}
-      class="form-field"
-    />
+    <PixInput @id="certificationCenterExternalId" onchange={{this.handleExternalIdChange}} class="form-field">
+      <:label>Identifiant externe</:label>
+    </PixInput>
 
     <PixInput
       @id="dataProtectionOfficerFirstName"
       {{on "change" this.handleDataProtectionOfficerFirstNameChange}}
-      @label="Prénom du DPO"
       class="form-field"
-    />
+    >
+      <:label>Prénom du DPO</:label>
+    </PixInput>
 
     <PixInput
       @id="dataProtectionOfficerLastName"
       {{on "change" this.handleDataProtectionOfficerLastNameChange}}
-      @label="Nom du DPO"
       class="form-field"
-    />
+    >
+      <:label>Nom du DPO</:label>
+    </PixInput>
 
     <PixInput
       @id="dataProtectionOfficerEmail"
       {{on "change" this.handleDataProtectionOfficerEmailChange}}
-      @label="Adresse e-mail du DPO"
       class="form-field"
-    />
+    >
+      <:label>Adresse e-mail du DPO</:label>
+    </PixInput>
 
     <div class="form-field">
       <PixCheckbox @id="isV3Pilot" @labelSize="small" onChange={{this.handleIsV3PilotChange}}>

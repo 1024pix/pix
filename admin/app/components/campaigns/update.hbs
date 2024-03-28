@@ -11,24 +11,26 @@
     <div class="admin-form__content">
       <PixInput
         @id="name"
-        @label="Nom de la campagne"
         @requiredLabel="Champ obligatoire"
         @errorMessage={{this.nameError.message}}
         @validationStatus={{this.nameError.state}}
         @value={{this.form.name}}
         {{on "change" (fn this.updateFormValue "name")}}
-      />
+      >
+        <:label>Nom de la campagne</:label>
+      </PixInput>
 
       {{#if @campaign.isTypeAssessment}}
         <PixInput
           @id="title"
-          @label="Titre du parcours"
           @errorMessage={{this.titleError.message}}
           @validationStatus={{this.titleError.state}}
           @value={{this.form.title}}
           maxlength="50"
           {{on "change" (fn this.updateFormValue "title")}}
-        />
+        >
+          <:label>Titre du parcours</:label>
+        </PixInput>
       {{/if}}
 
       <PixTextarea
@@ -56,23 +58,25 @@
 
         <PixInput
           @id="customResultPageButtonText"
-          @label="Texte du bouton de la page de fin de parcours"
-          @information="Si un texte pour le bouton est saisi, une URL est également requise."
+          @subLabel="Si un texte pour le bouton est saisi, une URL est également requise."
           @value={{this.form.customResultPageButtonText}}
           @errorMessage={{this.customResultPageButtonTextError.message}}
           @validationStatus={{this.customResultPageButtonTextError.state}}
           {{on "change" (fn this.updateFormValue "customResultPageButtonText")}}
-        />
+        >
+          <:label>Texte du bouton de la page de fin de parcours</:label>
+        </PixInput>
 
         <PixInput
           @id="customResultPageButtonUrl"
-          @label="URL du bouton de la page de fin de parcours"
-          @information="Si une URL pour le bouton est saisie, le texte est également requis."
+          @subLabel="Si une URL pour le bouton est saisie, le texte est également requis."
           @value={{this.form.customResultPageButtonUrl}}
           @errorMessage={{this.customResultPageButtonUrlError.message}}
           @validationStatus={{this.customResultPageButtonUrlError.state}}
           {{on "change" (fn this.updateFormValue "customResultPageButtonUrl")}}
-        />
+        >
+          <:label>URL du bouton de la page de fin de parcours</:label>
+        </PixInput>
       {{/if}}
 
       {{#unless @campaign.totalParticipationsCount}}

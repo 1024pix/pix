@@ -7,9 +7,10 @@
           @id="userEmailToInvite"
           value={{@userEmailToInvite}}
           {{on "change" @onChangeUserEmailToInvite}}
-          @label="Adresse e-mail du membre à inviter"
           class="organization-invitations__input {{if @userEmailToInviteError 'organization-sub-form__input__error'}}"
-        />
+        >
+          <:label>Adresse e-mail du membre à inviter</:label>
+        </PixInput>
 
         <PixSelect
           @options={{this.languagesOptions}}

@@ -10,12 +10,13 @@
       <PixInput
         type="text"
         @id="participantExternalId"
-        @label="Modifier l'identifiant externe du participant"
         @screenReaderOnly={{true}}
         value={{@participation.participantExternalId}}
         onchange={{this.handleChange}}
         class="table-admin-input form-control"
-      />
+      >
+        <:label>Modifier l'identifiant externe du participant</:label>
+      </PixInput>
     {{else}}
       {{@participation.participantExternalId}}
     {{/if}}

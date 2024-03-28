@@ -53,10 +53,11 @@
         @id="assessment-id"
         @value={{@assessmentId}}
         placeholder="12345"
-        @label="ID de l'assessment"
         type="text"
         {{on "change" (fn this.updateFormFieldValue "assessmentId")}}
-      />
+      >
+        <:label>ID de l'assessment</:label>
+      </PixInput>
       <PixSelect
         @options={{this.acceptedLocales}}
         @label="Langue de l'utilisateur"

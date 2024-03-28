@@ -6,10 +6,11 @@
         @id="userEmailToInvite"
         value={{@userEmailToInvite}}
         {{on "change" @onChangeUserEmailToInvite}}
-        @label="Adresse e-mail du membre à inviter"
         class="certification-center-invitations-form-container__input
           {{if @userEmailToInviteError 'certification-center-invitations-form-container__input--error'}}"
-      />
+      >
+        <:label>Adresse e-mail du membre à inviter</:label>
+      </PixInput>
 
       <PixSelect
         @options={{this.languagesOptions}}
