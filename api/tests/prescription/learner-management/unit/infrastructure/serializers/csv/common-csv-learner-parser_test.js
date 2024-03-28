@@ -1,16 +1,10 @@
 import iconv from 'iconv-lite';
 
-import { AggregateImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
-import { CommonOrganizationLearner } from '../../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearnerSet.js';
 import { CommonCsvLearnerParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/common-csv-learner-parser.js';
-import { VALIDATION_ERRORS } from '../../../../../../../src/shared/domain/constants.js';
-import { CsvImportError } from '../../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
-  const organizationId = 123;
-
-  context('findEncoding', function () {
+  context('getEncoding', function () {
     const config = {
       headers: [
         {
@@ -23,28 +17,28 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
       acceptedEncoding: ['utf8'],
     };
 
-    const input = `prénom;
-      Éçéà niño véga;`;
+    const input = `prénom
+      Éçéà niño véga`;
 
     it('should throw an error if there is no acceptedEncoding', async function () {
       // given
       const encodedInput = iconv.encode(input, 'win1252');
-      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
+      const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
 
       // when
-      const error = await catchErr(parser.findEncoding, parser)();
+      const error = await catchErr(parser.getEncoding, parser)();
 
       // then
-      expect(error.meta[0].code).to.equal('ENCODING_NOT_SUPPORTED');
+      expect(error[0].code).to.equal('ENCODING_NOT_SUPPORTED');
     });
 
     it('should not throw an error if encoding is supported', async function () {
       // given
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
+      const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
 
       // when
-      const call = () => parser.findEncoding();
+      const call = () => parser.getEncoding();
       // then
       expect(call).to.not.throw();
     });
@@ -77,13 +71,13 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
       const input = `nom\\prénom\\
       Beatrix\\The\\`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-      parser.findEncoding();
+      const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
+
       // when
-      const error = await catchErr(parser.parse, parser)();
+      const error = await catchErr(parser.parse, parser)('utf8');
 
       // then
-      expect(error.meta[0].code).to.equal('BAD_CSV_FORMAT');
+      expect(error[0].code).to.equal('BAD_CSV_FORMAT');
     });
 
     context('Error FieldMismatch', function () {
@@ -92,26 +86,24 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
         const input = `nom;prénom;GodZilla
       Beatrix;The;cheese;of;truth`;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-        parser.findEncoding();
+        const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
         // when
-        const error = await catchErr(parser.parse, parser)();
+        const error = await catchErr(parser.parse, parser)('utf8');
 
         // then
-        expect(error.meta[0].code).to.equal('BAD_CSV_FORMAT');
+        expect(error[0].code).to.equal('BAD_CSV_FORMAT');
       });
       it('should throw an error if the is less columns than headers', async function () {
         // given
         const input = `nom;GodZilla;prénom
         Beatrix;`;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-        parser.findEncoding();
+        const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
         // when
-        const error = await catchErr(parser.parse, parser)();
+        const error = await catchErr(parser.parse, parser)('utf8');
 
         // then
-        expect(error.meta[0].code).to.equal('BAD_CSV_FORMAT');
+        expect(error[0].code).to.equal('BAD_CSV_FORMAT');
       });
     });
 
@@ -120,61 +112,58 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
       const input = `prénom;
       The;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
+      const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
 
-      parser.findEncoding();
       // when
-      const errors = await catchErr(parser.parse, parser)();
+      const errors = await catchErr(parser.parse, parser)('utf8');
 
       // then
-      expect(errors).instanceOf(AggregateImportError);
-      expect(errors.meta).to.lengthOf(2);
-      expect(errors.meta[0].code).to.equal('HEADER_REQUIRED');
-      expect(errors.meta[0].meta.field).to.equal('nom');
-      expect(errors.meta[1].code).to.equal('HEADER_REQUIRED');
-      expect(errors.meta[1].meta.field).to.equal('GodZilla');
+      expect(errors).to.lengthOf(2);
+      expect(errors[0].code).to.equal('HEADER_REQUIRED');
+      expect(errors[0].meta.field).to.equal('nom');
+      expect(errors[1].code).to.equal('HEADER_REQUIRED');
+      expect(errors[1].meta.field).to.equal('GodZilla');
     });
 
     it('should throw all errors on unknown header', async function () {
       // given
-      const input = `nom;Gidorah;King Kong;GodZilla;
-      The;;;;`;
+      const input = `nom;Gidorah;King Kong;GodZilla
+      The;;;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
+      const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
 
-      parser.findEncoding();
       // when
-      const errors = await catchErr(parser.parse, parser)();
+      const errors = await catchErr(parser.parse, parser)('utf8');
 
       // then
-      expect(errors.meta).to.lengthOf(2);
+      expect(errors).to.lengthOf(2);
 
-      expect(errors.meta[0].code).to.equal('HEADER_UNKNOWN');
-      expect(errors.meta[0].meta.field).to.equal('Gidorah');
-      expect(errors.meta[1].code).to.equal('HEADER_UNKNOWN');
-      expect(errors.meta[1].meta.field).to.equal('King Kong');
+      expect(errors[0].code).to.equal('HEADER_UNKNOWN');
+      expect(errors[0].meta.field).to.equal('Gidorah');
+      expect(errors[1].code).to.equal('HEADER_UNKNOWN');
+      expect(errors[1].meta.field).to.equal('King Kong');
     });
 
     it('should throw all errors on unknown and missing header', async function () {
       // given
-      const input = `prénom;Gidorah;
-      The;;`;
+      const input = `prénom;Gidorah
+      The;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-      parser.findEncoding();
+      const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
+      parser.getEncoding();
 
       // when
-      const errors = await catchErr(parser.parse, parser)();
+      const errors = await catchErr(parser.parse, parser)('utf8');
 
       // then
-      expect(errors.meta).to.lengthOf(3);
+      expect(errors).to.lengthOf(3);
 
-      expect(errors.meta[0].code).to.equal('HEADER_REQUIRED');
-      expect(errors.meta[0].meta.field).to.equal('nom');
-      expect(errors.meta[1].code).to.equal('HEADER_REQUIRED');
-      expect(errors.meta[1].meta.field).to.equal('GodZilla');
-      expect(errors.meta[2].code).to.equal('HEADER_UNKNOWN');
-      expect(errors.meta[2].meta.field).to.equal('Gidorah');
+      expect(errors[0].code).to.equal('HEADER_REQUIRED');
+      expect(errors[0].meta.field).to.equal('nom');
+      expect(errors[1].code).to.equal('HEADER_REQUIRED');
+      expect(errors[1].meta.field).to.equal('GodZilla');
+      expect(errors[2].code).to.equal('HEADER_UNKNOWN');
+      expect(errors[2].meta.field).to.equal('Gidorah');
     });
   });
 
@@ -201,277 +190,35 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
 
       it('should not throw on valid CSV', function () {
         // given
-        const input = `nom;prénom;
-        Beatrix;The;
+        const input = `nom;prénom
+        Beatrix;The
         `;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
+        const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
 
-        parser.findEncoding();
         // when
-        const call = () => parser.parse();
+        const call = () => parser.parse('utf8');
         // then
         expect(call).to.not.throw();
       });
 
       it('should return CommonOrganizationLearner from CSV', function () {
         // given
-        const input = `prénom;nom;
-        Godzilla;King of monsters;
+        const input = `prénom;nom
+        Godzilla;King of monsters
         `;
 
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-
-        parser.findEncoding();
-        // when
-        const learners = parser.parse();
-
-        // then
-        expect(learners).lengthOf(1);
-        expect(learners[0]).instanceOf(CommonOrganizationLearner);
-      });
-
-      it('should return desired attributes from CSV', function () {
-        // given
-        const input = `prénom;nom;
-        Godzilla;King of monsters;
-        PikaChu;Pokemon Gotta Catch'em ALL;
-        `;
-
-        const firstLearner = new CommonOrganizationLearner({
-          firstName: 'Godzilla',
-          lastName: 'King of monsters',
-          organizationId,
-        });
-        const secondLearner = new CommonOrganizationLearner({
-          firstName: 'PikaChu',
-          lastName: "Pokemon Gotta Catch'em ALL",
-          organizationId,
-        });
-        const expectedOutput = [firstLearner, secondLearner];
-
-        const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-
-        parser.findEncoding();
-        // when
-        const learners = parser.parse();
-
-        // then
-        expect(learners).deep.equal(expectedOutput);
-      });
-
-      it('should return in attributes everything that is not in config file', function () {
-        // given
-        config.headers.push({
-          name: 'classe',
-          isRequired: false,
-        });
-        const input = `prénom;nom;classe;
-        Godzilla; King of monsters;3emeB;
-        PikaChu;Pokemon Gotta Catch'em ALL;6emeD;
-        `;
-
-        const expectedOutput = [
-          { firstName: 'Godzilla', lastName: 'King of monsters', organizationId, attributes: { classe: '3emeB' } },
-          {
-            firstName: 'PikaChu',
-            lastName: "Pokemon Gotta Catch'em ALL",
-            organizationId,
-            attributes: { classe: '6emeD' },
-          },
-        ];
-        const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-        parser.findEncoding();
+        const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
 
         // when
-        const learners = parser.parse();
+        const result = parser.parse('utf8');
 
         // then
-        expect(learners).deep.equal(expectedOutput);
-      });
-
-      context('Error case', function () {
-        it('should throw unicity error', async function () {
-          // given
-          config.headers.push({
-            name: 'classe',
-            isRequired: true,
-          });
-
-          config.validationRules = {
-            unicity: ['classe'],
-          };
-
-          const input = `prénom;nom;classe;
-          The;Superman;4èmeB;
-          The;Batman;4èmeB;`;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-          parser.findEncoding();
-
-          // when
-          const errors = await catchErr(parser.parse, parser)();
-
-          // then
-          expect(errors.meta).to.lengthOf(1);
-          expect(errors.meta[0]).to.be.instanceOf(CsvImportError);
-          expect(errors.meta[0].code).to.equal(VALIDATION_ERRORS.PROPERTY_NOT_UNIQ);
-          expect(errors.meta[0].meta.field).to.equal('classe');
-          expect(errors.meta[0].meta.line).to.equal(3);
-        });
-
-        it('should throw date field format error', async function () {
-          // given
-          config.headers.push({
-            name: 'date de naissance',
-            isRequired: true,
-          });
-
-          config.validationRules = {
-            formats: [
-              {
-                name: 'date de naissance',
-                type: 'date',
-                format: 'YYYY-MM-DD',
-                required: true,
-              },
-            ],
-          };
-          const input = `prénom;nom;date de naissance;
-          The;Superman;3 juillet 1990;`;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-          parser.findEncoding();
-
-          // when
-          const errors = await catchErr(parser.parse, parser)();
-
-          // then
-          expect(errors.meta).to.lengthOf(1);
-          expect(errors.meta[0]).to.be.instanceOf(CsvImportError);
-          expect(errors.meta[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
-          expect(errors.meta[0].meta.field).to.equal('date de naissance');
-          expect(errors.meta[0].meta.line).to.equal(2);
-          expect(errors.meta[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
-        });
-
-        it('should throw required field error', async function () {
-          // given
-          config.headers.push({
-            name: 'date de naissance',
-            isRequired: true,
-          });
-
-          config.validationRules = {
-            formats: [
-              {
-                name: 'date de naissance',
-                type: 'date',
-                format: 'YYYY-MM-DD',
-                required: true,
-              },
-            ],
-          };
-          const input = `prénom;nom;date de naissance;
-          The;Superman;;`;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-          parser.findEncoding();
-
-          // when
-          const errors = await catchErr(parser.parse, parser)();
-
-          // then
-          expect(errors.meta).to.lengthOf(1);
-          expect(errors.meta[0]).to.be.instanceOf(CsvImportError);
-          expect(errors.meta[0].code).to.equal(VALIDATION_ERRORS.FIELD_REQUIRED);
-          expect(errors.meta[0].meta.field).to.equal('date de naissance');
-          expect(errors.meta[0].meta.line).to.equal(2);
-        });
-
-        context('Should return several validation errors', function () {
-          it('when there are 2 learners', async function () {
-            // given
-            config.headers.push({
-              name: 'date de naissance',
-              isRequired: true,
-            });
-
-            config.validationRules = {
-              unicity: ['nom', 'prénom'],
-              formats: [
-                {
-                  name: 'date de naissance',
-                  type: 'date',
-                  format: 'YYYY-MM-DD',
-                  required: true,
-                },
-              ],
-            };
-            const input = `prénom;nom;date de naissance;
-          The;Superman;;
-          The;Superman;1999-09-01;`;
-            const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-            parser.findEncoding();
-
-            // when
-            const errors = await catchErr(parser.parse, parser)();
-
-            // then
-            expect(errors.meta).to.lengthOf(2);
-            expect(errors.meta[0].code).to.equal(VALIDATION_ERRORS.FIELD_REQUIRED);
-            expect(errors.meta[0].meta.line).to.equal(2);
-            expect(errors.meta[1].code).to.equal(VALIDATION_ERRORS.PROPERTY_NOT_UNIQ);
-            expect(errors.meta[1].meta.line).to.equal(3);
-          });
-
-          it('when there is only one learner', async function () {
-            // given
-            config.headers.push(
-              {
-                name: 'date de naissance',
-                isRequired: true,
-              },
-              {
-                name: 'date de mariage',
-              },
-            );
-
-            config.validationRules = {
-              formats: [
-                {
-                  name: 'date de naissance',
-                  type: 'date',
-                  format: 'YYYY-MM-DD',
-                  required: true,
-                },
-                {
-                  name: 'date de mariage',
-                  type: 'date',
-                  format: 'YYYY-MM-DD',
-                },
-              ],
-            };
-            const input = `prénom;nom;date de naissance;date de mariage;
-            The;Superman;;09-09-1999;`;
-            const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new CommonCsvLearnerParser(encodedInput, organizationId, config);
-            parser.findEncoding();
-
-            // when
-            const errors = await catchErr(parser.parse, parser)();
-
-            // then
-            expect(errors.meta).to.lengthOf(2);
-            expect(errors.meta[0].code).to.equal(VALIDATION_ERRORS.FIELD_REQUIRED);
-            expect(errors.meta[0].meta.line).to.equal(2);
-            expect(errors.meta[1].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
-            expect(errors.meta[1].meta.line).to.equal(2);
-          });
+        expect(result).lengthOf(1);
+        expect(result[0]).to.be.deep.equal({
+          prénom: 'Godzilla',
+          nom: 'King of monsters',
         });
       });
     });
