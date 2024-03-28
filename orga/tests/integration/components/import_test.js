@@ -7,7 +7,7 @@ import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Import', function (hooks) {
+module.only('Integration | Component | Import', function (hooks) {
   setupIntlRenderingTest(hooks);
   let organizationImportDetail;
   hooks.beforeEach(function () {
@@ -49,6 +49,44 @@ module('Integration | Component | Import', function (hooks) {
         screen.getByRole('heading', { name: this.intl.t('pages.organization-participants-import.error-panel.title') }),
       );
       assert.strictEqual(screen.getAllByRole('listitem').length, 1);
+    });
+  });
+  module.skip('inProgress', function (hooks) {
+    hooks.beforeEach(function () {
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
+        isSUPManagingStudents = true;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const store = this.owner.lookup('service:store');
+      organizationImportDetail = store.createRecord('organization-import-detail', {
+        status: 'UPLOADED',
+        createdBy: { firstName: 'Richard', lastName: 'Aldana' },
+        updatedAt: new Date(2020, 10, 2),
+      });
+    });
+
+    test('display inProgress banner', async function (assert) {
+      // when
+      this.set('organizationImportDetail', organizationImportDetail);
+      const screen = await render(hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @organizationImportDetail={{this.organizationImportDetail}}
+/>`);
+      assert.ok(
+        screen.getByText(
+          this.intl.t('pages.organization-participants-import.validation-in-progress', {
+            firstName: 'Richard',
+            lastName: 'Aldana',
+            date: new Date(2020, 10, 2).toLocaleDateString(),
+          }),
+        ),
+      );
+      assert.ok(screen.getByRole('link', 'mailto:sup@pix.fr'));
     });
   });
 
