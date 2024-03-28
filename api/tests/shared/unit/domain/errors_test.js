@@ -89,7 +89,7 @@ describe('Unit | Shared | Domain | Errors', function () {
         expect(error.acceptedFormat).to.equal('YY-MM-DD');
       });
 
-      it('when it is a reauired error should return an error with code and key from joi', function () {
+      it('when it is a required error should return an error with code and key from joi', function () {
         const joiError = { context: { key: 'firstName' }, type: 'any.required' };
         const error = errors.ModelValidationError.fromJoiError(joiError);
 

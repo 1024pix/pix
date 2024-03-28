@@ -2,46 +2,68 @@ import {
   CommonOrganizationLearner,
   ImportOrganizationLearnerSet,
 } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearnerSet.js';
-import { ModelValidationError } from '../../../../../../src/shared/domain/errors.js';
+import { VALIDATION_ERRORS } from '../../../../../../src/shared/domain/constants.js';
+import { CsvImportError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Models | ImportOrganizationLearnerSet', function () {
-  let learnerSet;
+  const organizationId = 123;
   const learnerAttributes = {
-    firstName: 'Tomie',
-    lastName: 'Katana',
-    organizationId: 123,
-    preferredLastName: 'Yolo',
-    email: 'tomie.katana@example.net',
-    birthdate: '34',
-    diploma: 'Autre',
-    department: 'Paxton',
-    educationalTeam: 'MiloZotis',
+    prénom: 'Tomie',
+    nom: 'Katana',
+    "nom d'usage": 'Yolo',
+    anniversaire: '34',
     group: 'Solo',
-    studyScheme: 'Autre',
   };
   let validationRules;
 
+  const columnMapping = [
+    {
+      name: 'prénom',
+      property: 'firstName',
+    },
+    {
+      name: 'nom',
+      property: 'lastName',
+    },
+    {
+      name: 'anniversaire',
+    },
+    {
+      name: 'group',
+    },
+    {
+      name: "nom d'usage",
+    },
+  ];
   beforeEach(function () {
     validationRules = {};
   });
 
   describe('#addLearner', function () {
     it('should add a learner', function () {
-      learnerSet = new ImportOrganizationLearnerSet(validationRules);
+      const learnerSet = new ImportOrganizationLearnerSet({ organizationId, validationRules, columnMapping });
 
-      learnerSet.addLearner(learnerAttributes);
+      learnerSet.addLearners([learnerAttributes]);
 
       expect(learnerSet.learners).to.lengthOf(1);
       expect(learnerSet.learners[0]).to.be.an.instanceOf(CommonOrganizationLearner);
-      expect(learnerSet.learners).to.deep.equal([new CommonOrganizationLearner(learnerAttributes)]);
+      expect(learnerSet.learners).to.deep.equal([
+        new CommonOrganizationLearner({
+          firstName: 'Tomie',
+          lastName: 'Katana',
+          organizationId,
+          "nom d'usage": 'Yolo',
+          anniversaire: '34',
+          group: 'Solo',
+        }),
+      ]);
     });
 
     it('should return multiple learners', function () {
-      learnerSet = new ImportOrganizationLearnerSet(validationRules);
+      const learnerSet = new ImportOrganizationLearnerSet({ organizationId, validationRules, columnMapping });
 
-      learnerSet.addLearner(learnerAttributes);
-      learnerSet.addLearner(learnerAttributes);
+      learnerSet.addLearners([learnerAttributes, learnerAttributes]);
 
       expect(learnerSet.learners).to.lengthOf(2);
     });
@@ -53,13 +75,15 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             unicity: ['group'],
           };
 
-          learnerSet = new ImportOrganizationLearnerSet(validationRules);
+          const learnerSet = new ImportOrganizationLearnerSet({ organizationId, validationRules, columnMapping });
 
-          learnerSet.addLearner(learnerAttributes);
-          const error = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
+          const errors = await catchErr(learnerSet.addLearners, learnerSet)([learnerAttributes, learnerAttributes]);
 
-          expect(error[0].why).to.equal('uniqueness');
-          expect(error[0].code).to.equal('PROPERTY_NOT_UNIQ');
+          expect(errors).lengthOf(1);
+          expect(errors[0]).instanceOf(CsvImportError);
+          expect(errors[0].meta.field).to.equal('group');
+          expect(errors[0].meta.line).to.equal(3);
+          expect(errors[0].code).to.equal('PROPERTY_NOT_UNIQ');
         });
 
         it('should throw unicity errors on multiple attributes', async function () {
@@ -67,12 +91,15 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             unicity: ['firstName', 'group'],
           };
 
-          learnerSet = new ImportOrganizationLearnerSet(validationRules);
+          const learnerSet = new ImportOrganizationLearnerSet({ organizationId, validationRules, columnMapping });
 
-          learnerSet.addLearner(learnerAttributes);
-          const errors = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
+          const errors = await catchErr(learnerSet.addLearners, learnerSet)([learnerAttributes, learnerAttributes]);
 
-          expect(errors[0].why).to.equal('uniqueness');
+          expect(errors).lengthOf(1);
+          expect(errors[0]).instanceOf(CsvImportError);
+          expect(errors[0].meta.field).to.equal('firstName-group');
+          expect(errors[0].meta.line).to.equal(3);
+          expect(errors[0].code).to.equal('PROPERTY_NOT_UNIQ');
         });
 
         it('should not throw unicity errors when all unicity attributes are differents', async function () {
@@ -80,13 +107,11 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             unicity: ['firstName', 'group'],
           };
 
-          learnerSet = new ImportOrganizationLearnerSet(validationRules);
+          const learnerSet = new ImportOrganizationLearnerSet({ organizationId, validationRules, columnMapping });
 
-          learnerSet.addLearner(learnerAttributes);
-          const response = learnerSet.addLearner({
-            firstName: 'Tomie',
-            attributes: { firstName: 'Tomie', group: 'Cheese' },
-          });
+          const secondLearnerAttributes = { ...learnerAttributes, firstName: 'Tomie', group: 'cheese' };
+
+          const response = learnerSet.addLearners([learnerAttributes, secondLearnerAttributes]);
 
           expect(response).to.not.throw;
         });
@@ -97,93 +122,143 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
             formats: [{ name: 'birthdate', type: 'date', format: 'YYYY-MM-DD', required: true }],
           };
 
-          learnerSet = new ImportOrganizationLearnerSet(validationRules);
+          const learnerSet = new ImportOrganizationLearnerSet({ organizationId, validationRules, columnMapping });
 
-          const response = learnerSet.addLearner({ ...learnerAttributes, birthdate: '2026-03-06' });
+          const response = learnerSet.addLearners([{ ...learnerAttributes, birthdate: '2026-03-06' }]);
           expect(response).to.not.throw;
         });
 
         it('should throw date error when the format is not respected', async function () {
           validationRules = {
-            formats: [{ name: 'birthdate', type: 'date', format: 'YYYY-MM-DD', required: true }],
+            formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
           };
 
-          learnerSet = new ImportOrganizationLearnerSet(validationRules);
+          const learnerSet = new ImportOrganizationLearnerSet({ organizationId, validationRules, columnMapping });
 
-          const error = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
-          expect(error[0].why).to.equal('date_format');
+          const errors = await catchErr(learnerSet.addLearners, learnerSet)([learnerAttributes]);
+          expect(errors).lengthOf(1);
+          expect(errors[0]).instanceOf(CsvImportError);
+          expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
+          expect(errors[0].meta.field).to.equal('anniversaire');
+          expect(errors[0].meta.line).to.equal(2);
+          expect(errors[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
         });
 
         it('should throw date error when the format is not possible', async function () {
           validationRules = {
-            formats: [{ name: 'birthdate', type: 'date', format: 'YYYY-MM-DD', required: true }],
+            formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
           };
 
-          learnerSet = new ImportOrganizationLearnerSet(validationRules);
+          const learnerSet = new ImportOrganizationLearnerSet({ organizationId, validationRules, columnMapping });
 
-          const error = await catchErr(
-            learnerSet.addLearner,
+          const errors = await catchErr(
+            learnerSet.addLearners,
             learnerSet,
-          )({ ...learnerAttributes, birthdate: '2026-53-46' });
-          expect(error[0].why).to.equal('date_format');
+          )([{ ...learnerAttributes, anniversaire: '2026-53-46' }]);
+
+          expect(errors).lengthOf(1);
+          expect(errors[0]).instanceOf(CsvImportError);
+          expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
+          expect(errors[0].meta.field).to.equal('anniversaire');
+          expect(errors[0].meta.line).to.equal(2);
+          expect(errors[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
         });
       });
       context('With several rules', function () {
-        it('should throw all errors', async function () {
+        it('should throw all errors on multiple lines ', async function () {
           validationRules = {
-            unicity: ['firstName', 'group'],
-            formats: [{ name: 'birthdate', type: 'date', format: 'YYYY-MM-DD', required: true }],
+            unicity: ['prénom', 'group'],
+            formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
           };
 
           const secondLearnersAttributes = {
-            firstName: 'Tomie',
-            lastName: 'Katana',
-            organizationId: 123,
-            preferredLastName: 'Yolo',
-            email: 'tomie.katana@example.net',
-            birthdate: '2002-04-01',
-            diploma: 'Autre',
-            department: 'Paxton',
-            educationalTeam: 'MiloZotis',
+            prénom: 'Tomie',
+            nom: 'Katana',
+            anniversaire: '2002-04-01',
             group: 'Solo',
-            studyScheme: 'Autre',
           };
 
-          learnerSet = new ImportOrganizationLearnerSet(validationRules);
+          const learnerSet = new ImportOrganizationLearnerSet({ organizationId, validationRules, columnMapping });
 
-          const firstError = await catchErr(learnerSet.addLearner, learnerSet)(learnerAttributes);
-          const secondError = await catchErr(learnerSet.addLearner, learnerSet)(secondLearnersAttributes);
+          const errors = await catchErr(
+            learnerSet.addLearners,
+            learnerSet,
+          )([learnerAttributes, secondLearnersAttributes]);
 
-          expect(firstError[0]).to.be.an.instanceOf(ModelValidationError);
-          expect(firstError[0].why).to.equal('date_format');
-          expect(secondError[0].why).to.equal('uniqueness');
+          expect(errors).lengthOf(2);
+
+          expect(errors[0].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
+          expect(errors[0].meta.field).to.equal('anniversaire');
+          expect(errors[0].meta.line).to.equal(2);
+          expect(errors[0].meta.acceptedFormat).to.equal('YYYY-MM-DD');
+
+          expect(errors[1].code).to.equal(VALIDATION_ERRORS.PROPERTY_NOT_UNIQ);
+          expect(errors[1].meta.field).to.equal('prénom-group');
+          expect(errors[1].meta.line).to.equal(3);
+        });
+        it('should throw all errors on one line', async function () {
+          validationRules = {
+            unicity: ['prénom', 'group'],
+            formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
+          };
+
+          const secondLearnersAttributes = {
+            prénom: 'Tomie',
+            nom: 'Katana',
+            anniversaire: '2002',
+            group: 'Solo',
+          };
+
+          const learnerSet = new ImportOrganizationLearnerSet({ organizationId, validationRules, columnMapping });
+
+          const errors = await catchErr(
+            learnerSet.addLearners,
+            learnerSet,
+          )([{ ...learnerAttributes, anniversaire: '2023-05-01' }, secondLearnersAttributes]);
+
+          expect(errors).lengthOf(2);
+
+          expect(errors[0].code).to.equal(VALIDATION_ERRORS.PROPERTY_NOT_UNIQ);
+          expect(errors[0].meta.field).to.equal('prénom-group');
+          expect(errors[0].meta.line).to.equal(3);
+
+          expect(errors[1].code).to.equal(VALIDATION_ERRORS.FIELD_DATE_FORMAT);
+          expect(errors[1].meta.field).to.equal('anniversaire');
+          expect(errors[1].meta.line).to.equal(3);
+          expect(errors[1].meta.acceptedFormat).to.equal('YYYY-MM-DD');
         });
       });
     });
+
     describe('convertLearnerDates', function () {
       it('when there is one date config, should transform the date', async function () {
         validationRules = {
-          formats: [{ name: 'birthdate', type: 'date', format: 'YYYY/MM/DD', required: true }],
+          formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY/MM/DD', required: true }],
         };
 
-        learnerSet = new ImportOrganizationLearnerSet(validationRules);
+        const learnerSet = new ImportOrganizationLearnerSet({ organizationId, validationRules, columnMapping });
 
-        learnerSet.addLearner({ ...learnerAttributes, birthdate: '2026/03/06' });
-        expect(learnerSet.learners[0].attributes.birthdate).to.equal('2026-03-06');
+        learnerSet.addLearners([{ ...learnerAttributes, anniversaire: '2026/03/06' }]);
+        expect(learnerSet.learners[0].attributes.anniversaire).to.equal('2026-03-06');
       });
       it('when there is several date configs, should transform all the dates', async function () {
         validationRules = {
           formats: [
-            { name: 'birthdate', type: 'date', format: 'DD-MM-YYYY', required: true },
-            { name: 'anniversary', type: 'date', format: 'YYYY-DD-MM', required: true },
+            { name: 'anniversaire', type: 'date', format: 'DD-MM-YYYY', required: true },
+            { name: 'marriage', type: 'date', format: 'YYYY-DD-MM', required: true },
           ],
         };
 
-        learnerSet = new ImportOrganizationLearnerSet(validationRules);
+        const learnerSet = new ImportOrganizationLearnerSet({
+          organizationId,
+          validationRules,
+          columnMapping: [...columnMapping, { name: 'marriage' }],
+        });
 
-        learnerSet.addLearner({ ...learnerAttributes, birthdate: '06-03-2010', anniversary: '2027-09-06' });
-        expect(learnerSet.learners[0].attributes.birthdate).to.equal('2010-03-06');
-        expect(learnerSet.learners[0].attributes.anniversary).to.equal('2027-06-09');
+        learnerSet.addLearners([{ ...learnerAttributes, anniversaire: '06-03-2010', marriage: '2027-09-06' }]);
+
+        expect(learnerSet.learners[0].attributes.anniversaire).to.equal('2010-03-06');
+        expect(learnerSet.learners[0].attributes.marriage).to.equal('2027-06-09');
       });
     });
   });
