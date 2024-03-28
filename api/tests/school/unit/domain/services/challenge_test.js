@@ -6,8 +6,12 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.
 
 describe('Unit | Service | Challenge', function () {
   describe('#getChallenge', function () {
-    it('Should return a challenge', async function () {
-      const mission = domainBuilder.buildMission();
+    it('should return a challenge', async function () {
+      const mission = domainBuilder.buildMission({
+        content: new MissionContent({
+          trainingChallenges: [['challenge-id']],
+        }),
+      });
       const activityLevel = Activity.levels.TRAINING;
       const challengeNumber = 1;
       const alternativeVersion = null;
@@ -27,29 +31,37 @@ describe('Unit | Service | Challenge', function () {
 
       expect(challenge).to.deep.equal(expectedChallenge);
     });
-    it('calls challengeRepository#getChallengeFor1d with goods arguments', function () {
-      const challengeId = 'challenge_en_1';
-      const mission = domainBuilder.buildMission({
-        content: {
-          trainingChallenges: [[challengeId]],
-        },
+    context('should call sharedChallengeRepository#get with challenge id of accurate activity', function () {
+      let mission;
+      beforeEach(function () {
+        mission = domainBuilder.buildMission({
+          content: new MissionContent({
+            tutorialChallenges: [['tutorial-challenge-id-1']],
+            trainingChallenges: [['training-challenge-id-1']],
+            validationChallenges: [['validation-challenge-id-1']],
+            dareChallenges: [['dare-challenge-id-1']],
+          }),
+        });
       });
-      const activityLevel = Activity.levels.TRAINING;
-      const challengeNumber = 1;
-      const alternativeVersion = null;
-      const sharedChallengeRepository = {
-        get: sinon.stub(),
-      };
+      it('should call sharedChallengeRepository#get with challenge id of accurate activity', function () {
+        const challengeId = 'challenge_en_1';
+        const activityLevel = Activity.levels.TRAINING;
+        const challengeNumber = 2;
+        const alternativeVersion = null;
+        const sharedChallengeRepository = {
+          get: sinon.stub(),
+        };
 
-      challengeService.getChallenge({
-        mission,
-        activityLevel,
-        challengeNumber,
-        alternativeVersion,
-        sharedChallengeRepository,
+        challengeService.getChallenge({
+          mission,
+          activityLevel,
+          challengeNumber,
+          alternativeVersion,
+          sharedChallengeRepository,
+        });
+
+        expect(sharedChallengeRepository.get).to.have.been.calledOnceWith(challengeId);
       });
-
-      expect(sharedChallengeRepository.get).to.have.been.calledOnceWith(challengeId);
     });
 
     describe('with alternativeVersion', function () {
