@@ -3,6 +3,13 @@ import Component from '@glimmer/component';
 import groupBy from 'lodash/groupBy';
 import uniq from 'lodash/uniq';
 
+const label = {
+  STARTED: 'upload-in-progress',
+  UPLOADED: 'validation-in-progress',
+  UPLOAD_ERROR: 'todo',
+  VALIDATED: 'process-in-progress',
+  IMPORTED: 'global-success',
+};
 export default class Import extends Component {
   @service currentUser;
   @service session;
@@ -108,4 +115,6 @@ export default class Import extends Component {
       return {};
     }
   }
+
+  get(status) {}
 }
