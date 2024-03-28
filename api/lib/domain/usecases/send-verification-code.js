@@ -14,7 +14,7 @@ const sendVerificationCode = async function ({
   authenticationMethodRepository,
   userEmailRepository,
   userRepository,
-  encryptionService,
+  cryptoService,
   mailService,
   codeUtils,
 }) {
@@ -33,7 +33,7 @@ const sendVerificationCode = async function ({
   try {
     const passwordHash = get(authenticationMethod, 'authenticationComplement.password', '');
 
-    await encryptionService.checkPassword({
+    await cryptoService.checkPassword({
       password,
       passwordHash,
     });

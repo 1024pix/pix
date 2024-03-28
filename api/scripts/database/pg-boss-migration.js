@@ -1,5 +1,5 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
+
 import PgBoss from 'pg-boss';
 
 import { disconnect } from '../../db/knex-database-connection.js';

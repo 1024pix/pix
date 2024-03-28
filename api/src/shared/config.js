@@ -1,12 +1,11 @@
+import 'dotenv/config';
+
 import dayjs from 'dayjs';
-import * as dotenv from 'dotenv';
 import ms from 'ms';
 import path from 'path';
 import * as url from 'url';
 
 import { getArrayOfStrings, getArrayOfUpperStrings } from './infrastructure/utils/string-utils.js';
-
-dotenv.config();
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -295,7 +294,6 @@ const configuration = (function () {
       accessTokenLifespanMs: ms(process.env.PAYSDELALOIRE_ACCESS_TOKEN_LIFESPAN || '7d'),
       clientId: process.env.PAYSDELALOIRE_CLIENT_ID,
       clientSecret: process.env.PAYSDELALOIRE_CLIENT_SECRET,
-      endSessionUrl: process.env.PAYSDELALOIRE_END_SESSION_URL,
       isEnabled: isFeatureEnabled(process.env.PAYSDELALOIRE_ENABLED),
       isEnabledForPixAdmin: false,
       openidConfigurationUrl: process.env.PAYSDELALOIRE_OPENID_CONFIGURATION_URL,
@@ -375,6 +373,7 @@ const configuration = (function () {
 
   if (process.env.NODE_ENV === 'test') {
     config.oidcExampleNet = {
+      configKey: 'oidcExampleNet',
       clientId: 'client',
       clientSecret: 'secret',
       isEnabled: true,

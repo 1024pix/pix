@@ -1,11 +1,10 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
+
 // eslint-disable-next-line n/no-unpublished-import
 import jsdocToMarkdown from 'jsdoc-to-markdown';
 import * as url from 'url';
 
 import { logger } from '../src/shared/infrastructure/utils/logger.js';
-
-dotenv.config();
 
 async function main(baseFolder) {
   const docs = await jsdocToMarkdown.render({ files: `${baseFolder}/**/application/api/*.js` });

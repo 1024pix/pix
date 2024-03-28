@@ -6,11 +6,13 @@
   {{#if @showCheckbox}}
     <td class="table__column" {{on "click" @onToggleParticipant}}>
       <PixCheckbox @screenReaderOnly={{true}} @checked={{@isParticipantSelected}}>
-        {{t
-          "pages.organization-participants.table.column.checkbox"
-          firstname=@participant.firstName
-          lastname=@participant.lastName
-        }}
+        <:label>
+          {{t
+            "pages.organization-participants.table.column.checkbox"
+            firstname=@participant.firstName
+            lastname=@participant.lastName
+          }}
+        </:label>
       </PixCheckbox>
     </td>
   {{/if}}

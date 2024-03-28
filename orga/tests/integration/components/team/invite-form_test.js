@@ -39,7 +39,7 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
     );
 
     // when
-    const inputLabel = this.intl.t('pages.team-new-item.input-label');
+    const inputLabel = '* ' + this.intl.t('pages.team-new-item.input-label');
     await fillByLabel(inputLabel, 'dev@example.net');
 
     // then

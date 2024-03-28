@@ -1,10 +1,10 @@
 .label {
   display: inline-block;
+  margin-bottom: var(--pix-spacing-1x);
   margin-left: 1px;
-  padding-bottom: 5px;
-  color: var(--pix-neutral-800);
-  font-weight: 500;
-  font-size: 0.94rem;
+  color: var(--pix-neutral-900);
+  font-weight: var(--pix-font-medium);
+  font-size: 1rem;
 }
 
 .input {

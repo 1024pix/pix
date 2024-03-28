@@ -17,7 +17,23 @@ const getById = async function ({ complementaryCertificationId, complementaryCer
   return _toDomain(complementaryCertification);
 };
 
-export { getById };
+/**
+ * @function
+ * @param {Object} params
+ * @param {number} params.label
+ * @param {ComplementaryCertificationApi} params.complementaryCertificationApi
+ *
+ * @returns {ComplementaryCertification}
+ * @throws {NotFoundError} Complementary certification does not exist
+ */
+const getByLabel = async function ({ label, complementaryCertificationApi }) {
+  const complementaryCertification = await complementaryCertificationApi.getByLabel({
+    label,
+  });
+  return _toDomain(complementaryCertification);
+};
+
+export { getById, getByLabel };
 
 function _toDomain(result) {
   return new ComplementaryCertification(result);

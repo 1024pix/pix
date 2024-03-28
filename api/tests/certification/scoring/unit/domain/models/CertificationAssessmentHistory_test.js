@@ -8,6 +8,9 @@ describe('Unit | Domain | Models | CertificationAssessmentHistory', function () 
       const algorithm = {
         getEstimatedLevelAndErrorRateHistory: sinon.stub(),
       };
+      const firstAnswerId = 123;
+      const secondAnswerId = 456;
+      const thirdAnswerId = 789;
 
       const challenges = [
         domainBuilder.buildCertificationChallengeForScoring({
@@ -24,9 +27,9 @@ describe('Unit | Domain | Models | CertificationAssessmentHistory', function () 
         }),
       ];
       const allAnswers = [
-        domainBuilder.buildAnswer({ challengeId: 'challenge1', value: 'answer1' }),
-        domainBuilder.buildAnswer({ challengeId: 'challenge2', value: 'answer1' }),
-        domainBuilder.buildAnswer({ challengeId: 'challenge3', value: 'answer1' }),
+        domainBuilder.buildAnswer({ id: firstAnswerId, challengeId: 'challenge1', value: 'answer1' }),
+        domainBuilder.buildAnswer({ id: secondAnswerId, challengeId: 'challenge2', value: 'answer1' }),
+        domainBuilder.buildAnswer({ id: thirdAnswerId, challengeId: 'challenge3', value: 'answer1' }),
       ];
 
       algorithm.getEstimatedLevelAndErrorRateHistory
@@ -34,7 +37,11 @@ describe('Unit | Domain | Models | CertificationAssessmentHistory', function () 
           allAnswers,
           challenges,
         })
-        .returns([{ estimatedLevel: 1 }, { estimatedLevel: 2 }, { estimatedLevel: 3 }]);
+        .returns([
+          { answerId: firstAnswerId, estimatedLevel: 1 },
+          { answerId: secondAnswerId, estimatedLevel: 2 },
+          { answerId: thirdAnswerId, estimatedLevel: 3 },
+        ]);
 
       // when
       const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({
@@ -46,14 +53,17 @@ describe('Unit | Domain | Models | CertificationAssessmentHistory', function () 
       // then
       const expectedCapacityHistory = [
         domainBuilder.buildCertificationChallengeCapacity({
+          answerId: firstAnswerId,
           certificationChallengeId: 'certificationChallengeId1',
           capacity: 1,
         }),
         domainBuilder.buildCertificationChallengeCapacity({
+          answerId: secondAnswerId,
           certificationChallengeId: 'certificationChallengeId2',
           capacity: 2,
         }),
         domainBuilder.buildCertificationChallengeCapacity({
+          answerId: thirdAnswerId,
           certificationChallengeId: 'certificationChallengeId3',
           capacity: 3,
         }),

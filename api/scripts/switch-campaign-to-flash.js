@@ -1,7 +1,6 @@
-import dotenv from 'dotenv';
-import _ from 'lodash';
+import 'dotenv/config';
 
-dotenv.config();
+import _ from 'lodash';
 import * as url from 'url';
 
 import { knex } from '../db/knex-database-connection.js';

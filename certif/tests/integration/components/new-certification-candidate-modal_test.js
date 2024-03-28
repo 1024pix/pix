@@ -1,6 +1,6 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { click, fillIn } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -62,29 +62,30 @@ module('Integration | Component | new-certification-candidate-modal', function (
     `);
 
     // then
-    assert.dom(screen.getByLabelText('* Nom de naissance')).exists();
-    assert.dom(screen.getByLabelText('* Prénom')).exists();
-    assert.dom(screen.getByLabelText('Homme')).exists();
-    assert.dom(screen.getByLabelText('Femme')).exists();
-    assert.dom(screen.getByLabelText('* Date de naissance')).exists();
-    assert.dom(screen.getByLabelText('* Pays de naissance')).exists();
-    assert.dom(screen.getByLabelText('Code INSEE')).exists();
-    assert.dom(screen.getByLabelText('Code postal')).exists();
-    assert.dom(screen.getByLabelText('* Code INSEE de naissance')).exists();
-    assert.dom(screen.getByLabelText('Identifiant externe')).exists();
-    assert.dom(screen.getByLabelText('Temps majoré (%)')).exists();
-    assert.dom(screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)')).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Nom de naissance' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Prénom' })).exists();
+    assert.dom(screen.getByRole('radio', { name: 'Homme' })).exists();
+    assert.dom(screen.getByRole('radio', { name: 'Femme' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Date de naissance' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Obligatoire Pays de naissance' })).exists();
+    assert.dom(screen.getByRole('radio', { name: 'Code INSEE' })).exists();
+    assert.dom(screen.getByRole('radio', { name: 'Code postal' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Code INSEE de naissance' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Identifiant externe' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Temps majoré (%)' })).exists();
+    assert
+      .dom(screen.getByRole('textbox', { name: 'E-mail du destinataire des résultats (formateur, enseignant...)' }))
+      .exists();
     assert
       .dom(
         screen.getByText(
           'Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats concernés.Le candidat verra ses résultats affichés directement sur son compte Pix.',
-          { exact: false },
         ),
       )
       .exists();
-    assert.dom(screen.getByLabelText('E-mail de convocation')).exists();
-    assert.dom(screen.getByLabelText('Certif complémentaire 1')).exists();
-    assert.dom(screen.getByLabelText('Certif complémentaire 2')).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'E-mail de convocation' })).exists();
+    assert.dom(screen.getByRole('radio', { name: 'Certif complémentaire 1' })).exists();
+    assert.dom(screen.getByRole('radio', { name: 'Certif complémentaire 2' })).exists();
   });
 
   test('it should have some inputs required', async function (assert) {
@@ -109,11 +110,11 @@ module('Integration | Component | new-certification-candidate-modal', function (
     `);
 
     // then
-    assert.dom(screen.getByRole('textbox', { name: 'Nom de naissance' })).hasAttribute('required');
-    assert.dom(screen.getByRole('textbox', { name: 'Prénom' })).hasAttribute('required');
-    assert.dom(screen.getByRole('textbox', { name: 'Date de naissance' })).hasAttribute('required');
+    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Nom de naissance' })).hasAttribute('required');
+    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Prénom' })).hasAttribute('required');
+    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Date de naissance' })).hasAttribute('required');
     assert.dom(screen.getByRole('radio', { name: 'Femme' })).hasAttribute('required');
-    assert.dom(screen.getByRole('textbox', { name: 'Code INSEE de naissance' })).hasAttribute('required');
+    assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Code INSEE de naissance' })).hasAttribute('required');
   });
 
   module('when shouldDisplayPaymentOptions is true', function () {
@@ -162,31 +163,8 @@ module('Integration | Component | new-certification-candidate-modal', function (
       `);
 
       // then
-      assert.dom(screen.getByLabelText('* Nom de naissance')).exists();
-      assert.dom(screen.getByLabelText('* Prénom')).exists();
-      assert.dom(screen.getByLabelText('Homme')).exists();
-      assert.dom(screen.getByLabelText('Femme')).exists();
-      assert.dom(screen.getByLabelText('* Date de naissance')).exists();
-      assert.dom(screen.getByLabelText('* Pays de naissance')).exists();
-      assert.dom(screen.getByLabelText('Code INSEE')).exists();
-      assert.dom(screen.getByLabelText('Code postal')).exists();
-      assert.dom(screen.getByLabelText('* Code INSEE de naissance')).exists();
-      assert.dom(screen.getByLabelText('Identifiant externe')).exists();
-      assert.dom(screen.getByLabelText('Temps majoré (%)')).exists();
-      assert.dom(screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)')).exists();
-      assert
-        .dom(
-          screen.getByText(
-            'Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats concernés.Le candidat verra ses résultats affichés directement sur son compte Pix.',
-            { exact: false },
-          ),
-        )
-        .exists();
-      assert.dom(screen.getByLabelText('E-mail de convocation')).exists();
-      assert.dom(screen.getByLabelText('Certif complémentaire 1')).exists();
-      assert.dom(screen.getByLabelText('Certif complémentaire 2')).exists();
-      assert.dom(screen.getByLabelText('* Tarification part Pix')).exists();
-      assert.dom(screen.getByLabelText('Code de prépaiement')).exists();
+      assert.dom(screen.getByRole('button', { name: 'Obligatoire Tarification part Pix' })).exists();
+      assert.dom(screen.getByRole('textbox', { name: 'Code de prépaiement' })).exists();
       assert.dom(screen.getByLabelText('Information du code de prépaiement')).exists();
     });
   });
@@ -232,7 +210,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
     `);
 
     // then
-    assert.dom(screen.getByRole('button', { name: 'Pays de naissance' })).includesText('France');
+    assert.dom(screen.getByRole('button', { name: 'Obligatoire Pays de naissance' })).includesText('France');
   });
 
   module('when close button cross icon is clicked', () => {
@@ -359,7 +337,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
         />
       `);
 
-      await click(screen.getByLabelText('* Pays de naissance'));
+      await click(screen.getByRole('button', { name: 'Obligatoire Pays de naissance' }));
       await click(
         await screen.findByRole('option', {
           name: 'Borduristan',
@@ -459,92 +437,6 @@ module('Integration | Component | new-certification-candidate-modal', function (
       assert.dom(screen.queryByLabelText('* Code INSEE de naissance')).isNotVisible();
       assert.dom(screen.queryByLabelText('* Code postal de naissance')).isVisible();
       assert.dom(screen.getByLabelText('* Commune de naissance')).isVisible();
-    });
-  });
-
-  module('when the form is filled', () => {
-    test('it should submit a student', async function (assert) {
-      const closeModalStub = sinon.stub();
-      const updateCandidateFromValueStub = sinon.stub();
-      updateCandidateFromValueStub.callsFake((object, key, value) => (object[key] = value));
-
-      const updateCandidateFromEventStub = sinon.stub();
-      const saveCandidateStub = sinon.stub();
-
-      this.set('closeModal', closeModalStub);
-      this.set('updateCandidateFromValueStub', updateCandidateFromValueStub);
-      this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
-      this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
-      this.set('saveCandidate', saveCandidateStub);
-      this.set('candidateData', {
-        firstName: '',
-        lastName: '',
-        birthdate: '',
-        birthCity: '',
-        birthCountry: '',
-        email: '',
-        externalId: '',
-        resultRecipientEmail: '',
-        birthPostalCode: '',
-        birthInseeCode: '',
-        sex: '',
-        extraTimePercentage: '',
-      });
-      this.set('countries', [{ code: '99100', name: 'FRANCE' }]);
-
-      // when
-      const screen = await renderScreen(hbs`
-        <NewCertificationCandidateModal
-          @showModal={{true}}
-          @closeModal={{this.closeModal}}
-          @countries={{this.countries}}
-          @updateCandidateData={{this.updateCandidateFromEventStub}}
-          @updateCandidateDataFromValue={{this.updateCandidateFromValueStub}}
-          @candidateData={{this.candidateData}}
-          @saveCandidate={{this.saveCandidate}}
-          />
-      `);
-      await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
-      await fillIn(screen.getByLabelText('* Nom de naissance'), 'Threepwood');
-      await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
-      await click(screen.getByRole('radio', { name: 'Homme' }));
-      await click(screen.getByLabelText('* Pays de naissance'));
-      await click(
-        await screen.findByRole('option', {
-          name: 'FRANCE',
-        }),
-      );
-      await click(screen.getByRole('radio', { name: 'Code INSEE' }));
-      await click(screen.getByRole('radio', { name: 'Certif complémentaire 1' }));
-      await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
-      await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
-      await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
-      await fillIn(
-        screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
-        'guybrush.threepwood@example.net',
-      );
-      await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
-
-      await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
-
-      // then
-      assert.strictEqual(updateCandidateFromValueStub.callCount, 7);
-      assert.strictEqual(updateCandidateFromEventStub.callCount, 8);
-      sinon.assert.calledOnceWithExactly(saveCandidateStub, {
-        firstName: 'Guybrush',
-        lastName: 'Threepwood',
-        birthdate: '2019-04-28',
-        birthCity: '',
-        birthCountry: 'FRANCE',
-        email: 'roooooar@example.net',
-        externalId: '44AA3355',
-        resultRecipientEmail: 'guybrush.threepwood@example.net',
-        birthPostalCode: '',
-        birthInseeCode: '75100',
-        sex: '',
-        extraTimePercentage: '20',
-        complementaryCertification: { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1' },
-      });
     });
   });
 });

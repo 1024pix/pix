@@ -18,7 +18,7 @@ describe('Unit | UseCase | create-user', function () {
   let userRepository;
   let userToCreateRepository;
   let campaignRepository;
-  let encryptionService;
+  let cryptoService;
   let mailService;
   let userService;
   let passwordValidator;
@@ -36,7 +36,7 @@ describe('Unit | UseCase | create-user', function () {
       getByCode: sinon.stub(),
     };
 
-    encryptionService = {
+    cryptoService = {
       hashPassword: sinon.stub(),
     };
     mailService = {
@@ -58,7 +58,7 @@ describe('Unit | UseCase | create-user', function () {
     userValidator.validate.returns();
     passwordValidator.validate.returns();
 
-    encryptionService.hashPassword.resolves(hashedPassword);
+    cryptoService.hashPassword.resolves(hashedPassword);
     mailService.sendAccountCreationEmail.resolves();
     userService.createUserWithPassword.resolves(savedUser);
 
@@ -80,7 +80,7 @@ describe('Unit | UseCase | create-user', function () {
         campaignRepository,
         userRepository,
         userToCreateRepository,
-        encryptionService,
+        cryptoService,
         mailService,
         userService,
         userValidator,
@@ -102,7 +102,7 @@ describe('Unit | UseCase | create-user', function () {
         campaignRepository,
         userRepository,
         userToCreateRepository,
-        encryptionService,
+        cryptoService,
         mailService,
         userService,
         userValidator,
@@ -124,7 +124,7 @@ describe('Unit | UseCase | create-user', function () {
         campaignRepository,
         userRepository,
         userToCreateRepository,
-        encryptionService,
+        cryptoService,
         mailService,
         userService,
         userValidator,
@@ -160,7 +160,7 @@ describe('Unit | UseCase | create-user', function () {
           campaignRepository,
           userRepository,
           userToCreateRepository,
-          encryptionService,
+          cryptoService,
           mailService,
           userService,
           userValidator,
@@ -201,7 +201,7 @@ describe('Unit | UseCase | create-user', function () {
           campaignRepository,
           userRepository,
           userToCreateRepository,
-          encryptionService,
+          cryptoService,
           mailService,
           userService,
           userValidator,
@@ -244,7 +244,7 @@ describe('Unit | UseCase | create-user', function () {
           campaignRepository,
           userRepository,
           userToCreateRepository,
-          encryptionService,
+          cryptoService,
           mailService,
           userService,
           userValidator,
@@ -275,7 +275,7 @@ describe('Unit | UseCase | create-user', function () {
           campaignRepository,
           userRepository,
           userToCreateRepository,
-          encryptionService,
+          cryptoService,
           mailService,
           userService,
           userValidator,
@@ -305,7 +305,7 @@ describe('Unit | UseCase | create-user', function () {
           campaignRepository,
           userRepository,
           userToCreateRepository,
-          encryptionService,
+          cryptoService,
           mailService,
           userService,
           userValidator,
@@ -332,7 +332,7 @@ describe('Unit | UseCase | create-user', function () {
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        encryptionService,
+        cryptoService,
         mailService,
         userService,
         userValidator,
@@ -357,7 +357,7 @@ describe('Unit | UseCase | create-user', function () {
           campaignRepository,
           userRepository,
           userToCreateRepository,
-          encryptionService,
+          cryptoService,
           mailService,
           userService,
           userValidator,
@@ -365,12 +365,12 @@ describe('Unit | UseCase | create-user', function () {
         });
 
         // then
-        expect(encryptionService.hashPassword).to.have.been.calledWithExactly(password);
+        expect(cryptoService.hashPassword).to.have.been.calledWithExactly(password);
       });
 
       it('should throw Error when hash password function fails', async function () {
         // given
-        encryptionService.hashPassword.rejects(new Error());
+        cryptoService.hashPassword.rejects(new Error());
 
         // when
         const error = await catchErr(createUser)({
@@ -382,7 +382,7 @@ describe('Unit | UseCase | create-user', function () {
           campaignRepository,
           userRepository,
           userToCreateRepository,
-          encryptionService,
+          cryptoService,
           mailService,
           userService,
         });
@@ -402,7 +402,7 @@ describe('Unit | UseCase | create-user', function () {
           campaignRepository,
           userRepository,
           userToCreateRepository,
-          encryptionService,
+          cryptoService,
           mailService,
           userService,
 
@@ -438,7 +438,7 @@ describe('Unit | UseCase | create-user', function () {
           campaignRepository,
           userRepository,
           userToCreateRepository,
-          encryptionService,
+          cryptoService,
           mailService,
           userService,
           userValidator,
@@ -470,7 +470,7 @@ describe('Unit | UseCase | create-user', function () {
             campaignRepository,
             userRepository,
             userToCreateRepository,
-            encryptionService,
+            cryptoService,
             mailService,
             userService,
             userValidator,
@@ -504,7 +504,7 @@ describe('Unit | UseCase | create-user', function () {
             campaignRepository,
             userRepository,
             userToCreateRepository,
-            encryptionService,
+            cryptoService,
             mailService,
             userService,
             userValidator,
@@ -532,7 +532,7 @@ describe('Unit | UseCase | create-user', function () {
         campaignRepository,
         userRepository,
         userToCreateRepository,
-        encryptionService,
+        cryptoService,
         mailService,
         userService,
         userValidator,

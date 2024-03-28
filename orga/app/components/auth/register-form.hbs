@@ -4,7 +4,6 @@
     <div class="input-container">
       <PixInput
         @id="register-firstName"
-        @label={{t "pages.login-or-register.register-form.fields.first-name.label"}}
         name="firstName"
         type="firstName"
         {{on "change" this.validateFirstName}}
@@ -13,13 +12,14 @@
         required={{true}}
         aria-required={{true}}
         autocomplete="given-name"
-      />
+      >
+        <:label>{{t "pages.login-or-register.register-form.fields.first-name.label"}}</:label>
+      </PixInput>
     </div>
 
     <div class="input-container">
       <PixInput
         @id="register-lastName"
-        @label={{t "pages.login-or-register.register-form.fields.last-name.label"}}
         name="lastName"
         type="lastName"
         {{on "change" this.validateLastName}}
@@ -28,13 +28,15 @@
         required={{true}}
         aria-required={{true}}
         autocomplete="family-name"
-      />
+      >
+        <:label>{{t "pages.login-or-register.register-form.fields.last-name.label"}}</:label>
+      </PixInput>
+
     </div>
 
     <div class="input-container">
       <PixInput
         @id="register-email"
-        @label={{t "pages.login-or-register.register-form.fields.email.label"}}
         name="email"
         type="email"
         {{on "change" this.validateEmail}}
@@ -43,21 +45,24 @@
         required={{true}}
         aria-required={{true}}
         autocomplete="email"
-      />
+      >
+        <:label>{{t "pages.login-or-register.register-form.fields.email.label"}}</:label>
+      </PixInput>
     </div>
 
     <div class="input-container">
       <PixInputPassword
         @id="register-password"
         name="password"
-        @label={{t "pages.login-or-register.register-form.fields.password.label"}}
         autocomplete="current-password"
         required={{true}}
         aria-required={{true}}
         {{on "change" this.validatePassword}}
         @errorMessage={{this.validation.password.message}}
         @validationStatus={{this.validation.password.status}}
-      />
+      >
+        <:label>{{t "pages.login-or-register.register-form.fields.password.label"}}</:label>
+      </PixInputPassword>
     </div>
 
     <div id="register-cgu-container" class="input-container">

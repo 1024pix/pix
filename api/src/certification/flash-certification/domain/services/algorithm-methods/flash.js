@@ -74,14 +74,15 @@ function getEstimatedLevelAndErrorRateHistory({
   let likelihood = samples.map(() => DEFAULT_PROBABILITY_TO_ANSWER);
   let normalizedPosteriori;
   let answerIndex = 0;
+  let answer;
 
   const estimatedLevelHistory = [];
 
   while (answerIndex < allAnswers.length) {
+    answer = allAnswers[answerIndex];
     const variationPercentForCurrentAnswer = variationPercentUntil >= answerIndex ? variationPercent : undefined;
 
     if (!_shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex, answersLength: allAnswers.length })) {
-      const answer = allAnswers[answerIndex];
       ({ latestEstimatedLevel, likelihood, normalizedPosteriori } = _singleMeasure({
         challenges,
         answer,
@@ -93,11 +94,11 @@ function getEstimatedLevelAndErrorRateHistory({
 
       answerIndex++;
     } else {
-      const answer1 = allAnswers[answerIndex];
+      answer = allAnswers[answerIndex];
       const answer2 = allAnswers[answerIndex + 1];
       ({ latestEstimatedLevel, likelihood, normalizedPosteriori } = _doubleMeasure({
         challenges,
-        answers: [answer1, answer2],
+        answers: [answer, answer2],
         latestEstimatedLevel,
         likelihood,
         normalizedPosteriori,
@@ -108,6 +109,7 @@ function getEstimatedLevelAndErrorRateHistory({
     }
 
     estimatedLevelHistory.push({
+      answerId: answer.id,
       estimatedLevel: latestEstimatedLevel,
       errorRate: _computeCorrectedErrorRate(latestEstimatedLevel, normalizedPosteriori),
     });

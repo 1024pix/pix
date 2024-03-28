@@ -15,7 +15,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       id: 'oidc-partner',
       code: 'OIDC_PARTNER',
       organizationName: 'Partenaire OIDC',
-      hasLogoutUrl: false,
+      shouldCloseSession: false,
       source: 'oidc-externe',
     };
     const oidcPartnerObject = Object.create(oidcPartner);
@@ -36,7 +36,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       assert.ok(storeStub.findAll.calledWith('oidc-identity-provider'));
       assert.strictEqual(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
       assert.strictEqual(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
-      assert.strictEqual(oidcIdentityProvidersService.list[0].hasLogoutUrl, oidcPartner.hasLogoutUrl);
+      assert.strictEqual(oidcIdentityProvidersService.list[0].shouldCloseSession, oidcPartner.shouldCloseSession);
       assert.strictEqual(oidcIdentityProvidersService.list[0].source, oidcPartner.source);
     });
   });
@@ -54,7 +54,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       );
       assert.strictEqual(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
       assert.strictEqual(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
-      assert.strictEqual(oidcIdentityProvidersService.list[0].hasLogoutUrl, oidcPartner.hasLogoutUrl);
+      assert.strictEqual(oidcIdentityProvidersService.list[0].shouldCloseSession, oidcPartner.shouldCloseSession);
       assert.strictEqual(oidcIdentityProvidersService.list[0].source, oidcPartner.source);
     });
   });

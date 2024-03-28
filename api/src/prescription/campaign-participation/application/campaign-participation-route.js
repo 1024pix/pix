@@ -8,6 +8,39 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
+      path: '/api/admin/campaigns/{campaignId}/participations',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            campaignId: identifiersType.campaignId,
+          }),
+          query: Joi.object({
+            'page[number]': Joi.number().integer().empty(''),
+            'page[size]': Joi.number().integer().empty(''),
+          }),
+        },
+        handler: campaignParticipationController.findPaginatedParticipationsForCampaignManagement,
+        tags: ['api', 'campaign', 'participations', 'admin'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet de récupérer les participations d'une campagne donnée.",
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/campaign-participations/{id}/analyses',
       config: {
         validate: {

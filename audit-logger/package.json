@@ -1,6 +1,6 @@
 {
   "name": "pix-audit-logger",
-  "version": "4.120.0",
+  "version": "4.123.0",
   "description": "",
   "scripts": {
     "build": "npx tsc --project tsconfig.production.json",
@@ -51,7 +51,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard-with-typescript": "^43.0.0",
     "eslint-plugin-import": "^2.28.0",
-    "eslint-plugin-knex": "git+https://github.com/1024pix/eslint-plugin-knex#master",
+    "eslint-plugin-knex": "v0.2.2",
     "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-promise": "^6.1.1",
@@ -72,6 +72,6 @@
     "lodash": "^4.17.21",
     "pg": "^8.11.2",
     "pino": "^8.15.0",
-    "pino-pretty": "^10.2.0"
+    "pino-pretty": "^11.0.0"
   }
 }

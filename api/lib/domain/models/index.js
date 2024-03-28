@@ -99,7 +99,6 @@ import { OrganizationMemberIdentity } from './OrganizationMemberIdentity.js';
 import { OrganizationsToAttachToTargetProfile } from './OrganizationsToAttachToTargetProfile.js';
 import { OrganizationTag } from './OrganizationTag.js';
 import { ParticipantResultsShared } from './ParticipantResultsShared.js';
-import { ParticipationForCampaignManagement } from './ParticipationForCampaignManagement.js';
 import { PartnerCertificationScoring } from './PartnerCertificationScoring.js';
 import { PlacementProfile } from './PlacementProfile.js';
 import { PoleEmploiSending } from './PoleEmploiSending.js';
@@ -241,7 +240,6 @@ export {
   OrganizationsToAttachToTargetProfile,
   OrganizationTag,
   ParticipantResultsShared,
-  ParticipationForCampaignManagement,
   PartnerCertificationScoring,
   PlacementProfile,
   PoleEmploiSending,

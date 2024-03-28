@@ -11,7 +11,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
   const encryptedPassword = '@Pix12345@';
 
   let passwordGenerator;
-  let encryptionService;
+  let cryptoService;
   let authenticationMethodRepository;
   let organizationLearnerRepository;
   let userRepository;
@@ -40,7 +40,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
     passwordGenerator = {
       generateSimplePassword: sinon.stub().returns(generatedPassword),
     };
-    encryptionService = {
+    cryptoService = {
       hashPassword: sinon.stub().resolves(encryptedPassword),
     };
     authenticationMethodRepository = {
@@ -62,7 +62,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
       organizationId,
       organizationLearnerId,
       userId,
-      encryptionService,
+      cryptoService,
       passwordGenerator,
       authenticationMethodRepository,
       organizationLearnerRepository,
@@ -79,7 +79,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
       organizationId,
       organizationLearnerId,
       userId,
-      encryptionService,
+      cryptoService,
       passwordGenerator,
       authenticationMethodRepository,
       organizationLearnerRepository,
@@ -96,7 +96,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
       organizationId,
       organizationLearnerId,
       userId,
-      encryptionService,
+      cryptoService,
       passwordGenerator,
       authenticationMethodRepository,
       organizationLearnerRepository,
@@ -104,7 +104,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
     });
 
     // then
-    expect(encryptionService.hashPassword).to.have.been.calledWithExactly(generatedPassword);
+    expect(cryptoService.hashPassword).to.have.been.calledWithExactly(generatedPassword);
     expect(authenticationMethodRepository.updatePasswordThatShouldBeChanged).to.have.been.calledWithExactly({
       userId: userStudent.id,
       hashedPassword: encryptedPassword,
@@ -117,7 +117,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
       organizationId,
       organizationLearnerId,
       userId,
-      encryptionService,
+      cryptoService,
       passwordGenerator,
       authenticationMethodRepository,
       organizationLearnerRepository,
@@ -138,7 +138,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
         organizationId,
         organizationLearnerId,
         userId,
-        encryptionService,
+        cryptoService,
         passwordGenerator,
         authenticationMethodRepository,
         organizationLearnerRepository,
@@ -163,7 +163,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
         organizationId,
         organizationLearnerId,
         userId,
-        encryptionService,
+        cryptoService,
         passwordGenerator,
         authenticationMethodRepository,
         organizationLearnerRepository,
@@ -185,7 +185,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
         organizationId,
         organizationLearnerId,
         userId,
-        encryptionService,
+        cryptoService,
         passwordGenerator,
         authenticationMethodRepository,
         organizationLearnerRepository,
@@ -206,7 +206,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
         organizationId,
         organizationLearnerId,
         userId,
-        encryptionService,
+        cryptoService,
         passwordGenerator,
         authenticationMethodRepository,
         organizationLearnerRepository,

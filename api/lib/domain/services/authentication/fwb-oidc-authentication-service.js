@@ -16,7 +16,7 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
-      hasLogoutUrl: true,
+      shouldCloseSession: true,
       identityProvider: FWB.code,
       jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       openidConfigurationUrl: config[configKey].openidConfigurationUrl,

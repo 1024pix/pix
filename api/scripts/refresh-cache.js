@@ -1,6 +1,5 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
 
-dotenv.config();
 import { learningContentCache } from '../lib/infrastructure/caches/learning-content-cache.js';
 import * as learningContentDatasource from '../src/shared/infrastructure/datasources/learning-content/datasource.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';

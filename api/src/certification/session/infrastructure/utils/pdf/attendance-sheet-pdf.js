@@ -27,7 +27,7 @@ async function getAttendanceSheetPdfBuffer({
   i18n,
 } = {}) {
   const translate = i18n.__;
-  const lang = i18n.__('current-lang');
+  const lang = i18n.getLocale();
 
   const templatePath = `${dirname}/files/attendance-sheet.pdf`;
   const templateBuffer = await readFile(templatePath);

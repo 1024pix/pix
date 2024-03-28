@@ -14,7 +14,7 @@ module('Unit | Component | organizations/information-section-view', function (ho
       const oidcPartner = store.createRecord('oidc-identity-provider', {
         code: 'OIDC',
         organizationName: 'a super orga',
-        hasLogoutUrl: false,
+        shouldCloseSession: false,
         source: 'idp',
       });
       class OidcIdentityProvidersStub extends Service {
@@ -35,7 +35,7 @@ module('Unit | Component | organizations/information-section-view', function (ho
       const oidcPartner = store.createRecord('oidc-identity-provider', {
         code: 'OIDC',
         organizationName: 'a super orga',
-        hasLogoutUrl: false,
+        shouldCloseSession: false,
         source: 'idp',
       });
       class OidcIdentityProvidersStub extends Service {

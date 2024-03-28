@@ -4,14 +4,14 @@
   <div class="form__field">
     <PixTextarea
       @id="email"
-      @label={{t "pages.team-new-item.input-label"}}
       type="email"
       @value={{@email}}
       class="invite-form__email-field"
-      aria-required="true"
-      required="required"
+      @requiredLabel={{t "common.form.mandatory-fields-title"}}
       {{on "change" @onUpdateEmail}}
-    />
+    >
+      <:label>{{t "pages.team-new-item.input-label"}}</:label>
+    </PixTextarea>
   </div>
 
   <div class="form__validation">

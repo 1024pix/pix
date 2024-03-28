@@ -18,7 +18,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
-      hasLogoutUrl: true,
+      shouldCloseSession: true,
       identityProvider: POLE_EMPLOI.code,
       jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },

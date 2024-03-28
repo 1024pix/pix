@@ -8,7 +8,7 @@ import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 describe('Unit | Usecases | update-user-for-account-recovery', function () {
   let userRepository,
     authenticationMethodRepository,
-    encryptionService,
+    cryptoService,
     accountRecoveryDemandRepository,
     scoAccountRecoveryService;
   let clock;
@@ -27,7 +27,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
     scoAccountRecoveryService = {
       retrieveAndValidateAccountRecoveryDemand: sinon.stub(),
     };
-    encryptionService = {
+    cryptoService = {
       hashPassword: sinon.stub(),
     };
     accountRecoveryDemandRepository = {
@@ -53,7 +53,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       const user = domainBuilder.buildUser({ id: 1234, email: null });
 
       scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id });
-      encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
+      cryptoService.hashPassword.withArgs(password).resolves(hashedPassword);
       authenticationMethodRepository.hasIdentityProviderPIX.withArgs({ userId: user.id }).resolves(false);
       DomainTransaction.execute = (lambda) => {
         return lambda(domainTransaction);
@@ -65,7 +65,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
         userRepository,
         authenticationMethodRepository,
         scoAccountRecoveryService,
-        encryptionService,
+        cryptoService,
         accountRecoveryDemandRepository,
         domainTransaction,
       });
@@ -102,7 +102,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       });
 
       scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id });
-      encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
+      cryptoService.hashPassword.withArgs(password).resolves(hashedPassword);
       authenticationMethodRepository.hasIdentityProviderPIX.withArgs({ userId: user.id }).resolves(true);
       DomainTransaction.execute = (lambda) => {
         return lambda(domainTransaction);
@@ -114,7 +114,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
         userRepository,
         authenticationMethodRepository,
         scoAccountRecoveryService,
-        encryptionService,
+        cryptoService,
         accountRecoveryDemandRepository,
         domainTransaction,
       });
@@ -152,7 +152,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
         userRepository,
       })
       .resolves({ userId: user.id, newEmail });
-    encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
+    cryptoService.hashPassword.withArgs(password).resolves(hashedPassword);
     authenticationMethodRepository.hasIdentityProviderPIX.withArgs({ userId: user.id }).resolves(true);
     const userUpdate = new User({
       ...user,
@@ -177,7 +177,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       userRepository,
       authenticationMethodRepository,
       scoAccountRecoveryService,
-      encryptionService,
+      cryptoService,
       accountRecoveryDemandRepository,
       domainTransaction,
     });
@@ -211,7 +211,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
     });
 
     scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id, newEmail });
-    encryptionService.hashPassword.resolves(hashedPassword);
+    cryptoService.hashPassword.resolves(hashedPassword);
     authenticationMethodRepository.hasIdentityProviderPIX.resolves(true);
     userRepository.updateWithEmailConfirmed.resolves(userUpdate);
 
@@ -226,7 +226,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       userRepository,
       authenticationMethodRepository,
       scoAccountRecoveryService,
-      encryptionService,
+      cryptoService,
       accountRecoveryDemandRepository,
       domainTransaction,
     });

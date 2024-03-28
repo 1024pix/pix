@@ -15,7 +15,7 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
     let authenticationMethod;
     let userRepository;
     let userLoginRepository;
-    let encryptionService;
+    let cryptoService;
 
     beforeEach(function () {
       user = domainBuilder.buildUser({ username });
@@ -34,7 +34,7 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
         create: sinon.stub(),
         update: sinon.stub(),
       };
-      encryptionService = {
+      cryptoService = {
         checkPassword: sinon.stub(),
       };
     });
@@ -43,7 +43,7 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
       beforeEach(function () {
         userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
         userLoginRepository.findByUserId.withArgs(user.id).resolves(userLogin);
-        encryptionService.checkPassword.resolves();
+        cryptoService.checkPassword.resolves();
       });
 
       it('should call the user repository', async function () {
@@ -52,14 +52,14 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
           username,
           password,
           userRepository,
-          dependencies: { userLoginRepository, encryptionService },
+          dependencies: { userLoginRepository, cryptoService },
         });
 
         // then
         expect(userRepository.getByUsernameOrEmailWithRolesAndPassword).to.has.been.calledWithExactly(username);
       });
 
-      it('should call the encryptionService check function', async function () {
+      it('should call the cryptoService check function', async function () {
         // given
         const expectedPasswordHash = authenticationMethod.authenticationComplement.password;
 
@@ -68,11 +68,11 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
           username,
           password,
           userRepository,
-          dependencies: { userLoginRepository, encryptionService },
+          dependencies: { userLoginRepository, cryptoService },
         });
 
         // then
-        expect(encryptionService.checkPassword).to.has.been.calledWithExactly({
+        expect(cryptoService.checkPassword).to.has.been.calledWithExactly({
           password,
           passwordHash: expectedPasswordHash,
         });
@@ -84,7 +84,7 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
           username,
           password,
           userRepository,
-          dependencies: { userLoginRepository, encryptionService },
+          dependencies: { userLoginRepository, cryptoService },
         });
 
         // then
@@ -103,7 +103,7 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
             username,
             password,
             userRepository,
-            dependencies: { userLoginRepository, encryptionService },
+            dependencies: { userLoginRepository, cryptoService },
           });
 
           // then
@@ -127,7 +127,7 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
             username,
             password,
             userRepository,
-            dependencies: { userLoginRepository, encryptionService },
+            dependencies: { userLoginRepository, cryptoService },
           });
 
           // then
@@ -147,7 +147,7 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
           username,
           password,
           userRepository,
-          dependencies: { userLoginRepository, encryptionService },
+          dependencies: { userLoginRepository, cryptoService },
         });
 
         // then
@@ -159,7 +159,7 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
           it('throws passwordNotMatching error, increment user failure count and create an user logins', async function () {
             // given
             userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
-            encryptionService.checkPassword.rejects(new PasswordNotMatching());
+            cryptoService.checkPassword.rejects(new PasswordNotMatching());
             const userLoginCreated = {
               incrementFailureCount: sinon.stub(),
               shouldMarkUserAsTemporarilyBlocked: sinon.stub().returns(false),
@@ -175,7 +175,7 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
               username,
               password,
               userRepository,
-              dependencies: { userLoginRepository, encryptionService },
+              dependencies: { userLoginRepository, cryptoService },
             });
 
             // then
@@ -192,7 +192,7 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
           it('throws passwordNotMatching error, block temporarily the user and update the user logins', async function () {
             // given
             userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
-            encryptionService.checkPassword.rejects(new PasswordNotMatching());
+            cryptoService.checkPassword.rejects(new PasswordNotMatching());
             const userLogin = {
               incrementFailureCount: sinon.stub(),
               shouldMarkUserAsTemporarilyBlocked: sinon.stub().returns(true),
@@ -207,7 +207,7 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
               username,
               password,
               userRepository,
-              dependencies: { userLoginRepository, encryptionService },
+              dependencies: { userLoginRepository, cryptoService },
             });
 
             // then
@@ -224,7 +224,7 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
           it('throws passwordNotMatching error, block the user and update the user logins', async function () {
             // given
             userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
-            encryptionService.checkPassword.rejects(new PasswordNotMatching());
+            cryptoService.checkPassword.rejects(new PasswordNotMatching());
             const userLogin = {
               incrementFailureCount: sinon.stub(),
               shouldMarkUserAsTemporarilyBlocked: sinon.stub().returns(false),
@@ -239,7 +239,7 @@ describe('Unit | Authentication | Domain | Services | pix-authentication-service
               username,
               password,
               userRepository,
-              dependencies: { userLoginRepository, encryptionService },
+              dependencies: { userLoginRepository, cryptoService },
             });
 
             // then

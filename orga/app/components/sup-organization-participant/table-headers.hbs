@@ -7,7 +7,7 @@
         @isIndeterminate={{(not @allSelected)}}
         disabled={{(not @hasStudents)}}
         {{on "click" @onToggleAll}}
-      >{{t "pages.organization-participants.table.column.mainCheckbox"}}</PixCheckbox>
+      ><:label>{{t "pages.organization-participants.table.column.mainCheckbox"}}</:label></PixCheckbox>
     </Table::Header>
   {{/if}}
   <Table::Header @size="wide">

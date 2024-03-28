@@ -108,13 +108,13 @@ module('Unit | Component | users | user-detail-personal-information/authenticati
         const oidcIdentityProvider1 = store.createRecord('oidc-identity-provider', {
           code: 'OIDC-1',
           organizationName: 'organization 1',
-          hasLogoutUrl: false,
+          shouldCloseSession: false,
           source: 'source1',
         });
         const oidcIdentityProvider2 = store.createRecord('oidc-identity-provider', {
           code: 'OIDC-2',
           organizationName: 'organization 2',
-          hasLogoutUrl: false,
+          shouldCloseSession: false,
           source: 'source2',
         });
         class OidcIdentittyProvidersStub extends Service {
@@ -170,13 +170,13 @@ module('Unit | Component | users | user-detail-personal-information/authenticati
         const oidcIdentityProvider1 = store.createRecord('oidc-identity-provider', {
           code: 'OIDC-1',
           organizationName: 'organization 1',
-          hasLogoutUrl: false,
+          shouldCloseSession: false,
           source: 'source1',
         });
         const oidcIdentityProvider2 = store.createRecord('oidc-identity-provider', {
           code: 'OIDC-2',
           organizationName: 'organization 2',
-          hasLogoutUrl: false,
+          shouldCloseSession: false,
           source: 'source2',
         });
         class OidcIdentittyProvidersStub extends Service {
@@ -233,13 +233,13 @@ module('Unit | Component | users | user-detail-personal-information/authenticati
         const oidcIdentityProvider1 = store.createRecord('oidc-identity-provider', {
           code: 'OIDC-1',
           organizationName: 'organization 1',
-          hasLogoutUrl: false,
+          shouldCloseSession: false,
           source: 'source1',
         });
         const oidcIdentityProvider2 = store.createRecord('oidc-identity-provider', {
           code: 'OIDC-2',
           organizationName: 'organization 2',
-          hasLogoutUrl: false,
+          shouldCloseSession: false,
           source: 'source2',
         });
         class OidcIdentittyProvidersStub extends Service {

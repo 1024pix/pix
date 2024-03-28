@@ -15,7 +15,7 @@ module('Unit | Component | import', (hooks) => {
   module('get#displayImportMessagePanel', () => {
     test('should return false if there is no error nor warning', (assert) => {
       //when
-      component.args.organizationImport = {
+      component.args.organizationImportDetail = {
         hasWarning: false,
         hasError: false,
       };
@@ -25,7 +25,7 @@ module('Unit | Component | import', (hooks) => {
     });
     test('should return true if there is errors but no warning', (assert) => {
       //when
-      component.args.organizationImport = {
+      component.args.organizationImportDetail = {
         hasWarning: false,
         hasError: true,
       };
@@ -35,7 +35,7 @@ module('Unit | Component | import', (hooks) => {
     });
     test('should return true if there is warnings but no error', (assert) => {
       //when
-      component.args.organizationImport = {
+      component.args.organizationImportDetail = {
         hasWarning: true,
         hasError: false,
       };
@@ -45,7 +45,7 @@ module('Unit | Component | import', (hooks) => {
     });
     test('should return true if there is warnings and errors', (assert) => {
       //when
-      component.args.organizationImport = {
+      component.args.organizationImportDetail = {
         hasWarning: true,
         hasError: true,
       };
@@ -59,14 +59,14 @@ module('Unit | Component | import', (hooks) => {
     test('should return false as default value', function (assert) {
       //when
       component.args.isLoading = false;
-      component.args.organizationImport = { hasWarning: false };
+      component.args.organizationImportDetail = { hasWarning: false };
       assert.false(component.displayBanner);
     });
 
     test('should return true when loading is active', async function (assert) {
       // when
       component.args.isLoading = true;
-      component.args.organizationImport = { hasWarning: false };
+      component.args.organizationImportDetail = { hasWarning: false };
 
       // then
       assert.true(component.displayBanner);
@@ -75,7 +75,7 @@ module('Unit | Component | import', (hooks) => {
     test('should return true when organizationImport hasWarning', async function (assert) {
       // when
       component.args.isLoading = false;
-      component.args.organizationImport = { hasWarning: true };
+      component.args.organizationImportDetail = { hasWarning: true };
       // then
       assert.true(component.displayBanner);
     });
@@ -84,13 +84,13 @@ module('Unit | Component | import', (hooks) => {
   module('get#panelClasses', () => {
     test('should return the panel class when there is no warnings', (assert) => {
       // when
-      component.args.organizationImport = { hasWarning: false };
+      component.args.organizationImportDetail = { hasWarning: false };
       // then
       assert.strictEqual(component.panelClasses, 'import-students-page__error-panel');
     });
     test('should return the panel class when there is warnings', (assert) => {
       // when
-      component.args.organizationImport = { hasWarning: true };
+      component.args.organizationImportDetail = { hasWarning: true };
       // then
       assert.strictEqual(
         component.panelClasses,
@@ -102,33 +102,15 @@ module('Unit | Component | import', (hooks) => {
   module('get#bannerType', () => {
     test('shoud return information when there is no warning', (assert) => {
       // when
-      component.args.organizationImport = { hasWarning: false };
+      component.args.organizationImportDetail = { hasWarning: false };
       // then
       assert.strictEqual(component.bannerType, 'information');
     });
     test('shoud return warning when there is warning', (assert) => {
       // when
-      component.args.organizationImport = { hasWarning: true };
+      component.args.organizationImportDetail = { hasWarning: true };
       // then
       assert.strictEqual(component.bannerType, 'warning');
-    });
-  });
-
-  module('get#bannerMessage', (hooks) => {
-    hooks.beforeEach(() => {
-      component.intl = { t: sinon.stub().callsFake((key) => key) };
-    });
-    test('should return the banner wording if there is no warnings', (assert) => {
-      // when
-      component.args.organizationImport = { hasWarning: false };
-      // then
-      assert.strictEqual(component.bannerMessage, 'pages.organization-participants-import.information');
-    });
-    test('should return the banner wording for warnings', (assert) => {
-      // when
-      component.args.organizationImport = { hasWarning: true };
-      // then
-      assert.strictEqual(component.bannerMessage, 'pages.organization-participants-import.warning-banner');
     });
   });
 
@@ -144,7 +126,7 @@ module('Unit | Component | import', (hooks) => {
       const error = { code: 'error', meta: { line: 1 } };
 
       //when
-      component.args.organizationImport = {
+      component.args.organizationImportDetail = {
         errors: [error],
         status: 'ERROR',
       };
@@ -162,7 +144,7 @@ module('Unit | Component | import', (hooks) => {
         { code: 'warning', field: 'study-scheme', value: 'licence', studentNumber: '123' },
       ];
 
-      component.args.organizationImport = {
+      component.args.organizationImportDetail = {
         errors: warnings,
         hasWarning: true,
       };

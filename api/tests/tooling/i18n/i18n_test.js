@@ -3,7 +3,7 @@ import { getI18n } from './i18n.js';
 
 describe('Unit | Tooling | i18n', function () {
   it('should translate by default to fr', function () {
-    const currentLang = getI18n().__('current-lang');
+    const currentLang = getI18n().getLocale();
     expect(currentLang).to.equal('fr');
   });
 });

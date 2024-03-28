@@ -86,7 +86,7 @@ module('Unit | Services | session', function (hooks) {
         id: 'oidc-partner',
         code: 'OIDC_PARTNER',
         organizationName: 'Partenaire OIDC',
-        hasLogoutUrl: false,
+        shouldCloseSession: false,
         source: 'oidc-externe',
       };
 

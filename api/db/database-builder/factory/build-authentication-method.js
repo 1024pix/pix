@@ -3,7 +3,7 @@ const { isUndefined } = lodash;
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../lib/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../lib/domain/models/AuthenticationMethod.js';
-import * as encrypt from '../../../src/shared/domain/services/encryption-service.js';
+import * as encrypt from '../../../src/shared/domain/services/crypto-service.js';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildUser } from './build-user.js';
 

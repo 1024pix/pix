@@ -579,7 +579,7 @@
 .skill-review-share-error {
   &__message {
     padding-bottom: 10px;
-    color: #f45c00;
+    color: var(--pix-error-500);
     font-size: 0.938rem;
   }
 

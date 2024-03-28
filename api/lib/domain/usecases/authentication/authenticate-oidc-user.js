@@ -48,10 +48,14 @@ const authenticateOidcUser = async function ({
   });
 
   const pixAccessToken = oidcAuthenticationService.createAccessToken(user.id);
-  const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({
-    idToken: sessionContent.idToken,
-    userId: user.id,
-  });
+
+  let logoutUrlUUID;
+  if (oidcAuthenticationService.shouldCloseSession) {
+    logoutUrlUUID = await oidcAuthenticationService.saveIdToken({
+      idToken: sessionContent.idToken,
+      userId: user.id,
+    });
+  }
 
   await userLoginRepository.updateLastLoggedAt({ userId: user.id });
 

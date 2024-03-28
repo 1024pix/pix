@@ -3,7 +3,7 @@
   top: 0;
   overflow: hidden;
   font-family: $font-roboto;
-  background-color: white;
+  background-color: var(--pix-neutral-0);
   border: 1px solid $pix-neutral-20;
   border-radius: 11px;
   box-shadow: 0 3px 4px 0 rgb(12 22 58 / 10%), 0 1px 3px 0 rgba($pix-neutral-110, 0.1);
@@ -99,7 +99,7 @@
 
   &--white-background {
     padding: 5px;
-    background-color: white;
+    background-color: var(--pix-neutral-0);
     background-clip: padding-box;
     border-radius: 50%;
   }

@@ -1,13 +1,13 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
-module('Unit | Model | organization-import', function (hooks) {
+module('Unit | Model | organization-import-detail', function (hooks) {
   setupTest(hooks);
   module('#hasError', function () {
     ['UPLOAD_ERROR', 'VALIDATION_ERROR', 'IMPORT_ERROR'].forEach((status) => {
       test('it should return true', function (assert) {
         const store = this.owner.lookup('service:store');
-        const model = store.createRecord('organization-import', {
+        const model = store.createRecord('organization-import-detail', {
           status,
           errors: [Symbol('error')],
         });
@@ -17,7 +17,7 @@ module('Unit | Model | organization-import', function (hooks) {
     ['UPLOADED', 'VALIDATED', 'IMPORTED'].forEach((status) => {
       test('it should return false', function (assert) {
         const store = this.owner.lookup('service:store');
-        const model = store.createRecord('organization-import', {
+        const model = store.createRecord('organization-import-detail', {
           status,
         });
         assert.notOk(model.hasError);
@@ -27,7 +27,7 @@ module('Unit | Model | organization-import', function (hooks) {
   module('#hasWarning', function () {
     test('it should return true', function (assert) {
       const store = this.owner.lookup('service:store');
-      const model = store.createRecord('organization-import', {
+      const model = store.createRecord('organization-import-detail', {
         status: 'IMPORTED',
         errors: [Symbol('warning')],
       });
@@ -35,7 +35,7 @@ module('Unit | Model | organization-import', function (hooks) {
     });
     test('it should return false', function (assert) {
       const store = this.owner.lookup('service:store');
-      const model = store.createRecord('organization-import', {
+      const model = store.createRecord('organization-import-detail', {
         status: 'IMPORTED',
       });
       assert.notOk(model.hasWarning);
@@ -44,7 +44,7 @@ module('Unit | Model | organization-import', function (hooks) {
   module('#isDone', function () {
     test('it should return true', function (assert) {
       const store = this.owner.lookup('service:store');
-      const model = store.createRecord('organization-import', {
+      const model = store.createRecord('organization-import-detail', {
         status: 'IMPORTED',
       });
       assert.ok(model.isDone);
@@ -52,7 +52,7 @@ module('Unit | Model | organization-import', function (hooks) {
     ['UPLOADED', 'VALIDATED', 'UPLOAD_ERROR', 'VALIDATION_ERROR', 'IMPORT_ERROR'].forEach((status) => {
       test('it should return false', function (assert) {
         const store = this.owner.lookup('service:store');
-        const model = store.createRecord('organization-import', {
+        const model = store.createRecord('organization-import-detail', {
           status,
         });
         assert.notOk(model.isDone);

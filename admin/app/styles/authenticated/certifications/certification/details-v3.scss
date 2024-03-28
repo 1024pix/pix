@@ -67,7 +67,7 @@
   }
 
   &__challenge-action-cell {
-    color: black;
+    color: var(--pix-neutral-900);
 
   button:focus-visible {
     padding: 2px 5px;

@@ -1,5 +1,5 @@
 import { AutoJuryCommentKeys } from '../../../../../src/certification/shared/domain/models/JuryComment.js';
-import { MissingAssessmentId } from '../../../../../src/shared/domain/errors.js';
+import { MissingAssessmentId, NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import * as assessmentResultRepository from '../../../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
@@ -515,6 +515,75 @@ describe('Integration | Repository | AssessmentResult', function () {
         expectedAssessmentResult.pixScore = undefined;
         expectedAssessmentResult.juryId = undefined;
         expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
+      });
+    });
+  });
+
+  describe('#updateToAcquiredLowerLevelComplementaryCertification', function () {
+    context('when the assessment result exists', function () {
+      it('should update the assessment result', async function () {
+        // given
+        databaseBuilder.factory.buildCertificationCourse({ id: 1 });
+        databaseBuilder.factory.buildUser({ id: 100 });
+        databaseBuilder.factory.buildAssessment({ id: 2, certificationCourseId: 1 });
+        const competenceMark1 = domainBuilder.buildCompetenceMark({
+          id: 200,
+          level: 3,
+          score: 33,
+          area_code: 'area1',
+          competence_code: 'compCode1',
+          competenceId: 'recComp1',
+          assessmentResultId: 4,
+        });
+        const competenceMark2 = domainBuilder.buildCompetenceMark({
+          id: 201,
+          level: 1,
+          score: 2,
+          area_code: 'area2',
+          competence_code: 'compCode2',
+          competenceId: 'recComp2',
+          assessmentResultId: 4,
+        });
+        const assessmentResult = domainBuilder.buildAssessmentResult({
+          id: 4,
+          pixScore: 62,
+          reproducibilityRate: 29.1,
+          status: AssessmentResult.status.VALIDATED,
+          emitter: 'some-emitter',
+          createdAt: new Date('2021-10-29T03:06:00Z'),
+          juryId: 100,
+          assessmentId: 2,
+          competenceMarks: [competenceMark1, competenceMark2],
+        });
+        databaseBuilder.factory.buildAssessmentResult(assessmentResult);
+        databaseBuilder.factory.buildCompetenceMark(competenceMark1);
+        databaseBuilder.factory.buildCompetenceMark(competenceMark2);
+        await databaseBuilder.commit();
+
+        // when
+        await assessmentResultRepository.updateToAcquiredLowerLevelComplementaryCertification({
+          id: assessmentResult.id,
+        });
+
+        // then
+        const { commentByAutoJury } = await knex('assessment-results')
+          .select('*')
+          .where({ id: assessmentResult.id })
+          .first();
+        expect(commentByAutoJury).to.be.equal(AutoJuryCommentKeys.LOWER_LEVEL_COMPLEMENTARY_CERTIFICATION_ACQUIRED);
+      });
+    });
+
+    context('when no assessment result exists', function () {
+      it('should throw a NotFoundError domain error', async function () {
+        // when
+        const error = await catchErr(assessmentResultRepository.updateToAcquiredLowerLevelComplementaryCertification)({
+          id: 100,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.be.equal('No row updated for assessment result id 100.');
       });
     });
   });

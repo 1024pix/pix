@@ -7,7 +7,7 @@ describe('Unit | Serializer | JSONAPI | oidc-identity-providers-serializer', fun
       // given
       const code = 'OIDC_PARTNER';
       const organizationName = 'Partenaire OIDC';
-      const oidc = { slug: 'oidc-partner', code, organizationName, source: 'oidc-external', hasLogoutUrl: true };
+      const oidc = { slug: 'oidc-partner', code, organizationName, source: 'oidc-external', shouldCloseSession: true };
 
       // when
       const json = serializer.serialize(oidc);
@@ -20,8 +20,7 @@ describe('Unit | Serializer | JSONAPI | oidc-identity-providers-serializer', fun
           attributes: {
             code: 'OIDC_PARTNER',
             'organization-name': 'Partenaire OIDC',
-            'use-end-session': false,
-            'has-logout-url': true,
+            'should-close-session': true,
             source: 'oidc-external',
           },
         },

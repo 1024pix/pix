@@ -572,7 +572,7 @@ function routes() {
           attributes: {
             code: 'OIDC_PARTNER',
             'organization-name': 'Partenaire OIDC',
-            'has-logout-url': false,
+            'should-close-session': false,
             source: 'oidc-externe',
           },
         },
@@ -589,7 +589,7 @@ function routes() {
           attributes: {
             code: 'OIDC_PARTNER',
             'organization-name': 'Partenaire OIDC',
-            'has-logout-url': false,
+            'should-close-session': false,
             source: 'oidc-externe',
           },
         },

@@ -2,14 +2,15 @@
   <section class="page-size">
     <p class="page-size__label">{{t "common.pagination.result-by-page"}}</p>
     <PixSelect
-      @label={{t "common.pagination.action.select-page-size"}}
       @screenReaderOnly={{true}}
       @hideDefaultOption={{true}}
       @className="page-size__choice"
       @value={{this.pageSize}}
       @onChange={{this.changePageSize}}
       @options={{this.pageOptions}}
-    />
+    >
+      <:label>{{t "common.pagination.action.select-page-size"}}</:label>
+    </PixSelect>
   </section>
   <section class="page-navigation">
     <p>

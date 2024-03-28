@@ -7,7 +7,7 @@ describe('Unit | UseCase | Organization Learners Management | Get Organization I
   beforeEach(function () {
     resultSymbol = Symbol('result');
     organizationImportRepository = {
-      getLastByOrganizationId: sinon.stub().resolves(resultSymbol),
+      getLastImportDetailForOrganization: sinon.stub().resolves(resultSymbol),
     };
   });
 
@@ -22,7 +22,9 @@ describe('Unit | UseCase | Organization Learners Management | Get Organization I
     });
 
     // then
-    expect(organizationImportRepository.getLastByOrganizationId).to.have.been.calledWithExactly(organizationId);
+    expect(organizationImportRepository.getLastImportDetailForOrganization).to.have.been.calledWithExactly(
+      organizationId,
+    );
     expect(result).to.eq(resultSymbol);
   });
 });

@@ -27,9 +27,10 @@ export const getLatestByDateAndLocale = async ({ locale, date }) => {
   });
 };
 
-export const saveCompetenceForScoringConfiguration = async (configuration) => {
+export const saveCompetenceForScoringConfiguration = async ({ configuration, userId }) => {
   const data = {
     configuration: JSON.stringify(configuration),
+    createdByUserId: userId,
   };
   await knex('competence-scoring-configurations').insert(data);
 };

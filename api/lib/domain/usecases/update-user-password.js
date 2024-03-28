@@ -4,12 +4,12 @@ const updateUserPassword = async function ({
   userId,
   password,
   temporaryKey,
-  encryptionService,
+  cryptoService,
   resetPasswordService,
   authenticationMethodRepository,
   userRepository,
 }) {
-  const hashedPassword = await encryptionService.hashPassword(password);
+  const hashedPassword = await cryptoService.hashPassword(password);
   const user = await userRepository.get(userId);
 
   if (!user.email) {

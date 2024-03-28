@@ -31,9 +31,8 @@ class OidcAuthenticationService {
       clientId,
       clientSecret,
       configKey,
-      endSessionUrl,
       extraAuthorizationUrlParameters,
-      hasLogoutUrl = false,
+      shouldCloseSession = false,
       identityProvider,
       jwtOptions,
       openidClientExtraMetadata,
@@ -50,9 +49,8 @@ class OidcAuthenticationService {
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.configKey = configKey;
-    this.endSessionUrl = endSessionUrl;
     this.extraAuthorizationUrlParameters = extraAuthorizationUrlParameters;
-    this.hasLogoutUrl = hasLogoutUrl;
+    this.shouldCloseSession = shouldCloseSession;
     this.identityProvider = identityProvider;
     this.jwtOptions = jwtOptions;
     this.openidClientExtraMetadata = openidClientExtraMetadata;
@@ -141,10 +139,6 @@ class OidcAuthenticationService {
   }
 
   async saveIdToken({ idToken, userId } = {}) {
-    if (!(this.endSessionUrl || this.hasLogoutUrl)) {
-      return null;
-    }
-
     const uuid = randomUUID();
 
     const { idTokenLifespanMs } = this.temporaryStorageConfig;

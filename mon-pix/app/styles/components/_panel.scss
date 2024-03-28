@@ -1,5 +1,5 @@
 .panel {
-  background-color: white;
+  background-color: var(--pix-neutral-0);
   border: none;
   border-radius: 4px;
   box-shadow: 0 1px 1px 0 rgb(12 22 58 / 10%), 0 2px 5px 0 rgb(0 0 0 / 10%);
@@ -11,7 +11,7 @@
   &--link {
     color: $pix-neutral-100;
     text-decoration: none;
-    border: solid 2px white;
+    border: solid 2px var(--pix-neutral-0);
     outline: none;
     cursor: pointer;
 

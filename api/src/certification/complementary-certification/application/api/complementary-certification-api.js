@@ -18,3 +18,18 @@ export const getById = async ({ id }) => {
   const complementaryCertification = await usecases.getById({ id });
   return new ComplementaryCertification(complementaryCertification);
 };
+
+/**
+ * @function
+ * @name getByLabel
+ *
+ * @param {object} params
+ * @param {number} params.label mandatory
+ *
+ * @returns {ComplementaryCertification}
+ * @throws {NotFoundError} Complementary certification does not exist
+ */
+export const getByLabel = async ({ label }) => {
+  const complementaryCertification = await usecases.getByLabel({ label });
+  return new ComplementaryCertification(complementaryCertification);
+};

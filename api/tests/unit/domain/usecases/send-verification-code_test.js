@@ -12,7 +12,7 @@ describe('Unit | UseCase | send-verification-code', function () {
   let authenticationMethodRepository;
   let userEmailRepository;
   let userRepository;
-  let encryptionService;
+  let cryptoService;
   let mailService;
   let codeUtilsStub;
 
@@ -24,7 +24,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       checkIfEmailIsAvailable: sinon.stub(),
       get: sinon.stub(),
     };
-    encryptionService = {
+    cryptoService = {
       checkPassword: sinon.stub(),
     };
     mailService = {
@@ -61,7 +61,7 @@ describe('Unit | UseCase | send-verification-code', function () {
           hashedPassword: passwordHash,
         }),
       );
-    encryptionService.checkPassword.withArgs({ password, passwordHash }).resolves();
+    cryptoService.checkPassword.withArgs({ password, passwordHash }).resolves();
     codeUtilsStub.generateNumericalString.withArgs(6).returns(code);
 
     // when
@@ -74,7 +74,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       authenticationMethodRepository,
       userEmailRepository,
       userRepository,
-      encryptionService,
+      cryptoService,
       mailService,
       codeUtils: codeUtilsStub,
     });
@@ -106,7 +106,7 @@ describe('Unit | UseCase | send-verification-code', function () {
           hashedPassword: passwordHash,
         }),
       );
-    encryptionService.checkPassword.withArgs({ password, passwordHash }).resolves();
+    cryptoService.checkPassword.withArgs({ password, passwordHash }).resolves();
     codeUtilsStub.generateNumericalString.withArgs(6).returns(code);
 
     // when
@@ -119,7 +119,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       authenticationMethodRepository,
       userEmailRepository,
       userRepository,
-      encryptionService,
+      cryptoService,
       mailService,
       codeUtils: codeUtilsStub,
     });
@@ -152,7 +152,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       authenticationMethodRepository,
       userEmailRepository,
       userRepository,
-      encryptionService,
+      cryptoService,
       mailService,
       codeUtils: codeUtilsStub,
     });
@@ -181,7 +181,7 @@ describe('Unit | UseCase | send-verification-code', function () {
           hashedPassword: passwordHash,
         }),
       );
-    encryptionService.checkPassword.withArgs({ password, passwordHash }).rejects();
+    cryptoService.checkPassword.withArgs({ password, passwordHash }).rejects();
 
     // when
     const error = await catchErr(usecases.sendVerificationCode)({
@@ -192,7 +192,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       authenticationMethodRepository,
       userEmailRepository,
       userRepository,
-      encryptionService,
+      cryptoService,
       mailService,
       codeUtils: codeUtilsStub,
     });
@@ -218,7 +218,7 @@ describe('Unit | UseCase | send-verification-code', function () {
       authenticationMethodRepository,
       userEmailRepository,
       userRepository,
-      encryptionService,
+      cryptoService,
       mailService,
       codeUtils: codeUtilsStub,
     });

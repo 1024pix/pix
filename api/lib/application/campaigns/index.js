@@ -1,9 +1,7 @@
 import Joi from 'joi';
 
-import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
 import { identifiersType } from '../../../src/shared/domain/types/identifiers-type.js';
 import { campaignController } from './campaign-controller.js';
-import { campaignManagementController } from './campaign-management-controller.js';
 import { campaignStatsController } from './campaign-stats-controller.js';
 
 const register = async function (server) {
@@ -16,68 +14,6 @@ const register = async function (server) {
         handler: campaignController.getByCode,
         notes: ['- Récupération de la campagne dont le code est spécifié dans les filtres de la requête'],
         tags: ['api', 'campaign'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/admin/campaigns/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.campaignId,
-          }),
-        },
-        handler: campaignManagementController.getCampaignDetails,
-        tags: ['api', 'campaign', 'admin'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Elle permet de récupérer le détail d'une campagne.",
-        ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/admin/campaigns/{id}/participations',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.hasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.campaignId,
-          }),
-          query: Joi.object({
-            'page[number]': Joi.number().integer().empty(''),
-            'page[size]': Joi.number().integer().empty(''),
-          }),
-        },
-        handler: campaignManagementController.findPaginatedParticipationsForCampaignManagement,
-        tags: ['api', 'campaign', 'participations', 'admin'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Elle permet de récupérer les participations d'une campagne donnée.",
-        ],
       },
     },
     {

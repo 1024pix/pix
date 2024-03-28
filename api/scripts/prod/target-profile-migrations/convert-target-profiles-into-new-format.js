@@ -1,6 +1,5 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
 
-dotenv.config();
 import _ from 'lodash';
 import * as url from 'url';
 

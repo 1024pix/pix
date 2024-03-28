@@ -1,6 +1,5 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
 
-dotenv.config();
 import perf_hooks from 'perf_hooks';
 
 const { performance } = perf_hooks;

@@ -10,7 +10,7 @@ const resetOrganizationLearnersPassword = async function ({
   organizationLearnersId,
   userId,
   domainTransaction,
-  encryptionService,
+  cryptoService,
   passwordGenerator,
   authenticationMethodRepository,
   organizationLearnerRepository,
@@ -47,7 +47,7 @@ const resetOrganizationLearnersPassword = async function ({
   const usersToUpdateWithNewPassword = await Promise.all(
     students.map(async ({ id: userId, username, lastName, firstName }) => {
       const generatedPassword = passwordGenerator.generateSimplePassword();
-      const hashedPassword = await encryptionService.hashPassword(generatedPassword);
+      const hashedPassword = await cryptoService.hashPassword(generatedPassword);
 
       organizationLearnersPasswordResets.push(
         new OrganizationLearnerPasswordResetDTO({

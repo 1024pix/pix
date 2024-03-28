@@ -1,8 +1,8 @@
-import * as dotenv from 'dotenv';
-import * as url from 'url';
-dotenv.config();
+import 'dotenv/config';
+
 import _ from 'lodash';
 import PgBoss from 'pg-boss';
+import * as url from 'url';
 
 import { config } from './lib/config.js';
 import { UserAnonymizedEventLoggingJob } from './lib/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJob.js';

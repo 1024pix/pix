@@ -9,24 +9,28 @@ export default class Import extends Component {
   @service errorMessages;
   @service intl;
 
-  get displayImportMessagePanel() {
-    return this.args.organizationImport?.hasError || this.args.organizationImport?.hasWarning;
+  get displaySuccess() {
+    return this.args.organizationImportDetail?.isDone;
+  }
+
+  get successBanner() {
+    const {
+      updatedAt,
+      createdBy: { firstName, lastName },
+    } = this.args.organizationImportDetail;
+    return this.intl.t('pages.organization-participants-import.global-success', {
+      date: updatedAt.toLocaleDateString(),
+      firstName,
+      lastName,
+    });
   }
 
   get displayBanner() {
-    return this.args.isLoading || this.args.organizationImport?.hasWarning;
-  }
-
-  get panelClasses() {
-    const classes = ['import-students-page__error-panel'];
-
-    if (this.args.organizationImport?.hasWarning) classes.push('import-students-page__error-panel--warning');
-
-    return classes.join(' ').trim();
+    return this.args.isLoading || this.args.organizationImportDetail?.hasWarning;
   }
 
   get bannerType() {
-    if (this.args.organizationImport?.hasWarning) {
+    if (this.args.organizationImportDetail?.hasWarning) {
       return 'warning';
     } else {
       return 'information';
@@ -34,16 +38,28 @@ export default class Import extends Component {
   }
 
   get bannerMessage() {
-    if (this.args.organizationImport?.hasWarning) {
+    if (this.args.organizationImportDetail?.hasWarning) {
       return this.intl.t('pages.organization-participants-import.warning-banner', { htmlSafe: true });
     }
     return this.intl.t('pages.organization-participants-import.information');
   }
 
+  get displayImportMessagePanel() {
+    return this.args.organizationImportDetail?.hasError || this.args.organizationImportDetail?.hasWarning;
+  }
+
+  get panelClasses() {
+    const classes = ['import-students-page__error-panel'];
+
+    if (this.args.organizationImportDetail?.hasWarning) classes.push('import-students-page__error-panel--warning');
+
+    return classes.join(' ');
+  }
+
   get errorDetailList() {
-    if (this.args.organizationImport?.hasWarning) {
+    if (this.args.organizationImportDetail?.hasWarning) {
       const warnings = [];
-      const warningsByFields = groupBy(this.args.organizationImport?.errors, 'field');
+      const warningsByFields = groupBy(this.args.organizationImportDetail?.errors, 'field');
       if (warningsByFields.diploma) {
         const diplomas = uniq(warningsByFields.diploma.map((warning) => warning.value)).join(', ');
         warnings.push(this.intl.t('pages.organization-participants-import.warnings.diploma', { diplomas }));
@@ -54,7 +70,7 @@ export default class Import extends Component {
       }
       return warnings;
     }
-    return this.args.organizationImport?.errors.map((error) =>
+    return this.args.organizationImportDetail?.errors.map((error) =>
       this.errorMessages.getErrorMessage(error.code, error.meta),
     );
   }

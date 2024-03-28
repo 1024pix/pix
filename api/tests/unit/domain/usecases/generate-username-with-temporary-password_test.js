@@ -14,7 +14,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
   let organizationLearnerId;
 
   let passwordGenerator;
-  let encryptionService;
+  let cryptoService;
   let userReconciliationService;
   let userService;
 
@@ -37,7 +37,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
     passwordGenerator = {
       generateSimplePassword: sinon.stub().returns(expectedPassword),
     };
-    encryptionService = {
+    cryptoService = {
       hashPassword: sinon.stub().resolves(hashedPassword),
     };
     userReconciliationService = {
@@ -67,7 +67,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
       organizationLearnerId,
       organizationId,
       passwordGenerator,
-      encryptionService,
+      cryptoService,
       userReconciliationService,
       userService,
       authenticationMethodRepository,
@@ -89,7 +89,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
       organizationLearnerId,
       organizationId,
       passwordGenerator,
-      encryptionService,
+      cryptoService,
       userReconciliationService,
       userService,
       authenticationMethodRepository,
@@ -114,7 +114,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
       organizationLearnerId,
       organizationId,
       passwordGenerator,
-      encryptionService,
+      cryptoService,
       userReconciliationService,
       userService,
       authenticationMethodRepository,
@@ -165,7 +165,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
         organizationLearnerId: organizationLearner.id,
         organizationId,
         passwordGenerator,
-        encryptionService,
+        cryptoService,
         userReconciliationService,
         userService,
         authenticationMethodRepository,

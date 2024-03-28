@@ -39,7 +39,7 @@ describe('Unit | Controller | user-controller', function () {
         deserialize: sinon.stub(),
         serialize: sinon.stub(),
       };
-      const encryptionService = {
+      const cryptoService = {
         hashPassword: sinon.stub(),
       };
       const mailService = {
@@ -52,7 +52,7 @@ describe('Unit | Controller | user-controller', function () {
       dependencies = {
         userSerializer,
         validationErrorSerializer,
-        encryptionService,
+        cryptoService,
         mailService,
         localeService,
         requestResponseUtils,

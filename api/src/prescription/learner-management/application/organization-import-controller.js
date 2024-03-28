@@ -1,13 +1,13 @@
 import { usecases } from '../domain/usecases/index.js';
-import * as organizationImportSerializer from '../infrastructure/serializers/jsonapi/organization-import-serializer.js';
+import * as organizationImportDetailSerializer from '../infrastructure/serializers/jsonapi/organization-import-detail-serializer.js';
 
-const getOrganizationImportStatus = async function (request, h, dependencies = { organizationImportSerializer }) {
+const getOrganizationImportStatus = async function (request, h, dependencies = { organizationImportDetailSerializer }) {
   const organizationId = request.params.id;
-  const organizationImport = await usecases.getOrganizationImportStatus({
+  const organizationImportDetail = await usecases.getOrganizationImportStatus({
     organizationId,
   });
 
-  return h.response(dependencies.organizationImportSerializer.serialize(organizationImport)).code(200);
+  return h.response(dependencies.organizationImportDetailSerializer.serialize(organizationImportDetail)).code(200);
 };
 
 const organizationImportController = { getOrganizationImportStatus };

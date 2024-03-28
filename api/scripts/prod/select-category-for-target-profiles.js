@@ -1,6 +1,5 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
 
-dotenv.config();
 import bluebird from 'bluebird';
 import lodash from 'lodash';
 const { groupBy, sum, has, partition, negate } = lodash;

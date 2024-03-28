@@ -14,7 +14,7 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
         id: 'oidc-partner',
         code: 'OIDC_PARTNER',
         organizationName: 'Partenaire OIDC',
-        hasLogoutUrl: false,
+        shouldCloseSession: false,
         source: 'oidc-externe',
       };
       const oidcPartnerObject = Object.create(oidcPartner);
@@ -32,11 +32,14 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
 
       assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].code, oidcPartner.code);
       assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].organizationName, oidcPartner.organizationName);
-      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].hasLogoutUrl, oidcPartner.hasLogoutUrl);
+      assert.strictEqual(
+        oidcIdentityProvidersService['oidc-partner'].shouldCloseSession,
+        oidcPartner.shouldCloseSession,
+      );
       assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].source, oidcPartner.source);
       assert.strictEqual(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
       assert.strictEqual(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
-      assert.strictEqual(oidcIdentityProvidersService.list[0].hasLogoutUrl, oidcPartner.hasLogoutUrl);
+      assert.strictEqual(oidcIdentityProvidersService.list[0].shouldCloseSession, oidcPartner.shouldCloseSession);
       assert.strictEqual(oidcIdentityProvidersService.list[0].source, oidcPartner.source);
     });
   });
@@ -49,14 +52,14 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
         id: 'france-connect',
         code: 'FRANCE_CONNECT',
         organizationName: 'France Connect',
-        hasLogoutUrl: false,
+        shouldCloseSession: false,
         source: 'france-connect',
       });
       const otherOidcPartnerObject = Object.create({
         id: 'impots-gouv',
         code: 'IMPOTS_GOUV',
         organizationName: 'Impots.gouv',
-        hasLogoutUrl: false,
+        shouldCloseSession: false,
         source: 'impots-gouv',
       });
       const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
@@ -82,14 +85,14 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
         id: 'fwb',
         code: 'FWB',
         organizationName: 'Fédération Wallonie-Bruxelles',
-        hasLogoutUrl: true,
+        shouldCloseSession: true,
         source: 'fwb',
       });
       const otherOidcPartnerObject = Object.create({
         id: 'impots-gouv',
         code: 'IMPOTS_GOUV',
         organizationName: 'Impots.gouv',
-        hasLogoutUrl: false,
+        shouldCloseSession: false,
         source: 'impots-gouv',
       });
       const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');
@@ -113,14 +116,14 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
         id: 'france-connect',
         code: 'FRANCE_CONNECT',
         organizationName: 'France Connect',
-        hasLogoutUrl: false,
+        shouldCloseSession: false,
         source: 'france-connect',
       });
       const otherOidcPartnerObject = Object.create({
         id: 'impots-gouv',
         code: 'IMPOTS_GOUV',
         organizationName: 'Impots.gouv',
-        hasLogoutUrl: false,
+        shouldCloseSession: false,
         source: 'impots-gouv',
       });
       const oidcIdentityProvidersService = this.owner.lookup('service:oidcIdentityProviders');

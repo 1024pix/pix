@@ -1,5 +1,5 @@
 const getOrganizationImportStatus = async function ({ organizationId, organizationImportRepository }) {
-  return organizationImportRepository.getLastByOrganizationId(organizationId);
+  return organizationImportRepository.getLastImportDetailForOrganization(organizationId);
 };
 
 export { getOrganizationImportStatus };

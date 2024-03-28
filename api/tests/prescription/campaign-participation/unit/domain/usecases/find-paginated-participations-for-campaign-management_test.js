@@ -1,5 +1,5 @@
-import { findPaginatedParticipationsForCampaignManagement } from '../../../../lib/domain/usecases/find-paginated-participations-for-campaign-management.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { findPaginatedParticipationsForCampaignManagement } from '../../../../../../src/prescription/campaign-participation/domain/usecases/find-paginated-participations-for-campaign-management.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | findPaginatedParticipationsForCampaignManagement', function () {
   const campaignId = 1;

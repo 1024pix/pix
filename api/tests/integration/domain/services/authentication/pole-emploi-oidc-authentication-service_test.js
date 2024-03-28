@@ -19,7 +19,7 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
       expect(oidcAuthenticationService.identityProvider).to.equal('POLE_EMPLOI');
       expect(oidcAuthenticationService.slug).to.equal('pole-emploi');
       expect(oidcAuthenticationService.organizationName).to.equal('France Travail');
-      expect(oidcAuthenticationService.hasLogoutUrl).to.be.true;
+      expect(oidcAuthenticationService.shouldCloseSession).to.be.true;
     });
   });
 

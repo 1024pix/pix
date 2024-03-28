@@ -249,7 +249,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         id: 'oidc-partner',
         code: 'OIDC_PARTNER',
         organizationName: 'Partenaire OIDC',
-        hasLogoutUrl: false,
+        shouldCloseSession: false,
         source: 'oidc-externe',
       };
 

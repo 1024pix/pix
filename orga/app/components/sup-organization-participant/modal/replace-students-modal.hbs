@@ -14,8 +14,10 @@
       <p class="replace-students-modal__content">
         <strong>{{t "pages.sup-organization-participants.replace-students-modal.last-warning"}}</strong>
       </p>
-      <PixCheckbox {{on "click" this.giveDeletionPermission}} @labelSize="small" @checked={{this.allowDeletion}}>
-        <strong>{{t "pages.sup-organization-participants.replace-students-modal.confirmation-checkbox"}}</strong>
+      <PixCheckbox {{on "click" this.giveDeletionPermission}} @size="small" @checked={{this.allowDeletion}}>
+        <:label><strong>{{t
+              "pages.sup-organization-participants.replace-students-modal.confirmation-checkbox"
+            }}</strong></:label>
       </PixCheckbox>
     </div>
   </:content>

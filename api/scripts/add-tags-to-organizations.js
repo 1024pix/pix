@@ -1,9 +1,8 @@
 // Usage: node add-tags-to-organizations.js path/file.csv
 // To use on file with columns |organizationId, tagName|
 
-import dotenv from 'dotenv';
+import 'dotenv/config';
 
-dotenv.config();
 import lodash from 'lodash';
 
 import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';

@@ -7,9 +7,9 @@ import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-module('Integration | Component | OrganizationParticipantImport', function (hooks) {
+module('Integration | Component | Import', function (hooks) {
   setupIntlRenderingTest(hooks);
-  let organizationImport;
+  let organizationImportDetail;
   hooks.beforeEach(function () {
     this.set('onImportSupStudents', sinon.stub());
     this.set('onImportScoStudents', sinon.stub());
@@ -26,20 +26,22 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
       this.owner.register('service:current-user', CurrentUserStub);
 
       const store = this.owner.lookup('service:store');
-      organizationImport = store.createRecord('organization-import', {
+      organizationImportDetail = store.createRecord('organization-import-detail', {
         status: 'VALIDATION_ERROR',
+        createdBy: { firstName: 'Richard', lastName: 'Aldana' },
+        updatedAt: new Date(2020, 10, 2),
         errors: [{ code: 'UAI_MISMATCHED', meta: {} }],
       });
     });
 
     test('display error heading information', async function (assert) {
-      this.set('organizationImport', organizationImport);
+      this.set('organizationImportDetail', organizationImportDetail);
       const screen = await render(
         hbs`<Import
   @onImportSupStudents={{this.onImportSupStudents}}
   @onImportScoStudents={{this.onImportScoStudents}}
   @onReplaceStudents={{this.onReplaceStudents}}
-  @organizationImport={{this.organizationImport}}
+  @organizationImportDetail={{this.organizationImportDetail}}
 />`,
       );
 
@@ -50,7 +52,74 @@ module('Integration | Component | OrganizationParticipantImport', function (hook
     });
   });
 
-  module('when user is from sup', (hooks) => {
+  module('success', function (hooks) {
+    hooks.beforeEach(function () {
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
+        isSUPManagingStudents = true;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const store = this.owner.lookup('service:store');
+      organizationImportDetail = store.createRecord('organization-import-detail', {
+        status: 'IMPORTED',
+        createdBy: { firstName: 'Richard', lastName: 'Aldana' },
+        updatedAt: new Date(2020, 10, 2),
+        errors: [{ code: 'UAI_MISMATCHED', meta: {} }],
+      });
+    });
+
+    test('display success banner with warnings', async function (assert) {
+      // when
+      this.set('organizationImportDetail', organizationImportDetail);
+      const screen = await render(hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @organizationImportDetail={{this.organizationImportDetail}}
+/>`);
+      assert.ok(
+        screen.getByText(
+          this.intl.t('pages.organization-participants-import.global-success', {
+            firstName: 'Richard',
+            lastName: 'Aldana',
+            date: new Date(2020, 10, 2).toLocaleDateString(),
+          }),
+        ),
+      );
+      assert.ok(screen.getByRole('link', 'mailto:sup@pix.fr'));
+    });
+    test('display success banner wihout warning', async function (assert) {
+      // when
+      const store = this.owner.lookup('service:store');
+      this.set(
+        'organizationImportDetail',
+        store.createRecord('organization-import-detail', {
+          status: 'IMPORTED',
+          createdBy: { firstName: 'Richard', lastName: 'Aldana' },
+          updatedAt: new Date(2020, 10, 2),
+        }),
+      );
+      const screen = await render(hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @organizationImportDetail={{this.organizationImportDetail}}
+/>`);
+      assert.ok(
+        screen.getByText(
+          this.intl.t('pages.organization-participants-import.global-success', {
+            firstName: 'Richard',
+            lastName: 'Aldana',
+            date: new Date(2020, 10, 2).toLocaleDateString(),
+          }),
+        ),
+      );
+      assert.notOk(screen.queryByRole('link', 'mailto:sup@pix.fr'));
+    });
+  });
+  module('when user is from sup', function (hooks) {
     class CurrentUserStub extends Service {
       isAdminInOrganization = true;
       isSUPManagingStudents = true;

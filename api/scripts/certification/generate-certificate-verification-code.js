@@ -1,7 +1,6 @@
 /* eslint no-console: ["off"] */
-import dotenv from 'dotenv';
+import 'dotenv/config';
 
-dotenv.config();
 import bluebird from 'bluebird';
 import * as url from 'url';
 import yargs from 'yargs';
