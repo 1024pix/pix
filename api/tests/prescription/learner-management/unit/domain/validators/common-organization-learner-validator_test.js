@@ -3,98 +3,114 @@ import { ModelValidationError } from '../../../../../../src/shared/domain/errors
 import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Common Organization Learner Validator', function () {
-  const learner = {
-    firstName: 'Richard',
-    lastName: 'Aldana',
-    organizationId: 123,
-    attributes: {
-      birthdate: '2020-02-01',
-    },
-  };
-
   context('When learner is correct', function () {
     it('should return an empty array', function () {
-      const errors = validateCommonOrganizationLearner(learner, [
+      const errors = validateCommonOrganizationLearner({ prénom: 'Godzilla' }, [
         {
-          name: 'birthdate',
-          type: 'date',
-          format: 'YYYY-MM-DD',
-          required: true,
+          name: 'nom',
+          type: 'string',
+          required: false,
         },
       ]);
       expect(errors).to.deep.equal([]);
     });
   });
 
-  context('required attributes', function () {
-    context('firstName', function () {
-      it('when missing firstName, throws an error', async function () {
-        const errors = validateCommonOrganizationLearner(
-          { lastName: 'Aldana', organizationId: 123, attributes: {} },
-          [],
-        );
+  context('string', function () {
+    context('required cases', function () {
+      it('when missing attributes, throws an error', async function () {
+        const errors = validateCommonOrganizationLearner({ prénom: 'Aldana' }, [
+          {
+            name: 'nom',
+            type: 'string',
+            required: true,
+          },
+        ]);
         expect(errors.length).to.equal(1);
         expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
         expect(errors[0].code).to.equal('FIELD_REQUIRED');
-        expect(errors[0].key).to.equal('firstName');
+        expect(errors[0].key).to.equal('nom');
       });
 
-      it('when firstName is not a string, throws an error', async function () {
-        const errors = validateCommonOrganizationLearner({
-          lastName: 'Aldana',
-          organizationId: 123,
-          firstName: null,
-          attributes: {},
-        });
-        expect(errors.length).to.equal(1);
-        expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
-        expect(errors[0].code).to.equal('FIELD_NOT_STRING');
-        expect(errors[0].key).to.equal('firstName');
+      it('when attributes is not required, not throws', async function () {
+        const errors = validateCommonOrganizationLearner({}, [
+          {
+            name: 'nom',
+            type: 'string',
+            required: false,
+          },
+        ]);
+        expect(errors).to.lengthOf(0);
       });
     });
 
-    it('when missing lastName throws an error', async function () {
-      const errors = validateCommonOrganizationLearner({
-        organizationId: 123,
-        firstName: 'Zoé',
-        attributes: {},
+    context('min length', function () {
+      it('when min length reach, not throws', async function () {
+        const errors = validateCommonOrganizationLearner({ nom: 'abcdefg' }, [
+          {
+            name: 'nom',
+            type: 'string',
+            min: 2,
+            required: false,
+          },
+        ]);
+
+        expect(errors).to.lengthOf(0);
       });
-      expect(errors.length).to.equal(1);
-      expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
-      expect(errors[0].code).to.equal('FIELD_REQUIRED');
-      expect(errors[0].key).to.equal('lastName');
+
+      it('when min length not reach, throws', async function () {
+        const errors = validateCommonOrganizationLearner({ nom: 'A' }, [
+          {
+            name: 'nom',
+            type: 'string',
+            min: 2,
+            required: false,
+          },
+        ]);
+
+        expect(errors).to.lengthOf(1);
+        expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
+        expect(errors[0].code).to.equal('FIELD_STRING_MIN');
+        expect(errors[0].key).to.equal('nom');
+      });
     });
 
-    context('organizationId', function () {
-      it('when missing organizationId throws an error', async function () {
-        const errors = validateCommonOrganizationLearner({
-          lastName: 'Aldana',
-          firstName: 'Zoé',
-          attributes: {},
-        });
-        expect(errors.length).to.equal(1);
+    context('max length', function () {
+      it('when min length reach, not throws', async function () {
+        const errors = validateCommonOrganizationLearner({ nom: 'abcdefg' }, [
+          {
+            name: 'nom',
+            type: 'string',
+            max: 2,
+            required: false,
+          },
+        ]);
+
+        expect(errors).to.lengthOf(1);
         expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
-        expect(errors[0].code).to.equal('FIELD_REQUIRED');
-        expect(errors[0].key).to.equal('organizationId');
+        expect(errors[0].code).to.equal('FIELD_STRING_MAX');
+        expect(errors[0].key).to.equal('nom');
       });
-      it('when organizationId is not an integer throws an error', async function () {
-        const errors = validateCommonOrganizationLearner({
-          lastName: 'Aldana',
-          organizationId: 'truc',
-          firstName: 'Zoé',
-          attributes: {},
-        });
-        expect(errors.length).to.equal(1);
-        expect(errors[0]).to.be.an.instanceOf(ModelValidationError);
-        expect(errors[0].code).to.equal('FIELD_NOT_NUMBER');
-        expect(errors[0].key).to.equal('organizationId');
+
+      it('when min length not reach, throws', async function () {
+        const errors = validateCommonOrganizationLearner({ nom: 'A' }, [
+          {
+            name: 'nom',
+            type: 'string',
+            max: 2,
+            required: false,
+          },
+        ]);
+
+        expect(errors).to.lengthOf(0);
       });
     });
   });
-  context('birthdate', function () {
+
+  context('date', function () {
     context('when birthdate is not conform', function () {
       it('throws an error', async function () {
-        const errors = validateCommonOrganizationLearner({ ...learner, attributes: { birthdate: '123456' } }, [
+        const errors = validateCommonOrganizationLearner({ birthdate: '500-13-58' }, [
           {
             name: 'birthdate',
             type: 'date',
@@ -111,7 +127,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
     context('when birthdate is not a date', function () {
       it('throws an error', async function () {
-        const errors = validateCommonOrganizationLearner({ ...learner, attributes: { birthdate: '123456' } }, [
+        const errors = validateCommonOrganizationLearner({ birthdate: 'i`m not a date' }, [
           {
             name: 'birthdate',
             type: 'date',
@@ -129,7 +145,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
     context('when birthdate has not a valid format', function () {
       it('throws an error', function () {
-        const errors = validateCommonOrganizationLearner({ ...learner, attributes: { birthdate: '2020/03/19' } }, [
+        const errors = validateCommonOrganizationLearner({ birthdate: '2020/03/19' }, [
           {
             name: 'birthdate',
             type: 'date',
@@ -146,7 +162,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
     context('when birthdate does not exist ', function () {
       it('throws an error', function () {
-        const errors = validateCommonOrganizationLearner({ ...learner, attributes: {} }, [
+        const errors = validateCommonOrganizationLearner({}, [
           {
             name: 'birthdate',
             type: 'date',
@@ -163,7 +179,7 @@ describe('Unit | Domain | Common Organization Learner Validator', function () {
 
     context('when birthdate presence is optional', function () {
       it('should not throw an error', function () {
-        const errors = validateCommonOrganizationLearner({ ...learner, attributes: {} }, [
+        const errors = validateCommonOrganizationLearner({}, [
           {
             name: 'birthdate',
             type: 'date',
