@@ -3,11 +3,13 @@ import Component from '@glimmer/component';
 import groupBy from 'lodash/groupBy';
 import uniq from 'lodash/uniq';
 
-const label = {
+const statusI18nLabel = {
   STARTED: 'upload-in-progress',
   UPLOADED: 'validation-in-progress',
-  UPLOAD_ERROR: 'todo',
-  VALIDATED: 'process-in-progress',
+  UPLOAD_ERROR: 'upload-error',
+  VALIDATED: 'import-in-progress',
+  VALIDATION_ERROR: 'validation-error',
+  IMPORT_ERROR: 'import-error',
   IMPORTED: 'global-success',
 };
 export default class Import extends Component {
@@ -45,6 +47,9 @@ export default class Import extends Component {
   }
 
   get bannerMessage() {
+    const status = this.args.organizationImportDetail?.status;
+    const title = this.intl.t(`pages.organization-participants-import.banner.${statusI18nLabel[status]}`);
+
     if (this.args.organizationImportDetail?.hasWarning) {
       return this.intl.t('pages.organization-participants-import.warning-banner', { htmlSafe: true });
     }
