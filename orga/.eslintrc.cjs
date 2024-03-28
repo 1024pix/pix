@@ -25,6 +25,18 @@ module.exports = {
   overrides: [
     // node files
     {
+      files: ['**/*.gjs'],
+      parser: 'ember-eslint-parser',
+      plugins: ['ember'],
+      extends: [
+        '@1024pix',
+        'plugin:ember/recommended',
+        'plugin:qunit/recommended',
+        'plugin:prettier/recommended',
+        'plugin:ember/recommended-gjs',
+      ],
+    },
+    {
       files: [
         '.eslintrc.cjs',
         '.template-lintrc.js',

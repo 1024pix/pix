@@ -3,10 +3,11 @@
   "singleQuote": true,
   "overrides": [
     {
-      "files": "*.hbs",
+      "files": "*.{hbs,gjs}",
       "options": {
-        "singleQuote": false
+        "singleQuote": true
       }
     }
-  ]
+  ],
+  "plugins": ["prettier-plugin-ember-template-tag"]
 }
