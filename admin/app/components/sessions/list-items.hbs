@@ -42,36 +42,39 @@
         </td>
         <td>
           <PixSelect
-            @label="Filtrer les sessions en sélectionnant un type de centre de certification"
             @screenReaderOnly={{true}}
             class="sessions-list-items__select"
             @options={{this.certificationCenterTypeOptions}}
             @onChange={{this.selectCertificationCenterType}}
             @value={{@certificationCenterType}}
-          />
+          >
+            <:label>Filtrer les sessions en sélectionnant un type de centre de certification</:label>
+          </PixSelect>
         </td>
         <td></td>
         <td>
           <PixSelect
-            @label="Filtrer les sessions en sélectionnant un statut"
             @screenReaderOnly={{true}}
             class="sessions-list-items__select"
             @options={{this.sessionStatusOptions}}
             @onChange={{this.selectSessionStatus}}
             @value={{@status}}
-          />
+          >
+            <:label>Filtrer les sessions en sélectionnant un statut</:label>
+          </PixSelect>
         </td>
         <td></td>
         <td></td>
         <td>
           <PixSelect
-            @label="Filtrer les sessions par leur version"
             @screenReaderOnly={{true}}
             class="sessions-list-items__select"
             @options={{this.sessionVersionOptions}}
             @onChange={{this.selectSessionVersion}}
             @value={{@version}}
-          />
+          >
+            <:label>Filtrer les sessions par leur version</:label>
+          </PixSelect>
         </td>
       </tr>
     </thead>

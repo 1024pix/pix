@@ -7,27 +7,30 @@
           @id="userEmailToInvite"
           value={{@userEmailToInvite}}
           {{on "change" @onChangeUserEmailToInvite}}
-          @label="Adresse e-mail du membre à inviter"
           class="organization-invitations__input {{if @userEmailToInviteError 'organization-sub-form__input__error'}}"
-        />
+        >
+          <:label>Adresse e-mail du membre à inviter</:label>
+        </PixInput>
 
         <PixSelect
           @options={{this.languagesOptions}}
           @value={{this.organizationInvitationLang}}
           @onChange={{this.changeOrganizationInvitationLang}}
-          @label="Choisir la langue de l’email d’invitation"
           @placeholder="Langue"
           class="organization-invitations__select"
-        />
+        >
+          <:label>Choisir la langue de l’email d’invitation</:label>
+        </PixSelect>
 
         <PixSelect
           @options={{this.rolesOptions}}
           @value={{this.organizationInvitationRole}}
           @onChange={{this.changeOrganizationInvitationRole}}
-          @label="Choisir le rôle du membre"
           @placeholder="Rôle"
           class="organization-invitations__select"
-        />
+        >
+          <:label>Choisir le rôle du membre</:label>
+        </PixSelect>
 
         <PixButton
           @size="small"

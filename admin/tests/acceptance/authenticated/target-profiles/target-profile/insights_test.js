@@ -589,7 +589,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         await clickByName('Clés de lecture');
         await clickByName('Nouveau résultat thématique');
         await fillByLabel(/Nom du résultat thématique :/, 'Mon nouveau RT');
-        await fillByLabel("Nom de l'image (svg) :", 'troll.png');
+        await fillByLabel("* Nom de l'image (svg) :", 'troll.png');
         await fillByLabel(/Texte alternatif pour l'image :/, 'Je mets du png je fais ce que je veux');
         await fillByLabel('Message :', 'message de mon RT');
         await fillByLabel(/Clé/, 'MY_BADGE');

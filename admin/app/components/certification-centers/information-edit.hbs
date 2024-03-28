@@ -20,13 +20,15 @@
 
     <div class="form-field">
       <PixSelect
-        @label="Type"
         @options={{this.certificationCenterTypes}}
         @placeholder="-- Choisissez --"
         @value={{this.form.type}}
         @onChange={{this.selectCertificationCenterType}}
         @errorMessage={{v-get this.form "type" "message"}}
-      />
+      >
+        <:label>Type</:label>
+        <:default as |certificationCenterType|>{{certificationCenterType.label}}</:default>
+      </PixSelect>
     </div>
 
     <div class="form-field">
@@ -103,12 +105,12 @@
     <div class="form-field">
       <PixCheckbox
         @id="isV3Pilot"
-        @labelSize="small"
+        @size="small"
         onChange={{this.updateIsV3Pilot}}
         @checked={{this.form.isV3Pilot}}
         class="form-field certification-center-information__edit-form__is-v3-pilot-checkbox"
       >
-        {{t "components.certification-centers.is-v3-pilot-label"}}
+        <:label>{{t "components.certification-centers.is-v3-pilot-label"}}</:label>
       </PixCheckbox>
     </div>
 

@@ -4,43 +4,46 @@
       <p class="admin-form__mandatory-text">Tous les champs sont obligatoires.</p>
       <PixInput
         @id="trainingTitle"
-        @label="Titre"
         required={{true}}
         aria-required={{true}}
         @value={{this.form.title}}
         {{on "change" (fn this.updateForm "title")}}
-      />
+      >
+        <:label>Titre</:label>
+      </PixInput>
       <PixInput
         @id="trainingLink"
-        @label="Lien"
         required={{true}}
         aria-required={{true}}
         @value={{this.form.link}}
         {{on "change" (fn this.updateForm "link")}}
-      />
+      >
+        <:label>Lien</:label>
+      </PixInput>
       <PixSelect
-        @label="Format"
         @placeholder={{"-- Sélectionnez un format --"}}
         @value={{this.form.type}}
         @options={{this.optionsTypeList}}
         required={{true}}
         aria-required={{true}}
         @onChange={{(fn this.updateSelect "type")}}
-      />
+      >
+        <:label>Format</:label>
+      </PixSelect>
       <div class="admin-form--training__duration">
         <PixInput
           @id="trainingDaysDuration"
-          @label="Jours (JJ)"
           min="0"
           required={{true}}
           aria-required={{true}}
           type="number"
           @value={{this.form.duration.days}}
           {{on "change" (fn this.updateForm "duration.days")}}
-        />
+        >
+          <:label>Jours (JJ)</:label>
+        </PixInput>
         <PixInput
           @id="trainingHoursDuration"
-          @label="Heures (HH)"
           min="0"
           max="23"
           required={{true}}
@@ -48,10 +51,11 @@
           type="number"
           @value={{this.form.duration.hours}}
           {{on "change" (fn this.updateForm "duration.hours")}}
-        />
+        >
+          <:label>Heures (HH)</:label>
+        </PixInput>
         <PixInput
           @id="trainingMinutesDuration"
-          @label="Minutes (MM)"
           required={{true}}
           min="0"
           max="59"
@@ -59,56 +63,58 @@
           type="number"
           @value={{this.form.duration.minutes}}
           {{on "change" (fn this.updateForm "duration.minutes")}}
-        />
+        >
+          <:label>Minutes (MM)</:label>
+        </PixInput>
       </div>
       <PixSelect
         @id="trainingLocale"
-        @label="Langue localisée"
         @placeholder={{"-- Sélectionnez une langue --"}}
         @options={{this.optionsLocaleList}}
         @value={{this.form.locale}}
         @onChange={{(fn this.updateSelect "locale")}}
         required={{true}}
         aria-required={{true}}
-      />
+      >
+        <:label>Langue localisée</:label>
+      </PixSelect>
       <div class="admin-form--training__logo-url-input">
-        <label for="trainingEditorLogoUrl-name">
-          <strong>Nom du fichier du logo éditeur (.svg)</strong>
-          <small>
-            <a
-              href="https://1024pix.github.io/pix-images-list/editeurs-cf.html"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Voir la liste des logos éditeur
-            </a>
-            <br />Exemple : logo-ministere-education-nationale-et-jeunesse.svg
-          </small>
-        </label>
+        <small>
+          <a
+            href="https://1024pix.github.io/pix-images-list/editeurs-cf.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Voir la liste des logos éditeur
+          </a>
+          <br />Exemple : logo-ministere-education-nationale-et-jeunesse.svg
+        </small>
         <PixInput
           @id="trainingEditorLogoUrl"
           required={{true}}
           aria-required={{true}}
-          @label="Nom du fichier du logo éditeur"
           @screenReaderOnly={{true}}
           placeholder="logo-ministere-education-nationale-et-jeunesse.svg"
           @value={{this.form.editorLogoUrl}}
           {{on "change" (fn this.updateForm "editorLogoUrl")}}
-        />
+        >
+          <:label>Nom du fichier du logo éditeur (.svg)</:label>
+        </PixInput>
       </div>
       <PixInput
         @id="trainingEditorName"
-        @label="Nom de l'éditeur"
-        @information="Exemple: Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité"
+        @subLabel="Exemple: Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité"
         required={{true}}
         aria-required={{true}}
         placeholder="Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité."
         @value={{this.form.editorName}}
         {{on "change" (fn this.updateForm "editorName")}}
-      />
+      >
+        <:label>Nom de l'éditeur</:label>
+      </PixInput>
       {{#if @model}}
         <PixCheckbox @checked={{this.form.isDisabled}} {{on "change" this.toggleIsDisabled}}>
-          Mettre en pause
+          <:label>Mettre en pause</:label>
         </PixCheckbox>
       {{/if}}
     </Card>

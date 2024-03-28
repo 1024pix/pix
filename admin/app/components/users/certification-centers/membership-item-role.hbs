@@ -2,12 +2,11 @@
   <PixSelect
     @onChange={{@onRoleSelected}}
     @value={{@role}}
-    @label={{t "components.users.certification-centers.memberships.items.role.select-role"}}
     @screenReaderOnly={{true}}
     @options={{@certificationCenterRoles}}
-    as |certificationCenterRole|
   >
-    {{certificationCenterRole.label}}
+    <:label>{{t "components.users.certification-centers.memberships.items.role.select-role"}}</:label>
+    <:default as |certificationCenterRole|>{{certificationCenterRole.label}}</:default>
   </PixSelect>
 {{else}}
   {{t @roleLabelKey}}

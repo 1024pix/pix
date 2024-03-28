@@ -4,14 +4,16 @@
     {{#if this.accessControl.hasAccessToCertificationActionsScope}}
       <form onsubmit={{this.submitForm}}>
         <PixTextarea
+          @screenReaderOnly={{true}}
           placeholder="Ajouter un commentaire…"
           @value={{this.commentBeingEdited}}
           {{on "change" this.updateCommentBeingEdited}}
           class="jury-comment__field"
           @id="jury-comment-field"
-          aria-label="Texte du commentaire"
           required={{true}}
-        />
+        >
+          <:label>Texte du commentaire</:label>
+        </PixTextarea>
         <div class="jury-comment__actions">
           {{#if this.commentExists}}
             <PixButton @triggerAction={{this.exitEditingMode}} @backgroundColor="transparent-light" @size="small">

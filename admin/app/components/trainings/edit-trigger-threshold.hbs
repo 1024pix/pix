@@ -5,11 +5,12 @@
     name="threshold"
     type="number"
     @id="thresholdInput"
-    @label="Seuil en % :"
     placeholder="Exemple : 16"
     min="0"
     max="100"
-  />
+  >
+    <:label>Seuil en % :</:label>
+  </PixInput>
 </Card>
 
 <Common::TubesSelection @frameworks={{@frameworks}} @onChange={{@onChange}} />

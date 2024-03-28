@@ -13,14 +13,14 @@
       @checked={{this.hasCampaignCriterion}}
       {{on "change" this.onHasCampaignCriterionChange}}
     >
-      sur l'ensemble du profil cible
+      <:label>sur l'ensemble du profil cible</:label>
     </PixCheckbox>
     <PixCheckbox
       @id="hasCappedTubesCriteria"
       @checked={{this.hasCappedTubesCriteria}}
       {{on "change" this.onHasCappedTubesCriteriaChange}}
     >
-      sur une sélection de sujets du profil cible
+      <:label>sur une sélection de sujets du profil cible</:label>
     </PixCheckbox>
   </div>
   {{#if this.hasCampaignCriterion}}

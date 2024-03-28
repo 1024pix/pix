@@ -2,12 +2,13 @@
   <div class="attach-target-profile-search__input">
     <PixSearchInput
       @id="search-input"
-      @label="ID du profil cible"
       @placeholder="Exemple: 3"
       @debounceTimeInMs={{this.debounce}}
       @triggerFiltering={{this.onSearchValueInput}}
       autocomplete="off"
-    />
+    >
+      <:label>ID du profil cible</:label>
+    </PixSearchInput>
 
     {{#if @isLoading}}
       <span class="attach-target-profile-search__loader" role="progressbar">

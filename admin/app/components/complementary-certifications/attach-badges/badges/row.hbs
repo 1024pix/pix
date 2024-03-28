@@ -8,27 +8,27 @@
       placeholder="Exemple de niveau de RT : 1"
       required="true"
       aria-required="true"
-      @label="{{@badgeId}} {{@badgeLabel}} Niveau"
       @screenReaderOnly={{true}}
-      title="{{@badgeId}} {{@badgeLabel}} Niveau"
       type="number"
       min="1"
       max="{{@badgeMaxLevel}}"
       {{on "input" (fn @onFieldUpdate @badgeId)}}
       value="1"
-    />
+    >
+      <:label>{{@badgeId}} {{@badgeLabel}} Niveau</:label>
+    </PixInput>
   </td>
   <td>
     <PixInput
       @id="{{@badgeId}}-minimum-earned-pix"
       name="minimum-earned-pix"
       placeholder="Ex : 150"
-      @label="{{@badgeId}} {{@badgeLabel}} Nombre de pix minimum"
       @screenReaderOnly={{true}}
-      title="{{@badgeId}} {{@badgeLabel}} Nombre de pix minimum"
       type="number"
       {{on "input" (fn @onFieldUpdate @badgeId)}}
-    />
+    >
+      <:label>{{@badgeId}} {{@badgeLabel}} Nombre de pix minimum</:label>
+    </PixInput>
   </td>
   <td>
     <PixInput
@@ -37,12 +37,12 @@
       placeholder="Ex : https://images.pix.fr/..."
       required="true"
       aria-required="true"
-      @label="{{@badgeId}} {{@badgeLabel}} Image svg certificat Pix App"
       @screenReaderOnly={{true}}
-      title="{{@badgeId}} {{@badgeLabel}} Image svg certificat Pix App"
       type="text"
       {{on "input" (fn @onFieldUpdate @badgeId)}}
-    />
+    >
+      <:label>{{@badgeId}} {{@badgeLabel}} Image svg certificat Pix App</:label>
+    </PixInput>
   </td>
   <td>
     <PixTextarea
@@ -51,10 +51,11 @@
       placeholder="Ex : Pix+ Édu 1er degré Initié (entrée dans le métier)"
       required="true"
       aria-required="true"
-      aria-label="{{@badgeId}} {{@badgeLabel}} Label du certificat"
-      title="{{@badgeId}} {{@badgeLabel}} Label du certificat"
+      @screenReaderOnly={{true}}
       {{on "input" (fn @onFieldUpdate @badgeId)}}
-    />
+    >
+      <:label>{{@badgeId}} {{@badgeLabel}} Label du certificat</:label>
+    </PixTextarea>
   </td>
   <td>
     <PixInput
@@ -63,35 +64,37 @@
       placeholder="Ex : https://images.pix.fr/..."
       required="true"
       aria-required="true"
-      @label="{{@badgeId}} {{@badgeLabel}} Macaron de l'attestation PDF"
       @screenReaderOnly={{true}}
-      title="{{@badgeId}} {{@badgeLabel}} Macaron de l'attestation PDF"
       type="text"
       {{on "input" (fn @onFieldUpdate @badgeId)}}
-    />
+    >
+      <:label>{{@badgeId}} {{@badgeLabel}} Macaron de l'attestation PDF</:label>
+    </PixInput>
   </td>
   {{#if @hasExternalJury}}
     <td>
       <PixTextarea
         @id="{{@badgeId}}-certificate-message"
+        @screenReaderOnly={{true}}
         name="certificate-message"
         placeholder="Ex : Vous avez obtenu la certification Pix+Édu niveau “Initié (entrée dans le métier)”"
-        aria-label="{{@badgeId}} {{@badgeLabel}} Message du certificat"
-        title="{{@badgeId}} {{@badgeLabel}} Message du certificat"
         required="true"
         {{on "input" (fn @onFieldUpdate @badgeId)}}
-      />
+      >
+        <:label>{{@badgeId}} {{@badgeLabel}} Message du certificat</:label>
+      </PixTextarea>
     </td>
     <td>
       <PixTextarea
         @id="{{@badgeId}}-certificate-temporary-message"
+        @screenReaderOnly={{true}}
         name="certificate-temporary-message"
         placeholder="Ex : Vous avez obtenu la certification Pix+Édu niveau “Initié (entrée dans le métier)”"
-        aria-label="{{@badgeId}} {{@badgeLabel}} Message temporaire certificat"
-        title="{{@badgeId}} {{@badgeLabel}} Message temporaire certificat"
         required="true"
         {{on "input" (fn @onFieldUpdate @badgeId)}}
-      />
+      >
+        <:label>{{@badgeId}} {{@badgeLabel}} Message temporaire certificat</:label>
+      </PixTextarea>
     </td>
   {{/if}}
 </tr>
