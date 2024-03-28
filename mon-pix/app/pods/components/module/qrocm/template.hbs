@@ -64,11 +64,26 @@
     </PixButton>
   {{/unless}}
 
-  <div role="status" tabindex="-1">
+  <div class="element-qrocm__feedback" role="status" tabindex="-1">
     {{#if this.shouldDisplayFeedback}}
-      <PixMessage @type={{this.feedbackType}} @withIcon={{true}} class="element-qrocm__feedback">
+      <PixMessage @type={{this.feedbackType}} @withIcon={{true}} class="element-qrocm-feedback__message">
         {{html-unsafe this.correction.feedback}}
       </PixMessage>
     {{/if}}
   </div>
+
+  {{#if this.shouldDisplayRetryButton}}
+    <PixButton
+      class="element-qrocm__retry-button"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @shape="rounded"
+      @size="small"
+      @type="button"
+      @triggerAction={{this.retry}}
+      @iconAfter="rotate-right"
+    >
+      {{t "pages.modulix.buttons.activity.retry"}}
+    </PixButton>
+  {{/if}}
 </form>
