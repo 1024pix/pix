@@ -1,4 +1,8 @@
-import { assertEnumValue, assertNotNullOrUndefined } from '../../../../../src/shared/domain/models/asserts.js';
+import {
+  assertEnumValue,
+  assertInstanceOf,
+  assertNotNullOrUndefined,
+} from '../../../../../src/shared/domain/models/asserts.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Models | asserts', function () {
@@ -42,6 +46,28 @@ describe('Unit | Shared | Models | asserts', function () {
 
         // When, Then
         expect(() => assertEnumValue(anEnum, 'y')).not.to.throw();
+      });
+    });
+  });
+
+  describe('#assertInstanceOf', function () {
+    describe('given invalid value', function () {
+      it('should throw', function () {
+        // given
+        const anEnum = {};
+
+        // When, Then
+        expect(() => assertInstanceOf(anEnum, Date)).to.throw();
+      });
+    });
+
+    describe('given valid values', function () {
+      it('should not throw', function () {
+        // given
+        const aDate = new Date();
+
+        // When, Then
+        expect(() => assertInstanceOf(aDate, Date)).not.to.throw();
       });
     });
   });
