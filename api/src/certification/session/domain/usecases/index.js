@@ -48,6 +48,7 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {candidateRepository} CandidateRepository
+ * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {candidateRepository} CandidateRepository
  * @typedef {centerRepository} CenterRepository
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
@@ -70,6 +71,7 @@ import * as sessionValidator from '../validators/session-validator.js';
  * @typedef {cpfReceiptsStorage} CpfReceiptsStorage
  * @typedef {cpfExportsStorage} CpfExportsStorage
  * @typedef {attendanceSheetPdfUtils} AttendanceSheetPdfUtils
+ * @typedef {temporarySessionsStorageForMassImportService} TemporarySessionsStorageForMassImportService
  **/
 const dependencies = {
   ...sessionRepositories,
