@@ -9,6 +9,7 @@ class Mission {
     validatedObjectives,
     areaCode,
     startedBy,
+    content,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -19,6 +20,16 @@ class Mission {
     this.learningObjectives = learningObjectives;
     this.validatedObjectives = validatedObjectives;
     this.startedBy = startedBy;
+    this.content = content;
+  }
+}
+
+class MissionContent {
+  constructor({ tutorialChallenges = [], trainingChallenges = [], validationChallenges = [], dareChallenges = [] }) {
+    this.tutorialChallenges = tutorialChallenges;
+    this.trainingChallenges = trainingChallenges;
+    this.validationChallenges = validationChallenges;
+    this.dareChallenges = dareChallenges;
   }
 }
 

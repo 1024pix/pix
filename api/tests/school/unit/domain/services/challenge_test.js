@@ -5,6 +5,27 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.
 
 describe('Unit | Service | Challenge', function () {
   describe('#getChallenge', function () {
+    it('Should return a challenge', async function () {
+      const mission = domainBuilder.buildMission();
+      const activityLevel = Activity.levels.TRAINING;
+      const locale = 'fr';
+      const challengeNumber = 1;
+      const alternativeVersion = null;
+      const challengeRepository = {
+        getChallengeFor1d: sinon.stub(),
+      };
+
+      const challenge = await challengeService.getChallenge({
+        mission,
+        activityLevel,
+        challengeNumber,
+        alternativeVersion,
+        challengeRepository,
+        locale,
+      });
+
+      expect(challenge).to.deep.equal({});
+    });
     it('calls challengeRepository#getChallengeFor1d with goods arguments', function () {
       const missionId = 'mission_id';
       const activityLevel = Activity.levels.TRAINING;
