@@ -6,14 +6,18 @@
       </legend>
 
       <div class="element-qcu-header__instruction">
-        {{html-unsafe @qcu.instruction}}
+        {{html-unsafe this.element.instruction}}
       </div>
     </div>
 
     <div class="element-qcu__proposals">
-      {{#each @qcu.proposals as |proposal|}}
+      {{#each this.element.proposals as |proposal|}}
         <div class="element-qcu-proposals__proposal">
-          <PixRadioButton name={{@qcu.id}} @value={{proposal.id}} {{on "click" (fn this.radioClicked proposal.id)}}>
+          <PixRadioButton
+            name={{this.element.id}}
+            @value={{proposal.id}}
+            {{on "click" (fn this.radioClicked proposal.id)}}
+          >
             {{proposal.content}}
           </PixRadioButton>
         </div>
@@ -21,7 +25,7 @@
     </div>
   </fieldset>
 
-  {{#if this.requiredMessage}}
+  {{#if this.shouldDisplayRequiredMessage}}
     <div class="element-qcu__required-field-missing">
       <PixMessage role="alert" @type="error" @withIcon={{true}}>
         {{t "pages.modulix.verification-precondition-failed-alert.qcu"}}

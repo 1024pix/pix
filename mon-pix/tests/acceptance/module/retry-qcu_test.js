@@ -106,12 +106,14 @@ module('Acceptance | Module | Routes | retryQcu', function (hooks) {
     const grain1 = server.create('grain', {
       id: 'grainId1',
       title: 'title',
+      type: 'activity',
       elements: [qcu1],
     });
 
     const grain2 = server.create('grain', {
       id: 'grainId2',
       title: 'title',
+      type: 'activity',
       elements: [qcu2],
     });
 
