@@ -6,7 +6,7 @@
       </legend>
 
       <div class="element-qrocm-header__instruction">
-        {{html-unsafe @qrocm.instruction}}
+        {{html-unsafe this.element.instruction}}
       </div>
     </div>
 
@@ -44,7 +44,7 @@
     </div>
   </fieldset>
 
-  {{#if this.requiredMessage}}
+  {{#if this.shouldDisplayRequiredMessage}}
     <div class="element-qrocm__required-field-missing">
       <PixMessage role="alert" @type="error" @withIcon={{true}}>
         {{t "pages.modulix.verification-precondition-failed-alert.qrocm"}}
@@ -52,7 +52,7 @@
     </div>
   {{/if}}
 
-  {{#unless @correction}}
+  {{#unless this.correction}}
     <PixButton
       @backgroundColor="success"
       @shape="rounded"
@@ -67,7 +67,7 @@
   <div role="status" tabindex="-1">
     {{#if this.shouldDisplayFeedback}}
       <PixMessage @type={{this.feedbackType}} @withIcon={{true}} class="element-qrocm__feedback">
-        {{html-unsafe @correction.feedback}}
+        {{html-unsafe this.correction.feedback}}
       </PixMessage>
     {{/if}}
   </div>

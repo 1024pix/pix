@@ -34,7 +34,7 @@
             />
           {{else if (eq element.type "qrocm")}}
             <Module::Qrocm
-              @qrocm={{element}}
+              @element={{element}}
               @submitAnswer={{@submitAnswer}}
               @correction={{this.getLastCorrectionForElement element}}
             />
