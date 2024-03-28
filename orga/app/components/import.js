@@ -3,58 +3,11 @@ import Component from '@glimmer/component';
 import groupBy from 'lodash/groupBy';
 import uniq from 'lodash/uniq';
 
-const statusI18nLabel = {
-  STARTED: 'upload-in-progress',
-  UPLOADED: 'validation-in-progress',
-  UPLOAD_ERROR: 'upload-error',
-  VALIDATED: 'import-in-progress',
-  VALIDATION_ERROR: 'validation-error',
-  IMPORT_ERROR: 'import-error',
-  IMPORTED: 'global-success',
-};
 export default class Import extends Component {
   @service currentUser;
   @service session;
   @service errorMessages;
   @service intl;
-
-  get displaySuccess() {
-    return this.args.organizationImportDetail?.isDone;
-  }
-
-  get successBanner() {
-    const {
-      updatedAt,
-      createdBy: { firstName, lastName },
-    } = this.args.organizationImportDetail;
-    return this.intl.t('pages.organization-participants-import.global-success', {
-      date: updatedAt.toLocaleDateString(),
-      firstName,
-      lastName,
-    });
-  }
-
-  get displayBanner() {
-    return this.args.isLoading || this.args.organizationImportDetail?.hasWarning;
-  }
-
-  get bannerType() {
-    if (this.args.organizationImportDetail?.hasWarning) {
-      return 'warning';
-    } else {
-      return 'information';
-    }
-  }
-
-  get bannerMessage() {
-    const status = this.args.organizationImportDetail?.status;
-    const title = this.intl.t(`pages.organization-participants-import.banner.${statusI18nLabel[status]}`);
-
-    if (this.args.organizationImportDetail?.hasWarning) {
-      return this.intl.t('pages.organization-participants-import.warning-banner', { htmlSafe: true });
-    }
-    return this.intl.t('pages.organization-participants-import.upload-in-progress');
-  }
 
   get displayImportMessagePanel() {
     return this.args.organizationImportDetail?.hasError || this.args.organizationImportDetail?.hasWarning;
@@ -120,6 +73,4 @@ export default class Import extends Component {
       return {};
     }
   }
-
-  get(status) {}
 }
