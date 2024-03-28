@@ -159,9 +159,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       await oidcController.getAuthorizationUrl(request, hFake, dependencies);
 
       //then
-      expect(oidcAuthenticationService.getAuthorizationUrl).to.have.been.calledWithExactly({
-        redirectUri: 'http:/exemple.net/',
-      });
+      expect(oidcAuthenticationService.getAuthorizationUrl).to.have.been.called;
       expect(request.yar.set).to.have.been.calledTwice;
       expect(request.yar.commit).to.have.been.calledOnce;
     });

@@ -15,7 +15,7 @@ describe('Acceptance | Route | oidc authentication url', function () {
         // given
         const query = querystring.stringify({
           identity_provider: 'OIDC_EXAMPLE_NET',
-          redirect_uri: 'https://app.dev.pix.org/connexion/oidc-example-net',
+          audience: 'app',
         });
 
         // when
