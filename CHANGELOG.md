@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v4.123.0 (28/03/2024)
+
+
+### :rocket: Amélioration
+- [#8509](https://github.com/1024pix/pix/pull/8509) [FEATURE] afficher le détail du dernier import réalisé par une organisation (pix-11684).
+- [#8237](https://github.com/1024pix/pix/pull/8237) [FEATURE] Récupérer l'information des langues disponibles pour la certification (pix-11277).
+- [#8475](https://github.com/1024pix/pix/pull/8475) [FEATURE] Ajout de l'ID d'answer dans la table `certification-challenge-capacities` (PIX-11688).
+
+### :building_construction: Tech
+- [#8532](https://github.com/1024pix/pix/pull/8532) [TECH] Ajouter des fonctions de chiffrement et de déchiffrement symétriques pour stocker les Client Secrets (PIX-11883).
+- [#8517](https://github.com/1024pix/pix/pull/8517) [TECH] deplace `campaignManagementController` vers `src/prescription` (PIX-11861).
+- [#8480](https://github.com/1024pix/pix/pull/8480) [TECH] Ajout du userId créant une configuration de niveau par compétence (PIX-11721).
+
+### :arrow_up: Montée de version
+- [#8536](https://github.com/1024pix/pix/pull/8536) [BUMP] Update Node.js to v20.12.0.
+- [#8507](https://github.com/1024pix/pix/pull/8507) [BUMP] Update dependency @1024pix/pix-ui to v45 (orga).
+
 ## v4.122.0 (27/03/2024)
 
 
