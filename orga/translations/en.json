@@ -941,8 +941,10 @@
         "import-in-progress": "The content of the file has been validated and the participants are now being imported in PixOrga.",
         "upload-completed": "The file was imported on {date} by {firstName} {lastName}.",
         "upload-error": "The file could not be imported.",
+        "upload-in-progress": "It may take a few minutes to import the file. Please do not leave this page.",
         "validation-error": "The file content contains errors.",
-        "validation-in-progress": "The contents of the file are currently being validated."
+        "validation-in-progress": "The contents of the file are currently being validated.",
+        "warning-banner": "However some values were not recognised. They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'"
       },
       "error-panel": {
         "title": "Errors list encountered",
@@ -958,8 +960,6 @@
         "title": "Import students"
       },
       "supported-formats": "(supported format: {types})",
-      "upload-in-progress": "It may take a few minutes to import the file. Please do not leave this page.",
-      "warning-banner": "However some values were not recognised. They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
       "warnings": {
         "diploma": "Diplomas unknown: {diplomas}; ",
         "study-scheme": "Study schemes unknown: {studySchemes}; "
