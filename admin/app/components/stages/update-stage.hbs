@@ -23,11 +23,12 @@
           type="number"
           readonly={{this.isThresholdOrLevelDisabled}}
           @value={{this.threshold}}
-          @label={{@stageTypeName}}
           min="0"
           max="100"
           {{on "focusout" this.checkThresholdValidity}}
-        />
+        >
+          <:label>{{@stageTypeName}}</:label>
+        </PixInput>
       {{/if}}
       <br />
 
@@ -38,9 +39,10 @@
         @requiredLabel="Champ obligatoire"
         @value={{this.title}}
         type="text"
-        @label="Titre du palier"
         {{on "focusout" this.checkTitleValidity}}
-      />
+      >
+        <:label>Titre du palier</:label>
+      </PixInput>
       <br />
 
       <PixTextarea

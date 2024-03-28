@@ -38,12 +38,13 @@
 
   <div class="organization-recently-used-tags-list__search-input-container">
     <PixSearchInput
-      @label="Filtrer les tags"
       @screenReaderOnly={{true}}
       @placeholder="Filtrer les tags"
       @debounceTimeInMs={{this.debounceTimeInMs}}
       @triggerFiltering={{this.triggerFiltering}}
-    />
+    >
+      <:label>Filtrer les tags</:label>
+    </PixSearchInput>
   </div>
 
   {{#if this.tagsToShow}}

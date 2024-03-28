@@ -8,8 +8,9 @@
     type="number"
     min="0"
     max="100"
-    @label="Taux de réussite requis :"
     @requiredLabel="Champ obligatoire"
     {{on "change" @onThresholdChange}}
-  />
+  >
+    <:label>Taux de réussite requis :</:label>
+  </PixInput>
 </section>

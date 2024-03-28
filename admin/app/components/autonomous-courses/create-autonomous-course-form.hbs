@@ -9,11 +9,12 @@
       <PixInput
         class="form-field"
         @id="autonomousCourseName"
-        @label="Nom interne : "
         required="true"
         @requiredLabel="Champ obligatoire"
         {{on "change" (fn this.updateAutonomousCourseValue "internalTitle")}}
-      />
+      >
+        <:label>Nom interne : </:label>
+      </PixInput>
       <PixFilterableAndSearchableSelect
         @label="Quel profil cible voulez-vous associer à ce parcours autonome ?"
         @placeholder="Choisir un profil cible"
@@ -35,13 +36,14 @@
       <PixInput
         @id="nom-public"
         class="form-field"
-        @label="Nom public : "
         placeholder="Exemple : Le super nom de mon parcours autonome"
         required={{true}}
         @requiredLabel="Champ obligatoire"
-        @information="Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
+        @subLabel="Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
         {{on "change" (fn this.updateAutonomousCourseValue "publicTitle")}}
-      />
+      >
+        <:label>Nom public : </:label>
+      </PixInput>
       <PixTextarea
         @id="text-page-accueil"
         class="form-field"

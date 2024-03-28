@@ -7,9 +7,10 @@
           @id="userEmailToAdd"
           value={{@userEmailToAdd}}
           {{on "change" @onChangeUserEmailToAdd}}
-          @label="Adresse e-mail de l'utilisateur à ajouter"
           class="organization-team-section__input"
-        />
+        >
+          <:label>Adresse e-mail de l'utilisateur à ajouter</:label>
+        </PixInput>
         <PixButton
           @size="small"
           @triggerAction={{@addOrganizationMembership}}
