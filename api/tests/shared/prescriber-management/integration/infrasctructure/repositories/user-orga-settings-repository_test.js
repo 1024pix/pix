@@ -2,9 +2,8 @@ import _ from 'lodash';
 
 import { UserOrgaSettingsCreationError } from '../../../../../../lib/domain/errors.js';
 import { UserOrgaSettings } from '../../../../../../lib/domain/models/UserOrgaSettings.js';
-import { BookshelfUserOrgaSettings } from '../../../../../../lib/infrastructure/orm-models/UserOrgaSettings.js';
 import * as userOrgaSettingsRepository from '../../../../../../src/shared/prescriber-management/infrastructure/repositories/user-orga-settings-repository.js';
-import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | UserOrgaSettings', function () {
   const USER_PICKED_PROPERTIES = [
@@ -54,13 +53,13 @@ describe('Integration | Repository | UserOrgaSettings', function () {
 
     it('should add a row in the table "user-orga-settings"', async function () {
       // given
-      const nbBeforeCreation = await BookshelfUserOrgaSettings.count();
+      const [{ count: nbBeforeCreation }] = await knex('user-orga-settings').count();
 
       // when
       await userOrgaSettingsRepository.create(user.id, organization.id);
 
       // then
-      const nbAfterCreation = await BookshelfUserOrgaSettings.count();
+      const [{ count: nbAfterCreation }] = await knex('user-orga-settings').count();
       expect(nbAfterCreation).to.equal(nbBeforeCreation + 1);
     });
 
@@ -184,13 +183,13 @@ describe('Integration | Repository | UserOrgaSettings', function () {
         const userId = databaseBuilder.factory.buildUser().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         await databaseBuilder.commit();
-        const nbBeforeCreation = await BookshelfUserOrgaSettings.count();
+        const [{ count: nbBeforeCreation }] = await knex('user-orga-settings').count();
 
         // when
         await userOrgaSettingsRepository.createOrUpdate({ userId, organizationId });
 
         // then
-        const nbAfterCreation = await BookshelfUserOrgaSettings.count();
+        const [{ count: nbAfterCreation }] = await knex('user-orga-settings').count();
         expect(nbAfterCreation).to.equal(nbBeforeCreation + 1);
       });
     });
@@ -222,13 +221,13 @@ describe('Integration | Repository | UserOrgaSettings', function () {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
         await databaseBuilder.commit();
-        const nbBeforeUpdate = await BookshelfUserOrgaSettings.count();
+        const [{ count: nbBeforeUpdate }] = await knex('user-orga-settings').count();
 
         // when
         await userOrgaSettingsRepository.createOrUpdate({ userId, organizationId });
 
         // then
-        const nbAfterUpdate = await BookshelfUserOrgaSettings.count();
+        const [{ count: nbAfterUpdate }] = await knex('user-orga-settings').count();
         expect(nbAfterUpdate).to.equal(nbBeforeUpdate);
       });
     });

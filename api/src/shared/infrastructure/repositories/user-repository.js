@@ -1,13 +1,11 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import {
   AlreadyExistingEntityError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   UserNotFoundError,
 } from '../../../../lib/domain/errors.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
@@ -15,7 +13,6 @@ import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { User } from '../../../../lib/domain/models/User.js';
 import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
-import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
 import { fetchPage, isUniqConstraintViolated } from '../../../../lib/infrastructure/utils/knex-utils.js';
 import { UserLogin } from '../../../authentication/domain/models/UserLogin.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
@@ -195,15 +192,15 @@ const getWithCertificationCenterMemberships = async function (userId) {
 };
 
 const getBySamlId = async function (samlId) {
-  const bookshelfUser = await BookshelfUser.query((qb) => {
-    qb.innerJoin('authentication-methods', function () {
+  const user = await knex('users')
+    .select('users.*')
+    .innerJoin('authentication-methods', function () {
       this.on('users.id', 'authentication-methods.userId')
         .andOnVal('authentication-methods.identityProvider', NON_OIDC_IDENTITY_PROVIDERS.GAR.code)
         .andOnVal('authentication-methods.externalIdentifier', samlId);
-    });
-  }).fetch({ require: false, withRelated: 'authenticationMethods' });
-
-  return bookshelfUser ? _toDomain(bookshelfUser) : null;
+    })
+    .first();
+  return user ? new User(user) : null;
 };
 
 const update = async function (properties) {
@@ -362,14 +359,15 @@ const updateUsername = async function ({ id, username, domainTransaction = Domai
 };
 
 const findByExternalIdentifier = async function ({ externalIdentityId, identityProvider }) {
-  const bookshelfUser = await BookshelfUser.query((qb) => {
-    qb.innerJoin('authentication-methods', function () {
+  const user = await knex('users')
+    .select('users.*')
+    .innerJoin('authentication-methods', function () {
       this.on('users.id', 'authentication-methods.userId')
         .andOnVal('authentication-methods.identityProvider', identityProvider)
         .andOnVal('authentication-methods.externalIdentifier', externalIdentityId);
-    });
-  }).fetch({ require: false, withRelated: 'authenticationMethods' });
-  return bookshelfUser ? _toDomain(bookshelfUser) : null;
+    })
+    .first();
+  return user ? new User(user) : null;
 };
 
 const findAnotherUserByEmail = async function (userId, email) {
@@ -494,104 +492,6 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
     createdAt: userDTO.createdAt,
     anonymisedByFirstName: userDTO.anonymisedByFirstName,
     anonymisedByLastName: userDTO.anonymisedByLastName,
-  });
-}
-
-function _toCertificationCenterMembershipsDomain(certificationCenterMembershipBookshelf) {
-  return certificationCenterMembershipBookshelf.map((bookshelf) => {
-    return new CertificationCenterMembership({
-      id: bookshelf.get('id'),
-      certificationCenter: new CertificationCenter({
-        id: bookshelf.related('certificationCenter').get('id'),
-        name: bookshelf.related('certificationCenter').get('name'),
-      }),
-    });
-  });
-}
-
-function _toMembershipsDomain(membershipsBookshelf) {
-  return membershipsBookshelf.map((membershipBookshelf) => {
-    return new Membership({
-      id: membershipBookshelf.get('id'),
-      organizationRole: membershipBookshelf.get('organizationRole'),
-      organization: new Organization({
-        id: membershipBookshelf.related('organization').get('id'),
-        code: membershipBookshelf.related('organization').get('code'),
-        name: membershipBookshelf.related('organization').get('name'),
-        type: membershipBookshelf.related('organization').get('type'),
-        isManagingStudents: Boolean(membershipBookshelf.related('organization').get('isManagingStudents')),
-        externalId: membershipBookshelf.related('organization').get('externalId'),
-      }),
-    });
-  });
-}
-
-function _getAuthenticationComplementAndExternalIdentifier(authenticationMethodBookshelf) {
-  const identityProvider = authenticationMethodBookshelf.get('identityProvider');
-
-  let authenticationComplement = authenticationMethodBookshelf.get('authenticationComplement');
-  let externalIdentifier = authenticationMethodBookshelf.get('externalIdentifier');
-
-  if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code) {
-    authenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
-      password: authenticationComplement.password,
-      shouldChangePassword: Boolean(authenticationComplement.shouldChangePassword),
-    });
-    externalIdentifier = undefined;
-  } else if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.code) {
-    authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-      accessToken: authenticationComplement.accessToken,
-      refreshToken: authenticationComplement.refreshToken,
-      expiredDate: authenticationComplement.expiredDate,
-    });
-  } else if (OidcIdentityProviders.getValidOidcProviderCodes().includes(identityProvider)) {
-    if (authenticationComplement) {
-      authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement(authenticationComplement);
-    }
-  }
-
-  return { authenticationComplement, externalIdentifier };
-}
-
-function _toAuthenticationMethodsDomain(authenticationMethodsBookshelf) {
-  return authenticationMethodsBookshelf.map((authenticationMethodBookshelf) => {
-    const { authenticationComplement, externalIdentifier } =
-      _getAuthenticationComplementAndExternalIdentifier(authenticationMethodBookshelf);
-
-    return new AuthenticationMethod({
-      id: authenticationMethodBookshelf.get('id'),
-      userId: authenticationMethodBookshelf.get('userId'),
-      identityProvider: authenticationMethodBookshelf.get('identityProvider'),
-      externalIdentifier,
-      authenticationComplement,
-    });
-  });
-}
-
-function _toDomain(userBookshelf) {
-  return new User({
-    id: userBookshelf.get('id'),
-    firstName: userBookshelf.get('firstName'),
-    lastName: userBookshelf.get('lastName'),
-    email: userBookshelf.get('email'),
-    emailConfirmedAt: userBookshelf.get('emailConfirmedAt'),
-    username: userBookshelf.get('username'),
-    password: userBookshelf.get('password'),
-    shouldChangePassword: Boolean(userBookshelf.get('shouldChangePassword')),
-    cgu: Boolean(userBookshelf.get('cgu')),
-    lang: userBookshelf.get('lang'),
-    isAnonymous: Boolean(userBookshelf.get('isAnonymous')),
-    lastTermsOfServiceValidatedAt: userBookshelf.get('lastTermsOfServiceValidatedAt'),
-    hasSeenNewDashboardInfo: Boolean(userBookshelf.get('hasSeenNewDashboardInfo')),
-    mustValidateTermsOfService: Boolean(userBookshelf.get('mustValidateTermsOfService')),
-    pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
-    pixCertifTermsOfServiceAccepted: Boolean(userBookshelf.get('pixCertifTermsOfServiceAccepted')),
-    memberships: _toMembershipsDomain(userBookshelf.related('memberships')),
-    certificationCenterMemberships: _toCertificationCenterMembershipsDomain(
-      userBookshelf.related('certificationCenterMemberships'),
-    ),
-    hasSeenAssessmentInstructions: Boolean(userBookshelf.get('hasSeenAssessmentInstructions')),
-    authenticationMethods: _toAuthenticationMethodsDomain(userBookshelf.related('authenticationMethods')),
   });
 }
 
