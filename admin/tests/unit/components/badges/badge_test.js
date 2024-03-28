@@ -33,4 +33,32 @@ module('Unit | Component | Badges | badge', function (hooks) {
       assert.strictEqual(component.isAlwaysVisibleText, 'Lacunes');
     });
   });
+
+  module('cappedTubesCriteriaTitleDisplayIndex', function () {
+    test('returns 1 if campaign scope criterion exists', function (assert) {
+      // given & when
+      const component = createComponent('component:badges/badge');
+      component.args = {
+        badge: {
+          criteria: [{ isCampaignScope: true }, { isCappedTubesScope: true }],
+        },
+      };
+
+      // then
+      assert.strictEqual(component.cappedTubesCriteriaTitleDisplayIndex, 1);
+    });
+
+    test('returns 0 if campaign scope criterion does not exist', function (assert) {
+      // given & when
+      const component = createComponent('component:badges/badge');
+      component.args = {
+        badge: {
+          criteria: [{ isCappedTubesScope: true }],
+        },
+      };
+
+      // then
+      assert.strictEqual(component.cappedTubesCriteriaTitleDisplayIndex, 0);
+    });
+  });
 });

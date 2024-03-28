@@ -650,10 +650,14 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.dom(screen.getByText('Message alternatif : Je mets du png je fais ce que je veux')).exists();
         assert.dom(screen.getByText('Certifiable')).exists();
         assert.dom(screen.getByText('Lacunes')).exists();
+        assert.dom(screen.getByText("Critère d'obtention basé sur l'ensemble du profil cible :")).exists();
         assert.deepEqual(
           screen.getByTestId('triste').innerText,
           'L‘évalué doit obtenir 50% sur l‘ensemble des sujets du profil cible.',
         );
+        assert
+          .dom(screen.getByText("Liste des critères d'obtention basés sur une sélection de sujets du profil cible :"))
+          .exists();
         const labelsForCappedTubes = screen.getAllByTestId('toujourstriste');
         assert.deepEqual(
           labelsForCappedTubes[0].innerText,

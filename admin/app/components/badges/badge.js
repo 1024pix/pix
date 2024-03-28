@@ -32,6 +32,11 @@ export default class Badge extends Component {
     return this.args.badge.imageUrl.slice(this.IMAGE_BASE_URL.length);
   }
 
+  get cappedTubesCriteriaTitleDisplayIndex() {
+    const hasCampaignScopeCriterion = this.args.badge.criteria.find((criterion) => criterion.isCampaignScope);
+    return hasCampaignScopeCriterion ? 1 : 0;
+  }
+
   @action
   async updateBadge(event) {
     event.preventDefault();

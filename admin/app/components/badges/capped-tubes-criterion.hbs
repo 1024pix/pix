@@ -1,21 +1,33 @@
-<p data-testid="toujourstriste">
-  L'évalué doit obtenir
-  <strong>{{@criterion.threshold}}%</strong>
+<div class="card__title">
   {{#if @criterion.name}}
-    sur le groupe
     <strong>{{@criterion.name}}</strong>
-    possédant
   {{else}}
-    sur tous
+    Critère
   {{/if}}
-  les sujets plafonnés par niveau suivants :
-</p>
+</div>
 
-{{#each this.areasForView as |area|}}
-  <Common::TubesDetails::Area
-    @title={{area.title}}
-    @color={{area.color}}
-    @competences={{area.competences}}
-    @displayDeviceCompatibility={{true}}
-  />
-{{/each}}
+<div class="card__content">
+  <p class="capped-tubes-criterion__text" data-testid="toujourstriste">
+    L'évalué doit obtenir
+    <strong>{{@criterion.threshold}}%</strong>
+    {{#if @criterion.name}}
+      sur le groupe
+      <strong>{{@criterion.name}}</strong>
+      possédant
+    {{else}}
+      sur tous
+    {{/if}}
+    les sujets plafonnés par niveau suivants :
+  </p>
+
+  <div class="badge-form-criterion">
+    {{#each this.areasForView as |area|}}
+      <Common::TubesDetails::Area
+        @title={{area.title}}
+        @color={{area.color}}
+        @competences={{area.competences}}
+        @displayDeviceCompatibility={{true}}
+      />
+    {{/each}}
+  </div>
+</div>
