@@ -10,3 +10,9 @@ export function assertEnumValue(enumObject, value) {
     throw new TypeError('Illegal enum value provided');
   }
 }
+
+export function assertInstanceOf(value, clazz) {
+  if (!value || !(value instanceof clazz)) {
+    throw new TypeError('Illegal value provided');
+  }
+}
