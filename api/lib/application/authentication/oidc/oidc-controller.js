@@ -3,7 +3,7 @@ import { oidcAuthenticationServiceRegistry as authenticationServiceRegistry } fr
 import { usecases } from '../../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer.js';
 import * as oidcSerializer from '../../../infrastructure/serializers/jsonapi/oidc-serializer.js';
-import { UnauthorizedError } from '../../http-errors.js';
+import { BadRequestError, UnauthorizedError } from '../../http-errors.js';
 
 const getAllIdentityProvidersForAdmin = async function (request, h) {
   const identityProviders = usecases.getAllIdentityProviders();
@@ -108,6 +108,10 @@ const authenticateUser = async function (
   const sessionState = request.yar.get('state', true);
   const nonce = request.yar.get('nonce', true);
   await request.yar.commit(h);
+
+  if (sessionState === null) {
+    throw new BadRequestError('Required cookie "state" is missing');
+  }
 
   const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
