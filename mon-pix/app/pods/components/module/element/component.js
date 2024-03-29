@@ -52,6 +52,8 @@ export default class ModuleElement extends Component {
     this.resetAnswers();
     const form = button.target.parentElement;
     form.reset();
+
+    this.args.retryElement({ element: this.element });
   }
 
   @action

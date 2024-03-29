@@ -25,4 +25,14 @@ export default class GetController extends Controller {
       'pix-event-name': `Click sur le bouton vérifier de l'élément : ${answerData.element.id}`,
     });
   }
+
+  @action
+  async trackRetry(answerData) {
+    this.metrics.add({
+      event: 'custom-event',
+      'pix-event-category': 'Modulix',
+      'pix-event-action': `Passage du module : ${this.model.module.id}`,
+      'pix-event-name': `Click sur le bouton réessayer de l'élément : ${answerData.element.id}`,
+    });
+  }
 }

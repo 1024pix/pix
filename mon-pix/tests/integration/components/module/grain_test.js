@@ -477,4 +477,32 @@ module('Integration | Component | Module | Grain', function (hooks) {
         .doesNotExist();
     });
   });
+
+  module('when retryElement is called', function () {
+    test('should call retryElement pass in argument', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const element = { type: 'qcu', isAnswerable: true };
+      const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+      this.set('grain', grain);
+      const passage = store.createRecord('passage');
+      this.set('passage', passage);
+
+      const retryElementStub = sinon.stub().withArgs({ element });
+      this.set('retryElement', retryElementStub);
+
+      const correction = store.createRecord('correction-response');
+      store.createRecord('element-answer', { element, correction, passage });
+
+      // when
+      await render(hbs`
+          <Module::Grain @grain={{this.grain}} @retryElement={{this.retryElement}} @canMoveToNextGrain={{true}} @passage={{this.passage}} />`);
+
+      await clickByName(this.intl.t('pages.modulix.buttons.activity.retry'));
+
+      // then
+      sinon.assert.calledOnce(retryElementStub);
+      assert.ok(true);
+    });
+  });
 });

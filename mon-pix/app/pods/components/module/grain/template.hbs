@@ -24,18 +24,21 @@
             <Module::Qcu
               @element={{element}}
               @submitAnswer={{@submitAnswer}}
+              @retryElement={{@retryElement}}
               @correction={{this.getLastCorrectionForElement element}}
             />
           {{else if (eq element.type "qcm")}}
             <Module::Qcm
               @element={{element}}
               @submitAnswer={{@submitAnswer}}
+              @retryElement={{@retryElement}}
               @correction={{this.getLastCorrectionForElement element}}
             />
           {{else if (eq element.type "qrocm")}}
             <Module::Qrocm
               @element={{element}}
               @submitAnswer={{@submitAnswer}}
+              @retryElement={{@retryElement}}
               @correction={{this.getLastCorrectionForElement element}}
             />
           {{/if}}
