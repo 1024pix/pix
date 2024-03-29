@@ -1,3 +1,5 @@
+import { VALIDATION_ERRORS } from './constants.js';
+
 class DomainError extends Error {
   constructor(message) {
     super(message);
@@ -76,6 +78,79 @@ class EntityValidationError extends DomainError {
       return invalidAttributes;
     }, []);
     return new EntityValidationError({ invalidAttributes });
+  }
+}
+
+class ModelValidationError extends DomainError {
+  constructor({ code, key, format }) {
+    super("Échec de validation de l'entité.");
+
+    if (code === VALIDATION_ERRORS.PROPERTY_NOT_UNIQ) {
+      this.why = 'uniqueness';
+    }
+
+    if (code === VALIDATION_ERRORS.FIELD_DATE_FORMAT) {
+      this.why = 'date_format';
+      this.acceptedFormat = format;
+    }
+
+    if (code === VALIDATION_ERRORS.FIELD_REQUIRED) {
+      this.why = 'field_required';
+    }
+
+    if (code === VALIDATION_ERRORS.FIELD_NOT_STRING) {
+      this.why = 'not_a_string';
+    }
+
+    if (code === VALIDATION_ERRORS.FIELD_STRING_MIN) {
+      this.why = 'string_too_short';
+      this.acceptedFormat = format;
+    }
+
+    if (code === VALIDATION_ERRORS.FIELD_STRING_MAX) {
+      this.why = 'string_too_long';
+      this.acceptedFormat = format;
+    }
+
+    this.key = key;
+    this.code = code;
+  }
+
+  static unicityError({ key }) {
+    return new ModelValidationError({ code: VALIDATION_ERRORS.PROPERTY_NOT_UNIQ, key });
+  }
+
+  static fromJoiError(joiError) {
+    let code, key, format;
+    if (joiError.type === 'date.format') {
+      code = VALIDATION_ERRORS.FIELD_DATE_FORMAT;
+      key = joiError.context.key;
+      format = joiError.context.format;
+    }
+
+    if (joiError.type === 'any.required') {
+      code = VALIDATION_ERRORS.FIELD_REQUIRED;
+      key = joiError.context.key;
+    }
+
+    if (joiError.type === 'string.base') {
+      code = VALIDATION_ERRORS.FIELD_NOT_STRING;
+      key = joiError.context.key;
+    }
+
+    if (joiError.type === 'string.min') {
+      code = VALIDATION_ERRORS.FIELD_STRING_MIN;
+      key = joiError.context.key;
+      format = joiError.context.limit;
+    }
+
+    if (joiError.type === 'string.max') {
+      code = VALIDATION_ERRORS.FIELD_STRING_MAX;
+      key = joiError.context.key;
+      format = joiError.context.limit;
+    }
+
+    return new ModelValidationError({ code, key, format });
   }
 }
 
@@ -215,6 +290,7 @@ export {
   LocaleNotSupportedError,
   MissingAssessmentId,
   MissingBadgeCriterionError,
+  ModelValidationError,
   NoCertificationAttestationForDivisionError,
   NotFoundError,
   OidcError,
