@@ -21,17 +21,16 @@
       "session": "De certificeringssessie"
     },
     "examiner-information": {
-      "title": "De supervisor(s)",
       "invigilated-by": "Bewaakt door :",
-      "signature": "Handtekening(en) :"
+      "signature": "Handtekening(en) :",
+      "title": "De supervisor(s)"
     },
     "file-name": "registratie-sessieblad-",
     "header": {
-      "title": "Aanwezigheidslijst",
-      "page": "Pagina"
+      "page": "Pagina",
+      "title": "Aanwezigheidslijst"
     },
     "table": {
-      "title": "Kandidatenlijst",
       "birth-name": "Geboortenaam",
       "date-of-birth": {
         "example": "(dd/mm/jjjj)",
@@ -40,7 +39,8 @@
       "division": "Klasse",
       "external-id": "Lokaal identificatiesymbool",
       "first-name": "Voornaam",
-      "signature": "Handtekening"
+      "signature": "Handtekening",
+      "title": "Kandidatenlijst"
     }
   },
   "campaign-export": {
@@ -156,7 +156,6 @@
   },
   "certification-center-invitation-email": {
     "params": {
-      "title": "Uitnodiging om deel te nemen aan de ruimte",
       "acceptInvitation": "Uitnodiging accepteren",
       "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
       "here": "hier",
@@ -164,6 +163,7 @@
       "needHelp": "Hulp nodig? Neem contact met ons op",
       "oneTimeLink": "Deze link is voor eenmalig gebruik",
       "pixCertifPresentation": "De Pix Certif-ruimte is een hulpmiddel voor het organiseren van certificeringssessies.",
+      "title": "Uitnodiging om deel te nemen aan de ruimte",
       "yourCertificationCenter": "Uw certificeringscentrum"
     },
     "subject": "Uitnodiging voor Pix Certif"
@@ -176,7 +176,6 @@
     "max-reachable-level-indication": "* Op de datum waarop deze certificering werd behaald, was het maximaal haalbare aantal pix { maxReachableScore }, wat overeenkomt met het niveau { maxReachableLevelOnCertificationDate }."
   },
   "certification-result-email": {
-    "title": "Raadpleeg de resultaten van certificeringssessie nr. {sessionId} !",
     "params": {
       "doNotReply": "Dit is een automatische e-mail, antwoord niet.",
       "download": "Download de resultaten",
@@ -190,7 +189,8 @@
       "resultsAvailable": "De resultaten van de Pix-certificaten die je hebt voorgeschreven aan je doelgroepen zijn beschikbaar.",
       "subject": "[Pix] Certificeringssessie",
       "viewResultsInProfile": "Kandidaten kunnen hun resultaten bekijken in hun Pix-profiel."
-    }
+    },
+    "title": "Raadpleeg de resultaten van certificeringssessie nr. {sessionId} !"
   },
   "certification-results-csv": {
     "filenames": {
@@ -230,6 +230,7 @@
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {
+        "other": "Andere",
         "bts": "BTS onder staatscontrole",
         "classe-preparatoire": "Door de staat gecontroleerde voorbereidende klas",
         "dcg ": "Door de staat gecontroleerde DCG",
@@ -245,13 +246,12 @@
         "license-grade": "Door de staat gecontroleerde graad die de graad van licentie verleent",
         "master": "Door de staat gecontroleerd nationaal masterdiploma",
         "master-grade": "Door de staat gecontroleerde master",
-        "other": "Andere",
         "vise": "Staatsdiploma"
       },
       "study-schemes": {
+        "other": "Andere",
         "continuous-training": "Voortgezette opleiding",
         "initial-training": "Initiële opleiding exclusief stages",
-        "other": "Andere",
         "training": "Leren"
       },
       "unknown": "Niet erkend"
@@ -317,9 +317,9 @@
   },
   "jury": {
     "comment": {
-      "CANCELLED_DUE_TO_LACK_OF_ANSWERS": {
-        "candidate": "Het aantal vragen tijdens je certificeringsexamen is te laag om een Pix-certificering te kunnen afgeven.",
-        "organization": "Het aantal vragen dat de kandidaat beantwoordt tijdens het certificeringsexamen is te laag om een Pix-certificering af te leveren."
+      "CANCELLED_DUE_TO_LACK_OF_ANSWERS_FOR_TECHNICAL_REASON": {
+        "candidate": "Een of meer technische problemen die tijdens de certificeringssessie aan uw surveillant zijn gemeld, hebben de kwaliteit van de certificeringstest beïnvloed. Helaas zijn we door het grote aantal vragen dat u niet goed kon beantwoorden niet in staat om een betrouwbare score te berekenen en een certificaat uit te reiken. De certificering wordt geannuleerd en de voorschrijver van uw certificering (indien van toepassing) wordt hiervan op de hoogte gesteld.",
+        "organization": "Een of meer technische problemen, gemeld door deze kandidaat aan de supervisor van de certificeringssessie, hebben het vlotte verloop van de certificeringstest beïnvloed. We kunnen de kandidaat niet certificeren en zijn/haar certificering is daarom geannuleerd. Deze informatie moet in aanmerking worden genomen en kan ertoe leiden dat u een nieuwe certificeringssessie voor deze kandidaat voorstelt."
       },
       "CANCELLED_DUE_TO_NEUTRALIZATION": {
         "candidate": "Ten minste één technisch probleem, gemeld aan je surveillant tijdens de certificeringssessie, heeft de kwaliteit van het certificeringsexamen beïnvloed. Vanwege het aantal vragen dat u niet heeft kunnen beantwoorden, kunnen we geen certificering afgeven. Het is geannuleerd, de specificeerder van uw certificeringsexamen (indien van toepassing) is op de hoogte gesteld.",
@@ -330,14 +330,13 @@
         "organization": "Er is fraude ontdekt: na analyse hebben we besloten om dit certificeringsexamen af te wijzen."
       },
       "REJECTED_DUE_TO_INSUFFICIENT_CORRECT_ANSWERS": {
-        "candidate": "Als je meer dan 50% van de gestelde vragen fout hebt beantwoord, is je hele certificering ongeldig en krijg je een score van 0 pix.",
-        "organization": "Als de kandidaat meer dan 50% van de gestelde vragen fout heeft beantwoord, is zijn hele certificering ongeldig en krijgt hij een score van 0 pix."
+        "candidate": "Je hebt meer dan 50% van de vragen fout beantwoord, waardoor je hele certificering ongeldig wordt en je een score van 0 pix krijgt.",
+        "organization": "De kandidaat beantwoordde meer dan 50% van de vragen fout, waardoor zijn hele certificering ongeldig werd en hij een score van 0 pix kreeg."
       }
     }
   },
   "organization-invitation-email": {
     "params": {
-      "title": "Je bent uitgenodigd om lid te worden van Pix Orga",
       "acceptInvitation": "Uitnodiging accepteren",
       "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
       "here": "hier",
@@ -346,13 +345,13 @@
       "oneTimeLink": "Deze link is voor eenmalig gebruik",
       "pixPresentation": "Pix is de openbare online service voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
       "subtitle": "Met het Pix Orga platform kun je testcampagnes maken en beheren en de voortgang van je deelnemers volgen.",
+      "title": "Je bent uitgenodigd om lid te worden van Pix Orga",
       "yourOrganization": "Uw organisatie"
     },
     "subject": "Uitnodiging om lid te worden van Pix Orga"
   },
   "pix-account-creation-email": {
     "params": {
-      "title": "Je Pix-account is aangemaakt!",
       "askForHelp": "Hulp nodig? Neem contact met ons op",
       "disclaimer": "Als je de account niet hebt aangemaakt, kun je vragen om deze te verwijderen.",
       "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
@@ -360,13 +359,13 @@
       "helpdeskLinkLabel": "hier",
       "moreOn": "Ontdek meer over",
       "pixPresentation": "Pix is de online overheidsdienst voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
-      "subtitle": "Je kunt nu beginnen met de tests."
+      "subtitle": "Je kunt nu beginnen met de tests.",
+      "title": "Je Pix-account is aangemaakt!"
     },
     "subject": "Je Pix-account is aangemaakt"
   },
   "reset-password-demand-email": {
     "params": {
-      "title": "Wachtwoord opnieuw instellen",
       "clickOnTheButton": "Klik op de knop hieronder om een nieuw wachtwoord te kiezen.",
       "contactUs": "neem hier contact met ons op",
       "doNotAnswer": "Dit is een automatische e-mail, antwoord niet. Hulp nodig?",
@@ -374,6 +373,7 @@
       "moreOn": "Ontdek meer over",
       "pixPresentation": "Pix is de online overheidsdienst voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
       "resetMyPassword": "Een nieuw wachtwoord instellen",
+      "title": "Wachtwoord opnieuw instellen",
       "weCannotSendYourPassword": "Hallo, om veiligheidsredenen sturen we jouw wachtwoord niet per e-mail."
     },
     "subject": "Verzoek instellen nieuw wachtwoord Pix"
