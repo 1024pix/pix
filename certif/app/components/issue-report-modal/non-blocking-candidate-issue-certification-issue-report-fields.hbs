@@ -28,16 +28,15 @@
       {{t "pages.session-finalization.add-issue-modal.non-blocking-issues.candidate-information"}}
     </PixMessage>
     <div class="non-blocking-candidate-issue-certification-issue-report-fields__details">
-      <label for="text-area-for-category-candidate-issue">{{t
-          "pages.session-finalization.add-issue-modal.actions.describe"
-        }}</label>
       <PixTextarea
         id="text-area-for-category-candidate-issue"
         @value={{@nonBlockingCandidateIssueCategory.description}}
         @maxlength={{@maxlength}}
         required="true"
         {{on "change" @updateNonBlockingCandidateIssueCategoryDescription}}
-      />
+      >
+        <:label>{{t "pages.session-finalization.add-issue-modal.actions.describe"}}</:label>
+      </PixTextarea>
     </div>
   {{/if}}
 </fieldset>

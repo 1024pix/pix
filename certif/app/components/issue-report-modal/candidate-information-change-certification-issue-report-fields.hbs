@@ -21,14 +21,15 @@
         @value={{@candidateInformationChangeCategory.subcategory}}
         @onChange={{this.onChangeSubcategory}}
       />
-      <label for="text-area-for-category-candidate-information-change">{{this.subcategoryTextAreaLabel}}</label>
       <PixTextarea
         @id="text-area-for-category-candidate-information-change"
         @value={{@candidateInformationChangeCategory.description}}
         @maxlength={{@maxlength}}
         required="true"
         {{on "change" @updateCandidateInformationChangeCategoryDescription}}
-      />
+      >
+        <:label>{{this.subcategoryTextAreaLabel}}</:label>
+      </PixTextarea>
     </div>
   {{/if}}
 </fieldset>
