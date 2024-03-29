@@ -31,7 +31,7 @@ buildBadgeCriterion.scopeCampaignParticipation = function ({ id, threshold, badg
     threshold,
     badgeId,
     name,
-    cappedTubes: [],
+    cappedTubes: null,
   });
 };
 
