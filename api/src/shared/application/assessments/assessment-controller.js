@@ -7,9 +7,9 @@ import {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
 } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import { usecases as certificationUsecases } from '../../../certification/course/domain/usecases/index.js';
 import * as certificationVersionRepository from '../../../certification/course/infrastructure/repositories/certification-version-repository.js';
 import { CertificationVersion } from '../../../certification/shared/domain/models/CertificationVersion.js';
-import { usecases as certificationUsecases } from '../../../certification/shared/domain/usecases/index.js';
 import * as certificationChallengeRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-repository.js';
 import { usecases as devcompUsecases } from '../../../devcomp/domain/usecases/index.js';
 import * as competenceEvaluationSerializer from '../../../evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';

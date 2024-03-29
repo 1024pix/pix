@@ -44,14 +44,14 @@ const findByDivisionForScoIsManagingStudentsOrganization = async function ({ org
     .value();
 };
 
-const getCertificationAttestation = async function (id) {
+const getCertificationAttestation = async function ({ certificationCourseId }) {
   const certificationCourseDTO = await _selectCertificationAttestations()
-    .where('certification-courses.id', '=', id)
+    .where('certification-courses.id', '=', certificationCourseId)
     .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
     .first();
 
   if (!certificationCourseDTO) {
-    throw new NotFoundError(`There is no certification course with id "${id}"`);
+    throw new NotFoundError(`There is no certification course with id "${certificationCourseId}"`);
   }
 
   const competenceTree = await competenceTreeRepository.get();

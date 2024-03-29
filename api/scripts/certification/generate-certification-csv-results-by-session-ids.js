@@ -10,6 +10,7 @@ import lodash from 'lodash';
 const { isEmpty } = lodash;
 import { disconnect } from '../../db/knex-database-connection.js';
 import { usecases } from '../../lib/domain/usecases/index.js';
+import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 
@@ -71,5 +72,6 @@ async function _disconnect() {
   await disconnect();
   logger.info('Closing connexions to cache...');
   await temporaryStorage.quit();
+  await cache.quit();
   logger.info('Exiting process gracefully...');
 }
