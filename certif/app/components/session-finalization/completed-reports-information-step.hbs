@@ -26,7 +26,7 @@
               @class="session-finalization-reports-information-step__checker"
               {{on "click" (fn @onAllHasSeenEndTestScreenCheckboxesClicked this.hasCheckedEverything)}}
             >
-              {{t "pages.session-finalization.reporting.table.labels.end-of-test-screen"}}
+              <:label>{{t "pages.session-finalization.reporting.table.labels.end-of-test-screen"}}</:label>
             </PixCheckbox>
           </th>
         {{/if}}
@@ -74,17 +74,16 @@
           {{#if @shouldDisplayHasSeenEndTestScreenCheckbox}}
             <td>
               <PixCheckbox
+                @screenReaderOnly={{true}}
                 data-test-id="finalization-report-has-seen-end-test-screen_{{report.certificationCourseId}}"
                 @checked={{report.hasSeenEndTestScreen}}
                 {{on "click" (fn @onHasSeenEndTestScreenCheckboxClicked report)}}
               >
-                <span class="screen-reader-only">
-                  {{t
+                <:label>{{t
                     "pages.session-finalization.reporting.table.labels.end-of-test-screen-for-candidate"
                     firstName=report.firstName
                     lastName=report.lastName
-                  }}
-                </span>
+                  }}</:label>
               </PixCheckbox>
             </td>
           {{/if}}

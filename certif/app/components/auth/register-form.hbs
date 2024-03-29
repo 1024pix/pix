@@ -66,22 +66,24 @@
 
     <div class="checkbox-container input-container">
       <PixCheckbox
-        @labelSize="small"
+        @size="small"
         required={{true}}
         aria-required={{true}}
         aria-label="{{t 'pages.login-or-register.register-form.fields.cgu.aria-label'}}"
         {{on "click" this.validateCgu}}
       >
-        <p class="register-form__cgu-label">
-          {{t "pages.login-or-register.register-form.fields.cgu.accept"}}
-          <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
-            {{t "pages.login-or-register.register-form.fields.cgu.terms-of-use"}}
-          </a>
-          {{t "pages.login-or-register.register-form.fields.cgu.and"}}
-          <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
-            {{t "pages.login-or-register.register-form.fields.cgu.data-protection-policy"}}
-          </a>
-        </p>
+        <:label>
+          <p class="register-form__cgu-label">
+            {{t "pages.login-or-register.register-form.fields.cgu.accept"}}
+            <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
+              {{t "pages.login-or-register.register-form.fields.cgu.terms-of-use"}}
+            </a>
+            {{t "pages.login-or-register.register-form.fields.cgu.and"}}
+            <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
+              {{t "pages.login-or-register.register-form.fields.cgu.data-protection-policy"}}
+            </a>
+          </p>
+        </:label>
       </PixCheckbox>
     </div>
     {{#if this.cguValidationMessage}}

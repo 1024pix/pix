@@ -25,13 +25,14 @@
           <tr>
             <th>
               <PixCheckbox
+                @screenReaderOnly={{true}}
                 @class="add-student-list__checker"
                 @isIndeterminate={{this.hasPartialState}}
                 @checked={{this.hasCheckState}}
                 {{on "click" this.toggleAllItems}}
                 disabled={{this.isDisabled}}
               >
-                <span class="screen-reader-only">{{t "pages.candidates.add.actions.select-all.label"}}</span>
+                <:label>{{t "pages.candidates.add.actions.select-all.label"}}</:label>
               </PixCheckbox>
             </th>
             <th>{{t "pages.sco.enrol-candidates-in-session.list.table.division"}}</th>
@@ -47,14 +48,14 @@
             {{#if student.isEnrolled}}
               <tr class="add-student-list__row add-student-list__row--disabled">
                 <td class="add-student-list__column-checkbox">
-                  <PixCheckbox @class="add-student-list__checker" @checked={{true}} disabled>
-                    <span class="screen-reader-only">
+                  <PixCheckbox @screenReaderOnly={{true}} @class="add-student-list__checker" @checked={{true}} disabled>
+                    <:label>
                       {{t
                         "pages.candidates.add.actions.selected.label"
                         firstName=student.firstName
                         lastName=student.lastName
                       }}
-                    </span>
+                    </:label>
                   </PixCheckbox>
                 </td>
                 <td>{{student.division}}</td>
@@ -65,14 +66,14 @@
             {{else}}
               <tr class="add-student-list__row" {{on "click" (fn this.toggleItem student)}}>
                 <td class="add-student-list__column-checkbox">
-                  <PixCheckbox @checked={{student.isSelected}}>
-                    <span class="screen-reader-only">
+                  <PixCheckbox @screenReaderOnly={{true}} @checked={{student.isSelected}}>
+                    <:label>
                       {{t
                         "pages.candidates.add.actions.select.label"
                         firstName=student.firstName
                         lastName=student.lastName
                       }}
-                    </span>
+                    </:label>
                   </PixCheckbox>
                 </td>
                 <td>{{student.division}}</td>
