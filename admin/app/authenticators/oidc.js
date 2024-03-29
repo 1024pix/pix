@@ -10,26 +10,19 @@ export default class OidcAuthenticator extends BaseAuthenticator {
   @service session;
   @service oidcIdentityProviders;
 
-  async authenticate({ code, redirectUri, state, authenticationKey, hostSlug, email, identityProviderSlug }) {
-    const request = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    };
-    let host = `${ENV.APP.API_HOST}/api/oidc/`;
-    let body;
+  async authenticate({ code, redirectUri, state, authenticationKey, email, identityProviderSlug }) {
     const identityProvider = this.oidcIdentityProviders.list.find((provider) => provider.id === identityProviderSlug);
 
-    if (authenticationKey) {
-      host = `${ENV.APP.API_HOST}/api/admin/oidc/`;
-      body = {
-        identity_provider: identityProvider.code,
-        authentication_key: authenticationKey,
-        email,
-      };
-    } else {
+    let url = `${ENV.APP.API_HOST}/api/admin/oidc/user/reconcile`;
+    let body = {
+      identity_provider: identityProvider.code,
+      authentication_key: authenticationKey,
+      email,
+    };
+
+    const isReconciliation = authenticationKey === undefined;
+    if (isReconciliation) {
+      url = `${ENV.APP.API_HOST}/api/oidc/token`;
       body = {
         identity_provider: identityProvider.code,
         code,
@@ -44,8 +37,14 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       }
     }
 
-    request.body = JSON.stringify({ data: { attributes: body } });
-    const response = await fetch(host + hostSlug, request);
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ data: { attributes: body } }),
+    });
 
     const data = await response.json();
     if (!response.ok) {

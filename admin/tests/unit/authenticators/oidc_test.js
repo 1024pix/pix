@@ -88,7 +88,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
           },
         },
       });
-      sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/admin/oidc/users/reconcile`, request);
+      sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/admin/oidc/user/reconcile`, request);
       assert.deepEqual(token, {
         access_token: accessToken,
         source,
