@@ -16,9 +16,11 @@ module('Unit | Controller | authenticated', function (hooks) {
         isRelatedToManagingStudentsOrganization: true,
         isV3Pilot: true,
       });
+
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
       }
+
       this.owner.register('service:current-user', CurrentUserStub);
       const controller = this.owner.lookup('controller:authenticated');
 
@@ -37,9 +39,11 @@ module('Unit | Controller | authenticated', function (hooks) {
         name: 'Sunnydale',
         type: 'NOT_SCO',
       });
+
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
       }
+
       this.owner.register('service:current-user', CurrentUserStub);
       const controller = this.owner.lookup('controller:authenticated');
 
@@ -59,9 +63,11 @@ module('Unit | Controller | authenticated', function (hooks) {
         type: 'SCO',
         isRelatedToManagingStudentsOrganization: true,
       });
+
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
       }
+
       this.owner.register('service:current-user', CurrentUserStub);
       const controller = this.owner.lookup('controller:authenticated');
 
@@ -86,12 +92,15 @@ module('Unit | Controller | authenticated', function (hooks) {
         isAccessBlockedAEFE: false,
         isAccessBlockedAgri: false,
       });
+
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
       }
+
       class RouterStub extends Service {
         currentRouteName = 'not.finalization-page';
       }
+
       this.owner.register('service:router', RouterStub);
       this.owner.register('service:current-user', CurrentUserStub);
       const controller = this.owner.lookup('controller:authenticated');
@@ -117,12 +126,15 @@ module('Unit | Controller | authenticated', function (hooks) {
         isAccessBlockedAEFE: false,
         isAccessBlockedAgri: false,
       });
+
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
       }
+
       class RouterStub extends Service {
         currentRouteName = 'not.finalization-page';
       }
+
       this.owner.register('service:router', RouterStub);
       this.owner.register('service:current-user', CurrentUserStub);
       const controller = this.owner.lookup('controller:authenticated');
@@ -148,12 +160,15 @@ module('Unit | Controller | authenticated', function (hooks) {
         isAccessBlockedAEFE: false,
         isAccessBlockedAgri: false,
       });
+
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
       }
+
       class RouterStub extends Service {
         currentRouteName = 'authenticated.sessions.finalize';
       }
+
       this.owner.register('service:router', RouterStub);
       this.owner.register('service:current-user', CurrentUserStub);
       const controller = this.owner.lookup('controller:authenticated');
@@ -179,12 +194,15 @@ module('Unit | Controller | authenticated', function (hooks) {
         isAccessBlockedAEFE: false,
         isAccessBlockedAgri: false,
       });
+
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
       }
+
       class RouterStub extends Service {
         currentRouteName = 'not.finalization-page';
       }
+
       this.owner.register('service:router', RouterStub);
       this.owner.register('service:current-user', CurrentUserStub);
       const controller = this.owner.lookup('controller:authenticated');
@@ -209,9 +227,11 @@ module('Unit | Controller | authenticated', function (hooks) {
         isAccessBlockedAEFE: false,
         isAccessBlockedAgri: false,
       });
+
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
       }
+
       this.owner.register('service:current-user', CurrentUserStub);
       const controller = this.owner.lookup('controller:authenticated');
 
@@ -232,9 +252,11 @@ module('Unit | Controller | authenticated', function (hooks) {
         isAccessBlockedAEFE: false,
         isAccessBlockedAgri: false,
       });
+
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
       }
+
       this.owner.register('service:current-user', CurrentUserStub);
       const controller = this.owner.lookup('controller:authenticated');
 
@@ -243,54 +265,6 @@ module('Unit | Controller | authenticated', function (hooks) {
 
       // then
       assert.true(showLinkToSessions);
-    });
-  });
-
-  module('#get displayRoleManagementBanner', function () {
-    module('when certif center is SCO', function () {
-      test('should not display banner', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-          id: 123,
-          name: 'Scoule',
-          type: 'SCO',
-        });
-        class CurrentUserStub extends Service {
-          currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
-        }
-        this.owner.register('service:current-user', CurrentUserStub);
-        const controller = this.owner.lookup('controller:authenticated');
-
-        // when
-        const displayBanner = controller.displayRoleManagementBanner;
-
-        // then
-        assert.false(displayBanner);
-      });
-    });
-
-    module('when certif center is SUP or PRO', function () {
-      test('should display banner', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-          id: 345,
-          name: 'Super',
-          type: 'SUP',
-        });
-        class CurrentUserStub extends Service {
-          currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
-        }
-        this.owner.register('service:current-user', CurrentUserStub);
-        const controller = this.owner.lookup('controller:authenticated');
-
-        // when
-        const displayBanner = controller.displayRoleManagementBanner;
-
-        // then
-        assert.true(displayBanner);
-      });
     });
   });
 });
