@@ -97,7 +97,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
       const screen = await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif'/>`);
 
       // then
-      assert.dom(screen.queryByRole('button', { name: 'Français' })).exists();
+      assert.dom(screen.queryByRole('button', { name: 'Sélectionnez une langue' })).exists();
     });
   });
 
@@ -119,7 +119,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
       const screen = await render(hbs`<Auth::LoginOrRegister @certificationCenterName='Centre de Certif'/>`);
 
       // then
-      assert.dom(screen.queryByRole('button', { name: 'Français' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Sélectionnez une langue' })).doesNotExist();
     });
   });
 });

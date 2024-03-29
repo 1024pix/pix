@@ -94,10 +94,11 @@
           @onChange={{this.selectBirthCountry}}
           @value={{this.selectedCountryInseeCode}}
           @hideDefaultOption={{true}}
-          @requiredText={{t "common.forms.required"}}
-          @label={{t "common.labels.candidate.birth-country"}}
+          @requiredLabel={{t "common.forms.required"}}
           required
-        />
+        >
+          <:label>{{t "common.labels.candidate.birth-country"}}</:label>
+        </PixSelect>
       </div>
 
       {{#if this.isBirthGeoCodeRequired}}
@@ -232,9 +233,10 @@
             @value={{@candidateData.billingMode}}
             @placeholder={{this.billingMenuPlaceholder}}
             @hideDefaultOption={{true}}
-            @requiredText={{t "common.forms.required"}}
-            @label={{t "common.forms.certification-labels.pricing"}}
-          />
+            @requiredLabel={{t "common.forms.required"}}
+          >
+            <:label>{{t "common.forms.certification-labels.pricing"}}</:label>
+          </PixSelect>
 
           <div class="new-certification-candidate-modal-form__tooltip">
             <label for="prepayment-code" class="label">

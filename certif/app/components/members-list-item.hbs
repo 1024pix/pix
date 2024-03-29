@@ -6,14 +6,15 @@
       <div id="selectCertificationCenterRole">
         <PixSelect
           class="table__input"
-          @label="{{t 'pages.team.members.actions.select-role.label'}}"
           @screenReaderOnly={{true}}
           @hideDefaultOption={{true}}
           @placeholder="{{t 'pages.team.members.actions.select-role.label'}}"
           @onChange={{this.setRoleSelection}}
           @options={{this.roleOptions}}
           @value={{@member.role}}
-        />
+        >
+          <:label>{{t "pages.team.members.actions.select-role.label"}}</:label>
+        </PixSelect>
       </div>
     {{else}}
       {{@member.roleLabel}}

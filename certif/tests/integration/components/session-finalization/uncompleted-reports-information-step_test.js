@@ -118,7 +118,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
         />
       `);
 
-    await click(screen.getByRole('button', { name: '-- Choisissez --' }));
+    await click(screen.getByRole('button', { name: "Sélectionner la raison de l'abandon" }));
     await click(
       await screen.findByRole('option', {
         name: 'Problème technique',

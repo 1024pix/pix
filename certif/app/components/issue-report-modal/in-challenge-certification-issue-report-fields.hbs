@@ -28,16 +28,15 @@
         @value={{@inChallengeCategory.questionNumber}}
         placeholder="7"
       />
-      <label for="subcategory-for-category-in-challenge">{{t
-          "pages.session-finalization.add-issue-modal.actions.select-subcategory"
-        }}</label>
       <PixSelect
         aria-label="{{t 'pages.session-finalization.add-issue-modal.actions.select-subcategory-label'}}"
         @id="subcategory-for-category-in-challenge"
         @options={{this.options}}
         @value={{@inChallengeCategory.subcategory}}
         @onChange={{this.onChangeSubcategory}}
-      />
+      >
+        <:label>{{t "pages.session-finalization.add-issue-modal.actions.select-subcategory"}}</:label>
+      </PixSelect>
     </div>
   {{/if}}
 </fieldset>

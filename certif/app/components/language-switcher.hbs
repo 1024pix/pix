@@ -1,11 +1,12 @@
 <PixSelect
   @id="language-switcher"
-  @label={{@label}}
-  aria-label={{t "common.forms.login.choose-language-aria-label"}}
   @icon="earth-europe"
   @value={{this.selectedLanguage}}
   @options={{this.availableLanguages}}
   @onChange={{this.onChange}}
   @hideDefaultOption="true"
+  @screenReaderOnly="true"
   ...attributes
-/>
+>
+  <:label>{{t "common.forms.login.choose-language-aria-label"}}</:label>
+</PixSelect>
