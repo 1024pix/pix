@@ -10,12 +10,13 @@
         <PixInput
           class="search-input"
           @id="search-candidate"
-          @label={{t "pages.session-supervising.candidate-list.search-candidate"}}
           @screenReaderOnly={{true}}
           placeholder={{t "pages.session-supervising.candidate-list.search-candidate"}}
           @value={{this.filter}}
           {{on "input" this.setFilter}}
-        />
+        >
+          <:label>{{t "pages.session-supervising.candidate-list.search-candidate"}}</:label>
+        </PixInput>
         <PixButton
           @size="small"
           @backgroundColor="transparent-light"

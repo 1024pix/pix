@@ -29,12 +29,13 @@
       <PixInput
         @id="login-email"
         name="login"
-        @label={{t "common.forms.login.email"}}
         autocomplete="email"
         type="email"
         required="true"
         {{on "input" this.setEmail}}
-      />
+      >
+        <:label>{{t "common.forms.login.email"}}</:label>
+      </PixInput>
 
       <PixInputPassword
         @id="login-password"

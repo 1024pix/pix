@@ -4,7 +4,6 @@
     <div class="input-container">
       <PixInput
         @id="register-firstName"
-        @label={{t "common.labels.candidate.firstname"}}
         name="firstName"
         type="firstName"
         {{on "change" this.validateFirstName}}
@@ -13,13 +12,14 @@
         autocomplete="given-name"
         @validationStatus={{this.validation.firstName.status}}
         @errorMessage={{this.validation.firstName.message}}
-      />
+      >
+        <:label>{{t "common.labels.candidate.firstname"}}</:label>
+      </PixInput>
     </div>
 
     <div class="input-container">
       <PixInput
         @id="register-lastName"
-        @label={{t "common.labels.candidate.lastname"}}
         name="lastName"
         type="lastName"
         {{on "change" this.validateLastName}}
@@ -28,13 +28,14 @@
         autocomplete="family-name"
         @validationStatus={{this.validation.lastName.status}}
         @errorMessage={{this.validation.lastName.message}}
-      />
+      >
+        <:label>{{t "common.labels.candidate.lastname"}}</:label>
+      </PixInput>
     </div>
 
     <div class="input-container">
       <PixInput
         @id="register-email"
-        @label={{t "common.forms.login.email"}}
         name="email"
         type="email"
         {{on "change" this.validateEmail}}
@@ -43,7 +44,9 @@
         autocomplete="email"
         @validationStatus={{this.validation.email.status}}
         @errorMessage={{this.validation.email.message}}
-      />
+      >
+        <:label>{{t "common.forms.login.email"}}</:label>
+      </PixInput>
     </div>
 
     <div class="input-container">

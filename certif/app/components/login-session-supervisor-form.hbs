@@ -19,12 +19,9 @@
   {{/if}}
 
   <form class="login-session-supervisor-form__form" {{on "submit" this.superviseSession}}>
-    <PixInput
-      @id="session-id"
-      @label={{t "pages.session-supervising.login.form.session-number"}}
-      type="number"
-      {{on "input" this.setSessionId}}
-    />
+    <PixInput @id="session-id" type="number" {{on "input" this.setSessionId}}>
+      <:label>{{t "pages.session-supervising.login.form.session-number"}}</:label>
+    </PixInput>
 
     <PixInputPassword
       @id="session-password"

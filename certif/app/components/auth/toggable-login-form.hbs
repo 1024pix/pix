@@ -3,7 +3,6 @@
 
   <PixInput
     @id="login-email"
-    @label={{t "common.forms.login.email"}}
     name="login"
     type="email"
     {{on "focusout" this.validateEmail}}
@@ -13,7 +12,9 @@
     autocomplete="email"
     @validationStatus={{this.validation.email.status}}
     @errorMessage={{this.validation.email.message}}
-  />
+  >
+    <:label>{{t "common.forms.login.email"}}</:label>
+  </PixInput>
 
   <PixInputPassword
     @id="login-password"
