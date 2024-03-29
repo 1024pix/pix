@@ -362,7 +362,7 @@
               "placeholder": "",
               "ariaLabel": "Adresse mail de Naomi",
               "defaultValue": "",
-              "tolerances": [],
+              "tolerances": ["t1"],
               "solutions": ["naomizao457@yahoo.com", "naomizao457@yahoo.fr"]
             }
           ],
