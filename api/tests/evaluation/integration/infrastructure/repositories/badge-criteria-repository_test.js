@@ -1,3 +1,4 @@
+import { SCOPES } from '../../../../../lib/domain/models/BadgeDetails.js';
 import * as badgeCriteriaRepository from '../../../../../src/evaluation/infrastructure/repositories/badge-criteria-repository.js';
 import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
@@ -61,6 +62,34 @@ describe('Integration | Repository | Badge Criteria Repository', function () {
           { id: 'tubeDEF', level: 8 },
         ],
       });
+    });
+  });
+
+  describe('#update-criterion', function () {
+    it('should update CampaignParticipation badge-criterion', async function () {
+      // given
+      const badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({
+        name: 'dummy criterion',
+        scope: SCOPES.CAMPAIGN_PARTICIPATION,
+        threshold: 10,
+      });
+      await databaseBuilder.commit();
+
+      const payload = {
+        ...badgeCriterion,
+        name: 'updated name',
+        threshold: 99,
+      };
+
+      // when
+      const updatedBadgeCriterion = await badgeCriteriaRepository.updateCriterion({
+        ...badgeCriterion,
+        name: payload.name,
+        threshold: payload.threshold,
+      });
+
+      // then
+      expect(updatedBadgeCriterion).to.deep.equal(payload);
     });
   });
 });
