@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 export default class JoinRoute extends Route {
   @service router;
@@ -7,6 +8,8 @@ export default class JoinRoute extends Route {
   @service store;
 
   routeIfAlreadyAuthenticated = 'join-when-authenticated';
+  @tracked isInvitationCancelled = false;
+  @tracked hasInvitationAlreadyBeenAccepted = false;
 
   beforeModel() {
     this.session.prohibitAuthentication(this.routeIfAlreadyAuthenticated);
@@ -21,15 +24,22 @@ export default class JoinRoute extends Route {
       .catch((errorResponse) => {
         errorResponse.errors.forEach((error) => {
           if (error.status === '403') {
-            const transition = this.router.replaceWith('login');
-            transition.data['isInvitationCancelled'] = true;
+            this.isInvitationCancelled = true;
           }
           if (error.status === '412') {
-            const transition = this.router.replaceWith('login');
-            transition.data['hasInvitationAlreadyBeenAccepted'] = true;
+            this.hasInvitationAlreadyBeenAccepted = true;
           }
         });
-        this.router.replaceWith('login');
       });
+  }
+
+  async redirect(model) {
+    if (!model) {
+      const transition = this.router.replaceWith('login');
+      transition.data.isInvitationCancelled = this.isInvitationCancelled;
+      transition.data.hasInvitationAlreadyBeenAccepted = this.hasInvitationAlreadyBeenAccepted;
+
+      return transition;
+    }
   }
 }

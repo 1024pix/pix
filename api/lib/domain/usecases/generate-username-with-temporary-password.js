@@ -46,7 +46,7 @@ const generateUsernameWithTemporaryPassword = async function ({
       userRepository,
     });
 
-    return { username, generatedPassword };
+    return { username, generatedPassword, organizationLearnerId };
   }
 };
 

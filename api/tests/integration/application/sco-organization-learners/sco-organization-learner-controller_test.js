@@ -116,7 +116,10 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
     context('Success cases', function () {
       it('should return an HTTP response with status code 200', async function () {
         // given
-        usecases.updateOrganizationLearnerDependentUserPassword.resolves(generatedPassword);
+        usecases.updateOrganizationLearnerDependentUserPassword.resolves({
+          generatedPassword,
+          organizationLearnersId: 1,
+        });
 
         // when
         const response = await httpTestServer.request(

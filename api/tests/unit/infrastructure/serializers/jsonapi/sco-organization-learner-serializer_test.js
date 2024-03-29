@@ -93,10 +93,12 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
       const organizationLearner = {
         generatedPassword: 'generated passw0rd',
         username: 'us3rnam3',
+        organizationLearnerId: 3,
       };
 
       const expectedSerializedOrganizationLearner = {
         data: {
+          id: '3',
           attributes: {
             'generated-password': organizationLearner.generatedPassword,
             username: organizationLearner.username,
