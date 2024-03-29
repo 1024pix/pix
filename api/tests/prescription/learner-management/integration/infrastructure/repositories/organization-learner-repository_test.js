@@ -4,11 +4,15 @@ import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../../lib/
 import { OrganizationLearner } from '../../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import * as organizationLearnerRepository from '../../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearnerSet.js';
 import {
   addOrUpdateOrganizationOfOrganizationLearners,
   disableAllOrganizationLearnersInOrganization,
+  disableCommonOrganizationLearnersFromOrganizationId,
   removeByIds,
+  saveCommonOrganizationLearners,
 } from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-learner-repository.js';
+import { ApplicationTransaction } from '../../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Organization Learner Management | Organization Learner', function () {
@@ -929,6 +933,160 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         const organizationLearners = await knex.from('organization-learners');
         expect(organizationLearners).to.deep.equal([]);
       });
+    });
+  });
+
+  describe('#saveCommonOrganizationLearners', function () {
+    let organizationId;
+
+    beforeEach(async function () {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+    });
+
+    context('add new learner', function () {
+      it('should save the new learner', async function () {
+        const learnerData = new CommonOrganizationLearner({
+          firstName: 'Sacha',
+          lastName: 'Du Bourg Palette',
+          organizationId,
+          INE: '234567890',
+        });
+
+        await saveCommonOrganizationLearners([learnerData]);
+
+        const [organizationLearner] = await knex.from('organization-learners');
+
+        expect(organizationLearner.firstName).to.equal(learnerData.firstName);
+        expect(organizationLearner.lastName).to.equal(learnerData.lastName);
+        expect(organizationLearner.organizationId).to.equal(learnerData.organizationId);
+        expect(organizationLearner.attributes).to.deep.equal(learnerData.attributes);
+        expect(organizationLearner.isDisabled).to.be.false;
+      });
+
+      it('should save several learners', async function () {
+        const learnerSacha = new CommonOrganizationLearner({
+          firstName: 'Sacha',
+          lastName: 'Du Bourg Palette',
+          organizationId,
+          INE: '234567890',
+        });
+
+        const learnerOndine = new CommonOrganizationLearner({
+          firstName: 'Ondine',
+          lastName: 'Azuria',
+          organizationId,
+          INE: '9876543210',
+        });
+
+        await saveCommonOrganizationLearners([learnerSacha, learnerOndine]);
+
+        const organizationLearners = await knex.from('organization-learners');
+
+        expect(organizationLearners).lengthOf(2);
+      });
+
+      it('should not save the learner when error occured', async function () {
+        const learnerSacha = new CommonOrganizationLearner({
+          firstName: 'Sacha',
+          lastName: 'Du Bourg Palette',
+          organizationId,
+          INE: '234567890',
+        });
+
+        try {
+          await ApplicationTransaction.execute(async () => {
+            await saveCommonOrganizationLearners([learnerSacha]);
+            throw new Error();
+          });
+        } catch {
+          // something
+        }
+
+        const organizationLearners = await knex.from('organization-learners');
+
+        expect(organizationLearners).lengthOf(0);
+      });
+    });
+  });
+
+  describe('#disableCommonOrganizationLearnersFromOrganizationId', function () {
+    let organizationId;
+    let clock;
+    const now = new Date('2023-08-17');
+
+    beforeEach(async function () {
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('should set isDisabled to true and set updatedAt with today on organization learner', async function () {
+      // given
+      await databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await disableCommonOrganizationLearnersFromOrganizationId(organizationId);
+
+      // then
+      const [organizationLearner] = await knex.from('organization-learners');
+
+      expect(organizationLearner.isDisabled).to.be.true;
+      expect(organizationLearner.updatedAt).to.deep.equal(now);
+    });
+
+    it('should disable several organization learners from an organizationId', async function () {
+      // given
+      const learner1 = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+      });
+
+      const learner2 = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+      });
+
+      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildOrganizationLearner({ organizationId: otherOrganizationId });
+
+      await databaseBuilder.commit();
+
+      // when
+      await disableCommonOrganizationLearnersFromOrganizationId(organizationId);
+
+      // then
+      const organizationLearners = await knex.from('organization-learners').where({
+        isDisabled: true,
+      });
+
+      expect(organizationLearners).lengthOf(2);
+      expect(organizationLearners.map(({ id }) => id)).to.have.members([learner1.id, learner2.id]);
+    });
+
+    it('should not disable the learner when error occured', async function () {
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      await databaseBuilder.commit();
+
+      try {
+        await ApplicationTransaction.execute(async () => {
+          await disableCommonOrganizationLearnersFromOrganizationId(organizationId);
+          throw new Error();
+        });
+      } catch {
+        // something
+      }
+      const organizationLearnerFromDatabase = await knex
+        .from('organization-learners')
+        .where({ id: organizationLearner.id })
+        .first();
+
+      expect(organizationLearnerFromDatabase.isDisabled).to.equal(false);
     });
   });
 });
