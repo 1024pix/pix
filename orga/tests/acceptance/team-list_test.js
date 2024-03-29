@@ -10,7 +10,7 @@ import sinon from 'sinon';
 
 import authenticateSession from '../helpers/authenticate-session';
 import { createPrescriberByUser, createUserMembershipWithRole } from '../helpers/test-init';
-import { waitForDialog } from '../helpers/wait-for';
+import { waitForDialog, waitForDialogDisappearance } from '../helpers/wait-for';
 
 module('Acceptance | Team List', function (hooks) {
   setupApplicationTest(hooks);
@@ -179,8 +179,9 @@ module('Acceptance | Team List', function (hooks) {
           // when
           await click(screen.getByRole('button', { name: 'Confirmer' }));
 
+          await waitForDialogDisappearance();
           // then
-          sinon.assert.called(session.waitBeforeInvalidation);
+          assert.true(session.waitBeforeInvalidation.called);
           assert.false(currentSession().get('isAuthenticated'));
         });
       });

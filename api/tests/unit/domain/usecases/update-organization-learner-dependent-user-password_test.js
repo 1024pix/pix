@@ -125,7 +125,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
     });
 
     // then
-    expect(result).to.equal(generatedPassword);
+    expect(result).to.deep.equal({ generatedPassword, organizationLearnerId });
   });
 
   describe('When the user member is not part of student organization', function () {
