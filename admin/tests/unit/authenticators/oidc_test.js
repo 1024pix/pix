@@ -74,7 +74,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
       const token = await authenticator.authenticate({
         identityProviderSlug,
         authenticationKey: 'key',
-        hostSlug: 'users/reconcile',
         email: 'user@example.net',
       });
 
@@ -108,7 +107,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
         redirectUri,
         state,
         identityProviderSlug,
-        hostSlug: 'token',
       });
 
       // then
@@ -140,7 +138,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
         authenticator.session = sessionStub;
 
         // when
-        await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug, hostSlug: 'token' });
+        await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug });
 
         // then
         request.body = body;

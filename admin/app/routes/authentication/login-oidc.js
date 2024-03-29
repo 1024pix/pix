@@ -41,7 +41,6 @@ export default class LoginOidcRoute extends Route {
         authenticationKey,
         identityProviderSlug,
         email,
-        hostSlug: 'user/reconcile',
       });
     } catch (response) {
       const apiError = get(response, 'errors[0]');
@@ -73,7 +72,6 @@ export default class LoginOidcRoute extends Route {
         redirectUri,
         state,
         identityProviderSlug,
-        hostSlug: 'token',
       });
     } catch (response) {
       const apiError = get(response, 'errors[0]');

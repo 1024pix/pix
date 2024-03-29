@@ -92,7 +92,6 @@ module('Unit | Route | login-oidc', function (hooks) {
           authenticationKey: '123',
           identityProviderSlug: 'super-idp-name',
           email: 'john@example.net',
-          hostSlug: 'user/reconcile',
         });
         assert.ok(true);
       });
