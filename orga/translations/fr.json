@@ -936,9 +936,9 @@
       },
       "anchor-error": "Voir la liste des erreurs.",
       "banner": {
-        "in-progress-text": "Merci de rafraîchir sur cette page dans quelques instants pour connaitre l’état de traitement du fichier.",
         "import-error": "L'import des participants a échoué.",
         "import-in-progress": "Le contenu du fichier est validé, l’import des participants est en cours.",
+        "in-progress-text": "Merci de rafraîchir sur cette page dans quelques instants pour connaitre l’état de traitement du fichier.",
         "upload-completed": "Le fichier a été importé le {date} par {firstName} {lastName}.",
         "upload-error": "Le fichier n'a pas pu être importé.",
         "upload-in-progress": "L’import du fichier peut prendre quelques minutes. Merci de ne pas quitter cette page.",
