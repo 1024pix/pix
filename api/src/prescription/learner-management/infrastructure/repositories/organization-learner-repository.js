@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../lib/domain/errors.js';
 import { OrganizationLearner } from '../../../../../lib/domain/models/index.js';
 import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 
 const removeByIds = function ({ organizationLearnerIds, userId, domainTransaction }) {
   return domainTransaction
@@ -63,4 +64,24 @@ const addOrUpdateOrganizationOfOrganizationLearners = async function (
   }
 };
 
-export { addOrUpdateOrganizationOfOrganizationLearners, disableAllOrganizationLearnersInOrganization, removeByIds };
+const saveCommonOrganizationLearners = function (learners) {
+  try {
+    const knex = ApplicationTransaction.getConnection();
+
+    return knex('organization-learners').insert(learners);
+  } catch (err) {
+    throw new OrganizationLearnersCouldNotBeSavedError();
+  }
+};
+const disableCommonOrganizationLearnersFromOrganizationId = function (organizationId) {
+  const knex = ApplicationTransaction.getConnection();
+  return knex('organization-learners').where({ organizationId }).update({ isDisabled: true, updatedAt: new Date() });
+};
+
+export {
+  addOrUpdateOrganizationOfOrganizationLearners,
+  disableAllOrganizationLearnersInOrganization,
+  disableCommonOrganizationLearnersFromOrganizationId,
+  removeByIds,
+  saveCommonOrganizationLearners,
+};
