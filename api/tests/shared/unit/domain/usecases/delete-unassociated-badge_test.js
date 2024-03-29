@@ -8,14 +8,15 @@ import { catchErr, expect, sinon } from '../../../../test-helper.js';
 describe('Unit | UseCase | delete-unassociated-badge', function () {
   let badgeId;
   let badgeRepository;
+  let complementaryCertificationBadgeRepository;
 
   beforeEach(async function () {
     badgeId = 'badgeId';
     badgeRepository = {
       isAssociated: sinon.stub(),
       remove: sinon.stub(),
-      isRelatedToCertification: sinon.stub(),
     };
+    complementaryCertificationBadgeRepository = { isRelatedToCertification: sinon.stub() };
   });
 
   context('When the badge is not associated to a badge acquisition', function () {
@@ -29,6 +30,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
       const response = await deleteUnassociatedBadge({
         badgeId,
         badgeRepository,
+        complementaryCertificationBadgeRepository,
       });
 
       // then
@@ -46,6 +48,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
       const err = await catchErr(deleteUnassociatedBadge)({
         badgeId,
         badgeRepository,
+        complementaryCertificationBadgeRepository,
       });
 
       // then
@@ -55,7 +58,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
 
   context('When the badge is related to a certification', function () {
     beforeEach(function () {
-      badgeRepository.isRelatedToCertification.withArgs(badgeId).resolves(true);
+      complementaryCertificationBadgeRepository.isRelatedToCertification.withArgs(badgeId).resolves(true);
       badgeRepository.remove.withArgs(badgeId).resolves(true);
     });
 
@@ -64,6 +67,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
       const error = await catchErr(deleteUnassociatedBadge)({
         badgeId,
         badgeRepository,
+        complementaryCertificationBadgeRepository,
       });
 
       // then
@@ -73,7 +77,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
 
   context('When the badge is not related to a certification', function () {
     beforeEach(function () {
-      badgeRepository.isRelatedToCertification.withArgs(badgeId).resolves(false);
+      complementaryCertificationBadgeRepository.isRelatedToCertification.withArgs(badgeId).resolves(false);
       badgeRepository.remove.withArgs(badgeId).resolves(true);
     });
 
@@ -82,6 +86,7 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
       const response = await deleteUnassociatedBadge({
         badgeId,
         badgeRepository,
+        complementaryCertificationBadgeRepository,
       });
 
       // then

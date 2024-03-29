@@ -4,10 +4,17 @@ import {
 } from '../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 
-const deleteUnassociatedBadge = async function ({ badgeId, badgeRepository }) {
+const deleteUnassociatedBadge = async function ({
+  badgeId,
+  badgeRepository,
+  complementaryCertificationBadgeRepository,
+}) {
   return DomainTransaction.execute(async (domainTransaction) => {
     const isAssociated = await badgeRepository.isAssociated(badgeId, domainTransaction);
-    const isRelatedToCertification = await badgeRepository.isRelatedToCertification(badgeId, domainTransaction);
+    const isRelatedToCertification = await complementaryCertificationBadgeRepository.isRelatedToCertification(
+      badgeId,
+      domainTransaction,
+    );
 
     if (isAssociated) {
       throw new AcquiredBadgeForbiddenDeletionError();
