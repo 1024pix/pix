@@ -17,4 +17,8 @@ export default class OrganizationImportDetail extends Model {
   get isDone() {
     return this.status === 'IMPORTED';
   }
+
+  get inProgress() {
+    return ['UPLOADED', 'VALIDATED'].includes(this.status);
+  }
 }
