@@ -14,7 +14,7 @@
             {{on "change" this.setIssueReportReason}}
             checked={{if (eq option.subCategory this.issueReportReason) true}}
           >
-            {{t option.label}}
+            <:label>{{t option.label}}</:label>
           </PixRadioButton>
         {{/each}}
       </fieldset>

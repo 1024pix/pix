@@ -51,7 +51,7 @@
               required
               {{on "change" (fn @updateCandidateData @candidateData "sex")}}
             >
-              {{t "common.labels.candidate.gender.woman"}}
+              <:label>{{t "common.labels.candidate.gender.woman"}}</:label>
             </PixRadioButton>
             <PixRadioButton
               @value="M"
@@ -59,7 +59,7 @@
               required
               {{on "change" (fn @updateCandidateData @candidateData "sex")}}
             >
-              {{t "common.labels.candidate.gender.man"}}
+              <:label>{{t "common.labels.candidate.gender.man"}}</:label>
             </PixRadioButton>
           </div>
         </fieldset>
@@ -115,7 +115,7 @@
                 {{on "change" (fn this.selectBirthGeoCodeOption "insee")}}
                 required
               >
-                {{t "common.labels.candidate.insee-code"}}
+                <:label>{{t "common.labels.candidate.insee-code"}}</:label>
               </PixRadioButton>
               <PixRadioButton
                 name="birth-geo-code-option"
@@ -123,7 +123,7 @@
                 {{on "change" (fn this.selectBirthGeoCodeOption "postal")}}
                 required
               >
-                {{t "common.labels.candidate.postcode"}}
+                <:label>{{t "common.labels.candidate.postcode"}}</:label>
               </PixRadioButton>
             </div>
           </fieldset>
@@ -271,14 +271,14 @@
               {{t "common.forms.certification-labels.additional-certification"}}
             </legend>
             <PixRadioButton name="complementary-certifications" {{on "change" this.updateComplementaryCertification}}>
-              {{t "common.labels.candidate.none"}}
+              <:label>{{t "common.labels.candidate.none"}}</:label>
             </PixRadioButton>
             {{#each this.complementaryCertificationsHabilitations as |complementaryCertificationHabilitation|}}
               <PixRadioButton
                 name="complementary-certifications"
                 {{on "change" (fn this.updateComplementaryCertification complementaryCertificationHabilitation)}}
               >
-                {{complementaryCertificationHabilitation.label}}
+                <:label>{{complementaryCertificationHabilitation.label}}</:label>
               </PixRadioButton>
             {{/each}}
           </fieldset>
