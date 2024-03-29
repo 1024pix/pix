@@ -19,7 +19,6 @@
   <PixInputPassword
     @id="login-password"
     name="password"
-    @label={{t "common.forms.login.password"}}
     autocomplete="current-password"
     required={{true}}
     aria-required={{true}}
@@ -27,7 +26,9 @@
     {{on "input" this.validatePassword}}
     @validationStatus={{this.validation.password.status}}
     @errorMessage={{this.validation.password.message}}
-  />
+  >
+    <:label>{{t "common.forms.login.password"}}</:label>
+  </PixInputPassword>
 
   {{#if this.isErrorMessagePresent}}
     <PixMessage @type="error">

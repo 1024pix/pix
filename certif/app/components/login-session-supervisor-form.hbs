@@ -25,13 +25,14 @@
 
     <PixInputPassword
       @id="session-password"
-      @label={{t "pages.session-supervising.login.form.session-password.label"}}
       @ariaLabel={{t "pages.session-supervising.login.form.session-password.aria-label"}}
-      @information={{t "pages.session-supervising.login.form.example"}}
+      @subLabel={{t "pages.session-supervising.login.form.example"}}
       @prefix="C-"
       placeholder="XXXXXX"
       {{on "input" this.setSupervisorPassword}}
-    />
+    >
+      <:label>{{t "pages.session-supervising.login.form.session-password.label"}}</:label>
+    </PixInputPassword>
 
     <PixButton @type="submit">
       {{t "pages.session-supervising.login.form.actions.invigilate"}}

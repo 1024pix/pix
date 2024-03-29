@@ -40,11 +40,12 @@
       <PixInputPassword
         @id="login-password"
         name="password"
-        @label={{t "common.forms.login.password"}}
         autocomplete="current-password"
         required="true"
         {{on "input" this.setPassword}}
-      />
+      >
+        <:label>{{t "common.forms.login.password"}}</:label>
+      </PixInputPassword>
 
       {{#if this.isErrorMessagePresent}}
         <div class="error-message">

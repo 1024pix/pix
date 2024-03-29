@@ -53,14 +53,15 @@
       <PixInputPassword
         @id="register-password"
         name="password"
-        @label={{t "common.forms.login.password"}}
         autocomplete="current-password"
         required={{true}}
         aria-required={{true}}
         {{on "change" this.validatePassword}}
         @validationStatus={{this.validation.password.status}}
         @errorMessage={{this.validation.password.message}}
-      />
+      >
+        <:label>{{t "common.forms.login.password"}}</:label>
+      </PixInputPassword>
     </div>
 
     <div class="checkbox-container input-container">
