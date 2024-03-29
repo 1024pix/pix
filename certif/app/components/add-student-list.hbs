@@ -4,7 +4,6 @@
     <div class="add-student-list__filters">
       <span>{{t "pages.sco.enrol-candidates-in-session.list.table.filter.title"}}</span>
       <PixMultiSelect
-        @label={{t "pages.sco.enrol-candidates-in-session.list.table.filter.extra-information"}}
         @emptyMessage={{this.emptyMessage}}
         @id={{"add-student-list__multi-select"}}
         @onChange={{this.selectDivision}}
@@ -13,9 +12,9 @@
         @screenReaderOnly={{true}}
         @values={{this.selectedDivisions}}
         @options={{@certificationCenterDivisions}}
-        as |option|
       >
-        {{option.label}}
+        <:label>{{t "pages.sco.enrol-candidates-in-session.list.table.filter.extra-information"}}</:label>
+        <:default as |option|>{{option.label}}</:default>
       </PixMultiSelect>
     </div>
 
