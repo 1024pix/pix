@@ -222,6 +222,7 @@ const configuration = (function () {
       isEnabledForPixAdmin: isFeatureEnabled(process.env.GOOGLE_ENABLED_FOR_PIX_ADMIN),
       openidConfigurationUrl: process.env.GOOGLE_OPENID_CONFIGURATION_URL,
       redirectUri: process.env.GOOGLE_REDIRECT_URI,
+      temporaryStorage: { idTokenLifespanMs: ms(process.env.GOOGLE_ID_TOKEN_LIFESPAN || '7d') },
     },
     hapi: {
       options: {},
