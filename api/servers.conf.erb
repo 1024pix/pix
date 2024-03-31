@@ -61,6 +61,17 @@ server {
                     return
                 end
 
+                --
+                -- this function
+                local rate = require "pix.rate"
+                local rate, err = rate.getRateByMinute()
+                ngx.log(ngx.INFO, "log getRateByMinute : " .. tostring(rate))
+                if rate == nil then
+                    ngx.log(ngx.ERR, "Could not get the rate limit: ", err)
+                    return ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+                end
+                --
+
                 local key = ngx.var.binary_remote_addr
                 ngx.log(ngx.INFO, "log key for redis : " .. tostring(key))
                 local limit = 2
