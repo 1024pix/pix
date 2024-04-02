@@ -49,6 +49,7 @@ describe('Integration | Repository | Certification Course', function () {
           'certificationIssueReports',
           'complementaryCertificationCourses',
           'maxReachableLevelOnCertificationDate',
+          'lang',
         ];
 
         expect(_.omit(retrievedCertificationCourse.toDTO(), fieldsToOmitInCertificationCourse)).to.deep.equal(
@@ -97,6 +98,7 @@ describe('Integration | Repository | Certification Course', function () {
           sessionId,
           complementaryCertificationCourses: [],
           version: 3,
+          lang: 'fr',
         });
 
         return databaseBuilder.commit();
@@ -111,6 +113,7 @@ describe('Integration | Repository | Certification Course', function () {
           id: savedCertificationCourse.getId(),
         });
         expect(retrievedCertificationCourse.getVersion()).to.equal(3);
+        expect(retrievedCertificationCourse.getLanguage()).to.equal('fr');
       });
 
       it('should return the saved certification course', async function () {

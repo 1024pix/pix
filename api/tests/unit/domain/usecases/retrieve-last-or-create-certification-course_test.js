@@ -510,19 +510,22 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   .withArgs({ userId, domainTransaction })
                   .resolves([]);
 
-                userRepository.get.withArgs(userId).resolves(domainBuilder.buildUser({ id: userId }));
+                const user = domainBuilder.buildUser({ id: userId });
+                userRepository.get.withArgs(userId).resolves(user);
 
-                // TODO: extraire jusqu'à la ligne 387 dans une fonction ?
                 const certificationCourseToSave = CertificationCourse.from({
                   certificationCandidate: foundCertificationCandidate,
                   challenges: [],
                   verificationCode,
                   maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
                   version: 3,
+                  lang: user.lang,
                 });
+
                 const savedCertificationCourse = domainBuilder.buildCertificationCourse(
                   certificationCourseToSave.toDTO(),
                 );
+
                 certificationCourseRepository.save
                   .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
                   .resolves(savedCertificationCourse);
@@ -535,6 +538,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   isImproving: false,
                   method: Assessment.methods.CERTIFICATION_DETERMINED,
                 });
+
                 const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
                 assessmentRepository.save
                   .withArgs({ assessment: assessmentToSave, domainTransaction })
@@ -558,6 +562,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     assessment: savedAssessment,
                     challenges: [],
                     version: 3,
+                    lang: user.lang,
                   }),
                 });
               });
