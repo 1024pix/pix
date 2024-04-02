@@ -31,9 +31,9 @@ export default class AddStudentList extends Component {
     return !this._hasCheckedEverything() && this._hasCheckedSomething();
   }
 
-  get shouldEnableAddButton() {
+  get shouldDisableAddButton() {
     const hasAtLeastOneSelectedStudent = this.store.peekAll('student').some((student) => student.isSelected);
-    return hasAtLeastOneSelectedStudent;
+    return !hasAtLeastOneSelectedStudent;
   }
 
   get numberOfStudentsAlreadyCandidate() {

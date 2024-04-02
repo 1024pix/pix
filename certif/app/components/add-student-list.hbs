@@ -119,7 +119,8 @@
           <PixButton
             @triggerAction={{this.enrolStudents}}
             type="button"
-            class="bottom-action-bar__actions--add-button {{if this.shouldEnableAddButton '' 'button--disabled'}}"
+            @isDisabled={{this.shouldDisableAddButton}}
+            class="bottom-action-bar__actions--add-button"
           >
             Inscrire
           </PixButton>

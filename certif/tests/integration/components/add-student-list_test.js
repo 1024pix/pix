@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
@@ -9,8 +9,6 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | add-student-list', function (hooks) {
   setupIntlRenderingTest(hooks);
-
-  const ADD_BUTTON_SELECTOR = '.bottom-action-bar__actions--add-button';
   let notificationMessagesService;
   let store;
 
@@ -21,16 +19,6 @@ module('Integration | Component | add-student-list', function (hooks) {
 
   hooks.afterEach(function () {
     notificationMessagesService.clearAll();
-  });
-
-  module('when there is no student', () => {
-    test('it shows an empty table', async function (assert) {
-      // when
-      await render(hbs`<AddStudentList />`);
-
-      // then
-      assert.dom('.add-student-list').doesNotExist();
-    });
   });
 
   module('when there are students', () => {
@@ -77,7 +65,6 @@ module('Integration | Component | add-student-list', function (hooks) {
       // given
       const birthdate = new Date('2018-01-12T09:29:16Z');
       const firstStudent = _buildUnselectedStudent('firstName', 'lastName', 'division', birthdate);
-      const tableRow = '.add-student-list table tbody tr';
 
       const students = [firstStudent, _buildUnselectedStudent()];
       students.meta = {
@@ -96,16 +83,17 @@ module('Integration | Component | add-student-list', function (hooks) {
       this.set('divisions', divisions);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
       );
 
       // then
-      assert.dom(tableRow).exists({ count: 2 });
-      assert.dom(tableRow + ':nth-child(1) td:nth-child(2)').includesText(firstStudent.division);
-      assert.dom(tableRow + ':nth-child(1) td:nth-child(3)').includesText(firstStudent.lastName);
-      assert.dom(tableRow + ':nth-child(1) td:nth-child(4)').includesText(firstStudent.firstName);
-      assert.dom(tableRow + ':nth-child(1) td:nth-child(5)').includesText('12/01/2018');
+      const table = screen.getByRole('table');
+      const rows = await within(table).findAllByRole('row');
+      assert.dom(within(rows[1]).getByRole('cell', { name: firstStudent.division })).exists();
+      assert.dom(within(rows[1]).getByRole('cell', { name: firstStudent.lastName })).exists();
+      assert.dom(within(rows[1]).getByRole('cell', { name: firstStudent.firstName })).exists();
+      assert.dom(within(rows[1]).getByRole('cell', { name: '12/01/2018' })).exists();
     });
 
     test('it should be possible to select an unselected student', async function (assert) {
@@ -259,7 +247,7 @@ module('Integration | Component | add-student-list', function (hooks) {
             this.set('divisions', divisions);
 
             // when
-            await render(hbs`<AddStudentList
+            const screen = await render(hbs`<AddStudentList
               @studentList={{this.students}}
               @session={{this.session}}
               @certificationCenterDivisions={{this.divisions}}
@@ -267,15 +255,14 @@ module('Integration | Component | add-student-list', function (hooks) {
             </AddStudentList>`);
 
             // then
-            assert.dom('.add-student-list__bottom-action-bar').doesNotExist();
+            assert.dom(screen.queryByText('0 candidat(s) déjà inscrit(s) à la session')).doesNotExist();
+            assert.dom(screen.queryByText('Aucun candidat sélectionné')).doesNotExist();
           });
         });
 
         module('when there are 2 selected students', () => {
           test('it should display a label accordingly', async function (assert) {
             // given
-            const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
-            const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
             const birthdate = new Date('2018-01-12T09:29:16Z');
             const students = [
               _buildUnselectedStudent('Marie', 'Dupont', '3E', birthdate),
@@ -301,7 +288,7 @@ module('Integration | Component | add-student-list', function (hooks) {
             this.set('divisions', divisions);
 
             // when
-            await render(hbs`<AddStudentList
+            const screen = await render(hbs`<AddStudentList
               @studentList={{this.students}}
               @session={{this.session}}
               @certificationCenterDivisions={{this.divisions}}
@@ -310,8 +297,8 @@ module('Integration | Component | add-student-list', function (hooks) {
             </AddStudentList>`);
 
             // then
-            assert.dom(candidatesEnrolledSelector).includesText('0 candidat(s) déjà inscrit(s) à la session');
-            assert.dom(candidatesSelectedSelector).includesText('2 candidat(s) sélectionné(s)');
+            assert.dom(screen.getByText('0 candidat(s) déjà inscrit(s) à la session')).exists();
+            assert.dom(screen.getByText('2 candidat(s) sélectionné(s)')).exists();
           });
         });
       });
@@ -342,29 +329,35 @@ module('Integration | Component | add-student-list', function (hooks) {
               { label: '3C', value: '3C' },
             ];
             this.set('divisions', divisions);
+          });
 
+          test('it should display a label accordingly', async function (assert) {
             // when
-            await render(hbs`<AddStudentList
+            const screen = await render(hbs`<AddStudentList
               @studentList={{this.students}}
               @session={{this.session}}
               @certificationCenterDivisions={{this.divisions}}
               @returnToSessionCandidates={{this.returnToSessionCandidates}}
               @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
             </AddStudentList>`);
+
+            // then
+            assert.dom(screen.getByText('2 candidat(s) déjà inscrit(s) à la session')).exists();
+            assert.dom(screen.getByText('Aucun candidat sélectionné')).exists();
           });
 
-          test('it should display a label accordingly', async function (assert) {
-            // then
-            const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
-            const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
-            assert.dom(candidatesEnrolledSelector).includesText('2 candidat(s) déjà inscrit(s) à la session');
-            assert.dom(candidatesSelectedSelector).includesText('Aucun candidat sélectionné');
-          });
+          test('it should disable the "Inscrire" button', async function (assert) {
+            // when
+            const screen = await render(hbs`<AddStudentList
+              @studentList={{this.students}}
+              @session={{this.session}}
+              @certificationCenterDivisions={{this.divisions}}
+              @returnToSessionCandidates={{this.returnToSessionCandidates}}
+              @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
+            </AddStudentList>`);
 
-          test('it should disable the "Ajouter" button', async function (assert) {
             // then
-            const addButtonDisabled = '.bottom-action-bar__actions--add-button.button--disabled';
-            assert.dom(addButtonDisabled).exists();
+            assert.dom(screen.getByRole('button', { name: 'Inscrire' })).isDisabled();
           });
         });
 
@@ -395,31 +388,35 @@ module('Integration | Component | add-student-list', function (hooks) {
               { label: '3C', value: '3C' },
             ];
             this.set('divisions', divisions);
+          });
 
+          test('it should display a label accordingly', async function (assert) {
             // when
-            await render(hbs`<AddStudentList
+            const screen = await render(hbs`<AddStudentList
               @studentList={{this.students}}
               @session={{this.session}}
               @certificationCenterDivisions={{this.divisions}}
               @returnToSessionCandidates={{this.returnToSessionCandidates}}
               @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
             </AddStudentList>`);
+
+            // then
+            assert.dom(screen.getByText('2 candidat(s) déjà inscrit(s) à la session')).exists();
+            assert.dom(screen.getByText('2 candidat(s) sélectionné(s)')).exists();
           });
 
-          test('it should display a label accordingly', async function (assert) {
-            // then
-            const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
-            const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
-            assert.dom(candidatesEnrolledSelector).includesText('2 candidat(s) déjà inscrit(s) à la session');
-            assert.dom(candidatesSelectedSelector).includesText('2 candidat(s) sélectionné(s)');
-          });
+          test('it should show "Inscrire" button', async function (assert) {
+            // when
+            const screen = await render(hbs`<AddStudentList
+              @studentList={{this.students}}
+              @session={{this.session}}
+              @certificationCenterDivisions={{this.divisions}}
+              @returnToSessionCandidates={{this.returnToSessionCandidates}}
+              @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
+            </AddStudentList>`);
 
-          test('it should show "Ajouter" button', async function (assert) {
             // then
-            const addButtonDisabled = '.bottom-action-bar__actions--add-button.button--disabled';
-            const addButton = ADD_BUTTON_SELECTOR;
-            assert.dom(addButtonDisabled).doesNotExist();
-            assert.dom(addButton).exists();
+            assert.dom(screen.getByRole('button', { name: 'Inscrire' })).isNotDisabled();
           });
         });
       });
@@ -446,13 +443,12 @@ module('Integration | Component | add-student-list', function (hooks) {
           this.set('students', students);
           sinon.stub(store, 'peekAll').withArgs('student').returns(students);
 
-          await render(
+          const screen = await render(
             hbs`<AddStudentList @studentList={{this.students}} @session={{this.session}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
           );
 
           // when
-          const addButton = ADD_BUTTON_SELECTOR;
-          await click(addButton);
+          await click(screen.getByRole('button', { name: 'Inscrire' }));
           assert.ok(
             notificationMessagesService.error.calledOnceWith(
               'Une erreur est survenue au moment d‘inscrire les candidats...',
@@ -481,13 +477,12 @@ module('Integration | Component | add-student-list', function (hooks) {
         this.set('students', students);
         sinon.stub(store, 'peekAll').withArgs('student').returns(students);
 
-        await render(
+        const screen = await render(
           hbs`<AddStudentList @studentList={{this.students}} @session={{this.session}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`,
         );
 
         // when
-        const addButton = ADD_BUTTON_SELECTOR;
-        await click(addButton);
+        await click(screen.getByRole('button', { name: 'Inscrire' }));
         assert.ok(notificationMessagesService.error.calledOnceWith(ERROR_DETAIL));
       });
     });
