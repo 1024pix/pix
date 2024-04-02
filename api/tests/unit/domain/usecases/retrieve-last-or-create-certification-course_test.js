@@ -468,102 +468,157 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 });
               });
 
-              it('should create a v3 certification', async function () {
-                // given
-                const userId = 2;
-                const domainTransaction = Symbol('someDomainTransaction');
+              context('when certification is V3', function () {
+                context('when the user language is not available in certification', function () {
+                  it('should not create a certification', async function () {
+                    // given
+                    const userId = 2;
+                    const domainTransaction = Symbol('someDomainTransaction');
 
-                const foundSession = domainBuilder.buildSession.created({
-                  id: 1,
-                  accessCode: 'accessCode',
-                  version: 3,
-                });
-                sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
+                    const foundSession = domainBuilder.buildSession.created({
+                      id: 1,
+                      accessCode: 'accessCode',
+                      version: 3,
+                    });
+                    sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
-                const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
-                  userId: 2,
-                  sessionId: 1,
-                  authorizedToStart: true,
-                });
-                certificationCandidateRepository.getBySessionIdAndUserId
-                  .withArgs({ sessionId: 1, userId: 2 })
-                  .resolves(foundCertificationCandidate);
+                    const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                      userId,
+                      sessionId: 1,
+                      authorizedToStart: true,
+                    });
+                    certificationCandidateRepository.getBySessionIdAndUserId
+                      .withArgs({ sessionId: 1, userId })
+                      .resolves(foundCertificationCandidate);
 
-                certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
-                  .withArgs({ userId: 2, sessionId: 1, domainTransaction })
-                  .resolves(null);
+                    certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                      .withArgs({ userId, sessionId: 1, domainTransaction })
+                      .resolves(null);
 
-                _buildPlacementProfileWithTwoChallenges({
-                  placementProfileService,
-                  userId: 2,
-                  now,
-                  version: foundSession.version,
-                });
+                    const certificationCenter = domainBuilder.buildCertificationCenter({
+                      habilitations: [],
+                      isV3Pilot: true,
+                    });
+                    certificationCenterRepository.getBySessionId.resolves(certificationCenter);
 
-                const certificationCenter = domainBuilder.buildCertificationCenter({
-                  habilitations: [],
-                  isV3Pilot: true,
-                });
-                certificationCenterRepository.getBySessionId.resolves(certificationCenter);
+                    const user = domainBuilder.buildUser({ id: userId, lang: 'nl' });
+                    userRepository.get.withArgs(userId).resolves(user);
 
-                certificationBadgesService.findStillValidBadgeAcquisitions
-                  .withArgs({ userId, domainTransaction })
-                  .resolves([]);
+                    // when
+                    const error = await catchErr(await retrieveLastOrCreateCertificationCourse)({
+                      domainTransaction,
+                      sessionId: 1,
+                      accessCode: 'accessCode',
+                      userId,
+                      locale: 'nl',
+                      ...injectables,
+                    });
 
-                const user = domainBuilder.buildUser({ id: userId });
-                userRepository.get.withArgs(userId).resolves(user);
-
-                const certificationCourseToSave = CertificationCourse.from({
-                  certificationCandidate: foundCertificationCandidate,
-                  challenges: [],
-                  verificationCode,
-                  maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
-                  version: 3,
-                  lang: user.lang,
+                    // then
+                    expect(certificationCourseRepository.save).not.to.have.been.called;
+                    expect(error).to.be.instanceOf(Error);
+                  });
                 });
 
-                const savedCertificationCourse = domainBuilder.buildCertificationCourse(
-                  certificationCourseToSave.toDTO(),
-                );
+                context('when the user language is available in certification', function () {
+                  it('should create a certification', async function () {
+                    // given
+                    const userId = 2;
+                    const domainTransaction = Symbol('someDomainTransaction');
 
-                certificationCourseRepository.save
-                  .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
-                  .resolves(savedCertificationCourse);
+                    const foundSession = domainBuilder.buildSession.created({
+                      id: 1,
+                      accessCode: 'accessCode',
+                      version: 3,
+                    });
+                    sessionRepository.get.withArgs({ id: 1 }).resolves(foundSession);
 
-                const assessmentToSave = new Assessment({
-                  userId: 2,
-                  certificationCourseId: savedCertificationCourse.getId(),
-                  state: Assessment.states.STARTED,
-                  type: Assessment.types.CERTIFICATION,
-                  isImproving: false,
-                  method: Assessment.methods.CERTIFICATION_DETERMINED,
-                });
+                    const foundCertificationCandidate = domainBuilder.buildCertificationCandidate({
+                      userId,
+                      sessionId: 1,
+                      authorizedToStart: true,
+                    });
+                    certificationCandidateRepository.getBySessionIdAndUserId
+                      .withArgs({ sessionId: 1, userId })
+                      .resolves(foundCertificationCandidate);
 
-                const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
-                assessmentRepository.save
-                  .withArgs({ assessment: assessmentToSave, domainTransaction })
-                  .resolves(savedAssessment);
+                    certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
+                      .withArgs({ userId, sessionId: 1, domainTransaction })
+                      .resolves(null);
 
-                // when
-                const result = await retrieveLastOrCreateCertificationCourse({
-                  domainTransaction,
-                  sessionId: 1,
-                  accessCode: 'accessCode',
-                  userId: 2,
-                  locale: 'fr',
-                  ...injectables,
-                });
+                    _buildPlacementProfileWithTwoChallenges({
+                      placementProfileService,
+                      userId,
+                      now,
+                      version: foundSession.version,
+                    });
 
-                // then
-                expect(result).to.deep.equal({
-                  created: true,
-                  certificationCourse: new CertificationCourse({
-                    ...savedCertificationCourse.toDTO(),
-                    assessment: savedAssessment,
-                    challenges: [],
-                    version: 3,
-                    lang: user.lang,
-                  }),
+                    const certificationCenter = domainBuilder.buildCertificationCenter({
+                      habilitations: [],
+                      isV3Pilot: true,
+                    });
+                    certificationCenterRepository.getBySessionId.resolves(certificationCenter);
+
+                    certificationBadgesService.findStillValidBadgeAcquisitions
+                      .withArgs({ userId, domainTransaction })
+                      .resolves([]);
+
+                    const user = domainBuilder.buildUser({ id: userId });
+                    userRepository.get.withArgs(userId).resolves(user);
+
+                    const certificationCourseToSave = CertificationCourse.from({
+                      certificationCandidate: foundCertificationCandidate,
+                      challenges: [],
+                      verificationCode,
+                      maxReachableLevelOnCertificationDate: MAX_REACHABLE_LEVEL,
+                      version: 3,
+                      lang: user.lang,
+                    });
+
+                    const savedCertificationCourse = domainBuilder.buildCertificationCourse(
+                      certificationCourseToSave.toDTO(),
+                    );
+
+                    certificationCourseRepository.save
+                      .withArgs({ certificationCourse: certificationCourseToSave, domainTransaction })
+                      .resolves(savedCertificationCourse);
+
+                    const assessmentToSave = new Assessment({
+                      userId: 2,
+                      certificationCourseId: savedCertificationCourse.getId(),
+                      state: Assessment.states.STARTED,
+                      type: Assessment.types.CERTIFICATION,
+                      isImproving: false,
+                      method: Assessment.methods.CERTIFICATION_DETERMINED,
+                    });
+
+                    const savedAssessment = domainBuilder.buildAssessment(assessmentToSave);
+                    assessmentRepository.save
+                      .withArgs({ assessment: assessmentToSave, domainTransaction })
+                      .resolves(savedAssessment);
+
+                    // when
+                    const { created, certificationCourse } = await retrieveLastOrCreateCertificationCourse({
+                      domainTransaction,
+                      sessionId: 1,
+                      accessCode: 'accessCode',
+                      userId,
+                      locale: 'fr',
+                      ...injectables,
+                    });
+
+                    // then
+                    expect(created).to.be.true;
+                    expect(certificationCourse).to.deepEqualInstance(
+                      new CertificationCourse({
+                        ...savedCertificationCourse.toDTO(),
+                        assessment: savedAssessment,
+                        challenges: [],
+                        version: 3,
+                        lang: user.lang,
+                      }),
+                    );
+                  });
                 });
               });
 

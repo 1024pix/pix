@@ -72,7 +72,12 @@ const retrieveLastOrCreateCertificationCourse = async function ({
   let lang;
   if (version === CertificationVersion.V3) {
     const user = await userRepository.get(userId);
-    _validateUserLanguage(user);
+    const isUserLanguageValid = _validateUserLanguage(user);
+
+    if (!isUserLanguageValid) {
+      throw new Error(`Cant create a certification course in ${user.lang}`);
+    }
+
     lang = user.lang;
   }
 
@@ -98,11 +103,7 @@ const retrieveLastOrCreateCertificationCourse = async function ({
 export { retrieveLastOrCreateCertificationCourse };
 
 function _validateUserLanguage(user) {
-  const isUserLanguageAvailableForCertification = user.isLanguageAvailableForV3Certification();
-
-  if (!isUserLanguageAvailableForCertification) {
-    return;
-  }
+  return user.isLanguageAvailableForV3Certification();
 }
 
 function _validateSessionAccess(session, accessCode) {
