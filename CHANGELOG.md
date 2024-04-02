@@ -1,5 +1,42 @@
 # Pix Changelog
 
+## v4.124.0 (02/04/2024)
+
+
+### :rocket: Amélioration
+- [#7406](https://github.com/1024pix/pix/pull/7406) [FEATURE] Ajouter la connexion SSO Google à Pix Admin (PIX-8809).
+- [#8546](https://github.com/1024pix/pix/pull/8546) [FEATURE] Créer le repository permettant de sauvegarder les nouveaux format de learner (Pix-11615).
+- [#8544](https://github.com/1024pix/pix/pull/8544) [FEATURE]: Retrait du bandeau d'information gestion des accès à Pix Certif pour PRO et SUP (PIX-11857).
+- [#8415](https://github.com/1024pix/pix/pull/8415) [FEATURE] Permettre à partir d'un fichier de configuration de parser un CSV (PIX-11614).
+- [#8535](https://github.com/1024pix/pix/pull/8535) [FEATURE] désactive les boutons d'import si un import est en cours (PIX-11681).
+
+### :building_construction: Tech
+- [#8446](https://github.com/1024pix/pix/pull/8446) [TECH] Migrer l'injection de certification/shared vers certification/course (PIX-1473).
+- [#8533](https://github.com/1024pix/pix/pull/8533) [TECH] Créer un script pour charger les données des OIDC Providers (PIX-10033).
+- [#8491](https://github.com/1024pix/pix/pull/8491) [TECH] Corriger comportement de screen reader sur l'affichage d'un nouveau grain (PIX-11825).
+- [#8514](https://github.com/1024pix/pix/pull/8514) [TECH] Remplacer bookshelf par knex sur le repository user-orga-settings (PIX-11858).
+- [#8273](https://github.com/1024pix/pix/pull/8273) [TECH] Mettre à jour ember-data en 4.12.5 sur PixOrga (PIX-11824).
+
+### :bug: Correction
+- [#8528](https://github.com/1024pix/pix/pull/8528) [BUGFIX]Corrections de liens menant vers des pages de support NL (PIX-11551).
+- [#8541](https://github.com/1024pix/pix/pull/8541) [BUGFIX] Màj tolérance d'un QROC du module bien-ecrire-son-adresse-mail.
+- [#8486](https://github.com/1024pix/pix/pull/8486) [BUGFIX] Remplacement émojis boutons et correction erreurs de niveau de section .
+
+### :arrow_up: Montée de version
+- [#8559](https://github.com/1024pix/pix/pull/8559) [BUMP] Update dependency @1024pix/pix-ui to ^45.0.3 (orga).
+- [#8558](https://github.com/1024pix/pix/pull/8558) [BUMP] Update dependency node to v20.12.0.
+- [#8557](https://github.com/1024pix/pix/pull/8557) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.4 (orga).
+- [#8556](https://github.com/1024pix/pix/pull/8556) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.4 (mon-pix).
+- [#8555](https://github.com/1024pix/pix/pull/8555) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.4 (certif).
+- [#8554](https://github.com/1024pix/pix/pull/8554) [BUMP] Update dependency @1024pix/pix-ui to ^45.0.2 (orga).
+- [#8553](https://github.com/1024pix/pix/pull/8553) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.4 (admin).
+- [#8552](https://github.com/1024pix/pix/pull/8552) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.4 (1d).
+- [#8551](https://github.com/1024pix/pix/pull/8551) [BUMP] Lock file maintenance (admin).
+- [#8550](https://github.com/1024pix/pix/pull/8550) [BUMP] Lock file maintenance (1d).
+- [#8539](https://github.com/1024pix/pix/pull/8539) [BUMP] Update dependency pino-pretty to v11 (audit-logger).
+- [#8538](https://github.com/1024pix/pix/pull/8538) [BUMP] Update dependency pino-pretty to v11 (api).
+- [#8524](https://github.com/1024pix/pix/pull/8524) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.3 (mon-pix).
+
 ## v4.123.0 (28/03/2024)
 
 
