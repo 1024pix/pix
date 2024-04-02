@@ -4,11 +4,13 @@ const buildOrganizationFeature = function buildOrganizationFeature({
   id = databaseBuffer.getNextId(),
   organizationId,
   featureId,
+  params,
 } = {}) {
   const values = {
     id,
     organizationId,
     featureId,
+    params,
   };
 
   return databaseBuffer.pushInsertable({
