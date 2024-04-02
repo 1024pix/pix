@@ -92,7 +92,7 @@ const spConfig = {
   encPrivateKey: testCertificatePrivateKey,
 };
 
-describe('Acceptance | Controller | saml-controller', function () {
+describe('Acceptance | Authentication | Route | Saml', function () {
   let server;
 
   beforeEach(async function () {
