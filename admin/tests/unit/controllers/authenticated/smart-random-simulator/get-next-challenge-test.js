@@ -28,6 +28,63 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
     controller = this.owner.lookup('controller:authenticated.smart-random-simulator.get-next-challenge');
   });
 
+  module('#skillsByTube', function () {
+    test('it should format skills ordered by tube', async function (assert) {
+      // given when
+      controller.skills = [
+        { id: 'skillId1', name: '@requete2', difficulty: 2 },
+        { id: 'skillId2', name: '@requete1', difficulty: 1 },
+        { id: 'skillId3', name: '@chercher6', difficulty: 6 },
+        { id: 'skillId4', name: '@chercher4', difficulty: 4 },
+        { id: 'skillId5', name: '@apprendre3', difficulty: 3 },
+      ];
+
+      // then
+      assert.ok(controller);
+      assert.deepEqual(controller.skillsByTube, [
+        {
+          name: '@requete',
+          skills: [
+            { difficulty: 1, status: 'present' },
+            { difficulty: 2, status: 'present' },
+            { difficulty: 3, status: 'missing' },
+            { difficulty: 4, status: 'missing' },
+            { difficulty: 5, status: 'missing' },
+            { difficulty: 6, status: 'missing' },
+            { difficulty: 7, status: 'missing' },
+            { difficulty: 8, status: 'missing' },
+          ],
+        },
+        {
+          name: '@chercher',
+          skills: [
+            { difficulty: 1, status: 'missing' },
+            { difficulty: 2, status: 'missing' },
+            { difficulty: 3, status: 'missing' },
+            { difficulty: 4, status: 'present' },
+            { difficulty: 5, status: 'missing' },
+            { difficulty: 6, status: 'present' },
+            { difficulty: 7, status: 'missing' },
+            { difficulty: 8, status: 'missing' },
+          ],
+        },
+        {
+          name: '@apprendre',
+          skills: [
+            { difficulty: 1, status: 'missing' },
+            { difficulty: 2, status: 'missing' },
+            { difficulty: 3, status: 'present' },
+            { difficulty: 4, status: 'missing' },
+            { difficulty: 5, status: 'missing' },
+            { difficulty: 6, status: 'missing' },
+            { difficulty: 7, status: 'missing' },
+            { difficulty: 8, status: 'missing' },
+          ],
+        },
+      ]);
+    });
+  });
+
   module('#requestNextChallenge', function () {
     test('it should call window fetch function', async function (assert) {
       // given

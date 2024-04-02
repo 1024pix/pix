@@ -1,15 +1,27 @@
-<Card class="admin-form__card current-challenge" @title="Épreuve en cours">
-  <p>Nom de l'acquis testé : <span class="current-challenge__name">{{@challenge.skill.name}}</span></p>
-  <p class="current-challenge__details">Épreuve avec temps imparti ?
-    <PixTag @compact="{{true}}" @color="{{if @challenge.timer 'tertiary' 'neutral'}}">
-      {{if @challenge.timer "Oui" "Non"}}
-    </PixTag>
-  </p>
-  <p class="current-challenge__details">Épreuve focus ?
-    <PixTag @compact="{{true}}" @color="{{if @challenge.focused 'tertiary' 'neutral'}}">
-      {{if @challenge.focused "Oui" "Non"}}
-    </PixTag>
-  </p>
+<div class="current-challenge__details">
+  <ul>
+    <li>Nom de l'acquis testé : <span class="current-challenge__name">{{@challenge.skill.name}}</span></li>
+    <li>Épreuve avec temps imparti ?
+      <PixTag @color="{{if @challenge.timer 'tertiary' 'neutral'}}">
+        {{if @challenge.timer "Oui" "Non"}}
+      </PixTag>
+    </li>
+    <li class="current-challenge__details">Épreuve focus ?
+      <PixTag @color="{{if @challenge.focused 'tertiary' 'neutral'}}">
+        {{if @challenge.focused "Oui" "Non"}}
+      </PixTag>
+    </li>
+
+    <li class="current-challenge__details">Type de challenge :
+      {{@challenge.type}}
+    </li>
+    {{#if @challenge.instruction}}
+      <li class="current-challenge__instruction">
+        {{@challenge.instruction}}
+      </li>
+    {{/if}}
+  </ul>
+
   <div class="current-challenge__actions">
     <PixButton @backgroundColor="error" @size="big" @triggerAction={{@failCurrentChallenge}}>
       Rater l'épreuve
@@ -21,4 +33,4 @@
       Redémarrer la simulation
     </PixButton>
   </div>
-</Card>
+</div>

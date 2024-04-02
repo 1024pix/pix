@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 const GET_NEXT_CHALLENGE_API_ROUTE = '/api/admin/smart-random-simulator/get-next-challenge';
+const GET_CAMPAIGN_PARAMS_API_ROUTE = '/api/admin/smart-random-simulator/campaign-parameters';
 
 const ANSWER_STATUSES = { OK: 'ok', KO: 'ko' };
 const KNOWLEDGE_ELEMENTS_STATUSES = { VALIDATED: 'validated', INVALIDATED: 'invalidated' };
@@ -20,12 +21,14 @@ export default class SmartRandomSimulator extends Controller {
   @tracked knowledgeElements = [];
 
   @tracked locale = 'fr-fr';
-  @tracked assessmentId = '';
+  @tracked assessmentId = '1';
 
   // Simulator response
   @tracked returnedChallenges = [];
 
   @tracked assessmentComplete = false;
+  @tracked smartRandomDetails = null;
+  @tracked displayedStepIndex = 0;
 
   @action
   async updateParametersValue(key, value) {
@@ -64,6 +67,61 @@ export default class SmartRandomSimulator extends Controller {
     return this.assessmentComplete ? null : this.returnedChallenges[this.returnedChallenges.length - 1];
   }
 
+  get skillsByTube() {
+    return this.skills.reduce((accumulator, skill) => {
+      const tubeName = this.getTubeNameFromSkillName(skill.name);
+      const accumulatorIndex = accumulator.findIndex((tube) => tube.name === tubeName);
+
+      if (accumulatorIndex === -1) {
+        accumulator.push({
+          name: tubeName,
+          skills: [skill],
+        });
+        return accumulator;
+      }
+
+      accumulator[accumulatorIndex].skills.push(skill);
+      return accumulator;
+    }, []);
+  }
+
+  get numberOfSkillsStillAvailable() {
+    return this.skills.filter(
+      (skill) => !this.knowledgeElements.some((knowledgeElement) => knowledgeElement.skillId === skill.id),
+    ).length;
+  }
+
+  get totalNumberOfSkills() {
+    return this.skills.length;
+  }
+
+  @action
+  async loadCampaignParams(campaignId) {
+    console.log(campaignId);
+    const apiResponse = await window.fetch(`${GET_CAMPAIGN_PARAMS_API_ROUTE}/${this.locale}/${campaignId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.session.data.authenticated.access_token}`,
+      },
+    });
+
+    if (apiResponse.status === 200) {
+      const responseBody = await apiResponse.json();
+      this.skills = responseBody.skills;
+      this.challenges = responseBody.challenges;
+      this.notifications.success(
+        `Données chargées: ${this.skills.length} compétences et ${this.challenges.length} challenges`,
+      );
+      return;
+    }
+
+    const response = await apiResponse.json();
+    return response.errors.map(({ detail }) => {
+      this.notifications.error(detail);
+    });
+  }
+
   async requestNextChallenge() {
     const apiResponse = await window.fetch(GET_NEXT_CHALLENGE_API_ROUTE, {
       method: 'POST',
@@ -91,8 +149,10 @@ export default class SmartRandomSimulator extends Controller {
         break;
       }
       case 200: {
-        const response = await apiResponse.json();
-        this.returnedChallenges = [...this.returnedChallenges, response.challenge];
+        const responseBody = await apiResponse.json();
+        this.returnedChallenges = [...this.returnedChallenges, responseBody.challenge];
+        this.smartRandomDetails = responseBody.smartRandomDetails;
+        this.displayedStepIndex = this.smartRandomDetails.steps.length - 1;
         break;
       }
       default: {
@@ -102,6 +162,11 @@ export default class SmartRandomSimulator extends Controller {
         });
       }
     }
+  }
+
+  @action
+  selectDisplayedStepIndex(value) {
+    this.displayedStepIndex = value;
   }
 
   async answerCurrentChallenge(answerStatus = ANSWER_STATUSES.OK) {

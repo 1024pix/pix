@@ -11,5 +11,12 @@ const getNextChallenge = async function (
 
   return evaluationUsecases.getNextChallengeForSimulator({ simulationParameters: deserializedPayload });
 };
-const smartRandomSimulatorController = { getNextChallenge };
+
+const getInputValuesForCampaign = async function (request) {
+  const campaignId = request.params.campaignId;
+  const locale = request.params.locale;
+  return evaluationUsecases.getCampaignParametersForSimulator({ campaignId, locale });
+};
+
+const smartRandomSimulatorController = { getNextChallenge, getInputValuesForCampaign };
 export { smartRandomSimulatorController };

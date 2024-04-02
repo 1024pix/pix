@@ -11,6 +11,7 @@ import { pickChallengeService } from '../../../certification/flash-certification
 import * as answerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
+import * as challengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as badgeRepository from '../../../shared/infrastructure/repositories/badge-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
@@ -43,6 +44,7 @@ const dependencies = {
   badgeCriteriaRepository,
   campaignRepository,
   campaignParticipationRepository,
+  challengeRepository,
   competenceEvaluationRepository,
   competenceRepository,
   feedbackRepository,
