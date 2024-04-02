@@ -4,17 +4,12 @@
       {{t this.textsByOrganizationType.title}}
     </h1>
   </header>
-  {{#if this.displaySuccess}}
-    <p class="success-import-banner">
-      <FaIcon @icon="circle-check" class="success-import-banner__icon" />
-      {{this.successBanner}}
-    </p>
-  {{/if}}
-  {{#if this.displayBanner}}
-    <PixMessage @type={{this.bannerType}} @withIcon="true">
-      {{this.bannerMessage}}
-    </PixMessage>
-  {{/if}}
+
+  <ImportBanner
+    @organizationImportDetail={{@organizationImportDetail}}
+    @errorPanelId="import-error-messages"
+    @isLoading={{@isLoading}}
+  />
 
   {{#if @isLoading}}
     <Ui::PixLoader />
@@ -47,7 +42,7 @@
   {{/unless}}
 
   {{#if this.displayImportMessagePanel}}
-    <section class={{this.panelClasses}} aria-live="assertive">
+    <section id="import-error-messages" class={{this.panelClasses}} aria-live="assertive">
       <h2 class="screen-reader-only">{{t "pages.organization-participants-import.error-panel.title"}}</h2>
 
       <ul class="import-students-page__error-panel-list">

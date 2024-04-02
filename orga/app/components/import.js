@@ -9,45 +9,6 @@ export default class Import extends Component {
   @service errorMessages;
   @service intl;
 
-  get inProgress() {
-    return this.args.organizationImportDetail?.inProgress;
-  }
-
-  get displaySuccess() {
-    return this.args.organizationImportDetail?.isDone;
-  }
-
-  get successBanner() {
-    const {
-      updatedAt,
-      createdBy: { firstName, lastName },
-    } = this.args.organizationImportDetail;
-    return this.intl.t('pages.organization-participants-import.global-success', {
-      date: updatedAt.toLocaleDateString(),
-      firstName,
-      lastName,
-    });
-  }
-
-  get displayBanner() {
-    return this.args.isLoading || this.args.organizationImportDetail?.hasWarning;
-  }
-
-  get bannerType() {
-    if (this.args.organizationImportDetail?.hasWarning) {
-      return 'warning';
-    } else {
-      return 'information';
-    }
-  }
-
-  get bannerMessage() {
-    if (this.args.organizationImportDetail?.hasWarning) {
-      return this.intl.t('pages.organization-participants-import.warning-banner', { htmlSafe: true });
-    }
-    return this.intl.t('pages.organization-participants-import.information');
-  }
-
   get displayImportMessagePanel() {
     return this.args.organizationImportDetail?.hasError || this.args.organizationImportDetail?.hasWarning;
   }

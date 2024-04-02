@@ -1,0 +1,30 @@
+
+.import-banner {
+  &--success {
+    @extend %pix-body-m;
+
+    display: flex;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+    color: var(--pix-success-700);
+    font-weight: var(--pix-font-medium);
+  }
+
+  &__icon {
+    @extend %pix-title-xs;
+  }
+
+  &__title {
+    font-weight: var(--pix-font-bold);
+  }
+
+  &__link {
+    text-decoration: underline;
+  }
+
+  &__message {
+    display: block;
+    padding-top: var(--pix-spacing-2x);
+  }
+}
+

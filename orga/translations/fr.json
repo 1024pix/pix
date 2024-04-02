@@ -934,6 +934,19 @@
           "label": "Importer une nouvelle liste"
         }
       },
+      "banner": {
+        "anchor-error": "Voir la liste des erreurs",
+        "error-text": "Merci de corriger les erreurs et d’importer à nouveau le fichier.",
+        "import-error": "L'import des participants a échoué.",
+        "import-in-progress": "Le contenu du fichier est validé, l’import des participants est en cours.",
+        "in-progress-text": "Merci de rafraîchir cette page dans quelques instants pour connaitre l’état de traitement du fichier.",
+        "upload-completed": "Le fichier a été importé le {date} par {firstName} {lastName}.",
+        "upload-error": "Le fichier n'a pas pu être importé.",
+        "upload-in-progress": "L’import du fichier peut prendre quelques minutes. Merci de ne pas quitter cette page.",
+        "validation-error": "Le contenu du fichier comporte des erreurs.",
+        "validation-in-progress": "Le contenu du fichier est en cours de validation.",
+        "warning-banner": "Certaines valeurs n’ont pas été reconnues. Elles ont été remplacées par “Non reconnu”. Si vous considérez qu’il manque des valeurs dans la liste limitative, veuillez nous contacter à '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'"
+      },
       "error-panel": {
         "title": "Liste des erreurs rencontrées",
         "error-wrapper": "Aucun participant n’a été importé. Veuillez modifier votre fichier et l’importer à nouveau.",
@@ -941,7 +954,6 @@
       },
       "file-type-separator": ", ",
       "global-success": "Dernier fichier importé avec succès le {date} par {firstName} {lastName}.",
-      "information": "L'import de votre fichier peut prendre quelques minutes. Certaines fonctionnalités sont temporairement inaccessibles.",
       "sco": {
         "title": "Importer des élèves"
       },
@@ -949,7 +961,6 @@
         "title": "Importer des étudiants"
       },
       "supported-formats": "(formats supportés : {types})",
-      "warning-banner": "Certaines valeurs n’ont pas été reconnues. Elles ont été remplacées par “Non reconnu”. Si vous considérez qu’il manque des valeurs dans la liste limitative, veuillez nous contacter à '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
       "warnings": {
         "diploma": "Diplômes non reconnus : {diplomas}; ",
         "study-scheme": "Régimes non reconnus : {studySchemes}; "

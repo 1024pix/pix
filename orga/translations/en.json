@@ -934,6 +934,19 @@
           "label": "Overwrite list"
         }
       },
+      "banner": {
+        "anchor-error": "See the list of errors",
+        "error-text": "Please correct them and import the file again.",
+        "import-error": "The import of participants has failed.",
+        "import-in-progress": "The content of the file has been validated and the participants are now being imported in PixOrga.",
+        "in-progress-text": "Please refresh this page in a few moments to see the status of the file.",
+        "upload-completed": "The file was imported on {date} by {firstName} {lastName}.",
+        "upload-error": "The file could not be imported.",
+        "upload-in-progress": "It may take a few minutes to import the file. Please do not leave this page.",
+        "validation-error": "The file content contains errors.",
+        "validation-in-progress": "The contents of the file are currently being validated.",
+        "warning-banner": "However some values were not recognised. They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'"
+      },
       "error-panel": {
         "title": "Errors list encountered",
         "error-wrapper": "Import has failed. Please check or edit your file and try to import it again.",
@@ -941,7 +954,6 @@
       },
       "file-type-separator": " or ",
       "global-success": "Last file successfully imported on {date} by {firstName} {lastName}.",
-      "information": "Importing your file may take a few minutes. Some features may be temporarily inaccessible.",
       "sco": {
         "title": "Import students"
       },
@@ -949,7 +961,6 @@
         "title": "Import students"
       },
       "supported-formats": "(supported format: {types})",
-      "warning-banner": "However some values were not recognised. They have been replaced by \"Not recognised\". If you need other values, please contact us at '<a href=\"mailto:sup@pix.fr\">'sup@pix.fr'</a></div>'",
       "warnings": {
         "diploma": "Diplomas unknown: {diplomas}; ",
         "study-scheme": "Study schemes unknown: {studySchemes}; "
