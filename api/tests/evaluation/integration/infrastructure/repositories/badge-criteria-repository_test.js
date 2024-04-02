@@ -1,5 +1,5 @@
-import * as badgeCriteriaRepository from '../../../../lib/infrastructure/repositories/badge-criteria-repository.js';
-import { databaseBuilder, expect, knex } from '../../../test-helper.js';
+import * as badgeCriteriaRepository from '../../../../../src/evaluation/infrastructure/repositories/badge-criteria-repository.js';
+import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Repository | Badge Criteria Repository', function () {
   describe('#save', function () {
