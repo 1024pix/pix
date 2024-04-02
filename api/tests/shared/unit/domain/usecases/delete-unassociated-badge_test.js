@@ -2,10 +2,12 @@ import {
   AcquiredBadgeForbiddenDeletionError,
   CertificationBadgeForbiddenDeletionError,
 } from '../../../../../lib/domain/errors.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { deleteUnassociatedBadge } from '../../../../../src/shared/domain/usecases/delete-unassociated-badge.js';
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | delete-unassociated-badge', function () {
+  let domainTransaction;
   let badgeId;
   let badgeRepository;
   let complementaryCertificationBadgeRepository;
@@ -17,6 +19,11 @@ describe('Unit | UseCase | delete-unassociated-badge', function () {
       remove: sinon.stub(),
     };
     complementaryCertificationBadgeRepository = { isRelatedToCertification: sinon.stub() };
+
+    domainTransaction = Symbol('domainTransaction');
+    sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
+      return lambda(domainTransaction);
+    });
   });
 
   context('When the badge is not associated to a badge acquisition', function () {
