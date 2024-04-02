@@ -5,12 +5,10 @@
   </div>
 </header>
 
-<main class="page-body">
-  <section class="page-section">
-    <Organizations::CreationForm
-      @organization={{@model}}
-      @onSubmit={{this.addOrganization}}
-      @onCancel={{this.goBackToOrganizationList}}
-    />
-  </section>
+<main class="main-admin-form">
+  <Organizations::CreationForm
+    @organization={{@model}}
+    @onSubmit={{this.addOrganization}}
+    @onCancel={{this.goBackToOrganizationList}}
+  />
 </main>
