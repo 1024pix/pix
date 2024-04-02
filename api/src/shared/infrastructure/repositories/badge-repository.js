@@ -22,13 +22,6 @@ const isAssociated = async function (badgeId, { knexTransaction } = DomainTransa
   return !!associatedBadge;
 };
 
-const isRelatedToCertification = async function (badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
-  const complementaryCertificationBadge = await (knexTransaction ?? knex)('complementary-certification-badges')
-    .where({ badgeId })
-    .first();
-  return !!complementaryCertificationBadge;
-};
-
 const get = async function (id) {
   const badge = await knex(TABLE_NAME).select('*').where({ id }).first();
   if (!badge) throw new NotFoundError('Badge not found');
@@ -76,17 +69,7 @@ const findAllByIds = async function ({ ids }) {
   });
 };
 
-export {
-  findAllByIds,
-  findByCampaignId,
-  get,
-  isAssociated,
-  isKeyAvailable,
-  isRelatedToCertification,
-  remove,
-  save,
-  update,
-};
+export { findAllByIds, findByCampaignId, get, isAssociated, isKeyAvailable, remove, save, update };
 
 function _adaptModelToDb(badge) {
   return omit(badge, ['id', 'badgeCriteria', 'complementaryCertificationBadge']);

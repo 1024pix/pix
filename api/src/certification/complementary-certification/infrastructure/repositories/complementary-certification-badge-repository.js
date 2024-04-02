@@ -1,4 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
 import { Badge } from '../../../../shared/domain/models/Badge.js';
 import { ComplementaryCertificationBadge } from '../../domain/models/ComplementaryCertificationBadge.js';
@@ -73,8 +74,22 @@ const getAllWithSameTargetProfile = async function (complementaryCertificationBa
   return complementaryCertificationBadges.map(_toDomain);
 };
 
+const isRelatedToCertification = async function (badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+  const complementaryCertificationBadge = await (knexTransaction ?? knex)('complementary-certification-badges')
+    .where({ badgeId })
+    .first();
+  return !!complementaryCertificationBadge;
+};
+
 function _toDomain(complementaryCertificationBadgeDTO) {
   return new ComplementaryCertificationBadge(complementaryCertificationBadgeDTO);
 }
 
-export { attach, detachByIds, findAttachableBadgesByIds, getAllIdsByTargetProfileId, getAllWithSameTargetProfile };
+export {
+  attach,
+  detachByIds,
+  findAttachableBadgesByIds,
+  getAllIdsByTargetProfileId,
+  getAllWithSameTargetProfile,
+  isRelatedToCertification,
+};
