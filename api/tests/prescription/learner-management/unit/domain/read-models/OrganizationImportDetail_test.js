@@ -8,18 +8,20 @@ describe('Unit | Models | OrganizationImportDetail', function () {
       id: 1,
       status: IMPORT_STATUSES.VALIDATION_ERROR,
       errors: [{ message: 'Oups' }],
-      updatedAt: new Date('2023-01-01'),
+      updatedAt: new Date('2023-01-02'),
       firstName: 'Tomie',
       lastName: 'Katana',
       organizationId: 1,
       createdBy: 12,
+      createdAt: new Date('2023-01-01'),
     };
 
     const expected = {
       id: 1,
       status: IMPORT_STATUSES.VALIDATION_ERROR,
       errors: [{ message: 'Oups' }],
-      updatedAt: new Date('2023-01-01'),
+      updatedAt: new Date('2023-01-02'),
+      createdAt: new Date('2023-01-01'),
       createdBy: {
         firstName: 'Tomie',
         lastName: 'Katana',
