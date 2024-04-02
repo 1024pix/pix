@@ -1,5 +1,10 @@
+/**
+ * @module OidcProviderRepository
+ */
+
 import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { OidcProvider } from '../../domain/models/OidcProvider.js';
 
 const OIDC_PROVIDERS_TABLE_NAME = 'oidc-providers';
 
@@ -32,7 +37,21 @@ const create = async function (
   dependencies = { domainTransaction: DomainTransaction.emptyTransaction() },
 ) {
   const knexConn = dependencies.domainTransaction.knexTransaction ?? knex;
-  return await knexConn(OIDC_PROVIDERS_TABLE_NAME).insert(oidcProviderProperties).returning('*');
+  return knexConn(OIDC_PROVIDERS_TABLE_NAME).insert(oidcProviderProperties).returning('*');
 };
 
-export { create };
+/**
+ * @return {Promise<Array<OidcProvider>>}
+ */
+const findAllOidcProviders = async function () {
+  const result = await knex.select().from(OIDC_PROVIDERS_TABLE_NAME);
+  return result.map(_toDomain);
+};
+
+const oidcProviderRepository = { create, findAllOidcProviders };
+
+export { oidcProviderRepository };
+
+const _toDomain = (oidcProvider) => {
+  return new OidcProvider(oidcProvider);
+};
