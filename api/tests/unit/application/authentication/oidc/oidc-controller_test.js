@@ -1,5 +1,5 @@
 import { oidcController } from '../../../../../lib/application/authentication/oidc/oidc-controller.js';
-import { UnauthorizedError } from '../../../../../lib/application/http-errors.js';
+import { BadRequestError, UnauthorizedError } from '../../../../../lib/application/http-errors.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { catchErr, domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
@@ -159,9 +159,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       await oidcController.getAuthorizationUrl(request, hFake, dependencies);
 
       //then
-      expect(oidcAuthenticationService.getAuthorizationUrl).to.have.been.calledWithExactly({
-        redirectUri: 'http:/exemple.net/',
-      });
+      expect(oidcAuthenticationService.getAuthorizationUrl).to.have.been.called;
       expect(request.yar.set).to.have.been.calledTwice;
       expect(request.yar.commit).to.have.been.calledOnce;
     });
@@ -258,6 +256,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
 
       // then
       expect(usecases.authenticateOidcUser).to.have.been.calledWithExactly({
+        audience: undefined,
         code,
         redirectUri,
         state: identityProviderState,
@@ -308,6 +307,21 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           identityProviderCode: identityProvider,
           audience: PIX_ADMIN.AUDIENCE,
         });
+      });
+    });
+
+    context('when state cookie is missing', function () {
+      it('returns a BadRequestError', async function () {
+        // given
+        request.yar.get.returns(null);
+        const dependencies = {};
+
+        // when
+        const error = await catchErr(oidcController.authenticateUser)(request, hFake, dependencies);
+
+        // then
+        expect(error).to.be.an.instanceOf(BadRequestError);
+        expect(error.message).to.equal('Required cookie "state" is missing');
       });
     });
 

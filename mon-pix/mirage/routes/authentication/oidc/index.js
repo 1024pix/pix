@@ -41,10 +41,9 @@ export default function (config) {
     };
   });
 
-  config.get('/oidc/authorization-url', (schema, request) => {
-    const redirectUri = request.queryParams.redirect_uri;
+  config.get('/oidc/authorization-url', () => {
     return {
-      redirectTarget: `https://oidc/connexion/oauth2/authorize?redirect_uri=${redirectUri}`,
+      redirectTarget: `https://oidc/connexion/oauth2/authorize`,
     };
   });
 
