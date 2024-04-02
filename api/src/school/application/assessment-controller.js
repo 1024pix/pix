@@ -11,7 +11,7 @@ const getNextChallengeForPix1d = async function (request, h, dependencies = { ch
 
 const create = async function (request, h, dependencies = { assessmentSerializer }) {
   const { missionId, learnerId } = request.payload;
-  const createdAssessment = await usecases.getOrCreateAssessment({
+  const createdAssessment = await usecases.playMission({
     missionId,
     organizationLearnerId: learnerId,
   });

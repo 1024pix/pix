@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
 import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
@@ -16,14 +18,13 @@ describe('Integration | UseCase | getAssessmentById', function () {
       assessmentRepository,
     });
 
-    const expectedMissionAssessment = new Assessment({
-      id: result.id,
-      assessmentId,
+    const expectedMissionAssessment = {
+      id: assessmentId,
       organizationLearnerId: missionAssessment.organizationLearnerId,
-      missionId: missionAssessment.missionId,
+      missionId: `${missionAssessment.missionId}`,
       state: Assessment.states.STARTED,
-    });
+    };
 
-    expect(result).to.deep.equal(expectedMissionAssessment);
+    expect(_.pick(result, Object.keys(expectedMissionAssessment))).to.deep.equal(expectedMissionAssessment);
   });
 });

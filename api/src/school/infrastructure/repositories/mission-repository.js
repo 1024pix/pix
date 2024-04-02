@@ -17,12 +17,13 @@ function _toDomain(data, locale) {
     thematicId: data.thematicId,
     learningObjectives: translatedLearningObjectives,
     validatedObjectives: translatedValidatedObjectives,
+    content: data.content,
   });
 }
 
 async function get(id, locale = { locale: FRENCH_FRANCE }) {
   try {
-    const missionData = await missionDatasource.get(id);
+    const missionData = await missionDatasource.get(parseInt(id, 10));
     return _toDomain(missionData, locale);
   } catch (error) {
     throw new MissionNotFoundError(id);

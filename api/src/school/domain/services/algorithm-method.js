@@ -1,13 +1,13 @@
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { Activity } from '../models/Activity.js';
 
-export const pix1dService = { getNextActivityLevel };
+const END_OF_MISSION = undefined;
+
+export const pix1dService = { getNextActivityLevel, END_OF_MISSION };
 
 const { TUTORIAL, TRAINING, VALIDATION, CHALLENGE } = Activity.levels;
 const { SUCCEEDED, FAILED, SKIPPED } = Activity.status;
 const orderedActivityLevels = Activity.orderedActivityLevels;
-
-const END_OF_MISSION = undefined;
 
 const SAME_ACTIVITY_RUN_MAX_NB = 3;
 

@@ -6,13 +6,14 @@ import { buildPix1dAssessment } from './build-assessment.js';
 import { buildOrganizationLearner } from './build-organization-learner.js';
 
 const buildMissionAssessment = function ({
-  missionId = 'recMissionId',
+  missionId = 123,
   assessmentId,
   organizationLearnerId,
   createdAt = new Date('2020-01-01'),
   state = Assessment.states.STARTED,
+  lastChallengeId,
 } = {}) {
-  assessmentId = _.isUndefined(assessmentId) ? buildPix1dAssessment({ state }).id : assessmentId;
+  assessmentId = _.isUndefined(assessmentId) ? buildPix1dAssessment({ state, lastChallengeId }).id : assessmentId;
   organizationLearnerId = _.isUndefined(organizationLearnerId) ? buildOrganizationLearner().id : organizationLearnerId;
 
   const values = {

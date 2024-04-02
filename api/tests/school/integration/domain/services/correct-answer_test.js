@@ -2,11 +2,11 @@ import { ChallengeNotAskedError, NotFoundError } from '../../../../../lib/domain
 import { AnswerStatus, Examiner, Validation, ValidatorAlwaysOK } from '../../../../../lib/domain/models/index.js';
 import { Assessment } from '../../../../../src/school/domain/models/Assessment.js';
 import { NotInProgressAssessmentError } from '../../../../../src/school/domain/school-errors.js';
-import { correctAnswer } from '../../../../../src/school/domain/usecases/correct-answer.js';
+import { correctAnswer } from '../../../../../src/school/domain/services/correct-answer.js';
 import * as activityAnswerRepository from '../../../../../src/school/infrastructure/repositories/activity-answer-repository.js';
 import * as activityRepository from '../../../../../src/school/infrastructure/repositories/activity-repository.js';
 import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
-import * as sharedChallengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
+import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import {
   catchErr,
   databaseBuilder,
@@ -58,7 +58,7 @@ describe('Integration | UseCases | correct-answer', function () {
           const record = await correctAnswer({
             activityAnswer,
             assessmentId: assessment.id,
-            sharedChallengeRepository,
+            challengeRepository,
             assessmentRepository,
             activityAnswerRepository,
             activityRepository,
@@ -90,7 +90,7 @@ describe('Integration | UseCases | correct-answer', function () {
           const record = await correctAnswer({
             activityAnswer,
             assessmentId: assessment.id,
-            sharedChallengeRepository,
+            challengeRepository,
             assessmentRepository,
             activityAnswerRepository,
             activityRepository,
@@ -124,7 +124,7 @@ describe('Integration | UseCases | correct-answer', function () {
         activityAnswer,
         assessmentId: assessment.id,
         activityAnswerRepository,
-        sharedChallengeRepository,
+        challengeRepository,
         activityRepository,
         assessmentRepository,
       });
@@ -150,7 +150,7 @@ describe('Integration | UseCases | correct-answer', function () {
         activityAnswer,
         assessmentId: assessment.id,
         activityAnswerRepository,
-        sharedChallengeRepository,
+        challengeRepository,
         activityRepository,
         assessmentRepository,
       });
@@ -179,7 +179,7 @@ describe('Integration | UseCases | correct-answer', function () {
         activityAnswer,
         assessmentId: assessment.id,
         activityAnswerRepository,
-        sharedChallengeRepository,
+        challengeRepository,
         activityRepository,
         assessmentRepository,
       });
@@ -210,7 +210,7 @@ describe('Integration | UseCases | correct-answer', function () {
       const error = await catchErr(correctAnswer)({
         activityAnswer,
         assessmentId,
-        sharedChallengeRepository,
+        challengeRepository,
         assessmentRepository,
         activityAnswerRepository,
         activityRepository,
