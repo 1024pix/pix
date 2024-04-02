@@ -8,4 +8,12 @@ module.exports = {
     'no-invalid-interactive': false,
   },
   ignore: ['blueprints/**'],
+  overrides: [
+    {
+      files: ['**/*.gjs'],
+      rules: {
+        prettier: 'off',
+      },
+    },
+  ],
 };
