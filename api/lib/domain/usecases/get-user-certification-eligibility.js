@@ -22,6 +22,7 @@ import {
   ComplementaryCertificationBadge,
   ComplementaryCertificationVersioning,
 } from '../../../src/certification/complementary-certification/domain/read-models/ComplementaryCertificationVersioning.js';
+import { config } from '../../config.js';
 import { CertificationEligibility } from '../read-models/CertificationEligibility.js';
 
 /**
@@ -255,9 +256,12 @@ function _isAcquiredByPixSourceOrOutdatedByMoreThanOneVersion({
   stillValidAcquiredComplementaryCertification,
 }) {
   return (
-    _isOutDatedBadgeAcquisitionByMoreThanOneVersion({
-      stillValidBadgeAcquisitionComplementaryCertificationBadgeId,
-      outdatedVersions: complementaryCertificationVersioning,
-    }) || stillValidAcquiredComplementaryCertification?.isAcquiredExpectedLevelByPixSource()
+    // TODO: Remove check on isPixPlusLowerLeverEnabled if enabled in PROD
+    (config.featureToggles.isPixPlusLowerLeverEnabled &&
+      _isOutdatedBadgeAcquisitionByMoreThanOneVersion({
+        stillValidBadgeAcquisitionComplementaryCertificationBadgeId,
+        outdatedVersions: complementaryCertificationVersioning,
+      })) ||
+    stillValidAcquiredComplementaryCertification?.isAcquiredExpectedLevelByPixSource()
   );
 }
