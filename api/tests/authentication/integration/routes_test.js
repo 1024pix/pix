@@ -1,13 +1,13 @@
 import querystring from 'querystring';
 
-import { authenticationController } from '../../../src/authentication/application/authentication-controller.js';
+import { tokenController } from '../../../src/authentication/application/token-controller.js';
 import { createServer, expect, sinon } from '../../test-helper.js';
 
 describe('Integration | Authentication | Application | Router', function () {
   let server;
 
   beforeEach(async function () {
-    sinon.stub(authenticationController, 'createToken').callsFake((request, h) =>
+    sinon.stub(tokenController, 'createToken').callsFake((request, h) =>
       h.response({
         token_type: 'bearer',
         access_token: 'some-jwt-access-token',
