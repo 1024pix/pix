@@ -18,7 +18,11 @@ export default class LocaleService extends Service {
 
   handleUnsupportedLanguage(language) {
     if (!language) return;
-    return SUPPORTED_LANGUAGES.includes(language) ? language : DEFAULT_LOCALE;
+    return this.isLanguageSupported(language) ? language : DEFAULT_LOCALE;
+  }
+
+  isLanguageSupported(language) {
+    return SUPPORTED_LANGUAGES.includes(language);
   }
 
   hasLocaleCookie() {
