@@ -1,8 +1,8 @@
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
-import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { User } from '../../../../lib/domain/models/User.js';
-import { getExternalAuthenticationRedirectionUrl } from '../../../../lib/domain/usecases/get-external-authentication-redirection-url.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
+import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
+import { User } from '../../../../../lib/domain/models/User.js';
+import { getSamlAuthenticationRedirectionUrl } from '../../../../../src/authentication/domain/usecases/get-saml-authentication-redirection-url.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | get-external-authentication-redirection-url', function () {
   let userRepository;
@@ -54,7 +54,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       userRepository.getBySamlId.resolves(null);
 
       // when
-      const result = await getExternalAuthenticationRedirectionUrl({
+      const result = await getSamlAuthenticationRedirectionUrl({
         userAttributes,
         userRepository,
         userLoginRepository,
@@ -100,7 +100,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       tokenService.createAccessTokenForSaml.returns('access-token');
 
       // when
-      const result = await getExternalAuthenticationRedirectionUrl({
+      const result = await getSamlAuthenticationRedirectionUrl({
         userAttributes,
         userRepository,
         userLoginRepository,
@@ -130,7 +130,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       tokenService.createIdTokenForUserReconciliation.returns('external-user-token');
 
       // when
-      await getExternalAuthenticationRedirectionUrl({
+      await getSamlAuthenticationRedirectionUrl({
         userAttributes,
         userRepository,
         userLoginRepository,
@@ -162,7 +162,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           .resolves(authenticationMethodWithoutFirstAndLastName);
 
         // when
-        await getExternalAuthenticationRedirectionUrl({
+        await getSamlAuthenticationRedirectionUrl({
           userAttributes: { IDO: 'saml-id', NOM: 'Lisitsa', PRE: 'Vassili' },
           userRepository,
           userLoginRepository,
@@ -198,7 +198,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           .resolves(authenticationMethod);
 
         // when
-        await getExternalAuthenticationRedirectionUrl({
+        await getSamlAuthenticationRedirectionUrl({
           userAttributes: { IDO: 'saml-id', NOM: 'Lisitsa', PRE: 'Valentina' },
           userRepository,
           userLoginRepository,
@@ -234,7 +234,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           .resolves(authenticationMethod);
 
         // when
-        await getExternalAuthenticationRedirectionUrl({
+        await getSamlAuthenticationRedirectionUrl({
           userAttributes: { IDO: 'saml-id', NOM: 'Volk', PRE: 'Valentina' },
           userRepository,
           userLoginRepository,
@@ -270,7 +270,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           .resolves(authenticationMethod);
 
         // when
-        await getExternalAuthenticationRedirectionUrl({
+        await getSamlAuthenticationRedirectionUrl({
           userAttributes: { IDO: 'saml-id', NOM: 'Volk', PRE: 'Valentina' },
           userRepository,
           userLoginRepository,

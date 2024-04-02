@@ -1,7 +1,7 @@
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
-import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
+import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 
-const getExternalAuthenticationRedirectionUrl = async function ({
+const getSamlAuthenticationRedirectionUrl = async function ({
   userAttributes,
   userRepository,
   userLoginRepository,
@@ -31,7 +31,7 @@ const getExternalAuthenticationRedirectionUrl = async function ({
   return _getUrlForReconciliationPage({ tokenService, externalUser });
 };
 
-export { getExternalAuthenticationRedirectionUrl };
+export { getSamlAuthenticationRedirectionUrl };
 
 async function _getUrlWithAccessToken({
   user,
