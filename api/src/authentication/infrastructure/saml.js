@@ -4,8 +4,8 @@ samlify.setSchemaValidator({
     return true;
   },
 });
-import { logger } from '../../src/shared/infrastructure/utils/logger.js';
-import { config } from '../config.js';
+import { config } from '../../../lib/config.js';
+import { logger } from '../../shared/infrastructure/utils/logger.js';
 
 const samlSettings = config.saml;
 

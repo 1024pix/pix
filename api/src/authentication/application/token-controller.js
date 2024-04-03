@@ -44,8 +44,8 @@ const createToken = async function (request, h, dependencies = { tokenService })
     .header('Pragma', 'no-cache');
 };
 
-const authenticationController = {
+const tokenController = {
   createToken,
 };
 
-export { authenticationController };
+export { tokenController };
