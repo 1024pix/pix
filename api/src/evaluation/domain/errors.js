@@ -1,9 +1,4 @@
-class DomainError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = this.constructor.name;
-  }
-}
+import { DomainError } from '../../shared/domain/errors.js';
 
 class StageWithLinkedCampaignError extends DomainError {
   constructor() {
@@ -17,4 +12,4 @@ class EmptyAnswerError extends DomainError {
   }
 }
 
-export { DomainError, EmptyAnswerError, StageWithLinkedCampaignError };
+export { EmptyAnswerError, StageWithLinkedCampaignError };

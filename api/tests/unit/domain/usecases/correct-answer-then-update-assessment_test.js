@@ -6,6 +6,7 @@ import {
 } from '../../../../lib/domain/errors.js';
 import { AnswerStatus, Assessment, KnowledgeElement } from '../../../../lib/domain/models/index.js';
 import { correctAnswerThenUpdateAssessment } from '../../../../lib/domain/usecases/correct-answer-then-update-assessment.js';
+import { EmptyAnswerError } from '../../../../src/evaluation/domain/errors.js';
 import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
@@ -299,7 +300,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       context('when the user responds badly', function () {
         it('should not compute the level up', async function () {
           // given
-          answer = domainBuilder.buildAnswer({ value: '' });
+          answer = domainBuilder.buildAnswer({ value: 'wrong answer' });
           answer.id = undefined;
           answer.result = undefined;
           answer.resultDetails = undefined;
@@ -487,7 +488,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       context('when the user responds badly', function () {
         it('should not compute the level up', async function () {
           // given
-          answer = domainBuilder.buildAnswer({ value: '' });
+          answer = domainBuilder.buildAnswer({ value: 'wrong answer' });
           answer.id = undefined;
           answer.result = undefined;
           answer.resultDetails = undefined;
@@ -689,7 +690,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       context('when the user responds badly', function () {
         it('should not compute the level up', async function () {
           // given
-          answer = domainBuilder.buildAnswer({ value: '' });
+          answer = domainBuilder.buildAnswer({ value: 'wrong answer' });
           answer.id = undefined;
           answer.result = undefined;
           answer.resultDetails = undefined;
@@ -1023,6 +1024,80 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       // then
       expect(error).to.be.an.instanceOf(ForbiddenAccess);
       expect(error.message).to.equal('An alert has been set.');
+    });
+  });
+
+  context('when a challenge has an empty answer and no timeout', function () {
+    it('should throw an error', async function () {
+      // Given
+      const emptyAnswer = domainBuilder.buildAnswer({ value: '' });
+      const challenge = domainBuilder.buildChallenge({
+        id: emptyAnswer.challengeId,
+        validator,
+      });
+      challengeRepository.get.resolves(challenge);
+      assessment = domainBuilder.buildAssessment({
+        userId,
+        lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
+        type: Assessment.types.COMPETENCE_EVALUATION,
+      });
+      assessmentRepository.get.resolves(assessment);
+
+      // when
+      const error = await catchErr(correctAnswerThenUpdateAssessment)({
+        answer: emptyAnswer,
+        userId,
+        locale,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(EmptyAnswerError);
+      expect(error.message).to.equal('The answer value cannot be empty');
+    });
+  });
+
+  context('when a challenge has an empty answer and is timed out', function () {
+    it('should not throw an error', async function () {
+      // Given
+      const emptyAnswer = domainBuilder.buildAnswer({ value: '', timeout: -1 });
+      const challenge = domainBuilder.buildChallenge({
+        id: emptyAnswer.challengeId,
+        validator,
+      });
+      const knowledgeElement = domainBuilder.buildKnowledgeElement();
+      const firstCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 2 });
+      const secondCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement({ earnedPix: 1 });
+      const skills = domainBuilder.buildSkillCollection();
+
+      skillRepository.findActiveByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
+      knowledgeElementRepository.findUniqByUserIdAndAssessmentId
+        .withArgs({ userId: assessment.userId, assessmentId: assessment.id })
+        .resolves([knowledgeElement]);
+      KnowledgeElement.createKnowledgeElementsForAnswer.returns([
+        firstCreatedKnowledgeElement,
+        secondCreatedKnowledgeElement,
+      ]);
+      challengeRepository.get.resolves(challenge);
+      assessment = domainBuilder.buildAssessment({
+        userId,
+        lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
+        type: Assessment.types.COMPETENCE_EVALUATION,
+      });
+      assessmentRepository.get.resolves(assessment);
+      const answerSaved = domainBuilder.buildAnswer(emptyAnswer);
+      answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
+
+      // when
+      const { result } = await correctAnswerThenUpdateAssessment({
+        answer: emptyAnswer,
+        userId,
+        locale,
+        ...dependencies,
+      });
+
+      // then
+      expect(result).not.to.equal(AnswerStatus.TIMEDOUT);
     });
   });
 });

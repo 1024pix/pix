@@ -1,3 +1,4 @@
+import { EmptyAnswerError } from '../../../src/evaluation/domain/errors.js';
 import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
@@ -145,6 +146,9 @@ const correctAnswerThenUpdateAssessment = async function ({
   }
   if (assessment.lastChallengeId && assessment.lastChallengeId != answer.challengeId) {
     throw new ChallengeNotAskedError();
+  }
+  if (!answer.hasValue && !answer.hasTimedOut) {
+    throw new EmptyAnswerError();
   }
 
   const challenge = await challengeRepository.get(answer.challengeId);

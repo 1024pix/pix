@@ -258,7 +258,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
       });
     });
 
-    context('when the answer is empty and timeout', function () {
+    context('when the answer is empty and has timed out', function () {
       beforeEach(function () {
         // given
         const learningContent = {
@@ -303,7 +303,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
               type: 'answers',
               attributes: {
                 value: '',
-                timeout: 25,
+                timeout: -1,
               },
               relationships: {
                 assessment: {
@@ -333,6 +333,83 @@ describe('Acceptance | Controller | answer-controller-save', function () {
 
         // then
         expect(response.statusCode).to.equal(201);
+      });
+    });
+
+    context('when the answer is empty but not in timeout', function () {
+      beforeEach(function () {
+        // given
+        const learningContent = {
+          areas: [{ id: 'recArea1', competenceIds: ['recCompetence'] }],
+          competences: [
+            {
+              id: 'recCompetence',
+              areaId: 'recArea1',
+              skillIds: ['recSkill1'],
+              origin: 'Pix',
+            },
+          ],
+          skills: [
+            {
+              id: 'recSkill1',
+              name: '@recArea1_Competence1_Tube1_Skill1',
+              status: 'actif',
+              competenceId: 'recCompetence',
+            },
+          ],
+          challenges: [
+            {
+              id: challengeId,
+              competenceId: 'recCompetence',
+              skillId: 'recSkill1',
+              status: 'validé',
+              solution: correctAnswer,
+              locales: ['fr-fr'],
+              proposals: '${a}',
+              type: 'QROC',
+            },
+          ],
+        };
+        mockLearningContent(learningContent);
+
+        postAnswersOptions = {
+          method: 'POST',
+          url: '/api/answers',
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          payload: {
+            data: {
+              type: 'answers',
+              attributes: {
+                value: '',
+              },
+              relationships: {
+                assessment: {
+                  data: {
+                    type: 'assessments',
+                    id: insertedAssessmentId,
+                  },
+                },
+                challenge: {
+                  data: {
+                    type: 'challenges',
+                    id: challengeId,
+                  },
+                },
+              },
+            },
+          },
+        };
+
+        // when
+        promise = server.inject(postAnswersOptions);
+      });
+
+      it('should return 400 HTTP status code', async function () {
+        // when
+        const response = await promise;
+
+        // then
+        expect(response.statusCode).to.equal(400);
       });
     });
   });
