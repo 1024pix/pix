@@ -137,10 +137,18 @@ workflows:
           requires:
             - mon_pix_install
 
-      - orga_build_and_test:
+      - orga_install:
           context: Pix
           requires:
             - checkout
+      - orga_lint:
+          context: Pix
+          requires:
+            - orga_install
+      - orga_test:
+          context: Pix
+          requires:
+            - orga_install
 
       - certif_build_and_test:
           context: Pix
@@ -411,12 +419,11 @@ jobs:
       - store_artifacts:
           path: /home/circleci/test-results/mon_pix
 
-  orga_build_and_test:
+  orga_install:
     executor:
-      name: node-browsers-docker
+      name: node-docker
     working_directory: ~/pix/orga
     steps:
-      - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
       - run: cat package*.json > cachekey
@@ -428,14 +435,38 @@ jobs:
           key: v7-orga-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
+      - persist_to_workspace:
+          root: ~/pix
+          paths:
+            - orga
+
+  orga_lint:
+    executor:
+      name: node-docker
+    working_directory: ~/pix/orga
+    steps:
+      - attach_workspace:
+          at: ~/pix
       - run:
           name: Lint
           command: npm run lint
+          when: always
+
+  orga_test:
+    executor:
+      name: node-browsers-docker
+    working_directory: ~/pix/orga
+    parallelism: 3
+    steps:
+      - browser-tools/install-chrome
+      - attach_workspace:
+          at: ~/pix
       - run:
           environment:
             RESULTS_PATH: ../../test-results/orga
           name: Test
           command: npm run test:ci
+          when: always
       - store_test_results:
           path: /home/circleci/test-results/orga
       - store_artifacts:
