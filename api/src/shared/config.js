@@ -212,7 +212,6 @@ const configuration = (function () {
       logoutUrl: process.env.FWB_OIDC_LOGOUT_URL,
       openidConfigurationUrl: process.env.FWB_OPENID_CONFIGURATION_URL,
       redirectUri: process.env.FWB_REDIRECT_URI,
-      temporaryStorage: { idTokenLifespanMs: ms(process.env.FWB_ID_TOKEN_LIFESPAN || '7d') },
     },
     google: {
       accessTokenLifespanMs: ms(process.env.GOOGLE_ACCESS_TOKEN_LIFESPAN || '7d'),
@@ -222,7 +221,6 @@ const configuration = (function () {
       isEnabledForPixAdmin: isFeatureEnabled(process.env.GOOGLE_ENABLED_FOR_PIX_ADMIN),
       openidConfigurationUrl: process.env.GOOGLE_OPENID_CONFIGURATION_URL,
       redirectUri: process.env.GOOGLE_REDIRECT_URI,
-      temporaryStorage: { idTokenLifespanMs: ms(process.env.GOOGLE_ID_TOKEN_LIFESPAN || '7d') },
     },
     hapi: {
       options: {},
@@ -300,7 +298,6 @@ const configuration = (function () {
       openidConfigurationUrl: process.env.PAYSDELALOIRE_OPENID_CONFIGURATION_URL,
       postLogoutRedirectUri: process.env.PAYSDELALOIRE_POST_LOGOUT_REDIRECT_URI,
       redirectUri: process.env.PAYSDELALOIRE_REDIRECT_URI,
-      temporaryStorage: { idTokenLifespanMs: ms(process.env.PAYSDELALOIRE_ID_TOKEN_LIFESPAN || '7d') },
     },
     pgBoss: {
       connexionPoolMaxSize: _getNumber(process.env.PGBOSS_CONNECTION_POOL_MAX_SIZE, 2),
@@ -322,7 +319,6 @@ const configuration = (function () {
       redirectUri: process.env.POLE_EMPLOI_REDIRECT_URI,
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
-      temporaryStorage: { idTokenLifespanMs: ms(process.env.POLE_EMPLOI_ID_TOKEN_LIFESPAN || '7d') },
     },
     port: parseInt(process.env.PORT, 10) || 3000,
     rootPath: path.normalize(__dirname + '/..'),
@@ -374,6 +370,7 @@ const configuration = (function () {
 
   if (process.env.NODE_ENV === 'test') {
     config.oidcExampleNet = {
+      accessTokenLifespanMs: 1000,
       configKey: 'oidcExampleNet',
       clientId: 'client',
       clientSecret: 'secret',
@@ -383,7 +380,6 @@ const configuration = (function () {
       organizationName: 'Oidc Example',
       postLogoutRedirectUri: 'https://app.dev.pix.local/connexion',
       redirectUri: 'https://app.dev.pix.local/connexion/oidc-example-net',
-      temporaryStorage: { idTokenLifespanMs: ms('1d') },
     };
 
     config.auditLogger.baseUrl = 'http://audit-logger.local';
@@ -444,7 +440,6 @@ const configuration = (function () {
     config.poleEmploi.sendingUrl = 'http://sendingUrl.fr';
     config.poleEmploi.logoutUrl = 'http://logout-url.fr';
     config.poleEmploi.afterLogoutUrl = 'http://after-logout.url';
-    config.poleEmploi.temporaryStorage.redisUrl = null;
     config.poleEmploi.pushEnabled = true;
 
     config.temporaryStorage.redisUrl = null;

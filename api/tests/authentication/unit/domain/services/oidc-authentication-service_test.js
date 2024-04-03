@@ -183,18 +183,19 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#createAccessToken', function () {
-    it('should create access token with user id', function () {
+    it('creates access token with user id', function () {
       // given
       const userId = 42;
       const accessToken = Symbol('valid access token');
       const payload = { user_id: userId };
-      const jwtOptions = { expiresIn: 1 };
+      const accessTokenLifespanMs = 1000;
+      const jwtOptions = { expiresIn: accessTokenLifespanMs / 1000 };
       sinon
         .stub(jsonwebtoken, 'sign')
         .withArgs(payload, settings.authentication.secret, jwtOptions)
         .returns(accessToken);
 
-      const oidcAuthenticationService = new OidcAuthenticationService({ jwtOptions });
+      const oidcAuthenticationService = new OidcAuthenticationService(settings.oidcExampleNet);
 
       // when
       const result = oidcAuthenticationService.createAccessToken(userId);

@@ -7,12 +7,12 @@ const configKey = CNAV.configKey;
 class CnavOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
+      accessTokenLifespanMs: config[configKey].accessTokenLifespanMs,
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
       extraAuthorizationUrlParameters: { RedirectToIdentityProvider: 'AD+Authority' },
       identityProvider: CNAV.code,
-      jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       openidConfigurationUrl: config[configKey].openidConfigurationUrl,
       organizationName: 'CNAV',
       redirectUri: config[configKey].redirectUri,
