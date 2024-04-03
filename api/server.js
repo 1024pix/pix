@@ -34,6 +34,7 @@ import { schoolRoutes } from './src/school/routes.js';
 import { prescriberManagementRoutes } from './src/shared/prescriber-management/routes.js';
 // bounded context migration
 import { sharedRoutes } from './src/shared/routes.js';
+import { teamRoutes } from './src/team/application/routes.js';
 
 const certificationRoutes = [
   certificationSessionRoutes,
@@ -150,6 +151,7 @@ const setupRoutesAndPlugins = async function (server) {
     flashCertificationRoutes,
     devcompRoutes,
     schoolRoutes,
+    teamRoutes,
     ...certificationRoutes,
     ...prescriptionRoutes,
     ...prescriptionSharedRoutes,
