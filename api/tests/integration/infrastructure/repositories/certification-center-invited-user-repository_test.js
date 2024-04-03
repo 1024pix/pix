@@ -1,12 +1,12 @@
 import lodash from 'lodash';
 
-const { omit } = lodash;
-
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import { CertificationCenterInvitedUser } from '../../../../lib/domain/models/CertificationCenterInvitedUser.js';
 import * as certificationCenterInvitedUserRepository from '../../../../lib/infrastructure/repositories/certification-center-invited-user-repository.js';
+import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
+
+const { omit } = lodash;
 
 describe('Integration | Repository | CertificationCenterInvitedUserRepository', function () {
   describe('#get', function () {

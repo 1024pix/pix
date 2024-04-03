@@ -1,7 +1,7 @@
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import { generateCertificateVerificationCode } from '../../../../lib/domain/services/verify-certificate-code-service.js';
 import { AutoJuryCommentKeys } from '../../../../src/certification/shared/domain/models/JuryComment.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import {
   createServer,
   databaseBuilder,

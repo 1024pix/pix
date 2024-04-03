@@ -1,9 +1,10 @@
 import JoiDate from '@joi/date';
 import BaseJoi from 'joi';
-const Joi = BaseJoi.extend(JoiDate);
 import randomString from 'randomstring';
 
-import { validateEntity } from '../../../src/shared/domain/validators/entity-validator.js';
+import { validateEntity } from '../../../shared/domain/validators/entity-validator.js';
+
+const Joi = BaseJoi.extend(JoiDate);
 
 const statuses = {
   PENDING: 'pending',

@@ -3,8 +3,8 @@ import {
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
 } from '../../../../lib/domain/errors.js';
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/index.js';
 import * as maillingService from '../../../../lib/domain/services/mail-service.js';
+import { CertificationCenterInvitation } from '../models/CertificationCenterInvitation.js';
 
 const createOrUpdateCertificationCenterInvitation = function ({
   certificationCenterInvitationRepository,

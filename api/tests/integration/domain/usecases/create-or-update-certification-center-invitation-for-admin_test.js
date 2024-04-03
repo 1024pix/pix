@@ -1,8 +1,8 @@
 import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../lib/domain/errors.js';
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
 import { mailService } from '../../../../lib/domain/services/mail-service.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | UseCase | create-or-update-certification-center-invitation-for-admin', function () {

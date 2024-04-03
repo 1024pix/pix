@@ -1,7 +1,7 @@
 import { AlreadyExistingMembershipError } from '../../../../lib/domain/errors.js';
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import { CertificationCenterInvitedUser } from '../../../../lib/domain/models/CertificationCenterInvitedUser.js';
 import { acceptCertificationCenterInvitation } from '../../../../lib/domain/usecases/accept-certification-center-invitation.js';
+import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | UseCases | accept-certification-center-invitation', function () {

@@ -1,8 +1,8 @@
 import randomString from 'randomstring';
 
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
-import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
+import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationCenterInvitation', function () {
   describe('constructor', function () {

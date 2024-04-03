@@ -1,5 +1,5 @@
+import { CertificationCenterInvitation } from '../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { SendingEmailError, SendingEmailToInvalidDomainError } from '../errors.js';
-import { CertificationCenterInvitation } from '../models/CertificationCenterInvitation.js';
 
 const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
   certificationCenterId,
