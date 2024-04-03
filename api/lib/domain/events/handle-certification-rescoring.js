@@ -49,7 +49,7 @@ async function handleCertificationRescoring({
 
   try {
     if (certificationAssessment.version === CertificationVersion.V3) {
-      return _handleV3Certification({
+      return _handleV3CertificationScoring({
         answerRepository,
         event,
         certificationAssessment,
@@ -65,7 +65,7 @@ async function handleCertificationRescoring({
       });
     }
 
-    return await _handleV2Certification({
+    return await _handleV2CertificationScoring({
       scoringCertificationService,
       certificationAssessment,
       event,
@@ -88,7 +88,7 @@ async function handleCertificationRescoring({
   }
 }
 
-async function _handleV3Certification({
+async function _handleV3CertificationScoring({
   answerRepository,
   certificationAssessment,
   event,
@@ -213,7 +213,7 @@ async function _saveResult({
   });
 }
 
-async function _handleV2Certification({
+async function _handleV2CertificationScoring({
   scoringCertificationService,
   certificationAssessment,
   event,
