@@ -110,7 +110,15 @@ workflows:
           context: Pix
           requires:
             - api_install
-      - api_test:
+      - api_unit_test:
+          context: Pix
+          requires:
+            - api_install
+      - api_integration_test:
+          context: Pix
+          requires:
+            - api_install
+      - api_acceptance_test:
           context: Pix
           requires:
             - api_install
@@ -336,7 +344,7 @@ jobs:
             TEST_REDIS_URL: redis://localhost:6379
           when: always
 
-  api_test:
+  api_unit_test:
     executor:
       name: node-redis-postgres-s3-docker
     working_directory: ~/pix/api
@@ -345,9 +353,68 @@ jobs:
           at: ~/pix
       - run:
           name: Test
-          command: npm run test
+          command: npm run test:api:unit
           environment:
+            NODE_ENV: test
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+            TEST_REDIS_URL: redis://localhost:6379
+            TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
+            TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
+            MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
+            MOCHA_REPORTER: mocha-junit-reporter
+          when: always
+      - store_test_results:
+          path: /home/circleci/test-results
+      - store_artifacts:
+          path: /home/circleci/test-results
+  api_integration_test:
+    executor:
+      name: node-redis-postgres-s3-docker
+    working_directory: ~/pix/api
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run:
+          name: Prepare database
+          command: npm run db:prepare
+          environment:
+            NODE_ENV: test
+            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
+      - run:
+          name: Test
+          command: npm run test:api:integration
+          environment:
+            NODE_ENV: test
+            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_integration
+            TEST_REDIS_URL: redis://localhost:6379
+            TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
+            TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
+            MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
+            MOCHA_REPORTER: mocha-junit-reporter
+          when: always
+      - store_test_results:
+          path: /home/circleci/test-results
+      - store_artifacts:
+          path: /home/circleci/test-results
+  api_acceptance_test:
+    executor:
+      name: node-redis-postgres-s3-docker
+    working_directory: ~/pix/api
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run:
+          name: Prepare database
+          command: npm run db:prepare
+          environment:
+            NODE_ENV: test
+            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
+      - run:
+          name: Test
+          command: npm run test:api:acceptance
+          environment:
+            NODE_ENV: test
+            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci_acceptance
             TEST_REDIS_URL: redis://localhost:6379
             TEST_IMPORT_STORAGE_ENDPOINT: http://localhost:9090
             TEST_IMPORT_STORAGE_BUCKET_NAME: pix-import-test
