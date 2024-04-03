@@ -1,7 +1,7 @@
-import * as certificationCenterInvitationRepository from '../../../../lib/infrastructure/repositories/certification-center-invitation-repository.js';
-import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
+import * as certificationCenterInvitationRepository from '../../../../../src/team/infrastructure/repositories/certification-center-invitation-repository.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
-describe('Integration | Infrastructure | Repositories | CertificationCenterInvitationRepository', function () {
+describe('Integration | Team | Infrastructure | Repositories | CertificationCenterInvitationRepository', function () {
   describe('#updateModificationDate', function () {
     it('updates the certification center invitation modification date', async function () {
       // given
