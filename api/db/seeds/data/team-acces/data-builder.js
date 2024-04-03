@@ -1,6 +1,7 @@
 import { buildArchivedOrganizations } from './build-archived-organizations.js';
 import { buildBlockedUsers } from './build-blocked-users.js';
 import { buildCertificationCenters } from './build-certification-centers.js';
+import { buildOidcProviders } from './build-oidc-providers.js';
 import { buildOrganizationUsers } from './build-organization-users.js';
 import { buildPixAdminRoles } from './build-pix-admin-roles.js';
 import { buildResetPasswordUsers } from './build-reset-password-users.js';
@@ -20,6 +21,7 @@ async function teamAccesDataBuilder(databaseBuilder) {
   buildArchivedOrganizations(databaseBuilder);
   buildScoOrganizationLearners(databaseBuilder);
   await buildCertificationCenters(databaseBuilder);
+  await buildOidcProviders(databaseBuilder);
 }
 
 export { teamAccesDataBuilder };
