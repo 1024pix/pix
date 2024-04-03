@@ -26,11 +26,7 @@ class AggregateImportError extends DomainError {
     this.meta = meta;
   }
 }
-class OrganizationImportNotFoundError extends DomainError {
-  constructor(organizationId) {
-    super(`OrganizationImport not found for the organizationId ${organizationId}`);
-  }
-}
+
 class OrganizationLearnerImportFormatNotFoundError extends DomainError {
   constructor(organizationId) {
     super(`organizationLearnerImportFormat not found for the organizationId ${organizationId}`);
@@ -40,7 +36,6 @@ class OrganizationLearnerImportFormatNotFoundError extends DomainError {
 export {
   AggregateImportError,
   OrganizationDoesNotHaveFeatureEnabledError,
-  OrganizationImportNotFoundError,
   OrganizationLearnerImportFormatNotFoundError,
   OrganizationLearnersCouldNotBeSavedError,
   SiecleXmlImportError,
