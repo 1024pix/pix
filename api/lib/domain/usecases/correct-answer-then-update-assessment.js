@@ -9,6 +9,109 @@ import {
 } from '../errors.js';
 import { KnowledgeElement } from '../models/KnowledgeElement.js';
 
+const evaluateAnswer = function ({ challenge, answer, assessment, examiner: injectedExaminer }) {
+  const examiner = injectedExaminer ?? new Examiner({ validator: challenge.validator });
+  try {
+    return examiner.evaluate({
+      answer,
+      challengeFormat: challenge.format,
+      isFocusedChallenge: challenge.focused,
+      hasLastQuestionBeenFocusedOut: assessment.hasLastQuestionBeenFocusedOut,
+      isCertificationEvaluation: assessment.isCertification(),
+    });
+  } catch (error) {
+    throw new AnswerEvaluationError(challenge);
+  }
+};
+
+const getKnowledgeElements = async function ({
+  assessment,
+  answer,
+  challenge,
+  skillRepository,
+  campaignRepository,
+  knowledgeElementRepository,
+}) {
+  if (!assessment.hasKnowledgeElements()) {
+    return [];
+  }
+
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndAssessmentId({
+    userId: assessment.userId,
+    assessmentId: assessment.id,
+  });
+  let targetSkills;
+  if (assessment.isCompetenceEvaluation()) {
+    targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
+  }
+  if (assessment.isForCampaign()) {
+    targetSkills = await campaignRepository.findSkillsByCampaignParticipationId({
+      campaignParticipationId: assessment.campaignParticipationId,
+    });
+  }
+  return KnowledgeElement.createKnowledgeElementsForAnswer({
+    answer,
+    challenge,
+    previouslyFailedSkills: getSkillsFilteredByStatus(
+      knowledgeElements,
+      targetSkills,
+      KnowledgeElement.StatusType.INVALIDATED,
+    ),
+    previouslyValidatedSkills: getSkillsFilteredByStatus(
+      knowledgeElements,
+      targetSkills,
+      KnowledgeElement.StatusType.VALIDATED,
+    ),
+    targetSkills,
+    userId: assessment.userId,
+  });
+};
+
+const getSkillsFilteredByStatus = function (knowledgeElements, targetSkills, status) {
+  return knowledgeElements
+    .filter((knowledgeElement) => knowledgeElement.status === status)
+    .map((knowledgeElement) => knowledgeElement.skillId)
+    .map((skillId) => targetSkills.find((skill) => skill.id === skillId));
+};
+
+const addLevelUpInformation = async function ({
+  answerSaved,
+  scorecardService,
+  userId,
+  competenceId,
+  competenceRepository,
+  areaRepository,
+  competenceEvaluationRepository,
+  knowledgeElementRepository,
+  scorecardBeforeAnswer,
+  locale,
+}) {
+  answerSaved.levelup = {};
+
+  if (!scorecardBeforeAnswer) {
+    return answerSaved;
+  }
+
+  const scorecardAfterAnswer = await scorecardService.computeScorecard({
+    userId,
+    competenceId,
+    competenceRepository,
+    areaRepository,
+    competenceEvaluationRepository,
+    knowledgeElementRepository,
+    locale,
+  });
+
+  if (scorecardBeforeAnswer.level < scorecardAfterAnswer.level) {
+    answerSaved.levelup = {
+      id: answerSaved.id,
+      competenceName: scorecardAfterAnswer.name,
+      level: scorecardAfterAnswer.level,
+    };
+  }
+  return answerSaved;
+};
+
 const correctAnswerThenUpdateAssessment = async function ({
   answer,
   userId,
@@ -56,7 +159,7 @@ const correctAnswerThenUpdateAssessment = async function ({
     throw new ForbiddenAccess('An alert has been set.');
   }
 
-  const correctedAnswer = _evaluateAnswer({ challenge, answer, assessment, examiner });
+  const correctedAnswer = evaluateAnswer({ challenge, answer, assessment, examiner });
   const now = dateUtils.getNowDate();
   const lastQuestionDate = assessment.lastQuestionDate || now;
   correctedAnswer.setTimeSpentFrom({ now, lastQuestionDate });
@@ -74,7 +177,7 @@ const correctAnswerThenUpdateAssessment = async function ({
     });
   }
 
-  const knowledgeElementsFromAnswer = await _getKnowledgeElements({
+  const knowledgeElementsFromAnswer = await getKnowledgeElements({
     assessment,
     answer: correctedAnswer,
     challenge,
@@ -97,7 +200,7 @@ const correctAnswerThenUpdateAssessment = async function ({
     logger.warn(context, 'Answer saved without knowledge element');
   }
 
-  answerSaved = await _addLevelUpInformation({
+  answerSaved = await addLevelUpInformation({
     answerSaved,
     scorecardService,
     userId,
@@ -131,106 +234,3 @@ const correctAnswerThenUpdateAssessment = async function ({
 };
 
 export { correctAnswerThenUpdateAssessment };
-
-function _evaluateAnswer({ challenge, answer, assessment, examiner: injectedExaminer }) {
-  const examiner = injectedExaminer ?? new Examiner({ validator: challenge.validator });
-  try {
-    return examiner.evaluate({
-      answer,
-      challengeFormat: challenge.format,
-      isFocusedChallenge: challenge.focused,
-      hasLastQuestionBeenFocusedOut: assessment.hasLastQuestionBeenFocusedOut,
-      isCertificationEvaluation: assessment.isCertification(),
-    });
-  } catch (error) {
-    throw new AnswerEvaluationError(challenge);
-  }
-}
-
-async function _getKnowledgeElements({
-  assessment,
-  answer,
-  challenge,
-  skillRepository,
-  campaignRepository,
-  knowledgeElementRepository,
-}) {
-  if (!assessment.hasKnowledgeElements()) {
-    return [];
-  }
-
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndAssessmentId({
-    userId: assessment.userId,
-    assessmentId: assessment.id,
-  });
-  let targetSkills;
-  if (assessment.isCompetenceEvaluation()) {
-    targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
-  }
-  if (assessment.isForCampaign()) {
-    targetSkills = await campaignRepository.findSkillsByCampaignParticipationId({
-      campaignParticipationId: assessment.campaignParticipationId,
-    });
-  }
-  return KnowledgeElement.createKnowledgeElementsForAnswer({
-    answer,
-    challenge,
-    previouslyFailedSkills: _getSkillsFilteredByStatus(
-      knowledgeElements,
-      targetSkills,
-      KnowledgeElement.StatusType.INVALIDATED,
-    ),
-    previouslyValidatedSkills: _getSkillsFilteredByStatus(
-      knowledgeElements,
-      targetSkills,
-      KnowledgeElement.StatusType.VALIDATED,
-    ),
-    targetSkills,
-    userId: assessment.userId,
-  });
-}
-
-function _getSkillsFilteredByStatus(knowledgeElements, targetSkills, status) {
-  return knowledgeElements
-    .filter((knowledgeElement) => knowledgeElement.status === status)
-    .map((knowledgeElement) => knowledgeElement.skillId)
-    .map((skillId) => targetSkills.find((skill) => skill.id === skillId));
-}
-
-async function _addLevelUpInformation({
-  answerSaved,
-  scorecardService,
-  userId,
-  competenceId,
-  competenceRepository,
-  areaRepository,
-  competenceEvaluationRepository,
-  knowledgeElementRepository,
-  scorecardBeforeAnswer,
-  locale,
-}) {
-  answerSaved.levelup = {};
-
-  if (!scorecardBeforeAnswer) {
-    return answerSaved;
-  }
-
-  const scorecardAfterAnswer = await scorecardService.computeScorecard({
-    userId,
-    competenceId,
-    competenceRepository,
-    areaRepository,
-    competenceEvaluationRepository,
-    knowledgeElementRepository,
-    locale,
-  });
-
-  if (scorecardBeforeAnswer.level < scorecardAfterAnswer.level) {
-    answerSaved.levelup = {
-      id: answerSaved.id,
-      competenceName: scorecardAfterAnswer.name,
-      level: scorecardAfterAnswer.level,
-    };
-  }
-  return answerSaved;
-}
