@@ -167,10 +167,19 @@ workflows:
           requires:
             - checkout
 
-      - admin_build_and_test:
+      - admin_install:
           context: Pix
           requires:
             - checkout
+      - admin_lint:
+          context: Pix
+          requires:
+            - admin_install
+      - admin_test:
+          context: Pix
+          requires:
+            - admin_install
+
       - pix1d_build_and_test:
           context: Pix
           requires:
@@ -562,12 +571,11 @@ jobs:
       - store_artifacts:
           path: /home/circleci/test-results/certif
 
-  admin_build_and_test:
+  admin_install:
     executor:
-      name: node-browsers-docker
+      name: node-docker
     working_directory: ~/pix/admin
     steps:
-      - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
       - run: cat package*.json > cachekey
@@ -579,14 +587,38 @@ jobs:
           key: v7-admin-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
+      - persist_to_workspace:
+          root: ~/pix
+          paths:
+            - admin
+
+  admin_lint:
+    executor:
+      name: node-docker
+    working_directory: ~/pix/admin
+    steps:
+      - attach_workspace:
+          at: ~/pix
       - run:
           name: Lint
           command: npm run lint
+          when: always
+
+  admin_test:
+    executor:
+      name: node-browsers-docker
+    working_directory: ~/pix/admin
+    parallelism: 3
+    steps:
+      - browser-tools/install-chrome
+      - attach_workspace:
+          at: ~/pix
       - run:
           environment:
             RESULTS_PATH: ../../test-results/admin
           name: Test
           command: npm run test:ci
+          when: always
       - store_test_results:
           path: /home/circleci/test-results/admin
       - store_artifacts:
