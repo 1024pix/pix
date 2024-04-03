@@ -39,7 +39,6 @@ async function handleCertificationScoring({
     if (certificationAssessment.version === CertificationVersion.V3) {
       return _handleV3CertificationScoring({
         answerRepository,
-        assessmentId: event.assessmentId,
         certificationAssessment,
         certificationAssessmentHistoryRepository,
         assessmentResultRepository,
@@ -121,7 +120,6 @@ async function _handleV3CertificationScoring({
   certificationAssessmentHistoryRepository,
   certificationChallengeForScoringRepository,
   answerRepository,
-  assessmentId,
   certificationAssessment,
   assessmentResultRepository,
   certificationCourseRepository,
@@ -131,7 +129,7 @@ async function _handleV3CertificationScoring({
   flashAlgorithmService,
   locale,
 }) {
-  const { certificationCourseId } = certificationAssessment;
+  const { certificationCourseId, id: assessmentId } = certificationAssessment;
   const allAnswers = await answerRepository.findByAssessment(assessmentId);
   const challenges = await certificationChallengeForScoringRepository.getByCertificationCourseId({
     certificationCourseId,
