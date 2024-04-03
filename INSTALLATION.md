@@ -185,6 +185,38 @@ Arrêter le conteneur :
 npm run domains:stop
 ```
 
+#### Charger des SSO OIDC lors du chargement des seeds
+
+Le chargement des SSO OIDC lors du chargement des seeds est effectué depuis la
+variable d’environnement `OIDC_PROVIDERS` si elle définie. Si elle est définie
+elle doit contenir du JSON. Écrire ce JSON est assez pénible car il y a beaucoup
+de propriétés à fournir et qu’on ne peut actuellement pas utiliser de retours à
+la ligne dans le fichier `.env` (même si ce serait théoriquement possible avec
+la notation here-document). Aussi un fichier d'exemple
+`OIDC_PROVIDERS.example.json` est fourni avec un mode opératoire facilité décrit
+ci-dessous.
+
+1. Copier et adapter le fichier `OIDC_PROVIDERS.example.json` à votre besoin :
+
+   ```shell
+   cp OIDC_PROVIDERS.example.json OIDC_PROVIDERS.json
+   ```
+
+2. Définir la variable d’environnement `OIDC_PROVIDERS` avec le contenu du
+fichier `OIDC_PROVIDERS.json` :
+
+   ```shell
+   export OIDC_PROVIDERS=$(cat OIDC_PROVIDERS.json)
+   ```
+
+3. Exécuter le chargement des seeds avec du debug pour constater le bon
+chargement des SSO OIDC :
+
+   ```shell
+   export DEBUG="pix:oidc-providers:*"
+   npm run db:reset
+   ```
+
 #### Exécuter le lint à chaque commit
 
 Activer

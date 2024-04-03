@@ -1,0 +1,23 @@
+[
+  {
+    "identityProvider": "oidcFromSeeds",
+    "organizationName": "SEEDS",
+    "scope": "openid profile",
+    "slug": "seeds",
+    "source": "sso-oidc-seeds",
+    "clientId": "XXX",
+    "clientSecret": "YYY",
+    "accessTokenLifespan": "48h",
+    "enabled": true,
+    "openidConfigurationUrl": "https://seeds.example.net/.well-known/openid-configuration",
+    "redirectUri": "https://app.dev.pix.org/connexion/seeds",
+    "shouldCloseSession": true,
+    "openidClientExtraMetadata": {
+      "token_endpoint_auth_method": "client_secret_post"
+    },
+    "customProperties": {
+      "logoutUrl": "https://seeds.example.net/logout",
+      "afterLogoutUrl": "http://app.dev.pix.org"
+    }
+  }
+]
