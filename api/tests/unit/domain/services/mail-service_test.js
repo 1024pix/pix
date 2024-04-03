@@ -135,7 +135,7 @@ describe('Unit | Service | MailService', function () {
           expect(options.variables).to.include({
             homeName: 'pix.org',
             homeUrl: 'https://pix.org/nl-be/',
-            helpdeskUrl: 'https://support.pix.org/en/support/home',
+            helpdeskUrl: 'https://pix.org/nl-be/support',
             displayNationalLogo: false,
             redirectionUrl: 'https://app.pix.org/connexion/?lang=nl',
             ...mainTranslationsMapping.nl['pix-account-creation-email'].params,
@@ -253,7 +253,7 @@ describe('Unit | Service | MailService', function () {
             homeName: 'pix.org',
             homeUrl: 'https://pix.org/nl-be/',
             resetUrl: `https://app.pix.org/changer-mot-de-passe/${temporaryKey}/?lang=nl`,
-            helpdeskURL: 'https://support.pix.org/en/support/home',
+            helpdeskURL: 'https://pix.org/nl-be/support',
           },
         };
 
