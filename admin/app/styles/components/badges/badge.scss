@@ -39,7 +39,6 @@
 }
 
 .badge-edit-form-field {
-
   &__label {
     width: 100%;
   }
@@ -47,4 +46,18 @@
 
 .skill-sets-table {
   margin: 20px 0;
+}
+
+.badge__criteria-title {
+  @extend %pix-title-xs;
+
+  &:not(:first-child) {
+    margin-top: var(--pix-spacing-2x);
+    padding-top: var(--pix-spacing-6x);
+    border-top: 1px dashed var(--pix-neutral-100);
+  }
+}
+
+.capped-tubes-criterion__text {
+  margin-block: var(--pix-spacing-2x) var(--pix-spacing-4x);
 }
