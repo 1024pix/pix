@@ -1,6 +1,7 @@
 import { IMPORT_STATUSES } from '../../../../../../src/prescription/learner-management/domain/constants.js';
 import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import * as organizationImportRepository from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-import-repository.js';
+import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
 import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Organization Learner Management | Organization Import', function () {
@@ -63,6 +64,25 @@ describe('Integration | Repository | Organization Learner Management | Organizat
 
       expect(error).to.be.ok;
     });
+
+    it('should use domainTransaction', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      const organizationImport = OrganizationImport.create({ organizationId, createdBy: userId });
+      organizationImport.upload({ filename: 'test.csv', encoding: 'utf8' });
+      try {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await organizationImportRepository.save(organizationImport, domainTransaction);
+          throw new Error();
+        });
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
+
+      const savedImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
+      expect(savedImport).to.be.null;
+    });
   });
 
   describe('#get', function () {
@@ -82,7 +102,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
     });
   });
 
-  describe('#getByOrganizationId', function () {
+  describe('#getLastByOrganizationId', function () {
     it('should return import state', async function () {
       const expectedResult = databaseBuilder.factory.buildOrganizationImport();
       await databaseBuilder.commit();
