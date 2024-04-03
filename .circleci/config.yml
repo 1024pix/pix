@@ -150,7 +150,19 @@ workflows:
           requires:
             - orga_install
 
-      - certif_build_and_test:
+      - certif_install:
+          context: Pix
+          requires:
+            - checkout
+      - certif_lint:
+          context: Pix
+          requires:
+            - certif_install
+      - certif_test:
+          context: Pix
+          requires:
+            - certif_install
+      - e2e_test_orga:
           context: Pix
           requires:
             - checkout
@@ -165,11 +177,6 @@ workflows:
             - checkout
 
       - e2e_test_app:
-          context: Pix
-          requires:
-            - checkout
-
-      - e2e_test_orga:
           context: Pix
           requires:
             - checkout
@@ -502,12 +509,11 @@ jobs:
       - store_artifacts:
           path: /home/circleci/test-results/pix1d
 
-  certif_build_and_test:
+  certif_install:
     executor:
-      name: node-browsers-docker
+      name: node-docker
     working_directory: ~/pix/certif
     steps:
-      - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
       - run: cat package*.json > cachekey
@@ -519,14 +525,38 @@ jobs:
           key: v7-certif-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
+      - persist_to_workspace:
+          root: ~/pix
+          paths:
+            - certif
+
+  certif_lint:
+    executor:
+      name: node-docker
+    working_directory: ~/pix/certif
+    steps:
+      - attach_workspace:
+          at: ~/pix
       - run:
           name: Lint
           command: npm run lint
+          when: always
+
+  certif_test:
+    executor:
+      name: node-browsers-docker
+    working_directory: ~/pix/certif
+    parallelism: 3
+    steps:
+      - browser-tools/install-chrome
+      - attach_workspace:
+          at: ~/pix
       - run:
           environment:
             RESULTS_PATH: ../../test-results/certif
           name: Test
           command: npm run test:ci
+          when: always
       - store_test_results:
           path: /home/circleci/test-results/certif
       - store_artifacts:
