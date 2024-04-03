@@ -31,15 +31,19 @@ class CommonCsvLearnerParser {
   // compute support_enconding
   #supportedEncodings;
 
-  constructor(input, headingConfiguration, encodingConfiguration) {
-    this.#input = input;
+  constructor({ buffer, importFormat = {} }) {
+    this.#input = buffer;
     this.#errors = [];
 
     // compute heading
-    this.#columns = headingConfiguration;
+    this.#columns = importFormat.config.headers;
 
     // compute support_enconding
-    this.#supportedEncodings = encodingConfiguration;
+    this.#supportedEncodings = importFormat.config.acceptedEncoding;
+  }
+
+  static buildParser() {
+    return new CommonCsvLearnerParser(...arguments);
   }
 
   parse(encoding) {
