@@ -11,4 +11,10 @@ class StageWithLinkedCampaignError extends DomainError {
   }
 }
 
-export { DomainError, StageWithLinkedCampaignError };
+class EmptyAnswerError extends DomainError {
+  constructor(message = 'The answer value cannot be empty', code = 'ANSWER_CANNOT_BE_EMPTY') {
+    super(message, code);
+  }
+}
+
+export { DomainError, EmptyAnswerError, StageWithLinkedCampaignError };
