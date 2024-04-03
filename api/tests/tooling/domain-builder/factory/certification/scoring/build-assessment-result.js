@@ -64,4 +64,24 @@ buildAssessmentResult.insufficientCorrectAnswers = function ({
   });
 };
 
+buildAssessmentResult.lackOfAnswersForTechnicalReason = function ({
+  pixScore,
+  reproducibilityRate,
+  status,
+  assessmentId,
+  juryId,
+  competenceMarks,
+  emitter,
+} = {}) {
+  return AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
+    pixScore,
+    reproducibilityRate,
+    status,
+    assessmentId,
+    juryId,
+    competenceMarks,
+    emitter,
+  });
+};
+
 export { buildAssessmentResult };

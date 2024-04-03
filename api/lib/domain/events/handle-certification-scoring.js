@@ -81,10 +81,13 @@ async function _handleV2CertificationScoring({
     const certificationCourse = await certificationCourseRepository.get({
       id: certificationAssessment.certificationCourseId,
     });
+
     certificationCourse.complete({ now: new Date() });
+
     const assessmentResult = await _createV2AssessmentResult({
       certificationAssessment,
       certificationAssessmentScore,
+      certificationCourse,
     });
 
     await _saveV2Result({
@@ -260,8 +263,18 @@ async function _saveV3Result({
   return certificationCourseRepository.update({ certificationCourse });
 }
 
-function _createV2AssessmentResult({ certificationAssessment, certificationAssessmentScore }) {
+function _createV2AssessmentResult({ certificationAssessment, certificationAssessmentScore, certificationCourse }) {
   if (certificationAssessmentScore.hasInsufficientCorrectAnswers()) {
+    if (certificationCourse.isAbortReasonTechnical()) {
+      certificationCourse.cancel();
+      return AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
+        emitter: AssessmentResult.emitters.PIX_ALGO,
+        pixScore: certificationAssessmentScore.nbPix,
+        reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+        assessmentId: certificationAssessment.id,
+        status: AssessmentResult.status.REJECTED,
+      });
+    }
     return AssessmentResultFactory.buildInsufficientCorrectAnswers({
       emitter: AssessmentResult.emitters.PIX_ALGO,
       pixScore: certificationAssessmentScore.nbPix,
