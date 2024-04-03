@@ -139,11 +139,11 @@ async function _handleV3CertificationScoring({
   });
 
   const assessmentResult = _createV3AssessmentResult({
-    event,
     allAnswers,
-    certificationCourse,
-    certificationAssessmentScore,
     certificationAssessment,
+    certificationAssessmentScore,
+    certificationCourse,
+    juryId: event.juryId,
   });
 
   await _cancelCertificationCourseIfV3CertificationLackOfAnswersForTechnicalReason({
@@ -388,18 +388,18 @@ function _createV2AssessmentResult({
 }
 
 function _createV3AssessmentResult({
-  event,
   allAnswers,
-  certificationCourse,
-  certificationAssessmentScore,
   certificationAssessment,
+  certificationAssessmentScore,
+  certificationCourse,
+  juryId,
 }) {
   if (certificationCourse.isRejectedForFraud()) {
     return AssessmentResultFactory.buildFraud({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       assessmentId: certificationAssessment.id,
-      juryId: event.juryId,
+      juryId,
     });
   }
 
@@ -410,7 +410,7 @@ function _createV3AssessmentResult({
       status: certificationAssessmentScore.status,
       assessmentId: certificationAssessment.id,
       emitter: AssessmentResult.emitters.PIX_ALGO,
-      juryId: event.juryId,
+      juryId,
     });
   }
 
@@ -421,7 +421,7 @@ function _createV3AssessmentResult({
       status: certificationAssessmentScore.status,
       assessmentId: certificationAssessment.id,
       emitter: AssessmentResult.emitters.PIX_ALGO,
-      juryId: event.juryId,
+      juryId,
     });
   }
 
@@ -431,7 +431,7 @@ function _createV3AssessmentResult({
     status: certificationAssessmentScore.status,
     assessmentId: certificationAssessment.id,
     emitter: AssessmentResult.emitters.PIX_ALGO,
-    juryId: event.juryId,
+    juryId,
   });
 }
 
