@@ -30,7 +30,7 @@ export default class ModuleElement extends Component {
   }
 
   get shouldDisplayRetryButton() {
-    return this.shouldDisplayFeedback && this.correction?.isOk === false;
+    return this.shouldDisplayFeedback && this.correction?.isKo;
   }
 
   get userResponse() {

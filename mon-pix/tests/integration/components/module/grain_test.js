@@ -491,7 +491,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       const retryElementStub = sinon.stub().withArgs({ element });
       this.set('retryElement', retryElementStub);
 
-      const correction = store.createRecord('correction-response');
+      const correction = store.createRecord('correction-response', { status: 'ko' });
       store.createRecord('element-answer', { element, correction, passage });
 
       // when
