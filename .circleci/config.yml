@@ -106,12 +106,10 @@ workflows:
           context: Pix
           requires:
             - checkout
-
       - api_lint:
           context: Pix
           requires:
             - api_install
-
       - api_test:
           context: Pix
           requires:
@@ -134,16 +132,18 @@ workflows:
           context: Pix
           requires:
             - checkout
-
       - mon_pix_lint:
           context: Pix
           requires:
             - mon_pix_install
-
       - mon_pix_test:
           context: Pix
           requires:
             - mon_pix_install
+      - e2e_test_mon_pix:
+          context: Pix
+          requires:
+            - checkout
 
       - orga_install:
           context: Pix
@@ -157,6 +157,10 @@ workflows:
           context: Pix
           requires:
             - orga_install
+      - e2e_test_orga:
+          context: Pix
+          requires:
+            - checkout
 
       - certif_install:
           context: Pix
@@ -170,10 +174,6 @@ workflows:
           context: Pix
           requires:
             - certif_install
-      - e2e_test_orga:
-          context: Pix
-          requires:
-            - checkout
 
       - admin_install:
           context: Pix
@@ -200,11 +200,6 @@ workflows:
           context: Pix
           requires:
             - pix1d_install
-
-      - e2e_test_app:
-          context: Pix
-          requires:
-            - checkout
 
 jobs:
   checkout:
@@ -681,7 +676,7 @@ jobs:
       - store_artifacts:
           path: /home/circleci/test-results/admin
 
-  e2e_test_app:
+  e2e_test_mon_pix:
     executor:
       name: node-browsers-redis-postgres-docker
     parallelism: 4
