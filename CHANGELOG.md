@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v4.125.0 (03/04/2024)
+
+
+### :rocket: Amélioration
+- [#8545](https://github.com/1024pix/pix/pull/8545) [FEATURE] Afficher l'état de l'import en cours (PIX-11683).
+- [#8529](https://github.com/1024pix/pix/pull/8529) [FEATURE] Afficher un commentaire auto jury lorsqu'un problème technique empêche le bon déroulement de la certification V2 (PIX-10535).
+- [#8523](https://github.com/1024pix/pix/pull/8523) [FEATURE] Améliorer la gestion du choix de la langue d'affichage (PIX-11826).
+- [#8547](https://github.com/1024pix/pix/pull/8547) [FEATURE] Récupérer le format d'import pour une organisation spécifique (PIX-11613).
+
+### :building_construction: Tech
+- [#8566](https://github.com/1024pix/pix/pull/8566) [TECH] Migrer la connexion à Mediacentre du dossier lib vers src (PIX-11875).
+- [#8561](https://github.com/1024pix/pix/pull/8561) [TECH] Charger les données de la table oidc-providers avec les seeds (PIX-10032).
+- [#8515](https://github.com/1024pix/pix/pull/8515) [TECH] Dans les tests unitaires remplacer le monkey-patching de DomainTransaction.execute par l’utilisation de sinon.
+- [#8548](https://github.com/1024pix/pix/pull/8548) [TECH] Deplacer isRelatedToCertification vers le repo approprié (PIX-11920).
+
+### :bug: Correction
+- [#8575](https://github.com/1024pix/pix/pull/8575) [BUGFIX] corrige la largeur des champ texte  lors de la creation de campagne (PIX-11904).
+- [#8565](https://github.com/1024pix/pix/pull/8565) [BUGFIX][ORGA] Remettre la couleur de fond manquante (PIX-11877).
+
+### :arrow_up: Montée de version
+- [#8569](https://github.com/1024pix/pix/pull/8569) [BUMP] Update dependency @1024pix/pix-ui to ^45.0.3 (certif).
+- [#8487](https://github.com/1024pix/pix/pull/8487) [BUMP] Update dependency @1024pix/pix-ui to v45 (certif).
+
+### :coffee: Autre
+- [#8560](https://github.com/1024pix/pix/pull/8560) [REFACTOR] Migrer badge-criteria-repository dans le scope evaluation (PIX-11894).
+
 ## v4.124.0 (02/04/2024)
 
 
