@@ -41,18 +41,3 @@
     justify-content: center;
   }
 }
-
-
-.success-import-banner {
-  @extend %pix-body-m;
-
-  display: flex;
-  gap: var(--pix-spacing-2x);
-  align-items: center;
-  color: var(--pix-success-700);
-  font-weight: var(--pix-font-medium);
-
-  &__icon {
-    @extend %pix-title-xs;
-  }
-}

@@ -55,32 +55,6 @@ module('Unit | Component | import', (hooks) => {
     });
   });
 
-  module('get#displayBanner', () => {
-    test('should return false as default value', function (assert) {
-      //when
-      component.args.isLoading = false;
-      component.args.organizationImportDetail = { hasWarning: false };
-      assert.false(component.displayBanner);
-    });
-
-    test('should return true when loading is active', async function (assert) {
-      // when
-      component.args.isLoading = true;
-      component.args.organizationImportDetail = { hasWarning: false };
-
-      // then
-      assert.true(component.displayBanner);
-    });
-
-    test('should return true when organizationImport hasWarning', async function (assert) {
-      // when
-      component.args.isLoading = false;
-      component.args.organizationImportDetail = { hasWarning: true };
-      // then
-      assert.true(component.displayBanner);
-    });
-  });
-
   module('get#panelClasses', () => {
     test('should return the panel class when there is no warnings', (assert) => {
       // when
@@ -96,21 +70,6 @@ module('Unit | Component | import', (hooks) => {
         component.panelClasses,
         'import-students-page__error-panel import-students-page__error-panel--warning',
       );
-    });
-  });
-
-  module('get#bannerType', () => {
-    test('shoud return information when there is no warning', (assert) => {
-      // when
-      component.args.organizationImportDetail = { hasWarning: false };
-      // then
-      assert.strictEqual(component.bannerType, 'information');
-    });
-    test('shoud return warning when there is warning', (assert) => {
-      // when
-      component.args.organizationImportDetail = { hasWarning: true };
-      // then
-      assert.strictEqual(component.bannerType, 'warning');
     });
   });
 

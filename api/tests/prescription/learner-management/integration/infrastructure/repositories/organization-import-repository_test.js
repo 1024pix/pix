@@ -139,6 +139,7 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         id: expectedResult.id,
         status: expectedResult.status,
         updatedAt: expectedResult.updatedAt,
+        createdAt: expectedResult.createdAt,
         createdBy: { firstName: user.firstName, lastName: user.lastName },
         errors: null,
       });
