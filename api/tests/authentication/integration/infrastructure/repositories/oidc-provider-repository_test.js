@@ -7,7 +7,6 @@ describe('Integration | Authentication | Infrastructure | Repositories | OidcPro
       // given
       const oidcProviderProperties = {
         accessTokenLifespan: '7d',
-        idTokenLifespan: '7d',
         clientId: 'client',
         encryptedClientSecret: '#%@!!!!!!!!!!!!!',
         shouldCloseSession: true,
