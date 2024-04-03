@@ -4,7 +4,6 @@
     <div class="input-container">
       <PixInput
         @id="register-firstName"
-        @label={{t "common.labels.candidate.firstname"}}
         name="firstName"
         type="firstName"
         {{on "change" this.validateFirstName}}
@@ -13,13 +12,14 @@
         autocomplete="given-name"
         @validationStatus={{this.validation.firstName.status}}
         @errorMessage={{this.validation.firstName.message}}
-      />
+      >
+        <:label>{{t "common.labels.candidate.firstname"}}</:label>
+      </PixInput>
     </div>
 
     <div class="input-container">
       <PixInput
         @id="register-lastName"
-        @label={{t "common.labels.candidate.lastname"}}
         name="lastName"
         type="lastName"
         {{on "change" this.validateLastName}}
@@ -28,13 +28,14 @@
         autocomplete="family-name"
         @validationStatus={{this.validation.lastName.status}}
         @errorMessage={{this.validation.lastName.message}}
-      />
+      >
+        <:label>{{t "common.labels.candidate.lastname"}}</:label>
+      </PixInput>
     </div>
 
     <div class="input-container">
       <PixInput
         @id="register-email"
-        @label={{t "common.forms.login.email"}}
         name="email"
         type="email"
         {{on "change" this.validateEmail}}
@@ -43,41 +44,46 @@
         autocomplete="email"
         @validationStatus={{this.validation.email.status}}
         @errorMessage={{this.validation.email.message}}
-      />
+      >
+        <:label>{{t "common.forms.login.email"}}</:label>
+      </PixInput>
     </div>
 
     <div class="input-container">
       <PixInputPassword
         @id="register-password"
         name="password"
-        @label={{t "common.forms.login.password"}}
         autocomplete="current-password"
         required={{true}}
         aria-required={{true}}
         {{on "change" this.validatePassword}}
         @validationStatus={{this.validation.password.status}}
         @errorMessage={{this.validation.password.message}}
-      />
+      >
+        <:label>{{t "common.forms.login.password"}}</:label>
+      </PixInputPassword>
     </div>
 
     <div class="checkbox-container input-container">
       <PixCheckbox
-        @labelSize="small"
+        @size="small"
         required={{true}}
         aria-required={{true}}
         aria-label="{{t 'pages.login-or-register.register-form.fields.cgu.aria-label'}}"
         {{on "click" this.validateCgu}}
       >
-        <p class="register-form__cgu-label">
-          {{t "pages.login-or-register.register-form.fields.cgu.accept"}}
-          <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
-            {{t "pages.login-or-register.register-form.fields.cgu.terms-of-use"}}
-          </a>
-          {{t "pages.login-or-register.register-form.fields.cgu.and"}}
-          <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
-            {{t "pages.login-or-register.register-form.fields.cgu.data-protection-policy"}}
-          </a>
-        </p>
+        <:label>
+          <p class="register-form__cgu-label">
+            {{t "pages.login-or-register.register-form.fields.cgu.accept"}}
+            <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
+              {{t "pages.login-or-register.register-form.fields.cgu.terms-of-use"}}
+            </a>
+            {{t "pages.login-or-register.register-form.fields.cgu.and"}}
+            <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
+              {{t "pages.login-or-register.register-form.fields.cgu.data-protection-policy"}}
+            </a>
+          </p>
+        </:label>
       </PixCheckbox>
     </div>
     {{#if this.cguValidationMessage}}

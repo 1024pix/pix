@@ -410,6 +410,7 @@
             "labels": {
               "abandonment": "Abandonment : lack of time or early departure",
               "abandonment-reason": "Reason for abandonment",
+              "abandonment-reason-label": "Select the reason for abandonment",
               "technical-problem": "Technical problem"
             },
             "tooltip": {

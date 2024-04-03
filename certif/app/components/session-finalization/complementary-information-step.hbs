@@ -2,23 +2,19 @@
   <div class="session-finalization-complementary-information-step__content">
     <PixCheckbox
       @id="session-finalization-complementary-information-step-incident"
-      @labelSize="small"
+      @size="small"
       @checked={{false}}
       {{on "click" this.onCheckIncidentDuringCertificationSession}}
     >
-      <label for="session-finalization-complementary-information-step-incident">
-        {{t "pages.session-finalization.complementary-information.incident"}}
-      </label>
+      <:label>{{t "pages.session-finalization.complementary-information.incident"}}</:label>
     </PixCheckbox>
     <PixCheckbox
       @id="session-finalization-complementary-information-step-candidates-joining-issue"
-      @labelSize="small"
+      @size="small"
       @checked={{false}}
       {{on "click" this.onCheckIssueWithJoiningSession}}
     >
-      <label for="session-finalization-complementary-information-step-candidates-joining-issue">
-        {{t "pages.session-finalization.complementary-information.candidates-joining-issue.label"}}
-      </label>
+      <:label>{{t "pages.session-finalization.complementary-information.candidates-joining-issue.label"}}</:label>
     </PixCheckbox>
 
     {{#if this.displayJoiningIssue}}

@@ -12,23 +12,23 @@
   </div>
   {{#if @candidateInformationChangeCategory.isChecked}}
     <div class="candidate-information-change-certification-issue-report-fields__details">
-      <label for="subcategory-for-category-candidate-information-change">{{t
-          "pages.session-finalization.add-issue-modal.actions.select-subcategory"
-        }}</label>
       <PixSelect
         @id="subcategory-for-category-candidate-information-change"
         @options={{this.options}}
         @value={{@candidateInformationChangeCategory.subcategory}}
         @onChange={{this.onChangeSubcategory}}
-      />
-      <label for="text-area-for-category-candidate-information-change">{{this.subcategoryTextAreaLabel}}</label>
+      >
+        <:label>{{t "pages.session-finalization.add-issue-modal.actions.select-subcategory"}}</:label>
+      </PixSelect>
       <PixTextarea
         @id="text-area-for-category-candidate-information-change"
         @value={{@candidateInformationChangeCategory.description}}
         @maxlength={{@maxlength}}
         required="true"
         {{on "change" @updateCandidateInformationChangeCategoryDescription}}
-      />
+      >
+        <:label>{{this.subcategoryTextAreaLabel}}</:label>
+      </PixTextarea>
     </div>
   {{/if}}
 </fieldset>

@@ -6,9 +6,6 @@
 >
   <:content>
     <div class="select-referer-modal__referer-selector">
-      <label for="referer" class="select-referer-modal__label">
-        {{t "pages.team.select-referer-modal.label"}}
-      </label>
       <PixSelect
         @id="referer"
         @options={{@options}}
@@ -17,7 +14,9 @@
         @hideDefaultOption={{true}}
         @onChange={{@onSelectReferer}}
         @emptyOptionNotSelectable={{true}}
-      />
+      >
+        <:label>{{t "pages.team.select-referer-modal.label"}}</:label>
+      </PixSelect>
     </div>
     <div class="select-referer-modal__actions">
       <PixButton

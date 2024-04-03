@@ -410,6 +410,7 @@
             "labels": {
               "abandonment": "Abandon : Manque de temps ou départ prématuré",
               "abandonment-reason": "Raison de l'abandon",
+              "abandonment-reason-label": "Sélectionner la raison de l'abandon",
               "technical-problem": "Problème technique"
             },
             "tooltip": {
