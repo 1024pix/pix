@@ -46,7 +46,7 @@
   "grains": [
     {
       "id": "1d516eb9-e7b7-48a3-a3b5-7971ad171d6f",
-      "type": "lesson",
+      "type": "activity",
       "title": "Étrange : ce site interne sait où je suis !",
       "elements": [
         {
