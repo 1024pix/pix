@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v4.126.0 (04/04/2024)
+
+
+### :rocket: Amélioration
+- [#8574](https://github.com/1024pix/pix/pull/8574) [FEATURE][API] Ajouter le lien support en néerlandais dans les mails (PIX-11704).
+- [#8506](https://github.com/1024pix/pix/pull/8506) [FEATURE] Réessayer un élément de type activité (PIX-11700).
+
+### :building_construction: Tech
+- [#8570](https://github.com/1024pix/pix/pull/8570) [TECH] Fusionner idTokenLifespanMs et accessTokenLifespanMs (PIX-8704).
+- [#8473](https://github.com/1024pix/pix/pull/8473) [TECH] Refactoriser l'algorithme de sélection d'épreuve (PIX-11595).
+- [#8485](https://github.com/1024pix/pix/pull/8485) [TECH] Renommer flash estimatedLevel en capacity (PIX-11379).
+
+### :arrow_up: Montée de version
+- [#8581](https://github.com/1024pix/pix/pull/8581) [BUMP] Update dependency @1024pix/pix-ui to ^45.0.4 (certif).
+- [#8580](https://github.com/1024pix/pix/pull/8580) [BUMP] Update dependency @1024pix/pix-ui to ^45.0.4 (admin).
+- [#8537](https://github.com/1024pix/pix/pull/8537) [BUMP] Update dependency @1024pix/pix-ui to v45 (admin) (PIX-11927).
+
 ## v4.125.0 (03/04/2024)
 
 
