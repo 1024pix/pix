@@ -11,15 +11,19 @@ class ImportOrganizationLearnerSet {
   #organizationId;
   #columnMapping;
 
-  constructor({ organizationId, validationRules = {}, columnMapping }) {
+  constructor({ organizationId, importFormat }) {
     this.#organizationId = organizationId;
     this.#learners = [];
-    this.validationRules = validationRules;
-    this.#hasUnicityRules = !!validationRules?.unicity;
-    this.#hasValidationFormats = !!validationRules?.formats;
-    this.#columnMapping = columnMapping;
+    this.validationRules = importFormat.config.validationRules;
+    this.#hasUnicityRules = !!this.validationRules?.unicity;
+    this.#hasValidationFormats = !!this.validationRules?.formats;
+    this.#columnMapping = importFormat.config.headers;
     this.#unicityKeys = [];
     this.#errors = [];
+  }
+
+  static buildSet() {
+    return new ImportOrganizationLearnerSet(...arguments);
   }
 
   #lineToOrganizationLearnerAttributes(learner) {
