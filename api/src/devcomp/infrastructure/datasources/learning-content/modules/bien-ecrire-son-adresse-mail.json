@@ -113,7 +113,7 @@
         {
           "id": "1fd829f8-1799-4779-a28d-5d26fba31b8b",
           "type": "text",
-          "content": "<h3 class=\"screen-reader-only\">Le fournisseur d’adresse mail</h3><h4>Partie n°2&nbsp;: le fournisseur d’adresse mail. Cette partie de l’adresse est donnée par le fournisseur.</h4><p><span aria-hidden=\"true\">✅</span> Voici des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com)</li><li>Microsoft (hotmail.com, live.fr)</li></ul>"
+          "content": "<h3 class=\"screen-reader-only\">Le fournisseur d’adresse mail</h3><h4>Partie n°2&nbsp;: le fournisseur d’adresse mail. Cette partie de l’adresse est donnée par le fournisseur.</h4><p><span aria-hidden=\"true\">✅</span> Voici des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com, yahoo.fr)</li><li>Microsoft (hotmail.com, live.fr)</li></ul>"
         }
       ]
     },
