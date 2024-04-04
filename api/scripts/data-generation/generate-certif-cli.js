@@ -29,9 +29,12 @@ const { SHARED } = CampaignParticipationStatuses;
 
 const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
 /**
- * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'SUP' 1 '[{"candidateNumber": 1, "key": "EDU_1ER_DEGRE"}, {"candidateNumber": 1, "key": "EDU_2ND_DEGRE"}]'
+ * Create 1 session, 2 candidates: candidate 1 is registered and certifiable to CLEA, candidate 2 is registered and certifiable to DROIT
  * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 2 '[{"candidateNumber": 1, "key": "CLEA"}, {"candidateNumber": 2, "key": "DROIT"}]'
- * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 1 '[{"candidateNumber": 1, "key": "CLEA"}]'
+ * Create 1 session, 3 candidates: candidate 2 is registered and certifiable to EDU_1ER_DEGRE, candidate 1 and 3 are certifiable PIX Core only
+ * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 3 '[{"candidateNumber": 2, "key": "EDU_1ER_DEGRE"}]'
+ * Create 1 session, 1 candidate, no complementary
+ * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'SUP' 1
  */
 
 const PIXCLEA = 'CLEA';
