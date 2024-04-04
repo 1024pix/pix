@@ -46,7 +46,7 @@
   "grains": [
     {
       "id": "da95d2bc-e597-4366-a095-21f7ab0f4845",
-      "type": "lesson",
+      "type": "activity",
       "title": "Wikipédia : un site de référence !",
       "elements": [
         {
