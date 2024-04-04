@@ -60,6 +60,10 @@ class Answer {
     return _.isInteger(this.timeout) && this.timeout < 0;
   }
 
+  get hasValue() {
+    return Boolean(this.value);
+  }
+
   setTimeSpentFrom({ now, lastQuestionDate }) {
     this.timeSpent = Math.ceil((now.getTime() - lastQuestionDate.getTime()) / 1000);
   }

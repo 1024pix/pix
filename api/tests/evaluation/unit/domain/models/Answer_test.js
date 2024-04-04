@@ -170,6 +170,41 @@ describe('Unit | Domain | Models | Answer', function () {
     });
   });
 
+  describe('#hasValue', function () {
+    it('should return true if the answer has a value', function () {
+      // given
+      const answer = domainBuilder.buildAnswer({ value: 'super réponse' });
+
+      // when
+      const hasValue = answer.hasValue;
+
+      // then
+      expect(hasValue).to.be.true;
+    });
+
+    it('should return false if the answer has a null value', function () {
+      // given
+      const answer = domainBuilder.buildAnswer({ value: null });
+
+      // when
+      const hasValue = answer.hasValue;
+
+      // then
+      expect(hasValue).to.be.false;
+    });
+
+    it('should return false if the answer value is an empty string', function () {
+      // given
+      const answer = domainBuilder.buildAnswer({ value: '' });
+
+      // when
+      const hasValue = answer.hasValue;
+
+      // then
+      expect(hasValue).to.be.false;
+    });
+  });
+
   describe('#setTimeSpentFrom', function () {
     it('should return the computed time spent on a challenge', function () {
       // given
