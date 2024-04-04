@@ -23,10 +23,11 @@
           type="number"
           @value={{this.threshold}}
           readonly={{@stage.isZeroStage}}
-          @label="Seuil du palier"
           @screenReaderOnly={{true}}
           {{on "focusout" this.checkThresholdValidity}}
-        />
+        >
+          <:label>Seuil du palier</:label>
+        </PixInput>
       {{/if}}
     {{/if}}
   </td>
@@ -37,10 +38,11 @@
       @validationStatus={{this.titleStatus}}
       @value={{this.title}}
       @requiredLabel="Champ obligatoire"
-      @label="Titre du palier"
       @screenReaderOnly={{true}}
       {{on "focusout" this.checkTitleValidity}}
-    />
+    >
+      <:label>Titre du palier</:label>
+    </PixInput>
   </td>
   <td>
     <PixInput
@@ -48,11 +50,12 @@
       @errorMessage="Le message est vide"
       @validationStatus={{this.messageStatus}}
       @requiredLabel="Champ obligatoire"
-      @label="Message du palier"
       @screenReaderOnly={{true}}
       @value={{this.message}}
       {{on "focusout" this.checkMessageValidity}}
-    />
+    >
+      <:label>Message du palier</:label>
+    </PixInput>
   </td>
   <td>
     À renseigner ultérieurement

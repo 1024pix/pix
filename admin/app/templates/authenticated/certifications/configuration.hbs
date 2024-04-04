@@ -3,9 +3,10 @@
     <PixTextarea
       @id="competence-configuration"
       @value={{this.competenceScoringConfiguration}}
-      @label="Ajout de la configuration de niveau par compétence (JSON) :"
       {{on "change" this.onCompetenceScoringConfigurationChange}}
-    />
+    >
+      <:label>Ajout de la configuration de niveau par compétence (JSON) :</:label>
+    </PixTextarea>
     <PixButton @type="submit">Envoyer</PixButton>
   </form>
 
@@ -13,9 +14,10 @@
     <PixTextarea
       @id="certification-scoring-configuration"
       @value={{this.certificationScoringConfiguration}}
-      @label="Ajout de la configuration de score de certification (JSON) :"
       {{on "change" this.onCertificationScoringConfigurationChange}}
-    />
+    >
+      <:label>Ajout de la configuration de score de certification (JSON) :</:label>
+    </PixTextarea>
     <PixButton @type="submit">Envoyer</PixButton>
   </form>
 </section>

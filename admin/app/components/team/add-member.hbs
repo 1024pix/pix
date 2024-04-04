@@ -5,22 +5,20 @@
     <section class="add-member-to-team-form__input">
       <PixInput
         @id="email"
-        @label="Adresse e-mail professionnelle de l'agent Pix à rattacher"
         @requiredLabel="Champ obligatoire"
         @errorMessage={{this.inviteErrorRaised}}
+        @validationStatus={{this.validationStatus}}
         value={{this.email}}
         {{on "change" this.emailChanged}}
-      />
+      >
+        <:label>Adresse e-mail professionnelle de l'agent Pix à rattacher</:label>
+      </PixInput>
     </section>
 
     <section class="add-member-to-team-form__select {{if this.inviteErrorRaised 'error-padding'}}">
-      <PixSelect
-        @options={{@roles}}
-        @value={{this.role}}
-        @onChange={{this.roleChanged}}
-        @label="Choisir le rôle à assigner au nouveau membre"
-        @screenReaderOnly={{true}}
-      />
+      <PixSelect @options={{@roles}} @value={{this.role}} @onChange={{this.roleChanged}} @screenReaderOnly={{true}}>
+        <:label>Choisir le rôle à assigner au nouveau membre</:label>
+      </PixSelect>
     </section>
 
     <PixButton

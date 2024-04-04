@@ -8,44 +8,49 @@
         @id="userId"
         {{on "change" this.onChangeUserId}}
         placeholder="ID"
-        @label="Identifiant de l'utilisateur"
         @screenReaderOnly={{true}}
         class="user-list-form__input--small"
         min="1"
         type="number"
-      />
+      >
+        <:label>Identifiant de l'utilisateur</:label>
+      </PixInput>
       <PixInput
         @id="firstName"
         {{on "change" this.onChangeFirstName}}
         placeholder="Prénom"
-        @label="Prénom"
         @screenReaderOnly={{true}}
         class="user-list-form__input--small"
-      />
+      >
+        <:label>Prénom</:label>
+      </PixInput>
       <PixInput
         @id="lastName"
         {{on "change" this.onChangeLastName}}
         placeholder="Nom"
-        @label="Nom"
         @screenReaderOnly={{true}}
         class="user-list-form__input--small"
-      />
+      >
+        <:label>Nom</:label>
+      </PixInput>
       <PixInput
         @id="email"
         {{on "change" this.onChangeEmail}}
         placeholder="Adresse e-mail"
-        @label="Adresse e-mail"
         @screenReaderOnly={{true}}
         type="text"
-      />
+      >
+        <:label>Adresse e-mail</:label>
+      </PixInput>
       <PixInput
         @id="username"
         {{on "change" this.onChangeUsername}}
         placeholder="Identifiant"
-        @label="Identifiant"
         @screenReaderOnly={{true}}
         class="user-list-form__input--small"
-      />
+      >
+        <:label>Identifiant</:label>
+      </PixInput>
       <div class="user-list-form__actions">
         <PixButton @size="small" @type="submit">Charger</PixButton>
         <PixIconButton

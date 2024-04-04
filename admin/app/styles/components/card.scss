@@ -16,6 +16,11 @@
   &__content {
     padding: 11px 32px;
     font-family: $font-roboto;
+
+    // add to pix-ui possibility to change the layout to a component
+    & > .pix-input, .pix-select {
+      display: flex;
+    }
   }
 
   &__body {

@@ -32,7 +32,7 @@
             {{on "change" (fn this.updateSexValue "F")}}
             required
           >
-            Femme
+            <:label>Femme</:label>
           </PixRadioButton>
           <PixRadioButton
             name="sex"
@@ -40,7 +40,7 @@
             {{on "change" (fn this.updateSexValue "M")}}
             required
           >
-            Homme
+            <:label>Homme</:label>
           </PixRadioButton>
         </div>
       </div>
@@ -67,7 +67,9 @@
           @onChange={{this.selectBirthCountry}}
           @value={{this.selectedCountryOption}}
           required
-        />
+        >
+          <:label>Pays de naissance</:label>
+        </PixSelect>
       </div>
 
       {{#if this.isBirthGeoCodeRequired}}
@@ -80,7 +82,7 @@
               {{on "change" (fn this.selectBirthGeoCodeOption "insee")}}
               required
             >
-              Code INSEE
+              <:label>Code INSEE</:label>
             </PixRadioButton>
             <PixRadioButton
               name="birth-geo-code-option"
@@ -88,7 +90,7 @@
               {{on "change" (fn this.selectBirthGeoCodeOption "postal")}}
               required
             >
-              Code postal
+              <:label>Code postal</:label>
             </PixRadioButton>
           </div>
         </div>

@@ -9,47 +9,51 @@
       <PixInput
         class="form-field"
         @id="autonomousCourseName"
-        @label="Nom interne : "
         required="true"
         @requiredLabel="Champ obligatoire"
         {{on "change" (fn this.updateAutonomousCourseValue "internalTitle")}}
-      />
+      >
+        <:label>Nom interne : </:label>
+      </PixInput>
       <PixFilterableAndSearchableSelect
-        @label="Quel profil cible voulez-vous associer à ce parcours autonome ?"
         @placeholder="Choisir un profil cible"
         @options={{this.targetProfileListOptions}}
         @hideDefaultOption={{true}}
         @onChange={{this.selectTargetProfile}}
-        @categoriesLabel="Sélectionner une ou plusieurs catégories de profils cibles"
         @categoriesPlaceholder="Filtres"
         @value={{@autonomousCourse.targetProfileId}}
-        @requiredText="Champ obligatoire"
+        @requiredLabel="Champ obligatoire"
         @errorMessage={{if @errors.autonomousCourse (t "api-error-messages.campaign-creation.target-profile-required")}}
         @isSearchable={{true}}
         @searchLabel="Recherchez un profil cible"
         @subLabel="Le profil cible doit être en accès simplifié et relié à l’organisation &quot;Organisation pour les parcours autonomes&quot;"
         required={{true}}
-      />
+      >
+        <:label>Quel profil cible voulez-vous associer à ce parcours autonome ?</:label>
+        <:categoriesLabel>Sélectionner une ou plusieurs catégories de profils cibles</:categoriesLabel>
+      </PixFilterableAndSearchableSelect>
     </Card>
     <Card class="admin-form__card" @title="Informations pour les utilisateurs">
       <PixInput
         @id="nom-public"
         class="form-field"
-        @label="Nom public : "
         placeholder="Exemple : Le super nom de mon parcours autonome"
         required={{true}}
         @requiredLabel="Champ obligatoire"
-        @information="Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
+        @subLabel="Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
         {{on "change" (fn this.updateAutonomousCourseValue "publicTitle")}}
-      />
+      >
+        <:label>Nom public : </:label>
+      </PixInput>
       <PixTextarea
         @id="text-page-accueil"
         class="form-field"
         @maxlength="5000"
-        @label="Texte de la page d'accueil : "
         placeholder="Exemple : description, objectifs..."
         {{on "change" (fn this.updateAutonomousCourseValue "customLandingPageText")}}
-      />
+      >
+        <:label>Texte de la page d'accueil :</:label>
+      </PixTextarea>
     </Card>
   </section>
   <section class="admin-form__actions">

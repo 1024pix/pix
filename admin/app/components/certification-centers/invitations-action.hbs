@@ -6,28 +6,31 @@
         @id="userEmailToInvite"
         value={{@userEmailToInvite}}
         {{on "change" @onChangeUserEmailToInvite}}
-        @label="Adresse e-mail du membre à inviter"
         class="certification-center-invitations-form-container__input
           {{if @userEmailToInviteError 'certification-center-invitations-form-container__input--error'}}"
-      />
+      >
+        <:label>Adresse e-mail du membre à inviter</:label>
+      </PixInput>
 
       <PixSelect
         @options={{this.languagesOptions}}
         @value={{this.invitationLanguage}}
         @onChange={{this.changeInvitationLanguage}}
-        @label="Choisir la langue de l’email d’invitation"
         @placeholder="Choix de la langue"
         @hideDefaultOption={{true}}
-      />
+      >
+        <:label>Choisir la langue de l’email d’invitation</:label>
+      </PixSelect>
 
       <PixSelect
         @options={{this.rolesOptions}}
         @value={{this.invitationRole}}
         @onChange={{this.changeInvitationRole}}
-        @label="Choisir le rôle du membre"
         @placeholder="Choix du Rôle"
         @hideDefaultOption={{true}}
-      />
+      >
+        <:label>Choisir le rôle du membre</:label>
+      </PixSelect>
 
       <PixButton
         @size="small"

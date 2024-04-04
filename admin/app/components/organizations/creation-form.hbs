@@ -1,58 +1,53 @@
-<form class="form" {{on "submit" @onSubmit}}>
+<form class="admin-form" {{on "submit" @onSubmit}}>
 
-  <section class="form-section">
-    <PixInput
-      @id="organizationName"
-      @label="Nom"
-      onchange={{this.handleOrganizationNameChange}}
-      class="form-field"
-      required={{true}}
-      aria-required={{true}}
-    />
-    <PixSelect
-      @onChange={{this.handleOrganizationTypeSelectionChange}}
-      @options={{this.organizationTypes}}
-      @value={{@organization.type}}
-      @label="Sélectionner un type d'organisation"
-      @hideDefaultOption={{true}}
-      required
-      aria-required={{true}}
-      class="form-field"
-      as |organizationType|
-    >
-      {{organizationType.label}}
-    </PixSelect>
-    <PixInput
-      @id="documentationUrl"
-      @label="Lien vers la documentation"
-      onchange={{this.handleDocumentationUrlChange}}
-      class="form-field"
-    />
-    <PixInput @id="credits" @label="Crédits" onchange={{this.handleCreditsChange}} class="form-field" type="number" />
+  <section class="admin-form__content admin-form__content--with-counters">
+    <Card class="admin-form__card" @title="Informations générique">
+      <PixInput
+        @id="organizationName"
+        onchange={{this.handleOrganizationNameChange}}
+        required={{true}}
+        aria-required={{true}}
+      >
+        <:label>Nom</:label>
+      </PixInput>
+
+      <PixSelect
+        @onChange={{this.handleOrganizationTypeSelectionChange}}
+        @options={{this.organizationTypes}}
+        @placeholder="Type d'organisation"
+        @hideDefaultOption={{true}}
+        @value={{@organization.type}}
+        required
+        aria-required={{true}}
+      >
+        <:label>Sélectionner un type d'organisation</:label>
+        <:default as |organizationType|>{{organizationType.label}}</:default>
+      </PixSelect>
+    </Card>
+
+    <Card class="admin-form__card" @title="Configuration">
+      <PixInput @id="documentationUrl" onchange={{this.handleDocumentationUrlChange}}>
+        <:label>Lien vers la documentation</:label>
+      </PixInput>
+      <PixInput @id="credits" onchange={{this.handleCreditsChange}} type="number">
+        <:label>Crédits</:label>
+      </PixInput>
+    </Card>
+
+    <Card class="admin-form__card" @title="Data Privacy Officer">
+      <PixInput @id="dataProtectionOfficerFirstName" onchange={{this.handleDataProtectionOfficerFirstNameChange}}>
+        <:label>Prénom du DPO</:label>
+      </PixInput>
+      <PixInput @id="dataProtectionOfficerLastName" onchange={{this.handleDataProtectionOfficerLastNameChange}}>
+        <:label>Nom du DPO</:label>
+      </PixInput>
+      <PixInput @id="dataProtectionOfficerEmail" onchange={{this.handleDataProtectionOfficerEmailChange}}>
+        <:label>Adresse e-mail du DPO</:label>
+      </PixInput>
+    </Card>
   </section>
 
-  <section class="form-section">
-    <PixInput
-      @id="dataProtectionOfficerFirstName"
-      @label="Prénom du DPO"
-      onchange={{this.handleDataProtectionOfficerFirstNameChange}}
-      class="form-field"
-    />
-    <PixInput
-      @id="dataProtectionOfficerLastName"
-      @label="Nom du DPO"
-      onchange={{this.handleDataProtectionOfficerLastNameChange}}
-      class="form-field"
-    />
-    <PixInput
-      @id="dataProtectionOfficerEmail"
-      @label="Adresse e-mail du DPO"
-      onchange={{this.handleDataProtectionOfficerEmailChange}}
-      class="form-field"
-    />
-  </section>
-
-  <section class="form-section form-actions form-section--actions">
+  <section class="admin-form__actions">
     <PixButton
       @size="small"
       @backgroundColor="transparent-light"

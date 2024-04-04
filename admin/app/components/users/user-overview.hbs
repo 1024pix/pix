@@ -81,23 +81,25 @@
         {{/if}}
         <div class="form-field">
           <PixSelect
-            @label="Langue :"
             @placeholder={{"-- Sélectionnez une langue --"}}
             @options={{this.languageOptions}}
             @value={{this.form.lang}}
             @onChange={{this.onChangeLanguage}}
             @hideDefaultOption={{true}}
-          />
+          >
+            <:label>Langue :</:label>
+          </PixSelect>
         </div>
         <div class="form-field">
           <PixSelect
-            @label="Locale :"
             @placeholder={{"-- Sélectionnez une locale --"}}
             @options={{this.localeOptions}}
             @value={{this.form.locale}}
             @onChange={{this.onLocaleChange}}
             @hideDefaultOption={{true}}
-          />
+          >
+            <:label>Locale :</:label>
+          </PixSelect>
         </div>
         <div class="form-actions">
           <PixButton

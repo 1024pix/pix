@@ -11,68 +11,74 @@
     <div class="admin-form__content">
       <PixInput
         @id="name"
-        @label="Nom de la campagne"
         @requiredLabel="Champ obligatoire"
         @errorMessage={{this.nameError.message}}
         @validationStatus={{this.nameError.state}}
         @value={{this.form.name}}
         {{on "change" (fn this.updateFormValue "name")}}
-      />
+      >
+        <:label>Nom de la campagne</:label>
+      </PixInput>
 
       {{#if @campaign.isTypeAssessment}}
         <PixInput
           @id="title"
-          @label="Titre du parcours"
           @errorMessage={{this.titleError.message}}
           @validationStatus={{this.titleError.state}}
           @value={{this.form.title}}
           maxlength="50"
           {{on "change" (fn this.updateFormValue "title")}}
-        />
+        >
+          <:label>Titre du parcours</:label>
+        </PixInput>
       {{/if}}
 
       <PixTextarea
         @id="customLandingPageText"
-        @label="Texte de la page d'accueil"
         @value={{this.form.customLandingPageText}}
         @errorMessage={{this.customLandingPageTextError.message}}
         @validationStatus={{this.customLandingPageTextError.state}}
         @maxlength="5000"
         rows="8"
         {{on "change" (fn this.updateFormValue "customLandingPageText")}}
-      />
+      >
+        <:label>Texte de la page d'accueil</:label>
+      </PixTextarea>
 
       {{#if @campaign.isTypeAssessment}}
         <PixTextarea
           @id="customResultPageText"
-          @label="Texte de la page de fin de parcours"
           @value={{this.form.customResultPageText}}
           @errorMessage={{this.customResultPageTextError.message}}
           @validationStatus={{this.customResultPageTextError.state}}
           @maxlength="5000"
           rows="8"
           {{on "change" (fn this.updateFormValue "customResultPageText")}}
-        />
+        >
+          <:label>Texte de la page de fin de parcours</:label>
+        </PixTextarea>
 
         <PixInput
           @id="customResultPageButtonText"
-          @label="Texte du bouton de la page de fin de parcours"
-          @information="Si un texte pour le bouton est saisi, une URL est également requise."
+          @subLabel="Si un texte pour le bouton est saisi, une URL est également requise."
           @value={{this.form.customResultPageButtonText}}
           @errorMessage={{this.customResultPageButtonTextError.message}}
           @validationStatus={{this.customResultPageButtonTextError.state}}
           {{on "change" (fn this.updateFormValue "customResultPageButtonText")}}
-        />
+        >
+          <:label>Texte du bouton de la page de fin de parcours</:label>
+        </PixInput>
 
         <PixInput
           @id="customResultPageButtonUrl"
-          @label="URL du bouton de la page de fin de parcours"
-          @information="Si une URL pour le bouton est saisie, le texte est également requis."
+          @subLabel="Si une URL pour le bouton est saisie, le texte est également requis."
           @value={{this.form.customResultPageButtonUrl}}
           @errorMessage={{this.customResultPageButtonUrlError.message}}
           @validationStatus={{this.customResultPageButtonUrlError.state}}
           {{on "change" (fn this.updateFormValue "customResultPageButtonUrl")}}
-        />
+        >
+          <:label>URL du bouton de la page de fin de parcours</:label>
+        </PixInput>
       {{/if}}
 
       {{#unless @campaign.totalParticipationsCount}}
@@ -81,7 +87,7 @@
           @checked={{this.form.multipleSendings}}
           {{on "change" (fn this.updateFormCheckBoxValue "multipleSendings")}}
         >
-          Envoi multiple
+          <:label>Envoi multiple</:label>
         </PixCheckbox>
       {{/unless}}
 
@@ -95,7 +101,7 @@
               {{on "change" (fn this.updateFormValue "isForAbsoluteNovice")}}
               checked={{this.form.isForAbsoluteNovice}}
             >
-              Oui
+              <:label>Oui</:label>
             </PixRadioButton>
 
             <PixRadioButton
@@ -104,7 +110,7 @@
               {{on "change" (fn this.updateFormValue "isForAbsoluteNovice")}}
               checked={{(not this.form.isForAbsoluteNovice)}}
             >
-              Non
+              <:label>Non</:label>
             </PixRadioButton>
           </:content>
         </Ui::PixFieldset>

@@ -28,7 +28,6 @@
       </div>
       <div class="form-field">
         <PixSelect
-          @label="Catégorie :"
           @onChange={{this.onCategoryChange}}
           @value={{this.form.category}}
           @options={{this.optionsList}}
@@ -36,7 +35,9 @@
           @hideDefaultOption={{true}}
           required={{true}}
           aria-required={{true}}
-        />
+        >
+          <:label>Catégorie :</:label>
+        </PixSelect>
       </div>
       <div class="form-field">
         {{#if (v-get this.form "imageUrl" "isInvalid")}}
@@ -47,55 +48,54 @@
         <PixInput
           @id="imageUrl"
           class={{if (v-get this.form "name" "isInvalid") "form-control is-invalid" "form-control"}}
-          @label="Lien de l'image du profil cible : "
-          @information="L'url à saisir doit être celle d'OVH. Veuillez
+          @subLabel="L'url à saisir doit être celle d'OVH. Veuillez
             vous rapprocher des équipes tech et produit pour la réalisation de celle-ci."
           @value={{this.form.imageUrl}}
           {{on "change" (fn this.updateFormValue "imageUrl")}}
-        />
+        >
+          <:label>Lien de l'image du profil cible :</:label>
+        </PixInput>
       </div>
       <div class="form-field">
-        <label for="targetProfileDescription" class="form-field__label">
-          Description
-        </label>
         {{#if (v-get this.form "description" "isInvalid")}}
           <div class="form-field__error">
             {{v-get this.form "description" "message"}}
           </div>
         {{/if}}
         <PixTextarea
-          id="targetProfileDescription"
+          @id="targetProfileDescription"
           rows="4"
           @maxlength="500"
           class={{if (v-get this.form "description" "isInvalid") "form-control is-invalid" "form-control"}}
           @value={{this.form.description}}
           {{on "change" (fn this.updateFormValue "description")}}
-        />
+        >
+          <:label>Description</:label>
+        </PixTextarea>
       </div>
       <div class="form-field">
-        <label for="targetProfileComment" class="form-field__label">
-          Commentaire (usage interne)
-        </label>
         {{#if (v-get this.form "comment" "isInvalid")}}
           <div class="form-field__error">
             {{v-get this.form "comment" "message"}}
           </div>
         {{/if}}
         <PixTextarea
-          id="targetProfileComment"
+          @id="targetProfileComment"
           rows="4"
           @maxlength="500"
           class={{if (v-get this.form "comment" "isInvalid") "form-control is-invalid" "form-control"}}
           @value={{this.form.comment}}
           {{on "change" (fn this.updateFormValue "comment")}}
-        />
+        >
+          <:label>Commentaire (usage interne)</:label>
+        </PixTextarea>
       </div>
       <div class="form-field">
         <PixCheckbox
           @checked={{this.form.areKnowledgeElementsResettable}}
           onChange={{this.updateAreKnowledgeElementsResettableValue}}
         >
-          {{t "pages.target-profiles.resettable-checkbox.label"}}
+          <:label>{{t "pages.target-profiles.resettable-checkbox.label"}}</:label>
         </PixCheckbox>
       </div>
       <div class="form-actions">

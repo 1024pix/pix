@@ -7,18 +7,18 @@
     <div class="tubes-selection__inline-layout">
       <PixMultiSelect
         class="tubes-selection__multi-select"
-        @label="Référentiels :"
-        @placeholder="Séléctionner les référentiels souhaités"
+        @placeholder="Sélectionner les référentiels souhaités"
         @id="framework-list"
         @isSearchable={{true}}
+        @inlineLabel={{true}}
         @showOptionsOnInput={{true}}
         @onChange={{this.setSelectedFrameworkIds}}
         @emptyMessage={{"Pas de résultat"}}
         @values={{this.selectedFrameworkIds}}
         @options={{this.frameworkOptions}}
-        as |option|
       >
-        {{option.label}}
+        <:label>Référentiels :</:label>
+        <:default as |option|>{{option.label}}</:default>
       </PixMultiSelect>
       {{#if @displayJsonImportButton}}
         <div class="tubes-selection__vertical-delimiter"></div>

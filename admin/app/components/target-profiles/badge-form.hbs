@@ -6,13 +6,13 @@
         <PixInput
           @id="title"
           @value={{this.badge.title}}
-          @label={{"Nom du résultat thématique :"}}
           @requiredLabel="Champ obligatoire"
           {{on "change" (fn this.updateFormValue "title")}}
-        />
+        >
+          <:label>Nom du résultat thématique :</:label>
+        </PixInput>
       </div>
       <div class="badge-form__text-field">
-        <label for="image-name" class="badge-form__label badge-form__label--required">Nom de l'image (svg) :</label>
         <p class="badge-form__information">
           <a
             class="badge-form__information--link"
@@ -29,42 +29,47 @@
           @requiredLabel="Champ obligatoire"
           placeholder="exemple: clea_num.svg"
           {{on "change" (fn this.updateFormValue "imageName")}}
-        />
+        >
+          <:label>Nom de l'image (svg) :</:label>
+        </PixInput>
       </div>
       <div class="badge-form__text-field">
         <PixInput
           @id="alt-message"
           @value={{this.badge.altMessage}}
-          @label="Texte alternatif pour l'image :"
           @requiredLabel="Champ obligatoire"
           {{on "change" (fn this.updateFormValue "altMessage")}}
-        />
+        >
+          <:label>Texte alternatif pour l'image :</:label>
+        </PixInput>
       </div>
       <div class="badge-form__text-field">
         <PixTextarea
           @id="message"
           @value={{this.badge.message}}
           rows="4"
-          @label="Message :"
           {{on "change" (fn this.updateFormValue "message")}}
-        />
+        >
+          <:label>Message :</:label>
+        </PixTextarea>
       </div>
       <div class="badge-form__text-field">
         <PixInput
           @id="badge-key"
           maxlength="255"
           @value={{this.badge.key}}
-          @label="Clé (texte unique , vérifier qu'il n'existe pas) :"
           @requiredLabel="Champ obligatoire"
           {{on "change" (fn this.updateFormValue "key")}}
-        />
+        >
+          <:label>Clé (texte unique , vérifier qu'il n'existe pas) :</:label>
+        </PixInput>
       </div>
       <div class="badge-form__check-field">
         <PixCheckbox
           @checked={{this.badge.isCertifiable}}
           {{on "change" (fn this.updateFormCheckBoxValue "isCertifiable")}}
         >
-          Certifiable
+          <:label>Certifiable</:label>
         </PixCheckbox>
       </div>
       <div class="badge-form__check-field">
@@ -72,7 +77,7 @@
           @checked={{this.badge.isAlwaysVisible}}
           {{on "change" (fn this.updateFormCheckBoxValue "isAlwaysVisible")}}
         >
-          Lacunes
+          <:label>Lacunes</:label>
         </PixCheckbox>
       </div>
     </Card>

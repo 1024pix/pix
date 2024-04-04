@@ -6,16 +6,12 @@
   <form {{on "submit" this.updateCode}}>
     <fieldset class="campaign-update-code">
       <legend>{{t "components.administration.update-campaign-code.description"}}</legend>
-      <PixInput
-        @id="firstCampaignId"
-        {{on "change" this.onChangeCampaignId}}
-        @label={{t "components.administration.update-campaign-code.form.campaignId"}}
-      />
-      <PixInput
-        @id="secondCampaignId"
-        {{on "change" this.onChangeCampaignCode}}
-        @label={{t "components.administration.update-campaign-code.form.campaignCode"}}
-      />
+      <PixInput @id="firstCampaignId" {{on "change" this.onChangeCampaignId}}>
+        <:label>{{t "components.administration.update-campaign-code.form.campaignId"}}</:label>
+      </PixInput>
+      <PixInput @id="secondCampaignId" {{on "change" this.onChangeCampaignCode}}>
+        <:label>{{t "components.administration.update-campaign-code.form.campaignCode"}}</:label>
+      </PixInput>
     </fieldset>
     <PixButton @type="submit" @size="small" @isLoading={{this.isLoading}}>
       {{t "components.administration.update-campaign-code.form.button"}}

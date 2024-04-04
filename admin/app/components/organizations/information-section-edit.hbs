@@ -156,12 +156,13 @@
 
     <div class="form-field">
       <PixSelect
-        @label="SSO"
         @options={{this.identityProviderOptions}}
         @value={{this.form.identityProviderForCampaigns}}
         @onChange={{this.onChangeIdentityProvider}}
         @hideDefaultOption={{true}}
-      />
+      >
+        <:label>SSO</:label>
+      </PixSelect>
     </div>
 
     <div class="form-field">
@@ -203,7 +204,7 @@
         @checked={{this.form.isMultipleSendingAssessmentEnabled}}
         @class="form-field__label"
       >
-        Activer l'envoi multiple pour les campagnes de type évaluation
+        <:label>Activer l'envoi multiple pour les campagnes de type évaluation</:label>
       </PixCheckbox>
     </div>
     <div class="form-field organization-edit-form__checkbox">
@@ -213,7 +214,7 @@
         @checked={{this.form.isPlacesManagementEnabled}}
         @class="form-field__label"
       >
-        Activer la page Places sur PixOrga
+        <:label>Activer la page Places sur PixOrga</:label>
       </PixCheckbox>
     </div>
     <div class="form-actions">

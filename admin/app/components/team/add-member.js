@@ -13,6 +13,7 @@ export default class AddMember extends Component {
   @tracked email = '';
   @tracked role = 'SUPER_ADMIN';
   @tracked inviteErrorRaised;
+  @tracked validationStatus = 'default';
 
   CUSTOM_ERROR_STATUS_MESSAGES = {
     STATUS_404: "Cet utilisateur n'existe pas.",
@@ -61,15 +62,18 @@ export default class AddMember extends Component {
   _isEmailValid() {
     if (!this.email) {
       this.inviteErrorRaised = 'Le champ adresse e-mail est requis.';
+      this.validationStatus = 'error';
       return false;
     }
 
     if (!isEmailValid(this.email)) {
       this.inviteErrorRaised = "L'adresse e-mail saisie n'est pas valide.";
+      this.validationStatus = 'error';
       return false;
     }
 
     this.inviteErrorRaised = null;
+    this.validationStatus = 'success';
     return true;
   }
 }
