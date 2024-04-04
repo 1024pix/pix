@@ -1,6 +1,6 @@
-import { EntityValidationError } from '../../../src/shared/domain/errors.js';
-import { getCampaignUrl } from '../../infrastructure/utils/url-builder.js';
-import { AlreadyRegisteredEmailError } from '../errors.js';
+import { AlreadyRegisteredEmailError } from '../../../../lib/domain/errors.js';
+import { getCampaignUrl } from '../../../../lib/infrastructure/utils/url-builder.js';
+import { EntityValidationError } from '../../../shared/domain/errors.js';
 
 function _manageEmailAvailabilityError(error) {
   return _manageError(error, AlreadyRegisteredEmailError, 'email', 'ALREADY_REGISTERED_EMAIL');
@@ -57,6 +57,7 @@ const createUser = async function ({
   localeFromHeader,
   password,
   user,
+  //dependencies
   authenticationMethodRepository,
   campaignRepository,
   userRepository,
