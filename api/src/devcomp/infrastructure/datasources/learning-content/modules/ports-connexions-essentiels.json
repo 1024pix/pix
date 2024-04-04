@@ -34,7 +34,7 @@
       "grainId": "259bb2d0-8815-4bab-885a-a54f7d6d9606"
     },
     {
-      "content": "<p>Pour finir ce module, à vous de jouer en reconnaissant les ports de votre ordinateur.</p>",
+      "content": "<p>Pour finir ce module, vous allez devoir explorer les ports de connexion de votre propre ordinateur.À vous de jouer&#8239;!</p>",
       "grainId": "57cea880-a324-4a1b-8cfe-a7c8d1b0f5b1"
     }
   ],
@@ -448,7 +448,7 @@
         {
           "id": "e6730d81-c115-4821-a415-4f719a252746",
           "type": "text",
-          "content": "<h3>Trouvez et nommez tous les ports de connexion de votre ordinateur.</h3>"
+          "content": "<h3>Cherchez et nommez tous les ports de connexion de votre ordinateur.</h3>"
         },
         {
           "id": "e6c1fdff-e2a3-4108-a1f8-245dc7e3668f",
