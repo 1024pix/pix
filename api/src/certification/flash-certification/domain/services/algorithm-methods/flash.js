@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { orderBy, range, sortBy, sortedUniqBy } = lodash;
 
-const DEFAULT_ESTIMATED_LEVEL = 0;
+const DEFAULT_CAPACITY = 0;
 const START_OF_SAMPLES = -9;
 const STEP_OF_SAMPLES = 18 / 80;
 const END_OF_SAMPLES = 9 + STEP_OF_SAMPLES;
@@ -15,78 +15,82 @@ const MAX_NUMBER_OF_RETURNED_CHALLENGES = 5;
 
 export {
   calculateTotalPixScoreAndScoreByCompetence,
+  getCapacityAndErrorRate,
+  getCapacityAndErrorRateHistory,
   getChallengesForNonAnsweredSkills,
-  getEstimatedLevelAndErrorRate,
-  getEstimatedLevelAndErrorRateHistory,
   getPossibleNextChallenges,
   getReward,
 };
 
 function getPossibleNextChallenges({
   availableChallenges,
-  estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
+  capacity = DEFAULT_CAPACITY,
   options: { minimalSuccessRate = 0 } = {},
 } = {}) {
   const challengesWithReward = availableChallenges.map((challenge) => {
     return {
       challenge,
-      reward: getReward({ estimatedLevel, discriminant: challenge.discriminant, difficulty: challenge.difficulty }),
+      reward: getReward({
+        capacity,
+        discriminant: challenge.discriminant,
+        difficulty: challenge.difficulty,
+      }),
     };
   });
 
-  return _findBestPossibleChallenges(challengesWithReward, minimalSuccessRate, estimatedLevel);
+  return _findBestPossibleChallenges(challengesWithReward, minimalSuccessRate, capacity);
 }
 
-function getEstimatedLevelAndErrorRate({
+function getCapacityAndErrorRate({
   allAnswers,
   challenges,
-  estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
+  capacity = DEFAULT_CAPACITY,
   doubleMeasuresUntil = 0,
   variationPercent,
   variationPercentUntil,
 }) {
   if (allAnswers.length === 0) {
-    return { estimatedLevel, errorRate: DEFAULT_ERROR_RATE };
+    return { capacity, errorRate: DEFAULT_ERROR_RATE };
   }
 
-  const estimatedLevelHistory = getEstimatedLevelAndErrorRateHistory({
+  const capacityHistory = getCapacityAndErrorRateHistory({
     allAnswers,
     challenges,
-    estimatedLevel,
+    capacity,
     doubleMeasuresUntil,
     variationPercent,
     variationPercentUntil,
   });
 
-  return estimatedLevelHistory.at(-1);
+  return capacityHistory.at(-1);
 }
 
-function getEstimatedLevelAndErrorRateHistory({
+function getCapacityAndErrorRateHistory({
   allAnswers,
   challenges,
-  estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
+  capacity = DEFAULT_CAPACITY,
   doubleMeasuresUntil = 0,
   variationPercent,
   variationPercentUntil,
 }) {
-  let latestEstimatedLevel = estimatedLevel;
+  let latestCapacity = capacity;
 
   let likelihood = samples.map(() => DEFAULT_PROBABILITY_TO_ANSWER);
   let normalizedPosteriori;
   let answerIndex = 0;
   let answer;
 
-  const estimatedLevelHistory = [];
+  const capacityHistory = [];
 
   while (answerIndex < allAnswers.length) {
     answer = allAnswers[answerIndex];
     const variationPercentForCurrentAnswer = variationPercentUntil >= answerIndex ? variationPercent : undefined;
 
     if (!_shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex, answersLength: allAnswers.length })) {
-      ({ latestEstimatedLevel, likelihood, normalizedPosteriori } = _singleMeasure({
+      ({ latestCapacity, likelihood, normalizedPosteriori } = _singleMeasure({
         challenges,
         answer,
-        latestEstimatedLevel,
+        latestCapacity,
         likelihood,
         normalizedPosteriori,
         variationPercent: variationPercentForCurrentAnswer,
@@ -96,10 +100,10 @@ function getEstimatedLevelAndErrorRateHistory({
     } else {
       answer = allAnswers[answerIndex];
       const answer2 = allAnswers[answerIndex + 1];
-      ({ latestEstimatedLevel, likelihood, normalizedPosteriori } = _doubleMeasure({
+      ({ latestCapacity, likelihood, normalizedPosteriori } = _doubleMeasure({
         challenges,
         answers: [answer, answer2],
-        latestEstimatedLevel,
+        latestCapacity,
         likelihood,
         normalizedPosteriori,
         variationPercent: variationPercentForCurrentAnswer,
@@ -108,14 +112,14 @@ function getEstimatedLevelAndErrorRateHistory({
       answerIndex += 2;
     }
 
-    estimatedLevelHistory.push({
+    capacityHistory.push({
       answerId: answer.id,
-      estimatedLevel: latestEstimatedLevel,
-      errorRate: _computeCorrectedErrorRate(latestEstimatedLevel, normalizedPosteriori),
+      capacity: latestCapacity,
+      errorRate: _computeCorrectedErrorRate(latestCapacity, normalizedPosteriori),
     });
   }
 
-  return estimatedLevelHistory;
+  return capacityHistory;
 }
 
 function _shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex, answersLength }) {
@@ -123,45 +127,31 @@ function _shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex, answersLeng
   return doubleMeasuresUntil > answerIndex && !isLastAnswer;
 }
 
-function _singleMeasure({
-  challenges,
-  answer,
-  latestEstimatedLevel,
-  likelihood,
-  normalizedPosteriori,
-  variationPercent,
-}) {
+function _singleMeasure({ challenges, answer, latestCapacity, likelihood, normalizedPosteriori, variationPercent }) {
   const answeredChallenge = _findChallengeForAnswer(challenges, answer);
 
-  const normalizedPrior = _computeNormalizedPrior(latestEstimatedLevel);
+  const normalizedPrior = _computeNormalizedPrior(latestCapacity);
 
   likelihood = _computeLikelihood(answeredChallenge, answer, likelihood);
 
   normalizedPosteriori = _computeNormalizedPosteriori(likelihood, normalizedPrior);
 
-  latestEstimatedLevel = _computeEstimatedLevel(latestEstimatedLevel, variationPercent, normalizedPosteriori);
-  return { latestEstimatedLevel, likelihood, normalizedPosteriori };
+  latestCapacity = _computeCapacity(latestCapacity, variationPercent, normalizedPosteriori);
+  return { latestCapacity, likelihood, normalizedPosteriori };
 }
 
-function _doubleMeasure({
-  challenges,
-  answers,
-  latestEstimatedLevel,
-  likelihood,
-  normalizedPosteriori,
-  variationPercent,
-}) {
+function _doubleMeasure({ challenges, answers, latestCapacity, likelihood, normalizedPosteriori, variationPercent }) {
   const answeredChallenge1 = _findChallengeForAnswer(challenges, answers[0]);
   const answeredChallenge2 = _findChallengeForAnswer(challenges, answers[1]);
 
-  const normalizedPrior = _computeNormalizedPrior(latestEstimatedLevel);
+  const normalizedPrior = _computeNormalizedPrior(latestCapacity);
 
   likelihood = _computeDoubleMeasureLikelihood([answeredChallenge1, answeredChallenge2], answers, likelihood);
 
   normalizedPosteriori = _computeNormalizedPosteriori(likelihood, normalizedPrior);
 
-  latestEstimatedLevel = _computeEstimatedLevel(latestEstimatedLevel, variationPercent, normalizedPosteriori);
-  return { latestEstimatedLevel, likelihood, normalizedPosteriori };
+  latestCapacity = _computeCapacity(latestCapacity, variationPercent, normalizedPosteriori);
+  return { latestCapacity, likelihood, normalizedPosteriori };
 }
 
 function _computeNormalizedPrior(gaussianMean) {
@@ -199,17 +189,17 @@ function _computeNormalizedPosteriori(likelihood, normalizedGaussian) {
   return _normalizeDistribution(posteriori);
 }
 
-function _computeEstimatedLevel(previousEstimatedLevel, variationPercent, normalizedPosteriori) {
-  const rawNextEstimatedLevel = lodash.sum(samples.map((sample, index) => sample * normalizedPosteriori[index]));
+function _computeCapacity(previousCapacity, variationPercent, normalizedPosteriori) {
+  const rawNextCapacity = lodash.sum(samples.map((sample, index) => sample * normalizedPosteriori[index]));
 
   return variationPercent
-    ? _limitEstimatedLevelVariation(previousEstimatedLevel, rawNextEstimatedLevel, variationPercent)
-    : rawNextEstimatedLevel;
+    ? _limitCapacityVariation(previousCapacity, rawNextCapacity, variationPercent)
+    : rawNextCapacity;
 }
 
-function _computeCorrectedErrorRate(latestEstimatedLevel, normalizedPosteriori) {
+function _computeCorrectedErrorRate(latestCapacity, normalizedPosteriori) {
   const rawErrorRate = lodash.sum(
-    samples.map((sample, index) => normalizedPosteriori[index] * (sample - latestEstimatedLevel) ** 2),
+    samples.map((sample, index) => normalizedPosteriori[index] * (sample - latestCapacity) ** 2),
   );
 
   return Math.sqrt(rawErrorRate - (ERROR_RATE_CLASS_INTERVAL ** 2) / 12.0); // prettier-ignore
@@ -226,36 +216,30 @@ function getChallengesForNonAnsweredSkills({ allAnswers, challenges }) {
   return challengesForNonAnsweredSkills;
 }
 
-function calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel }) {
+function calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, capacity }) {
   const succeededChallenges = _getDirectSucceededChallenges({ allAnswers, challenges });
 
   const inferredChallenges = _getInferredChallenges({
     challenges: getChallengesForNonAnsweredSkills({ allAnswers, challenges }),
-    estimatedLevel,
+    capacity,
   });
 
-  const pixScoreAndScoreByCompetence = _sumPixScoreAndScoreByCompetence([
-    ...succeededChallenges,
-    ...inferredChallenges,
-  ]);
-
-  return pixScoreAndScoreByCompetence;
+  return _sumPixScoreAndScoreByCompetence([...succeededChallenges, ...inferredChallenges]);
 }
 
-function _limitEstimatedLevelVariation(previousEstimatedLevel, nextEstimatedLevel, variationPercent) {
-  const hasSmallEstimatedLevel =
-    -variationPercent < previousEstimatedLevel && previousEstimatedLevel < variationPercent;
+function _limitCapacityVariation(previousCapacity, nextCapacity, variationPercent) {
+  const hasSmallCapacity = -variationPercent < previousCapacity && previousCapacity < variationPercent;
 
-  const gap = hasSmallEstimatedLevel ? variationPercent : Math.abs(previousEstimatedLevel * variationPercent);
+  const gap = hasSmallCapacity ? variationPercent : Math.abs(previousCapacity * variationPercent);
 
-  return nextEstimatedLevel > previousEstimatedLevel
-    ? Math.min(nextEstimatedLevel, previousEstimatedLevel + gap)
-    : Math.max(nextEstimatedLevel, previousEstimatedLevel - gap);
+  return nextCapacity > previousCapacity
+    ? Math.min(nextCapacity, previousCapacity + gap)
+    : Math.max(nextCapacity, previousCapacity - gap);
 }
 
-function _findBestPossibleChallenges(challengesWithReward, minimumSuccessRate, estimatedLevel) {
+function _findBestPossibleChallenges(challengesWithReward, minimumSuccessRate, capacity) {
   const hasMinimumSuccessRate = ({ challenge }) => {
-    const successProbability = _getProbability(estimatedLevel, challenge.discriminant, challenge.difficulty);
+    const successProbability = _getProbability(capacity, challenge.discriminant, challenge.difficulty);
 
     return successProbability >= minimumSuccessRate;
   };
@@ -276,9 +260,9 @@ function _getDirectSucceededChallenges({ allAnswers, challenges }) {
   return correctAnswers.map((answer) => _findChallengeForAnswer(challenges, answer));
 }
 
-function _getInferredChallenges({ challenges, estimatedLevel }) {
+function _getInferredChallenges({ challenges, capacity }) {
   const challengesForInferrence = _findChallengesForInferrence(challenges);
-  return challengesForInferrence.filter((challenge) => estimatedLevel >= challenge.minimumCapability);
+  return challengesForInferrence.filter((challenge) => capacity >= challenge.minimumCapability);
 }
 
 /**
@@ -335,16 +319,16 @@ function _sumPixScoreAndScoreByCompetence(challenges) {
   return { pixScore, pixScoreByCompetence };
 }
 
-function getReward({ estimatedLevel, discriminant, difficulty }) {
-  const probability = _getProbability(estimatedLevel, discriminant, difficulty);
+function getReward({ capacity, discriminant, difficulty }) {
+  const probability = _getProbability(capacity, discriminant, difficulty);
   return probability * (1 - probability) * Math.pow(discriminant, 2);
 }
 
 // Parameters are not wrapped inside an object for performance reasons
 // It avoids creating an object before each call which will trigger lots of
 // garbage collection, especially when running simulators
-function _getProbability(estimatedLevel, discriminant, difficulty) {
-  return 1 / (1 + Math.exp(discriminant * (difficulty - estimatedLevel)));
+function _getProbability(capacity, discriminant, difficulty) {
+  return 1 / (1 + Math.exp(discriminant * (difficulty - capacity)));
 }
 
 function _getGaussianValue({ gaussianMean, value }) {

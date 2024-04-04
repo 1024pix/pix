@@ -17,7 +17,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           allChallenges,
           availableChallenges,
           allAnswers,
-          estimatedLevel: 0,
+          capacity: 0,
         });
 
         // then
@@ -81,7 +81,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           allChallenges,
           availableChallenges,
           allAnswers,
-          estimatedLevel: 0,
+          capacity: 0,
         });
 
         // then
@@ -90,23 +90,23 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     });
   });
 
-  describe('#getEstimatedLevelAndErrorRate', function () {
+  describe('#getCapacityAndErrorRate', function () {
     context('when single measure', function () {
       it('should return 0 when there is no answers', function () {
         // given
         const allAnswers = [];
 
         // when
-        const result = flash.getEstimatedLevelAndErrorRate({ allAnswers });
+        const result = flash.getCapacityAndErrorRate({ allAnswers });
 
         // then
         expect(result).to.deep.equal({
-          estimatedLevel: 0,
+          capacity: 0,
           errorRate: 5,
         });
       });
 
-      it('should return the correct estimatedLevel when there is one answer', function () {
+      it('should return the correct capacity when there is one answer', function () {
         // given
         const challenges = [
           domainBuilder.buildChallenge({
@@ -118,14 +118,14 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
 
         // when
-        const { estimatedLevel, errorRate } = flash.getEstimatedLevelAndErrorRate({ allAnswers, challenges });
+        const { capacity, errorRate } = flash.getCapacityAndErrorRate({ allAnswers, challenges });
 
         // then
-        expect(estimatedLevel).to.be.closeTo(0.859419960298745, 0.00000000001);
+        expect(capacity).to.be.closeTo(0.859419960298745, 0.00000000001);
         expect(errorRate).to.be.closeTo(0.9327454634914153, 0.00000000001);
       });
 
-      it('should return the correct estimatedLevel when there is two answers', function () {
+      it('should return the correct capacity when there is two answers', function () {
         // given
         const challenges = [
           domainBuilder.buildChallenge({
@@ -146,14 +146,14 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         ];
 
         // when
-        const { estimatedLevel, errorRate } = flash.getEstimatedLevelAndErrorRate({ allAnswers, challenges });
+        const { capacity, errorRate } = flash.getCapacityAndErrorRate({ allAnswers, challenges });
 
         // then
-        expect(estimatedLevel).to.be.closeTo(1.802340122865396, 0.00000000001);
+        expect(capacity).to.be.closeTo(1.802340122865396, 0.00000000001);
         expect(errorRate).to.be.closeTo(0.8549014053951466, 0.00000000001);
       });
 
-      it('should return the correct estimatedLevel when there is three answers', function () {
+      it('should return the correct capacity when there is three answers', function () {
         // given
         const challenges = [
           domainBuilder.buildChallenge({
@@ -180,15 +180,15 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         ];
 
         // when
-        const { estimatedLevel, errorRate } = flash.getEstimatedLevelAndErrorRate({ allAnswers, challenges });
+        const { capacity, errorRate } = flash.getCapacityAndErrorRate({ allAnswers, challenges });
 
         // then
-        expect(estimatedLevel).to.be.closeTo(2.851063556136754, 0.00000000001);
+        expect(capacity).to.be.closeTo(2.851063556136754, 0.00000000001);
         expect(errorRate).to.be.closeTo(0.9271693210547304, 0.00000000001);
       });
 
       context('when the user answers a lot of challenges', function () {
-        it('should return the correct estimatedLevel and errorRate', function () {
+        it('should return the correct capacity and errorRate', function () {
           const listSkills = {
             url5: domainBuilder.buildSkill({ id: 'url5' }),
             web3: domainBuilder.buildSkill({ id: 'web3' }),
@@ -332,7 +332,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             domainBuilder.buildAnswer({ challengeId: 'recA', result: AnswerStatus.OK }),
             domainBuilder.buildAnswer({ challengeId: 'recQ', result: AnswerStatus.OK }),
           ];
-          const expectedEstimatedLevel = [
+          const expectedCapacity = [
             0, -0.6086049191210775, -0.6653800198379971, -1.7794873733366134, -1.8036203882448785, -1.557864373635504,
             -1.3925555729766932,
           ];
@@ -346,10 +346,10 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           let result;
 
           for (let i = 0; i < answers.length; i++) {
-            result = flash.getEstimatedLevelAndErrorRate({ challenges: listChallenges, allAnswers });
+            result = flash.getCapacityAndErrorRate({ challenges: listChallenges, allAnswers });
 
             // then
-            expect(result.estimatedLevel).to.be.closeTo(expectedEstimatedLevel[i], 0.000000001);
+            expect(result.capacity).to.be.closeTo(expectedCapacity[i], 0.000000001);
             expect(result.errorRate).to.be.closeTo(expectedErrorRate[i], 0.000000001);
 
             allAnswers.push(answers[i]);
@@ -359,7 +359,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
       context('when limiting the estimated level variation to a given number of challenges', function () {
         context('when giving a right answer', function () {
-          it('should return the limited estimatedLevel for the correct number of challenges', function () {
+          it('should return the limited capacity for the correct number of challenges', function () {
             // given
             const challenges = [
               domainBuilder.buildChallenge({
@@ -374,7 +374,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             const variationPercentUntil = 1;
 
             // when
-            const { estimatedLevel } = flash.getEstimatedLevelAndErrorRate({
+            const { capacity } = flash.getCapacityAndErrorRate({
               allAnswers,
               challenges,
               variationPercent,
@@ -382,12 +382,12 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             });
 
             // then
-            expect(estimatedLevel).to.be.closeTo(0.5, 0.00000000001);
+            expect(capacity).to.be.closeTo(0.5, 0.00000000001);
           });
         });
 
         context('when giving a wrong answer', function () {
-          it('should return the limited estimatedLevel', function () {
+          it('should return the limited capacity', function () {
             // given
             const challenges = [
               domainBuilder.buildChallenge({
@@ -402,7 +402,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             const variationPercentUntil = 1;
 
             // when
-            const { estimatedLevel } = flash.getEstimatedLevelAndErrorRate({
+            const { capacity } = flash.getCapacityAndErrorRate({
               allAnswers,
               challenges,
               variationPercent,
@@ -410,14 +410,14 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             });
 
             // then
-            expect(estimatedLevel).to.be.closeTo(-0.5, 0.00000000001);
+            expect(capacity).to.be.closeTo(-0.5, 0.00000000001);
           });
         });
       });
     });
 
     context('when double measure', function () {
-      it('should return the correct estimatedLevel when there is three answers', function () {
+      it('should return the correct capacity when there is three answers', function () {
         // given
         const challenges = [
           domainBuilder.buildChallenge({
@@ -444,18 +444,18 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         ];
 
         // when
-        const { estimatedLevel } = flash.getEstimatedLevelAndErrorRate({
+        const { capacity } = flash.getCapacityAndErrorRate({
           allAnswers,
           challenges,
           doubleMeasuresUntil: 2,
         });
 
         // then
-        expect(estimatedLevel).to.be.closeTo(1.663469355503838, 0.00000000001);
+        expect(capacity).to.be.closeTo(1.663469355503838, 0.00000000001);
       });
 
       context('when double measure is active with an odd number of challenges', function () {
-        it('should return the correct estimatedLevel when there is three answers', function () {
+        it('should return the correct capacity when there is three answers', function () {
           // given
           const challenges = [
             domainBuilder.buildChallenge({
@@ -482,33 +482,33 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           ];
 
           // when
-          const { estimatedLevel } = flash.getEstimatedLevelAndErrorRate({
+          const { capacity } = flash.getCapacityAndErrorRate({
             allAnswers,
             challenges,
             doubleMeasuresUntil: 4,
           });
 
           // then
-          expect(estimatedLevel).to.be.closeTo(1.663469355503838, 0.00000000001);
+          expect(capacity).to.be.closeTo(1.663469355503838, 0.00000000001);
         });
       });
     });
   });
 
-  describe('#getEstimatedLevelAndErrorRateHistory', function () {
+  describe('#getCapacityAndErrorRateHistory', function () {
     context('when single measure', function () {
       it('should return 0 when there is no answers', function () {
         // given
         const allAnswers = [];
 
         // when
-        const result = flash.getEstimatedLevelAndErrorRateHistory({ allAnswers });
+        const result = flash.getCapacityAndErrorRateHistory({ allAnswers });
 
         // then
         expect(result).to.deep.equal([]);
       });
 
-      it('should return the correct estimatedLevel when there is one answer', function () {
+      it('should return the correct capacity when there is one answer', function () {
         // given
         const challenges = [
           domainBuilder.buildChallenge({
@@ -520,14 +520,14 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
 
         // when
-        const [{ estimatedLevel, errorRate }] = flash.getEstimatedLevelAndErrorRateHistory({ allAnswers, challenges });
+        const [{ capacity, errorRate }] = flash.getCapacityAndErrorRateHistory({ allAnswers, challenges });
 
         // then
-        expect(estimatedLevel).to.be.closeTo(0.859419960298745, 0.00000000001);
+        expect(capacity).to.be.closeTo(0.859419960298745, 0.00000000001);
         expect(errorRate).to.be.closeTo(0.9327454634914153, 0.00000000001);
       });
 
-      it('should return the correct estimatedLevel when there are two answers', function () {
+      it('should return the correct capacity when there are two answers', function () {
         // given
         const challenges = [
           domainBuilder.buildChallenge({
@@ -548,12 +548,12 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         ];
 
         // when
-        const results = flash.getEstimatedLevelAndErrorRateHistory({ allAnswers, challenges });
+        const results = flash.getCapacityAndErrorRateHistory({ allAnswers, challenges });
 
         // then
-        expect(results[0].estimatedLevel).to.be.closeTo(0.859419960298745, 0.00000000001);
+        expect(results[0].capacity).to.be.closeTo(0.859419960298745, 0.00000000001);
         expect(results[0].errorRate).to.be.closeTo(0.9327454634914153, 0.00000000001);
-        expect(results[1].estimatedLevel).to.be.closeTo(1.802340122865396, 0.00000000001);
+        expect(results[1].capacity).to.be.closeTo(1.802340122865396, 0.00000000001);
         expect(results[1].errorRate).to.be.closeTo(0.8549014053951466, 0.00000000001);
       });
 
@@ -574,7 +574,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         ];
 
         // when
-        const results = flash.getEstimatedLevelAndErrorRateHistory({ allAnswers, challenges });
+        const results = flash.getCapacityAndErrorRateHistory({ allAnswers, challenges });
 
         // then
         expect(results[0].answerId).to.equal(answerId);
@@ -704,12 +704,12 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
         const challenges = [...inferredChallenges, ...notInferredChallenges];
 
-        const estimatedLevel = 2;
+        const capacity = 2;
 
         const allAnswers = [];
 
         // when
-        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, capacity });
 
         // then
         expect(result).to.deep.equal({
@@ -818,10 +818,10 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED, challengeId: challenges[3].id }),
         ];
 
-        const estimatedLevel = 2;
+        const capacity = 2;
 
         // when
-        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, capacity });
 
         // then
         expect(result).to.deep.equal({
@@ -911,7 +911,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
         const challenges = [...succeededChallenges, ...inferredChallenges, ...notInferredChallenges];
 
-        const estimatedLevel = 2;
+        const capacity = 2;
 
         const allAnswers = [
           domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: succeededChallenges[0].id }),
@@ -919,7 +919,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         ];
 
         // when
-        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, capacity });
 
         // then
         expect(result).to.deep.equal({
@@ -962,12 +962,12 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           }), // minimumCapability: 2.1295639109084643
         ];
 
-        const estimatedLevel = 2;
+        const capacity = 2;
 
         const allAnswers = [];
 
         // when
-        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, capacity });
 
         // then
         expect(result).to.deep.equal({

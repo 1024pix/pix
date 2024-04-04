@@ -14,13 +14,13 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
         const doubleMeasuresUntil = 2;
         const algorithm = {
           getPossibleNextChallenges: sinon.stub(),
-          getEstimatedLevelAndErrorRate: sinon.stub(),
+          getCapacityAndErrorRate: sinon.stub(),
           getReward: sinon.stub(),
         };
         const pickChallenge = sinon.stub();
         const pickAnswerStatus = sinon.stub();
 
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             allAnswers: [],
             challenges: allChallenges,
@@ -28,7 +28,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
             doubleMeasuresUntil,
           })
           .returns({
-            estimatedLevel: initialCapacity,
+            capacity: initialCapacity,
           });
 
         algorithm.getPossibleNextChallenges
@@ -36,7 +36,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
             assessmentAnswers: [],
             challenges: allChallenges,
             initialCapacity,
-            answersForComputingEstimatedLevel: [],
+            answersForComputingCapacity: [],
           })
           .returns([challenge2, challenge1]);
 
@@ -72,12 +72,12 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
         const answerStatusForSimulator2 = AnswerStatus.OK;
         const newAnswer1 = new Answer({ challengeId: challenge1.id, result: answerStatusForSimulator1 });
         const newAnswer2 = new Answer({ challengeId: challenge2.id, result: answerStatusForSimulator2 });
-        const estimatedLevelBeforeAnswering = -0.5;
-        const expectedEstimatedLevel = 0.4;
+        const capacityBeforeAnswering = -0.5;
+        const expectedCapacity = 0.4;
         const initialCapacity = 0;
         const algorithm = {
           getPossibleNextChallenges: sinon.stub(),
-          getEstimatedLevelAndErrorRate: sinon.stub(),
+          getCapacityAndErrorRate: sinon.stub(),
           getReward: sinon.stub(),
         };
         const pickChallenge = sinon.stub();
@@ -88,18 +88,18 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
             assessmentAnswers: [],
             challenges: allChallenges,
             initialCapacity,
-            answersForComputingEstimatedLevel: [],
+            answersForComputingCapacity: [],
           })
           .returns([challenge2, challenge1])
           .withArgs({
             assessmentAnswers: [newAnswer2],
             challenges: allChallenges,
             initialCapacity,
-            answersForComputingEstimatedLevel: [],
+            answersForComputingCapacity: [],
           })
           .returns([challenge1]);
 
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             allAnswers: [],
             challenges: allChallenges,
@@ -107,7 +107,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
             doubleMeasuresUntil: 2,
           })
           .returns({
-            estimatedLevel: estimatedLevelBeforeAnswering,
+            capacity: capacityBeforeAnswering,
           })
           .withArgs({
             allAnswers: [sinon.match(newAnswer2), sinon.match(newAnswer1)],
@@ -116,18 +116,18 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
             doubleMeasuresUntil: 2,
           })
           .returns({
-            estimatedLevel: expectedEstimatedLevel,
+            capacity: expectedCapacity,
           });
 
         algorithm.getReward
           .withArgs({
-            estimatedLevel: estimatedLevelBeforeAnswering,
+            capacity: capacityBeforeAnswering,
             difficulty: challenge1.difficulty,
             discriminant: challenge1.discriminant,
           })
           .returns(challenge1Reward)
           .withArgs({
-            estimatedLevel: estimatedLevelBeforeAnswering,
+            capacity: capacityBeforeAnswering,
             difficulty: challenge2.difficulty,
             discriminant: challenge2.discriminant,
           })
@@ -150,13 +150,13 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           results: [
             {
               challenge: challenge2,
-              estimatedLevel: expectedEstimatedLevel,
+              capacity: expectedCapacity,
               answerStatus: answerStatusForSimulator2.status,
               reward: challenge2Reward,
             },
             {
               challenge: challenge1,
-              estimatedLevel: expectedEstimatedLevel,
+              capacity: expectedCapacity,
               answerStatus: answerStatusForSimulator1.status,
               reward: challenge1Reward,
             },

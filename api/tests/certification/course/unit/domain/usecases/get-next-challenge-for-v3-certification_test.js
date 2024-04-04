@@ -43,11 +43,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
       };
       flashAlgorithmService = {
         getPossibleNextChallenges: sinon.stub(),
-        getEstimatedLevelAndErrorRate: sinon.stub(),
+        getCapacityAndErrorRate: sinon.stub(),
       };
 
       flashAlgorithmConfiguration = domainBuilder.buildFlashAlgorithmConfiguration();
     });
+
     context('when there are challenges left to answer', function () {
       it('should save the returned next challenge', async function () {
         // given
@@ -78,21 +79,21 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallengeToAnswer]);
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
+        flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
             allAnswers: [],
             challenges: [nextChallengeToAnswer],
-            estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+            capacity: config.v3Certification.defaultCandidateCapacity,
             variationPercent: undefined,
             variationPercentUntil: undefined,
             doubleMeasuresUntil: undefined,
           })
-          .returns({ estimatedLevel: 0 });
+          .returns({ capacity: 0 });
 
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
             availableChallenges: [nextChallengeToAnswer],
-            estimatedLevel: 0,
+            capacity: 0,
             options: sinon.match.any,
           })
           .returns([nextChallengeToAnswer]);
@@ -206,21 +207,21 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallenge, lastSeenChallenge]);
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
+        flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
             allAnswers: [],
             challenges: [nextChallenge],
-            estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+            capacity: config.v3Certification.defaultCandidateCapacity,
             variationPercent: undefined,
             variationPercentUntil: undefined,
             doubleMeasuresUntil: undefined,
           })
-          .returns({ estimatedLevel: 0 });
+          .returns({ capacity: 0 });
 
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
             availableChallenges: [nextChallenge],
-            estimatedLevel: 0,
+            capacity: 0,
             options: sinon.match.any,
           })
           .returns([nextChallenge]);
@@ -303,21 +304,21 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
           .withArgs()
           .resolves([challengeWithLiveAlert, challengeWithOtherSkill, challengeWithLiveAlertedSkill]);
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
+        flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
             allAnswers: [],
             challenges: [challengeWithOtherSkill],
-            estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+            capacity: config.v3Certification.defaultCandidateCapacity,
             variationPercent: undefined,
             variationPercentUntil: undefined,
             doubleMeasuresUntil: undefined,
           })
-          .returns({ estimatedLevel: 0 });
+          .returns({ capacity: 0 });
 
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
             availableChallenges: [challengeWithOtherSkill],
-            estimatedLevel: 0,
+            capacity: 0,
             options: sinon.match.any,
           })
           .returns([challengeWithOtherSkill]);
@@ -375,7 +376,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
 
         const flashAlgorithmService = {
           getPossibleNextChallenges: sinon.stub(),
-          getEstimatedLevelAndErrorRate: sinon.stub(),
+          getCapacityAndErrorRate: sinon.stub(),
         };
 
         flashAlgorithmConfigurationRepository.getMostRecentBeforeDate
@@ -398,23 +399,23 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
         answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
         challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([answeredChallenge]);
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
+        flashAlgorithmService.getCapacityAndErrorRate
           .withArgs({
             allAnswers: [answer],
             challenges: [answeredChallenge],
-            estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+            capacity: config.v3Certification.defaultCandidateCapacity,
             variationPercent: undefined,
             variationPercentUntil: undefined,
             doubleMeasuresUntil: undefined,
           })
           .returns({
-            estimatedLevel: 2,
+            capacity: 2,
           });
 
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
             availableChallenges: [],
-            estimatedLevel: 2,
+            capacity: 2,
             options: sinon.match.any,
           })
           .returns({
@@ -498,21 +499,21 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-v3-certification', 
             answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
             challengeRepository.findActiveFlashCompatible.withArgs({ locale }).resolves([nextChallengeToAnswer]);
 
-            flashAlgorithmService.getEstimatedLevelAndErrorRate
+            flashAlgorithmService.getCapacityAndErrorRate
               .withArgs({
                 allAnswers: [],
                 challenges: [nextChallengeToAnswer],
-                estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+                capacity: config.v3Certification.defaultCandidateCapacity,
                 variationPercent: configuration.variationPercent,
                 variationPercentUntil: undefined,
                 doubleMeasuresUntil: undefined,
               })
-              .returns({ estimatedLevel: 0 });
+              .returns({ capacity: 0 });
 
             flashAlgorithmService.getPossibleNextChallenges
               .withArgs({
                 availableChallenges: [nextChallengeToAnswer],
-                estimatedLevel: 0,
+                capacity: 0,
                 options: sinon.match.any,
               })
               .returns([nextChallengeToAnswer]);

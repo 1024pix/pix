@@ -5,7 +5,7 @@ describe('Unit | Certification | V3CertificationScoring', function () {
   describe('#getCompetencesScore', function () {
     it('should return the competences score', function () {
       // Given
-      const estimatedLevel = 3;
+      const capacity = 3;
       const competence1Score = 1;
       const competence2Score = 2;
       const competenceForScoring1 = {
@@ -18,8 +18,8 @@ describe('Unit | Certification | V3CertificationScoring', function () {
       const competence1Mark = domainBuilder.buildCompetenceMark({ score: competence1Score });
       const competence2Mark = domainBuilder.buildCompetenceMark({ score: competence2Score });
 
-      competenceForScoring1.getCompetenceMark.withArgs(estimatedLevel).returns(competence1Mark);
-      competenceForScoring2.getCompetenceMark.withArgs(estimatedLevel).returns(competence2Mark);
+      competenceForScoring1.getCompetenceMark.withArgs(capacity).returns(competence1Mark);
+      competenceForScoring2.getCompetenceMark.withArgs(capacity).returns(competence2Mark);
       const competencesForScoring = [competenceForScoring1, competenceForScoring2];
       const certificationScoringConfiguration = {};
 
@@ -29,7 +29,7 @@ describe('Unit | Certification | V3CertificationScoring', function () {
       });
 
       // When
-      const competencesScore = v3CertificationScoring.getCompetencesScore(estimatedLevel);
+      const competencesScore = v3CertificationScoring.getCompetencesScore(capacity);
 
       // Then
       expect(competencesScore).to.deep.equal([competence1Mark, competence2Mark]);

@@ -32,7 +32,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       findFlashCompatible: sinon.stub(),
     };
     algorithm = {
-      getEstimatedLevelAndErrorRate: sinon.stub(),
+      getCapacityAndErrorRate: sinon.stub(),
       getConfiguration: sinon.stub(),
     };
 
@@ -84,8 +84,8 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
   describe('when the candidate finished the test', function () {
     it('should return the full score', async function () {
-      const expectedEstimatedLevel = 2;
-      const expectedScoreForEstimatedLevel = 640;
+      const expectedCapacity = 2;
+      const expectedScoreForCapacity = 640;
 
       const numberOfQuestions = 32;
 
@@ -94,13 +94,13 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
       answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
       challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-      algorithm.getEstimatedLevelAndErrorRate
+      algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
           allAnswers,
         })
         .returns({
-          estimatedLevel: expectedEstimatedLevel,
+          capacity: expectedCapacity,
         });
 
       algorithm.getConfiguration.returns(
@@ -117,11 +117,11 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         v3CertificationScoring,
       });
 
-      expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
+      expect(score.nbPix).to.equal(expectedScoreForCapacity);
     });
 
     it('should return the competence marks', async function () {
-      const expectedEstimatedLevel = 2;
+      const expectedCapacity = 2;
 
       const numberOfQuestions = 32;
 
@@ -130,13 +130,13 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
       answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
       challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-      algorithm.getEstimatedLevelAndErrorRate
+      algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
           allAnswers,
         })
         .returns({
-          estimatedLevel: expectedEstimatedLevel,
+          capacity: expectedCapacity,
         });
 
       algorithm.getConfiguration.returns(
@@ -168,8 +168,8 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   describe('when the candidate did not finish the test', function () {
     describe('when the abort reason is technical difficulties', function () {
       it('should return the raw score', async function () {
-        const expectedEstimatedLevel = 2;
-        const expectedScoreForEstimatedLevel = 640;
+        const expectedCapacity = 2;
+        const expectedScoreForCapacity = 640;
 
         const numberOfAnsweredQuestions = 20;
         const numberCertificationQuestions = 32;
@@ -180,13 +180,13 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
         answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
         challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             challenges,
             allAnswers,
           })
           .returns({
-            estimatedLevel: expectedEstimatedLevel,
+            capacity: expectedCapacity,
           });
 
         algorithm.getConfiguration.returns(
@@ -204,11 +204,11 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           v3CertificationScoring,
         });
 
-        expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
+        expect(score.nbPix).to.equal(expectedScoreForCapacity);
       });
 
       it('should return the competence marks', async function () {
-        const expectedEstimatedLevel = 2;
+        const expectedCapacity = 2;
 
         const numberOfAnsweredQuestions = 20;
         const numberCertificationQuestions = 32;
@@ -219,13 +219,13 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
         answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
         challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             challenges,
             allAnswers,
           })
           .returns({
-            estimatedLevel: expectedEstimatedLevel,
+            capacity: expectedCapacity,
           });
 
         algorithm.getConfiguration.returns(
@@ -257,7 +257,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
     describe('when the abort reason is that the candidate did not finish', function () {
       it('should return the competence marks', async function () {
-        const expectedEstimatedLevel = 2;
+        const expectedCapacity = 2;
 
         const numberOfAnsweredQuestions = 20;
         const numberCertificationQuestions = 32;
@@ -268,13 +268,13 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
         answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
         challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             challenges,
             allAnswers,
           })
           .returns({
-            estimatedLevel: expectedEstimatedLevel,
+            capacity: expectedCapacity,
           });
 
         algorithm.getConfiguration.returns(
@@ -308,19 +308,19 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   describe('when we reach an estimated level below the MINIMUM', function () {
     it('the score should be 0', function () {
       // given
-      const veryLowEstimatedLevel = -9;
+      const veryLowCapacity = -9;
       const veryEasyDifficulty = -8;
       const numberOfChallenges = 32;
       const challenges = _buildChallenges(veryEasyDifficulty, numberOfChallenges);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.KO);
 
-      algorithm.getEstimatedLevelAndErrorRate
+      algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
           allAnswers,
         })
         .returns({
-          estimatedLevel: veryLowEstimatedLevel,
+          capacity: veryLowCapacity,
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
@@ -339,19 +339,19 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
     it('should return the competence marks', function () {
       // given
-      const veryLowEstimatedLevel = -9;
+      const veryLowCapacity = -9;
       const veryEasyDifficulty = -8;
       const numberOfChallenges = 32;
       const challenges = _buildChallenges(veryEasyDifficulty, numberOfChallenges);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.KO);
 
-      algorithm.getEstimatedLevelAndErrorRate
+      algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
           allAnswers,
         })
         .returns({
-          estimatedLevel: veryLowEstimatedLevel,
+          capacity: veryLowCapacity,
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
@@ -380,19 +380,19 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   describe('when we reach an estimated level above the MAXIMUM', function () {
     it('the score should be 896', function () {
       // given
-      const veryHighEstimatedLevel = 1200;
+      const veryHighCapacity = 1200;
       const veryHardDifficulty = 8;
       const numberOfChallenges = 32;
       const challenges = _buildChallenges(veryHardDifficulty, numberOfChallenges);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
 
-      algorithm.getEstimatedLevelAndErrorRate
+      algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
           allAnswers,
         })
         .returns({
-          estimatedLevel: veryHighEstimatedLevel,
+          capacity: veryHighCapacity,
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
@@ -411,19 +411,19 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
     it('should return the competence marks', function () {
       // given
-      const veryHighEstimatedLevel = 1200;
+      const veryHighCapacity = 1200;
       const veryHardDifficulty = 8;
       const numberOfChallenges = 32;
       const challenges = _buildChallenges(veryHardDifficulty, numberOfChallenges);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
 
-      algorithm.getEstimatedLevelAndErrorRate
+      algorithm.getCapacityAndErrorRate
         .withArgs({
           challenges,
           allAnswers,
         })
         .returns({
-          estimatedLevel: veryHighEstimatedLevel,
+          capacity: veryHighCapacity,
         });
       algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
@@ -457,13 +457,13 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         const challenges = _buildChallenges(difficulty, numberOfChallenges);
         const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
 
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             challenges,
             allAnswers,
           })
           .returns({
-            estimatedLevel: 0,
+            capacity: 0,
           });
 
         algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
@@ -487,13 +487,13 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
           const challenges = _buildChallenges(difficulty, numberOfChallenges);
           const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
-          algorithm.getEstimatedLevelAndErrorRate
+          algorithm.getCapacityAndErrorRate
             .withArgs({
               challenges,
               allAnswers,
             })
             .returns({
-              estimatedLevel: 0,
+              capacity: 0,
             });
 
           algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
@@ -517,13 +517,13 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
           const challenges = _buildChallenges(difficulty, numberOfChallenges);
           const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
-          algorithm.getEstimatedLevelAndErrorRate
+          algorithm.getCapacityAndErrorRate
             .withArgs({
               challenges,
               allAnswers,
             })
             .returns({
-              estimatedLevel: 0,
+              capacity: 0,
             });
 
           algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
@@ -549,13 +549,13 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
         const challenges = _buildChallenges(difficulty, numberOfChallenges);
         const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
-        algorithm.getEstimatedLevelAndErrorRate
+        algorithm.getCapacityAndErrorRate
           .withArgs({
             challenges,
             allAnswers,
           })
           .returns({
-            estimatedLevel: 0,
+            capacity: 0,
           });
 
         algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());

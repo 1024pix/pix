@@ -24,7 +24,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
   beforeEach(function () {
     flashAlgorithmImplementation = {
       getPossibleNextChallenges: sinon.stub(),
-      getEstimatedLevelAndErrorRate: sinon.stub(),
+      getCapacityAndErrorRate: sinon.stub(),
     };
   });
 
@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           domainBuilder.buildChallenge({ id: assessmentAnswers[0].challengeId, skill: skill1 }),
           domainBuilder.buildChallenge({ competenceId: 'comp2', skill: skill2 }),
         ];
-        const estimatedLevel = 0;
+        const capacity = 0;
         const algorithm = new FlashAssessmentAlgorithm({
           flashAlgorithmImplementation,
           configuration: _getAlgorithmConfig({
@@ -50,7 +50,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           algorithm.getPossibleNextChallenges({
             assessmentAnswers,
             challenges,
-            estimatedLevel,
+            capacity,
           }),
         ).to.throw(AssessmentEndedError);
       });
@@ -62,7 +62,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           const alreadyAnsweredChallengesCount = 10;
           const remainingAnswersToGive = 1;
           const initialCapacity = config.v3Certification.defaultCandidateCapacity;
-          const computedEstimatedLevel = 2;
+          const computedCapacity = 2;
           config.features.numberOfChallengesForFlashMethod = 20;
           const algorithm = new FlashAssessmentAlgorithm({
             flashAlgorithmImplementation,
@@ -105,23 +105,23 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
 
           const challenges = [answeredChallengeTube1, unansweredChallengeTube1, unansweredChallengeTube2];
 
-          flashAlgorithmImplementation.getEstimatedLevelAndErrorRate
+          flashAlgorithmImplementation.getCapacityAndErrorRate
             .withArgs(
-              _getEstimatedLevelAndErrorRateParams({
+              _getCapacityAndErrorRateParams({
                 allAnswers: assessmentAnswers,
                 challenges,
-                estimatedLevel: initialCapacity,
+                capacity: initialCapacity,
               }),
             )
             .returns({
-              estimatedLevel: computedEstimatedLevel,
+              capacity: computedCapacity,
             });
 
           const expectedChallenges = [unansweredChallengeTube2];
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               availableChallenges: expectedChallenges,
-              estimatedLevel: computedEstimatedLevel,
+              capacity: computedCapacity,
               options: baseGetNextChallengeOptions,
             })
             .returns(expectedChallenges);
@@ -137,7 +137,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           const alreadyAnsweredChallengesCount = 10;
           const remainingAnswersToGive = 1;
           const initialCapacity = config.v3Certification.defaultCandidateCapacity;
-          const computedEstimatedLevel = 2;
+          const computedCapacity = 2;
           config.features.numberOfChallengesForFlashMethod = 20;
           const algorithm = new FlashAssessmentAlgorithm({
             flashAlgorithmImplementation,
@@ -182,23 +182,23 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
 
           const challenges = [answeredChallengeTube1, unansweredChallengeTube1, unansweredChallengeTube2];
 
-          flashAlgorithmImplementation.getEstimatedLevelAndErrorRate
+          flashAlgorithmImplementation.getCapacityAndErrorRate
             .withArgs(
-              _getEstimatedLevelAndErrorRateParams({
+              _getCapacityAndErrorRateParams({
                 allAnswers: assessmentAnswers,
                 challenges,
-                estimatedLevel: initialCapacity,
+                capacity: initialCapacity,
               }),
             )
             .returns({
-              estimatedLevel: computedEstimatedLevel,
+              capacity: computedCapacity,
             });
 
           const expectedChallenges = [unansweredChallengeTube1, unansweredChallengeTube2];
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               availableChallenges: expectedChallenges,
-              estimatedLevel: computedEstimatedLevel,
+              capacity: computedCapacity,
               options: baseGetNextChallengeOptions,
             })
             .returns(expectedChallenges);
@@ -244,7 +244,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
 
         const challenges = [hardChallenge, easyChallenge];
         const assessmentAnswers = [answer1];
-        const answersForComputingEstimatedLevel = [];
+        const answersForComputingCapacity = [];
 
         // when
         const algorithm = new FlashAssessmentAlgorithm({
@@ -252,22 +252,22 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           configuration: _getAlgorithmConfig(),
         });
 
-        flashAlgorithmImplementation.getEstimatedLevelAndErrorRate
+        flashAlgorithmImplementation.getCapacityAndErrorRate
           .withArgs(
-            _getEstimatedLevelAndErrorRateParams({
-              allAnswers: answersForComputingEstimatedLevel,
+            _getCapacityAndErrorRateParams({
+              allAnswers: answersForComputingCapacity,
               challenges,
-              estimatedLevel: initialCapacity,
+              capacity: initialCapacity,
             }),
           )
           .returns({
-            estimatedLevel: 0,
+            capacity: 0,
           });
 
         flashAlgorithmImplementation.getPossibleNextChallenges
           .withArgs({
             availableChallenges: [hardChallenge],
-            estimatedLevel: 0,
+            capacity: 0,
             options: {
               ...baseGetNextChallengeOptions,
             },
@@ -278,7 +278,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           assessmentAnswers,
           challenges,
           initialCapacity,
-          answersForComputingEstimatedLevel,
+          answersForComputingCapacity,
         });
 
         expect(nextChallenges).to.deep.equal([hardChallenge]);
@@ -332,13 +332,13 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             }),
           });
 
-          flashAlgorithmImplementation.getEstimatedLevelAndErrorRate.returns({
-            estimatedLevel: 0,
+          flashAlgorithmImplementation.getCapacityAndErrorRate.returns({
+            capacity: 0,
           });
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               availableChallenges: challenges,
-              estimatedLevel: 0,
+              capacity: 0,
               options: {
                 ...baseGetNextChallengeOptions,
                 minimalSuccessRate: 0.8,
@@ -418,13 +418,13 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           });
 
           const expectedChallenges = [easyChallenge, hardChallenge2];
-          flashAlgorithmImplementation.getEstimatedLevelAndErrorRate.returns({
-            estimatedLevel: 0,
+          flashAlgorithmImplementation.getCapacityAndErrorRate.returns({
+            capacity: 0,
           });
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               availableChallenges: expectedChallenges,
-              estimatedLevel: 0,
+              capacity: 0,
               options: {
                 ...baseGetNextChallengeOptions,
                 // Due to JS having troubles with float numbers, we must use a matcher.
@@ -453,7 +453,7 @@ const _getAlgorithmConfig = (options) => {
   });
 };
 
-const _getEstimatedLevelAndErrorRateParams = (params) => ({
+const _getCapacityAndErrorRateParams = (params) => ({
   variationPercent: undefined,
   variationPercentUntil: undefined,
   doubleMeasuresUntil: undefined,

@@ -14,7 +14,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
           const initialCapacity = 0;
           const algorithm = {
             getPossibleNextChallenges: sinon.stub(),
-            getEstimatedLevelAndErrorRate: sinon.stub(),
+            getCapacityAndErrorRate: sinon.stub(),
             getReward: sinon.stub(),
           };
           const pickChallenge = sinon.stub();
@@ -56,32 +56,32 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
           const answerForSimulator = AnswerStatus.OK;
           const answer1 = { challengeId: challenge2.id, result: answerForSimulator };
           const initialCapacity = 0;
-          const expectedEstimatedLevel = 0.4;
+          const expectedCapacity = 0.4;
           const expectedErrorRate = 0.2;
           const expectedReward = 5;
           const algorithm = {
             getPossibleNextChallenges: sinon.stub(),
-            getEstimatedLevelAndErrorRate: sinon.stub(),
+            getCapacityAndErrorRate: sinon.stub(),
             getReward: sinon.stub(),
           };
           const pickChallenge = sinon.stub();
           const pickAnswerStatus = sinon.stub();
 
-          algorithm.getEstimatedLevelAndErrorRate
+          algorithm.getCapacityAndErrorRate
             .withArgs({
               allAnswers: [],
               challenges: allChallenges,
               initialCapacity,
             })
             .returns({
-              estimatedLevel: initialCapacity,
+              capacity: initialCapacity,
             })
             .withArgs({
               allAnswers: [sinon.match(answer1)],
               challenges: allChallenges,
               initialCapacity,
             })
-            .returns({ estimatedLevel: expectedEstimatedLevel, errorRate: expectedErrorRate });
+            .returns({ capacity: expectedCapacity, errorRate: expectedErrorRate });
 
           algorithm.getPossibleNextChallenges
             .withArgs({
@@ -96,7 +96,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
 
           algorithm.getReward
             .withArgs({
-              estimatedLevel: initialCapacity,
+              capacity: initialCapacity,
               difficulty: challenge1.difficulty,
               discriminant: challenge1.discriminant,
             })
@@ -107,7 +107,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             results: [
               {
                 challenge: challenge2,
-                estimatedLevel: expectedEstimatedLevel,
+                capacity: expectedCapacity,
                 errorRate: expectedErrorRate,
                 reward: expectedReward,
                 answerStatus: answerForSimulator,
@@ -147,7 +147,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
           const capacityAfterFirstChallenge = 1.2;
           const algorithm = {
             getPossibleNextChallenges: sinon.stub(),
-            getEstimatedLevelAndErrorRate: sinon.stub(),
+            getCapacityAndErrorRate: sinon.stub(),
             getReward: sinon.stub(),
           };
           const challengeAnswer = domainBuilder.buildAnswer({ challengeId: challenge1.id });
@@ -191,33 +191,33 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
           const answerForSimulator = AnswerStatus.OK;
           const answer1 = { challengeId: challenge2.id, result: answerForSimulator };
           const capacityAfterFirstChallenge = 1.2;
-          const expectedEstimatedLevel = 0.4;
+          const expectedCapacity = 0.4;
           const expectedErrorRate = 0.2;
           const expectedReward = 5;
           const algorithm = {
             getPossibleNextChallenges: sinon.stub(),
-            getEstimatedLevelAndErrorRate: sinon.stub(),
+            getCapacityAndErrorRate: sinon.stub(),
             getReward: sinon.stub(),
           };
           const challengeAnswer = domainBuilder.buildAnswer({ challengeId: challenge1.id });
           const pickChallenge = sinon.stub();
           const pickAnswerStatus = sinon.stub();
 
-          algorithm.getEstimatedLevelAndErrorRate
+          algorithm.getCapacityAndErrorRate
             .withArgs({
               allAnswers: [challengeAnswer],
               challenges: allChallenges,
               initialCapacity: capacityAfterFirstChallenge,
             })
             .returns({
-              estimatedLevel: capacityAfterFirstChallenge,
+              capacity: capacityAfterFirstChallenge,
             })
             .withArgs({
               allAnswers: [challengeAnswer, sinon.match(answer1)],
               challenges: allChallenges,
               initialCapacity: capacityAfterFirstChallenge,
             })
-            .returns({ estimatedLevel: expectedEstimatedLevel, errorRate: expectedErrorRate });
+            .returns({ capacity: expectedCapacity, errorRate: expectedErrorRate });
 
           algorithm.getPossibleNextChallenges
             .withArgs({
@@ -233,7 +233,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
 
           algorithm.getReward
             .withArgs({
-              estimatedLevel: capacityAfterFirstChallenge,
+              capacity: capacityAfterFirstChallenge,
               difficulty: challenge1.difficulty,
               discriminant: challenge1.discriminant,
             })
@@ -244,7 +244,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             results: [
               {
                 challenge: challenge2,
-                estimatedLevel: expectedEstimatedLevel,
+                capacity: expectedCapacity,
                 errorRate: expectedErrorRate,
                 reward: expectedReward,
                 answerStatus: answerForSimulator,

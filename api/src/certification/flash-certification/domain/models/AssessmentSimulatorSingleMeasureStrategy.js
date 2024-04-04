@@ -29,22 +29,22 @@ export class AssessmentSimulatorSingleMeasureStrategy {
       return null;
     }
 
-    const estimatedLevelBeforeAnswering = this.algorithm.getEstimatedLevelAndErrorRate({
+    const capacityBeforeAnswering = this.algorithm.getCapacityAndErrorRate({
       allAnswers: challengesAnswers,
       challenges: this.challenges,
       initialCapacity: this.initialCapacity,
-    }).estimatedLevel;
+    }).capacity;
 
     const newAnswer = new Answer({ result: answerStatus, challengeId: nextChallenge.id });
 
-    const { estimatedLevel, errorRate } = this.algorithm.getEstimatedLevelAndErrorRate({
+    const { capacity, errorRate } = this.algorithm.getCapacityAndErrorRate({
       allAnswers: [...challengesAnswers, newAnswer],
       challenges: this.challenges,
       initialCapacity: this.initialCapacity,
     });
 
     const reward = this.algorithm.getReward({
-      estimatedLevel: estimatedLevelBeforeAnswering,
+      capacity: capacityBeforeAnswering,
       difficulty: nextChallenge.difficulty,
       discriminant: nextChallenge.discriminant,
     });
@@ -55,7 +55,7 @@ export class AssessmentSimulatorSingleMeasureStrategy {
         {
           challenge: nextChallenge,
           errorRate,
-          estimatedLevel,
+          capacity,
           reward,
           answerStatus,
         },
