@@ -1,5 +1,7 @@
+import { CertificationCourse } from '../../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationVersion } from '../../../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
+import * as languageService from '../../../../../../src/shared/domain/services/language-service.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 import { generateChallengeList } from '../../../fixtures/challenges.js';
 
@@ -353,6 +355,34 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
         // then
         expect(computedNumberOfChallenges).to.equal(numberOfChallenges);
       });
+    });
+  });
+
+  describe('#isLanguageAvailableForV3Certification', function () {
+    it('should be true if user language is available for certification', function () {
+      // given
+      const user = domainBuilder.buildUser({
+        lang: 'en',
+      });
+
+      // when
+      const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification(languageService, user.lang);
+
+      //then
+      expect(isAvailable).to.be.true;
+    });
+
+    it('should be false if user language is NOT available for certification', function () {
+      // given
+      const user = domainBuilder.buildUser({
+        lang: 'nl',
+      });
+
+      // when
+      const isAvailable = CertificationCourse.isLanguageAvailableForV3Certification(languageService, user.lang);
+
+      //then
+      expect(isAvailable).to.be.false;
     });
   });
 });

@@ -31,6 +31,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   const certificationCenterRepository = {};
   const certificationBadgesService = {};
   const placementProfileService = {};
+  const languageService = {};
   const verifyCertificateCodeService = {};
   const userRepository = {};
 
@@ -46,6 +47,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     certificationChallengesService,
     placementProfileService,
     verifyCertificateCodeService,
+    languageService,
     userRepository,
   };
 
@@ -70,6 +72,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     placementProfileService.getPlacementProfile = sinon.stub();
     verifyCertificateCodeService.generateCertificateVerificationCode = sinon.stub().resolves(verificationCode);
     certificationCenterRepository.getBySessionId = sinon.stub();
+    languageService.isLanguageAvailableForV3Certification = sinon.stub();
   });
 
   afterEach(function () {
@@ -504,6 +507,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     const user = domainBuilder.buildUser({ id: userId, lang: 'nl' });
                     userRepository.get.withArgs(userId).resolves(user);
 
+                    languageService.isLanguageAvailableForV3Certification.withArgs(user.lang).returns(false);
+
                     // when
                     const error = await catchErr(await retrieveLastOrCreateCertificationCourse)({
                       domainTransaction,
@@ -565,6 +570,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                     const user = domainBuilder.buildUser({ id: userId });
                     userRepository.get.withArgs(userId).resolves(user);
+
+                    languageService.isLanguageAvailableForV3Certification.withArgs(user.lang).returns(true);
 
                     const certificationCourseToSave = CertificationCourse.from({
                       certificationCandidate: foundCertificationCandidate,

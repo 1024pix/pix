@@ -33,6 +33,7 @@ const retrieveLastOrCreateCertificationCourse = async function ({
   placementProfileService,
   certificationBadgesService,
   verifyCertificateCodeService,
+  languageService,
 }) {
   const session = await sessionRepository.get({ id: sessionId });
 
@@ -72,7 +73,7 @@ const retrieveLastOrCreateCertificationCourse = async function ({
   let lang;
   if (version === CertificationVersion.V3) {
     const user = await userRepository.get(userId);
-    const isUserLanguageValid = _validateUserLanguage(user);
+    const isUserLanguageValid = _validateUserLanguage(languageService, user.lang);
 
     if (!isUserLanguageValid) {
       throw new Error(`Cant create a certification course in ${user.lang}`);
@@ -102,8 +103,8 @@ const retrieveLastOrCreateCertificationCourse = async function ({
 
 export { retrieveLastOrCreateCertificationCourse };
 
-function _validateUserLanguage(user) {
-  return user.isLanguageAvailableForV3Certification();
+function _validateUserLanguage(languageService, userLanguage) {
+  return CertificationCourse.isLanguageAvailableForV3Certification(languageService, userLanguage);
 }
 
 function _validateSessionAccess(session, accessCode) {

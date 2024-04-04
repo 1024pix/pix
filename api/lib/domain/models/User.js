@@ -112,10 +112,6 @@ class User {
     }
   }
 
-  isLanguageAvailableForV3Certification() {
-    return this.dependencies.languageService.isLanguageAvailableForV3Certification(this.lang);
-  }
-
   isLinkedToOrganizations() {
     return this.memberships.length > 0;
   }

@@ -122,34 +122,6 @@ describe('Unit | Domain | Models | User', function () {
     });
   });
 
-  describe('isLanguageAvailableForV3Certification', function () {
-    it('should be true if user language is available for certification', function () {
-      // given
-      const user = domainBuilder.buildUser({
-        lang: 'en',
-      });
-
-      // when
-      const isAvailable = user.isLanguageAvailableForV3Certification();
-
-      //then
-      expect(isAvailable).to.be.true;
-    });
-
-    it('should be false if user language is NOT available for certification', function () {
-      // given
-      const user = domainBuilder.buildUser({
-        lang: 'nl',
-      });
-
-      // when
-      const isAvailable = user.isLanguageAvailableForV3Certification();
-
-      //then
-      expect(isAvailable).to.be.false;
-    });
-  });
-
   describe('isLinkedToOrganizations', function () {
     it('should be true if user has a role in an organization', function () {
       // given
