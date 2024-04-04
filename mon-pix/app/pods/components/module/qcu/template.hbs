@@ -6,14 +6,18 @@
       </legend>
 
       <div class="element-qcu-header__instruction">
-        {{html-unsafe @qcu.instruction}}
+        {{html-unsafe this.element.instruction}}
       </div>
     </div>
 
     <div class="element-qcu__proposals">
-      {{#each @qcu.proposals as |proposal|}}
+      {{#each this.element.proposals as |proposal|}}
         <div class="element-qcu-proposals__proposal">
-          <PixRadioButton name={{@qcu.id}} @value={{proposal.id}} {{on "click" (fn this.radioClicked proposal.id)}}>
+          <PixRadioButton
+            name={{this.element.id}}
+            @value={{proposal.id}}
+            {{on "click" (fn this.radioClicked proposal.id)}}
+          >
             {{proposal.content}}
           </PixRadioButton>
         </div>
@@ -21,7 +25,7 @@
     </div>
   </fieldset>
 
-  {{#if this.requiredMessage}}
+  {{#if this.shouldDisplayRequiredMessage}}
     <div class="element-qcu__required-field-missing">
       <PixMessage role="alert" @type="error" @withIcon={{true}}>
         {{t "pages.modulix.verification-precondition-failed-alert.qcu"}}
@@ -29,23 +33,38 @@
     </div>
   {{/if}}
 
-  {{#unless @correction}}
+  {{#unless this.correction}}
     <PixButton
       @backgroundColor="success"
       @shape="rounded"
       @type="submit"
-      class="element-qcu__verify_button"
+      class="element-qcu__verify-button"
       @triggerAction={{this.submitAnswer}}
     >
       {{t "pages.modulix.buttons.activity.verify"}}
     </PixButton>
   {{/unless}}
 
-  <div role="status" tabindex="-1">
+  <div class="element-qcu__feedback" role="status" tabindex="-1">
     {{#if this.shouldDisplayFeedback}}
-      <PixMessage @type={{this.feedbackType}} @withIcon={{true}} class="element-qcu__feedback">
-        {{html-unsafe @correction.feedback}}
+      <PixMessage @type={{this.feedbackType}} @withIcon={{true}} class="element-qcu-feedback__message">
+        {{html-unsafe this.correction.feedback}}
       </PixMessage>
     {{/if}}
   </div>
+
+  {{#if this.shouldDisplayRetryButton}}
+    <PixButton
+      class="element-qcu__retry-button"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @shape="rounded"
+      @size="small"
+      @type="button"
+      @triggerAction={{this.retry}}
+      @iconAfter="rotate-right"
+    >
+      {{t "pages.modulix.buttons.activity.retry"}}
+    </PixButton>
+  {{/if}}
 </form>

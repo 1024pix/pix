@@ -1,23 +1,20 @@
 import { action } from '@ember/object';
-import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 
-export default class ModuleQcm extends Component {
+import ModuleElement from '../element/component';
+
+export default class ModuleQcm extends ModuleElement {
   selectedAnswerIds = new Set();
-  @tracked requiredMessage = false;
 
-  qcm = this.args.qcm;
-
-  get feedbackType() {
-    return this.args.correction?.isOk ? 'success' : 'error';
+  get canValidateElement() {
+    return this.selectedAnswerIds.size >= 2;
   }
 
-  get disableInput() {
-    return !!this.args.correction;
+  get userResponse() {
+    return [...this.selectedAnswerIds];
   }
 
-  get shouldDisplayFeedback() {
-    return !!this.args.correction;
+  resetAnswers() {
+    this.selectedAnswerIds = new Set();
   }
 
   @action
@@ -27,18 +24,5 @@ export default class ModuleQcm extends Component {
     } else {
       this.selectedAnswerIds.add(proposalId);
     }
-  }
-
-  @action
-  async submitAnswer(event) {
-    event.preventDefault();
-    if (this.selectedAnswerIds.size < 2) {
-      this.requiredMessage = true;
-
-      return;
-    }
-    this.requiredMessage = false;
-    const answerData = { userResponse: [...this.selectedAnswerIds], element: this.qcm };
-    await this.args.submitAnswer(answerData);
   }
 }

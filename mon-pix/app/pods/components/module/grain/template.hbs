@@ -22,20 +22,23 @@
             <Module::Video @video={{element}} @moduleId={{@grain.module.id}} />
           {{else if (eq element.type "qcu")}}
             <Module::Qcu
-              @qcu={{element}}
+              @element={{element}}
               @submitAnswer={{@submitAnswer}}
+              @retryElement={{@retryElement}}
               @correction={{this.getLastCorrectionForElement element}}
             />
           {{else if (eq element.type "qcm")}}
             <Module::Qcm
-              @qcm={{element}}
+              @element={{element}}
               @submitAnswer={{@submitAnswer}}
+              @retryElement={{@retryElement}}
               @correction={{this.getLastCorrectionForElement element}}
             />
           {{else if (eq element.type "qrocm")}}
             <Module::Qrocm
-              @qrocm={{element}}
+              @element={{element}}
               @submitAnswer={{@submitAnswer}}
+              @retryElement={{@retryElement}}
               @correction={{this.getLastCorrectionForElement element}}
             />
           {{/if}}

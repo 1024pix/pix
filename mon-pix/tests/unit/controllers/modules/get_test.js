@@ -77,4 +77,46 @@ module('Unit | Module | Controller | get', function (hooks) {
       assert.ok(true);
     });
   });
+
+  module('#action trackRetry', function () {
+    test('it should push the retry event', async function (assert) {
+      // given
+      const elementId = 'elementId';
+      const passageId = 'passageId';
+      const moduleSlug = 'moduleSlug';
+      const element = {
+        id: elementId,
+      };
+      const passage = {
+        id: passageId,
+      };
+
+      const metricAddStub = sinon.stub();
+      class MetricsStubService extends Service {
+        add = metricAddStub;
+      }
+      this.owner.register('service:metrics', MetricsStubService);
+      const metricsService = this.owner.lookup('service:metrics');
+
+      const controller = this.owner.lookup('controller:module/get');
+      controller.model = {
+        module: {
+          id: moduleSlug,
+        },
+        passage,
+      };
+
+      // when
+      await controller.trackRetry({ element });
+
+      // then
+      sinon.assert.calledWith(metricsService.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${moduleSlug}`,
+        'pix-event-name': `Click sur le bouton réessayer de l'élément : ${element.id}`,
+      });
+      assert.ok(true);
+    });
+  });
 });

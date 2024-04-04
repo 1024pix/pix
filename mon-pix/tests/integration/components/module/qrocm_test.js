@@ -47,9 +47,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    this.set('qrocm', qrocm);
+    this.set('el', qrocm);
     const screen = await render(hbs`
-        <Module::Qrocm @qrocm={{this.qrocm}} />`);
+        <Module::Qrocm @element={{this.el}} />`);
 
     // then
     assert.ok(screen);
@@ -95,9 +95,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    this.set('qrocm', qrocm);
+    this.set('el', qrocm);
     const screen = await render(hbs`
-        <Module::Qrocm @qrocm={{this.qrocm}} />`);
+        <Module::Qrocm @element={{this.el}} />`);
 
     // when
     await clickByName('select-aria');
@@ -140,8 +140,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       ],
       type: 'qrocm',
     };
-    this.set('qrocm', qrocm);
-    const screen = await render(hbs`<Module::Qrocm @qrocm={{this.qrocm}} />`);
+    this.set('el', qrocm);
+    const screen = await render(hbs`<Module::Qrocm @element={{this.el}} />`);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -178,8 +178,8 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     };
     const givenSubmitAnswerStub = function () {};
     this.set('submitAnswer', givenSubmitAnswerStub);
-    this.set('qrocm', qrocm);
-    const screen = await render(hbs`<Module::Qrocm @qrocm={{this.qrocm}} @submitAnswer={{this.submitAnswer}} />`);
+    this.set('el', qrocm);
+    const screen = await render(hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -218,11 +218,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
         ],
         type: 'qrocm',
       };
-      this.set('qrocm', qrocm);
+      this.set('el', qrocm);
       const userResponse = 'user-response';
       const givenSubmitAnswerSpy = sinon.spy();
       this.set('submitAnswer', givenSubmitAnswerSpy);
-      const screen = await render(hbs`<Module::Qrocm @qrocm={{this.qrocm}} @submitAnswer={{this.submitAnswer}} />`);
+      const screen = await render(hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
       const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
       // when
@@ -269,11 +269,11 @@ module('Integration | Component | Module | QROCM', function (hooks) {
         ],
         type: 'qrocm',
       };
-      this.set('qrocm', qrocm);
+      this.set('el', qrocm);
       const userResponse = { input: 'premiere-partie', answer: '2' };
       const givenSubmitAnswerSpy = sinon.spy();
       this.set('submitAnswer', givenSubmitAnswerSpy);
-      const screen = await render(hbs`<Module::Qrocm @qrocm={{this.qrocm}} @submitAnswer={{this.submitAnswer}} />`);
+      const screen = await render(hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
       const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
       // when
@@ -306,7 +306,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Qrocm @qrocm={{this.qrocm}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -329,7 +329,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Qrocm @qrocm={{this.qrocm}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -337,6 +337,48 @@ module('Integration | Component | Module | QROCM', function (hooks) {
     assert.strictEqual(status.innerText, 'Too Bad!');
     assert.ok(screen.getByRole('group').disabled);
     assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
+  });
+
+  test('should display retry button when a ko feedback appears', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Too Bad!',
+      status: 'ko',
+      solution: 'solution',
+    });
+
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
+
+    // when
+    const screen = await render(
+      hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
+
+    // then
+    assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).exists();
+  });
+
+  test('should not display retry button when an ok feedback appears', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Nice!',
+      status: 'ok',
+      solution: 'solution',
+    });
+
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
+
+    // when
+    const screen = await render(
+      hbs`<Module::Qrocm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
+
+    // then
+    assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).doesNotExist();
   });
 });
 
@@ -375,6 +417,6 @@ function prepareContextRecords(store, correctionResponse) {
     correction: correctionResponse,
     elementId: qrocm.id,
   });
-  this.set('qrocm', qrocm);
+  this.set('el', qrocm);
   this.set('correctionResponse', correctionResponse);
 }

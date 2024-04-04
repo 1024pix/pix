@@ -10,6 +10,7 @@
     {{#each this.grainsToDisplay as |grain index|}}
       <Module::Grain
         @grain={{grain}}
+        @retryElement={{@retryElement}}
         @passage={{@passage}}
         @transition={{this.grainTransition grain.id}}
         @submitAnswer={{@submitAnswer}}

@@ -20,8 +20,8 @@ module('Integration | Component | Module | QCM', function (hooks) {
       ],
       type: 'qcm',
     };
-    this.set('qcm', qcmElement);
-    const screen = await render(hbs`<Module::Qcm @qcm={{this.qcm}} />`);
+    this.set('el', qcmElement);
+    const screen = await render(hbs`<Module::Qcm @element={{this.el}} />`);
 
     // then
     assert.ok(screen);
@@ -55,11 +55,11 @@ module('Integration | Component | Module | QCM', function (hooks) {
       ],
       type: 'qcm',
     };
-    this.set('qcm', qcmElement);
+    this.set('el', qcmElement);
     const userResponse = [answeredProposal[0].id, answeredProposal[1].id];
     const givenSubmitAnswerSpy = sinon.spy();
     this.set('submitAnswer', givenSubmitAnswerSpy);
-    const screen = await render(hbs`<Module::Qcm @qcm={{this.qcm}} @submitAnswer={{this.submitAnswer}} />`);
+    const screen = await render(hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
     const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
 
     // when
@@ -87,7 +87,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Qcm @qcm={{this.qcm}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -111,7 +111,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
     // when
     const screen = await render(
-      hbs`<Module::Qcm @qcm={{this.qcm}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
+      hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} @correction={{this.correctionResponse}} />`,
     );
 
     // then
@@ -119,6 +119,48 @@ module('Integration | Component | Module | QCM', function (hooks) {
     assert.strictEqual(status.innerText, 'Too Bad!');
     assert.ok(screen.getByRole('group').disabled);
     assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
+  });
+
+  test('should display retry button when a ko feedback appears', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Too Bad!',
+      status: 'ko',
+      solution: 'solution',
+    });
+
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
+
+    // when
+    const screen = await render(
+      hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
+
+    // then
+    assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).exists();
+  });
+
+  test('should not display retry button when an ok feedback appears', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Nice!',
+      status: 'ok',
+      solution: 'solution',
+    });
+
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
+
+    // when
+    const screen = await render(
+      hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}}  @correction={{this.correctionResponse}} />`,
+    );
+
+    // then
+    assert.dom(screen.queryByRole('button', { name: 'Réessayer' })).doesNotExist();
   });
 
   test('should display an error message if QCM is validated with less than two responses', async function (assert) {
@@ -133,8 +175,10 @@ module('Integration | Component | Module | QCM', function (hooks) {
       ],
       type: 'qcm',
     };
-    this.set('qcm', qcmElement);
-    const screen = await render(hbs`<Module::Qcm @qcm={{this.qcm}} @submitAnswer={{this.submitAnswer}} />`);
+    const submitAnswerSpy = sinon.spy();
+    this.set('el', qcmElement);
+    this.set('submitAnswer', submitAnswerSpy);
+    const screen = await render(hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
 
     // when
     await click(screen.getByLabelText('checkbox1'));
@@ -142,6 +186,7 @@ module('Integration | Component | Module | QCM', function (hooks) {
 
     // then
     assert.dom(screen.getByRole('alert')).exists();
+    sinon.assert.notCalled(submitAnswerSpy);
   });
 
   test('should hide the error message when QCM is validated with response', async function (assert) {
@@ -158,8 +203,8 @@ module('Integration | Component | Module | QCM', function (hooks) {
     };
     const givenSubmitAnswerStub = function () {};
     this.set('submitAnswer', givenSubmitAnswerStub);
-    this.set('qcm', qcmElement);
-    const screen = await render(hbs`<Module::Qcm @qcm={{this.qcm}} @submitAnswer={{this.submitAnswer}} />`);
+    this.set('el', qcmElement);
+    const screen = await render(hbs`<Module::Qcm @element={{this.el}} @submitAnswer={{this.submitAnswer}} />`);
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
@@ -191,6 +236,6 @@ function prepareContextRecords(store, correctionResponse) {
     correction: correctionResponse,
     elementId: qcmElement.id,
   });
-  this.set('qcm', qcmElement);
+  this.set('el', qcmElement);
   this.set('correctionResponse', correctionResponse);
 }

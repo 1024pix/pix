@@ -1,15 +1,34 @@
 import { action } from '@ember/object';
-import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-export default class ModuleQrocm extends Component {
-  @tracked selectedValues;
-  @tracked requiredMessage = false;
+import ModuleElement from '../element/component';
 
-  qrocm = this.args.qrocm;
+export default class ModuleQrocm extends ModuleElement {
+  @tracked selectedValues;
+
+  get canValidateElement() {
+    return this.element.proposals
+      .filter(({ type }) => ['input', 'select'].includes(type))
+      .every(({ input }) => {
+        return !!this.selectedValues?.[input];
+      });
+  }
+
+  get userResponse() {
+    return Object.entries(this.selectedValues).map(([input, answer]) => {
+      return {
+        input,
+        answer,
+      };
+    });
+  }
+
+  resetAnswers() {
+    this.selectedValues = undefined;
+  }
 
   get formattedProposals() {
-    return this.qrocm.proposals.map((proposal) => {
+    return this.element.proposals.map((proposal) => {
       if (proposal.type === 'select') {
         return {
           ...proposal,
@@ -21,7 +40,7 @@ export default class ModuleQrocm extends Component {
   }
 
   get nbOfProposals() {
-    return this.qrocm.proposals.filter(({ type }) => type !== 'text').length;
+    return this.element.proposals.filter(({ type }) => type !== 'text').length;
   }
 
   @action
@@ -32,39 +51,6 @@ export default class ModuleQrocm extends Component {
   @action
   onSelectChanged(block, value) {
     this.#updateSelectedValues(block, value);
-  }
-
-  get disableInput() {
-    return !!this.args.correction;
-  }
-
-  get feedbackType() {
-    return this.args.correction?.isOk ? 'success' : 'error';
-  }
-
-  get shouldDisplayFeedback() {
-    return !!this.args.correction;
-  }
-
-  @action
-  async submitAnswer(event) {
-    event.preventDefault();
-    this.requiredMessage = this.qrocm.proposals
-      .filter(({ type }) => ['input', 'select'].includes(type))
-      .some(({ input }) => {
-        return !this.selectedValues?.[input];
-      });
-    if (this.requiredMessage) {
-      return;
-    }
-    const answers = Object.entries(this.selectedValues).map(([input, answer]) => {
-      return {
-        input,
-        answer,
-      };
-    });
-    const answerData = { userResponse: answers, element: this.qrocm };
-    await this.args.submitAnswer(answerData);
   }
 
   #updateSelectedValues(block, value) {
