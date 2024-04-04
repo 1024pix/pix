@@ -23,6 +23,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     beforeEach(function () {
       sinon.stub(fs, 'unlink').resolves();
       sinon.stub(usecases, 'importOrganizationLearnersFromSIECLEXMLFormat');
+      sinon.stub(usecases, 'addOrUpdateOrganizationLearners');
       sinon.stub(usecases, 'importOrganizationLearnersFromSIECLECSVFormat');
       usecases.importOrganizationLearnersFromSIECLEXMLFormat.resolves();
       dependencies = { logErrorWithCorrelationIds: sinon.stub() };
@@ -57,7 +58,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(dependencies.logErrorWithCorrelationIds).to.have.been.calledWith(error);
     });
 
-    it('should call the usecase to import organizationLearners xml', async function () {
+    it('should call usecases to import organizationLearners xml', async function () {
       // given
       const userId = 1;
       request.auth = { credentials: { userId } };
@@ -73,6 +74,9 @@ describe('Unit | Application | Organizations | organization-controller', functio
         userId,
         organizationId,
         payload,
+      });
+      expect(usecases.addOrUpdateOrganizationLearners).to.have.been.calledWithExactly({
+        organizationId,
       });
     });
 
