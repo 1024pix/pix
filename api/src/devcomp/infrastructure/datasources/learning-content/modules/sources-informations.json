@@ -273,42 +273,6 @@
           "content": "<hr>"
         },
         {
-          "id": "966d5373-3bb5-434c-ae3f-04dfa16a7e4c",
-          "type": "image",
-          "url": "https://i.imgur.com/R4Duhiy.png",
-          "alt": "Publication de franceinfo (@franceinfo) sur X (Twitter) décrite dans l'alternative textuelle",
-          "alternativeText": "Publication de franceinfo (@franceinfo) sur X (Twitter) à 15h57 le 6 février 2023&nbsp;: &laquo;&nbsp;Dans un Ehpad du Bas-Rhin, des chiens s'entraînent à détecter le Covid-19. Retrouvez cet article et l'association Handi'Chiens sur notre site.&nbsp;&raquo;"
-        },
-        {
-          "id": "69460323-29ca-4859-9581-fd67bc4cc84b",
-          "type": "qcu",
-          "instruction": "<p>Quel mot décrit le mieux cette source&#8239;?</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "fiable"
-            },
-            {
-              "id": "2",
-              "content": "humoristique"
-            },
-            {
-              "id": "3",
-              "content": "contestable"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>",
-            "invalid": "<p>Incorrect. Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>"
-          },
-          "solution": "1"
-        },
-        {
-          "id": "a9bd5509-7aa0-4ad1-b3db-e83875bfacbe",
-          "type": "text",
-          "content": "<hr>"
-        },
-        {
           "id": "276594e5-b95b-4fa3-8b93-ba8138669d70",
           "type": "image",
           "url": "https://i.imgur.com/6RtSHW0.png",
@@ -338,6 +302,42 @@
             "invalid": "<p>Incorrect. Les publications de JournalDeBlagues ont pour objectif de faire rire.</p>"
           },
           "solution": "2"
+        },
+        {
+          "id": "a9bd5509-7aa0-4ad1-b3db-e83875bfacbe",
+          "type": "text",
+          "content": "<hr>"
+        },
+        {
+          "id": "966d5373-3bb5-434c-ae3f-04dfa16a7e4c",
+          "type": "image",
+          "url": "https://i.imgur.com/R4Duhiy.png",
+          "alt": "Publication de franceinfo (@franceinfo) sur X (Twitter) décrite dans l'alternative textuelle",
+          "alternativeText": "Publication de franceinfo (@franceinfo) sur X (Twitter) à 15h57 le 6 février 2023&nbsp;: &laquo;&nbsp;Dans un Ehpad du Bas-Rhin, des chiens s'entraînent à détecter le Covid-19. Retrouvez cet article et l'association Handi'Chiens sur notre site.&nbsp;&raquo;"
+        },
+        {
+          "id": "69460323-29ca-4859-9581-fd67bc4cc84b",
+          "type": "qcu",
+          "instruction": "<p>Quel mot décrit le mieux cette source&#8239;?</p>",
+          "proposals": [
+            {
+              "id": "1",
+              "content": "fiable"
+            },
+            {
+              "id": "2",
+              "content": "humoristique"
+            },
+            {
+              "id": "3",
+              "content": "contestable"
+            }
+          ],
+          "feedbacks": {
+            "valid": "<p>Correct. Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>",
+            "invalid": "<p>Incorrect. Ce journal est reconnu et vérifie les informations qu’il publie. Ces informations sont donc très souvent vraies.</p>"
+          },
+          "solution": "1"
         },
         {
           "id": "a9bd5509-7aa0-4ad1-b3db-e83875bfacbe",
