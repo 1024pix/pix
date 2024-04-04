@@ -277,12 +277,16 @@
               "type": "input",
               "inputType": "text",
               "size": 15,
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Nom du pays :",
               "defaultValue": "",
-              "tolerances": ["t1"],
-              "solutions": ["France"]
+              "tolerances": [
+                "t1"
+              ],
+              "solutions": [
+                "France"
+              ]
             }
           ],
           "feedbacks": {

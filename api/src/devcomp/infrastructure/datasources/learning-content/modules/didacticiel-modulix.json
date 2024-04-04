@@ -7,7 +7,10 @@
     "description": "Découvrez avec ce didacticiel comment fonctionne Modulix !",
     "duration": 5,
     "level": "Débutant",
-    "objectives": ["Naviguer dans Modulix", "Découvrir les leçons et les activités"]
+    "objectives": [
+      "Naviguer dans Modulix",
+      "Découvrir les leçons et les activités"
+    ]
   },
   "transitionTexts": [
     {
@@ -142,7 +145,11 @@
             "valid": "<p>Correct&#8239;! Vous nous avez bien cernés&nbsp;:)</p>",
             "invalid": "<p>Et non&#8239;! Pix sert à évaluer, certifier et développer ses compétences numériques.</p>"
           },
-          "solutions": ["1", "3", "4"]
+          "solutions": [
+            "1",
+            "3",
+            "4"
+          ]
         }
       ]
     },
@@ -192,12 +199,16 @@
               "type": "input",
               "inputType": "text",
               "size": 10,
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Nom de ce produit",
               "defaultValue": "",
-              "tolerances": ["t1"],
-              "solutions": ["Modulix"]
+              "tolerances": [
+                "t1"
+              ],
+              "solutions": [
+                "Modulix"
+              ]
             }
           ],
           "feedbacks": {

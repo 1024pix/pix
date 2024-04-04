@@ -136,12 +136,16 @@
               "type": "input",
               "inputType": "text",
               "size": 3,
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Réponse 1 sur 1",
               "defaultValue": "",
-              "tolerances": ["t1"],
-              "solutions": ["@"]
+              "tolerances": [
+                "t1"
+              ],
+              "solutions": [
+                "@"
+              ]
             }
           ],
           "feedbacks": {
@@ -166,7 +170,7 @@
             {
               "input": "premiere-partie",
               "type": "select",
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Réponse 1 sur 2",
               "defaultValue": "",
@@ -181,7 +185,9 @@
                   "content": "le fournisseur d'adresse mail"
                 }
               ],
-              "solutions": ["1"]
+              "solutions": [
+                "1"
+              ]
             },
             {
               "type": "text",
@@ -190,7 +196,7 @@
             {
               "input": "seconde-partie",
               "type": "select",
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Réponse 2 sur 2",
               "defaultValue": "",
@@ -205,7 +211,9 @@
                   "content": "le fournisseur d'adresse mail"
                 }
               ],
-              "solutions": ["2"]
+              "solutions": [
+                "2"
+              ]
             }
           ],
           "feedbacks": {
@@ -358,12 +366,17 @@
               "type": "input",
               "inputType": "text",
               "size": 20,
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Adresse mail de Naomi",
               "defaultValue": "",
-              "tolerances": ["t1"],
-              "solutions": ["naomizao457@yahoo.com", "naomizao457@yahoo.fr"]
+              "tolerances": [
+                "t1"
+              ],
+              "solutions": [
+                "naomizao457@yahoo.com",
+                "naomizao457@yahoo.fr"
+              ]
             }
           ],
           "feedbacks": {

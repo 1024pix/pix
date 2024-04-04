@@ -63,11 +63,13 @@
               "type": "input",
               "inputType": "text",
               "size": 15,
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Mot de passe",
               "defaultValue": "",
-              "tolerances": ["t1"],
+              "tolerances": [
+                "t1"
+              ],
               "solutions": [
                 "123456",
                 "123456789",
@@ -145,11 +147,13 @@
               "type": "input",
               "inputType": "text",
               "size": 15,
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Mot de passe d'Austin",
               "defaultValue": "",
-              "tolerances": ["t1"],
+              "tolerances": [
+                "t1"
+              ],
               "solutions": [
                 "Bill15111984",
                 "15111984Bill",
@@ -386,7 +390,10 @@
             "valid": "<p>Correct. Un mot de passe long est plus solide. Se servir d'une phrase permet de mieux s'en souvenir. </p>",
             "invalid": "<p>Incorrect. Un mot de passe long est plus solide. Se servir d'une phrase permet de mieux s'en souvenir.</p>"
           },
-          "solutions": ["1", "4"]
+          "solutions": [
+            "1",
+            "4"
+          ]
         }
       ]
     },
