@@ -1,7 +1,7 @@
 import { AlreadyRegisteredEmailError } from '../../../../lib/domain/errors.js';
-import { User } from '../../../../lib/domain/models/User.js';
 import { createUser } from '../../../../lib/domain/usecases/create-user.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
+import { User } from '../../../../src/shared/domain/models/User.js';
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-user', function () {

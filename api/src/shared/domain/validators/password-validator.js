@@ -5,7 +5,7 @@ import { config } from '../../config.js';
 
 const { passwordValidationPattern } = config.account;
 
-import { EntityValidationError } from '../../../src/shared/domain/errors.js';
+import { EntityValidationError } from '../errors.js';
 
 const pattern = XRegExp(passwordValidationPattern);
 

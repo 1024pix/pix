@@ -53,12 +53,17 @@ import * as schoolRepository from '../../../src/school/infrastructure/repositori
 import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
 import * as cryptoService from '../../../src/shared/domain/services/crypto-service.js';
 import * as languageService from '../../../src/shared/domain/services/language-service.js';
+import * as localeService from '../../../src/shared/domain/services/locale-service.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
+import * as userService from '../../../src/shared/domain/services/user-service.js';
+import * as passwordValidator from '../../../src/shared/domain/validators/password-validator.js';
+import * as userValidator from '../../../src/shared/domain/validators/user-validator.js';
 import * as adminMemberRepository from '../../../src/shared/infrastructure/repositories/admin-member-repository.js';
 import * as answerRepository from '../../../src/shared/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../../src/shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
+import * as authenticationMethodRepository from '../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
 import * as badgeRepository from '../../../src/shared/infrastructure/repositories/badge-repository.js';
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
@@ -66,6 +71,7 @@ import * as organizationRepository from '../../../src/shared/infrastructure/repo
 import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as userLoginRepository from '../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
+import * as userToCreateRepository from '../../../src/shared/infrastructure/repositories/user-to-create-repository.js';
 import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.js';
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -80,7 +86,6 @@ import * as certificationBadgesService from '../../domain/services/certification
 import * as certificationCandidatesOdsService from '../../domain/services/certification-candidates-ods-service.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
 import * as improvementService from '../../domain/services/improvement-service.js';
-import * as localeService from '../../domain/services/locale-service.js';
 import * as mailService from '../../domain/services/mail-service.js';
 import * as obfuscationService from '../../domain/services/obfuscation-service.js';
 import * as passwordGenerator from '../../domain/services/password-generator.js';
@@ -88,13 +93,11 @@ import * as placementProfileService from '../../domain/services/placement-profil
 import * as resetPasswordService from '../../domain/services/reset-password-service.js';
 import * as scoringCertificationService from '../../domain/services/scoring/scoring-certification-service.js';
 import * as sessionPublicationService from '../../domain/services/session-publication-service.js';
-import * as userService from '../../domain/services/user-service.js';
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as accountRecoveryDemandRepository from '../../infrastructure/repositories/account-recovery-demand-repository.js';
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
-import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method-repository.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../infrastructure/repositories/badge-for-calculation-repository.js';
 import * as campaignAnalysisRepository from '../../infrastructure/repositories/campaign-analysis-repository.js';
@@ -164,7 +167,6 @@ import * as stageCollectionRepository from '../../infrastructure/repositories/us
 import * as userEmailRepository from '../../infrastructure/repositories/user-email-repository.js';
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
-import * as userToCreateRepository from '../../infrastructure/repositories/user-to-create-repository.js';
 import * as codeUtils from '../../infrastructure/utils/code-utils.js';
 import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
 import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';
@@ -175,8 +177,6 @@ import * as scoAccountRecoveryService from '../services/sco-account-recovery-ser
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
 import * as organizationCreationValidator from '../validators/organization-creation-validator.js';
 import * as organizationValidator from '../validators/organization-with-tags-and-target-profiles-script.js';
-import * as passwordValidator from '../validators/password-validator.js';
-import * as userValidator from '../validators/user-validator.js';
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
 
 function requirePoleEmploiNotifier() {

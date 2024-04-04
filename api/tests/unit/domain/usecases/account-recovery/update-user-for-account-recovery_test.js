@@ -1,8 +1,8 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import { User } from '../../../../../lib/domain/models/User.js';
 import { updateUserForAccountRecovery } from '../../../../../lib/domain/usecases/account-recovery/update-user-for-account-recovery.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { User } from '../../../../../src/shared/domain/models/User.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Usecases | update-user-for-account-recovery', function () {

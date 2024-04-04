@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method-repository.js';
+import * as authenticationMethodRepository from '../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { NotFoundError } from '../errors.js';
 

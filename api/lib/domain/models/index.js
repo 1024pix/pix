@@ -33,6 +33,7 @@ import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentRe
 import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
 import { Competence } from '../../../src/shared/domain/models/Competence.js';
 import { Examiner } from '../../../src/shared/domain/models/Examiner.js';
+import { User } from '../../../src/shared/domain/models/User.js';
 import { CampaignParticipant } from './../../../src/prescription/campaign-participation/domain/models/CampaignParticipant.js';
 import { CampaignParticipation } from './../../../src/prescription/campaign-participation/domain/models/CampaignParticipation.js';
 import { AccountRecoveryDemand } from './AccountRecoveryDemand.js';
@@ -125,7 +126,6 @@ import { Thematic } from './Thematic.js';
 import { Tube } from './Tube.js';
 import { Tutorial } from './Tutorial.js';
 import { TutorialEvaluation } from './TutorialEvaluation.js';
-import { User } from './User.js';
 import { UserCompetence } from './UserCompetence.js';
 import { UserDetailsForAdmin } from './UserDetailsForAdmin.js';
 import { UserOrgaSettings } from './UserOrgaSettings.js';

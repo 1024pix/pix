@@ -1,10 +1,10 @@
-import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../../lib/domain/errors.js';
-import { User } from '../../../../lib/domain/models/User.js';
-import { UserToCreate } from '../../../../lib/domain/models/UserToCreate.js';
-import * as UserToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
-import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
+import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../../../lib/domain/errors.js';
+import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
+import { User } from '../../../../../src/shared/domain/models/User.js';
+import * as UserToCreateRepository from '../../../../../src/shared/infrastructure/repositories/user-to-create-repository.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
-describe('Integration | Infrastructure | Repository | UserToCreateRepository', function () {
+describe('Integration | Shared | Infrastructure | Repository | UserToCreateRepository', function () {
   describe('#create', function () {
     it('returns a domain User object', async function () {
       // given

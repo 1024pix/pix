@@ -1,10 +1,10 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import * as authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository.js';
 import { config } from '../../../shared/config.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import * as adminMemberRepository from '../../../shared/infrastructure/repositories/admin-member-repository.js';
+import * as authenticationMethodRepository from '../../../shared/infrastructure/repositories/authentication-method-repository.js';
 import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
 import * as userRepository from '../../../shared/infrastructure/repositories/user-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';

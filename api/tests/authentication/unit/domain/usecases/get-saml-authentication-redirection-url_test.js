@@ -1,7 +1,7 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import { User } from '../../../../../lib/domain/models/User.js';
 import { getSamlAuthenticationRedirectionUrl } from '../../../../../src/authentication/domain/usecases/get-saml-authentication-redirection-url.js';
+import { User } from '../../../../../src/shared/domain/models/User.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | get-external-authentication-redirection-url', function () {

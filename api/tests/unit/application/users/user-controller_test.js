@@ -2,13 +2,13 @@ import { userController } from '../../../../lib/application/users/user-controlle
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import { eventBus } from '../../../../lib/domain/events/index.js';
 import { UserAnonymized } from '../../../../lib/domain/events/UserAnonymized.js';
-import { User } from '../../../../lib/domain/models/User.js';
 import { UserOrganizationForAdmin } from '../../../../lib/domain/read-models/UserOrganizationForAdmin.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
 import { evaluationUsecases } from '../../../../src/evaluation/domain/usecases/index.js';
+import { User } from '../../../../src/shared/domain/models/User.js';
 import * as queryParamsUtils from '../../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';

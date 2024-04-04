@@ -1,7 +1,7 @@
-import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
-import { UserToCreate } from '../models/UserToCreate.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
+import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { UserToCreate } from '../../../../lib/domain/models/UserToCreate.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 async function createUserWithPassword({
   user,

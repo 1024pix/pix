@@ -4,9 +4,9 @@ const { toLower, isNil } = lodash;
 
 import dayjs from 'dayjs';
 
-import * as languageService from '../../../src/shared/domain/services/language-service.js';
-import { config } from '../../config.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
+import { config } from '../../../../lib/config.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
+import * as languageService from '../services/language-service.js';
 import * as localeService from '../services/locale-service.js';
 
 class User {

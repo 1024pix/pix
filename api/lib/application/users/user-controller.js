@@ -3,9 +3,10 @@ import * as trainingSerializer from '../../../src/devcomp/infrastructure/seriali
 import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
 import * as scorecardSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/scorecard-serializer.js';
 import * as campaignParticipationSerializer from '../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
+import * as localeService from '../../../src/shared/domain/services/locale-service.js';
+import * as userSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { eventBus } from '../../domain/events/index.js';
-import * as localeService from '../../domain/services/locale-service.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as authenticationMethodsSerializer from '../../infrastructure/serializers/jsonapi/authentication-methods-serializer.js';
@@ -23,7 +24,6 @@ import * as userDetailsForAdminSerializer from '../../infrastructure/serializers
 import * as userForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
 import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
 import * as userOrganizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
-import * as userSerializer from '../../infrastructure/serializers/jsonapi/user-serializer.js';
 import * as userWithActivitySerializer from '../../infrastructure/serializers/jsonapi/user-with-activity-serializer.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 
