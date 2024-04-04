@@ -69,9 +69,16 @@ const retrieveLastOrCreateCertificationCourse = async function ({
 
   const { version } = session;
 
+  let lang;
   if (version === CertificationVersion.V3) {
     const user = await userRepository.get(userId);
-    _validateUserLanguage(user);
+    const isUserLanguageValid = _validateUserLanguage(user);
+
+    if (!isUserLanguageValid) {
+      throw new Error(`Cant create a certification course in ${user.lang}`);
+    }
+
+    lang = user.lang;
   }
 
   return _startNewCertification({
@@ -89,17 +96,14 @@ const retrieveLastOrCreateCertificationCourse = async function ({
     verifyCertificateCodeService,
     certificationBadgesService,
     version,
+    lang,
   });
 };
 
 export { retrieveLastOrCreateCertificationCourse };
 
 function _validateUserLanguage(user) {
-  const isUserLanguageAvailableForCertification = user.isLanguageAvailableForV3Certification();
-
-  if (!isUserLanguageAvailableForCertification) {
-    return;
-  }
+  return user.isLanguageAvailableForV3Certification();
 }
 
 function _validateSessionAccess(session, accessCode) {
@@ -152,6 +156,7 @@ async function _startNewCertification({
   certificationBadgesService,
   verifyCertificateCodeService,
   version,
+  lang,
 }) {
   const challengesForCertification = [];
 
@@ -233,6 +238,7 @@ async function _startNewCertification({
     verifyCertificateCodeService,
     complementaryCertificationCourseData,
     version,
+    lang,
   });
 }
 
@@ -259,6 +265,7 @@ async function _createCertificationCourse({
   complementaryCertificationCourseData,
   domainTransaction,
   version,
+  lang,
 }) {
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
   const complementaryCertificationCourses = complementaryCertificationCourseData.map(
@@ -272,6 +279,7 @@ async function _createCertificationCourse({
     complementaryCertificationCourses,
     verificationCode,
     version,
+    lang,
   });
 
   const savedCertificationCourse = await certificationCourseRepository.save({

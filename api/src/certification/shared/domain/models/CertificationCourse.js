@@ -39,6 +39,7 @@ class CertificationCourse {
     numberOfChallenges,
     version = CertificationVersion.V2,
     isRejectedForFraud = false,
+    lang,
   } = {}) {
     this._id = id;
     this._firstName = firstName;
@@ -67,6 +68,7 @@ class CertificationCourse {
     this._complementaryCertificationCourses = complementaryCertificationCourses;
     this._isRejectedForFraud = isRejectedForFraud;
     this._numberOfChallenges = numberOfChallenges;
+    this._lang = lang;
   }
 
   static from({
@@ -77,6 +79,7 @@ class CertificationCourse {
     complementaryCertificationCourses,
     numberOfChallenges,
     version,
+    lang,
   }) {
     return new CertificationCourse({
       userId: certificationCandidate.userId,
@@ -96,6 +99,7 @@ class CertificationCourse {
       maxReachableLevelOnCertificationDate,
       complementaryCertificationCourses,
       version,
+      lang,
     });
   }
 
@@ -240,6 +244,10 @@ class CertificationCourse {
     return this._version;
   }
 
+  getLanguage() {
+    return this._lang;
+  }
+
   getMaxReachableLevelOnCertificationDate() {
     return this._maxReachableLevelOnCertificationDate;
   }
@@ -289,6 +297,7 @@ class CertificationCourse {
       complementaryCertificationCourses: this._complementaryCertificationCourses,
       numberOfChallenges: this._numberOfChallenges,
       version: this._version,
+      lang: this._lang,
     };
   }
 }
