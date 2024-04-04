@@ -14,13 +14,13 @@ const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
+      accessTokenLifespanMs: config[configKey].accessTokenLifespanMs,
       additionalRequiredProperties: ['logoutUrl', 'afterLogoutUrl', 'sendingUrl'],
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
       shouldCloseSession: true,
       identityProvider: POLE_EMPLOI.code,
-      jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
       openidConfigurationUrl: config[configKey].openidConfigurationUrl,
       organizationName: 'France Travail',
@@ -33,7 +33,6 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
 
     this.afterLogoutUrl = config[configKey].afterLogoutUrl;
     this.logoutUrl = config[configKey].logoutUrl;
-    this.temporaryStorageConfig = config[configKey].temporaryStorage;
   }
 
   // Override because we need idToken to send results after a campaign
@@ -80,12 +79,11 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
 
   async saveIdToken({ idToken, userId }) {
     const uuid = randomUUID();
-    const { idTokenLifespanMs } = this.temporaryStorageConfig;
 
     await logoutUrlTemporaryStorage.save({
       key: `${userId}:${uuid}`,
       value: idToken,
-      expirationDelaySeconds: idTokenLifespanMs / 1000,
+      expirationDelaySeconds: this.sessionDurationSeconds,
     });
 
     return uuid;

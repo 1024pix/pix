@@ -12,7 +12,6 @@ describe('Unit | Authentication | Domain | UseCases | add-oidc-provider', functi
     };
     const oidcProviderProperties = {
       accessTokenLifespan: '7d',
-      idTokenLifespan: '7d',
       clientId: 'client',
       encryptedClientSecret: '#%@!!!!!!!!!!!!!',
       shouldCloseSession: true,
@@ -34,7 +33,6 @@ describe('Unit | Authentication | Domain | UseCases | add-oidc-provider', functi
       encryptedClientSecret: '#%@!!!!!!!!!!!!!',
       extraAuthorizationUrlParameters: undefined,
       identityProvider: 'OIDC_EXAMPLE_NET',
-      idTokenLifespan: '7d',
       openidClientExtraMetadata: undefined,
       openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
       organizationName: 'OIDC Example',

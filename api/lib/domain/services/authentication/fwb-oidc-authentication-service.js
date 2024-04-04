@@ -11,6 +11,7 @@ const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 class FwbOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
+      accessTokenLifespanMs: config[configKey].accessTokenLifespanMs,
       additionalRequiredProperties: ['logoutUrl'],
       claimsToStore: config[configKey].claimsToStore,
       clientId: config[configKey].clientId,
@@ -18,7 +19,6 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
       configKey,
       shouldCloseSession: true,
       identityProvider: FWB.code,
-      jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       openidConfigurationUrl: config[configKey].openidConfigurationUrl,
       organizationName: 'Fédération Wallonie-Bruxelles',
       redirectUri: config[configKey].redirectUri,
@@ -27,7 +27,6 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
     });
 
     this.logoutUrl = config[configKey].logoutUrl;
-    this.temporaryStorageConfig = config[configKey].temporaryStorage;
   }
 
   async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
@@ -45,12 +44,11 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
 
   async saveIdToken({ idToken, userId }) {
     const uuid = randomUUID();
-    const { idTokenLifespanMs } = this.temporaryStorageConfig;
 
     await logoutUrlTemporaryStorage.save({
       key: `${userId}:${uuid}`,
       value: idToken,
-      expirationDelaySeconds: idTokenLifespanMs / 1000,
+      expirationDelaySeconds: this.sessionDurationSeconds,
     });
 
     return uuid;

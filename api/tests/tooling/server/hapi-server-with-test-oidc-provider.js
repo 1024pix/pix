@@ -44,12 +44,12 @@ async function createServerWithTestOidcProvider() {
 
   const oidcProviderServices = [
     new OidcAuthenticationService({
+      accessTokenLifespanMs: 60000,
       clientId: 'client',
       clientSecret: 'secret',
       configKey: 'oidcExampleNet',
       shouldCloseSession: true,
       identityProvider: 'OIDC_EXAMPLE_NET',
-      jwtOptions: { expiresIn: 60 },
       openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
       organizationName: 'OIDC Example',
       redirectUri: 'https://app.dev.pix.org/connexion/oidc-example-net',

@@ -31,6 +31,8 @@
 
 **/.env
 
+OIDC_PROVIDERS.json
+
 # CircleCI
 *.circle-cache-key
 

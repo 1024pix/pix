@@ -7,12 +7,12 @@ const configKey = PAYSDELALOIRE.configKey;
 class PaysdelaloireOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
+      accessTokenLifespanMs: config[configKey].accessTokenLifespanMs,
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
       shouldCloseSession: true,
       identityProvider: PAYSDELALOIRE.code,
-      jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       openidConfigurationUrl: config[configKey].openidConfigurationUrl,
       organizationName: 'Pays de la Loire',
       postLogoutRedirectUri: config[configKey].postLogoutRedirectUri,

@@ -26,6 +26,7 @@ class OidcAuthenticationService {
 
   constructor(
     {
+      accessTokenLifespanMs,
       additionalRequiredProperties,
       claimsToStore,
       clientId,
@@ -34,7 +35,6 @@ class OidcAuthenticationService {
       extraAuthorizationUrlParameters,
       shouldCloseSession = false,
       identityProvider,
-      jwtOptions,
       openidClientExtraMetadata,
       openidConfigurationUrl,
       organizationName,
@@ -46,13 +46,13 @@ class OidcAuthenticationService {
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
+    this.accessTokenLifespanMs = accessTokenLifespanMs;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.configKey = configKey;
     this.extraAuthorizationUrlParameters = extraAuthorizationUrlParameters;
     this.shouldCloseSession = shouldCloseSession;
     this.identityProvider = identityProvider;
-    this.jwtOptions = jwtOptions;
     this.openidClientExtraMetadata = openidClientExtraMetadata;
     this.openidConfigurationUrl = openidConfigurationUrl;
     this.organizationName = organizationName;
@@ -98,7 +98,10 @@ class OidcAuthenticationService {
       return;
     }
 
-    this.temporaryStorageConfig = config[this.configKey].temporaryStorage;
+    const accessTokenLifespanSeconds = this.accessTokenLifespanMs / 1000;
+    this.accessTokenJwtOptions = { expiresIn: accessTokenLifespanSeconds };
+    this.sessionDurationSeconds = accessTokenLifespanSeconds;
+
     this.#isReady = isEnabledInConfig;
     this.#isReadyForPixAdmin = isEnabledForPixAdmin;
   }
@@ -135,18 +138,16 @@ class OidcAuthenticationService {
   }
 
   createAccessToken(userId) {
-    return jsonwebtoken.sign({ user_id: userId }, config.authentication.secret, this.jwtOptions);
+    return jsonwebtoken.sign({ user_id: userId }, config.authentication.secret, this.accessTokenJwtOptions);
   }
 
   async saveIdToken({ idToken, userId } = {}) {
     const uuid = randomUUID();
 
-    const { idTokenLifespanMs } = this.temporaryStorageConfig;
-
     await this.sessionTemporaryStorage.save({
       key: `${userId}:${uuid}`,
       value: idToken,
-      expirationDelaySeconds: idTokenLifespanMs / 1000,
+      expirationDelaySeconds: this.sessionDurationSeconds,
     });
 
     return uuid;

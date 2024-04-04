@@ -14,7 +14,6 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
  * @param {string} params.encryptedClientSecret
  * @param {Object} params.extraAuthorizationUrlParameters
  * @param {string} params.identityProvider
- * @param {string} params.idTokenLifespan
  * @param {Object} params.openidClientExtraMetadata
  * @param {string} params.openidConfigurationUrl
  * @param {string} params.organizationName
@@ -38,7 +37,6 @@ const addOidcProvider = async function ({
   encryptedClientSecret,
   extraAuthorizationUrlParameters,
   identityProvider,
-  idTokenLifespan,
   openidClientExtraMetadata,
   openidConfigurationUrl,
   organizationName,
@@ -62,7 +60,6 @@ const addOidcProvider = async function ({
       encryptedClientSecret,
       extraAuthorizationUrlParameters,
       identityProvider,
-      idTokenLifespan,
       openidClientExtraMetadata,
       openidConfigurationUrl,
       organizationName,

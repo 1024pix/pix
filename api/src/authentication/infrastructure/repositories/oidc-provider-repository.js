@@ -14,7 +14,6 @@ const OIDC_PROVIDERS_TABLE_NAME = 'oidc-providers';
  * @param {string} params.encryptedClientSecret
  * @param {Object} params.extraAuthorizationUrlParameters
  * @param {string} params.identityProvider
- * @param {string} params.idTokenLifespan
  * @param {Object} params.openidClientExtraMetadata
  * @param {string} params.openidConfigurationUrl
  * @param {string} params.organizationName
@@ -39,7 +38,6 @@ const create = async function (
     encryptedClientSecret,
     extraAuthorizationUrlParameters,
     identityProvider,
-    idTokenLifespan,
     openidClientExtraMetadata,
     openidConfigurationUrl,
     organizationName,
@@ -64,7 +62,6 @@ const create = async function (
     encryptedClientSecret,
     extraAuthorizationUrlParameters,
     identityProvider,
-    idTokenLifespan,
     openidClientExtraMetadata,
     openidConfigurationUrl,
     organizationName,

@@ -9,11 +9,11 @@ const configKey = GOOGLE.configKey;
 class GoogleOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     super({
+      accessTokenLifespanMs: config[configKey].accessTokenLifespanMs,
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
       identityProvider: GOOGLE.code,
-      jwtOptions: { expiresIn: config[configKey].accessTokenLifespanMs / 1000 },
       openidConfigurationUrl: config[configKey].openidConfigurationUrl,
       organizationName: 'Google',
       redirectUri: config[configKey].redirectUri,

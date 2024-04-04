@@ -23,7 +23,6 @@ const OIDC_PROVIDERS_POLE_EMPLOI = {
 
   accessTokenLifespan: process.env.POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN || '7d',
   enabled: Boolean(process.env.POLE_EMPLOI_ENABLED),
-  idTokenLifespan: process.env.POLE_EMPLOI_ID_TOKEN_LIFESPAN || '7d',
   openidConfigurationUrl: process.env.POLE_EMPLOI_OPENID_CONFIGURATION_URL,
   redirectUri: process.env.POLE_EMPLOI_REDIRECT_URI,
   shouldCloseSession: true,
@@ -48,7 +47,6 @@ const OIDC_PROVIDERS_FWB = {
   accessTokenLifespan: process.env.FWB_ACCESS_TOKEN_LIFESPAN || '7d',
   claimsToStore: process.env.FWB_CLAIMS_TO_STORE,
   enabled: Boolean(process.env.FWB_ENABLED),
-  idTokenLifespan: process.env.FWB_ID_TOKEN_LIFESPAN || '7d',
   openidConfigurationUrl: process.env.FWB_OPENID_CONFIGURATION_URL,
   redirectUri: process.env.FWB_REDIRECT_URI,
   shouldCloseSession: true,
@@ -69,7 +67,6 @@ const OIDC_PROVIDERS_CNAV = {
 
   accessTokenLifespan: process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d',
   enabled: Boolean(process.env.CNAV_ENABLED),
-  idTokenLifespan: process.env.CNAV_ID_TOKEN_LIFESPAN || '7d',
   openidConfigurationUrl: process.env.CNAV_OPENID_CONFIGURATION_URL,
   redirectUri: process.env.CNAV_REDIRECT_URI,
 
@@ -87,7 +84,6 @@ const OIDC_PROVIDERS_PAYSDELALOIRE = {
 
   accessTokenLifespan: process.env.PAYSDELALOIRE_ACCESS_TOKEN_LIFESPAN || '7d',
   enabled: Boolean(process.env.PAYSDELALOIRE_ENABLED),
-  idTokenLifespan: process.env.PAYSDELALOIRE_ID_TOKEN_LIFESPAN || '7d',
   openidConfigurationUrl: process.env.PAYSDELALOIRE_OPENID_CONFIGURATION_URL,
   postLogoutRedirectUri: process.env.PAYSDELALOIRE_POST_LOGOUT_REDIRECT_URI,
   redirectUri: process.env.PAYSDELALOIRE_REDIRECT_URI,
@@ -107,7 +103,6 @@ const OIDC_PROVIDERS_GOOGLE = {
   claimsToStore: process.env.GOOGLE_CLAIMS_TO_STORE,
   enabled: Boolean(process.env.GOOGLE_ENABLED),
   enabledForPixAdmin: Boolean(process.env.GOOGLE_ENABLED_FOR_PIX_ADMIN),
-  idTokenLifespan: process.env.GOOGLE_ID_TOKEN_LIFESPAN || '7d',
   openidConfigurationUrl: process.env.GOOGLE_OPENID_CONFIGURATION_URL,
   redirectUri: process.env.GOOGLE_REDIRECT_URI,
 };
