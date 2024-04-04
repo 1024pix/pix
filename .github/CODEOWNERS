@@ -7,4 +7,10 @@
 /api/src/authorization/ @1024pix/team-acces
 /api/src/organizational-entities/ @1024pix/team-acces
 /api/src/team/ @1024pix/team-acces
+/api/src/user-account/ @1024pix/team-acces
+
+/api/tests/authentication/ @1024pix/team-acces
+/api/tests/authorization/ @1024pix/team-acces
+/api/tests/organizational-entities/ @1024pix/team-acces
 /api/tests/team/ @1024pix/team-acces
+/api/tests/user-account/ @1024pix/team-acces
