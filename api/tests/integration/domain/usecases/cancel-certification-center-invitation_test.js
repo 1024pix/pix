@@ -1,6 +1,6 @@
 import { NotFoundError, UncancellableCertificationCenterInvitationError } from '../../../../lib/domain/errors.js';
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { catchErr, databaseBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Integration | UseCases | cancel-certification-center-invitation', function () {

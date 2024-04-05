@@ -1,5 +1,5 @@
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | UseCase | find-pending-certification-center-invitations', function () {

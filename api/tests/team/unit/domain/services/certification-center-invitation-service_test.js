@@ -1,12 +1,13 @@
-import { SendingEmailError } from '../../../../lib/domain/errors.js';
-import { CertificationCenterInvitation, EmailingAttempt } from '../../../../lib/domain/models/index.js';
+import { SendingEmailError } from '../../../../../lib/domain/errors.js';
+import { EmailingAttempt } from '../../../../../lib/domain/models/index.js';
+import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
 import {
   createOrUpdateCertificationCenterInvitation,
   resendCertificationCenterInvitation,
-} from '../../../../lib/domain/services/certification-center-invitation-service.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+} from '../../../../../src/team/domain/services/certification-center-invitation-service.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Services | CertificationCenterInvitationService', function () {
+describe('Unit | Team | Domain | Services | CertificationCenterInvitationService', function () {
   describe('#createOrUpdateCertificationCenterInvitation', function () {
     let certificationCenterInvitationRepository;
     let mailService;

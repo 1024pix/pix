@@ -9,7 +9,6 @@ import * as certificationCenterSerializer from '../../infrastructure/serializers
 import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
 import * as sessionSummarySerializer from '../../infrastructure/serializers/jsonapi/session-summary-serializer.js';
 import * as studentCertificationSerializer from '../../infrastructure/serializers/jsonapi/student-certification-serializer.js';
-import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 const { map } = lodash;
 
@@ -175,16 +174,6 @@ const sendInvitationForAdmin = async function (request, h, dependencies = { cert
   return h.response(serializedCertificationCenterInvitation);
 };
 
-const sendInvitations = async function (request, h) {
-  const certificationCenterId = request.params.certificationCenterId;
-  const emails = request.payload.data.attributes.emails;
-  const locale = extractLocaleFromRequest(request);
-
-  await usecases.createOrUpdateCertificationCenterInvitation({ certificationCenterId, emails, locale });
-
-  return h.response().code(204);
-};
-
 const certificationCenterController = {
   create,
   createCertificationCenterMembershipByEmail,
@@ -197,7 +186,6 @@ const certificationCenterController = {
   getDivisions,
   getStudents,
   sendInvitationForAdmin,
-  sendInvitations,
   update,
   updateReferer,
 };

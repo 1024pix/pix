@@ -1,4 +1,4 @@
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
 
 const buildCertificationCenterInvitation = function ({
   id = 123,

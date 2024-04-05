@@ -1,5 +1,5 @@
+import { CertificationCenterInvitation } from '../../../src/team/domain/models/CertificationCenterInvitation.js';
 import { AlreadyAcceptedOrCancelledInvitationError, NotFoundError } from '../errors.js';
-import { CertificationCenterInvitation } from './CertificationCenterInvitation.js';
 
 class CertificationCenterInvitedUser {
   constructor({ userId, invitation, status, role } = {}) {

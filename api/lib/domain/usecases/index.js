@@ -67,13 +67,14 @@ import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as userOrgaSettingsRepository from '../../../src/shared/prescriber-management/infrastructure/repositories/user-orga-settings-repository.js';
+import * as certificationCenterInvitationService from '../../../src/team/domain/services/certification-center-invitation-service.js';
+import * as certificationCenterInvitationRepository from '../../../src/team/infrastructure/repositories/certification-center-invitation-repository.js';
 import { config } from '../../config.js';
 import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
 import * as smartRandom from '../../domain/services/algorithm-methods/smart-random.js';
 import * as authenticationSessionService from '../../domain/services/authentication/authentication-session-service.js';
 import * as certificationBadgesService from '../../domain/services/certification-badges-service.js';
 import * as certificationCandidatesOdsService from '../../domain/services/certification-candidates-ods-service.js';
-import * as certificationCenterInvitationService from '../../domain/services/certification-center-invitation-service.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
 import * as improvementService from '../../domain/services/improvement-service.js';
 import * as localeService from '../../domain/services/locale-service.js';
@@ -106,7 +107,6 @@ import * as campaignAdministrationRepository from '../../infrastructure/reposito
 import * as certifiableProfileForLearningContentRepository from '../../infrastructure/repositories/certifiable-profile-for-learning-content-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as certificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin-repository.js';
-import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
 import * as certificationCenterInvitedUserRepository from '../../infrastructure/repositories/certification-center-invited-user-repository.js';
 import * as certificationCenterMembershipRepository from '../../infrastructure/repositories/certification-center-membership-repository.js';
 import * as certificationLsRepository from '../../infrastructure/repositories/certification-livret-scolaire-repository.js';

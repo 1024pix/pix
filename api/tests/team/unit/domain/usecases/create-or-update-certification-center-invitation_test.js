@@ -1,5 +1,5 @@
-import * as usecases from '../../../../lib/domain/usecases/create-or-update-certification-center-invitation.js';
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
+import * as usecases from '../../../../../src/team/domain/usecases/create-or-update-certification-center-invitation.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | UseCases | CreateOrUpdateCertificationCenterInvitation', function () {
   context('when creating or updating one certification center invitation', function () {
