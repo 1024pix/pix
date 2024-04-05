@@ -1,4 +1,5 @@
 import { CommonCsvLearnerParser } from '../../../infrastructure/serializers/csv/common-csv-learner-parser.js';
+import { getDataBuffer } from '../../../infrastructure/utils/bufferize/get-data-buffer.js';
 import { AggregateImportError } from '../../errors.js';
 import { ImportOrganizationLearnerSet } from '../../models/ImportOrganizationLearnerSet.js';
 
@@ -45,18 +46,5 @@ const saveOrganizationLearnersFile = async function ({
     await importStorage.deleteFile({ filename: organizationImport.filename });
   }
 };
-
-function getDataBuffer(readableStream) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    readableStream.on('data', (data) => {
-      chunks.push(data);
-    });
-    readableStream.on('error', (err) => reject(err));
-    readableStream.once('end', () => {
-      resolve(Buffer.concat(chunks));
-    });
-  });
-}
 
 export { saveOrganizationLearnersFile };

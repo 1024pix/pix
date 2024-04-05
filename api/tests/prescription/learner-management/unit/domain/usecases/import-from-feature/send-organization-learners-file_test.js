@@ -1,7 +1,4 @@
-import {
-  AggregateImportError,
-  OrganizationLearnerImportFormatNotFoundError,
-} from '../../../../../../../src/prescription/learner-management/domain/errors.js';
+import { AggregateImportError } from '../../../../../../../src/prescription/learner-management/domain/errors.js';
 import { OrganizationImport } from '../../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import { sendOrganizationLearnersFile } from '../../../../../../../src/prescription/learner-management/domain/usecases/import-from-feature/send-organization-learners-file.js';
 import { CommonCsvLearnerParser } from '../../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/common-csv-learner-parser.js';

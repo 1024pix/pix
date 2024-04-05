@@ -1,6 +1,7 @@
 import { createReadStream } from 'fs';
 
 import { SupOrganizationLearnerParser } from '../../infrastructure/serializers/csv/sup-organization-learner-parser.js';
+import { getDataBuffer } from '../../infrastructure/utils/bufferize/get-data-buffer.js';
 import { AggregateImportError } from '../errors.js';
 import { OrganizationImport } from '../models/OrganizationImport.js';
 
@@ -75,18 +76,5 @@ const importSupOrganizationLearners = async function ({
     await organizationImportRepository.save(organizationImport);
   }
 };
-
-function getDataBuffer(readableStream) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    readableStream.on('data', (data) => {
-      chunks.push(data);
-    });
-    readableStream.on('error', (err) => reject(err));
-    readableStream.once('end', () => {
-      resolve(Buffer.concat(chunks));
-    });
-  });
-}
 
 export { importSupOrganizationLearners };
