@@ -1,4 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { OrganizationImport } from '../../domain/models/OrganizationImport.js';
 import { OrganizationImportDetail } from '../../domain/read-models/OrganizationImportDetail.js';
 
@@ -35,7 +36,7 @@ const get = async function (id) {
   return _toDomain(result);
 };
 
-function _toJson(errors) {
+function _stringifyErrors(errors) {
   if (!errors) return null;
   const errorsWithProperties = errors.map((err) => {
     const properties = Object.getOwnPropertyNames(err);
@@ -44,13 +45,19 @@ function _toJson(errors) {
   return JSON.stringify(errorsWithProperties);
 }
 
-const save = async function (organizationImport) {
-  const attributes = { ...organizationImport, errors: _toJson(organizationImport.errors) };
+const save = async function (organizationImport, domainTransaction = DomainTransaction.emptyTransaction()) {
+  let knexConn = domainTransaction.knexTransaction || knex;
+
+  const attributes = { ...organizationImport, errors: _stringifyErrors(organizationImport.errors) };
+  if (attributes.errors) {
+    // if there is errors, we don't want to use the given transaction
+    knexConn = knex;
+  }
   if (organizationImport.id) {
-    const updatedRows = await knex('organization-imports').update(attributes).where({ id: organizationImport.id });
+    const updatedRows = await knexConn('organization-imports').update(attributes).where({ id: organizationImport.id });
     if (updatedRows === 0) throw new Error();
   } else {
-    await knex('organization-imports').insert(attributes);
+    await knexConn('organization-imports').insert(attributes);
   }
 };
 

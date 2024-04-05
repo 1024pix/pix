@@ -21,6 +21,7 @@ const importOrganizationLearnersFromSIECLE = async function (
         organizationId,
         payload: request.payload,
       });
+      await usecases.addOrUpdateOrganizationLearners({ organizationId });
     } else if (format === 'csv') {
       await usecases.importOrganizationLearnersFromSIECLECSVFormat({
         userId: authenticatedUserId,

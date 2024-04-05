@@ -2,13 +2,10 @@ import fs from 'fs/promises';
 
 import { AggregateImportError, SiecleXmlImportError } from '../errors.js';
 
-const { isEmpty, chunk } = lodash;
+const { isEmpty } = lodash;
 
-import bluebird from 'bluebird';
 import lodash from 'lodash';
 
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
-import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../shared/infrastructure/constants.js';
 import { SiecleParser } from '../../infrastructure/serializers/xml/siecle-parser.js';
 import { detectEncoding } from '../../infrastructure/utils/xml/detect-encoding.js';
 import { SiecleFileStreamer } from '../../infrastructure/utils/xml/siecle-file-streamer.js';
@@ -24,7 +21,6 @@ const importOrganizationLearnersFromSIECLEXMLFormat = async function ({
   userId,
   organizationId,
   payload,
-  organizationLearnerRepository,
   organizationRepository,
   importStorage,
   organizationImportRepository,
@@ -81,37 +77,7 @@ const importOrganizationLearnersFromSIECLEXMLFormat = async function ({
     organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
     organizationImport.validate({ errors });
     await organizationImportRepository.save(organizationImport);
-    await importStorage.deleteFile({ filename });
   }
-
-  return DomainTransaction.execute(async (domainTransaction) => {
-    try {
-      const organizationLearnersChunks = chunk(organizationLearnerData, ORGANIZATION_LEARNER_CHUNK_SIZE);
-
-      const nationalStudentIdData = organizationLearnerData.map((learner) => learner.nationalStudentId, []);
-
-      await organizationLearnerRepository.disableAllOrganizationLearnersInOrganization({
-        domainTransaction,
-        organizationId,
-        nationalStudentIds: nationalStudentIdData,
-      });
-
-      await bluebird.mapSeries(organizationLearnersChunks, (chunk) => {
-        return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
-          chunk,
-          organizationId,
-          domainTransaction,
-        );
-      });
-    } catch (error) {
-      errors.push(error);
-      throw error;
-    } finally {
-      organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
-      organizationImport.process({ errors });
-      await organizationImportRepository.save(organizationImport);
-    }
-  });
 };
 
 export { importOrganizationLearnersFromSIECLEXMLFormat };
