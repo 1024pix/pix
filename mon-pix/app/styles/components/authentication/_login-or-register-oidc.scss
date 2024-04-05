@@ -18,18 +18,11 @@
   }
 
   &__title {
+    @extend %pix-title-m;
+
     padding: 22px 0 38px;
     color: $pix-neutral-90;
-    font-weight: 300;
-    font-size: 36px;
-    font-family: $font-open-sans;
     text-align: center;
-
-    @include device-is('desktop') {
-      padding: 32px 0 48px;
-      font-size: 46px;
-      line-height: 3.75rem;
-    }
   }
 
   &__container {
@@ -46,26 +39,18 @@
   }
 
   &__subtitle {
+    @extend %pix-title-s;
+
     padding-bottom: 24px;
     color: $pix-neutral-90;
-    font-weight: 500;
-    font-size: 22px;
-    font-family: $font-open-sans;
-    line-height: 2.5rem;
-
-    @include device-is('desktop') {
-      font-size: 28px;
-    }
   }
 
   &__description {
+    @extend %pix-body-m;
+
     margin: 0;
     padding-bottom: 24px;
     color: $pix-neutral-60;
-    font-weight: 500;
-    font-size: 16px;
-    font-family: $font-roboto;
-    line-height: 1.375rem;
   }
 
   &__description em {
@@ -76,12 +61,10 @@
   }
 
   &__information {
+    @extend %pix-body-m;
+
     margin-bottom: 2rem;
     color: $pix-neutral-60;
-    font-weight: 500;
-    font-size: 16px;
-    font-family: $font-roboto;
-    line-height: 1.375rem;
 
     ul {
       margin: 0;
@@ -131,8 +114,9 @@
   }
 
   &__cgu-label {
+    @extend %pix-body-s; 
+
     margin-bottom: 0;
-    font-size: 14px;
   }
 
   &__cgu-error {
@@ -140,9 +124,10 @@
   }
 
   &__mandatory-description {
-    padding-bottom: 10px;
+    @extend %pix-body-s;
+
+    padding-bottom: 10px; 
     color: $pix-neutral-70;
-    font-size: 14px;
     text-align: center;
   }
 
@@ -153,10 +138,11 @@
   }
 
   &__forgotten-password-link {
+    @extend %pix-body-s;
+
     align-self: flex-end;
     margin-top: 5px;
     color: $pix-neutral-70;
-    font-size: 14px;
   }
 
   &__submit-button {
