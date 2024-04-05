@@ -16,7 +16,7 @@ const importOrganizationLearnersFromSIECLE = async function (
   const { format } = request.query;
   try {
     if (format === 'xml') {
-      await usecases.importOrganizationLearnersFromSIECLEXMLFormat({
+      await usecases.uploadSiecleFile({
         userId: authenticatedUserId,
         organizationId,
         payload: request.payload,

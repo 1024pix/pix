@@ -1,10 +1,10 @@
 import fs from 'fs/promises';
 
 import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
-import { importOrganizationLearnersFromSIECLEXMLFormat } from '../../../../../../src/prescription/learner-management/domain/usecases/import-organization-learners-from-siecle-xml-format.js';
+import { uploadSiecleFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-siecle-file.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | UseCase | import-organization-learners-from-siecle-xml', function () {
+describe('Unit | UseCase | upload-siecle-file', function () {
   const userId = 123;
   const organizationId = 1234;
   let organizationImportRepositoryStub;
@@ -18,7 +18,6 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
   let filepath;
 
   beforeEach(function () {
-    sinon.stub(fs, 'rm');
     sinon.stub(fs, 'readFile');
 
     filename = Symbol('filename');
@@ -55,12 +54,17 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
 
   context('when extracted organizationLearners informations can be imported', function () {
     context('when the file is zipped', function () {
+      let rmStub;
+      beforeEach(function () {
+        rmStub = sinon.stub(fs, 'rm');
+      });
+
       it('should remove temporary directory', async function () {
         // given
         siecleServiceStub.unzip.withArgs(payload.path).resolves({ directory: 'tmp', file: filepath });
 
         // when
-        await importOrganizationLearnersFromSIECLEXMLFormat({
+        await uploadSiecleFile({
           userId,
           organizationId,
           payload,
@@ -69,7 +73,34 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
           importStorage: importStorageStub,
         });
 
-        expect(fs.rm).to.have.been.calledWith('tmp', { recursive: true });
+        expect(rmStub).to.have.been.calledWithExactly('tmp', { recursive: true });
+      });
+
+      it('should log if removing temporary directory failed', async function () {
+        // given
+        siecleServiceStub.unzip.withArgs(payload.path).resolves({ directory: 'tmp', file: filepath });
+        const rmError = new Error('rm');
+        rmStub.rejects(rmError);
+        const logErrorWithCorrelationIdsStub = sinon.stub();
+        // when
+        await uploadSiecleFile({
+          userId,
+          organizationId,
+          payload,
+          organizationImportRepository: organizationImportRepositoryStub,
+          siecleService: siecleServiceStub,
+          importStorage: importStorageStub,
+          dependencies: { logErrorWithCorrelationIds: logErrorWithCorrelationIdsStub },
+        });
+
+        // then
+        expect(logErrorWithCorrelationIdsStub).to.have.been.calledWithExactly(rmError);
+        expect(organizationImportStub.upload).to.have.been.calledWithExactly({
+          filename: s3filename,
+          encoding,
+          errors: [],
+        });
+        expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
       });
     });
   });
@@ -77,7 +108,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
   context('save import state in database', function () {
     it('should save import state', async function () {
       // when
-      await importOrganizationLearnersFromSIECLEXMLFormat({
+      await uploadSiecleFile({
         userId,
         organizationId,
         payload,
@@ -87,7 +118,6 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
       });
 
       // then
-
       expect(organizationImportStub.upload).to.have.been.calledWithExactly({
         filename: s3filename,
         encoding,
@@ -103,7 +133,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
         importStorageStub.sendFile.withArgs({ filepath }).rejects(s3Error);
 
         // when
-        const error = await catchErr(importOrganizationLearnersFromSIECLEXMLFormat)({
+        const error = await catchErr(uploadSiecleFile)({
           userId,
           organizationId,
           payload,
@@ -127,7 +157,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
         siecleServiceStub.unzip.withArgs(filename).rejects(zipError);
 
         // when
-        await catchErr(importOrganizationLearnersFromSIECLEXMLFormat)({
+        await catchErr(uploadSiecleFile)({
           userId,
           organizationId,
           payload,
@@ -151,7 +181,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
         siecleServiceStub.detectEncoding.withArgs(filepath).rejects(encodingError);
 
         // when
-        await catchErr(importOrganizationLearnersFromSIECLEXMLFormat)({
+        await catchErr(uploadSiecleFile)({
           userId,
           organizationId,
           payload,
