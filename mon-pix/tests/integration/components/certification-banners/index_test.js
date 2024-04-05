@@ -17,13 +17,13 @@ module('Integration | Component | Certification Banners | index.js', function (h
             label: 'CléA Numérique',
             imageUrl: 'http://www.image-clea.com',
             isOutdated: false,
-            isAcquired: false,
+            isAcquiredExpectedLevel: false,
           },
           {
             label: 'Pix+ Droit',
             imageUrl: 'http://www.image-droit.com',
             isOutdated: false,
-            isAcquired: true,
+            isAcquiredExpectedLevel: true,
           },
         ],
       });
@@ -56,7 +56,7 @@ module('Integration | Component | Certification Banners | index.js', function (h
               label: 'CléA Numérique',
               imageUrl: 'http://www.image-clea.com',
               isOutdated: true,
-              isAcquired: true,
+              isAcquiredExpectedLevel: true,
             },
           ],
         });
@@ -93,7 +93,7 @@ module('Integration | Component | Certification Banners | index.js', function (h
               label: 'CléA Numérique',
               imageUrl: 'http://www.image-clea.com',
               isOutdated: true,
-              isAcquired: false,
+              isAcquiredExpectedLevel: false,
             },
           ],
         });

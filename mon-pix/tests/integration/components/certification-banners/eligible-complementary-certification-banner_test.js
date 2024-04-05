@@ -18,7 +18,7 @@ module(
               label: 'CléA Numérique',
               imageUrl: 'http://www.image-clea.com',
               isOutdated: false,
-              isAcquired: false,
+              isAcquiredExpectedLevel: false,
             },
           ];
           this.set('eligibleComplementaryCertifications', eligibleComplementaryCertifications);
@@ -43,13 +43,13 @@ module(
               label: 'CléA Numérique',
               imageUrl: 'http://www.image-clea.com',
               isOutdated: false,
-              isAcquired: false,
+              isAcquiredExpectedLevel: false,
             },
             {
               label: 'Pix+ Édu 1er degré Confirmé',
               imageUrl: 'http://www.image-clea.com',
               isOutdated: false,
-              isAcquired: false,
+              isAcquiredExpectedLevel: false,
             },
           ];
           this.set('eligibleComplementaryCertifications', eligibleComplementaryCertifications);

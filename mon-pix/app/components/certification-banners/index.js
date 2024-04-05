@@ -17,10 +17,11 @@ export default class Index extends Component {
     );
   }
 
-  get outdatedAndNotAcquiredComplementaryCertifications() {
+  get outdatedLowerLevelComplementaryCertifications() {
     return (
       this.args.certificationEligibility.complementaryCertifications?.filter(
-        (complementaryCertification) => complementaryCertification.isOutdated && !complementaryCertification.isAcquired,
+        (complementaryCertification) =>
+          complementaryCertification.isOutdated && !complementaryCertification.isAcquiredExpectedLevel,
       ) ?? []
     );
   }
