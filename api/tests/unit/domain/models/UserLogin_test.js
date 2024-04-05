@@ -1,11 +1,12 @@
 import { UserLogin } from '../../../../src/authentication/domain/models/UserLogin.js';
 import { expect, sinon } from '../../../test-helper.js';
+
 describe('Unit | Domain | Models | UserLogin', function () {
   let clock;
   const now = new Date('2022-11-28T12:00:00Z');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now });
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   afterEach(function () {

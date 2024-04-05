@@ -7,7 +7,7 @@ describe('Unit | UseCase | disable-own-membership', function () {
   const now = new Date('2023-08-01T11:15:00Z');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now });
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     membershipRepository = {
       findByUserIdAndOrganizationId: sinon.stub(),
       updateById: sinon.stub(),
