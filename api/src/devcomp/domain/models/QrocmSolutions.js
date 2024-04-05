@@ -22,16 +22,14 @@ class QrocmSolutions {
       });
 
     this.value = {};
-    this.tolerances = [];
+    this.tolerances = {};
 
     proposals.forEach((proposal) => {
       if (['select', 'input'].includes(proposal.type)) {
         this.value[proposal.input] = proposal.solutions;
-        this.tolerances.push(...proposal.tolerances);
+        this.tolerances[proposal.input] = proposal.tolerances;
       }
     });
-
-    this.tolerances = Array.from(new Set(this.tolerances));
   }
 }
 

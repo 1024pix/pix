@@ -13,7 +13,14 @@ function match({ answerValue, solution }) {
   const qrocBlocksTypes = solution.qrocBlocksTypes || {};
 
   // Input checking
-  if (_.isString(solutionValue) || _.isEmpty(solutionValue) || _.isString(answerValue) || _.isEmpty(answerValue)) {
+  if (
+    _.isString(solutionValue) ||
+    _.isEmpty(solutionValue) ||
+    _.isString(answerValue) ||
+    _.isEmpty(answerValue) ||
+    _.isString(enabledTolerances) ||
+    _.isEmpty(enabledTolerances)
+  ) {
     return { result: AnswerStatus.KO };
   }
 
@@ -52,7 +59,9 @@ function _applyTolerancesToSolutions(solutions, enabledTolerances, qrocBlocksTyp
         return applyTolerances(variant, []);
       }
 
-      return applyTolerances(variant, enabledTolerances);
+      const tolerancesForVariant = enabledTolerances[solutionKey];
+
+      return applyTolerances(variant, tolerancesForVariant);
     });
   }
 
@@ -67,7 +76,8 @@ function _applyTolerancesToAnswers(answers, enabledTolerances, qrocBlocksTypes =
     if (answerType === 'select') {
       treatedAnswers[answerKey] = applyTolerances(answer, []);
     } else {
-      treatedAnswers[answerKey] = applyTolerances(answer, enabledTolerances);
+      const tolerancesForAnswer = enabledTolerances[answerKey];
+      treatedAnswers[answerKey] = applyTolerances(answer, tolerancesForAnswer);
     }
   }
 
@@ -105,7 +115,7 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTolerances, qroc
     const answer = answers[answerKey];
     const solutionVariants = solutions[answerKey];
 
-    if (useLevenshteinRatio(enabledTolerances) && qrocBlocksTypes[answerKey] !== 'select') {
+    if (useLevenshteinRatio(enabledTolerances[answerKey]) && qrocBlocksTypes[answerKey] !== 'select') {
       results[answerKey] = _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);
     } else if (solutionVariants) {
       results[answerKey] = solutionVariants.includes(answer);
