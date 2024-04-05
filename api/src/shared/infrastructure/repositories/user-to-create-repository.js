@@ -5,6 +5,12 @@ import { OrganizationLearnerAlreadyLinkedToUserError } from '../../../../lib/dom
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { User } from '../../domain/models/User.js';
 
+/**
+ * @param {Object} data
+ * @property user
+ * @property domainTransaction
+ * @return {Promise<User|OrganizationLearnerAlreadyLinkedToUserError>}
+ */
 const create = async function ({ user, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConnection = domainTransaction.knexTransaction || knex;
 
@@ -15,8 +21,19 @@ const create = async function ({ user, domainTransaction = DomainTransaction.emp
   }
 };
 
+/**
+ * @typedef {Object} UserToCreateRepository
+ * @property {function} create
+ */
 export { create };
 
+/**
+ * @param {Object} data
+ * @property knexConnection
+ * @property user
+ * @return {Promise<User|OrganizationLearnerAlreadyLinkedToUserError>}
+ * @private
+ */
 async function _createWithUsername({ knexConnection, user }) {
   const detail = 'Un compte avec cet identifiant existe déjà.';
   const error = STUDENT_RECONCILIATION_ERRORS.LOGIN_OR_REGISTER.IN_DB.username;
@@ -32,11 +49,23 @@ async function _createWithUsername({ knexConnection, user }) {
   }
 }
 
+/**
+ * @param {Object} data
+ * @property knexConnection
+ * @property user
+ * @return {Promise<User>}
+ * @private
+ */
 async function _createWithoutUsername({ knexConnection, user }) {
   const result = await knexConnection('users').insert(user).returning('*');
   return _toUserDomain(result[0]);
 }
 
+/**
+ * @param {Object} userDTO
+ * @return {User}
+ * @private
+ */
 function _toUserDomain(userDTO) {
   return new User({
     id: userDTO.id,

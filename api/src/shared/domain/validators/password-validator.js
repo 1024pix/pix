@@ -19,6 +19,10 @@ const passwordValidationJoiSchema = Joi.object({
   }),
 });
 
+/**
+ * @param password
+ * @return {boolean}
+ */
 const validate = function (password) {
   const { error } = passwordValidationJoiSchema.validate({ password });
   if (error) {
@@ -26,5 +30,10 @@ const validate = function (password) {
   }
   return true;
 };
+
+/**
+ * @typedef {Object} PasswordValidator
+ * @property {function} validate
+ */
 
 export { validate };

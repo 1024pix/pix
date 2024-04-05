@@ -395,6 +395,40 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
   return new User(user);
 };
 
+/**
+ * @typedef {Object} UserRepository
+ * @property {function} acceptPixLastTermsOfService
+ * @property {function} checkIfEmailIsAvailable
+ * @property {function} findAnotherUserByEmail
+ * @property {function} findAnotherUserByUsername
+ * @property {function} findByExternalIdentifier
+ * @property {function} findPaginatedFiltered
+ * @property {function} get
+ * @property {function} getByEmail
+ * @property {function} getByIds
+ * @property {function} getBySamlId
+ * @property {function} getByUsernameOrEmailWithRolesAndPassword
+ * @property {function} getForObfuscation
+ * @property {function} getFullById
+ * @property {function} getUserDetailsForAdmin
+ * @property {function} getWithCertificationCenterMemberships
+ * @property {function} getWithMemberships
+ * @property {function} isUserExistingByEmail
+ * @property {function} isUsernameAvailable
+ * @property {function} update
+ * @property {function} updateEmail
+ * @property {function} updateHasSeenAssessmentInstructionsToTrue
+ * @property {function} updateHasSeenChallengeTooltip
+ * @property {function} updateHasSeenLevelSevenInfoToTrue
+ * @property {function} updateHasSeenNewDashboardInfoToTrue
+ * @property {function} updateLastDataProtectionPolicySeenAt
+ * @property {function} updatePixCertifTermsOfServiceAcceptedToTrue
+ * @property {function} updatePixOrgaTermsOfServiceAcceptedToTrue
+ * @property {function} updateUserDetailsForAdministration
+ * @property {function} updateUsername
+ * @property {function} updateWithEmailConfirmed
+ */
+
 export {
   acceptPixLastTermsOfService,
   checkIfEmailIsAvailable,

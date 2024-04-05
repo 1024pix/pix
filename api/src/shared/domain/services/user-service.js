@@ -3,6 +3,13 @@ import { AuthenticationMethod } from '../../../../lib/domain/models/Authenticati
 import { UserToCreate } from '../../../../lib/domain/models/UserToCreate.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
+/**
+ * @param user
+ * @param hashedPassword
+ * @param userToCreateRepository
+ * @param authenticationMethodRepository
+ * @return {Promise<*>}
+ */
 async function createUserWithPassword({
   user,
   hashedPassword,
@@ -29,6 +36,14 @@ async function createUserWithPassword({
   return savedUser;
 }
 
+/**
+ * @param userId
+ * @param username
+ * @param hashedPassword
+ * @param authenticationMethodRepository
+ * @param userRepository
+ * @return {Promise<*|Promise<unknown>>}
+ */
 async function updateUsernameAndAddPassword({
   userId,
   username,
@@ -46,6 +61,16 @@ async function updateUsernameAndAddPassword({
   });
 }
 
+/**
+ * @param hashedPassword
+ * @param samlId
+ * @param organizationLearnerId
+ * @param user
+ * @param authenticationMethodRepository
+ * @param organizationLearnerRepository
+ * @param userToCreateRepository
+ * @return {Promise<*|Promise<unknown>>}
+ */
 async function createAndReconcileUserToOrganizationLearner({
   hashedPassword,
   samlId,
@@ -92,6 +117,21 @@ async function createAndReconcileUserToOrganizationLearner({
   });
 }
 
+/**
+ * @typedef {Object} UserService
+ * @property {function} createAndReconcileUserToOrganizationLearner
+ * @property {function} createUserWithPassword
+ * @property {function} updateUsernameAndAddPassword
+ */
+
+export { createAndReconcileUserToOrganizationLearner, createUserWithPassword, updateUsernameAndAddPassword };
+
+/**
+ * @param userId
+ * @param hashedPassword
+ * @return {AuthenticationMethod}
+ * @private
+ */
 function _buildPasswordAuthenticationMethod({ userId, hashedPassword }) {
   return new AuthenticationMethod({
     userId,
@@ -103,6 +143,12 @@ function _buildPasswordAuthenticationMethod({ userId, hashedPassword }) {
   });
 }
 
+/**
+ * @param externalIdentifier
+ * @param user
+ * @return {AuthenticationMethod}
+ * @private
+ */
 function _buildGARAuthenticationMethod({ externalIdentifier, user }) {
   return new AuthenticationMethod({
     externalIdentifier,
@@ -114,5 +160,3 @@ function _buildGARAuthenticationMethod({ externalIdentifier, user }) {
     }),
   });
 }
-
-export { createAndReconcileUserToOrganizationLearner, createUserWithPassword, updateUsernameAndAddPassword };
