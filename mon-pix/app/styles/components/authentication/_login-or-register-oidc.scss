@@ -113,12 +113,6 @@
     padding: 0 0 24px;
   }
 
-  &__cgu-label {
-    @extend %pix-body-s; 
-
-    margin-bottom: 0;
-  }
-
   &__cgu-error {
     margin-bottom: 20px;
   }
