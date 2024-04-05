@@ -12,6 +12,7 @@ import {
 import { ComplementaryCertificationCourse } from '../../../../lib/domain/models/ComplementaryCertificationCourse.js';
 import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { LanguageNotSupportedError } from '../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
@@ -521,7 +522,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                     // then
                     expect(certificationCourseRepository.save).not.to.have.been.called;
-                    expect(error).to.be.instanceOf(Error);
+                    expect(error).to.be.instanceOf(LanguageNotSupportedError);
                   });
                 });
 
