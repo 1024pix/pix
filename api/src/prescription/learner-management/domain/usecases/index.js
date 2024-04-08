@@ -7,6 +7,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as organizationImportRepository from '../../infrastructure/repositories/organization-import-repository.js';
+import * as organizationLearnerImportFormatRepository from '../../infrastructure/repositories/organization-learner-import-format-repository.js';
 import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
 import * as supOrganizationLearnerRepository from '../../infrastructure/repositories/sup-organization-learner-repository.js';
 import { importStorage } from '../../infrastructure/storage/import-storage.js';
@@ -16,6 +17,7 @@ const dependencies = {
   importStorage,
   membershipRepository,
   organizationLearnerRepository,
+  organizationLearnerImportFormatRepository,
   organizationRepository,
   organizationImportRepository,
   supOrganizationLearnerRepository,

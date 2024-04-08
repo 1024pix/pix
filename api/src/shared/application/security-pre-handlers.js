@@ -171,7 +171,7 @@ function checkUserIsAdminInOrganization(request, h, dependencies = { checkUserIs
   } else if (request.path?.includes('memberships')) {
     organizationId = request.payload.data.relationships.organization.data.id;
   } else {
-    organizationId = request.params.id;
+    organizationId = request.params.organizationId || request.params.id;
   }
 
   return dependencies.checkUserIsAdminInOrganizationUseCase
