@@ -129,7 +129,7 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Symbole&nbsp;:</p>"
+              "content": "<span>Symbole&nbsp;:</span>"
             },
             {
               "input": "symbole",
@@ -165,7 +165,7 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Partie n°1&nbsp;:</p>"
+              "content": "<span>Partie n°1&nbsp;:</span>"
             },
             {
               "input": "premiere-partie",
@@ -191,7 +191,7 @@
             },
             {
               "type": "text",
-              "content": "<p>Partie n°2&nbsp;:</p>"
+              "content": "<span>Partie n°2&nbsp;:</span>"
             },
             {
               "input": "seconde-partie",
@@ -359,7 +359,7 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Adresse mail de Naomi&nbsp;:</p>"
+              "content": "<span>Adresse mail de Naomi&nbsp;:</span>"
             },
             {
               "input": "email",

@@ -297,7 +297,7 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Nom de la cinquième section&nbsp;:</p>"
+              "content": "<span>Nom de la cinquième section&nbsp;:</span>"
             },
             {
               "input": "cinquieme-section",
@@ -333,7 +333,7 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Nombre&nbsp;:</p>"
+              "content": "<span>Nombre&nbsp;:</span>"
             },
             {
               "input": "nombre-ref",
@@ -369,7 +369,7 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Niveau de qualité estimé&nbsp;:</p>"
+              "content": "<span>Niveau de qualité estimé&nbsp;:</span>"
             },
             {
               "input": "quality-wiki",
