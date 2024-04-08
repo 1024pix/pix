@@ -102,12 +102,12 @@
       "title": "DnD",
       "elements": [
         {
-          "id": "14c5ef08-051b-407c-9a1a-4ae9cc219d24",
+          "id": "c3f62cc8-6d27-437d-8b65-3d76fb2ef0cd",
           "type": "text",
           "content": "<p>Voici des étiquettes qui décrivent différents outils.Range les moteurs de recherche dans la case verte moteurs de recherche.Range les autres outils dans la case rose autres outils.Puis clique sur Je vérifie.</p>"
         },
         {
-          "id": "6d53677d-7253-4d27-8e3b-c862fc59e97a",
+          "id": "cf08a18a-72d5-468a-8520-12477ce8e449",
           "type": "text",
           "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/EGO/Pix1d/donnees_perso/donnees_perso_di2/index.html\" width=\"100%\" height=\"400\"></iframe>"
         }
@@ -119,7 +119,7 @@
       "title": "Pour résumer",
       "elements": [
         {
-          "id": "4a9bf2d1-6d51-4454-85c8-ebf7d75b319c",
+          "id": "ac20206e-bb77-47e3-9b0e-94074643d2bd",
           "type": "image",
           "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/intro.jpg",
           "alt": "Image décrite dans l'alternative textuelle",
