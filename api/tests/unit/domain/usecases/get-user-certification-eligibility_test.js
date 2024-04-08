@@ -79,7 +79,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
 
   context('when badge is acquired', function () {
     context('when the complementary certification is not acquired', function () {
-      // context('when the acquired complementary certification badge is outdated by one version')
       it('should return the user certification eligibility with the acquired badge information', async function () {
         // given
         const placementProfile = { isCertifiable: () => true };
@@ -144,7 +143,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
             label: 'BADGE_LABEL',
             imageUrl: 'http://www.image-url.com',
             isOutdated: true,
-            isAcquired: false,
+            isAcquiredExpectedLevel: false,
           },
         ]);
       });
@@ -189,7 +188,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
             label: 'BADGE_LABEL',
             imageUrl: 'http://www.image-url.com',
             isOutdated: false,
-            isAcquired: true,
+            isAcquiredExpectedLevel: true,
           },
         ]);
       });
@@ -269,7 +268,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
                   label: 'BADGE_LABEL',
                   imageUrl: 'http://www.image-url.com',
                   isOutdated: true,
-                  isAcquired: false,
+                  isAcquiredExpectedLevel: false,
                 },
               ]);
             });
@@ -451,7 +450,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
                     label: 'BADGE_LABEL',
                     imageUrl: 'http://www.image-url.com',
                     isOutdated: true,
-                    isAcquired: true,
+                    isAcquiredExpectedLevel: false,
                   },
                 ]);
               });
@@ -583,7 +582,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
             label: 'BADGE_LABEL',
             imageUrl: 'http://www.image-url.com',
             isOutdated: false,
-            isAcquired: false,
+            isAcquiredExpectedLevel: false,
           },
         ]);
       });
@@ -594,17 +593,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         context('when the external jury is not acquired', function () {
           it('should return the user certification eligibility with acquired badge', async function () {
             // given
-            const detachedTargetProfileHistory = domainBuilder.buildTargetProfileHistoryForAdmin({
-              badges: [
-                domainBuilder.buildComplementaryCertificationBadgeForAdmin({
-                  id: 3,
-                  complementaryCertificationBadgeId: 33,
-                }),
-              ],
-              attachedAt: new Date('2020-01-01'),
-              detachedAt: new Date('2021-01-01'),
-            });
-
             const attachedTargetProfileHistory = domainBuilder.buildTargetProfileHistoryForAdmin({
               detachedAt: null,
               attachedAt: new Date('2024-01-01'),
@@ -622,13 +610,13 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
 
             targetProfileHistoryRepository.getDetachedTargetProfilesHistoryByComplementaryCertificationId
               .withArgs({ complementaryCertificationId: 1 })
-              .resolves([detachedTargetProfileHistory]);
+              .resolves([]);
 
             const placementProfile = { isCertifiable: () => true };
             placementProfileService.getPlacementProfile
               .withArgs({ userId: 2, limitDate: now })
               .resolves(placementProfile);
-            const badgeAcquisition = _getOutdatedBadgeAcquisition({ complementaryCertificationBadgeId: 33 });
+            const badgeAcquisition = _getBadgeAcquisition({ complementaryCertificationBadgeId: 33 });
             certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
 
             complementaryCertificationCourseRepository.findByUserId.resolves([
@@ -641,11 +629,13 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
                     id: 3,
                     acquired: true,
                     source: 'PIX',
+                    complementaryCertificationBadgeId: 33,
                   },
                   {
                     id: 4,
-                    acquired: true,
+                    acquired: false,
                     source: 'EXTERNAL',
+                    complementaryCertificationBadgeId: 33,
                   },
                 ],
               }),
@@ -665,8 +655,8 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
               {
                 label: 'BADGE_LABEL',
                 imageUrl: 'http://www.image-url.com',
-                isOutdated: true,
-                isAcquired: true,
+                isOutdated: false,
+                isAcquiredExpectedLevel: true,
               },
             ]);
           });

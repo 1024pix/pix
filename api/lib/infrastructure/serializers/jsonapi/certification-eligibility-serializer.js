@@ -16,7 +16,7 @@ const serialize = function (certificationEligibility) {
       return clone;
     },
     attributes: ['isCertifiable', 'complementaryCertifications'],
-    complementaryCertifications: ['label', 'imageUrl', 'isOutdated', 'isAcquired'],
+    complementaryCertifications: ['label', 'imageUrl', 'isOutdated', 'isAcquiredExpectedLevel'],
   }).serialize(certificationEligibility);
 };
 

@@ -236,15 +236,15 @@ async function _getComplementaryCertificationsEligibles({
       continue;
     }
 
-    const isAcquired = acquiredComplementaryCertifications.some(
-      ({ complementaryCertificationBadgeId }) =>
-        complementaryCertificationBadgeId === stillValidBadgeAcquisition.complementaryCertificationBadgeId,
+    const isAcquiredExpectedLevel = Boolean(
+      stillValidAcquiredComplementaryCertification?.isAcquiredExpectedLevelByPixSource(),
     );
+
     complementaryCertificationsEligibles.push({
       label: stillValidBadgeAcquisition.complementaryCertificationBadgeLabel,
       imageUrl: stillValidBadgeAcquisition.complementaryCertificationBadgeImageUrl,
       isOutdated: stillValidBadgeAcquisition.isOutdated,
-      isAcquired,
+      isAcquiredExpectedLevel,
     });
   }
   return complementaryCertificationsEligibles;

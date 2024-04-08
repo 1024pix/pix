@@ -272,7 +272,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
                   imageUrl: 'http://badge-image-url.fr',
                   label: 'PARTNER_LABEL',
                   isOutdated: false,
-                  isAcquired: false,
+                  isAcquiredExpectedLevel: false,
                 },
               ],
             },
