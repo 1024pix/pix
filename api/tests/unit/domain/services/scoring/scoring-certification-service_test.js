@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { CertificationComputeError } from '../../../../../lib/domain/errors.js';
 import { states } from '../../../../../lib/domain/models/CertificationAssessment.js';
 import * as scoringCertificationService from '../../../../../lib/domain/services/scoring/scoring-certification-service.js';
+import { ABORT_REASONS } from '../../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 function _buildUserCompetence(competence, pixScore, estimatedLevel) {
@@ -1302,6 +1303,52 @@ describe('Unit | Service | Certification Result Service', function () {
           // then
           expect(certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted).to.be.false;
         });
+      });
+    });
+  });
+
+  context('#isLackOfAnswersForTechnicalReason', function () {
+    context('when the certification stopped due to technical issue and has insufficient correct answers', function () {
+      it('should return true', async function () {
+        // given
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          id: 178,
+          abortReason: ABORT_REASONS.TECHNICAL,
+        });
+        const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+          percentageCorrectAnswers: 30,
+        });
+
+        // when
+        const result = await scoringCertificationService.isLackOfAnswersForTechnicalReason({
+          certificationCourse,
+          certificationAssessmentScore,
+        });
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    context('when the certification is successful', function () {
+      it('should return false', async function () {
+        // given
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          id: 178,
+          abortReason: null,
+        });
+        const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+          percentageCorrectAnswers: 80,
+        });
+
+        // when
+        const result = await scoringCertificationService.isLackOfAnswersForTechnicalReason({
+          certificationCourse,
+          certificationAssessmentScore,
+        });
+
+        // then
+        expect(result).to.be.false;
       });
     });
   });

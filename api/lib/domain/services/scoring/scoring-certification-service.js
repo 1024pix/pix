@@ -3,12 +3,14 @@ import _ from 'lodash';
 import { CertificationAssessmentScore } from '../../../../src/certification/scoring/domain/models/CertificationAssessmentScore.js';
 import { CertificationVersion } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
 import * as areaRepository from '../../../../src/shared/infrastructure/repositories/area-repository.js';
-import { AnswerCollectionForScoring } from '../../models/AnswerCollectionForScoring.js';
-import { CertificationContract } from '../../models/CertificationContract.js';
-import { CertifiedLevel } from '../../models/CertifiedLevel.js';
-import { CertifiedScore } from '../../models/CertifiedScore.js';
-import { CompetenceMark } from '../../models/CompetenceMark.js';
-import { ReproducibilityRate } from '../../models/ReproducibilityRate.js';
+import {
+  AnswerCollectionForScoring,
+  CertificationContract,
+  CertifiedLevel,
+  CertifiedScore,
+  CompetenceMark,
+  ReproducibilityRate,
+} from '../../models/index.js';
 import * as placementProfileService from '../placement-profile-service.js';
 import * as scoringService from './scoring-service.js';
 
@@ -41,7 +43,11 @@ const calculateCertificationAssessmentScore = async function ({
   return _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, allAreas, continueOnError);
 };
 
-export { calculateCertificationAssessmentScore };
+function isLackOfAnswersForTechnicalReason({ certificationCourse, certificationAssessmentScore }) {
+  return certificationCourse.isAbortReasonTechnical() && certificationAssessmentScore.hasInsufficientCorrectAnswers();
+}
+
+export { calculateCertificationAssessmentScore, isLackOfAnswersForTechnicalReason };
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(({ challengeId }) => _.some(certificationChallenges, { challengeId }));
