@@ -1,0 +1,135 @@
+{
+  "id": "2f878a38-d39c-40e9-9a92-4163c6c229bc",
+  "slug": "pix1d-dp-di1",
+  "title": "Les données personnelles",
+  "details": {
+    "image": "https://images.pix.fr/modulix/didacticiel/icon.svg",
+    "description": "C'est quoi les données personnelles ?",
+    "duration": 5,
+    "level": "Débutant",
+    "objectives": [
+      "Connaître la notion de données personnelles",
+      "Savoir reconnaitre les données personnelles"
+    ]
+  },
+  "transitionTexts": [
+    {
+      "content": "<p>Bienvenue</p>",
+      "grainId": "4a96e2aa-fdeb-4094-8c99-2bc8f088bfbe"
+    },
+    {
+      "content": "<p>Si toi aussi tu veux apprendre ce qu'est une donnée personnelle, regarde attentivement la vidéo. Après la vidéo,tu devras reconnaître des données personnelles.</p>",
+      "grainId": "6de63cda-85ce-4bc6-83a0-f2f3518d4968"
+    },
+    {
+      "content": "<p>Voyons si tu as bien compris la vidéo ?</p>",
+      "grainId": "494c3c3a-6ffb-46fc-81b9-7eabe5a0227c"
+    },
+    {
+      "content": "<p>Maintenant que tu sais ce qu'est une donnée personnelle, voyons si tu peux les reconnaître</p>",
+      "grainId": "5773e09f-947f-41d9-94a6-12bc02589ada"
+    },
+    {
+      "content": "<p>Pour résumer</p>",
+      "grainId": "36dacf19-f9e3-4b58-aa64-7705ad488a88"
+    }
+  ],
+  "grains": [
+    {
+      "id": "4f31c063-8d4b-4b2e-9945-946aa1902074",
+      "type": "lesson",
+      "title": "explications",
+      "elements": [
+        {
+          "id": "097eeaa5-47ca-4cb3-b312-2d0fe807bc74",
+          "type": "text",
+          "content": "<p>Tu vas voir une vidéo pour apprendre ce qu'est moteur de recherche.Regarde la attentivement pour ensuite pouvoir répondre aux questions.</p>"
+        },
+        {
+          "id": "686768b1-bf81-4a72-ac74-a0086646aa13",
+          "type": "text",
+          "content": "<iframe title=\"video\" src=\"https://tube-numerique-educatif.apps.education.fr/videos/embed/5d00aa3d-eaff-4508-9ae9-096b55454626\" width=\"100%\" height=\"400\"></iframe>"
+        }
+      ]
+    },
+    {
+      "id": "6de63cda-85ce-4bc6-83a0-f2f3518d4968",
+      "type": "lesson",
+      "title": "explications",
+      "elements": [
+        {
+          "id": "0e56f3c6-ae09-4443-b353-b9ee5665deb4",
+          "type": "text",
+          "content": "<p>Tu vas voir une vidéo pour apprendre ce qu'est moteur de recherche.Regarde la attentivement pour ensuite pouvoir répondre aux questions.</p>"
+        },
+        {
+          "id": "507f2d47-a3df-46e8-9545-9dc126124e23",
+          "type": "text",
+          "content": "<iframe title=\"video\" src=\"https://tube-numerique-educatif.apps.education.fr/w/8bonjW6khNFks3Wicz8Ruq\" width=\"100%\" height=\"400\"></iframe>"
+        }
+      ]
+    },
+    {
+      "id": "494c3c3a-6ffb-46fc-81b9-7eabe5a0227c",
+      "type": "activity",
+      "title": "QCU",
+      "elements": [
+        {
+          "id": "506e3bc1-40f9-4b2d-ab27-12fc559ec533",
+          "type": "qcu",
+          "instruction": "<p>Qu est-ce qu une donnée personnelle ?</p>",
+          "proposals": [
+            {
+              "id": "1",
+              "content": "une information qui permet de te reconnaitre"
+            },
+            {
+              "id": "2",
+              "content": "un code pour s'inscrire à un concours"
+            }
+          ],
+          "feedbacks": {
+            "valid": "<p>Bien</p>",
+            "invalid": "<p>Faux. Bla</p>"
+          },
+          "solution": "1"
+        }
+      ]
+    },
+    {
+      "id": "5773e09f-947f-41d9-94a6-12bc02589ada",
+      "type": "lesson",
+      "title": "DnD",
+      "elements": [
+        {
+          "id": "14c5ef08-051b-407c-9a1a-4ae9cc219d24",
+          "type": "text",
+          "content": "<p>Voici des étiquettes qui décrivent différents outils.Range les moteurs de recherche dans la case verte moteurs de recherche.Range les autres outils dans la case rose autres outils.Puis clique sur Je vérifie.</p>"
+        },
+        {
+          "id": "6d53677d-7253-4d27-8e3b-c862fc59e97a",
+          "type": "text",
+          "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/EGO/Pix1d/donnees_perso/donnees_perso_di2/index.html\" width=\"100%\" height=\"400\"></iframe>"
+        }
+      ]
+    },
+    {
+      "id": "36dacf19-f9e3-4b58-aa64-7705ad488a88",
+      "type": "lesson",
+      "title": "Pour résumer",
+      "elements": [
+        {
+          "id": "4a9bf2d1-6d51-4454-85c8-ebf7d75b319c",
+          "type": "image",
+          "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/intro.jpg",
+          "alt": "Image décrite dans l'alternative textuelle",
+          "alternativeText": "<p>Recherche \"recettes de cuisine végétariennes\" SOSCuisine Lien vers soscuisine.com categorie vegetarienne Recette végétarienne Recettes végétariennes • Critères de recherche actifs • Affiner la recherche: • Résultats de recherche&nbsp;: 906 résultats trouvés • Zucchini à la menthe • Yogourt ... © CuisinePop.com Lien vers cuisinepop.com Recettes végétariennes faciles à préparer. Des nouvelles ... Plus de résultats v France • Toulouse - D'après votre adresse IP - Mettre à jour ma position</p>"
+        }
+      ]
+    }
+
+
+
+
+  ]
+}
