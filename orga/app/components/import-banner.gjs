@@ -55,7 +55,9 @@ export default class ImportBanner extends Component {
     if (this.args.organizationImportDetail?.hasWarning) {
       return this.intl.t('pages.organization-participants-import.banner.warning-banner', { htmlSafe: true });
     }
-    const status = this.args.organizationImportDetail?.status || 'STARTED';
+
+    const status = this.args.isLoading ? 'STARTED' : this.args.organizationImportDetail?.status;
+
     const title = this.intl.t(`pages.organization-participants-import.banner.${statusI18nLabel[status]}`);
     return title;
   }
