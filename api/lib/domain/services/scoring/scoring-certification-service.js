@@ -12,6 +12,37 @@ import { ReproducibilityRate } from '../../models/ReproducibilityRate.js';
 import * as placementProfileService from '../placement-profile-service.js';
 import * as scoringService from './scoring-service.js';
 
+const calculateCertificationAssessmentScore = async function ({
+  certificationAssessment,
+  continueOnError,
+  dependencies = {
+    areaRepository,
+    placementProfileService,
+  },
+}) {
+  const testedCompetences = await _getTestedCompetences({
+    userId: certificationAssessment.userId,
+    limitDate: certificationAssessment.createdAt,
+    version: CertificationVersion.V2,
+    placementProfileService: dependencies.placementProfileService,
+  });
+
+  const matchingCertificationChallenges = _selectChallengesMatchingCompetences(
+    certificationAssessment.certificationChallenges,
+    testedCompetences,
+  );
+
+  const matchingAnswers = _selectAnswersMatchingCertificationChallenges(
+    certificationAssessment.certificationAnswersByDate,
+    matchingCertificationChallenges,
+  );
+
+  const allAreas = await dependencies.areaRepository.list();
+  return _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, allAreas, continueOnError);
+};
+
+export { calculateCertificationAssessmentScore };
+
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(({ challengeId }) => _.some(certificationChallenges, { challengeId }));
 }
@@ -130,38 +161,3 @@ async function _getTestedCompetences({ userId, limitDate, version, placementProf
     .map((uc) => _.pick(uc, ['id', 'index', 'areaId', 'name', 'estimatedLevel', 'pixScore']))
     .value();
 }
-
-const calculateCertificationAssessmentScore = async function ({
-  certificationAssessment,
-  continueOnError,
-
-  dependencies = {
-    areaRepository,
-    placementProfileService,
-  },
-}) {
-  // userService.getPlacementProfile() + filter level > 0 => avec allCompetence (bug)
-  const testedCompetences = await _getTestedCompetences({
-    userId: certificationAssessment.userId,
-    limitDate: certificationAssessment.createdAt,
-    version: CertificationVersion.V2,
-    placementProfileService: dependencies.placementProfileService,
-  });
-
-  // map sur challenges filtre sur competence Id - S'assurer qu'on ne travaille que sur les compétences certifiables
-  const matchingCertificationChallenges = _selectChallengesMatchingCompetences(
-    certificationAssessment.certificationChallenges,
-    testedCompetences,
-  );
-
-  // map sur challenges filtre sur challenge Id
-  const matchingAnswers = _selectAnswersMatchingCertificationChallenges(
-    certificationAssessment.certificationAnswersByDate,
-    matchingCertificationChallenges,
-  );
-
-  const allAreas = await dependencies.areaRepository.list();
-  return _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, allAreas, continueOnError);
-};
-
-export { calculateCertificationAssessmentScore };
