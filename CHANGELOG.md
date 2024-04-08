@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v4.127.0 (08/04/2024)
+
+
+### :rocket: Amélioration
+- [#8568](https://github.com/1024pix/pix/pull/8568) [FEATURE] Import Générique - Extraire les données d'un fichier ONDE (PIX-11616).
+- [#8563](https://github.com/1024pix/pix/pull/8563) [FEATURE] Sauvegarde de la langue du candidat au début d'une certif V3 (PIX-11279).
+
+### :building_construction: Tech
+- [#8577](https://github.com/1024pix/pix/pull/8577) [TECH] Migrer l'API d'envoi d'une invitation sur Pix Certif dans src (PIX-11938).
+- [#8576](https://github.com/1024pix/pix/pull/8576) [TECH] Extrait le traitement de données de l'import SIECLE dans un usecase (PIX-11945).
+- [#8578](https://github.com/1024pix/pix/pull/8578) [TECH] met à jour le plugin update-prettier-plugin-ember-template-tag.
+
+### :arrow_up: Montée de version
+- [#8594](https://github.com/1024pix/pix/pull/8594) [BUMP] Update dependency ember-data to v4.12.7 (orga).
+- [#8589](https://github.com/1024pix/pix/pull/8589) [BUMP] Update dependency @1024pix/pix-ui to ^45.0.5 (admin).
+- [#8591](https://github.com/1024pix/pix/pull/8591) [BUMP] Update dependency @1024pix/pix-ui to ^45.0.5 (orga).
+- [#8590](https://github.com/1024pix/pix/pull/8590) [BUMP] Update dependency @1024pix/pix-ui to ^45.0.5 (certif).
+- [#8588](https://github.com/1024pix/pix/pull/8588) [BUMP] Update Node.js to v20.12.1.
+- [#8585](https://github.com/1024pix/pix/pull/8585) [BUMP] Update dependency @1024pix/pix-ui to ^45.0.4 (orga).
+
+### :coffee: Autre
+- [#8527](https://github.com/1024pix/pix/pull/8527) [REFACTOR] Améliorer l'affichage des critères d'obtention d'un résultat thématique (PIX-11870).
+
 ## v4.126.0 (04/04/2024)
 
 
