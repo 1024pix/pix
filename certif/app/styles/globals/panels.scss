@@ -14,9 +14,10 @@
     align-items: center;
     margin: 0 12px;
     color: var(--pix-neutral-500);
+
+    @extend %pix-body-s;
+
     font-weight: 500;
-    font-size: 0.9rem;
-    font-family: $font-roboto;
     text-decoration: none;
     border: none;
     border-bottom: 2px solid transparent;

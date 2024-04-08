@@ -35,8 +35,7 @@
   &__copyright {
     color: var(--pix-neutral-500);
     cursor: default;
-    font-size: 0.75rem;
-    font-family: $font-roboto;
+    @extend %pix-body-xs;
     padding: 16px 0;
   }
 }
@@ -46,9 +45,8 @@
   &__item {
     margin-right: 3px;
     color: var(--pix-neutral-500);
-    font-size: 0.8125rem;
+    @extend %pix-body-s;
     font-weight: 500;
-    font-family: $font-roboto;
     text-decoration: none;
 
     @include device-is('desktop') {

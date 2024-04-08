@@ -6,16 +6,17 @@
   &__page-title {
     margin: 0;
     color: var(--pix-neutral-900);
-    font-weight: 700;
+
+    @extend %pix-title-xs;
+
     font-size: 1rem;
-    font-family: $font-open-sans;
   }
 
   p {
     margin: 8px 0 0;
     color: var(--pix-neutral-500);
-    font-weight: normal;
-    font-size: 0.875rem;
+
+    @extend %pix-body-s;
   }
 
   &__header {

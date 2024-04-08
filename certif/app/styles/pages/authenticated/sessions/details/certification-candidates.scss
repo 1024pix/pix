@@ -17,9 +17,9 @@
 }
 
 .panel-actions__header-title {
-  margin: 0 0 0 2rem;
-  font-size: 1.3rem;
-  font-weight: 400;
+  margin-left: 1rem;
+
+  @extend %pix-title-s;
 }
 
 .panel-actions__header-icon {
@@ -49,8 +49,8 @@
 }
 
 .panel-actions__action-icon {
-  color: var(--pix-neutral-100);
-  font-size: 1.87rem;
+  color: var(--pix-neutral-500);
+  font-size: 2rem;
   width: 3.125rem;
   text-align: center;
 }
@@ -69,8 +69,8 @@
 }
 
 .panel-actions__title {
-  margin: 0;
-  font-weight: bold;
+  @extend %pix-title-xs;
+
   color: var(--pix-neutral-800);
 }
 
@@ -108,13 +108,13 @@
   display: flex;
   align-items: center;
   color: var(--pix-neutral-500);
-  padding: 8px 16px;
+  padding: 20px;
 
   &__title {
     display: flex;
     flex-grow: 1;
-    font-size: 1rem;
-    font-weight: bold;
+
+    @extend %pix-title-s;
   }
 
   &__action {

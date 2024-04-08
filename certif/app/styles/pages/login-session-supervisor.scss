@@ -21,9 +21,9 @@
       width: 100%;
       height: 80px;
       color: var(--pix-neutral-500);
-      font-weight: normal;
-      font-size: 14px;
-      font-family: $font-roboto;
+
+      @extend %pix-body-s;
+
       line-height: 22px;
       letter-spacing: 0.15px;
       background: var(--pix-neutral-20);

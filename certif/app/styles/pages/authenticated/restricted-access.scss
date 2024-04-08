@@ -12,7 +12,7 @@
   }
 
   &__opening-title {
-    font-family: $font-open-sans;
+    @extend %pix-title-m;
     font-size: 2rem;
     font-weight: 300;
     letter-spacing: 0.15px;
@@ -26,7 +26,7 @@
     background: var(--pix-neutral-500);
     border-radius: 8px;
     color: var(--pix-neutral-0);
-    font-family: $font-open-sans;
+    @extend %pix-title-s;
     font-size: 1.5rem;
     font-weight: 600;
     letter-spacing: 0.15px;
@@ -37,9 +37,7 @@
   }
 
   &__link-calendar {
-    font-family: $font-roboto;
-    font-size: 0.875rem;
-    font-weight: normal;
+    @extend %pix-body-s;
     letter-spacing: 0.15px;
     line-height: 22px;
     margin: 0;

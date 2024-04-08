@@ -15,7 +15,6 @@
 
     > h2 {
       @extend %pix-title-s;
-      color: var(--pix-neutral-900);
     }
   }
 
@@ -166,6 +165,10 @@
     button {
       max-width: 164px;
     }
+  }
+
+  &__title {
+    @extend %pix-title-xs;
   }
 }
 

@@ -28,14 +28,14 @@
   }
 
   &__no-referer-title {
-    font-weight: 500;
-    font-size: 1.25rem;
-    font-family: $font-open-sans;
-    color: var(--pix-neutral-900);
+    @extend %pix-title-s;
+
     margin: 0 0 4px;
   }
 
   &__no-referer-description {
+    @extend %pix-body-m;
+
     color: var(--pix-neutral-500);
     margin: 16px 0;
   }
