@@ -131,11 +131,52 @@ const handleV3CertificationScoring = async function ({
   return certificationCourse;
 };
 
+const handleV2CertificationScoring = async function ({
+  event,
+  emitter,
+  certificationAssessment,
+  assessmentResultRepository,
+  certificationCourseRepository,
+  competenceMarkRepository,
+  calculateCertificationAssessmentScoreInjected = calculateCertificationAssessmentScore,
+}) {
+  const certificationAssessmentScore = await calculateCertificationAssessmentScoreInjected({
+    certificationAssessment,
+    continueOnError: false,
+  });
+  const certificationCourse = await certificationCourseRepository.get({
+    id: certificationAssessment.certificationCourseId,
+  });
+
+  const assessmentResult = _createV2AssessmentResult({
+    juryId: event?.juryId,
+    emitter,
+    certificationCourse,
+    certificationAssessment,
+    certificationAssessmentScore,
+  });
+
+  await _saveV2Result({
+    assessmentResult,
+    certificationCourseId: certificationAssessment.certificationCourseId,
+    certificationAssessmentScore,
+    assessmentResultRepository,
+    competenceMarkRepository,
+  });
+
+  return { certificationCourse, certificationAssessmentScore };
+};
+
 function isLackOfAnswersForTechnicalReason({ certificationCourse, certificationAssessmentScore }) {
   return certificationCourse.isAbortReasonTechnical() && certificationAssessmentScore.hasInsufficientCorrectAnswers();
 }
 
-export { calculateCertificationAssessmentScore, handleV3CertificationScoring, isLackOfAnswersForTechnicalReason };
+export {
+  calculateCertificationAssessmentScore,
+  handleV2CertificationScoring,
+  handleV3CertificationScoring,
+  isLackOfAnswersForTechnicalReason,
+};
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(({ challengeId }) => _.some(certificationChallenges, { challengeId }));
@@ -321,6 +362,82 @@ async function _saveV3Result({
       ...competenceMark,
       assessmentResultId: newAssessmentResult.id,
     });
+    return competenceMarkRepository.save(competenceMarkDomain);
+  });
+}
+
+function _createV2AssessmentResult({
+  juryId,
+  emitter,
+  certificationCourse,
+  certificationAssessmentScore,
+  certificationAssessment,
+}) {
+  if (certificationCourse.isRejectedForFraud()) {
+    return AssessmentResultFactory.buildFraud({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      assessmentId: certificationAssessment.id,
+      juryId,
+    });
+  }
+
+  if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
+    return AssessmentResultFactory.buildNotTrustableAssessmentResult({
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      status: certificationAssessmentScore.status,
+      assessmentId: certificationAssessment.id,
+      emitter,
+      juryId,
+    });
+  }
+
+  if (isLackOfAnswersForTechnicalReason({ certificationAssessmentScore, certificationCourse })) {
+    return AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
+      emitter: AssessmentResult.emitters.PIX_ALGO,
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      assessmentId: certificationAssessment.id,
+      status: AssessmentResult.status.REJECTED,
+      juryId,
+    });
+  }
+
+  if (certificationAssessmentScore.hasInsufficientCorrectAnswers()) {
+    return AssessmentResultFactory.buildInsufficientCorrectAnswers({
+      emitter,
+      pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+      assessmentId: certificationAssessment.id,
+      juryId,
+    });
+  }
+
+  return AssessmentResultFactory.buildStandardAssessmentResult({
+    pixScore: certificationAssessmentScore.nbPix,
+    reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+    status: certificationAssessmentScore.status,
+    assessmentId: certificationAssessment.id,
+    emitter,
+    juryId,
+  });
+}
+
+async function _saveV2Result({
+  assessmentResult,
+  certificationCourseId,
+  certificationAssessmentScore,
+  assessmentResultRepository,
+  competenceMarkRepository,
+}) {
+  const { id: assessmentResultId } = await assessmentResultRepository.save({
+    certificationCourseId,
+    assessmentResult,
+  });
+
+  await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
+    const competenceMarkDomain = new CompetenceMark({ ...competenceMark, assessmentResultId });
     return competenceMarkRepository.save(competenceMarkDomain);
   });
 }
