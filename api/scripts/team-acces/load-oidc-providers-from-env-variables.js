@@ -54,6 +54,8 @@ const OIDC_PROVIDERS_FWB = {
   customProperties: {
     logoutUrl: process.env.FWB_OIDC_LOGOUT_URL,
   },
+
+  extraAuthorizationUrlParameters: { acr_values: process.env.FWB_ACR_VALUES },
 };
 const OIDC_PROVIDERS_CNAV = {
   identityProvider: 'CNAV',
