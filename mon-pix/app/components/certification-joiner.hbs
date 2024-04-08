@@ -76,23 +76,26 @@
     </div>
 
     {{#if this.errorMessage}}
-      <div class="certification-course-page__errors">{{this.errorMessage}}
-        {{#if this.errorDetailList}}
-          <ul class="certification-course-page__errors__list">
-            {{#each this.errorDetailList as |errorDetailElement|}}
-              <li>{{errorDetailElement}}</li>
-            {{/each}}
-          </ul>
-        {{/if}}
-        {{#if this.errorMessageLink}}
-          <a
-            rel="noopener noreferrer"
-            target="_blank"
-            href={{this.errorMessageLink.url}}
-          >{{this.errorMessageLink.label}}
-          </a>
-          <FaIcon @icon="up-right-from-square" />
-        {{/if}}
+      <div class="certification-course-page__errors">
+        <PixMessage @type="error">
+          {{this.errorMessage}}
+          {{#if this.errorDetailList}}
+            <ul class="certification-course-page__errors__list">
+              {{#each this.errorDetailList as |errorDetailElement|}}
+                <li>{{errorDetailElement}}</li>
+              {{/each}}
+            </ul>
+          {{/if}}
+          {{#if this.errorMessageLink}}
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href={{this.errorMessageLink.url}}
+            >{{this.errorMessageLink.label}}
+            </a>
+            <FaIcon @icon="up-right-from-square" />
+          {{/if}}
+        </PixMessage>
       </div>
     {{/if}}
     <PixButton @id="certificationJoinerSubmitButton" @type="submit">{{t
