@@ -29,7 +29,6 @@ const buildCertificationCourse = function ({
   isCancelled = false,
   isRejectedForFraud = false,
   abortReason = null,
-  pixCertificationStatus = null,
   lang = null,
 } = {}) {
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -59,7 +58,6 @@ const buildCertificationCourse = function ({
     isCancelled,
     isRejectedForFraud,
     abortReason,
-    pixCertificationStatus,
     lang,
   };
   return databaseBuffer.pushInsertable({

@@ -719,7 +719,6 @@ async function _createAPublishedV3CertificationSession({ databaseBuilder }) {
       hasSeenEndTestScreen: true,
       isPublished: true,
       version: 3,
-      pixCertificationStatus: 'validated',
     });
 
     const { id: assessmentId } = databaseBuilder.factory.buildAssessment({

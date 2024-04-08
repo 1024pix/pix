@@ -105,14 +105,15 @@ describe('PATCH /api/admin/sessions/:id/publish', function () {
           expect(response.result.data.attributes['published-at']).to.not.equal(date);
         });
 
-        it('should update the isPublished field and the pixCertificationStatus fields in certification course', async function () {
+        it('should update the published information', async function () {
           // when
           await server.inject(options);
 
           // then
-          const certificationCourses = await knex('certification-courses').where({ id: certificationId });
-          expect(certificationCourses[0].isPublished).to.be.true;
-          expect(certificationCourses[0].pixCertificationStatus).to.equal(status.VALIDATED);
+          const [certificationCourse] = await knex('certification-courses').where({ id: certificationId });
+          const [session] = await knex('sessions').where({ id: sessionId });
+          expect(certificationCourse.isPublished).to.be.true;
+          expect(session.publishedAt).not.to.be.empty;
         });
       });
     });

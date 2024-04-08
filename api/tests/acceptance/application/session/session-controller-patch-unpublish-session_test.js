@@ -1,4 +1,3 @@
-import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import {
   createServer,
   databaseBuilder,
@@ -82,7 +81,6 @@ describe('PATCH /api/admin/sessions/:id/unpublish', function () {
           certificationId = databaseBuilder.factory.buildCertificationCourse({
             sessionId,
             isPublished: true,
-            pixCertificationStatus: status.REJECTED,
           }).id;
 
           return databaseBuilder.commit();
@@ -96,14 +94,15 @@ describe('PATCH /api/admin/sessions/:id/unpublish', function () {
           expect(response.statusCode).to.equal(200);
         });
 
-        it('should update the isPublished field to false and set pixCertificationStatus to null in certification course', async function () {
+        it('should update the published information', async function () {
           // when
           await server.inject(options);
 
           // then
-          const certificationCourses = await knex('certification-courses').where({ id: certificationId });
-          expect(certificationCourses[0].isPublished).to.be.false;
-          expect(certificationCourses[0].pixCertificationStatus).to.be.null;
+          const [session] = await knex('sessions').where({ id: sessionId });
+          const [certificationCourse] = await knex('certification-courses').where({ id: certificationId });
+          expect(session.publishedAt).to.be.null;
+          expect(certificationCourse.isPublished).to.be.false;
         });
       });
     });
