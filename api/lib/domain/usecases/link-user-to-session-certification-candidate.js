@@ -1,5 +1,8 @@
 import _ from 'lodash';
 
+import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { LanguageNotSupportedError } from '../../../src/shared/domain/errors.js';
 import {
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
@@ -23,11 +26,23 @@ const linkUserToSessionCertificationCandidate = async function ({
   organizationRepository,
   organizationLearnerRepository,
   sessionRepository,
+  userRepository,
+  languageService,
 }) {
   const session = await sessionRepository.get({ id: sessionId });
   if (!session.isAccessible()) {
     throw new SessionNotAccessible();
   }
+
+  if (session.version === CertificationVersion.V3) {
+    const user = await userRepository.get(userId);
+    const isUserLanguageValid = _validateUserLanguage(languageService, user.lang);
+
+    if (!isUserLanguageValid) {
+      throw new LanguageNotSupportedError();
+    }
+  }
+
   const participatingCertificationCandidate = new CertificationCandidate({
     firstName,
     lastName,
@@ -155,4 +170,8 @@ async function _checkCandidateMatchTheReconciledStudent({
   if (!isOrganizationLearnerIdLinkedToUserAndSCOOrganization) {
     throw new MatchingReconciledStudentNotFoundError();
   }
+}
+
+function _validateUserLanguage(languageService, userLanguage) {
+  return CertificationCourse.isLanguageAvailableForV3Certification(languageService, userLanguage);
 }
