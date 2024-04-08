@@ -4,7 +4,7 @@ import { OrganizationLearnersCouldNotBeSavedError } from '../../../../../../lib/
 import { OrganizationLearner } from '../../../../../../lib/domain/models/index.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import * as organizationLearnerRepository from '../../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
-import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/CommonOrganizationLearnerSet.js';
+import { CommonOrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/ImportOrganizationLearnerSet.js';
 import {
   addOrUpdateOrganizationOfOrganizationLearners,
   disableAllOrganizationLearnersInOrganization,

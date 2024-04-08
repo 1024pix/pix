@@ -4,17 +4,52 @@ import { CommonCsvLearnerParser } from '../../../../../../../src/prescription/le
 import { catchErr, expect } from '../../../../../../test-helper.js';
 
 describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
-  context('getEncoding', function () {
-    const config = {
-      headers: [
-        {
-          name: 'prénom',
-          property: 'firstName',
-          isRequired: false,
-          checkEncoding: true,
+  context('buildParser', function () {
+    it('returns an instance of CommonCsvLearnerParser', function () {
+      const input = `prénom
+      Éçéà niño véga`;
+      const encodedInput = iconv.encode(input, 'utf8');
+      const importFormat = {
+        config: {
+          headers: [
+            {
+              name: 'nom',
+              property: 'lastName',
+              isRequired: true,
+            },
+            {
+              name: 'prénom',
+              property: 'firstName',
+              isRequired: false,
+            },
+            {
+              name: 'GodZilla',
+              property: 'kaiju',
+              isRequired: true,
+            },
+          ],
+          acceptedEncoding: ['utf8'],
         },
-      ],
-      acceptedEncoding: ['utf8'],
+      };
+      const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
+
+      expect(parser).to.be.instanceOf(CommonCsvLearnerParser);
+    });
+  });
+
+  context('getEncoding', function () {
+    const importFormat = {
+      config: {
+        headers: [
+          {
+            name: 'prénom',
+            property: 'firstName',
+            isRequired: false,
+            checkEncoding: true,
+          },
+        ],
+        acceptedEncoding: ['utf8'],
+      },
     };
 
     const input = `prénom
@@ -23,7 +58,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
     it('should throw an error if there is no acceptedEncoding', async function () {
       // given
       const encodedInput = iconv.encode(input, 'win1252');
-      const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
+      const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
 
       // when
       const error = await catchErr(parser.getEncoding, parser)();
@@ -35,7 +70,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
     it('should not throw an error if encoding is supported', async function () {
       // given
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
+      const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
 
       // when
       const call = () => parser.getEncoding();
@@ -45,25 +80,27 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
   });
 
   context('When file does not match requirements', function () {
-    const config = {
-      headers: [
-        {
-          name: 'nom',
-          property: 'lastName',
-          isRequired: true,
-        },
-        {
-          name: 'prénom',
-          property: 'firstName',
-          isRequired: false,
-        },
-        {
-          name: 'GodZilla',
-          property: 'kaiju',
-          isRequired: true,
-        },
-      ],
-      acceptedEncoding: ['utf8'],
+    const importFormat = {
+      config: {
+        headers: [
+          {
+            name: 'nom',
+            property: 'lastName',
+            isRequired: true,
+          },
+          {
+            name: 'prénom',
+            property: 'firstName',
+            isRequired: false,
+          },
+          {
+            name: 'GodZilla',
+            property: 'kaiju',
+            isRequired: true,
+          },
+        ],
+        acceptedEncoding: ['utf8'],
+      },
     };
 
     it('should throw an error if the file is not csv', async function () {
@@ -71,7 +108,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
       const input = `nom\\prénom\\
       Beatrix\\The\\`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
+      const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
 
       // when
       const error = await catchErr(parser.parse, parser)('utf8');
@@ -86,7 +123,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
         const input = `nom;prénom;GodZilla
       Beatrix;The;cheese;of;truth`;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
+        const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
         // when
         const error = await catchErr(parser.parse, parser)('utf8');
 
@@ -98,7 +135,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
         const input = `nom;GodZilla;prénom
         Beatrix;`;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
+        const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
         // when
         const error = await catchErr(parser.parse, parser)('utf8');
 
@@ -112,7 +149,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
       const input = `prénom;
       The;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
+      const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
 
       // when
       const errors = await catchErr(parser.parse, parser)('utf8');
@@ -130,7 +167,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
       const input = `nom;Gidorah;King Kong;GodZilla
       The;;;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
+      const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
 
       // when
       const errors = await catchErr(parser.parse, parser)('utf8');
@@ -149,7 +186,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
       const input = `prénom;Gidorah
       The;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
+      const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
       parser.getEncoding();
 
       // when
@@ -169,22 +206,24 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
 
   context('when the header is correctly formed', function () {
     context('when there are lines', function () {
-      let config;
+      let importFormat;
       beforeEach(function () {
-        config = {
-          headers: [
-            {
-              name: 'nom',
-              property: 'lastName',
-              isRequired: true,
-            },
-            {
-              name: 'prénom',
-              property: 'firstName',
-              isRequired: false,
-            },
-          ],
-          acceptedEncoding: ['utf8'],
+        importFormat = {
+          config: {
+            headers: [
+              {
+                name: 'nom',
+                property: 'lastName',
+                isRequired: true,
+              },
+              {
+                name: 'prénom',
+                property: 'firstName',
+                isRequired: false,
+              },
+            ],
+            acceptedEncoding: ['utf8'],
+          },
         };
       });
 
@@ -194,7 +233,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
         Beatrix;The
         `;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
+        const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
 
         // when
         const call = () => parser.parse('utf8');
@@ -209,7 +248,7 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
         `;
 
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CommonCsvLearnerParser(encodedInput, config.headers, config.acceptedEncoding);
+        const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
 
         // when
         const result = parser.parse('utf8');

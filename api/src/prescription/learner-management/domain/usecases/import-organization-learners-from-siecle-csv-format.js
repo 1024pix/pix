@@ -8,6 +8,7 @@ import lodash from 'lodash';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../../../shared/infrastructure/constants.js';
 import { OrganizationLearnerParser } from '../../infrastructure/serializers/csv/organization-learner-parser.js';
+import { getDataBuffer } from '../../infrastructure/utils/bufferize/get-data-buffer.js';
 import { OrganizationImport } from '../models/OrganizationImport.js';
 
 const ERRORS = {
@@ -100,18 +101,5 @@ const importOrganizationLearnersFromSIECLECSVFormat = async function ({
     }
   });
 };
-
-function getDataBuffer(readableStream) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    readableStream.on('data', (data) => {
-      chunks.push(data);
-    });
-    readableStream.on('error', (err) => reject(err));
-    readableStream.once('end', () => {
-      resolve(Buffer.concat(chunks));
-    });
-  });
-}
 
 export { importOrganizationLearnersFromSIECLECSVFormat };

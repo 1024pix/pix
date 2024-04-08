@@ -27,9 +27,16 @@ class AggregateImportError extends DomainError {
   }
 }
 
+class OrganizationLearnerImportFormatNotFoundError extends DomainError {
+  constructor(organizationId) {
+    super(`organizationLearnerImportFormat not found for the organizationId ${organizationId}`);
+  }
+}
+
 export {
   AggregateImportError,
   OrganizationDoesNotHaveFeatureEnabledError,
+  OrganizationLearnerImportFormatNotFoundError,
   OrganizationLearnersCouldNotBeSavedError,
   SiecleXmlImportError,
 };
