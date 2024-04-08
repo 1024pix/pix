@@ -39,7 +39,7 @@ const linkUserToSessionCertificationCandidate = async function ({
     const isUserLanguageValid = _validateUserLanguage(languageService, user.lang);
 
     if (!isUserLanguageValid) {
-      throw new LanguageNotSupportedError();
+      throw new LanguageNotSupportedError(user.lang);
     }
   }
 
