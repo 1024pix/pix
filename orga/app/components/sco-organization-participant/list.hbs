@@ -44,13 +44,13 @@
             <InElement @destinationId={{this.actionBarId}}>
               <ScoOrganizationParticipant::ActionBar
                 @count={{selectedStudents.length}}
-                @openResetPasswordModal={{(fn this.openResetPasswordModal selectedStudents)}}
+                @openResetPasswordModal={{fn this.openResetPasswordModal selectedStudents}}
               />
               <ScoOrganizationParticipant::ResetPasswordModal
                 @showModal={{this.showResetPasswordModal}}
                 @totalSelectedStudents={{selectedStudents.length}}
                 @totalAffectedStudents={{this.affectedStudents.length}}
-                @onTriggerAction={{(fn this.resetPasswordForStudents this.affectedStudents reset)}}
+                @onTriggerAction={{fn this.resetPasswordForStudents this.affectedStudents reset}}
                 @onCloseModal={{this.closeResetPasswordModal}}
               />
             </InElement>
@@ -63,8 +63,8 @@
             @student={{student}}
             @isStudentSelected={{isStudentSelected}}
             @openAuthenticationMethodModal={{this.openAuthenticationMethodModal}}
-            @onToggleStudent={{(fn this.addStopPropagationOnFunction toggleStudent)}}
-            @onClickLearner={{(fn @onClickLearner student.id)}}
+            @onToggleStudent={{fn this.addStopPropagationOnFunction toggleStudent}}
+            @onClickLearner={{fn @onClickLearner student.id}}
             @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
           />
         </:item>

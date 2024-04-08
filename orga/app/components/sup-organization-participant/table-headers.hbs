@@ -4,8 +4,8 @@
       <PixCheckbox
         @screenReaderOnly={{true}}
         @checked={{@someSelected}}
-        @isIndeterminate={{(not @allSelected)}}
-        disabled={{(not @hasStudents)}}
+        @isIndeterminate={{not @allSelected}}
+        disabled={{not @hasStudents}}
         {{on "click" @onToggleAll}}
       ><:label>{{t "pages.organization-participants.table.column.mainCheckbox"}}</:label></PixCheckbox>
     </Table::Header>

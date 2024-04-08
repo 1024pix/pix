@@ -38,7 +38,7 @@
     <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{@onCloseModal}}>
       {{t "common.actions.cancel"}}
     </PixButton>
-    <PixButton @backgroundColor="error" @triggerAction={{@onTriggerAction}} @isDisabled={{(not this.canDelete)}}>
+    <PixButton @backgroundColor="error" @triggerAction={{@onTriggerAction}} @isDisabled={{not this.canDelete}}>
       {{t "pages.sup-organization-participants.deletion-modal.delete-button"}}
     </PixButton>
   </:footer>
