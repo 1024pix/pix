@@ -72,9 +72,9 @@ describe('Integration | Repository | Certification', function () {
         it('should set certifications as published within the session and update pixCertificationStatus according to assessment result status', async function () {
           // when
           await certificationRepository.publishCertificationCourses([
-            { certificationCourseId: 1, pixCertificationStatus: status.VALIDATED },
-            { certificationCourseId: 2, pixCertificationStatus: status.REJECTED },
-            { certificationCourseId: 3, pixCertificationStatus: null },
+            { certificationCourseId: 1 },
+            { certificationCourseId: 2 },
+            { certificationCourseId: 3 },
           ]);
 
           // then
@@ -158,7 +158,7 @@ function _buildCertification({ id, sessionId, status, isPublished, isCancelled =
     databaseBuilder.factory.buildAssessmentResult({
       assessmentId: id,
       createdAt: new Date('2020-01-01'),
-      status: status.VALIDATED,
+      status,
     });
     // the latest
     databaseBuilder.factory.buildAssessmentResult.last({
