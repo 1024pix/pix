@@ -3,8 +3,6 @@ import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 import * as dotenv from 'dotenv';
-// eslint-disable-next-line n/no-unpublished-import
-import inquirer from 'inquirer';
 
 dotenv.config({ path: `${__dirname}/../../.env` });
 import bluebird from 'bluebird';
@@ -31,12 +29,18 @@ const { SHARED } = CampaignParticipationStatuses;
 
 const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
 /**
- * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'SUP' 1 '[{"candidateNumber": 1, "key": "EDU_1ER_DEGRE"}, {"candidateNumber": 1, "key": "EDU_2ND_DEGRE"}]'
- * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 2 '[{"candidateNumber": 1, "key": "CLEA"}, {"candidateNumber": 2, "key": "DROIT"}]'
- * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 1 '[{"candidateNumber": 1, "key": "CLEA"}]'
+ * DEFAULT
+ * Create 1 session, 2 candidates, no complementary
+ * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js
  *
- * On a "production" environment (RA), you need to install inquirer package
- * NODE_ENV= npm i inquirer@8.2.4 && LOG_LEVEL=info LOG_FOR_HUMANS=true node ./scripts/data-generation/generate-certif-cli.js 'PRO' 1
+ * Create 1 session, 2 candidates: candidate 1 is registered and certifiable to CLEA, candidate 2 is registered and certifiable to DROIT
+ * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 2 '[{"candidateNumber": 1, "key": "CLEA"}, {"candidateNumber": 2, "key": "DROIT"}]'
+ *
+ * Create 1 session, 3 candidates: candidate 2 is registered and certifiable to EDU_1ER_DEGRE, candidate 1 and 3 are certifiable PIX Core only
+ * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 3 '[{"candidateNumber": 2, "key": "EDU_1ER_DEGRE"}]'
+ *
+ * Create 1 session, 1 candidate, no complementary
+ * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'SUP' 1
  */
 
 const PIXCLEA = 'CLEA';
@@ -53,68 +57,6 @@ const COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME = {
 };
 
 const isInTest = process.env.NODE_ENV === 'test';
-
-const questions = [
-  {
-    type: 'list',
-    name: 'centerType',
-    message: 'Quel type de centre ?',
-    choices: ['SCO', 'SUP', 'PRO'],
-  },
-  {
-    type: 'input',
-    name: 'candidateNumber',
-    message: 'Combien de candidats ?',
-    validate(value) {
-      const valid = !isNaN(parseInt(value));
-      return valid || 'Renseigner un nombre';
-    },
-    filter: Number,
-  },
-  {
-    type: 'confirm',
-    name: 'needComplementaryCertification',
-    message: "As tu besoin d'une certification complémentaire ?",
-    default: false,
-    when({ centerType }) {
-      return centerType !== 'SCO';
-    },
-  },
-  {
-    type: 'checkbox',
-    name: 'complementaryCertifications',
-    message: "Quelle certification complémentaire souhaitez-vous ? (1 par candidat, 'space' pour séléctionner)",
-    when({ needComplementaryCertification }) {
-      return needComplementaryCertification;
-    },
-    loop: false,
-    choices({ candidateNumber }) {
-      const choices = [];
-      for (let i = 0; i < candidateNumber; i++) {
-        choices.push(
-          new inquirer.Separator(`----- Candidat ${i + 1} -----`),
-          {
-            name: 'Pix+ Édu 1er degré',
-            value: { candidateNumber: i + 1, key: 'EDU_1ER_DEGRE' },
-          },
-          {
-            name: 'Pix+ Édu 2nd degré',
-            value: { candidateNumber: i + 1, key: 'EDU_2ND_DEGRE' },
-          },
-          {
-            name: 'Pix+ Droit',
-            value: { candidateNumber: i + 1, key: 'DROIT' },
-          },
-          {
-            name: 'CléA Numérique',
-            value: { candidateNumber: i + 1, key: 'CLEA' },
-          },
-        );
-      }
-      return choices;
-    },
-  },
-];
 
 async function main({ centerType, candidateNumber, complementaryCertifications = [] }) {
   await _updateDatabaseBuilderSequenceNumber();
@@ -416,30 +358,14 @@ function _buildSupervisorAccess({ databaseBuilder, sessionId }) {
   });
 }
 
-const modulePath = url.fileURLToPath(import.meta.url);
-const isLaunchedFromCommandLine = process.argv[1] === modulePath;
-if (process.argv.length > 2 && !isInTest) {
-  const [centerType, candidateNumber, complementaryCertifications = '[]'] = process.argv.slice(2);
+if (!isInTest) {
+  const [centerType = 'PRO', candidateNumber = '2', complementaryCertifications = '[]'] = process.argv.slice(2);
 
   main({
     centerType,
     candidateNumber,
     complementaryCertifications: JSON.parse(complementaryCertifications) || [],
   })
-    .catch((error) => {
-      logger.error(error);
-      throw error;
-    })
-    .finally(_disconnect);
-} else if (isLaunchedFromCommandLine) {
-  inquirer
-    .prompt(questions)
-    .then(async (answers) => {
-      logger.info('🙋🏽‍♂️ Demande :');
-      logger.info(JSON.stringify(answers, null, '  '));
-      logger.info('👷🏾‍♀️ Création...');
-      await main(answers);
-    })
     .catch((error) => {
       logger.error(error);
       throw error;
