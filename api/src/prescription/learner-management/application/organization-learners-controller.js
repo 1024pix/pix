@@ -1,4 +1,5 @@
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { ApplicationTransaction } from '../../shared/infrastructure/ApplicationTransaction.js';
 import { usecases } from '../domain/usecases/index.js';
 
 const deleteOrganizationLearners = async function (request, h) {
@@ -15,6 +16,19 @@ const deleteOrganizationLearners = async function (request, h) {
   return h.response().code(200);
 };
 
-const organizationLearnersController = { deleteOrganizationLearners };
+const importOrganizationLearnerFromFeature = async function (request, h) {
+  await ApplicationTransaction.execute(async () => {
+    const organizationId = request.params.organizationId;
+    const userId = request.auth.credentials.userId;
+
+    await usecases.sendOrganizationLearnersFile({ payload: request.payload, organizationId, userId });
+    await usecases.validateOrganizationLearnersFile({ organizationId });
+    await usecases.saveOrganizationLearnersFile({ organizationId });
+  });
+
+  return h.response().code(204);
+};
+
+const organizationLearnersController = { deleteOrganizationLearners, importOrganizationLearnerFromFeature };
 
 export { organizationLearnersController };

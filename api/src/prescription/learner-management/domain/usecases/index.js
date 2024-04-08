@@ -28,6 +28,10 @@ const usecasesWithoutInjectedDependencies = {
     path: join(path, './'),
     ignoredFileNames: ['index.js'],
   })),
+  ...(await importNamedExportsFromDirectory({
+    path: join(path, './import-from-feature/'),
+    ignoredFileNames: ['index.js'],
+  })),
 };
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
