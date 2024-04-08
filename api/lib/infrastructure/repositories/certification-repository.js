@@ -1,9 +1,8 @@
 import { knex } from '../../../db/knex-database-connection.js';
 
 const publishCertificationCourses = async function (certificationStatuses) {
-  const certificationDataToUpdate = certificationStatuses.map(({ certificationCourseId, pixCertificationStatus }) => ({
+  const certificationDataToUpdate = certificationStatuses.map(({ certificationCourseId }) => ({
     id: certificationCourseId,
-    pixCertificationStatus,
     isPublished: true,
     updatedAt: new Date(),
     version: -1, // Version number used to meet requirements regarding the version column non-null constraint in the insert request below
@@ -13,7 +12,7 @@ const publishCertificationCourses = async function (certificationStatuses) {
   await knex('certification-courses')
     .insert(certificationDataToUpdate)
     .onConflict('id')
-    .merge(['pixCertificationStatus', 'isPublished', 'updatedAt']);
+    .merge(['isPublished', 'updatedAt']);
 };
 
 const getStatusesBySessionId = async function (sessionId) {
@@ -38,9 +37,7 @@ const getStatusesBySessionId = async function (sessionId) {
 };
 
 const unpublishCertificationCoursesBySessionId = async function (sessionId) {
-  await knex('certification-courses')
-    .where({ sessionId })
-    .update({ isPublished: false, pixCertificationStatus: null, updatedAt: new Date() });
+  await knex('certification-courses').where({ sessionId }).update({ isPublished: false, updatedAt: new Date() });
 };
 
 export { getStatusesBySessionId, publishCertificationCourses, unpublishCertificationCoursesBySessionId };
