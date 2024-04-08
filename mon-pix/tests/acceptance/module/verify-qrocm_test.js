@@ -24,7 +24,7 @@ module('Acceptance | Module | Routes | verifyQrocm', function (hooks) {
           type: 'input',
           inputType: 'text',
           size: 1,
-          display: 'inline',
+          display: 'block',
           placeholder: '',
           ariaLabel: 'Réponse 1',
           defaultValue: '',
@@ -32,7 +32,7 @@ module('Acceptance | Module | Routes | verifyQrocm', function (hooks) {
         {
           input: 'premiere-partie',
           type: 'select',
-          display: 'inline',
+          display: 'block',
           placeholder: '',
           ariaLabel: 'Réponse 2',
           defaultValue: '',

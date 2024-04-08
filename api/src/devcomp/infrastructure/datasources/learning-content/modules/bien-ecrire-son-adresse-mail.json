@@ -129,19 +129,23 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Symbole&nbsp;:</p>"
+              "content": "<span>Symbole&nbsp;:</span>"
             },
             {
               "input": "symbole",
               "type": "input",
               "inputType": "text",
               "size": 3,
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Réponse 1 sur 1",
               "defaultValue": "",
-              "tolerances": ["t1"],
-              "solutions": ["@"]
+              "tolerances": [
+                "t1"
+              ],
+              "solutions": [
+                "@"
+              ]
             }
           ],
           "feedbacks": {
@@ -161,12 +165,12 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Partie n°1&nbsp;:</p>"
+              "content": "<span>Partie n°1&nbsp;:</span>"
             },
             {
               "input": "premiere-partie",
               "type": "select",
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Réponse 1 sur 2",
               "defaultValue": "",
@@ -181,16 +185,18 @@
                   "content": "le fournisseur d'adresse mail"
                 }
               ],
-              "solutions": ["1"]
+              "solutions": [
+                "1"
+              ]
             },
             {
               "type": "text",
-              "content": "<p>Partie n°2&nbsp;:</p>"
+              "content": "<span>Partie n°2&nbsp;:</span>"
             },
             {
               "input": "seconde-partie",
               "type": "select",
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Réponse 2 sur 2",
               "defaultValue": "",
@@ -205,7 +211,9 @@
                   "content": "le fournisseur d'adresse mail"
                 }
               ],
-              "solutions": ["2"]
+              "solutions": [
+                "2"
+              ]
             }
           ],
           "feedbacks": {
@@ -351,19 +359,24 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Adresse mail de Naomi&nbsp;:</p>"
+              "content": "<span>Adresse mail de Naomi&nbsp;:</span>"
             },
             {
               "input": "email",
               "type": "input",
               "inputType": "text",
               "size": 20,
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Adresse mail de Naomi",
               "defaultValue": "",
-              "tolerances": ["t1"],
-              "solutions": ["naomizao457@yahoo.com", "naomizao457@yahoo.fr"]
+              "tolerances": [
+                "t1"
+              ],
+              "solutions": [
+                "naomizao457@yahoo.com",
+                "naomizao457@yahoo.fr"
+              ]
             }
           ],
           "feedbacks": {

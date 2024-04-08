@@ -33,9 +33,15 @@
 
 .element-qrocm-proposals {
   &__input {
+    line-height: var(--pix-spacing-10x);
+
     &--block {
       display: block;
       width: fit-content;
+    }
+
+    &--inline {
+      display: inline-block;
     }
   }
 }

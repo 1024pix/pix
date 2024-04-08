@@ -29,7 +29,7 @@ export function getQrocmSample() {
       {
         input: 'modulix',
         type: 'select',
-        display: 'inline',
+        display: 'block',
         placeholder: '',
         ariaLabel: "Choisir l'adjectif le plus adapté",
         defaultValue: '',

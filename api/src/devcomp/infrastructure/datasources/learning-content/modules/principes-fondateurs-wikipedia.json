@@ -61,7 +61,6 @@
           "alt": "Logos de Wikipédia de 2001 à 2010.",
           "alternativeText": ""
         },
-
         {
           "id": "d5acb701-fd9c-40d4-b59d-fb2fd8f6b3fe",
           "type": "qcm",
@@ -88,7 +87,10 @@
             "valid": "<p>Correct&#8239;!</p>",
             "invalid": "<p>Incorrect. La construction permanente et les différentes langues de Wikipédia sont symbolisées prioritairement à travers ce logo.</p>"
           },
-          "solutions": ["1", "4"]
+          "solutions": [
+            "1",
+            "4"
+          ]
         }
       ]
     },
@@ -179,7 +181,11 @@
             "valid": "<p>Correct. Vous avez bien identifié les principes de Wikipédia. </p>",
             "invalid": "<p>Incorrect. Remonter la page pour relire la leçon.&nbsp;<span aria-hidden=\"true\">⬆</span>️</p>"
           },
-          "solutions": ["1", "3", "4"]
+          "solutions": [
+            "1",
+            "3",
+            "4"
+          ]
         }
       ]
     },
@@ -291,19 +297,23 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Nom de la cinquième section&nbsp;:</p>"
+              "content": "<span>Nom de la cinquième section&nbsp;:</span>"
             },
             {
               "input": "cinquieme-section",
               "type": "input",
               "inputType": "text",
               "size": 20,
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Remplir le nom de la cinquième section du sommaire de l'article Wikipédia proposé",
               "defaultValue": "",
-              "tolerances": ["t1"],
-              "solutions": ["Honneur"]
+              "tolerances": [
+                "t1"
+              ],
+              "solutions": [
+                "Honneur"
+              ]
             }
           ],
           "feedbacks": {
@@ -323,19 +333,23 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Nombre&nbsp;:</p>"
+              "content": "<span>Nombre&nbsp;:</span>"
             },
             {
               "input": "nombre-ref",
               "type": "input",
               "inputType": "text",
               "size": 1,
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Remplir avec le nombre de notes et références",
               "defaultValue": "",
-              "tolerances": ["t1"],
-              "solutions": ["1"]
+              "tolerances": [
+                "t1"
+              ],
+              "solutions": [
+                "1"
+              ]
             }
           ],
           "feedbacks": {
@@ -355,12 +369,12 @@
           "proposals": [
             {
               "type": "text",
-              "content": "<p>Niveau de qualité estimé&nbsp;:</p>"
+              "content": "<span>Niveau de qualité estimé&nbsp;:</span>"
             },
             {
               "input": "quality-wiki",
               "type": "select",
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Choisir le niveau de qualité estimé",
               "defaultValue": "",
@@ -379,7 +393,9 @@
                   "content": "Non renseigné"
                 }
               ],
-              "solutions": ["2"]
+              "solutions": [
+                "2"
+              ]
             }
           ],
           "feedbacks": {

@@ -9,13 +9,73 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | Module | QROCM', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('should display a QROCM', async function (assert) {
+  test('should display a block QROCM', async function (assert) {
     // given
     const qrocm = {
       id: '994b6a96-a3c2-47ae-a461-87548ac6e02b',
       instruction: 'Mon instruction',
       proposals: [
-        { content: '<p>Ma première proposition</p>', type: 'text' },
+        { content: '<span>Ma première proposition</span>', type: 'text' },
+        {
+          input: 'symbole',
+          inputType: 'text',
+          display: 'block',
+          size: 1,
+          placeholder: '',
+          ariaLabel: 'input-aria',
+          defaultValue: '',
+          type: 'input',
+        },
+        {
+          input: 'premiere-partie',
+          type: 'select',
+          display: 'block',
+          placeholder: '',
+          ariaLabel: 'select-aria',
+          defaultValue: '',
+          options: [
+            {
+              id: '1',
+              content: "l'identifiant",
+            },
+            {
+              id: '2',
+              content: "le fournisseur d'adresse mail",
+            },
+          ],
+        },
+      ],
+      type: 'qrocm',
+    };
+    this.set('el', qrocm);
+    const screen = await render(hbs`
+        <Module::Qrocm @element={{this.el}} />`);
+
+    // then
+    assert.ok(screen);
+    assert.dom(screen.getByText('Mon instruction')).exists({ count: 1 });
+    assert.ok(
+      screen.getByRole('group', {
+        legend: this.intl.t('pages.modulix.qrocm.direction', {
+          count: qrocm.proposals.filter(({ type }) => type !== 'text').length,
+        }),
+      }),
+    );
+    assert.dom(screen.getByText('Ma première proposition')).exists({ count: 1 });
+    assert.ok(screen.getByRole('textbox', { name: 'input-aria' }));
+    assert.dom(screen.getByText("l'identifiant")).exists({ count: 1 });
+    assert.dom(screen.getByText("le fournisseur d'adresse mail")).exists({ count: 1 });
+    assert.ok(screen.getByText('select-aria', { selector: 'label' }));
+    assert.dom('.element-qrocm-proposals__input--block').exists({ count: 2 });
+  });
+
+  test('should display an inline QROCM', async function (assert) {
+    // given
+    const qrocm = {
+      id: '994b6a96-a3c2-47ae-a461-87548ac6e02b',
+      instruction: 'Mon instruction',
+      proposals: [
+        { content: '<span>Ma première proposition</span>', type: 'text' },
         {
           input: 'symbole',
           inputType: 'text',
@@ -62,10 +122,9 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       }),
     );
     assert.dom(screen.getByText('Ma première proposition')).exists({ count: 1 });
-    assert.ok(screen.getByRole('textbox', { name: 'input-aria' }));
-    assert.dom(screen.getByText("l'identifiant")).exists({ count: 1 });
-    assert.dom(screen.getByText("le fournisseur d'adresse mail")).exists({ count: 1 });
-    assert.ok(screen.getByText('select-aria', { selector: 'label' }));
+    assert.ok(screen.queryByRole('textbox', { name: 'input-aria' }));
+    assert.ok(screen.queryByText("l'identifiant"));
+    assert.dom('.element-qrocm-proposals__input--inline').exists({ count: 2 });
   });
 
   test('should be able to select an option', async function (assert) {
@@ -77,7 +136,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
         {
           input: 'premiere-partie',
           type: 'select',
-          display: 'inline',
+          display: 'block',
           placeholder: '',
           ariaLabel: 'select-aria',
           defaultValue: '',
@@ -122,7 +181,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
         {
           input: 'premiere-partie',
           type: 'select',
-          display: 'inline',
+          display: 'block',
           placeholder: '',
           ariaLabel: 'select-aria',
           defaultValue: '',
@@ -158,7 +217,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
         {
           input: 'premiere-partie',
           type: 'select',
-          display: 'inline',
+          display: 'block',
           placeholder: '',
           ariaLabel: 'select-aria',
           defaultValue: '',
@@ -210,7 +269,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
             type: 'input',
             inputType: 'text',
             size: 1,
-            display: 'inline',
+            display: 'block',
             placeholder: '',
             ariaLabel: 'Réponse 1',
             defaultValue: '',
@@ -251,7 +310,7 @@ module('Integration | Component | Module | QROCM', function (hooks) {
           {
             input: 'premiere-partie',
             type: 'select',
-            display: 'inline',
+            display: 'block',
             placeholder: '',
             ariaLabel: 'select-aria',
             defaultValue: '',
@@ -390,7 +449,7 @@ function prepareContextRecords(store, correctionResponse) {
       {
         input: 'premiere-partie',
         type: 'select',
-        display: 'inline',
+        display: 'block',
         placeholder: '',
         ariaLabel: 'select-aria',
         defaultValue: '',

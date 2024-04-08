@@ -7,7 +7,10 @@
     "description": "Découvrez avec ce didacticiel comment fonctionne Modulix !",
     "duration": 5,
     "level": "Débutant",
-    "objectives": ["Naviguer dans Modulix", "Découvrir les leçons et les activités"]
+    "objectives": [
+      "Naviguer dans Modulix",
+      "Découvrir les leçons et les activités"
+    ]
   },
   "transitionTexts": [
     {
@@ -142,7 +145,11 @@
             "valid": "<p>Correct&#8239;! Vous nous avez bien cernés&nbsp;:)</p>",
             "invalid": "<p>Et non&#8239;! Pix sert à évaluer, certifier et développer ses compétences numériques.</p>"
           },
-          "solutions": ["1", "3", "4"]
+          "solutions": [
+            "1",
+            "3",
+            "4"
+          ]
         }
       ]
     },
@@ -178,6 +185,60 @@
       ]
     },
     {
+      "id": "4ce2a31a-6584-4dae-87c6-d08b58d0f3b9",
+      "type": "activity",
+      "title": "Connaissez-vous bien Pix",
+      "elements": [
+        {
+          "id": "c23436d4-6261-49f1-b50d-13a547529c29",
+          "type": "qrocm",
+          "instruction": "<p>Compléter le texte suivant :</p>",
+          "proposals": [
+            {
+              "type": "text",
+              "content": "<span>Pix est un</span>"
+            },
+            {
+              "input": "pix-name",
+              "type": "input",
+              "inputType": "text",
+              "size": 10,
+              "display": "inline",
+              "placeholder": "",
+              "ariaLabel": "Mot à trouver",
+              "defaultValue": "",
+              "tolerances": [
+                "t1", "t3"
+              ],
+              "solutions": [
+                "Groupement"
+              ]
+            },
+            {
+              "type": "text",
+              "content": "<span>d'intérêt public qui a été créée en</span>"
+            },
+            {
+              "input": "pix-birth",
+              "type": "input",
+              "inputType": "text",
+              "size": 10,
+              "display": "inline",
+              "placeholder": "",
+              "ariaLabel": "Année à trouver",
+              "defaultValue": "",
+              "tolerances": [],
+              "solutions": ["2016"]
+            }
+          ],
+          "feedbacks": {
+            "valid": "<p>Correct&#8239;! vous nous connaissez bien&nbsp;<span aria-hidden=\"true\">🎉</span></p>",
+            "invalid": "<p>Incorrect&#8239;! vous y arriverez la prochaine fois&#8239;!</p>"
+          }
+        }
+      ]
+    },
+    {
       "id": "7cf75e70-8749-4392-8081-f2c02badb0fb",
       "type": "activity",
       "title": "Le nom de ce produit",
@@ -192,12 +253,16 @@
               "type": "input",
               "inputType": "text",
               "size": 10,
-              "display": "inline",
+              "display": "block",
               "placeholder": "",
               "ariaLabel": "Nom de ce produit",
               "defaultValue": "",
-              "tolerances": ["t1"],
-              "solutions": ["Modulix"]
+              "tolerances": [
+                "t1"
+              ],
+              "solutions": [
+                "Modulix"
+              ]
             }
           ],
           "feedbacks": {
