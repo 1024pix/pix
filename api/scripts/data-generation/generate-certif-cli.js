@@ -29,10 +29,16 @@ const { SHARED } = CampaignParticipationStatuses;
 
 const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
 /**
+ * DEFAULT
+ * Create 1 session, 2 candidates, no complementary
+ * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js
+ *
  * Create 1 session, 2 candidates: candidate 1 is registered and certifiable to CLEA, candidate 2 is registered and certifiable to DROIT
  * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 2 '[{"candidateNumber": 1, "key": "CLEA"}, {"candidateNumber": 2, "key": "DROIT"}]'
+ *
  * Create 1 session, 3 candidates: candidate 2 is registered and certifiable to EDU_1ER_DEGRE, candidate 1 and 3 are certifiable PIX Core only
  * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'PRO' 3 '[{"candidateNumber": 2, "key": "EDU_1ER_DEGRE"}]'
+ *
  * Create 1 session, 1 candidate, no complementary
  * LOG_LEVEL=info node ./scripts/data-generation/generate-certif-cli.js 'SUP' 1
  */
@@ -353,7 +359,7 @@ function _buildSupervisorAccess({ databaseBuilder, sessionId }) {
 }
 
 if (!isInTest) {
-  const [centerType, candidateNumber, complementaryCertifications = '[]'] = process.argv.slice(2);
+  const [centerType = 'PRO', candidateNumber = '2', complementaryCertifications = '[]'] = process.argv.slice(2);
 
   main({
     centerType,
