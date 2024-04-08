@@ -9,7 +9,7 @@ import { ComplementaryCertification } from './models/ComplementaryCertification.
  * @name getById
  *
  * @param {object} params
- * @param {number} params.id mandatory
+ * @param {number} params.id <mandatory> complementary certification identifier
  *
  * @returns {ComplementaryCertification}
  * @throws {NotFoundError} Complementary certification does not exist

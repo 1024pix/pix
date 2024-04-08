@@ -80,6 +80,10 @@ import { buildComplementaryCertificationHabilitation } from './build-complementa
 import { buildComplementaryCertificationScoringCriteria } from './build-complementary-certification-scoring-criteria.js';
 import { buildComplementaryCertificationScoringWithoutComplementaryReferential } from './build-complementary-certification-scoring-without-complementary-referential.js';
 import { buildComplementaryCertificationTargetProfileHistory } from './build-complementary-certification-target-profile-history-for-admin.js';
+import {
+  buildComplementaryCertificationBadge as buildCertificationComplementaryCertificationBadge,
+  buildComplementaryCertificationVersioning,
+} from './build-complementary-certification-versioning.js';
 import { buildCountry } from './build-country.js';
 import { buildCourse } from './build-course.js';
 import { buildCpfCertificationResult } from './build-cpf-certification-result.js';
@@ -195,6 +199,10 @@ const certification = {
   },
   shared: {
     buildJuryComment: buildJuryComment,
+  },
+  lib: {
+    buildComplementaryCertificationVersioning,
+    buildComplementaryCertificationBadge: buildCertificationComplementaryCertificationBadge,
   },
 };
 

@@ -22,8 +22,8 @@ const getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId = 
     .orderBy('attachedAt', 'desc');
 
   return bluebird.mapSeries(currentTargetProfiles, async (targetProfile) => {
-    const badges = await _getBadgesForCurrentTargetProfiles({ targetProfile });
-    return new TargetProfileHistoryForAdmin({ ...targetProfile, badges });
+    const badges = await _getTargetProfileComplementaryCertificationBadges({ targetProfile });
+    return _toDomain({ targetProfile, badges });
   });
 };
 
@@ -50,7 +50,8 @@ const getDetachedTargetProfilesHistoryByComplementaryCertificationId = async fun
     .orderBy('attachedAt', 'desc');
 
   return bluebird.mapSeries(detachedTargetProfiles, async (targetProfile) => {
-    return new TargetProfileHistoryForAdmin(targetProfile);
+    const badges = await _getTargetProfileComplementaryCertificationBadges({ targetProfile });
+    return _toDomain({ targetProfile, badges });
   });
 };
 
@@ -59,10 +60,11 @@ export {
   getDetachedTargetProfilesHistoryByComplementaryCertificationId,
 };
 
-async function _getBadgesForCurrentTargetProfiles({ targetProfile }) {
+async function _getTargetProfileComplementaryCertificationBadges({ targetProfile }) {
   const badgesDTO = await knex('badges')
     .select({
       id: 'badges.id',
+      complementaryCertificationBadgeId: 'complementary-certification-badges.id',
       label: 'complementary-certification-badges.label',
       level: 'complementary-certification-badges.level',
       imageUrl: 'complementary-certification-badges.imageUrl',
@@ -70,8 +72,11 @@ async function _getBadgesForCurrentTargetProfiles({ targetProfile }) {
     })
     .innerJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
     .where('targetProfileId', targetProfile.id)
-    .whereNull('complementary-certification-badges.detachedAt')
     .orderBy('level', 'asc');
 
   return badgesDTO.map((badge) => new ComplementaryCertificationBadgeForAdmin({ ...badge }));
 }
+
+const _toDomain = ({ targetProfile, badges }) => {
+  return new TargetProfileHistoryForAdmin({ ...targetProfile, badges });
+};

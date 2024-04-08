@@ -7,6 +7,8 @@ import { fileURLToPath } from 'node:url';
 import * as pixAuthenticationService from '../../../src/authentication/domain/services/pix-authentication-service.js';
 import * as refreshTokenService from '../../../src/authentication/domain/services/refresh-token-service.js';
 import * as complementaryCertificationCourseRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-course-repository.js';
+import * as complementaryCertificationRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
+import * as targetProfileHistoryRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/target-profile-history-repository.js';
 import { endAssessmentBySupervisor } from '../../../src/certification/course/domain/usecases/end-assessment-by-supervisor.js';
 import { getNextChallengeForV2Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v2-certification.js';
 import { getNextChallengeForV3Certification } from '../../../src/certification/course/domain/usecases/get-next-challenge-for-v3-certification.js';
@@ -118,7 +120,6 @@ import * as competenceMarkRepository from '../../infrastructure/repositories/com
 import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../infrastructure/repositories/complementary-certification-habilitation-repository.js';
-import * as complementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
 import * as countryRepository from '../../infrastructure/repositories/country-repository.js';
 import * as courseRepository from '../../infrastructure/repositories/course-repository.js';
 import * as dataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer-repository.js';
@@ -188,10 +189,14 @@ function requirePoleEmploiNotifier() {
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
+ * @typedef {certificationBadgesService} CertificationBadgesService
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationRepository} CertificationRepository
+ * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {complementaryCertificationCourseRepository} ComplementaryCertificationCourseRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {mailService} MailService
+ * @typedef {placementProfileService} PlacementProfileService
  * @typedef {sessionPublicationService} SessionPublicationService
  * @typedef {sessionRepository} SessionRepository
  */
@@ -342,6 +347,7 @@ const dependencies = {
   tagRepository,
   targetProfileForAdminRepository,
   targetProfileForUpdateRepository,
+  targetProfileHistoryRepository,
   targetProfileRepository,
   targetProfileShareRepository,
   targetProfileSummaryForAdminRepository,

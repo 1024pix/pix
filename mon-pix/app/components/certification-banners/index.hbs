@@ -10,8 +10,8 @@
   </CertificationBanners::CongratulationsCertificationBanner>
 {{/if}}
 
-{{#if (gt this.outdatedAndNotAcquiredComplementaryCertifications.length 0)}}
+{{#if (gt this.outdatedLowerLevelComplementaryCertifications.length 0)}}
   <CertificationBanners::OutdatedComplementaryCertificationBanner
-    @complementaryCertifications={{this.outdatedAndNotAcquiredComplementaryCertifications}}
+    @complementaryCertifications={{this.outdatedLowerLevelComplementaryCertifications}}
   />
 {{/if}}

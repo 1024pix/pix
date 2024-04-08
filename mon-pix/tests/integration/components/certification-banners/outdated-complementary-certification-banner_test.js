@@ -12,26 +12,23 @@ module(
     module('When there are outdated complementary certifications', function () {
       test(`renders the outdated complementary certification`, async function (assert) {
         // given
-        const outdatedAndNotAcquiredComplementaryCertifications = [
+        const outdatedLowerLevelComplementaryCertifications = [
           { label: 'CléA Numérique', imageUrl: 'http://www.image-clea.com', isOutdated: true, isAcquired: false },
           {
             label: 'Pix+ Édu 1er degré Confirmé',
             imageUrl: 'http://www.image-clea.com',
             isOutdated: true,
-            isAcquired: false,
+            isAcquiredExpectedLevel: false,
           },
         ];
 
-        this.set(
-          'outdatedAndNotAcquiredComplementaryCertifications',
-          outdatedAndNotAcquiredComplementaryCertifications,
-        );
+        this.set('outdatedLowerLevelComplementaryCertifications', outdatedLowerLevelComplementaryCertifications);
         this.set('closeBanner', () => {});
 
         // when
         const screen = await render(
           hbs`<CertificationBanners::OutdatedComplementaryCertificationBanner
-          @complementaryCertifications={{this.outdatedAndNotAcquiredComplementaryCertifications}} />`,
+          @complementaryCertifications={{this.outdatedLowerLevelComplementaryCertifications}} />`,
         );
 
         // then
