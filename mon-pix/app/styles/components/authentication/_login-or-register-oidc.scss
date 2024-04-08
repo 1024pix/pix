@@ -125,10 +125,13 @@
     text-align: center;
   }
 
-  &__password-container {
+  &__input-container {
     display: flex;
     flex-direction: column;
-    padding: 20px 0;
+
+    &--password {
+      padding: var(--pix-spacing-4x) 0;
+    }
   }
 
   &__forgotten-password-link {

@@ -47,19 +47,21 @@
     <form {{on "submit" this.login}}>
       <p class="login-or-register-oidc-form__mandatory-description">{{t "common.form.mandatory-all-fields"}}</p>
 
-      <PixInput
-        @id="email"
-        name="email"
-        @errorMessage={{this.emailValidationMessage}}
-        @validationStatus={{this.emailValidationStatus}}
-        {{on "change" this.validateEmail}}
-        autocomplete="off"
-        required
-      >
-        <:label>{{t "pages.login-or-register-oidc.login-form.email"}}</:label>
-      </PixInput>
+      <div class="login-or-register-oidc-form__input-container">
+        <PixInput
+          @id="email"
+          name="email"
+          @errorMessage={{this.emailValidationMessage}}
+          @validationStatus={{this.emailValidationStatus}}
+          {{on "change" this.validateEmail}}
+          autocomplete="off"
+          required
+        >
+          <:label>{{t "pages.login-or-register-oidc.login-form.email"}}</:label>
+        </PixInput>
+      </div>
 
-      <div class="login-or-register-oidc-form__password-container">
+      <div class="login-or-register-oidc-form__input-container login-or-register-oidc-form__input-container--password">
         <PixInputPassword
           @id="password"
           @value={{this.password}}
