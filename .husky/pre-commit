@@ -1,3 +1,5 @@
+set -eo pipefail
+
 npx lint-staged --cwd 1d
 npx lint-staged --cwd admin
 npx lint-staged --cwd certif
