@@ -1,5 +1,9 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# Possible personal data
+*.json
+*.csv
+
 # compiled output
 **/dist
 **/tmp
@@ -30,8 +34,6 @@
 .DS_Store
 
 **/.env
-
-OIDC_PROVIDERS.json
 
 # CircleCI
 *.circle-cache-key
