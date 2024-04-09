@@ -1,7 +1,8 @@
+import { readFile } from 'node:fs/promises';
+import * as url from 'node:url';
+
 import bluebird from 'bluebird';
-import { readFile } from 'fs/promises';
 import Joi from 'joi';
-import * as url from 'url';
 
 import { disconnect } from '../db/knex-database-connection.js';
 import { NotFoundError } from '../lib/domain/errors.js';

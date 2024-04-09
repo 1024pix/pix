@@ -1,5 +1,6 @@
+import * as url from 'node:url';
+
 import _ from 'lodash';
-import * as url from 'url';
 import yargs from 'yargs';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';

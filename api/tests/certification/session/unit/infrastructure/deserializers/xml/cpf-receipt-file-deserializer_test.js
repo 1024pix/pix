@@ -1,6 +1,6 @@
-import fs from 'fs';
-import path from 'path';
-import * as url from 'url';
+import fs from 'node:fs';
+import path from 'node:path';
+import * as url from 'node:url';
 
 import { deserialize } from '../../../../../../../src/certification/session/infrastructure/deserializers/xml/cpf-receipt-file-deserializer.js';
 import { catchErr, expect } from '../../../../../../test-helper.js';

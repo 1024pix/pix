@@ -1,4 +1,4 @@
-import * as url from 'url';
+import * as url from 'node:url';
 
 import { FileValidationError } from '../../../../../../../lib/domain/errors.js';
 import { detectEncoding } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/detect-encoding.js';

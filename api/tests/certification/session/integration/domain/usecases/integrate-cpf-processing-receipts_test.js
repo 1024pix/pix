@@ -1,6 +1,6 @@
-import fs from 'fs';
-import path from 'path';
-import * as url from 'url';
+import fs from 'node:fs';
+import path from 'node:path';
+import * as url from 'node:url';
 
 import { CpfImportStatus } from '../../../../../../src/certification/session/domain/models/CpfImportStatus.js';
 import { integrateCpfProccessingReceipts } from '../../../../../../src/certification/session/domain/usecases/integrate-cpf-processing-receipts.js';

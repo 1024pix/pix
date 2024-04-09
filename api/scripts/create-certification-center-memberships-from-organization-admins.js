@@ -1,6 +1,7 @@
+import * as url from 'node:url';
+
 import bluebird from 'bluebird';
 import _ from 'lodash';
-import * as url from 'url';
 
 import { disconnect, knex } from '../db/knex-database-connection.js';
 import { Membership } from '../lib/domain/models/Membership.js';

@@ -1,5 +1,5 @@
-import fs from 'fs';
-import * as url from 'url';
+import fs from 'node:fs';
+import * as url from 'node:url';
 
 import { clearResolveMx, setResolveMx } from '../../../../src/shared/mail/infrastructure/services/mail-check.js';
 import {

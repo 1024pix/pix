@@ -1,4 +1,5 @@
-import * as fs from 'fs/promises';
+import * as fs from 'node:fs/promises';
+
 import JSZip from 'jszip';
 
 async function loadOdsZip(odsFilePath) {

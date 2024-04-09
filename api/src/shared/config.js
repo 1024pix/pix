@@ -1,9 +1,10 @@
 import 'dotenv/config';
 
+import path from 'node:path';
+import * as url from 'node:url';
+
 import dayjs from 'dayjs';
 import ms from 'ms';
-import path from 'path';
-import * as url from 'url';
 
 import { getArrayOfStrings, getArrayOfUpperStrings } from './infrastructure/utils/string-utils.js';
 

@@ -1,5 +1,6 @@
+import * as url from 'node:url';
+
 import bluebird from 'bluebird';
-import * as url from 'url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import * as campaignUpdateValidator from '../../src/prescription/campaign/domain/validators/campaign-update-validator.js';

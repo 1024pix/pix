@@ -4,8 +4,9 @@ import _ from 'lodash';
 import originalFp from 'lodash/fp.js';
 
 const fp = originalFp.convert({ cap: false });
+import * as url from 'node:url';
+
 import bluebird from 'bluebird';
-import * as url from 'url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import * as certificationChallengeService from '../../lib/domain/services/certification-challenges-service.js';

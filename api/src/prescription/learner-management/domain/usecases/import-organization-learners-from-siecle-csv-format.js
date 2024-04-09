@@ -1,8 +1,9 @@
 import { AggregateImportError, SiecleXmlImportError } from '../errors.js';
 
 const { isEmpty, chunk } = lodash;
+import { createReadStream } from 'node:fs';
+
 import bluebird from 'bluebird';
-import { createReadStream } from 'fs';
 import lodash from 'lodash';
 
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';

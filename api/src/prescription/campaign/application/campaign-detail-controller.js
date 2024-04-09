@@ -1,4 +1,4 @@
-import stream from 'stream';
+import stream from 'node:stream';
 
 import { escapeFileName } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';

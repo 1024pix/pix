@@ -1,7 +1,6 @@
+import fs from 'node:fs/promises';
+import os from 'node:os';
 import path from 'node:path';
-
-import fs from 'fs/promises';
-import os from 'os';
 
 async function removeTempFile(filePath) {
   return (

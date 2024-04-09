@@ -1,4 +1,5 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
+
 import _ from 'lodash';
 
 import { databaseBuffer } from '../database-buffer.js';

@@ -4,7 +4,7 @@ import bluebird from 'bluebird';
 import lodash from 'lodash';
 const { groupBy, sum, has, partition, negate } = lodash;
 
-import * as url from 'url';
+import * as url from 'node:url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { categories } from '../../lib/domain/models/TargetProfile.js';

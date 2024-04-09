@@ -1,7 +1,8 @@
-import { readFile } from 'fs/promises';
+import { readFile } from 'node:fs/promises';
+import * as url from 'node:url';
+
 // eslint-disable-next-line n/no-unpublished-import
 import { parseXml } from 'libxmljs2';
-import * as url from 'url';
 
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 

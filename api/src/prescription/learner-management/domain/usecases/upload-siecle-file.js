@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 
 import { logErrorWithCorrelationIds } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { detectEncoding } from '../../infrastructure/utils/xml/detect-encoding.js';

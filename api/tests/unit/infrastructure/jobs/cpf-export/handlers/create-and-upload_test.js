@@ -1,9 +1,10 @@
-import * as uuidService from 'crypto';
+import * as uuidService from 'node:crypto';
+import stream from 'node:stream';
+
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 import lodash from 'lodash';
-import stream from 'stream';
 
 import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';

@@ -1,4 +1,4 @@
-import { createReadStream } from 'fs';
+import { createReadStream } from 'node:fs';
 
 import { CommonCsvLearnerParser } from '../../../infrastructure/serializers/csv/common-csv-learner-parser.js';
 import { getDataBuffer } from '../../../infrastructure/utils/bufferize/get-data-buffer.js';

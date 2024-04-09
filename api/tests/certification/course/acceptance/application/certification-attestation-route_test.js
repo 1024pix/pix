@@ -1,6 +1,5 @@
 import { readFile } from 'node:fs/promises';
-
-import * as url from 'url';
+import * as url from 'node:url';
 
 import { AssessmentResult, Membership } from '../../../../../lib/domain/models/index.js';
 import { generateCertificateVerificationCode } from '../../../../../lib/domain/services/verify-certificate-code-service.js';

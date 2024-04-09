@@ -1,8 +1,9 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import * as url from 'node:url';
+
 import axios from 'axios';
-import fs from 'fs';
 import papa from 'papaparse';
-import path from 'path';
-import * as url from 'url';
 
 import { disconnect } from '../../db/knex-database-connection.js';
 

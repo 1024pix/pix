@@ -1,4 +1,4 @@
-import querystring from 'querystring';
+import querystring from 'node:querystring';
 
 import { tokenController } from '../../../src/authentication/application/token-controller.js';
 import { createServer, expect, sinon } from '../../test-helper.js';

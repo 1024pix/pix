@@ -1,4 +1,5 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
+
 import { stdSerializers } from 'pino';
 
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';

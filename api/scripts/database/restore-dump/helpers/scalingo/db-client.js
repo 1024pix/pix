@@ -1,7 +1,8 @@
+import fs from 'node:fs';
+import pipeline from 'node:stream';
+import util from 'node:util';
+
 import axios from 'axios';
-import fs from 'fs';
-import pipeline from 'stream';
-import util from 'util';
 
 const streamPipeline = util.promisify(pipeline);
 

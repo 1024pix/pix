@@ -1,5 +1,6 @@
+import * as url from 'node:url';
+
 import lodash from 'lodash';
-import * as url from 'url';
 
 import { archiveCampaigns } from '../../../../scripts/prod/archive-campaigns.js';
 import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';

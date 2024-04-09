@@ -1,4 +1,4 @@
-import * as url from 'url';
+import * as url from 'node:url';
 
 import { FileValidationError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { batchOrganizationOptionsWithHeader } from '../../../../scripts/create-organizations-with-tags-and-target-profiles.js';

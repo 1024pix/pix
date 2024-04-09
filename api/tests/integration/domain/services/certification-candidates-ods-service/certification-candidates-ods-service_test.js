@@ -1,6 +1,7 @@
-import fs from 'fs';
+import fs from 'node:fs';
+import * as url from 'node:url';
+
 import _ from 'lodash';
-import * as url from 'url';
 
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
 import { CertificationCandidatesError } from '../../../../../lib/domain/errors.js';

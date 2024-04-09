@@ -1,4 +1,4 @@
-import * as url from 'url';
+import * as url from 'node:url';
 
 import { CsvWithNoSessionDataError } from '../../../../../../src/certification/session/domain/errors.js';
 import {

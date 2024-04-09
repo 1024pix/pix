@@ -1,10 +1,11 @@
 import 'dotenv/config';
 
-import * as fs from 'fs';
+import * as fs from 'node:fs';
+import { resolve } from 'node:path';
+import { performance } from 'node:perf_hooks';
+import { fileURLToPath } from 'node:url';
+
 import fp from 'lodash/fp.js';
-import { resolve } from 'path';
-import { performance } from 'perf_hooks';
-import { fileURLToPath } from 'url';
 import { readFile, set_fs, utils as xlsxUtils } from 'xlsx';
 
 import { disconnect } from '../../../db/knex-database-connection.js';

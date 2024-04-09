@@ -1,4 +1,5 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
+
 import jsonwebtoken from 'jsonwebtoken';
 
 import { config as settings } from '../../../../lib/config.js';

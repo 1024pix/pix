@@ -1,8 +1,9 @@
 import 'dotenv/config';
 
+import * as url from 'node:url';
+
 import bluebird from 'bluebird';
 import _ from 'lodash';
-import * as url from 'url';
 
 import { disconnect } from '../db/knex-database-connection.js';
 import { updateOrganizationDataProtectionOfficerInformation } from '../lib/domain/usecases/update-organization-data-protection-officer-information.js';

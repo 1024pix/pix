@@ -1,9 +1,10 @@
+import { readFile } from 'node:fs/promises';
+import * as url from 'node:url';
+
 import pdfLibFontkit from '@pdf-lib/fontkit';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat.js';
-import { readFile } from 'fs/promises';
 import { PDFDocument, rgb } from 'pdf-lib';
-import * as url from 'url';
 dayjs.extend(localizedFormat);
 
 import _ from 'lodash';

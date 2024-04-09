@@ -1,4 +1,4 @@
-import url from 'url';
+import url from 'node:url';
 
 import { parseCsvWithHeader } from '../lib/infrastructure/helpers/csv.js';
 import { logger } from '../src/shared/infrastructure/utils/logger.js';

@@ -1,9 +1,10 @@
-import { rm, writeFile } from 'fs/promises';
+import { rm, writeFile } from 'node:fs/promises';
+
 import lodash from 'lodash';
 
 import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 const { values } = lodash;
-import * as url from 'url';
+import * as url from 'node:url';
 
 import { headers, updateCertificationInfos } from '../../../../scripts/certification/update-certification-infos.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';

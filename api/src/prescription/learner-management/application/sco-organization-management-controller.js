@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 
 import { FileValidationError } from '../../../../lib/domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';

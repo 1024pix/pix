@@ -1,6 +1,7 @@
-import { writeFile } from 'fs/promises';
+import { writeFile } from 'node:fs/promises';
+import * as url from 'node:url';
+
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
-import * as url from 'url';
 
 import { getInvigilatorKitPdfBuffer } from '../../../../../../../src/certification/session/infrastructure/utils/pdf/invigilator-kit-pdf.js';
 import { LOCALE } from '../../../../../../../src/shared/domain/constants.js';

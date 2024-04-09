@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 
 import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import { uploadSiecleFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-siecle-file.js';

@@ -1,5 +1,6 @@
+import querystring from 'node:querystring';
+
 import jsonwebtoken from 'jsonwebtoken';
-import querystring from 'querystring';
 
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 import { oidcAuthenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';

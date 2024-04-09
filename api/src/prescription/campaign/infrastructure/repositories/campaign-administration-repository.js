@@ -1,4 +1,5 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
+
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';

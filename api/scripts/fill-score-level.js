@@ -1,5 +1,6 @@
+import * as url from 'node:url';
+
 import axios from 'axios';
-import * as url from 'url';
 
 function parseArgs(argv) {
   return argv.slice(3);

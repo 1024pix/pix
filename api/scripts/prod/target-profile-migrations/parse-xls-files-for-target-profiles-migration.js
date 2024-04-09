@@ -1,4 +1,4 @@
-import * as url from 'url';
+import * as url from 'node:url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 import * as dotenv from 'dotenv';
@@ -6,8 +6,9 @@ import * as dotenv from 'dotenv';
 dotenv.config({
   path: `${__dirname}/../../../.env`,
 });
+import perf_hooks from 'node:perf_hooks';
+
 import _ from 'lodash';
-import perf_hooks from 'perf_hooks';
 
 const { performance } = perf_hooks;
 

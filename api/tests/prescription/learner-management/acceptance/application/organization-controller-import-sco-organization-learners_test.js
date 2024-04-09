@@ -1,4 +1,5 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
+
 import iconv from 'iconv-lite';
 import _ from 'lodash';
 

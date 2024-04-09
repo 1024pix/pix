@@ -1,7 +1,8 @@
 import 'dotenv/config';
 
+import * as url from 'node:url';
+
 import _ from 'lodash';
-import * as url from 'url';
 
 import { disconnect, knex } from '../../../db/knex-database-connection.js';
 import { learningContentCache } from '../../../lib/infrastructure/caches/learning-content-cache.js';

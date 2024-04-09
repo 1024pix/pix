@@ -1,5 +1,6 @@
+import querystring from 'node:querystring';
+
 import dayjs from 'dayjs';
-import querystring from 'querystring';
 
 import { config as settings } from '../../../../../lib/config.js';
 import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';

@@ -1,7 +1,8 @@
+import { readFile } from 'node:fs/promises';
+import * as url from 'node:url';
+
 import pdfLibFontkit from '@pdf-lib/fontkit';
-import { readFile } from 'fs/promises';
 import { PDFDocument, rgb } from 'pdf-lib';
-import * as url from 'url';
 
 import { PIX_CERTIF } from '../../../../../../lib/domain/constants.js';
 import { LOCALE } from '../../../../../shared/domain/constants.js';

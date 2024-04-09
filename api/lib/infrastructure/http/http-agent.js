@@ -1,5 +1,6 @@
+import perf_hooks from 'node:perf_hooks';
+
 import axios from 'axios';
-import perf_hooks from 'perf_hooks';
 
 const { performance } = perf_hooks;
 

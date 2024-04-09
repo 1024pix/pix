@@ -1,7 +1,8 @@
 import 'dotenv/config';
 
+import * as url from 'node:url';
+
 import _ from 'lodash';
-import * as url from 'url';
 
 import { buildKnowledgeElement } from '../db/database-builder/factory/build-knowledge-element.js';
 import { disconnect } from '../db/knex-database-connection.js';

@@ -1,4 +1,4 @@
-import * as fs from 'fs/promises';
+import * as fs from 'node:fs/promises';
 
 import { CsvParser } from '../csv-parser.js';
 import { CampaignIdsCsvHeader } from './campaign-ids-csv-header.js';

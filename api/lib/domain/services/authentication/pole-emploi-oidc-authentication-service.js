@@ -1,4 +1,5 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
+
 import dayjs from 'dayjs';
 
 import { OidcAuthenticationService } from '../../../../src/authentication/domain/services/oidc-authentication-service.js';

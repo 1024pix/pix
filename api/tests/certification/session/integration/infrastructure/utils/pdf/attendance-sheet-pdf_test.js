@@ -1,8 +1,9 @@
-import { writeFile } from 'fs/promises';
+import { writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import * as url from 'node:url';
+
 import i18n from 'i18n';
-import path from 'path';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
-import * as url from 'url';
 
 import { getAttendanceSheetPdfBuffer } from '../../../../../../../src/certification/session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';

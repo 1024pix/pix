@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'node:fs';
 
 const { promises } = fs;
 
@@ -9,7 +9,7 @@ import _ from 'lodash';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
-import * as url from 'url';
+import * as url from 'node:url';
 
 import { UnprocessableEntityError } from '../../../../../lib/application/http-errors.js';
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../../../../lib/infrastructure/files/candidates-import/candidates-import-transformation-structures.js';

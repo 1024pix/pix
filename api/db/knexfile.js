@@ -1,4 +1,4 @@
-import * as url from 'url';
+import * as url from 'node:url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 import * as dotenv from 'dotenv';
 dotenv.config({ path: `${__dirname}/../.env` });

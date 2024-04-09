@@ -11,7 +11,7 @@ import * as tagRepository from '../lib/infrastructure/repositories/tag-repositor
 import { parseCsv } from './helpers/csvHelpers.js';
 
 const { uniq } = lodash;
-import * as url from 'url';
+import * as url from 'node:url';
 
 import { disconnect } from '../db/knex-database-connection.js';
 

@@ -2,6 +2,8 @@
 /* eslint-disable n/no-unpublished-import */
 import 'dayjs/locale/fr.js';
 
+import * as url from 'node:url';
+
 import { Assertion, AssertionError, expect, use as chaiUse, util as chaiUtil } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiSorted from 'chai-sorted';
@@ -13,7 +15,6 @@ import MockDate from 'mockdate';
 import nock from 'nock';
 import sinon, { restore } from 'sinon';
 import sinonChai from 'sinon-chai';
-import * as url from 'url';
 
 import { DatabaseBuilder } from '../db/database-builder/database-builder.js';
 import { disconnect, knex } from '../db/knex-database-connection.js';

@@ -2,8 +2,9 @@ import lodash from 'lodash';
 
 const { get } = lodash;
 
+import querystring from 'node:querystring';
+
 import dayjs from 'dayjs';
-import querystring from 'querystring';
 
 import { config } from '../../../config.js';
 import * as OidcIdentityProviders from '../../../domain/constants/oidc-identity-providers.js';

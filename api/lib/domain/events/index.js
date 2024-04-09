@@ -1,5 +1,6 @@
+import perf_hooks from 'node:perf_hooks';
+
 import _ from 'lodash';
-import perf_hooks from 'perf_hooks';
 
 import * as complementaryCertificationBadgesRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';

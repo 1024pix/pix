@@ -14,7 +14,7 @@ import { logger } from '../../src/shared/infrastructure/utils/logger.js';
  **/
 import { checkCsvHeader, parseCsv } from '../helpers/csvHelpers.js';
 const { uniqBy, values } = lodash;
-import * as url from 'url';
+import * as url from 'node:url';
 
 const wordsToReplace = [
   {
