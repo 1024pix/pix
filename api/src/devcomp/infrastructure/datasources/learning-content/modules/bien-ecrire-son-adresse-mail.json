@@ -73,7 +73,7 @@
           "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
           "type": "image",
           "url": "https://i.imgur.com/lLEwbG6.png",
-          "alt": "",
+          "alt": "Premier bloc, décrit dans l'alternative textuelle",
           "alternativeText": "Bloc 1&nbsp;: Identifiant, exemple&nbsp;: mickael.aubert123"
         },
         {
@@ -90,7 +90,7 @@
           "id": "9ccbf056-fd7f-4478-96c7-a7520fbe01b6",
           "type": "image",
           "url": "https://i.imgur.com/FAxBAds.png",
-          "alt": "",
+          "alt": "Second bloc, décrit dans l'alternative textuelle",
           "alternativeText": "Bloc 2&nbsp;: Arobase"
         },
         {
@@ -107,7 +107,7 @@
           "id": "bbbdeea8-f9c1-4c6f-9061-d85f9a78cf3c",
           "type": "image",
           "url": "https://i.imgur.com/SIsWHfL.png",
-          "alt": "",
+          "alt": "Troisième bloc, décrit dans l'alternative textuelle",
           "alternativeText": "Bloc 3&nbsp;: Fournisseur d'adresse mail, exemple&nbsp;: laposte.net"
         },
         {
