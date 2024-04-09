@@ -1,4 +1,5 @@
 set -eo pipefail
 
+.husky/protect-branch
 .husky/lint
 .husky/detect-secret

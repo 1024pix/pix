@@ -1,0 +1,12 @@
+current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
+
+protected_branch=dev
+
+[[ $current_branch = "${protected_branch}" ]] && {
+ echo "You're trying to push to protected branch \"${protected_branch}\""
+ echo "If you need to enforce, use --no-verify option"
+ exit 1
+}
+
+exit 0
+
