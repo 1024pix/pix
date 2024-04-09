@@ -35,6 +35,7 @@ module.exports = {
     'no-empty-function': 'error',
     'n/no-process-exit': 'error',
     'unicorn/no-empty-file': 'error',
+    'unicorn/prefer-node-protocol': 'error',
     'n/no-unpublished-import': [
       'error',
       {
