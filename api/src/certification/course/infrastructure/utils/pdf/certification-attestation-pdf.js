@@ -1,11 +1,12 @@
+import { readFile } from 'node:fs/promises';
+import * as url from 'node:url';
+
 import pdfLibFontkit from '@pdf-lib/fontkit';
 import axios from 'axios';
 import bluebird from 'bluebird';
 import dayjs from 'dayjs';
-import { readFile } from 'fs/promises';
 import _ from 'lodash';
 import { PDFDocument, rgb } from 'pdf-lib';
-import * as url from 'url';
 
 import { CertificationAttestationGenerationError } from '../../../../../shared/domain/errors.js';
 import { LANGUAGES_CODE } from '../../../../../shared/domain/services/language-service.js';

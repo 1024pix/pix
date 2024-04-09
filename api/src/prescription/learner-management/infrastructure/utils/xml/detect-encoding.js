@@ -1,5 +1,6 @@
-import buffer from 'buffer';
-import * as fs from 'fs/promises';
+import buffer from 'node:buffer';
+import * as fs from 'node:fs/promises';
+
 import xmlBufferTostring from 'xml-buffer-tostring';
 
 import { FileValidationError } from '../../../../../../lib/domain/errors.js';

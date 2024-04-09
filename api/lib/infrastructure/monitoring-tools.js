@@ -4,7 +4,7 @@ import lodash from 'lodash';
 import { config } from '../config.js';
 
 const { get, set, update, omit } = lodash;
-import async_hooks from 'async_hooks';
+import async_hooks from 'node:async_hooks';
 
 import { logger } from '../../src/shared/infrastructure/utils/logger.js';
 import * as requestResponseUtils from '../infrastructure/utils/request-response-utils.js';

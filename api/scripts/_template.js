@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
-import perf_hooks from 'perf_hooks';
-import * as url from 'url';
+import perf_hooks from 'node:perf_hooks';
+import * as url from 'node:url';
 
 const { performance } = perf_hooks;
 

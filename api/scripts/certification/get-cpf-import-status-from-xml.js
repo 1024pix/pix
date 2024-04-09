@@ -1,4 +1,4 @@
-import * as url from 'url';
+import * as url from 'node:url';
 
 import { disconnect } from '../../db/knex-database-connection.js';
 import { usecases } from '../../src/certification/session/domain/usecases/index.js';

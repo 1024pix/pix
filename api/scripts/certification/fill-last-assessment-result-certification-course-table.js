@@ -1,7 +1,8 @@
 import 'dotenv/config';
 
+import * as url from 'node:url';
+
 import bluebird from 'bluebird';
-import * as url from 'url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';

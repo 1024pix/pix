@@ -1,11 +1,12 @@
-import fs from 'fs';
+import fs from 'node:fs';
 
 const { promises } = fs;
 
 const { unlink, writeFile } = promises;
 
+import * as url from 'node:url';
+
 import _ from 'lodash';
-import * as url from 'url';
 
 import { usecases } from '../../../../../../lib/domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../../../../../../lib/infrastructure/files/candidates-import/fill-candidates-import-sheet.js';

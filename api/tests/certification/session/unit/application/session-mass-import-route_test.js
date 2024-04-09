@@ -1,8 +1,9 @@
+import fs from 'node:fs';
+import { stat, unlink, writeFile } from 'node:fs/promises';
+import * as url from 'node:url';
+
 import FormData from 'form-data';
-import fs from 'fs';
-import { stat, unlink, writeFile } from 'fs/promises';
 import streamToPromise from 'stream-to-promise';
-import * as url from 'url';
 
 import { sessionMassImportController } from '../../../../../src/certification/session/application/session-mass-import-controller.js';
 import * as moduleUnderTest from '../../../../../src/certification/session/application/session-mass-import-route.js';

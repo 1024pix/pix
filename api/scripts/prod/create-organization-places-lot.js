@@ -1,4 +1,4 @@
-import * as url from 'url';
+import * as url from 'node:url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import * as categories from '../../src/prescription/organization-place/domain/constants/organization-places-categories.js';

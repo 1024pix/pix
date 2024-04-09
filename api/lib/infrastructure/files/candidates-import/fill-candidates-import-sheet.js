@@ -1,5 +1,6 @@
+import * as url from 'node:url';
+
 import _ from 'lodash';
-import * as url from 'url';
 
 import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
 import * as readOdsUtils from '../../utils/ods/read-ods-utils.js';

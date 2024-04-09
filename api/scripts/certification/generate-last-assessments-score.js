@@ -4,8 +4,9 @@ import { disconnect, knex } from '../../db/knex-database-connection.js';
 
 const ASSESSMENT_COUNT = parseInt(process.env.ASSESSMENT_COUNT) || 100;
 const ASSESSMENT_ID = parseInt(process.env.ASSESSMENT_ID) || null;
+import * as url from 'node:url';
+
 import bluebird from 'bluebird';
-import * as url from 'url';
 
 import * as scoringCertificationService from '../../lib/domain/services/scoring/scoring-certification-service.js';
 import * as certificationAssessmentRepository from '../../src/certification/shared/infrastructure/repositories/certification-assessment-repository.js';

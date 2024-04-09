@@ -1,12 +1,12 @@
+import fs from 'node:fs';
+import stream from 'node:stream';
+import * as url from 'node:url';
 import { createUnzip } from 'node:zlib';
 
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
-import fs from 'fs';
 import lodash from 'lodash';
-import stream from 'stream';
-import * as url from 'url';
 
 import * as cpfCertificationXmlExportService from '../../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
 import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';

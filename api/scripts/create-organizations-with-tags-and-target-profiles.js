@@ -113,7 +113,7 @@ async function createOrganizationWithTagsAndTargetProfiles(filePath) {
   });
 }
 
-import * as url from 'url';
+import * as url from 'node:url';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;

@@ -1,5 +1,5 @@
 // Usage: node compute-participation-results.js
-import * as url from 'url';
+import * as url from 'node:url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 import * as dotenv from 'dotenv';

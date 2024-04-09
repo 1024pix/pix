@@ -3,7 +3,7 @@ import lodash from 'lodash';
 import { MembershipUpdateError, UserCantBeCreatedError } from '../../lib/domain/errors.js';
 import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
 const { times } = lodash;
-import * as url from 'url';
+import * as url from 'node:url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { ForbiddenAccess } from '../../src/shared/domain/errors.js';

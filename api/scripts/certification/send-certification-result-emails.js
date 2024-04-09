@@ -1,9 +1,10 @@
 import 'dotenv/config';
 
+import path from 'node:path';
+import * as url from 'node:url';
+
 import bluebird from 'bluebird';
 import i18n from 'i18n';
-import path from 'path';
-import * as url from 'url';
 
 import { disconnect } from '../../db/knex-database-connection.js';
 import * as mailService from '../../lib/domain/services/mail-service.js';

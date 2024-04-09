@@ -1,10 +1,10 @@
-import fs from 'fs';
+import fs from 'node:fs';
 
 const { promises } = fs;
 
 const { writeFile, unlink } = promises;
 
-import * as url from 'url';
+import * as url from 'node:url';
 
 import { AddedCellOption } from '../../../../../lib/infrastructure/utils/ods/added-cell-option.js';
 import { getContentXml } from '../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';

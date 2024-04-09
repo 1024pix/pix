@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 
 import { OidcAuthenticationService } from '../../../../src/authentication/domain/services/oidc-authentication-service.js';
 import { config } from '../../../config.js';

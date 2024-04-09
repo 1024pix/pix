@@ -1,12 +1,14 @@
 import 'dotenv/config';
 
+import perf_hooks from 'node:perf_hooks';
+
 import bluebird from 'bluebird';
 import _ from 'lodash';
-import perf_hooks from 'perf_hooks';
 
 const { performance } = perf_hooks;
 
-import * as url from 'url';
+import * as url from 'node:url';
+
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
 

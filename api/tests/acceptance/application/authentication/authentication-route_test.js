@@ -1,4 +1,4 @@
-import querystring from 'querystring';
+import querystring from 'node:querystring';
 
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';

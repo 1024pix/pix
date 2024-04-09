@@ -1,7 +1,8 @@
 import 'dotenv/config';
 
+import * as url from 'node:url';
+
 import _ from 'lodash';
-import * as url from 'url';
 
 import { knex } from '../db/knex-database-connection.js';
 import { Assessment } from '../src/shared/domain/models/Assessment.js';

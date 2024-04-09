@@ -1,4 +1,4 @@
-import querystring from 'querystring';
+import querystring from 'node:querystring';
 
 import { createServer, expect } from '../../../../test-helper.js';
 

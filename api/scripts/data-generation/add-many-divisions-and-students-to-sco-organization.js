@@ -1,6 +1,7 @@
+import * as url from 'node:url';
+
 import _ from 'lodash';
 import randomString from 'randomstring';
-import * as url from 'url';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { OrganizationLearnersCouldNotBeSavedError } from '../../lib/domain/errors.js';

@@ -1,5 +1,6 @@
+import * as url from 'node:url';
+
 import bluebird from 'bluebird';
-import * as url from 'url';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 

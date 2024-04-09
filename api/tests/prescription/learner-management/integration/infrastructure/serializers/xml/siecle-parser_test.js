@@ -1,5 +1,5 @@
-import fs from 'fs';
-import * as url from 'url';
+import fs from 'node:fs';
+import * as url from 'node:url';
 
 import { FileValidationError, SIECLE_ERRORS } from '../../../../../../../lib/domain/errors.js';
 import {

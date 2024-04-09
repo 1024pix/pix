@@ -1,6 +1,7 @@
-import { writeFile } from 'fs/promises';
+import { writeFile } from 'node:fs/promises';
+import * as url from 'node:url';
+
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
-import * as url from 'url';
 
 import * as learningContentPDFPresenter from '../../../../../../../src/prescription/target-profile/application/presenter/pdf/learning-content-pdf-presenter.js';
 import { domainBuilder, expect, MockDate, sinon } from '../../../../../../test-helper.js';

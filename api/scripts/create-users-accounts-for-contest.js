@@ -1,5 +1,6 @@
+import * as url from 'node:url';
+
 import bluebird from 'bluebird';
-import * as url from 'url';
 
 import { disconnect } from '../db/knex-database-connection.js';
 import * as userService from '../lib/domain/services/user-service.js';

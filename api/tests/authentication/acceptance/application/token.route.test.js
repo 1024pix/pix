@@ -1,4 +1,4 @@
-import querystring from 'querystring';
+import querystring from 'node:querystring';
 
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import { createServer, databaseBuilder, expect, knex } from '../../../test-helper.js';

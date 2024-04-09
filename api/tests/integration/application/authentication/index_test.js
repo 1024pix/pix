@@ -1,4 +1,4 @@
-import querystring from 'querystring';
+import querystring from 'node:querystring';
 
 import { authenticationController } from '../../../../lib/application/authentication/authentication-controller.js';
 import { createServer, expect, sinon } from '../../../test-helper.js';

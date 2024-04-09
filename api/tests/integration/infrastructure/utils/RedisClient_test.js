@@ -1,5 +1,6 @@
+import { randomUUID } from 'node:crypto';
+
 import bluebird from 'bluebird';
-import { randomUUID } from 'crypto';
 import Redis from 'ioredis';
 
 import { config } from '../../../../lib/config.js';

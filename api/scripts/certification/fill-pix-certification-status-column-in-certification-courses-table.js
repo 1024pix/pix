@@ -1,12 +1,13 @@
 import 'dotenv/config';
 
-import perf_hooks from 'perf_hooks';
+import perf_hooks from 'node:perf_hooks';
 
 const { performance } = perf_hooks;
 
+import readline from 'node:readline';
+import * as url from 'node:url';
+
 import bluebird from 'bluebird';
-import readline from 'readline';
-import * as url from 'url';
 import yargs from 'yargs';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';

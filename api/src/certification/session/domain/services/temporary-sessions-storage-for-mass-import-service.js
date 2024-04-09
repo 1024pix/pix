@@ -2,7 +2,7 @@ import { config } from '../../../../../lib/config.js';
 import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
 
 const sessionMassImportTemporaryStorage = temporaryStorage.withPrefix('sessions-mass-import:');
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 
 const EXPIRATION_DELAY_SECONDS = config.temporarySessionsStorageForMassImport.expirationDelaySeconds;
 

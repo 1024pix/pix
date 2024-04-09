@@ -1,5 +1,6 @@
+import { randomUUID } from 'node:crypto';
+
 import bluebird from 'bluebird';
-import { randomUUID } from 'crypto';
 
 import { temporaryStorage } from '../../../../lib/infrastructure/temporary-storage/index.js';
 import { UnauthorizedError } from '../../../shared/application/http-errors.js';

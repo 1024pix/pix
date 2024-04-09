@@ -1,5 +1,5 @@
-import * as Path from 'path';
-import * as url from 'url';
+import * as Path from 'node:path';
+import * as url from 'node:url';
 
 import { countFilesInPath } from '../../../scripts/arborescence-monitoring/stats.js';
 import { expect } from '../../test-helper.js';

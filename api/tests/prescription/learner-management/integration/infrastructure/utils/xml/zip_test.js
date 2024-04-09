@@ -1,6 +1,6 @@
-import fs from 'fs/promises';
-import Path from 'path';
-import * as url from 'url';
+import fs from 'node:fs/promises';
+import Path from 'node:path';
+import * as url from 'node:url';
 
 import { FileValidationError } from '../../../../../../../lib/domain/errors.js';
 import { unzip } from '../../../../../../../src/prescription/learner-management/infrastructure/utils/xml/zip.js';

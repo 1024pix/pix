@@ -1,8 +1,9 @@
 /* eslint no-console: ["off"] */
 import 'dotenv/config';
 
+import * as url from 'node:url';
+
 import bluebird from 'bluebird';
-import * as url from 'url';
 import yargs from 'yargs';
 
 import { disconnect, knex } from '../../db/knex-database-connection.js';

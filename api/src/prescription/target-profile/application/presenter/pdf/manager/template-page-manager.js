@@ -1,5 +1,5 @@
-import { readFile } from 'fs/promises';
-import * as url from 'url';
+import { readFile } from 'node:fs/promises';
+import * as url from 'node:url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

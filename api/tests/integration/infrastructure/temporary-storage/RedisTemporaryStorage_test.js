@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 
 import { config as settings } from '../../../../lib/config.js';
 import { RedisTemporaryStorage } from '../../../../lib/infrastructure/temporary-storage/RedisTemporaryStorage.js';

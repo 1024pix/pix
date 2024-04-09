@@ -6,7 +6,7 @@ import { catchErr, expect } from '../../../test-helper.js';
 
 const { isEmpty } = lodash;
 
-import * as url from 'url';
+import * as url from 'node:url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Unit | Infrastructure | Helpers | csv.js', function () {

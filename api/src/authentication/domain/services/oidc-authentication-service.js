@@ -1,4 +1,5 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
+
 import jsonwebtoken from 'jsonwebtoken';
 import lodash from 'lodash';
 import { Issuer } from 'openid-client';

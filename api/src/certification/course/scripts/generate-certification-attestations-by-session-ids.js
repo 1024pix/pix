@@ -1,13 +1,15 @@
 import 'dotenv/config';
 
+import fs from 'node:fs';
+
 import bluebird from 'bluebird';
-import fs from 'fs';
 import lodash from 'lodash';
 
 const { isEmpty, compact } = lodash;
+import path from 'node:path';
+import * as url from 'node:url';
+
 import i18n from 'i18n';
-import path from 'path';
-import * as url from 'url';
 
 import { disconnect } from '../../../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';

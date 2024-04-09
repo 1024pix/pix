@@ -1,12 +1,13 @@
 import _ from 'lodash';
 const { isObject, values } = _;
-import fs from 'fs';
+import fs from 'node:fs';
 const fsPromises = fs.promises;
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
+import os from 'node:os';
+import Path from 'node:path';
+
 import { fileTypeFromFile } from 'file-type';
 import StreamZip from 'node-stream-zip';
-import os from 'os';
-import Path from 'path';
 
 import { FileValidationError } from '../../../../../../lib/domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../../../../../lib/infrastructure/monitoring-tools.js';

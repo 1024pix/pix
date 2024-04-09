@@ -2,7 +2,8 @@ import * as dotenv from 'dotenv';
 
 dotenv.config({ path: '../../../.env' });
 
-import fs from 'fs';
+import fs from 'node:fs';
+
 import Joi from 'joi';
 
 import { disconnect } from '../../../db/knex-database-connection.js';

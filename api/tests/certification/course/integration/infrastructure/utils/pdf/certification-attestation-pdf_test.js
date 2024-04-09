@@ -1,8 +1,8 @@
 import { readFile, writeFile } from 'node:fs/promises';
+import * as url from 'node:url';
 
 import dayjs from 'dayjs';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
-import * as url from 'url';
 
 import { getCertificationAttestationsPdfBuffer } from '../../../../../../../src/certification/course/infrastructure/utils/pdf/certification-attestation-pdf.js';
 import { CertificationAttestationGenerationError } from '../../../../../../../src/shared/domain/errors.js';

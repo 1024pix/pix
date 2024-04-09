@@ -1,8 +1,9 @@
+import fs from 'node:fs';
+import { stat, unlink, writeFile } from 'node:fs/promises';
+import * as url from 'node:url';
+
 import FormData from 'form-data';
-import fs from 'fs';
-import { stat, unlink, writeFile } from 'fs/promises';
 import streamToPromise from 'stream-to-promise';
-import * as url from 'url';
 
 import { NotFoundError } from '../../../../lib/application/http-errors.js';
 import { authorization } from '../../../../lib/application/preHandlers/authorization.js';

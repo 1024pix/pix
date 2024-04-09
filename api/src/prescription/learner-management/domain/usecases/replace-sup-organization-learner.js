@@ -1,4 +1,4 @@
-import { createReadStream } from 'fs';
+import { createReadStream } from 'node:fs';
 
 import { SupOrganizationLearnerParser } from '../../infrastructure/serializers/csv/sup-organization-learner-parser.js';
 import { getDataBuffer } from '../../infrastructure/utils/bufferize/get-data-buffer.js';

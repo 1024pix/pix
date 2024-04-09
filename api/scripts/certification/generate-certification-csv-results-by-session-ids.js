@@ -1,11 +1,13 @@
+import * as url from 'node:url';
+
 import * as dotenv from 'dotenv';
-import * as url from 'url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 dotenv.config({ path: `${__dirname}/../.env` });
 
+import fs from 'node:fs';
+
 import bluebird from 'bluebird';
-import fs from 'fs';
 import lodash from 'lodash';
 const { isEmpty } = lodash;
 import { disconnect } from '../../db/knex-database-connection.js';
