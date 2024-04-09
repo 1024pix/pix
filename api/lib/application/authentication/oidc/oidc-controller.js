@@ -1,5 +1,5 @@
 import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
-import { oidcAuthenticationServiceRegistry as authenticationServiceRegistry } from '../../../domain/services/authentication/authentication-service-registry.js';
+import { oidcAuthenticationServiceRegistry } from '../../../domain/services/authentication/oidc-authentication-service-registry.js';
 import { usecases } from '../../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer.js';
 import * as oidcSerializer from '../../../infrastructure/serializers/jsonapi/oidc-serializer.js';
@@ -20,12 +20,12 @@ const getRedirectLogoutUrl = async function (
   request,
   h,
   dependencies = {
-    authenticationServiceRegistry,
+    oidcAuthenticationServiceRegistry,
   },
 ) {
   const userId = request.auth.credentials.userId;
   const { identity_provider: identityProvider, logout_url_uuid: logoutUrlUUID } = request.query;
-  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
+  const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
   });
   const redirectLogoutUrl = await oidcAuthenticationService.getRedirectLogoutUrl({
@@ -59,11 +59,11 @@ const reconcileUser = async function (
   request,
   h,
   dependencies = {
-    authenticationServiceRegistry,
+    oidcAuthenticationServiceRegistry,
   },
 ) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
-  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
+  const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
   });
 
@@ -79,11 +79,11 @@ const getAuthorizationUrl = async function (
   request,
   h,
   dependencies = {
-    authenticationServiceRegistry,
+    oidcAuthenticationServiceRegistry,
   },
 ) {
   const { identity_provider: identityProvider, audience } = request.query;
-  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
+  const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
     audience,
   });
@@ -100,7 +100,7 @@ const authenticateUser = async function (
   request,
   h,
   dependencies = {
-    authenticationServiceRegistry,
+    oidcAuthenticationServiceRegistry,
   },
 ) {
   const { code, identityProvider, redirectUri, state, audience } = request.deserializedPayload;
@@ -113,7 +113,7 @@ const authenticateUser = async function (
     throw new BadRequestError('Required cookie "state" is missing');
   }
 
-  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
+  const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
     audience,
   });
@@ -144,13 +144,13 @@ const createUser = async function (
   request,
   h,
   dependencies = {
-    authenticationServiceRegistry,
+    oidcAuthenticationServiceRegistry,
   },
 ) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
   const localeFromCookie = request.state?.locale;
 
-  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
+  const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
   });
   const { accessToken, logoutUrlUUID } = await usecases.createOidcUser({
@@ -168,12 +168,12 @@ const reconcileUserForAdmin = async function (
   request,
   h,
   dependencies = {
-    authenticationServiceRegistry,
+    oidcAuthenticationServiceRegistry,
   },
 ) {
   const { email, identityProvider, authenticationKey } = request.deserializedPayload;
 
-  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode({
+  const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
     audience: PIX_ADMIN.AUDIENCE,
   });

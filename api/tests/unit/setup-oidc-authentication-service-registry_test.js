@@ -1,5 +1,5 @@
 import { setupOidcAuthenticationServiceRegistry } from '../../config/setup-oidc-authentication-service-registry.js';
-import { oidcAuthenticationServiceRegistry } from '../../lib/domain/services/authentication/authentication-service-registry.js';
+import { oidcAuthenticationServiceRegistry } from '../../lib/domain/services/authentication/oidc-authentication-service-registry.js';
 import { OidcAuthenticationService } from '../../src/authentication/domain/services/oidc-authentication-service.js';
 import { expect, sinon } from '../test-helper.js';
 
