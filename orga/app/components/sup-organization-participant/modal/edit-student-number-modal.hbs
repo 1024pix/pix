@@ -14,11 +14,12 @@
           }}<span class="edit-student-number-modal__student-number">{{@student.studentNumber}}</span></p>
       {{/if}}
 
-      <label for="editStudentNumber">{{t
-          "pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label"
-        }}</label>
       <div class="input-container">
-        <Input id="editStudentNumber" @type="text" @value={{this.newStudentNumber}} class="input" />
+        <PixInput @id="editStudentNumber" {{on "change" this.setStudentNumber}}>
+          <:label>{{t
+              "pages.sup-organization-participants.edit-student-number-modal.form.new-student-number-label"
+            }}</:label>
+        </PixInput>
 
         <div class="form__error error-message">
           {{this.error}}
