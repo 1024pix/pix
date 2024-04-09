@@ -22,10 +22,11 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     beforeEach(function () {
       sinon.stub(fs, 'unlink').resolves();
-      sinon.stub(usecases, 'importOrganizationLearnersFromSIECLEXMLFormat');
+      sinon.stub(usecases, 'uploadSiecleFile');
+      sinon.stub(usecases, 'validateSiecleXmlFile');
       sinon.stub(usecases, 'addOrUpdateOrganizationLearners');
       sinon.stub(usecases, 'importOrganizationLearnersFromSIECLECSVFormat');
-      usecases.importOrganizationLearnersFromSIECLEXMLFormat.resolves();
+      usecases.uploadSiecleFile.resolves();
       dependencies = { logErrorWithCorrelationIds: sinon.stub() };
     });
 
@@ -70,11 +71,12 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await scoOrganizationManagementController.importOrganizationLearnersFromSIECLE(request, hFake, dependencies);
 
       // then
-      expect(usecases.importOrganizationLearnersFromSIECLEXMLFormat).to.have.been.calledWithExactly({
+      expect(usecases.uploadSiecleFile).to.have.been.calledWithExactly({
         userId,
         organizationId,
         payload,
       });
+      expect(usecases.validateSiecleXmlFile).to.have.been.calledWithExactly({ organizationId });
       expect(usecases.addOrUpdateOrganizationLearners).to.have.been.calledWithExactly({
         organizationId,
       });

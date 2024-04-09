@@ -16,11 +16,12 @@ const importOrganizationLearnersFromSIECLE = async function (
   const { format } = request.query;
   try {
     if (format === 'xml') {
-      await usecases.importOrganizationLearnersFromSIECLEXMLFormat({
+      await usecases.uploadSiecleFile({
         userId: authenticatedUserId,
         organizationId,
         payload: request.payload,
       });
+      await usecases.validateSiecleXmlFile({ organizationId });
       await usecases.addOrUpdateOrganizationLearners({ organizationId });
     } else if (format === 'csv') {
       await usecases.importOrganizationLearnersFromSIECLECSVFormat({

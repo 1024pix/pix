@@ -19,6 +19,25 @@ module('Integration | Component | ImportBanner', function (hooks) {
       assert.ok(screen.getByText(this.intl.t('pages.organization-participants-import.banner.upload-in-progress')));
     });
 
+    test('it should display loading message when there is already an import', async function (assert) {
+      // when
+      const store = this.owner.lookup('service:store');
+      const organizationImportDetail = store.createRecord('organization-import-detail', {
+        status: 'UPLOADED',
+        createdAt: new Date(2023, 10, 2),
+        createdBy: { firstName: 'Obi', lastName: 'Wan' },
+      });
+      const isLoading = true;
+      const screen = await render(
+        <template>
+          <ImportBanner @isLoading={{isLoading}} @organizationImportDetail={{organizationImportDetail}} />
+        </template>,
+      );
+
+      // then
+      assert.ok(screen.getByText(this.intl.t('pages.organization-participants-import.banner.upload-in-progress')));
+    });
+
     test('display validation in progress banner', async function (assert) {
       //given
       const store = this.owner.lookup('service:store');
