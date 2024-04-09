@@ -32,8 +32,9 @@ describe('Acceptance | Application | organization-learners', function () {
         name: 'ONDE',
         fileType: 'csv',
         config: {
+          unicityColumns: ['column_firstname'],
           acceptedEncoding: ['utf-8'],
-          validationRules: { unicity: ['column_firstname'], formats: [{ name: 'column_lastname', type: 'string' }] },
+          validationRules: { formats: [{ name: 'column_lastname', type: 'string' }] },
           headers: [
             { name: 'column_firstname', property: 'firstName', required: true },
             { name: 'column_lastname', property: 'lastName', required: true },

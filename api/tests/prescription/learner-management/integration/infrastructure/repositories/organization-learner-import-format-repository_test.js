@@ -11,9 +11,9 @@ describe('Integration | Repository | Organization Learner Management | Organizat
         name: 'MY_TEST_EXPORT',
         fileType: 'csv',
         config: {
-          encoding: ['utf-8'],
+          acceptedEncoding: ['utf-8'],
+          unicityColumns: ['my_column1'],
           validationRules: {
-            unicity: ['my_column1'],
             formats: [
               { name: 'my_column1', type: 'string' },
               { name: 'my_column2', type: 'string' },
