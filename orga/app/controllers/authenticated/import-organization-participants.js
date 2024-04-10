@@ -82,4 +82,12 @@ export default class ImportController extends Controller {
     this.warnings = null;
     this.warningBanner = null;
   }
+
+  get participantListRoute() {
+    return this.currentUser.isSCOManagingStudents
+      ? 'authenticated.sco-organization-participants.list'
+      : this.currentUser.isSUPManagingStudents
+        ? 'authenticated.sup-organization-participants.list'
+        : 'authenticated';
+  }
 }
