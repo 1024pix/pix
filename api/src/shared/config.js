@@ -305,6 +305,8 @@ const configuration = (function () {
       teamSize: _getNumber(process.env.PG_BOSS_TEAM_SIZE, 1),
       teamConcurrency: _getNumber(process.env.PG_BOSS_TEAM_CONCURRENCY, 1),
       monitorStateIntervalSeconds: _getNumber(process.env.PGBOSS_MONITOR_STATE_INTERVAL_SECONDS, undefined),
+      // 43200 is equal to 12 hours - its the default pgboss configuration
+      archiveFailedAfterSeconds: _getNumber(process.env.PGBOSS_ARCHIVE_FAILED_AFTER_SECONDS, 43200),
     },
     poleEmploi: {
       accessTokenLifespanMs: ms(process.env.POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN || '7d'),

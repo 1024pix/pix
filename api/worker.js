@@ -30,6 +30,7 @@ async function runJobs() {
     connectionString: process.env.DATABASE_URL,
     max: config.pgBoss.connexionPoolMaxSize,
     ...(monitorStateIntervalSeconds ? { monitorStateIntervalSeconds } : {}),
+    archiveFailedAfterSeconds: config.pgBoss.archiveFailedAfterSeconds,
   });
   pgBoss.on('monitor-states', (state) => {
     logger.info({ event: 'pg-boss-state', name: 'global' }, { ...state, queues: undefined });
