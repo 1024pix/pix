@@ -1,3 +1,4 @@
+import { ScheduleImportOrganizationLearnersJob } from '../../../src/prescription/learner-management/infrastructure/events/subscribers/ScheduleImportOrganizationLearnersJob.js';
 import { EventBus } from './EventBus.js';
 import * as dependenciesBuilder from './EventHandlerDependenciesBuilder.js';
 import { UserAnonymizedEventLoggingJobScheduler } from './subscribers/audit-log/UserAnonymizedEventLoggingJobScheduler.js';
@@ -10,6 +11,7 @@ const subscribers = [
   LogEvent,
   ScheduleParticipationResultCalculationJob,
   ScheduleSendSharedParticipationResultsToPoleEmploiJob,
+  ScheduleImportOrganizationLearnersJob,
 ];
 
 function build() {
