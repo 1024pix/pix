@@ -1,4 +1,6 @@
-current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
+#!/usr/bin/env bash
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 protected_branch=dev
 
