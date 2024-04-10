@@ -84,6 +84,34 @@ module('Integration | Component | certification-joiner', function (hooks) {
       assert.ok(true);
     });
 
+    test('should display an error message if user has a language not supported by v3 certification', async function (assert) {
+      // given
+      this.set('onStepChange', sinon.stub());
+      const screen = await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
+
+      await _fillInputsToJoinSession({ screen, intl: this.intl });
+
+      const store = this.owner.lookup('service:store');
+      const saveStub = sinon.stub();
+      saveStub
+        .withArgs({ adapterOptions: { joinSession: true, sessionId: '123456' } })
+        .throws({ errors: [{ code: 'LANGUAGE_NOT_SUPPORTED', meta: { languageCode: 'nl' } }] });
+      const createRecordMock = sinon.mock();
+      createRecordMock.returns({ save: saveStub, deleteRecord: function () {} });
+      store.createRecord = createRecordMock;
+
+      // when
+      await click(screen.getByRole('button', { name: this.intl.t('pages.certification-joiner.form.actions.submit') }));
+
+      // then
+      assert.ok(
+        screen.getByText(
+          "La certification Pix n'est pas encore disponible en Néerlandais. Les langues disponibles actuellement pour passer la certification sont : Anglais, Français.",
+          { exact: false },
+        ),
+      );
+    });
+
     test('should display an error message if session id contains letters', async function (assert) {
       // given
       this.set('onStepChange', sinon.stub());

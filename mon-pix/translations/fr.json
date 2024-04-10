@@ -76,6 +76,11 @@
     },
     "french-education-ministry": "Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité",
     "french-republic": "République française. Liberté, égalité, fraternité.",
+    "languages": {
+      "en": "Anglais",
+      "fr": "Français",
+      "nl": "Néerlandais"
+    },
     "level": "niveau",
     "loading": {
       "default": "Chargement en cours",
@@ -441,6 +446,8 @@
           "check-session-number": "Vérifiez le numéro de session.",
           "disclaimer": "Les informations saisies ne correspondent à aucun candidat inscrit à la session."
         },
+        "language-not-supported": "La certification Pix n'est pas encore disponible en {userLanguage}. '<br>' Les langues disponibles actuellement pour passer la certification sont : {availableLanguages}. '<br>' Vous pouvez choisir une autre langue depuis la page ",
+        "language-not-supported-link": "Mon compte",
         "session-not-accessible": "La session que vous tentez de rejoindre n'est plus accessible.",
         "wrong-account": "Les informations saisies correspondent à un.e candidat.e inscrit.e à la session et déjà connecté.e avec un autre compte. Vérifiez que vous êtes connecté.e au compte qui a démarré la certification.",
         "wrong-account-sco": "Vous utilisez actuellement un compte qui n'est pas lié à votre établissement.\nConnectez vous au compte avec lequel vous avez effectué vos parcours ou demandez de l'aide au surveillant.",

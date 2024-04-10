@@ -22,11 +22,16 @@ function _isSessionNotAccessibleError(err) {
   return _get(err, 'errors[0].status') === '412';
 }
 
+function _isLanguageNotSupported(err) {
+  return _get(err, 'errors[0].code') === 'LANGUAGE_NOT_SUPPORTED';
+}
+
 export default class CertificationJoiner extends Component {
   @service store;
   @service intl;
 
   SESSION_ID_VALIDATION_PATTERN = '^[0-9]*$';
+  V3_CERTIFICATION_SUPPORTED_LANGUAGES = ['en', 'fr'];
 
   @tracked errorMessage = null;
   @tracked errorDetailList = [];
@@ -109,7 +114,25 @@ export default class CertificationJoiner extends Component {
         currentCertificationCandidate.deleteRecord();
       }
 
-      if (_isMatchingReconciledStudentNotFoundError(err)) {
+      if (_isLanguageNotSupported(err)) {
+        const [currentError] = err.errors;
+        const { languageCode } = currentError.meta;
+        const userLanguage = this.intl.t(`common.languages.${languageCode}`);
+        const NO_BREAK_SPACE = String.fromCharCode(160);
+        const availableLanguages = this.V3_CERTIFICATION_SUPPORTED_LANGUAGES.map((code) =>
+          this.intl.t(`common.languages.${code}`),
+        ).join(`, ${NO_BREAK_SPACE}`);
+
+        this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.language-not-supported', {
+          userLanguage,
+          availableLanguages,
+          htmlSafe: true,
+        });
+        this.errorMessageLink = {
+          label: this.intl.t('pages.certification-joiner.error-messages.language-not-supported-link'),
+          url: 'https://app.pix.org/mon-compte/langue',
+        };
+      } else if (_isMatchingReconciledStudentNotFoundError(err)) {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account-sco');
         this.errorMessageLink = {
           label: this.intl.t('pages.certification-joiner.error-messages.wrong-account-sco-link'),

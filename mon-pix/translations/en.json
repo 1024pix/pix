@@ -76,6 +76,11 @@
     },
     "french-education-ministry": "Ministry of national education and youth",
     "french-republic": "French Republic. Liberty, equality, fraternity.",
+    "languages": {
+      "en": "English",
+      "fr": "French",
+      "nl": "Dutch"
+    },
     "level": "level",
     "loading": {
       "default": "Loading",
@@ -441,6 +446,8 @@
           "check-session-number": "Check the session number.",
           "disclaimer": "The information entered does not match any candidate registered for the session."
         },
+        "language-not-supported": "The Pix certification is not yet available in %%language of account%%. The languages currently available for taking the certification exam are: Accepted languages%%. You may choose another language from ",
+        "language-not-supported-link": "My account page",
         "session-not-accessible": "The session you are trying to join is no longer available.",
         "wrong-account": "The information entered matches a candidate enrolled in the session and already logged in with another account. Please check that you are logged into the account that started the exam.",
         "wrong-account-sco": "You are currently using an account that is not linked to your school/organisation.\nLog in to the account you used to complete your customised tests or ask the invigilator for help.",

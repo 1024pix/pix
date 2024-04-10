@@ -12,6 +12,7 @@ import {
 import { ComplementaryCertificationCourse } from '../../../../lib/domain/models/ComplementaryCertificationCourse.js';
 import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
 import { CertificationCourse } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
+import { LanguageNotSupportedError } from '../../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
@@ -31,6 +32,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   const certificationCenterRepository = {};
   const certificationBadgesService = {};
   const placementProfileService = {};
+  const languageService = {};
   const verifyCertificateCodeService = {};
   const userRepository = {};
 
@@ -46,6 +48,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     certificationChallengesService,
     placementProfileService,
     verifyCertificateCodeService,
+    languageService,
     userRepository,
   };
 
@@ -70,6 +73,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     placementProfileService.getPlacementProfile = sinon.stub();
     verifyCertificateCodeService.generateCertificateVerificationCode = sinon.stub().resolves(verificationCode);
     certificationCenterRepository.getBySessionId = sinon.stub();
+    languageService.isLanguageAvailableForV3Certification = sinon.stub();
   });
 
   afterEach(function () {
@@ -504,6 +508,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     const user = domainBuilder.buildUser({ id: userId, lang: 'nl' });
                     userRepository.get.withArgs(userId).resolves(user);
 
+                    languageService.isLanguageAvailableForV3Certification.withArgs(user.lang).returns(false);
+
                     // when
                     const error = await catchErr(await retrieveLastOrCreateCertificationCourse)({
                       domainTransaction,
@@ -516,7 +522,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                     // then
                     expect(certificationCourseRepository.save).not.to.have.been.called;
-                    expect(error).to.be.instanceOf(Error);
+                    expect(error).to.be.instanceOf(LanguageNotSupportedError);
                   });
                 });
 
@@ -565,6 +571,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                     const user = domainBuilder.buildUser({ id: userId });
                     userRepository.get.withArgs(userId).resolves(user);
+
+                    languageService.isLanguageAvailableForV3Certification.withArgs(user.lang).returns(true);
 
                     const certificationCourseToSave = CertificationCourse.from({
                       certificationCandidate: foundCertificationCandidate,

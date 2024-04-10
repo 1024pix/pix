@@ -2,6 +2,7 @@ import bluebird from 'bluebird';
 
 import { CertificationCourse } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
+import { LanguageNotSupportedError } from '../../../src/shared/domain/errors.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { config } from '../../config.js';
 import {
@@ -33,6 +34,7 @@ const retrieveLastOrCreateCertificationCourse = async function ({
   placementProfileService,
   certificationBadgesService,
   verifyCertificateCodeService,
+  languageService,
 }) {
   const session = await sessionRepository.get({ id: sessionId });
 
@@ -72,10 +74,10 @@ const retrieveLastOrCreateCertificationCourse = async function ({
   let lang;
   if (version === CertificationVersion.V3) {
     const user = await userRepository.get(userId);
-    const isUserLanguageValid = _validateUserLanguage(user);
+    const isUserLanguageValid = _validateUserLanguage(languageService, user.lang);
 
     if (!isUserLanguageValid) {
-      throw new Error(`Cant create a certification course in ${user.lang}`);
+      throw new LanguageNotSupportedError(user.lang);
     }
 
     lang = user.lang;
@@ -102,8 +104,8 @@ const retrieveLastOrCreateCertificationCourse = async function ({
 
 export { retrieveLastOrCreateCertificationCourse };
 
-function _validateUserLanguage(user) {
-  return user.isLanguageAvailableForV3Certification();
+function _validateUserLanguage(languageService, userLanguage) {
+  return CertificationCourse.isLanguageAvailableForV3Certification(languageService, userLanguage);
 }
 
 function _validateSessionAccess(session, accessCode) {

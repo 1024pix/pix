@@ -268,6 +268,10 @@ class CertificationCourse {
     return this._version === CertificationVersion.V3;
   }
 
+  static isLanguageAvailableForV3Certification(languageService, candidateLanguage) {
+    return languageService.isLanguageAvailableForV3Certification(candidateLanguage);
+  }
+
   toDTO() {
     return {
       id: this._id,
