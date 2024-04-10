@@ -21,6 +21,9 @@ import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './lib/inf
 import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
 import * as organizationLearnerRepository from './lib/infrastructure/repositories/organization-learner-repository.js';
 import * as pgBossRepository from './lib/infrastructure/repositories/pgboss-repository.js';
+import { ImportOrganizationLearnersJob } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
+import { ImportOrganizationLearnersJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJobHandler.js';
+import * as organizationImportRepository from './src/prescription/learner-management/infrastructure/repositories/organization-import-repository.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
 
 async function runJobs() {
@@ -70,6 +73,10 @@ async function runJobs() {
   );
 
   monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobHandler);
+
+  monitoredJobQueue.performJob(ImportOrganizationLearnersJob.name, ImportOrganizationLearnersJobHandler, {
+    organizationImportRepository,
+  });
 
   await pgBoss.schedule(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,
