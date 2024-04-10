@@ -131,7 +131,7 @@
       "dashboard": "Home",
       "help": "Help",
       "label": "Hoofdmenu",
-      "link-help": "https://support.pix.org/fr/support/home",
+      "link-help": "https://pix.org/nl-be/support",
       "skills": "Vaardigheden",
       "start-certification": "Certificering",
       "trainings": "Mijn trainingen",
@@ -1153,7 +1153,7 @@
               "placeholder": "AAAA"
             }
           },
-          "cgu": "Ik ga akkoord met de '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'gebruiksvoorwaarden van Pix'</a>'.",
+          "cgu": "Ik ga akkoord met de '<a href=\"https://pix.org/nl-be/algemene-gebruiksvoorwaarden\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'gebruiksvoorwaarden van Pix'</a>'.",
           "email": {
             "error": "Uw e-mailadres is ongeldig.",
             "help": "(voorbeeld: naam.voornaam@voorbeeld.org)",
@@ -1194,7 +1194,6 @@
       "beta-banner": "Deze module is in bètaversie. Je kunt ons feedback sturen aan het einde van deze module om ons te helpen deze te verbeteren.",
       "buttons": {
         "activity": {
-          "retry": "Probeer het opnieuw",
           "verify": "Kijk op"
         },
         "element": {
@@ -1555,7 +1554,7 @@
       }
     },
     "terms-of-service": {
-      "cgu": "Ik ga akkoord met de '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'gebruiksvoorwaarden van Pix'</a>'.",
+      "cgu": "Ik ga akkoord met de '<a href=\"https://pix.org/nl-be/algemene-gebruiksvoorwaarden\" class=\"link\" target=\"_blank\">'gebruiksvoorwaarden van Pix'</a>'.",
       "form": {
         "button": "Ik ga verder",
         "error-message": "Je moet de gebruiksvoorwaarden van Pix accepteren."
