@@ -9,7 +9,8 @@ const buildOrganizationLearnerImportFormat = function ({
   fileType = 'csv',
   config = {
     acceptedEncoding: ['utf-8'],
-    validationRules: { unicity: ['my_column'], formats: [{ name: 'my_column', type: 'string' }] },
+    unicityColumns: ['my_column'],
+    validationRules: { formats: [{ name: 'my_column', type: 'string' }] },
     headers: [{ name: 'my_column', required: true }],
   },
   createdAt = new Date('2021-01-01'),

@@ -52,6 +52,13 @@ class CsvImportError extends DomainError {
     this.meta = meta;
   }
 }
+class ImportLearnerConfigurationError extends DomainError {
+  constructor(message, code) {
+    super(message);
+
+    this.code = code;
+  }
+}
 
 class EntityValidationError extends DomainError {
   constructor({ invalidAttributes }) {
@@ -280,6 +287,7 @@ export {
   DomainError,
   EntityValidationError,
   ForbiddenAccess,
+  ImportLearnerConfigurationError,
   InvalidExternalUserTokenError,
   InvalidInputDataError,
   InvalidResultRecipientTokenError,

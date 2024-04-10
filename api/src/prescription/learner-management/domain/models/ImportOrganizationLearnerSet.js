@@ -1,11 +1,15 @@
-import { CsvImportError, ModelValidationError } from '../../../../shared/domain/errors.js';
+import { VALIDATION_ERRORS } from '../../../../shared/domain/constants.js';
+import {
+  CsvImportError,
+  ImportLearnerConfigurationError,
+  ModelValidationError,
+} from '../../../../shared/domain/errors.js';
 import { convertDateValue } from '../../../../shared/infrastructure/utils/date-utils.js';
 import { validateCommonOrganizationLearner } from '../validators/common-organization-learner-validator.js';
 
 class ImportOrganizationLearnerSet {
   #learners;
   #hasValidationFormats;
-  #hasUnicityRules;
   #unicityKeys;
   #errors;
   #organizationId;
@@ -15,17 +19,31 @@ class ImportOrganizationLearnerSet {
     this.#organizationId = organizationId;
     this.#learners = [];
     this.validationRules = importFormat.config.validationRules;
-    this.#hasUnicityRules = !!this.validationRules?.unicity;
-    this.#hasValidationFormats = !!this.validationRules?.formats;
+    this.#hasValidationFormats = !!importFormat.config.validationRules?.formats;
     this.#columnMapping = importFormat.config.headers;
+    this.unicityColumns = importFormat.config.unicityColumns;
     this.#unicityKeys = [];
     this.#errors = [];
+    this.#constructorValidation();
   }
 
   static buildSet() {
     return new ImportOrganizationLearnerSet(...arguments);
   }
 
+  #constructorValidation() {
+    if (!this.unicityColumns || this.unicityColumns.length === 0) {
+      this.#errors.push(
+        new ImportLearnerConfigurationError(
+          'Missing unicity configuration',
+          VALIDATION_ERRORS.UNICITY_COLUMNS_REQUIRED,
+        ),
+      );
+    }
+    if (this.#errors.length > 0) {
+      throw this.#errors;
+    }
+  }
   #lineToOrganizationLearnerAttributes(learner) {
     const learnerAttributes = {
       organizationId: this.#organizationId,
@@ -46,7 +64,7 @@ class ImportOrganizationLearnerSet {
   #formatLearnerAttribute({ attribute, columnName }) {
     if (!attribute) return null;
 
-    if (this.validationRules.formats) {
+    if (this.#hasValidationFormats) {
       const dateFormat = this.validationRules.formats.find((rule) => rule.type === 'date' && rule.name === columnName);
 
       if (dateFormat) {
@@ -112,14 +130,14 @@ class ImportOrganizationLearnerSet {
       return null;
     } else {
       return ModelValidationError.unicityError({
-        key: this.validationRules.unicity.join('-'),
+        key: this.unicityColumns.join('-'),
       });
     }
   }
 
   #getLearnerUnicityValues(learner) {
     const unicityKeys = [];
-    this.validationRules.unicity.forEach((rule) => {
+    this.unicityColumns.forEach((rule) => {
       unicityKeys.push(learner[rule]);
     });
     return unicityKeys.join('-');
@@ -128,12 +146,10 @@ class ImportOrganizationLearnerSet {
   #validateRules(learner) {
     const errors = [];
 
-    if (this.#hasUnicityRules) {
-      const unicityError = this.#checkUnicityRule(learner);
+    const unicityError = this.#checkUnicityRule(learner);
 
-      if (unicityError) {
-        errors.push(unicityError);
-      }
+    if (unicityError) {
+      errors.push(unicityError);
     }
 
     if (this.#hasValidationFormats) {

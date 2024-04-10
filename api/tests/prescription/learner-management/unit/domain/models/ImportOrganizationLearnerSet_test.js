@@ -3,7 +3,7 @@ import {
   ImportOrganizationLearnerSet,
 } from '../../../../../../src/prescription/learner-management/domain/models/ImportOrganizationLearnerSet.js';
 import { VALIDATION_ERRORS } from '../../../../../../src/shared/domain/constants.js';
-import { CsvImportError } from '../../../../../../src/shared/domain/errors.js';
+import { CsvImportError, ImportLearnerConfigurationError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Models | ImportOrganizationLearnerSet', function () {
@@ -20,6 +20,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
   beforeEach(function () {
     importFormat = {
       config: {
+        unicityColumns: ['prénom'],
         validationRules: {},
         headers: [
           {
@@ -75,33 +76,66 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
     it('should return multiple learners', function () {
       const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
-      learnerSet.addLearners([learnerAttributes, learnerAttributes]);
+      const learnerAttributes2 = {
+        prénom: 'Mieto',
+        nom: 'Nataka',
+        "nom d'usage": 'Yolo',
+        anniversaire: '34',
+        group: 'Solo',
+      };
+      learnerSet.addLearners([learnerAttributes, learnerAttributes2]);
 
       expect(learnerSet.learners).to.lengthOf(2);
     });
 
     describe('When has validation rules', function () {
       context('checkUnicityRule', function () {
-        it('should throw unicity errors on one attribute', async function () {
-          importFormat.config.validationRules = {
-            unicity: ['group'],
+        it('should throw an error when no unicity rules is given', async function () {
+          importFormat = {
+            config: {
+              validationRules: {},
+              headers: [
+                {
+                  name: 'prénom',
+                  property: 'firstName',
+                },
+              ],
+            },
           };
 
+          const errors = await catchErr(ImportOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
+
+          expect(errors).lengthOf(1);
+          expect(errors[0]).instanceOf(ImportLearnerConfigurationError);
+          expect(errors[0].message).equal('Missing unicity configuration');
+          expect(errors[0].code).equal(VALIDATION_ERRORS.UNICITY_COLUMNS_REQUIRED);
+        });
+
+        it('should throw an error when unicity rules is empty', async function () {
+          importFormat.config.unicityColumns = [];
+
+          const errors = await catchErr(ImportOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
+
+          expect(errors).lengthOf(1);
+          expect(errors[0]).instanceOf(ImportLearnerConfigurationError);
+          expect(errors[0].message).equal('Missing unicity configuration');
+          expect(errors[0].code).equal(VALIDATION_ERRORS.UNICITY_COLUMNS_REQUIRED);
+        });
+
+        it('should throw unicity errors on one attribute', async function () {
           const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
           const errors = await catchErr(learnerSet.addLearners, learnerSet)([learnerAttributes, learnerAttributes]);
 
           expect(errors).lengthOf(1);
           expect(errors[0]).instanceOf(CsvImportError);
-          expect(errors[0].meta.field).to.equal('group');
+          expect(errors[0].meta.field).to.equal('prénom');
           expect(errors[0].meta.line).to.equal(3);
           expect(errors[0].code).to.equal('PROPERTY_NOT_UNIQ');
         });
 
         it('should throw unicity errors on multiple attributes', async function () {
-          importFormat.config.validationRules = {
-            unicity: ['firstName', 'group'],
-          };
+          importFormat.config.unicityColumns = ['prénom', 'group'];
 
           const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
@@ -109,19 +143,17 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
 
           expect(errors).lengthOf(1);
           expect(errors[0]).instanceOf(CsvImportError);
-          expect(errors[0].meta.field).to.equal('firstName-group');
+          expect(errors[0].meta.field).to.equal('prénom-group');
           expect(errors[0].meta.line).to.equal(3);
           expect(errors[0].code).to.equal('PROPERTY_NOT_UNIQ');
         });
 
         it('should not throw unicity errors when all unicity attributes are differents', async function () {
-          importFormat.config.validationRules = {
-            unicity: ['firstName', 'group'],
-          };
+          importFormat.config.unicityColumns = ['prénom', 'group'];
 
           const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
-          const secondLearnerAttributes = { ...learnerAttributes, firstName: 'Tomie', group: 'cheese' };
+          const secondLearnerAttributes = { ...learnerAttributes, group: 'cheese' };
 
           const response = learnerSet.addLearners([learnerAttributes, secondLearnerAttributes]);
 
@@ -179,9 +211,9 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
       context('With several rules', function () {
         it('should throw all errors on multiple lines ', async function () {
           importFormat.config.validationRules = {
-            unicity: ['prénom', 'group'],
             formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
           };
+          importFormat.config.unicityColumns = ['prénom', 'group'];
 
           const secondLearnersAttributes = {
             prénom: 'Tomie',
@@ -209,8 +241,8 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
           expect(errors[1].meta.line).to.equal(3);
         });
         it('should throw all errors on one line', async function () {
+          importFormat.config.unicityColumns = ['prénom', 'group'];
           importFormat.config.validationRules = {
-            unicity: ['prénom', 'group'],
             formats: [{ name: 'anniversaire', type: 'date', format: 'YYYY-MM-DD', required: true }],
           };
 

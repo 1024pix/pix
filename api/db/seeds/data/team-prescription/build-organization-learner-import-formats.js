@@ -5,9 +5,9 @@ export async function buildOrganizationLearnerImportFormat(databaseBuilder) {
     name: 'ONDE',
     fileType: 'csv',
     config: {
-      encoding: [],
+      acceptedEncoding: [],
+      unicityColumns: ['identifiant'],
       validationRules: {
-        unicity: ['identifiant'],
         formats: [
           { name: 'nom', type: 'string' },
           { name: 'prénom', type: 'string' },
