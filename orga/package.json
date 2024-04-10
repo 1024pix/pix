@@ -41,6 +41,11 @@
     "test:lint": "npm test && npm run lint",
     "test:watch": "ember exam --serve --reporter dot"
   },
+  "overrides": {
+    "eslint-plugin-ember": {
+      "ember-eslint-parser": "^0.4.1"
+    }
+  },
   "devDependencies": {
     "@1024pix/ember-cli-notifications": "^8.0.2",
     "@1024pix/ember-testing-library": "^1.1.0",
