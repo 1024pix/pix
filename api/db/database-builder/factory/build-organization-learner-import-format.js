@@ -8,7 +8,7 @@ const buildOrganizationLearnerImportFormat = function ({
   name = 'MY_CUSTOM_EXPORT',
   fileType = 'csv',
   config = {
-    encoding: ['utf-8'],
+    acceptedEncoding: ['utf-8'],
     validationRules: { unicity: ['my_column'], formats: [{ name: 'my_column', type: 'string' }] },
     headers: [{ name: 'my_column', required: true }],
   },

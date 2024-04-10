@@ -1,6 +1,7 @@
 import { config as settings } from '../../../lib/config.js';
 import { PIX_ADMIN } from '../../../src/authorization/domain/constants.js';
 import { securityPreHandlers } from '../../../src/shared/application/security-pre-handlers.js';
+import { ORGANIZATION_FEATURE } from '../../../src/shared/domain/constants.js';
 import {
   databaseBuilder,
   expect,
@@ -494,6 +495,77 @@ describe('Integration | Application | SecurityPreHandlers', function () {
         url: '/api/test-pix1d',
       };
 
+      const response = await httpServerTest.requestObject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
+  describe('#makeCheckOrganizationHasFeature', function () {
+    let httpServerTest;
+
+    beforeEach(async function () {
+      const moduleUnderTest = {
+        name: 'has-feature-test',
+        register: async function (server) {
+          server.route([
+            {
+              method: 'GET',
+              path: '/api/test/organizations/{organizationId}/has-feature',
+              handler: (r, h) => h.response().code(200),
+              config: {
+                auth: false,
+                pre: [
+                  {
+                    method: securityPreHandlers.makeCheckOrganizationHasFeature(
+                      ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key,
+                    ),
+                  },
+                ],
+              },
+            },
+          ]);
+        },
+      };
+      httpServerTest = new HttpTestServer();
+      await httpServerTest.register(moduleUnderTest);
+      httpServerTest.setupAuthentication();
+    });
+
+    it('should return 200 when organization has the feature', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const featureId = databaseBuilder.factory.buildFeature({
+        key: ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key,
+      }).id;
+      databaseBuilder.factory.buildOrganizationFeature({
+        featureId,
+        organizationId,
+      });
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/test/organizations/${organizationId}/has-feature`,
+      };
+
+      // when
+      const response = await httpServerTest.requestObject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return a 403 when organization has not an organization feature', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/test/organizations/${organizationId}/has-feature`,
+      };
+
+      // when
       const response = await httpServerTest.requestObject(options);
 
       // then

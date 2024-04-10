@@ -171,7 +171,7 @@ function checkUserIsAdminInOrganization(request, h, dependencies = { checkUserIs
   } else if (request.path?.includes('memberships')) {
     organizationId = request.payload.data.relationships.organization.data.id;
   } else {
-    organizationId = request.params.id;
+    organizationId = request.params.organizationId || request.params.id;
   }
 
   return dependencies.checkUserIsAdminInOrganizationUseCase
@@ -685,7 +685,7 @@ async function checkUserCanDisableHisOrganizationMembership(
 function makeCheckOrganizationHasFeature(featureKey) {
   return async function (request, h, dependencies = { checkOrganizationHasFeatureUseCase }) {
     try {
-      const organizationId = request.params.id;
+      const organizationId = request.params.organizationId || request.params.id;
       await dependencies.checkOrganizationHasFeatureUseCase.execute({
         organizationId,
         featureKey,
