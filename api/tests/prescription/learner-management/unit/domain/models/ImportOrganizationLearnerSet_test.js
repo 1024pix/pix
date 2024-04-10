@@ -46,7 +46,7 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
   });
 
   describe('buildSet', function () {
-    it('should return an instance of ImportOrgaizationLearnerSet', function () {
+    it('should return an instance of ImportOrganizationLearnerSet', function () {
       const learnerSet = ImportOrganizationLearnerSet.buildSet({ organizationId, importFormat });
 
       expect(learnerSet).to.be.instanceOf(ImportOrganizationLearnerSet);
@@ -89,15 +89,95 @@ describe('Unit | Models | ImportOrganizationLearnerSet', function () {
     });
 
     describe('When has validation rules', function () {
-      context('checkUnicityRule', function () {
-        it('should throw an error when no unicity rules is given', async function () {
+      context('when missing lastName or firstName', function () {
+        it('should throw an error when there is no firstName property', async function () {
           importFormat = {
             config: {
+              validationRules: {},
+              unicityColumns: ['nom'],
+              headers: [
+                {
+                  name: 'prénom',
+                },
+                {
+                  name: 'nom',
+                  property: 'lastName',
+                },
+              ],
+            },
+          };
+
+          const errors = await catchErr(ImportOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
+
+          expect(errors).lengthOf(1);
+          expect(errors[0]).instanceOf(ImportLearnerConfigurationError);
+          expect(errors[0].message).equal('Missing firstName configuration');
+          expect(errors[0].code).equal(VALIDATION_ERRORS.FIRSTNAME_PROPERTY_REQUIRED);
+        });
+        it('should throw an error when there is no lastName property', async function () {
+          importFormat = {
+            config: {
+              unicityColumns: ['nom'],
               validationRules: {},
               headers: [
                 {
                   name: 'prénom',
                   property: 'firstName',
+                },
+                {
+                  name: 'nom',
+                },
+              ],
+            },
+          };
+
+          const errors = await catchErr(ImportOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
+
+          expect(errors).lengthOf(1);
+          expect(errors[0]).instanceOf(ImportLearnerConfigurationError);
+          expect(errors[0].message).equal('Missing lastName configuration');
+          expect(errors[0].code).equal(VALIDATION_ERRORS.LASTNAME_PROPERTY_REQUIRED);
+        });
+        it('should throw 2 errors when there is no lastName and firstname property', async function () {
+          importFormat = {
+            config: {
+              validationRules: {},
+              unicityColumns: ['nom'],
+              headers: [
+                {
+                  name: 'prénom',
+                },
+                {
+                  name: 'nom',
+                },
+              ],
+            },
+          };
+
+          const errors = await catchErr(ImportOrganizationLearnerSet.buildSet)({ organizationId, importFormat });
+
+          expect(errors).lengthOf(2);
+          expect(errors[0]).instanceOf(ImportLearnerConfigurationError);
+          expect(errors[0].message).equal('Missing firstName configuration');
+          expect(errors[0].code).equal(VALIDATION_ERRORS.FIRSTNAME_PROPERTY_REQUIRED);
+          expect(errors[1].message).equal('Missing lastName configuration');
+          expect(errors[1].code).equal(VALIDATION_ERRORS.LASTNAME_PROPERTY_REQUIRED);
+        });
+      });
+      context('checkUnicityRule', function () {
+        it('should throw an error when no unicity rules is given', async function () {
+          importFormat = {
+            config: {
+              validationRules: {},
+
+              headers: [
+                {
+                  name: 'prénom',
+                  property: 'firstName',
+                },
+                {
+                  name: 'nom',
+                  property: 'lastName',
                 },
               ],
             },
