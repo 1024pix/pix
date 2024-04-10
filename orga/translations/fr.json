@@ -245,6 +245,13 @@
       "SCO": "Classe",
       "SUP": "Groupe"
     },
+    "import-information-banner": {
+      "error": "Échec de l’import",
+      "error-link": "(voir l'état de l'import).",
+      "in-progress": "Un import est en cours.",
+      "in-progress-link": "(consulter l'état de l'import).",
+      "success": "Vos participants ont bien été importés."
+    },
     "participation-status": {
       "SHARED-ASSESSMENT": "Résultats reçus",
       "SHARED-PROFILES_COLLECTION": "Profil reçu",
@@ -1094,6 +1101,7 @@
         },
         "students-count": "{count, plural, =0 {0 élève} =1 {1 élève} other {{count} élèves}}"
       },
+
       "manage-authentication-method-modal": {
         "title": "Gestion du compte Pix de l’élève",
         "authentication-methods": "Méthodes de connexion",

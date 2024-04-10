@@ -1,9 +1,10 @@
 {{page-title (t "pages.sup-organization-participants.page-title")}}
 <div class="organization-participant-list-page sup-organization-participant-list-page">
-  <SupOrganizationParticipant::HeaderActions @participantCount={{@model.meta.participantCount}} />
+  <SupOrganizationParticipant::HeaderActions @participantCount={{@model.participants.meta.participantCount}} />
 
   <SupOrganizationParticipant::List
-    @students={{@model}}
+    @students={{@model.participants}}
+    @importDetail={{@model.importDetail}}
     @searchFilter={{this.search}}
     @studentNumberFilter={{this.studentNumber}}
     @groupsFilter={{this.groups}}

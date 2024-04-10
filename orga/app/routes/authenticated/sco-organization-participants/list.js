@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import RSVP from 'rsvp';
 
 export default class ListRoute extends Route {
   queryParams = {
@@ -18,24 +19,30 @@ export default class ListRoute extends Route {
   @service currentUser;
   @service store;
 
-  model(params) {
-    return this.store.query('sco-organization-participant', {
-      filter: {
+  async model(params) {
+    const organizationId = this.currentUser.organization.id;
+    return RSVP.hash({
+      importDetail: await this.store.queryRecord('organization-import-detail', {
         organizationId: this.currentUser.organization.id,
-        search: params.search,
-        divisions: params.divisions,
-        connectionTypes: params.connectionTypes,
-        certificability: params.certificability,
-      },
-      sort: {
-        participationCount: params.participationCountOrder,
-        lastnameSort: params.lastnameSort,
-        divisionSort: params.divisionSort,
-      },
-      page: {
-        number: params.pageNumber,
-        size: params.pageSize,
-      },
+      }),
+      participants: this.store.query('sco-organization-participant', {
+        filter: {
+          organizationId,
+          search: params.search,
+          divisions: params.divisions,
+          connectionTypes: params.connectionTypes,
+          certificability: params.certificability,
+        },
+        sort: {
+          participationCount: params.participationCountOrder,
+          lastnameSort: params.lastnameSort,
+          divisionSort: params.divisionSort,
+        },
+        page: {
+          number: params.pageNumber,
+          size: params.pageSize,
+        },
+      }),
     });
   }
 

@@ -245,6 +245,13 @@
       "SCO": "Class",
       "SUP": "Group"
     },
+    "import-information-banner": {
+      "error": "The file contains errors.",
+      "error-link": "Consult the list of errors here.",
+      "in-progress": "An import is in progress.",
+      "in-progress-link": "Check import status here.",
+      "success": "Participants have been successfully imported."
+    },
     "participation-status": {
       "SHARED-ASSESSMENT": "Submitted results",
       "SHARED-PROFILES_COLLECTION": "Submitted profile",
