@@ -18,7 +18,7 @@ import {
   getContentXml,
   getSheetDataRowsFromOdsBuffer,
   validateOdsHeaders,
-} from '../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
+} from '../../../../../src/shared/infrastructure/utils/ods/read-ods-utils.js';
 import { catchErr, expect } from '../../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

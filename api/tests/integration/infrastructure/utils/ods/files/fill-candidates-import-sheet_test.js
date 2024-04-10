@@ -10,8 +10,8 @@ import _ from 'lodash';
 
 import { usecases } from '../../../../../../lib/domain/usecases/index.js';
 import { fillCandidatesImportSheet } from '../../../../../../lib/infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
-import * as readOdsUtils from '../../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
+import * as readOdsUtils from '../../../../../../src/shared/infrastructure/utils/ods/read-ods-utils.js';
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

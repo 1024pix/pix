@@ -2,9 +2,9 @@ import * as url from 'node:url';
 
 import _ from 'lodash';
 
+import * as readOdsUtils from '../../../../src/shared/infrastructure/utils/ods/read-ods-utils.js';
+import * as writeOdsUtils from '../../../../src/shared/infrastructure/utils/ods/write-ods-utils.js';
 import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
-import * as readOdsUtils from '../../utils/ods/read-ods-utils.js';
-import * as writeOdsUtils from '../../utils/ods/write-ods-utils.js';
 import { CandidateData } from './CandidateData.js';
 import {
   EXTRA_EMPTY_CANDIDATE_ROWS,

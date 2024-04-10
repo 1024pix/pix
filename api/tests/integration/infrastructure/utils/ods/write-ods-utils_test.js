@@ -6,8 +6,8 @@ const { writeFile, unlink } = promises;
 
 import * as url from 'node:url';
 
-import { AddedCellOption } from '../../../../../lib/infrastructure/utils/ods/added-cell-option.js';
-import { getContentXml } from '../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
+import { AddedCellOption } from '../../../../../src/shared/infrastructure/utils/ods/added-cell-option.js';
+import { getContentXml } from '../../../../../src/shared/infrastructure/utils/ods/read-ods-utils.js';
 import {
   addCellToEndOfLineWithStyleOfCellLabelled,
   addTooltipOnCell,
@@ -16,7 +16,7 @@ import {
   makeUpdatedOdsByContentXml,
   updateXmlRows,
   updateXmlSparseValues,
-} from '../../../../../lib/infrastructure/utils/ods/write-ods-utils.js';
+} from '../../../../../src/shared/infrastructure/utils/ods/write-ods-utils.js';
 import { expect } from '../../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
