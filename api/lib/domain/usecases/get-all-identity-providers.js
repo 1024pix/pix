@@ -1,5 +1,5 @@
-const getAllIdentityProviders = function ({ authenticationServiceRegistry }) {
-  return authenticationServiceRegistry.getAllOidcProviderServices();
+const getAllIdentityProviders = function ({ oidcAuthenticationServiceRegistry }) {
+  return oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
 };
 
 export { getAllIdentityProviders };

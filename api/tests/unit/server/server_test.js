@@ -1,4 +1,4 @@
-import { oidcAuthenticationServiceRegistry } from '../../../lib/domain/services/authentication/authentication-service-registry.js';
+import { oidcAuthenticationServiceRegistry } from '../../../lib/domain/services/authentication/oidc-authentication-service-registry.js';
 import { createServer } from '../../../server.js';
 import { expect, sinon } from '../../test-helper.js';
 

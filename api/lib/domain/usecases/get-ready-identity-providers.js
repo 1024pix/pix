@@ -1,8 +1,8 @@
-const getReadyIdentityProviders = function ({ audience = 'app', authenticationServiceRegistry }) {
+const getReadyIdentityProviders = function ({ audience = 'app', oidcAuthenticationServiceRegistry }) {
   if (audience === 'admin') {
-    return authenticationServiceRegistry.getReadyOidcProviderServicesForPixAdmin();
+    return oidcAuthenticationServiceRegistry.getReadyOidcProviderServicesForPixAdmin();
   }
-  return authenticationServiceRegistry.getReadyOidcProviderServices();
+  return oidcAuthenticationServiceRegistry.getReadyOidcProviderServices();
 };
 
 export { getReadyIdentityProviders };

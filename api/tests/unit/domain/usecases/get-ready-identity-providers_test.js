@@ -9,7 +9,7 @@ describe('Unit | UseCase | get-ready-identity-providers', function () {
         // given
         const oneOidcProviderService = {};
         const anotherOidcProviderService = {};
-        const authenticationServiceRegistryStub = {
+        const oidcAuthenticationServiceRegistryStub = {
           getReadyOidcProviderServicesForPixAdmin: sinon
             .stub()
             .returns([oneOidcProviderService, anotherOidcProviderService]),
@@ -18,11 +18,11 @@ describe('Unit | UseCase | get-ready-identity-providers', function () {
         // when
         const identityProviders = getReadyIdentityProviders({
           audience: PIX_ADMIN.AUDIENCE,
-          authenticationServiceRegistry: authenticationServiceRegistryStub,
+          oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
         });
 
         // then
-        expect(authenticationServiceRegistryStub.getReadyOidcProviderServicesForPixAdmin).to.have.been.calledOnce;
+        expect(oidcAuthenticationServiceRegistryStub.getReadyOidcProviderServicesForPixAdmin).to.have.been.calledOnce;
         expect(identityProviders).to.deep.equal([oneOidcProviderService, anotherOidcProviderService]);
       });
     });
@@ -32,18 +32,18 @@ describe('Unit | UseCase | get-ready-identity-providers', function () {
     // given
     const oneOidcProviderService = {};
     const anotherOidcProviderService = {};
-    const authenticationServiceRegistryStub = {
+    const oidcAuthenticationServiceRegistryStub = {
       getReadyOidcProviderServices: sinon.stub().returns([oneOidcProviderService, anotherOidcProviderService]),
     };
 
     // when
     const identityProviders = getReadyIdentityProviders({
       audience: null,
-      authenticationServiceRegistry: authenticationServiceRegistryStub,
+      oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
     });
 
     // then
-    expect(authenticationServiceRegistryStub.getReadyOidcProviderServices).to.have.been.calledOnce;
+    expect(oidcAuthenticationServiceRegistryStub.getReadyOidcProviderServices).to.have.been.calledOnce;
     expect(identityProviders).to.deep.equal([oneOidcProviderService, anotherOidcProviderService]);
   });
 });

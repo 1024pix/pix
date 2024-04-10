@@ -167,7 +167,7 @@ import * as userToCreateRepository from '../../infrastructure/repositories/user-
 import * as codeUtils from '../../infrastructure/utils/code-utils.js';
 import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
 import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';
-import { oidcAuthenticationServiceRegistry as authenticationServiceRegistry } from '../services/authentication/authentication-service-registry.js';
+import { oidcAuthenticationServiceRegistry } from '../services/authentication/oidc-authentication-service-registry.js';
 import * as learningContentConversionService from '../services/learning-content/learning-content-conversion-service.js';
 import * as organizationInvitationService from '../services/organization-invitation-service.js';
 import * as scoAccountRecoveryService from '../services/sco-account-recovery-service.js';
@@ -212,7 +212,7 @@ const dependencies = {
   assessmentResultRepository,
   attachableTargetProfileRepository,
   authenticationMethodRepository,
-  authenticationServiceRegistry,
+  oidcAuthenticationServiceRegistry,
   authenticationSessionService,
   badgeAcquisitionRepository,
   badgeForCalculationRepository,
