@@ -100,7 +100,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-knex": "v0.2.2",
     "eslint-plugin-mocha": "^10.0.5",
-    "eslint-plugin-n": "^16.0.0",
+    "eslint-plugin-n": "^17.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-unicorn": "^51.0.0",
     "form-data": "^4.0.0",
