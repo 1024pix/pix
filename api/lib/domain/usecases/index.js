@@ -73,6 +73,7 @@ import * as targetProfileForAdminRepository from '../../../src/shared/infrastruc
 import * as userLoginRepository from '../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as userToCreateRepository from '../../../src/shared/infrastructure/repositories/user-to-create-repository.js';
+import * as codeUtils from '../../../src/shared/infrastructure/utils/code-utils.js';
 import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.js';
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -166,7 +167,6 @@ import * as tubeRepository from '../../infrastructure/repositories/tube-reposito
 import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as userEmailRepository from '../../infrastructure/repositories/user-email-repository.js';
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
-import * as codeUtils from '../../infrastructure/utils/code-utils.js';
 import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
 import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';
 import { OidcAuthenticationServiceRegistry } from '../services/authentication/oidc-authentication-service-registry.js';
