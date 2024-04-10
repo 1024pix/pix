@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v4.128.0 (10/04/2024)
+
+
+### :rocket: Amélioration
+- [#8587](https://github.com/1024pix/pix/pull/8587) [FEATURE] Afficher des QROCM "inline" (PIX-10789).
+- [#8294](https://github.com/1024pix/pix/pull/8294) [FEATURE] Message d'inéligibilité à une complémentaire uniquement si une version d'écart (PIX-99866).
+
+### :building_construction: Tech
+- [#8625](https://github.com/1024pix/pix/pull/8625) [TECH] Renommer authentication-service-registry→oidc-authentication-service-registry (PIX-12016).
+- [#8619](https://github.com/1024pix/pix/pull/8619) [TECH] Ajouter les fichiers à risque que sont *.json et *.csv dans le fichier .gitignore à la racine.
+- [#8623](https://github.com/1024pix/pix/pull/8623) [TECH] Activer la règle prefer-node-protocol du plugin eslint unicorn.
+- [#8598](https://github.com/1024pix/pix/pull/8598) [TECH] extrait la validation de fichier siecle xml un usecase dédié (Pix-11967).
+- [#8595](https://github.com/1024pix/pix/pull/8595) [TECH] Supprime la dev dependence à inquirer (PIX-11971).
+
+### :arrow_up: Montée de version
+- [#8626](https://github.com/1024pix/pix/pull/8626) [BUMP] Update dependency eslint-plugin-n to v17 (api).
+- [#8609](https://github.com/1024pix/pix/pull/8609) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.5 (orga).
+- [#8608](https://github.com/1024pix/pix/pull/8608) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.5 (mon-pix).
+- [#8607](https://github.com/1024pix/pix/pull/8607) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.5 (certif).
+- [#8606](https://github.com/1024pix/pix/pull/8606) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.5 (admin).
+- [#8605](https://github.com/1024pix/pix/pull/8605) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.5 (1d).
+- [#8600](https://github.com/1024pix/pix/pull/8600) [BUMP] Update dependency ember-template-lint to v6 (1d).
+
 ## v4.127.0 (08/04/2024)
 
 
