@@ -2,6 +2,7 @@ import {
   AggregateImportError,
   SiecleXmlImportError,
 } from '../../../../../../src/prescription/learner-management/domain/errors.js';
+import { FileValidated } from '../../../../../../src/prescription/learner-management/domain/events/FileValidated.js';
 import { validateSiecleXmlFile } from '../../../../../../src/prescription/learner-management/domain/usecases/validate-siecle-xml-file.js';
 import { SiecleParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/xml/siecle-parser.js';
 import { SiecleFileStreamer } from '../../../../../../src/prescription/learner-management/infrastructure/utils/xml/siecle-file-streamer.js';
@@ -24,7 +25,12 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
       getLastByOrganizationId: sinon.stub(),
       save: sinon.stub(),
     };
-    organizationImportStub = { filename: Symbol('filename'), encoding: Symbol('encoding'), validate: sinon.stub() };
+    organizationImportStub = {
+      id: 1,
+      filename: Symbol('filename'),
+      encoding: Symbol('encoding'),
+      validate: sinon.stub(),
+    };
     organizationImportRepositoryStub.getLastByOrganizationId.returns(organizationImportStub);
     externalIdSymbol = Symbol('externalId');
     organizationRepositoryStub = {
@@ -50,7 +56,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
   });
 
   it('should validate the xml file', async function () {
-    await validateSiecleXmlFile({
+    const event = await validateSiecleXmlFile({
       organizationId,
       organizationImportRepository: organizationImportRepositoryStub,
       organizationRepository: organizationRepositoryStub,
@@ -60,6 +66,8 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
     expect(parserStub.parse).to.have.been.calledWithExactly();
     expect(organizationImportStub.validate).to.have.been.calledWith({ errors: [] });
     expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
+    expect(event).to.be.instanceof(FileValidated);
+    expect(event.organizationImportId).to.equal(organizationImportStub.id);
   });
 
   context('error cases', function () {
