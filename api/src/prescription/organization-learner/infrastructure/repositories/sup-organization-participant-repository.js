@@ -1,10 +1,10 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
-import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import {
   CampaignParticipationStatuses,
   CampaignTypes,
 } from '../../../../../src/prescription/shared/domain/constants.js';
+import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { SupOrganizationParticipant } from '../../domain/read-models/SupOrganizationParticipant.js';
 
 function _setFilters(qb, { search, studentNumber, groups, certificability } = {}) {

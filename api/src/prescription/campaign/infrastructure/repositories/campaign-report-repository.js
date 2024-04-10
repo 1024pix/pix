@@ -6,7 +6,7 @@ import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/
 import { CampaignReport } from '../../../../../lib/domain/read-models/CampaignReport.js';
 import * as skillRepository from '../../../../../lib/infrastructure/repositories/skill-repository.js';
 import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
-import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { TargetProfileForSpecifier } from '../../../target-profile/domain/read-models/TargetProfileForSpecifier.js';
 
 const { SHARED } = CampaignParticipationStatuses;

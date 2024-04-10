@@ -6,8 +6,8 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import * as placementProfileService from '../../../../../lib/domain/services/placement-profile-service.js';
 import { constants } from '../../../../../lib/infrastructure/constants.js';
 import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
-import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
+import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { CampaignProfilesCollectionParticipationSummary } from '../../domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
 
 async function findPaginatedByCampaignId(campaignId, page = {}, filters = {}) {

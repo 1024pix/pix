@@ -6,7 +6,7 @@ import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-id
 import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../../lib/domain/errors.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import * as knexUtils from '../../../../lib/infrastructure/utils/knex-utils.js';
+import * as knexUtils from '../utils/knex-utils.js';
 
 const AUTHENTICATION_METHODS_TABLE = 'authentication-methods';
 const COLUMNS = Object.freeze([

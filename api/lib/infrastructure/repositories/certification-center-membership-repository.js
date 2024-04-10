@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
 import { User } from '../../../src/shared/domain/models/User.js';
+import * as knexUtils from '../../../src/shared/infrastructure/utils/knex-utils.js';
 import {
   AlreadyExistingMembershipError,
   CertificationCenterMembershipCreationError,
@@ -13,7 +14,6 @@ import { CertificationCenterMembership } from '../../domain/models/Certification
 import * as bookshelfToDomainConverter from '../../infrastructure/utils/bookshelf-to-domain-converter.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { BookshelfCertificationCenterMembership } from '../orm-models/CertificationCenterMembership.js';
-import * as knexUtils from '../utils/knex-utils.js';
 
 const CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME = 'certification-center-memberships';
 

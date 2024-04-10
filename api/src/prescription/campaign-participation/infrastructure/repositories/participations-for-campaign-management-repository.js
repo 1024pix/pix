@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { ParticipationForCampaignManagement } from '../../domain/models/ParticipationForCampaignManagement.js';
 
 const updateParticipantExternalId = async function ({ campaignParticipationId, participantExternalId }) {
