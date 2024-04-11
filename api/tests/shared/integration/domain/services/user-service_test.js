@@ -1,14 +1,14 @@
 import lodash from 'lodash';
 const { pick } = lodash;
 
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
-import { OrganizationLearnerNotFound } from '../../../../lib/domain/errors.js';
-import * as userService from '../../../../lib/domain/services/user-service.js';
-import * as authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository.js';
-import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
-import * as userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
-import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
-import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
+import { OrganizationLearnerNotFound } from '../../../../../lib/domain/errors.js';
+import * as organizationLearnerRepository from '../../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import * as userService from '../../../../../src/shared/domain/services/user-service.js';
+import * as authenticationMethodRepository from '../../../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
+import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';
+import * as userToCreateRepository from '../../../../../src/shared/infrastructure/repositories/user-to-create-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Domain | Services | user-service', function () {
   const hashedPassword = 'Abcdef1234';

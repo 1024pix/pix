@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
+import { User } from '../../../src/shared/domain/models/User.js';
 import {
   AlreadyExistingMembershipError,
   CertificationCenterMembershipCreationError,
@@ -9,7 +10,6 @@ import {
 } from '../../domain/errors.js';
 import { CertificationCenter } from '../../domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../domain/models/CertificationCenterMembership.js';
-import { User } from '../../domain/models/User.js';
 import * as bookshelfToDomainConverter from '../../infrastructure/utils/bookshelf-to-domain-converter.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { BookshelfCertificationCenterMembership } from '../orm-models/CertificationCenterMembership.js';

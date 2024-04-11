@@ -1,6 +1,5 @@
 import { PIX_CERTIF } from '../../../../../lib/domain/constants.js';
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
-import { User } from '../../../../../lib/domain/models/User.js';
 import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
@@ -9,6 +8,7 @@ import { authenticateUser } from '../../../../../src/authentication/domain/useca
 import { PIX_ADMIN, PIX_ORGA } from '../../../../../src/authorization/domain/constants.js';
 import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
+import { User } from '../../../../../src/shared/domain/models/User.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Authentication | Domain | UseCases | authenticate-user', function () {

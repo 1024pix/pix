@@ -3,8 +3,8 @@ import {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
 } from '../../../../lib/domain/errors.js';
-import { User } from '../../../../lib/domain/models/User.js';
 import { updateUserDetailsForAdministration } from '../../../../lib/domain/usecases/update-user-details-for-administration.js';
+import { User } from '../../../../src/shared/domain/models/User.js';
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | update-user-details-for-administration', function () {

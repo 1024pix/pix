@@ -1,5 +1,5 @@
-import { User } from '../../../../../lib/domain/models/User.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
+import { User } from '../../../../../src/shared/domain/models/User.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | user-for-adminserializer', function () {

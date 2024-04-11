@@ -911,28 +911,6 @@ const register = async function (server) {
 
     {
       method: 'POST',
-      path: '/api/users',
-      config: {
-        auth: false,
-        validate: {
-          payload: Joi.object({
-            data: Joi.object({
-              type: Joi.string(),
-              attributes: Joi.object().required(),
-              relationships: Joi.object(),
-            }).required(),
-            meta: Joi.object(),
-          }).required(),
-          options: {
-            allowUnknown: true,
-          },
-        },
-        handler: userController.save,
-        tags: ['api'],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/users/{id}/update-email',
       config: {
         pre: [

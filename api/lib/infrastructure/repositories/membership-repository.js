@@ -1,8 +1,8 @@
 import { knex } from '../../../db/knex-database-connection.js';
+import { User } from '../../../src/shared/domain/models/User.js';
 import { MembershipCreationError, MembershipUpdateError, NotFoundError } from '../../domain/errors.js';
 import { Membership } from '../../domain/models/Membership.js';
 import { Organization } from '../../domain/models/Organization.js';
-import { User } from '../../domain/models/User.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { BookshelfMembership } from '../orm-models/Membership.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';

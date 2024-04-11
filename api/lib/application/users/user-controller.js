@@ -3,9 +3,9 @@ import * as trainingSerializer from '../../../src/devcomp/infrastructure/seriali
 import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
 import * as scorecardSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/scorecard-serializer.js';
 import * as campaignParticipationSerializer from '../../../src/prescription/campaign-participation/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
+import * as userSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/user-serializer.js';
 import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { eventBus } from '../../domain/events/index.js';
-import * as localeService from '../../domain/services/locale-service.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as authenticationMethodsSerializer from '../../infrastructure/serializers/jsonapi/authentication-methods-serializer.js';
@@ -23,30 +23,8 @@ import * as userDetailsForAdminSerializer from '../../infrastructure/serializers
 import * as userForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
 import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
 import * as userOrganizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
-import * as userSerializer from '../../infrastructure/serializers/jsonapi/user-serializer.js';
 import * as userWithActivitySerializer from '../../infrastructure/serializers/jsonapi/user-with-activity-serializer.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
-
-const save = async function (request, h, dependencies = { userSerializer, requestResponseUtils, localeService }) {
-  const localeFromCookie = request.state?.locale;
-  const canonicalLocaleFromCookie = localeFromCookie
-    ? dependencies.localeService.getCanonicalLocale(localeFromCookie)
-    : undefined;
-  const campaignCode = request.payload.meta ? request.payload.meta['campaign-code'] : null;
-  const user = { ...dependencies.userSerializer.deserialize(request.payload), locale: canonicalLocaleFromCookie };
-  const localeFromHeader = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
-
-  const password = request.payload.data.attributes.password;
-
-  const savedUser = await usecases.createUser({
-    user,
-    password,
-    campaignCode,
-    localeFromHeader,
-  });
-
-  return h.response(dependencies.userSerializer.serialize(savedUser)).created();
-};
 
 const getCurrentUser = function (request, h, dependencies = { userWithActivitySerializer }) {
   const authenticatedUserId = request.auth.credentials.userId;
@@ -459,42 +437,41 @@ const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
 };
 
 const userController = {
-  save,
-  getCurrentUser,
-  getUserDetailsForAdmin,
-  updatePassword,
-  updateUserDetailsForAdministration,
-  acceptPixLastTermsOfService,
-  changeLang,
-  acceptPixOrgaTermsOfService,
   acceptPixCertifTermsOfService,
-  rememberUserHasSeenAssessmentInstructions,
-  rememberUserHasSeenNewDashboardInfo,
-  rememberUserHasSeenLevelSevenInfo,
-  rememberUserHasSeenChallengeTooltip,
+  acceptPixLastTermsOfService,
+  acceptPixOrgaTermsOfService,
+  addPixAuthenticationMethodByEmail,
+  anonymizeUser,
+  changeLang,
+  findCampaignParticipationsForUserManagement,
+  findCertificationCenterMembershipsByUser,
   findPaginatedFilteredUsers,
   findPaginatedUserRecommendedTrainings,
-  getCampaignParticipations,
+  findUserOrganizationsForAdmin,
   getCampaignParticipationOverviews,
-  isCertifiable,
+  getCampaignParticipations,
+  getCurrentUser,
   getProfile,
   getProfileForAdmin,
-  resetScorecard,
-  getUserCampaignParticipationToCampaign,
-  getUserProfileSharedForCampaign,
-  getUserCampaignAssessmentResult,
-  anonymizeUser,
-  unblockUserAccount,
-  removeAuthenticationMethod,
-  sendVerificationCode,
-  updateUserEmailWithValidation,
   getUserAuthenticationMethods,
-  addPixAuthenticationMethodByEmail,
+  getUserCampaignAssessmentResult,
+  getUserCampaignParticipationToCampaign,
+  getUserDetailsForAdmin,
+  getUserProfileSharedForCampaign,
+  isCertifiable,
   reassignAuthenticationMethods,
-  findCampaignParticipationsForUserManagement,
-  findUserOrganizationsForAdmin,
-  findCertificationCenterMembershipsByUser,
+  rememberUserHasSeenAssessmentInstructions,
+  rememberUserHasSeenChallengeTooltip,
   rememberUserHasSeenLastDataProtectionPolicyInformation,
+  rememberUserHasSeenLevelSevenInfo,
+  rememberUserHasSeenNewDashboardInfo,
+  removeAuthenticationMethod,
+  resetScorecard,
+  sendVerificationCode,
+  unblockUserAccount,
+  updatePassword,
+  updateUserDetailsForAdministration,
+  updateUserEmailWithValidation,
 };
 
 export { userController };

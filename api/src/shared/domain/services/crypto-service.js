@@ -86,4 +86,14 @@ const decrypt = async function (phcText) {
   return decrypted.toString();
 };
 
+/**
+ * @typedef {Object} CryptoService
+ * @property {function} checkPassword
+ * @property {function} decrypt
+ * @property {function} encrypt
+ * @property {function} hashPassword
+ * @property {function} hashPasswordSync
+ * @property {RegExp} phcRegexp
+ */
+
 export { checkPassword, decrypt, encrypt, hashPassword, hashPasswordSync, phcRegexp };

@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { EntityValidationError } from '../../../src/shared/domain/errors.js';
+import { EntityValidationError } from '../errors.js';
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
@@ -48,6 +48,11 @@ const userValidationJoiSchema = Joi.object({
     'object.missing': 'FILL_USERNAME_OR_EMAIL',
   });
 
+/**
+ * @param user
+ * @param cguRequired
+ * @return {boolean}
+ */
 const validate = function ({ user, cguRequired = true }) {
   const { error } = userValidationJoiSchema.validate(user, { ...validationConfiguration, context: { cguRequired } });
   if (error) {
@@ -55,5 +60,10 @@ const validate = function ({ user, cguRequired = true }) {
   }
   return true;
 };
+
+/**
+ * @typedef {Object} UserValidator
+ * @property {function} validate
+ */
 
 export { validate };

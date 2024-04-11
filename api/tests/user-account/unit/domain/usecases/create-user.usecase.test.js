@@ -1,10 +1,10 @@
-import { AlreadyRegisteredEmailError } from '../../../../lib/domain/errors.js';
-import { User } from '../../../../lib/domain/models/User.js';
-import { createUser } from '../../../../lib/domain/usecases/create-user.js';
-import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
-import { catchErr, expect, sinon } from '../../../test-helper.js';
+import { AlreadyRegisteredEmailError } from '../../../../../lib/domain/errors.js';
+import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
+import { User } from '../../../../../src/shared/domain/models/User.js';
+import { createUser } from '../../../../../src/user-account/domain/usecases/create-user.usecase.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | create-user', function () {
+describe('Unit | User-Account | Domain | UseCase | create-user', function () {
   const userId = 123;
   const userEmail = 'test@example.net';
   const password = 'Password123';

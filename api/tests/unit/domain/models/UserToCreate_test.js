@@ -57,7 +57,7 @@ describe('Unit | Domain | Models | UserToCreate', function () {
     it('creates a user', function () {
       // given
       const now = new Date('2022-04-01');
-      const clock = sinon.useFakeTimers({ now });
+      const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       // when
       const user = UserToCreate.create({ email: '  anneMAIL@example.net ', locale: 'fr-FR' });
@@ -75,7 +75,7 @@ describe('Unit | Domain | Models | UserToCreate', function () {
     it('should create a user from pole emploi', function () {
       // given
       const now = new Date('2022-04-01');
-      const clock = sinon.useFakeTimers({ now });
+      const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       // when
       const user = UserToCreate.createWithTermsOfServiceAccepted({ email: '  anneMAIL@example.net ' });
@@ -93,7 +93,7 @@ describe('Unit | Domain | Models | UserToCreate', function () {
     it('should create an anonymous user', function () {
       // given
       const now = new Date('2022-04-01');
-      const clock = sinon.useFakeTimers({ now });
+      const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       // when
       const user = UserToCreate.createAnonymous({ email: '  anneMAIL@example.net ' });

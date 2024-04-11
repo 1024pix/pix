@@ -1,7 +1,7 @@
-import { User } from '../../../../lib/domain/models/User.js';
-import * as userValidator from '../../../../lib/domain/validators/user-validator.js';
-import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
-import { catchErr, expect } from '../../../test-helper.js';
+import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
+import { User } from '../../../../../src/shared/domain/models/User.js';
+import * as userValidator from '../../../../../src/shared/domain/validators/user-validator.js';
+import { catchErr, expect } from '../../../../test-helper.js';
 
 const MISSING_VALUE = '';
 
@@ -11,7 +11,7 @@ function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedErro
   expect(entityValidationErrors.invalidAttributes[0]).to.deep.equal(expectedError);
 }
 
-describe('Unit | Domain | Validators | user-validator', function () {
+describe('Unit | Shared | Domain | Validator | user-validator', function () {
   let user;
 
   describe('#validate', function () {

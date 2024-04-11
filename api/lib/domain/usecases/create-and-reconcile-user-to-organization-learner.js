@@ -2,6 +2,7 @@ import lodash from 'lodash';
 const { isNil } = lodash;
 
 import { EntityValidationError } from '../../../src/shared/domain/errors.js';
+import { User } from '../../../src/shared/domain/models/User.js';
 import { getCampaignUrl } from '../../infrastructure/utils/url-builder.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import {
@@ -10,7 +11,6 @@ import {
   CampaignCodeError,
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../errors.js';
-import { User } from '../models/User.js';
 
 const createAndReconcileUserToOrganizationLearner = async function ({
   campaignCode,

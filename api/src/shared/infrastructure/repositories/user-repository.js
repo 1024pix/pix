@@ -12,13 +12,13 @@ import { CertificationCenter } from '../../../../lib/domain/models/Certification
 import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { Organization } from '../../../../lib/domain/models/Organization.js';
-import { User } from '../../../../lib/domain/models/User.js';
 import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
 import { fetchPage, isUniqConstraintViolated } from '../../../../lib/infrastructure/utils/knex-utils.js';
 import { UserLogin } from '../../../authentication/domain/models/UserLogin.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
+import { User } from '../../domain/models/User.js';
 
 const getByEmail = async function (email) {
   const foundUser = await knex.from('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
@@ -394,6 +394,40 @@ const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
 
   return new User(user);
 };
+
+/**
+ * @typedef {Object} UserRepository
+ * @property {function} acceptPixLastTermsOfService
+ * @property {function} checkIfEmailIsAvailable
+ * @property {function} findAnotherUserByEmail
+ * @property {function} findAnotherUserByUsername
+ * @property {function} findByExternalIdentifier
+ * @property {function} findPaginatedFiltered
+ * @property {function} get
+ * @property {function} getByEmail
+ * @property {function} getByIds
+ * @property {function} getBySamlId
+ * @property {function} getByUsernameOrEmailWithRolesAndPassword
+ * @property {function} getForObfuscation
+ * @property {function} getFullById
+ * @property {function} getUserDetailsForAdmin
+ * @property {function} getWithCertificationCenterMemberships
+ * @property {function} getWithMemberships
+ * @property {function} isUserExistingByEmail
+ * @property {function} isUsernameAvailable
+ * @property {function} update
+ * @property {function} updateEmail
+ * @property {function} updateHasSeenAssessmentInstructionsToTrue
+ * @property {function} updateHasSeenChallengeTooltip
+ * @property {function} updateHasSeenLevelSevenInfoToTrue
+ * @property {function} updateHasSeenNewDashboardInfoToTrue
+ * @property {function} updateLastDataProtectionPolicySeenAt
+ * @property {function} updatePixCertifTermsOfServiceAcceptedToTrue
+ * @property {function} updatePixOrgaTermsOfServiceAcceptedToTrue
+ * @property {function} updateUserDetailsForAdministration
+ * @property {function} updateUsername
+ * @property {function} updateWithEmailConfirmed
+ */
 
 export {
   acceptPixLastTermsOfService,

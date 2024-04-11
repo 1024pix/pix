@@ -35,6 +35,7 @@ import { prescriberManagementRoutes } from './src/shared/prescriber-management/r
 // bounded context migration
 import { sharedRoutes } from './src/shared/routes.js';
 import { teamRoutes } from './src/team/application/routes.js';
+import { userAccountRoutes } from './src/user-account/application/routes.js';
 
 const certificationRoutes = [
   certificationSessionRoutes,
@@ -146,6 +147,7 @@ const setupRoutesAndPlugins = async function (server) {
     routes,
     authenticationRoutes,
     organizationalEntitiesRoutes,
+    userAccountRoutes,
     sharedRoutes,
     evaluationRoutes,
     flashCertificationRoutes,

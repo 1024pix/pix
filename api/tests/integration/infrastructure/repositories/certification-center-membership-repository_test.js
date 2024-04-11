@@ -11,9 +11,9 @@ import {
   CERTIFICATION_CENTER_MEMBERSHIP_ROLES,
   CertificationCenterMembership,
 } from '../../../../lib/domain/models/CertificationCenterMembership.js';
-import { User } from '../../../../lib/domain/models/User.js';
 import { BookshelfCertificationCenterMembership } from '../../../../lib/infrastructure/orm-models/CertificationCenterMembership.js';
 import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
+import { User } from '../../../../src/shared/domain/models/User.js';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | Certification Center Membership', function () {

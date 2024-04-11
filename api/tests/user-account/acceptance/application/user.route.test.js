@@ -5,14 +5,14 @@ import { createServer, domainBuilder, expect, nock } from '../../../test-helper.
 
 const { pick } = lodash;
 
-describe('Acceptance | Controller | users-controller', function () {
+describe('Acceptance | User-Account | Application | Route | User', function () {
   let server;
 
   beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('save', function () {
+  describe('POST /api/users', function () {
     const options = {
       method: 'POST',
       url: '/api/users',

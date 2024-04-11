@@ -1,6 +1,6 @@
-import { User } from '../../../../../lib/domain/models/User.js';
 import { UserWithActivity } from '../../../../../lib/domain/read-models/UserWithActivity.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-with-activity-serializer.js';
+import { User } from '../../../../../src/shared/domain/models/User.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | user-with-activity-serializer', function () {

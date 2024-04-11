@@ -1,12 +1,12 @@
 import _ from 'lodash';
 
-import { knex } from '../../../db/knex-database-connection.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
-import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
-import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../domain/errors.js';
-import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
-import { DomainTransaction } from '../DomainTransaction.js';
-import * as knexUtils from '../utils/knex-utils.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../../lib/domain/errors.js';
+import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as knexUtils from '../../../../lib/infrastructure/utils/knex-utils.js';
 
 const AUTHENTICATION_METHODS_TABLE = 'authentication-methods';
 const COLUMNS = Object.freeze([
@@ -269,6 +269,46 @@ const batchUpdatePasswordThatShouldBeChanged = function ({
   );
 };
 
+/**
+ * @typedef {Object} AuthenticationMethodRepository
+ * @property {function} batchUpdatePasswordThatShouldBeChanged
+ * @property {function} create
+ * @property {function} createPasswordThatShouldBeChanged
+ * @property {function} findByUserId
+ * @property {function} findOneByExternalIdentifierAndIdentityProvider
+ * @property {function} findOneByUserIdAndIdentityProvider
+ * @property {function} getByIdAndUserId
+ * @property {function} hasIdentityProviderPIX
+ * @property {function} removeAllAuthenticationMethodsByUserId
+ * @property {function} removeByUserIdAndIdentityProvider
+ * @property {function} update
+ * @property {function} updateAuthenticationComplementByUserIdAndIdentityProvider
+ * @property {function} updateAuthenticationMethodUserId
+ * @property {function} updateChangedPassword
+ * @property {function} updateExpiredPassword
+ * @property {function} updateExternalIdentifierByUserIdAndIdentityProvider
+ * @property {function} updatePasswordThatShouldBeChanged
+ */
+export {
+  batchUpdatePasswordThatShouldBeChanged,
+  create,
+  createPasswordThatShouldBeChanged,
+  findByUserId,
+  findOneByExternalIdentifierAndIdentityProvider,
+  findOneByUserIdAndIdentityProvider,
+  getByIdAndUserId,
+  hasIdentityProviderPIX,
+  removeAllAuthenticationMethodsByUserId,
+  removeByUserIdAndIdentityProvider,
+  update,
+  updateAuthenticationComplementByUserIdAndIdentityProvider,
+  updateAuthenticationMethodUserId,
+  updateChangedPassword,
+  updateExpiredPassword,
+  updateExternalIdentifierByUserIdAndIdentityProvider,
+  updatePasswordThatShouldBeChanged,
+};
+
 function _toDomain(authenticationMethodDTO) {
   if (authenticationMethodDTO.identityProvider === NON_OIDC_IDENTITY_PROVIDERS.PIX.code) {
     authenticationMethodDTO.externalIdentifier = undefined;
@@ -304,23 +344,3 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
 
   return undefined;
 }
-
-export {
-  batchUpdatePasswordThatShouldBeChanged,
-  create,
-  createPasswordThatShouldBeChanged,
-  findByUserId,
-  findOneByExternalIdentifierAndIdentityProvider,
-  findOneByUserIdAndIdentityProvider,
-  getByIdAndUserId,
-  hasIdentityProviderPIX,
-  removeAllAuthenticationMethodsByUserId,
-  removeByUserIdAndIdentityProvider,
-  update,
-  updateAuthenticationComplementByUserIdAndIdentityProvider,
-  updateAuthenticationMethodUserId,
-  updateChangedPassword,
-  updateExpiredPassword,
-  updateExternalIdentifierByUserIdAndIdentityProvider,
-  updatePasswordThatShouldBeChanged,
-};

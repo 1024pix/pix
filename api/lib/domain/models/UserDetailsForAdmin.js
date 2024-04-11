@@ -1,4 +1,4 @@
-import * as localeService from '../services/locale-service.js';
+import * as localeService from '../../../src/shared/domain/services/locale-service.js';
 
 class UserDetailsForAdmin {
   constructor(

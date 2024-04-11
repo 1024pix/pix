@@ -5,7 +5,7 @@ import { config } from '../../config.js';
 
 const { passwordValidationPattern } = config.account;
 
-import { EntityValidationError } from '../../../src/shared/domain/errors.js';
+import { EntityValidationError } from '../errors.js';
 
 const pattern = XRegExp(passwordValidationPattern);
 
@@ -19,6 +19,10 @@ const passwordValidationJoiSchema = Joi.object({
   }),
 });
 
+/**
+ * @param password
+ * @return {boolean}
+ */
 const validate = function (password) {
   const { error } = passwordValidationJoiSchema.validate({ password });
   if (error) {
@@ -26,5 +30,10 @@ const validate = function (password) {
   }
   return true;
 };
+
+/**
+ * @typedef {Object} PasswordValidator
+ * @property {function} validate
+ */
 
 export { validate };

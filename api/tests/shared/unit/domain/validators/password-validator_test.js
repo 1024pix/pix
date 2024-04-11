@@ -1,6 +1,6 @@
-import * as passwordValidator from '../../../../lib/domain/validators/password-validator.js';
-import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
-import { catchErr, expect } from '../../../test-helper.js';
+import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
+import * as passwordValidator from '../../../../../src/shared/domain/validators/password-validator.js';
+import { catchErr, expect } from '../../../../test-helper.js';
 
 function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError) {
   expect(entityValidationErrors).to.be.instanceOf(EntityValidationError);
@@ -8,7 +8,7 @@ function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedErro
   expect(entityValidationErrors.invalidAttributes[0]).to.deep.equal(expectedError);
 }
 
-describe('Unit | Domain | Validators | password-validator', function () {
+describe('Unit | Shared | Domain | Validator | password-validator', function () {
   let password;
 
   describe('#validate', function () {
