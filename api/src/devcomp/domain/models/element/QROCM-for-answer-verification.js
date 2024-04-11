@@ -8,7 +8,6 @@ import { ValidatorQROCMInd } from '../validator/ValidatorQROCMInd.js';
 import { QROCM } from './QROCM.js';
 
 class QROCMForAnswerVerification extends QROCM {
-  #solution;
   userResponse;
 
   constructor({ id, instruction, feedbacks, proposals, locales, validator }) {
@@ -18,17 +17,15 @@ class QROCMForAnswerVerification extends QROCM {
 
     this.feedbacks = feedbacks;
 
-    this.#solution = new QrocmSolutions(proposals);
-    this.solutionValues = this.#solution.value;
-    this.solutionTolerances = this.#solution.tolerances;
+    this.solution = new QrocmSolutions(proposals);
 
     if (validator) {
       this.validator = validator;
     } else {
       this.validator = new ValidatorQROCMInd({
         solution: {
-          value: this.solutionValues,
-          enabledTolerances: this.solutionTolerances,
+          value: this.solution.value,
+          enabledTolerances: this.solution.tolerances,
         },
       });
     }
@@ -50,7 +47,7 @@ class QROCMForAnswerVerification extends QROCM {
     return new QrocmCorrectionResponse({
       status: validation.result,
       feedback: validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid,
-      solution: this.solutionValues,
+      solution: this.solution.value,
     });
   }
 
