@@ -13,6 +13,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification'
       const proposal2 = Symbol('proposal2');
       const feedbacks = { valid: 'valid', invalid: 'invalid' };
       const solutions = Symbol('solutions');
+      const expectedSolution = { value: solutions };
 
       // When
       const qcm = new QCMForAnswerVerification({
@@ -29,7 +30,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcmForAnswerVerification'
       expect(qcm.instruction).equal('instruction');
       expect(qcm.locales).deep.equal(['fr-FR']);
       expect(qcm.proposals).deep.equal([proposal1, proposal2]);
-      expect(qcm.solutionsValue).deep.equal(solutions);
+      expect(qcm.solution).deep.equal(expectedSolution);
       expect(qcm.feedbacks).to.be.instanceof(Feedbacks);
       expect(qcm.type).to.be.equal('qcm');
       expect(qcm.validator).to.be.instanceof(ValidatorQCM);
