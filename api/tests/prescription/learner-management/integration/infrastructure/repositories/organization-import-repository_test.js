@@ -1,8 +1,9 @@
 import { IMPORT_STATUSES } from '../../../../../../src/prescription/learner-management/domain/constants.js';
 import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import * as organizationImportRepository from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-import-repository.js';
+import { ApplicationTransaction } from '../../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
 import { DomainTransaction } from '../../../../../../src/shared/domain/DomainTransaction.js';
-import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Integration | Repository | Organization Learner Management | Organization Import', function () {
   describe('#save', function () {
@@ -83,6 +84,25 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       const savedImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
       expect(savedImport).to.be.null;
     });
+
+    it('should use ApplicationTransaction', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      const organizationImport = OrganizationImport.create({ organizationId, createdBy: userId });
+      organizationImport.upload({ filename: 'test.csv', encoding: 'utf8' });
+      try {
+        await ApplicationTransaction.execute(async () => {
+          await organizationImportRepository.save(organizationImport);
+          throw new Error();
+        });
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
+
+      const savedImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
+      expect(savedImport).to.be.null;
+    });
   });
 
   describe('#get', function () {
@@ -99,6 +119,19 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       const result = await organizationImportRepository.get(1);
 
       expect(result).to.equal(null);
+    });
+
+    it('should use transaction', async function () {
+      const expectedResult = databaseBuilder.factory.buildOrganizationImport();
+      await databaseBuilder.commit();
+
+      const originalImp = ApplicationTransaction.getConnection;
+      sinon.stub(ApplicationTransaction, 'getConnection');
+      ApplicationTransaction.getConnection.callsFake(originalImp);
+
+      await organizationImportRepository.get(expectedResult.organizationId);
+
+      expect(ApplicationTransaction.getConnection).to.have.been.called;
     });
   });
 
@@ -130,6 +163,19 @@ describe('Integration | Repository | Organization Learner Management | Organizat
       const result = await organizationImportRepository.getLastByOrganizationId(1);
 
       expect(result).to.equal(null);
+    });
+
+    it('should use transaction', async function () {
+      const expectedResult = databaseBuilder.factory.buildOrganizationImport();
+      await databaseBuilder.commit();
+
+      const originalImp = ApplicationTransaction.getConnection;
+      sinon.stub(ApplicationTransaction, 'getConnection');
+      ApplicationTransaction.getConnection.callsFake(originalImp);
+
+      await organizationImportRepository.getLastByOrganizationId(expectedResult.organizationId);
+
+      expect(ApplicationTransaction.getConnection).to.have.been.called;
     });
   });
 
