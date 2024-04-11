@@ -40,10 +40,34 @@ class ImportOrganizationLearnerSet {
         ),
       );
     }
+
+    this.#hasRequiredProperties();
+
     if (this.#errors.length > 0) {
       throw this.#errors;
     }
   }
+
+  #hasRequiredProperties() {
+    const definedProperties = this.#columnMapping.map((header) => header.property);
+    if (!definedProperties.includes('firstName')) {
+      this.#errors.push(
+        new ImportLearnerConfigurationError(
+          `Missing firstName configuration`,
+          VALIDATION_ERRORS.FIRSTNAME_PROPERTY_REQUIRED,
+        ),
+      );
+    }
+    if (!definedProperties.includes('lastName')) {
+      this.#errors.push(
+        new ImportLearnerConfigurationError(
+          `Missing lastName configuration`,
+          VALIDATION_ERRORS.LASTNAME_PROPERTY_REQUIRED,
+        ),
+      );
+    }
+  }
+
   #lineToOrganizationLearnerAttributes(learner) {
     const learnerAttributes = {
       organizationId: this.#organizationId,
