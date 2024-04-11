@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v4.129.0 (11/04/2024)
+
+
+### :rocket: Amélioration
+- [#8586](https://github.com/1024pix/pix/pull/8586) [FEATURE] Informer le candidat si sa langue n'est pas disponible en certif V3 (PIX-11280).
+- [#8516](https://github.com/1024pix/pix/pull/8516) [FEATURE] Modifs mineures de contenu des modules en production.
+- [#8603](https://github.com/1024pix/pix/pull/8603) [FEATURE] ajout du endpoint pour l'import générique `ONDE` (Pix-11612).
+
+### :building_construction: Tech
+- [#8567](https://github.com/1024pix/pix/pull/8567) [TECH] Nettoyage des tests Pix Certif avec testing library (PIX-11715).
+- [#8583](https://github.com/1024pix/pix/pull/8583) [TECH] Migrer la création d'un compte Pix dans le dossier src (PIX-11940).
+- [#8611](https://github.com/1024pix/pix/pull/8611) [TECH] Modifier le design du message d'erreur de la page de connexion à la certif (PIX-11988).
+- [#8616](https://github.com/1024pix/pix/pull/8616) [TECH] Rendre la règle de l'unicité obligatoire (Pix-11908).
+- [#8624](https://github.com/1024pix/pix/pull/8624) [TECH] Supprimer des fichiers inutilisés sur Pix Certif (PIX-11999).
+- [#8621](https://github.com/1024pix/pix/pull/8621) [TECH] Corrige la configuration du linter pour les fichiers GJS (PIX-12008).
+
+### :bug: Correction
+- [#8622](https://github.com/1024pix/pix/pull/8622) [BUGFIX] Remettre la capacité dans le rendu des simulateurs de déroulé V3 (PIX-12007).
+
 ## v4.128.0 (10/04/2024)
 
 
