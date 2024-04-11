@@ -25,7 +25,7 @@ import { ImportOrganizationLearnersJob } from './src/prescription/learner-manage
 import { ImportOrganizationLearnersJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJobHandler.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
 
-async function runJobs() {
+async function startPgBoss() {
   logger.info('Starting pg-boss');
   const monitorStateIntervalSeconds = config.pgBoss.monitorStateIntervalSeconds;
   const pgBoss = new PgBoss({
@@ -47,6 +47,10 @@ async function runJobs() {
     logger.info({ event: 'pg-boss-wip' }, data);
   });
   await pgBoss.start();
+  return pgBoss;
+}
+
+function createMonitoredJobQueue(pgBoss) {
   const jobQueue = new JobQueue(pgBoss);
   const monitoredJobQueue = new MonitoredJobQueue(jobQueue);
   process.on('SIGINT', async () => {
@@ -54,6 +58,12 @@ async function runJobs() {
     // eslint-disable-next-line n/no-process-exit
     process.exit(0);
   });
+  return monitoredJobQueue;
+}
+
+export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQueue, scheduleCpfJobs }) {
+  const pgBoss = await dependencies.startPgBoss();
+  const monitoredJobQueue = dependencies.createMonitoredJobQueue(pgBoss);
 
   monitoredJobQueue.performJob(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,
@@ -81,19 +91,22 @@ async function runJobs() {
     null,
     { tz: 'Europe/Paris' },
   );
-  await scheduleCpfJobs(pgBoss);
+  await dependencies.scheduleCpfJobs(pgBoss);
 }
 
 const startInWebProcess = process.env.START_JOB_IN_WEB_PROCESS;
+const isTestEnv = process.env.NODE_ENV === 'test';
 const modulePath = url.fileURLToPath(import.meta.url);
 const isEntryPointFromOtherFile = process.argv[1] !== modulePath;
 
-if (!startInWebProcess || (startInWebProcess && isEntryPointFromOtherFile)) {
-  runJobs();
-} else {
-  logger.error(
-    'Worker process is started in the web process. Please unset the START_JOB_IN_WEB_PROCESS environment variable to start a dedicated worker process.',
-  );
-  // eslint-disable-next-line n/no-process-exit
-  process.exit(1);
+if (!isTestEnv) {
+  if (!startInWebProcess || (startInWebProcess && isEntryPointFromOtherFile)) {
+    await runJobs();
+  } else {
+    logger.error(
+      'Worker process is started in the web process. Please unset the START_JOB_IN_WEB_PROCESS environment variable to start a dedicated worker process.',
+    );
+    // eslint-disable-next-line n/no-process-exit
+    process.exit(1);
+  }
 }
