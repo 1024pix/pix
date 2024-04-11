@@ -93,47 +93,49 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
   });
 
   describe('#getRedirectLogoutUrl', function () {
-    context('when identity provider is POLE_EMPLOI', function () {
-      it('should call pole emploi authentication service to generate the redirect logout url', async function () {
-        // given
-        const request = {
-          auth: { credentials: { userId: '123' } },
-          query: {
-            identity_provider: identityProvider,
-            redirect_uri: 'http://example.net/',
-            logout_url_uuid: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
-          },
-        };
-        const oidcAuthenticationService = {
-          getRedirectLogoutUrl: sinon.stub(),
-        };
+    it('calls the oidc authentication service retrieved from his code to generate the redirect logout url', async function () {
+      // given
+      const request = {
+        auth: { credentials: { userId: '123' } },
+        query: {
+          identity_provider: identityProvider,
+          redirect_uri: 'http://example.net/',
+          logout_url_uuid: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
+        },
+      };
+      const oidcAuthenticationService = {
+        getRedirectLogoutUrl: sinon.stub(),
+      };
 
-        const oidcAuthenticationServiceRegistryStub = {
-          getOidcProviderServiceByCode: sinon.stub(),
-        };
+      const oidcAuthenticationServiceRegistryStub = {
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+        getOidcProviderServiceByCode: sinon.stub(),
+      };
 
-        oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
-          .withArgs({ identityProviderCode: identityProvider })
-          .returns(oidcAuthenticationService);
+      oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
+        .withArgs({ identityProviderCode: identityProvider })
+        .returns(oidcAuthenticationService);
 
-        const dependencies = {
-          oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
-        };
+      const dependencies = {
+        oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
+      };
 
-        // when
-        await oidcController.getRedirectLogoutUrl(request, hFake, dependencies);
+      // when
+      await oidcController.getRedirectLogoutUrl(request, hFake, dependencies);
 
-        // then
-        expect(oidcAuthenticationService.getRedirectLogoutUrl).to.have.been.calledWithExactly({
-          userId: '123',
-          logoutUrlUUID: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
-        });
+      // then
+      expect(
+        oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
+      ).to.have.been.calledWithExactly(identityProvider);
+      expect(oidcAuthenticationService.getRedirectLogoutUrl).to.have.been.calledWithExactly({
+        userId: '123',
+        logoutUrlUUID: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
       });
     });
   });
 
   describe('#getAuthorizationUrl', function () {
-    it('should call oidc authentication service to generate url', async function () {
+    it('calls oidc authentication service to generate url', async function () {
       // given
       const request = {
         query: { identity_provider: identityProvider, redirect_uri: 'http:/exemple.net/' },
@@ -143,6 +145,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         getAuthorizationUrl: sinon.stub(),
       };
       const oidcAuthenticationServiceRegistryStub = {
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
         getOidcProviderServiceByCode: sinon.stub(),
       };
 
@@ -159,6 +162,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       await oidcController.getAuthorizationUrl(request, hFake, dependencies);
 
       //then
+      expect(
+        oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
+      ).to.have.been.calledWithExactly(identityProvider);
       expect(oidcAuthenticationService.getAuthorizationUrl).to.have.been.called;
       expect(request.yar.set).to.have.been.calledTwice;
       expect(request.yar.commit).to.have.been.calledOnce;
@@ -176,23 +182,23 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           yar: { set: sinon.stub(), commit: sinon.stub() },
         };
         const oidcAuthenticationService = {
-          getAuthorizationUrl: sinon.stub(),
+          getAuthorizationUrl: sinon.stub().returns('an authentication url'),
         };
         const oidcAuthenticationServiceRegistryStub = {
-          getOidcProviderServiceByCode: sinon.stub(),
+          configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+          getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
         };
-
-        oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode.returns(oidcAuthenticationService);
-
         const dependencies = {
           oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
         };
-        oidcAuthenticationService.getAuthorizationUrl.returns('an authentication url');
 
         // when
         await oidcController.getAuthorizationUrl(request, hFake, dependencies);
 
         // then
+        expect(
+          oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
+        ).to.have.been.calledWithExactly(identityProvider);
         expect(oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode).to.have.been.calledWith({
           identityProviderCode: identityProvider,
           audience: PIX_ADMIN.AUDIENCE,
@@ -227,10 +233,11 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       sinon.stub(usecases, 'authenticateOidcUser');
     });
 
-    it('should authenticate the user with payload parameters', async function () {
+    it('authenticates the user with payload parameters', async function () {
       // given
       const oidcAuthenticationService = {};
       const oidcAuthenticationServiceRegistryStub = {
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
         getOidcProviderServiceByCode: sinon.stub(),
       };
 
@@ -255,6 +262,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       await oidcController.authenticateUser(request, hFake, dependencies);
 
       // then
+      expect(
+        oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
+      ).to.have.been.calledWithExactly(identityProvider);
       expect(usecases.authenticateOidcUser).to.have.been.calledWithExactly({
         audience: undefined,
         code,
@@ -279,6 +289,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         };
         const oidcAuthenticationService = {};
         const oidcAuthenticationServiceRegistryStub = {
+          configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
           getOidcProviderServiceByCode: sinon.stub(),
         };
 
@@ -303,6 +314,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         await oidcController.authenticateUser(request, hFake, dependencies);
 
         // then
+        expect(
+          oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
+        ).to.have.been.calledWithExactly(identityProvider);
         expect(oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode).to.have.been.calledWithExactly({
           identityProviderCode: identityProvider,
           audience: PIX_ADMIN.AUDIENCE,
@@ -325,70 +339,82 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       });
     });
 
-    it('should return PIX access token and logout url uuid when authentication is complete', async function () {
-      // given
-      const oidcAuthenticationService = {};
-      const oidcAuthenticationServiceRegistryStub = {
-        getOidcProviderServiceByCode: sinon.stub(),
-      };
+    context('when authentication is complete', function () {
+      it('returns PIX access token and logout url uuid', async function () {
+        // given
+        const oidcAuthenticationService = {};
+        const oidcAuthenticationServiceRegistryStub = {
+          configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+          getOidcProviderServiceByCode: sinon.stub(),
+        };
 
-      oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
-        .withArgs({ identityProviderCode: identityProvider })
-        .returns(oidcAuthenticationService);
+        oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
+          .withArgs({ identityProviderCode: identityProvider })
+          .returns(oidcAuthenticationService);
 
-      const dependencies = {
-        oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
-      };
-      usecases.authenticateOidcUser.resolves({
-        pixAccessToken,
-        logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
-        isAuthenticationComplete: true,
+        const dependencies = {
+          oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
+        };
+        usecases.authenticateOidcUser.resolves({
+          pixAccessToken,
+          logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
+          isAuthenticationComplete: true,
+        });
+
+        // when
+        const response = await oidcController.authenticateUser(request, hFake, dependencies);
+
+        // then
+        expect(
+          oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
+        ).to.have.been.calledWithExactly(identityProvider);
+        const expectedResult = {
+          access_token: pixAccessToken,
+          logout_url_uuid: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
+        };
+        expect(response.source).to.deep.equal(expectedResult);
       });
-
-      // when
-      const response = await oidcController.authenticateUser(request, hFake, dependencies);
-
-      // then
-      const expectedResult = {
-        access_token: pixAccessToken,
-        logout_url_uuid: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
-      };
-      expect(response.source).to.deep.equal(expectedResult);
     });
 
-    it('should return UnauthorizedError if pix access token does not exist', async function () {
-      // given
-      const oidcAuthenticationService = {};
-      const oidcAuthenticationServiceRegistryStub = {
-        getOidcProviderServiceByCode: sinon.stub(),
-      };
+    context('when pix access token does not exist', function () {
+      it('returns UnauthorizedError', async function () {
+        // given
+        const oidcAuthenticationService = {};
+        const oidcAuthenticationServiceRegistryStub = {
+          configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+          getOidcProviderServiceByCode: sinon.stub(),
+        };
 
-      oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
-        .withArgs({ identityProviderCode: identityProvider })
-        .returns(oidcAuthenticationService);
+        oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
+          .withArgs({ identityProviderCode: identityProvider })
+          .returns(oidcAuthenticationService);
 
-      const dependencies = {
-        oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
-      };
-      const authenticationKey = 'aaa-bbb-ccc';
-      const givenName = 'Mélusine';
-      const familyName = 'TITEGOUTTE';
-      const email = 'melu@example.net';
-      usecases.authenticateOidcUser.resolves({ authenticationKey, givenName, familyName, email });
+        const dependencies = {
+          oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
+        };
+        const authenticationKey = 'aaa-bbb-ccc';
+        const givenName = 'Mélusine';
+        const familyName = 'TITEGOUTTE';
+        const email = 'melu@example.net';
+        usecases.authenticateOidcUser.resolves({ authenticationKey, givenName, familyName, email });
 
-      // when
-      const error = await catchErr(oidcController.authenticateUser)(request, hFake, dependencies);
+        // when
+        const error = await catchErr(oidcController.authenticateUser)(request, hFake, dependencies);
 
-      // then
-      expect(error).to.be.an.instanceOf(UnauthorizedError);
-      expect(error.message).to.equal("L'utilisateur n'a pas de compte Pix");
-      expect(error.code).to.equal('SHOULD_VALIDATE_CGU');
-      expect(error.meta).to.deep.equal({ authenticationKey, givenName, familyName, email });
+        // then
+        expect(
+          oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
+        ).to.have.been.calledWithExactly(identityProvider);
+        expect(error).to.be.an.instanceOf(UnauthorizedError);
+        expect(error.message).to.equal("L'utilisateur n'a pas de compte Pix");
+        expect(error.code).to.equal('SHOULD_VALIDATE_CGU');
+        expect(error.meta).to.deep.equal({ authenticationKey, givenName, familyName, email });
+      });
     });
   });
 
   describe('#createUser', function () {
-    it('should create oidc user and return access token and logout url UUID', async function () {
+    it('creates an oidc user and returns access token and logout url UUID', async function () {
       // given
       const request = {
         deserializedPayload: { identityProvider, authenticationKey: 'abcde' },
@@ -399,6 +425,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const accessToken = 'access.token';
       const oidcAuthenticationService = {};
       const oidcAuthenticationServiceRegistryStub = {
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
         getOidcProviderServiceByCode: sinon.stub(),
       };
 
@@ -423,13 +450,16 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const result = await oidcController.createUser(request, hFake, dependencies);
 
       //then
+      expect(
+        oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
+      ).to.have.been.calledWithExactly(identityProvider);
       expect(result.source.access_token).to.equal(accessToken);
       expect(result.source.logout_url_uuid).to.equal('logoutUrlUUID');
     });
   });
 
   describe('#findUserForReconciliation', function () {
-    it('should call the use case and serialize the result', async function () {
+    it('calls the use case and serialize the result', async function () {
       // given
       const pixAuthenticationMethod =
         domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword();
@@ -487,6 +517,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         },
       };
       const oidcAuthenticationServiceRegistryStub = {
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
         getOidcProviderServiceByCode: sinon.stub(),
       };
 
@@ -502,12 +533,15 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const result = await oidcController.reconcileUser(request, hFake, dependencies);
 
       // then
+      expect(
+        oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
+      ).to.have.been.calledWithExactly(identityProvider);
       expect(result.source).to.deep.equal({ access_token: 'accessToken', logout_url_uuid: 'logoutUrlUUID' });
     });
   });
 
   describe('#reconcileUserForAdmin', function () {
-    it('should call use case and return the result', async function () {
+    it('calls use case and return the result', async function () {
       // given
       const request = {
         deserializedPayload: {
@@ -517,6 +551,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         },
       };
       const oidcAuthenticationServiceRegistryStub = {
+        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
         getOidcProviderServiceByCode: sinon.stub(),
       };
 
@@ -529,6 +564,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const result = await oidcController.reconcileUserForAdmin(request, hFake, dependencies);
 
       // then
+      expect(
+        oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
+      ).to.have.been.calledWithExactly(identityProvider);
       expect(result.source).to.deep.equal({ access_token: 'accessToken' });
     });
   });

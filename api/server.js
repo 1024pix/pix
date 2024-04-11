@@ -2,7 +2,6 @@ import Hapi from '@hapi/hapi';
 import Oppsy from 'oppsy';
 
 import { setupErrorHandling } from './config/server-setup-error-handling.js';
-import { setupOidcAuthenticationServiceRegistry } from './config/setup-oidc-authentication-service-registry.js';
 import { knex } from './db/knex-database-connection.js';
 import { config } from './lib/config.js';
 import { authentication } from './lib/infrastructure/authentication.js';
@@ -58,7 +57,7 @@ const prescriptionSharedRoutes = [prescriberManagementRoutes];
 monitoringTools.installHapiHook();
 
 const { logOpsMetrics, port, logging } = config;
-const createServer = async (serverOptions = {}) => {
+const createServer = async () => {
   const server = createBareServer();
 
   if (logOpsMetrics) await enableOpsMetrics(server);
@@ -72,8 +71,6 @@ const createServer = async (serverOptions = {}) => {
   await setupOpenApiSpecification(server);
 
   setupDeserialization(server);
-
-  await setupOidcAuthenticationServiceRegistry(serverOptions.oidcProviderServices);
 
   return server;
 };

@@ -1,9 +1,15 @@
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
-import { oidcAuthenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/oidc-authentication-service-registry.js';
+import { OidcAuthenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/oidc-authentication-service-registry.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Services | authentication registry', function () {
+  let oidcAuthenticationServiceRegistry;
+
+  beforeEach(function () {
+    oidcAuthenticationServiceRegistry = new OidcAuthenticationServiceRegistry();
+  });
+
   describe('#getAllOidcProviderServices', function () {
     it('returns all OIDC Providers', async function () {
       // given
@@ -150,70 +156,107 @@ describe('Unit | Domain | Services | authentication registry', function () {
   });
 
   describe('#loadOidcProviderServices', function () {
-    it('loads all given oidc provider services and filters them', function () {
-      // given
-      const oidcProviderServices = [
-        { code: 'ONE' },
-        { code: 'OIDC', isReady: true },
-        { code: 'OIDC_FOR_PIX_ADMIN', isReadyForPixAdmin: true },
-      ];
+    describe('when oidc provider services are already loaded', function () {
+      it('returns undefined', function () {
+        // given
+        const oidcProviderServices = [
+          { code: 'ONE' },
+          { code: 'OIDC', isReady: true },
+          { code: 'OIDC_FOR_PIX_ADMIN', isReadyForPixAdmin: true },
+        ];
+        oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
 
-      // when
-      oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+        // when
+        const result = oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
 
-      // then
-      const allOidcProviderServices = oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
-      const readyOidcProviderServices = oidcAuthenticationServiceRegistry.getReadyOidcProviderServices();
-      const readyOidcProviderServicesForPixAdmin =
-        oidcAuthenticationServiceRegistry.getReadyOidcProviderServicesForPixAdmin();
+        // then
+        expect(result).to.be.undefined;
+      });
+    });
 
-      expect(allOidcProviderServices).to.have.lengthOf(3);
+    describe('when oidc provider services are not loaded', function () {
+      it('loads all given oidc provider services, filters them and returns true', function () {
+        // given
+        const oidcProviderServices = [
+          { code: 'ONE' },
+          { code: 'OIDC', isReady: true },
+          { code: 'OIDC_FOR_PIX_ADMIN', isReadyForPixAdmin: true },
+        ];
 
-      expect(readyOidcProviderServices).to.have.lengthOf(1);
-      expect(readyOidcProviderServices.map((service) => service.code)).to.contain('OIDC');
+        // when
+        const result = oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
 
-      expect(readyOidcProviderServicesForPixAdmin).to.have.lengthOf(1);
-      expect(readyOidcProviderServicesForPixAdmin.map((service) => service.code)).to.contain('OIDC_FOR_PIX_ADMIN');
+        // then
+        const allOidcProviderServices = oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
+        const readyOidcProviderServices = oidcAuthenticationServiceRegistry.getReadyOidcProviderServices();
+        const readyOidcProviderServicesForPixAdmin =
+          oidcAuthenticationServiceRegistry.getReadyOidcProviderServicesForPixAdmin();
+
+        expect(result).to.be.true;
+        expect(allOidcProviderServices).to.have.lengthOf(3);
+
+        expect(readyOidcProviderServices).to.have.lengthOf(1);
+        expect(readyOidcProviderServices.map((service) => service.code)).to.contain('OIDC');
+
+        expect(readyOidcProviderServicesForPixAdmin).to.have.lengthOf(1);
+        expect(readyOidcProviderServicesForPixAdmin.map((service) => service.code)).to.contain('OIDC_FOR_PIX_ADMIN');
+      });
     });
   });
 
-  describe('#configureReadyOidcProviderServices', function () {
-    it('configures openid client for ready oidc provider services', async function () {
-      // given
-      const createClient = sinon.stub().resolves();
-      const oidcProviderServices = [
-        {
-          code: 'OIDC',
-          isReady: true,
-          createClient,
-        },
-      ];
-      oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+  describe('#configureReadyOidcProviderServiceByCode', function () {
+    context('when oidc provider service does not exist', function () {
+      it('returns undefined', async function () {
+        // when
+        const result = await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode('OIDC');
 
-      // when
-      await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServices();
-
-      // then
-      expect(createClient).to.have.been.calledOnce;
+        // then
+        expect(result).to.be.undefined;
+      });
     });
 
-    it('configures openid client for ready oidc provider services for Pix Admin', async function () {
-      // given
-      const createClient = sinon.stub().resolves();
-      const oidcProviderServices = [
-        {
-          code: 'OIDC',
-          isReadyForPixAdmin: true,
-          createClient,
-        },
-      ];
-      oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+    context('when oidc provider service exists and loaded', function () {
+      it('configures openid client for ready oidc provider service and returns true', async function () {
+        // given
+        const createClient = sinon.stub().resolves();
+        const oidcProviderServices = [
+          {
+            code: 'OIDC',
+            isReady: true,
+            createClient,
+          },
+        ];
+        oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
 
-      // when
-      await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServices();
+        // when
+        const result = await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(
+          oidcProviderServices[0].code,
+        );
 
-      // then
-      expect(createClient).to.have.been.calledOnce;
+        // then
+        expect(result).to.be.true;
+        expect(createClient).to.have.been.calledOnce;
+      });
+
+      context('when there is already a client instantiated', function () {
+        it('returns undefined', async function () {
+          // given
+          const oidcProviderServices = [
+            {
+              code: 'OIDC',
+              isReady: true,
+              client: {},
+            },
+          ];
+          oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+
+          // when
+          const result = await oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode('OIDC');
+
+          // then
+          expect(result).to.be.undefined;
+        });
+      });
     });
   });
 });
