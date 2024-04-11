@@ -1,5 +1,6 @@
 import nock from 'nock';
 
+import { oidcAuthenticationServiceRegistry } from '../../../lib/domain/usecases/index.js';
 import { createServer } from '../../../server.js';
 import { OidcAuthenticationService } from '../../../src/authentication/domain/services/oidc-authentication-service.js';
 
@@ -57,6 +58,8 @@ async function createServerWithTestOidcProvider() {
       source: 'oidcexamplenet',
     }),
   ];
+
+  oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
 
   return createServer({ oidcProviderServices });
 }

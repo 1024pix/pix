@@ -7,6 +7,7 @@ describe('Unit | UseCase | get-all-identity-providers', function () {
     const oneOidcProviderService = {};
     const anotherOidcProviderService = {};
     const oidcAuthenticationServiceRegistryStub = {
+      loadOidcProviderServices: sinon.stub(),
       getAllOidcProviderServices: sinon.stub().returns([oneOidcProviderService, anotherOidcProviderService]),
     };
 
@@ -16,6 +17,7 @@ describe('Unit | UseCase | get-all-identity-providers', function () {
     });
 
     // then
+    expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
     expect(identityProviders).to.deep.equal([oneOidcProviderService, anotherOidcProviderService]);
   });
 });

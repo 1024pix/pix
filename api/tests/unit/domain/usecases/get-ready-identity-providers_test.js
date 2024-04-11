@@ -3,18 +3,25 @@ import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-ready-identity-providers', function () {
+  let oneOidcProviderService;
+  let anotherOidcProviderService;
+  let oidcAuthenticationServiceRegistryStub;
+
+  beforeEach(function () {
+    oneOidcProviderService = {};
+    anotherOidcProviderService = {};
+    oidcAuthenticationServiceRegistryStub = {
+      loadOidcProviderServices: sinon.stub(),
+      getReadyOidcProviderServices: sinon.stub().returns([oneOidcProviderService, anotherOidcProviderService]),
+      getReadyOidcProviderServicesForPixAdmin: sinon
+        .stub()
+        .returns([oneOidcProviderService, anotherOidcProviderService]),
+    };
+  });
+
   describe('when an audience is provided', function () {
     describe('when the provided audience is equal to "admin"', function () {
       it('returns oidc providers from getReadyOidcProviderServicesForPixAdmin', function () {
-        // given
-        const oneOidcProviderService = {};
-        const anotherOidcProviderService = {};
-        const oidcAuthenticationServiceRegistryStub = {
-          getReadyOidcProviderServicesForPixAdmin: sinon
-            .stub()
-            .returns([oneOidcProviderService, anotherOidcProviderService]),
-        };
-
         // when
         const identityProviders = getReadyIdentityProviders({
           audience: PIX_ADMIN.AUDIENCE,
@@ -22,6 +29,7 @@ describe('Unit | UseCase | get-ready-identity-providers', function () {
         });
 
         // then
+        expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
         expect(oidcAuthenticationServiceRegistryStub.getReadyOidcProviderServicesForPixAdmin).to.have.been.calledOnce;
         expect(identityProviders).to.deep.equal([oneOidcProviderService, anotherOidcProviderService]);
       });
@@ -29,13 +37,6 @@ describe('Unit | UseCase | get-ready-identity-providers', function () {
   });
 
   it('returns oidc providers from getReadyOidcProviderServices', function () {
-    // given
-    const oneOidcProviderService = {};
-    const anotherOidcProviderService = {};
-    const oidcAuthenticationServiceRegistryStub = {
-      getReadyOidcProviderServices: sinon.stub().returns([oneOidcProviderService, anotherOidcProviderService]),
-    };
-
     // when
     const identityProviders = getReadyIdentityProviders({
       audience: null,
@@ -43,6 +44,7 @@ describe('Unit | UseCase | get-ready-identity-providers', function () {
     });
 
     // then
+    expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
     expect(oidcAuthenticationServiceRegistryStub.getReadyOidcProviderServices).to.have.been.calledOnce;
     expect(identityProviders).to.deep.equal([oneOidcProviderService, anotherOidcProviderService]);
   });
