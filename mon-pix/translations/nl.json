@@ -1194,6 +1194,7 @@
       "beta-banner": "Deze module is in bètaversie. Je kunt ons feedback sturen aan het einde van deze module om ons te helpen deze te verbeteren.",
       "buttons": {
         "activity": {
+          "retry": "Probeer het opnieuw",
           "verify": "Kijk op"
         },
         "element": {
