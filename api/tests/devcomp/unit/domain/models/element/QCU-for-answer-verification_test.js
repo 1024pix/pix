@@ -12,6 +12,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
       const proposal2 = Symbol('proposal2');
       const feedbacks = { valid: 'valid', invalid: 'invalid' };
       const solution = Symbol('solution');
+      const expectedSolution = { value: solution };
 
       // When
       const qcu = new QCUForAnswerVerification({
@@ -28,7 +29,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
       expect(qcu.instruction).equal('instruction');
       expect(qcu.locales).deep.equal(['fr-FR']);
       expect(qcu.proposals).deep.equal([proposal1, proposal2]);
-      expect(qcu.solutionValue).deep.equal(solution);
+      expect(qcu.solution).deep.equal(expectedSolution);
       expect(qcu.feedbacks).to.be.instanceof(Feedbacks);
     });
 
