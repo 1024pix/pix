@@ -55,7 +55,10 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
         inputBlock: ['@'],
         selectBlock: ['2'],
       });
-      expect(qrocm.solutionTolerances).deep.equal(['t1', 't2', 't3']);
+      expect(qrocm.solutionTolerances).deep.equal({
+        inputBlock: ['t1', 't2'],
+        selectBlock: ['t2', 't3'],
+      });
       expect(qrocm.feedbacks).deep.equal({
         valid: 'Bravo!',
         invalid: 'Mince!',
@@ -94,8 +97,18 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
       // given
       const stubedIsOk = sinon.stub().returns(true);
       const assessResult = { result: { isOK: stubedIsOk } };
-      const qrocmSolution = { inputBlock: ['@'], selectBlock: ['2'] };
-      const userResponse = { inputBlock: '@', selectBlock: '2' };
+      const qrocmSolution = {
+        inputBlock1: ['courgette'],
+        inputBlock2: ['courgette'],
+        inputBlock3: ['courgette'],
+        selectBlock: ['2'],
+      };
+      const userResponse = {
+        inputBlock1: 'Courgette',
+        inputBlock2: 'courgette!',
+        inputBlock3: 'cuorgette',
+        selectBlock: '2',
+      };
 
       const validator = {
         assess: sinon.stub(),
@@ -106,16 +119,40 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
         instruction: '<p>Complétez le texte ci-dessous.</p>',
         proposals: [
           {
-            input: 'inputBlock',
+            input: 'inputBlock1',
             type: 'input',
             inputType: 'text',
-            size: 1,
+            size: 10,
             display: 'inline',
             placeholder: '',
             ariaLabel: 'Réponse 1',
             defaultValue: '',
-            tolerances: [],
-            solutions: ['@'],
+            tolerances: ['t1'],
+            solutions: ['courgette'],
+          },
+          {
+            input: 'inputBlock2',
+            type: 'input',
+            inputType: 'text',
+            size: 10,
+            display: 'inline',
+            placeholder: '',
+            ariaLabel: 'Réponse 2',
+            defaultValue: '',
+            tolerances: ['t2'],
+            solutions: ['courgette'],
+          },
+          {
+            input: 'inputBlock3',
+            type: 'input',
+            inputType: 'text',
+            size: 10,
+            display: 'inline',
+            placeholder: '',
+            ariaLabel: 'Réponse 3',
+            defaultValue: '',
+            tolerances: ['t3'],
+            solutions: ['courgette'],
           },
           {
             input: 'selectBlock',
@@ -171,8 +208,18 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
       // given
       const stubedIsOk = sinon.stub().returns(false);
       const assessResult = { result: { isOK: stubedIsOk } };
-      const qrocmSolution = { inputBlock: ['@'], selectBlock: ['2'] };
-      const userResponse = { inputBlock: '#', selectBlock: '1' };
+      const qrocmSolution = {
+        inputBlock1: ['courgette'],
+        inputBlock2: ['courgette'],
+        inputBlock3: ['courgette'],
+        selectBlock: ['2'],
+      };
+      const userResponse = {
+        inputBlock1: 'kourgette',
+        inputBlock2: 'kourgette',
+        inputBlock3: 'zucchini',
+        selectBlock: '2',
+      };
 
       const validator = {
         assess: sinon.stub(),
@@ -183,16 +230,40 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
         instruction: '<p>Complétez le texte ci-dessous.</p>',
         proposals: [
           {
-            input: 'inputBlock',
+            input: 'inputBlock1',
             type: 'input',
             inputType: 'text',
-            size: 1,
+            size: 10,
             display: 'inline',
             placeholder: '',
             ariaLabel: 'Réponse 1',
             defaultValue: '',
-            tolerances: [],
-            solutions: ['@'],
+            tolerances: ['t1'],
+            solutions: ['courgette'],
+          },
+          {
+            input: 'inputBlock2',
+            type: 'input',
+            inputType: 'text',
+            size: 10,
+            display: 'inline',
+            placeholder: '',
+            ariaLabel: 'Réponse 2',
+            defaultValue: '',
+            tolerances: ['t2'],
+            solutions: ['courgette'],
+          },
+          {
+            input: 'inputBlock3',
+            type: 'input',
+            inputType: 'text',
+            size: 10,
+            display: 'inline',
+            placeholder: '',
+            ariaLabel: 'Réponse 3',
+            defaultValue: '',
+            tolerances: ['t3'],
+            solutions: ['courgette'],
           },
           {
             input: 'selectBlock',

@@ -52,7 +52,10 @@ describe('Unit | Devcomp | Domain | Models | QrocmSolutions', function () {
         inputBlock: ['@'],
         selectBlock: ['2'],
       });
-      expect(solutions.tolerances).deep.equal(['t1', 't2', 't3']);
+      expect(solutions.tolerances).deep.equal({
+        inputBlock: ['t1', 't2'],
+        selectBlock: ['t2', 't3'],
+      });
     });
 
     describe('A QROCM solution with missing solutions into a proposal', function () {
