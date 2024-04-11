@@ -16,17 +16,17 @@
   </div>
 
   <form {{on "submit" this.start}}>
-    <div class="campaign-landing-page__start__text">
-      <h1 class="campaign-landing-page__start__text__title">{{this.titleText}}</h1>
+    <div class="campaign-landing-page-start">
+      <h1 class="campaign-landing-page-start__title">{{this.titleText}}</h1>
       {{#unless this.session.isAuthenticated}}
-        <h2 class="campaign-landing-page__start__text__announcement">{{{this.announcementText}}}</h2>
+        <h2 class="campaign-landing-page-start__subtitle">{{{this.announcementText}}}</h2>
       {{/unless}}
       <PixButton
         @type="submit"
         class="campaign-landing-page__start-button"
         @loading-color="white"
       >{{this.buttonText}}</PixButton>
-      <p class="campaign-landing-page__start__text__legal">{{this.legalText}}</p>
+      <p class="campaign-landing-page-start__legal">{{this.legalText}}</p>
     </div>
   </form>
 

@@ -33,39 +33,27 @@
   height: 70px;
 }
 
-.campaign-landing-page__start__text {
+.campaign-landing-page-start {
   display: flex;
   flex-direction: column;
   width: 80%;
   margin: auto;
-  padding: 5px;
-  font-family: $font-open-sans;
   text-align: center;
 
-  @include device-is('tablet') {
-    padding: 5px 20px;
-  }
-
   &__title {
-    font-size: 1.875rem;
-
-    @include device-is('tablet') {
-      font-size: 3rem;
-    }
-
-    span {
-      font-weight: $font-medium;
-    }
+    @extend %pix-title-l;
   }
 
-  &__announcement {
+  &__subtitle {
+    @extend %pix-title-xs;
+
     margin-top: $pix-spacing-s;
-    font-size: 1.125rem;
   }
 
   &__legal {
+    @extend %pix-body-xs;
+
     color: $pix-neutral-60;
-    font-size: 0.75rem;
   }
 }
 
@@ -74,7 +62,6 @@
   margin-top: 50px;
   padding: 50px 5px 5px;
   font-size: 1rem;
-  font-family: $font-open-sans;
   text-align: left;
   border-top: 1px dashed $pix-neutral-22;
 
@@ -83,15 +70,15 @@
   }
 
   h1 {
-    font-size: 1.875rem;
+    @extend %pix-title-m;
   }
 
   h2 {
-    font-size: 1.563rem;
+    @extend %pix-title-s;
   }
 
   h3 {
-    font-size: 1.25rem;
+    @extend %pix-title-xs;
   }
 }
 
@@ -184,14 +171,14 @@
 
 /* ------------------------ ERROR ------------------------ */
 
-.campaign-landing-page__error-text {
+.campaign-landing-page-error {
   display: flex;
   flex-direction: column;
   padding-bottom: 50px;
-  font-family: $font-open-sans;
 
-  .title {
-    font-size: 1.375rem;
+  &__title {
+    @extend %pix-title-xs;
+
     text-align: center;
   }
 }
