@@ -80,7 +80,10 @@ describe('Acceptance | API | Smart Random Simulator', function () {
           expect(response.statusCode).to.equal(200);
         });
         it('should return a challenge', async function () {
-          expect(JSON.parse(response.payload).id).to.equal('challengerec1234567');
+          expect(JSON.parse(response.payload).challenge.id).to.equal('challengerec1234567');
+        });
+        it('should return smart random details', async function () {
+          expect(JSON.parse(response.payload).smartRandomDetails).to.exist;
         });
       });
       context('when the route should not return a challenge', function () {

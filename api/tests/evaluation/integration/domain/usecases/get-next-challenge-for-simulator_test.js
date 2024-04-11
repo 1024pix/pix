@@ -1,4 +1,5 @@
 import { SimulationParameters } from '../../../../../src/evaluation/domain/models/SimulationParameters.js';
+import { SmartRandomDetails } from '../../../../../src/evaluation/domain/models/SmartRandomDetails.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { Challenge } from '../../../../../src/shared/domain/models/Challenge.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
@@ -18,13 +19,34 @@ describe('Integration | Usecases | Get next challenge for simulator', function (
       });
 
       // when
-      const nextChallenge = await evaluationUsecases.getNextChallengeForSimulator({
+      const { challenge: nextChallenge } = await evaluationUsecases.getNextChallengeForSimulator({
         simulationParameters,
       });
 
       // then
       expect(nextChallenge).to.be.instanceOf(Challenge);
       expect(nextChallenge.skill.id).to.equal(skill.id);
+    });
+
+    it('should return smart random details', async function () {
+      // given
+      const skill = domainBuilder.buildSkill({ difficulty: 2 });
+      const challenge = domainBuilder.buildChallenge({ skill, locales: ['fr-fr'] });
+      const simulationParameters = new SimulationParameters({
+        skills: [skill],
+        challenges: [challenge],
+        answers: [],
+        knowledgeElements: [],
+        locale: 'fr-fr',
+      });
+
+      // when
+      const { smartRandomDetails } = await evaluationUsecases.getNextChallengeForSimulator({
+        simulationParameters,
+      });
+
+      // then
+      expect(smartRandomDetails).to.be.instanceOf(SmartRandomDetails);
     });
   });
 
