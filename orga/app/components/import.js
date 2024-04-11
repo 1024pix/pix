@@ -13,6 +13,10 @@ export default class Import extends Component {
     return this.args.organizationImportDetail?.hasError || this.args.organizationImportDetail?.hasWarning;
   }
 
+  get inProgress() {
+    return Boolean(this.args.organizationImportDetail?.inProgress);
+  }
+
   get panelClasses() {
     const classes = ['import-students-page__error-panel'];
 

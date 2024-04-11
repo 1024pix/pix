@@ -12,6 +12,30 @@ module('Unit | Component | import', (hooks) => {
   hooks.beforeEach(function () {
     component = createGlimmerComponent('component:import');
   });
+  module('get#inProgress', function () {
+    test('should return false if no organizationImportDetail', function (assert) {
+      //when
+      component.args.organizationImportDetail = undefined;
+
+      // then
+      assert.false(component.inProgress);
+    });
+    test('should return false organizationImportDetail is not inProgress', function (assert) {
+      //when
+      component.args.organizationImportDetail = { inProgress: false };
+
+      // then
+      assert.false(component.inProgress);
+    });
+    test('should return true organizationImportDetail is inProgress', function (assert) {
+      //when
+      component.args.organizationImportDetail = { inProgress: true };
+
+      // then
+      assert.true(component.inProgress);
+    });
+  });
+
   module('get#displayImportMessagePanel', () => {
     test('should return false if there is no error nor warning', (assert) => {
       //when

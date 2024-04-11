@@ -7,18 +7,18 @@ module('Unit | Controller | authenticated/import-organization-participant', func
   setupTest(hooks);
   setupIntl(hooks);
   const files = Symbol('files');
-  const currentUser = { organization: { id: 1 } };
   let controller;
   let addStudentsCsvStub;
   let replaceStudentsCsvStub;
   let importScoStudentStub;
+  let currentUser;
 
   hooks.beforeEach(function () {
     this.owner.lookup('service:intl').setLocale('fr');
     controller = this.owner.lookup('controller:authenticated/import-organization-participants');
     controller.send = sinon.stub();
+    currentUser = { organization: { id: 1 } };
     controller.currentUser = currentUser;
-
     const store = this.owner.lookup('service:store');
     const adapter = store.adapterFor('students-import');
     addStudentsCsvStub = sinon.stub(adapter, 'addStudentsCsv');
@@ -92,6 +92,21 @@ module('Unit | Controller | authenticated/import-organization-participant', func
         await controller.replaceStudents(files);
         assert.ok(controller.send.calledWithExactly('refreshGroups'));
       });
+    });
+  });
+  module('#participantListRoute', function () {
+    test('it returns sco participant route if currentUser is SCO managing', async function (assert) {
+      controller.currentUser.isSCOManagingStudents = true;
+
+      assert.strictEqual(controller.participantListRoute, 'authenticated.sco-organization-participants.list');
+    });
+    test('it returns sup participant route if currentUser is SUP managing', async function (assert) {
+      controller.currentUser.isSUPManagingStudents = true;
+
+      assert.strictEqual(controller.participantListRoute, 'authenticated.sup-organization-participants.list');
+    });
+    test('it returns autenticated route if currentUser is neither SCO or SUP managing', async function (assert) {
+      assert.strictEqual(controller.participantListRoute, 'authenticated');
     });
   });
 });

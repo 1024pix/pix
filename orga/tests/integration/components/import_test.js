@@ -10,10 +10,81 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 module('Integration | Component | Import', function (hooks) {
   setupIntlRenderingTest(hooks);
   let organizationImportDetail;
+
   hooks.beforeEach(function () {
     this.set('onImportSupStudents', sinon.stub());
     this.set('onImportScoStudents', sinon.stub());
     this.set('onReplaceStudents', sinon.stub());
+  });
+
+  module('when import is in progress', function (hooks) {
+    hooks.beforeEach(function () {
+      const store = this.owner.lookup('service:store');
+      organizationImportDetail = store.createRecord('organization-import-detail', {
+        status: 'UPLOADED',
+        createdAt: new Date(2020, 10, 1),
+        createdBy: { firstName: 'Richard', lastName: 'Aldana' },
+        updatedAt: new Date(2020, 10, 2),
+        errors: [{ code: 'UAI_MISMATCHED', meta: {} }],
+      });
+    });
+
+    test('sco upload button is disabled', async function (assert) {
+      // given
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
+        isSCOManagingStudents = true;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+      this.set('organizationImportDetail', organizationImportDetail);
+
+      // when
+      const screen = await render(
+        hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @organizationImportDetail={{this.organizationImportDetail}}
+/>`,
+      );
+
+      // then
+      const addButton = screen.getByRole('button', {
+        name: this.intl.t('pages.organization-participants-import.actions.add-sco.label'),
+      });
+      assert.ok(addButton.hasAttribute('disabled'));
+    });
+    test('sup uploads buttons are disabled', async function (assert) {
+      // given
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
+        isSUPManagingStudents = true;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+      this.set('organizationImportDetail', organizationImportDetail);
+
+      // when
+      const screen = await render(
+        hbs`<Import
+  @onImportSupStudents={{this.onImportSupStudents}}
+  @onImportScoStudents={{this.onImportScoStudents}}
+  @onReplaceStudents={{this.onReplaceStudents}}
+  @organizationImportDetail={{this.organizationImportDetail}}
+/>`,
+      );
+
+      // then
+      const addButton = screen.getByRole('button', {
+        name: this.intl.t('pages.organization-participants-import.actions.add-sup.label'),
+      });
+      assert.ok(addButton.hasAttribute('disabled'));
+      const replaceButton = screen.getByRole('button', {
+        name: this.intl.t('pages.organization-participants-import.actions.replace.label'),
+      });
+      assert.ok(replaceButton.hasAttribute('disabled'));
+    });
   });
 
   module('when has errors', function (hooks) {

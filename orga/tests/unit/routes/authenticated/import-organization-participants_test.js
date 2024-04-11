@@ -1,55 +1,62 @@
-import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/import-organization-participant', function (hooks) {
+module('Unit | Route | authenticated/import-organization-participants', function (hooks) {
   setupTest(hooks);
+  let route;
+  let store;
+  let replaceWithStub;
+
+  hooks.beforeEach(function () {
+    route = this.owner.lookup('route:authenticated/import-organization-participants');
+    store = this.owner.lookup('service:store');
+    replaceWithStub = sinon.stub(route.router, 'replaceWith');
+    sinon.stub(store, 'queryRecord');
+    route.currentUser = { shouldAccessImportPage: true, organization: { id: Symbol('organization-id') } };
+  });
+
+  test('should return organization-import-detail', async function (assert) {
+    // given
+    store.queryRecord.resolves();
+
+    // when
+    await route.model();
+
+    // then
+    assert.ok(
+      store.queryRecord.calledOnceWithExactly('organization-import-detail', {
+        organizationId: route.currentUser.organization.id,
+      }),
+    );
+  });
 
   module('beforeModel', function () {
     test('should redirect to application when shouldAccessImportPage is false', function (assert) {
       // given
-      class CurrentUserStub extends Service {
-        shouldAccessImportPage = false;
-      }
-
-      this.owner.register('service:current-user', CurrentUserStub);
-      const route = this.owner.lookup('route:authenticated.import-organization-participants');
-      const replaceWithStub = sinon.stub();
-      route.router.replaceWith = replaceWithStub;
+      route.currentUser.shouldAccessImportPage = false;
 
       // when
       route.beforeModel();
 
       // then
-      sinon.assert.calledOnceWithExactly(replaceWithStub, 'application');
-      assert.ok(true);
+      assert.ok(replaceWithStub.calledOnceWithExactly('application'));
     });
 
     test('should not redirect to application when currentUser.isAdminInOrganization and currentUser.isSCOManagingStudents are true', function (assert) {
       // given
-      class CurrentUserStub extends Service {
-        shouldAccessImportPage = true;
-      }
-
-      this.owner.register('service:current-user', CurrentUserStub);
-      const route = this.owner.lookup('route:authenticated.import-organization-participants');
-      const replaceWithStub = sinon.stub();
-      route.replaceWith = replaceWithStub;
+      route.currentUser.shouldAccessImportPage = true;
 
       // when
       route.beforeModel();
 
       // then
-      sinon.assert.notCalled(replaceWithStub);
-      assert.ok(true);
+      assert.ok(replaceWithStub.notCalled);
     });
   });
 
   module('resetController', function () {
     test('should reset errors and warnings to null when isExiting true', function (assert) {
-      const route = this.owner.lookup('route:authenticated.import-organization-participants');
-
       const controller = { set: sinon.stub() };
       route.resetController(controller, true);
       assert.true(controller.set.calledWithExactly('errors', null));
@@ -60,14 +67,9 @@ module('Unit | Route | authenticated/import-organization-participant', function 
   module('refreshDivisions', function () {
     test('should reload division relation on organization', function (assert) {
       const reloadDivisionStub = sinon.stub();
-      class CurrentUserStub extends Service {
-        organization = {
-          hasMany: sinon.stub(),
-        };
-      }
-
-      this.owner.register('service:current-user', CurrentUserStub);
-      const route = this.owner.lookup('route:authenticated.import-organization-participants');
+      route.currentUser.organization = {
+        hasMany: sinon.stub(),
+      };
 
       route.currentUser.organization.hasMany.withArgs('divisions').returns({ reload: reloadDivisionStub });
 
@@ -78,14 +80,9 @@ module('Unit | Route | authenticated/import-organization-participant', function 
   module('refreshGroups', function () {
     test('should reload group relation on organization', function (assert) {
       const reloadGroupStub = sinon.stub();
-      class CurrentUserStub extends Service {
-        organization = {
-          hasMany: sinon.stub(),
-        };
-      }
-
-      this.owner.register('service:current-user', CurrentUserStub);
-      const route = this.owner.lookup('route:authenticated.import-organization-participants');
+      route.currentUser.organization = {
+        hasMany: sinon.stub(),
+      };
 
       route.currentUser.organization.hasMany.withArgs('groups').returns({ reload: reloadGroupStub });
 
