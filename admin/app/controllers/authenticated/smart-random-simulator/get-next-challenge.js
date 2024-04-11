@@ -91,7 +91,8 @@ export default class SmartRandomSimulator extends Controller {
         break;
       }
       case 200: {
-        this.returnedChallenges = [...this.returnedChallenges, await apiResponse.json()];
+        const response = await apiResponse.json();
+        this.returnedChallenges = [...this.returnedChallenges, response.challenge];
         break;
       }
       default: {
