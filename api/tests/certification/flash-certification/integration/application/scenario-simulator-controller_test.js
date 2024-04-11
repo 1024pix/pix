@@ -12,7 +12,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
   let reward1;
   let errorRate1;
   let challenge1;
-  let estimatedLevel1;
+  let capacity1;
   const initialCapacity = 2;
 
   beforeEach(async function () {
@@ -26,13 +26,13 @@ describe('Integration | Application | scenario-simulator-controller', function (
     challenge1 = domainBuilder.buildChallenge({ id: 'chall1', successProbabilityThreshold: 0.65 });
     reward1 = 0.2;
     errorRate1 = 0.3;
-    estimatedLevel1 = 0.4;
+    capacity1 = 0.4;
     simulationResults = [
       {
         challenge: challenge1,
         reward: reward1,
         errorRate: errorRate1,
-        estimatedLevel: estimatedLevel1,
+        capacity: capacity1,
       },
     ];
 
@@ -46,13 +46,13 @@ describe('Integration | Application | scenario-simulator-controller', function (
         challenge1 = domainBuilder.buildChallenge({ id: 'chall1', successProbabilityThreshold: 0.65 });
         reward1 = 0.2;
         errorRate1 = 0.3;
-        estimatedLevel1 = 0.4;
+        capacity1 = 0.4;
         simulationResults = [
           {
             challenge: challenge1,
             reward: reward1,
             errorRate: errorRate1,
-            estimatedLevel: estimatedLevel1,
+            capacity: capacity1,
             answerStatus: 'ok',
           },
         ];
@@ -107,7 +107,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                   {
                     challengeId: challenge1.id,
                     errorRate: errorRate1,
-                    estimatedLevel: estimatedLevel1,
+                    capacity: capacity1,
                     minimumCapability: 0.6190392084062237,
                     answerStatus: 'ok',
                     reward: reward1,
@@ -169,7 +169,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                 {
                   challengeId: challenge1.id,
                   errorRate: errorRate1,
-                  estimatedLevel: estimatedLevel1,
+                  capacity: capacity1,
                   minimumCapability: 0.6190392084062237,
                   answerStatus: 'ok',
                   reward: reward1,
@@ -231,7 +231,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                 {
                   challengeId: challenge1.id,
                   errorRate: errorRate1,
-                  estimatedLevel: estimatedLevel1,
+                  capacity: capacity1,
                   minimumCapability: 0.6190392084062237,
                   answerStatus: 'ok',
                   reward: reward1,
@@ -292,7 +292,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                 {
                   challengeId: challenge1.id,
                   errorRate: errorRate1,
-                  estimatedLevel: estimatedLevel1,
+                  capacity: capacity1,
                   minimumCapability: 0.6190392084062237,
                   answerStatus: 'ok',
                   reward: reward1,
@@ -383,7 +383,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                   {
                     challengeId: challenge1.id,
                     errorRate: errorRate1,
-                    estimatedLevel: estimatedLevel1,
+                    capacity: capacity1,
                     minimumCapability: 0.6190392084062237,
                     answerStatus: 'ok',
                     reward: reward1,
@@ -564,7 +564,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                 {
                   challengeId: challenge1.id,
                   errorRate: errorRate1,
-                  estimatedLevel: estimatedLevel1,
+                  capacity: capacity1,
                   minimumCapability: 0.6190392084062237,
                   answerStatus: 'ok',
                   reward: reward1,
@@ -624,7 +624,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                     {
                       challengeId: challenge1.id,
                       errorRate: errorRate1,
-                      estimatedLevel: estimatedLevel1,
+                      capacity: capacity1,
                       minimumCapability: 0.6190392084062237,
                       answerStatus: 'ok',
                       reward: reward1,
@@ -680,7 +680,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                     {
                       challengeId: challenge1.id,
                       errorRate: errorRate1,
-                      estimatedLevel: estimatedLevel1,
+                      capacity: capacity1,
                       minimumCapability: 0.6190392084062237,
                       answerStatus: 'ok',
                       reward: reward1,
@@ -733,7 +733,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
               const result = {
                 challengeId: challenge1.id,
                 errorRate: errorRate1,
-                estimatedLevel: estimatedLevel1,
+                capacity: capacity1,
                 minimumCapability: 0.6190392084062237,
                 answerStatus: 'ok',
                 reward: reward1,
@@ -808,7 +808,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                     {
                       challengeId: challenge1.id,
                       errorRate: errorRate1,
-                      estimatedLevel: estimatedLevel1,
+                      capacity: capacity1,
                       minimumCapability: 0.6190392084062237,
                       answerStatus: 'ok',
                       reward: reward1,
@@ -869,7 +869,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                     {
                       challengeId: challenge1.id,
                       errorRate: errorRate1,
-                      estimatedLevel: estimatedLevel1,
+                      capacity: capacity1,
                       minimumCapability: 0.6190392084062237,
                       answerStatus: 'ok',
                       reward: reward1,
@@ -929,7 +929,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                     {
                       challengeId: challenge1.id,
                       errorRate: errorRate1,
-                      estimatedLevel: estimatedLevel1,
+                      capacity: capacity1,
                       minimumCapability: 0.6190392084062237,
                       answerStatus: 'ok',
                       reward: reward1,
@@ -987,7 +987,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                     {
                       challengeId: challenge1.id,
                       errorRate: errorRate1,
-                      estimatedLevel: estimatedLevel1,
+                      capacity: capacity1,
                       minimumCapability: 0.6190392084062237,
                       answerStatus: 'ok',
                       reward: reward1,
@@ -1013,23 +1013,23 @@ describe('Integration | Application | scenario-simulator-controller', function (
           const challenge2 = domainBuilder.buildChallenge({ id: 'chall2', successProbabilityThreshold: 0.5 });
           const reward1 = 0.2;
           const errorRate1 = 0.3;
-          const estimatedLevel1 = 0.4;
+          const capacity1 = 0.4;
           const reward2 = 0.6;
           const errorRate2 = 0.7;
-          const estimatedLevel2 = 0.8;
+          const capacity2 = 0.8;
           const simulationResults1 = [
             {
               challenge: challenge1,
               reward: reward1,
               errorRate: errorRate1,
-              estimatedLevel: estimatedLevel1,
+              capacity: capacity1,
               answerStatus: 'ok',
             },
             {
               challenge: challenge2,
               reward: reward2,
               errorRate: errorRate2,
-              estimatedLevel: estimatedLevel2,
+              capacity: capacity2,
               answerStatus: 'ok',
             },
           ];
@@ -1054,14 +1054,14 @@ describe('Integration | Application | scenario-simulator-controller', function (
               challenge: challenge1,
               reward: reward1,
               errorRate: errorRate1,
-              estimatedLevel: estimatedLevel1,
+              capacity: capacity1,
               answerStatus: 'ko',
             },
             {
               challenge: challenge2,
               reward: reward2,
               errorRate: errorRate2,
-              estimatedLevel: estimatedLevel2,
+              capacity: capacity2,
               answerStatus: 'ok',
             },
           ];
@@ -1107,7 +1107,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                       'minimum-capability': 0.6190392084062237,
                       reward: reward1,
                       'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
+                      capacity: capacity1,
                       'answer-status': 'ok',
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
@@ -1117,7 +1117,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                       'minimum-capability': 0,
                       reward: reward2,
                       'error-rate': errorRate2,
-                      'estimated-level': estimatedLevel2,
+                      capacity: capacity2,
                       'answer-status': 'ok',
                       difficulty: challenge2.difficulty,
                       discriminant: challenge2.discriminant,
@@ -1135,7 +1135,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                       'minimum-capability': 0.6190392084062237,
                       reward: reward1,
                       'error-rate': errorRate1,
-                      'estimated-level': estimatedLevel1,
+                      capacity: capacity1,
                       'answer-status': 'ko',
                       difficulty: challenge1.difficulty,
                       discriminant: challenge1.discriminant,
@@ -1145,7 +1145,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
                       'minimum-capability': 0,
                       reward: reward2,
                       'error-rate': errorRate2,
-                      'estimated-level': estimatedLevel2,
+                      capacity: capacity2,
                       'answer-status': 'ok',
                       difficulty: challenge2.difficulty,
                       discriminant: challenge2.discriminant,

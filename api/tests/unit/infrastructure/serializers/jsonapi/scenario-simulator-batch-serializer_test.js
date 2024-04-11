@@ -18,7 +18,7 @@ describe('Unit | Serializer | JSONAPI | scenario-simulator-batch-serializer', fu
             {
               challenge,
               reward: 2,
-              estimatedLevel: 1,
+              capacity: 1,
               errorRate: 1.5,
               answerStatus: 'ok',
               difficulty: 0.6,
@@ -41,7 +41,7 @@ describe('Unit | Serializer | JSONAPI | scenario-simulator-batch-serializer', fu
                   'challenge-id': challenge.id,
                   'answer-status': 'ok',
                   'error-rate': 1.5,
-                  'estimated-level': 1,
+                  capacity: 1,
                   'minimum-capability': 0.6,
                   reward: 2,
                   difficulty: 0.6,

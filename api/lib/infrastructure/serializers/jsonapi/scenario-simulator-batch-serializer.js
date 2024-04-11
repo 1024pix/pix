@@ -15,7 +15,7 @@ const SERIALIZER_CONFIGURATION = {
       'minimumCapability',
       'reward',
       'errorRate',
-      'estimatedLevel',
+      'capacity',
       'answerStatus',
       'difficulty',
       'discriminant',

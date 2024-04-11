@@ -177,6 +177,13 @@ ko,aband,ok`;
         expect(response).to.have.property('statusCode', 200);
         const parsedResponse = parseJsonStream(response);
         expect(parsedResponse[0].simulationReport).to.have.lengthOf(2);
+        expect(parsedResponse[0].simulationReport[0].challengeId).to.exist;
+        expect(parsedResponse[0].simulationReport[0].capacity).to.exist;
+        expect(parsedResponse[0].simulationReport[0].difficulty).to.exist;
+        expect(parsedResponse[0].simulationReport[0].discriminant).to.exist;
+        expect(parsedResponse[0].simulationReport[0].reward).to.exist;
+        expect(parsedResponse[0].simulationReport[0].errorRate).to.exist;
+        expect(parsedResponse[0].simulationReport[0].answerStatus).to.exist;
       });
     });
 
