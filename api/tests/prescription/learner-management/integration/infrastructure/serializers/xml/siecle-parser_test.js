@@ -136,9 +136,9 @@ describe('Integration | Serializers | siecle-parser', function () {
       expect(result).to.deep.equal(expectedOrganizationLearners);
     });
 
-    it('should not parse organizationLearners who are no longer in the school', async function () {
+    it('should ignore invalid organizationLearners', async function () {
       // given
-      const path = `${fixturesDirPath}/siecle-file/siecle-with-registrations-no-longer-in-school.xml`;
+      const path = `${fixturesDirPath}/siecle-file/siecle-with-only-ignored-student.xml`;
       const readableStream = fs.createReadStream(path);
 
       const expectedOrganizationLearners = [];
