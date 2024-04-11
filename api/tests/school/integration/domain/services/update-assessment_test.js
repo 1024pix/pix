@@ -34,7 +34,7 @@ describe('Integration | Usecase | update-assessment', function () {
 
     context('when there is at least one activity left in the mission', function () {
       it('should leave assessment STARTED', async function () {
-        const { assessmentId } = databaseBuilder.factory.buildMissionAssessment({ missionId: 'mission-id' });
+        const { assessmentId } = databaseBuilder.factory.buildMissionAssessment();
         const lastActivity = domainBuilder.buildActivity({
           assessmentId,
           level: Activity.levels.VALIDATION,

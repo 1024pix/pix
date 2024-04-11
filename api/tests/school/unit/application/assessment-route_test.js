@@ -43,7 +43,7 @@ describe('Unit | Application | Router | assessment-router', function () {
 
       // when
       await httpTestServer.request('POST', '/api/pix1d/assessments', {
-        missionId: 'unMissionID',
+        missionId: 1,
         learnerId: 34567,
       });
 

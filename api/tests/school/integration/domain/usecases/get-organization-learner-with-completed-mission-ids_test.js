@@ -15,13 +15,15 @@ describe('Integration | Usecase | get-organization-learner-with-completed-missio
       const startedAssessmentId = databaseBuilder.factory.buildPix1dAssessment({
         state: Assessment.states.STARTED,
       }).id;
+      const completedMissionId = 123;
+      const startedMissionId = 456;
       databaseBuilder.factory.buildMissionAssessment({
-        missionId: 'COMPLETED_ID',
+        missionId: completedMissionId,
         organizationLearnerId: organizationLearner.id,
         assessmentId: completedAssessmentId,
       });
       databaseBuilder.factory.buildMissionAssessment({
-        missionId: 'STARTED_ID',
+        missionId: startedMissionId,
         organizationLearnerId: organizationLearner.id,
         assessmentId: startedAssessmentId,
       });
@@ -34,7 +36,7 @@ describe('Integration | Usecase | get-organization-learner-with-completed-missio
       expect(result).to.deep.equal(
         new OrganizationLearner({
           ...organizationLearner,
-          completedMissionIds: ['COMPLETED_ID'],
+          completedMissionIds: [completedMissionId],
         }),
       );
     });
@@ -44,18 +46,20 @@ describe('Integration | Usecase | get-organization-learner-with-completed-missio
       const completedAssessmentId = databaseBuilder.factory.buildPix1dAssessment({
         state: Assessment.states.COMPLETED,
       }).id;
+      const completedMissionId = 456;
+      const otherCompletedMissionId = 123;
+
       databaseBuilder.factory.buildMissionAssessment({
-        missionId: 'COMPLETED_ID',
+        missionId: completedMissionId,
         organizationLearnerId: organizationLearner.id,
         assessmentId: completedAssessmentId,
       });
-
       const otherOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner();
       const otherCompletedAssessmentId = databaseBuilder.factory.buildPix1dAssessment({
         state: Assessment.states.COMPLETED,
       }).id;
       databaseBuilder.factory.buildMissionAssessment({
-        missionId: 'OTHER_LEARNER_COMPLETED_ID',
+        missionId: otherCompletedMissionId,
         organizationLearnerId: otherOrganizationLearner.id,
         assessmentId: otherCompletedAssessmentId,
       });
@@ -69,7 +73,7 @@ describe('Integration | Usecase | get-organization-learner-with-completed-missio
       expect(result).to.deep.equal(
         new OrganizationLearner({
           ...organizationLearner,
-          completedMissionIds: ['COMPLETED_ID'],
+          completedMissionIds: [completedMissionId],
         }),
       );
     });

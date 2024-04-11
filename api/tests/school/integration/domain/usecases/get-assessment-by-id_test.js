@@ -21,7 +21,7 @@ describe('Integration | UseCase | getAssessmentById', function () {
     const expectedMissionAssessment = {
       id: assessmentId,
       organizationLearnerId: missionAssessment.organizationLearnerId,
-      missionId: `${missionAssessment.missionId}`,
+      missionId: missionAssessment.missionId,
       state: Assessment.states.STARTED,
     };
 

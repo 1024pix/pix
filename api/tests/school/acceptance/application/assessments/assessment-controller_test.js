@@ -93,7 +93,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
         expect(response.statusCode).to.equal(201);
         expect(response.result.data).to.deep.equal({
           attributes: {
-            'mission-id': `${mission.id}`,
+            'mission-id': mission.id,
             'organization-learner-id': learner.id,
             state: 'started',
           },
@@ -135,7 +135,7 @@ describe('Acceptance | Controller | assessment-controller', function () {
         // then
         expect(response.result.data).to.deep.equal({
           attributes: {
-            'mission-id': `${mission.id}`,
+            'mission-id': mission.id,
             'organization-learner-id': learner.id,
             state: 'started',
           },

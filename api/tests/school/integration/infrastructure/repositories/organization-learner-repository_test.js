@@ -64,7 +64,7 @@ describe('Integration | Repository | organizationLearner', function () {
 
   describe('#getDivisionsWhichStartedMission', function () {
     it('returns all divisions which started the mission', async function () {
-      const missionId = 'flute78';
+      const missionId = 123;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
 
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
@@ -95,7 +95,7 @@ describe('Integration | Repository | organizationLearner', function () {
     });
 
     it('returns the divisions which started the mission for the given organizationId', async function () {
-      const missionId = 'flute78';
+      const missionId = 123;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
 
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
@@ -122,7 +122,7 @@ describe('Integration | Repository | organizationLearner', function () {
     });
 
     it('returns the divisions of organizationLearners who started the mission and who are not disabled', async function () {
-      const missionId = 'flute78';
+      const missionId = 123;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
 
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({

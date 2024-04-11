@@ -75,7 +75,7 @@ describe('Integration | UseCases | play-mission', function () {
       });
 
       const expectedMissionAssesment = {
-        missionId: `${missionId}`,
+        missionId,
         organizationLearnerId,
         assessmentId: result.id,
       };
@@ -195,7 +195,7 @@ describe('Integration | UseCases | play-mission', function () {
 
       const expectedAssessment = domainBuilder.buildSchoolAssessment({
         organizationLearnerId,
-        missionId: `${missionId}`,
+        missionId,
         state: Assessment.states.STARTED,
         id: currentAssessment.id,
       });

@@ -38,7 +38,7 @@ describe('Integration | Controller | mission-controller', function () {
           'competence-name': mission.competenceName,
           'started-by': '',
         },
-        id: mission.id.toString(),
+        id: `${mission.id}`,
         type: 'missions',
       });
       expect(usecases.getMission).to.have.been.calledWithExactly({
@@ -68,7 +68,7 @@ describe('Integration | Controller | mission-controller', function () {
             'competence-name': mission.competenceName,
             'started-by': mission.startedBy,
           },
-          id: mission.id.toString(),
+          id: `${mission.id}`,
           type: 'missions',
         },
       ]);
