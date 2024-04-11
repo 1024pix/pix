@@ -1,9 +1,6 @@
-import { config } from '../../../../../lib/config.js';
 import { answerController } from '../../../../../src/evaluation/application/answers/answer-controller.js';
 import * as moduleUnderTest from '../../../../../src/evaluation/application/answers/index.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-
-const { features } = config;
 
 describe('Unit | Application | Router | answer-router', function () {
   describe('POST /api/answers', function () {
@@ -33,35 +30,6 @@ describe('Unit | Application | Router | answer-router', function () {
 
       // then
       expect(response.statusCode).to.equal(201);
-    });
-
-    it('should return BAD_REQUEST with message if answer length is too long but does not (security issue)', async function () {
-      // given
-      sinon.stub(answerController, 'save').callsFake((request, h) => h.response().created());
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-      const value = 'X'.repeat(features.userAnswersMaxLength + 1);
-
-      const payload = {
-        data: {
-          attributes: {
-            value,
-            result: null,
-            'result-details': null,
-            timeout: null,
-          },
-          relationships: {},
-          assessment: {},
-          challenge: {},
-          type: 'answers',
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request('POST', '/api/answers', payload);
-
-      // then
-      expect(response.statusCode).to.not.equal(400);
     });
   });
 

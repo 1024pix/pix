@@ -4,6 +4,7 @@ import { courseDomainErrorMappingConfiguration } from '../src/certification/cour
 import { sessionDomainErrorMappingConfiguration } from '../src/certification/session/application/http-error-mapper-configuration.js';
 import { certificationDomainErrorMappingConfiguration } from '../src/certification/shared/application/http-error-mapper-configuration.js';
 import { devcompDomainErrorMappingConfiguration } from '../src/devcomp/application/http-error-mapper-configuration.js';
+import { evaluationDomainErrorMappingConfiguration } from '../src/evaluation/application/http-error-mapper-configuration.js';
 import { prescriptionDomainErrorMappingConfiguration } from '../src/prescription/shared/application/http-error-mapper-configuration.js';
 import { schoolDomainErrorMappingConfiguration } from '../src/school/application/http-error-mapper-configuration.js';
 import { domainErrorMapper } from '../src/shared/application/domain-error-mapper.js';
@@ -16,6 +17,7 @@ const setupErrorHandling = function (server) {
     ...sessionDomainErrorMappingConfiguration,
     ...certificationDomainErrorMappingConfiguration,
     ...devcompDomainErrorMappingConfiguration,
+    ...evaluationDomainErrorMappingConfiguration,
     ...prescriptionDomainErrorMappingConfiguration,
     ...schoolDomainErrorMappingConfiguration,
   ];

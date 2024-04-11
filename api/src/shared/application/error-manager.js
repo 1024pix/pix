@@ -5,6 +5,7 @@ import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/requ
 import * as translations from '../../../translations/index.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
 import { CsvWithNoSessionDataError, SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
+import { EmptyAnswerError } from '../../evaluation/domain/errors.js';
 import { ArchivedCampaignError } from '../../prescription/campaign/domain/errors.js';
 import { CampaignParticipationDeletedError } from '../../prescription/campaign-participation/domain/errors.js';
 import { AggregateImportError, SiecleXmlImportError } from '../../prescription/learner-management/domain/errors.js';
@@ -153,6 +154,10 @@ function _mapToHttpError(error) {
 
   if (error instanceof CampaignParticipationDeletedError) {
     return new HttpErrors.PreconditionFailedError(error.message);
+  }
+
+  if (error instanceof EmptyAnswerError) {
+    return new HttpErrors.BadRequestError(error.message, error.code);
   }
 
   return new HttpErrors.BaseHttpError(error.message);

@@ -1,9 +1,4 @@
-class DomainError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = this.constructor.name;
-  }
-}
+import { DomainError } from '../../shared/domain/errors.js';
 
 class StageWithLinkedCampaignError extends DomainError {
   constructor() {
@@ -11,4 +6,10 @@ class StageWithLinkedCampaignError extends DomainError {
   }
 }
 
-export { DomainError, StageWithLinkedCampaignError };
+class EmptyAnswerError extends DomainError {
+  constructor(message = 'The answer value cannot be empty', code = 'ANSWER_CANNOT_BE_EMPTY') {
+    super(message, code);
+  }
+}
+
+export { EmptyAnswerError, StageWithLinkedCampaignError };

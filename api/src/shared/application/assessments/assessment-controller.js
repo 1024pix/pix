@@ -12,6 +12,7 @@ import * as certificationVersionRepository from '../../../certification/course/i
 import { CertificationVersion } from '../../../certification/shared/domain/models/CertificationVersion.js';
 import * as certificationChallengeRepository from '../../../certification/shared/infrastructure/repositories/certification-challenge-repository.js';
 import { usecases as devcompUsecases } from '../../../devcomp/domain/usecases/index.js';
+import { Answer } from '../../../evaluation/domain/models/Answer.js';
 import * as competenceEvaluationSerializer from '../../../evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 import { DomainTransaction } from '../../domain/DomainTransaction.js';
 import { AssessmentEndedError } from '../../domain/errors.js';
@@ -133,11 +134,11 @@ const autoValidateNextChallenge = async function (request, h) {
   const locale = extractLocaleFromRequest(request);
   const assessment = await usecases.getAssessment({ assessmentId, locale });
   const userId = assessment.userId;
-  const fakeAnswer = {
+  const fakeAnswer = new Answer({
     assessmentId,
     challengeId: assessment.lastChallengeId,
     value: 'FAKE_ANSWER_WITH_AUTO_VALIDATE_NEXT_CHALLENGE',
-  };
+  });
   const validatorAlwaysOK = new ValidatorAlwaysOK();
   const alwaysTrueExaminer = new Examiner({ validator: validatorAlwaysOK });
   await usecases.correctAnswerThenUpdateAssessment({
