@@ -5,20 +5,14 @@ import { expect, sinon } from '../../../../../test-helper.js';
 describe('Unit | Handler | ImportOrganizationLearnersJobHandler', function () {
   it('should call usecase with given organizationId', async function () {
     const event = { organizationImportId: 1 };
-    const organizationId = Symbol('organizationId');
     sinon.stub(usecases, 'addOrUpdateOrganizationLearners');
-    const organizationImportRepositoryStub = {
-      get: sinon.stub(),
-    };
 
-    organizationImportRepositoryStub.get.withArgs(event.organizationImportId).resolves({ organizationId });
-
-    const handler = new ImportOrganizationLearnersJobHandler({
-      organizationImportRepository: organizationImportRepositoryStub,
-    });
+    const handler = new ImportOrganizationLearnersJobHandler();
 
     await handler.handle(event);
 
-    expect(usecases.addOrUpdateOrganizationLearners).to.have.been.calledWithExactly({ organizationId });
+    expect(usecases.addOrUpdateOrganizationLearners).to.have.been.calledWithExactly({
+      organizationImportId: event.organizationImportId,
+    });
   });
 });

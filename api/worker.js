@@ -23,7 +23,6 @@ import * as organizationLearnerRepository from './lib/infrastructure/repositorie
 import * as pgBossRepository from './lib/infrastructure/repositories/pgboss-repository.js';
 import { ImportOrganizationLearnersJob } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
 import { ImportOrganizationLearnersJobHandler } from './src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJobHandler.js';
-import * as organizationImportRepository from './src/prescription/learner-management/infrastructure/repositories/organization-import-repository.js';
 import { logger } from './src/shared/infrastructure/utils/logger.js';
 
 async function runJobs() {
@@ -74,9 +73,7 @@ async function runJobs() {
 
   monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobHandler);
 
-  monitoredJobQueue.performJob(ImportOrganizationLearnersJob.name, ImportOrganizationLearnersJobHandler, {
-    organizationImportRepository,
-  });
+  monitoredJobQueue.performJob(ImportOrganizationLearnersJob.name, ImportOrganizationLearnersJobHandler);
 
   await pgBoss.schedule(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,

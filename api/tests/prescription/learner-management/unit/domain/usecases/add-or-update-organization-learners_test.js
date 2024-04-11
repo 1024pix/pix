@@ -5,7 +5,8 @@ import { SiecleFileStreamer } from '../../../../../../src/prescription/learner-m
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | add-or-update-organization-learners', function () {
-  const organizationId = 1234;
+  const organizationImportId = 1234;
+  let organizationId;
   let organizationLearnerRepositoryStub;
   let organizationImportRepositoryStub;
   let importStorageStub;
@@ -16,12 +17,17 @@ describe('Unit | UseCase | add-or-update-organization-learners', function () {
   let organizationImportStub;
 
   beforeEach(function () {
+    organizationId = Symbol('organizationId');
+    organizationImportStub = {
+      organizationId,
+      filename: Symbol('filename'),
+      encoding: Symbol('encoding'),
+      process: sinon.stub(),
+    };
     organizationImportRepositoryStub = {
-      getLastByOrganizationId: sinon.stub(),
+      get: sinon.stub().withArgs(organizationImportId).resolves(organizationImportStub),
       save: sinon.stub(),
     };
-    organizationImportStub = { filename: Symbol('filename'), encoding: Symbol('encoding'), process: sinon.stub() };
-    organizationImportRepositoryStub.getLastByOrganizationId.returns(organizationImportStub);
 
     domainTransaction = Symbol();
     sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
@@ -56,7 +62,7 @@ describe('Unit | UseCase | add-or-update-organization-learners', function () {
     organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners.resolves();
 
     await addOrUpdateOrganizationLearners({
-      organizationId,
+      organizationImportId,
       importStorage: importStorageStub,
       organizationImportRepository: organizationImportRepositoryStub,
       organizationLearnerRepository: organizationLearnerRepositoryStub,
@@ -96,7 +102,7 @@ describe('Unit | UseCase | add-or-update-organization-learners', function () {
     const s3Error = new Error('s3 error');
     importStorageStub.readFile.rejects(s3Error);
     const error = await catchErr(addOrUpdateOrganizationLearners)({
-      organizationId,
+      organizationImportId,
       importStorage: importStorageStub,
       organizationImportRepository: organizationImportRepositoryStub,
       organizationLearnerRepository: organizationLearnerRepositoryStub,
