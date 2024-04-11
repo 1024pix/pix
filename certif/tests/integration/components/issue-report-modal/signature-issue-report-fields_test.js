@@ -1,4 +1,5 @@
-import { click, render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -8,9 +9,6 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Integration | Component | signature-issue-report-fields', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  const INPUT_RADIO_SELECTOR = '#input-radio-for-category-signature-issue';
-  const TEXTAREA_SELECTOR = '#text-area-for-category-signature-issue';
-
   test('it should call toggle function on click radio button', async function (assert) {
     // given
     const toggleOnCategory = sinon.stub();
@@ -19,13 +17,14 @@ module('Integration | Component | signature-issue-report-fields', function (hook
     this.set('signatureIssueCategory', signatureIssueCategory);
 
     // when
-    await render(hbs`
+    const screen = await render(hbs`
       <IssueReportModal::SignatureIssueReportFields
         @signatureIssueCategory={{this.signatureIssueCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
       />`);
-    await click(INPUT_RADIO_SELECTOR);
+
+    await click(screen.getByRole('radio'));
 
     // then
     assert.ok(toggleOnCategory.calledOnceWith(signatureIssueCategory));
@@ -41,17 +40,17 @@ module('Integration | Component | signature-issue-report-fields', function (hook
     this.set('updateSignatureIssueCategory', updateSignatureIssueCategory);
 
     // when
-    await render(hbs`
+    const screen = await render(hbs`
       <IssueReportModal::SignatureIssueReportFields
         @signatureIssueCategory={{this.signatureIssueCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
         @updateSignatureIssueCategoryDescription={{this.updateSignatureIssueCategory}}
       />`);
-    await click(INPUT_RADIO_SELECTOR);
+    await click(screen.getByRole('radio'));
 
     // then
-    assert.dom(TEXTAREA_SELECTOR).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Précisez' })).exists();
   });
 
   test('it should show "Précisez" if category is checked', async function (assert) {
@@ -66,17 +65,16 @@ module('Integration | Component | signature-issue-report-fields', function (hook
     this.set('updateSignatureIssueCategory', updateSignatureIssueCategory);
 
     // when
-    await render(hbs`
+    const screen = await render(hbs`
       <IssueReportModal::SignatureIssueReportFields
         @signatureIssueCategory={{this.signatureIssueCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
         @updateSignatureIssueCategoryDescription={{this.updateSignatureIssueCategory}}
       />`);
-    await click(INPUT_RADIO_SELECTOR);
+    await click(screen.getByRole('radio'));
 
     // then
-    assert.dom(TEXTAREA_SELECTOR).exists();
-    assert.contains('Précisez');
+    assert.dom(screen.getByRole('textbox', { name: 'Précisez' })).exists();
   });
 });

@@ -219,20 +219,20 @@ module('Acceptance | Session supervising', function (hooks) {
       ],
     });
 
-    const firstVisit = await visit('/connexion-espace-surveillant');
-    await fillIn(firstVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
-    await fillIn(firstVisit.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
-    await click(firstVisit.getByRole('button', { name: 'Surveiller la session' }));
+    const screen = await visit('/connexion-espace-surveillant');
+    await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+    await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
+    await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
     // when
-    await click(firstVisit.getByRole('button', { name: 'Afficher les options du candidat' }));
-    await click(firstVisit.getByRole('button', { name: 'Autoriser la reprise du test' }));
-    await firstVisit.findByRole('dialog');
-    await click(firstVisit.getByRole('button', { name: "Je confirme l'autorisation" }));
+    await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+    await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
+    await screen.findByRole('dialog');
+    await click(screen.getByRole('button', { name: "Je confirme l'autorisation" }));
     await settled();
 
     // then
-    assert.contains('Succès ! John Doe peut reprendre son test de certification.');
+    assert.dom(screen.getByText('Succès ! John Doe peut reprendre son test de certification.')).exists();
   });
 
   module('when there is no current alert', function () {
@@ -254,16 +254,16 @@ module('Acceptance | Session supervising', function (hooks) {
         ],
       });
 
-      const firstVisit = await visit('/connexion-espace-surveillant');
-      await fillIn(firstVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
-      await fillIn(firstVisit.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
-      await click(firstVisit.getByRole('button', { name: 'Surveiller la session' }));
+      const screen = await visit('/connexion-espace-surveillant');
+      await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+      await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
+      await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
       // when
-      await click(firstVisit.getByRole('button', { name: 'Afficher les options du candidat' }));
+      await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
 
       // then
-      assert.dom('button[name="Gérer le signalement"]').doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Gérer le signalement' })).doesNotExist();
     });
   });
 
@@ -346,7 +346,7 @@ module('Acceptance | Session supervising', function (hooks) {
           await settled();
 
           // then
-          assert.contains('Une erreur a eu lieu. Merci de réessayer ultérieurement.');
+          assert.dom(screen.getByText('Une erreur a eu lieu. Merci de réessayer ultérieurement.')).exists();
         });
       });
     });
@@ -461,7 +461,7 @@ module('Acceptance | Session supervising', function (hooks) {
           await settled();
 
           // then
-          assert.contains('Une erreur a eu lieu. Merci de réessayer ultérieurement.');
+          assert.dom(screen.getByText('Une erreur a eu lieu. Merci de réessayer ultérieurement.')).exists();
         });
       });
     });

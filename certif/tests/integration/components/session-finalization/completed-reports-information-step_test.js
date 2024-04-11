@@ -127,7 +127,7 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     this.set('session', session);
 
     // when
-    await render(hbs`
+    const screen = await render(hbs`
         <SessionFinalization::CompletedReportsInformationStep
           @session={{this.session}}
           @certificationReports={{this.certificationReports}}
@@ -138,7 +138,13 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
       `);
 
     // then
-    assert.dom('.session-finalization-reports-information-step__title-completed').doesNotExist();
+    assert
+      .dom(
+        screen.queryByRole('table', {
+          name: 'Certification(s) terminée(s) Liste des candidats qui ont fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant.',
+        }),
+      )
+      .doesNotExist();
   });
 
   module('when the end test screen removal feature was disabled during the certification', function () {

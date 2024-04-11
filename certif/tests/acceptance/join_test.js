@@ -81,7 +81,7 @@ module('Acceptance | join ', function (hooks) {
             id: 1,
             certificationCenterName: 'Super Centre de Certif',
           });
-          await visit(`/rejoindre?invitationId=${certificationCenterInvitation.id}&code=${code}`);
+          const screen = await visit(`/rejoindre?invitationId=${certificationCenterInvitation.id}&code=${code}`);
           await clickByName(toogleloginFormButton);
           await fillByLabel(emailInputLabel, certificationPointOfContactWithCgus.email);
           await fillByLabel(passwordInputLabel, 'secret');
@@ -93,8 +93,9 @@ module('Acceptance | join ', function (hooks) {
           // then
           assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
           assert.strictEqual(currentURL(), '/sessions/liste');
-          assert.contains('Harry Cover');
-          assert.contains('Collège Truffaut');
+          assert.dom(
+            screen.getByRole('button', { name: 'Harry Cover Collège Truffaut (ABC123) Ouvrir le menu utilisateur' }),
+          );
         });
       },
     );

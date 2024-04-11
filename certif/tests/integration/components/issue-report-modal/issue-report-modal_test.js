@@ -1,6 +1,6 @@
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import { click, render } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import {
   categoryToLabel,
@@ -30,7 +30,7 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     this.set('onClickDeleteIssueReport', sinon.stub());
 
     // when
-    await render(hbs`
+    const screen = await render(hbs`
     <IssueReportModal::IssueReportsModal
       @showModal={{true}}
       @closeModal={{this.closeModal}}
@@ -41,7 +41,7 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     `);
 
     // then
-    assert.contains('Lisa Monpud');
+    assert.dom(screen.getByRole('heading', { name: 'Signalement du candidat : Lisa Monpud', level: 1 })).exists();
   });
 
   test('it shows the number of issue reports', async function (assert) {
@@ -69,7 +69,7 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     this.set('onClickDeleteIssueReport', sinon.stub());
 
     // when
-    await render(hbs`
+    const screen = await render(hbs`
     <IssueReportModal::IssueReportsModal
       @showModal={{true}}
       @closeModal={{this.closeModal}}
@@ -80,7 +80,7 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     `);
 
     // then
-    assert.contains('Mes signalements (2)');
+    assert.dom(screen.getByRole('heading', { name: 'Mes signalements (2)', level: 2 })).exists();
   });
 
   test('it shows a list of issue reports', async function (assert) {
@@ -108,7 +108,7 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     this.set('onClickDeleteIssueReport', sinon.stub());
 
     // when
-    await render(hbs`
+    const screen = await render(hbs`
     <IssueReportModal::IssueReportsModal
       @showModal={{true}}
       @closeModal={{this.closeModal}}
@@ -119,10 +119,22 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     `);
 
     // then
-    assert.contains(this.intl.t(categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]));
-    assert.contains(this.intl.t(subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED]));
-    assert.contains(this.intl.t(categoryToLabel[certificationIssueReportCategories.FRAUD]));
-    assert.contains(this.intl.t(subcategoryToLabel[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]));
+    assert
+      .dom(
+        screen.getByText(
+          this.intl.t(categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]),
+        ),
+      )
+      .exists();
+    assert
+      .dom(screen.getByText(this.intl.t(subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED])))
+      .exists();
+    assert.dom(screen.getByText(this.intl.t(categoryToLabel[certificationIssueReportCategories.FRAUD]))).exists();
+    assert
+      .dom(
+        screen.getByText(this.intl.t(subcategoryToLabel[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING])),
+      )
+      .exists();
   });
 
   test('it calls a function linked to the close button', async function (assert) {
@@ -142,8 +154,9 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     this.set('onClickDeleteIssueReport', sinon.stub());
 
     // when
-    await render(hbs`
+    const screen = await render(hbs`
     <IssueReportModal::IssueReportsModal
+      @showModal={{true}}
       @closeModal={{this.closeModal}}
       @onClickIssueReport={{this.onClickIssueReport}}
       @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
@@ -151,7 +164,7 @@ module('Integration | Component | issue-report-modal', function (hooks) {
       />
     `);
 
-    await click('[aria-label="Fermer"]');
+    await click(screen.getByRole('button', { name: 'Fermer' }));
 
     // then
     sinon.assert.calledOnce(closeModal);
@@ -175,7 +188,7 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     this.set('onClickDeleteIssueReport', sinon.stub());
 
     // when
-    const screen = await renderScreen(hbs`
+    const screen = await render(hbs`
     <IssueReportModal::IssueReportsModal
       @showModal={{true}}
       @closeModal={{this.closeModal}}
@@ -184,6 +197,7 @@ module('Integration | Component | issue-report-modal', function (hooks) {
       @report={{this.report}}
       />
     `);
+
     await click(screen.getByRole('button', { name: 'Ajouter un signalement' }));
 
     // then
@@ -214,8 +228,9 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     this.set('onClickDeleteIssueReport', onClickDeleteIssueReport);
 
     // when
-    await render(hbs`
+    const screen = await render(hbs`
     <IssueReportModal::IssueReportsModal
+      @showModal={{true}}
       @closeModal={{this.closeModal}}
       @onClickIssueReport={{this.onClickIssueReport}}
       @onClickDeleteIssueReport={{this.onClickDeleteIssueReport}}
@@ -223,7 +238,7 @@ module('Integration | Component | issue-report-modal', function (hooks) {
       />
     `);
 
-    await click('[aria-label="Supprimer le signalement"]');
+    await click(screen.getByRole('button', { name: 'Supprimer le signalement' }));
 
     // then
     sinon.assert.calledOnce(onClickDeleteIssueReport);

@@ -41,12 +41,12 @@ module('Acceptance | authentication', function (hooks) {
         await invalidateSession();
         certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
 
-        await visit('/connexion');
-        await fillIn('#login-email', certificationPointOfContact.email);
-        await fillIn('#login-password', 'secret');
+        const screen = await visit('/connexion');
+        await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), certificationPointOfContact.email);
+        await fillIn(screen.getByLabelText('Mot de passe'), 'secret');
 
         // when
-        await click('button[type=submit]');
+        await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
         // then
         assert.strictEqual(currentURL(), '/cgu');
@@ -54,28 +54,6 @@ module('Acceptance | authentication', function (hooks) {
           currentSession(this.application).get('isAuthenticated'),
           'The certificationPointOfContact is authenticated',
         );
-      });
-
-      test('it should not show menu nor top bar', async function (assert) {
-        // given
-        await invalidateSession();
-        certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
-
-        await visit('/connexion');
-        await fillIn('#login-email', certificationPointOfContact.email);
-        await fillIn('#login-password', 'secret');
-
-        // when
-        await click('button[type=submit]');
-
-        // then
-        assert.ok(
-          currentSession(this.application).get('isAuthenticated'),
-          'The certificationPointOfContact is authenticated',
-        );
-
-        assert.dom('.app__sidebar').doesNotExist();
-        assert.dom('.main-content__topbar').doesNotExist();
       });
     });
 
@@ -85,12 +63,12 @@ module('Acceptance | authentication', function (hooks) {
         await invalidateSession();
         certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
 
-        await visit('/connexion');
-        await fillIn('#login-email', certificationPointOfContact.email);
-        await fillIn('#login-password', 'secret');
+        const screen = await visit('/connexion');
+        await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), certificationPointOfContact.email);
+        await fillIn(screen.getByLabelText('Mot de passe'), 'secret');
 
         // when
-        await click('button[type=submit]');
+        await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
         // then
 

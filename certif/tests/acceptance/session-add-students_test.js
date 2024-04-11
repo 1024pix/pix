@@ -13,6 +13,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
   let allowedCertificationCenterAccess;
   let certificationPointOfContact;
   let session;
+  const DEFAULT_PAGE_SIZE = 50;
 
   hooks.beforeEach(function () {
     allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
@@ -111,40 +112,67 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
     });
 
     module('when there are some students', function () {
-      const rowSelector = '.add-student-list table tbody tr';
-
       test('it should be possible to filter student list by division', async function (assert) {
         // given
-        server.createList('student', 2, { division: '3A', isSelected: false, isEnrolled: false });
-        server.create('student', { division: '3B', isSelected: false, isEnrolled: false });
-        server.create('student', { division: '2A', isSelected: false, isEnrolled: false });
+        server.create('student', {
+          firstName: 'Alain',
+          lastName: 'Cendy',
+          division: '3A',
+          birthdate: '2000-01-01',
+          isSelected: false,
+          isEnrolled: false,
+        });
         server.create('division', { name: '3A' });
-        server.create('division', { name: '2A' });
-        server.create('division', { name: '3B' });
 
-        // when
         const screen = await visitScreen(`/sessions/${session.id}/candidats`);
         await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
         await click(
           screen.getByRole('textbox', { name: 'Filtrer la liste des élèves en cochant la ou les classes souhaitées' }),
         );
         await screen.findByRole('menu');
+
+        // when
         await click(screen.getByRole('checkbox', { name: '3A' }));
 
         // then
         const studentRowsLength = screen.getAllByRole('row').length;
-        assert.strictEqual(studentRowsLength, 3);
+        assert.strictEqual(studentRowsLength, 2);
       });
 
-      module('when there are no enrolled students', function () {
-        const DEFAULT_PAGE_SIZE = 50;
+      module('when there are no enrolled students', function (hooks) {
+        hooks.beforeEach(async () => {
+          server.create('student', {
+            firstName: 'Quentin',
+            lastName: 'Lebouquetin',
+            division: '3A',
+            birthdate: '2000-01-01',
+            isSelected: false,
+            isEnrolled: false,
+          });
+          server.create('student', {
+            firstName: 'Quentdeux',
+            lastName: 'Lemouton',
+            division: '2A',
+            birthdate: '2000-01-01',
+            isSelected: false,
+            isEnrolled: false,
+          });
+          server.create('student', {
+            firstName: 'Quenttrois',
+            lastName: 'Lecabri',
+            division: '3B',
+            birthdate: '2000-01-01',
+            isSelected: false,
+            isEnrolled: false,
+          });
+          server.createList('student', DEFAULT_PAGE_SIZE);
+        });
 
         test('it should show first page of students (with default size)', async function (assert) {
           // given
-          server.createList('student', DEFAULT_PAGE_SIZE + 2, { isSelected: false, isEnrolled: false });
+          const screen = await visitScreen(`/sessions/${session.id}/candidats`);
 
           // when
-          const screen = await visitScreen(`/sessions/${session.id}/candidats`);
           await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
           // then
@@ -153,58 +181,42 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
         });
 
         module('when selecting some students', function () {
-          const checkboxSelector = '.pix-checkbox__input';
-
           test('it should be possible to select 3 students', async function (assert) {
             // given
-            server.create('student', {
-              firstName: 'Quentin',
-              lastName: 'Lebouquetin',
-              division: '3B',
-              birthdate: '2000-01-01',
-              isSelected: false,
-              isEnrolled: false,
-            });
-            server.create('student', {
-              firstName: 'Quentdeux',
-              lastName: 'Lemouton',
-              division: '3B',
-              birthdate: '2000-01-01',
-              isSelected: false,
-              isEnrolled: false,
-            });
-            server.create('student', {
-              firstName: 'Quenttrois',
-              lastName: 'Lecabri',
-              division: '3B',
-              birthdate: '2000-01-01',
-              isSelected: false,
-              isEnrolled: false,
-            });
-            server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
             const screen = await visitScreen(`/sessions/${session.id}/candidats`);
             await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
+            const firstCheckbox = screen.getByRole('checkbox', {
+              name: 'Sélectionner le candidat Quentin Lebouquetin',
+            });
+            const secondCheckbox = screen.getByRole('checkbox', {
+              name: 'Sélectionner le candidat Quentdeux Lemouton',
+            });
+            const thirdCheckbox = screen.getByRole('checkbox', {
+              name: 'Sélectionner le candidat Quenttrois Lecabri',
+            });
 
             // when
-            await click(screen.getByRole('checkbox', { name: 'Sélectionner le candidat Quentin Lebouquetin' }));
-            await click(screen.getByRole('checkbox', { name: 'Sélectionner le candidat Quentdeux Lemouton' }));
-            await click(screen.getByRole('checkbox', { name: 'Sélectionner le candidat Quenttrois Lecabri' }));
+            await click(firstCheckbox);
+            await click(secondCheckbox);
+            await click(thirdCheckbox);
 
             // then
             const allRowLength = screen.getAllByRole('row').length;
             assert.strictEqual(allRowLength, DEFAULT_PAGE_SIZE + 1);
-            const checkboxCheckedLength = screen.getAllByRole('checkbox', { checked: true }).length;
-            assert.strictEqual(checkboxCheckedLength, 4);
+            assert.dom(firstCheckbox).isChecked();
+            assert.dom(secondCheckbox).isChecked();
+            assert.dom(thirdCheckbox).isChecked();
           });
 
           test('it should cancel students enrolment', async function (assert) {
             // given
-            server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
             const screen = await visitScreen(`/sessions/${session.id}/candidats`);
             await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
             // given
-            const checkbox = document.querySelector(rowSelector + ' ' + checkboxSelector);
+            const checkbox = screen.getByRole('checkbox', {
+              name: 'Sélectionner le candidat Quentin Lebouquetin',
+            });
             await click(checkbox);
 
             // when
@@ -217,10 +229,11 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
           module('when clicking on "Ajout"', function () {
             test('it redirect to previous page', async function (assert) {
               // given
-              server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
               const screen = await visitScreen(`/sessions/${session.id}/candidats`);
               await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
-              const checkbox = document.querySelector(rowSelector + ' ' + checkboxSelector);
+              const checkbox = screen.getByRole('checkbox', {
+                name: 'Sélectionner le candidat Quentin Lebouquetin',
+              });
               await click(checkbox);
 
               // when
@@ -232,12 +245,19 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
             test('it should add students as certification candidates', async function (assert) {
               // given
-              server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
               const screen = await visitScreen(`/sessions/${session.id}/candidats`);
               await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
-              const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
-              const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
-              const thirdCheckbox = document.querySelector(rowSelector + ':nth-child(3) ' + checkboxSelector);
+              const firstCheckbox = screen.getByRole('checkbox', {
+                name: 'Sélectionner le candidat Quentin Lebouquetin',
+              });
+              const secondCheckbox = screen.getByRole('checkbox', {
+                name: 'Sélectionner le candidat Quentdeux Lemouton',
+              });
+              const thirdCheckbox = screen.getByRole('checkbox', {
+                name: 'Sélectionner le candidat Quenttrois Lecabri',
+              });
+
+              // when
               await click(firstCheckbox);
               await click(secondCheckbox);
               await click(thirdCheckbox);
@@ -253,61 +273,55 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
             test('it should display confirmation message', async function (assert) {
               // given
-              server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
               const screen = await visitScreen(`/sessions/${session.id}/candidats`);
               await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
-              const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
-              const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
-              const thirdCheckbox = document.querySelector(rowSelector + ':nth-child(3) ' + checkboxSelector);
-              await click(firstCheckbox);
-              await click(secondCheckbox);
-              await click(thirdCheckbox);
+
+              const checkbox = screen.getByRole('checkbox', {
+                name: 'Sélectionner le candidat Quentin Lebouquetin',
+              });
+              await click(checkbox);
 
               // when
               await click(screen.getByRole('button', { name: 'Inscrire' }));
 
               // then
-              assert
-                .dom('[data-test-notification-message="success"]')
-                .hasText('Le(s) candidat(s) ont été inscrit(s) avec succès.');
+              assert.dom(screen.getByText('Le(s) candidat(s) ont été inscrit(s) avec succès.')).exists();
             });
           });
         });
       });
 
       module('when there are enrolled students', function (hooks) {
-        let sessionWithEnrolledStudent;
-
         hooks.beforeEach(async () => {
-          // given
-          sessionWithEnrolledStudent = server.create('session', {
-            certificationCenterId: allowedCertificationCenterAccess.id,
-          });
           server.create('student', {
+            firstName: 'Quentin',
+            lastName: 'Lebouquetin',
+            division: '3A',
+            birthdate: '2000-01-01',
             isSelected: false,
             isEnrolled: false,
-            firstName: 'Jean',
-            lastName: 'NotEnrolled',
           });
           const enrolledStudent = server.create('student', {
+            firstName: 'Alain',
+            lastName: 'Cendy',
+            division: '3B',
+            birthdate: '2000-01-01',
             isSelected: false,
             isEnrolled: true,
-            firstName: 'Jean',
-            lastName: 'Enrolled',
           });
           server.create('certification-candidate', {
             organizationLearnerId: enrolledStudent.id,
-            sessionId: sessionWithEnrolledStudent.id,
+            sessionId: session.id,
           });
         });
 
         test('it should show label accordingly', async function (assert) {
           // given
-          const screen = await visitScreen(`/sessions/${sessionWithEnrolledStudent.id}/candidats`);
+          const screen = await visitScreen(`/sessions/${session.id}/candidats`);
           await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
           // when
-          await click(screen.getByRole('checkbox', { name: 'Sélectionner le candidat Jean NotEnrolled' }));
+          await click(screen.getByRole('checkbox', { name: 'Sélectionner le candidat Quentin Lebouquetin' }));
 
           // then
           assert.dom(screen.getByText('1 candidat(s) déjà inscrit(s) à la session')).exists();
@@ -316,21 +330,21 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
         test('it should be impossible to select enrolled student', async function (assert) {
           // given
-          const screen = await visitScreen(`/sessions/${sessionWithEnrolledStudent.id}/candidats`);
+          const screen = await visitScreen(`/sessions/${session.id}/candidats`);
 
           // when
           await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
           // then
           assert
-            .dom(screen.getByRole('checkbox', { name: 'Candidat Jean Enrolled sélectionné' }))
+            .dom(screen.getByRole('checkbox', { name: 'Candidat Alain Cendy sélectionné' }))
             .hasAttribute('disabled');
         });
 
         module('when toggle all click', function () {
           test('it should still show "1 candidat sélectionné | 1 candidat déjà ajouté à la session"', async function (assert) {
             // given
-            const screen = await visitScreen(`/sessions/${sessionWithEnrolledStudent.id}/candidats`);
+            const screen = await visitScreen(`/sessions/${session.id}/candidats`);
             await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
             // when

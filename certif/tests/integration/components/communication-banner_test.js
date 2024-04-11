@@ -23,10 +23,10 @@ module('Integration | Component | communication-banner', function (hooks) {
     ENV.APP.BANNER.TYPE = '';
 
     // when
-    await render(hbs`<CommunicationBanner />`);
+    const screen = await render(hbs`<CommunicationBanner />`);
 
     // then
-    assert.dom('.pix-banner').doesNotExist();
+    assert.dom(screen.queryByRole('button', { name: 'Fermer' })).doesNotExist();
   });
 
   test('should display the information banner', async function (assert) {

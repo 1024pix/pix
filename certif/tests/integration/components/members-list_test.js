@@ -1,4 +1,4 @@
-import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
+import { clickByName, render, within } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
@@ -42,7 +42,7 @@ module('Integration | Component | MembersList', function (hooks) {
       this.set('members', members);
 
       // when
-      const screen = await renderScreen(hbs`<MembersList @members={{this.members}}/>`);
+      const screen = await render(hbs`<MembersList @members={{this.members}}/>`);
 
       // then
       assert.dom(screen.getByRole('columnheader', { name: this.intl.t('common.labels.candidate.lastname') })).exists();
@@ -50,8 +50,11 @@ module('Integration | Component | MembersList', function (hooks) {
       assert.dom(screen.getByRole('columnheader', { name: this.intl.t('common.labels.candidate.role') })).exists();
       assert.dom(screen.getByRole('columnheader', { name: this.intl.t('pages.team.table-headers.actions') })).exists();
       assert.strictEqual(members.length, 2);
-      assert.contains('Gojô');
-      assert.contains('Itadori');
+
+      const table = screen.getByRole('table');
+      const rows = await within(table).findAllByRole('row');
+      assert.dom(within(rows[1]).getByRole('cell', { name: 'Gojô' })).exists();
+      assert.dom(within(rows[2]).getByRole('cell', { name: 'Itadori' })).exists();
     });
   });
 
@@ -67,7 +70,7 @@ module('Integration | Component | MembersList', function (hooks) {
       this.set('hasCleaHabilitation', true);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
       );
       // then
@@ -87,7 +90,7 @@ module('Integration | Component | MembersList', function (hooks) {
       this.set('hasCleaHabilitation', true);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
       );
 
@@ -108,7 +111,7 @@ module('Integration | Component | MembersList', function (hooks) {
       this.set('hasCleaHabilitation', true);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
       );
 
@@ -128,7 +131,7 @@ module('Integration | Component | MembersList', function (hooks) {
       this.set('hasCleaHabilitation', false);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
       );
 
@@ -169,7 +172,7 @@ module('Integration | Component | MembersList', function (hooks) {
 
       test('displays a modal', async function (assert) {
         // given
-        const screen = await renderScreen(hbs`<MembersList @members={{this.members}}/>`);
+        const screen = await render(hbs`<MembersList @members={{this.members}}/>`);
 
         await click(screen.getAllByRole('button', { name: 'Gérer' })[0]);
 
@@ -186,7 +189,7 @@ module('Integration | Component | MembersList', function (hooks) {
         module('when clicking on "Annuler" button', function () {
           test('closes the modal', async function (assert) {
             // given
-            const screen = await renderScreen(hbs`<MembersList @members={{this.members}}/>`);
+            const screen = await render(hbs`<MembersList @members={{this.members}}/>`);
 
             await click(screen.getAllByRole('button', { name: 'Gérer' })[0]);
             await clickByName('Quitter cet espace Pix Certif');
@@ -211,7 +214,7 @@ module('Integration | Component | MembersList', function (hooks) {
             const session = this.owner.lookup('service:session');
             sinon.stub(session, 'waitBeforeInvalidation');
 
-            const screen = await renderScreen(
+            const screen = await render(
               hbs`<MembersList @members={{this.members}} @onLeaveCertificationCenter={{this.onLeaveCertificationCenter}}/>`,
             );
 

@@ -1,5 +1,5 @@
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -24,8 +24,8 @@ module('Acceptance | authenticated', function (hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      await visit(`/sessions/${session.id}`);
-      await click('.sidebar__logo a');
+      const screen = await visit(`/sessions/${session.id}`);
+      await click(screen.getByRole('link', { name: "Page d'accueil de Pix Certif" }));
 
       // then
       assert.strictEqual(currentURL(), '/sessions/liste');
@@ -42,14 +42,14 @@ module('Acceptance | authenticated', function (hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      const screen = await visitScreen(`/sessions/${session.id}`);
+      const screen = await visit(`/sessions/${session.id}`);
       await click(screen.getByRole('link', { name: 'Sessions de certification' }));
 
       // then
       assert.strictEqual(currentURL(), '/sessions/liste');
     });
 
-    test('it should show a "Espace surveillant" button', async function (assert) {
+    test('it should show the invigilator portal button', async function (assert) {
       // given
       const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
         name: 'Bibiche',
@@ -64,13 +64,13 @@ module('Acceptance | authenticated', function (hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      const screen = await visitScreen('/sessions/liste');
+      const screen = await visit('/sessions/liste');
 
       // then
       assert.dom(screen.getByRole('link', { name: 'Espace surveillant' })).exists();
     });
 
-    test('it should open the login session supervisor in a new tab', async function (assert) {
+    test('it should open the invigilator portal form in a new tab', async function (assert) {
       // given
       const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
         name: 'Bibiche',
@@ -85,7 +85,7 @@ module('Acceptance | authenticated', function (hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      const screen = await visitScreen('/sessions/liste');
+      const screen = await visit('/sessions/liste');
       const invigilatorSpaceLink = screen.getByRole('link', { name: 'Espace surveillant' });
       await click(invigilatorSpaceLink);
 
@@ -104,7 +104,7 @@ module('Acceptance | authenticated', function (hooks) {
           await authenticateSession(certificationPointOfContact.id);
 
           // when
-          const screen = await visitScreen('/sessions/liste');
+          const screen = await visit('/sessions/liste');
 
           // then
           assert
@@ -125,7 +125,7 @@ module('Acceptance | authenticated', function (hooks) {
           await authenticateSession(certificationPointOfContact.id);
 
           // when
-          const screen = await visitScreen('/sessions/liste');
+          const screen = await visit('/sessions/liste');
 
           // then
           const certificationBannerMessage = screen.queryByText(
@@ -160,7 +160,7 @@ module('Acceptance | authenticated', function (hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      const screen = await visitScreen('/');
+      const screen = await visit('/');
       await click(screen.getByRole('button', { name: 'Buffy Summers Bibiche (ABC123) Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
@@ -204,7 +204,7 @@ module('Acceptance | authenticated', function (hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      const screen = await visitScreen('/');
+      const screen = await visit('/');
       await click(screen.getByRole('button', { name: 'Buffy Summers Bibiche (ABC123) Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
@@ -241,7 +241,7 @@ module('Acceptance | authenticated', function (hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      const screen = await visitScreen('/sessions/555');
+      const screen = await visit('/sessions/555');
       await click(screen.getByRole('button', { name: 'Buffy Summers Bibiche (ABC123) Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
@@ -278,7 +278,7 @@ module('Acceptance | authenticated', function (hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      const screen = await visitScreen('/sessions/555');
+      const screen = await visit('/sessions/555');
       await click(screen.getByRole('button', { name: 'Buffy Summers Bibiche (ABC123) Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
@@ -315,7 +315,7 @@ module('Acceptance | authenticated', function (hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      const screen = await visitScreen('/');
+      const screen = await visit('/');
       await click(screen.getByRole('button', { name: 'Buffy Summers Bibiche (ABC123) Ouvrir le menu utilisateur' }));
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 

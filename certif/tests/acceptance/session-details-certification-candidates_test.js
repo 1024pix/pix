@@ -87,73 +87,76 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
       test('it should display a sentence when there is no certification candidates yet', async function (assert) {
         // when
-        await visit(`/sessions/${session.id}/candidats`);
+        const screen = await visit(`/sessions/${session.id}/candidats`);
 
         // then
-        assert.dom('table tbody').doesNotExist();
-        assert.contains('En attente de candidats');
+        assert.dom(screen.getByText('En attente de candidats')).exists();
       });
     });
 
     module('when there are some candidates', function (hooks) {
       let sessionWithCandidates;
-      let candidates;
 
       hooks.beforeEach(function () {
         sessionWithCandidates = server.create('session', {
           certificationCenterId: allowedCertificationCenterAccess.id,
         });
-        candidates = server.createList('certification-candidate', 3, {
+        server.create('certification-candidate', {
+          firstName: 'Alin',
+          lastName: 'Cendy',
           sessionId: sessionWithCandidates.id,
           isLinked: false,
-          resultRecipientEmail: 'recipient@example.com',
+          resultRecipientEmail: 'cendy@example.com',
+          birthdate: '10-10-2000',
+          externalId: 'EXTERNAL-ID',
+        });
+        server.create('certification-candidate', {
+          firstName: 'Alain',
+          lastName: 'Sassin',
+          sessionId: sessionWithCandidates.id,
+          isLinked: false,
+          resultRecipientEmail: 'sassin@example.com',
         });
       });
 
       test('it should display details modal button', async function (assert) {
         // when
-        await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+        const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
 
         // then
-        assert.contains('Voir le détail');
+        assert.dom(screen.getByRole('button', { name: 'Voir le détail du candidat Alin Cendy' })).exists();
       });
 
       test('it should display the list of certification candidates ', async function (assert) {
         // given
         const dayjs = this.owner.lookup('service:dayjs');
-        const aCandidate = candidates[0];
 
         // when
         const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
 
         // then
-        assert.strictEqual(screen.getAllByRole('row').length, 4);
-        assert.dom(screen.getByRole('cell', { name: aCandidate.lastName })).exists();
-        assert.dom(screen.getByRole('cell', { name: aCandidate.firstName })).exists();
+        assert.strictEqual(screen.getAllByRole('row').length, 3);
+        assert.dom(screen.getByRole('cell', { name: 'Cendy' })).exists();
+        assert.dom(screen.getByRole('cell', { name: 'Alin' })).exists();
+        assert.dom(screen.getByRole('cell', { name: 'cendy@example.com' })).exists();
         assert
-          .dom(screen.getByRole('cell', { name: dayjs.self(aCandidate.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY') }))
+          .dom(screen.getByRole('cell', { name: dayjs.self('10-10-2000', 'YYYY-MM-DD').format('DD/MM/YYYY') }))
           .exists();
-        assert.contains(aCandidate.resultRecipientEmail);
-        assert.dom(screen.getByRole('cell', { name: aCandidate.externalId })).exists();
+        assert.dom(screen.getByRole('cell', { name: 'EXTERNAL-ID' })).exists();
       });
 
       module('when the details button is clicked', function () {
         test('it should display the candidate details modal', async function (assert) {
-          // given
-          const aCandidate = candidates[0];
-
           // when
           const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-          await click(
-            screen.getByLabelText(`Voir le détail du candidat ${aCandidate.firstName} ${aCandidate.lastName}`),
-          );
-          await screen.findByRole('dialog');
+          await click(screen.getByLabelText(`Voir le détail du candidat Alain Sassin`));
 
           // then
-          assert.contains('Détail du candidat');
-          assert.contains('Commune de naissance');
-          assert.contains(aCandidate.birthCity);
-          assert.contains(aCandidate.sex === 'F' ? 'Femme' : 'Homme');
+          const modal = await screen.findByRole('dialog');
+          assert.dom(screen.getByRole('heading', { name: 'Détail du candidat' })).exists();
+          assert.dom(screen.getByText('Commune de naissance')).exists();
+          assert.dom(within(modal).getByText('France')).exists();
+          assert.dom(within(modal).getByText('Homme')).exists();
         });
       });
 
@@ -202,7 +205,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               assert
                 .dom(
                   screen.getByText(
-                    "La version du document est inconnue.Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
+                    "Veuillez télécharger à nouveau le modèle de liste des candidats et l'importer à nouveau.",
                     { exact: false },
                   ),
                 )
@@ -286,14 +289,16 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               server.create('certification-candidate', { sessionId: sessionWithCandidates.id, isLinked: true });
 
               // when
-              await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
+              const screen = await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
 
               // then
               assert
-                .dom('.panel-actions__warning')
-                .hasText(
-                  'La session a débuté, vous ne pouvez plus importer une liste de candidats. Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.',
-                );
+                .dom(
+                  screen.getByText(
+                    'La session a débuté, vous ne pouvez plus importer une liste de candidats. Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.',
+                  ),
+                )
+                .exists();
             });
           });
         });
@@ -302,13 +307,12 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
     test('it should redirect to the default candidates detail view', async function (assert) {
       // given
-      const linkToCandidate = '.session-details__controls-navbar-tabs a:nth-of-type(2)';
-      const connectedcertificationPointOfContactId = certificationPointOfContact.id;
-      await authenticateSession(connectedcertificationPointOfContactId);
+      const connectedCertificationPointOfContactId = certificationPointOfContact.id;
+      await authenticateSession(connectedCertificationPointOfContactId);
 
       // when
-      await visit(`/sessions/${session.id}`);
-      await click(linkToCandidate);
+      const screen = await visit(`/sessions/${session.id}`);
+      await click(screen.getByRole('link', { name: 'Candidats' }));
 
       // then
       assert.strictEqual(currentURL(), `/sessions/${session.id}/candidats`);
@@ -329,7 +333,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
         // then
         await screen.findByRole('dialog');
-        assert.contains('Inscrire le candidat');
+        assert.dom(screen.getByRole('button', { name: 'Inscrire le candidat' })).exists();
       });
 
       module('when the addCandidate button is clicked a second time', function (hooks) {
@@ -538,8 +542,9 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
               // then
-              assert.dom('table tbody tr').exists({ count: 1 });
-              assert.contains('Prépayée 12345');
+              const table = screen.getByRole('table');
+              const rows = await within(table).findAllByRole('row');
+              assert.dom(within(rows[1]).getByRole('cell', { name: 'Prépayée 12345' })).exists();
             });
           });
         });

@@ -132,6 +132,7 @@
         "time-start": "Starting time (local time in 24-hour format)"
       }
     },
+    "home-page": "Pix Certif home page",
     "labels": {
       "billing-mode": {
         "free": "Free",

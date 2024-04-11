@@ -132,6 +132,7 @@
         "time-start": "Heure de début (heure locale)"
       }
     },
+    "home-page": "Page d'accueil de Pix Certif",
     "labels": {
       "billing-mode": {
         "free": "Gratuite",
