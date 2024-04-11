@@ -12,6 +12,7 @@ const buildMission = function ({
     fr: "une validation d'objectif en français",
   },
   status = undefined,
+  content,
 } = {}) {
   return {
     id,
@@ -21,6 +22,7 @@ const buildMission = function ({
     status,
     learningObjectives_i18n,
     validatedObjectives_i18n,
+    content,
   };
 };
 

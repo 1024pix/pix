@@ -1,28 +1,36 @@
 import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Activity } from '../../domain/models/Activity.js';
 import { ActivityNotFoundError } from '../../domain/school-errors.js';
 
-const save = async function (activity) {
-  const [savedAttributes] = await knex('activities').insert(activity).returning('*');
+const save = async function (activity, domainTransaction = DomainTransaction.emptyTransaction()) {
+  const knexConnection = domainTransaction.knexTransaction || knex;
+  const [savedAttributes] = await knexConnection('activities').insert(activity).returning('*');
   return new Activity(savedAttributes);
 };
-const updateStatus = async function ({ activityId, status }) {
-  const [updatedActivity] = await knex('activities').update({ status }).where('id', activityId).returning('*');
+const updateStatus = async function ({ activityId, status }, domainTransaction = DomainTransaction.emptyTransaction()) {
+  const knexConnection = domainTransaction.knexTransaction || knex;
+  const [updatedActivity] = await knexConnection('activities')
+    .update({ status })
+    .where('id', activityId)
+    .returning('*');
   if (!updatedActivity) {
     throw new ActivityNotFoundError(`There is no activity corresponding to the id: ${activityId}`);
   }
-  return updatedActivity;
+  return new Activity(updatedActivity);
 };
-const getLastActivity = async function (assessmentId) {
-  const activity = await knex('activities').where({ assessmentId }).orderBy('createdAt', 'DESC').first();
+const getLastActivity = async function (assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
+  const knexConnection = domainTransaction.knexTransaction || knex;
+  const activity = await knexConnection('activities').where({ assessmentId }).orderBy('createdAt', 'DESC').first();
   if (!activity) {
     throw new ActivityNotFoundError(`No activity found for the assessment: ${assessmentId}`);
   }
-  return activity;
+  return new Activity(activity);
 };
 
-const getAllByAssessmentId = async function (assessmentId) {
-  return await knex('activities').where({ assessmentId }).orderBy('createdAt', 'DESC');
+const getAllByAssessmentId = async function (assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
+  const knexConnection = domainTransaction.knexTransaction || knex;
+  return await knexConnection('activities').where({ assessmentId }).orderBy('createdAt', 'DESC');
 };
 
 export { getAllByAssessmentId, getLastActivity, save, updateStatus };

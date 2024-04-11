@@ -61,6 +61,7 @@ const buildPix1dAssessment = function ({
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-02'),
   method = Assessment.methods.PIX1D,
+  lastChallengeId,
 } = {}) {
   const values = {
     id,
@@ -69,6 +70,7 @@ const buildPix1dAssessment = function ({
     createdAt,
     updatedAt,
     method,
+    lastChallengeId,
   };
 
   return databaseBuffer.pushInsertable({

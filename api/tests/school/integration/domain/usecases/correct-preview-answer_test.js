@@ -1,6 +1,6 @@
 import { AnswerStatus, Examiner, ValidatorAlwaysOK } from '../../../../../lib/domain/models/index.js';
 import { correctPreviewAnswer } from '../../../../../src/school/domain/usecases/correct-preview-answer.js';
-import * as sharedChallengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
+import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import { domainBuilder, expect, knex, mockLearningContent } from '../../../../test-helper.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 
@@ -26,7 +26,7 @@ describe('Integration | UseCases | correct-preview-answer', function () {
     // when
     const correctedAnswer = await correctPreviewAnswer({
       activityAnswer,
-      sharedChallengeRepository,
+      challengeRepository,
       examiner: alwaysTrueExaminer,
     });
 

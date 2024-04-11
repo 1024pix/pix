@@ -1,13 +1,16 @@
 import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
 import { MissionAssessment } from '../models/mission-assessment.js';
 
-const save = async function ({ missionAssessment }) {
-  await knex('mission-assessments').insert({ ...missionAssessment });
+const save = async function ({ missionAssessment, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConnection = domainTransaction.knexTransaction || knex;
+  await knexConnection('mission-assessments').insert({ ...missionAssessment });
 };
 
-const getByAssessmentId = async function (assessmentId) {
-  const rawAssessmentMission = await knex('mission-assessments')
+const getByAssessmentId = async function (assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
+  const knexConnection = domainTransaction.knexTransaction || knex;
+  const rawAssessmentMission = await knexConnection('mission-assessments')
     .where({ assessmentId: assessmentId })
     .returning('*')
     .first();

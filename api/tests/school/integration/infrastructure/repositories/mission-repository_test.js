@@ -31,7 +31,7 @@ describe('Integration | Repository | mission-repository', function () {
         });
 
         // when
-        const mission = await missionRepository.get(1);
+        const mission = await missionRepository.get('1');
 
         // then
         expect(mission).to.deep.equal(expectedMission);

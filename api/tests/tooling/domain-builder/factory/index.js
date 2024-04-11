@@ -124,6 +124,7 @@ import { buildPrivateCertificate as buildPrivateCertificateWithCompetenceTree } 
 import { buildProgression } from './build-progression.js';
 import { buildReproducibilityRate } from './build-reproducibility-rate.js';
 import { buildResultCompetenceTree } from './build-result-competence-tree.js';
+import { buildSchoolAssessment } from './build-school-assessment.js';
 import { buildSCOCertificationCandidate } from './build-sco-certification-candidate.js';
 import { buildSession } from './build-session.js';
 import { buildSessionForAttendanceSheet } from './build-session-for-attendance-sheet.js';
@@ -339,6 +340,7 @@ export {
   buildProgression,
   buildReproducibilityRate,
   buildResultCompetenceTree,
+  buildSchoolAssessment,
   buildSCOCertificationCandidate,
   buildSession,
   buildSessionForAttendanceSheet,

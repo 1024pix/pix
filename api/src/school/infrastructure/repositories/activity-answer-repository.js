@@ -2,6 +2,7 @@ import jsYaml from 'js-yaml';
 import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import * as answerStatusDatabaseAdapter from '../../../shared/infrastructure/adapters/answer-status-database-adapter.js';
 import { ActivityAnswer } from '../../domain/models/ActivityAnswer.js';
 
@@ -26,17 +27,17 @@ function _toDomainArray(answerDTOs) {
 
 const COLUMNS = Object.freeze(['id', 'challengeId', 'activityId', 'value', 'result', 'resultDetails']);
 
-const findByActivity = async function (activityId) {
-  const answerDTOs = await knex.select(COLUMNS).from('activity-answers').where({ activityId }).orderBy('createdAt');
+const findByActivity = async function (activityId, domainTransaction = DomainTransaction.emptyTransaction()) {
+  const knexConn = domainTransaction.knexTransaction || knex;
+  const answerDTOs = await knexConn.select(COLUMNS).from('activity-answers').where({ activityId }).orderBy('createdAt');
   return _toDomainArray(answerDTOs);
 };
 
-const save = async function (answer) {
+const save = async function (answer, domainTransaction = DomainTransaction.emptyTransaction()) {
+  const knexConn = domainTransaction.knexTransaction || knex;
   const answerForDB = _adaptAnswerToDb(answer);
-  return knex.transaction(async (trx) => {
-    const [savedAnswerDTO] = await trx('activity-answers').insert(answerForDB).returning(COLUMNS);
-    return _toDomain(savedAnswerDTO);
-  });
+  const [savedAnswerDTO] = await knexConn('activity-answers').insert(answerForDB).returning(COLUMNS);
+  return _toDomain(savedAnswerDTO);
 };
 
 export { findByActivity, save };

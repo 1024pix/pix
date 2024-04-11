@@ -1,4 +1,3 @@
-import { Assessment } from '../../../../../lib/domain/models/index.js';
 import { createServer, databaseBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 
@@ -13,23 +12,14 @@ describe('Acceptance | Controller | activity-answer-controller', function () {
     context('when not isPreview', function () {
       it('should return a 201 HTTP status code', async function () {
         // given
-        const challenge = learningContentBuilder.buildChallenge();
-        const skill = learningContentBuilder.buildSkill({ id: challenge.skillId });
-
-        const learningContent = {
-          challenges: [challenge],
-          skills: [skill],
-        };
-
-        mockLearningContent(learningContent);
-
-        const assessment = databaseBuilder.factory.buildAssessment({
-          state: Assessment.states.STARTED,
-          lastChallengeId: challenge.id,
+        const challengeId = 'va_challenge_id';
+        const { assessmentId, missionId } = databaseBuilder.factory.buildMissionAssessment({
+          lastChallengeId: challengeId,
         });
-
-        databaseBuilder.factory.buildActivity({ assessmentId: assessment.id });
+        databaseBuilder.factory.buildActivity({ assessmentId });
         await databaseBuilder.commit();
+
+        mockLearningContentForMission(missionId);
 
         const payload = {
           data: {
@@ -41,13 +31,13 @@ describe('Acceptance | Controller | activity-answer-controller', function () {
             relationships: {
               challenge: {
                 data: {
-                  id: challenge.id,
+                  id: challengeId,
                 },
               },
             },
           },
           meta: {
-            assessmentId: `${assessment.id}`,
+            assessmentId: `${assessmentId}`,
           },
         };
         const options = {
@@ -130,3 +120,27 @@ describe('Acceptance | Controller | activity-answer-controller', function () {
     });
   });
 });
+
+function mockLearningContentForMission(missionId) {
+  mockLearningContent({
+    skills: [
+      learningContentBuilder.buildSkill({
+        id: 'skill_id',
+      }),
+    ],
+    challenges: [
+      learningContentBuilder.buildChallenge({
+        id: 'va_challenge_id',
+        skillId: 'skill_id',
+      }),
+    ],
+    missions: [
+      learningContentBuilder.buildMission({
+        id: missionId,
+        content: {
+          validationChallenges: [['va_challenge_id']],
+        },
+      }),
+    ],
+  });
+}

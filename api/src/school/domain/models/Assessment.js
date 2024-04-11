@@ -1,7 +1,8 @@
 import { Assessment as SharedAssessment } from '../../../shared/domain/models/Assessment.js';
+
 class Assessment extends SharedAssessment {
-  constructor({ id, missionId, organizationLearnerId, state } = {}) {
-    super({ id, state });
+  constructor({ missionId, organizationLearnerId, ...args } = {}) {
+    super({ ...args });
     this.missionId = missionId;
     this.organizationLearnerId = organizationLearnerId;
   }

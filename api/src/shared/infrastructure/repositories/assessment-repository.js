@@ -123,6 +123,7 @@ const updateWhenNewChallengeIsAsked = async function ({ id, lastChallengeId }) {
     .update({ lastChallengeId, lastQuestionState: Assessment.statesOfLastQuestion.ASKED })
     .returning('*');
   if (!assessmentUpdated) return null;
+  return new Assessment(assessmentUpdated);
 };
 
 const updateLastQuestionState = async function ({ id, lastQuestionState, domainTransaction }) {

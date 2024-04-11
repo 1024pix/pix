@@ -10,7 +10,7 @@ const buildActivity = function ({
   level = Activity.levels.TUTORIAL,
   createdAt = new Date('2020-01-01'),
   status = Activity.status.STARTED,
-  alternativeVersion = null,
+  alternativeVersion = 0,
 } = {}) {
   assessmentId = _.isUndefined(assessmentId) ? buildPix1dAssessment().id : assessmentId;
 

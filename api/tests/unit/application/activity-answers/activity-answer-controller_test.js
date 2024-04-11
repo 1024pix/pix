@@ -20,8 +20,8 @@ describe('Unit | Controller | activity-answer-controller', function () {
 
     beforeEach(async function () {
       // given
-      sinon.stub(usecases, 'correctAnswer');
       sinon.stub(usecases, 'correctPreviewAnswer');
+      sinon.stub(usecases, 'handleActivityAnswer');
 
       resultDetails = Symbol('resultDetails');
       result = Symbol('result');
@@ -49,7 +49,7 @@ describe('Unit | Controller | activity-answer-controller', function () {
           isPreview: false,
         };
         createdAnswer = domainBuilder.buildActivityAnswer({ id: answerId, activityId });
-        usecases.correctAnswer.resolves(createdAnswer);
+        usecases.handleActivityAnswer.resolves(createdAnswer);
 
         activityAnswerSerializer = {
           serialize: sinon.stub(),
@@ -65,7 +65,7 @@ describe('Unit | Controller | activity-answer-controller', function () {
         });
 
         // then
-        expect(usecases.correctAnswer).to.have.been.calledWithExactly({
+        expect(usecases.handleActivityAnswer).to.have.been.calledWithExactly({
           activityAnswer: deserializedPayload.activityAnswer,
           assessmentId,
         });
@@ -118,7 +118,7 @@ describe('Unit | Controller | activity-answer-controller', function () {
         expect(usecases.correctPreviewAnswer).to.have.been.calledWithExactly({
           activityAnswer: deserializedPayload.activityAnswer,
         });
-        expect(usecases.correctAnswer).not.to.have.been.calledWith();
+        expect(usecases.handleActivityAnswer).not.to.have.been.calledWith();
       });
 
       it('should return the serialized activity answer', async function () {
