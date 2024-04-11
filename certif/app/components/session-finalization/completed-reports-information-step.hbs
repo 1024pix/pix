@@ -2,10 +2,13 @@
   <table>
     {{#if (gt @session.uncompletedCertificationReports.length 0)}}
       <caption>
-        <div class="session-finalization-reports-information-step__title-completed">
-          <FaIcon @icon="check-circle" class="session-finalization-reports-information-step__icon" />
+        <PixMessage
+          class="session-finalization-reports-information-step__title-completed"
+          @withIcon={{true}}
+          @type="success"
+        >
           {{t "pages.session-finalization.reporting.completed-reports-information.description"}}
-        </div>
+        </PixMessage>
         <span class="sr-only">
           {{t "pages.session-finalization.reporting.completed-reports-information.extra-information"}}
         </span>

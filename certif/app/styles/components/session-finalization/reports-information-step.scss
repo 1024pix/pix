@@ -2,12 +2,6 @@
   font-size: 0.8125rem;
 
   &__title-completed {
-    display: flex;
-    background: var(--pix-success-100);
-    margin: 8px;
-    color: var(--pix-success-700);
-    font-size: 0.875rem;
-    font-weight: normal;
     padding: 20px 0 20px 24px;
 
     &--hidden {
@@ -16,11 +10,6 @@
   }
 
   &__title-uncompleted {
-    display: flex;
-    background: var(--pix-warning-100);
-    margin: 8px;
-    color: var(--pix-warning-700);
-    font-weight: bold;
     padding: 20px 0 20px 24px;
   }
 
@@ -89,10 +78,5 @@
         }
       }
     }
-  }
-
-  &__icon {
-    height: 14px;
-    margin-right: 8px;
   }
 }
