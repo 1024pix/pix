@@ -6,6 +6,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
 import * as organizationRepository from '../../../complementary-certification/infrastructure/repositories/organization-repository.js';
+import { mailService } from '../../../shared/domain/services/mail-service.js';
 import * as complementaryCertificationBadgesRepository from '../../infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as complementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
 import * as targetProfileHistoryRepository from '../../infrastructure/repositories/target-profile-history-repository.js';
@@ -19,6 +20,7 @@ import * as targetProfileHistoryRepository from '../../infrastructure/repositori
  * @typedef {complementaryCertificationForTargetProfileAttachmentRepository} ComplementaryCertificationForTargetProfileAttachmentRepository
  * @typedef {targetProfileHistoryRepository} TargetProfileHistoryRepository
  * @typedef {organizationRepository} OrganizationRepository
+ * @typedef {mailService} MailService
  **/
 const dependencies = {
   complementaryCertificationBadgesRepository,
@@ -26,6 +28,7 @@ const dependencies = {
   complementaryCertificationForTargetProfileAttachmentRepository,
   targetProfileHistoryRepository,
   organizationRepository,
+  mailService,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

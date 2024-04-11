@@ -23,12 +23,24 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();
       const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        id: 52,
         key: 'Pix+ key',
         label: 'Pix+ label',
       });
 
+      const organization = databaseBuilder.factory.buildOrganization();
+      databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId: superAdmin.id,
+      });
       const alreadyAttachedTargetProfile = databaseBuilder.factory.buildTargetProfile({
+        ownerOrganizationId: organization.id,
         id: 11,
+      });
+
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({
+        ownerOrganizationId: organization.id,
+        id: 12,
       });
       const alreadyAttachedBadge = databaseBuilder.factory.buildBadge({
         id: 999,
@@ -40,18 +52,9 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
         badgeId: alreadyAttachedBadge.id,
         detachedAt: null,
       });
-
-      const targetProfile = databaseBuilder.factory.buildTargetProfile({
-        id: 12,
-      });
-      const organization = databaseBuilder.factory.buildOrganization();
-      databaseBuilder.factory.buildMembership({
-        organizationId: organization.id,
-        userId: superAdmin.id,
-      });
       databaseBuilder.factory.buildCampaign({
         organizationId: organization.id,
-        targetProfileId: targetProfile.id,
+        targetProfileId: alreadyAttachedTargetProfile.id,
       });
       databaseBuilder.factory.buildBadge({ id: 1, targetProfileId: targetProfile.id });
 
