@@ -1,17 +1,29 @@
 import { InvalidIdentityProviderError } from '../../errors.js';
+import { CnavOidcAuthenticationService } from './cnav-oidc-authentication-service.js';
+import { FwbOidcAuthenticationService } from './fwb-oidc-authentication-service.js';
+import { GoogleOidcAuthenticationService } from './google-oidc-authentication-service.js';
+import { PaysdelaloireOidcAuthenticationService } from './paysdelaloire-oidc-authentication-service.js';
+import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authentication-service.js';
 
-class OidcAuthenticationServiceRegistry {
+export class OidcAuthenticationServiceRegistry {
   #allOidcProviderServices = null;
   #readyOidcProviderServices = null;
   #readyOidcProviderServicesForPixAdmin = null;
 
-  async configureReadyOidcProviderServices() {
-    await Promise.allSettled(
-      this.#readyOidcProviderServices.map((oidcProviderService) => oidcProviderService.createClient()),
+  constructor(dependencies = {}) {
+    this.oidcProviderRepository = dependencies.oidcProviderRepository;
+  }
+
+  async configureReadyOidcProviderServiceByCode(oidcProviderServiceCode) {
+    const oidcProviderService = this.#allOidcProviderServices?.find(
+      (oidcProviderService) => oidcProviderService.code === oidcProviderServiceCode,
     );
-    await Promise.allSettled(
-      this.#readyOidcProviderServicesForPixAdmin.map((oidcProviderService) => oidcProviderService.createClient()),
-    );
+
+    if (!oidcProviderService) return;
+    if (oidcProviderService.client) return;
+
+    await oidcProviderService.createClient();
+    return true;
   }
 
   getAllOidcProviderServices() {
@@ -39,16 +51,25 @@ class OidcAuthenticationServiceRegistry {
   }
 
   loadOidcProviderServices(oidcProviderServices) {
-    this.#allOidcProviderServices = oidcProviderServices;
+    if (this.#allOidcProviderServices) {
+      return;
+    }
+
+    const defaultOidcProviderServices = [
+      new CnavOidcAuthenticationService(),
+      new FwbOidcAuthenticationService(),
+      new GoogleOidcAuthenticationService(),
+      new PaysdelaloireOidcAuthenticationService(),
+      new PoleEmploiOidcAuthenticationService(),
+    ];
+
+    this.#allOidcProviderServices = oidcProviderServices ?? defaultOidcProviderServices;
     this.#readyOidcProviderServices = this.#allOidcProviderServices.filter(
       (oidcProviderService) => oidcProviderService.isReady,
     );
     this.#readyOidcProviderServicesForPixAdmin = this.#allOidcProviderServices.filter(
       (oidcProviderService) => oidcProviderService.isReadyForPixAdmin,
     );
+    return true;
   }
 }
-
-const oidcAuthenticationServiceRegistry = new OidcAuthenticationServiceRegistry();
-
-export { oidcAuthenticationServiceRegistry };

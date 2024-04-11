@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 import * as pixAuthenticationService from '../../../src/authentication/domain/services/pix-authentication-service.js';
 import * as refreshTokenService from '../../../src/authentication/domain/services/refresh-token-service.js';
+import * as oidcProviderRepository from '../../../src/authentication/infrastructure/repositories/oidc-provider-repository.js';
 import * as complementaryCertificationCourseRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-course-repository.js';
 import * as complementaryCertificationRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
 import * as targetProfileHistoryRepository from '../../../src/certification/complementary-certification/infrastructure/repositories/target-profile-history-repository.js';
@@ -170,7 +171,7 @@ import * as userSavedTutorialRepository from '../../infrastructure/repositories/
 import * as codeUtils from '../../infrastructure/utils/code-utils.js';
 import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
 import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';
-import { oidcAuthenticationServiceRegistry } from '../services/authentication/oidc-authentication-service-registry.js';
+import { OidcAuthenticationServiceRegistry } from '../services/authentication/oidc-authentication-service-registry.js';
 import * as learningContentConversionService from '../services/learning-content/learning-content-conversion-service.js';
 import * as organizationInvitationService from '../services/organization-invitation-service.js';
 import * as scoAccountRecoveryService from '../services/sco-account-recovery-service.js';
@@ -178,6 +179,8 @@ import * as userReconciliationService from '../services/user-reconciliation-serv
 import * as organizationCreationValidator from '../validators/organization-creation-validator.js';
 import * as organizationValidator from '../validators/organization-with-tags-and-target-profiles-script.js';
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
+
+const oidcAuthenticationServiceRegistry = new OidcAuthenticationServiceRegistry({ oidcProviderRepository });
 
 function requirePoleEmploiNotifier() {
   if (config.poleEmploi.pushEnabled) {
@@ -396,4 +399,4 @@ const usecasesWithoutInjectedDependencies = {
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
-export { usecases };
+export { oidcAuthenticationServiceRegistry, usecases };
