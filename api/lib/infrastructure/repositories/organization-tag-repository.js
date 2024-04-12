@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 
+import * as knexUtils from '../../../src/shared/infrastructure/utils/knex-utils.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
-import * as knexUtils from '../utils/knex-utils.js';
 
 const { omit } = lodash;
 

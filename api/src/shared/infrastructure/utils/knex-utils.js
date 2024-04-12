@@ -1,4 +1,4 @@
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../db/knex-database-connection.js';
 
 const DEFAULT_PAGINATION = {
   PAGE: 1,

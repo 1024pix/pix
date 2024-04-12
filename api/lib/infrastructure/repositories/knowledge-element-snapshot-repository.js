@@ -2,10 +2,10 @@ import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
 import { CampaignParticipationKnowledgeElementSnapshots } from '../../../src/prescription/shared/domain/read-models/CampaignParticipationKnowledgeElementSnapshots.js';
+import * as knexUtils from '../../../src/shared/infrastructure/utils/knex-utils.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 import { DomainTransaction } from '../DomainTransaction.js';
-import * as knexUtils from '../utils/knex-utils.js';
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
   if (!snapshot) return null;

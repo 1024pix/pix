@@ -5,9 +5,9 @@ import { knex } from '../../../../db/knex-database-connection.js';
 import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { fetchPage } from '../../../../lib/infrastructure/utils/knex-utils.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../constants.js';
+import { fetchPage } from '../utils/knex-utils.js';
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
 

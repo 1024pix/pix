@@ -2,7 +2,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { UserOrgaSettingsCreationError } from '../../../../../lib/domain/errors.js';
 import { Organization, User } from '../../../../../lib/domain/models/index.js';
 import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
-import * as knexUtils from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import * as knexUtils from '../../../infrastructure/utils/knex-utils.js';
 
 const findOneByUserId = async function (userId) {
   const userOrgaSettings = await knex('user-orga-settings').where({ userId }).first();

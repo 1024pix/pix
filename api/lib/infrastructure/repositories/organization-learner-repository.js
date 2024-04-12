@@ -1,5 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { ORGANIZATION_FEATURE } from '../../../src/shared/domain/constants.js';
+import { fetchPage } from '../../../src/shared/infrastructure/utils/knex-utils.js';
 import {
   NotFoundError,
   OrganizationLearnerCertificabilityNotUpdatedError,
@@ -10,7 +11,6 @@ import {
 import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
 import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
 import { DomainTransaction } from '../DomainTransaction.js';
-import { fetchPage } from '../utils/knex-utils.js';
 import * as studentRepository from './student-repository.js';
 
 function _shouldStudentToImportBeReconciled(
