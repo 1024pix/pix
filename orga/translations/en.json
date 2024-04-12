@@ -246,11 +246,11 @@
       "SUP": "Group"
     },
     "import-information-banner": {
-      "error": "The file contains errors.",
-      "error-link": "Consult the list of errors here.",
-      "in-progress": "An import is in progress.",
-      "in-progress-link": "Check import status here.",
-      "success": "Participants have been successfully imported."
+      "error": "Import failed",
+      "error-link": "(see import page).",
+      "in-progress": "An import is in progress",
+      "in-progress-link": "(check import status).",
+      "success": "Participants have been imported."
     },
     "participation-status": {
       "SHARED-ASSESSMENT": "Submitted results",
