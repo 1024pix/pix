@@ -58,6 +58,33 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
     });
   });
 
+  describe('#getRedirectLogoutUrl', function () {
+    it('removes the idToken from temporary storage and returns a redirect logout url', async function () {
+      // given
+      const idToken =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+      const userId = '1';
+      const logoutUrlUUID = '1f3dbb71-f399-4c1c-85ae-0a863c78aeea';
+      const key = `${userId}:${logoutUrlUUID}`;
+      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+      await logoutUrlTemporaryStorage.save({ key, value: idToken, expirationDelaySeconds: 1140 });
+
+      // when
+      const redirectTarget = await poleEmploiOidcAuthenticationService.getRedirectLogoutUrl({
+        userId,
+        logoutUrlUUID,
+      });
+
+      // then
+      const expectedIdToken = await logoutUrlTemporaryStorage.get(key);
+      expect(expectedIdToken).to.be.undefined;
+
+      expect(redirectTarget).to.equal(
+        'http://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=http%3A%2F%2Fafter-logout.url',
+      );
+    });
+  });
+
   describe('#saveIdToken', function () {
     it('saves an idToken and returns an uuid', async function () {
       // given
