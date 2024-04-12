@@ -19,6 +19,10 @@ export default class CertificationJoiner extends Component {
     return this.inputAccessCode.toUpperCase();
   }
 
+  get postMessage() {
+    return this.args.postMessage ?? ((...args) => window.postMessage(...args));
+  }
+
   @action
   async submit(e) {
     e.preventDefault();
@@ -36,6 +40,7 @@ export default class CertificationJoiner extends Component {
       await newCertificationCourse.save();
       this.focusedCertificationChallengeWarningManager.reset();
       this.router.replaceWith('authenticated.certifications.resume', newCertificationCourse.id);
+      this.postMessage({ event: 'pix:activated', detail: { activated: true } }, window.location.origin);
     } catch (err) {
       newCertificationCourse.deleteRecord();
       const statusCode = err.errors?.[0]?.status;
