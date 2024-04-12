@@ -1,6 +1,6 @@
-import { UserSavedTutorial } from '../../../../lib/domain/models/UserSavedTutorial.js';
-import * as userSavedTutorialRepository from '../../../../lib/infrastructure/repositories/user-saved-tutorial-repository.js';
-import { databaseBuilder, expect, knex } from '../../../test-helper.js';
+import { UserSavedTutorial } from '../../../../../src/devcomp/domain/models/UserSavedTutorial.js';
+import * as userSavedTutorialRepository from '../../../../../src/devcomp/infrastructure/repositories/user-saved-tutorial-repository.js';
+import { databaseBuilder, expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | user-saved-tutorial-repository', function () {
   let userId;

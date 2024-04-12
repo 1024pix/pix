@@ -1,9 +1,9 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { tubeDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/tube-datasource.js';
+import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 import { DomainTransaction } from '../DomainTransaction.js';
-import * as skillRepository from './skill-repository.js';
 
 const areKnowledgeElementsResettable = async function ({
   id,

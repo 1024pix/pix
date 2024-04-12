@@ -1,6 +1,6 @@
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { addTutorialToUser } from '../../../../lib/domain/usecases/add-tutorial-to-user.js';
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
+import { addTutorialToUser } from '../../../../../src/devcomp/domain/usecases/add-tutorial-to-user.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | add-tutorial-to-user', function () {
   let tutorialRepository;

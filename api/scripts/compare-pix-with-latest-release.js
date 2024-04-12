@@ -9,8 +9,8 @@ import { disconnect } from '../db/knex-database-connection.js';
 import { calculateScoringInformationForCompetence } from '../lib/domain/services/scoring/scoring-service.js';
 import { learningContentCache as cache } from '../lib/infrastructure/caches/learning-content-cache.js';
 import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
-import * as skillRepository from '../lib/infrastructure/repositories/skill-repository.js';
 import * as tubeRepository from '../lib/infrastructure/repositories/tube-repository.js';
+import * as skillRepository from '../src/shared/infrastructure/repositories/skill-repository.js';
 
 async function getUserSkillsGroupedByTubeId(elements) {
   const ids = _.map(elements, (current) => current.skillId);

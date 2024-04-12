@@ -1,5 +1,5 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import * as serializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/tutorial-serializer.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
   describe('#serialize', function () {

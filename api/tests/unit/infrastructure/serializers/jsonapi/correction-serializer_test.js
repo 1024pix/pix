@@ -1,9 +1,9 @@
 import { Correction } from '../../../../../lib/domain/models/Correction.js';
 import { Hint } from '../../../../../lib/domain/models/Hint.js';
 import { TutorialEvaluation } from '../../../../../lib/domain/models/TutorialEvaluation.js';
-import { UserSavedTutorial } from '../../../../../lib/domain/models/UserSavedTutorial.js';
-import { TutorialForUser } from '../../../../../lib/domain/read-models/TutorialForUser.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/correction-serializer.js';
+import { UserSavedTutorial } from '../../../../../src/devcomp/domain/models/UserSavedTutorial.js';
+import { TutorialForUser } from '../../../../../src/devcomp/domain/read-models/TutorialForUser.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | correction-serializer', function () {

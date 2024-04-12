@@ -9,12 +9,12 @@ const { FRENCH_FRANCE } = LOCALE;
 
 import { BadgeCriterion, BadgeDetails, CappedTube, SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
 import { TargetProfileForAdmin } from '../../../../lib/domain/models/index.js';
-import * as skillRepository from '../../../../lib/infrastructure/repositories/skill-repository.js';
 import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import { StageCollection } from '../../domain/models/target-profile-management/StageCollection.js';
 import * as competenceRepository from './competence-repository.js';
+import * as skillRepository from './skill-repository.js';
 
 const get = async function ({ id, locale = FRENCH_FRANCE }) {
   const targetProfileDTO = await knex('target-profiles')

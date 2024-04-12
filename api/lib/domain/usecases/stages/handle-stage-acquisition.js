@@ -4,11 +4,11 @@ import * as defaultConvertLevelStagesIntoThresholdsService from '../../../../src
 import * as defaultGetNewAcquiredStagesService from '../../../../src/evaluation/domain/services/stages/get-new-acquired-stages-service.js';
 import * as defaultStageAcquisitionRepository from '../../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
 import * as defaultStageRepository from '../../../../src/evaluation/infrastructure/repositories/stage-repository.js';
+import * as defaultSkillRepository from '../../../../src/shared/infrastructure/repositories/skill-repository.js';
 import * as defaultCampaignParticipationRepository from '../../../infrastructure/repositories/campaign-participation-repository.js';
 import * as defaultCampaignRepository from '../../../infrastructure/repositories/campaign-repository.js';
 import * as defaultCampaignSkillRepository from '../../../infrastructure/repositories/campaign-skill-repository.js';
 import * as defaultKnowledgeElementRepositoryRepository from '../../../infrastructure/repositories/knowledge-element-repository.js';
-import * as defaultSkillRepository from '../../../infrastructure/repositories/skill-repository.js';
 import * as defaultGetMasteryPercentageService from '../../services/get-mastery-percentage-service.js';
 
 /**

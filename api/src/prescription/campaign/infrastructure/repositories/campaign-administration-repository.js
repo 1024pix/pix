@@ -3,7 +3,7 @@ import crypto from 'node:crypto';
 import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
-import * as skillRepository from '../../../../../lib/infrastructure/repositories/skill-repository.js';
+import * as skillRepository from '../../../../shared/infrastructure/repositories/skill-repository.js';
 import { UnknownCampaignId } from '../../domain/errors.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 

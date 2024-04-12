@@ -7,6 +7,7 @@ import * as answerRepository from '../../../src/shared/infrastructure/repositori
 import * as areaRepository from '../../../src/shared/infrastructure/repositories/area-repository.js';
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
+import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Assessment } from '../../domain/models/index.js';
 import { AssessmentResult } from '../../domain/read-models/participant-results/AssessmentResult.js';
@@ -14,7 +15,6 @@ import * as dataFetcher from '../../domain/services/algorithm-methods/data-fetch
 import * as campaignRepository from './campaign-repository.js';
 import * as flashAssessmentResultRepository from './flash-assessment-result-repository.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
-import * as skillRepository from './skill-repository.js';
 
 /**
  *

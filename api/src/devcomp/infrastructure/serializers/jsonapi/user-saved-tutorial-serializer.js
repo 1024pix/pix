@@ -1,9 +1,9 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-const { Serializer } = jsonapiSerializer;
-
+import { tutorialAttributes } from '../../../../../lib/infrastructure/serializers/jsonapi/tutorial-attributes.js';
 import { UserSavedTutorial } from '../../../domain/models/UserSavedTutorial.js';
-import { tutorialAttributes } from './tutorial-attributes.js';
+
+const { Serializer } = jsonapiSerializer;
 
 const serialize = function (userTutorial) {
   return new Serializer('user-saved-tutorial', {

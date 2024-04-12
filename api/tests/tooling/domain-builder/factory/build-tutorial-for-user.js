@@ -1,4 +1,4 @@
-import { TutorialForUser } from '../../../../lib/domain/read-models/TutorialForUser.js';
+import { TutorialForUser } from '../../../../src/devcomp/domain/read-models/TutorialForUser.js';
 import { buildTutorial } from './build-tutorial.js';
 import { buildUserSavedTutorial } from './build-user-saved-tutorial.js';
 

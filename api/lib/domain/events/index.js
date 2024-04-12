@@ -20,6 +20,7 @@ import * as authenticationMethodRepository from '../../../src/shared/infrastruct
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';
+import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
 import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
 import { injectDefaults } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
@@ -41,7 +42,6 @@ import * as juryCertificationSummaryRepository from '../../infrastructure/reposi
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
-import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as scoringCertificationService from '../services/scoring/scoring-certification-service.js';

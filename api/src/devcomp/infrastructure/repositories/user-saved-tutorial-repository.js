@@ -1,4 +1,4 @@
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../db/knex-database-connection.js';
 import { UserSavedTutorial } from '../../domain/models/UserSavedTutorial.js';
 
 const TABLE_NAME = 'user-saved-tutorials';

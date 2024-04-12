@@ -6,9 +6,9 @@ import * as url from 'node:url';
 
 import { disconnect, knex } from '../db/knex-database-connection.js';
 import { KnowledgeElement } from '../lib/domain/models/KnowledgeElement.js';
-import { UserSavedTutorial } from '../lib/domain/models/UserSavedTutorial.js';
 import { UserSavedTutorialWithTutorial } from '../lib/domain/models/UserSavedTutorialWithTutorial.js';
 import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
+import { UserSavedTutorial } from '../src/devcomp/domain/models/UserSavedTutorial.js';
 import {
   skillDatasource,
   tutorialDatasource,
