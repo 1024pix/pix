@@ -9,20 +9,6 @@ import { expect, knex } from '../../../../test-helper.js';
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 describe('Integration | Domain | Services | pole-emploi-oidc-authentication-service', function () {
-  describe('instanciate', function () {
-    it('has speficic properties related to this identity provider', async function () {
-      // when
-      const oidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
-
-      // then
-      expect(oidcAuthenticationService.source).to.equal('pole_emploi_connect');
-      expect(oidcAuthenticationService.identityProvider).to.equal('POLE_EMPLOI');
-      expect(oidcAuthenticationService.slug).to.equal('pole-emploi');
-      expect(oidcAuthenticationService.organizationName).to.equal('France Travail');
-      expect(oidcAuthenticationService.shouldCloseSession).to.be.true;
-    });
-  });
-
   describe('#createUserAccount', function () {
     it('creates a user with an authentication method and returns a user id', async function () {
       // given

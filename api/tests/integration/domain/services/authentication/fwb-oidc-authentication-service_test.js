@@ -5,20 +5,6 @@ import { expect } from '../../../../test-helper.js';
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 describe('Integration | Domain | Service | fwb-oidc-authentication-service', function () {
-  describe('instanciate', function () {
-    it('has speficic properties related to this identity provider', async function () {
-      // when
-      const fwbOidcAuthenticationService = new FwbOidcAuthenticationService();
-
-      // then
-      expect(fwbOidcAuthenticationService.source).to.equal('fwb');
-      expect(fwbOidcAuthenticationService.identityProvider).to.equal('FWB');
-      expect(fwbOidcAuthenticationService.slug).to.equal('fwb');
-      expect(fwbOidcAuthenticationService.organizationName).to.equal('Fédération Wallonie-Bruxelles');
-      expect(fwbOidcAuthenticationService.shouldCloseSession).to.be.true;
-    });
-  });
-
   describe('#getRedirectLogoutUrl', function () {
     it('removes the idToken from temporary storage and returns a redirect logout url', async function () {
       // given

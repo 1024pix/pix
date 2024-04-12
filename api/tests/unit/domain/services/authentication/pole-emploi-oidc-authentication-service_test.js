@@ -6,6 +6,20 @@ import { config as settings } from '../../../../../src/shared/config.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', function () {
+  describe('#constructor', function () {
+    it('has specific properties related to this identity provider', async function () {
+      // when
+      const oidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+
+      // then
+      expect(oidcAuthenticationService.source).to.equal('pole_emploi_connect');
+      expect(oidcAuthenticationService.identityProvider).to.equal('POLE_EMPLOI');
+      expect(oidcAuthenticationService.slug).to.equal('pole-emploi');
+      expect(oidcAuthenticationService.organizationName).to.equal('France Travail');
+      expect(oidcAuthenticationService.shouldCloseSession).to.be.true;
+    });
+  });
+
   describe('#createClient', function () {
     it('creates an openid client with extra metadata', async function () {
       // given
