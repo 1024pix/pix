@@ -25,6 +25,7 @@ const getRedirectLogoutUrl = async function (
   const userId = request.auth.credentials.userId;
   const { identity_provider: identityProvider, logout_url_uuid: logoutUrlUUID } = request.query;
 
+  dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
 
   const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
@@ -65,7 +66,10 @@ const reconcileUser = async function (
   },
 ) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
+
+  dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
+
   const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
   });
@@ -86,7 +90,10 @@ const getAuthorizationUrl = async function (
   },
 ) {
   const { identity_provider: identityProvider, audience } = request.query;
+
+  dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
+
   const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
     audience,
@@ -117,7 +124,9 @@ const authenticateUser = async function (
     throw new BadRequestError('Required cookie "state" is missing');
   }
 
+  dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
+
   const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
     audience,
@@ -155,7 +164,9 @@ const createUser = async function (
   const { identityProvider, authenticationKey } = request.deserializedPayload;
   const localeFromCookie = request.state?.locale;
 
+  dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
+
   const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
   });
@@ -179,7 +190,9 @@ const reconcileUserForAdmin = async function (
 ) {
   const { email, identityProvider, authenticationKey } = request.deserializedPayload;
 
+  dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
+
   const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
     identityProviderCode: identityProvider,
     audience: PIX_ADMIN.AUDIENCE,

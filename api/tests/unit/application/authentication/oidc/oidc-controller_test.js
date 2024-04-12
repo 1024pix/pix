@@ -6,6 +6,15 @@ import { catchErr, domainBuilder, expect, hFake, sinon } from '../../../../test-
 
 describe('Unit | Application | Controller | Authentication | OIDC', function () {
   const identityProvider = 'OIDC';
+  let oidcAuthenticationServiceRegistryStub;
+
+  beforeEach(function () {
+    oidcAuthenticationServiceRegistryStub = {
+      loadOidcProviderServices: sinon.stub(),
+      configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
+      getOidcProviderServiceByCode: sinon.stub(),
+    };
+  });
 
   describe('#getAllIdentityProvidersForAdmin', function () {
     it('returns the list of oidc identity providers', async function () {
@@ -107,11 +116,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         getRedirectLogoutUrl: sinon.stub(),
       };
 
-      const oidcAuthenticationServiceRegistryStub = {
-        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
-        getOidcProviderServiceByCode: sinon.stub(),
-      };
-
       oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs({ identityProviderCode: identityProvider })
         .returns(oidcAuthenticationService);
@@ -124,6 +128,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       await oidcController.getRedirectLogoutUrl(request, hFake, dependencies);
 
       // then
+      expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
       expect(
         oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
       ).to.have.been.calledWithExactly(identityProvider);
@@ -144,10 +149,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const oidcAuthenticationService = {
         getAuthorizationUrl: sinon.stub(),
       };
-      const oidcAuthenticationServiceRegistryStub = {
-        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
-        getOidcProviderServiceByCode: sinon.stub(),
-      };
 
       oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs({ identityProviderCode: identityProvider, audience: undefined })
@@ -162,6 +163,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       await oidcController.getAuthorizationUrl(request, hFake, dependencies);
 
       //then
+      expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
       expect(
         oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
       ).to.have.been.calledWithExactly(identityProvider);
@@ -184,10 +186,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         const oidcAuthenticationService = {
           getAuthorizationUrl: sinon.stub().returns('an authentication url'),
         };
-        const oidcAuthenticationServiceRegistryStub = {
-          configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
-          getOidcProviderServiceByCode: sinon.stub().returns(oidcAuthenticationService),
-        };
+        oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode.returns(oidcAuthenticationService);
         const dependencies = {
           oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
         };
@@ -196,6 +195,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         await oidcController.getAuthorizationUrl(request, hFake, dependencies);
 
         // then
+        expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
         expect(
           oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
         ).to.have.been.calledWithExactly(identityProvider);
@@ -236,10 +236,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
     it('authenticates the user with payload parameters', async function () {
       // given
       const oidcAuthenticationService = {};
-      const oidcAuthenticationServiceRegistryStub = {
-        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
-        getOidcProviderServiceByCode: sinon.stub(),
-      };
 
       oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs({ identityProviderCode: identityProvider, audience: undefined })
@@ -262,6 +258,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       await oidcController.authenticateUser(request, hFake, dependencies);
 
       // then
+      expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
       expect(
         oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
       ).to.have.been.calledWithExactly(identityProvider);
@@ -288,10 +285,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           },
         };
         const oidcAuthenticationService = {};
-        const oidcAuthenticationServiceRegistryStub = {
-          configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
-          getOidcProviderServiceByCode: sinon.stub(),
-        };
 
         oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
           .withArgs({ identityProviderCode: identityProvider })
@@ -314,6 +307,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         await oidcController.authenticateUser(request, hFake, dependencies);
 
         // then
+        expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
         expect(
           oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
         ).to.have.been.calledWithExactly(identityProvider);
@@ -343,10 +337,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       it('returns PIX access token and logout url uuid', async function () {
         // given
         const oidcAuthenticationService = {};
-        const oidcAuthenticationServiceRegistryStub = {
-          configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
-          getOidcProviderServiceByCode: sinon.stub(),
-        };
 
         oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
           .withArgs({ identityProviderCode: identityProvider })
@@ -365,6 +355,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         const response = await oidcController.authenticateUser(request, hFake, dependencies);
 
         // then
+        expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
         expect(
           oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
         ).to.have.been.calledWithExactly(identityProvider);
@@ -380,10 +371,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       it('returns UnauthorizedError', async function () {
         // given
         const oidcAuthenticationService = {};
-        const oidcAuthenticationServiceRegistryStub = {
-          configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
-          getOidcProviderServiceByCode: sinon.stub(),
-        };
 
         oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
           .withArgs({ identityProviderCode: identityProvider })
@@ -402,6 +389,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         const error = await catchErr(oidcController.authenticateUser)(request, hFake, dependencies);
 
         // then
+        expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
         expect(
           oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
         ).to.have.been.calledWithExactly(identityProvider);
@@ -424,10 +412,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       };
       const accessToken = 'access.token';
       const oidcAuthenticationService = {};
-      const oidcAuthenticationServiceRegistryStub = {
-        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
-        getOidcProviderServiceByCode: sinon.stub(),
-      };
 
       oidcAuthenticationServiceRegistryStub.getOidcProviderServiceByCode
         .withArgs({ identityProviderCode: identityProvider })
@@ -450,6 +434,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const result = await oidcController.createUser(request, hFake, dependencies);
 
       //then
+      expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
       expect(
         oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
       ).to.have.been.calledWithExactly(identityProvider);
@@ -516,10 +501,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           authenticationKey: '123abc',
         },
       };
-      const oidcAuthenticationServiceRegistryStub = {
-        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
-        getOidcProviderServiceByCode: sinon.stub(),
-      };
 
       const dependencies = {
         oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
@@ -533,6 +514,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const result = await oidcController.reconcileUser(request, hFake, dependencies);
 
       // then
+      expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
       expect(
         oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
       ).to.have.been.calledWithExactly(identityProvider);
@@ -550,10 +532,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
           email: 'user@example.net',
         },
       };
-      const oidcAuthenticationServiceRegistryStub = {
-        configureReadyOidcProviderServiceByCode: sinon.stub().resolves(),
-        getOidcProviderServiceByCode: sinon.stub(),
-      };
 
       const dependencies = {
         oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
@@ -564,6 +542,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const result = await oidcController.reconcileUserForAdmin(request, hFake, dependencies);
 
       // then
+      expect(oidcAuthenticationServiceRegistryStub.loadOidcProviderServices).to.have.been.calledOnce;
       expect(
         oidcAuthenticationServiceRegistryStub.configureReadyOidcProviderServiceByCode,
       ).to.have.been.calledWithExactly(identityProvider);
