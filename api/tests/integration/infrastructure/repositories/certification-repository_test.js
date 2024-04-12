@@ -72,34 +72,31 @@ describe('Integration | Repository | Certification', function () {
         it('should set certifications as published within the session and update pixCertificationStatus according to assessment result status', async function () {
           // when
           await certificationRepository.publishCertificationCourses([
-            { certificationCourseId: 1, pixCertificationStatus: status.VALIDATED },
-            { certificationCourseId: 2, pixCertificationStatus: status.REJECTED },
-            { certificationCourseId: 3, pixCertificationStatus: null },
+            { certificationCourseId: 1 },
+            { certificationCourseId: 2 },
+            { certificationCourseId: 3 },
           ]);
 
           // then
           const certifications = await knex('certification-courses')
-            .select('id', 'isPublished', 'pixCertificationStatus', 'updatedAt', 'version')
+            .select('id', 'isPublished', 'updatedAt', 'version')
             .where({ sessionId });
           expect(certifications).to.deep.equal([
             {
               id: 1,
               isPublished: true,
-              pixCertificationStatus: status.VALIDATED,
               updatedAt: now,
               version: 2,
             },
             {
               id: 2,
               isPublished: true,
-              pixCertificationStatus: status.REJECTED,
               updatedAt: now,
               version: 2,
             },
             {
               id: 3,
               isPublished: true,
-              pixCertificationStatus: null,
               updatedAt: now,
               version: 2,
             },
@@ -114,11 +111,11 @@ describe('Integration | Repository | Certification', function () {
 
     beforeEach(function () {
       databaseBuilder.factory.buildSession({ id: sessionId });
-      _buildValidatedCertification({ id: 1, sessionId, isPublished: true, pixCertificationStatus: status.VALIDATED });
-      _buildRejectedCertification({ id: 2, sessionId, isPublished: true, pixCertificationStatus: status.VALIDATED });
+      _buildValidatedCertification({ id: 1, sessionId, isPublished: true });
+      _buildRejectedCertification({ id: 2, sessionId, isPublished: true });
       _buildCancelledCertification({ id: 3, sessionId, isPublished: true });
-      _buildErrorCertification({ id: 4, sessionId, isPublished: true, pixCertificationStatus: status.VALIDATED });
-      _buildStartedCertification({ id: 5, sessionId, isPublished: true, pixCertificationStatus: status.VALIDATED });
+      _buildErrorCertification({ id: 4, sessionId, isPublished: true });
+      _buildStartedCertification({ id: 5, sessionId, isPublished: true });
       return databaseBuilder.commit();
     });
 
@@ -133,42 +130,35 @@ describe('Integration | Repository | Certification', function () {
   });
 });
 
-function _buildValidatedCertification({ id, sessionId, isPublished, pixCertificationStatus }) {
-  _buildCertification({ id, sessionId, isPublished, status: status.VALIDATED, pixCertificationStatus });
+function _buildValidatedCertification({ id, sessionId, isPublished }) {
+  _buildCertification({ id, sessionId, isPublished, status: status.VALIDATED });
 }
 
-function _buildRejectedCertification({ id, sessionId, isPublished, pixCertificationStatus }) {
-  _buildCertification({ id, sessionId, isPublished, status: status.REJECTED, pixCertificationStatus });
+function _buildRejectedCertification({ id, sessionId, isPublished }) {
+  _buildCertification({ id, sessionId, isPublished, status: status.REJECTED });
 }
 
-function _buildErrorCertification({ id, sessionId, isPublished, pixCertificationStatus }) {
-  _buildCertification({ id, sessionId, isPublished, status: status.ERROR, pixCertificationStatus });
+function _buildErrorCertification({ id, sessionId, isPublished }) {
+  _buildCertification({ id, sessionId, isPublished, status: status.ERROR });
 }
 
-function _buildStartedCertification({ id, sessionId, isPublished, pixCertificationStatus }) {
-  _buildCertification({ id, sessionId, isPublished, status: null, pixCertificationStatus });
+function _buildStartedCertification({ id, sessionId, isPublished }) {
+  _buildCertification({ id, sessionId, isPublished, status: null });
 }
 
 function _buildCancelledCertification({ id, sessionId, isPublished }) {
   _buildCertification({ id, sessionId, isPublished, isCancelled: true, status: null });
 }
 
-function _buildCertification({
-  id,
-  sessionId,
-  status,
-  isPublished,
-  isCancelled = false,
-  pixCertificationStatus = null,
-}) {
-  databaseBuilder.factory.buildCertificationCourse({ id, sessionId, isPublished, isCancelled, pixCertificationStatus });
+function _buildCertification({ id, sessionId, status, isPublished, isCancelled = false }) {
+  databaseBuilder.factory.buildCertificationCourse({ id, sessionId, isPublished, isCancelled });
   databaseBuilder.factory.buildAssessment({ id, certificationCourseId: id });
   if (status) {
     // not the latest
     databaseBuilder.factory.buildAssessmentResult({
       assessmentId: id,
       createdAt: new Date('2020-01-01'),
-      status: status.VALIDATED,
+      status,
     });
     // the latest
     databaseBuilder.factory.buildAssessmentResult.last({

@@ -276,7 +276,6 @@ async function createStartedSession({
       maxReachableLevelOnCertificationDate: 6,
       isCancelled: false,
       abortReason: null,
-      pixCertificationStatus: 'validated',
     }).id;
     verifCodeCount++;
     const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
@@ -1096,7 +1095,6 @@ function _makeCandidatesPassCertification({
       maxReachableLevelOnCertificationDate: 6,
       isCancelled: false,
       abortReason: null,
-      pixCertificationStatus: 'validated',
     }).id;
     verifCodeCount++;
     const assessmentId = databaseBuilder.factory.buildAssessment({

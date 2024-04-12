@@ -5,6 +5,7 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
+  sinon,
 } from '../../../test-helper.js';
 
 describe('PATCH /api/admin/sessions/:id/publish', function () {
@@ -73,9 +74,19 @@ describe('PATCH /api/admin/sessions/:id/publish', function () {
       context('when the session exists', function () {
         let sessionId;
         let certificationId;
-        const date = new Date('2000-01-01T10:00:00Z');
+        const now = new Date('2000-01-01T10:00:00Z');
+
+        let clock;
+
+        afterEach(async function () {
+          clock.restore();
+        });
 
         beforeEach(function () {
+          clock = sinon.useFakeTimers({
+            now,
+            toFake: ['Date'],
+          });
           sessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
           databaseBuilder.factory.buildFinalizedSession({ sessionId });
           options.url = `/api/admin/sessions/${sessionId}/publish`;
@@ -101,18 +112,19 @@ describe('PATCH /api/admin/sessions/:id/publish', function () {
           const response = await server.inject(options);
 
           // then
-          expect(response.result.data.attributes['published-at']).to.be.an.instanceOf(Date);
-          expect(response.result.data.attributes['published-at']).to.not.equal(date);
+          // expect(response.result.data.attributes['published-at']).to.be.an.instanceOf(Date);
+          expect(response.result.data.attributes['published-at']).deepEqualInstance(now);
         });
 
-        it('should update the isPublished field and the pixCertificationStatus fields in certification course', async function () {
+        it('should update the published information', async function () {
           // when
           await server.inject(options);
 
           // then
-          const certificationCourses = await knex('certification-courses').where({ id: certificationId });
-          expect(certificationCourses[0].isPublished).to.be.true;
-          expect(certificationCourses[0].pixCertificationStatus).to.equal(status.VALIDATED);
+          const [certificationCourse] = await knex('certification-courses').where({ id: certificationId });
+          const [session] = await knex('sessions').where({ id: sessionId });
+          expect(certificationCourse.isPublished).to.be.true;
+          expect(session.publishedAt).deepEqualInstance(now);
         });
       });
     });
