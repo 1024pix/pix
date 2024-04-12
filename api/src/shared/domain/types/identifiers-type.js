@@ -43,6 +43,7 @@ const typesPositiveInteger32bits = [
   'complementaryCertificationCourseId',
   'complementaryCertificationId',
   'membershipId',
+  'missionId',
   'organizationId',
   'organizationInvitationId',
   'organizationLearnerId',
@@ -63,7 +64,7 @@ const typesPositiveInteger32bits = [
 ];
 
 const typesAlphanumeric = ['courseId', 'tutorialId'];
-const typesAlphanumeric255 = ['challengeId', 'competenceId', 'frameworkId', 'tubeId', 'missionId', 'code', 'skillId'];
+const typesAlphanumeric255 = ['challengeId', 'competenceId', 'frameworkId', 'tubeId', 'code', 'skillId'];
 
 _assignValueToExport(typesPositiveInteger32bits, implementationType.positiveInteger32bits);
 _assignValueToExport(typesAlphanumeric, implementationType.alphanumeric);

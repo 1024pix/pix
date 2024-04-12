@@ -6,7 +6,7 @@ import { databaseBuilder, expect } from '../../../../test-helper.js';
 describe('Integration | Repository | mission-assessment-repository', function () {
   describe('#getByAssessmentId', function () {
     it('returns the missionAssessment corresponding to the assessmentId', async function () {
-      const missionId = 'flute78';
+      const missionId = 123;
       const assessmentId = databaseBuilder.factory.buildPix1dAssessment().id;
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildMissionAssessment({ missionId, assessmentId, organizationLearnerId });
@@ -20,8 +20,8 @@ describe('Integration | Repository | mission-assessment-repository', function ()
 
   describe('#getCurrent', function () {
     it('should return a started assessment for learner and missionId', async function () {
-      const missionId = 'flute79';
-      const otherMissionId = 'flute80';
+      const missionId = 123;
+      const otherMissionId = 456;
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       const otherOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
 
@@ -57,7 +57,7 @@ describe('Integration | Repository | mission-assessment-repository', function ()
     });
 
     it('should not return any assessment', async function () {
-      const missionId = 'flute79';
+      const missionId = 123;
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       await databaseBuilder.commit();
 
@@ -79,25 +79,29 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       const startedAssessmentId = databaseBuilder.factory.buildPix1dAssessment({
         state: Assessment.states.STARTED,
       }).id;
+      const completedMissionId = 123;
+      const otherCompletedMissionId = 456;
+      const startedMissionId = 789;
+
       databaseBuilder.factory.buildMissionAssessment({
-        missionId: 'COMPLETED_ID',
+        missionId: completedMissionId,
         organizationLearnerId: organizationLearner.id,
         assessmentId: completedAssessmentId,
       });
       databaseBuilder.factory.buildMissionAssessment({
-        missionId: 'OTHER_COMPLETED_ID',
+        missionId: otherCompletedMissionId,
         organizationLearnerId: organizationLearner.id,
         assessmentId: otherCompletedAssessmentId,
       });
       databaseBuilder.factory.buildMissionAssessment({
-        missionId: 'STARTED_ID',
+        missionId: startedMissionId,
         organizationLearnerId: organizationLearner.id,
         assessmentId: startedAssessmentId,
       });
       await databaseBuilder.commit();
 
       const result = await missionAssessmentRepository.getAllCompletedMissionIds(organizationLearner.id);
-      expect(result).to.deep.equal(['COMPLETED_ID', 'OTHER_COMPLETED_ID']);
+      expect(result).to.deep.equal([completedMissionId, otherCompletedMissionId]);
     });
 
     it('should return organization learner even without completed missions', async function () {
