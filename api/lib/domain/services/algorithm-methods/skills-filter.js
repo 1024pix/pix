@@ -6,9 +6,9 @@ import {
 
 const getPlayableSkills = (skills) => skills.filter(({ isPlayable }) => isPlayable);
 
-const notAlreadyTestedSkill = (knowledgeElements) => (skill) => {
+const notAlreadyTestedSkill = (knowledgeElements) => {
   const alreadyTestedSkillIds = knowledgeElements.map(({ skillId }) => skillId);
-  return !alreadyTestedSkillIds.includes(skill.id);
+  return (skill) => !alreadyTestedSkillIds.includes(skill.id);
 };
 
 const getUntestedSkills = (knowledgeElements, skills) => skills.filter(notAlreadyTestedSkill(knowledgeElements));
