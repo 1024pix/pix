@@ -50,12 +50,13 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
         },
       });
 
+      const { value, tolerances } = qrocm.solution;
       // then
-      expect(qrocm.solutionValues).deep.equal({
+      expect(value).deep.equal({
         inputBlock: ['@'],
         selectBlock: ['2'],
       });
-      expect(qrocm.solutionTolerances).deep.equal({
+      expect(tolerances).deep.equal({
         inputBlock: ['t1', 't2'],
         selectBlock: ['t2', 't3'],
       });

@@ -15,7 +15,9 @@ class QCMForAnswerVerification extends QCM {
 
     assertNotNullOrUndefined(solutions, 'The solutions are required for a QCM for verification');
 
-    this.solutionsValue = solutions;
+    this.solution = {
+      value: solutions,
+    };
 
     if (feedbacks) {
       this.feedbacks = new Feedbacks(feedbacks);
@@ -24,7 +26,7 @@ class QCMForAnswerVerification extends QCM {
     if (validator) {
       this.validator = validator;
     } else {
-      this.validator = new ValidatorQCM({ solution: { value: this.solutionsValue } });
+      this.validator = new ValidatorQCM({ solution: this.solution });
     }
   }
 
@@ -39,7 +41,7 @@ class QCMForAnswerVerification extends QCM {
     return new QcmCorrectionResponse({
       status: validation.result,
       feedback: validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid,
-      solution: this.solutionsValue,
+      solution: this.solution.value,
     });
   }
 
