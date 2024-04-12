@@ -115,7 +115,7 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
 
       // then
       expect(uuid.match(uuidPattern)).to.be.ok;
-      const idToken = logoutUrlTemporaryStorage.get(`${userId}:${uuid}`);
+      const idToken = await defaultSessionTemporaryStorage.get(`${userId}:${uuid}`);
       expect(idToken).to.deep.equal('id_token');
     });
   });

@@ -1,5 +1,3 @@
-import { randomUUID } from 'node:crypto';
-
 import { OidcAuthenticationService } from '../../../../src/authentication/domain/services/oidc-authentication-service.js';
 import { config } from '../../../config.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
@@ -46,18 +44,6 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
     await this.sessionTemporaryStorage.delete(key);
 
     return redirectTarget.toString();
-  }
-
-  async saveIdToken({ idToken, userId }) {
-    const uuid = randomUUID();
-
-    await logoutUrlTemporaryStorage.save({
-      key: `${userId}:${uuid}`,
-      value: idToken,
-      expirationDelaySeconds: this.sessionDurationSeconds,
-    });
-
-    return uuid;
   }
 }
 

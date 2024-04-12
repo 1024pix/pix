@@ -70,7 +70,7 @@ describe('Integration | Domain | Service | fwb-oidc-authentication-service', fun
 
       // then
       expect(uuid.match(uuidPattern)).to.be.ok;
-      const idToken = logoutUrlTemporaryStorage.get(`${userId}:${uuid}`);
+      const idToken = await defaultSessionTemporaryStorage.get(`${userId}:${uuid}`);
       expect(idToken).to.deep.equal('id_token');
     });
   });
