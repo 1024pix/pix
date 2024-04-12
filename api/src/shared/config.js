@@ -439,7 +439,7 @@ const configuration = (function () {
     config.poleEmploi.clientId = 'PIX_POLE_EMPLOI_CLIENT_ID';
     config.poleEmploi.clientSecret = 'PIX_POLE_EMPLOI_CLIENT_SECRET';
     config.poleEmploi.sendingUrl = 'http://sendingUrl.fr';
-    config.poleEmploi.logoutUrl = 'http://logout-url.fr';
+    config.poleEmploi.logoutUrl = 'https://logout-url.fr';
     config.poleEmploi.afterLogoutUrl = 'http://after-logout.url';
     config.poleEmploi.pushEnabled = true;
 
@@ -450,7 +450,7 @@ const configuration = (function () {
     config.cnav.clientSecret = 'PIX_CNAV_CLIENT_SECRET';
 
     config.fwb.isEnabled = false;
-    config.fwb.logoutUrl = 'http://logout-url.org';
+    config.fwb.logoutUrl = 'https://logout-url.org';
 
     config.google.isEnabled = false;
     config.google.isEnabledForPixAdmin = true;

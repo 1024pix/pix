@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
 import { PoleEmploiOidcAuthenticationService } from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
@@ -6,6 +8,7 @@ import * as authenticationMethodRepository from '../../../../../src/shared/infra
 import * as userToCreateRepository from '../../../../../src/shared/infrastructure/repositories/user-to-create-repository.js';
 import { expect, knex } from '../../../../test-helper.js';
 
+const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 describe('Integration | Domain | Services | pole-emploi-oidc-authentication-service', function () {
@@ -45,29 +48,58 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
   });
 
   describe('#getRedirectLogoutUrl', function () {
-    it('removes the idToken from temporary storage and returns a redirect logout url', async function () {
-      // given
-      const idToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-      const userId = '1';
-      const logoutUrlUUID = '1f3dbb71-f399-4c1c-85ae-0a863c78aeea';
-      const key = `${userId}:${logoutUrlUUID}`;
-      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
-      await logoutUrlTemporaryStorage.save({ key, value: idToken, expirationDelaySeconds: 1140 });
+    describe('when the user ID Token is not stored in the parent default temporary storage', function () {
+      it('removes the idToken from temporary storage and returns a redirect logout url', async function () {
+        // given
+        const idToken =
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+        const userId = 1;
+        const logoutUrlUUID = randomUUID();
+        const key = `${userId}:${logoutUrlUUID}`;
+        const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+        await logoutUrlTemporaryStorage.save({ key, value: idToken, expirationDelaySeconds: 1140 });
 
-      // when
-      const redirectTarget = await poleEmploiOidcAuthenticationService.getRedirectLogoutUrl({
-        userId,
-        logoutUrlUUID,
+        // when
+        const redirectTarget = await poleEmploiOidcAuthenticationService.getRedirectLogoutUrl({
+          userId,
+          logoutUrlUUID,
+        });
+
+        // then
+        const expectedResult = await logoutUrlTemporaryStorage.get(key);
+        expect(expectedResult).to.be.undefined;
+
+        expect(redirectTarget).to.equal(
+          'https://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=http%3A%2F%2Fafter-logout.url',
+        );
       });
+    });
 
-      // then
-      const expectedIdToken = await logoutUrlTemporaryStorage.get(key);
-      expect(expectedIdToken).to.be.undefined;
+    describe('when the user ID Token is stored in the parent default temporary storage', function () {
+      it('removes the idToken from temporary storage and returns a redirect logout url', async function () {
+        // given
+        const idToken =
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+        const userId = 1;
+        const logoutUrlUUID = randomUUID();
+        const key = `${userId}:${logoutUrlUUID}`;
+        const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+        await defaultSessionTemporaryStorage.save({ key, value: idToken, expirationDelaySeconds: 1140 });
 
-      expect(redirectTarget).to.equal(
-        'http://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=http%3A%2F%2Fafter-logout.url',
-      );
+        // when
+        const redirectTarget = await poleEmploiOidcAuthenticationService.getRedirectLogoutUrl({
+          userId,
+          logoutUrlUUID,
+        });
+
+        // then
+        const expectedResult = await defaultSessionTemporaryStorage.get(key);
+        expect(expectedResult).to.be.undefined;
+
+        expect(redirectTarget).to.equal(
+          'https://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=http%3A%2F%2Fafter-logout.url',
+        );
+      });
     });
   });
 

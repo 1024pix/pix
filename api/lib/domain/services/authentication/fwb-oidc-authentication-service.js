@@ -32,12 +32,18 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
   async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
     const redirectTarget = new URL(this.logoutUrl);
     const key = `${userId}:${logoutUrlUUID}`;
-    const idToken = await logoutUrlTemporaryStorage.get(key);
+
+    let idToken = await logoutUrlTemporaryStorage.get(key);
+    if (!idToken) {
+      idToken = this.sessionTemporaryStorage.get(key);
+    }
+
     const params = [{ key: 'id_token_hint', value: idToken }];
 
     params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
 
     await logoutUrlTemporaryStorage.delete(key);
+    await this.sessionTemporaryStorage.delete(key);
 
     return redirectTarget.toString();
   }
