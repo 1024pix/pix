@@ -1,10 +1,11 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../lib/domain/constants/identity-providers.js';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import { OrganizationLearnerImported } from '../../../../../../src/prescription/organization-learner/domain/models/OrganizationLearnerImported.js';
 import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearner.js';
 import * as organizationLearnerRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
 
-describe('Integration | Infrastructure | Repository | Organization Learner Follow Up | Organization Learner', function () {
+describe('Integration | Infrastructure | Repository | Organization Learner', function () {
   describe('#get', function () {
     context('When there is no organization learner', function () {
       it('Should throw an exception', async function () {
@@ -420,6 +421,167 @@ describe('Integration | Infrastructure | Repository | Organization Learner Follo
               expect(organizationLearner.certifiableAt).to.deep.equal(notDeletedParticipation.sharedAt);
             });
           });
+        });
+      });
+    });
+  });
+
+  describe('#findPaginatedLearners', function () {
+    let organizationId;
+
+    beforeEach(async function () {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      await databaseBuilder.commit();
+    });
+
+    it('should not return disabled learner', async function () {
+      const learner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        organizationId,
+        firstName: 'Gilgamesh',
+        lastName: 'Toto',
+        attributes: { classe: 'Warlock' },
+      });
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        organizationId,
+        isDisabled: true,
+      });
+
+      await databaseBuilder.commit();
+
+      const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+
+      expect(result.learners).lengthOf(1);
+      expect(result.learners[0]).instanceOf(OrganizationLearnerImported);
+      expect(result.learners[0].id).to.be.equal(learner.id);
+      expect(result.learners[0].lastName).to.be.equal(learner.lastName);
+      expect(result.learners[0].firstName).to.be.equal(learner.firstName);
+      expect(result.learners[0].classe).to.be.deep.equal(learner.attributes.classe);
+    });
+
+    it('should not return deleted learner', async function () {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        organizationId,
+        deletedAt: new Date(),
+        deletedBy: userId,
+      });
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        organizationId: otherOrganizationId,
+      });
+
+      await databaseBuilder.commit();
+
+      const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+
+      expect(result.learners).lengthOf(0);
+    });
+
+    it('should not return the learner from another organization', async function () {
+      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        organizationId: otherOrganizationId,
+      });
+
+      await databaseBuilder.commit();
+
+      const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+
+      expect(result.learners).lengthOf(0);
+    });
+
+    it('retrieve all active learners from specific organizationId', async function () {
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        organizationId,
+        attributes: { classe: 'Warlock' },
+      });
+
+      databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+        organizationId,
+        attributes: { classe: 'Druid' },
+      });
+
+      await databaseBuilder.commit();
+
+      const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+
+      expect(result.learners).lengthOf(2);
+    });
+
+    context('ordered learners', function () {
+      let firstLearner;
+
+      beforeEach(async function () {
+        firstLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId,
+          firstName: 'Gilgamesh',
+          lastName: 'Toto',
+          attributes: { classe: 'Warlock' },
+        });
+        await databaseBuilder.commit();
+      });
+
+      it('orders by lastName', async function () {
+        const secondLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Tata',
+          firstName: 'Gilgamesh',
+        });
+
+        await databaseBuilder.commit();
+
+        const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+
+        expect(result.learners).lengthOf(2);
+        expect(result.learners[0].id).to.equal(secondLearner.id);
+        expect(result.learners[1].id).to.equal(firstLearner.id);
+      });
+      it('orders by firstName when lastName are identical', async function () {
+        const secondLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Toto',
+          firstName: 'Zoro',
+        });
+
+        await databaseBuilder.commit();
+
+        const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
+
+        expect(result.learners).lengthOf(2);
+        expect(result.learners[0].id).to.equal(firstLearner.id);
+        expect(result.learners[1].id).to.equal(secondLearner.id);
+      });
+    });
+
+    context('Pagination', function () {
+      it('retrieve paginated all active learners', async function () {
+        databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId,
+          attributes: { classe: 'Druid' },
+        });
+        databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
+          organizationId,
+          attributes: { classe: 'Witch' },
+        });
+
+        await databaseBuilder.commit();
+
+        const result = await organizationLearnerRepository.findPaginatedLearners({
+          organizationId,
+          page: {
+            size: 1,
+            number: 1,
+          },
+        });
+
+        expect(result.pagination).to.deep.equal({
+          page: 1,
+          pageSize: 1,
+          rowCount: 2,
+          pageCount: 2,
         });
       });
     });
