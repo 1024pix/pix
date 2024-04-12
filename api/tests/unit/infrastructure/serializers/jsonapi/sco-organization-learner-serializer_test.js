@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { OrganizationLearner } from '../../../../../lib/domain/models/OrganizationLearner.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js';
 import { expect } from '../../../../test-helper.js';
@@ -64,7 +66,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
   });
 
   describe('#serializeExternal', function () {
-    it('should convert into JSON API data', function () {
+    it('should convert into JSON API data and generate random id', function () {
       // given
       const organizationLearner = {
         accessToken: 'some token',
@@ -83,7 +85,8 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
       const json = serializer.serializeExternal(organizationLearner);
 
       // then
-      expect(json).to.deep.equal(expectedSerializedOrganizationLearner);
+      expect(_.omit(json, 'data.id')).to.deep.equal(expectedSerializedOrganizationLearner);
+      expect(json.data.id).to.be.a('string');
     });
   });
 

@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 import { usecases } from '../../domain/usecases/index.js';
 
 const authenticateExternalUser = async function (request, h) {
@@ -20,6 +22,7 @@ const authenticateExternalUser = async function (request, h) {
       attributes: {
         'access-token': accessToken,
       },
+      id: randomUUID(),
       type: 'external-user-authentication-requests',
     },
   };

@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
@@ -16,6 +18,12 @@ const serializeWithUsernameGeneration = function (scoOrganizationLearner) {
 
 const serializeExternal = function (scoOrganizationLearner) {
   return new Serializer('external-users', {
+    transform(externalUser) {
+      return {
+        ...externalUser,
+        id: randomUUID(),
+      };
+    },
     attributes: ['accessToken'],
   }).serialize(scoOrganizationLearner);
 };

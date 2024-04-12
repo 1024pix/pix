@@ -1,5 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { currentURL } from '@ember/test-helpers';
+import { currentURL, settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { Response } from 'miragejs';
@@ -56,6 +56,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
       yearOfBirth,
     );
     await clickByLabel(currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
+    await settled();
   };
 
   test('should display student information form', async function (assert) {
@@ -220,6 +221,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         // when
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
+        await settled();
 
         // then
         assert.ok(
@@ -250,6 +252,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         await fillStudentInformationFormAndSubmit(this);
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
+        await settled();
 
         // when
         await fillInByLabel(
@@ -259,6 +262,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         await clickByLabel(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
         );
+        await settled();
 
         // then
         assert.ok(
@@ -291,6 +295,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         await clickByLabel(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
         );
+        await settled();
 
         // then
         assert.ok(
@@ -344,6 +349,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         await clickByLabel(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
         );
+        await settled();
 
         // then
         assert.ok(
@@ -393,6 +399,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         await clickByLabel(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
         );
+        await settled();
 
         // then
         assert.ok(
@@ -423,6 +430,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
         await clickByLabel(
           this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.cancel'),
         );
+        await settled();
 
         // then
         assert.ok(

@@ -1,5 +1,5 @@
 import { visit } from '@1024pix/ember-testing-library';
-import { click, currentURL, fillIn, findAll } from '@ember/test-helpers';
+import { click, currentURL, fillIn, findAll, settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
@@ -262,6 +262,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
 
         // when
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
+        await settled();
 
         // then
         assert.ok(screen.getByText(this.intl.t('pages.skill-review.already-shared')));
@@ -274,9 +275,11 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         // given
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
+        await settled();
 
         // when
         await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
+        await settled();
 
         // then
 
