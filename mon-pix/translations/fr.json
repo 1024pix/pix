@@ -715,8 +715,8 @@
       "parts": {
         "answer-input": "Votre réponse",
         "answer-instructions": {
-          "qcm": "Choisissez plusieurs réponses.",
-          "qcu": "Choisissez une seule réponse."
+          "qcm": "Sélectionnez plusieurs réponses.",
+          "qcu": "Sélectionnez une seule réponse."
         },
         "feedback": "Signaler un problème",
         "feedback-v3": "Signaler un problème avec la question",
