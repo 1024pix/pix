@@ -1,5 +1,30 @@
 # Pix Changelog
 
+## v4.130.0 (12/04/2024)
+
+
+### :rocket: Amélioration
+- [#8647](https://github.com/1024pix/pix/pull/8647) [FEATURE] Remplacer Choisissez par Sélectionnez dans les instructions des QCU et QCM (PIX-11919).
+- [#8635](https://github.com/1024pix/pix/pull/8635) [FEATURE] affiche l'état de l'import sur la page participant (Pix-11671).
+- [#8582](https://github.com/1024pix/pix/pull/8582) [FEATURE] Empêcher une valeur nulle ou vide dans la payload de réponse, sauf dans le cas d'un timeout (PIX-11905).
+- [#8597](https://github.com/1024pix/pix/pull/8597) [FEATURE] Permettre une liste de tolérances par proposition de QROCM (PIX-10428).
+
+### :building_construction: Tech
+- [#8618](https://github.com/1024pix/pix/pull/8618) [TECH] Supprimer la dépendance inutile à `ember-matomo-tag-manager`.
+- [#8644](https://github.com/1024pix/pix/pull/8644) [TECH] Passage en entier de l'id de mission en base (PIX-12070).
+- [#8612](https://github.com/1024pix/pix/pull/8612) [TECH] Supprimer pixCertificationStatus de certification-courses (PIX-11992).
+- [#8627](https://github.com/1024pix/pix/pull/8627) [TECH] Déplacement de `knex-utils` vers `src/shared`.
+- [#8643](https://github.com/1024pix/pix/pull/8643) [TECH] Simplifier l'usage des solutions dans les QROCM, QCU et QCM (PIX-11086).
+- [#8640](https://github.com/1024pix/pix/pull/8640) [TECH] Utilisation du contenu de mission provenant du référentiel (Pix-11698).
+- [#8638](https://github.com/1024pix/pix/pull/8638) [TECH][API] Implémentation à la demande de la configuration des OIDC services (PIX-12039).
+- [#8634](https://github.com/1024pix/pix/pull/8634) [TECH] Vérifier la présence des propriétés identifiant un learner (PIX-12009).
+
+### :bug: Correction
+- [#8633](https://github.com/1024pix/pix/pull/8633) [BUGFIX] Erreur 502 lors du rattachement d'un nouveau PC à une certification complémentaire (PIX-12044).
+
+### :arrow_up: Montée de version
+- [#8481](https://github.com/1024pix/pix/pull/8481) [BUMP] Mettre à jour ember-data en 4.12.5 sur Pix App (PIX-11960).
+
 ## v4.129.0 (11/04/2024)
 
 
