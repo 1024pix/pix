@@ -1,5 +1,3 @@
-import { randomUUID } from 'node:crypto';
-
 import dayjs from 'dayjs';
 
 import { OidcAuthenticationService } from '../../../../src/authentication/domain/services/oidc-authentication-service.js';
@@ -65,7 +63,12 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
     const redirectTarget = new URL(this.logoutUrl);
     const key = `${userId}:${logoutUrlUUID}`;
-    const idToken = await logoutUrlTemporaryStorage.get(key);
+
+    let idToken = await logoutUrlTemporaryStorage.get(key);
+    if (!idToken) {
+      idToken = this.sessionTemporaryStorage.get(key);
+    }
+
     const params = [
       { key: 'id_token_hint', value: idToken },
       { key: 'redirect_uri', value: this.afterLogoutUrl },
@@ -74,20 +77,9 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
     params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
 
     await logoutUrlTemporaryStorage.delete(key);
+    await this.sessionTemporaryStorage.delete(key);
 
     return redirectTarget.toString();
-  }
-
-  async saveIdToken({ idToken, userId }) {
-    const uuid = randomUUID();
-
-    await logoutUrlTemporaryStorage.save({
-      key: `${userId}:${uuid}`,
-      value: idToken,
-      expirationDelaySeconds: this.sessionDurationSeconds,
-    });
-
-    return uuid;
   }
 
   createAuthenticationComplement({ sessionContent }) {
