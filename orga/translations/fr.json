@@ -247,10 +247,10 @@
     },
     "import-information-banner": {
       "error": "Échec de l’import",
-      "error-link": "(voir l'état de l'import).",
-      "in-progress": "Un import est en cours.",
+      "error-link": "(voir la page d'import).",
+      "in-progress": "Un import est en cours",
       "in-progress-link": "(consulter l'état de l'import).",
-      "success": "Vos participants ont bien été importés."
+      "success": "Les participants ont bien été importés."
     },
     "participation-status": {
       "SHARED-ASSESSMENT": "Résultats reçus",
