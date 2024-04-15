@@ -1,3 +1,4 @@
+import { SmartRandomDetails } from '../../../../../src/evaluation/domain/models/SmartRandomDetails.js';
 import { getNextChallengeForSimulator } from '../../../../../src/evaluation/domain/usecases/get-next-challenge-for-simulator.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
@@ -26,7 +27,9 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
 
         // when
         const result = getNextChallengeForSimulator({
-          simulationParameters: {},
+          simulationParameters: {
+            answers: [],
+          },
           pickChallengeService,
           smartRandomService,
         });
@@ -43,14 +46,17 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
         // given
         const possibleSkillsForNextChallenge = Symbol('possibleSkillsForNextChallenge');
         const pickChallengeServiceResult = Symbol('pickChallengeServiceResult');
+        const smartRandomDetails = new SmartRandomDetails();
         const simulationParameters = {
           assessmentId: Symbol('assessmentId'),
           locale: Symbol('locale'),
+          answers: [],
         };
 
         smartRandomService.getPossibleSkillsForNextChallenge.returns({
           hasAssessmentEnded: false,
           possibleSkillsForNextChallenge,
+          smartRandomDetails,
         });
 
         pickChallengeService.pickChallenge.returns(pickChallengeServiceResult);
@@ -69,7 +75,8 @@ describe('Unit | UseCase | get-next-challenge-for-simulator', function () {
           randomSeed: simulationParameters.assessmentId,
           locale: simulationParameters.locale,
         });
-        expect(result).to.equal(pickChallengeServiceResult);
+
+        expect(result.challenge).to.equal(pickChallengeServiceResult);
       });
     });
   });

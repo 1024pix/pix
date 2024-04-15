@@ -1,6 +1,10 @@
 import { Tube } from '../../../../../lib/domain/models/Tube.js';
-import * as skillsFilter from '../../../../../lib/domain/services/algorithm-methods/skills-filter.js';
-import { focusOnDefaultLevel } from '../../../../../lib/domain/services/algorithm-methods/skills-filter.js';
+import {
+  focusOnDefaultLevel,
+  getFilteredSkillsForFirstChallenge,
+  getFilteredSkillsForNextChallenge,
+} from '../../../../../lib/domain/services/algorithm-methods/skills-filter.js';
+import { SmartRandomDetails } from '../../../../../src/evaluation/domain/models/SmartRandomDetails.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 import { buildSkill } from '../../../../tooling/domain-builder/factory/index.js';
 
@@ -26,14 +30,34 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       setPlayableSkills(skills);
 
       // when
-      const result = skillsFilter.getFilteredSkillsForFirstChallenge({
+      const { availableSkills } = getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
         targetSkills: skills,
       });
 
       // then
-      expect(result).to.deep.equal([skill1]);
+      expect(availableSkills).to.deep.equal([skill1]);
+    });
+
+    it('should return algorithm selection details', function () {
+      // given
+      const skill1 = domainBuilder.buildSkill({ name: '@web3', difficulty: 3 });
+      const skills = [skill1];
+      const knowledgeElements = [];
+      const tubes = [new Tube({ skills: [skill1] })];
+      setPlayableSkills(skills);
+
+      // when
+      const { smartRandomDetails } = getFilteredSkillsForFirstChallenge({
+        knowledgeElements,
+        tubes,
+        targetSkills: skills,
+      });
+
+      // then
+      expect(smartRandomDetails).to.be.instanceof(SmartRandomDetails);
+      expect(smartRandomDetails.steps.length).to.equal(5);
     });
 
     it('should return a skill even if the only tube has a skill with difficulty > 3', function () {
@@ -45,14 +69,14 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       setPlayableSkills(skills);
 
       // when
-      const result = skillsFilter.getFilteredSkillsForFirstChallenge({
+      const { availableSkills } = getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
         targetSkills: skills,
       });
 
       // then
-      expect(result).to.deep.equal([skill1]);
+      expect(availableSkills).to.deep.equal([skill1]);
     });
 
     it('should return a valid skill from a tube which only contains skill levels inferior or equal to 3', function () {
@@ -71,14 +95,14 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       setPlayableSkills(skills);
 
       // when
-      const result = skillsFilter.getFilteredSkillsForFirstChallenge({
+      const { availableSkills } = getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
         targetSkills: skills,
       });
 
       // then
-      expect(result).to.deep.equal([skillFromEasyTubeLevel2]);
+      expect(availableSkills).to.deep.equal([skillFromEasyTubeLevel2]);
     });
 
     it('should return non timed skills', function () {
@@ -92,14 +116,14 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       setPlayableSkills(skills);
 
       // when
-      const result = skillsFilter.getFilteredSkillsForFirstChallenge({
+      const { availableSkills } = getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
         targetSkills: skills,
       });
 
       // then
-      expect(result).to.deep.equal([skillTube2Level2]);
+      expect(availableSkills).to.deep.equal([skillTube2Level2]);
     });
 
     it('should return timed skills if there is only timed skills', function () {
@@ -114,14 +138,14 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       setPlayableSkills(skills);
 
       // when
-      const result = skillsFilter.getFilteredSkillsForFirstChallenge({
+      const { availableSkills } = getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
         targetSkills: skills,
       });
 
       // then
-      expect(result).to.deep.equal([skillTube1Level2Timed, skillTube2Level2Timed]);
+      expect(availableSkills).to.deep.equal([skillTube1Level2Timed, skillTube2Level2Timed]);
     });
 
     it('should return only playable skills', function () {
@@ -135,18 +159,38 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
       notPlayableSkill.isPlayable = false;
 
       // when
-      const result = skillsFilter.getFilteredSkillsForFirstChallenge({
+      const { availableSkills } = getFilteredSkillsForFirstChallenge({
         knowledgeElements,
         tubes,
         targetSkills: skills,
       });
 
       // then
-      expect(result).to.deep.equal([playableSkill]);
+      expect(availableSkills).to.deep.equal([playableSkill]);
     });
   });
 
   describe('#getFilteredSkillsForNextChallenge', function () {
+    it('should return algorithm selection details', function () {
+      // given
+      const skill1 = domainBuilder.buildSkill({ name: '@web3', difficulty: 3 });
+      const skills = [skill1];
+      const knowledgeElements = [];
+      const tubes = [new Tube({ skills: [skill1] })];
+      setPlayableSkills(skills);
+
+      // when
+      const { smartRandomDetails } = getFilteredSkillsForNextChallenge({
+        knowledgeElements,
+        tubes,
+        targetSkills: skills,
+      });
+
+      // then
+      expect(smartRandomDetails).to.be.instanceof(SmartRandomDetails);
+      expect(smartRandomDetails.steps.length).to.equal(5);
+    });
+
     describe('Verify rules : Skills not already tested', function () {
       it('should not ask a question that targets a skill already assessed', function () {
         // given
@@ -169,7 +213,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         setPlayableSkills(skills);
 
         // when
-        const result = skillsFilter.getFilteredSkillsForNextChallenge({
+        const { availableSkills } = getFilteredSkillsForNextChallenge({
           knowledgeElements,
           predictedLevel: 3,
           isLastChallengeTimed: false,
@@ -177,7 +221,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         });
 
         // then
-        expect(result).to.deep.equal([skillNotAssessedLevel3]);
+        expect(availableSkills).to.deep.equal([skillNotAssessedLevel3]);
       });
     });
 
@@ -202,7 +246,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         setPlayableSkills(skills);
 
         // when
-        const result = skillsFilter.getFilteredSkillsForNextChallenge({
+        const { availableSkills } = getFilteredSkillsForNextChallenge({
           isLastChallengeTimed,
           knowledgeElements,
           predictedLevel: 2,
@@ -210,7 +254,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         });
 
         // then
-        expect(result).to.deep.equal([skillWithoutTimedChallenge]);
+        expect(availableSkills).to.deep.equal([skillWithoutTimedChallenge]);
       });
 
       it('should return a skill with timed challenges if last one was timed but we dont have not timed challenge', function () {
@@ -232,7 +276,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         setPlayableSkills(skills);
 
         // when
-        const result = skillsFilter.getFilteredSkillsForNextChallenge({
+        const { availableSkills } = getFilteredSkillsForNextChallenge({
           knowledgeElements,
           predictedLevel: 2,
           targetSkills: skills,
@@ -240,7 +284,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         });
 
         // then
-        expect(result).to.have.members([skill2]);
+        expect(availableSkills).to.have.members([skill2]);
       });
     });
 
@@ -269,7 +313,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         setPlayableSkills(skills);
 
         // when
-        const result = skillsFilter.getFilteredSkillsForNextChallenge({
+        const { availableSkills } = getFilteredSkillsForNextChallenge({
           knowledgeElements,
           predictedLevel: 2,
           targetSkills: skills,
@@ -278,7 +322,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         });
 
         // then
-        expect(result).to.deep.equal([skill3, skill4]);
+        expect(availableSkills).to.deep.equal([skill3, skill4]);
       });
     });
 
@@ -311,7 +355,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         setPlayableSkills(skills);
 
         // when
-        const result = skillsFilter.getFilteredSkillsForNextChallenge({
+        const { availableSkills } = getFilteredSkillsForNextChallenge({
           knowledgeElements,
           predictedLevel: 5,
           targetSkills: skills,
@@ -320,7 +364,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         });
 
         // then
-        expect(result).to.deep.equal([easyTubeSkill2, easyTubeSkill3]);
+        expect(availableSkills).to.deep.equal([easyTubeSkill2, easyTubeSkill3]);
       });
 
       it('should return skills from all tubes if there is not easy tubes', function () {
@@ -343,7 +387,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         setPlayableSkills(skills);
 
         // when
-        const result = skillsFilter.getFilteredSkillsForNextChallenge({
+        const { availableSkills } = getFilteredSkillsForNextChallenge({
           knowledgeElements,
           predictedLevel: 5,
           targetSkills: skills,
@@ -352,7 +396,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         });
 
         // then
-        expect(result).to.deep.equal([skill4, skill5, skill6]);
+        expect(availableSkills).to.deep.equal([skill4, skill5, skill6]);
       });
     });
 
@@ -372,14 +416,14 @@ describe('Unit | Domain | services | smart-random | skillsFilter', function () {
         playableSkill.isPlayable = true;
 
         // when
-        const result = skillsFilter.getFilteredSkillsForNextChallenge({
+        const { availableSkills } = getFilteredSkillsForNextChallenge({
           knowledgeElements,
           tubes,
           targetSkills: skills,
         });
 
         // then
-        expect(result).to.deep.equal([playableSkill]);
+        expect(availableSkills).to.deep.equal([playableSkill]);
       });
     });
   });

@@ -2,14 +2,15 @@ import { KnowledgeElement } from '../../models/KnowledgeElement.js';
 
 export { findMaxRewardingSkills, getPredictedLevel };
 
+const CAT_LEVELS = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5];
+
 const findMaxRewardingSkills = ({ availableSkills, predictedLevel, tubes, knowledgeElements }) => {
   const maxRewardingSkills = getMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements });
   return clearSkillsIfNotRewarding(maxRewardingSkills);
 };
 
 const getPredictedLevel = (knowledgeElements, skills) => {
-  const catLevels = enumerateCatLevels();
-  const eachLevelWithProbability = catLevels.map((level) => ({
+  const eachLevelWithProbability = CAT_LEVELS.map((level) => ({
     level,
     probability: probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills),
   }));
@@ -19,11 +20,6 @@ const getPredictedLevel = (knowledgeElements, skills) => {
 
   return eachLevelWithProbability.find(({ probability }) => probability === maximumProbabilityThatUserHasSpecificLevel)
     .level;
-};
-
-const enumerateCatLevels = () => {
-  const catLevelsFromFirstToLastExcludingUpperBoundary = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5];
-  return catLevelsFromFirstToLastExcludingUpperBoundary;
 };
 
 // The probability P(gap) of giving the correct answer is given by the "logistic function"
@@ -83,15 +79,15 @@ const computeReward = ({ skill, predictedLevel, tubes, knowledgeElements }) => {
 
 const getMaxRewardingSkills = ({ availableSkills, predictedLevel, tubes, knowledgeElements }) =>
   availableSkills.reduce(
-    (acc, skill) => {
+    (maxRewardingSkills, skill) => {
       const skillReward = computeReward({ skill, predictedLevel, tubes, knowledgeElements });
-      if (skillReward > acc.maxReward) {
-        acc.maxReward = skillReward;
-        acc.maxRewardingSkills = [skill];
-      } else if (skillReward === acc.maxReward) {
-        acc.maxRewardingSkills.push(skill);
+      if (skillReward > maxRewardingSkills.maxReward) {
+        maxRewardingSkills.maxReward = skillReward;
+        maxRewardingSkills.maxRewardingSkills = [skill];
+      } else if (skillReward === maxRewardingSkills.maxReward) {
+        maxRewardingSkills.maxRewardingSkills.push(skill);
       }
-      return acc;
+      return maxRewardingSkills;
     },
     { maxRewardingSkills: [], maxReward: -Infinity },
   ).maxRewardingSkills;

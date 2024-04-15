@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import * as SmartRandom from '../../../../../lib/domain/services/algorithm-methods/smart-random.js';
+import { SmartRandomDetails } from '../../../../../src/evaluation/domain/models/SmartRandomDetails.js';
 import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
@@ -111,6 +112,25 @@ describe('Integration | Domain | Algorithm-methods | SmartRandom', function () {
   });
 
   describe('#getPossibleSkillsForNextChallenge', function () {
+    it('should return smart random details', function () {
+      // given
+      targetSkills = [web1, url3, cnil1, cnil2];
+      challenges = [challengeWeb_1, challengeWeb_3, challengeCnil_1, challengeCnil_2];
+
+      // when
+      const { smartRandomDetails } = SmartRandom.getPossibleSkillsForNextChallenge({
+        targetSkills,
+        challenges,
+        knowledgeElements: [],
+        lastAnswer,
+        allAnswers,
+        locale,
+      });
+
+      // then
+      expect(smartRandomDetails).to.be.instanceof(SmartRandomDetails);
+    });
+
     context('when it is the first question only', function () {
       it('should ideally start with an untimed, default starting level skill', function () {
         // given

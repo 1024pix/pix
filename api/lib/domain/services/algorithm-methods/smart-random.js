@@ -1,3 +1,4 @@
+import { STEPS_NAMES } from '../../../../src/evaluation/domain/models/SmartRandomStep.js';
 import { computeTubesFromSkills } from './../tube-service.js';
 import * as catAlgorithm from './cat-algorithm.js';
 import { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge } from './skills-filter.js';
@@ -22,7 +23,7 @@ const getPossibleSkillsForNextChallenge = ({
   targetSkills = getSkillsWithAddedInformations({ targetSkills, filteredChallenges, locale });
 
   // First challenge has specific rules
-  const { possibleSkillsForNextChallenge, levelEstimated } = isUserStartingTheTest
+  const { possibleSkillsForNextChallenge, levelEstimated, smartRandomDetails } = isUserStartingTheTest
     ? findFirstChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, tubes })
     : findAnyChallenge({
         knowledgeElements: knowledgeElementsOfTargetSkills,
@@ -33,8 +34,8 @@ const getPossibleSkillsForNextChallenge = ({
 
   // Test is considered finished when no challenges are returned but we don't expose this detail
   return possibleSkillsForNextChallenge.length > 0
-    ? { hasAssessmentEnded: false, possibleSkillsForNextChallenge, levelEstimated }
-    : { hasAssessmentEnded: true, possibleSkillsForNextChallenge, levelEstimated };
+    ? { hasAssessmentEnded: false, possibleSkillsForNextChallenge, levelEstimated, smartRandomDetails }
+    : { hasAssessmentEnded: true, possibleSkillsForNextChallenge, levelEstimated, smartRandomDetails };
 };
 
 const wasLastChallengeTimed = (lastAnswer) => Boolean(lastAnswer.timeout);
@@ -44,16 +45,14 @@ const findTubes = (skills, challenges) => {
   return computeTubesFromSkills(listSkillsWithChallenges);
 };
 
-const filterSkillsByChallenges = (skills, challenges) => {
-  const skillsWithChallenges = skills.filter((skill) => {
+const filterSkillsByChallenges = (skills, challenges) =>
+  skills.filter((skill) => {
     return challenges.find((challenge) => challenge.skill.name === skill.name);
   });
-  return skillsWithChallenges;
-};
 
 const findAnyChallenge = ({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed }) => {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
-  const availableSkills = getFilteredSkillsForNextChallenge({
+  const { availableSkills, smartRandomDetails } = getFilteredSkillsForNextChallenge({
     knowledgeElements,
     tubes,
     predictedLevel,
@@ -66,16 +65,19 @@ const findAnyChallenge = ({ knowledgeElements, targetSkills, tubes, isLastChalle
     tubes,
     knowledgeElements,
   });
-  return { possibleSkillsForNextChallenge: maxRewardingSkills, levelEstimated: predictedLevel };
+
+  smartRandomDetails.addStep(STEPS_NAMES.MAX_REWARDING_SKILLS, maxRewardingSkills);
+
+  return { possibleSkillsForNextChallenge: maxRewardingSkills, levelEstimated: predictedLevel, smartRandomDetails };
 };
 
 const findFirstChallenge = ({ knowledgeElements, targetSkills, tubes }) => {
-  const filteredSkillsForFirstChallenge = getFilteredSkillsForFirstChallenge({
+  const { availableSkills, smartRandomDetails } = getFilteredSkillsForFirstChallenge({
     knowledgeElements,
     tubes,
     targetSkills,
   });
-  return { possibleSkillsForNextChallenge: filteredSkillsForFirstChallenge, levelEstimated: 2 };
+  return { possibleSkillsForNextChallenge: availableSkills, levelEstimated: 2, smartRandomDetails };
 };
 
 const getSkillsWithAddedInformations = ({ targetSkills, filteredChallenges, locale }) =>
@@ -84,12 +86,12 @@ const getSkillsWithAddedInformations = ({ targetSkills, filteredChallenges, loca
       (challenge) => challenge.skill.id === skill.id && challenge.locales.includes(locale),
     );
     const [firstChallenge] = challenges;
-    const skillCopy = Object.create(skill);
-    return Object.assign(skillCopy, {
-      challenges,
-      timed: firstChallenge ? firstChallenge.isTimed() : false,
-      isPlayable: !!firstChallenge,
-    });
+
+    skill.challenges = challenges;
+    skill.timed = firstChallenge ? firstChallenge.isTimed() : false;
+    skill.isPlayable = !!firstChallenge;
+
+    return skill;
   });
 
 const removeChallengesWithAnswer = ({ challenges, allAnswers }) => {

@@ -1,3 +1,5 @@
+import { SmartRandomDetails } from '../../../../src/evaluation/domain/models/SmartRandomDetails.js';
+import { STEPS_NAMES } from '../../../../src/evaluation/domain/models/SmartRandomStep.js';
 import {
   DEFAULT_LEVEL_FOR_FIRST_CHALLENGE,
   MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL,
@@ -5,12 +7,10 @@ import {
 } from '../../constants.js';
 
 const getPlayableSkills = (skills) => skills.filter(({ isPlayable }) => isPlayable);
-
 const notAlreadyTestedSkill = (knowledgeElements) => (skill) => {
   const alreadyTestedSkillIds = knowledgeElements.map(({ skillId }) => skillId);
   return !alreadyTestedSkillIds.includes(skill.id);
 };
-
 const getUntestedSkills = (knowledgeElements, skills) => skills.filter(notAlreadyTestedSkill(knowledgeElements));
 
 const keepSkillsFromEasyTubes = (tubes, targetSkills) => {
@@ -69,11 +69,24 @@ const removeTooDifficultSkills = (predictedLevel, targetSkills) =>
   targetSkills.filter((skill) => !isSkillTooHard(skill, predictedLevel));
 
 const getFilteredSkillsForFirstChallenge = ({ knowledgeElements, tubes, targetSkills }) => {
+  const smartRandomDetails = new SmartRandomDetails();
+
   const playableSkills = getPlayableSkills(targetSkills);
+  smartRandomDetails.addStep(STEPS_NAMES.NO_CHALLENGE, playableSkills);
+
   const untestedSkills = getUntestedSkills(knowledgeElements, playableSkills);
+  smartRandomDetails.addStep(STEPS_NAMES.ALREADY_TESTED, untestedSkills);
+
   const skillsFromEasyTubes = keepSkillsFromEasyTubes(tubes, untestedSkills);
+  smartRandomDetails.addStep(STEPS_NAMES.EASY_TUBES, skillsFromEasyTubes);
+
   const skillsWithoutTimedSkills = removeTimedSkillsIfNeeded(true, skillsFromEasyTubes);
-  return focusOnDefaultLevel(skillsWithoutTimedSkills);
+  smartRandomDetails.addStep(STEPS_NAMES.TIMED_SKILLS, skillsWithoutTimedSkills);
+
+  const skillsFocusedOnDefaultLevel = focusOnDefaultLevel(skillsWithoutTimedSkills);
+  smartRandomDetails.addStep(STEPS_NAMES.DEFAULT_LEVEL, skillsFocusedOnDefaultLevel);
+
+  return { availableSkills: skillsFocusedOnDefaultLevel, smartRandomDetails };
 };
 
 const getFilteredSkillsForNextChallenge = ({
@@ -83,11 +96,25 @@ const getFilteredSkillsForNextChallenge = ({
   isLastChallengeTimed,
   targetSkills,
 }) => {
+  const smartRandomDetails = new SmartRandomDetails();
+  smartRandomDetails.predictedLevel = predictedLevel;
+
   const playableSkills = getPlayableSkills(targetSkills);
+  smartRandomDetails.addStep(STEPS_NAMES.NO_CHALLENGE, playableSkills);
+
   const untestedSkills = getUntestedSkills(knowledgeElements, playableSkills);
+  smartRandomDetails.addStep(STEPS_NAMES.ALREADY_TESTED, untestedSkills);
+
   const skillsFromEasyTubes = keepSkillsFromEasyTubes(tubes, untestedSkills);
+  smartRandomDetails.addStep(STEPS_NAMES.EASY_TUBES, skillsFromEasyTubes);
+
   const skillsWithoutTimedSkills = removeTimedSkillsIfNeeded(isLastChallengeTimed, skillsFromEasyTubes);
-  return removeTooDifficultSkills(predictedLevel, skillsWithoutTimedSkills);
+  smartRandomDetails.addStep(STEPS_NAMES.TIMED_SKILLS, skillsWithoutTimedSkills);
+
+  const skillsWithoutTooDifficultSkills = removeTooDifficultSkills(predictedLevel, skillsWithoutTimedSkills);
+  smartRandomDetails.addStep(STEPS_NAMES.TOO_DIFFICULT, skillsWithoutTooDifficultSkills);
+
+  return { availableSkills: skillsWithoutTooDifficultSkills, smartRandomDetails };
 };
 
 export { focusOnDefaultLevel, getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge };

@@ -19,6 +19,11 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
     focused: false,
   };
 
+  const apiResponseBody = {
+    challenge: returnedChallenge,
+    smartRandomDetails: [],
+  };
+
   hooks.beforeEach(async function () {
     controller = this.owner.lookup('controller:authenticated.smart-random-simulator.get-next-challenge');
   });
@@ -26,7 +31,7 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
   module('#requestNextChallenge', function () {
     test('it should call window fetch function', async function (assert) {
       // given
-      const apiResponse = new Response(JSON.stringify(returnedChallenge), { status: 200 });
+      const apiResponse = new Response(JSON.stringify(apiResponseBody), { status: 200 });
       fetchStub.resolves(apiResponse);
 
       // when
@@ -39,7 +44,7 @@ module('Unit | Controller | authenticated/smart-random-simulator/get-next-challe
     module('when api answer is 200', function () {
       test('it should add returned challenge to current challenges', async function (assert) {
         // given
-        const apiResponse = new Response(JSON.stringify(returnedChallenge), { status: 200 });
+        const apiResponse = new Response(JSON.stringify(apiResponseBody), { status: 200 });
         fetchStub.resolves(apiResponse);
 
         // when
