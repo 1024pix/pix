@@ -1,4 +1,3 @@
-import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -12,8 +11,8 @@ export default class Dashboard extends Component {
   @tracked shared = 0;
   @tracked participantsByStatusLoading = true;
 
-  @action
-  fetchDataForParticipationsByStatus() {
+  constructor(...args) {
+    super(...args);
     const adapter = this.store.adapterFor('campaign-stats');
 
     adapter.getParticipationsByStatus(this.args.campaign.id).then((response) => {

@@ -29,7 +29,6 @@ module('Unit | Component | Campaign::Activity::Dashboard', (hooks) => {
     component = await createGlimmerComponent('component:campaign/activity/dashboard', {
       campaign: { id: 1 },
     });
-    await component.fetchDataForParticipationsByStatus();
 
     // then
 
