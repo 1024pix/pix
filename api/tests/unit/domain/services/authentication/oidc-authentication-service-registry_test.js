@@ -3,7 +3,7 @@ import { OidcAuthenticationServiceRegistry } from '../../../../../lib/domain/ser
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 import { catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Domain | Services | authentication registry', function () {
+describe('Unit | Domain | Services | oidc-authentication-service-registry', function () {
   let oidcAuthenticationServiceRegistry;
 
   beforeEach(function () {
