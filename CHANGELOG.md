@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v4.131.0 (15/04/2024)
+
+
+### :rocket: Amélioration
+- [#8641](https://github.com/1024pix/pix/pull/8641) [FEATURE] Créer le point d'entrée permettant de récupérer la liste des learners de l'import générique (PIX-11617).
+- [#8579](https://github.com/1024pix/pix/pull/8579) [FEATURE] Retourner les détails des étapes de Smart Random (PIX-11561).
+- [#8654](https://github.com/1024pix/pix/pull/8654) [FEATURE] Ajout video ip publique et modification mineure.
+- [#8648](https://github.com/1024pix/pix/pull/8648) [FEATURE] Corriger le wording pour l'affichage du statut de l'import sur la page participant (PIX-12080).
+
+### :building_construction: Tech
+- [#8639](https://github.com/1024pix/pix/pull/8639) [TECH] Utiliser le Pix Message pour le bandeau des certifications terminées sur la page de finalisation de session sur Pix Certif (PIX-11829).
+- [#8656](https://github.com/1024pix/pix/pull/8656) [TECH] Déplacer les évaluations de tutoriels dans le bounded-context DevComp (PIX-12129).
+- [#8655](https://github.com/1024pix/pix/pull/8655) [TECH] Déplacer les tutoriels dans le bounded-context DevComp  (PIX-12123).
+- [#8632](https://github.com/1024pix/pix/pull/8632) [TECH] Rend asynchrone l'import des organization learners SIECLE (PIX-11937).
+- [#8646](https://github.com/1024pix/pix/pull/8646) [TECH][API] Factorisation du code de stockage des ID Tokens pour 2 services d'authentification de type OIDC (PIX-12069).
+
+### :bug: Correction
+- [#8584](https://github.com/1024pix/pix/pull/8584) [BUGFIX] Modifications modules expé : retours Lisa et bascule leçon <> activité.
+- [#8653](https://github.com/1024pix/pix/pull/8653) [BUGFIX][API] (PIX-12118).
+
+### :arrow_up: Montée de version
+- [#8657](https://github.com/1024pix/pix/pull/8657) [BUMP] Update dependency postgres to v14.11.
+- [#8593](https://github.com/1024pix/pix/pull/8593) [BUMP] Update dependency ember-data to v4.12.6 (certif).
+
+### :coffee: Autre
+- [#8650](https://github.com/1024pix/pix/pull/8650) [DOC] Corriger le numéro des ADR.
+
 ## v4.130.0 (12/04/2024)
 
 
