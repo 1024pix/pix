@@ -11,8 +11,7 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
       // when
       const oidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
         ...settings.oidcExampleNet,
-        additionalRequiredProperties: 'logoutUrl,afterLogoutUrl,sendingUrl',
-        customProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
+        additionalRequiredProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
         openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
         identityProvider: 'POLE_EMPLOI',
         organizationName: 'France Travail',
@@ -40,8 +39,7 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
 
       const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
         ...settings.oidcExampleNet,
-        additionalRequiredProperties: 'logoutUrl,afterLogoutUrl,sendingUrl',
-        customProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
+        additionalRequiredProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
         openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
         identityProvider: 'POLE_EMPLOI',
         organizationName: 'France Travail',
@@ -78,8 +76,7 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
       };
       const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
         ...settings.oidcExampleNet,
-        additionalRequiredProperties: 'logoutUrl,afterLogoutUrl,sendingUrl',
-        customProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
+        additionalRequiredProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
         openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
         identityProvider: 'POLE_EMPLOI',
         organizationName: 'France Travail',

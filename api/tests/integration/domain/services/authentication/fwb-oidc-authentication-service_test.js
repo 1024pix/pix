@@ -20,8 +20,7 @@ describe('Integration | Domain | Service | fwb-oidc-authentication-service', fun
         const key = `${userId}:${logoutUrlUUID}`;
         const fwbOidcAuthenticationService = new FwbOidcAuthenticationService({
           ...config.oidcExampleNet,
-          additionalRequiredProperties: 'logoutUrl',
-          customProperties: { logoutUrl: 'https://logout-url.org' },
+          additionalRequiredProperties: { logoutUrl: 'https://logout-url.org' },
           identityProvider: 'FWB',
           organizationName: 'Fédération Wallonie-Bruxelles',
           shouldCloseSession: true,
@@ -53,8 +52,7 @@ describe('Integration | Domain | Service | fwb-oidc-authentication-service', fun
         const key = `${userId}:${logoutUrlUUID}`;
         const fwbOidcAuthenticationService = new FwbOidcAuthenticationService({
           ...config.oidcExampleNet,
-          additionalRequiredProperties: 'logoutUrl',
-          customProperties: { logoutUrl: 'https://logout-url.org' },
+          additionalRequiredProperties: { logoutUrl: 'https://logout-url.org' },
           identityProvider: 'FWB',
           organizationName: 'Fédération Wallonie-Bruxelles',
           shouldCloseSession: true,

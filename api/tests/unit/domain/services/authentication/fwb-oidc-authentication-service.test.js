@@ -8,8 +8,7 @@ describe('Unit | Domain | Services | fwb-oidc-authentication-service', function 
       // when
       const fwbOidcAuthenticationService = new FwbOidcAuthenticationService({
         ...settings.oidcExampleNet,
-        additionalRequiredProperties: 'logoutUrl',
-        customProperties: { logoutUrl: '' },
+        additionalRequiredProperties: { logoutUrl: '' },
         identityProvider: 'FWB',
         organizationName: 'Fédération Wallonie-Bruxelles',
         shouldCloseSession: true,

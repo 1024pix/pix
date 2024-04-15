@@ -11,9 +11,9 @@ export class PoleEmploiOidcAuthenticationService extends OidcAuthenticationServi
   constructor(oidcProvider, dependencies) {
     super(oidcProvider, dependencies);
 
-    this.logoutUrl = oidcProvider.customProperties.logoutUrl;
-    this.afterLogoutUrl = oidcProvider.customProperties.afterLogoutUrl;
-    this.sendingUrl = oidcProvider.customProperties.sendingUrl;
+    this.logoutUrl = oidcProvider.additionalRequiredProperties.logoutUrl;
+    this.afterLogoutUrl = oidcProvider.additionalRequiredProperties.afterLogoutUrl;
+    this.sendingUrl = oidcProvider.additionalRequiredProperties.sendingUrl;
   }
 
   // Override because we need idToken to send results after a campaign

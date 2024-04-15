@@ -28,11 +28,10 @@ export class OidcAuthenticationService {
   constructor(
     {
       accessTokenLifespan = '48h',
-      additionalRequiredProperties = '',
+      additionalRequiredProperties,
       claimsToStore,
       clientId,
       clientSecret,
-      customProperties = {},
       extraAuthorizationUrlParameters,
       enabled,
       enabledForPixAdmin,
@@ -50,6 +49,7 @@ export class OidcAuthenticationService {
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
     this.accessTokenLifespanMs = ms(accessTokenLifespan);
+    this.additionalRequiredProperties = additionalRequiredProperties;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.enabled = enabled;
@@ -74,25 +74,6 @@ export class OidcAuthenticationService {
 
     if (!enabled && !enabledForPixAdmin) {
       return;
-    }
-
-    if (additionalRequiredProperties) {
-      const missingAdditionalRequiredProperties = [];
-      additionalRequiredProperties.split(',').forEach((requiredProperty) => {
-        requiredProperty = requiredProperty.trim();
-        if (lodash.isNil(customProperties[requiredProperty])) {
-          missingAdditionalRequiredProperties.push(requiredProperty);
-        }
-      });
-
-      const isConfigValid = missingAdditionalRequiredProperties.length === 0;
-      if (!isConfigValid) {
-        logger.error(
-          `OIDC Provider "${this.identityProvider}" has been DISABLED because of INVALID config. ` +
-            `The following additional required properties are missing: ${missingAdditionalRequiredProperties.join(', ')}`,
-        );
-        return;
-      }
     }
 
     const accessTokenLifespanSeconds = this.accessTokenLifespanMs / 1000;

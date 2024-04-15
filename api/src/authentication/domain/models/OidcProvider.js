@@ -4,7 +4,6 @@ export class OidcProvider {
     additionalRequiredProperties,
     claimsToStore,
     clientId,
-    customProperties,
     enabled,
     enabledForPixAdmin,
     encryptedClientSecret,
@@ -24,7 +23,6 @@ export class OidcProvider {
     this.additionalRequiredProperties = additionalRequiredProperties;
     this.claimsToStore = claimsToStore;
     this.clientId = clientId;
-    this.customProperties = customProperties;
     this.enabled = enabled;
     this.enabledForPixAdmin = enabledForPixAdmin;
     this.encryptedClientSecret = encryptedClientSecret;

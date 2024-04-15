@@ -7,7 +7,7 @@ export class FwbOidcAuthenticationService extends OidcAuthenticationService {
   constructor(oidcProvider, dependencies) {
     super(oidcProvider, dependencies);
 
-    this.logoutUrl = oidcProvider.customProperties.logoutUrl;
+    this.logoutUrl = oidcProvider.additionalRequiredProperties.logoutUrl;
   }
 
   async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {

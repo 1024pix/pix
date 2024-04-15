@@ -29,8 +29,7 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
       });
       const poleEmploiAuthenticationService = new PoleEmploiOidcAuthenticationService({
         ...config.oidcExampleNet,
-        additionalRequiredProperties: 'afterLogoutUrl,logoutUrl',
-        customProperties: { logoutUrl: 'https://logout-url.fr', afterLogoutUrl: 'https://after-logout.fr' },
+        additionalRequiredProperties: { logoutUrl: 'https://logout-url.fr', afterLogoutUrl: 'https://after-logout.fr' },
         identityProvider: 'POLE_EMPLOI',
         openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
         organizationName: 'France Travail',
@@ -69,8 +68,10 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
         const key = `${userId}:${logoutUrlUUID}`;
         const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
           ...config.oidcExampleNet,
-          additionalRequiredProperties: 'afterLogoutUrl,logoutUrl',
-          customProperties: { logoutUrl: 'https://logout-url.fr', afterLogoutUrl: 'https://after-logout.fr' },
+          additionalRequiredProperties: {
+            logoutUrl: 'https://logout-url.fr',
+            afterLogoutUrl: 'https://after-logout.fr',
+          },
           identityProvider: 'POLE_EMPLOI',
           openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
           organizationName: 'France Travail',
@@ -106,8 +107,10 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
         const key = `${userId}:${logoutUrlUUID}`;
         const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
           ...config.oidcExampleNet,
-          additionalRequiredProperties: 'afterLogoutUrl,logoutUrl',
-          customProperties: { logoutUrl: 'https://logout-url.fr', afterLogoutUrl: 'https://after-logout.fr' },
+          additionalRequiredProperties: {
+            logoutUrl: 'https://logout-url.fr',
+            afterLogoutUrl: 'https://after-logout.fr',
+          },
           identityProvider: 'POLE_EMPLOI',
           openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
           organizationName: 'France Travail',

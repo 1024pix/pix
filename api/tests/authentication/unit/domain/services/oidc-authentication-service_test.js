@@ -15,7 +15,6 @@ import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-to
 import { OidcAuthenticationService } from '../../../../../src/authentication/domain/services/oidc-authentication-service.js';
 import { DomainTransaction } from '../../../../../src/shared/domain/DomainTransaction.js';
 import { OidcError } from '../../../../../src/shared/domain/errors.js';
-import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
 import { catchErr, catchErrSync, expect, sinon } from '../../../../test-helper.js';
 
 const uuidV4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
@@ -82,49 +81,24 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
   describe('#isReady', function () {
     describe('when enabled in config', function () {
-      describe('when config is valid', function () {
-        it('returns true', function () {
-          // given
-          const oidcAuthenticationService = new OidcAuthenticationService({
-            clientId: 'anId',
-            clientSecret: 'aSecret',
-            additionalRequiredProperties: 'aProperty',
-            customProperties: {
-              aProperty: 'a property value',
-            },
-            enabled: true,
-            openidConfigurationUrl: 'https://example.net/.well-known/openid-configuration',
-            redirectUri: 'https://example.net/connexion/redirect',
-          });
-
-          // when
-          const isOidcAuthenticationServiceReady = oidcAuthenticationService.isReady;
-
-          // then
-          expect(isOidcAuthenticationServiceReady).to.be.true;
+      it('returns true', function () {
+        // given
+        const oidcAuthenticationService = new OidcAuthenticationService({
+          clientId: 'anId',
+          clientSecret: 'aSecret',
+          additionalRequiredProperties: {
+            aProperty: 'a property value',
+          },
+          enabled: true,
+          openidConfigurationUrl: 'https://example.net/.well-known/openid-configuration',
+          redirectUri: 'https://example.net/connexion/redirect',
         });
-      });
 
-      describe('when config is invalid', function () {
-        it('returns false', function () {
-          // given
-          sinon.stub(logger, 'error');
+        // when
+        const isOidcAuthenticationServiceReady = oidcAuthenticationService.isReady;
 
-          const oidcAuthenticationService = new OidcAuthenticationService({
-            additionalRequiredProperties: 'exampleProperty',
-            enabled: true,
-            identityProvider: 'Example OP code',
-          });
-
-          // when
-          const result = oidcAuthenticationService.isReady;
-
-          // then
-          expect(logger.error).to.have.been.calledWithExactly(
-            'OIDC Provider "Example OP code" has been DISABLED because of INVALID config. The following additional required properties are missing: exampleProperty',
-          );
-          expect(result).to.be.false;
-        });
+        // then
+        expect(isOidcAuthenticationServiceReady).to.be.true;
       });
     });
 
