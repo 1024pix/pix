@@ -1,4 +1,3 @@
-import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import sumBy from 'lodash/sumBy';
@@ -58,20 +57,6 @@ export default class ParticipantsByStatus extends Component {
       },
       borderWidth: 0,
     };
-  }
-
-  @action
-  setCanvas(element, params) {
-    const canvas = document.createElement('canvas');
-    canvas.width = 14;
-    canvas.height = 14;
-    canvas.className = 'participants-by-status__legend-view';
-    const ctx = canvas.getContext('2d');
-
-    ctx.fillStyle = params[0];
-    ctx.fillRect(0, 0, 14, 14);
-
-    element.insertBefore(canvas, element.firstChild);
   }
 
   getDatasetLabels(key, count, isTypeAssessment) {

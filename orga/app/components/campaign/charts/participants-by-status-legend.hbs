@@ -1,0 +1,15 @@
+<canvas id={{this.canvasId}} class="participants-by-status__legend-view" />
+<span>{{@dataset.legend}}</span>
+<PixTooltip @id="legend-tooltip-{{@dataset.key}}" @isWide="true" @position="top-left">
+  <:triggerElement>
+    <FaIcon
+      @icon="circle-question"
+      class="participants-by-status__legend-tooltip"
+      tabindex="0"
+      aria-describedby="legend-tooltip-{{@dataset.key}}"
+    />
+  </:triggerElement>
+  <:tooltip>
+    {{@dataset.legendTooltip}}
+  </:tooltip>
+</PixTooltip>
