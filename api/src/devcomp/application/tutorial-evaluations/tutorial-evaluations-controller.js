@@ -1,4 +1,4 @@
-import { TutorialEvaluation } from '../../../lib/domain/models/TutorialEvaluation.js';
+import { TutorialEvaluation } from '../../domain/models/TutorialEvaluation.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as tutorialEvaluationSerializer from '../../infrastructure/serializers/jsonapi/tutorial-evaluation-serializer.js';
 

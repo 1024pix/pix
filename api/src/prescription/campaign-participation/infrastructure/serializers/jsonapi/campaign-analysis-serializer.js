@@ -1,8 +1,8 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
-const { Serializer } = jsonapiSerializer;
+import { tutorialAttributes } from '../../../../../devcomp/infrastructure/serializers/jsonapi/tutorial-attributes.js';
 
-import { tutorialAttributes } from '../../../../../../lib/infrastructure/serializers/jsonapi/tutorial-attributes.js';
+const { Serializer } = jsonapiSerializer;
 
 const serialize = function (results) {
   return new Serializer('campaign-analysis', {
