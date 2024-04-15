@@ -95,5 +95,6 @@ const decrypt = async function (phcText) {
  * @property {function} hashPasswordSync
  * @property {RegExp} phcRegexp
  */
+const cryptoService = { checkPassword, decrypt, encrypt, hashPassword, hashPasswordSync, phcRegexp };
 
-export { checkPassword, decrypt, encrypt, hashPassword, hashPasswordSync, phcRegexp };
+export { cryptoService };

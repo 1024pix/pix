@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 
 import { PasswordNotMatching } from '../../../../../src/authentication/domain/errors.js';
-import * as cryptoService from '../../../../../src/shared/domain/services/crypto-service.js';
+import { cryptoService } from '../../../../../src/shared/domain/services/crypto-service.js';
 import { catchErr, expect } from '../../../../test-helper.js';
 
 describe('Unit | Shared | Domain | Services | Crypto', function () {

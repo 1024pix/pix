@@ -5,7 +5,7 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/id
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 import { User } from '../../../../src/shared/domain/models/User.js';
-import * as encrypt from '../../../../src/shared/domain/services/crypto-service.js';
+import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
 
 function _buildUser() {
   return new User({
@@ -53,7 +53,7 @@ buildAuthenticationMethod.withPixAsIdentityProviderAndRawPassword = function ({
   updatedAt,
 } = {}) {
   // eslint-disable-next-line no-sync
-  const password = encrypt.hashPasswordSync(rawPassword);
+  const password = cryptoService.hashPasswordSync(rawPassword);
   userId = isUndefined(userId) ? _buildUser().id : userId;
 
   return new AuthenticationMethod({
