@@ -1,4 +1,4 @@
-# Logique et stratégie de gestion des paramètres régionaux et des langues (locales & languages)
+# 40. Logique et stratégie de gestion des paramètres régionaux et des langues (locales & languages)
 
 Date : 2022-12-07
 

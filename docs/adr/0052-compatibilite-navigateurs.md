@@ -1,4 +1,4 @@
-# Compatibilité avec les différents navigateurs web
+# 52. Compatibilité avec les différents navigateurs web
 
 Date : 2023-08-16
 
