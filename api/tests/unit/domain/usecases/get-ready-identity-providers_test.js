@@ -11,7 +11,7 @@ describe('Unit | UseCase | get-ready-identity-providers', function () {
     oneOidcProviderService = {};
     anotherOidcProviderService = {};
     oidcAuthenticationServiceRegistryStub = {
-      loadOidcProviderServices: sinon.stub(),
+      loadOidcProviderServices: sinon.stub().resolves(),
       getReadyOidcProviderServices: sinon.stub().returns([oneOidcProviderService, anotherOidcProviderService]),
       getReadyOidcProviderServicesForPixAdmin: sinon
         .stub()
@@ -21,9 +21,9 @@ describe('Unit | UseCase | get-ready-identity-providers', function () {
 
   describe('when an audience is provided', function () {
     describe('when the provided audience is equal to "admin"', function () {
-      it('returns oidc providers from getReadyOidcProviderServicesForPixAdmin', function () {
+      it('returns oidc providers from getReadyOidcProviderServicesForPixAdmin', async function () {
         // when
-        const identityProviders = getReadyIdentityProviders({
+        const identityProviders = await getReadyIdentityProviders({
           audience: PIX_ADMIN.AUDIENCE,
           oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
         });
@@ -36,9 +36,9 @@ describe('Unit | UseCase | get-ready-identity-providers', function () {
     });
   });
 
-  it('returns oidc providers from getReadyOidcProviderServices', function () {
+  it('returns oidc providers from getReadyOidcProviderServices', async function () {
     // when
-    const identityProviders = getReadyIdentityProviders({
+    const identityProviders = await getReadyIdentityProviders({
       audience: null,
       oidcAuthenticationServiceRegistry: oidcAuthenticationServiceRegistryStub,
     });

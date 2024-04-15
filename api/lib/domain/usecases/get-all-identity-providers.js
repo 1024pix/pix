@@ -1,5 +1,5 @@
-const getAllIdentityProviders = function ({ oidcAuthenticationServiceRegistry }) {
-  oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+const getAllIdentityProviders = async function ({ oidcAuthenticationServiceRegistry }) {
+  await oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   return oidcAuthenticationServiceRegistry.getAllOidcProviderServices();
 };
 

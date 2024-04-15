@@ -5,13 +5,13 @@ import * as oidcSerializer from '../../../infrastructure/serializers/jsonapi/oid
 import { BadRequestError, UnauthorizedError } from '../../http-errors.js';
 
 const getAllIdentityProvidersForAdmin = async function (request, h) {
-  const identityProviders = usecases.getAllIdentityProviders();
+  const identityProviders = await usecases.getAllIdentityProviders();
   return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
 };
 
 const getIdentityProviders = async function (request, h) {
   const audience = request.query.audience;
-  const identityProviders = usecases.getReadyIdentityProviders({ audience });
+  const identityProviders = await usecases.getReadyIdentityProviders({ audience });
   return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
 };
 
@@ -25,7 +25,7 @@ const getRedirectLogoutUrl = async function (
   const userId = request.auth.credentials.userId;
   const { identity_provider: identityProvider, logout_url_uuid: logoutUrlUUID } = request.query;
 
-  dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+  await dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
 
   const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
@@ -67,7 +67,7 @@ const reconcileUser = async function (
 ) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
 
-  dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+  await dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
 
   const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
@@ -91,7 +91,7 @@ const getAuthorizationUrl = async function (
 ) {
   const { identity_provider: identityProvider, audience } = request.query;
 
-  dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+  await dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
 
   const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
@@ -124,7 +124,7 @@ const authenticateUser = async function (
     throw new BadRequestError('Required cookie "state" is missing');
   }
 
-  dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+  await dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
 
   const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
@@ -164,7 +164,7 @@ const createUser = async function (
   const { identityProvider, authenticationKey } = request.deserializedPayload;
   const localeFromCookie = request.state?.locale;
 
-  dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+  await dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
 
   const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({
@@ -190,7 +190,7 @@ const reconcileUserForAdmin = async function (
 ) {
   const { email, identityProvider, authenticationKey } = request.deserializedPayload;
 
-  dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
+  await dependencies.oidcAuthenticationServiceRegistry.loadOidcProviderServices();
   await dependencies.oidcAuthenticationServiceRegistry.configureReadyOidcProviderServiceByCode(identityProvider);
 
   const oidcAuthenticationService = dependencies.oidcAuthenticationServiceRegistry.getOidcProviderServiceByCode({

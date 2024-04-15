@@ -48,6 +48,8 @@ async function createServerWithTestOidcProvider() {
       accessTokenLifespanMs: 60000,
       clientId: 'client',
       clientSecret: 'secret',
+      enabled: true,
+      enabledForPixAdmin: true,
       configKey: 'oidcExampleNet',
       shouldCloseSession: true,
       identityProvider: 'OIDC_EXAMPLE_NET',
@@ -59,7 +61,7 @@ async function createServerWithTestOidcProvider() {
     }),
   ];
 
-  oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
+  await oidcAuthenticationServiceRegistry.loadOidcProviderServices(oidcProviderServices);
 
   return createServer({ oidcProviderServices });
 }
