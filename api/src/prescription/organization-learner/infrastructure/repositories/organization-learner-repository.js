@@ -1,6 +1,8 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
+import { OrganizationLearnerImported } from '../../domain/models/OrganizationLearnerImported.js';
 import { OrganizationLearner } from '../../domain/read-models/OrganizationLearner.js';
 
 function _buildIsCertifiable(queryBuilder, organizationLearnerId) {
@@ -69,4 +71,19 @@ async function get(organizationLearnerId) {
   throw new NotFoundError(`Student not found for ID ${organizationLearnerId}`);
 }
 
-export { get };
+async function findPaginatedLearners({ organizationId, page }) {
+  const query = knex
+    .select('id', 'firstName', 'lastName', 'attributes')
+    .from('view-active-organization-learners')
+    .where({ isDisabled: false, organizationId })
+    .orderBy('lastName', 'ASC')
+    .orderBy('firstName', 'ASC');
+
+  const { results, pagination } = await fetchPage(query, page);
+
+  const learners = results.map((learner) => new OrganizationLearnerImported(learner));
+
+  return { learners, pagination };
+}
+
+export { findPaginatedLearners, get };

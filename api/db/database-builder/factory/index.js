@@ -21,8 +21,16 @@ const databaseBuilders = await importNamedExportsFromDirectory({
   ignoredFileNames: unwantedFiles,
 });
 
+const organizationLearners = await importNamedExportsFromDirectory({
+  path: join(path, './prescription/organization-learners'),
+  ignoredFileNames: unwantedFiles,
+});
+
 export const factory = {
   ...databaseBuilders,
+  prescription: {
+    organizationLearners,
+  },
   campaignParticipationOverviewFactory,
   knowledgeElementSnapshotFactory,
   poleEmploiSendingFactory,

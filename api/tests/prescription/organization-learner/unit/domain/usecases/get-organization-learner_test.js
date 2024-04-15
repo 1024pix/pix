@@ -19,7 +19,7 @@ describe('Unit | UseCase | get-organisation-learner', function () {
     // when
     const organizationLearner = await getOrganizationLearner({
       organizationLearnerId,
-      organizationLearnerFollowUpRepository: organizationLearnerRepository,
+      organizationLearnerRepository,
     });
 
     // then
