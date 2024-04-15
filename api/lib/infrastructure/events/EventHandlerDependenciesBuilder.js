@@ -1,3 +1,4 @@
+import { ImportOrganizationLearnersJob } from '../../../src/prescription/learner-management/infrastructure/jobs/ImportOrganizationLearnersJob.js';
 import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
 import { UserAnonymizedEventLoggingJob } from '../jobs/audit-log/UserAnonymizedEventLoggingJob.js';
 import { ParticipationResultCalculationJob } from '../jobs/campaign-result/ParticipationResultCalculationJob.js';
@@ -18,6 +19,7 @@ function _buildDependencies(domainTransaction) {
     sendSharedParticipationResultsToPoleEmploiJob: new SendSharedParticipationResultsToPoleEmploiJob(
       domainTransaction.knexTransaction,
     ),
+    importOrganizationLearnersJob: new ImportOrganizationLearnersJob(domainTransaction.knexTransaction),
   };
 }
 

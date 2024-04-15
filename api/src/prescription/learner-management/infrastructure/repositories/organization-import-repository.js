@@ -1,5 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
+import { ApplicationTransaction } from '../../../shared/infrastructure/ApplicationTransaction.js';
 import { OrganizationImport } from '../../domain/models/OrganizationImport.js';
 import { OrganizationImportDetail } from '../../domain/read-models/OrganizationImportDetail.js';
 
@@ -8,7 +9,8 @@ function _toDomain(data) {
 }
 
 const getLastByOrganizationId = async function (organizationId) {
-  const result = await knex('organization-imports').where({ organizationId }).orderBy('createdAt', 'desc').first();
+  const knexConn = ApplicationTransaction.getConnection();
+  const result = await knexConn('organization-imports').where({ organizationId }).orderBy('createdAt', 'desc').first();
 
   if (!result) return null;
 
@@ -29,7 +31,8 @@ const getLastImportDetailForOrganization = async function (organizationId) {
 };
 
 const get = async function (id) {
-  const result = await knex('organization-imports').where({ id }).first();
+  const knexConn = ApplicationTransaction.getConnection();
+  const result = await knexConn('organization-imports').where({ id }).first();
 
   if (!result) return null;
 
@@ -46,7 +49,7 @@ function _stringifyErrors(errors) {
 }
 
 const save = async function (organizationImport, domainTransaction = DomainTransaction.emptyTransaction()) {
-  let knexConn = domainTransaction.knexTransaction || knex;
+  let knexConn = ApplicationTransaction.getConnection(domainTransaction);
 
   const attributes = { ...organizationImport, errors: _stringifyErrors(organizationImport.errors) };
   if (attributes.errors) {

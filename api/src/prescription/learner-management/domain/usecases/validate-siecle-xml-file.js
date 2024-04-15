@@ -1,11 +1,12 @@
+import lodash from 'lodash';
+
 import { AggregateImportError, SiecleXmlImportError } from '../errors.js';
 
 const { isEmpty } = lodash;
 
-import lodash from 'lodash';
-
 import { SiecleParser } from '../../infrastructure/serializers/xml/siecle-parser.js';
 import { SiecleFileStreamer } from '../../infrastructure/utils/xml/siecle-file-streamer.js';
+import { FileValidated } from '../events/FileValidated.js';
 
 const ERRORS = {
   EMPTY: 'EMPTY',
@@ -23,6 +24,8 @@ const validateSiecleXmlFile = async function ({
   const organization = await organizationRepository.get(organizationId);
 
   const errors = [];
+
+  let event = null;
 
   try {
     const readableStreamForUAJ = await importStorage.readFile({ filename: organizationImport.filename });
@@ -48,7 +51,12 @@ const validateSiecleXmlFile = async function ({
   } finally {
     organizationImport.validate({ errors });
     await organizationImportRepository.save(organizationImport);
+    if (isEmpty(errors)) {
+      event = new FileValidated({ organizationImportId: organizationImport.id });
+    }
   }
+
+  return event;
 };
 
 export { validateSiecleXmlFile };

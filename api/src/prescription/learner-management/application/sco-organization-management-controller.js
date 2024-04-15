@@ -1,7 +1,9 @@
 import fs from 'node:fs/promises';
 
 import { FileValidationError } from '../../../../lib/domain/errors.js';
+import { eventBus } from '../../../../lib/domain/events/index.js';
 import { logErrorWithCorrelationIds } from '../../../../lib/infrastructure/monitoring-tools.js';
+import { ApplicationTransaction } from '../../shared/infrastructure/ApplicationTransaction.js';
 import { usecases } from '../domain/usecases/index.js';
 
 const INVALID_FILE_EXTENSION_ERROR = 'INVALID_FILE_EXTENSION';
@@ -21,8 +23,10 @@ const importOrganizationLearnersFromSIECLE = async function (
         organizationId,
         payload: request.payload,
       });
-      await usecases.validateSiecleXmlFile({ organizationId });
-      await usecases.addOrUpdateOrganizationLearners({ organizationId });
+      await ApplicationTransaction.execute(async () => {
+        const validatedFileEvent = await usecases.validateSiecleXmlFile({ organizationId });
+        await eventBus.publish(validatedFileEvent, ApplicationTransaction.getTransactionAsDomainTransaction());
+      });
     } else if (format === 'csv') {
       await usecases.importOrganizationLearnersFromSIECLECSVFormat({
         userId: authenticatedUserId,

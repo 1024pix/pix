@@ -9,14 +9,14 @@ import { SiecleFileStreamer } from '../../infrastructure/utils/xml/siecle-file-s
 const { chunk } = lodash;
 
 async function addOrUpdateOrganizationLearners({
-  organizationId,
+  organizationImportId,
   organizationLearnerRepository,
   organizationImportRepository,
   importStorage,
   chunkSize = ORGANIZATION_LEARNER_CHUNK_SIZE,
 }) {
   const errors = [];
-  const organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
+  const organizationImport = await organizationImportRepository.get(organizationImportId);
 
   return DomainTransaction.execute(async (domainTransaction) => {
     try {
@@ -32,14 +32,14 @@ async function addOrUpdateOrganizationLearners({
 
       await organizationLearnerRepository.disableAllOrganizationLearnersInOrganization({
         domainTransaction,
-        organizationId,
+        organizationId: organizationImport.organizationId,
         nationalStudentIds: nationalStudentIdData,
       });
 
       await bluebird.mapSeries(organizationLearnersChunks, (chunk) => {
         return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
           chunk,
-          organizationId,
+          organizationImport.organizationId,
           domainTransaction,
         );
       });

@@ -1,8 +1,10 @@
 import fs from 'node:fs/promises';
 
 import { FileValidationError } from '../../../../../lib/domain/errors.js';
+import { eventBus } from '../../../../../lib/domain/events/index.js';
 import { scoOrganizationManagementController } from '../../../../../src/prescription/learner-management/application/sco-organization-management-controller.js';
 import { usecases } from '../../../../../src/prescription/learner-management/domain/usecases/index.js';
+import { ApplicationTransaction } from '../../../../../src/prescription/shared/infrastructure/ApplicationTransaction.js';
 import { catchErr, expect, hFake, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Application | Organizations | organization-controller', function () {
@@ -12,6 +14,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     const payload = { path: 'path-to-file' };
     const format = 'xml';
     let dependencies;
+    let domainTransaction;
 
     const request = {
       auth: { credentials: { userId: connectedUserId } },
@@ -26,6 +29,14 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(usecases, 'validateSiecleXmlFile');
       sinon.stub(usecases, 'addOrUpdateOrganizationLearners');
       sinon.stub(usecases, 'importOrganizationLearnersFromSIECLECSVFormat');
+      sinon.stub(eventBus, 'publish');
+      sinon.stub(ApplicationTransaction, 'execute');
+      sinon.stub(ApplicationTransaction, 'getTransactionAsDomainTransaction');
+
+      domainTransaction = Symbol('domainTransaction');
+      ApplicationTransaction.execute.callsFake((callback) => callback());
+      ApplicationTransaction.getTransactionAsDomainTransaction.returns(domainTransaction);
+
       usecases.uploadSiecleFile.resolves();
       dependencies = { logErrorWithCorrelationIds: sinon.stub() };
     });
@@ -61,6 +72,8 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     it('should call usecases to import organizationLearners xml', async function () {
       // given
+      const fileValidatedEvent = Symbol('fileValidatedEvent');
+      usecases.validateSiecleXmlFile.resolves(fileValidatedEvent);
       const userId = 1;
       request.auth = { credentials: { userId } };
       hFake.request = {
@@ -77,9 +90,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         payload,
       });
       expect(usecases.validateSiecleXmlFile).to.have.been.calledWithExactly({ organizationId });
-      expect(usecases.addOrUpdateOrganizationLearners).to.have.been.calledWithExactly({
-        organizationId,
-      });
+      expect(eventBus.publish).to.have.been.calledWithExactly(fileValidatedEvent, domainTransaction);
     });
 
     it('should call the usecase to import organizationLearners csv', async function () {
