@@ -14,14 +14,14 @@ const ERRORS = {
 };
 
 const validateSiecleXmlFile = async function ({
-  organizationId,
+  organizationImportId,
   organizationRepository,
   organizationImportRepository,
   importStorage,
 }) {
-  const organizationImport = await organizationImportRepository.getLastByOrganizationId(organizationId);
+  const organizationImport = await organizationImportRepository.get(organizationImportId);
 
-  const organization = await organizationRepository.get(organizationId);
+  const organization = await organizationRepository.get(organizationImport.organizationId);
 
   const errors = [];
 

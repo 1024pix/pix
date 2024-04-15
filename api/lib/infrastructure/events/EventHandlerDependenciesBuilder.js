@@ -21,7 +21,7 @@ function _buildDependencies(domainTransaction) {
       domainTransaction.knexTransaction,
     ),
     importOrganizationLearnersJob: new ImportOrganizationLearnersJob(domainTransaction.knexTransaction),
-    ValidateOrganizationImportFileJob: new ValidateOrganizationImportFileJob(domainTransaction.knexTransaction),
+    validateOrganizationImportFileJob: new ValidateOrganizationImportFileJob(domainTransaction.knexTransaction),
   };
 }
 

@@ -18,14 +18,13 @@ const importOrganizationLearnersFromSIECLE = async function (
   const { format } = request.query;
   try {
     if (format === 'xml') {
-      await usecases.uploadSiecleFile({
-        userId: authenticatedUserId,
-        organizationId,
-        payload: request.payload,
-      });
       await ApplicationTransaction.execute(async () => {
-        const validatedFileEvent = await usecases.validateSiecleXmlFile({ organizationId });
-        await eventBus.publish(validatedFileEvent, ApplicationTransaction.getTransactionAsDomainTransaction());
+        const uploadedFileEvent = await usecases.uploadSiecleFile({
+          userId: authenticatedUserId,
+          organizationId,
+          payload: request.payload,
+        });
+        await eventBus.publish(uploadedFileEvent, ApplicationTransaction.getTransactionAsDomainTransaction());
       });
     } else if (format === 'csv') {
       await usecases.importOrganizationLearnersFromSIECLECSVFormat({

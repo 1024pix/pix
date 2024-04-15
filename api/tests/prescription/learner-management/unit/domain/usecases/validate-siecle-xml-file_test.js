@@ -10,6 +10,7 @@ import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | import-organization-learners-from-siecle-xml', function () {
   const organizationId = 1234;
+  const organizationImportId = 345;
   let parserStub;
   let organizationImportRepositoryStub;
   let organizationRepositoryStub;
@@ -22,7 +23,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
 
   beforeEach(function () {
     organizationImportRepositoryStub = {
-      getLastByOrganizationId: sinon.stub(),
+      get: sinon.stub(),
       save: sinon.stub(),
     };
     organizationImportStub = {
@@ -31,7 +32,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
       encoding: Symbol('encoding'),
       validate: sinon.stub(),
     };
-    organizationImportRepositoryStub.getLastByOrganizationId.returns(organizationImportStub);
+    organizationImportRepositoryStub.get.withArgs(organizationImportId).resolves(organizationImportStub);
     externalIdSymbol = Symbol('externalId');
     organizationRepositoryStub = {
       get: sinon.stub().withArgs(organizationId).returns({ externalId: externalIdSymbol }),
@@ -57,7 +58,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
 
   it('should validate the xml file', async function () {
     const event = await validateSiecleXmlFile({
-      organizationId,
+      organizationImportId,
       organizationImportRepository: organizationImportRepositoryStub,
       organizationRepository: organizationRepositoryStub,
       importStorage: importStorageStub,
@@ -75,7 +76,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
       const s3Error = new Error('s3 error');
       importStorageStub.readFile.rejects(s3Error);
       const error = await catchErr(validateSiecleXmlFile)({
-        organizationId,
+        organizationImportId,
         organizationImportRepository: organizationImportRepositoryStub,
         organizationRepository: organizationRepositoryStub,
         importStorage: importStorageStub,
@@ -93,7 +94,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
         const parsingErrors = [new Error('parsing'), new Error('parsing2')];
         parserStub.parse.rejects(new AggregateImportError(parsingErrors));
         const error = await catchErr(validateSiecleXmlFile)({
-          organizationId,
+          organizationImportId,
           organizationImportRepository: organizationImportRepositoryStub,
           organizationRepository: organizationRepositoryStub,
           importStorage: importStorageStub,
@@ -109,7 +110,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle-xml', functi
       it('should save empty learner error', async function () {
         parserStub.parse.resolves([]);
         const error = await catchErr(validateSiecleXmlFile)({
-          organizationId,
+          organizationImportId,
           organizationImportRepository: organizationImportRepositoryStub,
           organizationRepository: organizationRepositoryStub,
           importStorage: importStorageStub,

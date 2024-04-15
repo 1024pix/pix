@@ -26,8 +26,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
     beforeEach(function () {
       sinon.stub(fs, 'unlink').resolves();
       sinon.stub(usecases, 'uploadSiecleFile');
-      sinon.stub(usecases, 'validateSiecleXmlFile');
-      sinon.stub(usecases, 'addOrUpdateOrganizationLearners');
       sinon.stub(usecases, 'importOrganizationLearnersFromSIECLECSVFormat');
       sinon.stub(eventBus, 'publish');
       sinon.stub(ApplicationTransaction, 'execute');
@@ -72,8 +70,8 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     it('should call usecases to import organizationLearners xml', async function () {
       // given
-      const fileValidatedEvent = Symbol('fileValidatedEvent');
-      usecases.validateSiecleXmlFile.resolves(fileValidatedEvent);
+      const uploadedFileEvent = Symbol('uploadedFileEvent');
+      usecases.uploadSiecleFile.resolves(uploadedFileEvent);
       const userId = 1;
       request.auth = { credentials: { userId } };
       hFake.request = {
@@ -89,8 +87,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         payload,
       });
-      expect(usecases.validateSiecleXmlFile).to.have.been.calledWithExactly({ organizationId });
-      expect(eventBus.publish).to.have.been.calledWithExactly(fileValidatedEvent, domainTransaction);
+      expect(eventBus.publish).to.have.been.calledWithExactly(uploadedFileEvent, domainTransaction);
     });
 
     it('should call the usecase to import organizationLearners csv', async function () {
