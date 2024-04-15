@@ -1,4 +1,15 @@
-{{#if @show}}
+{{#if @isScoUser}}
+  <section class="dashboard-banner">
+    <NewInformation
+      @information="<h2>Donne ton avis sur Pix&nbsp;!</h2><p>Aide-nous en répondant à ce court questionnaire. Promis, c’est moins de 1 minute&nbsp;!</p>"
+      @image="/images/illustrations/discovery_TDB_pix.svg"
+      @backgroundColorClass="new-information--blue-gradient-background"
+      @textColorClass="new-information--white-text"
+      @linkText="Accéder au questionnaire"
+      @linkTo="{{this.scoSurveyLink}}"
+    />
+  </section>
+{{else if @show}}
   <section class="dashboard-banner">
     {{#unless @hasSeenNewDashboardInfo}}
       <NewInformation

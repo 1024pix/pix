@@ -92,4 +92,8 @@ export default class Content extends Component {
       url: this.currentDomain.isFranceDomain ? this.intl.t('pages.dashboard.presentation.link.url') : null,
     };
   }
+
+  get isScoUser() {
+    return this.currentUser.user.isSco && this.currentDomain.isFranceDomain;
+  }
 }
