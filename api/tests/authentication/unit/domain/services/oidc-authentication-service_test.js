@@ -1,4 +1,5 @@
 import jsonwebtoken from 'jsonwebtoken';
+import ms from 'ms';
 import { Issuer } from 'openid-client';
 
 import { config as settings } from '../../../../../lib/config.js';
@@ -22,7 +23,6 @@ const uuidV4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   beforeEach(function () {
     sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
-    sinon.stub(settings, 'identityProviderConfigKey').value({});
   });
 
   describe('constructor', function () {
@@ -66,23 +66,10 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
 
-    context('when claimsToStore is an empty array', function () {
-      it('does not set claimsToStore', async function () {
-        // given
-        const args = { claimsToStore: [] };
-
-        // when
-        const oidcAuthenticationService = new OidcAuthenticationService(args);
-
-        // then
-        expect(oidcAuthenticationService.claimsToStore).not.to.exist;
-      });
-    });
-
     context('when claimsToStore is not empty', function () {
       it('sets claimsToStore', async function () {
         // given
-        const args = { claimsToStore: ['employeeNumber', 'studentGroup'] };
+        const args = { claimsToStore: 'employeeNumber,studentGroup' };
 
         // when
         const oidcAuthenticationService = new OidcAuthenticationService(args);
@@ -94,83 +81,56 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#isReady', function () {
-    describe('when configKey is set', function () {
-      describe('when enabled in config', function () {
-        describe('when config is valid', function () {
-          it('returns true', function () {
-            // given
-            settings.someOidcProviderService = {
-              isEnabled: true,
-              clientId: 'anId',
-              clientSecret: 'aSecret',
-              redirectUri: 'https://example.net/connexion/redirect',
-              openidConfigurationUrl: 'https://example.net/.well-known/openid-configuration',
-              aProperty: 'aValue',
-            };
-            const oidcAuthenticationService = new OidcAuthenticationService({
-              configKey: 'someOidcProviderService',
-              additionalRequiredProperties: ['aProperty'],
-            });
-
-            // when
-            const result = oidcAuthenticationService.isReady;
-
-            // then
-            expect(result).to.be.true;
+    describe('when enabled in config', function () {
+      describe('when config is valid', function () {
+        it('returns true', function () {
+          // given
+          const oidcAuthenticationService = new OidcAuthenticationService({
+            clientId: 'anId',
+            clientSecret: 'aSecret',
+            additionalRequiredProperties: 'aProperty',
+            customProperties: {
+              aProperty: 'a property value',
+            },
+            enabled: true,
+            openidConfigurationUrl: 'https://example.net/.well-known/openid-configuration',
+            redirectUri: 'https://example.net/connexion/redirect',
           });
-        });
 
-        describe('when config is invalid', function () {
-          it('returns false', function () {
-            // given
-            sinon.stub(logger, 'error');
+          // when
+          const isOidcAuthenticationServiceReady = oidcAuthenticationService.isReady;
 
-            settings.someOidcProviderService = {
-              isEnabled: true,
-            };
-            const oidcAuthenticationService = new OidcAuthenticationService({
-              configKey: 'someOidcProviderService',
-              identityProvider: 'Example OP code',
-              additionalRequiredProperties: ['exampleProperty'],
-            });
-
-            // when
-            const result = oidcAuthenticationService.isReady;
-
-            // then
-            expect(logger.error).to.have.been.calledWithExactly(
-              'OIDC Provider "Example OP code" has been DISABLED because of INVALID config. The following required properties are missing: clientId, clientSecret, redirectUri, openidConfigurationUrl, exampleProperty',
-            );
-            expect(result).to.be.false;
-          });
+          // then
+          expect(isOidcAuthenticationServiceReady).to.be.true;
         });
       });
 
-      describe('when not enabled in config', function () {
+      describe('when config is invalid', function () {
         it('returns false', function () {
           // given
-          settings.someOidcProviderService = {
-            isEnabled: false,
-          };
+          sinon.stub(logger, 'error');
+
           const oidcAuthenticationService = new OidcAuthenticationService({
-            configKey: 'someOidcProviderService',
+            additionalRequiredProperties: 'exampleProperty',
+            enabled: true,
+            identityProvider: 'Example OP code',
           });
 
           // when
           const result = oidcAuthenticationService.isReady;
 
           // then
+          expect(logger.error).to.have.been.calledWithExactly(
+            'OIDC Provider "Example OP code" has been DISABLED because of INVALID config. The following additional required properties are missing: exampleProperty',
+          );
           expect(result).to.be.false;
         });
       });
     });
 
-    describe('when configKey is not set', function () {
+    describe('when not enabled in config', function () {
       it('returns false', function () {
         // given
-        settings.someOidcProviderService = {
-          isEnabled: true,
-        };
         const oidcAuthenticationService = new OidcAuthenticationService({});
 
         // when
@@ -188,8 +148,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const userId = 42;
       const accessToken = Symbol('valid access token');
       const payload = { user_id: userId };
-      const accessTokenLifespanMs = 1000;
-      const jwtOptions = { expiresIn: accessTokenLifespanMs / 1000 };
+      const jwtOptions = { expiresIn: ms('48h') / 1000 };
       sinon
         .stub(jsonwebtoken, 'sign')
         .withArgs(payload, settings.authentication.secret, jwtOptions)
@@ -226,7 +185,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // given
         const family_name = 'TITEGOUTTE';
         const given_name = 'Mélusine';
-        const claimsToStore = ['family_name', 'given_name'];
+        const claimsToStore = 'family_name,given_name';
         const claimsToStoreWithValues = { family_name, given_name };
         const userInfo = { ...claimsToStoreWithValues };
         const identityProvider = OidcIdentityProviders.FWB.code;
@@ -398,7 +357,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       it('throws an error and logs a message in datadog', async function () {
         const clientId = Symbol('clientId');
         const clientSecret = Symbol('clientSecret');
-        const configKey = 'identityProviderConfigKey';
         const identityProvider = Symbol('identityProvider');
         const redirectUri = Symbol('redirectUri');
         const openidConfigurationUrl = Symbol('openidConfigurationUrl');
@@ -419,7 +377,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const oidcAuthenticationService = new OidcAuthenticationService({
           clientId,
           clientSecret,
-          configKey,
           identityProvider,
           redirectUri,
           openidConfigurationUrl,
@@ -497,7 +454,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // given
         const clientId = Symbol('clientId');
         const clientSecret = Symbol('clientSecret');
-        const configKey = 'identityProviderConfigKey';
         const identityProvider = Symbol('identityProvider');
         const redirectUri = Symbol('redirectUri');
         const openidConfigurationUrl = Symbol('openidConfigurationUrl');
@@ -511,7 +467,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const oidcAuthenticationService = new OidcAuthenticationService({
           clientId,
           clientSecret,
-          configKey,
           identityProvider,
           redirectUri,
           openidConfigurationUrl,
@@ -649,7 +604,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       it('throws an error and logs a message in datadog', async function () {
         const clientId = Symbol('clientId');
         const clientSecret = Symbol('clientSecret');
-        const configKey = 'identityProviderConfigKey';
         const identityProvider = Symbol('identityProvider');
         const redirectUri = Symbol('redirectUri');
         const openidConfigurationUrl = Symbol('openidConfigurationUrl');
@@ -663,7 +617,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const oidcAuthenticationService = new OidcAuthenticationService({
           clientId,
           clientSecret,
-          configKey,
           identityProvider,
           redirectUri,
           openidConfigurationUrl,
@@ -847,7 +800,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           firstName: 'Adam',
           lastName: 'Troisjours',
         });
-        const claimsToStore = ['employeeNumber', 'studentGroup'];
+        const claimsToStore = 'employeeNumber,studentGroup';
         const claimsToStoreWithValues = { employeeNumber: 'some-opaque-value', studentGroup: 'another-opaque-value' };
         const userInfo = { ...claimsToStoreWithValues };
         const userId = 1;
@@ -885,7 +838,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       // given
       const clientId = Symbol('clientId');
       const clientSecret = Symbol('clientSecret');
-      const configKey = 'identityProviderConfigKey';
       const identityProvider = Symbol('identityProvider');
       const redirectUri = Symbol('redirectUri');
       const openidConfigurationUrl = Symbol('openidConfigurationUrl');
@@ -896,7 +848,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const oidcAuthenticationService = new OidcAuthenticationService({
         clientId,
         clientSecret,
-        configKey,
         identityProvider,
         redirectUri,
         openidConfigurationUrl,
@@ -919,7 +870,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       // given
       const clientId = Symbol('clientId');
       const clientSecret = Symbol('clientSecret');
-      const configKey = 'identityProviderConfigKey';
       const identityProvider = Symbol('identityProvider');
       const redirectUri = Symbol('redirectUri');
       const openidConfigurationUrl = Symbol('openidConfigurationUrl');
@@ -931,7 +881,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const oidcAuthenticationService = new OidcAuthenticationService({
         clientId,
         clientSecret,
-        configKey,
         identityProvider,
         redirectUri,
         openidConfigurationUrl,

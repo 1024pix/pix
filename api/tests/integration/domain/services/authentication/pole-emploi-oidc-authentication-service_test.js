@@ -4,6 +4,7 @@ import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc
 import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
 import { PoleEmploiOidcAuthenticationService } from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
 import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
+import { config } from '../../../../../src/shared/config.js';
 import * as authenticationMethodRepository from '../../../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
 import * as userToCreateRepository from '../../../../../src/shared/infrastructure/repositories/user-to-create-repository.js';
 import { expect, knex } from '../../../../test-helper.js';
@@ -26,7 +27,17 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
         firstName: 'Adam',
         lastName: 'Troisjours',
       });
-      const poleEmploiAuthenticationService = new PoleEmploiOidcAuthenticationService();
+      const poleEmploiAuthenticationService = new PoleEmploiOidcAuthenticationService({
+        ...config.oidcExampleNet,
+        additionalRequiredProperties: 'afterLogoutUrl,logoutUrl',
+        customProperties: { logoutUrl: 'https://logout-url.fr', afterLogoutUrl: 'https://after-logout.fr' },
+        identityProvider: 'POLE_EMPLOI',
+        openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
+        organizationName: 'France Travail',
+        shouldCloseSession: true,
+        slug: 'pole-emploi',
+        source: 'pole_emploi_connect',
+      });
 
       // when
       const createdUserId = await poleEmploiAuthenticationService.createUserAccount({
@@ -56,7 +67,17 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
         const userId = 1;
         const logoutUrlUUID = randomUUID();
         const key = `${userId}:${logoutUrlUUID}`;
-        const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+        const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
+          ...config.oidcExampleNet,
+          additionalRequiredProperties: 'afterLogoutUrl,logoutUrl',
+          customProperties: { logoutUrl: 'https://logout-url.fr', afterLogoutUrl: 'https://after-logout.fr' },
+          identityProvider: 'POLE_EMPLOI',
+          openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
+          organizationName: 'France Travail',
+          shouldCloseSession: true,
+          slug: 'pole-emploi',
+          source: 'pole_emploi_connect',
+        });
         await logoutUrlTemporaryStorage.save({ key, value: idToken, expirationDelaySeconds: 1140 });
 
         // when
@@ -70,7 +91,7 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
         expect(expectedResult).to.be.undefined;
 
         expect(redirectTarget).to.equal(
-          'https://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=http%3A%2F%2Fafter-logout.url',
+          'https://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=https%3A%2F%2Fafter-logout.fr',
         );
       });
     });
@@ -83,7 +104,17 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
         const userId = 1;
         const logoutUrlUUID = randomUUID();
         const key = `${userId}:${logoutUrlUUID}`;
-        const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+        const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
+          ...config.oidcExampleNet,
+          additionalRequiredProperties: 'afterLogoutUrl,logoutUrl',
+          customProperties: { logoutUrl: 'https://logout-url.fr', afterLogoutUrl: 'https://after-logout.fr' },
+          identityProvider: 'POLE_EMPLOI',
+          openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
+          organizationName: 'France Travail',
+          shouldCloseSession: true,
+          slug: 'pole-emploi',
+          source: 'pole_emploi_connect',
+        });
         await defaultSessionTemporaryStorage.save({ key, value: idToken, expirationDelaySeconds: 1140 });
 
         // when
@@ -97,26 +128,9 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
         expect(expectedResult).to.be.undefined;
 
         expect(redirectTarget).to.equal(
-          'https://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=http%3A%2F%2Fafter-logout.url',
+          'https://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=https%3A%2F%2Fafter-logout.fr',
         );
       });
-    });
-  });
-
-  describe('#saveIdToken', function () {
-    it('saves an idToken and returns an uuid', async function () {
-      // given
-      const uuidPattern = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
-      const userId = 123;
-      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
-
-      // when
-      const uuid = await poleEmploiOidcAuthenticationService.saveIdToken({ idToken: 'id_token', userId });
-
-      // then
-      expect(uuid.match(uuidPattern)).to.be.ok;
-      const idToken = await defaultSessionTemporaryStorage.get(`${userId}:${uuid}`);
-      expect(idToken).to.deep.equal('id_token');
     });
   });
 });

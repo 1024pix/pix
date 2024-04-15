@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 
 import jsonwebtoken from 'jsonwebtoken';
 import lodash from 'lodash';
+import ms from 'ms';
 import { Issuer } from 'openid-client';
 
 import { OIDC_ERRORS } from '../../../../lib/domain/constants.js';
@@ -14,26 +15,27 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { OidcError } from '../../../shared/domain/errors.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 
-const DEFAULT_REQUIRED_PROPERTIES = ['clientId', 'clientSecret', 'redirectUri', 'openidConfigurationUrl'];
 const DEFAULT_SCOPE = 'openid profile';
 const DEFAULT_REQUIRED_CLAIMS = ['sub', 'family_name', 'given_name'];
 
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
 
-class OidcAuthenticationService {
+export class OidcAuthenticationService {
   #isReady = false;
   #isReadyForPixAdmin = false;
   #requiredClaims = Array.from(DEFAULT_REQUIRED_CLAIMS);
 
   constructor(
     {
-      accessTokenLifespanMs,
-      additionalRequiredProperties,
+      accessTokenLifespan = '48h',
+      additionalRequiredProperties = '',
       claimsToStore,
       clientId,
       clientSecret,
-      configKey,
+      customProperties = {},
       extraAuthorizationUrlParameters,
+      enabled,
+      enabledForPixAdmin,
       shouldCloseSession = false,
       identityProvider,
       openidClientExtraMetadata,
@@ -47,10 +49,11 @@ class OidcAuthenticationService {
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
-    this.accessTokenLifespanMs = accessTokenLifespanMs;
+    this.accessTokenLifespanMs = ms(accessTokenLifespan);
     this.clientId = clientId;
     this.clientSecret = clientSecret;
-    this.configKey = configKey;
+    this.enabled = enabled;
+    this.enabledForPixAdmin = enabledForPixAdmin;
     this.extraAuthorizationUrlParameters = extraAuthorizationUrlParameters;
     this.shouldCloseSession = shouldCloseSession;
     this.identityProvider = identityProvider;
@@ -60,51 +63,44 @@ class OidcAuthenticationService {
     this.postLogoutRedirectUri = postLogoutRedirectUri;
     this.redirectUri = redirectUri;
     this.scope = scope;
+    this.sessionTemporaryStorage = sessionTemporaryStorage;
     this.slug = slug;
     this.source = source;
 
     if (!lodash.isEmpty(claimsToStore)) {
-      this.claimsToStore = claimsToStore;
-      this.#requiredClaims.push(...claimsToStore);
+      this.claimsToStore = claimsToStore.split(',').map((claim) => claim.trim());
+      this.#requiredClaims.push(...this.claimsToStore);
     }
-    this.sessionTemporaryStorage = sessionTemporaryStorage;
 
-    if (!this.configKey) {
-      logger.error(`${this.constructor.name}: Missing configKey`);
+    if (!enabled && !enabledForPixAdmin) {
       return;
     }
 
-    const isEnabledInConfig = config[this.configKey].isEnabled;
-    const isEnabledForPixAdmin = config[this.configKey].isEnabledForPixAdmin;
-    if (!isEnabledInConfig && !isEnabledForPixAdmin) {
-      return;
-    }
-
-    const requiredProperties = Array.from(DEFAULT_REQUIRED_PROPERTIES);
     if (additionalRequiredProperties) {
-      requiredProperties.push(...additionalRequiredProperties);
-    }
-    const missingRequiredProperties = [];
-    requiredProperties.forEach((requiredProperty) => {
-      if (lodash.isNil(config[this.configKey][requiredProperty])) {
-        missingRequiredProperties.push(requiredProperty);
+      const missingAdditionalRequiredProperties = [];
+      additionalRequiredProperties.split(',').forEach((requiredProperty) => {
+        requiredProperty = requiredProperty.trim();
+        if (lodash.isNil(customProperties[requiredProperty])) {
+          missingAdditionalRequiredProperties.push(requiredProperty);
+        }
+      });
+
+      const isConfigValid = missingAdditionalRequiredProperties.length === 0;
+      if (!isConfigValid) {
+        logger.error(
+          `OIDC Provider "${this.identityProvider}" has been DISABLED because of INVALID config. ` +
+            `The following additional required properties are missing: ${missingAdditionalRequiredProperties.join(', ')}`,
+        );
+        return;
       }
-    });
-    const isConfigValid = missingRequiredProperties.length == 0;
-    if (!isConfigValid) {
-      logger.error(
-        `OIDC Provider "${this.identityProvider}" has been DISABLED because of INVALID config. ` +
-          `The following required properties are missing: ${missingRequiredProperties.join(', ')}`,
-      );
-      return;
     }
 
     const accessTokenLifespanSeconds = this.accessTokenLifespanMs / 1000;
     this.accessTokenJwtOptions = { expiresIn: accessTokenLifespanSeconds };
     this.sessionDurationSeconds = accessTokenLifespanSeconds;
 
-    this.#isReady = isEnabledInConfig;
-    this.#isReadyForPixAdmin = isEnabledForPixAdmin;
+    this.#isReady = enabled;
+    this.#isReadyForPixAdmin = enabledForPixAdmin;
   }
 
   get code() {
@@ -356,8 +352,6 @@ class OidcAuthenticationService {
     }, []);
   }
 }
-
-export { OidcAuthenticationService };
 
 function _monitorOidcError(message, { data, error, event }) {
   const monitoringData = {

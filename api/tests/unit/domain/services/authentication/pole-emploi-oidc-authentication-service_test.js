@@ -9,7 +9,17 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
   describe('#constructor', function () {
     it('has specific properties related to this identity provider', async function () {
       // when
-      const oidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+      const oidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
+        ...settings.oidcExampleNet,
+        additionalRequiredProperties: 'logoutUrl,afterLogoutUrl,sendingUrl',
+        customProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
+        openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
+        identityProvider: 'POLE_EMPLOI',
+        organizationName: 'France Travail',
+        shouldCloseSession: true,
+        slug: 'pole-emploi',
+        source: 'pole_emploi_connect',
+      });
 
       // then
       expect(oidcAuthenticationService.source).to.equal('pole_emploi_connect');
@@ -28,7 +38,17 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
       sinon.stub(Issuer, 'discover').resolves({ Client });
       sinon.stub(settings, 'poleEmploi').value(settings.oidcExampleNet);
 
-      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
+        ...settings.oidcExampleNet,
+        additionalRequiredProperties: 'logoutUrl,afterLogoutUrl,sendingUrl',
+        customProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
+        openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
+        identityProvider: 'POLE_EMPLOI',
+        organizationName: 'France Travail',
+        shouldCloseSession: true,
+        slug: 'pole-emploi',
+        source: 'pole_emploi_connect',
+      });
 
       // when
       await poleEmploiOidcAuthenticationService.createClient();
@@ -56,7 +76,17 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
         expiresIn: 10,
         refreshToken: 'refreshToken',
       };
-      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService({
+        ...settings.oidcExampleNet,
+        additionalRequiredProperties: 'logoutUrl,afterLogoutUrl,sendingUrl',
+        customProperties: { logoutUrl: '', afterLogoutUrl: '', sendingUrl: '' },
+        openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
+        identityProvider: 'POLE_EMPLOI',
+        organizationName: 'France Travail',
+        shouldCloseSession: true,
+        slug: 'pole-emploi',
+        source: 'pole_emploi_connect',
+      });
 
       // when
       const result = poleEmploiOidcAuthenticationService.createAuthenticationComplement({ sessionContent });
