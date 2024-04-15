@@ -27,7 +27,7 @@ module('Unit | Component | Campaign::Charts::ParticipantsByDay', (hooks) => {
 
     // when
     component = await createGlimmerComponent('component:campaign/charts/participants-by-day');
-    await component.fetchParticipationsByDay();
+
     // then
     assert.deepEqual(component.startedDatasets, []);
     assert.deepEqual(component.sharedDatasets, []);
@@ -46,7 +46,7 @@ module('Unit | Component | Campaign::Charts::ParticipantsByDay', (hooks) => {
 
     // when
     component = await createGlimmerComponent('component:campaign/charts/participants-by-day');
-    await component.fetchParticipationsByDay();
+
     // then
     assert.deepEqual(component.startedDatasets, [{ day: '2021-06-01', count: '1' }]);
     assert.deepEqual(component.sharedDatasets, [{ day: '2021-06-01', count: '1' }]);
@@ -65,7 +65,7 @@ module('Unit | Component | Campaign::Charts::ParticipantsByDay', (hooks) => {
 
     // when
     component = await createGlimmerComponent('component:campaign/charts/participants-by-day');
-    await component.fetchParticipationsByDay();
+
     // then
     assert.deepEqual(component.sharedDatasets, [
       { day: '2021-06-01', count: '0' },
@@ -90,7 +90,7 @@ module('Unit | Component | Campaign::Charts::ParticipantsByDay', (hooks) => {
 
       // when
       component = await createGlimmerComponent('component:campaign/charts/participants-by-day');
-      await component.fetchParticipationsByDay();
+
       // then
       assert.deepEqual(component.sharedDatasets, [
         { day: '2021-06-01', count: '1' },
@@ -116,7 +116,7 @@ module('Unit | Component | Campaign::Charts::ParticipantsByDay', (hooks) => {
 
       // when
       component = await createGlimmerComponent('component:campaign/charts/participants-by-day');
-      await component.fetchParticipationsByDay();
+
       // then
       assert.deepEqual(component.startedDatasets, [
         { day: '2021-06-01', count: '2' },
