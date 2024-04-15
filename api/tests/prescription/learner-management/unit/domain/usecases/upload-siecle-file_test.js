@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 
+import { FileUploaded } from '../../../../../../src/prescription/learner-management/domain/events/FileUploaded.js';
 import { OrganizationImport } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationImport.js';
 import { uploadSiecleFile } from '../../../../../../src/prescription/learner-management/domain/usecases/upload-siecle-file.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
@@ -7,6 +8,7 @@ import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 describe('Unit | UseCase | upload-siecle-file', function () {
   const userId = 123;
   const organizationId = 1234;
+  const organizationImportId = 1;
   let organizationImportRepositoryStub;
   let siecleServiceStub;
   let payload;
@@ -46,7 +48,11 @@ describe('Unit | UseCase | upload-siecle-file', function () {
 
     organizationImportRepositoryStub = {
       save: sinon.stub(),
+      getLastByOrganizationId: sinon.stub(),
     };
+    organizationImportRepositoryStub.getLastByOrganizationId
+      .withArgs(organizationId)
+      .resolves({ id: organizationImportId });
     siecleServiceStub.unzip.withArgs(filename).resolves({ file: filepath, directory: null });
     siecleServiceStub.detectEncoding.withArgs(filepath).resolves(encoding);
     importStorageStub.sendFile.withArgs({ filepath }).resolves(s3filename);
@@ -102,6 +108,20 @@ describe('Unit | UseCase | upload-siecle-file', function () {
         });
         expect(organizationImportRepositoryStub.save).to.have.been.calledWithExactly(organizationImportStub);
       });
+    });
+
+    it('should return FileUploaded event', async function () {
+      const event = await uploadSiecleFile({
+        userId,
+        organizationId,
+        payload,
+        organizationImportRepository: organizationImportRepositoryStub,
+        siecleService: siecleServiceStub,
+        importStorage: importStorageStub,
+      });
+
+      expect(event).to.be.an.instanceOf(FileUploaded);
+      expect(event.organizationImportId).to.equal(organizationImportId);
     });
   });
 

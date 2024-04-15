@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 import { logErrorWithCorrelationIds } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { detectEncoding } from '../../infrastructure/utils/xml/detect-encoding.js';
 import * as zip from '../../infrastructure/utils/xml/zip.js';
+import { FileUploaded } from '../events/FileUploaded.js';
 import { OrganizationImport } from '../models/OrganizationImport.js';
 
 const uploadSiecleFile = async function ({
@@ -21,7 +22,7 @@ const uploadSiecleFile = async function ({
 
   const path = payload.path;
 
-  let filename, encoding;
+  let filename, encoding, event;
   const errors = [];
   try {
     const { file: filePath, directory } = await siecleService.unzip(path);
@@ -40,7 +41,13 @@ const uploadSiecleFile = async function ({
   } finally {
     organizationImport.upload({ filename, encoding, errors });
     await organizationImportRepository.save(organizationImport);
+    if (errors.length === 0) {
+      const { id: organizationImportId } = await organizationImportRepository.getLastByOrganizationId(organizationId);
+      event = new FileUploaded({ organizationImportId });
+    }
   }
+
+  return event;
 };
 
 export { uploadSiecleFile };
