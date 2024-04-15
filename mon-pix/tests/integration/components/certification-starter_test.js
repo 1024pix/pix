@@ -153,16 +153,13 @@ module('Integration | Component | certification-starter', function (hooks) {
           class StoreServiceStub extends Service {
             createRecord = createRecordStub;
           }
-
           this.owner.register('service:store', StoreServiceStub);
           createRecordStub.returns(certificationCourse);
 
           const resetStub = sinon.stub();
-
           class FocusedCertificationChallengeWarningManagerStub extends Service {
             reset = resetStub;
           }
-
           this.owner.register(
             'service:focused-certification-challenge-warning-manager',
             FocusedCertificationChallengeWarningManagerStub,
@@ -177,9 +174,8 @@ module('Integration | Component | certification-starter', function (hooks) {
           routerObserver.replaceWith = sinon.stub();
 
           this.set('certificationCandidateSubscription', { sessionId: 123 });
-          this.set('postMessageStub', postMessageStub);
           await render(
-            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}} @postMessage={{this.postMessageStub}}/>`,
+            hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
           routerObserver.replaceWith.returns('ok');
@@ -197,6 +193,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           sinon.assert.calledOnce(resetStub);
           sinon.assert.calledOnce(postMessageStub);
           sinon.assert.calledWithExactly(routerObserver.replaceWith, 'authenticated.certifications.resume', 456);
+
           assert.ok(true);
         });
       });
