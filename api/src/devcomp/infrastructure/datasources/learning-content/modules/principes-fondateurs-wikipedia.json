@@ -46,7 +46,7 @@
   "grains": [
     {
       "id": "da95d2bc-e597-4366-a095-21f7ab0f4845",
-      "type": "lesson",
+      "type": "activity",
       "title": "Wikipédia : un site de référence !",
       "elements": [
         {
@@ -277,7 +277,7 @@
     },
     {
       "id": "cbf15e50-8f82-47a6-affd-8494c688b606",
-      "type": "lesson",
+      "type": "activity",
       "title": "Trouver efficacement des informations dans un article Wikipédia",
       "elements": [
         {

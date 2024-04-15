@@ -15,11 +15,11 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Naomi a perdu l’adresse mail de son ami Mickaël. Elle n’arrive pas à la retrouver.&nbsp;<span aria-hidden=\"true\">🤷‍♀</span>️<br> Elle en a besoin pour envoyer un document à son ami. Naomi lui demande donc par SMS de lui redonner son adresse mail. <br> Lancez la vidéo pour voir leur discussion.&nbsp;<span aria-hidden=\"true\">📺</span></p>",
+      "content": "<p>Naomi a oublié l’adresse mail de son ami Mickaël.&nbsp;<span aria-hidden=\"true\">🤷‍♀</span>️<br> Elle en a besoin pour envoyer un document à son ami. Naomi lui demande donc par SMS de lui redonner son adresse mail. <br> Lancez la vidéo pour voir leur discussion.&nbsp;<span aria-hidden=\"true\">📺</span></p>",
       "grainId": "34d225e8-5d52-4ebd-9acd-8bde8438cfc9"
     },
     {
-      "content": "<p>Et oui&#8239;! Naomi le sait&nbsp;: les adresses mails respectent un certain format.</p><p>Étudions en détails l’adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">👨‍🏫👩‍🏫</span></p>",
+      "content": "<p>Et oui&#8239;! Naomi le sait&nbsp;: les adresses mails ont une forme particulière.</p><p>Étudions en détails l’adresse mail de Mickaël.&nbsp;<span aria-hidden=\"true\">👨‍🏫👩‍🏫</span></p>",
       "grainId": "af860b1e-0566-4b06-bcb4-a68a5151d621"
     },
     {
@@ -113,7 +113,7 @@
         {
           "id": "1fd829f8-1799-4779-a28d-5d26fba31b8b",
           "type": "text",
-          "content": "<h3 class=\"screen-reader-only\">Le fournisseur d’adresse mail</h3><h4>Partie n°2&nbsp;: le fournisseur d’adresse mail. Cette partie de l’adresse est donnée par le fournisseur.</h4><p><span aria-hidden=\"true\">✅</span> Voici des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com)</li><li>Microsoft (hotmail.com, live.fr)</li></ul>"
+          "content": "<h3 class=\"screen-reader-only\">Le fournisseur d’adresse mail</h3><h4>Partie n°2&nbsp;: le fournisseur d’adresse mail. Cette partie de l’adresse est donnée par le fournisseur.</h4><p><span aria-hidden=\"true\">✅</span> Voici des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com, yahoo.fr)</li><li>Microsoft (hotmail.com, live.fr)</li></ul>"
         }
       ]
     },
