@@ -38,7 +38,6 @@ import * as targetProfiles from './application/target-profiles/index.js';
 import * as targetProfilesManagement from './application/target-profiles-management/index.js';
 import * as tutorialEvaluations from './application/tutorial-evaluations/index.js';
 import * as userOrgaSettings from './application/user-orga-settings/index.js';
-import * as userTutorials from './application/user-tutorials/index.js';
 import * as users from './application/users/index.js';
 
 const routes = [
@@ -82,7 +81,6 @@ const routes = [
   frameworks,
   tutorialEvaluations,
   userOrgaSettings,
-  userTutorials,
   users,
 ];
 

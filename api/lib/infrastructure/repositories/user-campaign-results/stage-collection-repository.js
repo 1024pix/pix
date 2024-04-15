@@ -1,6 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { StageCollection } from '../../../../src/shared/domain/models/user-campaign-results/StageCollection.js';
-import * as skillRepository from './../skill-repository.js';
+import * as skillRepository from '../../../../src/shared/infrastructure/repositories/skill-repository.js';
 const MAX_STAGE_THRESHOLD = 100;
 
 const findStageCollection = async function ({ campaignId }) {

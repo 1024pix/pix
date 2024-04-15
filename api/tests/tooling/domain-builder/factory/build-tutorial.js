@@ -1,4 +1,4 @@
-import { Tutorial } from '../../../../lib/domain/models/Tutorial.js';
+import { Tutorial } from '../../../../src/devcomp/domain/models/Tutorial.js';
 
 const buildTutorial = function ({
   id = 'recTuto1',

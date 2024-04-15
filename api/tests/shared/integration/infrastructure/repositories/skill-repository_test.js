@@ -1,7 +1,7 @@
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { Skill } from '../../../../lib/domain/models/Skill.js';
-import * as skillRepository from '../../../../lib/infrastructure/repositories/skill-repository.js';
-import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { Skill } from '../../../../../lib/domain/models/Skill.js';
+import * as skillRepository from '../../../../../src/shared/infrastructure/repositories/skill-repository.js';
+import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../../test-helper.js';
 
 describe('Integration | Repository | skill-repository', function () {
   describe('#list', function () {

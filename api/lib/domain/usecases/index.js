@@ -1,7 +1,5 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable import/no-restricted-paths */
-
-import { dirname, join } from 'node:path';
+/* eslint-disable import/no-restricted-paths */ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as pixAuthenticationService from '../../../src/authentication/domain/services/pix-authentication-service.js';
@@ -33,6 +31,7 @@ import * as certificationCourseRepository from '../../../src/certification/share
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as issueReportCategoryRepository from '../../../src/certification/shared/infrastructure/repositories/issue-report-category-repository.js';
 import * as certificationCandidateForSupervisingRepository from '../../../src/certification/supervision/infrastructure/repositories/certification-candidate-for-supervising-repository.js';
+import * as userSavedTutorialRepository from '../../../src/devcomp/infrastructure/repositories/user-saved-tutorial-repository.js';
 import { getCompetenceLevel } from '../../../src/evaluation/domain/services/get-competence-level.js';
 import * as scorecardService from '../../../src/evaluation/domain/services/scorecard-service.js';
 import * as stageAndStageAcquisitionComparisonService from '../../../src/evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
@@ -69,6 +68,7 @@ import * as badgeRepository from '../../../src/shared/infrastructure/repositorie
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';
+import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
 import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as userLoginRepository from '../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
@@ -153,7 +153,6 @@ import * as scoCertificationCandidateRepository from '../../infrastructure/repos
 import * as sessionForSupervisingRepository from '../../infrastructure/repositories/sessions/session-for-supervising-repository.js';
 import * as sessionJuryCommentRepository from '../../infrastructure/repositories/sessions/session-jury-comment-repository.js';
 import * as sessionSummaryRepository from '../../infrastructure/repositories/sessions/session-summary-repository.js';
-import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
 import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 import * as tagRepository from '../../infrastructure/repositories/tag-repository.js';
@@ -167,7 +166,6 @@ import * as tubeRepository from '../../infrastructure/repositories/tube-reposito
 import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as userEmailRepository from '../../infrastructure/repositories/user-email-repository.js';
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
-import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
 import * as codeUtils from '../../infrastructure/utils/code-utils.js';
 import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
 import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';

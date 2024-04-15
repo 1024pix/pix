@@ -1,4 +1,4 @@
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 import {
   createServer,
   databaseBuilder,
@@ -6,7 +6,7 @@ import {
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | user-tutorial-controller', function () {
   const userId = 4444;

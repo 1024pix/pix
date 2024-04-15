@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
 import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
+import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
 
 let allSkills;
 let allTubes;

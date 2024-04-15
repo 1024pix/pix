@@ -1,14 +1,14 @@
 import _ from 'lodash';
 
-import { LOCALE } from '../../../src/shared/domain/constants.js';
-import { tutorialDatasource } from '../../../src/shared/infrastructure/datasources/learning-content/tutorial-datasource.js';
-import { NotFoundError } from '../../domain/errors.js';
+import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import * as tutorialEvaluationRepository from '../../../../lib/infrastructure/repositories/tutorial-evaluation-repository.js';
+import * as paginateModule from '../../../../lib/infrastructure/utils/paginate.js';
+import { LOCALE } from '../../../shared/domain/constants.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
+import { tutorialDatasource } from '../../../shared/infrastructure/datasources/learning-content/index.js';
+import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import { Tutorial } from '../../domain/models/Tutorial.js';
 import { TutorialForUser } from '../../domain/read-models/TutorialForUser.js';
-import * as paginateModule from '../utils/paginate.js';
-import * as knowledgeElementRepository from './knowledge-element-repository.js';
-import * as skillRepository from './skill-repository.js';
-import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.js';
 import * as userSavedTutorialRepository from './user-saved-tutorial-repository.js';
 
 const { FRENCH_FRANCE } = LOCALE;
