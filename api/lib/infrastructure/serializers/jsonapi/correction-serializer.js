@@ -1,7 +1,8 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 
+import { tutorialAttributes } from '../../../../src/devcomp/infrastructure/serializers/jsonapi/tutorial-attributes.js';
+
 const { Serializer } = jsonapiSerializer;
-import { tutorialAttributes } from './tutorial-attributes.js';
 
 const serialize = function (correction) {
   return new Serializer('corrections', {

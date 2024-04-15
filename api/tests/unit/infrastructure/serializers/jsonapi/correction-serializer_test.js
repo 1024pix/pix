@@ -1,7 +1,7 @@
 import { Correction } from '../../../../../lib/domain/models/Correction.js';
 import { Hint } from '../../../../../lib/domain/models/Hint.js';
-import { TutorialEvaluation } from '../../../../../lib/domain/models/TutorialEvaluation.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/correction-serializer.js';
+import { TutorialEvaluation } from '../../../../../src/devcomp/domain/models/TutorialEvaluation.js';
 import { UserSavedTutorial } from '../../../../../src/devcomp/domain/models/UserSavedTutorial.js';
 import { TutorialForUser } from '../../../../../src/devcomp/domain/read-models/TutorialForUser.js';
 import { expect } from '../../../../test-helper.js';

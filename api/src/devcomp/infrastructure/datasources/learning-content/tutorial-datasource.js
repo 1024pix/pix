@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import * as datasource from './datasource.js';
+import * as datasource from '../../../../shared/infrastructure/datasources/learning-content/datasource.js';
 
 const tutorialDatasource = datasource.extend({
   modelName: 'tutorials',
