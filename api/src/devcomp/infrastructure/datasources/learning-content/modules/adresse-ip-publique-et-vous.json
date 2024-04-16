@@ -273,6 +273,10 @@
           "instruction": "<p>Dans quel pays est située l’adresse IP suivante&nbsp;? <strong>77.205.153.196</strong></p>",
           "proposals": [
             {
+              "type": "text",
+              "content": "<span>Nom du pays&nbsp;:</span>"
+            },
+            {
               "input": "pays",
               "type": "input",
               "inputType": "text",
@@ -315,7 +319,7 @@
           "id": "9814961b-3134-468d-a918-9b98a1775395",
           "type": "text",
           "content": "<p>Étudiez ce schéma qui présente les deux types d'adresses IP. Par la suite, vous devrez trouvez quel est le type d'adresse IP concernée entre privée et publique dans des situations concrètes.</p>"
-        }
+        },
         {
           "id": "f42fa86c-3936-485a-8ea3-cabed25153f9",
           "type": "image",
@@ -326,7 +330,7 @@
         {
           "id": "1b524302-7175-4923-8810-835201d3d443",
           "type": "text",
-          "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, par exemple chez soi, les appareils (ordinateur, imprimante, etc.) utilisent des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent de communiquer des informations.<p><span aria-hidden=\"true\">🛜</span> La box internet a deux adresses IP : une privée et une publique.</p>"
+          "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, par exemple chez soi, les appareils (ordinateur, imprimante, etc.) utilisent des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent de communiquer des informations.</p><p><span aria-hidden=\"true\">🛜</span> La box internet a deux adresses IP : une privée et une publique.</p>"
         }
       ]
     },
