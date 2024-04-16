@@ -18,7 +18,7 @@ const attachTargetProfile = async function (request, h, dependencies = { complem
   });
 
   if (notifyOrganizations) {
-    usecases.sendTargetProfileNotifications({
+    await usecases.sendTargetProfileNotifications({
       targetProfileIdToDetach: targetProfileId,
       complementaryCertification,
     });
