@@ -18,6 +18,10 @@ export class V3CertificationScoring {
     return this._certificationScoringConfiguration;
   }
 
+  get competencesForScoring() {
+    return this._competencesForScoring;
+  }
+
   static fromConfigurations({
     competenceForScoringConfiguration,
     certificationScoringConfiguration,
