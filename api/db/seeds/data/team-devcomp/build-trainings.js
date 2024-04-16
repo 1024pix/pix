@@ -46,7 +46,7 @@ export function buildTrainings(databaseBuilder) {
   });
 
   const frFrTrainingId2 = databaseBuilder.factory.buildTraining({
-    title: 'Didacticiel Modulix',
+    title: 'Didacticiel Module Pix',
     link: '/modules/didacticiel-modulix/details',
     duration: '00:10:00',
     editorName: 'Pix',
