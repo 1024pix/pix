@@ -29,4 +29,30 @@ module('Unit | Model | user model', function (hooks) {
       assert.strictEqual(fullName, 'Manu Phillip');
     });
   });
+
+  module('#isSco', function () {
+    module('when user has not seen CGU and is not anonymous', function () {
+      test('should return true', function (assert) {
+        // given
+        const user = store.createRecord('user');
+        user.cgu = false;
+        user.isAnonymous = false;
+
+        // then
+        assert.true(user.isSco);
+      });
+    });
+
+    module('when user has seen CGU or is anonymous', function () {
+      test('should return false', function (assert) {
+        // given
+        const user = store.createRecord('user');
+        user.cgu = true;
+        user.isAnonymous = true;
+
+        // then
+        assert.false(user.isSco);
+      });
+    });
+  });
 });

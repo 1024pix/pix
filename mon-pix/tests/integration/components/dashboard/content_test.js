@@ -378,10 +378,12 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
             pixScore,
           }),
           hasSeenNewDashboardInfo: false,
+          cgu: true,
         });
       }
 
       this.owner.register('service:currentUser', CurrentUserStub);
+
       this.set('model', {
         campaignParticipationOverviews: [],
         campaignParticipations: [],
@@ -442,6 +444,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
             pixScore,
           }),
           hasSeenNewDashboardInfo: false,
+          cgu: true,
         });
       }
 
@@ -497,6 +500,100 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
       assert
         .dom(screen.queryByRole('link', { name: this.intl.t('pages.dashboard.presentation.link.text') }))
         .doesNotExist();
+    });
+  });
+
+  module('sco user banners', function () {
+    test('should display survey link banner if user is SCO and domain is pix.fr and not profile collection banner', async function (assert) {
+      // given
+      class CurrentDomainServiceStub extends Service {
+        get isFranceDomain() {
+          return true;
+        }
+      }
+      class CurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: false,
+          cgu: false,
+          isAnonymous: false,
+        });
+      }
+
+      this.owner.register('service:currentUser', CurrentUserStub);
+      this.owner.register('service:currentDomain', CurrentDomainServiceStub);
+
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        campaignParticipations: [],
+        scorecards: [],
+      });
+
+      // when
+      const screen = await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('heading', {
+            name: /Donne ton avis sur Pix/,
+            exact: false,
+          }),
+        )
+        .exists();
+      assert.dom(screen.queryByRole('link', { name: 'Accéder au questionnaire' })).exists();
+      assert.notOk(screen.queryByRole('link', { name: this.intl.t('pages.dashboard.campaigns.resume.action') }));
+    });
+    test('should display survey link banner if user is SCO and domain is pix.fr and profile collection banner', async function (assert) {
+      // given
+      class CurrentDomainServiceStub extends Service {
+        get isFranceDomain() {
+          return true;
+        }
+      }
+      class CurrentUserStub extends Service {
+        user = store.createRecord('user', {
+          firstName: 'Banana',
+          lastName: 'Split',
+          email: 'banana.split@example.net',
+          profile: store.createRecord('profile', {
+            pixScore,
+          }),
+          hasSeenNewDashboardInfo: false,
+          cgu: false,
+          isAnonymous: false,
+          codeForLastProfileToShare: 'SUPERCODE',
+        });
+      }
+
+      this.owner.register('service:currentUser', CurrentUserStub);
+      this.owner.register('service:currentDomain', CurrentDomainServiceStub);
+
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        campaignParticipations: [],
+        scorecards: [],
+      });
+
+      // when
+      const screen = await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('heading', {
+            name: /Donne ton avis sur Pix/,
+            exact: false,
+          }),
+        )
+        .exists();
+      assert.dom(screen.queryByRole('link', { name: 'Accéder au questionnaire' })).exists();
+      assert.dom(screen.queryByRole('link', { name: this.intl.t('pages.dashboard.campaigns.resume.action') })).exists();
     });
   });
 
@@ -612,6 +709,7 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
           }),
           hasSeenNewDashboardInfo: false,
           codeForLastProfileToShare: 'SNAP1234',
+          cgu: true,
         });
       }
 

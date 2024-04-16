@@ -34,4 +34,8 @@ export default class User extends Model {
   get fullName() {
     return `${this.firstName} ${this.lastName}`;
   }
+
+  get isSco() {
+    return !this.cgu && !this.isAnonymous;
+  }
 }
