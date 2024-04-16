@@ -14,19 +14,23 @@ export async function initMissionActivity({
     return lastActivity;
   }
   const activities = await activityRepository.getAllByAssessmentId(assessmentId, domainTransaction);
-  const activityLevel = pix1dService.getNextActivityInfo(activities);
+  const activityInfo = pix1dService.getNextActivityInfo(activities);
 
-  if (activityLevel === pix1dService.END_OF_MISSION) {
+  if (activityInfo === pix1dService.END_OF_MISSION) {
     return lastActivity;
   }
   const { missionId } = await missionAssessmentRepository.getByAssessmentId(assessmentId, domainTransaction);
   const mission = await missionRepository.get(missionId);
 
-  const alternativeVersion = challengeService.getAlternativeVersion({ mission, activities, activityLevel });
+  const alternativeVersion = challengeService.getAlternativeVersion({
+    mission,
+    activities,
+    activityLevel: activityInfo.level,
+  });
 
   const activity = new Activity({
     assessmentId,
-    level: activityLevel,
+    level: activityInfo.level,
     status: Activity.status.STARTED,
     alternativeVersion,
   });

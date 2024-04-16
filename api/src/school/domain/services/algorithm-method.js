@@ -1,5 +1,6 @@
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { Activity } from '../models/Activity.js';
+import { ActivityInfo } from '../models/ActivityInfo.js';
 
 const END_OF_MISSION = undefined;
 
@@ -13,7 +14,7 @@ const SAME_ACTIVITY_RUN_MAX_NB = 3;
 
 function getNextActivityInfo(activities) {
   if (_isStartingMission(activities)) {
-    return VALIDATION;
+    return new ActivityInfo({ level: VALIDATION });
   }
   if (_hasRunMaxNbOfActivityLevel(activities, VALIDATION)) {
     return END_OF_MISSION;
@@ -56,7 +57,9 @@ function _getNextActivityInfoAfterSuccess(activities, lastActivity) {
   if (_hasValidatedTheMissionUsingTutorial(lastActivity, activities)) {
     return END_OF_MISSION;
   } else {
-    return _higherLevelActivity(lastActivity);
+    return _higherLevelActivity(lastActivity)
+      ? new ActivityInfo({ level: _higherLevelActivity(lastActivity) })
+      : END_OF_MISSION;
   }
 }
 
@@ -65,9 +68,9 @@ function _getNextActivityInfoOnFailure(activities, lastActivity) {
     return END_OF_MISSION;
   }
   if (lastActivity.level === VALIDATION && _neverDoneActivity(activities, TRAINING)) {
-    return TRAINING;
+    return new ActivityInfo({ level: TRAINING });
   }
-  return TUTORIAL;
+  return new ActivityInfo({ level: TUTORIAL });
 }
 
 function _nbOfActivitiesOfLevel(activities, level) {
