@@ -17,17 +17,22 @@ module('Unit | Route | authenticated/sco-organization-participants/list', functi
   const participationCountOrderSymbol = Symbol('participationCountOrder');
   const lastnameSortSymbol = Symbol('lastnameSort');
   const divisionSortSymbol = Symbol('divisionSort');
+  const params = {
+    search: searchSymbol,
+    divisions: divisionsSymbol,
+    connectionTypes: connectionTypesSymbol,
+    certificability: certificabilitySymbol,
+    pageNumber: pageNumberSymbol,
+    pageSize: pageSizeSymbol,
+    participationCountOrder: participationCountOrderSymbol,
+    lastnameSort: lastnameSortSymbol,
+    divisionSort: divisionSortSymbol,
+  };
 
   hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/sco-organization-participants/list');
     store = this.owner.lookup('service:store');
-    route.currentUser = { shouldAccessImportPage: true, organization: { id: Symbol('organization-id') } };
-    sinon
-      .stub(store, 'queryRecord')
-      .withArgs('organization-import-detail', {
-        organizationId: route.currentUser.organization.id,
-      })
-      .resolves(importDetailSymbol);
+    route.currentUser = { organization: { id: Symbol('organization-id') } };
 
     sinon
       .stub(store, 'query')
@@ -53,24 +58,44 @@ module('Unit | Route | authenticated/sco-organization-participants/list', functi
   });
 
   test('should return models', async function (assert) {
-    // given
-    const params = {
-      search: searchSymbol,
-      divisions: divisionsSymbol,
-      connectionTypes: connectionTypesSymbol,
-      certificability: certificabilitySymbol,
-      pageNumber: pageNumberSymbol,
-      pageSize: pageSizeSymbol,
-      participationCountOrder: participationCountOrderSymbol,
-      lastnameSort: lastnameSortSymbol,
-      divisionSort: divisionSortSymbol,
-    };
-
     // when
-    const { participants, importDetail } = await route.model(params);
+    const { participants } = await route.model(params);
 
     // then
-    assert.strictEqual(importDetail, importDetailSymbol);
     assert.strictEqual(participants, scoOrganizationParticipantSymbol);
+  });
+
+  module('import information model', function (hooks) {
+    hooks.beforeEach(function () {
+      sinon
+        .stub(store, 'queryRecord')
+        .withArgs('organization-import-detail', {
+          organizationId: route.currentUser.organization.id,
+        })
+        .resolves(importDetailSymbol);
+    });
+    module('when user is admin of organization', function () {
+      test('should return import information model', async function (assert) {
+        // given
+        route.currentUser.shouldAccessImportPage = true;
+        // when
+        const { importDetail } = await route.model(params);
+
+        // then
+        assert.strictEqual(importDetail, importDetailSymbol);
+      });
+    });
+
+    module('when user is member of organization', function () {
+      test('should not return import information model', async function (assert) {
+        // given
+        route.currentUser.shouldAccessImportPage = false;
+        // when
+        const { importDetail } = await route.model(params);
+
+        // then
+        assert.notEqual(importDetail, importDetailSymbol);
+      });
+    });
   });
 });
