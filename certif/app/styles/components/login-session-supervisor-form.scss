@@ -25,9 +25,10 @@
   &__subtitle {
     margin: 0;
     color: var(--pix-neutral-800);
+
+    @extend %pix-title-s;
+
     font-weight: normal;
-    font-size: 1.75rem;
-    font-family: $font-open-sans;
   }
 
   &__required-fields-notice {

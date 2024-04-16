@@ -34,10 +34,11 @@
   }
 
   &__invitation {
+    @extend %pix-body-l;
+
     margin-top: 24px;
     color: var(--pix-neutral-900);
     font-size: 1.125rem;
-    font-family: $font-roboto;
     text-align: center;
   }
 

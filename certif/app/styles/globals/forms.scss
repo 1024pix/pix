@@ -87,8 +87,8 @@ input[type='number'] {
 
 .error-message {
   color: var(--pix-error-700);
-  font-size: 0.875rem;
-  font-family: $font-roboto;
+
+  @extend %pix-body-s;
 
   & a {
     text-decoration: underline;
@@ -103,8 +103,9 @@ input[type='number'] {
 
   &--showed-as-link {
     color: var(--pix-neutral-500);
-    font-size: 0.875rem;
-    font-family: $font-roboto;
+
+    @extend %pix-body-s;
+
     text-decoration: underline;
     background: none;
     border: none;

@@ -1,14 +1,13 @@
 .label-text {
   color: var(--pix-neutral-100);
-  font-weight: 400;
-  font-size: 0.8125rem;
-  font-family: $font-roboto;
+
+  @extend %pix-body-s;
 }
 
 .content-text {
   color: var(--pix-neutral-500);
-  font-size: 1rem;
-  font-family: $font-roboto;
+
+  @extend %pix-body-m;
 
   &--bold {
     color: var(--pix-neutral-800);
@@ -20,6 +19,7 @@
     font-size: 2rem;
   }
 
+  // FIXME: Probably useless but need to check if BEM is respected
   &--small {
     font-size: 0.8125rem;
   }

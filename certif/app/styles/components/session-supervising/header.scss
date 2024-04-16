@@ -20,8 +20,7 @@
   }
 
   &__title {
-    font-family: $font-open-sans;
-    font-size: 1.75rem;
+    @extend %pix-title-s;
     font-weight: normal;
     margin-bottom: 4px;
   }

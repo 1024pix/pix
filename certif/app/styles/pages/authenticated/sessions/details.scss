@@ -154,9 +154,8 @@
   &__clea-results-download-title {
     margin: 0 0 8px;
     color: var(--pix-neutral-900);
+    @extend %pix-title-xs;
     font-weight: 500;
-    font-size: 20px;
-    font-family: $font-open-sans;
   }
 
   &__clea-results-download-description {

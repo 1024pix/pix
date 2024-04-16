@@ -27,11 +27,10 @@
     }
 
     &__title {
+      @extend %pix-title-xs;
       font-weight: 600;
       margin: 0 0 8px;
-      font-family: $font-open-sans;
       color: var(--pix-neutral-20);
-      font-size: 1.25rem;
     }
 
     &__candidates {
@@ -50,7 +49,7 @@
 
     &__empty-message {
       color: var(--pix-neutral-20);
-      font-family: $font-open-sans;
+      @extend %pix-title-xs;
       font-size: 1.125rem;
       font-weight: 600;
       margin: auto;
@@ -90,7 +89,6 @@
       border: none;
       box-shadow: none;
       color: var(--pix-neutral-900);
-      font-family: $font-roboto;
       font-size: 1rem;
       padding: 0 10px;
       width: 100%;
