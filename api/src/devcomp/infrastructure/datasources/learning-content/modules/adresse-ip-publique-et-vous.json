@@ -338,7 +338,7 @@
         {
           "id": "9bc62c21-dfd4-40a8-9497-680a7e1c13d9",
           "type": "text",
-          "content": "<p>En vous aidant de ce schéma, pour chaque affirmation, choisissez si elle correspond à une IP publique ou privée.</p>"
+          "content": "<p>Pour chaque affirmation, choisissez si elle correspond à une IP publique ou à une privée.</p>"
         },
         {
           "id": "01136211-72e8-47c3-a3d3-753edb2dfd09",
