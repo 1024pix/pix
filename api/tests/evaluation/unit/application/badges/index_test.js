@@ -1,5 +1,5 @@
-import { badgesController } from '../../../../../src/shared/application/badges/badges-controller.js';
-import * as badgesRouter from '../../../../../src/shared/application/badges/index.js';
+import { badgesController } from '../../../../../src/evaluation/application/badges/badges-controller.js';
+import * as badgesRouter from '../../../../../src/evaluation/application/badges/index.js';
 import { securityPreHandlers } from '../../../../../src/shared/application/security-pre-handlers.js';
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 

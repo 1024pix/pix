@@ -9,8 +9,8 @@ import * as knowledgeElementSnapshotRepository from '../../../../../lib/infrastr
 import * as learningContentRepository from '../../../../../lib/infrastructure/repositories/learning-content-repository.js';
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
+import * as badgeRepository from '../../../../evaluation/infrastructure/repositories/badge-repository.js';
 import * as codeGenerator from '../../../../shared/domain/services/code-generator.js';
-import * as badgeRepository from '../../../../shared/infrastructure/repositories/badge-repository.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../../shared/infrastructure/repositories/organization-repository.js';
 import * as userRepository from '../../../../shared/infrastructure/repositories/user-repository.js';

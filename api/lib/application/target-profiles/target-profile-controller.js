@@ -1,11 +1,11 @@
 import { usecases as devcompUsecases } from '../../../src/devcomp/domain/usecases/index.js';
 import * as trainingSummarySerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-summary-serializer.js';
-import { sharedUsecases } from '../../../src/shared/domain/usecases/index.js';
-import * as badgeSerializer from '../../../src/shared/infrastructure/serializers/jsonapi/badge-serializer.js';
+import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
+import { deserializer as badgeCreationDeserializer } from '../../../src/evaluation/infrastructure/serializers/jsonapi/badge-creation-serializer.js';
+import * as badgeSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/badge-serializer.js';
 import * as queryParamsUtils from '../../../src/shared/infrastructure/utils/query-params-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import { deserializer as badgeCreationDeserializer } from '../../infrastructure/serializers/jsonapi/badge-creation-serializer.js';
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import * as targetProfileAttachOrganizationSerializer from '../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
 import * as targetProfileForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
@@ -117,7 +117,7 @@ const createBadge = async function (request, h) {
   const targetProfileId = request.params.id;
   const badgeCreation = await badgeCreationDeserializer.deserialize(request.payload);
 
-  const createdBadge = await sharedUsecases.createBadge({ targetProfileId, badgeCreation });
+  const createdBadge = await evaluationUsecases.createBadge({ targetProfileId, badgeCreation });
 
   return h.response(badgeSerializer.serialize(createdBadge)).created();
 };

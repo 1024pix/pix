@@ -1,7 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { Badge } from '../../../../evaluation/domain/models/Badge.js';
 import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
-import { Badge } from '../../../../shared/domain/models/Badge.js';
 import { ComplementaryCertificationBadge } from '../../domain/models/ComplementaryCertificationBadge.js';
 
 const getAllIdsByTargetProfileId = async function ({ targetProfileId }) {

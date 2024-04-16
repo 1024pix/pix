@@ -1,10 +1,10 @@
 import omit from 'lodash/omit.js';
 
 import { knex } from '../../../../db/knex-database-connection.js';
-import { Badge } from '../../../../src/shared/domain/models/Badge.js';
 import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
-import { AlreadyExistingEntityError, NotFoundError } from '../../domain/errors.js';
-import * as knexUtils from '../utils/knex-utils.js';
+import { AlreadyExistingEntityError, NotFoundError } from '../../../shared/domain/errors.js';
+import * as knexUtils from '../../../shared/infrastructure/utils/knex-utils.js';
+import { Badge } from '../../domain/models/Badge.js';
 
 const TABLE_NAME = 'badges';
 
