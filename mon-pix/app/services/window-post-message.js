@@ -8,4 +8,8 @@ export default class WindowPostMessage extends Service {
   startCertification(postMessage = this.#postMessage) {
     postMessage({ event: 'pix:certification:start' }, window.location.origin);
   }
+
+  stopCertification(postMessage = this.#postMessage) {
+    postMessage({ event: 'pix:certification:stop' }, window.location.origin);
+  }
 }
