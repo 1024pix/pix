@@ -1,7 +1,4 @@
 .login-or-register {
-  display: flex;
-  flex-direction: column;
-  gap: $pix-spacing-s;
   margin: 20px 0;
 
   &__panel {
@@ -9,11 +6,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 2px;
-    border-radius: 10px;
+    padding: var(--pix-spacing-6x) 0 var(--pix-spacing-8x);
 
     @include device-is('tablet') {
-      padding: 20px;
+      padding: var(--pix-spacing-8x);
     }
 
     @include device-is('large-screen') {
@@ -36,9 +32,7 @@
   &__invitation {
     @extend %pix-body-l;
 
-    margin-top: 24px;
-    color: var(--pix-neutral-900);
-    font-size: 1.125rem;
+    padding: var(--pix-spacing-6x) var(--pix-spacing-8x) var(--pix-spacing-3x);
     text-align: center;
   }
 
@@ -46,8 +40,6 @@
     display: flex;
     flex-flow: row;
     justify-content: space-around;
-    min-height: 500px;
-    margin-top: 10px;
 
     @include device-is('large-screen') {
       flex-flow: row;
@@ -65,7 +57,7 @@
     flex-direction: column;
 
     @include device-is('tablet') {
-      min-width: 360px;
+      min-width: 400px;
     }
   }
 
@@ -74,8 +66,7 @@
     border-left: 1px solid var(--pix-neutral-100);
 
     @include device-is('tablet') {
-      margin: 30px;
-      margin-bottom: 0;
+      margin: var(--pix-spacing-8x) var(--pix-spacing-6x) 0;
     }
 
     @include device-is('large-screen') {
@@ -86,9 +77,6 @@
 
 .login-or-register-panel-form {
   &__expandable {
-    display: flex;
-    flex-direction: column;
-    max-height: 0;
     overflow-y: hidden;
     transition: max-height 0.4s ease-in-out;
 
