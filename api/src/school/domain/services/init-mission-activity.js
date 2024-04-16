@@ -14,7 +14,7 @@ export async function initMissionActivity({
     return lastActivity;
   }
   const activities = await activityRepository.getAllByAssessmentId(assessmentId, domainTransaction);
-  const activityLevel = pix1dService.getNextActivityLevel(activities);
+  const activityLevel = pix1dService.getNextActivityInfo(activities);
 
   if (activityLevel === pix1dService.END_OF_MISSION) {
     return lastActivity;

@@ -3,7 +3,7 @@ import { Activity } from '../models/Activity.js';
 
 const END_OF_MISSION = undefined;
 
-export const pix1dService = { getNextActivityLevel, END_OF_MISSION };
+export const pix1dService = { getNextActivityInfo, END_OF_MISSION };
 
 const { TUTORIAL, TRAINING, VALIDATION, CHALLENGE } = Activity.levels;
 const { SUCCEEDED, FAILED, SKIPPED } = Activity.status;
@@ -11,7 +11,7 @@ const orderedActivityLevels = Activity.orderedActivityLevels;
 
 const SAME_ACTIVITY_RUN_MAX_NB = 3;
 
-function getNextActivityLevel(activities) {
+function getNextActivityInfo(activities) {
   if (_isStartingMission(activities)) {
     return VALIDATION;
   }
@@ -23,9 +23,9 @@ function getNextActivityLevel(activities) {
     return END_OF_MISSION;
   }
   if (_hasSucceeded(lastActivity)) {
-    return _getNextActivityLevelAfterSuccess(activities, lastActivity);
+    return _getNextActivityInfoAfterSuccess(activities, lastActivity);
   } else if (_hasFailedOrSkipped(lastActivity)) {
-    return _getNextActivityLevelOnFailure(activities, lastActivity);
+    return _getNextActivityInfoOnFailure(activities, lastActivity);
   } else {
     logger.error(`Pix1D - Unexpected status '${lastActivity.status}' on last activity with id: '${lastActivity.id}'`);
   }
@@ -52,7 +52,7 @@ function _hasValidatedTheMissionUsingTutorial(lastActivity, activities) {
   return lastActivity.level === VALIDATION && _hasAlreadyDoneActivity(activities, TUTORIAL);
 }
 
-function _getNextActivityLevelAfterSuccess(activities, lastActivity) {
+function _getNextActivityInfoAfterSuccess(activities, lastActivity) {
   if (_hasValidatedTheMissionUsingTutorial(lastActivity, activities)) {
     return END_OF_MISSION;
   } else {
@@ -60,7 +60,7 @@ function _getNextActivityLevelAfterSuccess(activities, lastActivity) {
   }
 }
 
-function _getNextActivityLevelOnFailure(activities, lastActivity) {
+function _getNextActivityInfoOnFailure(activities, lastActivity) {
   if (lastActivity.level === CHALLENGE) {
     return END_OF_MISSION;
   }

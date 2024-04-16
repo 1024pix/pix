@@ -2,11 +2,11 @@ import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { pix1dService } from '../../../../../src/school/domain/services/algorithm-method.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
-//attention : l'ordre de la liste d'activités passée en paramètre à getNextActivityLevel doit être antéchronologique
+//attention : l'ordre de la liste d'activités passée en paramètre à getNextActivityInfo doit être antéchronologique
 describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
   context('when user has just started a mission', function () {
-    it('should return validation level activity', function () {
-      const result = pix1dService.getNextActivityLevel([]);
+    it('should return validation level activity and first step', function () {
+      const result = pix1dService.getNextActivityInfo([]);
       expect(result).to.equal(Activity.levels.VALIDATION);
     });
   });
@@ -18,7 +18,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TRAINING,
             status: Activity.status.SUCCEEDED,
           });
-          const result = pix1dService.getNextActivityLevel([activity]);
+          const result = pix1dService.getNextActivity([activity]);
           expect(result).to.equal(Activity.levels.VALIDATION);
         });
       });
@@ -28,7 +28,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.VALIDATION,
             status: Activity.status.SUCCEEDED,
           });
-          const result = pix1dService.getNextActivityLevel([activity]);
+          const result = pix1dService.getNextActivityInfo([activity]);
           expect(result).to.equal(Activity.levels.CHALLENGE);
         });
       });
@@ -38,7 +38,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.CHALLENGE,
             status: Activity.status.SUCCEEDED,
           });
-          const result = pix1dService.getNextActivityLevel([activity]);
+          const result = pix1dService.getNextActivityInfo([activity]);
           expect(result).to.equal(undefined);
         });
       });
@@ -50,7 +50,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TUTORIAL,
             status: Activity.status.SUCCEEDED,
           });
-          const result = pix1dService.getNextActivityLevel([activity]);
+          const result = pix1dService.getNextActivityInfo([activity]);
           expect(result).to.equal(Activity.levels.TRAINING);
         });
       });
@@ -61,7 +61,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TRAINING,
             status: Activity.status.SUCCEEDED,
           });
-          const result = pix1dService.getNextActivityLevel([activity2, activity1]);
+          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
           expect(result).to.equal(Activity.levels.VALIDATION);
         });
       });
@@ -72,7 +72,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.VALIDATION,
             status: Activity.status.SUCCEEDED,
           });
-          const result = pix1dService.getNextActivityLevel([activity2, activity1]);
+          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
           expect(result).to.equal(undefined);
         });
       });
@@ -86,7 +86,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.VALIDATION,
             status: Activity.status.FAILED,
           });
-          const result = pix1dService.getNextActivityLevel([activity]);
+          const result = pix1dService.getNextActivityInfo([activity]);
           expect(result).to.equal(Activity.levels.TRAINING);
         });
       });
@@ -96,7 +96,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.CHALLENGE,
             status: Activity.status.FAILED,
           });
-          const result = pix1dService.getNextActivityLevel([activity]);
+          const result = pix1dService.getNextActivityInfo([activity]);
           expect(result).to.equal(undefined);
         });
       });
@@ -109,7 +109,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TUTORIAL,
             status: Activity.status.FAILED,
           });
-          const result = pix1dService.getNextActivityLevel([activity2, activity1]);
+          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
           expect(result).to.equal(Activity.levels.TUTORIAL);
         });
       });
@@ -119,7 +119,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TRAINING,
             status: Activity.status.FAILED,
           });
-          const result = pix1dService.getNextActivityLevel([activity]);
+          const result = pix1dService.getNextActivityInfo([activity]);
           expect(result).to.equal(Activity.levels.TUTORIAL);
         });
       });
@@ -130,7 +130,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.VALIDATION,
             status: Activity.status.FAILED,
           });
-          const result = pix1dService.getNextActivityLevel([activity2, activity1]);
+          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
           expect(result).to.equal(Activity.levels.TUTORIAL);
         });
       });
@@ -141,7 +141,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.CHALLENGE,
             status: Activity.status.FAILED,
           });
-          const result = pix1dService.getNextActivityLevel([activity2, activity1]);
+          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
           expect(result).to.equal(undefined);
         });
       });
@@ -155,7 +155,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.VALIDATION,
             status: Activity.status.SKIPPED,
           });
-          const result = pix1dService.getNextActivityLevel([activity]);
+          const result = pix1dService.getNextActivityInfo([activity]);
           expect(result).to.equal(Activity.levels.TRAINING);
         });
       });
@@ -165,7 +165,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.CHALLENGE,
             status: Activity.status.SKIPPED,
           });
-          const result = pix1dService.getNextActivityLevel([activity]);
+          const result = pix1dService.getNextActivityInfo([activity]);
           expect(result).to.equal(undefined);
         });
       });
@@ -178,7 +178,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TUTORIAL,
             status: Activity.status.SKIPPED,
           });
-          const result = pix1dService.getNextActivityLevel([activity2, activity1]);
+          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
           expect(result).to.equal(Activity.levels.TUTORIAL);
         });
       });
@@ -188,7 +188,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TRAINING,
             status: Activity.status.SKIPPED,
           });
-          const result = pix1dService.getNextActivityLevel([activity]);
+          const result = pix1dService.getNextActivityInfo([activity]);
           expect(result).to.equal(Activity.levels.TUTORIAL);
         });
       });
@@ -199,7 +199,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.VALIDATION,
             status: Activity.status.SKIPPED,
           });
-          const result = pix1dService.getNextActivityLevel([activity2, activity1]);
+          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
           expect(result).to.equal(Activity.levels.TUTORIAL);
         });
       });
@@ -210,7 +210,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.CHALLENGE,
             status: Activity.status.SKIPPED,
           });
-          const result = pix1dService.getNextActivityLevel([activity2, activity1]);
+          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
           expect(result).to.equal(undefined);
         });
       });
@@ -233,7 +233,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
           level: Activity.levels.TRAINING,
           status: Activity.status.FAILED,
         });
-        const result = pix1dService.getNextActivityLevel([activity5, activity4, activity3, activity2, activity1]);
+        const result = pix1dService.getNextActivityInfo([activity5, activity4, activity3, activity2, activity1]);
         expect(result).to.equal(undefined);
       });
     });
@@ -242,7 +242,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
         const activity1 = domainBuilder.buildActivity({ level: Activity.levels.VALIDATION });
         const activity2 = domainBuilder.buildActivity({ level: Activity.levels.VALIDATION });
         const activity3 = domainBuilder.buildActivity({ level: Activity.levels.VALIDATION });
-        const result = pix1dService.getNextActivityLevel([activity3, activity2, activity1]);
+        const result = pix1dService.getNextActivityInfo([activity3, activity2, activity1]);
         expect(result).to.equal(undefined);
       });
     });
@@ -254,7 +254,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
           level: Activity.levels.TRAINING,
           status: Activity.status.FAILED,
         });
-        const result = pix1dService.getNextActivityLevel([activity3, activity2, activity1]);
+        const result = pix1dService.getNextActivityInfo([activity3, activity2, activity1]);
         expect(result).to.equal(undefined);
       });
     });
@@ -266,7 +266,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
           level: Activity.levels.TRAINING,
           status: Activity.status.SKIPPED,
         });
-        const result = pix1dService.getNextActivityLevel([activity3, activity2, activity1]);
+        const result = pix1dService.getNextActivityInfo([activity3, activity2, activity1]);
         expect(result).to.equal(undefined);
       });
     });
