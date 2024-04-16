@@ -312,6 +312,11 @@
       "title": "Schéma IP publique vs. IP locales !",
       "elements": [
         {
+          "id": "9814961b-3134-468d-a918-9b98a1775395",
+          "type": "text",
+          "content": "<p>Étudiez ce schéma qui présente les deux types d'adresses IP. Par la suite, vous devrez catégoriser des affirmations selon ces deux types d'adresses.</p>"
+        }
+        {
           "id": "f42fa86c-3936-485a-8ea3-cabed25153f9",
           "type": "image",
           "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/schema-ip-publique-vs-privee.svg",
