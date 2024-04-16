@@ -16,4 +16,8 @@ const htmlSchema = Joi.string()
   })
   .required();
 
-export { htmlSchema, proposalIdSchema, uuidSchema };
+const htmlNotAllowedSchema = Joi.string()
+  .regex(/<.*?>/, { invert: true })
+  .message('{{:#label}} failed custom validation because HTML is not allowed in this field');
+
+export { htmlNotAllowedSchema, htmlSchema, proposalIdSchema, uuidSchema };
