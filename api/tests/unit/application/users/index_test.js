@@ -1191,7 +1191,7 @@ describe('Unit | Router | user-router', function () {
         // then
         expect(statusCode).to.equal(400);
         expect(result.errors[0].detail).to.equal(
-          '"data.attributes.identity-provider" must be one of [GAR, POLE_EMPLOI, CNAV, FWB, PAYSDELALOIRE]',
+          '"data.attributes.identity-provider" must be one of [GAR, POLE_EMPLOI, CNAV, FWB, PAYSDELALOIRE, PROSANTECONNECT]',
         );
       });
 
