@@ -1,12 +1,10 @@
 <th scope="row" rowspan={{@thematic.tubes.length}}>
-  <Input
-    {{did-insert this.updateState}}
-    {{did-update this.updateState this.state}}
-    id="thematic-{{@thematic.id}}"
-    @type="checkbox"
-    @checked={{this.checked}}
-  />
-  <label for="thematic-{{@thematic.id}}">
-    {{@thematic.name}}
-  </label>
+  <PixCheckbox
+    @id="thematic-{{@thematic.id}}"
+    @checked={{this.isChecked}}
+    @isIndeterminate={{this.isIndeterminate}}
+    {{on "click" this.toggleThematic}}
+  >
+    <:label>{{@thematic.name}}</:label>
+  </PixCheckbox>
 </th>

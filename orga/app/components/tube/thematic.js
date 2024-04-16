@@ -2,21 +2,21 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 
 export default class Thematic extends Component {
-  @action
-  updateState(element) {
-    element.indeterminate = this.state === 'indeterminate';
+  get isIndeterminate() {
+    return this.state === 'indeterminate';
   }
 
   get state() {
     return this.args.getThematicState(this.args.thematic);
   }
 
-  get checked() {
-    return this.state === 'checked';
+  get isChecked() {
+    return ['checked', 'indeterminate'].includes(this.state);
   }
 
-  set checked(checked) {
-    if (checked) {
+  @action
+  toggleThematic(event) {
+    if (event.target.checked) {
       this.args.selectThematic(this.args.thematic);
     } else {
       this.args.unselectThematic(this.args.thematic);
