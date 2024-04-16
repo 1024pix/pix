@@ -18,7 +18,7 @@
       "grainId": "45f02e23-8939-4e70-a2e4-62201ea7cc8e"
     },
     {
-      "content": "<p>Tu vas voir une vidéo pour apprendre ce qu'est moteur de recherche.</p>",
+      "content": "<p>Tu vas voir une vidéo pour apprendre ce qu'est un moteur de recherche.</p>",
       "grainId": "a2080e08-65dc-474e-8c77-e864c5bfdfa8"
     },
     {
@@ -28,13 +28,17 @@
     {
       "content": "<p>Classe les outils</p>",
       "grainId": "4de695f5-1d88-4a81-80ec-dc356e86962d"
+    },
+    {
+      "content": "<p>Et</p>",
+      "grainId": "bbdfdbd0-226a-49fd-a35a-81cad92a27b6"
     }
   ],
   "grains": [
     {
       "id": "45f02e23-8939-4e70-a2e4-62201ea7cc8e",
       "type": "lesson",
-      "title": "Wikipédia : un site de référence !",
+      "title": "Déclenchement",
       "elements": [
         {
           "id": "9a5071ec-d99e-47a9-bf79-f96d49977b54",
@@ -67,7 +71,6 @@
         }
       ]
     },
-
    {
       "id": "79288685-3f46-45ad-b75f-bcd6a5d5ea12",
       "type": "activity",
@@ -109,6 +112,37 @@
           "id": "6d53677d-7253-4d27-8e3b-c862fc59e97a",
           "type": "text",
           "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/EGO/Pix1d/recherche/recherche_di2_GD_avril2024/index.html\" width=\"100%\" height=\"400\"></iframe>"
+        }
+      ]
+    },
+    {
+      "id": "bbdfdbd0-226a-49fd-a35a-81cad92a27b6",
+      "type": "activity",
+      "title": "QCU",
+      "elements": [
+        {
+          "id": "f1d009e0-551d-4043-a95e-768289c572f0",
+          "type": "qcu",
+          "instruction": "<p>Pour les enfants, quel moteur de recherche est à utiliser ?</p>",
+          "proposals": [
+            {
+              "id": "1",
+              "content": "Google"
+            },
+            {
+              "id": "2",
+              "content": "Ecosia"
+            },
+            {
+              "id": "3",
+              "content": "Qwant Junior"
+            }
+          ],
+          "feedbacks": {
+            "valid": "<p>Bien</p>",
+            "invalid": "<p>Faux</p>"
+          },
+          "solution": "3"
         }
       ]
     }
