@@ -18,9 +18,13 @@ const PAYSDELALOIRE = {
   code: 'PAYSDELALOIRE',
   configKey: 'paysdelaloire',
 };
+const PROSANTECONNECT = {
+  code: 'PROSANTECONNECT',
+  configKey: 'proSanteConnect',
+};
 
 function getValidOidcProviderCodes() {
-  return [POLE_EMPLOI.code, CNAV.code, FWB.code, GOOGLE.code, PAYSDELALOIRE.code];
+  return [POLE_EMPLOI.code, CNAV.code, FWB.code, GOOGLE.code, PAYSDELALOIRE.code, PROSANTECONNECT.code];
 }
 
-export { CNAV, FWB, getValidOidcProviderCodes, GOOGLE, PAYSDELALOIRE, POLE_EMPLOI };
+export { CNAV, FWB, getValidOidcProviderCodes, GOOGLE, PAYSDELALOIRE, POLE_EMPLOI, PROSANTECONNECT };
