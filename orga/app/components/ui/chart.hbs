@@ -1,9 +1,4 @@
 <div class="chart" ...attributes>
-  <canvas
-    width={{@width}}
-    height={{@height}}
-    {{did-insert this.drawChart}}
-    {{did-update this.updateChart @data @options}}
-  >
+  <canvas id={{this.chartId}} width={{@width}} height={{@height}}>
   </canvas>
 </div>

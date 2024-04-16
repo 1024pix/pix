@@ -1,6 +1,7 @@
 import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm.js';
 
-import { action } from '@ember/object';
+import { guidFor } from '@ember/object/internals';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { Chart, registerables } from 'chart.js';
 
@@ -30,31 +31,17 @@ export const LEGEND_CONFIG = {
 };
 
 export default class EmberChart extends Component {
-  constructor() {
-    super(...arguments);
+  @service elementHelper;
 
+  constructor(...args) {
+    super(...args);
+    this.chartId = 'chart-' + guidFor(this);
     this.plugins = this.plugins || [];
-  }
 
-  @action
-  drawChart(element) {
-    const { data, type, options, plugins } = this.args;
-    const chart = new Chart(element, { type, data, options, plugins });
-    this.chart = chart;
-  }
-
-  @action
-  updateChart() {
-    const { data, options } = this.args;
-    if (this.chart) {
-      this.chart.data = data;
-      this.chart.options = options;
-      this.chart.update();
-
-      if (this.customLegendElement) {
-        this.customLegendElement.innerHTML = this.chart.generateLegend();
-      }
-    }
+    this.elementHelper.waitForElement(this.chartId).then((element) => {
+      const { data, type, options, plugins } = this.args;
+      this.chart = new Chart(element, { type, data, options, plugins });
+    });
   }
 
   willDestroy() {
