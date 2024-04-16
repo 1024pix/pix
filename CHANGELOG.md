@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v4.132.0 (16/04/2024)
+
+
+### :rocket: Amélioration
+- [#8562](https://github.com/1024pix/pix/pull/8562) [FEATURE] Permettre la modif d'un critère d'obtention d'ensemble de PF d'un RT dans l'API (PIX-11880).
+- [#8658](https://github.com/1024pix/pix/pull/8658) [FEATURE] Proposer l'enquête Sco dans le bandeau du dashboard (PIX-12068).
+- [#8642](https://github.com/1024pix/pix/pull/8642) [FEATURE] Retirer l'utilisation du terme "Modulix" (PIX-11991).
+
+### :bug: Correction
+- [#8667](https://github.com/1024pix/pix/pull/8667) [BUGFIX] Corriger l'affichage de la page élèves pour les membres (PIX-12156).
+- [#8645](https://github.com/1024pix/pix/pull/8645) [BUGFIX] Corriger l'appel au usecase d'envoie de notification (PIX-12077).
+
+### :coffee: Autre
+- [#8629](https://github.com/1024pix/pix/pull/8629) [REFACTOR] Utilisation des design tokens de typographie sur certif (PIX-11308).
+
 ## v4.131.0 (15/04/2024)
 
 
