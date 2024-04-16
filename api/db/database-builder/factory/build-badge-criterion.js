@@ -1,12 +1,13 @@
 import { SCOPES } from '../../../lib/domain/models/BadgeDetails.js';
 import { databaseBuffer } from '../database-buffer.js';
+import { buildBadge } from './build-badge.js';
 
 const buildBadgeCriterion = function ({
   id = databaseBuffer.getNextId(),
   scope = SCOPES.CAMPAIGN_PARTICIPATION,
   threshold = 50,
-  badgeId,
-  cappedTubes,
+  badgeId = buildBadge().id,
+  cappedTubes = null,
   name = null,
 } = {}) {
   const values = {
@@ -30,7 +31,7 @@ buildBadgeCriterion.scopeCampaignParticipation = function ({ id, threshold, badg
     threshold,
     badgeId,
     name,
-    cappedTubes: [],
+    cappedTubes: null,
   });
 };
 
