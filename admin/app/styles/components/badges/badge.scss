@@ -48,7 +48,16 @@
   margin: 20px 0;
 }
 
-.badge__criteria-title {
+.badge-criterion__header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pix-spacing-2x) var(--pix-spacing-4x);
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--pix-spacing-3x);
+}
+
+.badge-criterion__title {
   @extend %pix-title-xs;
 
   &:not(:first-child) {

@@ -125,7 +125,10 @@
   <section class="badge__criteria main-admin-form">
     <div class="admin-form__content">
       {{#if this.campaignScopeCriterion}}
-        <Badges::CampaignCriterion @criterion={{this.campaignScopeCriterion}} />
+        <Badges::CampaignCriterion
+          @criterion={{this.campaignScopeCriterion}}
+          @isEditable={{(not @targetProfile.hasLinkedCampaign)}}
+        />
       {{/if}}
       {{#if this.cappedTubesCriteria.length}}
         <h2 class="badge-criterion__title">
