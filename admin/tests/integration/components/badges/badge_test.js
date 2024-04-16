@@ -73,8 +73,8 @@ module('Integration | Component | Badges::Badge', function (hooks) {
 
     // then
     assert.deepEqual(
-      screen.getByTestId('triste').innerText,
-      'L‘évalué doit obtenir 25% sur l‘ensemble des sujets du profil cible.',
+      screen.getByTestId('campaign-criterion-text').innerText,
+      "L'évalué doit obtenir 25% sur l'ensemble des sujets du profil cible.",
     );
     assert.deepEqual(
       screen.getByTestId('toujourstriste').innerText,

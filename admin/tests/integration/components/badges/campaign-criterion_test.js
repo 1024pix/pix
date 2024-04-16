@@ -19,8 +19,8 @@ module('Integration | Component | Badges::CampaignCriterion', function (hooks) {
 
     // then
     assert.deepEqual(
-      screen.getByTestId('triste').innerText,
-      'L‘évalué doit obtenir 60% sur l‘ensemble des sujets du profil cible.',
+      screen.getByTestId('campaign-criterion-text').innerText,
+      "L'évalué doit obtenir 60% sur l'ensemble des sujets du profil cible.",
     );
   });
 });
