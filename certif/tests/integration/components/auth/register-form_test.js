@@ -26,7 +26,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     lastNameInputLabel = this.intl.t('common.labels.candidate.lastname');
     emailInputLabel = this.intl.t('common.forms.login.email');
     passwordInputLabel = this.intl.t('common.forms.login.password');
-    cguAriaLabel = this.intl.t('pages.login-or-register.register-form.fields.cgu.aria-label');
+    cguAriaLabel = "J'accepte les conditions d'utilisation de Pix et la politique de confidentialité";
   });
 
   test('[a11y] it should display a message that all inputs are required', async function (assert) {

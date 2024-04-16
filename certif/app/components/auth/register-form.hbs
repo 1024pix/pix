@@ -54,13 +54,7 @@
     <:label>{{t "common.forms.login.password"}}</:label>
   </PixInputPassword>
 
-  <PixCheckbox
-    @size="small"
-    required={{true}}
-    aria-required={{true}}
-    aria-label="{{t 'pages.login-or-register.register-form.fields.cgu.aria-label'}}"
-    {{on "click" this.validateCgu}}
-  >
+  <PixCheckbox @size="small" required={{true}} aria-required={{true}} {{on "click" this.validateCgu}}>
     <:label>
       <p>
         {{t "pages.login-or-register.register-form.fields.cgu.accept"}}
