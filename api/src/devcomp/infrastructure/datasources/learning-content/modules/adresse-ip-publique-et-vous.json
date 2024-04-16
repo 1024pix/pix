@@ -326,7 +326,7 @@
         {
           "id": "1b524302-7175-4923-8810-835201d3d443",
           "type": "text",
-          "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, par exemple chez soi, les appareils (ordinateur, imprimante, box, etc.) utilisent des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent de communiquer des informations. </p>"
+          "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, par exemple chez soi, les appareils (ordinateur, imprimante, etc.) utilisent des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent de communiquer des informations.<p><span aria-hidden=\"true\">🛜</span> La box internet a deux adresses IP : une privée et une publique.</p>"
         }
       ]
     },
