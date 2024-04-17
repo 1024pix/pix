@@ -21,7 +21,6 @@ import * as updateEmailSerializer from '../../infrastructure/serializers/jsonapi
 import * as userAnonymizedDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
 import * as userDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer.js';
 import * as userForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
-import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
 import * as userOrganizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
 import * as userWithActivitySerializer from '../../infrastructure/serializers/jsonapi/user-with-activity-serializer.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
@@ -310,12 +309,6 @@ const anonymizeUser = async function (request, h, dependencies = { userAnonymize
   return h.response(dependencies.userAnonymizedDetailsForAdminSerializer.serialize(anonymizedUser)).code(200);
 };
 
-const unblockUserAccount = async function (request, h, dependencies = { userLoginSerializer }) {
-  const userId = request.params.id;
-  const userLogin = await usecases.unblockUserAccount({ userId });
-  return h.response(dependencies.userLoginSerializer.serialize(userLogin)).code(200);
-};
-
 const removeAuthenticationMethod = async function (request, h) {
   const userId = request.params.id;
   const type = request.payload.data.attributes.type;
@@ -468,7 +461,6 @@ const userController = {
   removeAuthenticationMethod,
   resetScorecard,
   sendVerificationCode,
-  unblockUserAccount,
   updatePassword,
   updateUserDetailsForAdministration,
   updateUserEmailWithValidation,

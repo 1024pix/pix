@@ -1,9 +1,9 @@
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { UserLogin } from '../../../../src/authentication/domain/models/UserLogin.js';
-import { databaseBuilder, expect } from '../../../test-helper.js';
+import { UserLogin } from '../../../../../src/authentication/domain/models/UserLogin.js';
+import { usecases } from '../../../../../src/user-account/domain/usecases/index.js';
+import { databaseBuilder, expect } from '../../../../test-helper.js';
 
-describe('Integration | UseCases | unblockUserAccount', function () {
-  it('should reset failure count, temporary blocked until date and blocked at date', async function () {
+describe('Integration | User-Account | Domain | UseCase | unblockUserAccount', function () {
+  it('resets failure count, temporary blocked until date and blocked at date', async function () {
     // given
     const userId = databaseBuilder.factory.buildUser({ email: 'email@example.net' }).id;
     databaseBuilder.factory.buildUser({ email: 'alreadyexist@example.net' });
