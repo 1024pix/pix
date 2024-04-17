@@ -1,5 +1,7 @@
+import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
 import { ORGANIZATION_FEATURE } from '../../../../src/shared/domain/constants.js';
 import {
+  FEATURE_CAN_REGISTER_FOR_A_SINGLE_COMPLEMENTARY_ALONE_ID,
   FEATURE_COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY_ID,
   FEATURE_LEARNER_IMPORT_ID,
   FEATURE_MISSIONS_MANAGEMENT_ID,
@@ -32,6 +34,11 @@ const featuresBuilder = async function ({ databaseBuilder }) {
     id: FEATURE_LEARNER_IMPORT_ID,
     key: ORGANIZATION_FEATURE.LEARNER_IMPORT.key,
     description: ORGANIZATION_FEATURE.LEARNER_IMPORT.description,
+  });
+  databaseBuilder.factory.buildFeature({
+    id: FEATURE_CAN_REGISTER_FOR_A_SINGLE_COMPLEMENTARY_ALONE_ID,
+    key: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_SINGLE_COMPLEMENTARY_ALONE.key,
+    description: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_SINGLE_COMPLEMENTARY_ALONE.description,
   });
   await databaseBuilder.commit();
 };
