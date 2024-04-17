@@ -1,4 +1,4 @@
-import { Badge } from '../../../../src/shared/domain/models/Badge.js';
+import { Badge } from '../../../../src/evaluation/domain/models/Badge.js';
 
 const buildBadge = function ({
   id = 1,

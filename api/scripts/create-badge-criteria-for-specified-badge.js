@@ -9,7 +9,7 @@ import { NotFoundError } from '../lib/domain/errors.js';
 import { SCOPES } from '../lib/domain/models/BadgeDetails.js';
 import { DomainTransaction } from '../lib/infrastructure/DomainTransaction.js';
 import * as badgeCriteriaRepository from '../src/evaluation/infrastructure/repositories/badge-criteria-repository.js';
-import * as badgeRepository from '../src/shared/infrastructure/repositories/badge-repository.js';
+import * as badgeRepository from '../src/evaluation/infrastructure/repositories/badge-repository.js';
 
 // Usage: node scripts/create-badge-criteria-for-specified-badge path/data.json
 // data.json

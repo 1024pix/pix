@@ -35,6 +35,7 @@ import * as userSavedTutorialRepository from '../../../src/devcomp/infrastructur
 import { getCompetenceLevel } from '../../../src/evaluation/domain/services/get-competence-level.js';
 import * as scorecardService from '../../../src/evaluation/domain/services/scorecard-service.js';
 import * as stageAndStageAcquisitionComparisonService from '../../../src/evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
+import * as badgeRepository from '../../../src/evaluation/infrastructure/repositories/badge-repository.js';
 import * as competenceEvaluationRepository from '../../../src/evaluation/infrastructure/repositories/competence-evaluation-repository.js';
 import * as stageAcquisitionRepository from '../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
 import * as stageCollectionForTargetProfileRepository from '../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
@@ -64,7 +65,6 @@ import * as areaRepository from '../../../src/shared/infrastructure/repositories
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
 import * as authenticationMethodRepository from '../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
-import * as badgeRepository from '../../../src/shared/infrastructure/repositories/badge-repository.js';
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';

@@ -1,4 +1,4 @@
-import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/badge-serializer.js';
+import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/badge-serializer.js';
 import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | badge-serializer', function () {

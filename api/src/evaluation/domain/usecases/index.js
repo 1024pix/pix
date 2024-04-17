@@ -11,13 +11,13 @@ import { pickChallengeService } from '../../../certification/flash-certification
 import * as answerRepository from '../../../shared/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../../shared/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
-import * as badgeRepository from '../../../shared/infrastructure/repositories/badge-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../../shared/infrastructure/repositories/skill-repository.js';
 import * as targetProfileForAdminRepository from '../../../shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import * as badgeCriteriaRepository from '../../infrastructure/repositories/badge-criteria-repository.js';
+import * as badgeRepository from '../../infrastructure/repositories/badge-repository.js';
 import * as competenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
 import * as feedbackRepository from '../../infrastructure/repositories/feedback-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
