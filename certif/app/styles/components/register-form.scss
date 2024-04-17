@@ -1,30 +1,19 @@
 .register-form {
-  max-width: 360px;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: $pix-spacing-m;
+  max-width: 400px;
 
-  &__cgu-label {
-    margin: 0;
+  &__information {
+    margin-bottom: $pix-spacing-s;
+    color: var(--pix-neutral-900);
+    text-align: center;
+
+    @extend %pix-body-s;
   }
 
   &__cgu-error {
-    margin-top: 4px;
     color: var(--pix-error-700);
     font-size: 0.75rem;
-  }
-
-  &__submit-button {
-    width: 100%;
-  }
-
-  .input-container {
-    margin-top: $pix-spacing-m;
-  }
-
-  .checkbox-container {
-    display: flex;
-
-    input[type='checkbox'] {
-      margin: 1px 6px 0 0;
-    }
   }
 }

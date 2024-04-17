@@ -245,7 +245,6 @@
           "cgu": {
             "accept": "J'accepte les",
             "and": "et la",
-            "aria-label": "Accepter les conditions d'utilisation de Pix",
             "data-protection-policy": "politique de confidentialité",
             "error": "Vous devez accepter les conditions d’utilisation de Pix et la politique de confidentialité pour créer un compte.",
             "terms-of-use": "conditions d'utilisation de Pix"
