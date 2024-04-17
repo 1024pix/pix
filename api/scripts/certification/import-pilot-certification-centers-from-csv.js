@@ -19,16 +19,35 @@ const headers = {
   certificationCenterId: 'certification_center_id',
 };
 
-function buildCertificationCentersPilotsList({ featureId, csvData }) {
-  const dataRows = csvData;
-  return dataRows.reduce((certificationCentersPilots, dataRow) => {
-    const certification = {
-      certificationCenterId: parseInt(dataRow[headers.certificationCenterId]),
+async function extractCsvData(filePath) {
+  const dataRows = await parseCsv(filePath, { header: true, delimiter: ';', skipEmptyLines: true });
+  return dataRows.reduce((certificationCentersIds, dataRow) => {
+    const certificationCenterId = parseInt(dataRow[headers.certificationCenterId]);
+    certificationCentersIds.push(certificationCenterId);
+    return certificationCentersIds;
+  }, []);
+}
+
+function buildCertificationCentersPilotsList({ featureId, certificationCentersIds }) {
+  return certificationCentersIds.map((certificationCenterId) => {
+    return {
+      certificationCenterId,
       featureId,
     };
-    certificationCentersPilots.push(certification);
-    return certificationCentersPilots;
-  }, []);
+  });
+}
+
+async function hasNoV3CertificationCenters({ certificationCentersIds }) {
+  const v3CertificationIds = await knex
+    .select('id')
+    .from('certification-centers')
+    .whereIn('id', certificationCentersIds)
+    .andWhere({ isV3Pilot: true })
+    .pluck('id');
+
+  if (v3CertificationIds.length > 0) {
+    throw new Error(`V3 certification centers : ${v3CertificationIds} are not allowed as pilots`);
+  }
 }
 
 function _getInsertedLineNumber(batchInfo) {
@@ -48,7 +67,11 @@ async function main(filePath) {
     logger.info('✅ ');
 
     logger.info('Reading and parsing csv data file... ');
-    const csvData = await parseCsv(filePath, { header: true, delimiter: ';', skipEmptyLines: true });
+    const certificationCentersIds = await extractCsvData(filePath);
+    logger.info('✅ ');
+
+    logger.info('Veryfing certification centers eligibility as pilots... ');
+    await hasNoV3CertificationCenters({ certificationCentersIds });
     logger.info('✅ ');
 
     const featureId = await knex
@@ -59,8 +82,9 @@ async function main(filePath) {
       .then((row) => row.id);
 
     logger.info('Retrieving certification center pilots... ');
-    const certificationCentersPilotsList = buildCertificationCentersPilotsList({ featureId, csvData });
+    const certificationCentersPilotsList = buildCertificationCentersPilotsList({ featureId, certificationCentersIds });
     logger.info('✅ ');
+
     logger.info('Inserting pilot certification center ids in database... ');
     trx = await knex.transaction();
     await trx('certification-center-features').del();
@@ -92,4 +116,4 @@ async function main(filePath) {
   }
 })();
 
-export { buildCertificationCentersPilotsList, main };
+export { main };
