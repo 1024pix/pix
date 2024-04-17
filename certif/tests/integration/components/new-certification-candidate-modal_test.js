@@ -1,6 +1,6 @@
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import { click } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
@@ -115,6 +115,93 @@ module('Integration | Component | new-certification-candidate-modal', function (
     assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Date de naissance' })).hasAttribute('required');
     assert.dom(screen.getByRole('radio', { name: 'Femme' })).hasAttribute('required');
     assert.dom(screen.getByRole('textbox', { name: 'Obligatoire Code INSEE de naissance' })).hasAttribute('required');
+  });
+
+  module('when the form is filled', () => {
+    test('it should submit a student', async function (assert) {
+      const closeModalStub = sinon.stub();
+      const updateCandidateFromValueStub = sinon.stub();
+      updateCandidateFromValueStub.callsFake((object, key, value) => (object[key] = value));
+
+      const updateCandidateFromEventStub = sinon.stub();
+      updateCandidateFromEventStub.callsFake((object, field, event) => (object[field] = event.target.value));
+
+      const saveCandidateStub = sinon.stub();
+
+      this.set('closeModal', closeModalStub);
+      this.set('updateCandidateFromValueStub', updateCandidateFromValueStub);
+      this.set('updateCandidateFromEventStub', updateCandidateFromEventStub);
+      this.set('countries', [{ code: '99123', name: 'Borduristan' }]);
+      this.set('saveCandidate', saveCandidateStub);
+      this.set('candidateData', {
+        firstName: '',
+        lastName: '',
+        birthdate: '',
+        birthCity: '',
+        birthCountry: '',
+        email: '',
+        externalId: '',
+        resultRecipientEmail: '',
+        birthPostalCode: '',
+        birthInseeCode: '',
+        sex: '',
+        extraTimePercentage: '',
+      });
+      this.set('countries', [{ code: '99100', name: 'FRANCE' }]);
+
+      // when
+      const screen = await renderScreen(hbs`
+        <NewCertificationCandidateModal
+          @showModal={{true}}
+          @closeModal={{this.closeModal}}
+          @countries={{this.countries}}
+          @updateCandidateData={{this.updateCandidateFromEventStub}}
+          @updateCandidateDataFromValue={{this.updateCandidateFromValueStub}}
+          @candidateData={{this.candidateData}}
+          @saveCandidate={{this.saveCandidate}}
+          />
+      `);
+      await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
+      await fillIn(screen.getByLabelText('* Nom de naissance'), 'Threepwood');
+      await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
+      await click(screen.getByRole('radio', { name: 'Homme' }));
+      await click(screen.getByLabelText('* Pays de naissance'));
+      await click(
+        await screen.findByRole('option', {
+          name: 'FRANCE',
+        }),
+      );
+      await click(screen.getByRole('radio', { name: 'Code INSEE' }));
+      await click(screen.getByRole('radio', { name: 'Certif complémentaire 1' }));
+      await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
+      await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
+      await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
+      await fillIn(
+        screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
+        'email.destinataire@example.net',
+      );
+      await fillIn(screen.getByLabelText('E-mail de convocation'), 'email.convocation@example.net');
+
+      await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
+
+      // then
+      sinon.assert.calledOnceWithExactly(saveCandidateStub, {
+        firstName: 'Guybrush',
+        lastName: 'Threepwood',
+        birthdate: '2019-04-28',
+        birthCity: '',
+        birthCountry: 'FRANCE',
+        email: 'email.convocation@example.net',
+        externalId: '44AA3355',
+        resultRecipientEmail: 'email.destinataire@example.net',
+        birthPostalCode: '',
+        birthInseeCode: '75100',
+        sex: 'M',
+        extraTimePercentage: '20',
+        complementaryCertification: { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1' },
+      });
+      assert.ok(true);
+    });
   });
 
   module('when shouldDisplayPaymentOptions is true', function () {
