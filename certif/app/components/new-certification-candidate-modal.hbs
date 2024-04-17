@@ -203,6 +203,7 @@
         <PixInput
           @id="result-recipient-email"
           {{on "input" (fn @updateCandidateData @candidateData "resultRecipientEmail")}}
+          type="email"
           autocomplete="off"
         >
           <:label>{{t "common.forms.certification-labels.email-results"}}</:label>
@@ -216,8 +217,8 @@
       <div class="new-certification-candidate-modal-form__field">
         <PixInput
           @id="email"
-          @type="email"
           {{on "input" (fn @updateCandidateData @candidateData "email")}}
+          type="email"
           autocomplete="off"
         >
           <:label>{{t "common.forms.certification-labels.email-convocation"}}</:label>
