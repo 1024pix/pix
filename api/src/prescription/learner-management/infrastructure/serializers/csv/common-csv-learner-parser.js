@@ -7,7 +7,6 @@ const ERRORS = {
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
   BAD_CSV_FORMAT: 'BAD_CSV_FORMAT',
   HEADER_REQUIRED: 'HEADER_REQUIRED',
-  HEADER_UNKNOWN: 'HEADER_UNKNOWN',
 };
 
 const PARSING_OPTIONS = {
@@ -109,15 +108,6 @@ class CommonCsvLearnerParser {
       if (!parsedColumns.includes(colum.name)) {
         this.#errors.push(new CsvImportError(ERRORS.HEADER_REQUIRED, { field: colum.name }));
       }
-    });
-
-    // Expected columns
-    const acceptedColumns = this.#columns.map((column) => column.name);
-
-    const unknowColumns = parsedColumns.filter((columnName) => !acceptedColumns.includes(columnName));
-
-    unknowColumns.forEach((columnName) => {
-      if (columnName !== '') this.#errors.push(new CsvImportError(ERRORS.HEADER_UNKNOWN, { field: columnName }));
     });
   }
 }

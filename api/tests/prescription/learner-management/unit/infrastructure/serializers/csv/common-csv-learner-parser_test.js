@@ -162,45 +162,24 @@ describe('Unit | Infrastructure | CommonCsvLearnerParser', function () {
       expect(errors[1].meta.field).to.equal('GodZilla');
     });
 
-    it('should throw all errors on unknown header', async function () {
+    it('should accept unknown header', async function () {
       // given
       const input = `nom;Gidorah;King Kong;GodZilla
-      The;;;`;
+      The;Best;Of;All`;
       const encodedInput = iconv.encode(input, 'utf8');
       const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
 
       // when
-      const errors = await catchErr(parser.parse, parser)('utf8');
+      const result = parser.parse('utf8');
 
       // then
-      expect(errors).to.lengthOf(2);
-
-      expect(errors[0].code).to.equal('HEADER_UNKNOWN');
-      expect(errors[0].meta.field).to.equal('Gidorah');
-      expect(errors[1].code).to.equal('HEADER_UNKNOWN');
-      expect(errors[1].meta.field).to.equal('King Kong');
-    });
-
-    it('should throw all errors on unknown and missing header', async function () {
-      // given
-      const input = `prénom;Gidorah
-      The;`;
-      const encodedInput = iconv.encode(input, 'utf8');
-      const parser = CommonCsvLearnerParser.buildParser({ buffer: encodedInput, importFormat });
-      parser.getEncoding();
-
-      // when
-      const errors = await catchErr(parser.parse, parser)('utf8');
-
-      // then
-      expect(errors).to.lengthOf(3);
-
-      expect(errors[0].code).to.equal('HEADER_REQUIRED');
-      expect(errors[0].meta.field).to.equal('nom');
-      expect(errors[1].code).to.equal('HEADER_REQUIRED');
-      expect(errors[1].meta.field).to.equal('GodZilla');
-      expect(errors[2].code).to.equal('HEADER_UNKNOWN');
-      expect(errors[2].meta.field).to.equal('Gidorah');
+      expect(result).lengthOf(1);
+      expect(result[0]).to.be.deep.equal({
+        nom: 'The',
+        Gidorah: 'Best',
+        'King Kong': 'Of',
+        GodZilla: 'All',
+      });
     });
   });
 
