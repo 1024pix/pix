@@ -515,7 +515,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.dom(screen.getByText('Message alternatif : nouveau alt')).exists();
         assert.dom(screen.getByText('Certifiable')).exists();
         assert.dom(screen.queryByText('Lacunes')).doesNotExist();
-        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+        assert.dom(screen.queryByTestId('save-badge-edit')).doesNotExist();
       });
 
       test('it should cancel badge edition', async function (assert) {
@@ -534,7 +534,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         // then
         assert.strictEqual(currentURL(), '/target-profiles/1/badges/100');
         assert.dom(screen.getByText('Nom du résultat thématique : tagada')).exists();
-        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+        assert.dom(screen.queryByTestId('save-badge-edit')).doesNotExist();
       });
 
       test('it should create a badge', async function (assert) {
@@ -680,6 +680,28 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.strictEqual(currentURL(), '/target-profiles/1/insights');
         assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
         assert.dom(screen.queryByText('Voir détail')).doesNotExist();
+      });
+
+      test('it should edit a campaign criterion', async function (assert) {
+        // given
+        const badge = server.create('badge');
+        targetProfile.update({ badges: [badge] });
+
+        const campaignCriterion = badge.criteria.models[0];
+        console.log(campaignCriterion);
+
+        // when
+        const screen = await visit(`/target-profiles/1/badges/${badge.id}`);
+        await clickByName('Modifier le critère');
+        await fillByLabel(/Nouveau seuil d'obtention du critère :/, 99);
+        await clickByName('Enregistrer');
+
+        // then
+        assert.dom(screen.getByText("Seuil d'obtention du critère modifié avec succès.")).exists();
+        assert.deepEqual(
+          screen.getByTestId('campaign-criterion-text').innerText,
+          "L'évalué doit obtenir 99% sur l'ensemble des sujets du profil cible.",
+        );
       });
     });
   });
