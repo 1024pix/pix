@@ -8,8 +8,9 @@
     "duration": 5,
     "level": "Débutant",
     "objectives": [
-      "Découvrir ce qu’est un moteur de recherche",
-      "Savoir distinguer les moteurs de recherche"
+      "Découvrir les moteurs de recherche",
+      "Savoir reconnaître un moteur de recherche",
+      "̂Être capable de reconnaître un moteur de recherche adapté aux enfants"
     ]
   },
   "transitionTexts": [
@@ -22,19 +23,19 @@
       "grainId": "a2080e08-65dc-474e-8c77-e864c5bfdfa8"
     },
     {
-      "content": "<p>Maintenant que tu as regardé la vidéo, réponds à la question suivante</p>",
+      "content": "<p>Maintenant que tu as regardé la vidéo, lis la phrase suivante et réponds par vrai ou faux.</p>",
       "grainId": "79288685-3f46-45ad-b75f-bcd6a5d5ea12"
     },
     {
-      "content": "<p>Classe les outils</p>",
+      "content": "<p>Regarde ces étiquettes qui décrivent différents outils.</p>",
       "grainId": "4de695f5-1d88-4a81-80ec-dc356e86962d"
     },
     {
-      "content": "<p>Et</p>",
+      "content": "<p></p>",
       "grainId": "bbdfdbd0-226a-49fd-a35a-81cad92a27b6"
     },
     {
-      "content": "<p>Pour résumer</p>",
+      "content": "<p>Voici ce qu'il faut retenir.</p>",
       "grainId": "277324da-8f41-4d70-91a5-2822e9056de1"
     }
   ],
@@ -47,7 +48,7 @@
         {
           "id": "9a5071ec-d99e-47a9-bf79-f96d49977b54",
           "type": "text",
-          "content": "<p>Léa veut faire une recherche sur internet pour un exposé en classe, mais elle n'a jamais fait de recherche avec un ordinateur. Elle ne sait pas quel logiciel utiliser.</p>"
+          "content": "<p>Léa veut faire une recherche sur internet pour un exposé en classe, mais elle ne sait pas quel outil utiliser. Découvrons ensemble les outils que Léa peut utiliser.</p>"
         },
         {
           "id": "32eab761-ec9e-452d-9200-0a1d5078e2c4",
@@ -66,7 +67,7 @@
         {
           "id": "fe3f1a0a-c150-443f-a0c6-a498c83190e4",
           "type": "text",
-          "content": "<p>Regarde la attentivement pour ensuite pouvoir répondre aux questions.</p>"
+          "content": "<p>Regarde-la attentivement. Ensuite, tu sauras à quoi servent les moteurs de recherche et tu pourras les reconnaître.</p>"
         },
         {
           "id": "11a8d5db-7175-498c-adf3-4cf2190eca6c",
@@ -83,7 +84,7 @@
         {
           "id": "506e3bc1-40f9-4b2d-ab27-12fc559ec533",
           "type": "qcu",
-          "instruction": "<p>Un moteur de recherche permet de chercher des moteurs ?</p>",
+          "instruction": "<p>Un moteur de recherche permet de chercher des moteurs.</p>",
           "proposals": [
             {
               "id": "1",
@@ -95,7 +96,7 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bien</p>",
+            "valid": "<p>Bien. Tu sais qu'un moteur de recherche permet de rechercher des informations sur internet.</p>",
             "invalid": "<p>Faux. Un moteur de recherche permet de rechercher des informations sur internet. Regarde à nouveau la vidéo avant de continuer.</p>"
           },
           "solution": "2"
@@ -110,12 +111,12 @@
         {
           "id": "14c5ef08-051b-407c-9a1a-4ae9cc219d24",
           "type": "text",
-          "content": "<p>Voici des étiquettes qui décrivent différents outils.Range les moteurs de recherche dans la case verte moteurs de recherche.Range les autres outils dans la case rose autres outils.Puis clique sur Je vérifie.</p>"
+          "content": "<p>Range les moteurs de recherche dans la case \"moteurs de recherche\" et range les autres outils dans la case \"autres outils\".</p>"
         },
         {
           "id": "6d53677d-7253-4d27-8e3b-c862fc59e97a",
           "type": "text",
-          "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/EGO/Pix1d/recherche/recherche_di2_GD_avril2024/index.html\" width=\"100%\" height=\"800\"></iframe>"
+          "content": "<iframe title=\"dnd\" src=\"https://1024pix.github.io/atelier-contenus/EGO/Pix1d/recherche/recherche_di2_GD_avril2024/index.html\" width=\"850\" height=\"700\"></iframe>"
         }
       ]
     },
@@ -127,7 +128,7 @@
         {
           "id": "f1d009e0-551d-4043-a95e-768289c572f0",
           "type": "qcu",
-          "instruction": "<p>Pour les enfants, quel moteur de recherche est à utiliser ?</p>",
+          "instruction": "<p>Pour les enfants, quel est le moteur de recherche le plus adapté ?</p>",
           "proposals": [
             {
               "id": "1",
@@ -143,8 +144,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p>Bien</p>",
-            "invalid": "<p>Faux</p>"
+            "valid": "<p>Bravo, tu sais que Qwant Junior bloque les contenus choquants.</p>",
+            "invalid": "<p>Faux. C'est Qwant Junior qui bloque les contenus choquants.</p>"
           },
           "solution": "3"
         }
@@ -158,12 +159,12 @@
         {
           "id": "cba612c5-bc6d-4475-a0b9-6871e4683788",
           "type": "text",
-          "content": "<p> Test</p>"
+          "content": "<p></p>"
         },
         {
           "id": "bca811f0-3e1e-411b-b550-d1df1db2ee64",
           "type": "image",
-          "url": "https://imgur.com/m397atN.png",
+          "url": "https://imgur.com/a/qDks4YD.png",
           "alt": "Illustration",
           "alternativeText": ""
         }
