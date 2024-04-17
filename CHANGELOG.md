@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v4.133.0 (17/04/2024)
+
+
+### :rocket: Amélioration
+- [#8660](https://github.com/1024pix/pix/pull/8660) [FEATURE] Rend asynchrone la validation du fichier d'import SIECLE (PIX-11939).
+- [#8652](https://github.com/1024pix/pix/pull/8652) [FEATURE] Stocker l'information d'un centre de certification comme pilote pour la séparation Pix et Pix+ (PIX-11886).
+
+### :building_construction: Tech
+- [#8628](https://github.com/1024pix/pix/pull/8628) [TECH] Déplacement de `code-utils.js` vers `src/shared`.
+- [#8636](https://github.com/1024pix/pix/pull/8636) [TECH] Utiliser la classe screen-reader-only de Pix UI sur Pix Admin et Pix Certif (PIX-12036).
+- [#8571](https://github.com/1024pix/pix/pull/8571) [TECH] Refactoring du scoring/rescoring des certifications (PIX-11584).
+
+### :bug: Correction
+- [#8662](https://github.com/1024pix/pix/pull/8662) [BUGFIX] Réparer les largeurs des champs du formulaire de création de compte sur Pix Certif (PIX-12144).
+
+### :arrow_up: Montée de version
+- [#8677](https://github.com/1024pix/pix/pull/8677) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.5 (certif).
+- [#8676](https://github.com/1024pix/pix/pull/8676) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.5 (audit-logger).
+- [#8672](https://github.com/1024pix/pix/pull/8672) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.5 (api).
+- [#8671](https://github.com/1024pix/pix/pull/8671) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.5 (admin).
+- [#8669](https://github.com/1024pix/pix/pull/8669) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.5 (1d).
+- [#8610](https://github.com/1024pix/pix/pull/8610) [BUMP] Update dependency ember-template-lint to v6 (orga) (PIX-12135).
+
 ## v4.132.0 (16/04/2024)
 
 
