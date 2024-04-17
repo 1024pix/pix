@@ -1,20 +1,20 @@
-import { CertificationCenterInvitation } from '../models/CertificationCenterInvitation.js';
 import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../lib/domain/errors.js';
+import { CertificationCenterInvitation } from '../models/CertificationCenterInvitation.js';
 
-const createOrUpdateCertificationCenterInvitationForAdmin = async function({
+const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
   certificationCenterId,
   email,
   locale,
   role,
   certificationCenterInvitationRepository,
-  mailService
+  mailService,
 }) {
   let certificationCenterInvitation, isInvitationCreated;
 
   const alreadyExistingPendingInvitationForThisEmail =
     await certificationCenterInvitationRepository.findOnePendingByEmailAndCertificationCenterId({
       email,
-      certificationCenterId
+      certificationCenterId,
     });
   const shouldCreateInvitation = !alreadyExistingPendingInvitationForThisEmail;
 
@@ -24,7 +24,7 @@ const createOrUpdateCertificationCenterInvitationForAdmin = async function({
     isInvitationCreated = true;
   } else {
     certificationCenterInvitation = await certificationCenterInvitationRepository.update(
-      alreadyExistingPendingInvitationForThisEmail
+      alreadyExistingPendingInvitationForThisEmail,
     );
     isInvitationCreated = false;
   }
@@ -34,7 +34,7 @@ const createOrUpdateCertificationCenterInvitationForAdmin = async function({
     locale,
     certificationCenterName: certificationCenterInvitation.certificationCenterName,
     certificationCenterInvitationId: certificationCenterInvitation.id,
-    code: certificationCenterInvitation.code
+    code: certificationCenterInvitation.code,
   });
   if (mailerResponse?.status === 'FAILURE') {
     if (mailerResponse.hasFailedBecauseDomainWasInvalid()) {
