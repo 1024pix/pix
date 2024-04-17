@@ -1,21 +1,23 @@
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { certificationCenterInvitationController } from '../../../../src/team/application/certification-center-invitation-controller.js';
+import { usecases } from '../../../../src/team/domain/usecases/index.js';
+import {
+  certificationCenterInvitationController
+} from '../../../../src/team/application/certification-center-invitation-controller.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
-describe('Unit | Controller | certifications-center-controller', function () {
-  describe('#sendInvitationForAdmin', function () {
+describe('Unit | Controller | certifications-center-controller', function() {
+  describe('#sendInvitationForAdmin', function() {
     let certificationCenterInvitationSerializerStub;
 
-    beforeEach(function () {
+    beforeEach(function() {
       certificationCenterInvitationSerializerStub = {
         deserializeForAdmin: sinon.stub(),
-        serializeForAdmin: sinon.stub(),
+        serializeForAdmin: sinon.stub()
       };
 
       sinon.stub(usecases, 'createOrUpdateCertificationCenterInvitationForAdmin');
     });
 
-    it('should return 201 HTTP status code with data if there isn’t an already pending invitation', async function () {
+    it('should return 201 HTTP status code with data if there isn’t an already pending invitation', async function() {
       // given
       const email = 'some.user@example.net';
       const language = 'fr-fr';
@@ -27,25 +29,25 @@ describe('Unit | Controller | certifications-center-controller', function () {
           attributes: {
             email,
             language,
-            role,
-          },
-        },
+            role
+          }
+        }
       };
 
       certificationCenterInvitationSerializerStub.deserializeForAdmin.withArgs(payload).resolves({
         email,
-        language,
+        language
       });
       usecases.createOrUpdateCertificationCenterInvitationForAdmin
         .withArgs({
           email,
           locale: language,
           role,
-          certificationCenterId,
+          certificationCenterId
         })
         .resolves({
           certificationCenterInvitation: 'an invitation',
-          isInvitationCreated: true,
+          isInvitationCreated: true
         });
       const serializedData = Symbol();
       certificationCenterInvitationSerializerStub.serializeForAdmin.withArgs('an invitation').returns(serializedData);
@@ -54,12 +56,12 @@ describe('Unit | Controller | certifications-center-controller', function () {
       const response = await certificationCenterInvitationController.sendInvitationForAdmin(
         {
           params: { certificationCenterId },
-          payload,
+          payload
         },
         hFake,
         {
-          certificationCenterInvitationSerializer: certificationCenterInvitationSerializerStub,
-        },
+          certificationCenterInvitationSerializer: certificationCenterInvitationSerializerStub
+        }
       );
 
       // then
@@ -67,7 +69,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       expect(response.statusCode).to.equal(201);
     });
 
-    it('should return 200 HTTP status code with data if there is already a pending existing invitation', async function () {
+    it('should return 200 HTTP status code with data if there is already a pending existing invitation', async function() {
       // given
       const email = 'some.user@example.net';
       const language = 'fr-fr';
@@ -76,7 +78,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       certificationCenterInvitationSerializerStub.deserializeForAdmin.resolves({ email, language });
       usecases.createOrUpdateCertificationCenterInvitationForAdmin.resolves({
         certificationCenterInvitation: 'an invitation',
-        isInvitationCreated: false,
+        isInvitationCreated: false
       });
       const serializedData = Symbol();
       certificationCenterInvitationSerializerStub.serializeForAdmin.returns(serializedData);
@@ -91,15 +93,15 @@ describe('Unit | Controller | certifications-center-controller', function () {
               attributes: {
                 email,
                 language,
-                role,
-              },
-            },
-          },
+                role
+              }
+            }
+          }
         },
         hFake,
         {
-          certificationCenterInvitationSerializer: certificationCenterInvitationSerializerStub,
-        },
+          certificationCenterInvitationSerializer: certificationCenterInvitationSerializerStub
+        }
       );
 
       // then
