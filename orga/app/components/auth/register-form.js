@@ -178,6 +178,11 @@ export default class RegisterForm extends Component {
     }
   }
 
+  @action
+  updateCgu() {
+    this.cgu = !this.cgu;
+  }
+
   _isFormValid() {
     return (
       !isEmpty(this.lastName) &&

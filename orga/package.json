@@ -103,7 +103,7 @@
     "ember-simple-auth": "^6.0.0",
     "ember-source": "^4.12.0",
     "ember-template-imports": "^4.1.0",
-    "ember-template-lint": "^5.13.0",
+    "ember-template-lint": "^6.0.0",
     "ember-template-lint-plugin-prettier": "^5.0.0",
     "ember-truth-helpers": "^4.0.0",
     "eslint": "^8.56.0",

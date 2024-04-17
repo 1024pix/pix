@@ -67,14 +67,18 @@
 
     <div id="register-cgu-container" class="input-container">
       <div class="checkbox-container">
-        <Input
-          @type="checkbox"
+        <PixCheckbox
           @checked={{this.cgu}}
           required={{true}}
-          aria-required={{true}}
-          aria-label="{{t 'pages.login-or-register.register-form.fields.cgu.aria-label'}}"
+          {{on "click" this.updateCgu}}
           {{on "focusout" this.validateCgu}}
-        />
+          @screenReaderOnly={{true}}
+        >
+          <:label>
+            {{t "pages.login-or-register.register-form.fields.cgu.aria-label"}}
+          </:label>
+        </PixCheckbox>
+
         <p class="register-form__cgu-label">
           {{t "pages.login-or-register.register-form.fields.cgu.accept"}}
           <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">

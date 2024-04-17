@@ -1,12 +1,21 @@
 <td class="table__column--center">
-  <Input id="tube-{{@tube.id}}" @type="checkbox" @checked={{this.checked}} />
+  <PixCheckbox
+    @screenReaderOnly={{true}}
+    @id="tube-{{@tube.id}}"
+    {{on "click" this.toggleTube}}
+    @checked={{this.checked}}
+  >
+    <:label>
+      {{@tube.practicalTitle}}
+      :
+      {{@tube.practicalDescription}}
+    </:label>
+  </PixCheckbox>
 </td>
 <td>
-  <label for="tube-{{@tube.id}}">
-    {{@tube.practicalTitle}}
-    :
-    {{@tube.practicalDescription}}
-  </label>
+  {{@tube.practicalTitle}}
+  :
+  {{@tube.practicalDescription}}
 </td>
 <td class="table__column--center">
   <div

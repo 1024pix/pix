@@ -1,9 +1,4 @@
-<Ui::ChartCard
-  @title={{t "charts.participants-by-day.title"}}
-  {{did-insert this.fetchParticipationsByDay}}
-  {{did-update this.fetchParticipationsByDay @totalParticipations}}
-  ...attributes
->
+<Ui::ChartCard @title={{t "charts.participants-by-day.title"}} ...attributes>
   {{#if this.loading}}
     <Campaign::Charts::ParticipantsByDayLoader />
   {{else}}

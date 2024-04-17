@@ -19,7 +19,7 @@ module('Integration | Component | Selectable List', function (hooks) {
 
       const screen = await render(hbs`<SelectableList @items={{this.items}}>
   <:manager as |allSelected someSelected|>
-    <PixCheckbox @checked={{someSelected}} @isIndeterminate={{(not allSelected)}}>
+    <PixCheckbox @checked={{someSelected}} @isIndeterminate={{not allSelected}}>
       <:label>Main checkbox</:label>
     </PixCheckbox>
   </:manager>

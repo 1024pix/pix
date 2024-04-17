@@ -18,8 +18,8 @@
               @hasStudents={{this.hasStudents}}
               @participationCountOrder={{@participationCountOrder}}
               @onToggleAll={{toggleAll}}
-              @sortByLastname={{(fn this.addResetOnFunction @sortByLastname reset)}}
-              @sortByParticipationCount={{(fn this.addResetOnFunction @sortByParticipationCount reset)}}
+              @sortByLastname={{fn this.addResetOnFunction @sortByLastname reset}}
+              @sortByParticipationCount={{fn this.addResetOnFunction @sortByParticipationCount reset}}
               @hasComputeOrganizationLearnerCertificabilityEnabled={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
             />
           </InElement>
@@ -32,7 +32,7 @@
               <SupOrganizationParticipant::Modal::Deletion
                 @showModal={{this.showDeletionModal}}
                 @itemsToDelete={{selectedStudents}}
-                @onTriggerAction={{(fn this.deleteStudents selectedStudents reset)}}
+                @onTriggerAction={{fn this.deleteStudents selectedStudents reset}}
                 @onCloseModal={{this.closeDeletionModal}}
               />
             </InElement>
@@ -43,12 +43,12 @@
           <InElement @destinationId={{this.filtersId}}>
             <SupOrganizationParticipant::SupLearnerFilters
               @studentsCount={{@students.meta.rowCount}}
-              @onFilter={{(fn this.addResetOnFunction @onFilter reset)}}
+              @onFilter={{fn this.addResetOnFunction @onFilter reset}}
               @searchFilter={{@searchFilter}}
               @studentNumberFilter={{@studentNumberFilter}}
               @certificabilityFilter={{@certificabilityFilter}}
               @groupsFilter={{@groupsFilter}}
-              @onResetFilter={{(fn this.addResetOnFunction @onResetFilter reset)}}
+              @onResetFilter={{fn this.addResetOnFunction @onResetFilter reset}}
               @groupsOptions={{this.groups}}
               @isLoadingGroups={{this.isLoadingGroups}}
             />
@@ -59,10 +59,10 @@
             @showCheckbox={{this.showCheckbox}}
             @student={{student}}
             @isStudentSelected={{isStudentSelected}}
-            @onClickLearner={{(fn @onClickLearner student.id)}}
+            @onClickLearner={{fn @onClickLearner student.id}}
             @openEditStudentNumberModal={{this.openEditStudentNumberModal}}
             @isAdminInOrganization={{this.currentUser.isAdminInOrganization}}
-            @onToggleStudent={{(fn this.addStopPropagationOnFunction toggleStudent)}}
+            @onToggleStudent={{fn this.addStopPropagationOnFunction toggleStudent}}
             @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
           />
         </:item>

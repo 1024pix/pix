@@ -18,11 +18,12 @@ export default class EditStudentNumberModal extends Component {
   @action
   async updateStudentNumber(event) {
     event.preventDefault();
-    if (!this.newStudentNumber.trim()) {
+    const validatedStudentNumber = this.newStudentNumber.trim();
+    if (!validatedStudentNumber) {
       return (this.error = this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.error'));
     }
     try {
-      await this.args.onSubmit(this.newStudentNumber.trim());
+      await this.args.onSubmit(validatedStudentNumber);
       this.notifications.sendSuccess(
         this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.success', {
           firstName: this.args.student.firstName,
@@ -33,6 +34,11 @@ export default class EditStudentNumberModal extends Component {
     } catch (errorResponse) {
       this._handleError(errorResponse);
     }
+  }
+
+  @action
+  setStudentNumber(event) {
+    this.newStudentNumber = event.target.value;
   }
 
   @action

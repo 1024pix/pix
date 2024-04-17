@@ -261,7 +261,13 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
             // then
             assert.ok(screen.getByText('Médiacentre'));
-            assert.ok(screen.getByText('Ajouter une connexion avec un identifiant'));
+            assert.ok(
+              screen.getByRole('heading', {
+                name: this.intl.t(
+                  'pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.label',
+                ),
+              }),
+            );
           });
 
           test('it should display username and unique password when add username button is clicked', async function (assert) {
@@ -277,8 +283,20 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
 
             // then
             assert.ok(screen.getByText('Médiacentre'));
-            assert.ok(screen.getByLabelText('Identifiant'));
-            assert.ok(screen.getByRole('textbox', { name: 'Nouveau mot de passe à usage unique' }));
+            assert.ok(
+              screen.getByRole('heading', {
+                name: this.intl.t(
+                  'pages.sco-organization-participants.manage-authentication-method-modal.section.username.label',
+                ),
+              }),
+            );
+            assert.ok(
+              screen.getByRole('textbox', {
+                name: this.intl.t(
+                  'pages.sco-organization-participants.manage-authentication-method-modal.section.password.label',
+                ),
+              }),
+            );
             assert.dom('#username').exist;
             assert.dom('#generated-password').exist;
           });
@@ -302,9 +320,16 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
             await clickByName('Gérer le compte');
 
             await screen.findByRole('dialog');
+
             // then
             assert.ok(screen.getByText('Médiacentre'));
-            assert.ok(screen.getByLabelText('Identifiant'));
+            assert.ok(
+              screen.getByRole('heading', {
+                name: this.intl.t(
+                  'pages.sco-organization-participants.manage-authentication-method-modal.section.username.label',
+                ),
+              }),
+            );
           });
 
           test('it should open password modal and display password reset button', async function (assert) {

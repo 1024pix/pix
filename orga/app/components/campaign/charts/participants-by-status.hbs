@@ -12,21 +12,8 @@
 
     <ul class="participants-by-status__legend" aria-hidden="true">
       {{#each this.datasets as |dataset|}}
-        <li {{did-insert this.setCanvas dataset.canvas}}>
-          <span>{{dataset.legend}}</span>
-          <PixTooltip @id="legend-tooltip-{{dataset.key}}" @isWide="true" @position="top-left">
-            <:triggerElement>
-              <FaIcon
-                @icon="circle-question"
-                class="participants-by-status__legend-tooltip"
-                tabindex="0"
-                aria-describedby="legend-tooltip-{{dataset.key}}"
-              />
-            </:triggerElement>
-            <:tooltip>
-              {{dataset.legendTooltip}}
-            </:tooltip>
-          </PixTooltip>
+        <li>
+          <Campaign::Charts::ParticipantsByStatusLegend @dataset={{dataset}} />
         </li>
       {{/each}}
     </ul>

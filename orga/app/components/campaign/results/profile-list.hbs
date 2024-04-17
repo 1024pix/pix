@@ -53,10 +53,7 @@
               class="tr--clickable"
             >
               <td>
-                <LinkTo
-                  @route={{"authenticated.campaigns.participant-profile"}}
-                  @models={{array @campaign.id profile.id}}
-                >
+                <LinkTo @route="authenticated.campaigns.participant-profile" @models={{array @campaign.id profile.id}}>
                   {{profile.lastName}}
                 </LinkTo>
               </td>

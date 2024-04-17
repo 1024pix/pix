@@ -155,7 +155,7 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
 
     module('when the update button is clicked and a wrong student number is entered', function () {
       test('it display error message', async function (assert) {
-        await render(
+        const screen = await render(
           hbs`<SupOrganizationParticipant::Modal::EditStudentNumberModal
   @display={{this.display}}
   @onClose={{this.close}}
@@ -172,7 +172,9 @@ module('Integration | Component | SupOrganizationParticipant::Modal::EditStudent
         await clickByName(this.intl.t('pages.sup-organization-participants.edit-student-number-modal.actions.update'));
 
         // then
-        assert.dom('.error-message').hasText('Le numéro étudiant ne doit pas être vide.');
+        assert.ok(
+          screen.getByText(this.intl.t('pages.sup-organization-participants.edit-student-number-modal.form.error')),
+        );
       });
     });
 

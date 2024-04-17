@@ -25,21 +25,24 @@
         {{#if @student.hasEmail}}
           <div class="manage-authentication-window__box">
             <div class="manage-authentication-window__subTitle">
-              <span>
+              <h3>
                 {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.email.label"}}
-              </span>
+              </h3>
               <FaIcon @icon="circle-check" @prefix="far" class="green-icon" />
             </div>
             <div class="input-container">
               <div class="manage-authentication-window__clipboard">
-                <Input
-                  id="email"
+                <PixInput
+                  @id="email"
                   name="email"
-                  @type="text"
-                  class="input disabled"
                   @value={{@student.email}}
                   disabled={{true}}
-                />
+                  @screenReaderOnly={{true}}
+                >
+                  <:label>{{t
+                      "pages.sco-organization-participants.manage-authentication-method-modal.section.email.label"
+                    }}</:label>
+                </PixInput>
                 {{#if (is-clipboard-supported)}}
                   <PixTooltip
                     @id="copy-email-tooltip"
@@ -74,11 +77,11 @@
         <div class="manage-authentication-window__box">
           {{#if @student.displayAddUsernameAuthentication}}
             <div class="manage-authentication-window__subTitle">
-              <span>
+              <h3>
                 {{t
                   "pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.label"
                 }}
-              </span>
+              </h3>
               <FaIcon @icon="circle-check" @prefix="far" class="grey-icon" />
             </div>
             <PixButton @triggerAction={{this.generateUsernameWithTemporaryPassword}}>
@@ -87,21 +90,18 @@
           {{else}}
             {{#if @student.hasUsername}}
               <div class="manage-authentication-window__subTitle">
-                <span>
+                <h3>
                   {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.username.label"}}
-                </span>
+                </h3>
                 <FaIcon @icon="circle-check" @prefix="far" class="green-icon" />
               </div>
               <div class="input-container">
                 <div class="manage-authentication-window__clipboard">
-                  <Input
-                    id="username"
-                    name="username"
-                    @type="text"
-                    class="input disabled"
-                    @value={{@student.username}}
-                    disabled={{true}}
-                  />
+                  <PixInput @id="username" @value={{@student.username}} disabled={{true}} @screenReaderOnly={{true}}>
+                    <:label>{{t
+                        "pages.sco-organization-participants.manage-authentication-method-modal.section.username.label"
+                      }}</:label>
+                  </PixInput>
                   {{#if (is-clipboard-supported)}}
                     <PixTooltip
                       @id="copy-username-tooltip"
@@ -140,18 +140,12 @@
           {{#if this.isUniquePasswordVisible}}
             <div>
               <div class="input-container">
-                <label for="generated-password">
-                  {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.password.label"}}
-                </label>
                 <div class="manage-authentication-window__clipboard">
-                  <Input
-                    id="generated-password"
-                    @type="text"
-                    name="generated-password"
-                    class="input"
-                    @value={{this.generatedPassword}}
-                    disabled={{true}}
-                  />
+                  <PixInput @id="generated-password" @value={{this.generatedPassword}} disabled={{true}}>
+                    <:label>{{t
+                        "pages.sco-organization-participants.manage-authentication-method-modal.section.password.label"
+                      }}</:label>
+                  </PixInput>
                   {{#if (is-clipboard-supported)}}
                     <PixTooltip
                       @id="copy-password-tooltip"

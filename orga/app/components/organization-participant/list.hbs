@@ -18,9 +18,9 @@
               @lastnameSort={{@lastnameSort}}
               @participationCountOrder={{@participationCountOrder}}
               @latestParticipationOrder={{@latestParticipationOrder}}
-              @onSortByLastname={{(fn this.addResetOnFunction @sortByLastname reset)}}
-              @onSortByParticipationCount={{(fn this.addResetOnFunction @sortByParticipationCount reset)}}
-              @onSortByLatestParticipation={{(fn this.addResetOnFunction @sortByLatestParticipation reset)}}
+              @onSortByLastname={{fn this.addResetOnFunction @sortByLastname reset}}
+              @onSortByParticipationCount={{fn this.addResetOnFunction @sortByParticipationCount reset}}
+              @onSortByLatestParticipation={{fn this.addResetOnFunction @sortByLatestParticipation reset}}
               @hasComputeOrganizationLearnerCertificabilityEnabled={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
             />
           </InElement>
@@ -33,7 +33,7 @@
               <OrganizationParticipant::DeletionModal
                 @showModal={{this.showDeletionModal}}
                 @itemsToDelete={{selectedParticipants}}
-                @onTriggerAction={{(fn this.deleteParticipants selectedParticipants reset)}}
+                @onTriggerAction={{fn this.deleteParticipants selectedParticipants reset}}
                 @onCloseModal={{this.closeDeletionModal}}
               />
             </InElement>
@@ -46,8 +46,8 @@
               @learnersCount={{@participants.meta.rowCount}}
               @fullName={{@fullName}}
               @certificabilityFilter={{@certificabilityFilter}}
-              @onTriggerFiltering={{(fn this.addResetOnFunction @triggerFiltering reset)}}
-              @onResetFilter={{(fn this.addResetOnFunction @onResetFilter reset)}}
+              @onTriggerFiltering={{fn this.addResetOnFunction @triggerFiltering reset}}
+              @onResetFilter={{fn this.addResetOnFunction @onResetFilter reset}}
             />
           </InElement>
         </:manager>
@@ -56,8 +56,8 @@
             @showCheckbox={{this.showCheckbox}}
             @participant={{participant}}
             @isParticipantSelected={{isParticipantSelected}}
-            @onToggleParticipant={{(fn this.addStopPropagationOnFunction toggleParticipant)}}
-            @onClickLearner={{(fn @onClickLearner participant.id)}}
+            @onToggleParticipant={{fn this.addStopPropagationOnFunction toggleParticipant}}
+            @onClickLearner={{fn @onClickLearner participant.id}}
             @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
           />
         </:item>

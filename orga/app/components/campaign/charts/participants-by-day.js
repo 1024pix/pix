@@ -1,4 +1,3 @@
-import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -15,11 +14,11 @@ export default class ParticipantsByDay extends Component {
   @tracked days = 0;
   @tracked startedDatasets = [];
   @tracked sharedDatasets = [];
-
   @tracked loading = true;
 
-  @action
-  fetchParticipationsByDay() {
+  constructor(...args) {
+    super(...args);
+
     const adapter = this.store.adapterFor('campaign-stats');
     adapter.getParticipationsByDay(this.args.campaignId).then((response) => {
       const { 'started-participations': startedParticipations, 'shared-participations': sharedParticipations } =
