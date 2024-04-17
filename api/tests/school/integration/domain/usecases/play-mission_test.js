@@ -29,8 +29,12 @@ describe('Integration | UseCases | play-mission', function () {
           learningContentBuilder.buildMission({
             id: missionId,
             content: {
-              tutorialChallenges: [['first_di_challenge_id']],
-              validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
+              steps: [
+                {
+                  tutorialChallenges: [['first_di_challenge_id']],
+                  validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
+                },
+              ],
             },
           }),
         ],
@@ -61,8 +65,12 @@ describe('Integration | UseCases | play-mission', function () {
           learningContentBuilder.buildMission({
             id: missionId,
             content: {
-              tutorialChallenges: [['first_di_challenge_id']],
-              validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
+              steps: [
+                {
+                  tutorialChallenges: [['first_di_challenge_id']],
+                  validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
+                },
+              ],
             },
           }),
         ],
@@ -92,8 +100,12 @@ describe('Integration | UseCases | play-mission', function () {
           learningContentBuilder.buildMission({
             id: missionId,
             content: {
-              tutorialChallenges: [['first_di_challenge_id']],
-              validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
+              steps: [
+                {
+                  tutorialChallenges: [['first_di_challenge_id']],
+                  validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
+                },
+              ],
             },
           }),
         ],
@@ -123,8 +135,12 @@ describe('Integration | UseCases | play-mission', function () {
           learningContentBuilder.buildMission({
             id: missionId,
             content: {
-              tutorialChallenges: [['first_di_challenge_id']],
-              validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
+              steps: [
+                {
+                  tutorialChallenges: [['first_di_challenge_id']],
+                  validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
+                },
+              ],
             },
           }),
         ],

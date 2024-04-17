@@ -25,24 +25,24 @@ class Mission {
     this.content = new MissionContent(content);
   }
 
-  getChallengeId({ activityLevel, challengeIndex, alternativeVersion }) {
-    if (this.#unknownActivityLevel(activityLevel)) {
-      throw Error(`Unknown activity level ${activityLevel}`);
+  getChallengeId({ activityInfo, challengeIndex, alternativeVersion }) {
+    if (this.#unknownActivityLevel(activityInfo.level)) {
+      throw Error(`Unknown activity level ${activityInfo.level}`);
     }
-    const activityChallengeIds = this.getChallengeIds(activityLevel);
+    const activityChallengeIds = this.getChallengeIds(activityInfo);
     const challengeIds = activityChallengeIds[challengeIndex];
 
     return challengeIds?.[alternativeVersion] || challengeIds?.[0];
   }
 
-  getChallengeIds(activityLevel) {
-    switch (activityLevel) {
+  getChallengeIds(activityInfo) {
+    switch (activityInfo.level) {
       case Activity.levels.TUTORIAL:
-        return this.content.tutorialChallenges;
+        return this.content.steps[activityInfo.stepIndex].tutorialChallenges;
       case Activity.levels.TRAINING:
-        return this.content.trainingChallenges;
+        return this.content.steps[activityInfo.stepIndex].trainingChallenges;
       case Activity.levels.VALIDATION:
-        return this.content.validationChallenges;
+        return this.content.steps[activityInfo.stepIndex].validationChallenges;
       case Activity.levels.CHALLENGE:
         return this.content.dareChallenges;
     }
@@ -54,17 +54,17 @@ class Mission {
 }
 
 class MissionContent {
-  constructor({
-    tutorialChallenges = [],
-    trainingChallenges = [],
-    validationChallenges = [],
-    dareChallenges = [],
-  } = {}) {
-    this.tutorialChallenges = tutorialChallenges;
-    this.trainingChallenges = trainingChallenges;
-    this.validationChallenges = validationChallenges;
+  constructor({ steps = [new MissionStep()], dareChallenges = [] } = {}) {
+    this.steps = steps.map((step) => new MissionStep(step));
     this.dareChallenges = dareChallenges;
   }
 }
 
+class MissionStep {
+  constructor({ tutorialChallenges = [], trainingChallenges = [], validationChallenges = [] } = {}) {
+    this.tutorialChallenges = tutorialChallenges;
+    this.trainingChallenges = trainingChallenges;
+    this.validationChallenges = validationChallenges;
+  }
+}
 export { Mission };

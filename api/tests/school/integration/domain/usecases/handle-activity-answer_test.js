@@ -47,6 +47,7 @@ describe('Integration | UseCase | handle activity answer', function () {
           level: Activity.levels.VALIDATION,
           status: Activity.status.STARTED,
           createdAt: new Date(),
+          stepIndex: 0,
         });
         await databaseBuilder.commit();
 
@@ -86,6 +87,7 @@ describe('Integration | UseCase | handle activity answer', function () {
           assessmentId,
           level: Activity.levels.CHALLENGE,
           status: Activity.status.STARTED,
+          stepIndex: 0,
           createdAt: new Date(),
         });
         await databaseBuilder.commit();
@@ -127,6 +129,7 @@ describe('Integration | UseCase | handle activity answer', function () {
           assessmentId,
           level: Activity.levels.VALIDATION,
           status: Activity.status.STARTED,
+          stepIndex: 0,
         });
 
         await databaseBuilder.commit();
@@ -167,6 +170,7 @@ describe('Integration | UseCase | handle activity answer', function () {
             assessmentId,
             level: Activity.levels.VALIDATION,
             status: Activity.status.STARTED,
+            stepIndex: 0,
             createdAt: new Date(),
           });
           databaseBuilder.factory.buildActivityAnswer({
@@ -212,6 +216,7 @@ describe('Integration | UseCase | handle activity answer', function () {
             assessmentId,
             level: Activity.levels.CHALLENGE,
             status: Activity.status.STARTED,
+            stepIndex: 0,
             createdAt: new Date(),
           });
           await databaseBuilder.commit();
@@ -254,6 +259,7 @@ describe('Integration | UseCase | handle activity answer', function () {
           assessmentId,
           level: Activity.levels.VALIDATION,
           status: Activity.status.STARTED,
+          stepIndex: 0,
           createdAt: new Date(),
         });
 
@@ -295,6 +301,7 @@ describe('Integration | UseCase | handle activity answer', function () {
           assessmentId,
           level: Activity.levels.CHALLENGE,
           status: Activity.status.STARTED,
+          stepIndex: 0,
           createdAt: new Date(),
         });
         await databaseBuilder.commit();
@@ -337,6 +344,7 @@ describe('Integration | UseCase | handle activity answer', function () {
       assessmentId,
       level: Activity.levels.VALIDATION,
       status: Activity.status.STARTED,
+      stepIndex: 0,
     });
 
     await databaseBuilder.commit();
@@ -404,7 +412,11 @@ function mockLearningContentForMission(missionId) {
       learningContentBuilder.buildMission({
         id: missionId,
         content: {
-          validationChallenges: [['va_challenge_id'], ['va_next_challenge_id']],
+          steps: [
+            {
+              validationChallenges: [['va_challenge_id'], ['va_next_challenge_id']],
+            },
+          ],
           dareChallenges: [['de_challenge_id']],
         },
       }),

@@ -1,4 +1,5 @@
 import { Activity } from '../models/Activity.js';
+import { ActivityInfo } from '../models/ActivityInfo.js';
 
 export async function updateCurrentActivity({
   assessmentId,
@@ -36,5 +37,5 @@ export async function updateCurrentActivity({
 }
 
 function _isActivityFinished(mission, lastActivity, answers) {
-  return mission.getChallengeIds(lastActivity.level).length === answers.length;
+  return mission.getChallengeIds(new ActivityInfo(lastActivity)).length === answers.length;
 }

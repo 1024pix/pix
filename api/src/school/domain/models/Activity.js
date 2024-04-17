@@ -11,21 +11,19 @@ const status = {
   SKIPPED: 'SKIPPED',
 };
 
-const orderedActivityLevels = [levels.TUTORIAL, levels.TRAINING, levels.VALIDATION, levels.CHALLENGE];
-
 class Activity {
-  constructor({ id, assessmentId, createdAt, level, status, alternativeVersion } = {}) {
+  constructor({ id, assessmentId, createdAt, level, status, alternativeVersion, stepIndex } = {}) {
     this.id = id;
     this.assessmentId = assessmentId;
     this.createdAt = createdAt;
     this.level = level;
     this.status = status;
+    this.stepIndex = stepIndex;
     this.alternativeVersion = alternativeVersion;
   }
 }
 
 Activity.levels = levels;
 Activity.status = status;
-Activity.orderedActivityLevels = orderedActivityLevels;
 
 export { Activity };
