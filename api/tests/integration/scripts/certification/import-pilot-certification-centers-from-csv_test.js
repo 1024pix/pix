@@ -1,19 +1,21 @@
-import path from 'node:path';
-import * as url from 'node:url';
-
 import { main } from '../../../../scripts/certification/import-pilot-certification-centers-from-csv.js';
 import { CERTIFICATION_FEATURES } from '../../../../src/certification/shared/domain/constants.js';
-import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import { catchErr, createTempFile, databaseBuilder, expect, knex, removeTempFile } from '../../../test-helper.js';
 
 describe('Integration | Scripts | Certification | import-pilot-certification-centers-from-csv', function () {
+  let file;
+
+  afterEach(function () {
+    removeTempFile(file);
+  });
+
   context('when pilot certification center list from a csv file is imported', function () {
     it('should import the pilot certification center list', async function () {
       // given
-      const csvFilePath = path.join(
-        __dirname,
-        'files/import-pilot-certification-centers-from-csv/pilot-certification-centers.csv',
-      );
+      const file = 'pilot-certification-centers-valid.csv';
+      const data = 'certification_center_id;\n1001;\n1002;\n';
+      const csvFilePath = await createTempFile(file, data);
+
       const certificationCenterId1 = 1001;
       const certificationCenterId2 = 1002;
       const certificationCenterId3 = 1003;
@@ -27,7 +29,6 @@ describe('Integration | Scripts | Certification | import-pilot-certification-cen
       databaseBuilder.factory.buildCertificationCenter({ id: certificationCenterId3 });
 
       databaseBuilder.factory.buildCertificationCenterFeature({ certificationCenterId1, featureId });
-      databaseBuilder.factory.buildCertificationCenterFeature({ certificationCenterId2, featureId });
 
       await databaseBuilder.commit();
 
@@ -49,12 +50,12 @@ describe('Integration | Scripts | Certification | import-pilot-certification-cen
     context('when there is a V3 certification center in the csv file', function () {
       it('should not import the certification center list', async function () {
         // given
-        const csvFilePath = path.join(
-          __dirname,
-          'files/import-pilot-certification-centers-from-csv/pilot-certification-centers-with-v3.csv',
-        );
+        const file = 'pilot-certification-centers-invalid-v3-centers.csv';
+        const data = 'certification_center_id;\n2001;\n2002;\n';
+        const csvFilePath = await createTempFile(file, data);
         const v2CertificationCenterId = 2001;
         const v3CertificationCenterId = 2002;
+        const v2CertificationCenterId2 = 2003;
 
         const featureId = databaseBuilder.factory.buildFeature({
           key: CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
@@ -62,6 +63,7 @@ describe('Integration | Scripts | Certification | import-pilot-certification-cen
 
         databaseBuilder.factory.buildCertificationCenter({ id: v2CertificationCenterId });
         databaseBuilder.factory.buildCertificationCenter({ id: v3CertificationCenterId, isV3Pilot: true });
+        databaseBuilder.factory.buildCertificationCenter({ id: v2CertificationCenterId2 });
         databaseBuilder.factory.buildCertificationCenterFeature({ v2CertificationCenterId, featureId });
         await databaseBuilder.commit();
 
