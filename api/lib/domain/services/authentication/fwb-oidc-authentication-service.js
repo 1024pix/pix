@@ -15,6 +15,7 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
       clientId: config[configKey].clientId,
       clientSecret: config[configKey].clientSecret,
       configKey,
+      extraAuthorizationUrlParameters: config[configKey].acrValues && { acr_values: config[configKey].acrValues },
       shouldCloseSession: true,
       identityProvider: FWB.code,
       openidConfigurationUrl: config[configKey].openidConfigurationUrl,
