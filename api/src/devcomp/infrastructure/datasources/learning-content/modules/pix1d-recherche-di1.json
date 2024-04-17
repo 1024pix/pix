@@ -151,17 +151,17 @@
       ]
     },
     {
-      "id": "45f02e23-8939-4e70-a2e4-62201ea7cc8e",
+      "id": "277324da-8f41-4d70-91a5-2822e9056de1",
       "type": "lesson",
       "title": "Pour résumer",
       "elements": [
         {
-          "id": "9a5071ec-d99e-47a9-bf79-f96d49977b54",
+          "id": "cba612c5-bc6d-4475-a0b9-6871e4683788",
           "type": "text",
           "content": "<p> Test</p>"
         },
         {
-          "id": "32eab761-ec9e-452d-9200-0a1d5078e2c4",
+          "id": "bca811f0-3e1e-411b-b550-d1df1db2ee64",
           "type": "image",
           "url": "https://imgur.com/m397atN.png",
           "alt": "Illustration",
