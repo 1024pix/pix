@@ -511,7 +511,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             assert.dom(within(rows[1]).getByRole('cell', { name: '28/04/2019' })).exists();
             assert.dom(within(rows[1]).getByRole('cell', { name: '20 %' })).exists();
             assert.dom(within(rows[1]).getByRole('cell', { name: 'Gratuite' })).exists();
-            assert.dom(within(rows[1]).getByRole('cell', { name: 'roooooar@example.net' })).exists();
+            assert.dom(within(rows[1]).getByRole('cell', { name: 'email.destinataire@example.net' })).exists();
           });
 
           module('when shouldDisplayPaymentOptions is true', function () {
@@ -570,9 +570,9 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
     );
     await fillIn(
       screen.getByRole('textbox', { name: 'E-mail du destinataire des résultats (formateur, enseignant...)' }),
-      'guybrush.threepwood@example.net',
+      'email.destinataire@example.net',
     );
-    await fillIn(screen.getByRole('textbox', { name: 'E-mail de convocation' }), 'roooooar@example.net');
+    await fillIn(screen.getByRole('textbox', { name: 'E-mail de convocation' }), 'email.convocation@example.net');
   }
 });
 /* eslint-enable ember/no-settled-after-test-helper */
