@@ -7,7 +7,7 @@ import {
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../common/common-builder.js';
-import { COLLEGE_TAG, FEATURE_CAN_REGISTER_FOR_A_SINGLE_COMPLEMENTARY_ALONE_ID } from '../common/constants.js';
+import { COLLEGE_TAG, FEATURE_CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE_ID } from '../common/constants.js';
 import * as campaignTooling from '../common/tooling/campaign-tooling.js';
 import * as tooling from '../common/tooling/index.js';
 import { getV3CertificationChallenges } from '../common/tooling/learning-content.js';
@@ -224,7 +224,7 @@ async function _createProCertificationCenter({ databaseBuilder }) {
       { id: PRO_MEMBER_CERTIFICATION_CENTER_USER_ID, role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER },
     ],
     complementaryCertificationIds,
-    featureIds: [FEATURE_CAN_REGISTER_FOR_A_SINGLE_COMPLEMENTARY_ALONE_ID],
+    featureIds: [FEATURE_CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE_ID],
   });
 }
 
