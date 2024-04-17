@@ -51,7 +51,11 @@ describe('Integration | Usecase | get-next-challenge', function () {
             learningContentBuilder.buildMission({
               id: missionId,
               content: {
-                validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
+                steps: [
+                  {
+                    validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
+                  },
+                ],
               },
             }),
           ],

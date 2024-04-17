@@ -69,6 +69,7 @@ describe('Integration | Usecase | init-mission-activity', function () {
           const validationActivity = databaseBuilder.factory.buildActivity({
             assessmentId,
             level: Activity.levels.VALIDATION,
+            stepIndex: 0,
             status: Activity.status.FAILED,
             createdAt: new Date('2024-04-01'),
           });
@@ -76,12 +77,14 @@ describe('Integration | Usecase | init-mission-activity', function () {
             assessmentId,
             level: Activity.levels.TRAINING,
             status: Activity.status.FAILED,
+            stepIndex: 0,
             alternativeVersion: 0,
             createdAt: new Date('2024-04-02'),
           });
           const tutorialActivity = databaseBuilder.factory.buildActivity({
             assessmentId,
             level: Activity.levels.TUTORIAL,
+            stepIndex: 0,
             status: Activity.status.SUCCEEDED,
             createdAt: new Date('2024-04-03'),
           });
@@ -94,9 +97,13 @@ describe('Integration | Usecase | init-mission-activity', function () {
               learningContentBuilder.buildMission({
                 id: missionId,
                 content: {
-                  tutorialChallenges: [['first_di_challenge_id']],
-                  validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
-                  trainingChallenges: [['first_en_challenge_id_alt1', 'first_en_challenge_id_alt2']],
+                  steps: [
+                    {
+                      tutorialChallenges: [['first_di_challenge_id']],
+                      validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
+                      trainingChallenges: [['first_en_challenge_id_alt1', 'first_en_challenge_id_alt2']],
+                    },
+                  ],
                   dareChallenges: [['first_de_challenge_id']],
                 },
               }),
@@ -114,10 +121,11 @@ describe('Integration | Usecase | init-mission-activity', function () {
 
           const existingActivities = [validationActivity.id, tutorialActivity.id, trainingActivity.id];
           const [{ count: activityCount }] = await knex('activities').count();
-          expect(activityCount).to.equal(existingActivities.length + 1);
 
+          expect(activityCount).to.equal(existingActivities.length + 1);
           expect(currentActivity.assessmentId).to.equal(assessmentId);
           expect(currentActivity.level).to.equal(Activity.levels.TRAINING);
+          expect(currentActivity.stepIndex).to.equal(0);
           expect(currentActivity.status).to.equal(Activity.status.STARTED);
           expect(currentActivity.alternativeVersion).to.equal(1);
         });
@@ -134,9 +142,13 @@ describe('Integration | Usecase | init-mission-activity', function () {
             learningContentBuilder.buildMission({
               id: missionId,
               content: {
-                tutorialChallenges: [['first_di_challenge_id']],
-                validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
-                trainingChallenges: [['first_en_challenge_id_alt1', 'first_en_challenge_id_alt2']],
+                steps: [
+                  {
+                    tutorialChallenges: [['first_di_challenge_id']],
+                    validationChallenges: [['first_va_challenge_id'], ['second_va_challenge_id']],
+                    trainingChallenges: [['first_en_challenge_id_alt1', 'first_en_challenge_id_alt2']],
+                  },
+                ],
                 dareChallenges: [['first_de_challenge_id']],
               },
             }),
@@ -157,6 +169,7 @@ describe('Integration | Usecase | init-mission-activity', function () {
 
         expect(currentActivity.assessmentId).to.equal(assessmentId);
         expect(currentActivity.status).to.equal(Activity.status.STARTED);
+        expect(currentActivity.stepIndex).to.equal(0);
       });
     });
   });

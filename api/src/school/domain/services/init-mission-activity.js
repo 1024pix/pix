@@ -1,6 +1,6 @@
 import { Activity } from '../models/Activity.js';
-import { pix1dService } from '../services/algorithm-method.js';
 import { challengeService } from '../services/challenge.js';
+import { END_OF_MISSION, getNextActivityInfo } from './get-next-activity-info.js';
 
 export async function initMissionActivity({
   assessmentId,
@@ -14,9 +14,9 @@ export async function initMissionActivity({
     return lastActivity;
   }
   const activities = await activityRepository.getAllByAssessmentId(assessmentId, domainTransaction);
-  const activityInfo = pix1dService.getNextActivityInfo(activities);
+  const activityInfo = getNextActivityInfo(activities);
 
-  if (activityInfo === pix1dService.END_OF_MISSION) {
+  if (activityInfo === END_OF_MISSION) {
     return lastActivity;
   }
   const { missionId } = await missionAssessmentRepository.getByAssessmentId(assessmentId, domainTransaction);
@@ -25,13 +25,14 @@ export async function initMissionActivity({
   const alternativeVersion = challengeService.getAlternativeVersion({
     mission,
     activities,
-    activityLevel: activityInfo.level,
+    activityInfo,
   });
 
   const activity = new Activity({
     assessmentId,
     level: activityInfo.level,
     status: Activity.status.STARTED,
+    stepIndex: 0,
     alternativeVersion,
   });
 

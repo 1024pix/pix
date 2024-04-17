@@ -2,25 +2,25 @@ import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { Activity } from '../models/Activity.js';
 import { ActivityInfo } from '../models/ActivityInfo.js';
 
-const END_OF_MISSION = undefined;
-
-export const pix1dService = { getNextActivityInfo, END_OF_MISSION };
+export const END_OF_MISSION = Symbol('END_OF_MISSION');
+const END_OF_STEP = Symbol('END_OF_STEP');
 
 const { TUTORIAL, TRAINING, VALIDATION, CHALLENGE } = Activity.levels;
 const { SUCCEEDED, FAILED, SKIPPED } = Activity.status;
-const orderedActivityLevels = Activity.orderedActivityLevels;
-
 const SAME_ACTIVITY_RUN_MAX_NB = 3;
 
-function getNextActivityInfo(activities) {
+export function getNextActivityInfo(activities) {
   if (_isStartingMission(activities)) {
-    return new ActivityInfo({ level: VALIDATION });
+    return new ActivityInfo({ stepIndex: 0, level: VALIDATION });
   }
   if (_hasRunMaxNbOfActivityLevel(activities, VALIDATION)) {
     return END_OF_MISSION;
   }
   const lastActivity = _lastActivity(activities);
-  if (_hasRunMaxNbOfActivityLevel(activities, TRAINING) && _hasFailedOrSkipped(lastActivity)) {
+  if (
+    (_hasRunMaxNbOfActivityLevel(activities, TRAINING) && _hasFailedOrSkipped(lastActivity)) ||
+    lastActivity.level === Activity.levels.CHALLENGE
+  ) {
     return END_OF_MISSION;
   }
   if (_hasSucceeded(lastActivity)) {
@@ -56,11 +56,13 @@ function _hasValidatedTheMissionUsingTutorial(lastActivity, activities) {
 function _getNextActivityInfoAfterSuccess(activities, lastActivity) {
   if (_hasValidatedTheMissionUsingTutorial(lastActivity, activities)) {
     return END_OF_MISSION;
-  } else {
-    return _higherLevelActivity(lastActivity)
-      ? new ActivityInfo({ level: _higherLevelActivity(lastActivity) })
-      : END_OF_MISSION;
   }
+  const nextActivityLevel = _higherLevelActivity(lastActivity);
+  if (nextActivityLevel === END_OF_STEP) {
+    // only one step for the moment, so next level is CHALLENGE
+    return new ActivityInfo({ level: Activity.levels.CHALLENGE });
+  }
+  return new ActivityInfo({ stepIndex: 0, level: nextActivityLevel });
 }
 
 function _getNextActivityInfoOnFailure(activities, lastActivity) {
@@ -68,9 +70,9 @@ function _getNextActivityInfoOnFailure(activities, lastActivity) {
     return END_OF_MISSION;
   }
   if (lastActivity.level === VALIDATION && _neverDoneActivity(activities, TRAINING)) {
-    return new ActivityInfo({ level: TRAINING });
+    return new ActivityInfo({ stepIndex: 0, level: TRAINING });
   }
-  return new ActivityInfo({ level: TUTORIAL });
+  return new ActivityInfo({ stepIndex: 0, level: TUTORIAL });
 }
 
 function _nbOfActivitiesOfLevel(activities, level) {
@@ -98,5 +100,7 @@ function _hasSkipped(lastActivity) {
 }
 
 function _higherLevelActivity(lastActivity) {
-  return orderedActivityLevels[orderedActivityLevels.indexOf(lastActivity.level) + 1];
+  const orderedActivityLevels = [Activity.levels.TUTORIAL, Activity.levels.TRAINING, Activity.levels.VALIDATION];
+
+  return orderedActivityLevels[orderedActivityLevels.indexOf(lastActivity.level) + 1] ?? END_OF_STEP;
 }

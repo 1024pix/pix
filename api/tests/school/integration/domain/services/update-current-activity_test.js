@@ -15,6 +15,7 @@ describe('Integration | UseCase | update current activity', function () {
       const { id: activityId } = databaseBuilder.factory.buildActivity({
         assessmentId,
         status: Activity.status.STARTED,
+        stepIndex: 0,
       });
       databaseBuilder.factory.buildActivityAnswer({
         activityId,
@@ -27,7 +28,11 @@ describe('Integration | UseCase | update current activity', function () {
           learningContentBuilder.buildMission({
             id: missionId,
             content: {
-              validationChallenges: [['va_challenge_id'], ['va_next_challenge_id']],
+              steps: [
+                {
+                  validationChallenges: [['va_challenge_id'], ['va_next_challenge_id']],
+                },
+              ],
             },
           }),
         ],
@@ -57,6 +62,7 @@ describe('Integration | UseCase | update current activity', function () {
           assessmentId,
           level: Activity.levels.VALIDATION,
           status: Activity.status.STARTED,
+          stepIndex: 0,
         });
         databaseBuilder.factory.buildActivityAnswer({
           activityId,
@@ -71,7 +77,11 @@ describe('Integration | UseCase | update current activity', function () {
             learningContentBuilder.buildMission({
               id: missionId,
               content: {
-                validationChallenges: [['va_challenge_id'], ['va_next_challenge_id']],
+                steps: [
+                  {
+                    validationChallenges: [['va_challenge_id'], ['va_next_challenge_id']],
+                  },
+                ],
               },
             }),
           ],
@@ -99,6 +109,7 @@ describe('Integration | UseCase | update current activity', function () {
           assessmentId,
           level: Activity.levels.VALIDATION,
           status: Activity.status.STARTED,
+          stepIndex: 0,
         });
         databaseBuilder.factory.buildActivityAnswer({
           activityId,
@@ -118,7 +129,11 @@ describe('Integration | UseCase | update current activity', function () {
             learningContentBuilder.buildMission({
               id: missionId,
               content: {
-                validationChallenges: [['va_challenge_id'], ['va_next_challenge_id']],
+                steps: [
+                  {
+                    validationChallenges: [['va_challenge_id'], ['va_next_challenge_id']],
+                  },
+                ],
               },
             }),
           ],
@@ -146,6 +161,7 @@ describe('Integration | UseCase | update current activity', function () {
         assessmentId,
         level: Activity.levels.VALIDATION,
         status: Activity.status.STARTED,
+        stepIndex: 0,
       });
       databaseBuilder.factory.buildActivityAnswer({
         activityId,
@@ -159,7 +175,11 @@ describe('Integration | UseCase | update current activity', function () {
           learningContentBuilder.buildMission({
             id: missionId,
             content: {
-              validationChallenges: [['va_challenge_id'], ['va_next_challenge_id']],
+              steps: [
+                {
+                  validationChallenges: [['va_challenge_id'], ['va_next_challenge_id']],
+                },
+              ],
             },
           }),
         ],

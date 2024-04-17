@@ -1,14 +1,17 @@
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import { ActivityInfo } from '../../../../../src/school/domain/models/ActivityInfo.js';
-import { pix1dService } from '../../../../../src/school/domain/services/algorithm-method.js';
+import {
+  END_OF_MISSION,
+  getNextActivityInfo,
+} from '../../../../../src/school/domain/services/get-next-activity-info.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
 //attention : l'ordre de la liste d'activités passée en paramètre à getNextActivityInfo doit être antéchronologique
 describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
   context('when user has just started a mission', function () {
     it('should return validation level activity and step 0', function () {
-      const result = pix1dService.getNextActivityInfo([]);
-      expect(result).to.deep.equal(new ActivityInfo({ level: ActivityInfo.levels.VALIDATION }));
+      const result = getNextActivityInfo([]);
+      expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: ActivityInfo.levels.VALIDATION }));
     });
   });
   context('when user has just succeeded the activity', function () {
@@ -19,8 +22,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TRAINING,
             status: Activity.status.SUCCEEDED,
           });
-          const result = pix1dService.getNextActivityInfo([activity]);
-          expect(result).to.deep.equal(new ActivityInfo({ level: Activity.levels.VALIDATION }));
+          const result = getNextActivityInfo([activity]);
+          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.VALIDATION }));
         });
       });
       context('when user has just succeeded the validation activity', function () {
@@ -29,7 +32,7 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.VALIDATION,
             status: Activity.status.SUCCEEDED,
           });
-          const result = pix1dService.getNextActivityInfo([activity]);
+          const result = getNextActivityInfo([activity]);
           expect(result).to.deep.equal(new ActivityInfo({ level: Activity.levels.CHALLENGE }));
         });
       });
@@ -39,8 +42,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.CHALLENGE,
             status: Activity.status.SUCCEEDED,
           });
-          const result = pix1dService.getNextActivityInfo([activity]);
-          expect(result).to.equal(undefined);
+          const result = getNextActivityInfo([activity]);
+          expect(result).to.equal(END_OF_MISSION);
         });
       });
     });
@@ -51,8 +54,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TUTORIAL,
             status: Activity.status.SUCCEEDED,
           });
-          const result = pix1dService.getNextActivityInfo([activity]);
-          expect(result).to.deep.equal(new ActivityInfo({ level: Activity.levels.TRAINING }));
+          const result = getNextActivityInfo([activity]);
+          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }));
         });
       });
       context('when user has just succeeded the training activity', function () {
@@ -62,8 +65,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TRAINING,
             status: Activity.status.SUCCEEDED,
           });
-          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
-          expect(result).to.deep.equal(new ActivityInfo({ level: Activity.levels.VALIDATION }));
+          const result = getNextActivityInfo([activity2, activity1]);
+          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.VALIDATION }));
         });
       });
       context('when user has just succeeded the validation activity', function () {
@@ -73,8 +76,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.VALIDATION,
             status: Activity.status.SUCCEEDED,
           });
-          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
-          expect(result).to.equal(undefined);
+          const result = getNextActivityInfo([activity2, activity1]);
+          expect(result).to.equal(END_OF_MISSION);
         });
       });
     });
@@ -87,8 +90,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.VALIDATION,
             status: Activity.status.FAILED,
           });
-          const result = pix1dService.getNextActivityInfo([activity]);
-          expect(result).to.deep.equal(new ActivityInfo({ level: Activity.levels.TRAINING }));
+          const result = getNextActivityInfo([activity]);
+          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }));
         });
       });
       context('when user has just failed the challenge activity', function () {
@@ -97,8 +100,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.CHALLENGE,
             status: Activity.status.FAILED,
           });
-          const result = pix1dService.getNextActivityInfo([activity]);
-          expect(result).to.equal(undefined);
+          const result = getNextActivityInfo([activity]);
+          expect(result).to.equal(END_OF_MISSION);
         });
       });
     });
@@ -110,8 +113,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TUTORIAL,
             status: Activity.status.FAILED,
           });
-          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
-          expect(result).to.deep.equal(new ActivityInfo({ level: Activity.levels.TUTORIAL }));
+          const result = getNextActivityInfo([activity2, activity1]);
+          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TUTORIAL }));
         });
       });
       context('when user has just failed the training activity', function () {
@@ -120,8 +123,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TRAINING,
             status: Activity.status.FAILED,
           });
-          const result = pix1dService.getNextActivityInfo([activity]);
-          expect(result).to.deep.equal(new ActivityInfo({ level: Activity.levels.TUTORIAL }));
+          const result = getNextActivityInfo([activity]);
+          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TUTORIAL }));
         });
       });
       context('when user has just failed the validation activity', function () {
@@ -131,8 +134,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.VALIDATION,
             status: Activity.status.FAILED,
           });
-          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
-          expect(result).to.deep.equal(new ActivityInfo({ level: Activity.levels.TUTORIAL }));
+          const result = getNextActivityInfo([activity2, activity1]);
+          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TUTORIAL }));
         });
       });
       context('when user has just failed the challenge activity', function () {
@@ -142,8 +145,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.CHALLENGE,
             status: Activity.status.FAILED,
           });
-          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
-          expect(result).to.equal(undefined);
+          const result = getNextActivityInfo([activity2, activity1]);
+          expect(result).to.equal(END_OF_MISSION);
         });
       });
     });
@@ -156,8 +159,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.VALIDATION,
             status: Activity.status.SKIPPED,
           });
-          const result = pix1dService.getNextActivityInfo([activity]);
-          expect(result).to.deep.equal(new ActivityInfo({ level: Activity.levels.TRAINING }));
+          const result = getNextActivityInfo([activity]);
+          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }));
         });
       });
       context('when user has just skipped the challenge activity', function () {
@@ -166,8 +169,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.CHALLENGE,
             status: Activity.status.SKIPPED,
           });
-          const result = pix1dService.getNextActivityInfo([activity]);
-          expect(result).to.equal(undefined);
+          const result = getNextActivityInfo([activity]);
+          expect(result).to.equal(END_OF_MISSION);
         });
       });
     });
@@ -179,8 +182,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TUTORIAL,
             status: Activity.status.SKIPPED,
           });
-          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
-          expect(result).to.deep.equal(new ActivityInfo({ level: Activity.levels.TUTORIAL }));
+          const result = getNextActivityInfo([activity2, activity1]);
+          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TUTORIAL }));
         });
       });
       context('when user has just skipped the training activity', function () {
@@ -189,8 +192,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.TRAINING,
             status: Activity.status.SKIPPED,
           });
-          const result = pix1dService.getNextActivityInfo([activity]);
-          expect(result).to.deep.equal(new ActivityInfo({ level: Activity.levels.TUTORIAL }));
+          const result = getNextActivityInfo([activity]);
+          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TUTORIAL }));
         });
       });
       context('when user has just skipped the validation activity', function () {
@@ -200,8 +203,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.VALIDATION,
             status: Activity.status.SKIPPED,
           });
-          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
-          expect(result).to.deep.equal(new ActivityInfo({ level: Activity.levels.TUTORIAL }));
+          const result = getNextActivityInfo([activity2, activity1]);
+          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TUTORIAL }));
         });
       });
       context('when user has just skipped the challenge activity', function () {
@@ -211,8 +214,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
             level: Activity.levels.CHALLENGE,
             status: Activity.status.SKIPPED,
           });
-          const result = pix1dService.getNextActivityInfo([activity2, activity1]);
-          expect(result).to.equal(undefined);
+          const result = getNextActivityInfo([activity2, activity1]);
+          expect(result).to.equal(END_OF_MISSION);
         });
       });
     });
@@ -234,8 +237,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
           level: Activity.levels.TRAINING,
           status: Activity.status.FAILED,
         });
-        const result = pix1dService.getNextActivityInfo([activity5, activity4, activity3, activity2, activity1]);
-        expect(result).to.equal(undefined);
+        const result = getNextActivityInfo([activity5, activity4, activity3, activity2, activity1]);
+        expect(result).to.equal(END_OF_MISSION);
       });
     });
     context('when the user has just finished validation activity for the third time', function () {
@@ -243,8 +246,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
         const activity1 = domainBuilder.buildActivity({ level: Activity.levels.VALIDATION });
         const activity2 = domainBuilder.buildActivity({ level: Activity.levels.VALIDATION });
         const activity3 = domainBuilder.buildActivity({ level: Activity.levels.VALIDATION });
-        const result = pix1dService.getNextActivityInfo([activity3, activity2, activity1]);
-        expect(result).to.equal(undefined);
+        const result = getNextActivityInfo([activity3, activity2, activity1]);
+        expect(result).to.equal(END_OF_MISSION);
       });
     });
     context('when the user has failed their third training activity', function () {
@@ -255,8 +258,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
           level: Activity.levels.TRAINING,
           status: Activity.status.FAILED,
         });
-        const result = pix1dService.getNextActivityInfo([activity3, activity2, activity1]);
-        expect(result).to.equal(undefined);
+        const result = getNextActivityInfo([activity3, activity2, activity1]);
+        expect(result).to.equal(END_OF_MISSION);
       });
     });
     context('when the user has skipped their third training activity', function () {
@@ -267,8 +270,8 @@ describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
           level: Activity.levels.TRAINING,
           status: Activity.status.SKIPPED,
         });
-        const result = pix1dService.getNextActivityInfo([activity3, activity2, activity1]);
-        expect(result).to.equal(undefined);
+        const result = getNextActivityInfo([activity3, activity2, activity1]);
+        expect(result).to.equal(END_OF_MISSION);
       });
     });
   });

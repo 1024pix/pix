@@ -1,7 +1,8 @@
 import { Activity } from './Activity.js';
 
 class ActivityInfo {
-  constructor({ level }) {
+  constructor({ stepIndex, level }) {
+    this.stepIndex = stepIndex;
     this.level = level;
   }
 }

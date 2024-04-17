@@ -1,4 +1,5 @@
 import { Activity } from '../models/Activity.js';
+import { ActivityInfo } from '../models/ActivityInfo.js';
 
 export async function getNextChallenge({
   assessmentId,
@@ -18,7 +19,7 @@ export async function getNextChallenge({
   const answers = await activityAnswerRepository.findByActivity(activity.id);
 
   const challengeId = mission.getChallengeId({
-    activityLevel: activity.level,
+    activityInfo: new ActivityInfo({ level: activity.level, stepIndex: 0 }),
     challengeIndex: answers.length,
     alternativeVersion: activity.alternativeVersion,
   });

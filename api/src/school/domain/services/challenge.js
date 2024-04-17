@@ -1,11 +1,11 @@
 export const challengeService = { getAlternativeVersion };
 
-function getAlternativeVersion({ mission, activities, activityLevel }) {
+function getAlternativeVersion({ mission, activities, activityInfo }) {
   const alreadyPlayedAlternativeVersions = activities
-    .filter((activity) => activity.level === activityLevel)
+    .filter((activity) => activity.level === activityInfo.level)
     .map((activity) => activity.alternativeVersion);
 
-  const activityChallengeIds = mission.getChallengeIds(activityLevel);
+  const activityChallengeIds = mission.getChallengeIds(activityInfo);
   let challengeWithMaxNumberOfVersions = activityChallengeIds[0] ?? [];
 
   for (const challengeAlternativeIds of activityChallengeIds) {

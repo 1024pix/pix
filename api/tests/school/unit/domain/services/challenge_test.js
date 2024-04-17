@@ -1,4 +1,5 @@
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
+import { ActivityInfo } from '../../../../../src/school/domain/models/ActivityInfo.js';
 import { challengeService } from '../../../../../src/school/domain/services/challenge.js';
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
@@ -10,15 +11,15 @@ describe('Unit | Service | Challenge', function () {
           const activities = [new Activity({ level: Activity.levels.VALIDATION, alternativeVersion: 1 })];
           const mission = domainBuilder.buildMission({
             content: {
-              trainingChallenges: [['challenge-id-alt1', 'challenge-id-alt2', 'challenge-id-alt3']],
+              steps: [{ trainingChallenges: [['challenge-id-alt1', 'challenge-id-alt2', 'challenge-id-alt3']] }],
             },
           });
 
           sinon.stub(Math, 'random').returns(0.6);
-          const result = await challengeService.getAlternativeVersion({
+          const result = challengeService.getAlternativeVersion({
             mission,
             activities,
-            activityLevel: Activity.levels.TRAINING,
+            activityInfo: new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }),
           });
 
           expect(result).to.equal(1);
@@ -29,15 +30,16 @@ describe('Unit | Service | Challenge', function () {
           const activities = [new Activity({ level: Activity.levels.TRAINING, alternativeVersion: 0 })];
           const mission = domainBuilder.buildMission({
             content: {
-              trainingChallenges: [['challenge-id-alt1', 'challenge-id-alt2', 'challenge-id-alt3']],
+              steps: [{ trainingChallenges: [['challenge-id-alt1', 'challenge-id-alt2', 'challenge-id-alt3']] }],
             },
           });
 
           sinon.stub(Math, 'random').returns(0.6);
-          const result = await challengeService.getAlternativeVersion({
+          const result = challengeService.getAlternativeVersion({
             mission,
-            activityLevel: Activity.levels.TRAINING,
+            activityInfo: new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }),
             activities,
+            stepIndex: 0,
           });
 
           expect(result).to.equal(2);
@@ -51,14 +53,14 @@ describe('Unit | Service | Challenge', function () {
           ];
           const mission = domainBuilder.buildMission({
             content: {
-              trainingChallenges: [['challenge-id-alt1', 'challenge-id-alt2', 'challenge-id-alt3']],
+              steps: [{ trainingChallenges: [['challenge-id-alt1', 'challenge-id-alt2', 'challenge-id-alt3']] }],
             },
           });
 
           sinon.stub(Math, 'random').returns(0.6);
-          const result = await challengeService.getAlternativeVersion({
+          const result = challengeService.getAlternativeVersion({
             mission,
-            activityLevel: Activity.levels.TRAINING,
+            activityInfo: new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }),
             activities,
           });
 
@@ -74,15 +76,16 @@ describe('Unit | Service | Challenge', function () {
           ];
           const mission = domainBuilder.buildMission({
             content: {
-              trainingChallenges: [['challenge-id-alt1', 'challenge-id-alt2', 'challenge-id-alt3']],
+              steps: [{ trainingChallenges: [['challenge-id-alt1', 'challenge-id-alt2', 'challenge-id-alt3']] }],
             },
           });
 
           sinon.stub(Math, 'random').returns(0.6);
-          const result = await challengeService.getAlternativeVersion({
+          const result = challengeService.getAlternativeVersion({
             mission,
-            activityLevel: Activity.levels.TRAINING,
+            activityInfo: new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }),
             activities,
+            stepIndex: 0,
           });
 
           expect(result).to.equal(1);
@@ -96,17 +99,21 @@ describe('Unit | Service | Challenge', function () {
           const activities = [new Activity({ level: Activity.levels.VALIDATION, alternativeVersion: 1 })];
           const mission = domainBuilder.buildMission({
             content: {
-              trainingChallenges: [
-                ['challenge-id1-alt1'],
-                ['challenge-id2-alt1', 'challenge-id2-alt2', 'challenge-id2-alt3'],
+              steps: [
+                {
+                  trainingChallenges: [
+                    ['challenge-id1-alt1'],
+                    ['challenge-id2-alt1', 'challenge-id2-alt2', 'challenge-id2-alt3'],
+                  ],
+                },
               ],
             },
           });
           sinon.stub(Math, 'random').returns(0.6);
-          const result = await challengeService.getAlternativeVersion({
+          const result = challengeService.getAlternativeVersion({
             activities,
             mission,
-            activityLevel: Activity.levels.TRAINING,
+            activityInfo: new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }),
           });
 
           expect(result).to.equal(1);
@@ -117,18 +124,22 @@ describe('Unit | Service | Challenge', function () {
           const activities = [new Activity({ level: Activity.levels.TRAINING, alternativeVersion: 0 })];
           const mission = domainBuilder.buildMission({
             content: {
-              trainingChallenges: [
-                ['challenge-id1-alt1'],
-                ['challenge-id2-alt1', 'challenge-id2-alt2', 'challenge-id2-alt3'],
+              steps: [
+                {
+                  trainingChallenges: [
+                    ['challenge-id1-alt1'],
+                    ['challenge-id2-alt1', 'challenge-id2-alt2', 'challenge-id2-alt3'],
+                  ],
+                },
               ],
             },
           });
 
           sinon.stub(Math, 'random').returns(0.6);
-          const result = await challengeService.getAlternativeVersion({
+          const result = challengeService.getAlternativeVersion({
             activities,
             mission,
-            activityLevel: Activity.levels.TRAINING,
+            activityInfo: new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }),
           });
           expect(result).to.equal(2);
         });
@@ -141,18 +152,22 @@ describe('Unit | Service | Challenge', function () {
           ];
           const mission = domainBuilder.buildMission({
             content: {
-              trainingChallenges: [
-                ['challenge-id1-alt1'],
-                ['challenge-id2-alt1', 'challenge-id2-alt2', 'challenge-id2-alt3'],
+              steps: [
+                {
+                  trainingChallenges: [
+                    ['challenge-id1-alt1'],
+                    ['challenge-id2-alt1', 'challenge-id2-alt2', 'challenge-id2-alt3'],
+                  ],
+                },
               ],
             },
           });
 
           sinon.stub(Math, 'random').returns(0.6);
-          const result = await challengeService.getAlternativeVersion({
+          const result = challengeService.getAlternativeVersion({
             activities,
             mission,
-            activityLevel: Activity.levels.TRAINING,
+            activityInfo: new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }),
           });
 
           expect(result).to.equal(0);
@@ -167,18 +182,22 @@ describe('Unit | Service | Challenge', function () {
           ];
           const mission = domainBuilder.buildMission({
             content: {
-              trainingChallenges: [
-                ['challenge-id1-alt1'],
-                ['challenge-id2-alt1', 'challenge-id2-alt2', 'challenge-id2-alt3'],
+              steps: [
+                {
+                  trainingChallenges: [
+                    ['challenge-id1-alt1'],
+                    ['challenge-id2-alt1', 'challenge-id2-alt2', 'challenge-id2-alt3'],
+                  ],
+                },
               ],
             },
           });
 
           sinon.stub(Math, 'random').returns(0.6);
-          const result = await challengeService.getAlternativeVersion({
+          const result = challengeService.getAlternativeVersion({
             activities,
             mission,
-            activityLevel: Activity.levels.TRAINING,
+            activityInfo: new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }),
           });
 
           expect(result).to.equal(1);
