@@ -10,7 +10,10 @@ async function injectComplementDataTo({
 
   let divisions = null;
   if (organizationId) {
-    divisions = await organizationLearnerRepository.getDivisionsWhichStartedMission(mission.id, organizationId);
+    divisions = await organizationLearnerRepository.getDivisionsWhichStartedMission({
+      missionId: mission.id,
+      organizationId,
+    });
   }
 
   return { ...mission, areaCode, competenceName: `${index} ${name}`, startedBy: divisions };
