@@ -168,6 +168,6 @@
     "test:lint": "npm test && npm run lint",
     "monitoring:arborescence": "node scripts/arborescence-monitoring/arborescence-monitoring.js",
     "monitoring:metrics": "node scripts/arborescence-monitoring/add-metrics-to-gist.js",
-    "modulix:test": "npm run test:api:path -- 'tests/devcomp/**/*test.js'"
+    "modulix:test": "npm run test:api:path -- 'tests/devcomp/unit/infrastructure/datasources/learning-content/module-datasource_test.js' 'tests/devcomp/acceptance/module-instantiation_test.js' 'tests/devcomp/unit/infrastructure/datasources/learning-content/validation/module-validation_test.js'"
   }
 }
