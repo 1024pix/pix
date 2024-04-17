@@ -4,13 +4,14 @@ import Component from '@glimmer/component';
 import generateRandomString from 'mon-pix/utils/generate-random-string';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
 
-export default class QrocmProposal extends Component {
+export default class QrocmProposalInd extends Component {
   @service intl;
 
   ARIA_LABEL_DELIMITATOR = '#';
 
   get proposalBlocks() {
-    return proposalsAsBlocks(this.args.proposals).map((block, index) => {
+    const groupedBlocks = []
+    const blocks = proposalsAsBlocks(this.args.proposals).map((block, index) => {
       block.displayLegend = index === 0
       block.showText = block.text && !block.ariaLabel && !block.input;
       block.randomName = generateRandomString(block.input);
@@ -23,15 +24,20 @@ export default class QrocmProposal extends Component {
       }
       return block;
     });
+    console.log(blocks)
+    blocks.forEach((block, index) => {
+      if(block.text || index === 0) {
+        groupedBlocks.push({...block, formElement: []})
+      } else {
+        groupedBlocks[groupedBlocks.length -1].formElement.push(block);
+      }
+    });
+    console.log(groupedBlocks)
+    return groupedBlocks;
   }
 
   _formatAriaLabel(rawAriaLabel) {
     return rawAriaLabel.split(this.ARIA_LABEL_DELIMITATOR)[0];
-  }
-
-  @action
-  buildGenericLabel(index, ariaLabel) {
-    return ariaLabel || this.intl.t('pages.challenge.answer-input.numbered-label', { number :index+1});
   }
 
   @action

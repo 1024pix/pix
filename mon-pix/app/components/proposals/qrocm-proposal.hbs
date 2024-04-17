@@ -1,9 +1,11 @@
-<div class="qrocm-proposal">
+<fieldset class="qrocm-proposal">
   {{#each this.proposalBlocks as |block index|}}
-
-    {{#if block.showText}}
-      <MarkdownToHtml @markdown={{block.text}} @extensions="remove-paragraph-tags" class="qrocm-proposal__label" />
+    {{#if block.displayLegend}}
+      <legend data-test="qrocm-label-{{index}}">
+        <MarkdownToHtml @extensions="remove-paragraph-tags" @markdown={{block.text}} />
+      </legend>
     {{/if}}
+
     {{#if (eq block.type "select")}}
       <div class="challenge-response__proposal challenge-response__proposal--selector">
         <PixSelect
@@ -18,74 +20,67 @@
           @size="big"
           @id="{{block.input}}"
         >
-          <:label>{{block.ariaLabel}}</:label>
+          <:label>{{this.buildGenericLabel index block.ariaLabel}}</:label>
         </PixSelect>
       </div>
     {{else if (eq block.type "input")}}
       {{#if block.input}}
-        <div class="qrocm-proposal__input">
-          {{#if block.text}}
-            <label for="{{block.input}}" data-test="qrocm-label-{{index}}">
-              <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{block.text}} />
-            </label>
-          {{/if}}
-
-          {{#if (eq @format "paragraphe")}}
-            <div class="challenge-response__proposal challenge-response__proposal--paragraph">
-              <PixTextarea
-                @id="{{block.input}}"
-                rows="5"
-                aria-label={{block.ariaLabel}}
-                placeholder={{block.placeholder}}
-                name={{block.randomName}}
-                @value={{get @answersValue block.input}}
-                data-test="challenge-response-proposal-selector"
-                disabled={{@isAnswerFieldDisabled}}
-                autocomplete="nope"
-                data-uid="qrocm-proposal-uid"
-                {{on "change" (fn this.onInputChange block.input)}}
-              />
-            </div>
-          {{else if (eq @format "phrase")}}
-            <div class="challenge-response__proposal challenge-response__proposal--sentence">
-              <PixInput
-                @type="text"
-                @id="{{block.input}}"
-                name={{block.randomName}}
-                autocomplete="nope"
-                placeholder={{block.placeholder}}
-                @value={{get @answersValue block.input}}
-                disabled={{@isAnswerFieldDisabled}}
-                @screenReaderOnly={{true}}
-                data-test="challenge-response-proposal-selector"
-                data-uid="qrocm-proposal-uid"
-                {{on "change" (fn this.onInputChange block.input)}}
-              >
-                <:label>{{block.ariaLabel}}</:label>
-              </PixInput>
-            </div>
-          {{else}}
-            <div class="challenge-response__proposal challenge-response__proposal--input">
-              <PixInput
-                @type="text"
-                @id="{{block.input}}"
-                name={{block.randomName}}
-                size="{{get-qroc-input-size @format}}"
-                autocomplete="nope"
-                placeholder={{block.placeholder}}
-                @value={{get @answersValue block.input}}
-                disabled={{@isAnswerFieldDisabled}}
-                @screenReaderOnly={{true}}
-                data-test="challenge-response-proposal-selector"
-                data-uid="qrocm-proposal-uid"
-                {{on "change" (fn this.onInputChange block.input)}}
-              >
-                <:label>{{block.ariaLabel}}</:label>
-              </PixInput>
-            </div>
-          {{/if}}
-        </div>
+        {{#if (eq @format "paragraphe")}}
+          <div class="challenge-response__proposal challenge-response__proposal--paragraph">
+            <PixTextarea
+              @id="{{block.input}}"
+              rows="5"
+              placeholder={{block.placeholder}}
+              name={{block.randomName}}
+              @value={{get @answersValue block.input}}
+              data-test="challenge-response-proposal-selector"
+              disabled={{@isAnswerFieldDisabled}}
+              autocomplete="nope"
+              data-uid="qrocm-proposal-uid"
+              {{on "change" (fn this.onInputChange block.input)}}
+            >
+              <:label>{{this.buildGenericLabel index block.ariaLabel}}</:label>
+            </PixTextarea>
+          </div>
+        {{else if (eq @format "phrase")}}
+          <div class="challenge-response__proposal challenge-response__proposal--sentence">
+            <PixInput
+              @type="text"
+              @id="{{block.input}}"
+              name={{block.randomName}}
+              autocomplete="nope"
+              placeholder={{block.placeholder}}
+              @value={{get @answersValue block.input}}
+              disabled={{@isAnswerFieldDisabled}}
+              @screenReaderOnly={{true}}
+              data-test="challenge-response-proposal-selector"
+              data-uid="qrocm-proposal-uid"
+              {{on "change" (fn this.onInputChange block.input)}}
+            >
+              <:label>{{this.buildGenericLabel index block.ariaLabel}}</:label>
+            </PixInput>
+          </div>
+        {{else}}
+          <div class="challenge-response__proposal challenge-response__proposal--input">
+            <PixInput
+              @type="text"
+              @id="{{block.input}}"
+              name={{block.randomName}}
+              size="{{get-qroc-input-size @format}}"
+              autocomplete="nope"
+              placeholder={{block.placeholder}}
+              @value={{get @answersValue block.input}}
+              disabled={{@isAnswerFieldDisabled}}
+              @screenReaderOnly={{true}}
+              data-test="challenge-response-proposal-selector"
+              data-uid="qrocm-proposal-uid"
+              {{on "change" (fn this.onInputChange block.input)}}
+            >
+              <:label>{{this.buildGenericLabel index block.ariaLabel}}</:label>
+            </PixInput>
+          </div>
+        {{/if}}
       {{/if}}
     {{/if}}
   {{/each}}
-</div>
+</fieldset>

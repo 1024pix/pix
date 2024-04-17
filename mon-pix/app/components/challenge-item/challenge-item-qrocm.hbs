@@ -3,15 +3,27 @@
   <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
     <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
     <div class="challenge-proposals">
+      {{#if @hasMultipleFieldSet}}
+        <QrocmProposalInd
+          @answer={{@answer}}
+          @format={{@challenge.format}}
+          @proposals={{@challenge.proposals}}
+          @answersValue={{this.answersValue}}
+          @answerChanged={{this.answerChanged}}
+          @onChangeSelect={{this.onChangeSelect}}
+          @isAnswerFieldDisabled={{this.isAnswerFieldDisabled}}
+        />
+      {{else}}
       <Proposals::QrocmProposal
-        @answer={{@answer}}
-        @format={{@challenge.format}}
-        @proposals={{@challenge.proposals}}
-        @answersValue={{this.answersValue}}
-        @answerChanged={{this.answerChanged}}
-        @onChangeSelect={{this.onChangeSelect}}
-        @isAnswerFieldDisabled={{this.isAnswerFieldDisabled}}
-      />
+          @answer={{@answer}}
+          @format={{@challenge.format}}
+          @proposals={{@challenge.proposals}}
+          @answersValue={{this.answersValue}}
+          @answerChanged={{this.answerChanged}}
+          @onChangeSelect={{this.onChangeSelect}}
+          @isAnswerFieldDisabled={{this.isAnswerFieldDisabled}}
+        />
+      {{/if}}
     </div>
 
     {{#if @answer}}

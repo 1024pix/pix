@@ -17,7 +17,9 @@ export default function proposalsAsBlocks(proposals) {
   const blocks = proposals.split(BLOCK).filter((line) => !isEmpty(line));
 
   blocks.forEach((block) => {
-    buildLineFrom(block, challengeResponseTemplate);
+    if(!isEmpty(block.trim())) {
+      buildLineFrom(block, challengeResponseTemplate);
+    }
   });
 
   challengeResponseTemplate.updateBlockDetails();

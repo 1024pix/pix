@@ -24,18 +24,24 @@ export default class Item extends Component {
     }
   }
 
+  get challengeType() {
+    return this.args.challenge.get('type').toUpperCase();
+  }
+
+  get hasMultipleFieldSet() {
+    return this.challengeType === 'QROCM-IND';
+  }
+
   get challengeComponent() {
     let result;
-    const challenge = this.args.challenge;
-    const challengeType = challenge.get('type').toUpperCase();
 
-    if (['QCUIMG', 'QCU'].includes(challengeType)) {
+    if (['QCUIMG', 'QCU'].includes(this.challengeType)) {
       result = ChallengeItemQcu;
-    } else if (['QCMIMG', 'QCM'].includes(challengeType)) {
+    } else if (['QCMIMG', 'QCM'].includes(this.challengeType)) {
       result = ChallengeItemQcm;
-    } else if (['QROC'].includes(challengeType)) {
+    } else if (['QROC'].includes(this.challengeType)) {
       result = ChallengeItemQroc;
-    } else if (['QROCM', 'QROCM-IND', 'QROCM-DEP'].includes(challengeType)) {
+    } else if (['QROCM', 'QROCM-IND', 'QROCM-DEP'].includes(this.challengeType)) {
       result = ChallengeItemQrocm;
     }
 

@@ -4,12 +4,6 @@
       <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
       <div class="challenge-proposals qroc-proposal">
         {{#each this._blocks as |block|}}
-          {{#if block.text}}
-            <label for="qroc_input">
-              <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{block.text}} />
-            </label>
-          {{/if}}
-
           {{#if block.input}}
             {{#if (eq block.type "select")}}
               <div class="challenge-response__proposal challenge-response__proposal--selector">
@@ -26,7 +20,9 @@
                   @onChange={{this.onChangeSelect}}
                   @size="big"
                 >
-                  <:label>{{block.ariaLabel}}</:label>
+                  <:label>
+                    <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{block.text}} />
+                  </:label>
                 </PixSelect>
               </div>
             {{else if (eq @challenge.format "paragraphe")}}
@@ -36,13 +32,18 @@
                   rows="5"
                   placeholder={{block.placeholder}}
                   name={{block.randomName}}
+                  @screenReaderOnly={{true}}
                   @value={{this.userAnswer}}
                   data-test="challenge-response-proposal-selector"
                   data-uid="qroc-proposal-uid"
                   disabled={{this.isAnswerFieldDisabled}}
                   autocomplete="nope"
                   {{on "keyup" this.answerChanged}}
-                />
+                >
+                  <:label>
+                    <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{block.text}} />
+                  </:label>
+                </PixTextarea>
               </div>
             {{else if (eq @challenge.format "phrase")}}
               <div class="challenge-response__proposal challenge-response__proposal--sentence">
@@ -51,18 +52,24 @@
                   name={{block.randomName}}
                   type="text"
                   placeholder={{block.placeholder}}
+                  @screenReaderOnly={{true}}
                   {{on "keyup" this.answerChanged}}
                   autocomplete="nope"
                   @value={{this.userAnswer}}
                   disabled={{this.isAnswerFieldDisabled}}
                   data-uid="qroc-proposal-uid"
                   data-test="challenge-response-proposal-selector"
-                />
+                >
+                  <:label>
+                    <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{block.text}} />
+                  </:label>
+                </PixInput>
               </div>
             {{else if (eq @challenge.format "nombre")}}
               <PixInput
                 @id="qroc_input"
                 name={{block.randomName}}
+                @screenReaderOnly={{true}}
                 type="number"
                 min="0"
                 data-test="challenge-response-proposal-selector"
@@ -71,7 +78,11 @@
                 data-uid="qroc-proposal-uid"
                 disabled={{this.isAnswerFieldDisabled}}
                 {{on "keyup" this.answerChanged}}
-              />
+              >
+                <:label>
+                  <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{block.text}} />
+                </:label>
+              </PixInput>
 
             {{else}}
               <PixInput
@@ -87,7 +98,11 @@
                 data-uid="qroc-proposal-uid"
                 disabled={{this.isAnswerFieldDisabled}}
                 {{on "keyup" this.answerChanged}}
-              />
+              >
+                <:label>
+                  <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{block.text}} />
+                </:label>
+              </PixInput>
             {{/if}}
           {{/if}}
 

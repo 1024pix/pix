@@ -3,10 +3,6 @@
     display: inline;
   }
 
-  .challenge-response__proposal--input {
-    display: inline-flex;
-  }
-
   &__input:first-of-type {
     .challenge-response__proposal--input {
       margin-top: 0;

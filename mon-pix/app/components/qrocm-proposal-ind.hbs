@@ -1,0 +1,88 @@
+{{#each this.proposalBlocks as |block|}}
+  <fieldset class="qrocm-proposal">
+    <legend>
+      {{#if block.text}}
+        <MarkdownToHtml @extensions="remove-paragraph-tags" @markdown={{block.text}} />
+      {{else}}
+        légende générique
+      {{/if}}
+    </legend>
+    {{#each block.formElement as |block|}}
+      {{#if (eq block.type "select")}}
+        <div class="challenge-response__proposal challenge-response__proposal--selector">
+          <PixSelect
+            data-test="challenge-response-proposal-selector"
+            @isDisabled={{@isAnswerFieldDisabled}}
+            @screenReaderOnly={{true}}
+            @placeholder={{block.placeholder}}
+            @value={{get @answersValue block.input}}
+            @hideDefaultOption={{true}}
+            @options={{block.options}}
+            @onChange={{fn this.onChange block.input}}
+            @size="big"
+            @id="{{block.input}}"
+          >
+            <:label>{{block.ariaLabel}}</:label>
+          </PixSelect>
+        </div>
+      {{else if (eq block.type "input")}}
+        {{#if block.input}}
+          {{#if (eq @format "paragraphe")}}
+            <div class="challenge-response__proposal challenge-response__proposal--paragraph">
+              <PixTextarea
+                @id="{{block.input}}"
+                rows="5"
+                aria-label={{block.ariaLabel}}
+                placeholder={{block.placeholder}}
+                name={{block.randomName}}
+                @value={{get @answersValue block.input}}
+                data-test="challenge-response-proposal-selector"
+                disabled={{@isAnswerFieldDisabled}}
+                autocomplete="nope"
+                data-uid="qrocm-proposal-uid"
+                {{on "change" (fn this.onInputChange block.input)}}
+              />
+            </div>
+          {{else if (eq @format "phrase")}}
+            <div class="challenge-response__proposal challenge-response__proposal--sentence">
+              <PixInput
+                @type="text"
+                @id="{{block.input}}"
+                name={{block.randomName}}
+                autocomplete="nope"
+                placeholder={{block.placeholder}}
+                @value={{get @answersValue block.input}}
+                disabled={{@isAnswerFieldDisabled}}
+                @screenReaderOnly={{true}}
+                data-test="challenge-response-proposal-selector"
+                data-uid="qrocm-proposal-uid"
+                {{on "change" (fn this.onInputChange block.input)}}
+              >
+                <:label>{{block.ariaLabel}}</:label>
+              </PixInput>
+            </div>
+          {{else}}
+            <div class="challenge-response__proposal challenge-response__proposal--input">
+              <PixInput
+                @type="text"
+                @id="{{block.input}}"
+                name={{block.randomName}}
+                size="{{get-qroc-input-size @format}}"
+                autocomplete="nope"
+                placeholder={{block.placeholder}}
+                @value={{get @answersValue block.input}}
+                disabled={{@isAnswerFieldDisabled}}
+                @screenReaderOnly={{true}}
+                data-test="challenge-response-proposal-selector"
+                data-uid="qrocm-proposal-uid"
+                {{on "change" (fn this.onInputChange block.input)}}
+              >
+                <:label>{{block.ariaLabel}}</:label>
+              </PixInput>
+            </div>
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    {{/each}}
+  </fieldset>
+{{/each}}
