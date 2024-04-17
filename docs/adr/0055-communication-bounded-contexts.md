@@ -13,10 +13,10 @@ Nos équipes de développement sont autonomes à développer des fonctionnalité
 Cependant, nous avons commencé à éprouver des difficultés à attribuer certains sujets avec certitude à une équipe plutôt qu'à une autre.
 Pour apporter de la clarté sur le périmètre des équipes nous nous sommes lancé dans le [DDD (Domain-driven design)](https://fr.wikipedia.org/wiki/Conception_pilot%C3%A9e_par_le_domaine) avec comme objectif de faire émerger des contextes fonctionnels et les attribuer à des équipes.
 
-Une deuxième difficulté que le pôle engineering a rencontrée, cest le découpage de la base de code selon la [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) avec les sujets des différentes équipes mélangés au sein de cette architecture.
+Une deuxième difficulté que le pôle engineering a rencontrée, c'est le découpage de la base de code selon la [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) avec les sujets des différentes équipes mélangés au sein de cette architecture.
 Nous avons fait un ADR [#51](https://github.com/1024pix/pix/blob/dev/docs/adr/0051-nouvelle-arborescence-api.md) avec une architecture cible où notre API sera découpée par contextes fonctionnels et sous-contextes.
 
-Cependant, il reste la problématique des sujets qui sont à cheval entre deux équipes sur lesquelles la frontière est floue.
+Cependant, il reste la problématique des sujets qui sont à cheval entre deux équipes, pour lesquelles la frontière est floue.
 Ce code partagé est actuellement placé dans différents dossiers nommés `shared` quand il a été identifié comme mélangeant plusieurs contextes fonctionnels.
 
 Il y a plusieurs conséquences négatives à garder ce code dans un état partagé :
@@ -40,7 +40,7 @@ Dans cet ADR nous nous concentrons sur le premier type d’interaction.
 
 ### Solution : Utiliser des APIs internes
 
-Il s'agit de définir une frontière entre les deux contextes fonctionnels qui interagisse ensemble.
+Il s'agit de définir une frontière entre les deux contextes fonctionnels qui interagissent ensemble.
 En règle générale, un contexte fonctionnel sera en position de fournir un service à un autre contexte fonctionnel.
 L'API va venir expliciter ce service en définissant un contrat d'interface.
 
