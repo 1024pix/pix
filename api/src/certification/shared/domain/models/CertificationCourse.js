@@ -114,6 +114,10 @@ class CertificationCourse {
     this._certificationIssueReports.push(issueReport);
   }
 
+  isCancelled() {
+    return this._isCancelled;
+  }
+
   cancel() {
     this._isCancelled = true;
   }

@@ -1,16 +1,8 @@
-import bluebird from 'bluebird';
-
-import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/models/FlashAssessmentAlgorithm.js';
-import { CertificationAssessmentHistory } from '../../../src/certification/scoring/domain/models/CertificationAssessmentHistory.js';
-import { CertificationAssessmentScoreV3 } from '../../../src/certification/scoring/domain/models/CertificationAssessmentScoreV3.js';
 import { AssessmentResultFactory } from '../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
-import { ABORT_REASONS } from '../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationVersion } from '../../../src/certification/shared/domain/models/CertificationVersion.js';
-import { config } from '../../../src/shared/config.js';
+import { V3_REPRODUCIBILITY_RATE } from '../constants.js';
 import { CertificationComputeError } from '../errors.js';
 import { CertificationResult } from '../models/CertificationResult.js';
-import { CompetenceMark } from '../models/CompetenceMark.js';
-import { AssessmentResult } from '../models/index.js';
 import { CertificationCourseRejected } from './CertificationCourseRejected.js';
 import { CertificationCourseUnrejected } from './CertificationCourseUnrejected.js';
 import { CertificationJuryDone } from './CertificationJuryDone.js';
@@ -47,31 +39,69 @@ async function handleCertificationRescoring({
     certificationCourseId: event.certificationCourseId,
   });
 
+  if (certificationAssessment.version === CertificationVersion.V3) {
+    return _handleV3CertificationScoring({
+      certificationAssessment,
+      event,
+      locale: event.locale,
+      answerRepository,
+      assessmentResultRepository,
+      certificationAssessmentHistoryRepository,
+      certificationChallengeForScoringRepository,
+      certificationCourseRepository,
+      competenceMarkRepository,
+      flashAlgorithmConfigurationRepository,
+      flashAlgorithmService,
+      scoringConfigurationRepository,
+      scoringCertificationService,
+    });
+  }
+
+  return _handleV2CertificationScoring({
+    scoringCertificationService,
+    certificationAssessment,
+    event,
+    assessmentResultRepository,
+    competenceMarkRepository,
+    certificationCourseRepository,
+  });
+}
+
+async function _handleV2CertificationScoring({
+  event,
+  certificationAssessment,
+  assessmentResultRepository,
+  certificationCourseRepository,
+  competenceMarkRepository,
+  scoringCertificationService,
+}) {
+  const emitter = _getEmitterFromEvent(event);
+
   try {
-    if (certificationAssessment.version === CertificationVersion.V3) {
-      return _handleV3Certification({
-        answerRepository,
+    const { certificationCourse, certificationAssessmentScore } =
+      await scoringCertificationService.handleV2CertificationScoring({
         event,
+        emitter,
         certificationAssessment,
         assessmentResultRepository,
         certificationCourseRepository,
-        certificationChallengeForScoringRepository,
-        flashAlgorithmConfigurationRepository,
-        flashAlgorithmService,
-        certificationAssessmentHistoryRepository,
-        scoringConfigurationRepository,
         competenceMarkRepository,
-        locale: event.locale,
+        scoringCertificationService,
       });
-    }
 
-    return await _handleV2Certification({
-      scoringCertificationService,
-      certificationAssessment,
-      event,
-      assessmentResultRepository,
-      competenceMarkRepository,
+    await _cancelCertificationCourseIfNotTrustableOrLackOfAnswersForTechnicalReason({
+      certificationCourse,
+      hasEnoughNonNeutralizedChallengesToBeTrusted:
+        certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted,
       certificationCourseRepository,
+      certificationAssessmentScore,
+      scoringCertificationService,
+    });
+
+    return new CertificationRescoringCompleted({
+      userId: certificationAssessment.userId,
+      certificationCourseId: certificationAssessment.certificationCourseId,
+      reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
     });
   } catch (error) {
     if (!(error instanceof CertificationComputeError)) {
@@ -83,180 +113,49 @@ async function handleCertificationRescoring({
       certificationCourseRepository,
       certificationComputeError: error,
       juryId: event.juryId,
-      event,
+      emitter,
     });
   }
 }
 
-async function _handleV3Certification({
-  answerRepository,
+async function _handleV3CertificationScoring({
   certificationAssessment,
   event,
+  locale,
+  answerRepository,
   assessmentResultRepository,
-  certificationCourseRepository,
+  certificationAssessmentHistoryRepository,
   certificationChallengeForScoringRepository,
+  certificationCourseRepository,
+  competenceMarkRepository,
   flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
-  certificationAssessmentHistoryRepository,
   scoringConfigurationRepository,
-  competenceMarkRepository,
-  locale,
-}) {
-  const allAnswers = await answerRepository.findByAssessment(certificationAssessment.id);
-  const certificationChallengesForScoring = await certificationChallengeForScoringRepository.getByCertificationCourseId(
-    { certificationCourseId: certificationAssessment.certificationCourseId },
-  );
-
-  const certificationCourse = await certificationCourseRepository.get({
-    id: certificationAssessment.certificationCourseId,
-  });
-
-  const abortReason = certificationCourse.isAbortReasonCandidateRelated()
-    ? ABORT_REASONS.CANDIDATE
-    : ABORT_REASONS.TECHNICAL;
-
-  const configuration = await flashAlgorithmConfigurationRepository.getMostRecentBeforeDate(
-    certificationCourse.getStartDate(),
-  );
-
-  const algorithm = new FlashAssessmentAlgorithm({
-    flashAlgorithmImplementation: flashAlgorithmService,
-    configuration,
-  });
-
-  const v3CertificationScoring = await scoringConfigurationRepository.getLatestByDateAndLocale({
-    locale,
-    date: certificationCourse.getStartDate(),
-  });
-
-  const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
-    algorithm,
-    challenges: certificationChallengesForScoring,
-    allAnswers,
-    abortReason,
-    maxReachableLevelOnCertificationDate: certificationCourse.getMaxReachableLevelOnCertificationDate(),
-    v3CertificationScoring,
-  });
-
-  const assessmentResult = _createV3AssessmentResult({
-    event,
-    allAnswers,
-    certificationCourse,
-    certificationAssessmentScore,
-    certificationAssessment,
-  });
-
-  await _cancelCertificationCourseIfV3CertificationLackOfAnswersForTechnicalReason({
-    allAnswers,
-    certificationCourse,
-    certificationCourseRepository,
-  });
-
-  const certificationAssessmentHistory = CertificationAssessmentHistory.fromChallengesAndAnswers({
-    algorithm,
-    challenges: certificationChallengesForScoring,
-    allAnswers,
-  });
-
-  await certificationAssessmentHistoryRepository.save(certificationAssessmentHistory);
-
-  await _saveResult({
-    certificationAssessment,
-    assessmentResult,
-    certificationAssessmentScore,
-    assessmentResultRepository,
-    competenceMarkRepository,
-  });
-
-  return new CertificationRescoringCompleted({
-    userId: certificationAssessment.userId,
-    certificationCourseId: certificationAssessment.certificationCourseId,
-    reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
-  });
-}
-
-function _shouldCancelWhenV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse }) {
-  return (
-    certificationCourse.isAbortReasonTechnical() && _candidateDidNotAnswerEnoughV3CertificationQuestions({ allAnswers })
-  );
-}
-
-function _shouldRejectWhenV3CertificationCandidateDidNotAnswerToEnoughQuestions({ allAnswers, certificationCourse }) {
-  if (certificationCourse.isAbortReasonTechnical()) {
-    return false;
-  }
-  return _candidateDidNotAnswerEnoughV3CertificationQuestions({ allAnswers });
-}
-
-function _candidateDidNotAnswerEnoughV3CertificationQuestions({ allAnswers }) {
-  return allAnswers.length < config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification;
-}
-
-async function _saveResult({
-  assessmentResult,
-  certificationAssessment,
-  certificationAssessmentScore,
-  assessmentResultRepository,
-  competenceMarkRepository,
-}) {
-  const savedAssessmentResult = await assessmentResultRepository.save({
-    certificationCourseId: certificationAssessment.certificationCourseId,
-    assessmentResult,
-  });
-
-  await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
-    const competenceMarkDomain = new CompetenceMark({
-      ...competenceMark,
-      assessmentResultId: savedAssessmentResult.id,
-    });
-    return competenceMarkRepository.save(competenceMarkDomain);
-  });
-}
-
-async function _handleV2Certification({
   scoringCertificationService,
-  certificationAssessment,
-  event,
-  assessmentResultRepository,
-  competenceMarkRepository,
-  certificationCourseRepository,
 }) {
-  const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
-    certificationAssessment,
-    continueOnError: false,
-  });
-  const emitter = _getEmitterFromEvent(event);
-  const certificationCourse = await certificationCourseRepository.get({
-    id: certificationAssessment.certificationCourseId,
-  });
-
-  const assessmentResult = _createV2AssessmentResult({
+  const certificationCourse = await scoringCertificationService.handleV3CertificationScoring({
     event,
-    emitter,
-    certificationCourse,
-    certificationAssessmentScore,
     certificationAssessment,
-  });
-
-  const assessmentResultId = await _saveV2AssessmentResult({
-    assessmentResult,
-    certificationAssessment,
+    locale,
+    answerRepository,
     assessmentResultRepository,
-  });
-  await _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository);
-
-  await _cancelCertificationCourseIfNotTrustableOrLackOfAnswersForTechnicalReason({
-    certificationCourse,
-    hasEnoughNonNeutralizedChallengesToBeTrusted:
-      certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted,
+    certificationAssessmentHistoryRepository,
+    certificationChallengeForScoringRepository,
     certificationCourseRepository,
-    certificationAssessmentScore,
+    competenceMarkRepository,
+    flashAlgorithmConfigurationRepository,
+    flashAlgorithmService,
+    scoringConfigurationRepository,
   });
+
+  if (certificationCourse.isCancelled()) {
+    await certificationCourseRepository.update({ certificationCourse });
+  }
 
   return new CertificationRescoringCompleted({
     userId: certificationAssessment.userId,
     certificationCourseId: certificationAssessment.certificationCourseId,
-    reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
+    reproducibilityRate: V3_REPRODUCIBILITY_RATE,
   });
 }
 
@@ -265,11 +164,14 @@ async function _cancelCertificationCourseIfNotTrustableOrLackOfAnswersForTechnic
   hasEnoughNonNeutralizedChallengesToBeTrusted,
   certificationCourseRepository,
   certificationAssessmentScore,
+  scoringCertificationService,
 }) {
-  if (
-    !hasEnoughNonNeutralizedChallengesToBeTrusted ||
-    _isLackOfAnswersForTechnicalReason({ certificationCourse, certificationAssessmentScore })
-  ) {
+  const lackOfAnswersForTechnicalReason = await scoringCertificationService.isLackOfAnswersForTechnicalReason({
+    certificationCourse,
+    certificationAssessmentScore,
+  });
+
+  if (!hasEnoughNonNeutralizedChallengesToBeTrusted || lackOfAnswersForTechnicalReason) {
     certificationCourse.cancel();
   } else {
     certificationCourse.uncancel();
@@ -278,18 +180,13 @@ async function _cancelCertificationCourseIfNotTrustableOrLackOfAnswersForTechnic
   return certificationCourseRepository.update({ certificationCourse });
 }
 
-function _isLackOfAnswersForTechnicalReason({ certificationCourse, certificationAssessmentScore }) {
-  return certificationCourse.isAbortReasonTechnical() && certificationAssessmentScore.hasInsufficientCorrectAnswers();
-}
-
 async function _saveResultAfterCertificationComputeError({
   certificationAssessment,
   assessmentResultRepository,
   certificationComputeError,
   juryId,
-  event,
+  emitter,
 }) {
-  const emitter = _getEmitterFromEvent(event);
   const assessmentResult = AssessmentResultFactory.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
@@ -299,21 +196,6 @@ async function _saveResultAfterCertificationComputeError({
   await assessmentResultRepository.save({
     certificationCourseId: certificationAssessment.certificationCourseId,
     assessmentResult,
-  });
-}
-
-async function _saveV2AssessmentResult({ assessmentResult, certificationAssessment, assessmentResultRepository }) {
-  const { id: assessmentResultId } = await assessmentResultRepository.save({
-    certificationCourseId: certificationAssessment.certificationCourseId,
-    assessmentResult,
-  });
-  return assessmentResultId;
-}
-
-async function _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository) {
-  await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
-    const competenceMarkDomain = new CompetenceMark({ ...competenceMark, assessmentResultId });
-    return competenceMarkRepository.save(competenceMarkDomain);
   });
 }
 
@@ -333,117 +215,6 @@ function _getEmitterFromEvent(event) {
   }
 
   return emitter;
-}
-
-function _createV2AssessmentResult({
-  event,
-  emitter,
-  certificationCourse,
-  certificationAssessmentScore,
-  certificationAssessment,
-}) {
-  if (certificationCourse.isRejectedForFraud()) {
-    return AssessmentResultFactory.buildFraud({
-      pixScore: certificationAssessmentScore.nbPix,
-      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      assessmentId: certificationAssessment.id,
-      juryId: event.juryId,
-    });
-  } else if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
-    return AssessmentResultFactory.buildNotTrustableAssessmentResult({
-      pixScore: certificationAssessmentScore.nbPix,
-      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      status: certificationAssessmentScore.status,
-      assessmentId: certificationAssessment.id,
-      emitter,
-      juryId: event.juryId,
-    });
-  } else if (_isLackOfAnswersForTechnicalReason({ certificationAssessmentScore, certificationCourse })) {
-    return AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
-      emitter: AssessmentResult.emitters.PIX_ALGO,
-      pixScore: certificationAssessmentScore.nbPix,
-      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      assessmentId: certificationAssessment.id,
-      status: AssessmentResult.status.REJECTED,
-      juryId: event.juryId,
-    });
-  } else if (certificationAssessmentScore.hasInsufficientCorrectAnswers()) {
-    return AssessmentResultFactory.buildInsufficientCorrectAnswers({
-      emitter,
-      pixScore: certificationAssessmentScore.nbPix,
-      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      assessmentId: certificationAssessment.id,
-      juryId: event.juryId,
-    });
-  } else {
-    return AssessmentResultFactory.buildStandardAssessmentResult({
-      pixScore: certificationAssessmentScore.nbPix,
-      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      status: certificationAssessmentScore.status,
-      assessmentId: certificationAssessment.id,
-      emitter,
-      juryId: event.juryId,
-    });
-  }
-}
-
-function _createV3AssessmentResult({
-  event,
-  allAnswers,
-  certificationCourse,
-  certificationAssessmentScore,
-  certificationAssessment,
-}) {
-  if (certificationCourse.isRejectedForFraud()) {
-    return AssessmentResultFactory.buildFraud({
-      pixScore: certificationAssessmentScore.nbPix,
-      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      assessmentId: certificationAssessment.id,
-      juryId: event.juryId,
-    });
-  }
-
-  if (_shouldRejectWhenV3CertificationCandidateDidNotAnswerToEnoughQuestions({ allAnswers, certificationCourse })) {
-    return AssessmentResultFactory.buildLackOfAnswers({
-      pixScore: certificationAssessmentScore.nbPix,
-      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      status: certificationAssessmentScore.status,
-      assessmentId: certificationAssessment.id,
-      emitter: AssessmentResult.emitters.PIX_ALGO,
-      juryId: event.juryId,
-    });
-  }
-
-  if (_shouldCancelWhenV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse })) {
-    return AssessmentResultFactory.buildLackOfAnswersForTechnicalReason({
-      pixScore: certificationAssessmentScore.nbPix,
-      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      status: certificationAssessmentScore.status,
-      assessmentId: certificationAssessment.id,
-      emitter: AssessmentResult.emitters.PIX_ALGO,
-      juryId: event.juryId,
-    });
-  }
-
-  return AssessmentResultFactory.buildStandardAssessmentResult({
-    pixScore: certificationAssessmentScore.nbPix,
-    reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-    status: certificationAssessmentScore.status,
-    assessmentId: certificationAssessment.id,
-    emitter: AssessmentResult.emitters.PIX_ALGO,
-    juryId: event.juryId,
-  });
-}
-
-async function _cancelCertificationCourseIfV3CertificationLackOfAnswersForTechnicalReason({
-  allAnswers,
-  certificationCourse,
-  certificationCourseRepository,
-}) {
-  if (_shouldCancelWhenV3CertificationLacksOfAnswersForTechnicalReason({ allAnswers, certificationCourse })) {
-    certificationCourse.cancel();
-    await certificationCourseRepository.update({ certificationCourse });
-  }
 }
 
 handleCertificationRescoring.eventTypes = eventTypes;
