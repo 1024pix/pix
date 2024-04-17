@@ -46,3 +46,22 @@ footer {
     width: 128px;
   }
 }
+
+
+@media screen and (width <= 800px) {
+  .issue {
+    .robot-speaking {
+      margin-inline-start: unset;
+
+      .bubbles {
+        margin-top: 75px;
+      }
+    }
+  }
+
+  .robot-speaking {
+      &__logo {
+        width: 106px;
+      }
+  }
+}

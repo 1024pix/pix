@@ -16,12 +16,12 @@ export default class Challenge extends Component {
 
   get robotMood() {
     if (this.answer?.result === 'ok') {
-      return 'very-happy';
+      return 'happy';
     }
     if (this.answer?.result === 'ko') {
       return 'sad';
     }
-    return '';
+    return 'default';
   }
 
   @action

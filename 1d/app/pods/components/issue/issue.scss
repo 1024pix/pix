@@ -11,11 +11,18 @@
 
 
   .robot-speaking {
-    width: fit-content;
-    margin-left: 250px;
+    padding-top: 100px;
+    padding-right: 60px;
+    padding-left: 20px;
+    margin-inline-start: 25%;
 
     &__logo {
-      width: 200px;
+      width: 196px;
+      max-height: unset;
+    }
+
+    .bubbles {
+      margin-top: 112px;
     }
   }
 

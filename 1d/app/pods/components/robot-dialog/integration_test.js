@@ -15,14 +15,14 @@ module('Integration | Component | Robot dialog', function (hooks) {
     assert.dom(screen.getByText('Hello chaton !')).exists();
   });
 
-  test('displays robot dialog with a very-happy class', async function (assert) {
+  test('displays robot dialog with a happy class', async function (assert) {
     this.set('instruction', 'Hello chaton !');
-    this.set('class', 'very-happy');
+    this.set('class', 'happy');
 
     const screen = await render(hbs`<RobotDialog @class={{this.class}} />`);
 
     assert
       .dom(screen.getByRole('img', { name: 'mascotte pix1d' }))
-      .hasAttribute('src', '/images/robot/very-happy-robot.svg');
+      .hasAttribute('src', '/images/robot/dialog-robot-happy.svg');
   });
 });
