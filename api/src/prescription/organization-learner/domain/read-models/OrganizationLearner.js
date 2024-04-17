@@ -9,9 +9,11 @@ class OrganizationLearner {
     username,
     authenticationMethods,
     group,
+    attributes,
     isCertifiableFromCampaign,
     certifiableAtFromCampaign,
     isCertifiableFromLearner,
+    organizationId,
     certifiableAtFromLearner,
   } = {}) {
     this.id = id;
@@ -22,6 +24,7 @@ class OrganizationLearner {
     this.group = group;
     this.username = username;
     this.authenticationMethods = authenticationMethods;
+    this.organizationId = organizationId;
 
     this._buildCertificability({
       isCertifiableFromCampaign,
@@ -29,6 +32,12 @@ class OrganizationLearner {
       isCertifiableFromLearner,
       certifiableAtFromLearner,
     });
+
+    if (attributes) {
+      Object.entries(attributes).forEach(([key, value]) => {
+        this[key] = value;
+      });
+    }
   }
   _buildCertificability({
     isCertifiableFromCampaign,
