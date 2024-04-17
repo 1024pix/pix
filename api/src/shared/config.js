@@ -304,6 +304,12 @@ const configuration = (function () {
       monitorStateIntervalSeconds: _getNumber(process.env.PGBOSS_MONITOR_STATE_INTERVAL_SECONDS, undefined),
       // 43200 is equal to 12 hours - its the default pgboss configuration
       archiveFailedAfterSeconds: _getNumber(process.env.PGBOSS_ARCHIVE_FAILED_AFTER_SECONDS, 43200),
+      validationFileJobEnabled: process.env.PGBOSS_VALIDATION_FILE_JOB_ENABLED
+        ? toBoolean(process.env.PGBOSS_VALIDATION_FILE_JOB_ENABLED)
+        : true,
+      importFileJobEnabled: process.env.PGBOSS_IMPORT_FILE_JOB_ENABLED
+        ? toBoolean(process.env.PGBOSS_IMPORT_FILE_JOB_ENABLED)
+        : true,
     },
     poleEmploi: {
       accessTokenLifespanMs: ms(process.env.POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN || '7d'),

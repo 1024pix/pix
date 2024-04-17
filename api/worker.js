@@ -85,9 +85,13 @@ export async function runJobs(dependencies = { startPgBoss, createMonitoredJobQu
 
   monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobHandler);
 
-  monitoredJobQueue.performJob(ImportOrganizationLearnersJob.name, ImportOrganizationLearnersJobHandler);
+  if (config.pgBoss.validationFileJobEnabled) {
+    monitoredJobQueue.performJob(ValidateOrganizationImportFileJob.name, ValidateOrganizationImportFileJobHandler);
+  }
 
-  monitoredJobQueue.performJob(ValidateOrganizationImportFileJob.name, ValidateOrganizationImportFileJobHandler);
+  if (config.pgBoss.importFileJobEnabled) {
+    monitoredJobQueue.performJob(ImportOrganizationLearnersJob.name, ImportOrganizationLearnersJobHandler);
+  }
 
   await pgBoss.schedule(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,
