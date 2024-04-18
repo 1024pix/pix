@@ -70,7 +70,6 @@ import * as competenceRepository from '../../../src/shared/infrastructure/reposi
 import * as organizationRepository from '../../../src/shared/infrastructure/repositories/organization-repository.js';
 import * as skillRepository from '../../../src/shared/infrastructure/repositories/skill-repository.js';
 import * as targetProfileForAdminRepository from '../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
-import * as userLoginRepository from '../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as userToCreateRepository from '../../../src/shared/infrastructure/repositories/user-to-create-repository.js';
 import * as codeUtils from '../../../src/shared/infrastructure/utils/code-utils.js';
@@ -361,8 +360,8 @@ const dependencies = {
   tubeRepository,
   tutorialEvaluationRepository: repositories.tutorialEvaluationRepository,
   tutorialRepository: repositories.tutorialRepository,
+  userAccountApi,
   userEmailRepository,
-  userLoginRepository,
   userOrganizationsForAdminRepository,
   userOrgaSettingsRepository,
   userRecommendedTrainingRepository: repositories.userRecommendedTrainingRepository,

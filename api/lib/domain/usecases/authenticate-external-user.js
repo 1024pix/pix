@@ -21,7 +21,7 @@ async function authenticateExternalUser({
   obfuscationService,
   authenticationMethodRepository,
   userRepository,
-  userLoginRepository,
+  userAccountApi,
 }) {
   try {
     const userFromCredentials = await pixAuthenticationService.getUserByUsernameAndPassword({
@@ -55,7 +55,7 @@ async function authenticateExternalUser({
 
     const token = tokenService.createAccessTokenForSaml(userFromCredentials.id);
 
-    await userLoginRepository.updateLastLoggedAt({ userId: userFromCredentials.id });
+    await userAccountApi.updateUserAccountLastLoggedAtDate(userFromCredentials.id);
 
     return token;
   } catch (error) {

@@ -3,7 +3,6 @@
  * @typedef {import ('./index.js').AuthenticationSessionService} AuthenticationSessionService
  * @typedef {import ('./index.js').AuthenticationMethodRepository} AuthenticationMethodRepository
  * @typedef {import ('./index.js').UserRepository} UserRepository
- * @typedef {import ('./index.js').UserLoginRepository} UserLoginRepository
  */
 
 import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../errors.js';
@@ -18,7 +17,7 @@ import { AuthenticationMethod } from '../models/index.js';
  * @param {AuthenticationSessionService} params.authenticationSessionService
  * @param {AuthenticationMethodRepository} params.authenticationMethodRepository
  * @param {UserRepository} params.userRepository
- * @param {UserLoginRepository} params.userLoginRepository
+ * @param {UserAccountApi} params.userAccountApi
  */
 const reconcileOidcUserForAdmin = async function ({
   authenticationKey,
@@ -28,7 +27,7 @@ const reconcileOidcUserForAdmin = async function ({
   authenticationSessionService,
   authenticationMethodRepository,
   userRepository,
-  userLoginRepository,
+  userAccountApi,
 }) {
   const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
   if (!sessionContentAndUserInfo) {
@@ -59,7 +58,7 @@ const reconcileOidcUserForAdmin = async function ({
   });
 
   const accessToken = await oidcAuthenticationService.createAccessToken(userId);
-  await userLoginRepository.updateLastLoggedAt({ userId });
+  await userAccountApi.updateUserAccountLastLoggedAtDate(userId);
 
   return accessToken;
 };

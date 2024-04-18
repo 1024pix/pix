@@ -14,7 +14,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     let authenticationMethodRepository;
     let userRepository;
     let adminMemberRepository;
-    let userLoginRepository;
+    let userAccountApi;
     const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
     beforeEach(function () {
@@ -40,8 +40,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       adminMemberRepository = {
         get: sinon.stub(),
       };
-      userLoginRepository = {
-        updateLastLoggedAt: sinon.stub().resolves(),
+      userAccountApi = {
+        updateUserAccountLastLoggedAtDate: sinon.stub().resolves(),
       };
     });
 
@@ -115,7 +115,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         authenticationSessionService,
         authenticationMethodRepository,
         userRepository,
-        userLoginRepository,
+        userAccountApi,
       });
 
       // then
@@ -140,7 +140,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         authenticationSessionService,
         authenticationMethodRepository,
         userRepository,
-        userLoginRepository,
+        userAccountApi,
       });
 
       // then
@@ -162,7 +162,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         authenticationSessionService,
         authenticationMethodRepository,
         userRepository,
-        userLoginRepository,
+        userAccountApi,
       });
 
       // then
@@ -205,7 +205,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
-          userLoginRepository,
+          userAccountApi,
         });
 
         // then
@@ -232,13 +232,13 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
-          userLoginRepository,
+          userAccountApi,
         });
 
         // then
         expect(oidcAuthenticationService.saveIdToken).to.not.have.been.called;
         expect(oidcAuthenticationService.createAccessToken).to.not.have.been.called;
-        expect(userLoginRepository.updateLastLoggedAt).to.not.have.been.called;
+        expect(userAccountApi.updateUserAccountLastLoggedAtDate).to.not.have.been.called;
       });
     });
 
@@ -259,7 +259,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
             authenticationSessionService,
             authenticationMethodRepository,
             userRepository,
-            userLoginRepository,
+            userAccountApi,
           });
 
           // then
@@ -292,7 +292,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
             authenticationSessionService,
             authenticationMethodRepository,
             userRepository,
-            userLoginRepository,
+            userAccountApi,
           });
 
           // then
@@ -313,7 +313,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     let authenticationSessionService;
     let authenticationMethodRepository;
     let userRepository;
-    let userLoginRepository;
+    let userAccountApi;
     const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
     beforeEach(function () {
@@ -336,8 +336,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       };
 
       userRepository = { findByExternalIdentifier: sinon.stub() };
-      userLoginRepository = {
-        updateLastLoggedAt: sinon.stub().resolves(),
+      userAccountApi = {
+        updateUserAccountLastLoggedAtDate: sinon.stub().resolves(),
       };
     });
 
@@ -361,7 +361,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
-          userLoginRepository,
+          userAccountApi,
         });
 
         // then
@@ -394,12 +394,12 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
-          userLoginRepository,
+          userAccountApi,
         });
 
         // then
-        sinon.assert.calledOnce(oidcAuthenticationService.createAccessToken);
-        sinon.assert.calledOnceWithExactly(userLoginRepository.updateLastLoggedAt, { userId: 10 });
+        expect(oidcAuthenticationService.createAccessToken).to.have.been.calledOnce;
+        expect(userAccountApi.updateUserAccountLastLoggedAtDate).to.have.been.calledWithExactly(10);
         expect(accessToken).to.deep.equal({
           pixAccessToken: 'accessTokenForExistingExternalUser',
           logoutUrlUUID: 'logoutUrlUUID',
@@ -430,7 +430,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
-          userLoginRepository,
+          userAccountApi,
         });
 
         // then

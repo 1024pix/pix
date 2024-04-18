@@ -14,9 +14,9 @@ import * as studentRepository from '../../../../lib/infrastructure/repositories/
 import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import * as userService from '../../../../src/shared/domain/services/user-service.js';
 import * as authenticationMethodRepository from '../../../../src/shared/infrastructure/repositories/authentication-method-repository.js';
-import * as userLoginRepository from '../../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as userToCreateRepository from '../../../../src/shared/infrastructure/repositories/user-to-create-repository.js';
+import { userAccountApi } from '../../../../src/user-account/application/api/index.js';
 import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCases | create-user-and-reconcile-to-organization-learner-from-external-user', function () {
@@ -191,7 +191,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
         organizationLearnerRepository,
         studentRepository,
         userRepository,
-        userLoginRepository,
+        userAccountApi,
         userToCreateRepository,
       });
 
@@ -230,7 +230,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
             campaignRepository,
             organizationLearnerRepository,
             userRepository,
-            userLoginRepository,
+            userAccountApi,
           });
 
           // then
@@ -285,7 +285,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
               organizationLearnerRepository,
               studentRepository,
               userRepository,
-              userLoginRepository,
+              userAccountApi,
             });
 
             // then
@@ -346,7 +346,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
               organizationLearnerRepository,
               studentRepository,
               userRepository,
-              userLoginRepository,
+              userAccountApi,
             });
 
             // then
@@ -399,7 +399,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
           organizationLearnerRepository,
           studentRepository,
           userRepository,
-          userLoginRepository,
+          userAccountApi,
         });
 
         // then

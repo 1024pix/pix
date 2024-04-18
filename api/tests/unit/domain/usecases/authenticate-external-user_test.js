@@ -19,7 +19,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
   let obfuscationService;
   let authenticationMethodRepository;
   let userRepository;
-  let userLoginRepository;
+  let userAccountApi;
 
   beforeEach(function () {
     tokenService = {
@@ -40,8 +40,8 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
       getBySamlId: sinon.stub(),
       getForObfuscation: sinon.stub(),
     };
-    userLoginRepository = {
-      updateLastLoggedAt: sinon.stub(),
+    userAccountApi = {
+      updateUserAccountLastLoggedAtDate: sinon.stub(),
     };
   });
 
@@ -78,7 +78,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         obfuscationService,
         authenticationMethodRepository,
         userRepository,
-        userLoginRepository,
+        userAccountApi,
       });
 
       // then
@@ -117,11 +117,11 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         obfuscationService,
         authenticationMethodRepository,
         userRepository,
-        userLoginRepository,
+        userAccountApi,
       });
 
       // then
-      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: user.id });
+      expect(userAccountApi.updateUserAccountLastLoggedAtDate).to.have.been.calledWithExactly(user.id);
     });
 
     it("should throw an UnexpectedUserAccountError (with expected user's username or email) when the authenticated user does not match the expected one", async function () {
@@ -155,7 +155,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         obfuscationService,
         authenticationMethodRepository,
         userRepository,
-        userLoginRepository,
+        userAccountApi,
       });
 
       // then
@@ -192,7 +192,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
-          userLoginRepository,
+          userAccountApi,
         });
 
         // then
@@ -231,7 +231,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
-          userLoginRepository,
+          userAccountApi,
         });
 
         // then
@@ -283,7 +283,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
-          userLoginRepository,
+          userAccountApi,
         });
 
         // then
@@ -332,7 +332,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
-          userLoginRepository,
+          userAccountApi,
         });
 
         // then
@@ -363,7 +363,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         tokenService,
         pixAuthenticationService,
         userRepository,
-        userLoginRepository,
+        userAccountApi,
       });
 
       // then
@@ -390,7 +390,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         tokenService,
         pixAuthenticationService,
         userRepository,
-        userLoginRepository,
+        userAccountApi,
       });
 
       // then

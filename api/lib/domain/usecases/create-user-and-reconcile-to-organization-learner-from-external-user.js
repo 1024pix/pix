@@ -21,10 +21,10 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
   authenticationMethodRepository,
   campaignRepository,
   userRepository,
-  userLoginRepository,
   userToCreateRepository,
   organizationLearnerRepository,
   studentRepository,
+  userAccountApi,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
   if (!campaign) {
@@ -117,7 +117,7 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
   }
   const tokenUserId = userWithSamlId ? userWithSamlId.id : userId;
   const accessToken = tokenService.createAccessTokenForSaml(tokenUserId);
-  await userLoginRepository.updateLastLoggedAt({ userId: tokenUserId });
+  await userAccountApi.updateUserAccountLastLoggedAtDate(tokenUserId);
   return accessToken;
 };
 

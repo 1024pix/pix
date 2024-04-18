@@ -12,8 +12,8 @@ const authenticateOidcUser = async function ({
   authenticationSessionService,
   authenticationMethodRepository,
   userRepository,
-  userLoginRepository,
   adminMemberRepository,
+  userAccountApi,
 }) {
   const sessionContent = await oidcAuthenticationService.exchangeCodeForTokens({
     code,
@@ -57,7 +57,7 @@ const authenticateOidcUser = async function ({
     });
   }
 
-  await userLoginRepository.updateLastLoggedAt({ userId: user.id });
+  await userAccountApi.updateUserAccountLastLoggedAtDate(user.id);
 
   return { pixAccessToken, logoutUrlUUID, isAuthenticationComplete: true };
 };

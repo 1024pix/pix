@@ -9,7 +9,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
   let authenticationMethodRepository;
   let campaignRepository;
   let userRepository;
-  let userLoginRepository;
+  let userAccountApi;
   let organizationLearnerRepository;
   let studentRepository;
 
@@ -28,8 +28,8 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
     userRepository = {
       getBySamlId: sinon.stub(),
     };
-    userLoginRepository = {
-      updateLastLoggedAt: sinon.stub(),
+    userAccountApi = {
+      updateUserAccountLastLoggedAtDate: sinon.stub(),
     };
     userService = {
       createAndReconcileUserToOrganizationLearner: sinon.stub(),
@@ -62,13 +62,13 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        userLoginRepository,
+        userAccountApi,
         organizationLearnerRepository,
         studentRepository,
       });
 
       // then
-      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: user.id });
+      expect(userAccountApi.updateUserAccountLastLoggedAtDate).to.have.been.calledWithExactly(user.id);
     });
 
     it('should return an access token', async function () {
@@ -98,7 +98,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        userLoginRepository,
+        userAccountApi,
         organizationLearnerRepository,
         studentRepository,
       });
@@ -135,13 +135,13 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        userLoginRepository,
+        userAccountApi,
         organizationLearnerRepository,
         studentRepository,
       });
 
       // then
-      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: user.id });
+      expect(userAccountApi.updateUserAccountLastLoggedAtDate).to.have.been.calledWithExactly(user.id);
     });
 
     it('should return an access token', async function () {
@@ -172,7 +172,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        userLoginRepository,
+        userAccountApi,
         organizationLearnerRepository,
         studentRepository,
       });

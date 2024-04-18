@@ -6,7 +6,7 @@ import { createOidcUser } from '../../../../lib/domain/usecases/create-oidc-user
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-oidc-user', function () {
-  let authenticationMethodRepository, userToCreateRepository, userLoginRepository;
+  let authenticationMethodRepository, userToCreateRepository, userAccountApi;
   let authenticationSessionService, oidcAuthenticationService;
   let clock;
   const now = new Date('2021-01-02');
@@ -30,8 +30,8 @@ describe('Unit | UseCase | create-oidc-user', function () {
       saveIdToken: sinon.stub(),
     };
 
-    userLoginRepository = {
-      updateLastLoggedAt: sinon.stub(),
+    userAccountApi = {
+      updateUserAccountLastLoggedAtDate: sinon.stub(),
     };
   });
 
@@ -109,7 +109,7 @@ describe('Unit | UseCase | create-oidc-user', function () {
       authenticationSessionService,
       authenticationMethodRepository,
       userToCreateRepository,
-      userLoginRepository,
+      userAccountApi,
     });
 
     // then
@@ -126,9 +126,9 @@ describe('Unit | UseCase | create-oidc-user', function () {
       userToCreateRepository,
       authenticationMethodRepository,
     });
-    sinon.assert.calledOnce(oidcAuthenticationService.createAccessToken);
-    sinon.assert.calledOnce(oidcAuthenticationService.saveIdToken);
-    sinon.assert.calledOnceWithExactly(userLoginRepository.updateLastLoggedAt, { userId: 10 });
+    expect(oidcAuthenticationService.createAccessToken).to.have.been.calledOnce;
+    expect(oidcAuthenticationService.saveIdToken).to.have.been.calledOnce;
+    expect(userAccountApi.updateUserAccountLastLoggedAtDate).to.have.been.calledOnceWithExactly(10);
     expect(result).to.deep.equal({
       accessToken: 'accessTokenForExistingExternalUser',
       logoutUrlUUID: 'logoutUrlUUID',

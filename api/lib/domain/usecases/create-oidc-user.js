@@ -9,7 +9,7 @@ const createOidcUser = async function ({
   oidcAuthenticationService,
   authenticationMethodRepository,
   userToCreateRepository,
-  userLoginRepository,
+  userAccountApi,
 }) {
   const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
   if (!sessionContentAndUserInfo) {
@@ -51,7 +51,7 @@ const createOidcUser = async function ({
     logoutUrlUUID = await oidcAuthenticationService.saveIdToken({ idToken: sessionContent.idToken, userId });
   }
 
-  await userLoginRepository.updateLastLoggedAt({ userId });
+  await userAccountApi.updateUserAccountLastLoggedAtDate(userId);
 
   return { accessToken, logoutUrlUUID };
 };

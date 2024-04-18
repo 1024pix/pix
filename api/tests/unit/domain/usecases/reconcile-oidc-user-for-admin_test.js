@@ -7,7 +7,7 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js'
 describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
   let authenticationMethodRepository,
     userRepository,
-    userLoginRepository,
+    userAccountApi,
     authenticationSessionService,
     oidcAuthenticationService;
   const identityProvider = 'GOOGLE';
@@ -15,7 +15,7 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
   beforeEach(function () {
     authenticationMethodRepository = { create: sinon.stub(), findOneByUserIdAndIdentityProvider: sinon.stub() };
     userRepository = { getByEmail: sinon.stub() };
-    userLoginRepository = { updateLastLoggedAt: sinon.stub() };
+    userAccountApi = { updateUserAccountLastLoggedAtDate: sinon.stub() };
     authenticationSessionService = { getByKey: sinon.stub() };
     oidcAuthenticationService = {
       identityProvider,
@@ -46,7 +46,7 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
       authenticationSessionService,
       authenticationMethodRepository,
       userRepository,
-      userLoginRepository,
+      userAccountApi,
     });
 
     // then
@@ -76,7 +76,7 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
       authenticationSessionService,
       authenticationMethodRepository,
       userRepository,
-      userLoginRepository,
+      userAccountApi,
     });
 
     // then
@@ -111,12 +111,12 @@ describe('Unit | UseCase | reconcile-oidc-user-for-admin', function () {
       authenticationSessionService,
       authenticationMethodRepository,
       userRepository,
-      userLoginRepository,
+      userAccountApi,
     });
 
     // then
     expect(oidcAuthenticationService.createAccessToken).to.be.calledOnceWith(userId);
-    expect(userLoginRepository.updateLastLoggedAt).to.be.calledOnceWith({ userId });
+    expect(userAccountApi.updateUserAccountLastLoggedAtDate).to.be.calledOnceWith(userId);
     expect(result).to.equal('accessToken');
   });
 

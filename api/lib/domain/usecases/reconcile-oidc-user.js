@@ -6,7 +6,7 @@ const reconcileOidcUser = async function ({
   oidcAuthenticationService,
   authenticationSessionService,
   authenticationMethodRepository,
-  userLoginRepository,
+  userAccountApi,
 }) {
   const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
   if (!sessionContentAndUserInfo) {
@@ -43,7 +43,7 @@ const reconcileOidcUser = async function ({
     });
   }
 
-  await userLoginRepository.updateLastLoggedAt({ userId });
+  await userAccountApi.updateUserAccountLastLoggedAtDate(userId);
 
   return { accessToken, logoutUrlUUID };
 };

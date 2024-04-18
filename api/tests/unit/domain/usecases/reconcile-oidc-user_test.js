@@ -8,15 +8,15 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
   context('when identityProvider is generic', function () {
     let identityProvider;
     let authenticationMethodRepository;
-    let userLoginRepository;
+    let userAccountApi;
     let authenticationSessionService;
     let oidcAuthenticationService;
 
     beforeEach(function () {
       identityProvider = PAYSDELALOIRE.code;
       authenticationMethodRepository = { create: sinon.stub() };
-      userLoginRepository = {
-        updateLastLoggedAt: sinon.stub(),
+      userAccountApi = {
+        updateUserAccountLastLoggedAtDate: sinon.stub(),
       };
       authenticationSessionService = { getByKey: sinon.stub() };
       oidcAuthenticationService = {
@@ -38,7 +38,7 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
           oidcAuthenticationService,
           authenticationSessionService,
           authenticationMethodRepository,
-          userLoginRepository,
+          userAccountApi,
         });
 
         // then
@@ -61,7 +61,7 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,
-        userLoginRepository,
+        userAccountApi,
       });
 
       // then
@@ -81,7 +81,7 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
           oidcAuthenticationService,
           authenticationSessionService,
           authenticationMethodRepository,
-          userLoginRepository,
+          userAccountApi,
         });
 
         // then
@@ -113,7 +113,7 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,
-        userLoginRepository,
+        userAccountApi,
       });
 
       // then
@@ -129,15 +129,15 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
   context('when identityProvider is POLE_EMPLOI', function () {
     let identityProvider;
     let authenticationMethodRepository;
-    let userLoginRepository;
+    let userAccountApi;
     let authenticationSessionService;
     let oidcAuthenticationService;
 
     beforeEach(function () {
       identityProvider = POLE_EMPLOI.code;
       authenticationMethodRepository = { create: sinon.stub() };
-      userLoginRepository = {
-        updateLastLoggedAt: sinon.stub(),
+      userAccountApi = {
+        updateUserAccountLastLoggedAtDate: sinon.stub(),
       };
       authenticationSessionService = { getByKey: sinon.stub() };
       oidcAuthenticationService = {
@@ -172,7 +172,7 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,
-        userLoginRepository,
+        userAccountApi,
       });
 
       // then
@@ -211,13 +211,13 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,
-        userLoginRepository,
+        userAccountApi,
       });
 
       // then
-      sinon.assert.calledOnce(oidcAuthenticationService.createAccessToken);
-      sinon.assert.calledOnce(oidcAuthenticationService.saveIdToken);
-      sinon.assert.calledOnceWithExactly(userLoginRepository.updateLastLoggedAt, { userId });
+      expect(oidcAuthenticationService.createAccessToken).to.have.been.calledOnce;
+      expect(oidcAuthenticationService.saveIdToken).to.have.been.calledOnce;
+      expect(userAccountApi.updateUserAccountLastLoggedAtDate).to.have.been.calledOnceWithExactly(userId);
       expect(result).to.deep.equal({
         accessToken: 'accessToken',
         logoutUrlUUID: 'logoutUrlUUID',
