@@ -1,5 +1,36 @@
 # Pix Changelog
 
+## v4.134.0 (18/04/2024)
+
+
+### :rocket: Amélioration
+- [#8668](https://github.com/1024pix/pix/pull/8668) [FEATURE] Interdire l'HTML sur les champs qui ne le permettent pas (PIX-10243) (PIX-10241).
+- [#8673](https://github.com/1024pix/pix/pull/8673) [FEATURE] Ne pas retourner d'erreur à l'import de colonnes inconnues (PIX-12139).
+
+### :building_construction: Tech
+- [#8696](https://github.com/1024pix/pix/pull/8696) [TECH] Corriger le test flaky sur la vérification du schéma des modules (PIX-12183).
+- [#8686](https://github.com/1024pix/pix/pull/8686) [TECH] Migrer le déblocage d'un compte utilisateur dans src (PIX-12167).
+
+### :bug: Correction
+- [#8613](https://github.com/1024pix/pix/pull/8613) [BUGFIX] Rétablir la mise en place de acr_values suite à la mise en place de la lib openid-client (PIX-11980).
+- [#8684](https://github.com/1024pix/pix/pull/8684) [BUGFIX] Corriger l'affichage de la page étudiant pour les membres (PIX-12169).
+- [#8674](https://github.com/1024pix/pix/pull/8674) [BUGFIX] Corriger l'enregistrements des adresses email lors d'un ajout de candidat à une certification sur Pix Certif (PIX-12160).
+
+### :arrow_up: Montée de version
+- [#8693](https://github.com/1024pix/pix/pull/8693) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.8 (orga).
+- [#8692](https://github.com/1024pix/pix/pull/8692) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.8 (mon-pix).
+- [#8691](https://github.com/1024pix/pix/pull/8691) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.8 (certif).
+- [#8688](https://github.com/1024pix/pix/pull/8688) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.8 (admin).
+- [#8687](https://github.com/1024pix/pix/pull/8687) [BUMP] Update dependency @1024pix/stylelint-config to ^5.1.8 (1d).
+- [#8682](https://github.com/1024pix/pix/pull/8682) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.5 (orga).
+- [#8681](https://github.com/1024pix/pix/pull/8681) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.5 (mon-pix).
+- [#8679](https://github.com/1024pix/pix/pull/8679) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.5 (load-testing).
+- [#8678](https://github.com/1024pix/pix/pull/8678) [BUMP] Update dependency @1024pix/eslint-config to ^1.2.5 (dossier racine).
+
+### :coffee: Autre
+- [#8680](https://github.com/1024pix/pix/pull/8680) [FEAT] Ajoute la notion d'étape dans le contenu d'une mission (Pix-11699).
+- [#8664](https://github.com/1024pix/pix/pull/8664) [REFACTOR] Migrer l'entité Badge dans le scope evaluation de l'API (PIX-11882).
+
 ## v4.133.0 (17/04/2024)
 
 
