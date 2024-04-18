@@ -36,6 +36,8 @@ describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasou
       // eslint-disable-next-line mocha/no-setup-in-describe
       modules.forEach((module) => {
         it(`module "${module.slug}" should contain a valid structure`, async function () {
+          // We need to increase the timeout because the validation can be slow for large modules
+          this.timeout(3000);
           try {
             await moduleSchema.validateAsync(module, { abortEarly: false });
           } catch (joiError) {
