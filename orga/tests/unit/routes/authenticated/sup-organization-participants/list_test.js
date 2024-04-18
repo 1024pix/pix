@@ -16,11 +16,21 @@ module('Unit | Route | authenticated/sup-organization-participants/list', functi
   const pageSizeSymbol = Symbol('pageSize');
   const participationCountSymbol = Symbol('participationCountOrder');
   const lastnameSortSymbol = Symbol('lastnameSort');
+  const params = {
+    search: searchSymbol,
+    studentNumber: studentNumberSymbol,
+    groups: groupsSymbol,
+    certificability: certificabilitySymbol,
+    pageNumber: pageNumberSymbol,
+    pageSize: pageSizeSymbol,
+    participationCountOrder: participationCountSymbol,
+    lastnameSort: lastnameSortSymbol,
+  };
 
   hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/sup-organization-participants/list');
     store = this.owner.lookup('service:store');
-    route.currentUser = { shouldAccessImportPage: true, organization: { id: Symbol('organization-id') } };
+    route.currentUser = { organization: { id: Symbol('organization-id') } };
     sinon
       .stub(store, 'queryRecord')
       .withArgs('organization-import-detail', {
@@ -50,24 +60,37 @@ module('Unit | Route | authenticated/sup-organization-participants/list', functi
       .resolves(supOrganizationParticipantSymbol);
   });
 
-  test('should return models', async function (assert) {
-    // given
-    const params = {
-      search: searchSymbol,
-      studentNumber: studentNumberSymbol,
-      groups: groupsSymbol,
-      certificability: certificabilitySymbol,
-      pageNumber: pageNumberSymbol,
-      pageSize: pageSizeSymbol,
-      participationCountOrder: participationCountSymbol,
-      lastnameSort: lastnameSortSymbol,
-    };
-
+  test('should return participant model', async function (assert) {
     // when
-    const { participants, importDetail } = await route.model(params);
+    const { participants } = await route.model(params);
 
     // then
-    assert.strictEqual(importDetail, importDetailSymbol);
     assert.strictEqual(participants, supOrganizationParticipantSymbol);
+  });
+
+  module('when user is admin of organization', function () {
+    test('should return import information model', async function (assert) {
+      //given
+
+      route.currentUser.shouldAccessImportPage = true;
+      //when
+      const { importDetail } = await route.model(params);
+
+      //then
+      assert.strictEqual(importDetail, importDetailSymbol);
+    });
+  });
+
+  module('when user is member of organization', function () {
+    test('should not return import information model', async function (assert) {
+      //given
+      route.currentUser.shouldAccessImportPage = false;
+
+      //when
+      const { importDetail } = await route.model(params);
+
+      //then
+      assert.notEqual(importDetail, importDetailSymbol);
+    });
   });
 });
