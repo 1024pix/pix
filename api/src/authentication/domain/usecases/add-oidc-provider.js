@@ -6,9 +6,9 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 /**
  * @param {Object} params
  * @param {string} params.accessTokenLifespan
+ * @param {Object} params.additionalRequiredProperties
  * @param {string} params.claimsToStore
  * @param {string} params.clientId
- * @param {Object} params.customProperties
  * @param {boolean} params.enabled
  * @param {boolean} params.enabledForPixAdmin
  * @param {string} params.encryptedClientSecret
@@ -29,9 +29,9 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
  */
 const addOidcProvider = async function ({
   accessTokenLifespan,
+  additionalRequiredProperties,
   claimsToStore,
   clientId,
-  customProperties,
   enabled,
   enabledForPixAdmin,
   encryptedClientSecret,
@@ -52,9 +52,9 @@ const addOidcProvider = async function ({
   await oidcProviderRepository.create(
     {
       accessTokenLifespan,
+      additionalRequiredProperties,
       claimsToStore,
       clientId,
-      customProperties,
       enabled,
       enabledForPixAdmin,
       encryptedClientSecret,

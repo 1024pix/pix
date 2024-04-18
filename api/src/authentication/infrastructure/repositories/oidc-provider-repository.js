@@ -6,9 +6,9 @@ const OIDC_PROVIDERS_TABLE_NAME = 'oidc-providers';
 /**
  * @param {Object} params
  * @param {string} params.accessTokenLifespan
+ * @param {Object} params.additionalRequiredProperties
  * @param {string} params.claimsToStore
  * @param {string} params.clientId
- * @param {Object} params.customProperties
  * @param {boolean} params.enabled
  * @param {boolean} params.enabledForPixAdmin
  * @param {string} params.encryptedClientSecret
@@ -30,9 +30,9 @@ const OIDC_PROVIDERS_TABLE_NAME = 'oidc-providers';
 const create = async function (
   {
     accessTokenLifespan,
+    additionalRequiredProperties,
     claimsToStore,
     clientId,
-    customProperties,
     enabled,
     enabledForPixAdmin,
     encryptedClientSecret,
@@ -54,9 +54,9 @@ const create = async function (
 
   const oidcProviderProperties = {
     accessTokenLifespan,
+    additionalRequiredProperties,
     claimsToStore,
     clientId,
-    customProperties,
     enabled,
     enabledForPixAdmin,
     encryptedClientSecret,

@@ -15,7 +15,7 @@
     "openidClientExtraMetadata": {
       "token_endpoint_auth_method": "client_secret_post"
     },
-    "customProperties": {
+    "additionalRequiredProperties": {
       "logoutUrl": "https://seeds.example.net/logout",
       "afterLogoutUrl": "http://app.dev.pix.org"
     }
