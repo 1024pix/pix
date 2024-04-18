@@ -8,6 +8,7 @@ import { CertificationAssessmentScoreV3 } from '../../../../src/certification/sc
 import { AssessmentResultFactory } from '../../../../src/certification/scoring/domain/models/factories/AssessmentResultFactory.js';
 import { ABORT_REASONS } from '../../../../src/certification/shared/domain/models/CertificationCourse.js';
 import { CertificationVersion } from '../../../../src/certification/shared/domain/models/CertificationVersion.js';
+import * as scoringService from '../../../../src/evaluation/domain/services/scoring/scoring-service.js';
 import { config } from '../../../../src/shared/config.js';
 import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import * as areaRepository from '../../../../src/shared/infrastructure/repositories/area-repository.js';
@@ -20,7 +21,6 @@ import {
   ReproducibilityRate,
 } from '../../models/index.js';
 import * as placementProfileService from '../placement-profile-service.js';
-import * as scoringService from './scoring-service.js';
 
 const calculateCertificationAssessmentScore = async function ({
   certificationAssessment,
