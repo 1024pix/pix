@@ -7,8 +7,8 @@ import {
   PIX_COUNT_BY_LEVEL,
 } from '../../../../lib/domain/constants.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import * as scoringService from '../../../../lib/domain/services/scoring/scoring-service.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
+import * as scoringService from '../services/scoring/scoring-service.js';
 import { CompetenceEvaluation } from './CompetenceEvaluation.js';
 
 const statuses = {

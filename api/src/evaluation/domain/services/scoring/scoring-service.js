@@ -1,6 +1,10 @@
 import _ from 'lodash';
 
-import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE, PIX_COUNT_BY_LEVEL } from '../../constants.js';
+import {
+  MAX_REACHABLE_LEVEL,
+  MAX_REACHABLE_PIX_BY_COMPETENCE,
+  PIX_COUNT_BY_LEVEL,
+} from '../../../../../lib/domain/constants.js';
 
 function calculateScoringInformationForCompetence({
   knowledgeElements,
