@@ -1,16 +1,16 @@
 import Joi from 'joi';
 
-import { htmlSchema, proposalIdSchema, uuidSchema } from '../utils.js';
+import { htmlNotAllowedSchema, htmlSchema, proposalIdSchema, uuidSchema } from '../utils.js';
 
 const blockInputSchema = Joi.object({
-  input: Joi.string().required(),
+  input: htmlNotAllowedSchema.required(),
   type: Joi.string().valid('input').required(),
   inputType: Joi.string().valid('text', 'number').required(),
   size: Joi.number().positive().required(),
   display: Joi.string().valid('inline', 'block').required(),
-  placeholder: Joi.string().allow('').required(),
-  ariaLabel: Joi.string().required(),
-  defaultValue: Joi.string().allow('').required(),
+  placeholder: htmlNotAllowedSchema.allow('').required(),
+  ariaLabel: htmlNotAllowedSchema.required(),
+  defaultValue: htmlNotAllowedSchema.allow('').required(),
   tolerances: Joi.array()
     .unique()
     .items(Joi.string().valid('t1', 't2', 't3'))
@@ -19,18 +19,18 @@ const blockInputSchema = Joi.object({
 }).required();
 
 const blockSelectSchema = Joi.object({
-  input: Joi.string().required(),
+  input: htmlNotAllowedSchema.required(),
   type: Joi.string().valid('select').required(),
   display: Joi.string().valid('inline', 'block').required(),
-  placeholder: Joi.string().allow('').required(),
-  ariaLabel: Joi.string().required(),
-  defaultValue: Joi.string().allow('').required(),
+  placeholder: htmlNotAllowedSchema.allow('').required(),
+  ariaLabel: htmlNotAllowedSchema.required(),
+  defaultValue: htmlNotAllowedSchema.allow('').required(),
   tolerances: Joi.array().empty().required(),
   options: Joi.array()
     .items(
       Joi.object({
         id: proposalIdSchema,
-        content: Joi.string().required(),
+        content: htmlNotAllowedSchema.required(),
       }),
     )
     .required(),
@@ -55,4 +55,4 @@ const qrocmElementSchema = Joi.object({
   }).required(),
 });
 
-export { qrocmElementSchema };
+export { blockInputSchema, blockSelectSchema, qrocmElementSchema };
