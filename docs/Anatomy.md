@@ -28,7 +28,7 @@ pix                      → Sources de la plateforme
  └ .gitignore            → Listing des fichiers / répertoires à ignorer de Git 
  └ .slugignore           → Listing des fichiers / répertoires que Scalingo doit ignorer au moment du build
  └ CHANGELOG.md          → Listing des modifications opérées sur la plateforme (mise à jour automatique)
- └ docker-compose.yml    → Fichier utilisé pour les développements afin de démarrer un environnement iso-prod
+ └ compose.yaml          → Fichier utilisé pour les développements afin de démarrer un environnement iso-prod
  └ INSTALLATION.md       → Instructions d'installation de la plateforme en local
  └ LICENSE.md            → Texte de la licence logicielle utilisée sur Pix (AGPL-3.0)
  └ nginx.conf.erb        → Fichier de configuration du reverse proxy / API gateway (Nginx) 
