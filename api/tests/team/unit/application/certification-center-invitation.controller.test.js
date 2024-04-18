@@ -1,8 +1,8 @@
-import { certificationCenterInvitationController } from '../../../../src/team/application/certification-center-invitation-controller.js';
+import { certificationCenterInvitationController } from '../../../../src/team/application/certification-center-invitation.controller.js';
 import { usecases } from '../../../../src/team/domain/usecases/index.js';
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
-describe('Unit | Controller | certifications-center-controller', function () {
+describe('Unit | Team | Controller | certifications-center-controller', function () {
   describe('#sendInvitationForAdmin', function () {
     let certificationCenterInvitationSerializerStub;
 
