@@ -4,11 +4,13 @@ const buildCertificationCenterFeature = function buildCertificationCenterFeature
   id = databaseBuffer.getNextId(),
   certificationCenterId,
   featureId,
+  createdAt,
 } = {}) {
   const values = {
     id,
     certificationCenterId,
     featureId,
+    createdAt,
   };
 
   return databaseBuffer.pushInsertable({
