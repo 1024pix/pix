@@ -92,6 +92,10 @@ export class OidcAuthenticationService {
     return this.#isReady;
   }
 
+  set isReady(isReady) {
+    this.#isReady = isReady;
+  }
+
   get isReadyForPixAdmin() {
     return this.#isReadyForPixAdmin;
   }

@@ -1,4 +1,5 @@
 import { OidcAuthenticationService } from '../../../../src/authentication/domain/services/oidc-authentication-service.js';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
@@ -6,6 +7,14 @@ const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 export class FwbOidcAuthenticationService extends OidcAuthenticationService {
   constructor(oidcProvider, dependencies) {
     super(oidcProvider, dependencies);
+
+    if (!oidcProvider.additionalRequiredProperties) {
+      this.isReady = false;
+      logger.error(
+        `OIDC Provider "${this.identityProvider}" has been DISABLED because of missing "additionalRequiredProperties" object.`,
+      );
+      return;
+    }
 
     this.logoutUrl = oidcProvider.additionalRequiredProperties.logoutUrl;
   }

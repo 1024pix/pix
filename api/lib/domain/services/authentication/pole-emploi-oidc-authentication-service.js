@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 
 import { OidcAuthenticationService } from '../../../../src/authentication/domain/services/oidc-authentication-service.js';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 import { AuthenticationMethod } from '../../models/index.js';
@@ -10,6 +11,14 @@ const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 export class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor(oidcProvider, dependencies) {
     super(oidcProvider, dependencies);
+
+    if (!oidcProvider.additionalRequiredProperties) {
+      this.isReady = false;
+      logger.error(
+        `OIDC Provider "${this.identityProvider}" has been DISABLED because of missing "additionalRequiredProperties" object.`,
+      );
+      return;
+    }
 
     this.logoutUrl = oidcProvider.additionalRequiredProperties.logoutUrl;
     this.afterLogoutUrl = oidcProvider.additionalRequiredProperties.afterLogoutUrl;
