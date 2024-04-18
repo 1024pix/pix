@@ -76,12 +76,12 @@
     },
     "french-education-ministry": "Ministerie van Onderwijs en Jeugdzaken. Vrijheid gelijkheid broederschap",
     "french-republic": "Franse Republiek. Vrijheid, gelijkheid, broederschap.",
-    "level": "niveau",
     "languages": {
       "en": "Engels",
       "fr": "Frans",
       "nl": "Nederlands"
     },
+    "level": "niveau",
     "loading": {
       "default": "Bezig met laden",
       "results": "Je resultaten voorbereiden",
@@ -131,7 +131,7 @@
       "dashboard": "Home",
       "help": "Help",
       "label": "Hoofdmenu",
-      "link-help": "https://support.pix.org/fr/support/home",
+      "link-help": "https://pix.org/nl-be/support",
       "skills": "Vaardigheden",
       "start-certification": "Certificering",
       "trainings": "Mijn trainingen",
@@ -445,8 +445,8 @@
           "check-session-number": "Controleer het sessienummer.",
           "disclaimer": "De ingevoerde informatie komt niet overeen met een kandidaat die is ingeschreven voor de sessie."
         },
-        "language-not-supported": "La certification Pix n'est pas encore disponible en {userLanguage}. '<br>' Les langues disponibles actuellement pour passer la certification sont : {availableLanguages}. '<br>' Vous pouvez choisir une autre langue depuis la page ",
-        "language-not-supported-link": "Mon compte",
+        "language-not-supported": "Pix-certificering is nog niet beschikbaar in het {userLanguage}. '<br>' De talen die momenteel beschikbaar zijn voor certificering zijn: {availableLanguages}. '<br>' Je kunt een andere taal kiezen op de pagina",
+        "language-not-supported-link": "Mijn account",
         "session-not-accessible": "De sessie die u probeert te bezoeken is niet langer toegankelijk.",
         "wrong-account": "De ingevoerde informatie komt overeen met een kandidaat die is geregistreerd voor de sessie en al is ingelogd met een ander account. Controleer of u bent aangemeld bij het account waarmee de certificering is gestart.",
         "wrong-account-sco": "Je gebruikt momenteel een account dat niet aan je school is gekoppeld.\nLog in op het account waarmee je je cursussen hebt afgerond of vraag de supervisor om hulp.",
