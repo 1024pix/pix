@@ -64,7 +64,7 @@ module('Acceptance | Course ending screen', function (hooks) {
     assert.dom('.assessment-results__index-link__element').exists();
     assert.strictEqual(
       find('.assessment-results__index-a-link').attributes.href.value,
-      'https://app.pix.fr/inscription',
+      'https://app.pix.org/inscription',
     );
     assert.ok(find('.assessment-results__link-back').textContent.includes('Continuer mon expérience Pix'));
   });
