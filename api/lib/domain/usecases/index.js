@@ -80,6 +80,7 @@ import { importNamedExportsFromDirectory } from '../../../src/shared/infrastruct
 import * as userOrgaSettingsRepository from '../../../src/shared/prescriber-management/infrastructure/repositories/user-orga-settings-repository.js';
 import * as certificationCenterInvitationService from '../../../src/team/domain/services/certification-center-invitation-service.js';
 import * as certificationCenterInvitationRepository from '../../../src/team/infrastructure/repositories/certification-center-invitation-repository.js';
+import { userAccountApi } from '../../../src/user-account/application/api/index.js';
 import { config } from '../../config.js';
 import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
 import * as smartRandom from '../../domain/services/algorithm-methods/smart-random.js';
