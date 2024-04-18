@@ -1,6 +1,16 @@
 import { config } from '../../../shared/config.js';
 
 class UserLogin {
+  /**
+   * @param {object} params
+   * @param {string|number} params.id
+   * @param {string|number} params.userId
+   * @param {number} params.failureCount
+   * @param {date} params.temporaryBlockedUntil
+   * @param {date} params.blockedAt
+   * @param {date} params.createdAt
+   * @param {date} params.updatedAt
+   */
   constructor({ id, userId, failureCount = 0, temporaryBlockedUntil, blockedAt, createdAt, updatedAt } = {}) {
     this.id = id;
     this.userId = userId;
@@ -15,6 +25,9 @@ class UserLogin {
     this.failureCount++;
   }
 
+  /**
+   * @return {boolean}
+   */
   isUserMarkedAsTemporaryBlocked() {
     const now = new Date();
     return !!this.temporaryBlockedUntil && this.temporaryBlockedUntil > now;
@@ -25,6 +38,9 @@ class UserLogin {
     this.temporaryBlockedUntil = null;
   }
 
+  /**
+   * @return {boolean}
+   */
   shouldMarkUserAsTemporarilyBlocked() {
     return this.failureCount % config.login.temporaryBlockingThresholdFailureCount === 0;
   }
@@ -34,10 +50,16 @@ class UserLogin {
     this.temporaryBlockedUntil = new Date(Date.now() + config.login.temporaryBlockingBaseTimeMs * commonRatio);
   }
 
+  /**
+   * @return {boolean}
+   */
   hasFailedAtLeastOnce() {
     return this.failureCount > 0 || !!this.temporaryBlockedUntil;
   }
 
+  /**
+   * @return {boolean}
+   */
   shouldMarkUserAsBlocked() {
     return this.failureCount >= config.login.blockingLimitFailureCount;
   }
@@ -52,6 +74,9 @@ class UserLogin {
     this.blockedAt = null;
   }
 
+  /**
+   * @return {boolean}
+   */
   isUserMarkedAsBlocked() {
     return !!this.blockedAt;
   }
