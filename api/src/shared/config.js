@@ -213,6 +213,7 @@ const configuration = (function () {
       logoutUrl: process.env.FWB_OIDC_LOGOUT_URL,
       openidConfigurationUrl: process.env.FWB_OPENID_CONFIGURATION_URL,
       redirectUri: process.env.FWB_REDIRECT_URI,
+      acrValues: process.env.FWB_ACR_VALUES,
     },
     google: {
       accessTokenLifespanMs: ms(process.env.GOOGLE_ACCESS_TOKEN_LIFESPAN || '7d'),
