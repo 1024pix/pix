@@ -151,8 +151,8 @@ module('Integration | Component | QROCm proposal', function (hooks) {
             );
 
             // then
-            assert.dom(screen.getByRole('textbox', { name: 'texte :' })).exists();
-            assert.dom(screen.getByRole('textbox', { name: 'autre texte :' })).exists();
+            assert.dom(screen.getByRole('textbox', { name: 'Réponse 1' })).exists();
+            assert.dom(screen.getByRole('textbox', { name: 'Réponse 2' })).exists();
           });
         });
       });
