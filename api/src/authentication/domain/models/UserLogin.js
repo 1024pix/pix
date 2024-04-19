@@ -1,6 +1,6 @@
 import { config } from '../../../shared/config.js';
 
-class UserLogin {
+export class UserLogin {
   /**
    * @param {object} params
    * @param {string|number} params.id
@@ -81,5 +81,3 @@ class UserLogin {
     return !!this.blockedAt;
   }
 }
-
-export { UserLogin };
