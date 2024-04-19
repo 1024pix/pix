@@ -5,23 +5,6 @@ import { NotFoundError } from '../../../shared/domain/errors.js';
 const USER_LOGINS_TABLE_NAME = 'user-logins';
 
 /**
- * @param {object} userLoginDTO
- * @return {UserLogin}
- * @private
- */
-function _toDomain(userLoginDTO) {
-  return new UserLogin({
-    id: userLoginDTO.id,
-    userId: userLoginDTO.userId,
-    failureCount: userLoginDTO.failureCount,
-    temporaryBlockedUntil: userLoginDTO.temporaryBlockedUntil,
-    blockedAt: userLoginDTO.blockedAt,
-    createdAt: userLoginDTO.createdAt,
-    updatedAt: userLoginDTO.updatedAt,
-  });
-}
-
-/**
  * @typedef findByUserId
  * @type {function}
  * @param {string|number} userId
@@ -113,3 +96,20 @@ const updateLastLoggedAt = async function ({ userId }) {
  * @property {updateLastLoggedAt} updateLastLoggedAt
  */
 export { create, findByUserId, findByUsername, getByUserId, update, updateLastLoggedAt };
+
+/**
+ * @param {object} userLoginDTO
+ * @return {UserLogin}
+ * @private
+ */
+function _toDomain(userLoginDTO) {
+  return new UserLogin({
+    id: userLoginDTO.id,
+    userId: userLoginDTO.userId,
+    failureCount: userLoginDTO.failureCount,
+    temporaryBlockedUntil: userLoginDTO.temporaryBlockedUntil,
+    blockedAt: userLoginDTO.blockedAt,
+    createdAt: userLoginDTO.createdAt,
+    updatedAt: userLoginDTO.updatedAt,
+  });
+}
