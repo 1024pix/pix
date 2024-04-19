@@ -3,7 +3,7 @@
     <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
       <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
       <div class="challenge-proposals qroc-proposal">
-        {{#each this._blocks as |block|}}
+        {{#each this._blocks as |block index|}}
           {{#if block.input}}
             {{#if (eq block.type "select")}}
               <div class="challenge-response__proposal challenge-response__proposal--selector">
@@ -60,9 +60,7 @@
                   data-uid="qroc-proposal-uid"
                   data-test="challenge-response-proposal-selector"
                 >
-                  <:label>
-                    <MarkdownToHtml @isInline={{true}} @extensions="remove-paragraph-tags" @markdown={{block.text}} />
-                  </:label>
+                  <:label>{{this.buildGenericLabel index block.ariaLabel}}</:label>
                 </PixInput>
               </div>
             {{else if (eq @challenge.format "nombre")}}

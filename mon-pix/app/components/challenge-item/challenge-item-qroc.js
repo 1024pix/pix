@@ -112,6 +112,11 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
     window.removeEventListener('message', this.postMessageHandler);
   }
 
+  @action
+  buildGenericLabel(index, ariaLabel) {
+    return ariaLabel || this.intl.t('pages.challenge.answer-input.numbered-label', { number: index + 1 });
+  }
+
   get _blocks() {
     return proposalsAsBlocks(this.args.challenge.proposals).map((block) => {
       block.randomName = generateRandomString(block.input);
