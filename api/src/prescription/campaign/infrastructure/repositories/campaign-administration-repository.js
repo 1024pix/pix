@@ -123,4 +123,11 @@ const isFromSameOrganization = async function ({ firstCampaignId, secondCampaign
   return firstCampaign.organizationId === secondCampaign.organizationId;
 };
 
-export { get, isCodeAvailable, isFromSameOrganization, save, swapCampaignCodes, update };
+const archiveCampaigns = function (campaignIds, userId) {
+  return knex('campaigns').whereNull('archivedAt').whereInArray('id', campaignIds).update({
+    archivedBy: userId,
+    archivedAt: new Date(),
+  });
+};
+
+export { archiveCampaigns, get, isCodeAvailable, isFromSameOrganization, save, swapCampaignCodes, update };
