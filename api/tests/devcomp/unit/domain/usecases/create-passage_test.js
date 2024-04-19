@@ -1,3 +1,4 @@
+import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { ModuleDoesNotExistError } from '../../../../../src/devcomp/domain/errors.js';
 import { createPassage } from '../../../../../src/devcomp/domain/usecases/create-passage.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
@@ -22,12 +23,41 @@ describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {
     });
   });
 
+  describe('when user does not exist', function () {
+    it('should throw an UserNotExists', async function () {
+      // given
+      const userId = Symbol('userId');
+
+      const moduleRepositoryStub = {
+        getBySlug: sinon.stub(),
+      };
+      const userRepositoryStub = {
+        get: sinon.stub(),
+      };
+      userRepositoryStub.get.withArgs(userId).throws(new UserNotFoundError());
+
+      // when
+      const error = await catchErr(createPassage)({
+        userId,
+        moduleRepository: moduleRepositoryStub,
+        userRepository: userRepositoryStub,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(UserNotFoundError);
+    });
+  });
+
   it('should call passage repository to save the passage', async function () {
     // given
     const moduleId = Symbol('moduleId');
     const userId = Symbol('userId');
     const repositoryResult = Symbol('repository-result');
 
+    const userRepositoryStub = {
+      get: sinon.stub(),
+    };
+    userRepositoryStub.get.withArgs(userId).resolves();
     const moduleRepositoryStub = {
       getBySlug: sinon.stub(),
     };
@@ -43,6 +73,7 @@ describe('Unit | Devcomp | Domain | UseCases | create-passage', function () {
       userId,
       passageRepository: passageRepositoryStub,
       moduleRepository: moduleRepositoryStub,
+      userRepository: userRepositoryStub,
     });
 
     // then

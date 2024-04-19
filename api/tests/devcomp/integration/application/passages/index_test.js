@@ -1,3 +1,4 @@
+import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { passageController } from '../../../../../src/devcomp/application/passages/controller.js';
 import * as moduleUnderTest from '../../../../../src/devcomp/application/passages/index.js';
 import {
@@ -28,6 +29,28 @@ describe('Integration | Devcomp | Application | Passage | Router | passage-route
 
         // then
         expect(response.statusCode).to.equal(422);
+      });
+    });
+
+    describe('when controller throw a UserNotFoundError', function () {
+      it('should return a 404', async function () {
+        // given
+        sinon.stub(passageController, 'create').throws(new UserNotFoundError());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+        const validPayload = {
+          data: {
+            attributes: {
+              'module-id': 'existing id',
+            },
+          },
+        };
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/passages', validPayload);
+
+        // then
+        expect(response.statusCode).to.equal(404);
       });
     });
   });
