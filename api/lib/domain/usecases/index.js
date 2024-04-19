@@ -111,7 +111,6 @@ import { campaignParticipationResultRepository } from '../../infrastructure/repo
 import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRepository } from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
 import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
 import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
-import * as campaignAdministrationRepository from '../../infrastructure/repositories/campaigns-administration/campaign-repository.js';
 import * as certifiableProfileForLearningContentRepository from '../../infrastructure/repositories/certifiable-profile-for-learning-content-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as certificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin-repository.js';
@@ -219,7 +218,6 @@ const dependencies = {
   badgeAcquisitionRepository,
   badgeForCalculationRepository,
   badgeRepository,
-  campaignAdministrationRepository,
   campaignAnalysisRepository,
   campaignAssessmentParticipationRepository,
   campaignAssessmentParticipationResultRepository,

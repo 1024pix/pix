@@ -227,6 +227,41 @@ const register = async function (server) {
         tags: ['api', 'admin', 'campaigns'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/admin/campaigns/archive-campaigns',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.hasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAtLeastOneAccessOf',
+          },
+        ],
+        payload: {
+          maxBytes: TWENTY_MEGABYTES,
+          output: 'file',
+          failAction: (request, h) => {
+            return sendJsonApiError(
+              new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
+                maxSize: '20',
+              }),
+              h,
+            );
+          },
+        },
+        handler: campaignAdministrationController.archiveCampaigns,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés ayant pour rôle METIER**\n' +
+            "- Elle permet d'archiver une liste définis de campagne sous le format CSV\n" +
+            '- Elle ne retourne aucune valeur de retour',
+        ],
+        tags: ['api', 'organization-learners'],
+      },
+    },
   ]);
 };
 

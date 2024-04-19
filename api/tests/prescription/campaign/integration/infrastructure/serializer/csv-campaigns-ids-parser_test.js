@@ -1,6 +1,6 @@
-import * as csvCampaignIdsParser from '../../../../../lib/infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser.js';
-import { CsvImportError } from '../../../../../src/shared/domain/errors.js';
-import { catchErr, createTempFile, expect, removeTempFile } from '../../../../test-helper.js';
+import * as csvCampaignIdsParser from '../../../../../../src/prescription/campaign/infrastructure/serializers/csv/csv-campaigns-ids-parser.js';
+import { CsvImportError } from '../../../../../../src/shared/domain/errors.js';
+import { catchErr, createTempFile, expect, removeTempFile } from '../../../../../test-helper.js';
 
 describe('Integration | Serializer | CSV | campaigns-administration | csv-campaigns-ids-parser', function () {
   describe('#extractCampaignsIds', function () {
