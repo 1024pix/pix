@@ -10,9 +10,9 @@ export default class QrocmProposalInd extends Component {
   ARIA_LABEL_DELIMITATOR = '#';
 
   get proposalBlocks() {
-    const groupedBlocks = []
+    const groupedBlocks = [];
     const blocks = proposalsAsBlocks(this.args.proposals).map((block, index) => {
-      block.displayLegend = index === 0
+      block.displayLegend = index === 0;
       block.showText = block.text && !block.ariaLabel && !block.input;
       block.randomName = generateRandomString(block.input);
 
@@ -24,15 +24,17 @@ export default class QrocmProposalInd extends Component {
       }
       return block;
     });
-    console.log(blocks)
     blocks.forEach((block, index) => {
-      if(block.text || index === 0) {
-        groupedBlocks.push({...block, formElement: []})
+      if (block.text || index === 0) {
+        groupedBlocks.push({ ...block, formElement: [] });
+        console.log(block);
+        if (block.type !== null) {
+          groupedBlocks[groupedBlocks.length - 1].formElement.push(block);
+        }
       } else {
-        groupedBlocks[groupedBlocks.length -1].formElement.push(block);
+        groupedBlocks[groupedBlocks.length - 1].formElement.push(block);
       }
     });
-    console.log(groupedBlocks)
     return groupedBlocks;
   }
 
@@ -50,5 +52,10 @@ export default class QrocmProposalInd extends Component {
   onChange(key, value) {
     this.args.answersValue[key] = value;
     this.args.onChangeSelect(this.args.answersValue);
+  }
+
+  @action
+  buildGenericLabel(index, ariaLabel) {
+    return ariaLabel || this.intl.t('pages.challenge.answer-input.numbered-label', { number: index + 1 });
   }
 }

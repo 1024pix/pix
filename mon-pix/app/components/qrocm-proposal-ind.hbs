@@ -7,7 +7,7 @@
         légende générique
       {{/if}}
     </legend>
-    {{#each block.formElement as |block|}}
+    {{#each block.formElement as |block index|}}
       {{#if (eq block.type "select")}}
         <div class="challenge-response__proposal challenge-response__proposal--selector">
           <PixSelect
@@ -22,7 +22,7 @@
             @size="big"
             @id="{{block.input}}"
           >
-            <:label>{{block.ariaLabel}}</:label>
+            <:label>{{this.buildGenericLabel index block.ariaLabel}}</:label>
           </PixSelect>
         </div>
       {{else if (eq block.type "input")}}
@@ -32,16 +32,18 @@
               <PixTextarea
                 @id="{{block.input}}"
                 rows="5"
-                aria-label={{block.ariaLabel}}
                 placeholder={{block.placeholder}}
                 name={{block.randomName}}
                 @value={{get @answersValue block.input}}
+                @screenReaderOnly={{true}}
                 data-test="challenge-response-proposal-selector"
                 disabled={{@isAnswerFieldDisabled}}
                 autocomplete="nope"
                 data-uid="qrocm-proposal-uid"
                 {{on "change" (fn this.onInputChange block.input)}}
-              />
+              >
+                <:label>{{this.buildGenericLabel index block.ariaLabel}}</:label>
+              </PixTextarea>
             </div>
           {{else if (eq @format "phrase")}}
             <div class="challenge-response__proposal challenge-response__proposal--sentence">
@@ -58,7 +60,7 @@
                 data-uid="qrocm-proposal-uid"
                 {{on "change" (fn this.onInputChange block.input)}}
               >
-                <:label>{{block.ariaLabel}}</:label>
+                <:label>{{this.buildGenericLabel index block.ariaLabel}}</:label>
               </PixInput>
             </div>
           {{else}}
@@ -77,7 +79,7 @@
                 data-uid="qrocm-proposal-uid"
                 {{on "change" (fn this.onInputChange block.input)}}
               >
-                <:label>{{block.ariaLabel}}</:label>
+                <:label>{{this.buildGenericLabel index block.ariaLabel}}</:label>
               </PixInput>
             </div>
           {{/if}}
