@@ -436,8 +436,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p> Pour vérifier votre réponse, suivez le lien vers <a href=\"http://monip.org/\" target=\"_blank\">http://monip.org/</a>.</p>",
-            "invalid": "<p>Suivez le lien vers <a href=\"http://monip.org/\" target=\"_blank\">http://monip.org/</a> pour la trouver.</p>"
+            "valid": "<p> Pour vérifier votre réponse, suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a>.</p>",
+            "invalid": "<p>Suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a> pour la trouver.</p>"
           },
           "solution": "1"
         },
