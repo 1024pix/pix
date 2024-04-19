@@ -43,7 +43,7 @@
 
   {{#if this.displayImportMessagePanel}}
     <section id="import-error-messages" class={{this.panelClasses}} aria-live="assertive">
-      <h2 class="screen-reader-only">{{t "pages.organization-participants-import.error-panel.title"}}</h2>
+      <h2>{{t "pages.organization-participants-import.error-panel.title"}}</h2>
 
       <ul class="import-students-page__error-panel-list">
         {{#each this.errorDetailList as |errorElement|}}
