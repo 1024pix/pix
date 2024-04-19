@@ -384,7 +384,6 @@ const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './'), ignoredFileNames: ['index.js'] })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './account-recovery') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './authentication') })),
-  ...(await importNamedExportsFromDirectory({ path: join(path, './campaigns-administration') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './certificate') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './organizations-administration') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './stages') })),
