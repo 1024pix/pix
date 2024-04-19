@@ -149,6 +149,10 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
     placeholder: ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
     propertyName: 'pixPlusEdu2ndDegre',
   },
+  {
+    placeholder: ComplementaryCertificationKeys.PIX_PLUS_SANTE,
+    propertyName: 'pixPlusSante',
+  },
 ];
 
 const EXTRA_EMPTY_CANDIDATE_ROWS = 20;

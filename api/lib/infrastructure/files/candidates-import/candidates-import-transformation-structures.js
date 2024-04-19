@@ -109,6 +109,10 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
       complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
   );
 
+  const containsPixPlusSante = complementaryCertifications.some(
+    (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_SANTE,
+  );
+
   if (containsClea) {
     transformationStruct.push({
       header: `CléA Numérique${translate('candidate-list-template.yes-or-empty')}`,
@@ -137,6 +141,14 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
     transformationStruct.push({
       header: `Pix+ Édu 2nd degré${translate('candidate-list-template.yes-or-empty')}`,
       property: 'hasPixPlusEdu2ndDegre',
+      transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
+    });
+  }
+
+  if (containsPixPlusSante) {
+    transformationStruct.push({
+      header: `Pix+ Santé${translate('candidate-list-template.yes-or-empty')}`,
+      property: 'hasPixPlusSante',
       transformFn: (val) => _toBooleanIfValueEqualsOuiOrNull({ val, translate }),
     });
   }

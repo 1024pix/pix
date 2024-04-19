@@ -400,6 +400,10 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         label: 'Pix+ Édu 2nd degré',
         key: ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
       });
+      const pixPlusSanteComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        label: 'Pix+ Santé',
+        key: ComplementaryCertificationKeys.PIX_PLUS_SANTE,
+      });
 
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
@@ -417,6 +421,10 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
         complementaryCertificationId: pixPlusEdu2ndDegreComplementaryCertification.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId,
+        complementaryCertificationId: pixPlusSanteComplementaryCertification.id,
       });
 
       const userId = databaseBuilder.factory.buildUser().id;
@@ -501,6 +509,25 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             billingMode: 'FREE',
             complementaryCertification: domainBuilder.buildComplementaryCertification(
               pixPlusEdu2ndDegreComplementaryCertification,
+            ),
+          },
+          {
+            lastName: 'Cendy',
+            firstName: 'Alain',
+            birthdate: '1988-06-28',
+            sex: 'M',
+            birthCity: 'SAINT-ANNE',
+            birthCountry: 'FRANCE',
+            birthINSEECode: null,
+            birthPostalCode: '97180',
+            resultRecipientEmail: null,
+            email: null,
+            externalId: 'SDQ987',
+            extraTimePercentage: null,
+            sessionId,
+            billingMode: 'FREE',
+            complementaryCertification: domainBuilder.buildComplementaryCertification(
+              pixPlusSanteComplementaryCertification,
             ),
           },
         ],
