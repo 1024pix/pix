@@ -70,12 +70,12 @@
 
 .navbar-burger-menu-footer-item {
   &__link {
+    @extend %pix-body-m;
+
     display: inline-block;
     width: 100%;
     padding: 10px 32px;
     color: $pix-neutral-0;
-    font-size: 1rem;
-    font-family: $font-open-sans;
 
     &.active {
       padding-left: calc(32px - 5px);

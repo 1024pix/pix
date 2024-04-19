@@ -37,11 +37,10 @@
   }
 
   &__invitation {
+    @extend %pix-body-l;
+
     margin-top: 24px;
     color: $pix-neutral-60;
-    font-weight: 500;
-    font-size: 1.25rem;
-    font-family: $font-roboto;
     text-align: center;
   }
 
@@ -93,8 +92,8 @@
 }
 
 .form-title {
+  @extend %pix-title-s;
+
   margin-bottom: 20px;
   color: $pix-neutral-100;
-  font-size: 1.875rem;
-  font-family: $font-open-sans;
 }

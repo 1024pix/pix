@@ -32,51 +32,40 @@
 
   &__title,
   &__sco-title {
+    @extend %pix-title-l;
+
     color: $pix-neutral-100;
-    font-family: $font-open-sans;
     text-align: center;
   }
 
-  &__title {
-    margin-bottom: 12px;
-    font-size: 2.625rem;
-  }
-
-  &__sco-title {
-    margin: 30px 0 12px;
-    font-size: 1.5625rem;
-
-    @include device-is('tablet') {
-      margin: 0 0 12px;
-      font-size: 2.625rem;
-    }
-  }
-
   &__subtitle {
-    margin-bottom: 30px;
+    @extend %pix-title-xs;
+
+    margin: $pix-spacing-m 0;
     color: $pix-neutral-100;
-    font-size: 1.125rem;
-    font-family: $font-open-sans;
     text-align: center;
   }
 
   &__label {
+    @extend %pix-body-s;
+
     margin: 0;
     font-weight: $font-medium;
-    font-size: 0.938rem;
     font-family: $font-roboto;
   }
 
   &__field-error {
+    @extend %pix-body-s;
+
     color: $pix-error-60;
-    font-size: 0.875rem;
   }
 
   &__error {
+    @extend %pix-body-s;
+
     margin: 8px 0;
     padding: 4px 10px;
     color: $pix-error-60;
-    font-size: 0.938rem;
     text-align: center;
 
     @include device-is('tablet') {
@@ -164,12 +153,10 @@
 
 .join-error-modal-header-title {
   &__text {
+    @extend %pix-title-xs;
+
     margin-left: 8px;
     color: $pix-neutral-90;
-    font-weight: $font-normal;
-    font-size: 1.25rem;
-    font-family: $font-open-sans;
-    line-height: 1.875rem;
   }
 }
 
@@ -186,10 +173,9 @@
 
 .join-error-modal-body {
   &__message {
+    @extend %pix-body-s;
+
     color: $pix-neutral-110;
-    font-weight: $font-normal;
-    font-size: 0.875rem;
-    font-family: $font-roboto;
     text-align: left;
   }
 

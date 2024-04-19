@@ -1,23 +1,21 @@
 .user-account {
 
   &__title {
+    @extend %pix-title-l;
+
     position: relative;
     right: 0;
     margin: 0 0 8px;
     padding-bottom: 26px;
     color: $pix-neutral-0;
-    font-weight: 300;
-    font-size: 3rem;
-    font-family: $font-open-sans;
     text-align: center;
   }
 
   &__validation-title {
+    @extend %pix-title-s;
+
     padding-bottom: 16px;
     color: $pix-neutral-90;
-    font-weight: 400;
-    font-size: 1.5rem;
-    font-family: $font-open-sans;
     text-align: center;
 
     @include device-is('tablet') {
