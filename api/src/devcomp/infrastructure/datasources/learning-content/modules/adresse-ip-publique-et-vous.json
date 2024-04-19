@@ -204,31 +204,6 @@
           "content": "<hr>"
         },
         {
-          "id": "3c7f2197-4d60-452c-b7d4-e1d642a5f2c0",
-          "type": "qcu",
-          "instruction": "<p>Les personnes connectées à la même box internet ont la même adresse IP publique.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "Vrai"
-            },
-            {
-              "id": "2",
-              "content": "Faux"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. C’est effectivement le point d’accès internet qui détermine l’adresse IP publique.</p>",
-            "invalid": "<p>Incorrect. Il n'y a pas plusieurs adresses IP publiques pour un même point d'accès internet. L'adresse est unique. </p>"
-          },
-          "solution": "1"
-        },
-        {
-          "id": "4bb90e70-7b23-4327-b9d5-d6f902a6ca77",
-          "type": "text",
-          "content": "<hr>"
-        },
-        {
           "id": "04d94597-3815-4745-9acd-4f32b8fa93f0",
           "type": "qcu",
           "instruction": "<p>Les personnes qui ont votre adresse IP publique peuvent savoir précisément où vous habitez.</p>",
@@ -247,6 +222,31 @@
             "invalid": "<p>Incorrect. Une adresse IP publique permet d'identifier un pays, voire une ville de connexion, mais difficile d’en savoir plus&#8239;!</p>"
           },
           "solution": "2"
+        },
+        {
+          "id": "4bb90e70-7b23-4327-b9d5-d6f902a6ca77",
+          "type": "text",
+          "content": "<hr>"
+        },
+        {
+          "id": "3c7f2197-4d60-452c-b7d4-e1d642a5f2c0",
+          "type": "qcu",
+          "instruction": "<p>Les personnes connectées à la même box internet ont la même adresse IP publique.</p>",
+          "proposals": [
+            {
+              "id": "1",
+              "content": "Vrai"
+            },
+            {
+              "id": "2",
+              "content": "Faux"
+            }
+          ],
+          "feedbacks": {
+            "valid": "<p>Correct. C’est effectivement le point d’accès internet qui détermine l’adresse IP publique.</p>",
+            "invalid": "<p>Incorrect. Il n'y a pas plusieurs adresses IP publiques pour un même point d'accès internet. L'adresse est unique. </p>"
+          },
+          "solution": "1"
         }
       ]
     },
