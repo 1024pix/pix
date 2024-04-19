@@ -91,12 +91,12 @@ async function main(filePath) {
     const batchInfo = await trx.batchInsert('certification-center-features', certificationCentersPilotsList);
     const insertedLines = _getInsertedLineNumber(batchInfo);
     logger.info('✅ ');
-    trx.commit();
+    await trx.commit();
     logger.info(`Added lines: ${insertedLines}`);
     logger.info('Done.');
   } catch (error) {
     if (trx) {
-      trx.rollback();
+      await trx.rollback();
     }
     throw error;
   }

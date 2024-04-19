@@ -98,13 +98,13 @@ async function main(filePath) {
     await trx('certification-cpf-countries').del();
     console.log('Inserting countries in database... ');
     await trx.batchInsert('certification-cpf-countries', countries);
-    trx.commit();
+    await trx.commit();
     console.log('ok');
 
     console.log('\nDone.');
   } catch (error) {
     if (trx) {
-      trx.rollback();
+      await trx.rollback();
     }
     throw error;
   }
