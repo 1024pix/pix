@@ -35,7 +35,7 @@
       "grainId": "09304128-193f-4ea8-bda7-edffd72b1bf2"
     },
     {
-      "content": "<p>Vous l’avez sûrement remarqué, depuis le début de ce module, nous parlons uniquement d’adresse IP publiques.<br>Il existe un autre type d’adresse IP&nbsp;: les adresses IP privées, aussi appelées IP locales.</p>",
+      "content": "<p>Vous l’avez sûrement remarqué, depuis le début de ce module, nous parlons uniquement d’adresses IP publiques.<br>Il existe un autre type d’adresse IP&nbsp;: les adresses IP privées, aussi appelées IP locales.</p>",
       "grainId": "45d507ce-f822-4a06-aa6e-f2a1b0aeada3"
     },
     {
@@ -318,7 +318,7 @@
         {
           "id": "9814961b-3134-468d-a918-9b98a1775395",
           "type": "text",
-          "content": "<p>Étudiez ce schéma qui présente les deux types d'adresses IP. Par la suite, vous devrez trouvez quel est le type d'adresse IP concernée entre privée et publique dans des situations concrètes.</p>"
+          "content": "<p>Étudiez ce schéma qui présente les deux types d'adresses IP. Par la suite, vous devrez trouver quel est le type d'adresse IP concernée entre privée et publique dans des situations concrètes.</p>"
         },
         {
           "id": "f42fa86c-3936-485a-8ea3-cabed25153f9",
@@ -342,7 +342,7 @@
         {
           "id": "9bc62c21-dfd4-40a8-9497-680a7e1c13d9",
           "type": "text",
-          "content": "<p>Pour chaque affirmation, choisissez si elle correspond à une IP publique ou à une privée.</p>"
+          "content": "<p>Pour chaque affirmation, choisissez si elle correspond à une IP publique ou à une IP privée.</p>"
         },
         {
           "id": "01136211-72e8-47c3-a3d3-753edb2dfd09",
