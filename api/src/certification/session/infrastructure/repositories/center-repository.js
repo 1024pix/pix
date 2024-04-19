@@ -4,7 +4,6 @@ import { Center } from '../../domain/models/Center.js';
 
 const getById = async ({ id }) => {
   const center = await knex
-    .select(knex.raw('"certification-center-features"."certificationCenterId" IS NOT NULL as "isFeaturePilot"'))
     .select({
       id: 'certification-centers.id',
       type: 'certification-centers.type',

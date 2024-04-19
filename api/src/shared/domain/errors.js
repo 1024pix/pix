@@ -277,6 +277,16 @@ class UserNotAuthorizedToAccessEntityError extends DomainError {
   }
 }
 
+class V3PilotNotAuthorizedForCertificationCenterError extends DomainError {
+  constructor(
+    message = 'Certification center is not authorized to switch to a V3 pilot.',
+    code = 'V3_PILOT_NOT_AUTHORIZED',
+  ) {
+    super(message);
+    this.code = code;
+  }
+}
+
 export {
   AlreadyExistingEntityError,
   AssessmentEndedError,
@@ -304,4 +314,5 @@ export {
   OidcError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
   UserNotAuthorizedToAccessEntityError,
+  V3PilotNotAuthorizedForCertificationCenterError,
 };
