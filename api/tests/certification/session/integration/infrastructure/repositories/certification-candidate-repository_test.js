@@ -80,7 +80,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
       context('when there is complementary certifications to save', function () {
         afterEach(function () {
-          return knex('complementary-certification-subscriptions').del();
+          return knex('certification-subscriptions').del();
         });
 
         it('should save the complementary certification subscription', async function () {
@@ -105,7 +105,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
           // then
           const [{ complementaryCertificationId: complementaryCertificationSubscriptionIdInDB }] = await knex(
-            'complementary-certification-subscriptions',
+            'certification-subscriptions',
           )
             .select('complementaryCertificationId')
             .where({

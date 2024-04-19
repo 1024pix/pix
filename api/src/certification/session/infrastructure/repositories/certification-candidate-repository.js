@@ -55,9 +55,9 @@ const saveInSession = async function ({
         certificationCandidateId: addedCertificationCandidate.id,
       };
 
-      const insertComplementaryCertificationSubscriptionQuery = knex(
-        'complementary-certification-subscriptions',
-      ).insert(complementaryCertificationSubscriptionToSave);
+      const insertComplementaryCertificationSubscriptionQuery = knex('certification-subscriptions').insert(
+        complementaryCertificationSubscriptionToSave,
+      );
 
       if (domainTransaction.knexTransaction) {
         insertComplementaryCertificationSubscriptionQuery.transacting(domainTransaction.knexTransaction);
