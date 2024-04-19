@@ -38,8 +38,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         assert.dom('.challenge-response__proposal').exists({ count: 2 });
         assert.false(findAll('.challenge-response__proposal input')[0].disabled);
         assert.false(findAll('.challenge-response__proposal input')[1].disabled);
-        assert.ok(screen.getByLabelText(/Station 1/));
-        assert.ok(screen.getByLabelText(/Station 2/));
+        assert.ok(screen.getByLabelText('Réponse 1'));
+        assert.ok(screen.getByLabelText('Réponse 2'));
         assert.dom('.challenge-response__alert').doesNotExist();
       });
 
@@ -147,8 +147,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
       test('should set the input text with previous answers and propose to continue', async function (assert) {
         // then
-        const input1 = screen.getByLabelText(/Station 1/);
-        const input2 = screen.getByLabelText(/Station 2/);
+        const input1 = screen.getByLabelText('Réponse 1');
+        const input2 = screen.getByLabelText('Réponse 2');
         assert.strictEqual(input1.value, 'Republique');
         assert.true(input1.disabled);
         assert.strictEqual(input2.value, 'Chatelet');
