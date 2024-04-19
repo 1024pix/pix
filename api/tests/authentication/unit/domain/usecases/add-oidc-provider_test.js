@@ -25,9 +25,9 @@ describe('Unit | Authentication | Domain | UseCases | add-oidc-provider', functi
     };
     const expectedOidcProviderProperties = {
       accessTokenLifespan: '7d',
+      additionalRequiredProperties: undefined,
       claimsToStore: undefined,
       clientId: 'client',
-      customProperties: undefined,
       enabled: undefined,
       enabledForPixAdmin: undefined,
       encryptedClientSecret: '#%@!!!!!!!!!!!!!',

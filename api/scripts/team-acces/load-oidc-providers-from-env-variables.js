@@ -29,7 +29,7 @@ const OIDC_PROVIDERS_POLE_EMPLOI = {
 
   openidClientExtraMetadata: { token_endpoint_auth_method: 'client_secret_post' },
 
-  customProperties: {
+  additionalRequiredProperties: {
     logoutUrl: process.env.POLE_EMPLOI_OIDC_LOGOUT_URL,
     afterLogoutUrl: process.env.POLE_EMPLOI_OIDC_AFTER_LOGOUT_URL,
   },
@@ -51,7 +51,7 @@ const OIDC_PROVIDERS_FWB = {
   redirectUri: process.env.FWB_REDIRECT_URI,
   shouldCloseSession: true,
 
-  customProperties: {
+  additionalRequiredProperties: {
     logoutUrl: process.env.FWB_OIDC_LOGOUT_URL,
   },
 
