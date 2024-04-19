@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v4.135.0 (19/04/2024)
+
+
+### :rocket: Amélioration
+- [#8698](https://github.com/1024pix/pix/pull/8698) [FEATURE] Retourner une erreur lors de la création d'un passage pour un utilisateur non-existant (PIX-12184).
+- [#8596](https://github.com/1024pix/pix/pull/8596) [FEATURE][PIX APP] Appliquer les token font sur les pages du scope Accès (PIX-11285).
+- [#8695](https://github.com/1024pix/pix/pull/8695) [FEATURE] Rediriger vers app.pix.org lors d'un test statique (PIX-11941).
+
+### :building_construction: Tech
+- [#8689](https://github.com/1024pix/pix/pull/8689) [TECH] Script d'ajout d'un centre de certification V2 en tant que pilote pour le passage d'une certification complémentaire seule (PIX-12049). .
+- [#8699](https://github.com/1024pix/pix/pull/8699) [TECH] Migrer le service de scoring (PIX-12207).
+
+### :bug: Correction
+- [#8631](https://github.com/1024pix/pix/pull/8631) [BUGFIX] Corrections d'un lien NL menant vers le support (PIX-12062).
+
 ## v4.134.0 (18/04/2024)
 
 
