@@ -276,7 +276,8 @@
       "aria-label": "Navigation de pied de page",
       "copyrights": "©",
       "legal-notice": "Mentions légales",
-      "pix": "Pix"
+      "pix": "Pix",
+      "server-status": "Statuts des services"
     },
     "main": {
       "aria-label": "Navigation principale",

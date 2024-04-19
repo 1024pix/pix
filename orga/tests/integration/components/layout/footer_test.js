@@ -44,4 +44,13 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     assert.dom(screen.getByText('Accessibilité : partiellement conforme')).exists();
     assert.dom('a[href="https://pix.fr/accessibilite-pix-orga"]').exists();
   });
+
+  test('should display pix status link', async function (assert) {
+    // when
+    const screen = await renderScreen(hbs`<Layout::Footer />}`);
+
+    // then
+    const link = screen.getByRole('link', { name: this.intl.t('navigation.footer.server-status') });
+    assert.dom(link).hasProperty('href', 'https://status.pix.org/?locale=fr');
+  });
 });
