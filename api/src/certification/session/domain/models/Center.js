@@ -1,4 +1,5 @@
 import { assertEnumValue } from '../../../../shared/domain/models/asserts.js';
+import { CERTIFICATION_FEATURES } from '../../../shared/domain/constants.js';
 import { CenterTypes } from './CenterTypes.js';
 
 export class Center {
@@ -20,5 +21,11 @@ export class Center {
 
   get hasBillingMode() {
     return this.type !== CenterTypes.SCO;
+  }
+
+  get isComplementaryAlonePilot() {
+    return this.features.find(
+      (feature) => feature === CERTIFICATION_FEATURES.CAN_REGISTER_FOR_A_COMPLEMENTARY_CERTIFICATION_ALONE.key,
+    );
   }
 }

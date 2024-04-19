@@ -1,5 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable import/no-restricted-paths */ import { dirname, join } from 'node:path';
+/* eslint-disable import/no-restricted-paths */
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as pixAuthenticationService from '../../../src/authentication/domain/services/pix-authentication-service.js';
@@ -16,6 +17,7 @@ import { pickChallengeService } from '../../../src/certification/flash-certifica
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as certificationCpfService from '../../../src/certification/session/domain/services/certification-cpf-service.js';
 import * as sessionCodeService from '../../../src/certification/session/domain/services/session-code-service.js';
+import * as centerRepository from '../../../src/certification/session/infrastructure/repositories/center-repository.js';
 import * as certificationCandidateRepository from '../../../src/certification/session/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCpfCityRepository from '../../../src/certification/session/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../src/certification/session/infrastructure/repositories/certification-cpf-country-repository.js';
@@ -200,6 +202,7 @@ function requirePoleEmploiNotifier() {
  * @typedef {placementProfileService} PlacementProfileService
  * @typedef {sessionPublicationService} SessionPublicationService
  * @typedef {sessionRepository} SessionRepository
+ * @typedef {centerRepository} CenterRepository
  */
 
 const dependencies = {
@@ -232,6 +235,7 @@ const dependencies = {
   campaignProfileRepository,
   campaignRepository,
   campaignToJoinRepository,
+  centerRepository,
   certifiableProfileForLearningContentRepository,
   certificateRepository,
   certificationAssessmentRepository,
