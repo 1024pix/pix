@@ -14,7 +14,7 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Nous allons voir ensemble ce que sont les données personnelles.Suis bien toutes les activités ci-dessous et tu seras imbattable sur le sujet !</p>",
+      "content": "<p>Nous allons voir ensemble ce que sont les données personnelles. Suis bien toutes les activités ci-dessous et tu seras imbattable sur le sujet !</p>",
       "grainId": "4a96e2aa-fdeb-4094-8c99-2bc8f088bfbe"
     },
     {
@@ -26,7 +26,7 @@
       "grainId": "494c3c3a-6ffb-46fc-81b9-7eabe5a0227c"
     },
     {
-      "content": "<p>Maintenant que tu sais ce qu'est une donnée personnelle, voyons si tu peux les reconnaître</p>",
+      "content": "<p>Maintenant que tu sais ce qu'est une donnée personnelle, voyons si tu peux les reconnaître.</p>",
       "grainId": "5773e09f-947f-41d9-94a6-12bc02589ada"
     },
     {
@@ -115,35 +115,43 @@
     {
       "id": "2953f145-c489-48d6-9a85-a8ad08f140e2",
       "type": "activity",
-      "title": "Quel est votre profil ?",
+      "title": "DP de Lucas",
       "elements": [
         {
           "id": "898acddf-c391-4be9-802d-8751a3fba207",
           "type": "image",
-          "url": "https://i.imgur.com/GuLXBCj.jpeg",
-          "alt": "Photo d'une clé USB",
+          "url": "https://i.imgur.com/a/EL8t8a1.jpg",
+          "alt": "Formulaire complété de Lucas",
           "alternativeText": ""
         },
         {
           "id": "f127b2ed-b484-4642-95e5-19d5ebdad34e",
-          "type": "qcu",
-          "instruction": "<p>Vous avez sûrement déjà branché une clé USB.<br> Quel type de personne êtes-vous&#8239;?</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "J'arrive toujours la brancher une clé USB du premier coup."
+          "type": "qcm",
+            "instruction": "<p>Regarde le formulaire que Lucas a rempli? On sait déjà qu'il n'aurait pas dû donner son nom, son prénom et son numéro. Peux-tu retrouver les 2 autres données personnelles qu'il n'aurait pas dû remplir ?</p>",
+            "proposals": [
+              {
+                "id": "1",
+                "content": "Adresse e-mail"
+              },
+              {
+                "id": "2",
+                "content": "Adresse"
+              },
+              {
+                "id": "3",
+                "content": "Numéro de téléphone"
+              },
+              {
+                "id": "4",
+                "content": "Nombre de consoles"
+              }
+            ],
+            "feedbacks": {
+              "valid": "<p>Correct. </p>",
+              "invalid": "<p>Incorrect.  Son adresse et son e-mail sont des données personnelles. À partir de son jeu vidéo préféré ou du nombre de consoles qu'il possède, il est compliqué de l'identifier.</p>"
             },
-            {
-              "id": "2",
-              "content": "J'ai besoin d'essayer plusieurs fois avant de réussir à brancher une clé USB."
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>C'est le cas de nombreuses personnes&#8239;!&nbsp;<span aria-hidden=\"true\">🏅</span></p>",
-            "invalid": "<p>Toujours&#8239;?! On ne vous croit pas...&nbsp;<span aria-hidden=\"true\">😉</span></p>"
-          },
-          "solution": "2"
-        }
+            "solutions": ["1", "2"]
+          }
       ]
     }
     ,
@@ -155,9 +163,9 @@
         {
           "id": "ac20206e-bb77-47e3-9b0e-94074643d2bd",
           "type": "image",
-          "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/intro.jpg",
+          "url": "https://i.imgur.com/M5CYKlu.png",
           "alt": "Image décrite dans l'alternative textuelle",
-          "alternativeText": "<p>Recherche \"recettes de cuisine végétariennes\" SOSCuisine Lien vers soscuisine.com categorie vegetarienne Recette végétarienne Recettes végétariennes • Critères de recherche actifs • Affiner la recherche: • Résultats de recherche&nbsp;: 906 résultats trouvés • Zucchini à la menthe • Yogourt ... © CuisinePop.com Lien vers cuisinepop.com Recettes végétariennes faciles à préparer. Des nouvelles ... Plus de résultats v France • Toulouse - D'après votre adresse IP - Mettre à jour ma position</p>"
+          "alternativeText": "<p>Pour résumer</p>"
         }
       ]
     }
