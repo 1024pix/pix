@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v4.136.0 (22/04/2024)
+
+
+### :rocket: Amélioration
+- [#8708](https://github.com/1024pix/pix/pull/8708) [FEATURE] Générer une prévisualisation des modules pour la contribution (PIX-12132).
+- [#8712](https://github.com/1024pix/pix/pull/8712) [FEATURE] Ajouter Pix+ Santé dans les certifications complémentaires possible lors de l'import de candidat via ODS (PIX-12232).
+- [#8665](https://github.com/1024pix/pix/pull/8665) [FEATURE] Corrections mineures sur le module adresse-ip-publique-et-vous.
+- [#8690](https://github.com/1024pix/pix/pull/8690) [FEATURE] Permettre la modification d'un critère d'obtention de RT sur l'ensemble du PF (PIX-12157).
+- [#8705](https://github.com/1024pix/pix/pull/8705) [FEATURE] Ajout du lien vers la page Status dans pixOrga (pix-12226).
+- [#8704](https://github.com/1024pix/pix/pull/8704) [FEATURE] Ajouter la mention "PIX" à "J'ai déjà un compte" sur les doubles mires de connexion (PIX-12048).
+- [#8702](https://github.com/1024pix/pix/pull/8702) [FEATURE] Renommer les customProperties en additionalRequiredProperties (PIX-12209).
+
+### :building_construction: Tech
+- [#8685](https://github.com/1024pix/pix/pull/8685) [TECH] Migrer l'envoi d'invitation dans un centre de certif depuis Pix Admin dans src (PIX-12168).
+- [#8707](https://github.com/1024pix/pix/pull/8707) [TECH] Modifier l'export du cryptoService (PIX-12228).
+- [#8700](https://github.com/1024pix/pix/pull/8700) [TECH] Fait évoluer l'API interne des prescrits (PIX-12208).
+
+### :bug: Correction
+- [#8716](https://github.com/1024pix/pix/pull/8716) [BUGFIX] Pour le déblocage d'un compte utilisateur, gérer le cas d'erreur où le compte n'est pas/plus bloqué (PIX-12247).
+- [#8709](https://github.com/1024pix/pix/pull/8709) [BUGFIX] Affichage d'un titre sur le bloc d'erreur d'import (Pix-12079).
+
+### :coffee: Autre
+- [#8463](https://github.com/1024pix/pix/pull/8463) [DOCS] Création d'un guide de contribution aux contenus de Modulix (PIX-12075).
+
 ## v4.135.0 (19/04/2024)
 
 
