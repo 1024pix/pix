@@ -60,7 +60,13 @@
                   data-uid="qroc-proposal-uid"
                   data-test="challenge-response-proposal-selector"
                 >
-                  <:label>{{this.buildGenericLabel index block.ariaLabel}}</:label>
+                  <:label>
+                    <MarkdownToHtml
+                      @isInline={{true}}
+                      @extensions="remove-paragraph-tags"
+                      @markdown={{this.buildGenericLabel index block.text}}
+                    />
+                  </:label>
                 </PixInput>
               </div>
             {{else if (eq @challenge.format "nombre")}}
