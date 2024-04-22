@@ -37,4 +37,9 @@ const usecasesWithoutInjectedDependencies = {
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
+/**
+ * @typedef AuthenticationUsecases
+ * @type {object}
+ * @property {addOidcProvider} addOidcProvider
+ */
 export { usecases };
