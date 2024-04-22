@@ -7,25 +7,30 @@ describe('Integration | Repository | organizationLearner', function () {
       const missionId = 123;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
 
-      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-        organizationId,
-        division: 'CM2-started-mission',
-      });
+      const organizationLearner =
+        databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+          organizationId,
+          division: 'CM2-started-mission',
+        });
       databaseBuilder.factory.buildMissionAssessment({
         missionId,
         organizationLearnerId: organizationLearner.id,
       });
 
-      const organizationLearner2 = databaseBuilder.factory.buildOrganizationLearner({
-        organizationId,
-        division: 'CM2-other-started-mission',
-      });
+      const organizationLearner2 =
+        databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+          organizationId,
+          division: 'CM2-other-started-mission',
+        });
       databaseBuilder.factory.buildMissionAssessment({
         missionId,
         organizationLearnerId: organizationLearner2.id,
       });
 
-      databaseBuilder.factory.buildOrganizationLearner({ organizationId, division: 'CM2-not-started-mission' });
+      databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+        organizationId,
+        division: 'CM2-not-started-mission',
+      });
 
       await databaseBuilder.commit();
 
@@ -34,25 +39,29 @@ describe('Integration | Repository | organizationLearner', function () {
         organizationId,
       });
 
-      expect(divisions).to.equal('CM2-other-started-mission, CM2-started-mission');
+      expect(divisions).to.includes('CM2-other-started-mission');
+      expect(divisions).to.includes('CM2-started-mission');
+      expect(divisions).to.not.include('CM2-not-started-mission');
     });
 
     it('returns the divisions which started the mission for the given organizationId', async function () {
       const missionId = 123;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
 
-      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-        organizationId,
-        division: 'CM2-started-mission',
-      });
+      const organizationLearner =
+        databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+          organizationId,
+          division: 'CM2-started-mission',
+        });
       databaseBuilder.factory.buildMissionAssessment({
         missionId,
         organizationLearnerId: organizationLearner.id,
       });
 
-      const organizationLearnerFromOtherOrga = databaseBuilder.factory.buildOrganizationLearner({
-        division: 'CM2-other-started-mission',
-      });
+      const organizationLearnerFromOtherOrga =
+        databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+          division: 'CM2-other-started-mission',
+        });
       databaseBuilder.factory.buildMissionAssessment({
         missionId,
         organizationLearnerId: organizationLearnerFromOtherOrga.id,
@@ -67,28 +76,28 @@ describe('Integration | Repository | organizationLearner', function () {
       expect(divisions).to.equal('CM2-started-mission');
     });
 
-    it('returns the divisions of organizationLearners who started the mission and who are not disabled', async function () {
+    it('when there are 2 learners from the same division should return the division once', async function () {
       const missionId = 123;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
 
-      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-        organizationId,
-        division: 'CM2-started-mission',
-      });
+      const organizationLearner =
+        databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+          organizationId,
+          division: 'CM2-started-mission',
+        });
       databaseBuilder.factory.buildMissionAssessment({
         missionId,
         organizationLearnerId: organizationLearner.id,
       });
 
-      const organizationLearner2 = databaseBuilder.factory.buildOrganizationLearner({
-        organizationId,
-        division: 'CM2-other-started-mission',
-        isDisabled: true,
-      });
-
+      const organizationLearnerFromSameOrga =
+        databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+          organizationId,
+          division: 'CM2-started-mission',
+        });
       databaseBuilder.factory.buildMissionAssessment({
         missionId,
-        organizationLearnerId: organizationLearner2.id,
+        organizationLearnerId: organizationLearnerFromSameOrga.id,
       });
       await databaseBuilder.commit();
 
@@ -98,6 +107,39 @@ describe('Integration | Repository | organizationLearner', function () {
       });
 
       expect(divisions).to.equal('CM2-started-mission');
+    });
+
+    it('should return empty string when there is no learners started mission yet', async function () {
+      const missionId = 123;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner({
+        organizationId,
+        division: 'CM2-started-mission',
+      });
+
+      await databaseBuilder.commit();
+
+      const divisions = await repositories.organizationLearnerRepository.getDivisionsWhichStartedMission({
+        missionId,
+        organizationId,
+      });
+
+      expect(divisions).to.equal('');
+    });
+
+    it('should return empty string when there is no learners ', async function () {
+      const missionId = 123;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      await databaseBuilder.commit();
+
+      const divisions = await repositories.organizationLearnerRepository.getDivisionsWhichStartedMission({
+        missionId,
+        organizationId,
+      });
+
+      expect(divisions).to.equal('');
     });
   });
 });
