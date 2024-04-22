@@ -25,12 +25,15 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
           username: 'sassouk',
         });
 
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+
         databaseBuilder.factory.buildOrganizationLearner({
           id: 1233,
           firstName: 'Dark',
           lastName: 'Sasuke',
           division: 'Alone',
           userId,
+          organizationId,
         });
         await databaseBuilder.commit();
 
@@ -41,6 +44,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         expect(organizationLearner.division).to.equal('Alone');
         expect(organizationLearner.email).to.equal('k.s@example.net');
         expect(organizationLearner.username).to.equal('sassouk');
+        expect(organizationLearner.organizationId).to.equal(organizationId);
       });
 
       it('Should return the organization learner with a given ID', async function () {
@@ -512,18 +516,18 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
       beforeEach(async function () {
         firstLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
           organizationId,
-          firstName: 'Gilgamesh',
-          lastName: 'Toto',
+          lastName: 'Gilgamesh',
+          firstName: 'Toto',
           attributes: { classe: 'Warlock' },
         });
         await databaseBuilder.commit();
       });
 
-      it('orders by lastName', async function () {
+      it('orders by firstName', async function () {
         const secondLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
           organizationId,
-          lastName: 'Tata',
-          firstName: 'Gilgamesh',
+          firstName: 'Tata',
+          lastName: 'Gilgamesh',
         });
 
         await databaseBuilder.commit();
@@ -534,11 +538,11 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         expect(result.learners[0].id).to.equal(secondLearner.id);
         expect(result.learners[1].id).to.equal(firstLearner.id);
       });
-      it('orders by firstName when lastName are identical', async function () {
+      it('orders by lastName when firstName are identical', async function () {
         const secondLearner = databaseBuilder.factory.prescription.organizationLearners.buildOrganizationLearner({
           organizationId,
-          lastName: 'Toto',
-          firstName: 'Zoro',
+          firstName: 'Toto',
+          lastName: 'Aubert',
         });
 
         await databaseBuilder.commit();
@@ -546,8 +550,8 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
 
         expect(result.learners).lengthOf(2);
-        expect(result.learners[0].id).to.equal(firstLearner.id);
-        expect(result.learners[1].id).to.equal(secondLearner.id);
+        expect(result.learners[0].id).to.equal(secondLearner.id);
+        expect(result.learners[1].id).to.equal(firstLearner.id);
       });
     });
 

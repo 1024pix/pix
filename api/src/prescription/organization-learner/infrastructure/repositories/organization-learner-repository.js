@@ -38,6 +38,7 @@ async function get(organizationLearnerId) {
       'view-active-organization-learners.lastName',
       'view-active-organization-learners.division',
       'view-active-organization-learners.group',
+      'view-active-organization-learners.organizationId',
       'view-active-organization-learners.attributes',
       'view-active-organization-learners.isCertifiable as isCertifiableFromLearner',
       'view-active-organization-learners.certifiableAt as certifiableAtFromLearner',
@@ -58,6 +59,7 @@ async function get(organizationLearnerId) {
       'view-active-organization-learners.lastName',
       'view-active-organization-learners.division',
       'view-active-organization-learners.group',
+      'view-active-organization-learners.organizationId',
       'view-active-organization-learners.attributes',
       'users.id',
       'subquery.isCertifiableFromCampaign',
@@ -77,8 +79,8 @@ async function findPaginatedLearners({ organizationId, page }) {
     .select('id', 'firstName', 'lastName', 'organizationId', 'attributes')
     .from('view-active-organization-learners')
     .where({ isDisabled: false, organizationId })
-    .orderBy('lastName', 'ASC')
-    .orderBy('firstName', 'ASC');
+    .orderBy('firstName', 'ASC')
+    .orderBy('lastName', 'ASC');
 
   const { results, pagination } = await fetchPage(query, page);
 
