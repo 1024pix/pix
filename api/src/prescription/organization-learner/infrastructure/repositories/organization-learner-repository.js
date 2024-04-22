@@ -2,7 +2,6 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { fetchPage } from '../../../../shared/infrastructure/utils/knex-utils.js';
 import { CampaignParticipationStatuses, CampaignTypes } from '../../../shared/domain/constants.js';
-import { OrganizationLearnerImported } from '../../domain/models/OrganizationLearnerImported.js';
 import { OrganizationLearner } from '../../domain/read-models/OrganizationLearner.js';
 
 function _buildIsCertifiable(queryBuilder, organizationLearnerId) {
@@ -39,6 +38,7 @@ async function get(organizationLearnerId) {
       'view-active-organization-learners.lastName',
       'view-active-organization-learners.division',
       'view-active-organization-learners.group',
+      'view-active-organization-learners.attributes',
       'view-active-organization-learners.isCertifiable as isCertifiableFromLearner',
       'view-active-organization-learners.certifiableAt as certifiableAtFromLearner',
       'subquery.isCertifiableFromCampaign',
@@ -58,6 +58,7 @@ async function get(organizationLearnerId) {
       'view-active-organization-learners.lastName',
       'view-active-organization-learners.division',
       'view-active-organization-learners.group',
+      'view-active-organization-learners.attributes',
       'users.id',
       'subquery.isCertifiableFromCampaign',
       'subquery.certifiableAtFromCampaign',
@@ -73,7 +74,7 @@ async function get(organizationLearnerId) {
 
 async function findPaginatedLearners({ organizationId, page }) {
   const query = knex
-    .select('id', 'firstName', 'lastName', 'attributes')
+    .select('id', 'firstName', 'lastName', 'organizationId', 'attributes')
     .from('view-active-organization-learners')
     .where({ isDisabled: false, organizationId })
     .orderBy('lastName', 'ASC')
@@ -81,7 +82,7 @@ async function findPaginatedLearners({ organizationId, page }) {
 
   const { results, pagination } = await fetchPage(query, page);
 
-  const learners = results.map((learner) => new OrganizationLearnerImported(learner));
+  const learners = results.map((learner) => new OrganizationLearner(learner));
 
   return { learners, pagination };
 }

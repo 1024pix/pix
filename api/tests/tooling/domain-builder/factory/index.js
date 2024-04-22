@@ -181,7 +181,6 @@ import { buildCertificationSessionEnrolledCandidate } from './certification/sess
 import { buildJuryComment } from './certification/shared/build-jury-comment.js';
 import { buildCampaign as boundedContextCampaignBuildCampaign } from './prescription/campaign/build-campaign.js';
 import { buildCampaignParticipation as boundedContextCampaignParticipationBuildCampaignParticipation } from './prescription/campaign-participation/build-campaign-participation.js';
-import { buildOrganizationLearnerImported } from './prescription/organization-learner/build-organization-learner-imported.js';
 import { buildStageCollection as buildStageCollectionForTargetProfileManagement } from './target-profile-management/build-stage-collection.js';
 import { buildStageCollection as buildStageCollectionForUserCampaignResults } from './user-campaign-results/build-stage-collection.js';
 
@@ -214,9 +213,6 @@ const prescription = {
   },
   campaignParticipation: {
     buildCampaignParticipation: boundedContextCampaignParticipationBuildCampaignParticipation,
-  },
-  organizationLearner: {
-    buildOrganizationLearnerImported,
   },
 };
 

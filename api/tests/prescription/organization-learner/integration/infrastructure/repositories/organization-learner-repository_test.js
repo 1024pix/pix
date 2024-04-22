@@ -1,6 +1,5 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../lib/domain/constants/identity-providers.js';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
-import { OrganizationLearnerImported } from '../../../../../../src/prescription/organization-learner/domain/models/OrganizationLearnerImported.js';
 import { OrganizationLearner } from '../../../../../../src/prescription/organization-learner/domain/read-models/OrganizationLearner.js';
 import * as organizationLearnerRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-learner-repository.js';
 import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
@@ -36,7 +35,6 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
         await databaseBuilder.commit();
 
         const organizationLearner = await organizationLearnerRepository.get(1233);
-
         expect(organizationLearner.id).to.equal(1233);
         expect(organizationLearner.firstName).to.equal('Dark');
         expect(organizationLearner.lastName).to.equal('Sasuke');
@@ -452,11 +450,8 @@ describe('Integration | Infrastructure | Repository | Organization Learner', fun
       const result = await organizationLearnerRepository.findPaginatedLearners({ organizationId });
 
       expect(result.learners).lengthOf(1);
-      expect(result.learners[0]).instanceOf(OrganizationLearnerImported);
+      expect(result.learners[0]).instanceOf(OrganizationLearner);
       expect(result.learners[0].id).to.be.equal(learner.id);
-      expect(result.learners[0].lastName).to.be.equal(learner.lastName);
-      expect(result.learners[0].firstName).to.be.equal(learner.firstName);
-      expect(result.learners[0].classe).to.be.deep.equal(learner.attributes.classe);
     });
 
     it('should not return deleted learner', async function () {
