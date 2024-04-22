@@ -77,7 +77,7 @@ const saveInSession = async function ({
 
 const remove = async function ({ id }) {
   await knex.transaction(async (trx) => {
-    await trx('complementary-certification-subscriptions').where({ certificationCandidateId: id }).del();
+    await trx('certification-subscriptions').where({ certificationCandidateId: id }).del();
     return trx('certification-candidates').where({ id }).del();
   });
 
@@ -103,13 +103,13 @@ const getBySessionIdAndUserId = async function ({ sessionId, userId }) {
     })
     .from('certification-candidates')
     .leftJoin(
-      'complementary-certification-subscriptions',
+      'certification-subscriptions',
       'certification-candidates.id',
-      'complementary-certification-subscriptions.certificationCandidateId',
+      'certification-subscriptions.certificationCandidateId',
     )
     .leftJoin(
       'complementary-certifications',
-      'complementary-certification-subscriptions.complementaryCertificationId',
+      'certification-subscriptions.complementaryCertificationId',
       'complementary-certifications.id',
     )
     .where({ sessionId, userId })
@@ -129,13 +129,13 @@ const findBySessionId = async function (sessionId) {
     .from('certification-candidates')
     .where({ 'certification-candidates.sessionId': sessionId })
     .leftJoin(
-      'complementary-certification-subscriptions',
+      'certification-subscriptions',
       'certification-candidates.id',
-      'complementary-certification-subscriptions.certificationCandidateId',
+      'certification-subscriptions.certificationCandidateId',
     )
     .leftJoin(
       'complementary-certifications',
-      'complementary-certification-subscriptions.complementaryCertificationId',
+      'certification-subscriptions.complementaryCertificationId',
       'complementary-certifications.id',
     )
     .groupBy('certification-candidates.id', 'complementary-certifications.id')
@@ -189,7 +189,7 @@ const update = async function (certificationCandidate) {
 
 const deleteBySessionId = async function ({ sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction ?? knex;
-  await knexConn('complementary-certification-subscriptions')
+  await knexConn('certification-subscriptions')
     .whereIn('certificationCandidateId', knexConn.select('id').from('certification-candidates').where({ sessionId }))
     .del();
 
@@ -205,14 +205,14 @@ const getWithComplementaryCertification = async function (id) {
       complementaryCertificationLabel: 'complementary-certifications.label',
     })
     .leftJoin(
-      'complementary-certification-subscriptions',
-      'complementary-certification-subscriptions.certificationCandidateId',
+      'certification-subscriptions',
+      'certification-subscriptions.certificationCandidateId',
       'certification-candidates.id',
     )
     .leftJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-subscriptions.complementaryCertificationId',
+      'certification-subscriptions.complementaryCertificationId',
     )
     .where('certification-candidates.id', id)
     .first();

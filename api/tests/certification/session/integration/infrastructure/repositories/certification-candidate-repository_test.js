@@ -206,10 +206,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
         const isDeleted = await certificationCandidateRepository.remove({ id: certificationCandidateId });
 
         // then
-        const complementaryCertificationSubscriptions = await knex
-          .select()
-          .from('complementary-certification-subscriptions')
-          .first();
+        const complementaryCertificationSubscriptions = await knex.select().from('certification-subscriptions').first();
         expect(complementaryCertificationSubscriptions).to.be.undefined;
         expect(isDeleted).to.be.true;
       });
@@ -783,7 +780,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
       await certificationCandidateRepository.deleteBySessionId({ sessionId });
 
       // then
-      const subscriptionsInDB = await knex('complementary-certification-subscriptions').select();
+      const subscriptionsInDB = await knex('certification-subscriptions').select();
       const certificationCandidateInDB = await knex('certification-candidates').select();
       expect(subscriptionsInDB).to.deep.equal([]);
       expect(certificationCandidateInDB).to.deep.equal([]);

@@ -69,14 +69,14 @@ const getWithCertificationCandidates = async function ({ id }) {
     })
     .from('certification-candidates')
     .leftJoin(
-      'complementary-certification-subscriptions',
-      'complementary-certification-subscriptions.certificationCandidateId',
+      'certification-subscriptions',
+      'certification-subscriptions.certificationCandidateId',
       'certification-candidates.id',
     )
     .leftJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-subscriptions.complementaryCertificationId',
+      'certification-subscriptions.complementaryCertificationId',
     )
     .groupBy('certification-candidates.id', 'complementary-certifications.id')
     .where({ sessionId: id })
@@ -169,7 +169,7 @@ const remove = async function ({ id }) {
     }
 
     if (certificationCandidateIdsInSession.length) {
-      await trx('complementary-certification-subscriptions')
+      await trx('certification-subscriptions')
         .whereIn('certificationCandidateId', certificationCandidateIdsInSession)
         .del();
       await trx('certification-candidates').whereIn('id', certificationCandidateIdsInSession).del();
