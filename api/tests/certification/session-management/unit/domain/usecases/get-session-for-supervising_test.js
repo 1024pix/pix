@@ -44,15 +44,19 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
 
       context('when the candidates have no complementary certifications', function () {
         context('when the session has started', function () {
-          it('should get certification candidates with theorical end datetime', async function () {
+          it('should get certification candidates with theorical end datetime and companion status', async function () {
             // given
+            const sessionId = 1;
+            const certificationCandidateId = 51;
             const certificationCandidateWithNoComplementaryCertification =
               domainBuilder.buildCertificationCandidateForSupervising({
+                id: certificationCandidateId,
                 complementaryCertification: undefined,
                 complementaryCertificationKey: undefined,
               });
 
             const session = domainBuilder.buildSessionForSupervising({
+              sessionId,
               certificationCandidates: [certificationCandidateWithNoComplementaryCertification],
             });
             sessionForSupervisingRepository.get.resolves(session);
@@ -62,10 +66,14 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               .add(DEFAULT_SESSION_DURATION_MINUTES, 'minute')
               .toDate();
 
+            const temporaryCompanionStorageService = { getBySessionId: sinon.stub() };
+            temporaryCompanionStorageService.getBySessionId.withArgs(sessionId).resolves([certificationCandidateId]);
+
             // when
             const { certificationCandidates } = await getSessionForSupervising({
-              sessionId: 1,
+              sessionId,
               sessionForSupervisingRepository,
+              temporaryCompanionStorageService,
             });
             // then
             const [certificationCandidate] = certificationCandidates;
@@ -74,6 +82,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               certificationCandidateWithNoComplementaryCertification.startDateTime,
             );
             expect(certificationCandidate).to.have.deep.property('theoricalEndDateTime', expectedTheoricalEndDateTime);
+            expect(certificationCandidate).to.have.deep.property('isCompanionActive', true);
           });
         });
       });

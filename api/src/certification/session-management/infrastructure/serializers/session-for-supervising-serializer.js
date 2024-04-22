@@ -35,6 +35,7 @@ const serialize = function (sessions) {
         'enrolledComplementaryCertificationLabel',
         'isStillEligibleToComplementaryCertification',
         'liveAlert',
+        'isCompanionActive',
       ],
     },
   }).serialize(sessions);
