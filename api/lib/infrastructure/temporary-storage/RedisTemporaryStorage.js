@@ -7,6 +7,7 @@ import { TemporaryStorage } from './TemporaryStorage.js';
 
 const EXPIRATION_PARAMETER = 'ex';
 const KEEPTTL_PARAMETER = 'keepttl';
+const PREFIX = 'temporary-storage:';
 
 class RedisTemporaryStorage extends TemporaryStorage {
   constructor(redisUrl) {
@@ -15,7 +16,7 @@ class RedisTemporaryStorage extends TemporaryStorage {
   }
 
   static createClient(redisUrl) {
-    return new RedisClient(redisUrl, { name: 'temporary-storage', prefix: 'temporary-storage:' });
+    return new RedisClient(redisUrl, { name: 'temporary-storage', prefix: PREFIX });
   }
 
   async save({ key, value, expirationDelaySeconds }) {
@@ -64,6 +65,11 @@ class RedisTemporaryStorage extends TemporaryStorage {
 
   async lrange(key, start = 0, stop = -1) {
     return this._client.lrange(key, start, stop);
+  }
+
+  async keys(pattern) {
+    const keys = await this._client.keys(pattern);
+    return keys.map((key) => key.slice(PREFIX.length));
   }
 }
 

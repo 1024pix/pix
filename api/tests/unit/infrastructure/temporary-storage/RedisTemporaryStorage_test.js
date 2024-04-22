@@ -16,6 +16,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       lpush: sinon.stub(),
       lrem: sinon.stub(),
       lrange: sinon.stub(),
+      keys: sinon.stub(),
     };
 
     sinon.stub(RedisTemporaryStorage, 'createClient').withArgs(REDIS_URL).returns(clientStub);
@@ -220,6 +221,21 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
 
       // then
       expect(clientStub.lrange).to.have.been.calledWithExactly('key', 0, -1);
+    });
+  });
+
+  describe('#keys', function () {
+    it('should call client keys and return matching keys', async function () {
+      // given
+      const pattern = 'prefix:*';
+      clientStub.keys.withArgs(pattern).resolves(['temporary-storage:key1', 'temporary-storage:key2']);
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      const actualKeys = await redisTemporaryStorage.keys(pattern);
+
+      // then
+      expect(actualKeys).to.deep.equal(['key1', 'key2']);
     });
   });
 });
