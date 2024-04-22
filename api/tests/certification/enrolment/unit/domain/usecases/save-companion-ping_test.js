@@ -1,6 +1,6 @@
-import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { CertificationCandidateCompanion } from '../../../../../../src/certification/enrolment/domain/models/CertificationCandidateCompanion.js';
 import { saveCompanionPing } from '../../../../../../src/certification/enrolment/domain/usecases/save-companion-ping.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 import { catchErr, expect, sinon } from '../../../../../test-helper.js';
 
 describe('Unit | UseCase | save-companion-ping', function () {
@@ -35,15 +35,20 @@ describe('Unit | UseCase | save-companion-ping', function () {
       it('should throw a Not Found error', async function () {
         // given
         const userId = 123;
+        const certificationCandidateRepository = { findCertificationCandidateCompanionInfoByUserId: sinon.stub() };
+        certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId
+          .withArgs({ userId })
+          .resolves(undefined);
 
         // when
         const error = await catchErr(saveCompanionPing)({
           userId,
+          certificationCandidateRepository,
         });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
-        expect(error.message).to.equal(`No candidate found for user id ${userId}`);
+        expect(error.message).to.equal(`User 123 is not found in a certification's session`);
       });
     });
   });
