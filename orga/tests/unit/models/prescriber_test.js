@@ -189,4 +189,34 @@ module('Unit | Model | prescriber', function (hooks) {
       assert.false(missionsManagement);
     });
   });
+
+  module('#hasOrganizationLearnerImport', function () {
+    test('it return true when feature is enabled', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('prescriber', {
+        features: { ['LEARNER_IMPORT']: true },
+      });
+
+      // when
+      const { hasOrganizationLearnerImport } = model;
+
+      // then
+      assert.true(hasOrganizationLearnerImport);
+    });
+
+    test('it return false when feature is disabled', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('prescriber', {
+        features: { ['LEARNER_IMPORT']: false },
+      });
+
+      // when
+      const { hasOrganizationLearnerImport } = model;
+
+      // then
+      assert.false(hasOrganizationLearnerImport);
+    });
+  });
 });

@@ -17,6 +17,7 @@ export default class Prescriber extends Model {
       COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: 'COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY',
       PLACES_MANAGEMENT: 'PLACES_MANAGEMENT',
       MISSIONS_MANAGEMENT: 'MISSIONS_MANAGEMENT',
+      LEARNER_IMPORT: 'LEARNER_IMPORT',
     };
   }
   get fullName() {
@@ -50,6 +51,10 @@ export default class Prescriber extends Model {
         membership.get('organizationRole') === 'ADMIN' &&
         membership.get('organization').get('id') === this.userOrgaSettings.get('organization').get('id'),
     );
+  }
+
+  get hasOrganizationLearnerImport() {
+    return this.features[Prescriber.featureList.LEARNER_IMPORT];
   }
 
   get hasParticipants() {
