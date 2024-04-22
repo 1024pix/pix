@@ -445,6 +445,9 @@
           }
         },
         "candidate-options": "Options du candidat",
+        "companion": {
+          "active": "{firstName} {lastName} a l’extension Companion activée"
+        },
         "complementary-certification-enrolment": "Inscription à {complementaryCertification}",
         "complementary-certification-non-eligibility-warning": "Candidat pas ou plus éligible à la certification complémentaire. Il passe la certification Pix.",
         "default-modal-title": "Information",

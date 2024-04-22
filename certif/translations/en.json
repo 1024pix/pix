@@ -445,6 +445,9 @@
           }
         },
         "candidate-options": "Candidate's options",
+        "companion": {
+          "active": "{firstName} {lastName} has Companion extension enabled"
+        },
         "complementary-certification-enrolment": "{complementaryCertification} enrolment",
         "complementary-certification-non-eligibility-warning": "Candidate isn't or is no longer eligible for the additional certification. They are taking the Pix certification exam only.",
         "default-modal-title": "Information",

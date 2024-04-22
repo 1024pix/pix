@@ -23,7 +23,7 @@ const getSessionForSupervising = async function ({
   temporaryCompanionStorageService,
 }) {
   const sessionForSupervising = await sessionForSupervisingRepository.get({ id: sessionId });
-  const activatedCompanionCertificationCandidateId = await temporaryCompanionStorageService.getBySessionId(sessionId);
+  const activatedCompanionCertificationCandidateIds = await temporaryCompanionStorageService.getBySessionId(sessionId);
 
   await bluebird.map(
     sessionForSupervising.certificationCandidates,
@@ -32,9 +32,7 @@ const getSessionForSupervising = async function ({
   );
 
   sessionForSupervising.certificationCandidates.forEach((certificationCandidate) => {
-    if (activatedCompanionCertificationCandidateId.includes(certificationCandidate.id)) {
-      certificationCandidate.isCompanionActive = true;
-    }
+    _setCompanionStatus(certificationCandidate, activatedCompanionCertificationCandidateIds);
     _computeTheoricalEndDateTime(certificationCandidate);
   });
 
@@ -42,6 +40,12 @@ const getSessionForSupervising = async function ({
 };
 
 export { getSessionForSupervising };
+
+function _setCompanionStatus(certificationCandidate, activatedCompanionCertificationCandidateIds) {
+  if (activatedCompanionCertificationCandidateIds.includes(certificationCandidate.id)) {
+    certificationCandidate.isCompanionActive = true;
+  }
+}
 
 /**
  * @param {CertificationBadgesService} certificationBadgesService

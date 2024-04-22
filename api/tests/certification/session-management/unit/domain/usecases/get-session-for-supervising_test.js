@@ -7,6 +7,7 @@ import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 const START_DATETIME_STUB = new Date('2022-10-01T13:00:00Z');
 const COMPLEMENTARY_EXTRATIME_STUB = 45;
 const sessionForSupervisingRepository = { get: sinon.stub() };
+const temporaryCompanionStorageService = { getBySessionId: sinon.stub() };
 
 const expectedSessionEndDateTimeFromStartDateTime = (startDateTime, extraMinutes = []) => {
   let computedEndDateTime = dayjs(startDateTime);
@@ -29,11 +30,13 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             certificationCandidates: [certificationCandidateNotStarted],
           });
           sessionForSupervisingRepository.get.resolves(session);
+          temporaryCompanionStorageService.getBySessionId.withArgs(1).resolves([]);
 
           // when
           const sessionForSupervising = await getSessionForSupervising({
             sessionId: 1,
             sessionForSupervisingRepository,
+            temporaryCompanionStorageService,
           });
           // then
           expect(sessionForSupervising.certificationCandidates).to.have.lengthOf(1);
@@ -114,6 +117,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             });
 
             sessionForSupervisingRepository.get.resolves(retrievedSessionForSupervising);
+            temporaryCompanionStorageService.getBySessionId.withArgs(1).resolves([]);
 
             const certificationBadgesService = {
               findStillValidBadgeAcquisitions: sinon.stub(),
@@ -127,6 +131,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               sessionId: 1,
               sessionForSupervisingRepository,
               certificationBadgesService,
+              temporaryCompanionStorageService,
             });
 
             // then
@@ -170,6 +175,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                 ],
               }),
             );
+            temporaryCompanionStorageService.getBySessionId.withArgs(1).resolves([]);
 
             const certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
             certificationBadgesService.findStillValidBadgeAcquisitions
@@ -181,6 +187,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               sessionId: 1,
               sessionForSupervisingRepository,
               certificationBadgesService,
+              temporaryCompanionStorageService,
             });
 
             // then
@@ -211,6 +218,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
             });
 
             sessionForSupervisingRepository.get.resolves(retrievedSessionForSupervising);
+            temporaryCompanionStorageService.getBySessionId.withArgs(1).resolves([]);
 
             const certificationBadgesService = {
               findStillValidBadgeAcquisitions: sinon.stub(),
@@ -222,6 +230,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               sessionId: 1,
               sessionForSupervisingRepository,
               certificationBadgesService,
+              temporaryCompanionStorageService,
             });
 
             // then
@@ -262,6 +271,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
                 ],
               }),
             );
+            temporaryCompanionStorageService.getBySessionId.withArgs(1).resolves([]);
 
             const certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
             certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId: 1234 }).resolves([]);
@@ -271,6 +281,7 @@ describe('Unit | UseCase | get-session-for-supervising', function () {
               sessionId: 1,
               sessionForSupervisingRepository,
               certificationBadgesService,
+              temporaryCompanionStorageService,
             });
 
             // then
