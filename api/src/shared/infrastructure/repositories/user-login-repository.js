@@ -17,8 +17,8 @@ function _toDomain(userLoginDTO) {
 }
 
 const findByUserId = async function (userId) {
-  const foundUserLogin = await knex.from(USER_LOGINS_TABLE_NAME).where({ userId }).first();
-  return foundUserLogin ? _toDomain(foundUserLogin) : null;
+  const userLoginDTO = await knex.from(USER_LOGINS_TABLE_NAME).where({ userId }).first();
+  return userLoginDTO ? _toDomain(userLoginDTO) : null;
 };
 
 const getByUserId = async function (userId) {
@@ -45,7 +45,7 @@ const update = async function (userLogin) {
 };
 
 const findByUsername = async function (username) {
-  const foundUserLogin = await knex
+  const userLoginDTO = await knex
     .select('user-logins.*')
     .from(USER_LOGINS_TABLE_NAME)
     .where('users.email', username.toLowerCase())
@@ -53,7 +53,7 @@ const findByUsername = async function (username) {
     .join('users', 'users.id', 'user-logins.userId')
     .first();
 
-  return foundUserLogin ? _toDomain(foundUserLogin) : null;
+  return userLoginDTO ? _toDomain(userLoginDTO) : null;
 };
 
 const updateLastLoggedAt = async function ({ userId }) {
