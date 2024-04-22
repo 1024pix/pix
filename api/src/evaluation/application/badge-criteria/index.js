@@ -35,9 +35,9 @@ const register = async function (server) {
                     id: Joi.string(),
                     level: Joi.number().min(0),
                   })
-                  .optional(),
-                name: Joi.string().optional(),
-                threshold: Joi.number().integer().min(0).max(100).optional(),
+                  .allow(null),
+                name: Joi.string().allow('').allow(null),
+                threshold: Joi.number().integer().min(0).max(100),
               })
                 .or('capped-tubes', 'name', 'threshold')
                 .required(),

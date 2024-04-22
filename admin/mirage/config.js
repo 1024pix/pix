@@ -9,6 +9,7 @@ import {
   getPaginatedAutonomousCourses,
   updateAutonomousCourse,
 } from './handlers/autonomous-courses';
+import { updateBadgeCriterion } from './handlers/badge-criteria';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
 import { findFrameworkAreas } from './handlers/frameworks';
 import { getPaginatedJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
@@ -73,6 +74,8 @@ function routes() {
   this.get('/admin/autonomous-courses', getPaginatedAutonomousCourses);
   this.get('/admin/autonomous-courses/:id', getAutonomousCourseDetails);
   this.patch('/admin/autonomous-courses/:id', updateAutonomousCourse);
+
+  this.patch('/admin/badge-criteria/:id', updateBadgeCriterion);
 
   this.get('/admin/campaigns/:id');
   this.get('/admin/campaigns/:id/participations', (schema) => {

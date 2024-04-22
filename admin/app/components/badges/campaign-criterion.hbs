@@ -1,3 +1,64 @@
-<p data-testid="triste">L‘évalué doit obtenir
-  <strong>{{@criterion.threshold}}%</strong>
-  sur l‘ensemble des sujets du profil cible.</p>
+<article class="badge-criterion">
+  <div class="badge-criterion__header">
+    <h2 class="badge-criterion__title">Critère d'obtention basé sur l'ensemble du profil cible&nbsp;:</h2>
+    <PixTooltip @hide={{@isEditable}} @isWide={{true}}>
+      <:triggerElement>
+        <PixButton
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @size="small"
+          @triggerAction={{this.toggleEditModal}}
+          @isDisabled={{(not @isEditable)}}
+        >
+          Modifier le critère
+        </PixButton>
+      </:triggerElement>
+
+      <:tooltip>
+        Non modifiable car le profil cible est relié à une&nbsp;campagne
+      </:tooltip>
+    </PixTooltip>
+  </div>
+  <div class="card">
+    <div class="card__content">
+      <p data-testid="campaign-criterion-text">
+        L'évalué doit obtenir
+        <strong>{{@criterion.threshold}}%</strong>
+        sur l'ensemble des sujets du profil cible.
+      </p>
+    </div>
+  </div>
+</article>
+
+{{#if @isEditable}}
+  <PixModal
+    @title="Modification du critère d'obtention basé sur l'ensemble du profil cible"
+    @showModal={{this.isEditModalVisible}}
+    @onCloseButtonClick={{this.toggleEditModal}}
+  >
+    <:content>
+      <PixInput
+        @id="campaign-criterion-threshold"
+        value={{this.thresholdInputValue}}
+        onchange={{this.handleThresholdChange}}
+        @subLabel="En pourcent (%)"
+        @requiredLabel="Champ requis"
+      >
+        <:label>Nouveau seuil d'obtention du critère&nbsp;:</:label>
+      </PixInput>
+    </:content>
+    <:footer>
+      <PixButton
+        @triggerAction={{this.toggleEditModal}}
+        @size="small"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+      >
+        Annuler
+      </PixButton>
+      <PixButton @triggerAction={{this.updateThreshold}} @size="small">
+        Enregistrer
+      </PixButton>
+    </:footer>
+  </PixModal>
+{{/if}}

@@ -88,7 +88,9 @@
                 @isBorderVisible={{true}}
                 @triggerAction={{this.cancel}}
               >Annuler</PixButton>
-              <PixButton @type="submit" @size="small" @backgroundColor="success">Enregistrer</PixButton>
+              <PixButton @type="submit" @size="small" @backgroundColor="success" data-testid="save-badge-edit">
+                Enregistrer
+              </PixButton>
             </div>
           </form>
         </div>
@@ -125,15 +127,13 @@
   <section class="badge__criteria main-admin-form">
     <div class="admin-form__content">
       {{#if this.campaignScopeCriterion}}
-        <h2 class="badge__criteria-title">Critère d'obtention basé sur l'ensemble du profil cible&nbsp;:</h2>
-        <div class="card">
-          <div class="card__content">
-            <Badges::CampaignCriterion @criterion={{this.campaignScopeCriterion}} />
-          </div>
-        </div>
+        <Badges::CampaignCriterion
+          @criterion={{this.campaignScopeCriterion}}
+          @isEditable={{(not @targetProfile.hasLinkedCampaign)}}
+        />
       {{/if}}
       {{#if this.cappedTubesCriteria.length}}
-        <h2 class="badge__criteria-title">
+        <h2 class="badge-criterion__title">
           Liste des critères d'obtention basés sur une sélection de sujets du profil cible&nbsp;:
         </h2>
         {{#each this.cappedTubesCriteria as |criterion|}}
