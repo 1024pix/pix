@@ -11,7 +11,6 @@ import * as activityAnswerRepository from '../../infrastructure/repositories/act
 import * as activityRepository from '../../infrastructure/repositories/activity-repository.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as missionAssessmentRepository from '../../infrastructure/repositories/mission-assessment-repository.js';
-import * as missionLearnerRepository from '../../infrastructure/repositories/mission-learner-repository.js';
 import * as missionRepository from '../../infrastructure/repositories/mission-repository.js';
 import * as schoolRepository from '../../infrastructure/repositories/school-repository.js';
 
@@ -23,7 +22,7 @@ const dependencies = {
   competenceRepository,
   missionAssessmentRepository,
   missionRepository,
-  missionLearnerRepository,
+  missionLearnerRepository: repositories.missionLearnerRepository,
   organizationLearnerRepository: repositories.organizationLearnerRepository,
   schoolRepository,
   challengeRepository,
