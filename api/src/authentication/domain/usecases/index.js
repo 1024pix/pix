@@ -2,6 +2,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { config } from '../../../shared/config.js';
+import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import { tokenService } from '../../../shared/domain/services/token-service.js';
 import * as adminMemberRepository from '../../../shared/infrastructure/repositories/admin-member-repository.js';
 import * as authenticationMethodRepository from '../../../shared/infrastructure/repositories/authentication-method-repository.js';
@@ -15,17 +16,20 @@ import * as refreshTokenService from '../services/refresh-token-service.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
 
-const dependencies = {
-  authenticationMethodRepository,
-  config,
-  refreshTokenService,
-  pixAuthenticationService,
-  tokenService,
-  userRepository,
-  userLoginRepository,
+const repositories = {
   adminMemberRepository,
+  authenticationMethodRepository,
   oidcProviderRepository,
+  userLoginRepository,
+  userRepository,
 };
+const services = {
+  cryptoService,
+  pixAuthenticationService,
+  refreshTokenService,
+  tokenService,
+};
+const dependencies = Object.assign({ config }, repositories, services);
 
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './'), ignoredFileNames: ['index.js'] })),
