@@ -5,7 +5,7 @@ const { isUndefined, isNil } = lodash;
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../lib/domain/constants/identity-providers.js';
 import { AuthenticationMethod, Membership } from '../../../lib/domain/models/index.js';
 import { PIX_ADMIN } from '../../../src/authorization/domain/constants.js';
-import * as encrypt from '../../../src/shared/domain/services/crypto-service.js';
+import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
@@ -25,7 +25,7 @@ function _buildPixAuthenticationMethod({
   updatedAt,
 } = {}) {
   // eslint-disable-next-line no-sync
-  const hashedPassword = encrypt.hashPasswordSync(rawPassword);
+  const hashedPassword = cryptoService.hashPasswordSync(rawPassword);
 
   const values = {
     id,

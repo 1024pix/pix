@@ -13,7 +13,7 @@ import { createAndReconcileUserToOrganizationLearner } from '../../../../lib/dom
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
-import * as cryptoService from '../../../../src/shared/domain/services/crypto-service.js';
+import { cryptoService } from '../../../../src/shared/domain/services/crypto-service.js';
 import * as userService from '../../../../src/shared/domain/services/user-service.js';
 import * as passwordValidator from '../../../../src/shared/domain/validators/password-validator.js';
 import * as userValidator from '../../../../src/shared/domain/validators/user-validator.js';

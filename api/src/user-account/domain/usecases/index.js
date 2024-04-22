@@ -2,7 +2,7 @@ import { join } from 'node:path';
 
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
-import * as cryptoService from '../../../shared/domain/services/crypto-service.js';
+import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import * as userService from '../../../shared/domain/services/user-service.js';
 import * as passwordValidator from '../../../shared/domain/validators/password-validator.js';
 import * as userValidator from '../../../shared/domain/validators/user-validator.js';

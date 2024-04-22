@@ -1,4 +1,4 @@
-import * as cryptoService from '../../../src/shared/domain/services/crypto-service.js';
+import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
 import { databaseBuffer } from '../database-buffer.js';
 
 const OIDC_PROVIDERS_TABLE_NAME = 'oidc-providers';

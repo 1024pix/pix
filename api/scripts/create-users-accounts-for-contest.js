@@ -3,7 +3,7 @@ import * as url from 'node:url';
 import bluebird from 'bluebird';
 
 import { disconnect } from '../db/knex-database-connection.js';
-import * as cryptoService from '../src/shared/domain/services/crypto-service.js';
+import { cryptoService } from '../src/shared/domain/services/crypto-service.js';
 import * as userService from '../src/shared/domain/services/user-service.js';
 import * as authenticationMethodRepository from '../src/shared/infrastructure/repositories/authentication-method-repository.js';
 import * as userToCreateRepository from '../src/shared/infrastructure/repositories/user-to-create-repository.js';

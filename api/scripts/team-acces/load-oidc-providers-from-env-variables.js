@@ -5,7 +5,7 @@ import { learningContentCache as cache } from '../../lib/infrastructure/caches/l
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 import { usecases } from '../../src/authentication/domain/usecases/index.js';
 import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
-import * as cryptoService from '../../src/shared/domain/services/crypto-service.js';
+import { cryptoService } from '../../src/shared/domain/services/crypto-service.js';
 
 const debugOidcProvidersProperties = Debug('pix:oidc-providers:properties');
 

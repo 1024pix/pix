@@ -1,4 +1,4 @@
-import * as cryptoService from '../../../shared/domain/services/crypto-service.js';
+import { cryptoService } from '../../../shared/domain/services/crypto-service.js';
 import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
 import { PasswordNotMatching } from '../errors.js';
 

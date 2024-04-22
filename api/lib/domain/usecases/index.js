@@ -52,7 +52,7 @@ import * as activityAnswerRepository from '../../../src/school/infrastructure/re
 import * as missionRepository from '../../../src/school/infrastructure/repositories/mission-repository.js';
 import * as schoolRepository from '../../../src/school/infrastructure/repositories/school-repository.js';
 import * as codeGenerator from '../../../src/shared/domain/services/code-generator.js';
-import * as cryptoService from '../../../src/shared/domain/services/crypto-service.js';
+import { cryptoService } from '../../../src/shared/domain/services/crypto-service.js';
 import * as languageService from '../../../src/shared/domain/services/language-service.js';
 import * as localeService from '../../../src/shared/domain/services/locale-service.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
