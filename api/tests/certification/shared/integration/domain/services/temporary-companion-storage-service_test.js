@@ -14,4 +14,19 @@ describe('Integration | Domain | Services | temporary companion storage service'
       expect(result).to.equal(true);
     });
   });
+
+  describe('#getBySessionId', function () {
+    it('should get all candidates ids stored for the given session id', async function () {
+      // given
+      await temporaryCompanionStorageService.save({ sessionId: 11, id: 123 });
+      await temporaryCompanionStorageService.save({ sessionId: 11, id: 456 });
+      await temporaryCompanionStorageService.save({ sessionId: 12, id: 789 });
+
+      // when
+      const values = await temporaryCompanionStorageService.getBySessionId(11);
+
+      // then
+      expect(values).to.exactlyContain([123, 456]);
+    });
+  });
 });

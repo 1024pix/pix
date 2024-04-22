@@ -13,4 +13,10 @@ const save = async function ({ sessionId, id: certificationCandidateId }) {
   });
 };
 
-export { save };
+const getBySessionId = async function (sessionId) {
+  const companionPingStorage = _getTemporaryStorage();
+  const values = await companionPingStorage.keys(`${sessionId}:*`);
+  return values.map((value) => parseInt(value.slice(`${sessionId}:`.length)));
+};
+
+export { getBySessionId, save };
