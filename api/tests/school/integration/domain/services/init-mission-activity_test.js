@@ -37,13 +37,17 @@ describe('Integration | Usecase | init-mission-activity', function () {
     context('when last activity is not STARTED', function () {
       context('when there is no other activities left in the mission', function () {
         it('should not create any activity', async function () {
-          const { assessmentId } = databaseBuilder.factory.buildMissionAssessment();
+          const { assessmentId, missionId } = databaseBuilder.factory.buildMissionAssessment();
           const dbActivity = databaseBuilder.factory.buildActivity({
             assessmentId,
             level: Activity.levels.CHALLENGE,
             status: Activity.status.SUCCEEDED,
           });
           await databaseBuilder.commit();
+
+          mockLearningContent({
+            missions: [learningContentBuilder.buildMission({ id: missionId })],
+          });
 
           const lastActivity = domainBuilder.buildActivity(dbActivity);
 

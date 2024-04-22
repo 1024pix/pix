@@ -13,15 +13,15 @@ export async function initMissionActivity({
   if (lastActivity?.status === Activity.status.STARTED) {
     return lastActivity;
   }
+  const { missionId } = await missionAssessmentRepository.getByAssessmentId(assessmentId, domainTransaction);
+  const mission = await missionRepository.get(missionId);
+
   const activities = await activityRepository.getAllByAssessmentId(assessmentId, domainTransaction);
-  const activityInfo = getNextActivityInfo(activities);
+  const activityInfo = getNextActivityInfo({ activities, stepCount: mission.stepCount });
 
   if (activityInfo === END_OF_MISSION) {
     return lastActivity;
   }
-  const { missionId } = await missionAssessmentRepository.getByAssessmentId(assessmentId, domainTransaction);
-  const mission = await missionRepository.get(missionId);
-
   const alternativeVersion = challengeService.getAlternativeVersion({
     mission,
     activities,

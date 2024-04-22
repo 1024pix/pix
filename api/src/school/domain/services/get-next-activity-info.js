@@ -3,46 +3,46 @@ import { Activity } from '../models/Activity.js';
 import { ActivityInfo } from '../models/ActivityInfo.js';
 
 export const END_OF_MISSION = Symbol('END_OF_MISSION');
-const END_OF_STEP = Symbol('END_OF_STEP');
 
-const { TUTORIAL, TRAINING, VALIDATION, CHALLENGE } = Activity.levels;
-const { SUCCEEDED, FAILED, SKIPPED } = Activity.status;
-const SAME_ACTIVITY_RUN_MAX_NB = 3;
+const { TUTORIAL, TRAINING, VALIDATION } = Activity.levels;
 
-export function getNextActivityInfo(activities) {
-  if (_isStartingMission(activities)) {
+export function getNextActivityInfo({ activities, stepCount }) {
+  const byDescendingCreatedAt = (a, b) => b.createdAt - a.createdAt;
+  const sortedActivities = activities.sort(byDescendingCreatedAt);
+
+  if (_isStartingMission(sortedActivities)) {
     return new ActivityInfo({ stepIndex: 0, level: VALIDATION });
   }
-  if (_hasRunMaxNbOfActivityLevel(activities, VALIDATION)) {
-    return END_OF_MISSION;
-  }
-  const lastActivity = _lastActivity(activities);
-  if (
-    (_hasRunMaxNbOfActivityLevel(activities, TRAINING) && _hasFailedOrSkipped(lastActivity)) ||
-    lastActivity.level === Activity.levels.CHALLENGE
-  ) {
-    return END_OF_MISSION;
-  }
-  if (_hasSucceeded(lastActivity)) {
-    return _getNextActivityInfoAfterSuccess(activities, lastActivity);
-  } else if (_hasFailedOrSkipped(lastActivity)) {
-    return _getNextActivityInfoOnFailure(activities, lastActivity);
-  } else {
-    logger.error(`Pix1D - Unexpected status '${lastActivity.status}' on last activity with id: '${lastActivity.id}'`);
-  }
-  return END_OF_MISSION;
-}
 
-function _hasFailedOrSkipped(lastActivity) {
-  return _hasFailed(lastActivity) || _hasSkipped(lastActivity);
+  const lastActivity = _lastActivity(sortedActivities);
+  const currentStepActivities = sortedActivities.filter((activity) => activity.stepIndex === lastActivity.stepIndex);
+
+  if (_hasRunActivityLevel3Times(currentStepActivities, VALIDATION)) {
+    return END_OF_MISSION;
+  }
+  if (lastActivity.isDare) {
+    return END_OF_MISSION;
+  }
+  if (_hasRunActivityLevel3Times(currentStepActivities, TRAINING) && lastActivity.isFailedOrSkipped) {
+    return END_OF_MISSION;
+  }
+  if (lastActivity.isSucceeded) {
+    return _getNextActivityInfoAfterSuccess(currentStepActivities, lastActivity, stepCount);
+  }
+  if (lastActivity.isFailedOrSkipped) {
+    return _getNextActivityInfoOnFailure(currentStepActivities, lastActivity);
+  }
+
+  logger.error(`Pix1D - Unexpected status '${lastActivity.status}' on last activity with id: '${lastActivity.id}'`);
+  return END_OF_MISSION;
 }
 
 function _isStartingMission(activities) {
   return activities.length === 0;
 }
 
-function _hasRunMaxNbOfActivityLevel(activities, activityLevel) {
-  return _nbOfActivitiesOfLevel(activities, activityLevel) >= SAME_ACTIVITY_RUN_MAX_NB;
+function _hasRunActivityLevel3Times(activities, activityLevel) {
+  return _nbOfActivitiesOfLevel(activities, activityLevel) >= 3;
 }
 
 function _lastActivity(activities) {
@@ -50,33 +50,41 @@ function _lastActivity(activities) {
 }
 
 function _hasValidatedTheMissionUsingTutorial(lastActivity, activities) {
-  return lastActivity.level === VALIDATION && _hasAlreadyDoneActivity(activities, TUTORIAL);
+  return lastActivity.isValidation && _hasAlreadyDoneActivity(activities, TUTORIAL);
 }
 
-function _getNextActivityInfoAfterSuccess(activities, lastActivity) {
+/**
+ * @param {[Activity]} activities
+ * @param {Activity} lastActivity
+ * @param {number} stepCount
+ */
+function _getNextActivityInfoAfterSuccess(activities, lastActivity, stepCount) {
   if (_hasValidatedTheMissionUsingTutorial(lastActivity, activities)) {
     return END_OF_MISSION;
   }
-  const nextActivityLevel = _higherLevelActivity(lastActivity);
-  if (nextActivityLevel === END_OF_STEP) {
-    // only one step for the moment, so next level is CHALLENGE
-    return new ActivityInfo({ level: Activity.levels.CHALLENGE });
+  const nextActivityLevel = lastActivity.higherLevel;
+
+  if (nextActivityLevel !== Activity.END_OF_STEP) {
+    return new ActivityInfo({ stepIndex: lastActivity.stepIndex, level: nextActivityLevel });
   }
-  return new ActivityInfo({ stepIndex: 0, level: nextActivityLevel });
+
+  const isLastStep = lastActivity.stepIndex === stepCount - 1;
+  if (isLastStep) {
+    return new ActivityInfo({ level: Activity.levels.CHALLENGE });
+  } else {
+    return new ActivityInfo({ stepIndex: lastActivity.stepIndex + 1, level: Activity.levels.VALIDATION });
+  }
 }
 
 function _getNextActivityInfoOnFailure(activities, lastActivity) {
-  if (lastActivity.level === CHALLENGE) {
-    return END_OF_MISSION;
+  if (lastActivity.isValidation && _neverDoneActivity(activities, TRAINING)) {
+    return new ActivityInfo({ stepIndex: lastActivity.stepIndex, level: TRAINING });
   }
-  if (lastActivity.level === VALIDATION && _neverDoneActivity(activities, TRAINING)) {
-    return new ActivityInfo({ stepIndex: 0, level: TRAINING });
-  }
-  return new ActivityInfo({ stepIndex: 0, level: TUTORIAL });
+  return new ActivityInfo({ stepIndex: lastActivity.stepIndex, level: TUTORIAL });
 }
 
 function _nbOfActivitiesOfLevel(activities, level) {
-  return activities.filter((activity) => activity.level === level).length;
+  return activities.filter((activity) => activity.isLevel(level)).length;
 }
 
 function _hasAlreadyDoneActivity(activities, level) {
@@ -85,22 +93,4 @@ function _hasAlreadyDoneActivity(activities, level) {
 
 function _neverDoneActivity(activities, level) {
   return _nbOfActivitiesOfLevel(activities, level) === 0;
-}
-
-function _hasSucceeded(lastActivity) {
-  return lastActivity.status === SUCCEEDED;
-}
-
-function _hasFailed(lastActivity) {
-  return lastActivity.status === FAILED;
-}
-
-function _hasSkipped(lastActivity) {
-  return lastActivity.status === SKIPPED;
-}
-
-function _higherLevelActivity(lastActivity) {
-  const orderedActivityLevels = [Activity.levels.TUTORIAL, Activity.levels.TRAINING, Activity.levels.VALIDATION];
-
-  return orderedActivityLevels[orderedActivityLevels.indexOf(lastActivity.level) + 1] ?? END_OF_STEP;
 }

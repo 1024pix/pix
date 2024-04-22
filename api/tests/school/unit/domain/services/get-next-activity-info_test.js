@@ -6,273 +6,229 @@ import {
 } from '../../../../../src/school/domain/services/get-next-activity-info.js';
 import { domainBuilder, expect } from '../../../../test-helper.js';
 
-//attention : l'ordre de la liste d'activités passée en paramètre à getNextActivityInfo doit être antéchronologique
-describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
-  context('when user has just started a mission', function () {
-    it('should return validation level activity and step 0', function () {
-      const result = getNextActivityInfo([]);
-      expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: ActivityInfo.levels.VALIDATION }));
-    });
-  });
-  context('when user has just succeeded the activity', function () {
-    context('when user never did the tutorial activity', function () {
-      context('when user has just succeeded the training activity', function () {
-        it('should return the validation activity', function () {
-          const activity = domainBuilder.buildActivity({
-            level: Activity.levels.TRAINING,
-            status: Activity.status.SUCCEEDED,
-          });
-          const result = getNextActivityInfo([activity]);
-          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.VALIDATION }));
-        });
-      });
-      context('when user has just succeeded the validation activity', function () {
-        it('should return the challenge activity', function () {
-          const activity = domainBuilder.buildActivity({
-            level: Activity.levels.VALIDATION,
-            status: Activity.status.SUCCEEDED,
-          });
-          const result = getNextActivityInfo([activity]);
-          expect(result).to.deep.equal(new ActivityInfo({ level: Activity.levels.CHALLENGE }));
-        });
-      });
-      context('when user has just succeeded the challenge activity', function () {
-        it('should end the mission', function () {
-          const activity = domainBuilder.buildActivity({
-            level: Activity.levels.CHALLENGE,
-            status: Activity.status.SUCCEEDED,
-          });
-          const result = getNextActivityInfo([activity]);
-          expect(result).to.equal(END_OF_MISSION);
-        });
-      });
-    });
-    context('when user did the tutorial activity', function () {
-      context('when user has just succeeded the tutorial activity', function () {
-        it('should return the training activity', function () {
-          const activity = domainBuilder.buildActivity({
-            level: Activity.levels.TUTORIAL,
-            status: Activity.status.SUCCEEDED,
-          });
-          const result = getNextActivityInfo([activity]);
-          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }));
-        });
-      });
-      context('when user has just succeeded the training activity', function () {
-        it('should return the validation activity', function () {
-          const activity1 = domainBuilder.buildActivity({ level: Activity.levels.TUTORIAL });
-          const activity2 = domainBuilder.buildActivity({
-            level: Activity.levels.TRAINING,
-            status: Activity.status.SUCCEEDED,
-          });
-          const result = getNextActivityInfo([activity2, activity1]);
-          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.VALIDATION }));
-        });
-      });
-      context('when user has just succeeded the validation activity', function () {
-        it('should end the mission', function () {
-          const activity1 = domainBuilder.buildActivity({ level: Activity.levels.TUTORIAL });
-          const activity2 = domainBuilder.buildActivity({
-            level: Activity.levels.VALIDATION,
-            status: Activity.status.SUCCEEDED,
-          });
-          const result = getNextActivityInfo([activity2, activity1]);
-          expect(result).to.equal(END_OF_MISSION);
-        });
-      });
-    });
-  });
-  context('when user has just failed the activity', function () {
-    context('when user never did the training activity', function () {
-      context('when user has just failed the validation activity', function () {
-        it('should return the training activity', function () {
-          const activity = domainBuilder.buildActivity({
-            level: Activity.levels.VALIDATION,
-            status: Activity.status.FAILED,
-          });
-          const result = getNextActivityInfo([activity]);
-          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }));
-        });
-      });
-      context('when user has just failed the challenge activity', function () {
-        it('should end the mission', function () {
-          const activity = domainBuilder.buildActivity({
-            level: Activity.levels.CHALLENGE,
-            status: Activity.status.FAILED,
-          });
-          const result = getNextActivityInfo([activity]);
-          expect(result).to.equal(END_OF_MISSION);
-        });
-      });
-    });
-    context('when user did the training activity', function () {
-      context('when user has just failed the tutorial activity', function () {
-        it('should return the tutorial activity', function () {
-          const activity1 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
-          const activity2 = domainBuilder.buildActivity({
-            level: Activity.levels.TUTORIAL,
-            status: Activity.status.FAILED,
-          });
-          const result = getNextActivityInfo([activity2, activity1]);
-          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TUTORIAL }));
-        });
-      });
-      context('when user has just failed the training activity', function () {
-        it('should return the tutorial activity', function () {
-          const activity = domainBuilder.buildActivity({
-            level: Activity.levels.TRAINING,
-            status: Activity.status.FAILED,
-          });
-          const result = getNextActivityInfo([activity]);
-          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TUTORIAL }));
-        });
-      });
-      context('when user has just failed the validation activity', function () {
-        it('should return the tutorial activity', function () {
-          const activity1 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
-          const activity2 = domainBuilder.buildActivity({
-            level: Activity.levels.VALIDATION,
-            status: Activity.status.FAILED,
-          });
-          const result = getNextActivityInfo([activity2, activity1]);
-          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TUTORIAL }));
-        });
-      });
-      context('when user has just failed the challenge activity', function () {
-        it('should end the mission', function () {
-          const activity1 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
-          const activity2 = domainBuilder.buildActivity({
-            level: Activity.levels.CHALLENGE,
-            status: Activity.status.FAILED,
-          });
-          const result = getNextActivityInfo([activity2, activity1]);
-          expect(result).to.equal(END_OF_MISSION);
-        });
-      });
-    });
-  });
-  context('when user has just skipped the activity', function () {
-    context('when user never did the training activity', function () {
-      context('when user has just skipped the validation activity', function () {
-        it('should return the training activity', function () {
-          const activity = domainBuilder.buildActivity({
-            level: Activity.levels.VALIDATION,
-            status: Activity.status.SKIPPED,
-          });
-          const result = getNextActivityInfo([activity]);
-          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TRAINING }));
-        });
-      });
-      context('when user has just skipped the challenge activity', function () {
-        it('should end the mission', function () {
-          const activity = domainBuilder.buildActivity({
-            level: Activity.levels.CHALLENGE,
-            status: Activity.status.SKIPPED,
-          });
-          const result = getNextActivityInfo([activity]);
-          expect(result).to.equal(END_OF_MISSION);
-        });
-      });
-    });
-    context('when user did the training activity', function () {
-      context('when user has just skipped the tutorial activity', function () {
-        it('should return the tutorial activity', function () {
-          const activity1 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
-          const activity2 = domainBuilder.buildActivity({
-            level: Activity.levels.TUTORIAL,
-            status: Activity.status.SKIPPED,
-          });
-          const result = getNextActivityInfo([activity2, activity1]);
-          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TUTORIAL }));
-        });
-      });
-      context('when user has just skipped the training activity', function () {
-        it('should return the tutorial activity', function () {
-          const activity = domainBuilder.buildActivity({
-            level: Activity.levels.TRAINING,
-            status: Activity.status.SKIPPED,
-          });
-          const result = getNextActivityInfo([activity]);
-          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TUTORIAL }));
-        });
-      });
-      context('when user has just skipped the validation activity', function () {
-        it('should return the tutorial activity', function () {
-          const activity1 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
-          const activity2 = domainBuilder.buildActivity({
-            level: Activity.levels.VALIDATION,
-            status: Activity.status.SKIPPED,
-          });
-          const result = getNextActivityInfo([activity2, activity1]);
-          expect(result).to.deep.equal(new ActivityInfo({ stepIndex: 0, level: Activity.levels.TUTORIAL }));
-        });
-      });
-      context('when user has just skipped the challenge activity', function () {
-        it('should end the mission', function () {
-          const activity1 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
-          const activity2 = domainBuilder.buildActivity({
-            level: Activity.levels.CHALLENGE,
-            status: Activity.status.SKIPPED,
-          });
-          const result = getNextActivityInfo([activity2, activity1]);
-          expect(result).to.equal(END_OF_MISSION);
-        });
+describe('Unit | Domain | Pix Junior | get next activity info', function () {
+  // eslint-disable-next-line mocha/no-setup-in-describe
+  [
+    {
+      activities: [],
+      stepCount: 2,
+      expectedActivityInfo: '0:VALIDATION',
+    },
+    {
+      activities: ['0:VALIDATION:SUCCEEDED'],
+      stepCount: 1,
+      expectedActivityInfo: '-:CHALLENGE',
+    },
+    {
+      activities: ['0:VALIDATION:SUCCEEDED'],
+      stepCount: 2,
+      expectedActivityInfo: '1:VALIDATION',
+    },
+    {
+      activities: ['0:VALIDATION:FAILED'],
+      stepCount: 1,
+      expectedActivityInfo: '0:TRAINING',
+    },
+    {
+      activities: ['0:VALIDATION:SKIPPED'],
+      stepCount: 1,
+      expectedActivityInfo: '0:TRAINING',
+    },
+    {
+      activities: ['0:VALIDATION:SUCCEEDED', '-:CHALLENGE:FAILED'],
+      stepCount: 1,
+      expectedActivityInfo: END_OF_MISSION,
+    },
+    {
+      activities: ['0:VALIDATION:SUCCEEDED', '-:CHALLENGE:SUCCEEDED'],
+      stepCount: 1,
+      expectedActivityInfo: END_OF_MISSION,
+    },
+    {
+      activities: ['0:VALIDATION:SUCCEEDED', '-:CHALLENGE:SKIPPED'],
+      stepCount: 1,
+      expectedActivityInfo: END_OF_MISSION,
+    },
+    {
+      activities: ['0:VALIDATION:FAILED', '0:TRAINING:SUCCEEDED'],
+      stepCount: 1,
+      expectedActivityInfo: '0:VALIDATION',
+    },
+    {
+      activities: ['0:VALIDATION:FAILED', '0:TRAINING:FAILED'],
+      stepCount: 1,
+      expectedActivityInfo: '0:TUTORIAL',
+    },
+    {
+      activities: ['0:VALIDATION:SUCCEEDED', '1:VALIDATION:FAILED', '1:TRAINING:SUCCEEDED'],
+      stepCount: 2,
+      expectedActivityInfo: '1:VALIDATION',
+    },
+    {
+      activities: ['0:VALIDATION:SUCCEEDED', '1:VALIDATION:FAILED', '1:TRAINING:FAILED'],
+      stepCount: 2,
+      expectedActivityInfo: '1:TUTORIAL',
+    },
+    {
+      activities: ['0:VALIDATION:FAILED', '0:TRAINING:FAILED', '0:TUTORIAL:SUCCEEDED'],
+      stepCount: 1,
+      expectedActivityInfo: '0:TRAINING',
+    },
+    {
+      activities: ['0:VALIDATION:FAILED', '0:TRAINING:SUCCEEDED', '0:VALIDATION:FAILED'],
+      stepCount: 1,
+      expectedActivityInfo: '0:TUTORIAL',
+    },
+    {
+      activities: ['0:VALIDATION:FAILED', '0:TRAINING:SUCCEEDED', '0:VALIDATION:SKIPPED'],
+      stepCount: 1,
+      expectedActivityInfo: '0:TUTORIAL',
+    },
+    {
+      activities: ['0:VALIDATION:FAILED', '0:TRAINING:FAILED', '0:TUTORIAL:SKIPPED'],
+      stepCount: 1,
+      expectedActivityInfo: '0:TUTORIAL',
+    },
+    {
+      activities: ['0:VALIDATION:SUCCEEDED', '1:VALIDATION:FAILED', '1:TRAINING:FAILED', '1:TUTORIAL:SUCCEEDED'],
+      stepCount: 2,
+      expectedActivityInfo: '1:TRAINING',
+    },
+    {
+      activities: ['0:VALIDATION:FAILED', '0:TRAINING:FAILED', '0:TUTORIAL:SUCCEEDED', '0:TRAINING:SUCCEEDED'],
+      stepCount: 1,
+      expectedActivityInfo: '0:VALIDATION',
+    },
+    {
+      activities: [
+        '0:VALIDATION:FAILED',
+        '0:TRAINING:FAILED',
+        '0:TUTORIAL:SUCCEEDED',
+        '0:TRAINING:SUCCEEDED',
+        '0:VALIDATION:SUCCEEDED',
+      ],
+      stepCount: 1,
+      expectedActivityInfo: END_OF_MISSION,
+    },
+    {
+      activities: [
+        '0:VALIDATION:FAILED',
+        '0:TRAINING:FAILED',
+        '0:TUTORIAL:SUCCEEDED',
+        '0:TRAINING:SUCCEEDED',
+        '0:VALIDATION:SUCCEEDED',
+        '1:VALIDATION:SUCCEEDED',
+      ],
+      stepCount: 2,
+      expectedActivityInfo: '-:CHALLENGE',
+    },
+    {
+      activities: ['0:VALIDATION:FAILED', '0:TRAINING:FAILED', '0:TUTORIAL:SUCCEEDED', '0:TRAINING:FAILED'],
+      stepCount: 1,
+      expectedActivityInfo: '0:TUTORIAL',
+    },
+    {
+      activities: ['0:VALIDATION:FAILED', '0:TRAINING:SUCCEEDED', '0:VALIDATION:SUCCEEDED', '1:VALIDATION:FAILED'],
+      stepCount: 2,
+      expectedActivityInfo: '1:TRAINING',
+    },
+    {
+      activities: ['0:VALIDATION:FAILED', '0:TRAINING:SUCCEEDED', '0:VALIDATION:SUCCEEDED', '-:CHALLENGE:FAILED'],
+      stepCount: 1,
+      expectedActivityInfo: END_OF_MISSION,
+    },
+    {
+      activities: ['0:VALIDATION:FAILED', '0:TRAINING:FAILED', '0:TUTORIAL:SUCCEEDED', '0:TRAINING:SKIPPED'],
+      stepCount: 1,
+      expectedActivityInfo: '0:TUTORIAL',
+    },
+    {
+      activities: ['0:VALIDATION:FAILED', '0:TRAINING:SUCCEEDED', '0:VALIDATION:SUCCEEDED', '-:CHALLENGE:SKIPPED'],
+      stepCount: 1,
+      expectedActivityInfo: END_OF_MISSION,
+    },
+    {
+      activities: [
+        '0:VALIDATION:FAILED',
+        '0:TRAINING:FAILED',
+        '0:TUTORIAL:SUCCEEDED',
+        '0:TRAINING:SUCCEEDED',
+        '0:VALIDATION:FAILED',
+        '0:TUTORIAL:SUCCEEDED',
+        '0:TRAINING:FAILED',
+      ],
+      stepCount: 1,
+      expectedActivityInfo: END_OF_MISSION,
+    },
+    {
+      activities: [
+        '0:VALIDATION:FAILED',
+        '0:TRAINING:FAILED',
+        '0:TUTORIAL:SUCCEEDED',
+        '0:TRAINING:SUCCEEDED',
+        '0:VALIDATION:FAILED',
+        '0:TUTORIAL:SUCCEEDED',
+        '0:TRAINING:SUCCEEDED',
+        '0:VALIDATION:SUCCEEDED',
+      ],
+      stepCount: 1,
+      expectedActivityInfo: END_OF_MISSION,
+    },
+    {
+      activities: [
+        '0:VALIDATION:FAILED',
+        '0:TRAINING:FAILED',
+        '0:TUTORIAL:SUCCEEDED',
+        '0:TRAINING:SUCCEEDED',
+        '0:VALIDATION:FAILED',
+        '0:TUTORIAL:SUCCEEDED',
+        '0:TRAINING:FAILED',
+      ],
+      stepCount: 1,
+      expectedActivityInfo: END_OF_MISSION,
+    },
+    {
+      activities: [
+        '0:VALIDATION:FAILED',
+        '0:TRAINING:FAILED',
+        '0:TUTORIAL:SUCCEEDED',
+        '0:TRAINING:FAILED',
+        '0:TUTORIAL:SUCCEEDED',
+        '0:TRAINING:SKIPPED',
+      ],
+      stepCount: 1,
+      expectedActivityInfo: END_OF_MISSION,
+    },
+  ].forEach(({ activities, stepCount, expectedActivityInfo }) => {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    context(`when activities flow is ${JSON.stringify(activities)} in a ${stepCount} steps mission`, function () {
+      it(`should return ${expectedActivityInfo.toString()}`, function () {
+        const result = getNextActivityInfo({ activities: buildActivities(activities), stepCount });
+
+        expect(result).to.deep.equal(activityInfo(expectedActivityInfo));
       });
     });
   });
-  context('when user has done too many time the same activity', function () {
-    context('when the user should go to the tutorial but has already done the tutorial twice', function () {
-      it('should end the mission', function () {
-        const activity1 = domainBuilder.buildActivity({
-          level: Activity.levels.TRAINING,
-          status: Activity.status.FAILED,
-        });
-        const activity2 = domainBuilder.buildActivity({ level: Activity.levels.TUTORIAL });
-        const activity3 = domainBuilder.buildActivity({
-          level: Activity.levels.TRAINING,
-          status: Activity.status.FAILED,
-        });
-        const activity4 = domainBuilder.buildActivity({ level: Activity.levels.TUTORIAL });
-        const activity5 = domainBuilder.buildActivity({
-          level: Activity.levels.TRAINING,
-          status: Activity.status.FAILED,
-        });
-        const result = getNextActivityInfo([activity5, activity4, activity3, activity2, activity1]);
-        expect(result).to.equal(END_OF_MISSION);
-      });
+
+  function activityInfo(activityInfo) {
+    if (END_OF_MISSION === activityInfo) return activityInfo;
+
+    const [stepIndex, level] = activityInfo.split(':');
+    return new ActivityInfo({
+      stepIndex: isNaN(Number(stepIndex)) ? undefined : Number(stepIndex),
+      level: Activity.levels[level],
     });
-    context('when the user has just finished validation activity for the third time', function () {
-      it('should end the mission', function () {
-        const activity1 = domainBuilder.buildActivity({ level: Activity.levels.VALIDATION });
-        const activity2 = domainBuilder.buildActivity({ level: Activity.levels.VALIDATION });
-        const activity3 = domainBuilder.buildActivity({ level: Activity.levels.VALIDATION });
-        const result = getNextActivityInfo([activity3, activity2, activity1]);
-        expect(result).to.equal(END_OF_MISSION);
-      });
-    });
-    context('when the user has failed their third training activity', function () {
-      it('should end the mission', function () {
-        const activity1 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
-        const activity2 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
-        const activity3 = domainBuilder.buildActivity({
-          level: Activity.levels.TRAINING,
-          status: Activity.status.FAILED,
-        });
-        const result = getNextActivityInfo([activity3, activity2, activity1]);
-        expect(result).to.equal(END_OF_MISSION);
-      });
-    });
-    context('when the user has skipped their third training activity', function () {
-      it('should end the mission', function () {
-        const activity1 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
-        const activity2 = domainBuilder.buildActivity({ level: Activity.levels.TRAINING });
-        const activity3 = domainBuilder.buildActivity({
-          level: Activity.levels.TRAINING,
-          status: Activity.status.SKIPPED,
-        });
-        const result = getNextActivityInfo([activity3, activity2, activity1]);
-        expect(result).to.equal(END_OF_MISSION);
-      });
-    });
-  });
+  }
 });
+
+function buildActivities(activities) {
+  return activities.map((activity, index) => {
+    const [stepIndex, level, status] = activity.split(':');
+    return domainBuilder.buildActivity({
+      stepIndex: stepIndex ? Number(stepIndex) : undefined,
+      level: Activity.levels[level],
+      status: Activity.status[status],
+      createdAt: new Date(`2024-01-${index + 1}`),
+    });
+  });
+}

@@ -2,7 +2,7 @@ export const challengeService = { getAlternativeVersion };
 
 function getAlternativeVersion({ mission, activities, activityInfo }) {
   const alreadyPlayedAlternativeVersions = activities
-    .filter((activity) => activity.level === activityInfo.level)
+    .filter((activity) => activity.isLevel(activityInfo.level))
     .map((activity) => activity.alternativeVersion);
 
   const activityChallengeIds = mission.getChallengeIds(activityInfo);

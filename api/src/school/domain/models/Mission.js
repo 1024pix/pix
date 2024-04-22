@@ -48,6 +48,10 @@ class Mission {
     }
   }
 
+  get stepCount() {
+    return this.content.steps.length;
+  }
+
   #unknownActivityLevel(activityLevel) {
     return !Object.keys(Activity.levels).includes(activityLevel);
   }
