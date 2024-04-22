@@ -14,15 +14,15 @@
   },
   "transitionTexts": [
     {
-      "content": "<p>Bienvenue</p>",
+      "content": "<p>Nous allons voir ensemble ce que sont les données personnelles.Suis bien toutes les activités ci-dessous et tu seras imbattable sur le sujet !</p>",
       "grainId": "4a96e2aa-fdeb-4094-8c99-2bc8f088bfbe"
     },
     {
-      "content": "<p>Si toi aussi tu veux apprendre ce qu'est une donnée personnelle, regarde attentivement la vidéo. Après la vidéo, tu devras reconnaître des données personnelles.</p>",
+      "content": "<p>Si comme Lucas, tu veux apprendre ce qu'est une donnée personnelle, regarde attentivement la vidéo. Après la vidéo, tu pourras répondre à la question : \"Qu'est-ce qu'une donnée personnelle ?\" puis tu devras trier des données.</p>",
       "grainId": "6de63cda-85ce-4bc6-83a0-f2f3518d4968"
     },
     {
-      "content": "<p>Voyons si tu as bien compris la vidéo ?</p>",
+      "content": "<p>Voyons si tu as bien compris la vidéo. Réponds à la question suivante.</p>",
       "grainId": "494c3c3a-6ffb-46fc-81b9-7eabe5a0227c"
     },
     {
@@ -30,7 +30,11 @@
       "grainId": "5773e09f-947f-41d9-94a6-12bc02589ada"
     },
     {
-      "content": "<p>Pour résumer</p>",
+      "content": "<p>Maintenant, sais-tu quelles données personnelles Lucas a partagées dans le questionnaire ?</p>",
+      "grainId": "2953f145-c489-48d6-9a85-a8ad08f140e2"
+    },
+    {
+      "content": "<p>Pour résumer, tu peux retenir que : </p>",
       "grainId": "36dacf19-f9e3-4b58-aa64-7705ad488a88"
     }
   ],
@@ -40,11 +44,6 @@
       "type": "lesson",
       "title": "explications",
       "elements": [
-        {
-          "id": "097eeaa5-47ca-4cb3-b312-2d0fe807bc74",
-          "type": "text",
-          "content": "<p>Texte</p>"
-        },
         {
           "id": "686768b1-bf81-4a72-ac74-a0086646aa13",
           "type": "text",
@@ -104,7 +103,7 @@
         {
           "id": "c3f62cc8-6d27-437d-8b65-3d76fb2ef0cd",
           "type": "text",
-          "content": "<p>Voici des étiquettes qui décrivent différentes données.Range les données personnelles dans .Range les autres données dans la</p>"
+          "content": "<p>Voici des étiquettes qui décrivent différentes données. Range les données personnelles dans la case \"les données personnelles\" et range les informations qui ne sont pas des données personnelles dans \"Les autres données\".</p>"
         },
         {
           "id": "cf08a18a-72d5-468a-8520-12477ce8e449",
@@ -113,6 +112,41 @@
         }
       ]
     },
+    {
+      "id": "2953f145-c489-48d6-9a85-a8ad08f140e2",
+      "type": "activity",
+      "title": "Quel est votre profil ?",
+      "elements": [
+        {
+          "id": "898acddf-c391-4be9-802d-8751a3fba207",
+          "type": "image",
+          "url": "https://i.imgur.com/GuLXBCj.jpeg",
+          "alt": "Photo d'une clé USB",
+          "alternativeText": ""
+        },
+        {
+          "id": "f127b2ed-b484-4642-95e5-19d5ebdad34e",
+          "type": "qcu",
+          "instruction": "<p>Vous avez sûrement déjà branché une clé USB.<br> Quel type de personne êtes-vous&#8239;?</p>",
+          "proposals": [
+            {
+              "id": "1",
+              "content": "J'arrive toujours la brancher une clé USB du premier coup."
+            },
+            {
+              "id": "2",
+              "content": "J'ai besoin d'essayer plusieurs fois avant de réussir à brancher une clé USB."
+            }
+          ],
+          "feedbacks": {
+            "valid": "<p>C'est le cas de nombreuses personnes&#8239;!&nbsp;<span aria-hidden=\"true\">🏅</span></p>",
+            "invalid": "<p>Toujours&#8239;?! On ne vous croit pas...&nbsp;<span aria-hidden=\"true\">😉</span></p>"
+          },
+          "solution": "2"
+        }
+      ]
+    }
+    ,
     {
       "id": "36dacf19-f9e3-4b58-aa64-7705ad488a88",
       "type": "lesson",
