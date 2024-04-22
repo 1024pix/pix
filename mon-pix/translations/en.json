@@ -1231,6 +1231,9 @@
           "title": "Transcription"
         }
       },
+      "preview": {
+        "textarea-label": "Module content"
+      },
       "qcm": {
         "direction": "Select several answers."
       },

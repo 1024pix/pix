@@ -1,0 +1,38 @@
+{{page-title this.module.title}}
+
+<div class="module-preview">
+  <aside class="module-preview__passage">
+    <div class="module-preview-passage__title">
+      <h1>{{this.formattedModule.title}}</h1>
+    </div>
+
+    <div class="module-preview-passage__content">
+      {{#each this.formattedModule.grains as |grain|}}
+        <Module::Grain
+          @grain={{grain}}
+          @retryElement={{this.noop}}
+          @passage={{this.passage}}
+          @transition={{this.grainTransition grain.id}}
+          @submitAnswer={{this.noop}}
+          @canMoveToNextGrain={{false}}
+          @continueAction={{this.noop}}
+          @skipAction={{this.noop}}
+          @shouldDisplayTerminateButton={{false}}
+          @terminateAction={{this.noop}}
+          @hasJustAppeared={{false}}
+        />
+      {{/each}}
+    </div>
+  </aside>
+
+  <main class="module-preview__form">
+    <PixTextarea
+      class="module-preview-form__textarea"
+      @id="module"
+      @value={{this.module}}
+      @label={{t "pages.modulix.preview.textarea-label"}}
+      @errorMessage={{this.errorMessage}}
+      {{on "change" this.updateModule}}
+    />
+  </main>
+</div>

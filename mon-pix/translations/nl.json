@@ -1250,6 +1250,9 @@
         "qcm": "Selecteer ten minste twee antwoorden om te bevestigen.",
         "qcu": "Selecteer een antwoord om te bevestigen.",
         "qrocm": "Vul alle antwoordvelden in om te bevestigen."
+      },
+      "preview": {
+        "textarea-label": "Module-inhoud"
       }
     },
     "not-connected": {
