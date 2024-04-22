@@ -1,11 +1,11 @@
-import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../lib/domain/errors.js';
-import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
-import { mailService } from '../../../../lib/domain/services/mail-service.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
-import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
+import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../../lib/domain/errors.js';
+import { EmailingAttempt } from '../../../../../lib/domain/models/EmailingAttempt.js';
+import { mailService } from '../../../../../lib/domain/services/mail-service.js';
+import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
+import { usecases } from '../../../../../src/team/domain/usecases/index.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
-describe('Integration | UseCase | create-or-update-certification-center-invitation-for-admin', function () {
+describe('Integration | Team | UseCase | create-or-update-certification-center-invitation-for-admin', function () {
   let clock;
   const now = new Date('2022-09-25');
 
@@ -18,7 +18,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     clock.restore();
   });
 
-  it('should create a new invitation if there isn’t an already pending existing one with given email', async function () {
+  it('creates a new invitation if there isn’t an already pending existing one with given email', async function () {
     // given
     const email = 'some.user@example.net';
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Centre des Pixous' }).id;
@@ -67,7 +67,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     expect(result.certificationCenterInvitation.code).to.exist;
   });
 
-  it('should update an already existing pending invitation’s', async function () {
+  it('updates an already existing pending invitation’s', async function () {
     // given
     const email = 'some.user@example.net';
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Centre Pixou' }).id;
@@ -106,7 +106,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     });
   });
 
-  it('should send email by calling mail service', async function () {
+  it('sends email by calling mail service', async function () {
     // given
     const email = 'some.user@example.net';
 
@@ -138,7 +138,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     });
   });
 
-  it('should throw an error if email was not send', async function () {
+  it('throws an error if email was not send', async function () {
     // given
     const email = 'some.user@example.net';
     const role = null;
@@ -169,7 +169,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
   });
 
   context('when recipient email has an invalid domain', function () {
-    it('throw a SendingEmailToInvalidDomainError error', async function () {
+    it('throws a SendingEmailToInvalidDomainError error', async function () {
       // given
       const email = 'hatake.kakashi@konoha.fire';
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Konoha' }).id;

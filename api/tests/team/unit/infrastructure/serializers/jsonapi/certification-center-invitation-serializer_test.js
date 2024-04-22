@@ -1,10 +1,10 @@
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
-import { CertificationCenterInvitation } from '../../../../../src/team/domain/models/CertificationCenterInvitation.js';
-import { expect } from '../../../../test-helper.js';
+import { CertificationCenterInvitation } from '../../../../../../src/team/domain/models/CertificationCenterInvitation.js';
+import * as serializer from '../../../../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
+import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Serializer | JSONAPI | certification-center-invitation-serializer', function () {
+describe('Unit | Team | Serializer | JSONAPI | certification-center-invitation-serializer', function () {
   describe('#serialize', function () {
-    it('should convert a certification-center-invitation object into JSON API data', function () {
+    it('converts a certification-center-invitation object into JSON API data', function () {
       // given
       const invitation = new CertificationCenterInvitation({
         id: 999,
@@ -32,7 +32,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-invitation-serializ
   });
 
   describe('#serializeForAdmin', function () {
-    it('should convert a certification-center-invitation object into JSON API data', function () {
+    it('converts a certification-center-invitation object into JSON API data', function () {
       // given
       const now = new Date();
       const certificationCenterInvitation = new CertificationCenterInvitation({
@@ -62,7 +62,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-invitation-serializ
   });
 
   describe('#deserializeForAdmin', function () {
-    it('should convert the JSON payload to Object', async function () {
+    it('converts the JSON payload to Object', async function () {
       //given
       const payload = {
         data: {

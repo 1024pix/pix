@@ -1,9 +1,9 @@
 import lodash from 'lodash';
 
 import { extractParameters } from '../../../src/shared/infrastructure/utils/query-params-utils.js';
+import * as certificationCenterInvitationSerializer from '../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
-import * as certificationCenterInvitationSerializer from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
 import * as certificationCenterSerializer from '../../infrastructure/serializers/jsonapi/certification-center-serializer.js';
 import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
@@ -154,26 +154,6 @@ const updateReferer = async function (request, h) {
   return h.response().code(204);
 };
 
-const sendInvitationForAdmin = async function (request, h, dependencies = { certificationCenterInvitationSerializer }) {
-  const certificationCenterId = request.params.certificationCenterId;
-  const invitationInformation = await certificationCenterInvitationSerializer.deserializeForAdmin(request.payload);
-
-  const { certificationCenterInvitation, isInvitationCreated } =
-    await usecases.createOrUpdateCertificationCenterInvitationForAdmin({
-      certificationCenterId,
-      email: invitationInformation.email,
-      locale: invitationInformation.language,
-      role: invitationInformation.role,
-    });
-
-  const serializedCertificationCenterInvitation =
-    dependencies.certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitation);
-  if (isInvitationCreated) {
-    return h.response(serializedCertificationCenterInvitation).created();
-  }
-  return h.response(serializedCertificationCenterInvitation);
-};
-
 const certificationCenterController = {
   create,
   createCertificationCenterMembershipByEmail,
@@ -185,7 +165,6 @@ const certificationCenterController = {
   getCertificationCenterDetails,
   getDivisions,
   getStudents,
-  sendInvitationForAdmin,
   update,
   updateReferer,
 };

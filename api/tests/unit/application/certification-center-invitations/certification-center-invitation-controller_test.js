@@ -1,8 +1,8 @@
 import { certificationCenterInvitationController } from '../../../../lib/application/certification-center-invitations/certification-center-invitation-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { certificationCenterInvitationSerializer } from '../../../../lib/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { CertificationCenterInvitation } from '../../../../src/team/domain/models/CertificationCenterInvitation.js';
+import { certificationCenterInvitationSerializer } from '../../../../src/team/infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Certification-center-Invitations | Certification-center-invitation-controller', function () {
