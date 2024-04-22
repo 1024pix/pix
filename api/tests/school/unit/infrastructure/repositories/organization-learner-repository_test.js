@@ -20,4 +20,27 @@ describe('Unit | Repository | organizationLearner', function () {
       expect(students).to.deep.equal([expectedStudent]);
     });
   });
+
+  describe('#getById', function () {
+    it('should return the student corresponding to the id', async function () {
+      const rawStudent = {
+        id: 1234,
+        firstName: 'Léon',
+        lastName: 'De Bruxelles',
+        division: '4ème',
+        organizationId: 23456,
+      };
+      const expectedStudent = new OrganizationLearner(rawStudent);
+      const organizationLearnerApiStub = { get: sinon.stub() };
+
+      organizationLearnerApiStub.get.withArgs(rawStudent.id).resolves(rawStudent);
+
+      const student = await repositories.organizationLearnerRepository.getById({
+        organizationLearnerId: rawStudent.id,
+        organizationLearnerApi: organizationLearnerApiStub,
+      });
+
+      expect(student).to.deep.equal(expectedStudent);
+    });
+  });
 });

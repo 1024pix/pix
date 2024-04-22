@@ -1,21 +1,7 @@
-import { OrganizationLearner } from '../../../../../src/school/domain/models/OrganizationLearner.js';
 import { repositories } from '../../../../../src/school/infrastructure/repositories/index.js';
 import { databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Repository | organizationLearner', function () {
-  describe('#getById', function () {
-    it('should return only the good organization learner', async function () {
-      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();
-      databaseBuilder.factory.buildOrganizationLearner();
-      await databaseBuilder.commit();
-
-      const result = await repositories.organizationLearnerRepository.getById({
-        organizationLearnerId: organizationLearner.id,
-      });
-      expect(result).to.deep.equal(new OrganizationLearner({ ...organizationLearner }));
-    });
-  });
-
   describe('#getDivisionsWhichStartedMission', function () {
     it('returns all divisions which started the mission', async function () {
       const missionId = 123;

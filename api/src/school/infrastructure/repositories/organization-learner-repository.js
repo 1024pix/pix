@@ -9,12 +9,10 @@ const getStudentsByOrganizationId = async function ({ organizationId, organizati
   return organizationLearners.map((organizationLearner) => new OrganizationLearner(organizationLearner));
 };
 
-const getById = async function ({ organizationLearnerId }) {
-  const result = await knex('organization-learners').where({ id: organizationLearnerId }).first();
+const getById = async function ({ organizationLearnerId, organizationLearnerApi }) {
+  const learner = await organizationLearnerApi.get(organizationLearnerId);
 
-  return new OrganizationLearner({
-    ...result,
-  });
+  return new OrganizationLearner(learner);
 };
 
 async function getDivisionsWhichStartedMission({ missionId, organizationId }) {

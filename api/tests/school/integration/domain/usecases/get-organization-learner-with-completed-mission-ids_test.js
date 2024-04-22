@@ -1,14 +1,13 @@
 import { Assessment } from '../../../../../lib/domain/models/index.js';
 import { OrganizationLearner } from '../../../../../src/school/domain/models/OrganizationLearner.js';
-import { getOrganizationLearnerWithCompletedMissionIds } from '../../../../../src/school/domain/usecases/get-organization-learner-with-completed-mission-ids.js';
-import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
-import * as organizationLearnerRepository from '../../../../../src/school/infrastructure/repositories/organization-learner-repository.js';
+import { usecases } from '../../../../../src/school/domain/usecases/index.js';
 import { databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Usecase | get-organization-learner-with-completed-mission-ids', function () {
   describe('#getOrganizationLearnerWithCompletedMissionIds', function () {
     it('should return organization learner with completed mission ids', async function () {
-      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();
+      const organizationLearner =
+        databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner();
       const completedAssessmentId = databaseBuilder.factory.buildPix1dAssessment({
         state: Assessment.states.COMPLETED,
       }).id;
@@ -28,21 +27,24 @@ describe('Integration | Usecase | get-organization-learner-with-completed-missio
         assessmentId: startedAssessmentId,
       });
       await databaseBuilder.commit();
-      const result = await getOrganizationLearnerWithCompletedMissionIds({
+
+      const result = await usecases.getOrganizationLearnerWithCompletedMissionIds({
         organizationLearnerId: organizationLearner.id,
-        missionAssessmentRepository,
-        organizationLearnerRepository,
       });
+
       expect(result).to.deep.equal(
         new OrganizationLearner({
           ...organizationLearner,
+          division: organizationLearner.attributes['Libellé classe'],
           completedMissionIds: [completedMissionId],
         }),
       );
     });
 
     it('should return only the good organization learner', async function () {
-      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();
+      const organizationLearner =
+        databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner();
+
       const completedAssessmentId = databaseBuilder.factory.buildPix1dAssessment({
         state: Assessment.states.COMPLETED,
       }).id;
@@ -54,7 +56,9 @@ describe('Integration | Usecase | get-organization-learner-with-completed-missio
         organizationLearnerId: organizationLearner.id,
         assessmentId: completedAssessmentId,
       });
-      const otherOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner();
+      const otherOrganizationLearner =
+        databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner();
+
       const otherCompletedAssessmentId = databaseBuilder.factory.buildPix1dAssessment({
         state: Assessment.states.COMPLETED,
       }).id;
@@ -63,33 +67,33 @@ describe('Integration | Usecase | get-organization-learner-with-completed-missio
         organizationLearnerId: otherOrganizationLearner.id,
         assessmentId: otherCompletedAssessmentId,
       });
-
       await databaseBuilder.commit();
-      const result = await getOrganizationLearnerWithCompletedMissionIds({
+
+      const result = await usecases.getOrganizationLearnerWithCompletedMissionIds({
         organizationLearnerId: organizationLearner.id,
-        missionAssessmentRepository,
-        organizationLearnerRepository,
       });
       expect(result).to.deep.equal(
         new OrganizationLearner({
           ...organizationLearner,
+          division: organizationLearner.attributes['Libellé classe'],
           completedMissionIds: [completedMissionId],
         }),
       );
     });
 
     it('should return organization learner even without completed missions', async function () {
-      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();
+      const organizationLearner =
+        databaseBuilder.factory.prescription.organizationLearners.buildOndeOrganizationLearner();
+
       await databaseBuilder.commit();
 
-      const result = await getOrganizationLearnerWithCompletedMissionIds({
+      const result = await usecases.getOrganizationLearnerWithCompletedMissionIds({
         organizationLearnerId: organizationLearner.id,
-        missionAssessmentRepository,
-        organizationLearnerRepository,
       });
       expect(result).to.deep.equal(
         new OrganizationLearner({
           ...organizationLearner,
+          division: organizationLearner.attributes['Libellé classe'],
           completedMissionIds: [],
         }),
       );
