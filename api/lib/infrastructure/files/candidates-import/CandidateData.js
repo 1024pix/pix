@@ -73,6 +73,10 @@ class CandidateData {
       complementaryCertification,
       ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
     );
+    this.pixPlusSante = this._displayYesIfCandidateHasComplementaryCertification(
+      complementaryCertification,
+      ComplementaryCertificationKeys.PIX_PLUS_SANTE,
+    );
     this.count = number;
     this._clearBirthInformationDataForExport();
   }

@@ -57,7 +57,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
     async ([line, certificationCandidateData]) => {
       let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity, billingMode } = certificationCandidateData;
       const { email, resultRecipientEmail } = certificationCandidateData;
-      const { hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre } =
+      const { hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre, hasPixPlusSante } =
         certificationCandidateData;
 
       if (birthINSEECode && birthINSEECode !== '99' && birthINSEECode.length < 5)
@@ -80,6 +80,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
           hasPixPlusDroit,
           hasPixPlusEdu1erDegre,
           hasPixPlusEdu2ndDegre,
+          hasPixPlusSante,
         })
       ) {
         line = parseInt(line) + 1;
@@ -105,6 +106,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         hasPixPlusDroit,
         hasPixPlusEdu1erDegre,
         hasPixPlusEdu2ndDegre,
+        hasPixPlusSante,
         complementaryCertificationRepository,
       });
 
@@ -166,10 +168,15 @@ function _hasMoreThanOneComplementarySubscription({
   hasPixPlusDroit,
   hasPixPlusEdu1erDegre,
   hasPixPlusEdu2ndDegre,
+  hasPixPlusSante,
 }) {
-  const isTrueCount = [hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre].filter(
-    (complementaryCertificationSubscription) => complementaryCertificationSubscription,
-  ).length;
+  const isTrueCount = [
+    hasCleaNumerique,
+    hasPixPlusDroit,
+    hasPixPlusEdu1erDegre,
+    hasPixPlusEdu2ndDegre,
+    hasPixPlusSante,
+  ].filter((complementaryCertificationSubscription) => complementaryCertificationSubscription).length;
   return isTrueCount > 1;
 }
 
@@ -228,6 +235,7 @@ async function _buildComplementaryCertificationsForLine({
   hasPixPlusDroit,
   hasPixPlusEdu1erDegre,
   hasPixPlusEdu2ndDegre,
+  hasPixPlusSante,
   complementaryCertificationRepository,
 }) {
   const complementaryCertificationsInDB = await complementaryCertificationRepository.findAll();
@@ -251,6 +259,11 @@ async function _buildComplementaryCertificationsForLine({
     return complementaryCertificationsInDB.find(
       (complementaryCertification) =>
         complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
+    );
+  }
+  if (hasPixPlusSante) {
+    return complementaryCertificationsInDB.find(
+      (complementaryCertification) => complementaryCertification.key === ComplementaryCertificationKeys.PIX_PLUS_SANTE,
     );
   }
 }
