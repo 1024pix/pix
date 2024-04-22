@@ -35,7 +35,7 @@
       "grainId": "09304128-193f-4ea8-bda7-edffd72b1bf2"
     },
     {
-      "content": "<p>Vous l’avez sûrement remarqué, depuis le début de ce module, nous parlons uniquement d’adresse IP publiques.<br>Il existe un autre type d’adresse IP&nbsp;: les adresses IP privées, aussi appelées IP locales.</p>",
+      "content": "<p>Vous l’avez sûrement remarqué, depuis le début de ce module, nous parlons uniquement d’adresses IP publiques.<br>Il existe un autre type d’adresse IP&nbsp;: les adresses IP privées, aussi appelées IP locales.</p>",
       "grainId": "45d507ce-f822-4a06-aa6e-f2a1b0aeada3"
     },
     {
@@ -204,31 +204,6 @@
           "content": "<hr>"
         },
         {
-          "id": "3c7f2197-4d60-452c-b7d4-e1d642a5f2c0",
-          "type": "qcu",
-          "instruction": "<p>Les personnes connectées à la même box internet ont la même adresse IP publique.</p>",
-          "proposals": [
-            {
-              "id": "1",
-              "content": "Vrai"
-            },
-            {
-              "id": "2",
-              "content": "Faux"
-            }
-          ],
-          "feedbacks": {
-            "valid": "<p>Correct. C’est effectivement le point d’accès internet qui détermine l’adresse IP publique.</p>",
-            "invalid": "<p>Incorrect. Il n'y a pas plusieurs adresses IP publiques pour un même point d'accès internet. L'adresse est unique. </p>"
-          },
-          "solution": "1"
-        },
-        {
-          "id": "4bb90e70-7b23-4327-b9d5-d6f902a6ca77",
-          "type": "text",
-          "content": "<hr>"
-        },
-        {
           "id": "04d94597-3815-4745-9acd-4f32b8fa93f0",
           "type": "qcu",
           "instruction": "<p>Les personnes qui ont votre adresse IP publique peuvent savoir précisément où vous habitez.</p>",
@@ -247,6 +222,31 @@
             "invalid": "<p>Incorrect. Une adresse IP publique permet d'identifier un pays, voire une ville de connexion, mais difficile d’en savoir plus&#8239;!</p>"
           },
           "solution": "2"
+        },
+        {
+          "id": "4bb90e70-7b23-4327-b9d5-d6f902a6ca77",
+          "type": "text",
+          "content": "<hr>"
+        },
+        {
+          "id": "3c7f2197-4d60-452c-b7d4-e1d642a5f2c0",
+          "type": "qcu",
+          "instruction": "<p>Les personnes connectées à la même box internet ont la même adresse IP publique.</p>",
+          "proposals": [
+            {
+              "id": "1",
+              "content": "Vrai"
+            },
+            {
+              "id": "2",
+              "content": "Faux"
+            }
+          ],
+          "feedbacks": {
+            "valid": "<p>Correct. C’est effectivement le point d’accès internet qui détermine l’adresse IP publique.</p>",
+            "invalid": "<p>Incorrect. Il n'y a pas plusieurs adresses IP publiques pour un même point d'accès internet. L'adresse est unique. </p>"
+          },
+          "solution": "1"
         }
       ]
     },
@@ -272,6 +272,10 @@
           "type": "qrocm",
           "instruction": "<p>Dans quel pays est située l’adresse IP suivante&nbsp;? <strong>77.205.153.196</strong></p>",
           "proposals": [
+            {
+              "type": "text",
+              "content": "<span>Nom du pays&nbsp;:</span>"
+            },
             {
               "input": "pays",
               "type": "input",
@@ -312,6 +316,11 @@
       "title": "Schéma IP publique vs. IP locales !",
       "elements": [
         {
+          "id": "9814961b-3134-468d-a918-9b98a1775395",
+          "type": "text",
+          "content": "<p>Étudiez ce schéma qui présente les deux types d'adresses IP.<br>Par la suite, vous devrez trouver quel est le type d'adresse IP concernée entre privée et publique dans des situations concrètes.</p>"
+        },
+        {
           "id": "f42fa86c-3936-485a-8ea3-cabed25153f9",
           "type": "image",
           "url": "https://images.pix.fr/modulix/adresse-ip-publique-et-vous/schema-ip-publique-vs-privee.svg",
@@ -321,7 +330,7 @@
         {
           "id": "1b524302-7175-4923-8810-835201d3d443",
           "type": "text",
-          "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, par exemple chez soi, les appareils (ordinateur, imprimante, box, etc.) utilisent pour des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent de communiquer des informations. </p>"
+          "content": "<p><span aria-hidden=\"true\">🏠</span> Sur le <strong>réseau local</strong>, par exemple chez soi, les appareils (ordinateur, imprimante, etc.) utilisent des adresses IP <strong>privées</strong> (ou locales) pour communiquer.</p><p><span aria-hidden=\"true\">🌐</span> Sur <strong>internet</strong>, ce sont des adresses IP <strong>publiques</strong> qui permettent de communiquer des informations.</p><p><span aria-hidden=\"true\">🛜</span> La box internet a deux adresses IP : une privée et une publique.</p>"
         }
       ]
     },
@@ -333,7 +342,7 @@
         {
           "id": "9bc62c21-dfd4-40a8-9497-680a7e1c13d9",
           "type": "text",
-          "content": "<p>En vous aidant de ce schéma, pour chaque affirmation, choisissez si elle correspond à une IP publique ou privée.</p>"
+          "content": "<p>Pour chaque affirmation, choisissez si elle correspond à une IP publique ou à une IP privée.</p>"
         },
         {
           "id": "01136211-72e8-47c3-a3d3-753edb2dfd09",
@@ -427,8 +436,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "<p> Pour vérifier votre réponse, suivez le lien vers <a href=\"http://monip.org/\" target=\"_blank\">http://monip.org/</a>.</p>",
-            "invalid": "<p>Suivez le lien vers <a href=\"http://monip.org/\" target=\"_blank\">http://monip.org/</a> pour la trouver.</p>"
+            "valid": "<p> Pour vérifier votre réponse, suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a>.</p>",
+            "invalid": "<p>Suivez le lien vers <a href=\"https://monip.org/\" target=\"_blank\">https://monip.org/</a> pour la trouver.</p>"
           },
           "solution": "1"
         },
