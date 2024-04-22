@@ -5,7 +5,6 @@ import { learningContentCache as cache } from '../../lib/infrastructure/caches/l
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 import { usecases } from '../../src/authentication/domain/usecases/index.js';
 import { DomainTransaction } from '../../src/shared/domain/DomainTransaction.js';
-import { cryptoService } from '../../src/shared/domain/services/crypto-service.js';
 
 const debugOidcProvidersProperties = Debug('pix:oidc-providers:properties');
 
@@ -19,7 +18,7 @@ const OIDC_PROVIDERS_POLE_EMPLOI = {
   source: 'pole_emploi_connect',
 
   clientId: process.env.POLE_EMPLOI_CLIENT_ID,
-  encryptedClientSecret: await cryptoService.encrypt(process.env.POLE_EMPLOI_CLIENT_SECRET),
+  clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
 
   accessTokenLifespan: process.env.POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN || '7d',
   enabled: Boolean(process.env.POLE_EMPLOI_ENABLED),
@@ -42,7 +41,7 @@ const OIDC_PROVIDERS_FWB = {
   source: 'fwb',
 
   clientId: process.env.FWB_CLIENT_ID,
-  encryptedClientSecret: await cryptoService.encrypt(process.env.FWB_CLIENT_SECRET),
+  clientSecret: process.env.FWB_CLIENT_SECRET,
 
   accessTokenLifespan: process.env.FWB_ACCESS_TOKEN_LIFESPAN || '7d',
   claimsToStore: process.env.FWB_CLAIMS_TO_STORE,
@@ -65,7 +64,7 @@ const OIDC_PROVIDERS_CNAV = {
   source: 'cnav',
 
   clientId: process.env.CNAV_CLIENT_ID,
-  encryptedClientSecret: await cryptoService.encrypt(process.env.CNAV_CLIENT_SECRET),
+  clientSecret: process.env.CNAV_CLIENT_SECRET,
 
   accessTokenLifespan: process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d',
   enabled: Boolean(process.env.CNAV_ENABLED),
@@ -82,7 +81,7 @@ const OIDC_PROVIDERS_PAYSDELALOIRE = {
   source: 'paysdelaloire',
 
   clientId: process.env.PAYSDELALOIRE_CLIENT_ID,
-  encryptedClientSecret: await cryptoService.encrypt(process.env.PAYSDELALOIRE_CLIENT_SECRET),
+  clientSecret: process.env.PAYSDELALOIRE_CLIENT_SECRET,
 
   accessTokenLifespan: process.env.PAYSDELALOIRE_ACCESS_TOKEN_LIFESPAN || '7d',
   enabled: Boolean(process.env.PAYSDELALOIRE_ENABLED),
@@ -99,7 +98,7 @@ const OIDC_PROVIDERS_GOOGLE = {
   source: 'google',
 
   clientId: process.env.GOOGLE_CLIENT_ID,
-  encryptedClientSecret: await cryptoService.encrypt(process.env.GOOGLE_CLIENT_SECRET),
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
   accessTokenLifespan: process.env.GOOGLE_ACCESS_TOKEN_LIFESPAN || '7d',
   claimsToStore: process.env.GOOGLE_CLAIMS_TO_STORE,

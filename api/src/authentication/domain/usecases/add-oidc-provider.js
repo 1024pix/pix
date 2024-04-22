@@ -9,9 +9,9 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
  * @param {Object} params.additionalRequiredProperties
  * @param {string} params.claimsToStore
  * @param {string} params.clientId
+ * @param {string} params.clientSecret
  * @param {boolean} params.enabled
  * @param {boolean} params.enabledForPixAdmin
- * @param {string} params.encryptedClientSecret
  * @param {Object} params.extraAuthorizationUrlParameters
  * @param {string} params.identityProvider
  * @param {Object} params.openidClientExtraMetadata
@@ -25,6 +25,7 @@ import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
  * @param {string} params.source
  * @param {OidcProviderRepository} params.oidcProviderRepository
  * @param {DomainTransaction} params.domainTransaction
+ * @param {CryptoService} params.cryptoService
  * @returns {Promise<void>}
  */
 const addOidcProvider = async function ({
@@ -32,9 +33,9 @@ const addOidcProvider = async function ({
   additionalRequiredProperties,
   claimsToStore,
   clientId,
+  clientSecret,
   enabled,
   enabledForPixAdmin,
-  encryptedClientSecret,
   extraAuthorizationUrlParameters,
   identityProvider,
   openidClientExtraMetadata,
@@ -47,8 +48,11 @@ const addOidcProvider = async function ({
   slug,
   source,
   oidcProviderRepository,
+  cryptoService,
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
+  const encryptedClientSecret = await cryptoService.encrypt(clientSecret);
+
   await oidcProviderRepository.create(
     {
       accessTokenLifespan,

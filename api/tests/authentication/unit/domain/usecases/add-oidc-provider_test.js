@@ -10,10 +10,13 @@ describe('Unit | Authentication | Domain | UseCases | add-oidc-provider', functi
     const oidcProviderRepository = {
       create: sinon.stub(),
     };
+    const cryptoService = {
+      encrypt: sinon.stub().resolves('#%@!!!!!!!!!!!!!'),
+    };
     const oidcProviderProperties = {
       accessTokenLifespan: '7d',
       clientId: 'client',
-      encryptedClientSecret: '#%@!!!!!!!!!!!!!',
+      clientSecret: 'secret',
       shouldCloseSession: true,
       identityProvider: 'OIDC_EXAMPLE_NET',
       openidConfigurationUrl: 'https://oidc.example.net/.well-known/openid-configuration',
@@ -45,9 +48,10 @@ describe('Unit | Authentication | Domain | UseCases | add-oidc-provider', functi
     };
 
     // when
-    await addOidcProvider({ ...oidcProviderProperties, oidcProviderRepository, domainTransaction });
+    await addOidcProvider({ ...oidcProviderProperties, oidcProviderRepository, cryptoService, domainTransaction });
 
     // then
+    expect(cryptoService.encrypt).to.have.been.calledWithExactly('secret');
     expect(oidcProviderRepository.create).to.have.been.calledWithExactly(expectedOidcProviderProperties, {
       domainTransaction,
     });
