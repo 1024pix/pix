@@ -15,6 +15,12 @@
       color:var(--pix-warning-700);
     }
 
+    h2 {
+     @extend %pix-title-xs;
+
+      color: var(--pix-neutral-900);
+    }
+
     padding: var(--pix-spacing-6x);
     color:var(--pix-error-700);
     font-weight: var(--pix-font-medium);
