@@ -4,6 +4,7 @@ import {
   CertificationCandidateMultipleUserLinksWithinSessionError,
   NotFoundError,
 } from '../../../../../../lib/domain/errors.js';
+import { CertificationCandidateCompanion } from '../../../../../../src/certification/enrolment/domain/models/CertificationCandidateCompanion.js';
 import * as certificationCandidateRepository from '../../../../../../src/certification/enrolment/infrastructure/repositories/certification-candidate-repository.js';
 import { ComplementaryCertification } from '../../../../../../src/certification/session-management/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
@@ -885,6 +886,40 @@ describe('Integration | Repository | CertificationCandidate', function () {
               ),
           }),
         );
+      });
+    });
+  });
+
+  describe('#findCertificationCandidateCompanionInfoByUserId', function () {
+    context('where the user has joined a session', function () {
+      it('should return candidate info', async function () {
+        // given
+        databaseBuilder.factory.buildUser({ id: 99 });
+        databaseBuilder.factory.buildSession({ id: 49 });
+        databaseBuilder.factory.buildCertificationCandidate({ id: 89, userId: 99, sessionId: 49 });
+        await databaseBuilder.commit();
+
+        // when
+        const companionPingInfo =
+          await certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId({
+            userId: 99,
+          });
+
+        // then
+        expect(companionPingInfo).deepEqualInstance(new CertificationCandidateCompanion({ sessionId: 49, id: 89 }));
+      });
+    });
+
+    context('where the user has not joined a session', function () {
+      it('should return undefined', async function () {
+        // given  when
+        const companionPingInfo =
+          await certificationCandidateRepository.findCertificationCandidateCompanionInfoByUserId({
+            userId: 99,
+          });
+
+        // then
+        expect(companionPingInfo).to.be.undefined;
       });
     });
   });

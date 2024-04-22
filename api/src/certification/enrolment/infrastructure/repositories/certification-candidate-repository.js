@@ -12,6 +12,7 @@ import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTrans
 import { BookshelfCertificationCandidate } from '../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
 import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
 import { normalize } from '../../../../shared/infrastructure/utils/string-utils.js';
+import { CertificationCandidateCompanion } from '../../domain/models/CertificationCandidateCompanion.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 import { Subscription } from '../../domain/models/Subscription.js';
 
@@ -152,11 +153,21 @@ const getWithComplementaryCertification = async function (id) {
   return _toDomain(candidateData);
 };
 
+const findCertificationCandidateCompanionInfoByUserId = async function ({ userId }) {
+  const result = await knex.select('sessionId', 'id').from('certification-candidates').where({ userId }).first();
+  if (!result) {
+    return undefined;
+  }
+
+  return new CertificationCandidateCompanion(result);
+};
+
 export {
   deleteBySessionId,
   doesLinkedCertificationCandidateInSessionExist,
   findBySessionId,
   findBySessionIdAndPersonalInfo,
+  findCertificationCandidateCompanionInfoByUserId,
   findOneBySessionIdAndUserId,
   getBySessionIdAndUserId,
   getWithComplementaryCertification,
