@@ -1,5 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { UserLogin } from '../../../authentication/domain/models/UserLogin.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
 
 const USER_LOGINS_TABLE_NAME = 'user-logins';
 
@@ -16,8 +17,17 @@ function _toDomain(userLoginDTO) {
 }
 
 const findByUserId = async function (userId) {
-  const foundUserLogin = await knex.from(USER_LOGINS_TABLE_NAME).where({ userId }).first();
-  return foundUserLogin ? _toDomain(foundUserLogin) : null;
+  const userLoginDTO = await knex.from(USER_LOGINS_TABLE_NAME).where({ userId }).first();
+  return userLoginDTO ? _toDomain(userLoginDTO) : null;
+};
+
+const getByUserId = async function (userId) {
+  const foundUserLogin = await findByUserId(userId);
+  if (!foundUserLogin) {
+    throw new NotFoundError();
+  }
+
+  return foundUserLogin;
 };
 
 const create = async function (userLogin) {
@@ -35,7 +45,7 @@ const update = async function (userLogin) {
 };
 
 const findByUsername = async function (username) {
-  const foundUserLogin = await knex
+  const userLoginDTO = await knex
     .select('user-logins.*')
     .from(USER_LOGINS_TABLE_NAME)
     .where('users.email', username.toLowerCase())
@@ -43,7 +53,7 @@ const findByUsername = async function (username) {
     .join('users', 'users.id', 'user-logins.userId')
     .first();
 
-  return foundUserLogin ? _toDomain(foundUserLogin) : null;
+  return userLoginDTO ? _toDomain(userLoginDTO) : null;
 };
 
 const updateLastLoggedAt = async function ({ userId }) {
@@ -58,4 +68,4 @@ const updateLastLoggedAt = async function ({ userId }) {
     .merge();
 };
 
-export { create, findByUserId, findByUsername, update, updateLastLoggedAt };
+export { create, findByUserId, findByUsername, getByUserId, update, updateLastLoggedAt };

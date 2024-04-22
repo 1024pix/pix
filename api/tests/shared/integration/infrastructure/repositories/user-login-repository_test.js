@@ -1,6 +1,7 @@
 import { UserLogin } from '../../../../../src/authentication/domain/models/UserLogin.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import * as userLoginRepository from '../../../../../src/shared/infrastructure/repositories/user-login-repository.js';
-import { databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 const USER_LOGINS_TABLE_NAME = 'user-logins';
 
@@ -30,6 +31,34 @@ describe('Integration | Shared | Infrastructure | Repositories | UserLoginReposi
 
       // then
       expect(result).to.be.null;
+    });
+  });
+
+  describe('#getByUserId', function () {
+    it('returns the found user-login', async function () {
+      // given
+      const userLogin = databaseBuilder.factory.buildUserLogin({
+        id: 1,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await userLoginRepository.getByUserId(userLogin.userId);
+
+      // then
+      expect(result).to.be.an.instanceOf(UserLogin);
+      expect(result.id).to.equal(1);
+    });
+
+    it('throws NotFoundError if no user is found', async function () {
+      // given
+      const nonExistentUserId = 678;
+
+      // when
+      const result = await catchErr(userLoginRepository.getByUserId)(nonExistentUserId);
+
+      // then
+      expect(result).to.be.instanceOf(NotFoundError);
     });
   });
 
