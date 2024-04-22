@@ -72,6 +72,21 @@ export default class ImportController extends Controller {
     }
   }
 
+  @action
+  async importOrganizationLearners(files) {
+    this._initializeUpload;
+
+    const adapter = this.store.adapterFor('students-import');
+    const organizationId = this.currentUser.organization.id;
+
+    try {
+      await adapter.importOrganizationLearners(organizationId, files);
+    } finally {
+      this.send('refreshModel');
+      this.isLoading = false;
+    }
+  }
+
   _initializeUpload() {
     if (this.isLoading) return;
 
