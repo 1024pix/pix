@@ -41,6 +41,7 @@ export class ScoringSimulator {
     });
 
     return new ScoringAndCapacitySimulatorReport({
+      capacity,
       score: Math.round(limitedScore),
       competences,
     });

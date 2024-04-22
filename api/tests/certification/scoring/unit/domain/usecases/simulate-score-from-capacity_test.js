@@ -13,6 +13,7 @@ describe('Unit | UseCase | simulate-score-from-capacity', function () {
   it('should return a score', async function () {
     // given
     const date = new Date();
+    const capacity = 2;
 
     const v3CertificationScoring = domainBuilder.buildV3CertificationScoring({
       competencesForScoring: [
@@ -45,7 +46,7 @@ describe('Unit | UseCase | simulate-score-from-capacity', function () {
 
     // when
     const result = await simulateScoreFromCapacity({
-      capacity: 2,
+      capacity,
       date,
       scoringConfigurationRepository,
     });
@@ -53,7 +54,7 @@ describe('Unit | UseCase | simulate-score-from-capacity', function () {
     // then
     expect(result).to.deepEqualInstance(
       domainBuilder.buildScoringAndCapacitySimulatorReport({
-        capacity: undefined,
+        capacity,
         score: 768,
         competences: [
           {

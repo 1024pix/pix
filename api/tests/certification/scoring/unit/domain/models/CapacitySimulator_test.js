@@ -235,7 +235,7 @@ describe('Unit | Domain | Models | CapacitySimulator', function () {
         // then
         expect(result).to.deepEqualInstance(
           domainBuilder.buildScoringAndCapacitySimulatorReport({
-            score: undefined,
+            score,
             capacity: expectedCapacity,
             competences: expectedCompetences,
           }),

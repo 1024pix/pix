@@ -517,7 +517,7 @@ describe('Acceptance | Application | scoring-and-capacity-simulator-route', func
             type: 'scoring-and-capacity-simulator-reports',
             attributes: {
               capacity: -6,
-              score: undefined,
+              score: 128,
               competences: [
                 {
                   competenceCode: '1.1',

@@ -22,6 +22,7 @@ export class CapacitySimulator {
     });
 
     return new ScoringAndCapacitySimulatorReport({
+      score,
       capacity,
       competences,
     });

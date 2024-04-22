@@ -236,7 +236,7 @@ describe('Unit | Domain | Models | ScoringSimulator', function () {
         // then
         expect(result).to.deepEqualInstance(
           domainBuilder.buildScoringAndCapacitySimulatorReport({
-            capacity: undefined,
+            capacity,
             score: expectedScore,
             competences: expectedCompetences,
           }),
