@@ -228,4 +228,32 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(url, expectedUrl);
     });
   });
+
+  module('#serverStatusUrl', function () {
+    test('returns "status.pix.org" in english when current language is en', function (assert) {
+      // given
+      const expectedUrl = 'https://status.pix.org?locale=en';
+      const service = this.owner.lookup('service:url');
+      service.intl = { primaryLocale: 'en' };
+
+      // when
+      const serverStatusUrl = service.serverStatusUrl;
+
+      // then
+      assert.strictEqual(serverStatusUrl, expectedUrl);
+    });
+
+    test('returns "status.pix.org" in french when current language is en', function (assert) {
+      // given
+      const expectedUrl = 'https://status.pix.org?locale=fr';
+      const service = this.owner.lookup('service:url');
+      service.intl = { primaryLocale: 'fr' };
+
+      // when
+      const serverStatusUrl = service.serverStatusUrl;
+
+      // then
+      assert.strictEqual(serverStatusUrl, expectedUrl);
+    });
+  });
 });

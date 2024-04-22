@@ -28,8 +28,8 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
-    assert.dom(screen.getByText('Mentions légales')).exists();
-    assert.dom('a[href="https://pix.org/fr/mentions-legales"]').exists();
+    const link = screen.getByRole('link', { name: this.intl.t('navigation.footer.legal-notice') });
+    assert.dom(link).hasProperty('href', 'https://pix.org/fr/mentions-legales');
   });
 
   test('should display accessibility link', async function (assert) {
@@ -41,7 +41,16 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
-    assert.dom(screen.getByText('Accessibilité : partiellement conforme')).exists();
-    assert.dom('a[href="https://pix.fr/accessibilite-pix-orga"]').exists();
+    const link = screen.getByRole('link', { name: this.intl.t('navigation.footer.a11y') });
+    assert.dom(link).hasProperty('href', 'https://pix.fr/accessibilite-pix-orga');
+  });
+
+  test('should display pix status link', async function (assert) {
+    // when
+    const screen = await renderScreen(hbs`<Layout::Footer />}`);
+
+    // then
+    const link = screen.getByRole('link', { name: this.intl.t('navigation.footer.server-status') });
+    assert.dom(link).hasProperty('href', 'https://status.pix.org/?locale=fr');
   });
 });

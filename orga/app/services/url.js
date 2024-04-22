@@ -5,6 +5,7 @@ const FRENCH_LOCALE = 'fr';
 const PIX_FR_DOMAIN = 'https://pix.fr';
 const PIX_ORG_DOMAIN_FR_LOCALE = 'https://pix.org/fr';
 const PIX_ORG_DOMAIN_EN_LOCALE = 'https://pix.org/en-gb';
+const PIX_STATUS_DOMAIN = 'https://status.pix.org';
 
 export default class Url extends Service {
   @service currentDomain;
@@ -63,6 +64,12 @@ export default class Url extends Service {
   get accessibilityUrl() {
     const { en, fr } = this.SHOWCASE_WEBSITE_LOCALE_PATH.ACCESSIBILITY;
     return this._computeShowcaseWebsiteUrl({ en, fr });
+  }
+
+  get serverStatusUrl() {
+    const currentLanguage = this.intl.primaryLocale;
+
+    return `${PIX_STATUS_DOMAIN}?locale=${currentLanguage}`;
   }
 
   get forgottenPasswordUrl() {

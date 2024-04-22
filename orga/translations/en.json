@@ -276,7 +276,8 @@
       "aria-label": "Footer navigation",
       "copyrights": "©",
       "legal-notice": "Legal notice",
-      "pix": "Pix"
+      "pix": "Pix",
+      "server-status": "Services Status"
     },
     "main": {
       "aria-label": "Main navigation",

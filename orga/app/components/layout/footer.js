@@ -16,4 +16,8 @@ export default class Footer extends Component {
   get accessibilityUrl() {
     return this.url.accessibilityUrl;
   }
+
+  get serverStatusUrl() {
+    return this.url.serverStatusUrl;
+  }
 }
