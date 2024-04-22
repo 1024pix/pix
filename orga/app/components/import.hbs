@@ -34,6 +34,12 @@
           @supportedFormats={{this.supportedFormats}}
           @disabled={{this.inProgress}}
         />
+      {{else if this.currentUser.hasLearnerImportFeature}}
+        <ScoOrganizationParticipant::Add
+          @importHandler={{@onImportLearners}}
+          @supportedFormats={{this.supportedFormats}}
+          @disabled={{this.inProgress}}
+        />
       {{/if}}
     </div>
   {{/unless}}

@@ -52,6 +52,14 @@ export default class Import extends Component {
       return ['.csv'];
     } else if (this.currentUser.isSCOManagingStudents) {
       return ['.xml', '.zip'];
+    } else if (this.currentUser.hasLearnerImportFeature) {
+      /**
+       * On choisi de renvoyer une valeur en dur ('.csv') dans le cas de la feature d'import
+       * afin de pouvoir avancer sur l'import ONDE. Cela est temporaire. par la suite
+       * il faudra récupérer la valeur depuis le champ `fileType` de la table `organization-learner-import-formats`
+       * en passant par un endpoint API
+       */
+      return ['.csv'];
     } else return [];
   }
 
@@ -67,6 +75,15 @@ export default class Import extends Component {
         title: 'pages.organization-participants-import.sup.title',
         'error-wrapper': 'pages.organization-participants-import.sup.error-wrapper',
         'global-error': 'pages.organization-participants-import.sup.title.global-error',
+      };
+    } else if (this.currentUser.hasLearnerImportFeature) {
+      // ici aussi on gére les traductions en dur pour les imports à format
+      // en se basant sur les besoins de l'import onde.
+      // à modifier pour avoir des traduction spécifiques
+      return {
+        title: 'pages.organization-participants-import.sco.title',
+        'error-wrapper': 'pages.organization-participants-import.sco.error-wrapper',
+        'global-error': 'pages.organization-participants-import.sco.title.global-error',
       };
     } else {
       return {};
