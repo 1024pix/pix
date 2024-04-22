@@ -730,7 +730,7 @@
     "login-or-register": {
       "title": "Vous êtes invité(e) à rejoindre l'organisation {organizationName}",
       "login-form": {
-        "title": "J'ai déjà un compte",
+        "title": "J'ai déjà un compte PIX",
         "button": "Se connecter"
       },
       "register-form": {

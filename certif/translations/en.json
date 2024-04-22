@@ -223,7 +223,7 @@
     "login-or-register": {
       "title": "You have been invited to join the certification center {certificationCenterName}",
       "login-form": {
-        "title": "Already have an account?",
+        "title": "Already have a PIX account?",
         "button": "Log in",
         "errors": {
           "status": {
