@@ -11,23 +11,41 @@ export default class TubesSelection extends Component {
 
   @tracked selectedFrameworkIds;
 
-  @tracked isDownloadModalOpened = false;
-  @tracked tubesWithLevelAndSkills;
-  @tracked downloadContent;
-
-  @tracked selectedTubeIds = EmberArray();
+  @tracked selectedTubeIds = [];
   @tracked totalTubesCount = 0;
   @tracked areas;
   @tracked tubeLevels = {};
 
   constructor(...args) {
     super(...args);
-    this.setDefaultFrameworks();
+
+    if (this.args.initialFrameworks?.length > 0) {
+      this.selectedFrameworkIds = Array.from(
+        new Set(
+          this.args.initialFrameworks.map((area) => {
+            return area.frameworkId;
+          }),
+        ),
+      );
+    } else {
+      this.setDefaultFrameworks();
+    }
+
+    if (this.args.initialCappedTubes?.length > 0) {
+      this.setInitialCheckedTubes();
+    }
   }
 
   setDefaultFrameworks() {
     const pixFramework = this.args.frameworks.find((framework) => framework.name === 'Pix');
     this.selectedFrameworkIds = [pixFramework.id];
+  }
+
+  setInitialCheckedTubes() {
+    this.selectedTubeIds = this.args.initialCappedTubes.map((tube) => {
+      this.tubeLevels[tube.id] = tube.level;
+      return tube.id;
+    });
   }
 
   get frameworkOptions() {

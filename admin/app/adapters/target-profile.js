@@ -4,12 +4,32 @@ export default class TargetProfileAdapter extends ApplicationAdapter {
   namespace = 'api/admin';
 
   updateRecord(store, type, snapshot) {
+    const { adapterOptions } = snapshot;
+
     if (snapshot?.adapterOptions?.markTargetProfileAsSimplifiedAccess) {
       const url = `${this.host}/${this.namespace}/target-profiles/${snapshot.id}/simplified-access`;
       return this.ajax(url, 'PUT');
     }
 
-    return super.updateRecord(...arguments);
+    const serializedData = this.serialize(snapshot);
+
+    const payload = {
+      data: {
+        attributes: {
+          'are-knowledge-elements-resettable': serializedData.data.attributes['are-knowledge-elements-resettable'],
+          category: serializedData.data.attributes.category,
+          comment: serializedData.data.attributes.comment,
+          description: serializedData.data.attributes.description,
+          'image-url': serializedData.data.attributes['image-url'],
+          'is-public': serializedData.data.attributes['is-public'],
+          name: serializedData.data.attributes.name,
+          tubes: adapterOptions.tubes,
+        },
+      },
+    };
+
+    const url = `${this.host}/${this.namespace}/target-profiles/${snapshot.id}`;
+    return this.ajax(url, 'PATCH', { data: payload });
   }
 
   createRecord(store, type, snapshot) {

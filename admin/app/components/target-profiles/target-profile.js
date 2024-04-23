@@ -5,11 +5,11 @@ import { tracked } from '@glimmer/tracking';
 
 export default class TargetProfile extends Component {
   @service notifications;
+  @service router;
 
   @service fileSaver;
   @service session;
 
-  @tracked isEditMode = false;
   @tracked displayConfirm = false;
   @tracked displaySimplifiedAccessPopupConfirm = false;
   @tracked displayPdfParametersModal = false;
@@ -41,8 +41,8 @@ export default class TargetProfile extends Component {
   displayBooleanState = (bool) => (bool ? 'Oui' : 'Non');
 
   @action
-  toggleEditMode() {
-    this.isEditMode = !this.isEditMode;
+  editTargetProfile() {
+    this.router.transitionTo('authenticated.target-profiles.edit', this.args.model.id);
   }
 
   @action
