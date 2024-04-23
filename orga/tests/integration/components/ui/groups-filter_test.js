@@ -18,9 +18,9 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
     test('it should not display the filter', async function (assert) {
       this.campaign = store.createRecord('campaign', { id: 1, groups: [] });
 
-      await render(hbs`<Ui::GroupsFilter @campaign={{this.campaign}} />`);
+      const screen = await render(hbs`<Ui::GroupsFilter @campaign={{this.campaign}} />`);
 
-      assert.contains('Aucun groupe');
+      assert.ok(screen.getByText(this.intl.t('pages.campaign-results.filters.type.groups.empty')));
     });
   });
 
@@ -29,10 +29,10 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
       const group = store.createRecord('group', { id: 'd1', name: 'd1' });
       this.campaign = store.createRecord('campaign', { id: 1, groups: [group] });
 
-      await render(hbs`<Ui::GroupsFilter @campaign={{this.campaign}} />`);
+      const screen = await render(hbs`<Ui::GroupsFilter @campaign={{this.campaign}} />`);
 
-      assert.contains('Groupe');
-      assert.contains('d1');
+      assert.ok(screen.getByRole('textbox', { name: this.intl.t('pages.campaign-results.filters.type.groups.title') }));
+      assert.ok(screen.getByLabelText('d1'));
     });
 
     test('it should trigger onSelect when a group is selected', async function (assert) {
@@ -43,7 +43,9 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
       const screen = await render(
         hbs`<Ui::GroupsFilter @campaign={{this.campaign}} @onSelect={{this.onSelect}} @placeholder='Groupes' />`,
       );
-      await click(screen.getByLabelText('Groupes'));
+      await click(
+        await screen.findByRole('textbox', { name: this.intl.t('pages.campaign-results.filters.type.groups.title') }),
+      );
       await click(await screen.findByRole('checkbox', { name: 'L1' }));
 
       assert.ok(this.onSelect.calledWith(['L1']));

@@ -1,4 +1,4 @@
-import { render } from '@1024pix/ember-testing-library';
+import { getDefaultNormalizer, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 
@@ -11,13 +11,9 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     const screen = await render(hbs`<Ui::LastParticipationDateTooltip />`);
 
     // then
-    assert
-      .dom(
-        screen.getByLabelText(
-          this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label'),
-        ),
-      )
-      .exists();
+    assert.ok(
+      screen.getByLabelText(this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label')),
+    );
   });
 
   test('it should display campaign name', async function (assert) {
@@ -25,11 +21,18 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     this.participant = { campaignName: 'Campagne annuelle' };
 
     // when
-    await render(hbs`<Ui::LastParticipationDateTooltip @campaignName={{this.participant.campaignName}} />`);
+    const screen = await render(
+      hbs`<Ui::LastParticipationDateTooltip @campaignName={{this.participant.campaignName}} />`,
+    );
 
     // then
-    assert.contains('Campagne :');
-    assert.contains('Campagne annuelle');
+    assert.ok(
+      screen.getByText(this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-name'), {
+        exact: false,
+        normalizer: getDefaultNormalizer({ trim: false }),
+      }),
+    );
+    assert.ok(screen.getByText('Campagne annuelle'));
   });
 
   test('it should display campaign type with ASSESSMENT type', async function (assert) {
@@ -37,11 +40,22 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     this.participant = { campaignType: 'ASSESSMENT' };
 
     // when
-    await render(hbs`<Ui::LastParticipationDateTooltip @campaignType={{this.participant.campaignType}} />`);
+    const screen = await render(
+      hbs`<Ui::LastParticipationDateTooltip @campaignType={{this.participant.campaignType}} />`,
+    );
 
     // then
-    assert.contains('Type :');
-    assert.contains('Évaluation');
+    assert.ok(
+      screen.getByText(this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-type'), {
+        exact: false,
+        normalizer: getDefaultNormalizer({ trim: false }),
+      }),
+    );
+    assert.ok(
+      screen.getByText(
+        this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-ASSESSMENT-type'),
+      ),
+    );
   });
 
   test('it should display campaign type with PROFILES_COLLECTION type', async function (assert) {
@@ -49,11 +63,24 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     this.participant = { campaignType: 'PROFILES_COLLECTION' };
 
     // when
-    await render(hbs`<Ui::LastParticipationDateTooltip @campaignType={{this.participant.campaignType}} />`);
+    const screen = await render(
+      hbs`<Ui::LastParticipationDateTooltip @campaignType={{this.participant.campaignType}} />`,
+    );
 
     // then
-    assert.contains('Type :');
-    assert.contains('Collecte de profils');
+    assert.ok(
+      screen.getByText(this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-type'), {
+        exact: false,
+        normalizer: getDefaultNormalizer({ trim: false }),
+      }),
+    );
+    assert.ok(
+      screen.getByText(
+        this.intl.t(
+          'pages.participants-list.latest-participation-information-tooltip.campaign-PROFILES_COLLECTION-type',
+        ),
+      ),
+    );
   });
 
   test('it should display participation status with SHARED status', async function (assert) {
@@ -61,13 +88,25 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     this.participant = { participationStatus: 'SHARED' };
 
     // when
-    await render(
+    const screen = await render(
       hbs`<Ui::LastParticipationDateTooltip @participationStatus={{this.participant.participationStatus}} />`,
     );
 
     // then
-    assert.contains('Statut :');
-    assert.contains('Reçu');
+    assert.ok(
+      screen.getByText(
+        this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-status'),
+        // WARNING : nous avons ici un problème de rupture de la séparation des responsabilité
+        // ce pourquoi nous sommes obligés de renseigner `normalizer: getDefaultNormalizer({ trim: false })z.
+        // TODO :gérer les espaces en fin de texte avec du css et non dans les clés de traduction
+        { exact: false, normalizer: getDefaultNormalizer({ trim: false }) },
+      ),
+    );
+    assert.ok(
+      screen.getByText(
+        this.intl.t('pages.participants-list.latest-participation-information-tooltip.participation-SHARED-status'),
+      ),
+    );
   });
 
   test('it should display participation status with TO_SHARE status', async function (assert) {
@@ -75,13 +114,25 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     this.participant = { participationStatus: 'TO_SHARE' };
 
     // when
-    await render(
+    const screen = await render(
       hbs`<Ui::LastParticipationDateTooltip @participationStatus={{this.participant.participationStatus}} />`,
     );
 
     // then
-    assert.contains('Statut :');
-    assert.contains("En attente d'envoi");
+    assert.ok(
+      screen.getByText(
+        this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-status'),
+        // WARNING : nous avons ici un problème de rupture de la séparation des responsabilité
+        // ce pourquoi nous sommes obligés de renseigner `normalizer: getDefaultNormalizer({ trim: false })z.
+        // TODO :gérer les espaces en fin de texte avec du css et non dans les clés de traduction
+        { exact: false, normalizer: getDefaultNormalizer({ trim: false }) },
+      ),
+    );
+    assert.ok(
+      screen.getByText(
+        this.intl.t('pages.participants-list.latest-participation-information-tooltip.participation-TO_SHARE-status'),
+      ),
+    );
   });
 
   test('it should display participation status with STARTED status', async function (assert) {
@@ -89,12 +140,24 @@ module('Integration | Component | Ui::LastParticipationDateTooltip', function (h
     this.participant = { participationStatus: 'STARTED' };
 
     // when
-    await render(
+    const screen = await render(
       hbs`<Ui::LastParticipationDateTooltip @participationStatus={{this.participant.participationStatus}} />`,
     );
 
     // then
-    assert.contains('Statut :');
-    assert.contains('En cours');
+    assert.ok(
+      screen.getByText(
+        this.intl.t('pages.participants-list.latest-participation-information-tooltip.campaign-status'),
+        // WARNING : nous avons ici un problème de rupture de la séparation des responsabilité
+        // ce pourquoi nous sommes obligés de renseigner `normalizer: getDefaultNormalizer({ trim: false })z.
+        // TODO :gérer les espaces en fin de texte avec du css et non dans les clés de traduction
+        { exact: false, normalizer: getDefaultNormalizer({ trim: false }) },
+      ),
+    );
+    assert.ok(
+      screen.getByText(
+        this.intl.t('pages.participants-list.latest-participation-information-tooltip.participation-STARTED-status'),
+      ),
+    );
   });
 });

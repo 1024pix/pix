@@ -18,27 +18,27 @@ module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
     const division = store.createRecord('division', { id: 'd1', name: 'd1' });
     this.campaign = store.createRecord('campaign', { id: 1, divisions: [division] });
 
-    await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} />`);
+    const screen = await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} />`);
 
-    assert.contains('d1');
+    assert.ok(screen.getByLabelText('d1'));
   });
 
   test('it should load organization model', async function (assert) {
     const division = store.createRecord('division', { id: 'd1', name: 'd1' });
     this.organization = store.createRecord('organization', { id: 1, divisions: [division] });
 
-    await render(hbs`<Ui::DivisionsFilter @model={{this.organization}} />`);
+    const screen = await render(hbs`<Ui::DivisionsFilter @model={{this.organization}} />`);
 
-    assert.contains('d1');
+    assert.ok(screen.getByLabelText('d1'));
   });
 
   module('when there is no division', function () {
     test('it should not display the filter', async function (assert) {
       this.campaign = store.createRecord('campaign', { id: 1, divisions: [] });
 
-      await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} />`);
+      const screen = await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} />`);
 
-      assert.contains('Aucune classe');
+      assert.ok(screen.getByText(this.intl.t('common.filters.divisions.empty')));
     });
   });
 
@@ -50,7 +50,7 @@ module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
       const screen = await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} @placeholder='Classes' />`);
 
       assert.ok(screen.getByLabelText(this.intl.t('common.filters.divisions.label')));
-      assert.contains('d1');
+      assert.ok(screen.getByLabelText('d1'));
     });
 
     test('it should trigger onSelect when a division is selected', async function (assert) {
